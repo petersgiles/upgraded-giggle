@@ -1,0 +1,32 @@
+<mdc-list-group>
+
+  <ng-template #discussionForm let-comment>
+      <div class="discussion-form">
+          <mdc-textarea #commenttextarea label="Type your message here" fullwidth rows="3"></mdc-textarea>
+          <button mdc-button (click)="handleResetTextFieldValue(commenttextarea)">Cancel</button>
+          <button mdc-button (click)="handleAddComment(comment, commenttextarea)">Submit</button>
+      </div>
+  </ng-template>
+
+  <ng-template #recursiveList let-comments>
+      <mdc-list *ngFor="let comment of comments" class="discussion-list--custom">
+          <mdc-list-item class="discussion-list_item--custom" [ngStyle]="getIndent(comment.level)" [ngClass]="{'active': activeComment === comment.id}">
+              <mdc-icon *ngIf="hasChildren(comment)" mdcListItemGraphic>chat_bubble</mdc-icon>
+              <mdc-icon *ngIf="!hasChildren(comment)" mdcListItemGraphic>message</mdc-icon>
+              <mdc-list-item-text [secondaryText]="getSecondaryText(comment)">{{comment.text}}</mdc-list-item-text>
+              <a mdcListItemMeta mdcIcon aria-label="Delete this comment" title="Delete this comment" *ngIf="!hasChildren(comment)" (click)="handleDeleteComment(comment)">delete</a>
+              <a mdcListItemMeta mdcIcon aria-label="Reply to this comment" title="Reply to this comment" (click)="onReplyToComment.emit(comment)">reply</a>
+          </mdc-list-item>
+          <ng-container *ngIf="activeComment === comment.id">
+              <ng-container *ngTemplateOutlet="discussionForm; context:{ $implicit: comment }"></ng-container>
+          </ng-container>
+          <ng-container *ngIf="hasChildren(comment)">
+              <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: comment.children }"></ng-container>
+          </ng-container>
+      </mdc-list>
+  </ng-template>
+  <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: comments }"></ng-container>
+  <ng-container *ngIf="!activeComment">
+      <ng-container *ngTemplateOutlet="discussionForm; context:{ $implicit: null }"></ng-container>
+  </ng-container>
+</mdc-list-group>

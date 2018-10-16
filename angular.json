@@ -181,6 +181,741 @@
           }
         }
       }
+    },
+    "commitments": {
+      "root": "apps/commitments/",
+      "sourceRoot": "apps/commitments/src",
+      "projectType": "application",
+      "prefix": "digital-first",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/commitments",
+            "index": "apps/commitments/src/index.html",
+            "main": "apps/commitments/src/main.ts",
+            "polyfills": "apps/commitments/src/polyfills.ts",
+            "tsConfig": "apps/commitments/tsconfig.app.json",
+            "assets": [
+              "apps/commitments/src/favicon.ico",
+              "apps/commitments/src/assets"
+            ],
+            "styles": [
+              "apps/commitments/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/commitments/src/environments/environment.ts",
+                  "with": "apps/commitments/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "commitments:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "commitments:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "commitments:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/commitments/src/test.ts",
+            "polyfills": "apps/commitments/src/polyfills.ts",
+            "tsConfig": "apps/commitments/tsconfig.spec.json",
+            "karmaConfig": "apps/commitments/karma.conf.js",
+            "styles": [
+              "apps/commitments/src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "apps/commitments/src/favicon.ico",
+              "apps/commitments/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/commitments/tsconfig.app.json",
+              "apps/commitments/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "commitments-e2e": {
+      "root": "apps/commitments-e2e/",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "apps/commitments-e2e/protractor.conf.js",
+            "devServerTarget": "commitments:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "commitments:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "apps/commitments-e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "brief-admin": {
+      "root": "apps/brief-admin/",
+      "sourceRoot": "apps/brief-admin/src",
+      "projectType": "application",
+      "prefix": "digital-first",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/brief-admin",
+            "index": "apps/brief-admin/src/index.html",
+            "main": "apps/brief-admin/src/main.ts",
+            "polyfills": "apps/brief-admin/src/polyfills.ts",
+            "tsConfig": "apps/brief-admin/tsconfig.app.json",
+            "assets": [
+              "apps/brief-admin/src/favicon.ico",
+              "apps/brief-admin/src/assets"
+            ],
+            "styles": [
+              "apps/brief-admin/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/brief-admin/src/environments/environment.ts",
+                  "with": "apps/brief-admin/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "brief-admin:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "brief-admin:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "brief-admin:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/brief-admin/src/test.ts",
+            "polyfills": "apps/brief-admin/src/polyfills.ts",
+            "tsConfig": "apps/brief-admin/tsconfig.spec.json",
+            "karmaConfig": "apps/brief-admin/karma.conf.js",
+            "styles": [
+              "apps/brief-admin/src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "apps/brief-admin/src/favicon.ico",
+              "apps/brief-admin/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/brief-admin/tsconfig.app.json",
+              "apps/brief-admin/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "brief-admin-e2e": {
+      "root": "apps/brief-admin-e2e/",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "apps/brief-admin-e2e/protractor.conf.js",
+            "devServerTarget": "brief-admin:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "brief-admin:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "apps/brief-admin-e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "deck": {
+      "root": "apps/deck/",
+      "sourceRoot": "apps/deck/src",
+      "projectType": "application",
+      "prefix": "digital-first",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/deck",
+            "index": "apps/deck/src/index.html",
+            "main": "apps/deck/src/main.ts",
+            "polyfills": "apps/deck/src/polyfills.ts",
+            "tsConfig": "apps/deck/tsconfig.app.json",
+            "assets": [
+              "apps/deck/src/favicon.ico",
+              "apps/deck/src/assets"
+            ],
+            "styles": [
+              "apps/deck/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/deck/src/environments/environment.ts",
+                  "with": "apps/deck/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "deck:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "deck:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "deck:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/deck/src/test.ts",
+            "polyfills": "apps/deck/src/polyfills.ts",
+            "tsConfig": "apps/deck/tsconfig.spec.json",
+            "karmaConfig": "apps/deck/karma.conf.js",
+            "styles": [
+              "apps/deck/src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "apps/deck/src/favicon.ico",
+              "apps/deck/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/deck/tsconfig.app.json",
+              "apps/deck/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "deck-e2e": {
+      "root": "apps/deck-e2e/",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "apps/deck-e2e/protractor.conf.js",
+            "devServerTarget": "deck:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "deck:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "apps/deck-e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "todo": {
+      "root": "apps/todo/",
+      "sourceRoot": "apps/todo/src",
+      "projectType": "application",
+      "prefix": "digital-first",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/todo",
+            "index": "apps/todo/src/index.html",
+            "main": "apps/todo/src/main.ts",
+            "polyfills": "apps/todo/src/polyfills.ts",
+            "tsConfig": "apps/todo/tsconfig.app.json",
+            "assets": [
+              "apps/todo/src/favicon.ico",
+              "apps/todo/src/assets"
+            ],
+            "styles": [
+              "apps/todo/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/todo/src/environments/environment.ts",
+                  "with": "apps/todo/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "todo:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "todo:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "todo:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/todo/src/test.ts",
+            "polyfills": "apps/todo/src/polyfills.ts",
+            "tsConfig": "apps/todo/tsconfig.spec.json",
+            "karmaConfig": "apps/todo/karma.conf.js",
+            "styles": [
+              "apps/todo/src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "apps/todo/src/favicon.ico",
+              "apps/todo/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/todo/tsconfig.app.json",
+              "apps/todo/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "todo-e2e": {
+      "root": "apps/todo-e2e/",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "apps/todo-e2e/protractor.conf.js",
+            "devServerTarget": "todo:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "todo:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "apps/todo-e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "df-discussion": {
+      "root": "libs/df-discussion",
+      "sourceRoot": "libs/df-discussion/src",
+      "projectType": "library",
+      "prefix": "digital-first",
+      "architect": {
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/df-discussion/src/test.ts",
+            "tsConfig": "libs/df-discussion/tsconfig.spec.json",
+            "karmaConfig": "libs/df-discussion/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-discussion/tsconfig.lib.json",
+              "libs/df-discussion/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "df-sharepoint": {
+      "root": "libs/df-sharepoint",
+      "sourceRoot": "libs/df-sharepoint/src",
+      "projectType": "library",
+      "prefix": "digital-first",
+      "architect": {
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/df-sharepoint/src/test.ts",
+            "tsConfig": "libs/df-sharepoint/tsconfig.spec.json",
+            "karmaConfig": "libs/df-sharepoint/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-sharepoint/tsconfig.lib.json",
+              "libs/df-sharepoint/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "projects": {
+      "root": "apps/projects/",
+      "sourceRoot": "apps/projects/src",
+      "projectType": "application",
+      "prefix": "digital-first",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/projects",
+            "index": "apps/projects/src/index.html",
+            "main": "apps/projects/src/main.ts",
+            "polyfills": "apps/projects/src/polyfills.ts",
+            "tsConfig": "apps/projects/tsconfig.app.json",
+            "assets": [
+              "apps/projects/src/favicon.ico",
+              "apps/projects/src/assets"
+            ],
+            "styles": [
+              "apps/projects/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/projects/src/environments/environment.ts",
+                  "with": "apps/projects/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "projects:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "projects:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "projects:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/projects/src/test.ts",
+            "polyfills": "apps/projects/src/polyfills.ts",
+            "tsConfig": "apps/projects/tsconfig.spec.json",
+            "karmaConfig": "apps/projects/karma.conf.js",
+            "styles": [
+              "apps/projects/src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "apps/projects/src/favicon.ico",
+              "apps/projects/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/projects/tsconfig.app.json",
+              "apps/projects/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "projects-e2e": {
+      "root": "apps/projects-e2e/",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "apps/projects-e2e/protractor.conf.js",
+            "devServerTarget": "projects:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "projects:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "apps/projects-e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "df-moment": {
+      "root": "libs/df-moment",
+      "sourceRoot": "libs/df-moment/src",
+      "projectType": "library",
+      "prefix": "digital-first",
+      "architect": {
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/df-moment/src/test.ts",
+            "tsConfig": "libs/df-moment/tsconfig.spec.json",
+            "karmaConfig": "libs/df-moment/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-moment/tsconfig.lib.json",
+              "libs/df-moment/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "df-pipes": {
+      "root": "libs/df-pipes",
+      "sourceRoot": "libs/df-pipes/src",
+      "projectType": "library",
+      "prefix": "digital-first",
+      "architect": {
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/df-pipes/src/test.ts",
+            "tsConfig": "libs/df-pipes/tsconfig.spec.json",
+            "karmaConfig": "libs/df-pipes/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-pipes/tsconfig.lib.json",
+              "libs/df-pipes/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "df-utils": {
+      "root": "libs/df-utils",
+      "sourceRoot": "libs/df-utils/src",
+      "projectType": "library",
+      "prefix": "digital-first",
+      "architect": {
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/df-utils/src/test.ts",
+            "tsConfig": "libs/df-utils/tsconfig.spec.json",
+            "karmaConfig": "libs/df-utils/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-utils/tsconfig.lib.json",
+              "libs/df-utils/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "cli": {

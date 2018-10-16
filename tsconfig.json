@@ -21,6 +21,21 @@
       ],
       "@digital-first/df-theme": [
         "libs/df-theme/src/index.ts"
+      ],
+      "@digital-first/df-discussion": [
+        "libs/df-discussion/src/index.ts"
+      ],
+      "@digital-first/df-sharepoint": [
+        "libs/df-sharepoint/src/index.ts"
+      ],
+      "@digital-first/df-moment": [
+        "libs/df-moment/src/index.ts"
+      ],
+      "@digital-first/df-pipes": [
+        "libs/df-pipes/src/index.ts"
+      ],
+      "@digital-first/df-utils": [
+        "libs/df-utils/src/index.ts"
       ]
     }
   },

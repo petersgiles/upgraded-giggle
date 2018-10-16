@@ -19,6 +19,51 @@
     },
     "df-theme": {
       "tags": []
+    },
+    "commitments": {
+      "tags": []
+    },
+    "commitments-e2e": {
+      "tags": []
+    },
+    "brief-admin": {
+      "tags": []
+    },
+    "brief-admin-e2e": {
+      "tags": []
+    },
+    "deck": {
+      "tags": []
+    },
+    "deck-e2e": {
+      "tags": []
+    },
+    "todo": {
+      "tags": []
+    },
+    "todo-e2e": {
+      "tags": []
+    },
+    "df-discussion": {
+      "tags": []
+    },
+    "df-sharepoint": {
+      "tags": []
+    },
+    "projects": {
+      "tags": []
+    },
+    "projects-e2e": {
+      "tags": []
+    },
+    "df-moment": {
+      "tags": []
+    },
+    "df-pipes": {
+      "tags": []
+    },
+    "df-utils": {
+      "tags": []
     }
   }
 }
