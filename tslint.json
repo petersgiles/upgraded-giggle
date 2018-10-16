@@ -4,82 +4,108 @@
     "node_modules/@nrwl/schematics/src/tslint"
   ],
   "rules": {
-    "arrow-return-shorthand": true,
+    "array-type": [true, "array"],
+    "arrow-return-shorthand": [true, "multiline"],
     "callable-types": true,
     "class-name": true,
-    "deprecation": {
-      "severity": "warn"
-    },
-    "forin": true,
-    "import-blacklist": [
+    "comment-format": [
       true,
-      "rxjs/Rx"
+      "check-space"
+    ],
+    "curly": true,    
+    "deprecation": true,
+    "eofline": false,
+    "file-name-casing": [true, "kebab-case"],
+    "forin": true,
+    "import-blacklist": [true],
+    "import-spacing": true,
+    "indent": [
+      true,
+      "spaces"
     ],
     "interface-over-type-literal": true,
-    "member-access": false,
-    "member-ordering": [
+    "label-position": true,
+    "max-line-length": [
       true,
-      {
-        "order": [
-          "static-field",
-          "instance-field",
-          "static-method",
-          "instance-method"
-        ]
-      }
+      200
     ],
+    "member-access": false,
+    "member-ordering": false,
     "no-arg": true,
     "no-bitwise": true,
+    "no-consecutive-blank-lines": true,
     "no-console": [
-      true,
-      "debug",
-      "info",
-      "time",
-      "timeEnd",
-      "trace"
+      true
     ],
     "no-construct": true,
     "no-debugger": true,
-    "no-duplicate-super": true,
+    "no-duplicate-variable": true,
     "no-empty": false,
     "no-empty-interface": true,
     "no-eval": true,
-    "no-inferrable-types": [
-      true,
-      "ignore-params"
-    ],
-    "no-misused-new": true,
-    "no-non-null-assertion": true,
+    "no-inferrable-types": [true, "ignore-params"],
+    "no-irregular-whitespace": true,
+    "no-unnecessary-callback-wrapper": true,
+    "no-unnecessary-initializer": true,
+    "no-object-literal-type-assertion": true,
     "no-shadowed-variable": true,
     "no-string-literal": false,
     "no-string-throw": true,
     "no-switch-case-fall-through": true,
-    "no-unnecessary-initializer": true,
+    "no-trailing-whitespace": true,
     "no-unused-expression": true,
-    "no-use-before-declare": true,
+    "no-use-before-declare": false,
     "no-var-keyword": true,
+    "number-literal-format": true,
     "object-literal-sort-keys": false,
+    "one-line": [
+      true,
+      "check-open-brace",
+      "check-catch",
+      // "check-else",
+      "check-whitespace"
+    ],
+    "one-variable-per-declaration": [true, "ignore-for-loop"],
+    "only-arrow-functions": [true, "allow-named-functions"],
     "prefer-const": true,
+    "prefer-template": [true, "allow-single-concat"],
+    "quotemark": [
+      true,
+      "single"
+    ],
     "radix": true,
+    "semicolon": [
+      true,
+      "never"
+    ],
+    "space-within-parens": true,
     "triple-equals": [
       true,
       "allow-null-check"
     ],
+    "typedef-whitespace": [
+      true,
+      {
+        "call-signature": "nospace",
+        "index-signature": "nospace",
+        "parameter": "nospace",
+        "property-declaration": "nospace",
+        "variable-declaration": "nospace"
+      }
+    ],
     "unified-signatures": true,
-    "variable-name": false,
-    "directive-selector": [
+    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],
+    "whitespace": [
       true,
-      "attribute",
-      "app",
-      "camelCase"
+      "check-branch",
+      "check-decl",
+      "check-operator",
+      "check-separator",
+      "check-type"
     ],
-    "component-selector": [
-      true,
-      "element",
-      "app",
-      "kebab-case"
-    ],
-    "no-output-on-prefix": true,
+    // TODO: uncomment after removing ripple directive
+    // "directive-selector": [true, "attribute", ["app", "ngrx"], "camelCase"],
+    "component-selector": [true, "element", ["app", "layout"], "kebab-case"],
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,
     "use-host-property-decorator": true,
@@ -89,7 +115,7 @@
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
     "directive-class-suffix": true,
-
+    
     "nx-enforce-module-boundaries": [
       true,
       {

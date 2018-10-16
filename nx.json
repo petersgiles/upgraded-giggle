@@ -7,5 +7,18 @@
     "tslint.json": "*",
     "nx.json": "*"
   },
-  "projects": {}
+  "projects": {
+    "policy-briefs": {
+      "tags": []
+    },
+    "policy-briefs-e2e": {
+      "tags": []
+    },
+    "df-layouts": {
+      "tags": []
+    },
+    "df-theme": {
+      "tags": []
+    }
+  }
 }

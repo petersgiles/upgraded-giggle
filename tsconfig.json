@@ -16,6 +16,12 @@
     ],
     "baseUrl": ".",
     "paths": {
+      "@digital-first/df-layouts": [
+        "libs/df-layouts/src/index.ts"
+      ],
+      "@digital-first/df-theme": [
+        "libs/df-theme/src/index.ts"
+      ]
     }
   },
   "exclude": [
