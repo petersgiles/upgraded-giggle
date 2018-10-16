@@ -202,7 +202,7 @@
               "apps/commitments/src/assets"
             ],
             "styles": [
-              "apps/commitments/src/styles.css"
+              "apps/commitments/src/styles.scss"
             ],
             "scripts": []
           },
@@ -251,7 +251,7 @@
             "tsConfig": "apps/commitments/tsconfig.spec.json",
             "karmaConfig": "apps/commitments/karma.conf.js",
             "styles": [
-              "apps/commitments/src/styles.css"
+              "apps/commitments/src/styles.scss"
             ],
             "scripts": [],
             "assets": [
@@ -321,7 +321,7 @@
               "apps/brief-admin/src/assets"
             ],
             "styles": [
-              "apps/brief-admin/src/styles.css"
+              "apps/brief-admin/src/styles.scss"
             ],
             "scripts": []
           },
@@ -370,7 +370,7 @@
             "tsConfig": "apps/brief-admin/tsconfig.spec.json",
             "karmaConfig": "apps/brief-admin/karma.conf.js",
             "styles": [
-              "apps/brief-admin/src/styles.css"
+              "apps/brief-admin/src/styles.scss"
             ],
             "scripts": [],
             "assets": [
@@ -440,7 +440,7 @@
               "apps/deck/src/assets"
             ],
             "styles": [
-              "apps/deck/src/styles.css"
+              "apps/deck/src/styles.scss"
             ],
             "scripts": []
           },
@@ -489,7 +489,7 @@
             "tsConfig": "apps/deck/tsconfig.spec.json",
             "karmaConfig": "apps/deck/karma.conf.js",
             "styles": [
-              "apps/deck/src/styles.css"
+              "apps/deck/src/styles.scss"
             ],
             "scripts": [],
             "assets": [
@@ -559,7 +559,7 @@
               "apps/todo/src/assets"
             ],
             "styles": [
-              "apps/todo/src/styles.css"
+              "apps/todo/src/styles.scss"
             ],
             "scripts": []
           },
@@ -608,7 +608,7 @@
             "tsConfig": "apps/todo/tsconfig.spec.json",
             "karmaConfig": "apps/todo/karma.conf.js",
             "styles": [
-              "apps/todo/src/styles.css"
+              "apps/todo/src/styles.scss"
             ],
             "scripts": [],
             "assets": [
@@ -734,7 +734,7 @@
               "apps/projects/src/assets"
             ],
             "styles": [
-              "apps/projects/src/styles.css"
+              "apps/projects/src/styles.scss"
             ],
             "scripts": []
           },
@@ -783,7 +783,7 @@
             "tsConfig": "apps/projects/tsconfig.spec.json",
             "karmaConfig": "apps/projects/karma.conf.js",
             "styles": [
-              "apps/projects/src/styles.css"
+              "apps/projects/src/styles.scss"
             ],
             "scripts": [],
             "assets": [

@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router'
 import { SimpleLayoutComponent } from './simple-layout/simple-layout.component'
 import { FullLayoutComponent } from './full-layout/full-layout.component'
 import { DfThemeModule } from '@digital-first/df-theme'
+import { FullLayoutService } from './full-layout/full-layout.service'
 
 const COMPONENTS = [SimpleLayoutComponent, FullLayoutComponent]
 
@@ -14,6 +15,7 @@ const COMPONENTS = [SimpleLayoutComponent, FullLayoutComponent]
     DfThemeModule
   ],
   declarations: [...COMPONENTS],
-  exports:  [...COMPONENTS],
+  exports: [...COMPONENTS],
+  providers: [FullLayoutService]
 })
-export class DfLayoutsModule {}
+export class DfLayoutsModule { }
