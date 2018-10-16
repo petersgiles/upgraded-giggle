@@ -1,0 +1,18 @@
+<mdc-top-app-bar class="app-top-app-bar" #appbar fixed prominent='false' [fixedAdjustElement]="mainContent">
+    <mdc-top-app-bar-row>
+        <mdc-top-app-bar-section align="start" title="{{title}} {{version}}">
+            <mdc-icon mdcAppBarNavIcon>menu</mdc-icon>
+        </mdc-top-app-bar-section>
+        <mdc-top-app-bar-section align="end">
+            <!-- <a mdcAppBarActionItem href="https://github.com/trimox/angular-mdc-web" alt="GitHub" target="_blank" rel="noopener noreferrer">
+            <mdc-icon>
+              <img src="https://trimox.github.io/angular-mdc-web/assets/github-circle-white-transparent.svg" height="24" />
+            </mdc-icon>
+          </a>  -->
+        </mdc-top-app-bar-section>
+    </mdc-top-app-bar-row>
+</mdc-top-app-bar>
+
+<div #mainContent class="app-layout__row--no-wrap">
+    <router-outlet></router-outlet>
+</div>

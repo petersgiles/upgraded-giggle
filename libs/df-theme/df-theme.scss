@@ -1,0 +1,11 @@
+@import "./src/scss/global";
+
+@import "~@angular-mdc/theme/material";
+
+@import "./src/scss/layout";
+
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }

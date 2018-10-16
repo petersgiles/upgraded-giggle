@@ -1,7 +1,68 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
 
+import {
+  MdcButtonModule,
+  MdcCardModule,
+  MdcChipsModule,
+  MdcCheckboxModule,
+  MdcDialogModule,
+  MdcDrawerModule,
+  MdcElevationModule,
+  MdcFabModule,
+  MdcFormFieldModule,
+  MdcGridListModule,
+  MdcIconModule,
+  MdcImageListModule,
+  MdcLinearProgressModule,
+  MdcListModule,
+  MdcMenuModule,
+  MdcRadioModule,
+  MdcRippleModule,
+  MdcSelectModule,
+  MdcSliderModule,
+  MdcSnackbarModule,
+  MdcSwitchModule,
+  MdcTabBarModule,
+  MdcTextFieldModule,
+  MdcTopAppBarModule,
+  MdcTypographyModule
+} from '@angular-mdc/web'
+
+const MATERIAL_COMPONENTS = [
+  MdcButtonModule,
+  MdcCardModule,
+  MdcChipsModule,
+  MdcCheckboxModule,
+  MdcDialogModule,
+  MdcDrawerModule,
+  MdcElevationModule,
+  MdcFabModule,
+  MdcFormFieldModule,
+  MdcGridListModule,
+  MdcIconModule,
+  MdcImageListModule,
+  MdcLinearProgressModule,
+  MdcListModule,
+  MdcMenuModule,
+  MdcRadioModule,
+  MdcRippleModule,
+  MdcSelectModule,
+  MdcSliderModule,
+  MdcSnackbarModule,
+  MdcSwitchModule,
+  MdcTabBarModule,
+  MdcTextFieldModule,
+  MdcTopAppBarModule,
+  MdcTypographyModule
+]
 @NgModule({
-  imports: [CommonModule]
+  imports: [
+    CommonModule,
+    ...MATERIAL_COMPONENTS
+  ],
+  exports: [
+    ...MATERIAL_COMPONENTS
+  ]
 })
-export class DfThemeModule {}
+export class DfThemeModule { }

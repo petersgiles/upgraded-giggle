@@ -1,0 +1,41 @@
+$lbs-color-primary: #37474f;
+$lbs-color-secondary: #087379;
+
+$primary-color-dark:   #455A64;
+$primary-color:        #607D8B;
+$primary-color-light:  #CFD8DC;
+$primary-color-text:   #FFFFFF;
+$accent-color:         #536DFE;
+$primary-text-color:   #212121;
+$secondary-text-color: #757575;
+$divider-color:        #BDBDBD;
+
+$background: #fff;
+
+/* You can add global styles to this file, and also import other style files */
+$mdc-theme-primary: $primary-color-dark;
+$mdc-theme-secondary: $primary-color;
+$mdc-theme-background: $background;
+
+/*
+overflow-y: scroll; is invalid CSS, but it works in everything except Opera. 
+The reason for this is to prevent "centering jumps" when navigating back and forth 
+between pages with enough content to have a vertical scroll bar and pages that do not.
+*/
+html {
+  overflow-y: scroll;
+}
+
+body {
+  height: 100vh;
+  margin: 0;
+  background-color: $mdc-theme-background;
+}
+
+::-ms-clear {
+  display: none;
+}
+
+::-ms-reveal {
+  display: none;
+}

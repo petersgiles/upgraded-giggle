@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
 import { HomeComponent } from './containers/home/home.component'
-import { SimpleLayoutComponent } from '@digital-first/df-layouts'
+import { FullLayoutComponent, SimpleLayoutComponent } from '@digital-first/df-layouts'
 
 const routes: Routes = [
-  { path: '', redirectTo: 'commitments', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
-    path: 'commitments',
-    component: SimpleLayoutComponent,
+    path: 'home',
+    component: FullLayoutComponent,
     data: {
       title: 'Home'
     },
