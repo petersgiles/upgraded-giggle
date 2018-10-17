@@ -39,6 +39,9 @@
       ],
       "@digital-first/df-pages": [
         "libs/df-pages/src/index.ts"
+      ],
+      "@digital-first/df-dialogs": [
+        "libs/df-dialogs/src/index.ts"
       ]
     }
   },

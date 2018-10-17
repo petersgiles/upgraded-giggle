@@ -1,1 +1,1 @@
-export * from './lib/df-theme.module';
+export * from './lib/df-theme.module'

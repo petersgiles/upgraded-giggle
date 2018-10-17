@@ -949,6 +949,34 @@
           }
         }
       }
+    },
+    "df-dialogs": {
+      "root": "libs/df-dialogs",
+      "sourceRoot": "libs/df-dialogs/src",
+      "projectType": "library",
+      "prefix": "digital-first",
+      "architect": {
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/df-dialogs/src/test.ts",
+            "tsConfig": "libs/df-dialogs/tsconfig.spec.json",
+            "karmaConfig": "libs/df-dialogs/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-dialogs/tsconfig.lib.json",
+              "libs/df-dialogs/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "cli": {
