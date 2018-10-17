@@ -1,7 +1,5 @@
 @import "./src/scss/global";
-
-@import "~@angular-mdc/theme/material";
-
+@import "./src/scss/vendor";
 @import "./src/scss/layout";
 
 .truncate {
