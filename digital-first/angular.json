@@ -54,6 +54,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
+            "port": 4202,
             "browserTarget": "policy-briefs:build"
           },
           "configurations": {
@@ -229,6 +230,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
+            "port": 4201,
             "browserTarget": "commitments:build"
           },
           "configurations": {
@@ -348,6 +350,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
+            "port": 4203,
             "browserTarget": "brief-admin:build"
           },
           "configurations": {
@@ -467,6 +470,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
+            "port": 4204,
             "browserTarget": "deck:build"
           },
           "configurations": {
@@ -586,6 +590,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
+            "port": 4205,
             "browserTarget": "todo:build"
           },
           "configurations": {
@@ -909,6 +914,34 @@
             "tsConfig": [
               "libs/df-utils/tsconfig.lib.json",
               "libs/df-utils/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "df-pages": {
+      "root": "libs/df-pages",
+      "sourceRoot": "libs/df-pages/src",
+      "projectType": "library",
+      "prefix": "digital-first",
+      "architect": {
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/df-pages/src/test.ts",
+            "tsConfig": "libs/df-pages/tsconfig.spec.json",
+            "karmaConfig": "libs/df-pages/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-pages/tsconfig.lib.json",
+              "libs/df-pages/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

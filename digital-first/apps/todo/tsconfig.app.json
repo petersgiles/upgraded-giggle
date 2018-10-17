@@ -12,6 +12,7 @@
     "**/*.ts"
     , "../../../libs/df-discussion/src/index.ts"
     , "../../../libs/df-layouts/src/index.ts"
+    , "../../../libs/df-pages/src/index.ts"
     , "../../../libs/df-moment/src/index.ts"
     , "../../../libs/df-pipes/src/index.ts"
     , "../../../libs/df-sharepoint/src/index.ts"

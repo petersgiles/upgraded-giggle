@@ -36,6 +36,9 @@
       ],
       "@digital-first/df-utils": [
         "libs/df-utils/src/index.ts"
+      ],
+      "@digital-first/df-pages": [
+        "libs/df-pages/src/index.ts"
       ]
     }
   },

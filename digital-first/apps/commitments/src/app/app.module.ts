@@ -9,6 +9,7 @@ import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
 import { DfDiscussionModule } from '@digital-first/df-discussion'
 import { AppFullLayoutService } from './app-full-layout.service'
+import { DfPagesModule } from '@digital-first/df-pages'
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
@@ -18,6 +19,7 @@ import { AppFullLayoutService } from './app-full-layout.service'
     DfLayoutsModule,
     DfThemeModule,
     DfDiscussionModule,
+    DfPagesModule,
     AppRoutingModule
   ],
   providers: [

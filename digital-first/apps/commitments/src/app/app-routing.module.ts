@@ -5,6 +5,7 @@ import {
   FullLayoutComponent,
   SimpleLayoutComponent
 } from '@digital-first/df-layouts'
+import { ErrorPageNotFoundComponent, ErrorServerComponent } from '@digital-first/df-pages'
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -21,7 +22,23 @@ const routes: Routes = [
       }
     ]
   },
-  { path: '**', redirectTo: 'home' }
+  {
+    path: 'pages',
+    component: SimpleLayoutComponent,
+    data: {
+      title: 'Pages'
+    },
+    children: [
+      {
+        path: '404',
+        component: ErrorPageNotFoundComponent
+      }, {
+        path: '500',
+        component: ErrorServerComponent
+      }
+    ]
+  },
+  { path: '**', redirectTo: 'pages/404' }
 ]
 
 @NgModule({
