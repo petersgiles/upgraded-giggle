@@ -1,33 +1,48 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core'
 import { CommitmentDataService } from '../../services/commitment-data.service'
-import { Observable } from 'rxjs'
+import { Observable, Subscription } from 'rxjs'
 import { Router } from '@angular/router'
-import { MdcDialog } from '@angular-mdc/web'
+import { MdcDialog, MdcDialogRef } from '@angular-mdc/web'
 import { Commitment } from '../../models/commitment-models'
+import { DialogSpinnerOverlayComponent } from '@digital-first/df-dialogs'
 
 @Component({
   selector: 'digital-first-commitment-overview',
   templateUrl: './commitment-overview.component.html',
   styleUrls: ['./commitment-overview.component.scss']
 })
-export class CommitmentOverviewComponent implements OnInit, OnDestroy {
+export class CommitmentOverviewComponent implements OnInit, AfterViewInit, OnDestroy {
+
   commitments$: Observable<Commitment[]>
-  loading$: Observable<boolean>
   error$: Observable<any>
+  loadingSubscription$: Subscription
+  loadingDialogRef: MdcDialogRef<DialogSpinnerOverlayComponent, {}>
 
   constructor(public dialog: MdcDialog, private router: Router, private service: CommitmentDataService) { }
 
   ngOnInit() {
     this.commitments$ = this.service.Commitments
-    this.loading$ = this.service.CommitmentLoading
+
     this.error$ = this.service.CommitmentError
 
     this.service.filterCommitments()
-
   }
 
   ngOnDestroy() {
+    this.loadingSubscription$.unsubscribe()
+  }
 
+  ngAfterViewInit(): void {
+    // this is to avoid component validation check errors
+    setTimeout(() => {
+      this.loadingSubscription$ = this.service.CommitmentLoading.subscribe((loading) => {
+        if (loading) {
+          this.loadingDialogRef = this.dialog.open(DialogSpinnerOverlayComponent, {})
+        } else if (this.loadingDialogRef) {
+          this.loadingDialogRef.close()
+        }
+      })
+    })
   }
 
   handleEdit(commitment?: Commitment) {

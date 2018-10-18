@@ -1,14 +1,6 @@
 <div class="app-page">
 
   <section>
-    <div *ngIf="busy$ | async">
-      Busy...
-    </div>
-
-    <div *ngIf="error$ | async">
-      Error :(
-    </div>
-
     <h2 #review *ngIf="commitment$ | async" class="reader-card-article__title" mdcHeadline5>Review</h2>
     <digital-first-commitment-card [commitment]="commitment$ | async" [config]="{disabled:true}"></digital-first-commitment-card>
 

@@ -10,8 +10,8 @@ export interface DialogSpinnerOverlayData {
   template: `
   <mdc-dialog>
     <mdc-dialog-surface>
+    <mdc-dialog-title>{{message}}</mdc-dialog-title>
       <mdc-dialog-content>
-        {{message}}
         <mdc-linear-progress #lp></mdc-linear-progress>
       </mdc-dialog-content>
     </mdc-dialog-surface>
@@ -25,7 +25,7 @@ export class DialogSpinnerOverlayComponent implements OnInit {
   constructor(public dialogRef: MdcDialogRef<DialogSpinnerOverlayComponent>, @Inject(MDC_DIALOG_DATA) public data: DialogSpinnerOverlayData) { }
 
   ngOnInit() {
-    this.message = this.data.message || 'Busy'
+    this.message = this.data && this.data.message || 'Busy'
   }
 
 }

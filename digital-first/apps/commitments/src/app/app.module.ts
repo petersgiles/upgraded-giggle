@@ -9,9 +9,9 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 
 import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
-import { DfDiscussionModule } from '@digital-first/df-discussion'
+import { DfDiscussionModule, DiscussionComponent } from '@digital-first/df-discussion'
 import { DfPagesModule } from '@digital-first/df-pages'
-import { DfDialogsModule } from '@digital-first/df-dialogs'
+import { DfDialogsModule, DialogAreYouSureComponent, DialogShowErrorComponent, DialogFileLockedComponent, DialogSpinnerOverlayComponent } from '@digital-first/df-dialogs'
 import { DfSharepointModule, SharepointJsomService } from '@digital-first/df-sharepoint'
 import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfMomentModule } from '@digital-first/df-moment'
@@ -40,6 +40,14 @@ const COMPONENTS = [
   CommitmentOverviewComponent
 ]
 
+const ENTRYCOMPONENTS = [
+  DialogAreYouSureComponent,
+  DialogShowErrorComponent,
+  DialogFileLockedComponent,
+  DialogSpinnerOverlayComponent,
+  DiscussionComponent
+]
+
 const appDataServiceFactory = (settings: SettingsService, sharepointlib: SharepointJsomService, apollo: Apollo) => {
 
   let source = null
@@ -64,6 +72,7 @@ export let appDataServiceProvider = {
 
 @NgModule({
   declarations: [...COMPONENTS],
+  entryComponents: [...ENTRYCOMPONENTS],
   imports: [
     BrowserModule,
     HttpClientModule,
