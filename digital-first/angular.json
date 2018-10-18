@@ -48,6 +48,14 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
+            },
+            "sharepoint": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/policy-briefs/src/environments/environment.ts",
+                  "with": "apps/policy-briefs/src/environments/environment.sharepoint.ts"
+                }
+              ]
             }
           }
         },
@@ -193,7 +201,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/apps/commitments",
+            "outputPath": "../sharepoint/deploy/SiteAssets/apps/commitments",
             "index": "apps/commitments/src/index.html",
             "main": "apps/commitments/src/main.ts",
             "polyfills": "apps/commitments/src/polyfills.ts",
@@ -224,6 +232,14 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
+            },
+            "sharepoint": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/commitments/src/environments/environment.ts",
+                  "with": "apps/commitments/src/environments/environment.sharepoint.ts"
+                }
+              ]
             }
           }
         },
@@ -344,6 +360,14 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
+            },
+            "sharepoint": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/brief-admin/src/environments/environment.ts",
+                  "with": "apps/brief-admin/src/environments/environment.sharepoint.ts"
+                }
+              ]
             }
           }
         },
@@ -464,6 +488,14 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
+            },
+            "sharepoint": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/deck/src/environments/environment.ts",
+                  "with": "apps/deck/src/environments/environment.sharepoint.ts"
+                }
+              ]
             }
           }
         },
@@ -584,6 +616,14 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
+            },
+            "sharepoint": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/todo/src/environments/environment.ts",
+                  "with": "apps/todo/src/environments/environment.sharepoint.ts"
+                }
+              ]
             }
           }
         },
@@ -760,6 +800,14 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
+            },
+            "sharepoint": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/projects/src/environments/environment.ts",
+                  "with": "apps/projects/src/environments/environment.sharepoint.ts"
+                }
+              ]
             }
           }
         },

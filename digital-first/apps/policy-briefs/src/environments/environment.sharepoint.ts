@@ -1,7 +1,7 @@
 declare var require: any
 
 export const environment = {
-  production: true,
+  production: false,
   version: require('../../../../package.json').version,
   datasource: {
     type: 'sharepoint',
