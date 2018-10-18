@@ -11,7 +11,7 @@ import { DialogSpinnerOverlayComponent } from '@digital-first/df-dialogs'
   templateUrl: './commitment-overview.component.html',
   styleUrls: ['./commitment-overview.component.scss']
 })
-export class CommitmentOverviewComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CommitmentOverviewComponent implements OnInit, OnDestroy {
 
   commitments$: Observable<Commitment[]>
   error$: Observable<any>
@@ -26,13 +26,7 @@ export class CommitmentOverviewComponent implements OnInit, AfterViewInit, OnDes
     this.error$ = this.service.CommitmentError
 
     this.service.filterCommitments()
-  }
 
-  ngOnDestroy() {
-    this.loadingSubscription$.unsubscribe()
-  }
-
-  ngAfterViewInit(): void {
     // this is to avoid component validation check errors
     setTimeout(() => {
       this.loadingSubscription$ = this.service.CommitmentLoading.subscribe((loading) => {
@@ -43,6 +37,10 @@ export class CommitmentOverviewComponent implements OnInit, AfterViewInit, OnDes
         }
       })
     })
+  }
+
+  ngOnDestroy() {
+    this.loadingSubscription$.unsubscribe()
   }
 
   handleEdit(commitment?: Commitment) {

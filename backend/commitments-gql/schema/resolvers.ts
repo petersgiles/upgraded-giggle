@@ -6,7 +6,9 @@ db.connect('./diskdb', [
   'commitment-contacts', 
   'commitment-portfolios', 
   'commitment-announcementTypes', 
+  'commitment-commitmentTypes',
   'commitment-parties', 
+  'commitment-tags', 
   'commitment-electorates'
 ]);
 
@@ -18,6 +20,7 @@ export const resolvers = {
     parties: () => db['commitment-parties'].find(),
     portfolios: () => db['commitment-portfolios'].find(),
     announcementTypes: () => db['commitment-announcementTypes'].find(),
+    commitmentTypes: () => db['commitment-commitmentTypes'].find(),
     contacts: () => db['commitment-contacts'].find(),
     comments: () => {
       var found = db['commitment-comments'].find();
@@ -25,6 +28,7 @@ export const resolvers = {
       return comments
     },
     locations: () => db['commitment-electorates'].find(),
+    tags: () => db['commitment-tags'].find(),
   },
   Mutation: {
     upsertCommitment: (_root: any, args: any) => {
@@ -71,8 +75,11 @@ export const resolvers = {
     party(commitment: any) {
       return db['commitment-parties'].findOne({ id: commitment.party })
     },
-    type(commitment: any) {
+    announcementType(commitment: any) {
       return db['commitment-announcementTypes'].findOne({ id: commitment.type })
+    },
+    commitmentType(commitment: any) {
+      return db['commitment-commitmentTypes'].findOne({ id: commitment.type })
     },
     portfolio(commitment: any) {
       return db['commitment-portfolios'].findOne({ id: commitment.portfolio })
@@ -86,6 +93,20 @@ export const resolvers = {
       var comments = found.map((c: any) => ({ ...c, id: c._id }))
 
       return comments
+    },
+    contacts(commitment: any) {
+      var found = db['commitment-contacts'].find({ id: commitment.contacts })
+      console.log('contacts =>', found)
+      var contacts = found.map((c: any) => ({ ...c, id: c._id }))
+
+      return contacts
+    },
+    tags(commitment: any) {
+      var found = db['commitment-tags'].find({ id: commitment.tags })
+      console.log('tags =>', found)
+      var tags = found.map((c: any) => ({ ...c, id: c._id }))
+
+      return tags
     }
   },
   Comment: {

@@ -4,8 +4,8 @@
     <h2 #review *ngIf="commitment$ | async" class="reader-card-article__title" mdcHeadline5>Review</h2>
     <digital-first-commitment-card [commitment]="commitment$ | async" [config]="{disabled:true}"></digital-first-commitment-card>
 
-    <div class="page_title">
-      <div #discussion *ngIf="commitment$ | async" class="reader-card-article__title  page_title_text" mdcHeadline5>Discussion</div>
+    <div class="page_title" *ngIf="commitment$ | async">
+      <div #discussion class="reader-card-article__title  page_title_text" mdcHeadline5>Discussion</div>
       <a mdcIcon aria-label="Date Format" title="Date Format" *ngIf="timeFormat=='dateFormat'" (click)="changeDateFormat('calendar')">date_range</a>
       <a mdcIcon aria-label="Date Format" title="Date Format" *ngIf="timeFormat=='timeAgo'" (click)="changeDateFormat('dateFormat')">schedule</a>
       <a mdcIcon aria-label="Date Format" title="Date Format" *ngIf="timeFormat=='calendar'" (click)="changeDateFormat('timeAgo')">calendar_today</a>

@@ -36,6 +36,15 @@ type AnnouncementType {
     icon: String,
 }
 
+type CommitmentType {
+    id: String,
+    title: String,
+    description: String,
+    sortorder: String,
+    colour: String,
+    icon: String,
+}
+
 type Portfolio {
     id: String,
     title: String,
@@ -61,6 +70,12 @@ type Electorate {
     area: String
 }
 
+type Tag {
+    id: String,
+    caption: String
+}
+
+
   # This "Commitment" type can be used in other type declarations.
   type Commitment {
     id: Int,
@@ -69,11 +84,13 @@ type Electorate {
     description: String,
     cost: String,
     location: Electorate,
-    type: AnnouncementType,
+    announcementType: AnnouncementType,
+    commitmentType: CommitmentType
     date: String,
     announcedby: String,
     portfolio: Portfolio,
-    contacts: String
+    contacts: [Contact]
+    tags: [Tag]
     comments: [Comment]
   }
 
@@ -84,9 +101,11 @@ type Electorate {
     parties: [PoliticalParty],
     portfolios: [Portfolio],
     announcementTypes: [AnnouncementType],
+    commitmentTypes: [CommitmentType]
     locations: [Electorate],
     contacts: [Contact],
-    comments: [Comment]
+    comments: [Comment],
+    tags:[Tag]
   }
 
   # The mutation root type, used to define all mutations.
@@ -98,7 +117,8 @@ type Electorate {
       party: ID
       cost: String
       location: ID,
-      type: ID,
+      announcementType: ID,
+      commitmentType: ID,
       date: String,
       announcedby: String,
       portfolio: ID,

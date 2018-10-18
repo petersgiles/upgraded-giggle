@@ -1,9 +1,8 @@
 import { Injectable, OnInit, OnDestroy } from '@angular/core'
 import { environment } from '../environments/environment'
 import { CommitmentDataService } from './services/commitment-data.service'
-import { Subscription } from 'rxjs'
-import { MdcDialog, MdcDialogRef } from '@angular-mdc/web';
-import { DialogSpinnerOverlayComponent } from '@digital-first/df-dialogs';
+import { Observable, of } from 'rxjs'
+import { SideBarItem } from '@digital-first/df-layouts'
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +17,15 @@ export class AppFullLayoutService implements OnInit, OnDestroy {
     return 'Election Commitments'
   }
 
-  constructor(private service: CommitmentDataService, public dialog: MdcDialog) { }
+  get sidebarItems$(): Observable<SideBarItem[]> {
+    return of([{
+      caption: 'Settings',
+      icon: 'settings',
+      routerLink: ['/']
+    }])
+  }
+
+  constructor(private service: CommitmentDataService) { }
 
   ngOnInit(): void {
 

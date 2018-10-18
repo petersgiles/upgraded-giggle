@@ -14,7 +14,7 @@ import { Commitment, Party, Portfolio } from '../../models/commitment-models'
   templateUrl: './commitment-edit.component.html',
   styleUrls: ['./commitment-edit.component.scss']
 })
-export class CommitmentEditComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   commitment$: Observable<Commitment>
   currentComments$: Observable<Comment[]>
@@ -48,9 +48,7 @@ export class CommitmentEditComponent implements OnInit, AfterViewInit, OnDestroy
         map(selectedId => this.service.getCommitment({ id: selectedId }))
       )
       .subscribe()
-  }
 
-  ngAfterViewInit(): void {
     // this is to avoid component validation check errors
     setTimeout(() => {
       this.loadingSubscription$ = this.service.CommitmentLoading.subscribe((loading) => {
@@ -65,6 +63,7 @@ export class CommitmentEditComponent implements OnInit, AfterViewInit, OnDestroy
 
   ngOnDestroy(): void {
     this.selectId$.unsubscribe()
+    this.loadingSubscription$.unsubscribe()
   }
 
   handleUpdateCommitment(commitment) {
