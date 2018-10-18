@@ -1,0 +1,36 @@
+.form-content {
+    border: 1px solid rgba(0, 0, 0, .1);
+    padding: 15px;
+    margin: 15px 15px 15px 0;
+  
+    &__headline {
+      @include mdc-typography(headline6);
+  
+      margin-top: .1em;
+      margin-bottom: .3em;
+    }
+  }
+  
+  .form-layout__row {
+    margin-top: .3em;
+    margin-bottom: .3em;
+    display: flex;
+    flex-flow: row wrap;
+    .mdc-text-field,
+    .mdc-select {
+        flex-grow: 1;
+        margin-left: .3em;
+        margin-right: .3em;
+    }
+  }
+  
+  .form-layout__row--no-wrap {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .form-layout__row-with-button {
+    .mdc-button, .mdc-fab {
+      margin: 12px;
+    }
+  }

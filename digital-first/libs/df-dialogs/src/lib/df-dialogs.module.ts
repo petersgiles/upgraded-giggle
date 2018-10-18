@@ -4,11 +4,13 @@ import { DialogAreYouSureComponent } from './dialog-are-you-sure.component'
 import { DialogFileLockedComponent } from './dialog-file-locked.component'
 import { DialogShowErrorComponent } from './dialog-show-error.component'
 import { DfThemeModule } from '@digital-first/df-theme'
+import { DialogSpinnerOverlayComponent } from './dialog-spinner-overlay.component'
 
 const COMPONENTS = [
   DialogAreYouSureComponent,
   DialogFileLockedComponent,
-  DialogShowErrorComponent
+  DialogShowErrorComponent,
+  DialogSpinnerOverlayComponent
 ]
 
 @NgModule({

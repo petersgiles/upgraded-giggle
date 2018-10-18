@@ -1,0 +1,24 @@
+<div class="app-page">
+  <section>
+
+      <div *ngIf="loading$ | async">
+          Loading...
+      </div>
+
+      <div *ngIf="error$ | async">
+          Error :(
+      </div>
+
+      <div class="app-card-article-group-heading" mdcSubtitle2>Commitments</div>
+      <digital-first-commitment-card *ngFor="let commitment of commitments$ | async" 
+      [commitment]="commitment" 
+      (onEdit)="handleEdit($event)" 
+      (onShare)="handleShare($event)"></digital-first-commitment-card>
+
+  </section>
+
+  <button mdc-fab extended label="Create Commitment" class="app-fab-extended-fluid" (click)="handleCreate()">
+      <mdc-icon>add</mdc-icon>
+  </button>
+
+</div>

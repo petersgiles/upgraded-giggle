@@ -23,7 +23,7 @@ app.use(helmet());
 app.use(morgan('combined'))
 app.use(express.json())
 app.use(express.static(path.join(process.cwd(), 'commitments-gql', 'public')))
-app.use('/home', HomeController)
+app.use('/hello', HomeController)
 
 // app.use(function(req: any, res: any, next: any){
 //   logger.error('404 page requested');

@@ -1,7 +1,7 @@
 var db = require('diskdb');
 
 db.connect('./diskdb', [
-  'commitment-artifact', 
+  'commitments', 
   'commitment-comments', 
   'commitment-contacts', 
   'commitment-portfolios', 
@@ -13,8 +13,8 @@ db.connect('./diskdb', [
 // A map of functions which return data for the schema.
 export const resolvers = {
   Query: {
-    commitments: () => db['commitment-artifact'].find(),
-    commitment: (_obj: any, args: any, _context: any, _info: any) => db['commitment-comments'].findOne({ id: args.id }),
+    commitments: () => db.commitments.find(),
+    commitment: (obj: any, args: any, context: any, info: any) => db.commitments.findOne({ id: args.id }),
     parties: () => db['commitment-parties'].find(),
     portfolios: () => db['commitment-portfolios'].find(),
     announcementTypes: () => db['commitment-announcementTypes'].find(),
@@ -38,8 +38,8 @@ export const resolvers = {
       var author = db['commitment-contacts'].find({ username: args.author })
 
       const data = { ...args, author: author };
-      var updated = db['commitment-artifact'].update(query, data, { multi: false, upsert: true });
-      console.log(updated);
+      var updated = db.commitments.update(query, data, { multi: false, upsert: true });
+      console.log('upsertCommitment =>', updated);
 
       return data;
     },
@@ -49,7 +49,7 @@ export const resolvers = {
       const data = { ...args };
       var saved = db['commitment-comments'].save([data]);
 
-      console.log('saved =>', saved, data)
+      console.log('addComment =>', saved, data)
       return { ...data, id: data.commitment }
     },
 
@@ -63,7 +63,7 @@ export const resolvers = {
 
       var result = { id: args.id, commitment: args.commitment }
 
-      console.log('removed =>', result)
+      console.log('deleteComment =>', result)
       return result
     }
   },

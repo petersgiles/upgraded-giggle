@@ -1,0 +1,33 @@
+
+  .commitment-card {
+    width: calc(100% - 56px);
+    margin-bottom: 20px;
+    }
+
+
+.commitment-card__detail-row {
+  display: flex;
+  border-top-left-radius: inherit;
+
+  @include mdc-rtl {
+    border-top-left-radius: 0;
+    border-top-right-radius: inherit;
+  }
+}
+
+
+.commitment-card__media--party {
+  width: 110px;
+  border-top-left-radius: inherit;
+
+  @include mdc-rtl {
+    border-top-left-radius: 0;
+    border-top-right-radius: inherit;
+  }
+}
+
+.commitment-card__detail-info {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 16px;
+}

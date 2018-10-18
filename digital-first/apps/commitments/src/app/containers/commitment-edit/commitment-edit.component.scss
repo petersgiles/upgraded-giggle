@@ -1,0 +1,17 @@
+:host {
+    width: -webkit-fill-available;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .page_title {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 0 16px;
+    overflow: hidden;
+  }
+  
+  .page_title_text {
+    width: 100%;
+  }
