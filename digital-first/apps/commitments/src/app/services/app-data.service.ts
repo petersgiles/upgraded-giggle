@@ -4,9 +4,9 @@ import { Observable } from 'rxjs'
 @Injectable({
   providedIn: 'root'
 })
-export class AppDataService {
+export abstract class AppDataService {
 
-  upsertCommitment(commitment: {
+  abstract upsertCommitment(commitment: {
     id?: number;
     title: string;
     description: string;
@@ -17,20 +17,10 @@ export class AppDataService {
     date?: string;
     announcedby?: string;
     portfolio?: string;
-  }): Observable<any> {
-    throw new Error('Method not implemented.')
-  }
-  getCommitment(criteria: { id: number; }): Observable<any> {
-    throw new Error('Method not implemented.')
-  }
-  filterCommitments(filter: { party?: string; type?: string; portfolio?: string; }): Observable<any> {
-    throw new Error('Method not implemented.')
-  }
-  upsertComment(comment: { commitment: any; parent: any; comment: any; author: any  }): Observable<any> {
-    throw new Error('Method not implemented.')
-  }
-  deleteComment(comment: { id: any, commitment: any }): any {
-    throw new Error('Method not implemented.')
-  }
-  constructor() { }
+  }): Observable<any>
+
+  abstract getCommitment(criteria: { id: number; }): Observable<any>
+  abstract filterCommitments(filter: { party?: string; type?: string; portfolio?: string; }): Observable<any>
+  abstract upsertComment(comment: { commitment: any; parent: any; comment: any; author: any }): Observable<any>
+  abstract deleteComment(comment: { id: any, commitment: any }): any
 }
