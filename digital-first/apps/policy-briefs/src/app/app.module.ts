@@ -8,7 +8,9 @@ import { AppRoutingModule } from './app-routing.module'
 import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
 import { DfDiscussionModule } from '@digital-first/df-discussion'
-import { AppFullLayoutService } from './app-full-layout.service'
+import { AppFullLayoutService } from './app-full-layout.service';
+import { EffectsModule } from '@ngrx/effects';
+import { AppEffects } from './app.effects'
 
 const COMPONENTS = [
   AppComponent,
@@ -27,7 +29,8 @@ const COMPONENTS = [
     DfLayoutsModule,
     DfThemeModule,
     DfDiscussionModule,
-    AppRoutingModule
+    AppRoutingModule,
+    EffectsModule.forRoot([AppEffects])
   ],
   providers: [
     { provide: FullLayoutService, useClass: AppFullLayoutService},

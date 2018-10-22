@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser'
-import { NgModule } from '@angular/core'
+import { NgModule, APP_INITIALIZER } from '@angular/core'
 import { NxModule } from '@nrwl/nx'
 import { HttpClientModule } from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
@@ -30,12 +30,17 @@ import { SharepointDataService } from './services/sharepoint/sharepoint-data.ser
 import { ApolloDataService } from './services/apollo/apollo-data.service'
 import { AppDataService } from './services/app-data.service'
 import { environment } from '../environments/environment'
-import { StoreModule } from '@ngrx/store'
+import { StoreModule, Store, select } from '@ngrx/store'
 import { EffectsModule } from '@ngrx/effects'
-import { APP_FEATURE_KEY, initialState as appInitialState, appReducer } from './+state/app.reducer'
-import { AppEffects } from './+state/app.effects'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 import { storeFreeze } from 'ngrx-store-freeze'
+import { AppEffects } from './app.effects'
+import { CustomSerializer, reducers, metaReducers } from './reducers'
+import { RouterStateSerializer } from '@ngrx/router-store'
+import { WINDOW_PROVIDERS } from '@digital-first/df-utils'
+import { StartAppInitialiser } from './app.actions'
+
+import * as fromRoot from './reducers'
 
 const COMPONENTS = [
   AppComponent,
@@ -53,6 +58,27 @@ const ENTRYCOMPONENTS = [
   DialogSpinnerOverlayComponent,
   DiscussionComponent
 ]
+
+export function initApplication(store: Store<fromRoot.State>): Function {
+  return () => new Promise(resolve => {
+    store.dispatch(new StartAppInitialiser())
+
+    // tslint:disable-next-line:no-console
+    console.log('app initialise started...', store)
+
+    // store.pipe(select(fromRoot.getLoggedIn)).subscribe(isLoggedIn => {
+    //   if (isLoggedIn) {
+
+    //     // tslint:disable-next-line:no-console
+    //     console.log('user is logged in, start auto token refresh')
+
+    //     store.dispatch(new StartAutoTokenRefresh())
+    //   }
+    // })
+
+    resolve(true)
+  })
+}
 
 const appDataServiceFactory = (settings: SettingsService, sharepointlib: SharepointJsomService, apollo: Apollo) => {
 
@@ -96,20 +122,20 @@ export let appDataServiceProvider = {
     DfSharepointModule,
     DfPipesModule,
     AppRoutingModule,
-    StoreModule.forRoot(
-  { app: appReducer },
-  {
-    initialState : { app : appInitialState },
-    metaReducers : !environment.production ? [storeFreeze] : []
-  }
-),
     EffectsModule.forRoot([AppEffects]),
-    !environment.production ? StoreDevtoolsModule.instrument() : []
+    StoreModule.forRoot(reducers, { metaReducers }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   providers: [
+    WINDOW_PROVIDERS,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initApplication,
+      deps: [Store],
+      multi: true
+    },
     appDataServiceProvider,
     { provide: FullLayoutService, useClass: AppFullLayoutService },
-    { provide: 'Window', useValue: window },
     {
       provide: APOLLO_OPTIONS,
       useFactory(httpLink: HttpLink) {
@@ -121,7 +147,14 @@ export let appDataServiceProvider = {
         }
       },
       deps: [HttpLink]
-    }],
+    },
+     /**
+     * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.
+     * A custom RouterStateSerializer is used to parse the `RouterStateSnapshot` provided
+     * by `@ngrx/router-store` to include only the desired pieces of the snapshot.
+     */
+    { provide: RouterStateSerializer, useClass: CustomSerializer }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

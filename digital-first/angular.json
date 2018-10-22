@@ -196,7 +196,11 @@
       "sourceRoot": "apps/commitments/src",
       "projectType": "application",
       "prefix": "digital-first",
-      "schematics": {},
+      "schematics": {
+        "@ngrx/schematics:component": {
+          "styleext": "scss"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -324,7 +328,11 @@
       "sourceRoot": "apps/brief-admin/src",
       "projectType": "application",
       "prefix": "digital-first",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -452,7 +460,11 @@
       "sourceRoot": "apps/deck/src",
       "projectType": "application",
       "prefix": "digital-first",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -580,7 +592,11 @@
       "sourceRoot": "apps/todo/src",
       "projectType": "application",
       "prefix": "digital-first",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -764,7 +780,11 @@
       "sourceRoot": "apps/projects/src",
       "projectType": "application",
       "prefix": "digital-first",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
