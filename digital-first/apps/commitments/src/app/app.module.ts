@@ -30,10 +30,9 @@ import { SharepointDataService } from './services/sharepoint/sharepoint-data.ser
 import { ApolloDataService } from './services/apollo/apollo-data.service'
 import { AppDataService } from './services/app-data.service'
 import { environment } from '../environments/environment'
-import { StoreModule, Store, select } from '@ngrx/store'
+import { StoreModule, Store } from '@ngrx/store'
 import { EffectsModule } from '@ngrx/effects'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
-import { storeFreeze } from 'ngrx-store-freeze'
 import { AppEffects } from './app.effects'
 import { CustomSerializer, reducers, metaReducers } from './reducers'
 import { RouterStateSerializer } from '@ngrx/router-store'
@@ -41,6 +40,14 @@ import { WINDOW_PROVIDERS } from '@digital-first/df-utils'
 import { StartAppInitialiser } from './app.actions'
 
 import * as fromRoot from './reducers'
+import * as fromAnnouncementType from './reducers/announcement-type/announcement-type.reducer'
+import * as fromCommitment from './reducers/commitment/commitment.reducer'
+import * as fromPortfolio from './reducers/portfolio/portfolio.reducer'
+import * as fromParty from './reducers/party/party.reducer'
+import * as fromComment from './reducers/comment/comment.reducer'
+import * as fromContact from './reducers/contact/contact.reducer'
+import * as fromLocation from './reducers/location/location.reducer'
+import * as fromCommitmentType from './reducers/commitment-type/commitment-type.reducer'
 
 const COMPONENTS = [
   AppComponent,
@@ -125,6 +132,14 @@ export let appDataServiceProvider = {
     EffectsModule.forRoot([AppEffects]),
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
+    StoreModule.forFeature('announcementType', fromAnnouncementType.reducer),
+    StoreModule.forFeature('commitment', fromCommitment.reducer),
+    StoreModule.forFeature('portfolio', fromPortfolio.reducer),
+    StoreModule.forFeature('party', fromParty.reducer),
+    StoreModule.forFeature('comment', fromComment.reducer),
+    StoreModule.forFeature('contact', fromContact.reducer),
+    StoreModule.forFeature('location', fromLocation.reducer),
+    StoreModule.forFeature('commitmentType', fromCommitmentType.reducer),
   ],
   providers: [
     WINDOW_PROVIDERS,

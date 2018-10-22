@@ -11,11 +11,11 @@ import {
 } from './apollo-queries'
 import {
   DataResult,
-  AnnouncementType,
-  Party,
-  Portfolio,
-  Commitment
-} from '../../models/commitment-models'
+} from '../../models'
+import { AnnouncementType } from '../../reducers/announcement-type/announcement-type.model'
+import { Party } from '../../reducers/party/party.model'
+import { Portfolio } from '../../reducers/portfolio/portfolio.model'
+import { Commitment } from '../../reducers/commitment/commitment.model'
 import { switchMap, concatMap, tap, map } from 'rxjs/operators'
 import * as moment from 'moment'
 

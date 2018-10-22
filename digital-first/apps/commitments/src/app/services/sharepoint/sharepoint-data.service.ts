@@ -3,13 +3,7 @@ import { Injectable } from '@angular/core'
 import { Observable, forkJoin, of } from 'rxjs'
 import { concatMap } from 'rxjs/operators'
 import { SharepointJsomService } from '@digital-first/df-sharepoint'
-import {
-  DataResult,
-  AnnouncementType,
-  Party,
-  Portfolio,
-  Commitment
-} from '../../models/commitment-models'
+
 import {
   byIdQuery,
   byCommitmentIdQuery,
@@ -21,6 +15,11 @@ import {
   mapParties,
   mapPortfolios
 } from './sharepoint-data-maps'
+import { Commitment } from '../../reducers/commitment/commitment.model'
+import { DataResult } from '../../models'
+import { AnnouncementType } from '../../reducers/announcement-type/announcement-type.model'
+import { Party } from '../../reducers/party/party.model'
+import { Portfolio } from '../../reducers/portfolio/portfolio.model'
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +29,8 @@ export class SharepointDataService {
 
   upsertCommitment(commitment: Commitment): Observable<DataResult<{}>> {
     const spCommitment = {
-      CommitmentType: commitment.type.id,
+      AnnouncementType: commitment.announcementType.id,
+      CommitmentType: commitment.commitmentType.id,
       Contacts: commitment.contacts,
       Cost: commitment.cost,
       Date: commitment.date,

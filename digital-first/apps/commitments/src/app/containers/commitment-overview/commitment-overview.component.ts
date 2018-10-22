@@ -3,8 +3,9 @@ import { CommitmentDataService } from '../../services/commitment-data.service'
 import { Observable, Subscription } from 'rxjs'
 import { Router } from '@angular/router'
 import { MdcDialog, MdcDialogRef } from '@angular-mdc/web'
-import { Commitment } from '../../models/commitment-models'
+
 import { DialogSpinnerOverlayComponent } from '@digital-first/df-dialogs'
+import { Commitment } from '../../reducers/commitment/commitment.model'
 
 @Component({
   selector: 'digital-first-commitment-overview',

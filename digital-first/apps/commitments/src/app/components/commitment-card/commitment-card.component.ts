@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
-import { Commitment } from '../../models/commitment-models'
+import { Commitment } from '../../reducers/commitment/commitment.model'
 
 @Component({
   selector: 'digital-first-commitment-card',

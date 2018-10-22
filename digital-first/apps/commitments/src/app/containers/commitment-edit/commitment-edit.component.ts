@@ -7,7 +7,9 @@ import { map, first } from 'rxjs/operators'
 import { DialogAreYouSureComponent, DialogSpinnerOverlayComponent } from '@digital-first/df-dialogs'
 
 import { CommitmentDataService } from '../../services/commitment-data.service'
-import { Commitment, Party, Portfolio } from '../../models/commitment-models'
+import { Commitment } from '../../reducers/commitment/commitment.model'
+import { Party } from '../../reducers/party/party.model'
+import { Portfolio } from '../../reducers/portfolio/portfolio.model'
 
 @Component({
   selector: 'digital-first-commitment-edit',

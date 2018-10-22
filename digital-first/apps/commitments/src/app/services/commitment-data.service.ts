@@ -5,8 +5,12 @@ import {
 } from 'rxjs'
 import { Injectable } from '@angular/core'
 import { toTree } from '@digital-first/df-utils'
-import { AnnouncementType, Party, Portfolio, Commitment } from '../models/commitment-models'
+
 import { AppDataService } from './app-data.service'
+import { AnnouncementType } from '../reducers/announcement-type/announcement-type.model'
+import { Party } from '../reducers/party/party.model'
+import { Portfolio } from '../reducers/portfolio/portfolio.model'
+import { Commitment } from '../reducers/commitment/commitment.model'
 
 @Injectable({
   providedIn: 'root'

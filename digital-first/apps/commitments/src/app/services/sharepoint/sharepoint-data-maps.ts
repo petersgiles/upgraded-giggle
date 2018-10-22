@@ -1,10 +1,8 @@
 import { fromLookup } from '@digital-first/df-sharepoint'
-import {
-  AnnouncementType,
-  Party,
-  Portfolio,
-  Commitment
-} from '../../models/commitment-models'
+import { AnnouncementType } from '../../reducers/announcement-type/announcement-type.model'
+import { Party } from '../../reducers/party/party.model'
+import { Portfolio } from '../../reducers/portfolio/portfolio.model'
+import { Commitment } from '../../reducers/commitment/commitment.model'
 
 export const byIdQuery = (criteria: { id }) =>
   `<View>

@@ -1,7 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { FormBuilder, Validators, FormArray } from '@angular/forms'
 import * as moment from 'moment'
-import { Portfolio, Commitment, Party, AnnouncementType, Location } from '../../models/commitment-models'
+import { Party } from '../../reducers/party/party.model'
+import { Portfolio } from '../../reducers/portfolio/portfolio.model'
+import { AnnouncementType } from '../../reducers/announcement-type/announcement-type.model'
+import { Commitment } from '../../reducers/commitment/commitment.model'
+import { Location } from '../../reducers/location/location.model'
+import { Comment } from '../../reducers/comment/comment.model'
 
 @Component({
   selector: 'digital-first-commitment-edit-form',
@@ -45,7 +50,7 @@ export class CommitmentEditFormComponent  implements OnInit {
         announcedby: val.announcedby,
         date: moment(val.date).format('YYYY-MM-DD'),
         party: val.party.id,
-        type: val.type.id,
+        type: val.announcementType.id,
         portfolio: val.portfolio.id,
         cost: val.cost,
         contacts: val.contacts
