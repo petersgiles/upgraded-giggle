@@ -3,6 +3,7 @@ import { AnnouncementType } from '../../reducers/announcement-type/announcement-
 import { Party } from '../../reducers/party/party.model'
 import { Portfolio } from '../../reducers/portfolio/portfolio.model'
 import { Commitment } from '../../reducers/commitment/commitment.model'
+import { DataResult, CommitmentsResult } from '../../models'
 
 export const byIdQuery = (criteria: { id }) =>
   `<View>
@@ -78,49 +79,27 @@ export const mapPortfolio = (portfolio): any => ({
 export const mapPortfolios = (portfolios): Portfolio[] =>
   portfolios.map(mapPortfolio)
 
-export const mapCommitment = (data: {
-  commitment;
-  parties;
-  portfolios;
-  announcementTypes;
-  locations;
-  comments?;
-}): any => {
-  const item: any = data.commitment
+export const mapCommitment = (commitment): Commitment => {
+  const item: any = commitment
 
-  return {
+  const mapped = {
     id: item.ID,
     title: item.Title,
-    party: data.parties.find(p => fromLookup(item.PoliticalParty).id === p.id),
+    party: fromLookup(item.PoliticalParty).id,
     description: item.Description,
     cost: item.Cost,
-    location: data.locations.find(p => fromLookup(item.Location).id === p.id),
-    type: data.announcementTypes.find(
-      p => fromLookup(item.CommitmentType).id === p.id
-    ),
+    location: fromLookup(item.Location).id,
+    announcementType: fromLookup(item.CommitmentType).id,
+    commitmentType: fromLookup(item.CommitmentType).id,
     date: item.Date,
     announcedby: item.AnnouncedBy,
-    portfolio: data.portfolios.find(
-      p => fromLookup(item.Portfolio).id === p.id
-    ),
-    comments: data.comments,
+    portfolio: fromLookup(item.Portfolio).id,
     contacts: item.Contacts
   }
+
+  // tslint:disable-next-line:no-console
+  console.log('Map Commitment =>', item, mapped)
+  return mapped
 }
 
-export const mapCommitments = (data: {
-  commitments;
-  parties;
-  portfolios;
-  announcementTypes;
-  locations;
-}): Commitment[] =>
-  data.commitments.map(item =>
-    mapCommitment({
-      commitment: item,
-      parties: data.parties,
-      portfolios: data.portfolios,
-      announcementTypes: data.announcementTypes,
-      locations: data.locations
-    })
-  )
+export const mapCommitments = (spData): Commitment[] => spData.map(mapCommitment)

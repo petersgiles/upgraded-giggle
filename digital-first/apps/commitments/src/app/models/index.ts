@@ -20,11 +20,7 @@ export interface CommentsResult {
   comments
 }
 export interface CommitmentResult {
-  announcementTypes: AnnouncementType[]
-  parties: Party[]
-  portfolios: Portfolio[]
   commitment: Commitment
-  locations: Location[]
 }
 
 export interface CommitmentsResult {
