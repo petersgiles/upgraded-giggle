@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 
 export const GET_ANNOUNCEMENT_TYPES = gql`
 {
-    announcementType {
+  announcementTypes {
     id
     title
     icon

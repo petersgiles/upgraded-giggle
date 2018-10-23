@@ -6,40 +6,31 @@ import {
   GET_COMMITMENT,
   UPSERT_COMMITMENT,
   GET_ALL_COMMITMENTS,
+} from './commitments'
+
+import {
   ADD_COMMENT,
-  DELETE_COMMENT
-} from './apollo-queries'
+  DELETE_COMMENT,
+  COMMENTS_BY_COMMITMENT
+} from './comments'
+
 import {
   DataResult,
+  CommitmentResult,
+  CommitmentsResult,
+  AnnouncementTypesResult,
+  CommentsResult
 } from '../../models'
-import { AnnouncementType } from '../../reducers/announcement-type/announcement-type.model'
-import { Party } from '../../reducers/party/party.model'
-import { Portfolio } from '../../reducers/portfolio/portfolio.model'
-import { Commitment } from '../../reducers/commitment/commitment.model'
+
 import { switchMap, concatMap, tap, map } from 'rxjs/operators'
 import * as moment from 'moment'
-
-interface CommitmentResult {
-  announcementTypes: AnnouncementType[]
-  parties: Party[]
-  portfolios: Portfolio[]
-  commitment: Commitment
-  locations: Location[]
-}
-
-interface CommitmentsResult {
-  announcementTypes: AnnouncementType[]
-  parties: Party[]
-  portfolios: Portfolio[]
-  commitments: Commitment[]
-  locations: Location[]
-}
+import { GET_ANNOUNCEMENT_TYPES } from './announcement-types'
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApolloDataService {
-  constructor(private apollo: Apollo) {}
+  constructor(private apollo: Apollo) { }
 
   upsertCommitment(commitment: any): Observable<DataResult<CommitmentResult>> {
     const variables = {
@@ -138,11 +129,43 @@ export class ApolloDataService {
     party?: string;
     type?: string;
     portfolio?: string;
-  }): Observable<DataResult<{}>> {
+  }): Observable<DataResult<CommitmentsResult>> {
     return this.apollo
       .query({
+        fetchPolicy: 'network-only',
         query: GET_ALL_COMMITMENTS
       })
-      .pipe(switchMap((result: any) => of(result as DataResult<{}>)))
+      .pipe(
+        // tslint:disable-next-line:no-console
+        tap((result: any) => console.log(result)),
+        switchMap((result: any) => of(result as DataResult<CommitmentsResult>))
+      )
+  }
+
+  filterAnnouncementTypes(filter?: any): Observable<DataResult<AnnouncementTypesResult>> {
+    return this.apollo
+      .query({
+        fetchPolicy: 'network-only',
+        query: GET_ANNOUNCEMENT_TYPES
+      })
+      .pipe(
+        // tslint:disable-next-line:no-console
+        tap((result: any) => console.log(result)),
+        switchMap((result: any) => of(result as DataResult<AnnouncementTypesResult>))
+      )
+  }
+
+  getCommentsByCommitment(commitment: number): Observable<DataResult<CommentsResult>> {
+    return this.apollo
+    .query({
+      fetchPolicy: 'network-only',
+      query: COMMENTS_BY_COMMITMENT,
+      variables: { commitment: commitment }
+    })
+    .pipe(
+      // tslint:disable-next-line:no-console
+      tap((result: any) => console.log(result)),
+      switchMap((result: any) => of(result as DataResult<CommentsResult>))
+    )
   }
 }

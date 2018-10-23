@@ -1,6 +1,7 @@
-import { Action } from '@ngrx/store';
-import { Update } from '@ngrx/entity';
-import { Commitment } from './commitment.model';
+import { Action } from '@ngrx/store'
+import { Update } from '@ngrx/entity'
+import { Commitment } from './commitment.model'
+import { DataResult, CommitmentsResult } from '../../models'
 
 export enum CommitmentActionTypes {
   LoadCommitments = '[Commitment] Load Commitments',
@@ -12,65 +13,91 @@ export enum CommitmentActionTypes {
   UpdateCommitments = '[Commitment] Update Commitments',
   DeleteCommitment = '[Commitment] Delete Commitment',
   DeleteCommitments = '[Commitment] Delete Commitments',
-  ClearCommitments = '[Commitment] Clear Commitments'
+  ClearCommitments = '[Commitment] Clear Commitments',
+
+  SetCurrentCommitment = '[Commitment] Set Current Commitment',
+  GetCommitments = '[Commitment] Get Commitments',
+  GetAllCommitments = '[Commitment] Get All Commitments',
+  CommitmentsActionFailure = '[Commitment] Commitments Action Failure',
 }
 
 export class LoadCommitments implements Action {
-  readonly type = CommitmentActionTypes.LoadCommitments;
+  readonly type = CommitmentActionTypes.LoadCommitments
 
-  constructor(public payload: { commitments: Commitment[] }) {}
+  constructor(public payload: DataResult<CommitmentsResult>) {}
 }
 
 export class AddCommitment implements Action {
-  readonly type = CommitmentActionTypes.AddCommitment;
+  readonly type = CommitmentActionTypes.AddCommitment
 
   constructor(public payload: { commitment: Commitment }) {}
 }
 
 export class UpsertCommitment implements Action {
-  readonly type = CommitmentActionTypes.UpsertCommitment;
+  readonly type = CommitmentActionTypes.UpsertCommitment
 
   constructor(public payload: { commitment: Commitment }) {}
 }
 
 export class AddCommitments implements Action {
-  readonly type = CommitmentActionTypes.AddCommitments;
+  readonly type = CommitmentActionTypes.AddCommitments
 
   constructor(public payload: { commitments: Commitment[] }) {}
 }
 
 export class UpsertCommitments implements Action {
-  readonly type = CommitmentActionTypes.UpsertCommitments;
+  readonly type = CommitmentActionTypes.UpsertCommitments
 
   constructor(public payload: { commitments: Commitment[] }) {}
 }
 
 export class UpdateCommitment implements Action {
-  readonly type = CommitmentActionTypes.UpdateCommitment;
+  readonly type = CommitmentActionTypes.UpdateCommitment
 
   constructor(public payload: { commitment: Update<Commitment> }) {}
 }
 
 export class UpdateCommitments implements Action {
-  readonly type = CommitmentActionTypes.UpdateCommitments;
+  readonly type = CommitmentActionTypes.UpdateCommitments
 
   constructor(public payload: { commitments: Update<Commitment>[] }) {}
 }
 
 export class DeleteCommitment implements Action {
-  readonly type = CommitmentActionTypes.DeleteCommitment;
+  readonly type = CommitmentActionTypes.DeleteCommitment
 
   constructor(public payload: { id: string }) {}
 }
 
 export class DeleteCommitments implements Action {
-  readonly type = CommitmentActionTypes.DeleteCommitments;
+  readonly type = CommitmentActionTypes.DeleteCommitments
 
   constructor(public payload: { ids: string[] }) {}
 }
 
 export class ClearCommitments implements Action {
-  readonly type = CommitmentActionTypes.ClearCommitments;
+  readonly type = CommitmentActionTypes.ClearCommitments
+}
+
+export class SetCurrentCommitment implements Action {
+  readonly type = CommitmentActionTypes.SetCurrentCommitment
+  constructor(public payload: { id: number }) {}
+}
+export class GetCommitments implements Action {
+  readonly type = CommitmentActionTypes.GetCommitments
+  constructor(public payload: { ids: number[] }) {}
+}
+
+export class GetAllCommitments implements Action {
+  readonly type = CommitmentActionTypes.GetAllCommitments
+  constructor(public payload?: { filter?: any }) {}
+}
+
+export class CommitmentsActionFailure implements Action {
+  readonly type = CommitmentActionTypes.CommitmentsActionFailure
+
+  constructor(public payload: any) {
+  }
 }
 
 export type CommitmentActions =
@@ -83,4 +110,8 @@ export type CommitmentActions =
  | UpdateCommitments
  | DeleteCommitment
  | DeleteCommitments
- | ClearCommitments;
+ | ClearCommitments
+ | SetCurrentCommitment
+ | GetAllCommitments
+ | GetCommitments
+ | CommitmentsActionFailure

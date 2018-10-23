@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store'
 import { Update } from '@ngrx/entity'
 import { Party } from './party.model'
+import { DataResult, PartysResult } from '../../models'
 
 export enum PartyActionTypes {
   LoadPartys = '[Party] Load Partys',
@@ -12,13 +13,18 @@ export enum PartyActionTypes {
   UpdatePartys = '[Party] Update Partys',
   DeleteParty = '[Party] Delete Party',
   DeletePartys = '[Party] Delete Partys',
-  ClearPartys = '[Party] Clear Partys'
+  ClearPartys = '[Party] Clear Partys',
+
+  SetCurrentParty = '[Party] Set Current Party',
+  GetPartys = '[Party] Get Partys',
+  GetAllPartys = '[Party] Get All Partys',
+  PartysActionFailure = '[Party] Partys Action Failure',
 }
 
 export class LoadPartys implements Action {
   readonly type = PartyActionTypes.LoadPartys
 
-  constructor(public payload: { partys: Party[] }) {}
+  constructor(public payload: DataResult<PartysResult>) {}
 }
 
 export class AddParty implements Action {
@@ -73,6 +79,26 @@ export class ClearPartys implements Action {
   readonly type = PartyActionTypes.ClearPartys
 }
 
+export class SetCurrentParty implements Action {
+  readonly type = PartyActionTypes.SetCurrentParty
+  constructor(public payload: { id: number }) {}
+}
+export class GetPartys implements Action {
+  readonly type = PartyActionTypes.GetPartys
+  constructor(public payload: { ids: number[] }) {}
+}
+
+export class GetAllPartys implements Action {
+  readonly type = PartyActionTypes.GetAllPartys
+  constructor(public payload?: { filter?: any }) {}
+}
+
+export class PartysActionFailure implements Action {
+  readonly type = PartyActionTypes.PartysActionFailure
+
+  constructor(public payload: any) {
+  }
+}
 export type PartyActions =
  LoadPartys
  | AddParty
@@ -84,3 +110,7 @@ export type PartyActions =
  | DeleteParty
  | DeletePartys
  | ClearPartys
+ | SetCurrentParty
+ | GetAllPartys
+ | GetPartys
+ | PartysActionFailure

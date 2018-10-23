@@ -4,12 +4,16 @@ import { CommentActions, CommentActionTypes } from './comment.actions'
 
 export interface State extends EntityState<Comment> {
   // additional entities state properties
+  loading: boolean
+  error: any
 }
 
 export const adapter: EntityAdapter<Comment> = createEntityAdapter<Comment>()
 
 export const initialState: State = adapter.getInitialState({
   // additional entity state properties
+  loading: false,
+  error: null
 })
 
 export function reducer(
@@ -50,11 +54,19 @@ export function reducer(
     }
 
     case CommentActionTypes.LoadComments: {
-      return adapter.addAll(action.payload.comments, state)
+      return adapter.addAll(action.payload.data.comments, {
+        ...state,
+        loading: action.payload.loading,
+        error: action.payload.error
+      })
     }
 
     case CommentActionTypes.ClearComments: {
       return adapter.removeAll(state)
+    }
+
+    case CommentActionTypes.GetCommentsByCommitment: {
+      return {...state, loading: true, error: null}
     }
 
     default: {

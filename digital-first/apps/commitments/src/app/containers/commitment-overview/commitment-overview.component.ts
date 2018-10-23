@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core'
+import { Component, OnInit, OnDestroy } from '@angular/core'
 import { CommitmentDataService } from '../../services/commitment-data.service'
 import { Observable, Subscription } from 'rxjs'
 import { Router } from '@angular/router'
@@ -23,10 +23,10 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.commitments$ = this.service.Commitments
-
     this.error$ = this.service.CommitmentError
 
-    this.service.filterCommitments()
+    this.service.getAllCommitments()
+    this.service.getAllAnnouncementTypes()
 
     // this is to avoid component validation check errors
     setTimeout(() => {

@@ -10,7 +10,7 @@ import { CommitmentDataService } from '../../services/commitment-data.service'
 import { Commitment } from '../../reducers/commitment/commitment.model'
 import { Party } from '../../reducers/party/party.model'
 import { Portfolio } from '../../reducers/portfolio/portfolio.model'
-
+import { Location } from '../../reducers/location/location.model'
 @Component({
   selector: 'digital-first-commitment-edit',
   templateUrl: './commitment-edit.component.html',

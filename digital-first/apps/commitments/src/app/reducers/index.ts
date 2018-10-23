@@ -6,7 +6,9 @@ import {
 import {
     ActionReducer,
     ActionReducerMap,
-    MetaReducer
+    MetaReducer,
+    createFeatureSelector,
+    createSelector
 } from '@ngrx/store'
 import * as fromRouter from '@ngrx/router-store'
 
@@ -61,6 +63,158 @@ export const reducers: ActionReducerMap<State> = {
     location: fromLocation.reducer,
     commitmentType: fromCommitmentType.reducer,
 }
+
+export const getCommitmentTypeEntitiesState = state => state.commitmentType
+
+export const {
+    selectIds: getCommitmentTypeIds,
+    selectEntities: getCommitmentTypeEntities,
+    selectAll: getAllCommitmentTypes,
+    selectTotal: getTotalCommitmentTypes,
+} = fromCommitmentType.adapter.getSelectors(getCommitmentTypeEntitiesState)
+
+export const getCommitmentTypeLoading = createSelector(
+    getCommitmentTypeEntitiesState,
+    state => state.loading
+)
+
+export const getCommitmentTypeError = createSelector(
+    getCommitmentTypeEntitiesState,
+    state => state.error
+)
+
+export const getLocationEntitiesState = state => state.location
+
+export const {
+    selectIds: getLocationIds,
+    selectEntities: getLocationEntities,
+    selectAll: getAllLocations,
+    selectTotal: getTotalLocations,
+} = fromLocation.adapter.getSelectors(getLocationEntitiesState)
+
+export const getLocationLoading = createSelector(
+    getLocationEntitiesState,
+    state => state.loading
+)
+
+export const getLocationError = createSelector(
+    getLocationEntitiesState,
+    state => state.error
+)
+
+export const getContactEntitiesState = state => state.contact
+
+export const {
+    selectIds: getContactIds,
+    selectEntities: getContactEntities,
+    selectAll: getAllContacts,
+    selectTotal: getTotalContacts,
+} = fromContact.adapter.getSelectors(getContactEntitiesState)
+
+export const getContactLoading = createSelector(
+    getContactEntitiesState,
+    state => state.loading
+)
+
+export const getContactError = createSelector(
+    getContactEntitiesState,
+    state => state.error
+)
+
+export const getCommentEntitiesState = state => state.comment
+
+export const {
+    selectIds: getCommentIds,
+    selectEntities: getCommentEntities,
+    selectAll: getAllComments,
+    selectTotal: getTotalComments,
+} = fromComment.adapter.getSelectors(getCommentEntitiesState)
+
+export const getCommentLoading = createSelector(
+    getCommentEntitiesState,
+    state => state.loading
+)
+
+export const getCommentError = createSelector(
+    getCommentEntitiesState,
+    state => state.error
+)
+
+export const getPartyEntitiesState = state => state.party
+
+export const {
+    selectIds: getPartyIds,
+    selectEntities: getPartyEntities,
+    selectAll: getAllPartys,
+    selectTotal: getTotalPartys,
+} = fromParty.adapter.getSelectors(getPartyEntitiesState)
+
+export const getPartyLoading = createSelector(
+    getPartyEntitiesState,
+    state => state.loading
+)
+
+export const getPartyError = createSelector(
+    getPartyEntitiesState,
+    state => state.error
+)
+
+export const getPortfolioEntitiesState = state => state.portfolio
+
+export const {
+    selectIds: getPortfolioIds,
+    selectEntities: getPortfolioEntities,
+    selectAll: getAllPortfolios,
+    selectTotal: getTotalPortfolios,
+} = fromPortfolio.adapter.getSelectors(getPortfolioEntitiesState)
+
+export const getPortfolioLoading = createSelector(
+    getPortfolioEntitiesState,
+    state => state.loading
+)
+
+export const getPortfolioError = createSelector(
+    getPortfolioEntitiesState,
+    state => state.error
+)
+
+export const getAnnouncementTypeEntitiesState = state => state.announcementType
+
+export const {
+    selectIds: getAnnouncementTypeIds,
+    selectEntities: getAnnouncementTypeEntities,
+    selectAll: getAllAnnouncementTypes,
+    selectTotal: getTotalAnnouncementTypes,
+} = fromAnnouncementType.adapter.getSelectors(getAnnouncementTypeEntitiesState)
+
+export const getAnnouncementTypeLoading = createSelector(
+    getAnnouncementTypeEntitiesState,
+    state => state.loading
+)
+
+export const getAnnouncementTypeError = createSelector(
+    getAnnouncementTypeEntitiesState,
+    state => state.error
+)
+
+export const getCommitmentEntitiesState = state => state.commitment
+
+export const {
+    selectIds: getCommitmentIds,
+    selectEntities: getCommitmentEntities,
+    selectAll: getAllCommitments,
+    selectTotal: getTotalCommitments,
+} = fromCommitment.adapter.getSelectors(getCommitmentEntitiesState)
+
+export const getCommitmentLoading = createSelector(
+    getCommitmentEntitiesState,
+    state => state.loading
+)
+
+export const getCommitmentError = createSelector(
+    getCommitmentEntitiesState,
+    state => state.error
+)
 
 export const metaReducers: MetaReducer<State>[] = !environment.production
     ? [logger, localStorageSyncReducer, storeFreeze]

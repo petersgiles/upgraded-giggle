@@ -104,7 +104,7 @@ type Tag {
     commitmentTypes: [CommitmentType]
     locations: [Electorate],
     contacts: [Contact],
-    comments: [Comment],
+    comments(commitment: Int!):  [Comment],
     tags:[Tag]
   }
 

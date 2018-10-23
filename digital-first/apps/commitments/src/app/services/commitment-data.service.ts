@@ -11,6 +11,20 @@ import { AnnouncementType } from '../reducers/announcement-type/announcement-typ
 import { Party } from '../reducers/party/party.model'
 import { Portfolio } from '../reducers/portfolio/portfolio.model'
 import { Commitment } from '../reducers/commitment/commitment.model'
+import { Comment } from '../reducers/comment/comment.model'
+import { Contact } from '../reducers/contact/contact.model'
+import { Location } from '../reducers/location/location.model'
+import { Store } from '@ngrx/store'
+import * as fromRoot from '../reducers'
+import { GetLocations } from '../reducers/location/location.actions'
+import { GetCommitments, GetAllCommitments } from '../reducers/commitment/commitment.actions'
+import { GetAllAnnouncementTypes } from '../reducers/announcement-type/announcement-type.actions'
+import { GetAllContacts } from '../reducers/contact/contact.actions'
+import { GetAllPartys } from '../reducers/party/party.actions'
+import { GetAllPortfolios } from '../reducers/portfolio/portfolio.actions'
+import { GetAllCommitmentTypes } from '../reducers/commitment-type/commitment-type.actions'
+import { CommitmentType } from '../reducers/commitment-type/commitment-type.model'
+import { GetCommentsByCommitment } from '../reducers/comment/comment.actions'
 
 @Injectable({
   providedIn: 'root'
@@ -24,25 +38,52 @@ export class CommitmentDataService {
 
   private commitmentSubject = new BehaviorSubject<Commitment>(null)
   private commitmentsSubject = new BehaviorSubject<Commitment[]>([])
-  private loadingSubject = new BehaviorSubject<boolean>(false)
-  private errorSubject = new BehaviorSubject<any>(null)
 
-  constructor(private appDataService: AppDataService) { }
+  constructor(private store: Store<fromRoot.State>, private appDataService: AppDataService) { }
+
+  /// AnnouncementTypes
+
+  public getAllAnnouncementTypes(filter?: any) {
+    this.store.dispatch(new GetAllAnnouncementTypes({ filter: filter }))
+  }
 
   get AnnouncementTypes(): Observable<AnnouncementType[]> {
-    return this.announcementTypesSubject.asObservable()
+    return this.store.select(fromRoot.getAllAnnouncementTypes)
   }
 
-  get Locations(): Observable<Location[]> {
-    return this.locationsSubject.asObservable()
+  get AnnouncementTypesLoading(): Observable<boolean> {
+    return this.store.select(fromRoot.getCommitmentLoading)
   }
 
-  get Parties(): Observable<Party[]> {
-    return this.partysSubject.asObservable()
+  get AnnouncementTypesError(): Observable<any> {
+    return this.store.select(fromRoot.getCommitmentError)
   }
 
-  get Portfolios(): Observable<Portfolio[]> {
-    return this.portfoliosSubject.asObservable()
+  /// Comments
+
+  public getCommentsByCommitment(commitment: number) {
+    this.store.dispatch(new GetCommentsByCommitment({ commitment: commitment }))
+  }
+
+  get Comments(): Observable<Comment[]> {
+    return this.store.select(fromRoot.getAllComments)
+  }
+
+  get CommentsLoading(): Observable<boolean> {
+    return this.store.select(fromRoot.getCommentLoading)
+  }
+
+  get CommentsError(): Observable<any> {
+    return this.store.select(fromRoot.getCommentError)
+  }
+
+  /// Commitments
+  public getAllCommitments(filter?: any) {
+    this.store.dispatch(new GetAllCommitments({ filter: filter }))
+  }
+
+  public getCommitments(ids: number[]) {
+    this.store.dispatch(new GetCommitments({ ids: ids }))
   }
 
   get Commitment(): Observable<Commitment> {
@@ -50,15 +91,105 @@ export class CommitmentDataService {
   }
 
   get Commitments(): Observable<Commitment[]> {
-    return this.commitmentsSubject.asObservable()
+    return this.store.select(fromRoot.getAllCommitments)
   }
 
   get CommitmentLoading(): Observable<boolean> {
-    return this.loadingSubject.asObservable()
+    return this.store.select(fromRoot.getCommitmentLoading)
   }
 
   get CommitmentError(): Observable<any> {
-    return this.errorSubject.asObservable()
+    return this.store.select(fromRoot.getCommitmentError)
+  }
+
+  /// Commitment Types
+
+  public getAllCommitmentTypes(filter?: any) {
+    this.store.dispatch(new GetAllCommitmentTypes({ filter: filter }))
+  }
+
+  get CommitmentTypes(): Observable<CommitmentType[]> {
+    return this.store.select(fromRoot.getAllCommitmentTypes)
+  }
+
+  get CommitmentTypesLoading(): Observable<boolean> {
+    return this.store.select(fromRoot.getCommitmentTypeLoading)
+  }
+
+  get CommitmentTypesError(): Observable<any> {
+    return this.store.select(fromRoot.getCommitmentTypeError)
+  }
+
+  // Contacts
+
+  public getAllContacts(filter?: any) {
+    this.store.dispatch(new GetAllContacts({ filter: filter }))
+  }
+
+  get Contacts(): Observable<Contact[]> {
+    return this.store.select(fromRoot.getAllContacts)
+  }
+
+  get ContactsLoading(): Observable<boolean> {
+    return this.store.select(fromRoot.getContactLoading)
+  }
+
+  get ContactsError(): Observable<any> {
+    return this.store.select(fromRoot.getContactError)
+  }
+
+  // Locations
+
+  public getAllLocations({ filter: filter }) {
+    this.store.dispatch(new GetLocations(filter))
+  }
+
+  get Locations(): Observable<Location[]> {
+    return this.store.select(fromRoot.getAllLocations)
+  }
+
+  get LocationsLoading(): Observable<boolean> {
+    return this.store.select(fromRoot.getLocationLoading)
+  }
+
+  get LocationsError(): Observable<any> {
+    return this.store.select(fromRoot.getLocationError)
+  }
+
+  // Partys
+
+  public getAllPartys(filter?: any) {
+    this.store.dispatch(new GetAllPartys({ filter: filter }))
+  }
+
+  get Parties(): Observable<Party[]> {
+    return this.partysSubject.asObservable()
+  }
+
+  get PartiesLoading(): Observable<boolean> {
+    return this.store.select(fromRoot.getPartyLoading)
+  }
+
+  get PartiesError(): Observable<any> {
+    return this.store.select(fromRoot.getPartyError)
+  }
+
+  // Portfolios
+
+  public getAllPortfolios(filter?: any) {
+    this.store.dispatch(new GetAllPortfolios({ filter: filter }))
+  }
+
+  get Portfolios(): Observable<Portfolio[]> {
+    return this.portfoliosSubject.asObservable()
+  }
+
+  get PortfoliosLoading(): Observable<boolean> {
+    return this.store.select(fromRoot.getPortfolioLoading)
+  }
+
+  get PortfoliosError(): Observable<any> {
+    return this.store.select(fromRoot.getPortfolioError)
   }
 
   upsertCommitment(commitment: {
@@ -75,8 +206,6 @@ export class CommitmentDataService {
   }) {
 
     this.commitmentSubject.next(null)
-    this.errorSubject.next(null)
-    this.loadingSubject.next(true)
 
     this.appDataService.upsertCommitment(commitment).subscribe((result: any) => {
       if (result.data) {
@@ -100,16 +229,12 @@ export class CommitmentDataService {
         }
       }
 
-      this.loadingSubject.next(result.loading)
-      this.errorSubject.next(result.error)
     })
   }
 
   getCommitment(criteria: { id: number; }) {
 
     this.commitmentSubject.next(null)
-    this.errorSubject.next(null)
-    this.loadingSubject.next(true)
 
     this.appDataService.getCommitment(criteria).subscribe(this.processCommitment)
   }
@@ -124,8 +249,6 @@ export class CommitmentDataService {
       end?: string
     }
   }) {
-    this.errorSubject.next(null)
-    this.loadingSubject.next(true)
 
     this.appDataService.filterCommitments(filter)
       .subscribe((result: any) => {
@@ -142,25 +265,18 @@ export class CommitmentDataService {
               date: moment(r.date)
             })))
         }
-
-        this.loadingSubject.next(result.loading)
-        this.errorSubject.next(result.error)
       })
   }
 
   createComment(comment: { commitment: any; parent: any; comment: any; author: any }) {
 
     this.commitmentSubject.next(null)
-    this.errorSubject.next(null)
-    this.loadingSubject.next(true)
     this.appDataService.upsertComment(comment).subscribe(this.processCommitment)
 
   }
 
   deleteComment(comment: { id: any; commitment: any; }): any {
     this.commitmentSubject.next(null)
-    this.errorSubject.next(null)
-    this.loadingSubject.next(true)
 
     this.appDataService.deleteComment(comment).subscribe(this.processCommitment)
   }
@@ -197,8 +313,6 @@ export class CommitmentDataService {
       }
     }
 
-    this.loadingSubject.next(result.loading)
-    this.errorSubject.next(result.error)
   }
 
 }

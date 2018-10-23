@@ -4,12 +4,16 @@ import { LocationActions, LocationActionTypes } from './location.actions'
 
 export interface State extends EntityState<Location> {
   // additional entities state properties
+  loading: boolean
+  error: any
 }
 
 export const adapter: EntityAdapter<Location> = createEntityAdapter<Location>()
 
 export const initialState: State = adapter.getInitialState({
   // additional entity state properties
+  loading: false,
+  error: null
 })
 
 export function reducer(
@@ -50,11 +54,27 @@ export function reducer(
     }
 
     case LocationActionTypes.LoadLocations: {
-      return adapter.addAll(action.payload.locations, state)
+      return adapter.addAll(action.payload.data.locations, {
+        ...state,
+        loading: action.payload.loading,
+        error: action.payload.error
+      })
     }
 
     case LocationActionTypes.ClearLocations: {
       return adapter.removeAll(state)
+    }
+
+    case LocationActionTypes.GetLocations: {
+      return {...state, loading: true, error: null}
+    }
+
+    case LocationActionTypes.GetAllLocations: {
+      return {...state, loading: true, error: null}
+    }
+
+    case LocationActionTypes.LocationsActionFailure: {
+      return {...state, loading: false, error: action.payload.error}
     }
 
     default: {

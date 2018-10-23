@@ -4,12 +4,16 @@ import { AnnouncementTypeActions, AnnouncementTypeActionTypes } from './announce
 
 export interface State extends EntityState<AnnouncementType> {
   // additional entities state properties
+  loading: boolean
+  error: any
 }
 
 export const adapter: EntityAdapter<AnnouncementType> = createEntityAdapter<AnnouncementType>()
 
 export const initialState: State = adapter.getInitialState({
   // additional entity state properties
+  loading: false,
+  error: null
 })
 
 export function reducer(
@@ -50,11 +54,27 @@ export function reducer(
     }
 
     case AnnouncementTypeActionTypes.LoadAnnouncementTypes: {
-      return adapter.addAll(action.payload.announcementTypes, state)
+      return adapter.addAll(action.payload.data.announcementTypes, {
+        ...state,
+        loading: action.payload.loading,
+        error: action.payload.error
+      })
     }
 
     case AnnouncementTypeActionTypes.ClearAnnouncementTypes: {
       return adapter.removeAll(state)
+    }
+
+    case AnnouncementTypeActionTypes.GetAnnouncementTypes: {
+      return {...state, loading: true, error: null}
+    }
+
+    case AnnouncementTypeActionTypes.GetAllAnnouncementTypes: {
+      return {...state, loading: true, error: null}
+    }
+
+    case AnnouncementTypeActionTypes.AnnouncementTypesActionFailure: {
+      return {...state, loading: false, error: action.payload.error}
     }
 
     default: {

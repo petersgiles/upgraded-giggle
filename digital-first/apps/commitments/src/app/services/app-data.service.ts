@@ -5,7 +5,6 @@ import { Observable } from 'rxjs'
   providedIn: 'root'
 })
 export abstract class AppDataService {
-
   abstract upsertCommitment(commitment: {
     id?: number;
     title: string;
@@ -23,4 +22,13 @@ export abstract class AppDataService {
   abstract filterCommitments(filter: { party?: string; type?: string; portfolio?: string; }): Observable<any>
   abstract upsertComment(comment: { commitment: any; parent: any; comment: any; author: any }): Observable<any>
   abstract deleteComment(comment: { id: any, commitment: any }): any
+
+  abstract filterAnnouncementTypes(filter: any): Observable<any>
+  abstract getCommentsByCommitment(commitment: number): Observable<any>
+  abstract filterPortfolios(filter: any): Observable<any>
+  abstract filterPartys(filter: any): Observable<any>
+  abstract filterContacts(filter: any): Observable<any>
+  abstract filterLocations(filter: any): Observable<any>
+  abstract filterCommitmentTypes(filter: any): Observable<any>
+  abstract filterParties(filter: any): Observable<any>
 }

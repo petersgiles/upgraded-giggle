@@ -15,6 +15,7 @@ import { DfDialogsModule, DialogAreYouSureComponent, DialogShowErrorComponent, D
 import { DfSharepointModule, SharepointJsomService } from '@digital-first/df-sharepoint'
 import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfMomentModule } from '@digital-first/df-moment'
+import { WINDOW_PROVIDERS } from '@digital-first/df-utils'
 
 import { AppComponent } from './app.component'
 import { AppFullLayoutService } from './app-full-layout.service'
@@ -33,11 +34,11 @@ import { environment } from '../environments/environment'
 import { StoreModule, Store } from '@ngrx/store'
 import { EffectsModule } from '@ngrx/effects'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
-import { AppEffects } from './app.effects'
+
 import { CustomSerializer, reducers, metaReducers } from './reducers'
 import { RouterStateSerializer } from '@ngrx/router-store'
-import { WINDOW_PROVIDERS } from '@digital-first/df-utils'
-import { StartAppInitialiser } from './app.actions'
+
+import { StartAppInitialiser } from './reducers/app.actions'
 
 import * as fromRoot from './reducers'
 import * as fromAnnouncementType from './reducers/announcement-type/announcement-type.reducer'
@@ -48,6 +49,15 @@ import * as fromComment from './reducers/comment/comment.reducer'
 import * as fromContact from './reducers/contact/contact.reducer'
 import * as fromLocation from './reducers/location/location.reducer'
 import * as fromCommitmentType from './reducers/commitment-type/commitment-type.reducer'
+import { AppEffects } from './reducers/app.effects'
+import { CommitmentEffects } from './reducers/commitment'
+import { AnnouncementTypeEffects } from './reducers/announcement-type/announcement-type.effects'
+import { CommentEffects } from './reducers/comment/comment.effects'
+import { CommitmentTypeEffects } from './reducers/commitment-type/commitment-type.effects'
+import { ContactEffects } from './reducers/contact/contact.effects'
+import { LocationEffects } from './reducers/location/location.effects'
+import { PartyEffects } from './reducers/party/party.effects'
+import { PortfolioEffects } from './reducers/portfolio/portfolio.effects'
 
 const COMPONENTS = [
   AppComponent,
@@ -129,7 +139,7 @@ export let appDataServiceProvider = {
     DfSharepointModule,
     DfPipesModule,
     AppRoutingModule,
-    EffectsModule.forRoot([AppEffects]),
+
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     StoreModule.forFeature('announcementType', fromAnnouncementType.reducer),
@@ -140,6 +150,18 @@ export let appDataServiceProvider = {
     StoreModule.forFeature('contact', fromContact.reducer),
     StoreModule.forFeature('location', fromLocation.reducer),
     StoreModule.forFeature('commitmentType', fromCommitmentType.reducer),
+
+    EffectsModule.forRoot([AppEffects]),
+    EffectsModule.forFeature([
+      AnnouncementTypeEffects,
+      CommentEffects,
+      CommitmentEffects,
+      CommitmentTypeEffects,
+      ContactEffects,
+      LocationEffects,
+      PartyEffects,
+      PortfolioEffects
+    ]),
   ],
   providers: [
     WINDOW_PROVIDERS,
@@ -163,11 +185,11 @@ export let appDataServiceProvider = {
       },
       deps: [HttpLink]
     },
-     /**
-     * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.
-     * A custom RouterStateSerializer is used to parse the `RouterStateSnapshot` provided
-     * by `@ngrx/router-store` to include only the desired pieces of the snapshot.
-     */
+    /**
+    * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.
+    * A custom RouterStateSerializer is used to parse the `RouterStateSnapshot` provided
+    * by `@ngrx/router-store` to include only the desired pieces of the snapshot.
+    */
     { provide: RouterStateSerializer, useClass: CustomSerializer }
   ],
   bootstrap: [AppComponent]

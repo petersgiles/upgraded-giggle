@@ -4,12 +4,16 @@ import { CommitmentTypeActions, CommitmentTypeActionTypes } from './commitment-t
 
 export interface State extends EntityState<CommitmentType> {
   // additional entities state properties
+  loading: boolean
+  error: any
 }
 
 export const adapter: EntityAdapter<CommitmentType> = createEntityAdapter<CommitmentType>()
 
 export const initialState: State = adapter.getInitialState({
   // additional entity state properties
+  loading: false,
+  error: null
 })
 
 export function reducer(
@@ -50,7 +54,27 @@ export function reducer(
     }
 
     case CommitmentTypeActionTypes.LoadCommitmentTypes: {
-      return adapter.addAll(action.payload.commitmentTypes, state)
+      return adapter.addAll(action.payload.data.commitmentTypes, {
+        ...state,
+        loading: action.payload.loading,
+        error: action.payload.error
+      })
+    }
+
+    case CommitmentTypeActionTypes.ClearCommitmentTypes: {
+      return adapter.removeAll(state)
+    }
+
+    case CommitmentTypeActionTypes.GetCommitmentTypes: {
+      return {...state, loading: true, error: null}
+    }
+
+    case CommitmentTypeActionTypes.GetAllCommitmentTypes: {
+      return {...state, loading: true, error: null}
+    }
+
+    case CommitmentTypeActionTypes.CommitmentTypesActionFailure: {
+      return {...state, loading: false, error: action.payload.error}
     }
 
     case CommitmentTypeActionTypes.ClearCommitmentTypes: {

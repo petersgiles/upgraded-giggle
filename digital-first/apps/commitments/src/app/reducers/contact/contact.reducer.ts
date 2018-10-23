@@ -4,12 +4,16 @@ import { ContactActions, ContactActionTypes } from './contact.actions'
 
 export interface State extends EntityState<Contact> {
   // additional entities state properties
+  loading: boolean
+  error: any
 }
 
 export const adapter: EntityAdapter<Contact> = createEntityAdapter<Contact>()
 
 export const initialState: State = adapter.getInitialState({
   // additional entity state properties
+  loading: false,
+  error: null
 })
 
 export function reducer(
@@ -50,13 +54,28 @@ export function reducer(
     }
 
     case ContactActionTypes.LoadContacts: {
-      return adapter.addAll(action.payload.contacts, state)
+      return adapter.addAll(action.payload.data.contacts, {
+        ...state,
+        loading: action.payload.loading,
+        error: action.payload.error
+      })
     }
 
     case ContactActionTypes.ClearContacts: {
       return adapter.removeAll(state)
     }
 
+    case ContactActionTypes.GetContacts: {
+      return {...state, loading: true, error: null}
+    }
+
+    case ContactActionTypes.GetAllContacts: {
+      return {...state, loading: true, error: null}
+    }
+
+    case ContactActionTypes.ContactsActionFailure: {
+      return {...state, loading: false, error: action.payload.error}
+    }
     default: {
       return state
     }

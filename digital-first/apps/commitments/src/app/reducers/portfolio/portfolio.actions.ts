@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store'
 import { Update } from '@ngrx/entity'
 import { Portfolio } from './portfolio.model'
+import { DataResult, PortfoliosResult } from '../../models'
 
 export enum PortfolioActionTypes {
   LoadPortfolios = '[Portfolio] Load Portfolios',
@@ -12,13 +13,18 @@ export enum PortfolioActionTypes {
   UpdatePortfolios = '[Portfolio] Update Portfolios',
   DeletePortfolio = '[Portfolio] Delete Portfolio',
   DeletePortfolios = '[Portfolio] Delete Portfolios',
-  ClearPortfolios = '[Portfolio] Clear Portfolios'
+  ClearPortfolios = '[Portfolio] Clear Portfolios',
+
+  SetCurrentPortfolio = '[Portfolio] Set Current Portfolio',
+  GetPortfolios = '[Portfolio] Get Portfolios',
+  GetAllPortfolios = '[Portfolio] Get All Portfolios',
+  PortfoliosActionFailure = '[Portfolio] Portfolios Action Failure',
 }
 
 export class LoadPortfolios implements Action {
   readonly type = PortfolioActionTypes.LoadPortfolios
 
-  constructor(public payload: { portfolios: Portfolio[] }) {}
+  constructor(public payload: DataResult<PortfoliosResult>) {}
 }
 
 export class AddPortfolio implements Action {
@@ -73,6 +79,26 @@ export class ClearPortfolios implements Action {
   readonly type = PortfolioActionTypes.ClearPortfolios
 }
 
+export class SetCurrentPortfolio implements Action {
+  readonly type = PortfolioActionTypes.SetCurrentPortfolio
+  constructor(public payload: { id: number }) {}
+}
+export class GetPortfolios implements Action {
+  readonly type = PortfolioActionTypes.GetPortfolios
+  constructor(public payload: { ids: number[] }) {}
+}
+
+export class GetAllPortfolios implements Action {
+  readonly type = PortfolioActionTypes.GetAllPortfolios
+  constructor(public payload?: { filter?: any }) {}
+}
+
+export class PortfoliosActionFailure implements Action {
+  readonly type = PortfolioActionTypes.PortfoliosActionFailure
+
+  constructor(public payload: any) {
+  }
+}
 export type PortfolioActions =
  LoadPortfolios
  | AddPortfolio
@@ -84,3 +110,7 @@ export type PortfolioActions =
  | DeletePortfolio
  | DeletePortfolios
  | ClearPortfolios
+ | SetCurrentPortfolio
+ | GetAllPortfolios
+ | GetPortfolios
+ | PortfoliosActionFailure

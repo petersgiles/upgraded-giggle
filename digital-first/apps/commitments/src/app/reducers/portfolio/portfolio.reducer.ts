@@ -4,12 +4,16 @@ import { PortfolioActions, PortfolioActionTypes } from './portfolio.actions'
 
 export interface State extends EntityState<Portfolio> {
   // additional entities state properties
+  loading: boolean
+  error: any
 }
 
 export const adapter: EntityAdapter<Portfolio> = createEntityAdapter<Portfolio>()
 
 export const initialState: State = adapter.getInitialState({
   // additional entity state properties
+  loading: false,
+  error: null
 })
 
 export function reducer(
@@ -50,11 +54,27 @@ export function reducer(
     }
 
     case PortfolioActionTypes.LoadPortfolios: {
-      return adapter.addAll(action.payload.portfolios, state)
+      return adapter.addAll(action.payload.data.portfolios, {
+        ...state,
+        loading: action.payload.loading,
+        error: action.payload.error
+      })
     }
 
     case PortfolioActionTypes.ClearPortfolios: {
       return adapter.removeAll(state)
+    }
+
+    case PortfolioActionTypes.GetPortfolios: {
+      return {...state, loading: true, error: null}
+    }
+
+    case PortfolioActionTypes.GetAllPortfolios: {
+      return {...state, loading: true, error: null}
+    }
+
+    case PortfolioActionTypes.PortfoliosActionFailure: {
+      return {...state, loading: false, error: action.payload.error}
     }
 
     default: {

@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store'
 import { Update } from '@ngrx/entity'
 import { AnnouncementType } from './announcement-type.model'
+import { DataResult, AnnouncementTypesResult } from '../../models'
 
 export enum AnnouncementTypeActionTypes {
   LoadAnnouncementTypes = '[AnnouncementType] Load AnnouncementTypes',
@@ -12,13 +13,18 @@ export enum AnnouncementTypeActionTypes {
   UpdateAnnouncementTypes = '[AnnouncementType] Update AnnouncementTypes',
   DeleteAnnouncementType = '[AnnouncementType] Delete AnnouncementType',
   DeleteAnnouncementTypes = '[AnnouncementType] Delete AnnouncementTypes',
-  ClearAnnouncementTypes = '[AnnouncementType] Clear AnnouncementTypes'
+  ClearAnnouncementTypes = '[AnnouncementType] Clear AnnouncementTypes',
+
+  SetCurrentAnnouncementType = '[AnnouncementType] Set Current AnnouncementType',
+  GetAnnouncementTypes = '[AnnouncementType] Get AnnouncementTypes',
+  GetAllAnnouncementTypes = '[AnnouncementType] Get All AnnouncementTypes',
+  AnnouncementTypesActionFailure = '[AnnouncementType] AnnouncementTypes Action Failure',
 }
 
 export class LoadAnnouncementTypes implements Action {
   readonly type = AnnouncementTypeActionTypes.LoadAnnouncementTypes
 
-  constructor(public payload: { announcementTypes: AnnouncementType[] }) {}
+  constructor(public payload: DataResult<AnnouncementTypesResult>) {}
 }
 
 export class AddAnnouncementType implements Action {
@@ -73,6 +79,27 @@ export class ClearAnnouncementTypes implements Action {
   readonly type = AnnouncementTypeActionTypes.ClearAnnouncementTypes
 }
 
+export class SetCurrentAnnouncementType implements Action {
+  readonly type = AnnouncementTypeActionTypes.SetCurrentAnnouncementType
+  constructor(public payload: { id: number }) {}
+}
+export class GetAnnouncementTypes implements Action {
+  readonly type = AnnouncementTypeActionTypes.GetAnnouncementTypes
+  constructor(public payload: { ids: number[] }) {}
+}
+
+export class GetAllAnnouncementTypes implements Action {
+  readonly type = AnnouncementTypeActionTypes.GetAllAnnouncementTypes
+  constructor(public payload?: { filter?: any }) {}
+}
+
+export class AnnouncementTypesActionFailure implements Action {
+  readonly type = AnnouncementTypeActionTypes.AnnouncementTypesActionFailure
+
+  constructor(public payload: any) {
+  }
+}
+
 export type AnnouncementTypeActions =
  LoadAnnouncementTypes
  | AddAnnouncementType
@@ -84,3 +111,7 @@ export type AnnouncementTypeActions =
  | DeleteAnnouncementType
  | DeleteAnnouncementTypes
  | ClearAnnouncementTypes
+ | SetCurrentAnnouncementType
+ | GetAllAnnouncementTypes
+ | GetAnnouncementTypes
+ | AnnouncementTypesActionFailure

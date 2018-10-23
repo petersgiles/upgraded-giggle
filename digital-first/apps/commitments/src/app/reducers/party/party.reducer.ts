@@ -4,12 +4,16 @@ import { PartyActions, PartyActionTypes } from './party.actions'
 
 export interface State extends EntityState<Party> {
   // additional entities state properties
+  loading: boolean
+  error: any
 }
 
 export const adapter: EntityAdapter<Party> = createEntityAdapter<Party>()
 
 export const initialState: State = adapter.getInitialState({
   // additional entity state properties
+  loading: false,
+  error: null
 })
 
 export function reducer(
@@ -50,11 +54,27 @@ export function reducer(
     }
 
     case PartyActionTypes.LoadPartys: {
-      return adapter.addAll(action.payload.partys, state)
+      return adapter.addAll(action.payload.data.parties, {
+        ...state,
+        loading: action.payload.loading,
+        error: action.payload.error
+      })
     }
 
     case PartyActionTypes.ClearPartys: {
       return adapter.removeAll(state)
+    }
+
+    case PartyActionTypes.GetPartys: {
+      return {...state, loading: true, error: null}
+    }
+
+    case PartyActionTypes.GetAllPartys: {
+      return {...state, loading: true, error: null}
+    }
+
+    case PartyActionTypes.PartysActionFailure: {
+      return {...state, loading: false, error: action.payload.error}
     }
 
     default: {

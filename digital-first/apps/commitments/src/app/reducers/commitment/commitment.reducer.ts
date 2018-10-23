@@ -4,12 +4,18 @@ import { CommitmentActions, CommitmentActionTypes } from './commitment.actions'
 
 export interface State extends EntityState<Commitment> {
   // additional entities state properties
+  currentCommitent: boolean
+  loading: boolean
+  error: any
 }
 
 export const adapter: EntityAdapter<Commitment> = createEntityAdapter<Commitment>()
 
 export const initialState: State = adapter.getInitialState({
   // additional entity state properties
+  currentCommitent: null,
+  loading: false,
+  error: null
 })
 
 export function reducer(
@@ -18,7 +24,8 @@ export function reducer(
 ): State {
   switch (action.type) {
     case CommitmentActionTypes.AddCommitment: {
-      return adapter.addOne(action.payload.commitment, state)
+
+      return adapter.addOne(action.payload.commitment, { ...state })
     }
 
     case CommitmentActionTypes.UpsertCommitment: {
@@ -50,11 +57,31 @@ export function reducer(
     }
 
     case CommitmentActionTypes.LoadCommitments: {
-      return adapter.addAll(action.payload.commitments, state)
+      return adapter.addAll(action.payload.data.commitments, {
+        ...state,
+        loading: action.payload.loading,
+        error: action.payload.error
+      })
     }
 
     case CommitmentActionTypes.ClearCommitments: {
       return adapter.removeAll(state)
+    }
+
+    case CommitmentActionTypes.SetCurrentCommitment: {
+      return {...state}
+    }
+
+    case CommitmentActionTypes.GetCommitments: {
+      return {...state, loading: true, error: null}
+    }
+
+    case CommitmentActionTypes.GetAllCommitments: {
+      return {...state, loading: true, error: null}
+    }
+
+    case CommitmentActionTypes.CommitmentsActionFailure: {
+      return {...state, loading: false, error: action.payload.error}
     }
 
     default: {

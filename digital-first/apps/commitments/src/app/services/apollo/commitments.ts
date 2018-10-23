@@ -50,28 +50,6 @@ export const GET_COMMITMENT = gql`
         }
       }
     }
-    parties {
-      id
-      title
-      icon
-      colour
-    }
-    announcementTypes {
-      id
-      title
-      icon
-      colour
-    }
-    locations {
-      id
-      title
-    }
-    portfolios {
-      id
-      title
-      icon
-      colour
-    }
   }
 `
 
@@ -198,28 +176,6 @@ export const GET_ALL_COMMITMENTS = gql`
           phone
         }
       }
-    }
-    parties {
-      id
-      title
-      icon
-      colour
-    }
-    locations {
-      id
-      title
-    }
-    announcementTypes {
-      id
-      title
-      icon
-      colour
-    }
-    portfolios {
-      id
-      title
-      icon
-      colour
     }
   }
 `

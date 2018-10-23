@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store'
 import { Update } from '@ngrx/entity'
 import { Comment } from './comment.model'
+import { DataResult, CommentsResult } from '../../models'
 
 export enum CommentActionTypes {
   LoadComments = '[Comment] Load Comments',
@@ -12,13 +13,15 @@ export enum CommentActionTypes {
   UpdateComments = '[Comment] Update Comments',
   DeleteComment = '[Comment] Delete Comment',
   DeleteComments = '[Comment] Delete Comments',
-  ClearComments = '[Comment] Clear Comments'
+  ClearComments = '[Comment] Clear Comments',
+  GetCommentsByCommitment = '[Comment] Get Comments By Commitment',
+  CommentActionFailure = '[Comment] Comment Action Failure'
 }
 
 export class LoadComments implements Action {
   readonly type = CommentActionTypes.LoadComments
 
-  constructor(public payload: { comments: Comment[] }) {}
+  constructor(public payload: DataResult<CommentsResult>) {}
 }
 
 export class AddComment implements Action {
@@ -73,6 +76,18 @@ export class ClearComments implements Action {
   readonly type = CommentActionTypes.ClearComments
 }
 
+export class GetCommentsByCommitment implements Action {
+  readonly type = CommentActionTypes.GetCommentsByCommitment
+  constructor(public payload: { commitment: number }) {}
+}
+
+export class CommentActionFailure implements Action {
+  readonly type = CommentActionTypes.CommentActionFailure
+
+  constructor(public payload: any) {
+  }
+}
+
 export type CommentActions =
  LoadComments
  | AddComment
@@ -84,3 +99,5 @@ export type CommentActions =
  | DeleteComment
  | DeleteComments
  | ClearComments
+ | GetCommentsByCommitment
+ | CommentActionFailure

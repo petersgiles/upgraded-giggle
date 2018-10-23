@@ -22,9 +22,10 @@ export const resolvers = {
     announcementTypes: () => db['commitment-announcementTypes'].find(),
     commitmentTypes: () => db['commitment-commitmentTypes'].find(),
     contacts: () => db['commitment-contacts'].find(),
-    comments: () => {
-      var found = db['commitment-comments'].find();
-      var comments = found.map((c: any) => ({ ...c, id: c._id }));
+    comments: (obj: any, args: any, context: any, info: any) => {
+      var found = db['commitment-comments'].find({ commitment: args.commitment })
+      console.log('comments =>', found)
+      var comments = found.map((c: any) => ({ ...c, id: c._id }))
       return comments
     },
     locations: () => db['commitment-electorates'].find(),
