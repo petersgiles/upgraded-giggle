@@ -20,7 +20,7 @@
           </div>
       </div>
   </mdc-card-primary-action>
-  <mdc-ripple class="app-card-article">
+  <mdc-ripple class="app-card-article" *ngIf="commitment.description">
       <p class="app-card-article__snippet" mdcBody2 [innerHtml]="commitment.description | safeHtml"></p>
   </mdc-ripple>
   <mdc-card-actions *ngIf="!config?.disabled">

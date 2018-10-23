@@ -17,16 +17,15 @@ export function fromLookup(field) {
   if (field) {
 
     const lookup = {
-      Id: field.get_lookupId(),
-      Title: field.get_lookupValue(),
       id: field.get_lookupId(),
       title: field.get_lookupValue()
     }
     return lookup
   } else {
     return {
-      Id: null,
-      id: null
+      id: null,
+      title: null
+
     }
   }
 }
@@ -36,7 +35,6 @@ export function idFromLookup(field) {
     return field.get_lookupId()
   } else {
     return {
-      Id: null,
       id: null
     }
   }

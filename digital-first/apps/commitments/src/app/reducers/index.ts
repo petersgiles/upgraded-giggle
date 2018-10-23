@@ -199,7 +199,7 @@ export const getAnnouncementTypeError = createSelector(
 
 export const getCommitmentEntitiesState = state => state.commitment
 
-export const getCurrentCommitentId =  createSelector(
+export const getCurrentCommitentId = createSelector(
     getCommitmentEntitiesState,
     fromCommitment.getCurrentCommitentId
 )
@@ -214,11 +214,54 @@ export const {
 export const getCurrentCommitment = createSelector(
     getCommitmentEntities,
     getCurrentCommitentId,
-    (entities, current) => {
-        // tslint:disable-next-line:no-console
-        console.log(entities, current)
-        return entities[current]
+    getPartyEntities,
+    getPortfolioEntities,
+    getLocationEntities,
+    getAnnouncementTypeEntities,
+    getCommitmentTypeEntities,
+    (commitments, current, partys, portfolios, locations, announcementTypes, commitmentTypes) => {
+        const commitment = commitments[current]
+
+        if (commitment) {
+            return {
+                ...commitment,
+                portfolio: commitment.portfolio ? portfolios[commitment.portfolio.id] : null,
+                party: commitment.party ? partys[commitment.party.id] : null,
+                locations: commitment.location ? locations[commitment.location.id] : null,
+                announcementType: commitment.announcementType ? announcementTypes[commitment.announcementType.id] : null,
+                commitmentType: commitment.commitmentType ? commitmentTypes[commitment.commitmentType.id] : null,
+            }
+        }
+
+        return commitment
     }
+)
+
+export const getAllOverviewCommitments = createSelector(
+    getAllCommitments,
+    getPartyEntities,
+    getPortfolioEntities,
+    getLocationEntities,
+    getAnnouncementTypeEntities,
+    getCommitmentTypeEntities,
+    (commitments, partys, portfolios, locations, announcementTypes, commitmentTypes) => {
+
+        const result = commitments.map(commitment => ({
+            ...commitment,
+            description: null,
+            portfolio: commitment.portfolio ? portfolios[commitment.portfolio.id] : null,
+            party: commitment.party ? partys[commitment.party.id] : null,
+            locations: commitment.location ? locations[commitment.location.id] : null,
+            announcementType: commitment.announcementType ? announcementTypes[commitment.announcementType.id] : null,
+            commitmentType: commitment.commitmentType ? commitmentTypes[commitment.commitmentType.id] : null,
+        })
+        )
+        // tslint:disable-next-line:no-console
+        console.log('getAllOverviewCommitments =>', result)
+        return result
+
+    }
+
 )
 
 export const getCommitmentLoading = createSelector(

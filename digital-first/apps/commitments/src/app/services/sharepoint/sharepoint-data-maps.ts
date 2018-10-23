@@ -1,9 +1,12 @@
 import { fromLookup } from '@digital-first/df-sharepoint'
+
 import { AnnouncementType } from '../../reducers/announcement-type/announcement-type.model'
 import { Party } from '../../reducers/party/party.model'
 import { Portfolio } from '../../reducers/portfolio/portfolio.model'
-import { Commitment } from '../../reducers/commitment/commitment.model'
-import { DataResult, CommitmentsResult } from '../../models'
+import { Commitment } from '../../reducers/commitment'
+import { CommitmentType } from '../../reducers/commitment-type/commitment-type.model'
+import { Contact } from '../../reducers/contact/contact.model'
+import { Location } from '../../reducers/location/location.model'
 
 export const byIdQuery = (criteria: { id }) =>
   `<View>
@@ -40,15 +43,23 @@ export const mapComment = (comment): any => ({
 
 export const mapComments = (comments): Comment[] => comments.map(mapComment)
 
-export const mapLocation = (location): any => ({
+export const mapLocation = (location): Location => ({
   id: location.ID,
-  title: location.Title,
-  state: location.State,
-  area: location.Area
+  title: location.Title
 })
 
 export const mapLocations = (locations): Location[] =>
   locations.map(mapLocation)
+
+export const mapContact = (contact): Contact => ({
+  id: contact.ID,
+  name: contact.Title,
+  email: contact.Email,
+  phone: contact.Phone
+
+})
+
+export const mapContacts = (contacts): Contact[] => contacts.map(mapContact)
 
 export const mapAnnouncementType = (announcementType): any => ({
   id: announcementType.ID,
@@ -57,8 +68,16 @@ export const mapAnnouncementType = (announcementType): any => ({
   sortOrder: announcementType.SortOrder
 })
 
-export const mapAnnouncementTypes = (announcementTypes): AnnouncementType[] =>
-  announcementTypes.map(mapAnnouncementType)
+export const mapAnnouncementTypes = (announcementTypes): AnnouncementType[] => announcementTypes.map(mapAnnouncementType)
+
+export const mapCommitmentType = (commitmentType): any => ({
+  id: commitmentType.ID,
+  title: commitmentType.Title,
+  colour: commitmentType.Colour,
+  sortOrder: commitmentType.SortOrder
+})
+
+export const mapCommitmentTypes = (commitmentTypes): CommitmentType[] => commitmentTypes.map(mapCommitmentType)
 
 export const mapParty = (party): any => ({
   id: party.ID,
@@ -76,8 +95,7 @@ export const mapPortfolio = (portfolio): any => ({
   sortOrder: portfolio.SortOrder
 })
 
-export const mapPortfolios = (portfolios): Portfolio[] =>
-  portfolios.map(mapPortfolio)
+export const mapPortfolios = (portfolios): Portfolio[] => portfolios.map(mapPortfolio)
 
 export const mapCommitment = (commitment): Commitment => {
   const item: any = commitment
@@ -85,15 +103,15 @@ export const mapCommitment = (commitment): Commitment => {
   const mapped = {
     id: item.ID,
     title: item.Title,
-    party: fromLookup(item.PoliticalParty).id,
+    party: fromLookup(item.PoliticalParty),
     description: item.Description,
     cost: item.Cost,
-    location: fromLookup(item.Location).id,
-    announcementType: fromLookup(item.CommitmentType).id,
-    commitmentType: fromLookup(item.CommitmentType).id,
+    location: fromLookup(item.Location),
+    announcementType: fromLookup(item.CommitmentType),
+    commitmentType: fromLookup(item.CommitmentType),
     date: item.Date,
     announcedby: item.AnnouncedBy,
-    portfolio: fromLookup(item.Portfolio).id,
+    portfolio: fromLookup(item.Portfolio),
     contacts: item.Contacts
   }
 
@@ -102,4 +120,4 @@ export const mapCommitment = (commitment): Commitment => {
   return mapped
 }
 
-export const mapCommitments = (spData): Commitment[] => spData.map(mapCommitment)
+export const mapCommitments = (commitments): Commitment[] => commitments.map(mapCommitment)

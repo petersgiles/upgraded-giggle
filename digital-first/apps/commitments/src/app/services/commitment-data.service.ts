@@ -100,7 +100,7 @@ export class CommitmentDataService {
   }
 
   get Commitments(): Observable<Commitment[]> {
-    return this.store.select(fromRoot.getAllCommitments)
+    return this.store.select(fromRoot.getAllOverviewCommitments)
   }
 
   get CommitmentLoading(): Observable<boolean> {

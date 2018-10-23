@@ -132,49 +132,25 @@ export const GET_ALL_COMMITMENTS = gql`
     commitments {
       id
       title
-      description
-      cost
       location {
-        id
         title
-        state
-        area
       }
       date
       announcedby
       party {
         id
-        title
-        icon
-        colour
+      }
+      commitmentType {
+        id
       }
       announcementType {
         id
-        title
-        icon
-        colour
       }
       portfolio {
         id
-        title
-        icon
-        colour
       }
       contacts {
-        id
-      }
-      comments {
-        id
-        commitment
-        text
-        created
-        parent
-        author {
-          username
-          name
-          email
-          phone
-        }
+          id
       }
     }
   }

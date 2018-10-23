@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 
-import { Observable, forkJoin, of } from 'rxjs'
+import { Observable, of } from 'rxjs'
 import { concatMap } from 'rxjs/operators'
 import { SharepointJsomService } from '@digital-first/df-sharepoint'
 import { AppDataService } from '../app-data.service'
@@ -14,7 +14,9 @@ import {
   mapCommitments,
   mapAnnouncementTypes,
   mapParties,
-  mapPortfolios
+  mapPortfolios,
+  mapContacts,
+  mapCommitmentTypes
 } from './sharepoint-data-maps'
 
 import {
@@ -29,12 +31,6 @@ import {
   LocationsResult,
   CommitmentTypesResult
 } from '../../models'
-
-import { Commitment } from '../../reducers/commitment/commitment.model'
-
-import { AnnouncementType } from '../../reducers/announcement-type/announcement-type.model'
-import { Party } from '../../reducers/party/party.model'
-import { Portfolio } from '../../reducers/portfolio/portfolio.model'
 
 @Injectable({
   providedIn: 'root'
@@ -56,76 +52,99 @@ export class SharepointDataService implements AppDataService {
   filterCommitments(filter?: { party?: string; type?: string; portfolio?: string; }): Observable<DataResult<CommitmentsResult>> {
     return this.sharepoint.getItems({ listName: 'Commitment' })
       .pipe(
-        concatMap((result: any) => {
-          const commitments = mapCommitments(result)
-
-          const commitmentsResult: DataResult<CommitmentsResult> = {
-            data: { commitments: commitments },
+        concatMap((result: any) =>
+          of({
+            data: { commitments: mapCommitments(result) },
             loading: false,
             error: null
-          }
-
-          // tslint:disable-next-line:no-console
-          console.log(result, commitments, commitmentsResult)
-          return of(commitmentsResult)
-        })
+          }))
       )
   }
 
   filterAnnouncementTypes(filter?: any): Observable<DataResult<AnnouncementTypesResult>> {
-    return of({
-      data: { announcementTypes: null },
-      loading: false,
-      error: null
-    })
+    return this.sharepoint.getItems({ listName: 'AnnouncementType' })
+    .pipe(
+      concatMap((result: any) =>
+        of({
+          data: { announcementTypes: mapAnnouncementTypes(result) },
+          loading: false,
+          error: null
+        }))
+    )
+
   }
 
   filterPortfolios(filter?: any): Observable<DataResult<PortfoliosResult>> {
-    return of({
-      data: { portfolios: null },
-      loading: false,
-      error: null
-    })
+    return this.sharepoint.getItems({ listName: 'Portfolio' })
+    .pipe(
+      concatMap((result: any) =>
+        of({
+          data: { portfolios: mapPortfolios(result) },
+          loading: false,
+          error: null
+        }))
+    )
   }
 
   filterPartys(filter?: any): Observable<DataResult<PartysResult>> {
-    return of({
-      data: { parties: null },
-      loading: false,
-      error: null
-    })
+    return this.sharepoint.getItems({ listName: 'PoliticalParty' })
+    .pipe(
+      concatMap((result: any) =>
+        of({
+          data: { parties: mapParties(result) },
+          loading: false,
+          error: null
+        }))
+    )
   }
 
   filterParties(filter?: any): Observable<DataResult<PartysResult>> {
-    return of({
-      data: { parties: null },
-      loading: false,
-      error: null
-    })
+    return this.sharepoint.getItems({ listName: 'PoliticalParty' })
+    .pipe(
+      concatMap((result: any) =>
+        of({
+          data: { parties: mapParties(result) },
+          loading: false,
+          error: null
+        }))
+    )
   }
 
   filterContacts(filter?: any): Observable<DataResult<ContactsResult>> {
-    return of({
-      data: { contacts: null },
-      loading: false,
-      error: null
-    })
+    return this.sharepoint.getItems({ listName: 'Contact' })
+    .pipe(
+      concatMap((result: any) =>
+        of({
+          data: { contacts: mapContacts(result) },
+          loading: false,
+          error: null
+        }))
+    )
   }
 
   filterLocations(filter?: any): Observable<DataResult<LocationsResult>> {
-    return of({
-      data: { locations: null },
-      loading: false,
-      error: null
-    })
+    return this.sharepoint.getItems({ listName: 'Electorate' })
+    .pipe(
+      concatMap((result: any) =>
+        of({
+          data: { locations: mapLocations(result) },
+          loading: false,
+          error: null
+        }))
+    )
   }
 
   filterCommitmentTypes(filter?: any): Observable<DataResult<CommitmentTypesResult>> {
-    return of({
-      data: { commitmentTypes: null },
-      loading: false,
-      error: null
-    })
+
+    return this.sharepoint.getItems({ listName: 'CommitmentTypes' })
+    .pipe(
+      concatMap((result: any) =>
+        of({
+          data: { commitmentTypes: mapCommitmentTypes(result) },
+          loading: false,
+          error: null
+        }))
+    )
   }
 
   upsertCommitment(commitment: {

@@ -19,8 +19,19 @@ export class CommitmentCardComponent implements OnInit {
   }
 
   getPartyStyle(item) {
+
+    const style = {}
+
     if (item && item.party) {
-      return { 'background-color': item.party.colour, 'background-image': `url(${item.party.icon})` }
+
+      if (item.party.colour) {
+        style['background-color'] = item.party.colour
+      }
+
+      if (item.party.icon) {
+        style['background-image'] = `url(${item.party.icon})`
+      }
+      return style
     }
   }
 }

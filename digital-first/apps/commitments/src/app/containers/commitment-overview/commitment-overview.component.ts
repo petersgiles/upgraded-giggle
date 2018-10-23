@@ -25,6 +25,12 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
     this.commitments$ = this.service.Commitments
     this.error$ = this.service.CommitmentError
 
+    this.service.getAllAnnouncementTypes()
+    this.service.getAllCommitmentTypes()
+    this.service.getAllLocations()
+    this.service.getAllPartys()
+    this.service.getAllPortfolios()
+
     this.service.getAllCommitments()
 
     // this is to avoid component validation check errors
