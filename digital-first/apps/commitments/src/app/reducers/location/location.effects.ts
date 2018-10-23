@@ -18,8 +18,7 @@ export class LocationEffects {
       map((action: GetAllLocations) => action.payload ? action.payload.filter : null),
       switchMap((filter: any) => this.service.filterLocations(filter)
         .pipe(
-          map((result: DataResult<LocationsResult>) =>
-            new LoadLocations(result)),
+          map((result: DataResult<LocationsResult>) => new LoadLocations(result)),
           catchError(error => of(new LocationsActionFailure(error)))
         )
       ))

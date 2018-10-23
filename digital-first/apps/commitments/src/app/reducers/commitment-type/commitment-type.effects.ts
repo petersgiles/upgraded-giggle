@@ -18,8 +18,7 @@ export class CommitmentTypeEffects {
       map((action: GetAllCommitmentTypes) => action.payload ? action.payload.filter : null),
       switchMap((filter: any) => this.service.filterCommitmentTypes(filter)
         .pipe(
-          map((result: DataResult<CommitmentTypesResult>) =>
-            new LoadCommitmentTypes(result)),
+          map((result: DataResult<CommitmentTypesResult>) => new LoadCommitmentTypes(result)),
           catchError(error => of(new CommitmentTypesActionFailure(error)))
         )
       ))

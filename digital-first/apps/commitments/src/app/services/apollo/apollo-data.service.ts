@@ -1,35 +1,44 @@
 import { Apollo } from 'apollo-angular'
 import { Observable, of } from 'rxjs'
 import { Injectable } from '@angular/core'
+import { switchMap, tap } from 'rxjs/operators'
+import * as moment from 'moment'
 
-import {
-  GET_COMMITMENT,
-  UPSERT_COMMITMENT,
-  GET_ALL_COMMITMENTS,
-} from './commitments'
-
-import {
-  ADD_COMMENT,
-  DELETE_COMMENT,
-  COMMENTS_BY_COMMITMENT
-} from './comments'
+import { AppDataService } from '../app-data.service'
 
 import {
   DataResult,
   CommitmentResult,
   CommitmentsResult,
   AnnouncementTypesResult,
-  CommentsResult
+  CommentsResult,
+  PortfoliosResult,
+  PartysResult,
+  ContactsResult,
+  LocationsResult,
+  CommitmentTypesResult
 } from '../../models'
 
-import { switchMap, concatMap, tap, map } from 'rxjs/operators'
-import * as moment from 'moment'
-import { GET_ANNOUNCEMENT_TYPES } from './announcement-types'
+import {
+  GET_COMMITMENT,
+  UPSERT_COMMITMENT,
+  GET_ALL_COMMITMENTS,
+  ADD_COMMENT,
+  DELETE_COMMENT,
+  COMMENTS_BY_COMMITMENT,
+  GET_ANNOUNCEMENT_TYPES,
+  GET_PORTFOLIOS,
+  GET_PARTIES,
+  GET_LOCATIONS,
+  GET_COMMITMENT_TYPES,
+  GET_CONTACTS
+} from './apollo-queries'
 
 @Injectable({
   providedIn: 'root'
 })
-export class ApolloDataService {
+export class ApolloDataService implements AppDataService {
+
   constructor(private apollo: Apollo) { }
 
   upsertCommitment(commitment: any): Observable<DataResult<CommitmentResult>> {
@@ -62,7 +71,7 @@ export class ApolloDataService {
     parent: any;
     comment: any;
     author: any;
-  }): Observable<DataResult<CommitmentResult>> {
+  }): Observable<DataResult<CommentsResult>> {
     const variables = {
       commitment: comment.commitment,
       parent: comment.parent,
@@ -70,102 +79,48 @@ export class ApolloDataService {
       author: comment.author,
       created: moment()
     }
+    return this.callMutate(ADD_COMMENT, variables)
 
-    return this.apollo
-      .mutate({
-        mutation: ADD_COMMENT,
-        variables: { ...variables }
-      })
-      .pipe(
-        concatMap((result: any) =>
-          this.getCommitment({ id: result.data.addComment.commitment })
-        )
-      )
   }
 
-  deleteComment(comment: { id: any; commitment: any }): any {
-    // tslint:disable-next-line:no-console
-    console.log(comment)
-    const variables = {
-      id: comment.id,
-      commitment: comment.commitment
-    }
+  deleteComment = (comment: { id: any; commitment: any }) => this.callMutate(DELETE_COMMENT, comment)
 
+  getCommitment = (criteria: { id: number; }) => this.callQuery<CommitmentResult>(GET_COMMITMENT, criteria)
+
+  filterAnnouncementTypes = (filter?: any) => this.callQuery<AnnouncementTypesResult>(GET_ANNOUNCEMENT_TYPES)
+  filterCommitments = (filter?: any) => this.callQuery<CommitmentsResult>(GET_ALL_COMMITMENTS, filter)
+  filterPortfolios = (filter?: any) => this.callQuery<PortfoliosResult>(GET_PORTFOLIOS, filter)
+  filterPartys = (filter?: any) => this.callQuery<PartysResult>(GET_PARTIES, filter)
+  filterContacts = (filter?: any) => this.callQuery<ContactsResult>(GET_CONTACTS, filter)
+  filterLocations = (filter?: any) => this.callQuery<LocationsResult>(GET_LOCATIONS, filter)
+  filterCommitmentTypes = (filter?: any) => this.callQuery<CommitmentTypesResult>(GET_COMMITMENT_TYPES, filter)
+  filterParties = (filter?: any) => this.callQuery<PartysResult>(GET_PARTIES, filter)
+  getCommentsByCommitment = (commitment: number) => this.callQuery<CommentsResult>(COMMENTS_BY_COMMITMENT, { commitment: commitment })
+
+  callMutate<T>(query, variables?): Observable<DataResult<T>> {
     return this.apollo
-      .mutate({
-        mutation: DELETE_COMMENT,
-        variables: { ...variables }
-      })
-      .pipe(
-        // tslint:disable-next-line:no-console
-        tap(result => console.log(result)),
-        map(result => result.data.deleteComment),
-        // tslint:disable-next-line:no-console
-        tap(result => console.log(result)),
-        switchMap(result => this.getCommitment({ id: result.commitment }))
-      )
-  }
-
-  getCommitment(criteria: {
-    id: number;
-  }): Observable<DataResult<CommitmentResult>> {
-    // tslint:disable-next-line:no-console
-    console.log(criteria)
-
-    return this.apollo
-      .query({
-        fetchPolicy: 'network-only',
-        query: GET_COMMITMENT,
-        variables: { id: criteria.id }
-      })
-      .pipe(
-        // tslint:disable-next-line:no-console
-        tap((result: any) => console.log(result)),
-        switchMap((result: any) => of(result as DataResult<CommitmentResult>))
-      )
-  }
-
-  filterCommitments(filter?: {
-    party?: string;
-    type?: string;
-    portfolio?: string;
-  }): Observable<DataResult<CommitmentsResult>> {
-    return this.apollo
-      .query({
-        fetchPolicy: 'network-only',
-        query: GET_ALL_COMMITMENTS
-      })
-      .pipe(
-        // tslint:disable-next-line:no-console
-        tap((result: any) => console.log(result)),
-        switchMap((result: any) => of(result as DataResult<CommitmentsResult>))
-      )
-  }
-
-  filterAnnouncementTypes(filter?: any): Observable<DataResult<AnnouncementTypesResult>> {
-    return this.apollo
-      .query({
-        fetchPolicy: 'network-only',
-        query: GET_ANNOUNCEMENT_TYPES
-      })
-      .pipe(
-        // tslint:disable-next-line:no-console
-        tap((result: any) => console.log(result)),
-        switchMap((result: any) => of(result as DataResult<AnnouncementTypesResult>))
-      )
-  }
-
-  getCommentsByCommitment(commitment: number): Observable<DataResult<CommentsResult>> {
-    return this.apollo
-    .query({
-      fetchPolicy: 'network-only',
-      query: COMMENTS_BY_COMMITMENT,
-      variables: { commitment: commitment }
+    .mutate({
+      mutation: query,
+      variables: { ...variables }
     })
     .pipe(
-      // tslint:disable-next-line:no-console
-      tap((result: any) => console.log(result)),
-      switchMap((result: any) => of(result as DataResult<CommentsResult>))
+        // tslint:disable-next-line:no-console
+        tap((result: any) => console.log(result)),
+        switchMap((result: any) => of(result as DataResult<T>))
     )
+  }
+
+  callQuery<T>(query, variables?): Observable<DataResult<T>> {
+    return this.apollo
+      .query({
+        fetchPolicy: 'network-only',
+        query: query,
+        variables: { ...variables }
+      })
+      .pipe(
+        // tslint:disable-next-line:no-console
+        tap((result: any) => console.log(result)),
+        switchMap((result: any) => of(result as DataResult<T>))
+      )
   }
 }

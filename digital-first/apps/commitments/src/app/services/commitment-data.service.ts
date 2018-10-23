@@ -16,8 +16,8 @@ import { Contact } from '../reducers/contact/contact.model'
 import { Location } from '../reducers/location/location.model'
 import { Store } from '@ngrx/store'
 import * as fromRoot from '../reducers'
-import { GetLocations } from '../reducers/location/location.actions'
-import { GetCommitments, GetAllCommitments } from '../reducers/commitment/commitment.actions'
+import { GetLocations, GetAllLocations } from '../reducers/location/location.actions'
+import { GetCommitments, GetAllCommitments, SetCurrentCommitment } from '../reducers/commitment/commitment.actions'
 import { GetAllAnnouncementTypes } from '../reducers/announcement-type/announcement-type.actions'
 import { GetAllContacts } from '../reducers/contact/contact.actions'
 import { GetAllPartys } from '../reducers/party/party.actions'
@@ -25,19 +25,12 @@ import { GetAllPortfolios } from '../reducers/portfolio/portfolio.actions'
 import { GetAllCommitmentTypes } from '../reducers/commitment-type/commitment-type.actions'
 import { CommitmentType } from '../reducers/commitment-type/commitment-type.model'
 import { GetCommentsByCommitment } from '../reducers/comment/comment.actions'
+import { tap } from 'rxjs/operators'
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommitmentDataService {
-
-  private announcementTypesSubject = new BehaviorSubject<AnnouncementType[]>([])
-  private partysSubject = new BehaviorSubject<Party[]>([])
-  private locationsSubject = new BehaviorSubject<Location[]>([])
-  private portfoliosSubject = new BehaviorSubject<Portfolio[]>([])
-
-  private commitmentSubject = new BehaviorSubject<Commitment>(null)
-  private commitmentsSubject = new BehaviorSubject<Commitment[]>([])
 
   constructor(private store: Store<fromRoot.State>, private appDataService: AppDataService) { }
 
@@ -49,6 +42,10 @@ export class CommitmentDataService {
 
   get AnnouncementTypes(): Observable<AnnouncementType[]> {
     return this.store.select(fromRoot.getAllAnnouncementTypes)
+    .pipe(
+      // tslint:disable-next-line:no-console
+      tap((result: any) => console.log('AnnouncementTypes => ', result)),
+    )
   }
 
   get AnnouncementTypesLoading(): Observable<boolean> {
@@ -67,6 +64,10 @@ export class CommitmentDataService {
 
   get Comments(): Observable<Comment[]> {
     return this.store.select(fromRoot.getAllComments)
+    .pipe(
+      // tslint:disable-next-line:no-console
+      tap((result: any) => console.log('Comments => ', result)),
+    )
   }
 
   get CommentsLoading(): Observable<boolean> {
@@ -86,8 +87,16 @@ export class CommitmentDataService {
     this.store.dispatch(new GetCommitments({ ids: ids }))
   }
 
+  public setCurrentCommitment(id: number) {
+    this.store.dispatch(new SetCurrentCommitment({ id: id }))
+  }
+
   get Commitment(): Observable<Commitment> {
-    return this.commitmentSubject.asObservable()
+    return this.store.select(fromRoot.getCurrentCommitment)
+    .pipe(
+      // tslint:disable-next-line:no-console
+      tap((result: any) => console.log('Current Commitment =>', result)),
+    )
   }
 
   get Commitments(): Observable<Commitment[]> {
@@ -110,6 +119,10 @@ export class CommitmentDataService {
 
   get CommitmentTypes(): Observable<CommitmentType[]> {
     return this.store.select(fromRoot.getAllCommitmentTypes)
+    .pipe(
+      // tslint:disable-next-line:no-console
+      tap((result: any) => console.log('CommitmentTypes => ', result)),
+    )
   }
 
   get CommitmentTypesLoading(): Observable<boolean> {
@@ -128,6 +141,10 @@ export class CommitmentDataService {
 
   get Contacts(): Observable<Contact[]> {
     return this.store.select(fromRoot.getAllContacts)
+    .pipe(
+      // tslint:disable-next-line:no-console
+      tap((result: any) => console.log('Contacts => ', result)),
+    )
   }
 
   get ContactsLoading(): Observable<boolean> {
@@ -140,12 +157,16 @@ export class CommitmentDataService {
 
   // Locations
 
-  public getAllLocations({ filter: filter }) {
-    this.store.dispatch(new GetLocations(filter))
+  public getAllLocations(filter?: any) {
+    this.store.dispatch(new GetAllLocations(filter))
   }
 
   get Locations(): Observable<Location[]> {
     return this.store.select(fromRoot.getAllLocations)
+    .pipe(
+      // tslint:disable-next-line:no-console
+      tap((result: any) => console.log('Locations => ', result)),
+    )
   }
 
   get LocationsLoading(): Observable<boolean> {
@@ -163,7 +184,11 @@ export class CommitmentDataService {
   }
 
   get Parties(): Observable<Party[]> {
-    return this.partysSubject.asObservable()
+    return this.store.select(fromRoot.getAllPartys)
+    .pipe(
+      // tslint:disable-next-line:no-console
+      tap((result: any) => console.log('Parties => ', result)),
+    )
   }
 
   get PartiesLoading(): Observable<boolean> {
@@ -181,7 +206,11 @@ export class CommitmentDataService {
   }
 
   get Portfolios(): Observable<Portfolio[]> {
-    return this.portfoliosSubject.asObservable()
+    return this.store.select(fromRoot.getAllPortfolios)
+    .pipe(
+      // tslint:disable-next-line:no-console
+      tap((result: any) => console.log('Portfolios => ', result)),
+    )
   }
 
   get PortfoliosLoading(): Observable<boolean> {
@@ -204,9 +233,6 @@ export class CommitmentDataService {
     announcedby?: string,
     portfolio?: string
   }) {
-
-    this.commitmentSubject.next(null)
-
     this.appDataService.upsertCommitment(commitment).subscribe((result: any) => {
       if (result.data) {
 
@@ -224,95 +250,82 @@ export class CommitmentDataService {
               firstParentId: null
             })
           }
-
-          this.commitmentSubject.next(found)
         }
       }
 
     })
   }
 
-  getCommitment(criteria: { id: number; }) {
+  // filterCommitments(filter?: {
+  //   party?: string,
+  //   type?: string,
+  //   portfolio?: string,
+  //   location?: string,
+  //   daterange: {
+  //     start: string,
+  //     end?: string
+  //   }
+  // }) {
 
-    this.commitmentSubject.next(null)
+  //   this.appDataService.filterCommitments(filter)
+  //     .subscribe((result: any) => {
+  //       if (result.data) {
 
-    this.appDataService.getCommitment(criteria).subscribe(this.processCommitment)
-  }
+  //         this.announcementTypesSubject.next([{ id: null, title: '' }, ...result.data.announcementTypes].map(r => ({ ...r })))
+  //         this.partysSubject.next([{ id: null, title: '' }, ...result.data.parties].map(r => ({ ...r })))
+  //         this.portfoliosSubject.next([{ id: null, title: '' }, ...result.data.portfolios].map(r => ({ ...r })))
+  //         this.locationsSubject.next([{ id: null, title: '' }, ...result.data.locations].map(location => ({ ...location })))
 
-  filterCommitments(filter?: {
-    party?: string,
-    type?: string,
-    portfolio?: string,
-    location?: string,
-    daterange: {
-      start: string,
-      end?: string
-    }
-  }) {
-
-    this.appDataService.filterCommitments(filter)
-      .subscribe((result: any) => {
-        if (result.data) {
-
-          this.announcementTypesSubject.next([{ id: null, title: '' }, ...result.data.announcementTypes].map(r => ({ ...r })))
-          this.partysSubject.next([{ id: null, title: '' }, ...result.data.parties].map(r => ({ ...r })))
-          this.portfoliosSubject.next([{ id: null, title: '' }, ...result.data.portfolios].map(r => ({ ...r })))
-          this.locationsSubject.next([{ id: null, title: '' }, ...result.data.locations].map(location => ({ ...location })))
-
-          this.commitmentsSubject.next(result.data.commitments.map(r =>
-            ({
-              ...r,
-              date: moment(r.date)
-            })))
-        }
-      })
-  }
+  //         this.commitmentsSubject.next(result.data.commitments.map(r =>
+  //           ({
+  //             ...r,
+  //             date: moment(r.date)
+  //           })))
+  //       }
+  //     })
+  // }
 
   createComment(comment: { commitment: any; parent: any; comment: any; author: any }) {
-
-    this.commitmentSubject.next(null)
-    this.appDataService.upsertComment(comment).subscribe(this.processCommitment)
+    this.appDataService.upsertComment(comment)
 
   }
 
   deleteComment(comment: { id: any; commitment: any; }): any {
-    this.commitmentSubject.next(null)
-
-    this.appDataService.deleteComment(comment).subscribe(this.processCommitment)
+      this.appDataService.deleteComment(comment)
   }
 
-  processCommitment = (result: any) => {
+  // processCommitment = (result: any) => {
 
-    // tslint:disable-next-line:no-console
-    console.log(result)
+  //   // tslint:disable-next-line:no-console
+  //   console.log(result)
 
-    if (result.data) {
+  //   if (result.data) {
 
-      const r = result.data.commitment
+  //     const r = result.data.commitment
 
-      this.announcementTypesSubject.next([{ id: null, title: '' }, ...result.data.announcementTypes].map(type => ({ ...type })))
-      this.partysSubject.next([{ id: null, title: '' }, ...result.data.parties].map(party => ({ ...party })))
-      this.portfoliosSubject.next([{ id: null, title: '' }, ...result.data.portfolios].map(portfolio => ({ ...portfolio })))
-      this.locationsSubject.next([{ id: null, title: '' }, ...result.data.locations].map(location => ({ ...location })))
+  //     this.announcementTypesSubject.next([{ id: null, title: '' }, ...result.data.announcementTypes].map(type => ({ ...type })))
+  //     this.partysSubject.next([{ id: null, title: '' }, ...result.data.parties].map(party => ({ ...party })))
+  //     this.portfoliosSubject.next([{ id: null, title: '' }, ...result.data.portfolios].map(portfolio => ({ ...portfolio })))
+  //     this.locationsSubject.next([{ id: null, title: '' }, ...result.data.locations].map(location => ({ ...location })))
 
-      if (r) {
-        const found = {
-          ...r,
-          date: moment(r.date),
-          discussion: toTree(r.comments, {
-            id: 'id',
-            parentId: 'parent',
-            children: 'children',
-            level: 'level',
-            firstParentId: null
-          })
-        }
-        // tslint:disable-next-line:no-console
-        console.log('processCommitment', r, found)
-        this.commitmentSubject.next(found)
-      }
-    }
+  //     if (r) {
+  //       const found = {
+  //         ...r,
+  //         date: moment(r.date),
+  //         discussion: toTree(r.comments, {
+  //           id: 'id',
+  //           parentId: 'parent',
+  //           children: 'children',
+  //           level: 'level',
+  //           firstParentId: null
+  //         })
+  //       }
+  //       // tslint:disable-next-line:no-console
+  //       console.log('processCommitment', r, found)
+  //       this.commitmentSubject.next(found)
+  //     }
+  //   }
 
-  }
+  // }
 
 }

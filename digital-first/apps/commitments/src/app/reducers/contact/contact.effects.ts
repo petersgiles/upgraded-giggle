@@ -18,8 +18,7 @@ export class ContactEffects {
       map((action: GetAllContacts) => action.payload ? action.payload.filter : null),
       switchMap((filter: any) => this.service.filterContacts(filter)
         .pipe(
-          map((result: DataResult<ContactsResult>) =>
-            new LoadContacts(result)),
+          map((result: DataResult<ContactsResult>) => new LoadContacts(result)),
           catchError(error => of(new ContactsActionFailure(error)))
         )
       ))

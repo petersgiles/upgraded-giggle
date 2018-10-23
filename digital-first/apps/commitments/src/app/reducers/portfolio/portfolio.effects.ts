@@ -18,8 +18,7 @@ export class PortfolioEffects {
       map((action: GetAllPortfolios) => action.payload ? action.payload.filter : null),
       switchMap((filter: any) => this.service.filterPortfolios(filter)
         .pipe(
-          map((result: DataResult<PortfoliosResult>) =>
-            new LoadPortfolios(result)),
+          map((result: DataResult<PortfoliosResult>) => new LoadPortfolios(result)),
           catchError(error => of(new PortfoliosActionFailure(error)))
         )
       ))

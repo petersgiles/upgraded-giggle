@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store'
 import { Update } from '@ngrx/entity'
 import { Commitment } from './commitment.model'
-import { DataResult, CommitmentsResult } from '../../models'
+import { DataResult, CommitmentsResult, CommitmentResult } from '../../models'
 
 export enum CommitmentActionTypes {
   LoadCommitments = '[Commitment] Load Commitments',
@@ -23,32 +23,30 @@ export enum CommitmentActionTypes {
 
 export class LoadCommitments implements Action {
   readonly type = CommitmentActionTypes.LoadCommitments
-
   constructor(public payload: DataResult<CommitmentsResult>) {}
 }
-
 export class AddCommitment implements Action {
   readonly type = CommitmentActionTypes.AddCommitment
 
-  constructor(public payload: { commitment: Commitment }) {}
+  constructor(public payload: DataResult<CommitmentResult>) {}
 }
 
 export class UpsertCommitment implements Action {
   readonly type = CommitmentActionTypes.UpsertCommitment
 
-  constructor(public payload: { commitment: Commitment }) {}
+  constructor(public payload: DataResult<CommitmentResult>) {}
 }
 
 export class AddCommitments implements Action {
   readonly type = CommitmentActionTypes.AddCommitments
 
-  constructor(public payload: { commitments: Commitment[] }) {}
+  constructor(public payload: DataResult<CommitmentsResult>) {}
 }
 
 export class UpsertCommitments implements Action {
   readonly type = CommitmentActionTypes.UpsertCommitments
 
-  constructor(public payload: { commitments: Commitment[] }) {}
+  constructor(public payload: DataResult<CommitmentsResult>) {}
 }
 
 export class UpdateCommitment implements Action {

@@ -18,8 +18,7 @@ export class AnnouncementTypeEffects {
       map((action: GetAllAnnouncementTypes) => action.payload ? action.payload.filter : null),
       switchMap((filter: any) => this.service.filterAnnouncementTypes(filter)
         .pipe(
-          map((result: DataResult<AnnouncementTypesResult>) =>
-            new LoadAnnouncementTypes(result)),
+          map((result: DataResult<AnnouncementTypesResult>) => new LoadAnnouncementTypes(result)),
           catchError(error => of(new AnnouncementTypesActionFailure(error)))
         )
       ))

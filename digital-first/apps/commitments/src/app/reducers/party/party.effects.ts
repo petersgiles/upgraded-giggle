@@ -18,8 +18,7 @@ export class PartyEffects {
       map((action: GetAllPartys) => action.payload ? action.payload.filter : null),
       switchMap((filter: any) => this.service.filterPartys(filter)
         .pipe(
-          map((result: DataResult<PartysResult>) =>
-            new LoadPartys(result)),
+          map((result: DataResult<PartysResult>) => new LoadPartys(result)),
           catchError(error => of(new PartysActionFailure(error)))
         )
       ))

@@ -18,8 +18,7 @@ export class CommentEffects {
       map((action: GetCommentsByCommitment) => action.payload.commitment),
       switchMap((commitment: any) => this.service.getCommentsByCommitment(commitment)
         .pipe(
-          map((result: DataResult<CommentsResult>) =>
-            new LoadComments(result)),
+          map((result: DataResult<CommentsResult>) => new LoadComments(result)),
           catchError(error => of(new CommentActionFailure(error)))
         )
       ))

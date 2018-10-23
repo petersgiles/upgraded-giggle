@@ -4,7 +4,7 @@ import { CommitmentActions, CommitmentActionTypes } from './commitment.actions'
 
 export interface State extends EntityState<Commitment> {
   // additional entities state properties
-  currentCommitent: boolean
+  currentCommitent: number
   loading: boolean
   error: any
 }
@@ -25,19 +25,35 @@ export function reducer(
   switch (action.type) {
     case CommitmentActionTypes.AddCommitment: {
 
-      return adapter.addOne(action.payload.commitment, { ...state })
+      return adapter.addOne(action.payload.data.commitment, {
+        ...state,
+        loading: action.payload.loading,
+        error: action.payload.error
+      })
     }
 
     case CommitmentActionTypes.UpsertCommitment: {
-      return adapter.upsertOne(action.payload.commitment, state)
+      return adapter.upsertOne(action.payload.data.commitment, {
+        ...state,
+        loading: action.payload.loading,
+        error: action.payload.error
+      })
     }
 
     case CommitmentActionTypes.AddCommitments: {
-      return adapter.addMany(action.payload.commitments, state)
+      return adapter.addMany(action.payload.data.commitments, {
+        ...state,
+        loading: action.payload.loading,
+        error: action.payload.error
+      })
     }
 
     case CommitmentActionTypes.UpsertCommitments: {
-      return adapter.upsertMany(action.payload.commitments, state)
+      return adapter.upsertMany(action.payload.data.commitments, {
+        ...state,
+        loading: action.payload.loading,
+        error: action.payload.error
+      })
     }
 
     case CommitmentActionTypes.UpdateCommitment: {
@@ -69,7 +85,7 @@ export function reducer(
     }
 
     case CommitmentActionTypes.SetCurrentCommitment: {
-      return {...state}
+      return {...state, currentCommitent: action.payload.id, loading: false}
     }
 
     case CommitmentActionTypes.GetCommitments: {
@@ -96,3 +112,5 @@ export const {
   selectAll,
   selectTotal,
 } = adapter.getSelectors()
+
+export const getCurrentCommitentId = (state: State) => state.currentCommitent

@@ -44,10 +44,16 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.portfolios$ = this.service.Portfolios
     this.locations$ = this.service.Locations
 
+    this.service.getAllAnnouncementTypes()
+    this.service.getAllCommitmentTypes()
+    this.service.getAllLocations()
+    this.service.getAllPartys()
+    this.service.getAllPortfolios()
+
     this.selectId$ = this.route.paramMap
       .pipe(
         map((params: ParamMap) => +params.get('id')),
-        map(selectedId => this.service.getCommitment({ id: selectedId }))
+        map(selectedId => this.service.setCurrentCommitment(selectedId))
       )
       .subscribe()
 

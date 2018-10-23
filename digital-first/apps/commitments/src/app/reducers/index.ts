@@ -199,12 +199,27 @@ export const getAnnouncementTypeError = createSelector(
 
 export const getCommitmentEntitiesState = state => state.commitment
 
+export const getCurrentCommitentId =  createSelector(
+    getCommitmentEntitiesState,
+    fromCommitment.getCurrentCommitentId
+)
+
 export const {
     selectIds: getCommitmentIds,
     selectEntities: getCommitmentEntities,
     selectAll: getAllCommitments,
     selectTotal: getTotalCommitments,
 } = fromCommitment.adapter.getSelectors(getCommitmentEntitiesState)
+
+export const getCurrentCommitment = createSelector(
+    getCommitmentEntities,
+    getCurrentCommitentId,
+    (entities, current) => {
+        // tslint:disable-next-line:no-console
+        console.log(entities, current)
+        return entities[current]
+    }
+)
 
 export const getCommitmentLoading = createSelector(
     getCommitmentEntitiesState,
