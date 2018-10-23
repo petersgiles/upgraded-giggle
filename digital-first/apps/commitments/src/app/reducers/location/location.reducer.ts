@@ -54,7 +54,7 @@ export function reducer(
     }
 
     case LocationActionTypes.LoadLocations: {
-      return adapter.addAll(action.payload.data.locations, {
+      return adapter.upsertMany(action.payload.data.locations, {
         ...state,
         loading: action.payload.loading,
         error: action.payload.error

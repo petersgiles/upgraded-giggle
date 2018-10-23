@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 
 import { Observable, of } from 'rxjs'
-import { concatMap } from 'rxjs/operators'
+import { concatMap, map } from 'rxjs/operators'
 import { SharepointJsomService } from '@digital-first/df-sharepoint'
 import { AppDataService } from '../app-data.service'
 
@@ -38,11 +38,19 @@ import {
 export class SharepointDataService implements AppDataService {
 
   getCommitment(criteria: { id: number; }): Observable<DataResult<CommitmentResult>> {
-    return of({
-      data: { commitment: null },
-      loading: false,
-      error: null
-    })
+
+    return this.sharepoint.getItems({
+        listName: 'Commitment',
+        viewXml: byIdQuery(criteria)
+    }).pipe(
+      map(result => result[0]),
+      concatMap((commitment: any) =>
+        of({
+          data: { commitment: mapCommitment(commitment) },
+          loading: false,
+          error: null
+        }))
+    )
   }
 
   getCommentsByCommitment(commitment: number): Observable<any> {

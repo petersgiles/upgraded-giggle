@@ -27,7 +27,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   portfolios$: Observable<Portfolio[]>
   locations$: Observable<Location[]>
   activeComment: any
-  timeFormat: string
+  timeFormat: 'timeAgo' | 'dateFormat' | 'calendar'
   loadingSubscription$: Subscription
   loadingDialogRef: MdcDialogRef<DialogSpinnerOverlayComponent, {}>
 

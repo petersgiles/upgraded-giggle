@@ -113,7 +113,7 @@ export class ApolloDataService implements AppDataService {
   callQuery<T>(query, variables?): Observable<DataResult<T>> {
     return this.apollo
       .query({
-        fetchPolicy: 'network-only',
+        fetchPolicy: 'no-cache',
         query: query,
         variables: { ...variables }
       })

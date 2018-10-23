@@ -1,0 +1,9 @@
+<mdc-list-group>
+  <mdc-list #custom twoLine avatar class="app-list--custom">
+    <mdc-list-item *ngFor="let commitment of commitments" (click)="onEdit.emit(commitment)">
+      <mdc-icon mdcListItemGraphic [ngStyle]="getPartyStyle(commitment)">{{commitment.party?.icon}</mdc-icon>
+      <mdc-list-item-text secondaryText="{{commitment.location?.title}} {{commitment.type?.title}}">{{commitment.title}} </mdc-list-item-text>
+      <div mdcListItemMeta></div>
+    </mdc-list-item>
+  </mdc-list>
+</mdc-list-group>

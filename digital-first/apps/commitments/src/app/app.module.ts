@@ -24,6 +24,7 @@ import { AppRoutingModule } from './app-routing.module'
 import { CommitmentCardComponent } from './components/commitment-card/commitment-card.component'
 import { CommitmentEditFormComponent } from './components/commitment-edit-form/commitment-edit-form.component'
 import { CommitmentEditComponent } from './containers/commitment-edit/commitment-edit.component'
+import { CommitmentListComponent } from './components/commitment-list/commitment-list.component'
 import { CommitmentOverviewComponent } from './containers/commitment-overview/commitment-overview.component'
 
 import { SettingsService } from './services/settings.service'
@@ -50,6 +51,7 @@ import * as fromContact from './reducers/contact/contact.reducer'
 import * as fromLocation from './reducers/location/location.reducer'
 import * as fromCommitmentType from './reducers/commitment-type/commitment-type.reducer'
 import { AppEffects } from './reducers/app.effects'
+import { RouterEffects } from './reducers/router.effects'
 import { CommitmentEffects } from './reducers/commitment'
 import { AnnouncementTypeEffects } from './reducers/announcement-type/announcement-type.effects'
 import { CommentEffects } from './reducers/comment/comment.effects'
@@ -65,7 +67,8 @@ const COMPONENTS = [
   CommitmentCardComponent,
   CommitmentEditFormComponent,
   CommitmentEditComponent,
-  CommitmentOverviewComponent
+  CommitmentOverviewComponent,
+  CommitmentListComponent
 ]
 
 const ENTRYCOMPONENTS = [
@@ -153,6 +156,7 @@ export let appDataServiceProvider = {
 
     EffectsModule.forRoot([AppEffects]),
     EffectsModule.forFeature([
+      RouterEffects,
       AnnouncementTypeEffects,
       CommentEffects,
       CommitmentEffects,

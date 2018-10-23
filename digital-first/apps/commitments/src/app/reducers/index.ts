@@ -227,7 +227,7 @@ export const getCurrentCommitment = createSelector(
                 ...commitment,
                 portfolio: commitment.portfolio ? portfolios[commitment.portfolio.id] : null,
                 party: commitment.party ? partys[commitment.party.id] : null,
-                locations: commitment.location ? locations[commitment.location.id] : null,
+                location: commitment.location ? locations[commitment.location.id] : null,
                 announcementType: commitment.announcementType ? announcementTypes[commitment.announcementType.id] : null,
                 commitmentType: commitment.commitmentType ? commitmentTypes[commitment.commitmentType.id] : null,
             }
@@ -251,7 +251,7 @@ export const getAllOverviewCommitments = createSelector(
             description: null,
             portfolio: commitment.portfolio ? portfolios[commitment.portfolio.id] : null,
             party: commitment.party ? partys[commitment.party.id] : null,
-            locations: commitment.location ? locations[commitment.location.id] : null,
+            location: commitment.location ? locations[commitment.location.id] : null,
             announcementType: commitment.announcementType ? announcementTypes[commitment.announcementType.id] : null,
             commitmentType: commitment.commitmentType ? commitmentTypes[commitment.commitmentType.id] : null,
         })

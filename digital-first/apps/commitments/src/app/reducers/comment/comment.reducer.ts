@@ -54,7 +54,7 @@ export function reducer(
     }
 
     case CommentActionTypes.LoadComments: {
-      return adapter.addAll(action.payload.data.comments, {
+      return adapter.upsertMany(action.payload.data.comments, {
         ...state,
         loading: action.payload.loading,
         error: action.payload.error

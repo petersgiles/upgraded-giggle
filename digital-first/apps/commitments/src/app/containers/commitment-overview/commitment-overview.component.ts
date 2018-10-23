@@ -18,6 +18,7 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
   error$: Observable<any>
   loadingSubscription$: Subscription
   loadingDialogRef: MdcDialogRef<DialogSpinnerOverlayComponent, {}>
+  pageFormat: 'card' | 'list' = 'list'
 
   constructor(public dialog: MdcDialog, private router: Router, private service: CommitmentDataService) { }
 
@@ -59,5 +60,9 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
 
   handleShare(commitment?: Commitment) {
     this.router.navigate(['/', 'commitment', commitment.id])
+  }
+
+  changePageFormat(format) {
+    this.pageFormat = format
   }
 }

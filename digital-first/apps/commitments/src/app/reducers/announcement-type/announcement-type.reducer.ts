@@ -54,7 +54,7 @@ export function reducer(
     }
 
     case AnnouncementTypeActionTypes.LoadAnnouncementTypes: {
-      return adapter.addAll(action.payload.data.announcementTypes, {
+      return adapter.upsertMany(action.payload.data.announcementTypes, {
         ...state,
         loading: action.payload.loading,
         error: action.payload.error

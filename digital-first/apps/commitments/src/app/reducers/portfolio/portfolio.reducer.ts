@@ -54,7 +54,7 @@ export function reducer(
     }
 
     case PortfolioActionTypes.LoadPortfolios: {
-      return adapter.addAll(action.payload.data.portfolios, {
+      return adapter.upsertMany(action.payload.data.portfolios, {
         ...state,
         loading: action.payload.loading,
         error: action.payload.error

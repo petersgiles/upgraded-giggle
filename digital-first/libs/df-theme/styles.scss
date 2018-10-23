@@ -7,10 +7,25 @@
 @import "./src/scss/dialogs";
 @import "./src/scss/forms";
 @import "./src/scss/application";
+@import "./src/scss/lists";
 @import "./src/scss/navigation";
 @import "./src/scss/fab";
+
 .truncate {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  
+  .page_title {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 0 16px;
+    overflow: hidden;
+  }
+  
+  .page_title_text {
+    width: 100%;
   }

@@ -45,13 +45,13 @@ export class CommitmentEditFormComponent  implements OnInit {
       const patch = {
         id: val.id,
         title: val.title,
-        location: val.location.id,
+        location: val.location && val.location.id,
         description: val.description,
         announcedby: val.announcedby,
         date: moment(val.date).format('YYYY-MM-DD'),
-        party: val.party.id,
-        type: val.announcementType.id,
-        portfolio: val.portfolio.id,
+        party: val.party && val.party.id,
+        type: val.announcementType && val.announcementType.id,
+        portfolio: val.portfolio && val.portfolio.id,
         cost: val.cost,
         contacts: val.contacts
       }

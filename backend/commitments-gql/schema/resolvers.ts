@@ -90,9 +90,7 @@ export const resolvers = {
     },
     comments(commitment: any) {
       var found = db['commitment-comments'].find({ commitment: commitment.id })
-      console.log('comments =>', found)
       var comments = found.map((c: any) => ({ ...c, id: c._id }))
-
       return comments
     },
     contacts(commitment: any) {

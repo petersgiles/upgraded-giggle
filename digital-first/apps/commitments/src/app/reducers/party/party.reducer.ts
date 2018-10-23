@@ -54,7 +54,7 @@ export function reducer(
     }
 
     case PartyActionTypes.LoadPartys: {
-      return adapter.addAll(action.payload.data.parties, {
+      return adapter.upsertMany(action.payload.data.parties, {
         ...state,
         loading: action.payload.loading,
         error: action.payload.error

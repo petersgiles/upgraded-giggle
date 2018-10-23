@@ -54,7 +54,7 @@ export function reducer(
     }
 
     case ContactActionTypes.LoadContacts: {
-      return adapter.addAll(action.payload.data.contacts, {
+      return adapter.upsertMany(action.payload.data.contacts, {
         ...state,
         loading: action.payload.loading,
         error: action.payload.error

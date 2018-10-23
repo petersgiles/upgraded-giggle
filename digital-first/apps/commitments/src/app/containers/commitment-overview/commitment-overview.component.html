@@ -1,16 +1,21 @@
 <div class="app-page">
-  <section>
+    <section>
+        <div class="page_title">
+            <div #discussion class="reader-card-article__title page_title_text" mdcHeadline5>Commitments</div>
+            <a mdcIcon aria-label="Page Format" title="Page Format" *ngIf="pageFormat=='list'" (click)="changePageFormat('card')">dns</a>
+            <a mdcIcon aria-label="Page Format" title="Page Format" *ngIf="pageFormat=='card'" (click)="changePageFormat('list')">view_list</a>
+        </div>
 
-      <div class="app-card-article-group-heading" mdcSubtitle2>Commitments</div>
-      <digital-first-commitment-card *ngFor="let commitment of commitments$ | async" 
-      [commitment]="commitment" 
-      (onEdit)="handleEdit($event)" 
-      (onShare)="handleShare($event)"></digital-first-commitment-card>
+        <digital-first-commitment-list *ngIf="pageFormat=='list'" [commitments]="commitments$ | async" (onEdit)="handleEdit($event)"></digital-first-commitment-list>
 
-  </section>
+        <ng-container *ngIf="pageFormat=='card'">
+            <digital-first-commitment-card *ngFor="let commitment of commitments$ | async" [commitment]="commitment"
+                (onEdit)="handleEdit($event)" (onShare)="handleShare($event)"></digital-first-commitment-card>
+        </ng-container>
+    </section>
 
-  <button mdc-fab extended label="Create Commitment" class="app-fab-extended-fluid" (click)="handleCreate()">
-      <mdc-icon>add</mdc-icon>
-  </button>
+    <button mdc-fab extended label="Create Commitment" class="app-fab-extended-fluid" (click)="handleCreate()">
+        <mdc-icon>add</mdc-icon>
+    </button>
 
 </div>

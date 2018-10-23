@@ -54,7 +54,7 @@ export function reducer(
     }
 
     case CommitmentTypeActionTypes.LoadCommitmentTypes: {
-      return adapter.addAll(action.payload.data.commitmentTypes, {
+      return adapter.upsertMany(action.payload.data.commitmentTypes, {
         ...state,
         loading: action.payload.loading,
         error: action.payload.error
