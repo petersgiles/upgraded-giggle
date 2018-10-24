@@ -23,6 +23,11 @@
     <div class="form-layout__row">
       <mdc-text-field formControlName="announcedby" label="Announced By" required outlined (change)="handleChange($event)"></mdc-text-field>
       <mdc-text-field formControlName="date" label="Date" type="date" required outlined (change)="handleChange($event)"></mdc-text-field>
+      <mdc-select placeholder="Type of Announcement" formControlName="announcementType" outlined (change)="handleChange($event)">
+        <option *ngFor="let announcementType of announcementTypes" [value]="announcementType.id">
+          {{announcementType.title}}
+        </option>
+      </mdc-select>
     </div>
     <div class="form-layout__row">
       <mdc-select placeholder="Party" formControlName="party" outlined (change)="handleChange($event)">
@@ -30,11 +35,9 @@
           {{party.title}}
         </option>
       </mdc-select>
-    </div>
-    <div class="form-layout__row">
-      <mdc-select placeholder="Type of Commitment" formControlName="type" outlined (change)="handleChange($event)">
-        <option *ngFor="let announcement of announcementTypes" [value]="announcement.id">
-          {{announcement.title}}
+      <mdc-select placeholder="Type of Commitment" formControlName="commitmentType" outlined (change)="handleChange($event)">
+        <option *ngFor="let commitmentType of commitmentTypes" [value]="commitmentType.id">
+          {{commitmentType.title}}
         </option>
       </mdc-select>
 
@@ -52,11 +55,6 @@
     <div class="form-layout__row">
       <mdc-text-field formControlName="cost" label="Cost" type="number" min="0.00" max="1000000000000.00" step="0.01"
         required outlined (change)="handleChange($event)"></mdc-text-field>
-    </div>
-
-    <h3 class="form-content__headline">Contacts</h3>
-    <div class="form-layout__row">
-      <mdc-text-field formControlName="contacts" label="Contacts" required outlined (change)="handleChange($event)"></mdc-text-field>
     </div>
 
     <div class="form-layout__row-with-button">

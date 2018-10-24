@@ -164,7 +164,7 @@ export class SharepointDataService implements AppDataService {
       )
   }
 
-  upsertCommitment(commitment: Commitment): Observable<any> {
+  storeCommitment(commitment: Commitment): Observable<any> {
 
     const spCommitment = {
       AnnouncementType: commitment.announcementType.id,
@@ -187,7 +187,7 @@ export class SharepointDataService implements AppDataService {
       })
   }
 
-  upsertComment(comment: { commitment: any; parent: any; comment: any; }): Observable<any> {
+  storeComment(comment: { commitment: any; parent: any; comment: any; }): Observable<any> {
 
     const spComment = {
       Title: comment.commitment,

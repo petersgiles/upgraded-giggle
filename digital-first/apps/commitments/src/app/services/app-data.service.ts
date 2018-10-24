@@ -6,11 +6,11 @@ import { Commitment } from '../reducers/commitment'
   providedIn: 'root'
 })
 export abstract class AppDataService {
-  abstract upsertCommitment(commitment: Commitment): Observable<any>
+  abstract storeCommitment(commitment: Commitment): Observable<any>
 
   abstract getCommitment(criteria: { id: number; }): Observable<any>
   abstract filterCommitments(filter?: { party?: string; type?: string; portfolio?: string; }): Observable<any>
-  abstract upsertComment(comment: { commitment: any; parent: any; comment: any; }): Observable<any>
+  abstract storeComment(comment: { commitment: any; parent: any; comment: any; }): Observable<any>
   abstract deleteComment(comment: { id: any }): any
 
   abstract filterAnnouncementTypes(filter?: any): Observable<any>

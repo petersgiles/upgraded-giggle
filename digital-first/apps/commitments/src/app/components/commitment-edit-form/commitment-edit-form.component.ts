@@ -6,7 +6,7 @@ import { Portfolio } from '../../reducers/portfolio/portfolio.model'
 import { AnnouncementType } from '../../reducers/announcement-type/announcement-type.model'
 import { Commitment } from '../../reducers/commitment/commitment.model'
 import { Location } from '../../reducers/location/location.model'
-import { Comment } from '../../reducers/comment/comment.model'
+import { CommitmentType } from '../../reducers/commitment-type/commitment-type.model'
 
 @Component({
   selector: 'digital-first-commitment-edit-form',
@@ -18,6 +18,7 @@ export class CommitmentEditFormComponent  implements OnInit {
   @Input() parties: Party[]
   @Input() portfolios: Portfolio[]
   @Input() announcementTypes: AnnouncementType[]
+  @Input() commitmentTypes: CommitmentType[]
   @Input() locations: Location[]
 
   @Output() onSubmitted: EventEmitter<any> = new EventEmitter()
@@ -32,10 +33,10 @@ export class CommitmentEditFormComponent  implements OnInit {
     announcedby: [''],
     date: [''],
     party: [''],
-    type: [''],
+    announcementType: [''],
+    commitmentType: [''],
     portfolio: [],
     cost: [''],
-    contacts: ['']
   })
 
   @Input()
@@ -50,10 +51,10 @@ export class CommitmentEditFormComponent  implements OnInit {
         announcedby: val.announcedby,
         date: moment(val.date).format('YYYY-MM-DD'),
         party: val.party && val.party.id,
-        type: val.announcementType && val.announcementType.id,
+        announcementType: val.announcementType && val.announcementType.id,
+        commitmentType: val.commitmentType && val.commitmentType.id,
         portfolio: val.portfolio && val.portfolio.id,
         cost: val.cost,
-        contacts: val.contacts
       }
 
       this.form.patchValue(patch)
@@ -85,21 +86,9 @@ export class CommitmentEditFormComponent  implements OnInit {
   }
 
   mapCommitment(commitment): any {
-    const map: any = {
-      title: commitment.title,
-      party: this.parties.find(p => p.id === Number(commitment.party)) as Party,
-      description: commitment.description,
-      cost: commitment.cost,
-      location: this.locations.find(l => l.id === Number(commitment.location)) as Location,
-      type: this.announcementTypes.find(p => p.id === Number(commitment.type)) as AnnouncementType,
+    const map: Commitment = {
+      ...commitment,
       date: moment(commitment.date).format(),
-      announcedby: commitment.announcedby,
-      portfolio: this.portfolios.find(p => p.id === Number(commitment.portfolio)) as Portfolio,
-      contacts: commitment.contacts
-    }
-
-    if (commitment.id) {
-      map.id = commitment.id
     }
 
     // tslint:disable-next-line:no-console

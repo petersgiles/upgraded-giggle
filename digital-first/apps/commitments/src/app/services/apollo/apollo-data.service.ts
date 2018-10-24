@@ -42,7 +42,7 @@ export class ApolloDataService implements AppDataService {
 
   constructor(private apollo: Apollo) { }
 
-  upsertCommitment(commitment: Commitment): Observable<DataResult<CommitmentResult>> {
+  storeCommitment(commitment: Commitment): Observable<DataResult<CommitmentResult>> {
     const variables = {
       id: commitment.id,
       title: commitment.title,
@@ -57,17 +57,13 @@ export class ApolloDataService implements AppDataService {
       contacts: commitment.contacts
     }
 
-    return this.apollo
-      .mutate({
-        mutation: UPSERT_COMMITMENT,
-        variables: { ...variables }
-      })
-      .pipe(
-        switchMap((result: any) => of(result as DataResult<CommitmentResult>))
-      )
+    return this.callMutate<CommitmentResult>(
+      { mutation: UPSERT_COMMITMENT, variables: { ...variables} },
+      (result: any) => ({ commitment: result.data.upsertCommitment.commitment }))
+
   }
 
-  upsertComment(comment: {
+  storeComment(comment: {
     commitment: any;
     parent: any;
     comment: any;

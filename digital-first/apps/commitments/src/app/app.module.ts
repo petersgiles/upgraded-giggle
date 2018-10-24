@@ -60,6 +60,7 @@ import { ContactEffects } from './reducers/contact/contact.effects'
 import { LocationEffects } from './reducers/location/location.effects'
 import { PartyEffects } from './reducers/party/party.effects'
 import { PortfolioEffects } from './reducers/portfolio/portfolio.effects'
+import { ContactCardComponent } from './components/contact-card/contact-card.component'
 
 const COMPONENTS = [
   AppComponent,
@@ -68,7 +69,8 @@ const COMPONENTS = [
   CommitmentEditFormComponent,
   CommitmentEditComponent,
   CommitmentOverviewComponent,
-  CommitmentListComponent
+  CommitmentListComponent,
+  ContactCardComponent
 ]
 
 const ENTRYCOMPONENTS = [
@@ -182,15 +184,15 @@ export let appDataServiceProvider = {
       useFactory(httpLink: HttpLink) {
 
         const defaultOptions = {
-              watchQuery: {
-                fetchPolicy: 'network-only',
-                errorPolicy: 'ignore',
-              },
-              query: {
-                fetchPolicy: 'network-only',
-                errorPolicy: 'all',
-              },
-            }
+          watchQuery: {
+            fetchPolicy: 'network-only',
+            errorPolicy: 'ignore',
+          },
+          query: {
+            fetchPolicy: 'network-only',
+            errorPolicy: 'all',
+          },
+        }
 
         return {
           cache: new InMemoryCache(),

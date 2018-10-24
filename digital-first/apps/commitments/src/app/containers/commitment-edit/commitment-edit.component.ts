@@ -11,6 +11,9 @@ import { Commitment } from '../../reducers/commitment/commitment.model'
 import { Party } from '../../reducers/party/party.model'
 import { Portfolio } from '../../reducers/portfolio/portfolio.model'
 import { Location } from '../../reducers/location/location.model'
+import { AnnouncementType } from '../../reducers/announcement-type/announcement-type.model'
+import { CommitmentType } from '../../reducers/commitment-type/commitment-type.model'
+
 @Component({
   selector: 'digital-first-commitment-edit',
   templateUrl: './commitment-edit.component.html',
@@ -22,7 +25,8 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   currentComments$: Observable<Comment[]>
   selectId$: Subscription
   error$: Observable<any>
-  announcementTypes$: Observable<any>
+  announcementTypes$: Observable<AnnouncementType[]>
+  commitmentTypes$: Observable<CommitmentType[]>
   parties$: Observable<Party[]>
   portfolios$: Observable<Portfolio[]>
   locations$: Observable<Location[]>
@@ -40,6 +44,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.commitment$ = this.service.Commitment
 
     this.announcementTypes$ = this.service.AnnouncementTypes
+    this.commitmentTypes$ = this.service.CommitmentTypes
     this.parties$ = this.service.Parties
     this.portfolios$ = this.service.Portfolios
     this.locations$ = this.service.Locations

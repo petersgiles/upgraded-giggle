@@ -40,11 +40,11 @@ export class CommitmentEffects {
     .ofType(CommitmentActionTypes.StoreCommitment)
     .pipe(
       map((action: StoreCommitment) => action.payload),
-      switchMap((comment: any) => this.service.upsertCommitment(comment)
+      switchMap((commitment: any) => this.service.storeCommitment(commitment)
         .pipe(
           // tslint:disable-next-line:no-console
-          tap(result => console.log('Store Commitment =>', result)),
-          map(_ => new GetAllCommitments()),
+          tap((result: DataResult<CommitmentResult>) => console.log('Store Commitment =>', result)),
+          map((result: DataResult<CommitmentResult>) => new SetCurrentCommitment({id: result.data.commitment.id})),
           catchError(error => of(new CommitmentsActionFailure(error)))
         )
       ))

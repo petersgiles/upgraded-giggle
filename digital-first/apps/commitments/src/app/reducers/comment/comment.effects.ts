@@ -30,7 +30,7 @@ export class CommentEffects {
     .ofType(CommentActionTypes.StoreComment)
     .pipe(
       map((action: StoreComment) => action.payload),
-      switchMap((comment: any) => this.service.upsertComment(comment)
+      switchMap((comment: any) => this.service.storeComment(comment)
         .pipe(
           // tslint:disable-next-line:no-console
           tap(result => console.log('Store Comment =>', result)),
@@ -48,7 +48,7 @@ export class CommentEffects {
         .pipe(
           // tslint:disable-next-line:no-console
           tap(result => console.log('Remove Comment =>', result)),
-          map((result: {commitment: number}) => new GetCommentsByCommitment({ commitment: result.commitment })),
+          map((result: any) => new GetCommentsByCommitment({ commitment: result.commitment })),
           catchError(error => of(new CommentActionFailure(error)))
         )
       ))

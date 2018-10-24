@@ -14,7 +14,7 @@
       <a mdcIcon aria-label="Date Format" title="Date Format" *ngIf="timeFormat=='timeAgo'" (click)="changeDateFormat('dateFormat')">schedule</a>
       <a mdcIcon aria-label="Date Format" title="Date Format" *ngIf="timeFormat=='calendar'" (click)="changeDateFormat('timeAgo')">calendar_today</a>
     </div>
-    
+
     <digital-first-discussion *ngIf="commitment$ | async" [comments]="(commitment$ | async)?.discussion" [hostId]="(commitment$ | async).id"
       [activeComment]="activeComment" [timeFormat]="timeFormat" (onDeleteComment)="handleDeleteComment($event)"
       (onReplyToComment)="handleReplyToComment($event)" (onAddComment)="handleAddComment($event)"></digital-first-discussion>
@@ -25,9 +25,21 @@
     </div>
 
     <digital-first-commitment-edit-form [commitment]="commitment$ | async" [parties]="parties$ | async"
-      [announcementTypes]="announcementTypes$ | async" [portfolios]="portfolios$ | async" [locations]="locations$ | async"
-      (onSubmitted)="handleUpdateCommitment($event)" (onCancelled)="handleCancelled($event)" (onChanged)="handleChanged($event)">
+      [announcementTypes]="announcementTypes$ | async" [commitmentTypes]="commitmentTypes$ | async" [portfolios]="portfolios$ | async"
+      [locations]="locations$ | async" (onSubmitted)="handleUpdateCommitment($event)" (onCancelled)="handleCancelled($event)"
+      (onChanged)="handleChanged($event)">
     </digital-first-commitment-edit-form>
+
+    <div class="page_title">
+        <div *ngIf="commitment$ | async" #discussion class="reader-card-article__title page_title_text" mdcHeadline5>Edit</div>
+      </div>
+
+    <div class="form-layout__row">
+      <digital-first-contact-card></digital-first-contact-card>
+      <digital-first-contact-card></digital-first-contact-card>
+      <digital-first-contact-card></digital-first-contact-card>
+      <digital-first-contact-card></digital-first-contact-card>
+    </div>
 
   </section>
 
