@@ -24,7 +24,7 @@ import { GetAllPartys } from '../reducers/party/party.actions'
 import { GetAllPortfolios } from '../reducers/portfolio/portfolio.actions'
 import { GetAllCommitmentTypes } from '../reducers/commitment-type/commitment-type.actions'
 import { CommitmentType } from '../reducers/commitment-type/commitment-type.model'
-import { GetCommentsByCommitment, CommentActionFailure, StoreComment, RemoveComment, DeleteComment } from '../reducers/comment/comment.actions'
+import { GetCommentsByCommitment, CommentActionFailure, StoreComment, RemoveComment, DeleteComment, ClearComments } from '../reducers/comment/comment.actions'
 import { tap } from 'rxjs/operators'
 
 @Injectable({
@@ -32,7 +32,7 @@ import { tap } from 'rxjs/operators'
 })
 export class CommitmentDataService {
 
-  constructor(private store: Store<fromRoot.State>, private appDataService: AppDataService) { }
+  constructor(private store: Store<fromRoot.State>) { }
 
   /// AnnouncementTypes
 
@@ -89,6 +89,7 @@ export class CommitmentDataService {
 
   public setCurrentCommitment(id: number) {
     this.store.dispatch(new SetCurrentCommitment({ id: id }))
+    this.store.dispatch(new ClearComments())
     this.store.dispatch(new GetCommentsByCommitment({ commitment: id }))
   }
 
@@ -223,7 +224,7 @@ export class CommitmentDataService {
   }
 
   upsertCommitment(commitment: Commitment) {
-    this.appDataService.upsertCommitment(commitment)
+   // this.appDataService.upsertCommitment(commitment)
   }
 
   createComment(comment: { commitment: any; parent: any; comment: any; }) {
