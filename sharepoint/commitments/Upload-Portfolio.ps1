@@ -1,3 +1,8 @@
+param (
+   [string]$webUrl ="http://vm-dev-lbs13/sites/commitments",
+   [string]$dataFile = ".\Portfolios.csv"
+)
+
 if ( (Get-PSSnapin -Name Microsoft.SharePoint.PowerShell -ErrorAction SilentlyContinue) -eq $null ) 
 { 
    Add-PsSnapin Microsoft.SharePoint.PowerShell 
@@ -5,18 +10,17 @@ if ( (Get-PSSnapin -Name Microsoft.SharePoint.PowerShell -ErrorAction SilentlyCo
 $host.Runspace.ThreadOptions = "ReuseThread"
 
 #Open SharePoint List 
-$SPServer="http://vm-dev-lbs13/sites/commitments"
-$spWeb = Get-SPWeb $SPServer 
+$spWeb = Get-SPWeb  $webUrl
 $spData = $spWeb.Lists["Portfolio"]
 
-$InvFile=".\Portfolio.csv" 
+
 # Get Data from Inventory CSV File 
-$FileExists = (Test-Path $InvFile -PathType Leaf) 
+$FileExists = (Test-Path $dataFile -PathType Leaf) 
 if ($FileExists) { 
-   "Loading $InvFile for processing..." 
-   $tblData = Import-CSV $InvFile 
+   "Loading $dataFile for processing..." 
+   $tblData = Import-CSV $dataFile 
 } else { 
-   "$InvFile not found - stopping import!" 
+   "$dataFile not found - stopping import!" 
    exit 
 }
 
