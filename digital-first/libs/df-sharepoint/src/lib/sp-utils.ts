@@ -34,8 +34,6 @@ export function idFromLookup(field) {
   if (field) {
     return field.get_lookupId()
   } else {
-    return {
-      id: null
-    }
+    return  null
   }
 }

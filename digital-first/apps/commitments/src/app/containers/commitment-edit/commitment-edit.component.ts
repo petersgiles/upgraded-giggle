@@ -104,7 +104,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
       )
       .subscribe(result => {
         if (result && commentId) {
-          this.service.deleteComment({ id: commentId, commitment: comment.hostId })
+          this.service.deleteComment({ id: commentId })
         }
       })
   }
@@ -130,8 +130,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.service.createComment({
       commitment: newComment.hostId,
       parent: parentId,
-      comment: newComment.text,
-      author: 'Domenica20'
+      comment: newComment.text
     })
     this.activeComment = null
   }

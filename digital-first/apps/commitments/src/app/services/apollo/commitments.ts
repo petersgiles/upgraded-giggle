@@ -133,7 +133,7 @@ export const GET_ALL_COMMITMENTS = gql`
       id
       title
       location {
-        title
+        id
       }
       date
       announcedby

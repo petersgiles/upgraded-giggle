@@ -31,6 +31,7 @@ import {
   LocationsResult,
   CommitmentTypesResult
 } from '../../models'
+import { Commitment } from '../../reducers/commitment'
 
 @Injectable({
   providedIn: 'root'
@@ -40,21 +41,29 @@ export class SharepointDataService implements AppDataService {
   getCommitment(criteria: { id: number; }): Observable<DataResult<CommitmentResult>> {
 
     return this.sharepoint.getItems({
-        listName: 'Commitment',
-        viewXml: byIdQuery(criteria)
+      listName: 'Commitment',
+      viewXml: byIdQuery(criteria)
     }).pipe(
       map(result => result[0]),
       concatMap((commitment: any) =>
         of({
           data: { commitment: mapCommitment(commitment) },
-          loading: false,
-          error: null
+          loading: false
         }))
     )
   }
 
-  getCommentsByCommitment(commitment: number): Observable<any> {
-    return of([])
+  getCommentsByCommitment(commitment: number): Observable<DataResult<CommentsResult>> {
+    return this.sharepoint.getItems({
+      listName: 'CommitmentComment',
+      viewXml: byCommitmentIdQuery({ id: commitment })
+    }).pipe(
+      concatMap((comments: any) =>
+        of({
+          data: { comments: mapComments(comments) },
+          loading: false
+        }))
+    )
   }
 
   filterCommitments(filter?: { party?: string; type?: string; portfolio?: string; }): Observable<DataResult<CommitmentsResult>> {
@@ -71,111 +80,133 @@ export class SharepointDataService implements AppDataService {
 
   filterAnnouncementTypes(filter?: any): Observable<DataResult<AnnouncementTypesResult>> {
     return this.sharepoint.getItems({ listName: 'AnnouncementType' })
-    .pipe(
-      concatMap((result: any) =>
-        of({
-          data: { announcementTypes: mapAnnouncementTypes(result) },
-          loading: false,
-          error: null
-        }))
-    )
+      .pipe(
+        concatMap((result: any) =>
+          of({
+            data: { announcementTypes: mapAnnouncementTypes(result) },
+            loading: false,
+            error: null
+          }))
+      )
 
   }
 
   filterPortfolios(filter?: any): Observable<DataResult<PortfoliosResult>> {
     return this.sharepoint.getItems({ listName: 'Portfolio' })
-    .pipe(
-      concatMap((result: any) =>
-        of({
-          data: { portfolios: mapPortfolios(result) },
-          loading: false,
-          error: null
-        }))
-    )
+      .pipe(
+        concatMap((result: any) =>
+          of({
+            data: { portfolios: mapPortfolios(result) },
+            loading: false,
+            error: null
+          }))
+      )
   }
 
   filterPartys(filter?: any): Observable<DataResult<PartysResult>> {
     return this.sharepoint.getItems({ listName: 'PoliticalParty' })
-    .pipe(
-      concatMap((result: any) =>
-        of({
-          data: { parties: mapParties(result) },
-          loading: false,
-          error: null
-        }))
-    )
+      .pipe(
+        concatMap((result: any) =>
+          of({
+            data: { parties: mapParties(result) },
+            loading: false,
+            error: null
+          }))
+      )
   }
 
   filterParties(filter?: any): Observable<DataResult<PartysResult>> {
     return this.sharepoint.getItems({ listName: 'PoliticalParty' })
-    .pipe(
-      concatMap((result: any) =>
-        of({
-          data: { parties: mapParties(result) },
-          loading: false,
-          error: null
-        }))
-    )
+      .pipe(
+        concatMap((result: any) =>
+          of({
+            data: { parties: mapParties(result) },
+            loading: false,
+            error: null
+          }))
+      )
   }
 
   filterContacts(filter?: any): Observable<DataResult<ContactsResult>> {
     return this.sharepoint.getItems({ listName: 'Contact' })
-    .pipe(
-      concatMap((result: any) =>
-        of({
-          data: { contacts: mapContacts(result) },
-          loading: false,
-          error: null
-        }))
-    )
+      .pipe(
+        concatMap((result: any) =>
+          of({
+            data: { contacts: mapContacts(result) },
+            loading: false,
+            error: null
+          }))
+      )
   }
 
   filterLocations(filter?: any): Observable<DataResult<LocationsResult>> {
     return this.sharepoint.getItems({ listName: 'Electorate' })
-    .pipe(
-      concatMap((result: any) =>
-        of({
-          data: { locations: mapLocations(result) },
-          loading: false,
-          error: null
-        }))
-    )
+      .pipe(
+        concatMap((result: any) =>
+          of({
+            data: { locations: mapLocations(result) },
+            loading: false,
+            error: null
+          }))
+      )
   }
 
   filterCommitmentTypes(filter?: any): Observable<DataResult<CommitmentTypesResult>> {
 
     return this.sharepoint.getItems({ listName: 'CommitmentTypes' })
-    .pipe(
-      concatMap((result: any) =>
-        of({
-          data: { commitmentTypes: mapCommitmentTypes(result) },
-          loading: false,
-          error: null
-        }))
-    )
+      .pipe(
+        concatMap((result: any) =>
+          of({
+            data: { commitmentTypes: mapCommitmentTypes(result) },
+            loading: false,
+            error: null
+          }))
+      )
   }
 
-  upsertCommitment(commitment: {
-    id?: number;
-    title: string;
-    description: string;
-    party?: string;
-    cost?: string;
-    location?: string;
-    type?: string;
-    date?: string;
-    announcedby?: string;
-    portfolio?: string;
-  }): Observable<any> {
+  upsertCommitment(commitment: Commitment): Observable<any> {
 
-    throw new Error('Method not implemented.')
+    const spCommitment = {
+      AnnouncementType: commitment.announcementType.id,
+      CommitmentType: commitment.commitmentType.id,
+      Contacts: commitment.contacts,
+      Cost: commitment.cost,
+      Date: commitment.date,
+      Description: commitment.description,
+      Location: commitment.location.id,
+      PoliticalParty: commitment.party.id,
+      Portfolio: commitment.portfolio.id,
+      Title: commitment.title
+    }
+
+    return this.sharepoint
+      .storeItem({
+        listName: 'Commitment',
+        data: spCommitment,
+        id: commitment.id
+      })
   }
 
-  upsertComment(comment: { commitment: any; parent: any; comment: any; author: any; }): Observable<any> {
-    throw new Error('Method not implemented.')
+  upsertComment(comment: { commitment: any; parent: any; comment: any; }): Observable<any> {
+
+    const spComment = {
+      Title: comment.commitment,
+      Commitment: comment.commitment,
+      Parent: comment.parent,
+      Text: comment.comment
+    }
+
+    return this.sharepoint.storeItem({
+      listName: 'CommitmentComment',
+      data: spComment,
+    })
   }
-  deleteComment(comment: { id: any; commitment: any; }) {
-    throw new Error('Method not implemented.')
+
+  deleteComment(comment: { id: any }) {
+    return this.sharepoint.removeItem({
+      listName: 'CommitmentComment',
+      id: comment.id,
+    })
   }
 
   constructor(private sharepoint: SharepointJsomService) { }

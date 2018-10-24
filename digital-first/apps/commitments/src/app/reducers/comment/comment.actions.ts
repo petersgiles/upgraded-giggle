@@ -15,7 +15,9 @@ export enum CommentActionTypes {
   DeleteComments = '[Comment] Delete Comments',
   ClearComments = '[Comment] Clear Comments',
   GetCommentsByCommitment = '[Comment] Get Comments By Commitment',
-  CommentActionFailure = '[Comment] Comment Action Failure'
+  CommentActionFailure = '[Comment] Comment Action Failure',
+  StoreComment = '[Comment] Store Comment',
+  RemoveComment = '[Comment] Remove Comment',
 }
 
 export class LoadComments implements Action {
@@ -81,6 +83,18 @@ export class GetCommentsByCommitment implements Action {
   constructor(public payload: { commitment: number }) {}
 }
 
+export class StoreComment implements Action {
+  readonly type = CommentActionTypes.StoreComment
+
+  constructor(public payload: { commitment: any; parent: any; comment: any; }) {}
+}
+
+export class RemoveComment implements Action {
+  readonly type = CommentActionTypes.RemoveComment
+
+  constructor(public payload: {id: number}) {}
+}
+
 export class CommentActionFailure implements Action {
   readonly type = CommentActionTypes.CommentActionFailure
 
@@ -101,3 +115,5 @@ export type CommentActions =
  | ClearComments
  | GetCommentsByCommitment
  | CommentActionFailure
+ | StoreComment
+ | RemoveComment

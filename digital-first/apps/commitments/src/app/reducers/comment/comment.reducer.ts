@@ -21,44 +21,45 @@ export function reducer(
   action: CommentActions
 ): State {
   switch (action.type) {
-    case CommentActionTypes.AddComment: {
-      return adapter.addOne(action.payload.comment, state)
-    }
+    // case CommentActionTypes.AddComment: {
+    //   return adapter.addOne(action.payload.comment, state)
+    // }
 
-    case CommentActionTypes.UpsertComment: {
-      return adapter.upsertOne(action.payload.comment, state)
-    }
+    // case CommentActionTypes.UpsertComment: {
+    //   return adapter.upsertOne(action.payload.comment, state)
+    // }
 
-    case CommentActionTypes.AddComments: {
-      return adapter.addMany(action.payload.comments, state)
-    }
+    // case CommentActionTypes.AddComments: {
+    //   return adapter.addMany(action.payload.comments, state)
+    // }
 
-    case CommentActionTypes.UpsertComments: {
-      return adapter.upsertMany(action.payload.comments, state)
-    }
+    // case CommentActionTypes.UpsertComments: {
+    //   return adapter.upsertMany(action.payload.comments, state)
+    // }
 
-    case CommentActionTypes.UpdateComment: {
-      return adapter.updateOne(action.payload.comment, state)
-    }
+    // case CommentActionTypes.UpdateComment: {
+    //   return adapter.updateOne(action.payload.comment, state)
+    // }
 
-    case CommentActionTypes.UpdateComments: {
-      return adapter.updateMany(action.payload.comments, state)
-    }
+    // case CommentActionTypes.UpdateComments: {
+    //   return adapter.updateMany(action.payload.comments, state)
+    // }
 
     case CommentActionTypes.DeleteComment: {
       return adapter.removeOne(action.payload.id, state)
     }
 
-    case CommentActionTypes.DeleteComments: {
-      return adapter.removeMany(action.payload.ids, state)
-    }
+    // case CommentActionTypes.DeleteComments: {
+    //   return adapter.removeMany(action.payload.ids, state)
+    // }
 
     case CommentActionTypes.LoadComments: {
-      return adapter.upsertMany(action.payload.data.comments, {
-        ...state,
-        loading: action.payload.loading,
-        error: action.payload.error
-      })
+      return adapter.removeAll(state)
+        && adapter.addMany(action.payload.data.comments, {
+          ...state,
+          loading: action.payload.loading,
+          error: action.payload.error
+        })
     }
 
     case CommentActionTypes.ClearComments: {
@@ -66,7 +67,7 @@ export function reducer(
     }
 
     case CommentActionTypes.GetCommentsByCommitment: {
-      return {...state, loading: true, error: null}
+      return { ...state, loading: true, error: null }
     }
 
     default: {

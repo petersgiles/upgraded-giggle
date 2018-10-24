@@ -11,6 +11,7 @@ import {
     createSelector
 } from '@ngrx/store'
 import * as fromRouter from '@ngrx/router-store'
+import * as moment from 'moment'
 
 /**
  * storeFreeze prevents state from being mutated. When mutation occurs, an
@@ -31,6 +32,7 @@ import * as fromComment from './comment/comment.reducer'
 import * as fromContact from './contact/contact.reducer'
 import * as fromLocation from './location/location.reducer'
 import * as fromCommitmentType from './commitment-type/commitment-type.reducer'
+import { toTree } from '@digital-first/df-utils'
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
     return localStorageSync({ keys: [{ 'auth': ['status'] }, { 'topic-nav': ['page'] }], rehydrate: true })(reducer)
@@ -219,8 +221,13 @@ export const getCurrentCommitment = createSelector(
     getLocationEntities,
     getAnnouncementTypeEntities,
     getCommitmentTypeEntities,
-    (commitments, current, partys, portfolios, locations, announcementTypes, commitmentTypes) => {
+    getAllComments,
+    (commitments, current, partys, portfolios, locations, announcementTypes, commitmentTypes, comments) => {
         const commitment = commitments[current]
+        const discussionItems = comments.map(c => ({ ...c })) // creating mutatable list
+
+        // tslint:disable-next-line:no-console
+        console.log('getCurrentCommitment =>', commitment)
 
         if (commitment) {
             return {
@@ -230,6 +237,15 @@ export const getCurrentCommitment = createSelector(
                 location: commitment.location ? locations[commitment.location.id] : null,
                 announcementType: commitment.announcementType ? announcementTypes[commitment.announcementType.id] : null,
                 commitmentType: commitment.commitmentType ? commitmentTypes[commitment.commitmentType.id] : null,
+                date: moment(commitment.date),
+
+                discussion: toTree(discussionItems, {
+                    id: 'id',
+                    parentId: 'parent',
+                    children: 'children',
+                    level: 'level',
+                    firstParentId: null
+                })
             }
         }
 
@@ -246,7 +262,8 @@ export const getAllOverviewCommitments = createSelector(
     getCommitmentTypeEntities,
     (commitments, partys, portfolios, locations, announcementTypes, commitmentTypes) => {
 
-        const result = commitments.map(commitment => ({
+        const result = commitments.map(commitment =>
+        ({
             ...commitment,
             description: null,
             portfolio: commitment.portfolio ? portfolios[commitment.portfolio.id] : null,
@@ -254,10 +271,8 @@ export const getAllOverviewCommitments = createSelector(
             location: commitment.location ? locations[commitment.location.id] : null,
             announcementType: commitment.announcementType ? announcementTypes[commitment.announcementType.id] : null,
             commitmentType: commitment.commitmentType ? commitmentTypes[commitment.commitmentType.id] : null,
-        })
-        )
-        // tslint:disable-next-line:no-console
-        console.log('getAllOverviewCommitments =>', result)
+        }))
+
         return result
 
     }

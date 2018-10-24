@@ -1,4 +1,4 @@
-import { fromLookup } from '@digital-first/df-sharepoint'
+import { fromLookup, idFromLookup } from '@digital-first/df-sharepoint'
 
 import { AnnouncementType } from '../../reducers/announcement-type/announcement-type.model'
 import { Party } from '../../reducers/party/party.model'
@@ -34,7 +34,7 @@ export const byCommitmentIdQuery = (criteria: { id }) => `
 
 export const mapComment = (comment): any => ({
   id: comment.ID,
-  parent: comment.Parent,
+  parent: idFromLookup(comment.Parent),
   commitment: fromLookup(comment.Commitment),
   text: comment.Text,
   author: comment.Created_x0020_By,

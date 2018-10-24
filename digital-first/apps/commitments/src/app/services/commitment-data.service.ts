@@ -2,9 +2,9 @@ import * as moment from 'moment'
 import {
   BehaviorSubject,
   Observable,
+  of,
 } from 'rxjs'
 import { Injectable } from '@angular/core'
-import { toTree } from '@digital-first/df-utils'
 
 import { AppDataService } from './app-data.service'
 import { AnnouncementType } from '../reducers/announcement-type/announcement-type.model'
@@ -16,7 +16,7 @@ import { Contact } from '../reducers/contact/contact.model'
 import { Location } from '../reducers/location/location.model'
 import { Store } from '@ngrx/store'
 import * as fromRoot from '../reducers'
-import { GetLocations, GetAllLocations } from '../reducers/location/location.actions'
+import { GetAllLocations } from '../reducers/location/location.actions'
 import { GetCommitments, GetAllCommitments, SetCurrentCommitment } from '../reducers/commitment/commitment.actions'
 import { GetAllAnnouncementTypes } from '../reducers/announcement-type/announcement-type.actions'
 import { GetAllContacts } from '../reducers/contact/contact.actions'
@@ -24,7 +24,7 @@ import { GetAllPartys } from '../reducers/party/party.actions'
 import { GetAllPortfolios } from '../reducers/portfolio/portfolio.actions'
 import { GetAllCommitmentTypes } from '../reducers/commitment-type/commitment-type.actions'
 import { CommitmentType } from '../reducers/commitment-type/commitment-type.model'
-import { GetCommentsByCommitment } from '../reducers/comment/comment.actions'
+import { GetCommentsByCommitment, CommentActionFailure, StoreComment, RemoveComment, DeleteComment } from '../reducers/comment/comment.actions'
 import { tap } from 'rxjs/operators'
 
 @Injectable({
@@ -42,10 +42,10 @@ export class CommitmentDataService {
 
   get AnnouncementTypes(): Observable<AnnouncementType[]> {
     return this.store.select(fromRoot.getAllAnnouncementTypes)
-    .pipe(
-      // tslint:disable-next-line:no-console
-      tap((result: any) => console.log('AnnouncementTypes => ', result)),
-    )
+      .pipe(
+        // tslint:disable-next-line:no-console
+        tap((result: any) => console.log('AnnouncementTypes => ', result)),
+      )
   }
 
   get AnnouncementTypesLoading(): Observable<boolean> {
@@ -222,111 +222,16 @@ export class CommitmentDataService {
     return this.store.select(fromRoot.getPortfolioError)
   }
 
-  upsertCommitment(commitment: {
-    id?: number,
-    title: string,
-    description: string,
-    party?: string
-    cost?: string
-    location?: string,
-    type?: string,
-    date?: string,
-    announcedby?: string,
-    portfolio?: string
-  }) {
-    this.appDataService.upsertCommitment(commitment).subscribe((result: any) => {
-      if (result.data) {
-
-        const r = result.data.commitment
-        if (r) {
-          const found = {
-            ...r,
-            date: moment(r.date),
-
-            discussion: toTree(r.comments, {
-              id: 'id',
-              parentId: 'parent',
-              children: 'children',
-              level: 'level',
-              firstParentId: null
-            })
-          }
-        }
-      }
-
-    })
+  upsertCommitment(commitment: Commitment) {
+    this.appDataService.upsertCommitment(commitment)
   }
 
-  // filterCommitments(filter?: {
-  //   party?: string,
-  //   type?: string,
-  //   portfolio?: string,
-  //   location?: string,
-  //   daterange: {
-  //     start: string,
-  //     end?: string
-  //   }
-  // }) {
-
-  //   this.appDataService.filterCommitments(filter)
-  //     .subscribe((result: any) => {
-  //       if (result.data) {
-
-  //         this.announcementTypesSubject.next([{ id: null, title: '' }, ...result.data.announcementTypes].map(r => ({ ...r })))
-  //         this.partysSubject.next([{ id: null, title: '' }, ...result.data.parties].map(r => ({ ...r })))
-  //         this.portfoliosSubject.next([{ id: null, title: '' }, ...result.data.portfolios].map(r => ({ ...r })))
-  //         this.locationsSubject.next([{ id: null, title: '' }, ...result.data.locations].map(location => ({ ...location })))
-
-  //         this.commitmentsSubject.next(result.data.commitments.map(r =>
-  //           ({
-  //             ...r,
-  //             date: moment(r.date)
-  //           })))
-  //       }
-  //     })
-  // }
-
-  createComment(comment: { commitment: any; parent: any; comment: any; author: any }) {
-    this.appDataService.upsertComment(comment)
-
+  createComment(comment: { commitment: any; parent: any; comment: any; }) {
+    this.store.dispatch(new StoreComment(comment))
   }
 
-  deleteComment(comment: { id: any; commitment: any; }): any {
-      this.appDataService.deleteComment(comment)
+  deleteComment(comment: { id: any }): any {
+    this.store.dispatch(new DeleteComment(comment))
+    this.store.dispatch(new RemoveComment(comment))
   }
-
-  // processCommitment = (result: any) => {
-
-  //   // tslint:disable-next-line:no-console
-  //   console.log(result)
-
-  //   if (result.data) {
-
-  //     const r = result.data.commitment
-
-  //     this.announcementTypesSubject.next([{ id: null, title: '' }, ...result.data.announcementTypes].map(type => ({ ...type })))
-  //     this.partysSubject.next([{ id: null, title: '' }, ...result.data.parties].map(party => ({ ...party })))
-  //     this.portfoliosSubject.next([{ id: null, title: '' }, ...result.data.portfolios].map(portfolio => ({ ...portfolio })))
-  //     this.locationsSubject.next([{ id: null, title: '' }, ...result.data.locations].map(location => ({ ...location })))
-
-  //     if (r) {
-  //       const found = {
-  //         ...r,
-  //         date: moment(r.date),
-  //         discussion: toTree(r.comments, {
-  //           id: 'id',
-  //           parentId: 'parent',
-  //           children: 'children',
-  //           level: 'level',
-  //           firstParentId: null
-  //         })
-  //       }
-  //       // tslint:disable-next-line:no-console
-  //       console.log('processCommitment', r, found)
-  //       this.commitmentSubject.next(found)
-  //     }
-  //   }
-
-  // }
-
 }

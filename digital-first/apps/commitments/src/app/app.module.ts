@@ -180,11 +180,24 @@ export let appDataServiceProvider = {
     {
       provide: APOLLO_OPTIONS,
       useFactory(httpLink: HttpLink) {
+
+        const defaultOptions = {
+              watchQuery: {
+                fetchPolicy: 'network-only',
+                errorPolicy: 'ignore',
+              },
+              query: {
+                fetchPolicy: 'network-only',
+                errorPolicy: 'all',
+              },
+            }
+
         return {
           cache: new InMemoryCache(),
           link: httpLink.create({
             uri: environment.datasource.dataServiceUrl
-          })
+          }),
+          defaultOptions: defaultOptions
         }
       },
       deps: [HttpLink]

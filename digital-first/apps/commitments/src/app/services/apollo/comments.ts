@@ -36,6 +36,8 @@ mutation AddComment(
   ) {
     id
     commitment
+    parent
+    text
   }
 }
 `
