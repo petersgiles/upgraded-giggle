@@ -64,9 +64,9 @@ export const resolvers = {
         _id: args.id
       };
 
+      const c = db['commitment-comments'].findOne(query)
+      const result = { ...c, id: c._id }
       db['commitment-comments'].remove(query, false);
-
-      var result = { id: args.id, commitment: args.commitment }
 
       console.log('deleteComment =>', result)
       return result

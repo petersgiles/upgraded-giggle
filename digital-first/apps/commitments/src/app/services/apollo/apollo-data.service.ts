@@ -1,7 +1,7 @@
 import { Apollo } from 'apollo-angular'
-import { Observable, of } from 'rxjs'
+import { Observable, of, throwError } from 'rxjs'
 import { Injectable } from '@angular/core'
-import { switchMap, tap } from 'rxjs/operators'
+import { switchMap, tap, catchError } from 'rxjs/operators'
 import * as moment from 'moment'
 
 import { AppDataService } from '../app-data.service'
@@ -80,11 +80,14 @@ export class ApolloDataService implements AppDataService {
       author: 'Domenica20',
       created: moment()
     }
-    return this.callMutate(ADD_COMMENT, variables)
+    return this.callMutate<any>({ mutation: ADD_COMMENT, variables: { ...variables } })
 
   }
 
-  deleteComment = (comment: { id: any; commitment: any }) => this.callMutate(DELETE_COMMENT, comment)
+  deleteComment = (comment: { id: any; commitment: any }) =>
+    this.callMutate<{ commitment: number }>(
+      { mutation: DELETE_COMMENT, variables: { ...comment } },
+      (result: any) => ({ commitment: result.data.deleteComment.commitment }))
 
   getCommitment = (criteria: { id: number; }) => this.callQuery<CommitmentResult>({ query: GET_COMMITMENT, variables: criteria })
 
@@ -98,16 +101,25 @@ export class ApolloDataService implements AppDataService {
   filterParties = (filter?: any) => this.callQuery<PartysResult>({ query: GET_PARTIES, variables: filter })
   getCommentsByCommitment = (commitment: number) => this.callQuery<CommentsResult>({ query: COMMENTS_BY_COMMITMENT, variables: { commitment: commitment } })
 
-  callMutate<T>(query, variables?): Observable<DataResult<T>> {
+  callMutate<T>(options: {
+    mutation: any,
+    fetchPolicy?: 'no-cache' | 'network-only',
+    variables?: any
+  }, mapper?: any): Observable<DataResult<T>> {
     return this.apollo
       .mutate({
-        mutation: query,
-        variables: { ...variables }
+        ...options
       })
       .pipe(
         // tslint:disable-next-line:no-console
         tap((result: any) => console.log(result)),
-        switchMap((result: any) => of(result as DataResult<T>))
+        switchMap((result: any) => {
+          if (mapper) {
+            return of(mapper(result) as DataResult<T>)
+          }
+          return of(result as DataResult<T>)
+        }),
+        catchError(err => this.replyError<T>(err))
       )
   }
 
@@ -124,7 +136,14 @@ export class ApolloDataService implements AppDataService {
       .pipe(
         // tslint:disable-next-line:no-console
         tap((result: any) => console.log(result)),
-        switchMap((result: any) => of(result as DataResult<T>))
+        switchMap((result: any) => of(result as DataResult<T>)),
+        catchError(err => this.replyError<T>(err))
       )
   }
+
+  replyError<T>(err): Observable<DataResult<T>> {
+    const error: DataResult<T> = { data: null, error: err, loading: false }
+    return of(error)
+  }
+
 }

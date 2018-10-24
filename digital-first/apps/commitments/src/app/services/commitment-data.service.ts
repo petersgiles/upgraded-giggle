@@ -17,14 +17,14 @@ import { Location } from '../reducers/location/location.model'
 import { Store } from '@ngrx/store'
 import * as fromRoot from '../reducers'
 import { GetAllLocations } from '../reducers/location/location.actions'
-import { GetCommitments, GetAllCommitments, SetCurrentCommitment } from '../reducers/commitment/commitment.actions'
+import { GetCommitments, GetAllCommitments, SetCurrentCommitment, StoreCommitment } from '../reducers/commitment/commitment.actions'
 import { GetAllAnnouncementTypes } from '../reducers/announcement-type/announcement-type.actions'
 import { GetAllContacts } from '../reducers/contact/contact.actions'
 import { GetAllPartys } from '../reducers/party/party.actions'
 import { GetAllPortfolios } from '../reducers/portfolio/portfolio.actions'
 import { GetAllCommitmentTypes } from '../reducers/commitment-type/commitment-type.actions'
 import { CommitmentType } from '../reducers/commitment-type/commitment-type.model'
-import { GetCommentsByCommitment, CommentActionFailure, StoreComment, RemoveComment, DeleteComment, ClearComments } from '../reducers/comment/comment.actions'
+import { GetCommentsByCommitment, StoreComment, RemoveComment, DeleteComment, ClearComments } from '../reducers/comment/comment.actions'
 import { tap } from 'rxjs/operators'
 
 @Injectable({
@@ -225,6 +225,7 @@ export class CommitmentDataService {
 
   upsertCommitment(commitment: Commitment) {
    // this.appDataService.upsertCommitment(commitment)
+   this.store.dispatch(new StoreCommitment(commitment))
   }
 
   createComment(comment: { commitment: any; parent: any; comment: any; }) {

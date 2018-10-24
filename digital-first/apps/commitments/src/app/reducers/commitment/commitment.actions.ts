@@ -19,6 +19,7 @@ export enum CommitmentActionTypes {
   GetCommitments = '[Commitment] Get Commitments',
   GetAllCommitments = '[Commitment] Get All Commitments',
   CommitmentsActionFailure = '[Commitment] Commitments Action Failure',
+  StoreCommitment = '[Commitment] Store Commitment',
 }
 
 export class LoadCommitments implements Action {
@@ -91,6 +92,11 @@ export class GetAllCommitments implements Action {
   constructor(public payload?: { filter?: any }) {}
 }
 
+export class StoreCommitment implements Action {
+  readonly type = CommitmentActionTypes.StoreCommitment
+
+  constructor(public payload: any) {}
+}
 export class CommitmentsActionFailure implements Action {
   readonly type = CommitmentActionTypes.CommitmentsActionFailure
 
@@ -113,3 +119,4 @@ export type CommitmentActions =
  | GetAllCommitments
  | GetCommitments
  | CommitmentsActionFailure
+ | StoreCommitment

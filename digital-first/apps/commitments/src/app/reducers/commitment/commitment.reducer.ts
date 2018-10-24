@@ -56,21 +56,21 @@ export function reducer(
       })
     }
 
-    case CommitmentActionTypes.UpdateCommitment: {
-      return adapter.updateOne(action.payload.commitment, state)
-    }
+    // case CommitmentActionTypes.UpdateCommitment: {
+    //   return adapter.updateOne(action.payload.commitment, state)
+    // }
 
-    case CommitmentActionTypes.UpdateCommitments: {
-      return adapter.updateMany(action.payload.commitments, state)
-    }
+    // case CommitmentActionTypes.UpdateCommitments: {
+    //   return adapter.updateMany(action.payload.commitments, state)
+    // }
 
-    case CommitmentActionTypes.DeleteCommitment: {
-      return adapter.removeOne(action.payload.id, state)
-    }
+    // case CommitmentActionTypes.DeleteCommitment: {
+    //   return adapter.removeOne(action.payload.id, state)
+    // }
 
-    case CommitmentActionTypes.DeleteCommitments: {
-      return adapter.removeMany(action.payload.ids, state)
-    }
+    // case CommitmentActionTypes.DeleteCommitments: {
+    //   return adapter.removeMany(action.payload.ids, state)
+    // }
 
     case CommitmentActionTypes.LoadCommitments: {
       return adapter.upsertMany(action.payload.data.commitments, {
@@ -88,13 +88,13 @@ export function reducer(
       return {...state, currentCommitent: action.payload.id, loading: false}
     }
 
-    case CommitmentActionTypes.GetCommitments: {
-      return {...state, loading: true, error: null}
-    }
+    // case CommitmentActionTypes.GetCommitments: {
+    //   return {...state, loading: true, error: null}
+    // }
 
-    case CommitmentActionTypes.GetAllCommitments: {
-      return {...state, loading: true, error: null}
-    }
+    // case CommitmentActionTypes.GetAllCommitments: {
+    //   return {...state, loading: true, error: null}
+    // }
 
     case CommitmentActionTypes.CommitmentsActionFailure: {
       return {...state, loading: false, error: action.payload.error}

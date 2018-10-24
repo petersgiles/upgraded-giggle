@@ -25,33 +25,33 @@ export class CommentEffects {
         )
       ))
 
-      @Effect()
-      storeComment$: Observable<Action> = this.actions$
-        .ofType(CommentActionTypes.StoreComment)
+  @Effect()
+  storeComment$: Observable<Action> = this.actions$
+    .ofType(CommentActionTypes.StoreComment)
+    .pipe(
+      map((action: StoreComment) => action.payload),
+      switchMap((comment: any) => this.service.upsertComment(comment)
         .pipe(
-          map((action: StoreComment) => action.payload),
-          switchMap((comment: any) => this.service.upsertComment(comment)
-            .pipe(
-              // tslint:disable-next-line:no-console
-              tap(result => console.log('Store Comment =>', result)),
-              map(_ => new GetCommentsByCommitment({ commitment: comment.commitment })),
-              catchError(error => of(new CommentActionFailure(error)))
-            )
-          ))
+          // tslint:disable-next-line:no-console
+          tap(result => console.log('Store Comment =>', result)),
+          map(_ => new GetCommentsByCommitment({ commitment: comment.commitment })),
+          catchError(error => of(new CommentActionFailure(error)))
+        )
+      ))
 
-          @Effect()
-          removeComment$: Observable<Action> = this.actions$
-            .ofType(CommentActionTypes.RemoveComment)
-            .pipe(
-              map((action: RemoveComment) => action.payload),
-              switchMap((comment: any) => this.service.deleteComment(comment)
-                .pipe(
-                  // tslint:disable-next-line:no-console
-                  tap(result => console.log('Remove Comment =>', result)),
-                  map(_ => new GetCommentsByCommitment({ commitment: comment.commitment })),
-                  catchError(error => of(new CommentActionFailure(error)))
-                )
-              ))
+  @Effect()
+  removeComment$: Observable<Action> = this.actions$
+    .ofType(CommentActionTypes.RemoveComment)
+    .pipe(
+      map((action: RemoveComment) => action.payload),
+      switchMap((comment: any) => this.service.deleteComment(comment)
+        .pipe(
+          // tslint:disable-next-line:no-console
+          tap(result => console.log('Remove Comment =>', result)),
+          map((result: {commitment: number}) => new GetCommentsByCommitment({ commitment: result.commitment })),
+          catchError(error => of(new CommentActionFailure(error)))
+        )
+      ))
 
   constructor(private actions$: Actions, private service: AppDataService) { }
 }

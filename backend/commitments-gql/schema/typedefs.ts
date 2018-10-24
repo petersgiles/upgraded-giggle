@@ -132,8 +132,7 @@ type Tag {
       created: String!
     ): Comment,
     deleteComment(
-      id: String!,
-      commitment: Int!
+      id: String!
     ): Comment
     }
 
