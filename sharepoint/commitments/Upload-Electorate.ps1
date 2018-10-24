@@ -1,6 +1,6 @@
 param (
    [string]$webUrl ="http://vm-dev-lbs13/sites/commitments",
-   [string]$dataFile = ".\Electorates.csv"
+   [string]$dataFile = ".\Data\Electorates.csv"
 )
 
 if ( (Get-PSSnapin -Name Microsoft.SharePoint.PowerShell -ErrorAction SilentlyContinue) -eq $null ) 
