@@ -15,11 +15,11 @@ import { AnnouncementType } from '../../reducers/announcement-type/announcement-
 import { CommitmentType } from '../../reducers/commitment-type/commitment-type.model'
 
 @Component({
-  selector: 'digital-first-commitment-edit',
-  templateUrl: './commitment-edit.component.html',
-  styleUrls: ['./commitment-edit.component.scss']
+  selector: 'digital-first-commitment-create',
+  templateUrl: './commitment-create.component.html',
+  styleUrls: ['./commitment-create.component.scss']
 })
-export class CommitmentEditComponent implements OnInit, OnDestroy {
+export class CommitmentCreateComponent implements OnInit, OnDestroy {
 
   commitment$: Observable<Commitment>
   currentComments$: Observable<Comment[]>
@@ -35,11 +35,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   loadingSubscription$: Subscription
   loadingDialogRef: MdcDialogRef<DialogSpinnerOverlayComponent, {}>
 
-  commitmentPanelExpanded = false
-  relatedPanelExpanded: boolean
-  discussionPanelExpanded: boolean
-  contactPanelExpanded: boolean
-
   constructor(private router: Router, private route: ActivatedRoute, public dialog: MdcDialog, private service: CommitmentDataService) { }
 
   ngOnInit(): void {
@@ -48,18 +43,17 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.error$ = this.service.CommitmentError
     this.commitment$ = this.service.Commitment
 
+    this.announcementTypes$ = this.service.AnnouncementTypes
+    this.commitmentTypes$ = this.service.CommitmentTypes
+    this.parties$ = this.service.Parties
+    this.portfolios$ = this.service.Portfolios
+    this.locations$ = this.service.Locations
+
     this.service.getAllAnnouncementTypes()
     this.service.getAllCommitmentTypes()
     this.service.getAllLocations()
     this.service.getAllPartys()
     this.service.getAllPortfolios()
-
-    this.selectId$ = this.route.paramMap
-      .pipe(
-        map((params: ParamMap) => +params.get('id')),
-        map(selectedId => this.service.setCurrentCommitment(selectedId))
-      )
-      .subscribe()
 
     // this is to avoid component validation check errors
     setTimeout(() => {
@@ -74,65 +68,22 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.selectId$.unsubscribe()
     this.loadingSubscription$.unsubscribe()
   }
 
-  handleExpandAll($event) {
-    this.commitmentPanelExpanded = $event
-    this.relatedPanelExpanded =
-      this.discussionPanelExpanded =
-      this.contactPanelExpanded = this.commitmentPanelExpanded
+  handleUpdateCommitment(commitment) {
+    // tslint:disable-next-line:no-console
+    console.log(commitment)
+    this.service.upsertCommitment(commitment)
   }
 
   handleCancelled($event) {
     this.router.navigate(['/', 'commitments'])
   }
 
-  handleDeleteComment(comment) {
-
-    const commentId = comment.id
-
-    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
-      escapeToClose: true,
-      clickOutsideToClose: true
-    })
-
-    dialogRef.afterClosed()
-      .pipe(
-        first()
-      )
-      .subscribe(result => {
-        if (result && commentId) {
-          this.service.deleteComment({ id: commentId })
-        }
-      })
-  }
-
-  changeDateFormat(format) {
-    this.timeFormat = format
-  }
-
-  handleReplyToComment(comment) {
-    const oldActive = this.activeComment
-    this.activeComment = null
-    if (comment) {
-      if (oldActive !== comment.id) {
-        this.activeComment = comment.id
-      }
-    }
-  }
-
-  handleAddComment(newComment) {
-
-    const parentId = newComment.parent ? newComment.parent.id : null
-
-    this.service.createComment({
-      commitment: newComment.hostId,
-      parent: parentId,
-      comment: newComment.text
-    })
-    this.activeComment = null
+  handleChanged(commitment: Commitment) {
+    // tslint:disable-next-line:no-console
+    console.log(commitment)
   }
 
   handleTabScroll(el) {

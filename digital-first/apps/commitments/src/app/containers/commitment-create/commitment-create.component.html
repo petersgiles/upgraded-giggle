@@ -1,0 +1,10 @@
+<div class="app-page">
+  <section>
+    <digital-first-page-title title="Create commitment"></digital-first-page-title>
+    <digital-first-commitment-edit-form [commitment]="commitment$ | async" [parties]="parties$ | async"
+      [announcementTypes]="announcementTypes$ | async" [commitmentTypes]="commitmentTypes$ | async" [portfolios]="portfolios$ | async"
+      [locations]="locations$ | async" (onSubmitted)="handleUpdateCommitment($event)" (onCancelled)="handleCancelled($event)"
+      (onChanged)="handleChanged($event)">
+    </digital-first-commitment-edit-form>
+  </section>
+</div>

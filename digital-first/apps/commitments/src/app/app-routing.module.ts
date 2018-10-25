@@ -8,6 +8,7 @@ import {
 import { ErrorPageNotFoundComponent, ErrorServerComponent } from '@digital-first/df-pages'
 import { CommitmentOverviewComponent } from './containers/commitment-overview/commitment-overview.component'
 import { CommitmentEditComponent } from './containers/commitment-edit/commitment-edit.component'
+import { CommitmentCreateComponent } from './containers/commitment-create/commitment-create.component'
 
 const routes: Routes = [
   { path: '', redirectTo: 'commitments', pathMatch: 'full' },
@@ -44,7 +45,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: CommitmentEditComponent,
+        component: CommitmentCreateComponent,
       },
       {
         path: ':id',
