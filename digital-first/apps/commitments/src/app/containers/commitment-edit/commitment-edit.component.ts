@@ -39,6 +39,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   relatedPanelExpanded: boolean
   discussionPanelExpanded: boolean
   contactPanelExpanded: boolean
+  formPanelExpanded: boolean
 
   constructor(private router: Router, private route: ActivatedRoute, public dialog: MdcDialog, private service: CommitmentDataService) { }
 
@@ -47,6 +48,12 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
     this.error$ = this.service.CommitmentError
     this.commitment$ = this.service.Commitment
+
+    this.announcementTypes$ = this.service.AnnouncementTypes
+    this.commitmentTypes$ = this.service.CommitmentTypes
+    this.parties$ = this.service.Parties
+    this.portfolios$ = this.service.Portfolios
+    this.locations$ = this.service.Locations
 
     this.service.getAllAnnouncementTypes()
     this.service.getAllCommitmentTypes()
@@ -81,8 +88,15 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   handleExpandAll($event) {
     this.commitmentPanelExpanded = $event
     this.relatedPanelExpanded =
+      this.formPanelExpanded =
       this.discussionPanelExpanded =
       this.contactPanelExpanded = this.commitmentPanelExpanded
+  }
+
+  handleUpdateCommitment(commitment) {
+    // tslint:disable-next-line:no-console
+    console.log(commitment)
+    this.service.upsertCommitment(commitment)
   }
 
   handleCancelled($event) {
@@ -107,6 +121,11 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
           this.service.deleteComment({ id: commentId })
         }
       })
+  }
+
+  handleChanged(commitment: Commitment) {
+    // tslint:disable-next-line:no-console
+    console.log(commitment)
   }
 
   changeDateFormat(format) {

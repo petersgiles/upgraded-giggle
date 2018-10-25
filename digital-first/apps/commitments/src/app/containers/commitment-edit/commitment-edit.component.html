@@ -42,6 +42,16 @@
       <digital-first-contact-card></digital-first-contact-card>
     </div>
 
+
+    <digital-first-page-title title="Edit commitment">
+        <digital-first-expand-collapse-button [expanded]='formPanelExpanded' (onChangeExpanded)="formPanelExpanded = $event"></digital-first-expand-collapse-button>
+    </digital-first-page-title>
+    <digital-first-commitment-edit-form *ngIf="formPanelExpanded" [commitment]="commitment$ | async" [parties]="parties$ | async"
+      [announcementTypes]="announcementTypes$ | async" [commitmentTypes]="commitmentTypes$ | async" [portfolios]="portfolios$ | async"
+      [locations]="locations$ | async" (onSubmitted)="handleUpdateCommitment($event)" (onCancelled)="handleCancelled($event)"
+      (onChanged)="handleChanged($event)">
+    </digital-first-commitment-edit-form>
+
   </section>
 
 </div>
