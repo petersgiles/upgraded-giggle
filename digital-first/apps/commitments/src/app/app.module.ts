@@ -68,7 +68,8 @@ import { AddItemButtonComponent } from './components/add-item-button.component'
 import { ShareButtonComponent } from './components/share-button.component'
 import { AddNotificationButtonComponent } from './components/add-notification-button.component'
 import { ArchiveButtonComponent } from './components/archive-button.component'
-import { RelatedArtifactsComponent } from './components/related-artifacts/related-artifacts.component'
+import { RelatedArtifactsComponent } from './components/related-artifacts/related-artifacts.component';
+import { TagsComponent } from './components/tags/tags.component'
 
 const COMPONENTS = [
   AppComponent,
@@ -141,7 +142,7 @@ export let appDataServiceProvider = {
 }
 
 @NgModule({
-  declarations: [...COMPONENTS],
+  declarations: [...COMPONENTS, TagsComponent],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [
     BrowserModule,

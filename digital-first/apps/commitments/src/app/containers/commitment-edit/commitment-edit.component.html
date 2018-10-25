@@ -13,25 +13,9 @@
     </digital-first-page-title>
 
     <div class="commitment-layout__row">
-      <mdc-chip-set #inputchipset input>
-        <mdc-chip label="New">
-          <mdc-chip-icon leading>new_releases</mdc-chip-icon>
-          <mdc-chip-icon trailing>cancel</mdc-chip-icon>
-        </mdc-chip>
-        <mdc-chip label="Watch">
-          <mdc-chip-icon leading>watch_later</mdc-chip-icon>
-          <mdc-chip-icon trailing>cancel</mdc-chip-icon>
-        </mdc-chip>
-        <mdc-chip label='Done'>
-          <mdc-chip-icon leading>done</mdc-chip-icon>
-          <mdc-chip-icon trailing>cancel</mdc-chip-icon>
-        </mdc-chip>
-        <mdc-chip label='Alert Me'>
-          <mdc-chip-icon leading>notification_important</mdc-chip-icon>
-          <mdc-chip-icon trailing>cancel</mdc-chip-icon>
-        </mdc-chip>
-      </mdc-chip-set>
+      <digital-first-tags></digital-first-tags>
     </div>
+
     <div class="commitment-layout__row">
       <digital-first-commitment-card [commitment]="commitment$ | async" [config]="{disabled:true}"></digital-first-commitment-card>
       <digital-first-related-artifacts></digital-first-related-artifacts>
