@@ -35,6 +35,12 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   loadingSubscription$: Subscription
   loadingDialogRef: MdcDialogRef<DialogSpinnerOverlayComponent, {}>
 
+  commitmentPanelExpanded = false
+  relatedPanelExpanded: boolean
+  discussionPanelExpanded: boolean
+  formPanelExpanded: boolean
+  contactPanelExpanded: boolean
+
   constructor(private router: Router, private route: ActivatedRoute, public dialog: MdcDialog, private service: CommitmentDataService) { }
 
   ngOnInit(): void {
@@ -77,6 +83,14 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.selectId$.unsubscribe()
     this.loadingSubscription$.unsubscribe()
+  }
+
+  handleExpandAll($event) {
+    this.commitmentPanelExpanded = $event
+    this.relatedPanelExpanded =
+      this.discussionPanelExpanded =
+      this.formPanelExpanded =
+      this.contactPanelExpanded = this.commitmentPanelExpanded
   }
 
   handleUpdateCommitment(commitment) {
@@ -139,6 +153,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     })
     this.activeComment = null
   }
+
   handleTabScroll(el) {
     el.scrollIntoView()
     window.scrollBy(0, -128)

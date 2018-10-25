@@ -1,8 +1,15 @@
 
   .commitment-card {
-    width: calc(100% - 56px);
+    // width: calc(100% - 56px);
     margin-bottom: 20px;
     }
+
+    .commitment-layout__row {
+      margin-top: .3em;
+      margin-bottom: .3em;
+      display: flex;
+    }
+
 
 
 .commitment-card__detail-row {

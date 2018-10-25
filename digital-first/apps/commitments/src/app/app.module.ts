@@ -61,6 +61,14 @@ import { LocationEffects } from './reducers/location/location.effects'
 import { PartyEffects } from './reducers/party/party.effects'
 import { PortfolioEffects } from './reducers/portfolio/portfolio.effects'
 import { ContactCardComponent } from './components/contact-card/contact-card.component'
+import { PageTitleComponent } from './components/page-title.component'
+import { ExpandCollapseButtonComponent } from './components/expand-collapse-button.component'
+import { DateFormatButtonComponent } from './components/date-format-button.component'
+import { AddItemButtonComponent } from './components/add-item-button.component'
+import { ShareButtonComponent } from './components/share-button.component'
+import { AddNotificationButtonComponent } from './components/add-notification-button.component'
+import { ArchiveButtonComponent } from './components/archive-button.component'
+import { RelatedArtifactsComponent } from './components/related-artifacts/related-artifacts.component'
 
 const COMPONENTS = [
   AppComponent,
@@ -70,7 +78,15 @@ const COMPONENTS = [
   CommitmentEditComponent,
   CommitmentOverviewComponent,
   CommitmentListComponent,
-  ContactCardComponent
+  ContactCardComponent,
+  PageTitleComponent,
+  ExpandCollapseButtonComponent,
+  DateFormatButtonComponent,
+  AddItemButtonComponent,
+  ShareButtonComponent,
+  AddNotificationButtonComponent,
+  ArchiveButtonComponent,
+  RelatedArtifactsComponent
 ]
 
 const ENTRYCOMPONENTS = [

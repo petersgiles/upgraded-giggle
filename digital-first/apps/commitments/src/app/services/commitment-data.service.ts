@@ -40,6 +40,14 @@ export class CommitmentDataService {
     this.store.dispatch(new GetAllAnnouncementTypes({ filter: filter }))
   }
 
+  get AnnouncementTypesLookup(): Observable<AnnouncementType[]> {
+    return this.store.select(fromRoot.getAllAnnouncementTypes)
+      .pipe(
+        // tslint:disable-next-line:no-console
+        tap((result: any) => console.log('AnnouncementTypes => ', result)),
+      )
+  }
+
   get AnnouncementTypes(): Observable<AnnouncementType[]> {
     return this.store.select(fromRoot.getAllAnnouncementTypes)
       .pipe(

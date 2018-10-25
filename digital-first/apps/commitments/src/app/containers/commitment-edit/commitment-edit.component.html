@@ -2,44 +2,71 @@
 
   <section>
 
-    <div class="page_title">
-      <div #review class="reader-card-article__title page_title_text" mdcHeadline5>Review</div>
+    <digital-first-page-title *ngIf="commitment$ | async" title="Commitment">
+      <digital-first-archive-button></digital-first-archive-button>
+      <digital-first-share-button></digital-first-share-button>
+      <digital-first-add-notification-button></digital-first-add-notification-button>
+      <digital-first-add-item-button icon="label" title="Add Label"></digital-first-add-item-button>
+      <digital-first-add-item-button title="Add Related Artifact" *ngIf="relatedPanelExpanded"></digital-first-add-item-button>
+      <digital-first-expand-collapse-button title="Toggle Expand Collapse All" [expanded]='commitmentPanelExpanded'
+        (onChangeExpanded)="handleExpandAll($event)"></digital-first-expand-collapse-button>
+    </digital-first-page-title>
+
+    <div class="commitment-layout__row">
+      <mdc-chip-set #inputchipset input>
+        <mdc-chip label="New">
+          <mdc-chip-icon leading>new_releases</mdc-chip-icon>
+          <mdc-chip-icon trailing>cancel</mdc-chip-icon>
+        </mdc-chip>
+        <mdc-chip label="Watch">
+          <mdc-chip-icon leading>watch_later</mdc-chip-icon>
+          <mdc-chip-icon trailing>cancel</mdc-chip-icon>
+        </mdc-chip>
+        <mdc-chip label='Done'>
+          <mdc-chip-icon leading>done</mdc-chip-icon>
+          <mdc-chip-icon trailing>cancel</mdc-chip-icon>
+        </mdc-chip>
+        <mdc-chip label='Alert Me'>
+          <mdc-chip-icon leading>notification_important</mdc-chip-icon>
+          <mdc-chip-icon trailing>cancel</mdc-chip-icon>
+        </mdc-chip>
+      </mdc-chip-set>
+    </div>
+    <div class="commitment-layout__row">
+      <digital-first-commitment-card [commitment]="commitment$ | async" [config]="{disabled:true}"></digital-first-commitment-card>
+      <digital-first-related-artifacts></digital-first-related-artifacts>
     </div>
 
-    <digital-first-commitment-card [commitment]="commitment$ | async" [config]="{disabled:true}"></digital-first-commitment-card>
+    <digital-first-page-title *ngIf="commitment$ | async" title="Discussion">
+      <digital-first-date-format-button *ngIf="discussionPanelExpanded" [timeFormat]='timeFormat' (onChangeDateFormat)="changeDateFormat($event)"></digital-first-date-format-button>
+      <digital-first-expand-collapse-button [expanded]='discussionPanelExpanded' (onChangeExpanded)="discussionPanelExpanded = $event"></digital-first-expand-collapse-button>
+    </digital-first-page-title>
 
-    <div class="page_title" *ngIf="commitment$ | async">
-      <div #discussion class="reader-card-article__title page_title_text" mdcHeadline5>Discussion</div>
-      <a mdcIcon aria-label="Date Format" title="Date Format" *ngIf="timeFormat=='dateFormat'" (click)="changeDateFormat('calendar')">date_range</a>
-      <a mdcIcon aria-label="Date Format" title="Date Format" *ngIf="timeFormat=='timeAgo'" (click)="changeDateFormat('dateFormat')">schedule</a>
-      <a mdcIcon aria-label="Date Format" title="Date Format" *ngIf="timeFormat=='calendar'" (click)="changeDateFormat('timeAgo')">calendar_today</a>
-    </div>
-
-    <digital-first-discussion *ngIf="commitment$ | async" [comments]="(commitment$ | async)?.discussion" [hostId]="(commitment$ | async).id"
-      [activeComment]="activeComment" [timeFormat]="timeFormat" (onDeleteComment)="handleDeleteComment($event)"
+    <digital-first-discussion *ngIf="(commitment$ | async) && discussionPanelExpanded" [comments]="(commitment$ | async)?.discussion"
+      [hostId]="(commitment$ | async).id" [activeComment]="activeComment" [timeFormat]="timeFormat" (onDeleteComment)="handleDeleteComment($event)"
       (onReplyToComment)="handleReplyToComment($event)" (onAddComment)="handleAddComment($event)"></digital-first-discussion>
 
-    <div class="page_title">
-      <div *ngIf="commitment$ | async" #discussion class="reader-card-article__title page_title_text" mdcHeadline5>Edit</div>
-      <div *ngIf="!(commitment$ | async)" #discussion class="reader-card-article__title page_title_text" mdcHeadline5>Create</div>
+    <digital-first-page-title *ngIf="commitment$ | async" title="Contacts">
+      <digital-first-add-item-button icon="person_add" title="Add Contact" *ngIf="contactPanelExpanded"></digital-first-add-item-button>
+      <digital-first-expand-collapse-button [expanded]='contactPanelExpanded' (onChangeExpanded)="contactPanelExpanded = $event"></digital-first-expand-collapse-button>
+    </digital-first-page-title>
+
+    <div class="commitment-layout__row" *ngIf="contactPanelExpanded">
+      <digital-first-contact-card></digital-first-contact-card>
+      <digital-first-contact-card></digital-first-contact-card>
+      <digital-first-contact-card></digital-first-contact-card>
+      <digital-first-contact-card></digital-first-contact-card>
     </div>
 
-    <digital-first-commitment-edit-form [commitment]="commitment$ | async" [parties]="parties$ | async"
+    <digital-first-page-title title="Data Entry">
+      <digital-first-expand-collapse-button [expanded]='formPanelExpanded' (onChangeExpanded)="formPanelExpanded = $event"></digital-first-expand-collapse-button>
+    </digital-first-page-title>
+
+    <digital-first-commitment-edit-form *ngIf="formPanelExpanded" [commitment]="commitment$ | async" [parties]="parties$ | async"
       [announcementTypes]="announcementTypes$ | async" [commitmentTypes]="commitmentTypes$ | async" [portfolios]="portfolios$ | async"
       [locations]="locations$ | async" (onSubmitted)="handleUpdateCommitment($event)" (onCancelled)="handleCancelled($event)"
       (onChanged)="handleChanged($event)">
     </digital-first-commitment-edit-form>
-
-    <div class="page_title">
-        <div *ngIf="commitment$ | async" #discussion class="reader-card-article__title page_title_text" mdcHeadline5>Edit</div>
-      </div>
-
-    <div class="form-layout__row">
-      <digital-first-contact-card></digital-first-contact-card>
-      <digital-first-contact-card></digital-first-contact-card>
-      <digital-first-contact-card></digital-first-contact-card>
-      <digital-first-contact-card></digital-first-contact-card>
-    </div>
 
   </section>
 
