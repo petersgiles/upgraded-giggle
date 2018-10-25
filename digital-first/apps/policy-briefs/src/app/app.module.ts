@@ -8,8 +8,8 @@ import { AppRoutingModule } from './app-routing.module'
 import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
 import { DfDiscussionModule } from '@digital-first/df-discussion'
-import { AppFullLayoutService } from './app-full-layout.service';
-import { EffectsModule } from '@ngrx/effects';
+import { AppFullLayoutService } from './app-full-layout.service'
+import { EffectsModule } from '@ngrx/effects'
 import { AppEffects } from './app.effects'
 
 const COMPONENTS = [

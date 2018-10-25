@@ -1,1 +1,1 @@
-export * from './lib/df-pipes.module';
+export * from './lib/df-pipes.module'
