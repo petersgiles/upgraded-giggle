@@ -5,6 +5,7 @@ db.connect('./diskdb', [
   'commitment-comments', 
   'commitment-contacts', 
   'commitment-portfolios', 
+  'commitment-whoAnnouncedTypes',
   'commitment-announcementTypes', 
   'commitment-commitmentTypes',
   'commitment-parties', 
@@ -21,6 +22,7 @@ export const resolvers = {
     portfolios: () => db['commitment-portfolios'].find(),
     announcementTypes: () => db['commitment-announcementTypes'].find(),
     commitmentTypes: () => db['commitment-commitmentTypes'].find(),
+    whoAnnouncedTypes: () => db['commitment-whoAnnouncedTypes'].find(),
     contacts: () => db['commitment-contacts'].find(),
     comments: (obj: any, args: any, context: any, info: any) => {
       var found = db['commitment-comments'].find({ commitment: args.commitment })
@@ -76,11 +78,14 @@ export const resolvers = {
     party(commitment: any) {
       return db['commitment-parties'].findOne({ id: commitment.party })
     },
+    whoAnnouncedType(commitment: any) {
+      return db['commitment-whoAnnouncedTypes'].findOne({ id: commitment.whoAnnouncedType })
+    },
     announcementType(commitment: any) {
-      return db['commitment-announcementTypes'].findOne({ id: commitment.type })
+      return db['commitment-announcementTypes'].findOne({ id: commitment.announcementType })
     },
     commitmentType(commitment: any) {
-      return db['commitment-commitmentTypes'].findOne({ id: commitment.type })
+      return db['commitment-commitmentTypes'].findOne({ id: commitment.commitmentType })
     },
     portfolio(commitment: any) {
       return db['commitment-portfolios'].findOne({ id: commitment.portfolio })
@@ -95,14 +100,14 @@ export const resolvers = {
     },
     contacts(commitment: any) {
       var found = db['commitment-contacts'].find({ id: commitment.contacts })
-      console.log('contacts =>', found)
+      if(found.length) { console.log('contacts =>', found) }
       var contacts = found.map((c: any) => ({ ...c, id: c._id }))
 
       return contacts
     },
     tags(commitment: any) {
       var found = db['commitment-tags'].find({ id: commitment.tags })
-      console.log('tags =>', found)
+      if(found.length) { console.log('tags =>', found) }
       var tags = found.map((c: any) => ({ ...c, id: c._id }))
 
       return tags

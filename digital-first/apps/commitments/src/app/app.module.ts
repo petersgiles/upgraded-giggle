@@ -16,6 +16,20 @@ import { DfSharepointModule, SharepointJsomService } from '@digital-first/df-sha
 import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfMomentModule } from '@digital-first/df-moment'
 import { WINDOW_PROVIDERS } from '@digital-first/df-utils'
+import {
+  DfComponentsModule,
+  TagsComponent,
+  ViewLayoutButtonComponent,
+  ContactCardComponent,
+  PageTitleComponent,
+  ExpandCollapseButtonComponent,
+  DateFormatButtonComponent,
+  AddItemButtonComponent,
+  ShareButtonComponent,
+  AddNotificationButtonComponent,
+  ArchiveButtonComponent,
+  RelatedArtifactsComponent
+} from '@digital-first/df-components'
 
 import { AppComponent } from './app.component'
 import { AppFullLayoutService } from './app-full-layout.service'
@@ -60,18 +74,7 @@ import { ContactEffects } from './reducers/contact/contact.effects'
 import { LocationEffects } from './reducers/location/location.effects'
 import { PartyEffects } from './reducers/party/party.effects'
 import { PortfolioEffects } from './reducers/portfolio/portfolio.effects'
-import { ContactCardComponent } from './components/contact-card/contact-card.component'
-import { PageTitleComponent } from './components/page-title.component'
-import { ExpandCollapseButtonComponent } from './components/expand-collapse-button.component'
-import { DateFormatButtonComponent } from './components/date-format-button.component'
-import { AddItemButtonComponent } from './components/add-item-button.component'
-import { ShareButtonComponent } from './components/share-button.component'
-import { AddNotificationButtonComponent } from './components/add-notification-button.component'
-import { ArchiveButtonComponent } from './components/archive-button.component'
-import { RelatedArtifactsComponent } from './components/related-artifacts/related-artifacts.component';
-import { TagsComponent } from './components/tags/tags.component';
-import { CommitmentCreateComponent } from './containers/commitment-create/commitment-create.component';
-import { ViewLayoutButtonComponent } from './components/view-layout-button.component'
+import { CommitmentCreateComponent } from './containers/commitment-create/commitment-create.component'
 
 const COMPONENTS = [
   AppComponent,
@@ -81,6 +84,17 @@ const COMPONENTS = [
   CommitmentEditComponent,
   CommitmentOverviewComponent,
   CommitmentListComponent,
+  CommitmentCreateComponent
+]
+
+const ENTRYCOMPONENTS = [
+  DialogAreYouSureComponent,
+  DialogShowErrorComponent,
+  DialogFileLockedComponent,
+  DialogSpinnerOverlayComponent,
+  DiscussionComponent,
+  TagsComponent,
+  ViewLayoutButtonComponent,
   ContactCardComponent,
   PageTitleComponent,
   ExpandCollapseButtonComponent,
@@ -90,14 +104,6 @@ const COMPONENTS = [
   AddNotificationButtonComponent,
   ArchiveButtonComponent,
   RelatedArtifactsComponent
-]
-
-const ENTRYCOMPONENTS = [
-  DialogAreYouSureComponent,
-  DialogShowErrorComponent,
-  DialogFileLockedComponent,
-  DialogSpinnerOverlayComponent,
-  DiscussionComponent
 ]
 
 export function initApplication(store: Store<fromRoot.State>): Function {
@@ -144,7 +150,7 @@ export let appDataServiceProvider = {
 }
 
 @NgModule({
-  declarations: [...COMPONENTS, TagsComponent, CommitmentCreateComponent, ViewLayoutButtonComponent],
+  declarations: [...COMPONENTS],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [
     BrowserModule,
@@ -154,6 +160,7 @@ export let appDataServiceProvider = {
     ApolloModule,
     HttpLinkModule,
     NxModule.forRoot(),
+    DfComponentsModule,
     DfMomentModule,
     DfLayoutsModule,
     DfThemeModule,
