@@ -35,6 +35,12 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   loadingSubscription$: Subscription
   loadingDialogRef: MdcDialogRef<DialogSpinnerOverlayComponent, {}>
 
+  commitmentPanelExpanded = false
+  relatedPanelExpanded: boolean
+  discussionPanelExpanded: boolean
+  contactPanelExpanded: boolean
+  formPanelExpanded: boolean
+
   constructor(private router: Router, private route: ActivatedRoute, public dialog: MdcDialog, private service: CommitmentDataService) { }
 
   ngOnInit(): void {
@@ -79,6 +85,14 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.loadingSubscription$.unsubscribe()
   }
 
+  handleExpandAll($event) {
+    this.commitmentPanelExpanded = $event
+    this.relatedPanelExpanded =
+      this.formPanelExpanded =
+      this.discussionPanelExpanded =
+      this.contactPanelExpanded = this.commitmentPanelExpanded
+  }
+
   handleUpdateCommitment(commitment) {
     // tslint:disable-next-line:no-console
     console.log(commitment)
@@ -87,11 +101,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   handleCancelled($event) {
     this.router.navigate(['/', 'commitments'])
-  }
-
-  handleChanged(commitment: Commitment) {
-    // tslint:disable-next-line:no-console
-    console.log(commitment)
   }
 
   handleDeleteComment(comment) {
@@ -112,6 +121,11 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
           this.service.deleteComment({ id: commentId })
         }
       })
+  }
+
+  handleChanged(commitment: Commitment) {
+    // tslint:disable-next-line:no-console
+    console.log(commitment)
   }
 
   changeDateFormat(format) {
@@ -139,6 +153,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     })
     this.activeComment = null
   }
+
   handleTabScroll(el) {
     el.scrollIntoView()
     window.scrollBy(0, -128)

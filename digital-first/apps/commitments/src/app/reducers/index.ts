@@ -32,10 +32,13 @@ import * as fromComment from './comment/comment.reducer'
 import * as fromContact from './contact/contact.reducer'
 import * as fromLocation from './location/location.reducer'
 import * as fromCommitmentType from './commitment-type/commitment-type.reducer'
+import * as fromCommitmentOverview from './commitment-overview/commitment-overview.reducer'
+
 import { toTree } from '@digital-first/df-utils'
+import { RefinerGroup } from '@digital-first/df-components'
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
-    return localStorageSync({ keys: [{ 'auth': ['status'] }, { 'topic-nav': ['page'] }], rehydrate: true })(reducer)
+    return localStorageSync({ keys: [{ 'auth': ['status'] }, 'commitmentOverview'], rehydrate: true })(reducer)
 }
 
 // console.log all actions
@@ -51,6 +54,7 @@ export interface State {
     contact: fromContact.State
     location: fromLocation.State
     commitmentType: fromCommitmentType.State
+    commitmentOverview: fromCommitmentOverview.State
 
 }
 
@@ -64,6 +68,7 @@ export const reducers: ActionReducerMap<State> = {
     contact: fromContact.reducer,
     location: fromLocation.reducer,
     commitmentType: fromCommitmentType.reducer,
+    commitmentOverview: fromCommitmentOverview.reducer
 }
 
 export const getCommitmentTypeEntitiesState = state => state.commitmentType
@@ -253,6 +258,123 @@ export const getCurrentCommitment = createSelector(
     }
 )
 
+export const getCommitmentOverviewState = state => state.commitmentOverview
+
+export const getCommitmentOverviewExpandedRefinerGroups = createSelector(
+    getCommitmentOverviewState,
+    fromCommitmentOverview.getExpandedRefinerGroups
+)
+
+export const getCommitmentOverviewSelectedRefiners = createSelector(
+    getCommitmentOverviewState,
+    fromCommitmentOverview.getSelectedRefiners
+)
+
+export const getRefinerGroups = createSelector(
+    getCommitmentOverviewSelectedRefiners,
+    getCommitmentOverviewExpandedRefinerGroups,
+    getAllPartys,
+    getAllPortfolios,
+    getAllLocations,
+    getAllAnnouncementTypes,
+    getAllCommitmentTypes,
+    (selected, groups, partys, portfolios, locations, announcementTypes, commitmentTypes) => {
+
+        let groupId = 1
+        groupId++
+        const userDefinedRefiners: RefinerGroup = {
+            id: groupId,
+            title: 'Favourites',
+            expanded: true,
+            custom: true,
+            children: null
+        }
+        groupId++
+        const tagRefiners: RefinerGroup = {
+            id: groupId,
+            title: 'Tags',
+            expanded: false,
+            children: null
+        }
+        groupId++
+        const partyRefiners: RefinerGroup = {
+            id: groupId,
+            title: 'Party',
+            expanded: !!groups.find(r => r === groupId),
+            children: partys
+                .map(p => ({
+                    id: p.id,
+                    groupId: groupId,
+                    title: p.title,
+                    selected: !!selected.find(r => r.groupId === groupId && r.id === p.id),
+                }))
+        }
+        groupId++
+        const portfoliosRefiners: RefinerGroup = {
+            id: groupId,
+            title: 'Portfolios',
+            expanded: !!groups.find(r => r === groupId),
+            children: portfolios
+                .map(p => ({
+                    id: p.id,
+                    groupId: groupId,
+                    title: p.title,
+                    selected: !!selected.find(r => r.groupId === groupId && r.id === p.id),
+                }))
+        }
+        groupId++
+        const locationsRefiners: RefinerGroup = {
+            id: groupId,
+            title: 'Locations',
+            expanded: !!groups.find(r => r === groupId),
+            children: locations
+                .map(p => ({
+                    id: p.id,
+                    groupId: groupId,
+                    title: p.title,
+                    selected: !!selected.find(r => r.groupId === groupId && r.id === p.id),
+                }))
+        }
+        groupId++
+        const announcementTypesRefiners: RefinerGroup = {
+            id: groupId,
+            title: 'Announcement Types',
+            expanded: !!groups.find(r => r === groupId),
+            children: announcementTypes
+                .map(p => ({
+                    id: p.id,
+                    groupId: groupId,
+                    title: p.title,
+                    selected: !!selected.find(r => r.groupId === groupId && r.id === p.id),
+                }))
+        }
+        groupId++
+        const commitmentTypesRefiners: RefinerGroup = {
+            id: groupId,
+            title: 'Commitment Types',
+            expanded: !!groups.find(r => r === groupId),
+            children: commitmentTypes
+                .map(p => ({
+                    id: p.id,
+                    groupId: groupId,
+                    title: p.title,
+                    selected: !!selected.find(r => r.groupId === groupId && r.id === p.id),
+                }))
+        }
+
+        const refinerGroups: RefinerGroup[] = []
+        refinerGroups.push(userDefinedRefiners)
+        refinerGroups.push(tagRefiners)
+        refinerGroups.push(partyRefiners)
+        refinerGroups.push(portfoliosRefiners)
+        refinerGroups.push(locationsRefiners)
+        refinerGroups.push(announcementTypesRefiners)
+        refinerGroups.push(commitmentTypesRefiners)
+
+        return refinerGroups
+    }
+)
+
 export const getAllOverviewCommitments = createSelector(
     getAllCommitments,
     getPartyEntities,
@@ -263,15 +385,15 @@ export const getAllOverviewCommitments = createSelector(
     (commitments, partys, portfolios, locations, announcementTypes, commitmentTypes) => {
 
         const result = commitments.map(commitment =>
-        ({
-            ...commitment,
-            description: null,
-            portfolio: commitment.portfolio ? portfolios[commitment.portfolio.id] : null,
-            party: commitment.party ? partys[commitment.party.id] : null,
-            location: commitment.location ? locations[commitment.location.id] : null,
-            announcementType: commitment.announcementType ? announcementTypes[commitment.announcementType.id] : null,
-            commitmentType: commitment.commitmentType ? commitmentTypes[commitment.commitmentType.id] : null,
-        }))
+            ({
+                ...commitment,
+                description: null,
+                portfolio: commitment.portfolio ? portfolios[commitment.portfolio.id] : null,
+                party: commitment.party ? partys[commitment.party.id] : null,
+                location: commitment.location ? locations[commitment.location.id] : null,
+                announcementType: commitment.announcementType ? announcementTypes[commitment.announcementType.id] : null,
+                commitmentType: commitment.commitmentType ? commitmentTypes[commitment.commitmentType.id] : null,
+            }))
 
         return result
 

@@ -16,6 +16,21 @@ import { DfSharepointModule, SharepointJsomService } from '@digital-first/df-sha
 import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfMomentModule } from '@digital-first/df-moment'
 import { WINDOW_PROVIDERS } from '@digital-first/df-utils'
+import {
+  DfComponentsModule,
+  TagsComponent,
+  ViewLayoutButtonComponent,
+  ContactCardComponent,
+  PageTitleComponent,
+  ExpandCollapseButtonComponent,
+  DateFormatButtonComponent,
+  AddItemButtonComponent,
+  ShareButtonComponent,
+  AddNotificationButtonComponent,
+  ArchiveButtonComponent,
+  RelatedArtifactsComponent,
+  MetadataRefinerComponent
+} from '@digital-first/df-components'
 
 import { AppComponent } from './app.component'
 import { AppFullLayoutService } from './app-full-layout.service'
@@ -60,7 +75,7 @@ import { ContactEffects } from './reducers/contact/contact.effects'
 import { LocationEffects } from './reducers/location/location.effects'
 import { PartyEffects } from './reducers/party/party.effects'
 import { PortfolioEffects } from './reducers/portfolio/portfolio.effects'
-import { ContactCardComponent } from './components/contact-card/contact-card.component'
+import { CommitmentCreateComponent } from './containers/commitment-create/commitment-create.component'
 
 const COMPONENTS = [
   AppComponent,
@@ -70,7 +85,7 @@ const COMPONENTS = [
   CommitmentEditComponent,
   CommitmentOverviewComponent,
   CommitmentListComponent,
-  ContactCardComponent
+  CommitmentCreateComponent
 ]
 
 const ENTRYCOMPONENTS = [
@@ -78,7 +93,19 @@ const ENTRYCOMPONENTS = [
   DialogShowErrorComponent,
   DialogFileLockedComponent,
   DialogSpinnerOverlayComponent,
-  DiscussionComponent
+  DiscussionComponent,
+  TagsComponent,
+  ViewLayoutButtonComponent,
+  ContactCardComponent,
+  PageTitleComponent,
+  ExpandCollapseButtonComponent,
+  DateFormatButtonComponent,
+  AddItemButtonComponent,
+  ShareButtonComponent,
+  AddNotificationButtonComponent,
+  ArchiveButtonComponent,
+  RelatedArtifactsComponent,
+  MetadataRefinerComponent
 ]
 
 export function initApplication(store: Store<fromRoot.State>): Function {
@@ -135,6 +162,7 @@ export let appDataServiceProvider = {
     ApolloModule,
     HttpLinkModule,
     NxModule.forRoot(),
+    DfComponentsModule,
     DfMomentModule,
     DfLayoutsModule,
     DfThemeModule,

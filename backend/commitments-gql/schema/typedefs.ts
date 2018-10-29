@@ -36,6 +36,15 @@ type AnnouncementType {
     icon: String,
 }
 
+type WhoAnnouncedType {
+    id: String,
+    title: String,
+    description: String,
+    sortorder: String,
+    colour: String,
+    icon: String,
+}
+
 type CommitmentType {
     id: String,
     title: String,
@@ -85,6 +94,7 @@ type Tag {
     cost: String,
     location: Electorate,
     announcementType: AnnouncementType,
+    whoAnnouncedType: WhoAnnouncedType,
     commitmentType: CommitmentType
     date: String,
     announcedby: String,
@@ -102,6 +112,7 @@ type Tag {
     portfolios: [Portfolio],
     announcementTypes: [AnnouncementType],
     commitmentTypes: [CommitmentType]
+    whoAnnouncedTypes: [WhoAnnouncedType]
     locations: [Electorate],
     contacts: [Contact],
     comments(commitment: Int!):  [Comment],

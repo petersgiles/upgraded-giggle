@@ -26,6 +26,8 @@ import { GetAllCommitmentTypes } from '../reducers/commitment-type/commitment-ty
 import { CommitmentType } from '../reducers/commitment-type/commitment-type.model'
 import { GetCommentsByCommitment, StoreComment, RemoveComment, DeleteComment, ClearComments } from '../reducers/comment/comment.actions'
 import { tap } from 'rxjs/operators'
+import { AddRefiner, RemoveRefiner, ClearAllRefiners, ExpandRefinerGroup, CollapseRefinerGroup } from '../reducers/commitment-overview/commitment-overview.actions'
+import { RefinerGroup, RefinerType } from '@digital-first/df-components'
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +40,14 @@ export class CommitmentDataService {
 
   public getAllAnnouncementTypes(filter?: any) {
     this.store.dispatch(new GetAllAnnouncementTypes({ filter: filter }))
+  }
+
+  get AnnouncementTypesLookup(): Observable<AnnouncementType[]> {
+    return this.store.select(fromRoot.getAllAnnouncementTypes)
+      .pipe(
+        // tslint:disable-next-line:no-console
+        tap((result: any) => console.log('AnnouncementTypes => ', result)),
+      )
   }
 
   get AnnouncementTypes(): Observable<AnnouncementType[]> {
@@ -135,6 +145,32 @@ export class CommitmentDataService {
     return this.store.select(fromRoot.getCommitmentTypeError)
   }
 
+  // RefinerGroups
+
+  get RefinerGroups(): Observable<RefinerGroup[]> {
+    return this.store.select(fromRoot.getRefinerGroups)
+  }
+
+  expandRefinerGroup(refiner: RefinerGroup): any {
+    this.store.dispatch(new ExpandRefinerGroup(refiner.id))
+  }
+
+  collapseRefinerGroup(refiner: RefinerGroup): any {
+    this.store.dispatch(new CollapseRefinerGroup(refiner.id))
+  }
+
+  addRefiner(refiner: RefinerType) {
+    this.store.dispatch(new AddRefiner(refiner))
+  }
+
+  removeRefiner(refiner: RefinerType) {
+    this.store.dispatch(new RemoveRefiner(refiner))
+  }
+
+  clearAllRefiners() {
+    this.store.dispatch(new ClearAllRefiners())
+  }
+
   // Contacts
 
   public getAllContacts(filter?: any) {
@@ -224,8 +260,8 @@ export class CommitmentDataService {
   }
 
   upsertCommitment(commitment: Commitment) {
-   // this.appDataService.upsertCommitment(commitment)
-   this.store.dispatch(new StoreCommitment(commitment))
+    // this.appDataService.upsertCommitment(commitment)
+    this.store.dispatch(new StoreCommitment(commitment))
   }
 
   createComment(comment: { commitment: any; parent: any; comment: any; }) {

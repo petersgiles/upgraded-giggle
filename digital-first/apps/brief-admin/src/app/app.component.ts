@@ -1,22 +1,22 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core'
+import { Router, NavigationEnd } from '@angular/router'
 
 @Component({
   selector: 'digital-first-root',
   template: '<router-outlet></router-outlet>'
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = 'policy-briefs';
+  title = 'policy-briefs'
 
   constructor(private router: Router) {}
 
   ngOnInit() {
     this.router.events.subscribe(evt => {
       if (!(evt instanceof NavigationEnd)) {
-        return;
+        return
       }
-      window.scrollTo(0, 0);
-    });
+      window.scrollTo(0, 0)
+    })
   }
 
   ngOnDestroy(): void {}

@@ -19,10 +19,13 @@
 
   
   .page_title {
+    background-color: $primary-color-light;
+    color: $primary-text-color;
     display: flex;
     align-items: center;
     justify-content: start;
-    padding: 0 16px;
+    padding: 8px 10px;
+    margin: 4px 0;
     overflow: hidden;
   }
   

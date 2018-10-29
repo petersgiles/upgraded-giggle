@@ -1,0 +1,27 @@
+<mdc-list dense>
+  <mdc-list-item class="digital-first-list-heading">
+    Text Search
+    <mdc-icon mdcListItemMeta (click)="onClear.emit('search')">clear</mdc-icon>
+  </mdc-list-item>
+  <mdc-list-item>
+    <mdc-text-field label="Search" fullwidth></mdc-text-field>
+  </mdc-list-item>
+  <ng-container *ngFor="let group of refinerGroups">
+    <mdc-list-item class="digital-first-list-heading" (click)="onRefinerGroupSelected.emit(group)">
+      {{group.title}}
+      <mdc-icon mdcListItemMeta>keyboard_arrow_{{group.expanded ? 'down' : 'right'}}</mdc-icon>
+    </mdc-list-item>
+    <div *ngIf="group.expanded && group.children">
+      <mdc-list-item class="refiner" *ngFor="let refiner of group.children" (click)="onRefinerSelected.emit(refiner)">
+        <mdc-icon>check_box{{refiner.selected ? '' : '_outline_blank'}}</mdc-icon>
+        {{refiner.title | truncate:[20, '...']}}
+        <span mdcListItemMeta class="refiner-metadata">0</span>
+      </mdc-list-item>
+    </div>
+    <div *ngIf="group.expanded && group.custom">
+      <mdc-list-item (click)="onSaveRefiner.emit()">
+        Save Current Filter<mdc-icon mdcListItemMeta>add</mdc-icon>
+      </mdc-list-item>
+    </div>
+  </ng-container>
+</mdc-list>
