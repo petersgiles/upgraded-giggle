@@ -32,11 +32,13 @@ import * as fromComment from './comment/comment.reducer'
 import * as fromContact from './contact/contact.reducer'
 import * as fromLocation from './location/location.reducer'
 import * as fromCommitmentType from './commitment-type/commitment-type.reducer'
+import * as fromCommitmentOverview from './commitment-overview/commitment-overview.reducer'
+
 import { toTree } from '@digital-first/df-utils'
-import { FilterGroup } from './lookup-type'
+import { RefinerGroup } from '@digital-first/df-components'
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
-    return localStorageSync({ keys: [{ 'auth': ['status'] }, { 'topic-nav': ['page'] }], rehydrate: true })(reducer)
+    return localStorageSync({ keys: [{ 'auth': ['status'] }, 'commitmentOverview'], rehydrate: true })(reducer)
 }
 
 // console.log all actions
@@ -52,6 +54,7 @@ export interface State {
     contact: fromContact.State
     location: fromLocation.State
     commitmentType: fromCommitmentType.State
+    commitmentOverview: fromCommitmentOverview.State
 
 }
 
@@ -65,6 +68,7 @@ export const reducers: ActionReducerMap<State> = {
     contact: fromContact.reducer,
     location: fromLocation.reducer,
     commitmentType: fromCommitmentType.reducer,
+    commitmentOverview: fromCommitmentOverview.reducer
 }
 
 export const getCommitmentTypeEntitiesState = state => state.commitmentType
@@ -254,76 +258,120 @@ export const getCurrentCommitment = createSelector(
     }
 )
 
-export const getFilterGroups = createSelector(
+export const getCommitmentOverviewState = state => state.commitmentOverview
+
+export const getCommitmentOverviewExpandedRefinerGroups = createSelector(
+    getCommitmentOverviewState,
+    fromCommitmentOverview.getExpandedRefinerGroups
+)
+
+export const getCommitmentOverviewSelectedRefiners = createSelector(
+    getCommitmentOverviewState,
+    fromCommitmentOverview.getSelectedRefiners
+)
+
+export const getRefinerGroups = createSelector(
+    getCommitmentOverviewSelectedRefiners,
+    getCommitmentOverviewExpandedRefinerGroups,
     getAllPartys,
     getAllPortfolios,
     getAllLocations,
     getAllAnnouncementTypes,
     getAllCommitmentTypes,
-    (partys, portfolios, locations, announcementTypes, commitmentTypes) => {
+    (selected, groups, partys, portfolios, locations, announcementTypes, commitmentTypes) => {
 
-        let filterId = 1
-
-        const userDefinedFilters: FilterGroup = {
-            id: filterId++,
+        let groupId = 1
+        groupId++
+        const userDefinedRefiners: RefinerGroup = {
+            id: groupId,
             title: 'Favourites',
-            visible: true,
+            expanded: true,
             custom: true,
             children: null
         }
-
-        const tagFilters: FilterGroup = {
-            id: filterId++,
+        groupId++
+        const tagRefiners: RefinerGroup = {
+            id: groupId,
             title: 'Tags',
-            visible: false,
+            expanded: false,
             children: null
         }
-
-        const partyFilters: FilterGroup = {
-            id: filterId++,
+        groupId++
+        const partyRefiners: RefinerGroup = {
+            id: groupId,
             title: 'Party',
-            visible: true,
-            children: partys.map(p => ({ id: p.id, title: p.title }))
+            expanded: !!groups.find(r => r === groupId),
+            children: partys
+                .map(p => ({
+                    id: p.id,
+                    groupId: groupId,
+                    title: p.title,
+                    selected: !!selected.find(r => r.groupId === groupId && r.id === p.id),
+                }))
         }
-
-        const portfoliosFilters: FilterGroup = {
-            id: filterId++,
+        groupId++
+        const portfoliosRefiners: RefinerGroup = {
+            id: groupId,
             title: 'Portfolios',
-            visible: false,
-            children: portfolios.map(p => ({ id: p.id, title: p.title }))
+            expanded: !!groups.find(r => r === groupId),
+            children: portfolios
+                .map(p => ({
+                    id: p.id,
+                    groupId: groupId,
+                    title: p.title,
+                    selected: !!selected.find(r => r.groupId === groupId && r.id === p.id),
+                }))
         }
-
-        const locationsFilters: FilterGroup = {
-            id: filterId++,
+        groupId++
+        const locationsRefiners: RefinerGroup = {
+            id: groupId,
             title: 'Locations',
-            visible: false,
-            children: locations.map(p => ({ id: p.id, title: p.title }))
+            expanded: !!groups.find(r => r === groupId),
+            children: locations
+                .map(p => ({
+                    id: p.id,
+                    groupId: groupId,
+                    title: p.title,
+                    selected: !!selected.find(r => r.groupId === groupId && r.id === p.id),
+                }))
         }
-
-        const announcementTypesFilters: FilterGroup = {
-            id: filterId++,
+        groupId++
+        const announcementTypesRefiners: RefinerGroup = {
+            id: groupId,
             title: 'Announcement Types',
-            visible: false,
-            children: announcementTypes.map(p => ({ id: p.id, title: p.title }))
+            expanded: !!groups.find(r => r === groupId),
+            children: announcementTypes
+                .map(p => ({
+                    id: p.id,
+                    groupId: groupId,
+                    title: p.title,
+                    selected: !!selected.find(r => r.groupId === groupId && r.id === p.id),
+                }))
         }
-
-        const commitmentTypesFilters: FilterGroup = {
-            id: filterId++,
+        groupId++
+        const commitmentTypesRefiners: RefinerGroup = {
+            id: groupId,
             title: 'Commitment Types',
-            visible: false,
-            children: commitmentTypes.map(p => ({ id: p.id, title: p.title }))
+            expanded: !!groups.find(r => r === groupId),
+            children: commitmentTypes
+                .map(p => ({
+                    id: p.id,
+                    groupId: groupId,
+                    title: p.title,
+                    selected: !!selected.find(r => r.groupId === groupId && r.id === p.id),
+                }))
         }
 
-        const filterGroups: FilterGroup[] = []
-        filterGroups.push(userDefinedFilters)
-        filterGroups.push(tagFilters)
-        filterGroups.push(partyFilters)
-        filterGroups.push(portfoliosFilters)
-        filterGroups.push(locationsFilters)
-        filterGroups.push(announcementTypesFilters)
-        filterGroups.push(commitmentTypesFilters)
+        const refinerGroups: RefinerGroup[] = []
+        refinerGroups.push(userDefinedRefiners)
+        refinerGroups.push(tagRefiners)
+        refinerGroups.push(partyRefiners)
+        refinerGroups.push(portfoliosRefiners)
+        refinerGroups.push(locationsRefiners)
+        refinerGroups.push(announcementTypesRefiners)
+        refinerGroups.push(commitmentTypesRefiners)
 
-        return filterGroups
+        return refinerGroups
     }
 )
 

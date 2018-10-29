@@ -29,7 +29,7 @@ import {
   AddNotificationButtonComponent,
   ArchiveButtonComponent,
   RelatedArtifactsComponent,
-  MetadataFilterComponent
+  MetadataRefinerComponent
 } from '@digital-first/df-components'
 
 import { AppComponent } from './app.component'
@@ -105,7 +105,7 @@ const ENTRYCOMPONENTS = [
   AddNotificationButtonComponent,
   ArchiveButtonComponent,
   RelatedArtifactsComponent,
-  MetadataFilterComponent
+  MetadataRefinerComponent
 ]
 
 export function initApplication(store: Store<fromRoot.State>): Function {

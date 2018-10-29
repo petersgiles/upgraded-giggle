@@ -6,7 +6,9 @@
 <div class="app-page">
     <section>
          <div class="app-layout__row--no-wrap">
-            <digital-first-metadata-filter [filterGroups]="filterGroups$ | async"></digital-first-metadata-filter>
+            <digital-first-metadata-refiner [refinerGroups]="refinerGroups$ | async" 
+            (onRefinerGroupSelected)="handleRefinerGroupSelected($event)"
+            (onRefinerSelected)="handleRefinerSelected($event)"></digital-first-metadata-refiner>
 
             <digital-first-commitment-list *ngIf="pageFormat=='list'" [commitments]="commitments$ | async" (onEdit)="handleEdit($event)"></digital-first-commitment-list>
 

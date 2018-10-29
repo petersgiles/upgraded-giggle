@@ -1,5 +1,5 @@
 export * from './lib/df-components.module'
-
+export * from './lib/metadata-refiner/refiner-model'
 export { ContactCardComponent } from './lib/contact-card/contact-card.component'
 export { PageTitleComponent } from './lib/page-title.component'
 export { ExpandCollapseButtonComponent } from './lib/expand-collapse-button.component'
@@ -11,4 +11,4 @@ export { ArchiveButtonComponent } from './lib/archive-button.component'
 export { RelatedArtifactsComponent } from './lib/related-artifacts/related-artifacts.component'
 export { TagsComponent } from './lib/tags/tags.component'
 export { ViewLayoutButtonComponent } from './lib/view-layout-button.component'
-export { MetadataFilterComponent } from './lib/metadata-filter/metadata-filter.component'
+export { MetadataRefinerComponent } from './lib/metadata-refiner/metadata-refiner.component'

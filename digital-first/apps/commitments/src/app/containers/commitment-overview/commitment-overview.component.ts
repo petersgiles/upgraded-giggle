@@ -19,13 +19,13 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
   loadingSubscription$: Subscription
   loadingDialogRef: MdcDialogRef<DialogSpinnerOverlayComponent, {}>
   pageFormat: 'card' | 'list' = 'list'
-  filterGroups$: Observable<any>
+  refinerGroups$: Observable<any>
 
   constructor(public dialog: MdcDialog, private router: Router, private service: CommitmentDataService) { }
 
   ngOnInit() {
     this.commitments$ = this.service.Commitments
-    this.filterGroups$ = this.service.FilterGroups
+    this.refinerGroups$ = this.service.RefinerGroups
     this.error$ = this.service.CommitmentError
 
     this.service.getAllAnnouncementTypes()
@@ -62,6 +62,22 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
 
   handleShare(commitment?: Commitment) {
     this.router.navigate(['/', 'commitment', commitment.id])
+  }
+
+  handleRefinerGroupSelected(refiner) {
+    if (refiner.expanded) {
+      this.service.collapseRefinerGroup(refiner)
+    } else {
+      this.service.expandRefinerGroup(refiner)
+    }
+  }
+
+  handleRefinerSelected(refiner) {
+    if (refiner.selected) {
+      this.service.removeRefiner(refiner)
+    } else {
+      this.service.addRefiner(refiner)
+    }
   }
 
   changePageFormat(format) {
