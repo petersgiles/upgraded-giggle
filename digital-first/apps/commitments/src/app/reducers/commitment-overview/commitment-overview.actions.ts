@@ -11,13 +11,13 @@ export enum CommitmentOverviewActionTypes {
 export class CollapseRefinerGroup implements Action {
   readonly type = CommitmentOverviewActionTypes.CollapseRefinerGroup
 
-  constructor(public payload: number) { }
+  constructor(public payload: number | string) { }
 }
 
 export class ExpandRefinerGroup implements Action {
   readonly type = CommitmentOverviewActionTypes.ExpandRefinerGroup
 
-  constructor(public payload: number) { }
+  constructor(public payload: number | string) { }
 }
 
 export class AddRefiner implements Action {

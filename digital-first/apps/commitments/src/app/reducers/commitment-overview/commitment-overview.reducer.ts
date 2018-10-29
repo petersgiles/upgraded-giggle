@@ -2,7 +2,7 @@ import { CommitmentOverviewActionTypes, CommitmentOverviewActions } from './comm
 import { RefinerType } from '@digital-first/df-components'
 
 export interface State {
-  expandedRefinerGroups: number[]
+  expandedRefinerGroups: (string | number)[]
   selectedRefiners: RefinerType[]
 }
 

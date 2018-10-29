@@ -8,6 +8,7 @@ import { getPartyEntities, getAllPartys } from '../party'
 import { getPortfolioEntities, getAllPortfolios } from '../portfolio'
 import { getAnnouncementTypeEntities, getAllAnnouncementTypes } from '../announcement-type'
 import { getAllCommitments } from '../commitment'
+import { Commitment } from '../commitment/commitment.model'
 
 export const getCommitmentOverviewState = state => state.commitmentOverview
 
@@ -28,6 +29,31 @@ export const getRefinerGroupCounts = createSelector(
     }
 )
 
+const REFINER_GROUP_FAVOURITES = {
+    key: 'favourite',
+    title: 'Favourites'
+}
+const REFINER_GROUP_PARTY = {
+    key: 'party', // key needs to match property on artifact (commitment)
+    title: 'Party'
+}
+const REFINER_GROUP_PORTFOLIO = {
+    key: 'portfolio', // key needs to match property on artifact
+    title: 'Portfolio'
+}
+const REFINER_GROUP_LOCATION = {
+    key: 'location',  // key needs to match property on artifact
+    title: 'Location'
+}
+const REFINER_GROUP_ANNOUNCEMENT_TYPE = {
+    key: 'announcementType', // key needs to match property on artifact
+    title: 'Announcement Type'
+}
+const REFINER_GROUP_COMMITMENT_TYPE = {
+    key: 'commitmentType', // key needs to match property on artifact
+    title: 'Commitment Type'
+}
+
 export const getRefinerGroups = createSelector(
     getCommitmentOverviewSelectedRefiners,
     getCommitmentOverviewExpandedRefinerGroups,
@@ -40,31 +66,37 @@ export const getRefinerGroups = createSelector(
 
         const refinerGroups: RefinerGroup[] = []
 
-        let groupId = 0
-        groupId++
         const userDefinedRefiners: RefinerGroup = {
-            id: groupId,
-            title: 'Favourites',
+            id: REFINER_GROUP_FAVOURITES.key,
+            title: REFINER_GROUP_FAVOURITES.title,
             expanded: true,
             custom: true,
-            children: null
+            children: []
         }
         refinerGroups.push(userDefinedRefiners)
 
         const refiners = [partys, portfolios, locations, announcementTypes, commitmentTypes]
-        const refinerGroupTitles = ['Party', 'Portfolio', 'Location', 'Announcement Type', 'Commitment Type']
+        const refinerGroupTitles = [
+            REFINER_GROUP_PARTY,
+            REFINER_GROUP_PORTFOLIO,
+            REFINER_GROUP_LOCATION,
+            REFINER_GROUP_ANNOUNCEMENT_TYPE,
+            REFINER_GROUP_COMMITMENT_TYPE
+        ]
         refiners.reduce((acc: RefinerGroup[], item: any[], index: number) => {
-            groupId++
+
+            const groupkey = refinerGroupTitles[index].key
+            const grouptitle = refinerGroupTitles[index].title
             const rg: RefinerGroup = {
-                id: groupId,
-                title: refinerGroupTitles[index],
-                expanded: !!groups.find(r => r === groupId),
+                id: groupkey,
+                title: grouptitle,
+                expanded: !!groups.find(r => r === groupkey),
                 children: item
                     .map(p => ({
                         id: p.id,
-                        groupId: groupId,
+                        groupId: groupkey,
                         title: p.title,
-                        selected: !!selected.find(r => r.groupId === groupId && r.id === p.id),
+                        selected: !!selected.find(r => r.groupId === groupkey && r.id === p.id),
                     }))
             }
             acc.push(rg)
@@ -75,8 +107,31 @@ export const getRefinerGroups = createSelector(
     }
 )
 
-export const getAllOverviewCommitments = createSelector(
+export const getRefinersAsFilter = createSelector(
+    getRefinerGroups,
+    (groups) => groups.reduce((acc, item) => {
+        (acc[item.id] = item.children && item.children.filter(rt => rt.selected))
+        return acc
+    }, {}))
+
+export const getFilteredOverviewCommitments = createSelector(
     getAllCommitments,
+    getRefinersAsFilter,
+    (arr: Commitment[], filters: any) => {
+        const filterKeys = Object.keys(filters)
+        return arr.filter(eachObj =>
+            filterKeys.every(eachKey => {
+                if (!filters[eachKey].length) {
+                    return true // passing an empty filter means that filter is ignored.
+                }
+                const filteredProperty = filters[eachKey].map(fp => fp.id).includes(eachObj[eachKey].id)
+                return filteredProperty // filters[eachKey].includes(eachObj[eachKey])
+            }))
+    }
+)
+
+export const getAllOverviewCommitments = createSelector(
+    getFilteredOverviewCommitments,
     getPartyEntities,
     getPortfolioEntities,
     getLocationEntities,

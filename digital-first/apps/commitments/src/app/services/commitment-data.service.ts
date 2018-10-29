@@ -110,6 +110,9 @@ export class CommitmentDataService {
   }
 
   get Commitments(): Observable<Commitment[]> {
+
+    // return this.store.select(fromRoot.getFilteredOverviewCommitments)
+
     return this.store.select(fromRoot.getAllOverviewCommitments)
   }
 

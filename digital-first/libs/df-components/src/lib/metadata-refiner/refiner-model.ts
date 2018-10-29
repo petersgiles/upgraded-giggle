@@ -1,13 +1,13 @@
 export interface RefinerType {
     id: number | string
-    groupId: number
+    groupId: number | string
     title: string
     selected: boolean
     count?: number
 }
 
 export interface RefinerGroup {
-    id: number
+    id: number | string
     title: string
     expanded: boolean
     custom?: boolean
