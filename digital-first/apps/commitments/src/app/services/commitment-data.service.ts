@@ -5,8 +5,6 @@ import {
   of,
 } from 'rxjs'
 import { Injectable } from '@angular/core'
-
-import { AppDataService } from './app-data.service'
 import { AnnouncementType } from '../reducers/announcement-type/announcement-type.model'
 import { Party } from '../reducers/party/party.model'
 import { Portfolio } from '../reducers/portfolio/portfolio.model'

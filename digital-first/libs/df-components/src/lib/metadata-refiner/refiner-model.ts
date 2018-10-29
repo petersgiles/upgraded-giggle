@@ -11,5 +11,6 @@ export interface RefinerGroup {
     title: string
     expanded: boolean
     custom?: boolean
+    count?: number
     children: RefinerType[]
 }
