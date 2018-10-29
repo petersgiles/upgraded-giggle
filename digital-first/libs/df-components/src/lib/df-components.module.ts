@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
+import { DfPipesModule } from '@digital-first/df-pipes'
 
 import { ContactCardComponent } from './contact-card/contact-card.component'
 import { PageTitleComponent } from './page-title.component'
@@ -13,6 +14,7 @@ import { RelatedArtifactsComponent } from './related-artifacts/related-artifacts
 import { TagsComponent } from './tags/tags.component'
 import { ViewLayoutButtonComponent } from './view-layout-button.component'
 import { DfThemeModule } from '@digital-first/df-theme'
+import { MetadataFilterComponent } from './metadata-filter/metadata-filter.component'
 
 const COMPONENTS = [
   TagsComponent,
@@ -25,12 +27,14 @@ const COMPONENTS = [
   ShareButtonComponent,
   AddNotificationButtonComponent,
   ArchiveButtonComponent,
-  RelatedArtifactsComponent
+  RelatedArtifactsComponent,
+  MetadataFilterComponent
 ]
 
 @NgModule({
   imports: [
     CommonModule,
+    DfPipesModule,
     DfThemeModule
   ],
   declarations: [...COMPONENTS],

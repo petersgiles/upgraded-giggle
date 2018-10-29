@@ -19,11 +19,13 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
   loadingSubscription$: Subscription
   loadingDialogRef: MdcDialogRef<DialogSpinnerOverlayComponent, {}>
   pageFormat: 'card' | 'list' = 'list'
+  filterGroups$: Observable<any>
 
   constructor(public dialog: MdcDialog, private router: Router, private service: CommitmentDataService) { }
 
   ngOnInit() {
     this.commitments$ = this.service.Commitments
+    this.filterGroups$ = this.service.FilterGroups
     this.error$ = this.service.CommitmentError
 
     this.service.getAllAnnouncementTypes()

@@ -33,6 +33,7 @@ import * as fromContact from './contact/contact.reducer'
 import * as fromLocation from './location/location.reducer'
 import * as fromCommitmentType from './commitment-type/commitment-type.reducer'
 import { toTree } from '@digital-first/df-utils'
+import { FilterGroup } from './lookup-type'
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
     return localStorageSync({ keys: [{ 'auth': ['status'] }, { 'topic-nav': ['page'] }], rehydrate: true })(reducer)
@@ -253,6 +254,79 @@ export const getCurrentCommitment = createSelector(
     }
 )
 
+export const getFilterGroups = createSelector(
+    getAllPartys,
+    getAllPortfolios,
+    getAllLocations,
+    getAllAnnouncementTypes,
+    getAllCommitmentTypes,
+    (partys, portfolios, locations, announcementTypes, commitmentTypes) => {
+
+        let filterId = 1
+
+        const userDefinedFilters: FilterGroup = {
+            id: filterId++,
+            title: 'Favourites',
+            visible: true,
+            custom: true,
+            children: null
+        }
+
+        const tagFilters: FilterGroup = {
+            id: filterId++,
+            title: 'Tags',
+            visible: false,
+            children: null
+        }
+
+        const partyFilters: FilterGroup = {
+            id: filterId++,
+            title: 'Party',
+            visible: true,
+            children: partys.map(p => ({ id: p.id, title: p.title }))
+        }
+
+        const portfoliosFilters: FilterGroup = {
+            id: filterId++,
+            title: 'Portfolios',
+            visible: false,
+            children: portfolios.map(p => ({ id: p.id, title: p.title }))
+        }
+
+        const locationsFilters: FilterGroup = {
+            id: filterId++,
+            title: 'Locations',
+            visible: false,
+            children: locations.map(p => ({ id: p.id, title: p.title }))
+        }
+
+        const announcementTypesFilters: FilterGroup = {
+            id: filterId++,
+            title: 'Announcement Types',
+            visible: false,
+            children: announcementTypes.map(p => ({ id: p.id, title: p.title }))
+        }
+
+        const commitmentTypesFilters: FilterGroup = {
+            id: filterId++,
+            title: 'Commitment Types',
+            visible: false,
+            children: commitmentTypes.map(p => ({ id: p.id, title: p.title }))
+        }
+
+        const filterGroups: FilterGroup[] = []
+        filterGroups.push(userDefinedFilters)
+        filterGroups.push(tagFilters)
+        filterGroups.push(partyFilters)
+        filterGroups.push(portfoliosFilters)
+        filterGroups.push(locationsFilters)
+        filterGroups.push(announcementTypesFilters)
+        filterGroups.push(commitmentTypesFilters)
+
+        return filterGroups
+    }
+)
+
 export const getAllOverviewCommitments = createSelector(
     getAllCommitments,
     getPartyEntities,
@@ -263,15 +337,15 @@ export const getAllOverviewCommitments = createSelector(
     (commitments, partys, portfolios, locations, announcementTypes, commitmentTypes) => {
 
         const result = commitments.map(commitment =>
-        ({
-            ...commitment,
-            description: null,
-            portfolio: commitment.portfolio ? portfolios[commitment.portfolio.id] : null,
-            party: commitment.party ? partys[commitment.party.id] : null,
-            location: commitment.location ? locations[commitment.location.id] : null,
-            announcementType: commitment.announcementType ? announcementTypes[commitment.announcementType.id] : null,
-            commitmentType: commitment.commitmentType ? commitmentTypes[commitment.commitmentType.id] : null,
-        }))
+            ({
+                ...commitment,
+                description: null,
+                portfolio: commitment.portfolio ? portfolios[commitment.portfolio.id] : null,
+                party: commitment.party ? partys[commitment.party.id] : null,
+                location: commitment.location ? locations[commitment.location.id] : null,
+                announcementType: commitment.announcementType ? announcementTypes[commitment.announcementType.id] : null,
+                commitmentType: commitment.commitmentType ? commitmentTypes[commitment.commitmentType.id] : null,
+            }))
 
         return result
 

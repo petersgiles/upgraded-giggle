@@ -55,11 +55,16 @@
     }
   }
     
+  .scrollbox {
+    overflow-y: scroll; 
+    overflow-x: hidden;
+  }
+
   .app-page {
 
     padding-bottom: 45px;
     padding-left: 20px;
-    overflow-y: scroll; 
+    overflow-y: scroll;
     overflow-x: hidden;
     max-height: calc(100vh - 110px);
 

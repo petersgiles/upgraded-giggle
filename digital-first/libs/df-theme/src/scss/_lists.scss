@@ -16,3 +16,10 @@
     @include mdc-list-item-meta-ink-color($material-color-orange-500);
   }
   
+
+
+  .digital-first-list-heading { 
+    color: $primary-color-text;
+    background-color: $primary-color-dark;
+    @include mdc-list-item-meta-ink-color($primary-color-text);
+  }

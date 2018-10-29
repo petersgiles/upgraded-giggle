@@ -143,6 +143,12 @@ export class CommitmentDataService {
     return this.store.select(fromRoot.getCommitmentTypeError)
   }
 
+  // FilterGroups
+
+  get FilterGroups(): Observable<any> {
+    return this.store.select(fromRoot.getFilterGroups)
+  }
+
   // Contacts
 
   public getAllContacts(filter?: any) {

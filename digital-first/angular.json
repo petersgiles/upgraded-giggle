@@ -1054,6 +1054,14 @@
       "sourceRoot": "libs/df-components/src",
       "projectType": "library",
       "prefix": "digital-first",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        },
+        "@ngrx/schematics:component": {
+          "styleext": "scss"
+        }
+      },
       "architect": {
         "test": {
           "builder": "@angular-devkit/build-angular:karma",

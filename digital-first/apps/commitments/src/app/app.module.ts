@@ -28,7 +28,8 @@ import {
   ShareButtonComponent,
   AddNotificationButtonComponent,
   ArchiveButtonComponent,
-  RelatedArtifactsComponent
+  RelatedArtifactsComponent,
+  MetadataFilterComponent
 } from '@digital-first/df-components'
 
 import { AppComponent } from './app.component'
@@ -103,7 +104,8 @@ const ENTRYCOMPONENTS = [
   ShareButtonComponent,
   AddNotificationButtonComponent,
   ArchiveButtonComponent,
-  RelatedArtifactsComponent
+  RelatedArtifactsComponent,
+  MetadataFilterComponent
 ]
 
 export function initApplication(store: Store<fromRoot.State>): Function {
