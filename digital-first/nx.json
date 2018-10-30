@@ -73,6 +73,9 @@
     },
     "df-components": {
       "tags": []
+    },
+    "df-logging": {
+      "tags": []
     }
   }
 }

@@ -45,6 +45,9 @@
       ],
       "@digital-first/df-components": [
         "libs/df-components/src/index.ts"
+      ],
+      "@digital-first/df-logging": [
+        "libs/df-logging/src/index.ts"
       ]
     }
   },
