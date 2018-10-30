@@ -28,6 +28,7 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
     this.refinerGroups$ = this.service.RefinerGroups
     this.error$ = this.service.CommitmentError
 
+    this.service.getAllWhoAnnouncedTypes()
     this.service.getAllAnnouncementTypes()
     this.service.getAllCommitmentTypes()
     this.service.getAllLocations()

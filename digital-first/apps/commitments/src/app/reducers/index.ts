@@ -76,6 +76,7 @@ export * from './portfolio'
 export * from './announcement-type'
 export * from './commitment-overview'
 export * from './commitment'
+export * from './who-announced-type'
 
 export class CustomSerializer
     implements fromRouter.RouterStateSerializer<RouterStateUrl> {

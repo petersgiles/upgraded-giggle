@@ -49,6 +49,7 @@ export class CommitmentCreateComponent implements OnInit, OnDestroy {
     this.portfolios$ = this.service.Portfolios
     this.locations$ = this.service.Locations
 
+    this.service.getAllWhoAnnouncedTypes()
     this.service.getAllAnnouncementTypes()
     this.service.getAllCommitmentTypes()
     this.service.getAllLocations()

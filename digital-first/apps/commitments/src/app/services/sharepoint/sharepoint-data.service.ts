@@ -16,7 +16,8 @@ import {
   mapParties,
   mapPortfolios,
   mapContacts,
-  mapCommitmentTypes
+  mapCommitmentTypes,
+  mapWhoAnnouncedTypes
 } from './sharepoint-data-maps'
 
 import {
@@ -29,7 +30,8 @@ import {
   PartysResult,
   ContactsResult,
   LocationsResult,
-  CommitmentTypesResult
+  CommitmentTypesResult,
+  WhoAnnouncedTypesResult
 } from '../../models'
 import { Commitment } from '../../reducers/commitment'
 
@@ -76,6 +78,19 @@ export class SharepointDataService implements AppDataService {
             error: null
           }))
       )
+  }
+
+  filterWhoAnnouncedTypes(filter?: any): Observable<DataResult<WhoAnnouncedTypesResult>> {
+    return this.sharepoint.getItems({ listName: 'WhoAnnouncedType' })
+      .pipe(
+        concatMap((result: any) =>
+          of({
+            data: { whoAnnouncedTypes: mapWhoAnnouncedTypes(result) },
+            loading: false,
+            error: null
+          }))
+      )
+
   }
 
   filterAnnouncementTypes(filter?: any): Observable<DataResult<AnnouncementTypesResult>> {

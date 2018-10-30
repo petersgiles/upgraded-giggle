@@ -1,10 +1,12 @@
-import * as moment from 'moment'
 import {
-  BehaviorSubject,
   Observable,
-  of,
 } from 'rxjs'
 import { Injectable } from '@angular/core'
+import { tap } from 'rxjs/operators'
+import { Store } from '@ngrx/store'
+import { RefinerGroup, RefinerType } from '@digital-first/df-components'
+
+import { WhoAnnouncedType } from '../reducers/who-announced-type/who-announced-type.model'
 import { AnnouncementType } from '../reducers/announcement-type/announcement-type.model'
 import { Party } from '../reducers/party/party.model'
 import { Portfolio } from '../reducers/portfolio/portfolio.model'
@@ -12,8 +14,8 @@ import { Commitment } from '../reducers/commitment/commitment.model'
 import { Comment } from '../reducers/comment/comment.model'
 import { Contact } from '../reducers/contact/contact.model'
 import { Location } from '../reducers/location/location.model'
-import { Store } from '@ngrx/store'
-import * as fromRoot from '../reducers'
+import { CommitmentType } from '../reducers/commitment-type/commitment-type.model'
+
 import { GetAllLocations } from '../reducers/location/location.actions'
 import { GetCommitments, GetAllCommitments, SetCurrentCommitment, StoreCommitment } from '../reducers/commitment/commitment.actions'
 import { GetAllAnnouncementTypes } from '../reducers/announcement-type/announcement-type.actions'
@@ -21,18 +23,47 @@ import { GetAllContacts } from '../reducers/contact/contact.actions'
 import { GetAllPartys } from '../reducers/party/party.actions'
 import { GetAllPortfolios } from '../reducers/portfolio/portfolio.actions'
 import { GetAllCommitmentTypes } from '../reducers/commitment-type/commitment-type.actions'
-import { CommitmentType } from '../reducers/commitment-type/commitment-type.model'
 import { GetCommentsByCommitment, StoreComment, RemoveComment, DeleteComment, ClearComments } from '../reducers/comment/comment.actions'
-import { tap } from 'rxjs/operators'
 import { AddRefiner, RemoveRefiner, ClearAllRefiners, ExpandRefinerGroup, CollapseRefinerGroup } from '../reducers/commitment-overview/commitment-overview.actions'
-import { RefinerGroup, RefinerType } from '@digital-first/df-components'
+import { GetAllWhoAnnouncedTypes } from '../reducers/who-announced-type/who-announced-type.actions'
 
+import * as fromRoot from '../reducers'
 @Injectable({
   providedIn: 'root'
 })
 export class CommitmentDataService {
 
   constructor(private store: Store<fromRoot.State>) { }
+
+  /// WhoAnnouncedTypes
+
+  public getAllWhoAnnouncedTypes(filter?: any) {
+    this.store.dispatch(new GetAllWhoAnnouncedTypes({ filter: filter }))
+  }
+
+  get WhoAnnouncedTypesLookup(): Observable<WhoAnnouncedType[]> {
+    return this.store.select(fromRoot.getAllWhoAnnouncedTypes)
+      .pipe(
+        // tslint:disable-next-line:no-console
+        tap((result: any) => console.log('WhoAnnouncedTypes => ', result)),
+      )
+  }
+
+  get WhoAnnouncedTypes(): Observable<WhoAnnouncedType[]> {
+    return this.store.select(fromRoot.getAllWhoAnnouncedTypes)
+      .pipe(
+        // tslint:disable-next-line:no-console
+        tap((result: any) => console.log('WhoAnnouncedTypes => ', result)),
+      )
+  }
+
+  get WhoAnnouncedTypesLoading(): Observable<boolean> {
+    return this.store.select(fromRoot.getCommitmentLoading)
+  }
+
+  get WhoAnnouncedTypesError(): Observable<any> {
+    return this.store.select(fromRoot.getCommitmentError)
+  }
 
   /// AnnouncementTypes
 

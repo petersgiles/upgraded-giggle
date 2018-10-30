@@ -6,6 +6,7 @@ import { Commitment } from '../reducers/commitment'
   providedIn: 'root'
 })
 export abstract class AppDataService {
+  abstract filterWhoAnnouncedTypes(filter: any): Observable<any>
   abstract storeCommitment(commitment: Commitment): Observable<any>
 
   abstract getCommitment(criteria: { id: number; }): Observable<any>

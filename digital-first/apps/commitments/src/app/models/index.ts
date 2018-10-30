@@ -5,6 +5,7 @@ import { Commitment } from '../reducers/commitment'
 import { CommitmentType } from '../reducers/commitment-type/commitment-type.model'
 import { Contact } from '../reducers/contact/contact.model'
 import { Location } from '../reducers/location/location.model'
+import { WhoAnnouncedType } from '../reducers/who-announced-type/who-announced-type.model'
 
 export interface ServiceData<T> {
   data: { [key: string]: T }
@@ -20,6 +21,10 @@ export interface DataResult<T> {
 
 export interface AnnouncementTypesResult {
   announcementTypes: AnnouncementType[]
+}
+
+export interface WhoAnnouncedTypesResult {
+  whoAnnouncedTypes: WhoAnnouncedType[]
 }
 export interface CommentsResult {
   comments

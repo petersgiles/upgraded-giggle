@@ -16,7 +16,8 @@ import {
   PartysResult,
   ContactsResult,
   LocationsResult,
-  CommitmentTypesResult
+  CommitmentTypesResult,
+  WhoAnnouncedTypesResult
 } from '../../models'
 
 import {
@@ -31,7 +32,8 @@ import {
   GET_PARTIES,
   GET_LOCATIONS,
   GET_COMMITMENT_TYPES,
-  GET_CONTACTS
+  GET_CONTACTS,
+  GET_WHO_ANNOUNCED_TYPES
 } from './apollo-queries'
 import { Commitment } from '../../reducers/commitment'
 
@@ -87,6 +89,7 @@ export class ApolloDataService implements AppDataService {
 
   getCommitment = (criteria: { id: number; }) => this.callQuery<CommitmentResult>({ query: GET_COMMITMENT, variables: criteria })
 
+  filterWhoAnnouncedTypes = (filter?: any) => this.callQuery<WhoAnnouncedTypesResult>({ query: GET_WHO_ANNOUNCED_TYPES })
   filterAnnouncementTypes = (filter?: any) => this.callQuery<AnnouncementTypesResult>({ query: GET_ANNOUNCEMENT_TYPES })
   filterCommitments = (filter?: any) => this.callQuery<CommitmentsResult>({ query: GET_ALL_COMMITMENTS, variables: filter })
   filterPortfolios = (filter?: any) => this.callQuery<PortfoliosResult>({ query: GET_PORTFOLIOS, variables: filter })

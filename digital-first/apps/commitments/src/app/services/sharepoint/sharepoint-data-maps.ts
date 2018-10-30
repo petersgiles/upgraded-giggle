@@ -7,6 +7,7 @@ import { Commitment } from '../../reducers/commitment'
 import { CommitmentType } from '../../reducers/commitment-type/commitment-type.model'
 import { Contact } from '../../reducers/contact/contact.model'
 import { Location } from '../../reducers/location/location.model'
+import { WhoAnnouncedType } from '../../reducers/who-announced-type/who-announced-type.model'
 
 export const byIdQuery = (criteria: { id }) =>
   `<View>
@@ -69,6 +70,15 @@ export const mapAnnouncementType = (announcementType): any => ({
 })
 
 export const mapAnnouncementTypes = (announcementTypes): AnnouncementType[] => announcementTypes.map(mapAnnouncementType)
+
+export const mapWhoAnnouncedType = (announcementType): any => ({
+  id: announcementType.ID,
+  title: announcementType.Title,
+  colour: announcementType.Colour,
+  sortOrder: announcementType.SortOrder
+})
+
+export const mapWhoAnnouncedTypes = (whoAnnouncedTypes): WhoAnnouncedType[] => whoAnnouncedTypes.map(mapWhoAnnouncedType)
 
 export const mapCommitmentType = (commitmentType): any => ({
   id: commitmentType.ID,

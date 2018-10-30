@@ -67,6 +67,7 @@
     "graphql-tag": "^2.10.0",
     "moment": "^2.22.2",
     "ngrx-store-localstorage": "^5.1.0",
+    "npm": "^6.4.1",
     "rxjs": "^6.0.0",
     "x2js": "^3.2.1",
     "zone.js": "^0.8.26"

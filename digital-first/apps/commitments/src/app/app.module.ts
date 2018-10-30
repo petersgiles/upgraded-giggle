@@ -58,6 +58,7 @@ import { StartAppInitialiser } from './reducers/app.actions'
 
 import * as fromRoot from './reducers'
 import * as fromAnnouncementType from './reducers/announcement-type/announcement-type.reducer'
+import * as fromWhoAnnouncedType from './reducers/who-announced-type/who-announced-type.reducer'
 import * as fromCommitment from './reducers/commitment/commitment.reducer'
 import * as fromPortfolio from './reducers/portfolio/portfolio.reducer'
 import * as fromParty from './reducers/party/party.reducer'
@@ -76,6 +77,7 @@ import { LocationEffects } from './reducers/location/location.effects'
 import { PartyEffects } from './reducers/party/party.effects'
 import { PortfolioEffects } from './reducers/portfolio/portfolio.effects'
 import { CommitmentCreateComponent } from './containers/commitment-create/commitment-create.component'
+import { WhoAnnouncedTypeEffects } from './reducers/who-announced-type/who-announced-type.effects'
 
 const COMPONENTS = [
   AppComponent,
@@ -175,6 +177,7 @@ export let appDataServiceProvider = {
 
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
+    StoreModule.forFeature('whoAnnouncementType', fromWhoAnnouncedType.reducer),
     StoreModule.forFeature('announcementType', fromAnnouncementType.reducer),
     StoreModule.forFeature('commitment', fromCommitment.reducer),
     StoreModule.forFeature('portfolio', fromPortfolio.reducer),
@@ -187,6 +190,7 @@ export let appDataServiceProvider = {
     EffectsModule.forRoot([AppEffects]),
     EffectsModule.forFeature([
       RouterEffects,
+      WhoAnnouncedTypeEffects,
       AnnouncementTypeEffects,
       CommentEffects,
       CommitmentEffects,
