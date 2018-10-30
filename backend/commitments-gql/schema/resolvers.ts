@@ -13,19 +13,15 @@ db.connect('./diskdb', [
   'commitment-electorates'
 ]);
 
-
-// db['commitment-announcementTypes'].update({"id":"1"},{"id":"1","title":"Door Stop","description":"","sortorder":999,"colour":"red","icon":"category"}, { multi: false, upsert: true })
-// db['commitment-announcementTypes'].update({"id":"2"},{"id":"2","title":"Press Release","description":"","sortorder":999,"colour":"red","icon":"category"}, { multi: false, upsert: true })
-// db['commitment-announcementTypes'].update({"id":"3"},{"id":"3","title":"Launch Event","description":"","sortorder":999,"colour":"red","icon":"category"}, { multi: false, upsert: true })
-// db['commitment-announcementTypes'].update({"id":"4"},{"id":"4","title":"Local","description":"","sortorder":999,"colour":"red","icon":"category"}, { multi: false, upsert: true })
-// db['commitment-announcementTypes'].update({"id":"5"},{"id":"5","title":"Informal","description":"","sortorder":999,"colour":"red","icon":"category"}, { multi: false, upsert: true })
-// db['commitment-announcementTypes'].update({"id":"6"},{"id":"6","title":"Speeches","description":"","sortorder":999,"colour":"red","icon":"category"}, { multi: false, upsert: true })
-
 // A map of functions which return data for the schema.
 export const resolvers = {
   Query: {
     commitments: () => db.commitments.find(),
-    commitment: (obj: any, args: any, context: any, info: any) => db.commitments.findOne({ id: args.id }),
+    commitment: (obj: any, args: any, context: any, info: any) => {
+        let found = db.commitments.findOne({ id: args.id })
+        console.log("commitment => ", found)
+        return found
+    },
     parties: () => db['commitment-parties'].find(),
     portfolios: () => db['commitment-portfolios'].find(),
     announcementTypes: () => db['commitment-announcementTypes'].find(),
@@ -87,7 +83,9 @@ export const resolvers = {
       return db['commitment-parties'].findOne({ id: commitment.party })
     },
     whoAnnouncedType(commitment: any) {
-      return db['commitment-whoAnnouncedTypes'].findOne({ id: commitment.whoAnnouncedType })
+      let wat = db['commitment-whoAnnouncedTypes'].findOne({ id: commitment.whoAnnouncedType })
+      console.log('whoAnnouncedType =>', wat)
+      return wat
     },
     announcementType(commitment: any) {
       return db['commitment-announcementTypes'].findOne({ id: commitment.announcementType })
