@@ -182,15 +182,16 @@ export class SharepointDataService implements AppDataService {
   storeCommitment(commitment: Commitment): Observable<any> {
 
     const spCommitment = {
-      AnnouncementType: commitment.announcementType.id,
-      CommitmentType: commitment.commitmentType.id,
+      WhoAnnouncedType: commitment.whoAnnouncedType,
+      AnnouncementType: commitment.announcementType,
+      CommitmentType: commitment.commitmentType,
       Contacts: commitment.contacts,
       Cost: commitment.cost,
       Date: commitment.date,
       Description: commitment.description,
-      Location: commitment.location.id,
-      PoliticalParty: commitment.party.id,
-      Portfolio: commitment.portfolio.id,
+      Location: commitment.location,
+      PoliticalParty: commitment.party,
+      Portfolio: commitment.portfolio,
       Title: commitment.title
     }
 
