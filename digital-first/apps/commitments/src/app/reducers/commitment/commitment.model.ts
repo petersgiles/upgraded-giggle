@@ -4,6 +4,7 @@ import { Portfolio } from '../portfolio/portfolio.model'
 import { Comment } from '../comment/comment.model'
 import { Location } from '../location/location.model'
 import { CommitmentType } from '../commitment-type/commitment-type.model'
+import { WhoAnnouncedType } from '../who-announced-type/who-announced-type.model'
 
 export interface Commitment {
   id: number
@@ -12,6 +13,7 @@ export interface Commitment {
   description: string,
   cost: string,
   location: Location,
+  whoAnnouncedType: WhoAnnouncedType
   announcementType: AnnouncementType,
   commitmentType: CommitmentType,
   date: any,

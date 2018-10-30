@@ -23,6 +23,7 @@ import { storeFreeze } from 'ngrx-store-freeze'
 import { localStorageSync } from 'ngrx-store-localstorage'
 
 import { RouterStateUrl } from './router-state-url'
+import * as fromWhoAnnouncedType from './who-announced-type/who-announced-type.reducer'
 import * as fromAnnouncementType from './announcement-type/announcement-type.reducer'
 import * as fromCommitment from './commitment/commitment.reducer'
 import * as fromPortfolio from './portfolio/portfolio.reducer'
@@ -42,6 +43,7 @@ export function logger(reducer: ActionReducer<State>): ActionReducer<State> { re
 
 export interface State {
     routerReducer: fromRouter.RouterReducerState<RouterStateUrl>
+    whoAnnouncedType: fromWhoAnnouncedType.State
     announcementType: fromAnnouncementType.State
     commitment: fromCommitment.State
     portfolio: fromPortfolio.State
@@ -56,6 +58,7 @@ export interface State {
 
 export const reducers: ActionReducerMap<State> = {
     routerReducer: fromRouter.routerReducer,
+    whoAnnouncedType: fromWhoAnnouncedType.reducer,
     announcementType: fromAnnouncementType.reducer,
     commitment: fromCommitment.reducer,
     portfolio: fromPortfolio.reducer,

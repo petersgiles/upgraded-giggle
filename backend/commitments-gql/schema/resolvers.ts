@@ -13,6 +13,14 @@ db.connect('./diskdb', [
   'commitment-electorates'
 ]);
 
+
+// db['commitment-announcementTypes'].update({"id":"1"},{"id":"1","title":"Door Stop","description":"","sortorder":999,"colour":"red","icon":"category"}, { multi: false, upsert: true })
+// db['commitment-announcementTypes'].update({"id":"2"},{"id":"2","title":"Press Release","description":"","sortorder":999,"colour":"red","icon":"category"}, { multi: false, upsert: true })
+// db['commitment-announcementTypes'].update({"id":"3"},{"id":"3","title":"Launch Event","description":"","sortorder":999,"colour":"red","icon":"category"}, { multi: false, upsert: true })
+// db['commitment-announcementTypes'].update({"id":"4"},{"id":"4","title":"Local","description":"","sortorder":999,"colour":"red","icon":"category"}, { multi: false, upsert: true })
+// db['commitment-announcementTypes'].update({"id":"5"},{"id":"5","title":"Informal","description":"","sortorder":999,"colour":"red","icon":"category"}, { multi: false, upsert: true })
+// db['commitment-announcementTypes'].update({"id":"6"},{"id":"6","title":"Speeches","description":"","sortorder":999,"colour":"red","icon":"category"}, { multi: false, upsert: true })
+
 // A map of functions which return data for the schema.
 export const resolvers = {
   Query: {
@@ -46,7 +54,7 @@ export const resolvers = {
 
       const data = { ...args, author: author };
       var updated = db.commitments.update(query, data, { multi: false, upsert: true });
-      console.log('upsertCommitment =>', updated);
+      console.log('upsertCommitment =>', updated, data);
 
       return data;
     },

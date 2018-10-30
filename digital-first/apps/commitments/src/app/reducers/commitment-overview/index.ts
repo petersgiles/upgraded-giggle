@@ -9,6 +9,7 @@ import { getPortfolioEntities, getAllPortfolios } from '../portfolio'
 import { getAnnouncementTypeEntities, getAllAnnouncementTypes } from '../announcement-type'
 import { getAllCommitments } from '../commitment'
 import { Commitment } from '../commitment/commitment.model'
+import { getAllWhoAnnouncedTypes, getWhoAnnouncedTypeEntities } from '../who-announced-type'
 
 export const getCommitmentOverviewState = state => state.commitmentOverview
 
@@ -47,11 +48,15 @@ const REFINER_GROUP_LOCATION = {
 }
 const REFINER_GROUP_ANNOUNCEMENT_TYPE = {
     key: 'announcementType', // key needs to match property on artifact
-    title: 'Announcement Type'
+    title: 'Announcement'
 }
 const REFINER_GROUP_COMMITMENT_TYPE = {
     key: 'commitmentType', // key needs to match property on artifact
-    title: 'Commitment Type'
+    title: 'Commitment'
+}
+const REFINER_GROUP_WHO_ANNOUNCED_TYPE = {
+    key: 'whoAnnouncedType', // key needs to match property on artifact
+    title: 'Who Announced'
 }
 
 export const getRefinerGroups = createSelector(
@@ -62,7 +67,8 @@ export const getRefinerGroups = createSelector(
     getAllLocations,
     getAllAnnouncementTypes,
     getAllCommitmentTypes,
-    (selected, groups, partys, portfolios, locations, announcementTypes, commitmentTypes) => {
+    getAllWhoAnnouncedTypes,
+    (selected, groups, partys, portfolios, locations, announcementTypes, commitmentTypes, whoAnnouncedTypes) => {
 
         const refinerGroups: RefinerGroup[] = []
 
@@ -75,13 +81,14 @@ export const getRefinerGroups = createSelector(
         }
         refinerGroups.push(userDefinedRefiners)
 
-        const refiners = [partys, portfolios, locations, announcementTypes, commitmentTypes]
+        const refiners = [partys, portfolios, locations, announcementTypes, commitmentTypes, whoAnnouncedTypes]
         const refinerGroupTitles = [
             REFINER_GROUP_PARTY,
             REFINER_GROUP_PORTFOLIO,
             REFINER_GROUP_LOCATION,
             REFINER_GROUP_ANNOUNCEMENT_TYPE,
-            REFINER_GROUP_COMMITMENT_TYPE
+            REFINER_GROUP_COMMITMENT_TYPE,
+            REFINER_GROUP_WHO_ANNOUNCED_TYPE
         ]
         refiners.reduce((acc: RefinerGroup[], item: any[], index: number) => {
 
@@ -124,7 +131,7 @@ export const getFilteredOverviewCommitments = createSelector(
                 if (!filters[eachKey].length) {
                     return true // passing an empty filter means that filter is ignored.
                 }
-                const filteredProperty = filters[eachKey].map(fp => fp.id).includes(eachObj[eachKey].id)
+                const filteredProperty = filters[eachKey].map(fp => fp.id).includes(eachObj[eachKey] && eachObj[eachKey].id)
                 return filteredProperty // filters[eachKey].includes(eachObj[eachKey])
             }))
     }
@@ -137,7 +144,8 @@ export const getAllOverviewCommitments = createSelector(
     getLocationEntities,
     getAnnouncementTypeEntities,
     getCommitmentTypeEntities,
-    (commitments, partys, portfolios, locations, announcementTypes, commitmentTypes) => {
+    getWhoAnnouncedTypeEntities,
+    (commitments, partys, portfolios, locations, announcementTypes, commitmentTypes, whoAnnouncedTypes) => {
 
         const result = commitments.map(commitment =>
             ({
@@ -146,6 +154,7 @@ export const getAllOverviewCommitments = createSelector(
                 portfolio: commitment.portfolio ? portfolios[commitment.portfolio.id] : null,
                 party: commitment.party ? partys[commitment.party.id] : null,
                 location: commitment.location ? locations[commitment.location.id] : null,
+                whoAnnouncedType: commitment.whoAnnouncedType ? whoAnnouncedTypes[commitment.whoAnnouncedType.id] : null,
                 announcementType: commitment.announcementType ? announcementTypes[commitment.announcementType.id] : null,
                 commitmentType: commitment.commitmentType ? commitmentTypes[commitment.commitmentType.id] : null,
             }))

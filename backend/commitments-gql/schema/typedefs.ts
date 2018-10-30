@@ -128,6 +128,7 @@ type Tag {
       party: ID
       cost: String
       location: ID,
+      whoAnnouncedType: ID,
       announcementType: ID,
       commitmentType: ID,
       date: String,

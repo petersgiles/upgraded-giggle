@@ -177,7 +177,7 @@ export let appDataServiceProvider = {
 
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    StoreModule.forFeature('whoAnnouncementType', fromWhoAnnouncedType.reducer),
+    StoreModule.forFeature('whoAnnouncedType', fromWhoAnnouncedType.reducer),
     StoreModule.forFeature('announcementType', fromAnnouncementType.reducer),
     StoreModule.forFeature('commitment', fromCommitment.reducer),
     StoreModule.forFeature('portfolio', fromPortfolio.reducer),

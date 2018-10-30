@@ -3,13 +3,14 @@ import moment = require('moment')
 import { toTree } from '@digital-first/df-utils'
 
 import * as fromCommitment from './commitment.reducer'
-import { getCommitmentTypeEntities, getAllCommitmentTypes } from '../commitment-type'
-import { getLocationEntities, getAllLocations } from '../location'
+import { getCommitmentTypeEntities } from '../commitment-type'
+import { getLocationEntities } from '../location'
 import { getAllComments } from '../comment'
 
 import { getPartyEntities } from '../party'
 import { getPortfolioEntities } from '../portfolio'
 import { getAnnouncementTypeEntities } from '../announcement-type'
+import { getWhoAnnouncedTypeEntities } from '../who-announced-type'
 
 export { CommitmentEffects } from './commitment.effects'
 export * from './commitment.model'
@@ -28,16 +29,25 @@ export const {
     selectTotal: getTotalCommitments,
 } = fromCommitment.adapter.getSelectors(getCommitmentEntitiesState)
 
-export const getCurrentCommitment = createSelector(
-    getCommitmentEntities,
-    getCurrentCommitentId,
+export const getLookupEnitites = createSelector(
     getPartyEntities,
     getPortfolioEntities,
     getLocationEntities,
     getAnnouncementTypeEntities,
     getCommitmentTypeEntities,
+    getWhoAnnouncedTypeEntities,
+    (partys, portfolios, locations, announcementTypes, commitmentTypes, whoAnnouncedTypes) =>
+        ({
+            partys, portfolios, locations, announcementTypes, commitmentTypes, whoAnnouncedTypes
+        })
+)
+
+export const getCurrentCommitment = createSelector(
+    getCommitmentEntities,
+    getCurrentCommitentId,
     getAllComments,
-    (commitments, current, partys, portfolios, locations, announcementTypes, commitmentTypes, comments) => {
+    getLookupEnitites,
+    (commitments, current, comments, lookups) => {
         const commitment = commitments[current]
         const discussionItems = comments.map(c => ({ ...c })) // creating mutatable list
 
@@ -47,11 +57,12 @@ export const getCurrentCommitment = createSelector(
         if (commitment) {
             return {
                 ...commitment,
-                portfolio: commitment.portfolio ? portfolios[commitment.portfolio.id] : null,
-                party: commitment.party ? partys[commitment.party.id] : null,
-                location: commitment.location ? locations[commitment.location.id] : null,
-                announcementType: commitment.announcementType ? announcementTypes[commitment.announcementType.id] : null,
-                commitmentType: commitment.commitmentType ? commitmentTypes[commitment.commitmentType.id] : null,
+                portfolio: commitment.portfolio ? lookups.portfolios[commitment.portfolio.id] : null,
+                party: commitment.party ? lookups.partys[commitment.party.id] : null,
+                location: commitment.location ? lookups.locations[commitment.location.id] : null,
+                whoAnnouncedType: commitment.whoAnnouncedType ? lookups.whoAnnouncedTypes[commitment.whoAnnouncedType.id] : null,
+                announcementType: commitment.announcementType ? lookups.announcementTypes[commitment.announcementType.id] : null,
+                commitmentType: commitment.commitmentType ? lookups.commitmentTypes[commitment.commitmentType.id] : null,
                 date: moment(commitment.date),
 
                 discussion: toTree(discussionItems, {

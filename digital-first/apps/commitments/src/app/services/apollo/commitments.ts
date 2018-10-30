@@ -27,6 +27,18 @@ export const GET_COMMITMENT = gql`
         icon
         colour
       }
+      whoAnnouncedType {
+        id
+        title
+        icon
+        colour
+      }
+      commitmentType {
+        id
+        title
+        icon
+        colour
+      }
       portfolio {
         id
         title
@@ -62,6 +74,8 @@ export const UPSERT_COMMITMENT = gql`
     $cost: String
     $location: ID
     $announcementType: ID
+    $whoAnnouncedType: ID
+    $commitmentType: ID
     $date: String
     $announcedby: String
     $portfolio: ID
@@ -75,6 +89,8 @@ export const UPSERT_COMMITMENT = gql`
       cost: $cost
       location: $location
       announcementType: $announcementType
+      whoAnnouncedType: $whoAnnouncedType
+      commitmentType: $commitmentType
       date: $date
       announcedby: $announcedby
       portfolio: $portfolio
@@ -97,6 +113,18 @@ export const UPSERT_COMMITMENT = gql`
         colour
       }
       announcementType {
+        id
+        title
+        icon
+        colour
+      }
+      whoAnnouncedType {
+        id
+        title
+        icon
+        colour
+      }
+      commitmentType {
         id
         title
         icon
@@ -147,6 +175,9 @@ export const GET_ALL_COMMITMENTS = gql`
         id
       }
       portfolio {
+        id
+      }
+      whoAnnouncedType {
         id
       }
       contacts {

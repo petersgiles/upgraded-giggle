@@ -22,7 +22,12 @@
 
     <h3 class="form-content__headline">Political</h3>
     <div class="form-layout__row">
-      <mdc-text-field formControlName="announcedby" label="Announced By" required outlined (change)="handleChange($event)"></mdc-text-field>
+        <mdc-select placeholder="Who Announced" formControlName="whoAnnouncedType" outlined (change)="handleChange($event)">
+            <option [value]="null"></option>
+            <option *ngFor="let whoAnnouncedType of whoAnnouncedTypes" [value]="whoAnnouncedType.id">
+              {{whoAnnouncedType.title}}
+            </option>
+          </mdc-select>
       <mdc-text-field formControlName="date" label="Date" type="date" required outlined (change)="handleChange($event)"></mdc-text-field>
       <mdc-select placeholder="Type of Announcement" formControlName="announcementType" outlined (change)="handleChange($event)">
         <option [value]="null"></option>

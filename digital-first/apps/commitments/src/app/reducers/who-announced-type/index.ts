@@ -1,7 +1,7 @@
 import * as fromWhoAnnouncedType from './who-announced-type.reducer'
 import { createSelector } from '@ngrx/store'
 
-export const getWhoAnnouncedTypeEntitiesState = state => state.announcementType
+export const getWhoAnnouncedTypeEntitiesState = state => state.whoAnnouncedType
 
 export const {
     selectIds: getWhoAnnouncedTypeIds,
