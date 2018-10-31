@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
 export const COMMENTS_BY_COMMITMENT = gql`
-query Comments($commitment: Int!) {
+query Comments($commitment: ID!) {
     comments(commitment: $commitment) {
       id
       commitment

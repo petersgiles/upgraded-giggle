@@ -40,7 +40,7 @@ import { Commitment } from '../../reducers/commitment'
 })
 export class SharepointDataService implements AppDataService {
 
-  getCommitment(criteria: { id: number; }): Observable<DataResult<CommitmentResult>> {
+  getCommitment(criteria: { id: any; }): Observable<DataResult<CommitmentResult>> {
 
     return this.sharepoint.getItems({
       listName: 'Commitment',

@@ -33,6 +33,7 @@ import * as fromContact from './contact/contact.reducer'
 import * as fromLocation from './location/location.reducer'
 import * as fromCommitmentType from './commitment-type/commitment-type.reducer'
 import * as fromCommitmentOverview from './commitment-overview/commitment-overview.reducer'
+import * as fromCommitmentEdit from './commitment-edit/commitment-edit.reducer'
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
     return localStorageSync({ keys: [{ 'auth': ['status'] }, 'commitmentOverview'], rehydrate: true })(reducer)
@@ -52,7 +53,8 @@ export interface State {
     contact: fromContact.State
     location: fromLocation.State
     commitmentType: fromCommitmentType.State
-    commitmentOverview: fromCommitmentOverview.State
+    commitmentOverview: fromCommitmentOverview.State,
+    commitmentEdit: fromCommitmentEdit.State
 
 }
 
@@ -67,7 +69,8 @@ export const reducers: ActionReducerMap<State> = {
     contact: fromContact.reducer,
     location: fromLocation.reducer,
     commitmentType: fromCommitmentType.reducer,
-    commitmentOverview: fromCommitmentOverview.reducer
+    commitmentOverview: fromCommitmentOverview.reducer,
+    commitmentEdit: fromCommitmentEdit.reducer
 }
 
 export * from './commitment-type'
@@ -78,6 +81,7 @@ export * from './party'
 export * from './portfolio'
 export * from './announcement-type'
 export * from './commitment-overview'
+export * from './commitment-edit'
 export * from './commitment'
 export * from './who-announced-type'
 

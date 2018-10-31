@@ -77,7 +77,7 @@ export class ApolloDataService implements AppDataService {
       { mutation: DELETE_COMMENT, variables: { ...comment } },
       (result: any) => ({ commitment: result.data.deleteComment.commitment }))
 
-  getCommitment = (criteria: { id: number; }) => this.callQuery<CommitmentResult>({ query: GET_COMMITMENT, variables: criteria })
+  getCommitment = (criteria: { id: any; }) => this.callQuery<CommitmentResult>({ query: GET_COMMITMENT, variables: criteria })
 
   filterWhoAnnouncedTypes = (filter?: any) => this.callQuery<WhoAnnouncedTypesResult>({ query: GET_WHO_ANNOUNCED_TYPES })
   filterAnnouncementTypes = (filter?: any) => this.callQuery<AnnouncementTypesResult>({ query: GET_ANNOUNCEMENT_TYPES })
@@ -88,7 +88,7 @@ export class ApolloDataService implements AppDataService {
   filterLocations = (filter?: any) => this.callQuery<LocationsResult>({ query: GET_LOCATIONS, variables: filter })
   filterCommitmentTypes = (filter?: any) => this.callQuery<CommitmentTypesResult>({ query: GET_COMMITMENT_TYPES, variables: filter })
   filterParties = (filter?: any) => this.callQuery<PartysResult>({ query: GET_PARTIES, variables: filter })
-  getCommentsByCommitment = (commitment: number) => this.callQuery<CommentsResult>({ query: COMMENTS_BY_COMMITMENT, variables: { commitment: commitment } })
+  getCommentsByCommitment = (commitment: any) => this.callQuery<CommentsResult>({ query: COMMENTS_BY_COMMITMENT, variables: { commitment: commitment } })
 
   callMutate<T>(options: {
     mutation: any,

@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
 export const GET_COMMITMENT = gql`
-  query Commitment($id: Int!) {
+  query Commitment($id: ID!) {
     commitment(id: $id) {
       id
       title
