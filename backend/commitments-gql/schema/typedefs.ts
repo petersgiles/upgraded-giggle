@@ -4,7 +4,7 @@ import { gql } from 'apollo-server';
 export const typeDefs = gql`
 
 type Comment {
-  id: String
+  id: ID
   parent: String
   commitment: Int!
   text: String
@@ -13,7 +13,7 @@ type Comment {
 }
 
 type PoliticalParty {
-    id: String,
+    id: ID,
     title: String,
     description: String,
     sortorder: String,
@@ -28,7 +28,7 @@ type PoliticalParty {
 }
 
 type AnnouncementType {
-    id: String,
+    id: ID,
     title: String,
     description: String,
     sortorder: String,
@@ -37,7 +37,7 @@ type AnnouncementType {
 }
 
 type WhoAnnouncedType {
-    id: String,
+    id: ID,
     title: String,
     description: String,
     sortorder: String,
@@ -46,7 +46,7 @@ type WhoAnnouncedType {
 }
 
 type CommitmentType {
-    id: String,
+    id: ID,
     title: String,
     description: String,
     sortorder: String,
@@ -55,7 +55,7 @@ type CommitmentType {
 }
 
 type Portfolio {
-    id: String,
+    id: ID,
     title: String,
     description: String,
     sortorder: String,
@@ -64,7 +64,7 @@ type Portfolio {
 }
 
 type Contact {
-  id: String,
+  id: ID,
   name: String
   username: String
   email: String
@@ -73,21 +73,25 @@ type Contact {
 }
 
 type Electorate {
-    id: String,
+    id: ID,
     title: String,
     state: String, 
     area: String
 }
 
 type Tag {
-    id: String,
+    id: ID,
     caption: String
 }
 
+  type CommitmentContact {
+    commitment: Commitment,
+    contact: Contact
+  }
 
   # This "Commitment" type can be used in other type declarations.
   type Commitment {
-    id: Int,
+    id: ID,
     title: String,
     party: PoliticalParty,
     description: String,
@@ -107,7 +111,8 @@ type Tag {
   # The "Query" type is the root of all GraphQL queries.
   type Query {
     commitments: [Commitment],
-    commitment(id: Int!): Commitment,
+    commitment(id: ID!): Commitment,
+    commitmentContacts(commitment: ID!): [Contact],
     parties: [PoliticalParty],
     portfolios: [Portfolio],
     announcementTypes: [AnnouncementType],
@@ -115,14 +120,14 @@ type Tag {
     whoAnnouncedTypes: [WhoAnnouncedType]
     locations: [Electorate],
     contacts: [Contact],
-    comments(commitment: Int!):  [Comment],
+    comments(commitment: ID!):  [Comment],
     tags:[Tag]
   }
 
   # The mutation root type, used to define all mutations.
   type Mutation {
     upsertCommitment( 
-      id: Int!,
+      id: ID!,
       title: String!,
       description: String!,
       party: ID
@@ -137,15 +142,24 @@ type Tag {
       contacts: String
       ): Commitment,
     addComment(
-      commitment: Int!,
+      commitment: ID!,
       parent: String,
       text: String!,
       author: String!,
       created: String!
     ): Comment,
     deleteComment(
-      id: String!
-    ): Comment
+      id: ID!
+    ): Comment,
+    storeContact( 
+      name: String,
+      username: String,
+      email: String,
+      phone: String,
+      portfolio: ID): Contact,
+    deleteContact(id:  ID!): Contact,
+    storeCommitmentContact(commitment: ID!, contact: ID!): Commitment,
+    deleteCommitmentContact(commitment: ID!, contact: ID!): Commitment,
     }
 
 `;

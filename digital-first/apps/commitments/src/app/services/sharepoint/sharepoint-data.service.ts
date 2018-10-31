@@ -168,7 +168,7 @@ export class SharepointDataService implements AppDataService {
 
   filterCommitmentTypes(filter?: any): Observable<DataResult<CommitmentTypesResult>> {
 
-    return this.sharepoint.getItems({ listName: 'CommitmentTypes' })
+    return this.sharepoint.getItems({ listName: 'CommitmentType' })
       .pipe(
         concatMap((result: any) =>
           of({
