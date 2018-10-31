@@ -1,6 +1,6 @@
 var db = require('diskdb');
 
-db.connect('./diskdb', [
+db.connect('./diskdb/commitments', [
   'commitments',
   'commitment-comments',
   'commitment-contacts',
