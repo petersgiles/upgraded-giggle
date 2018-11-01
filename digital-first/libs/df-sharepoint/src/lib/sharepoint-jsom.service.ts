@@ -297,7 +297,7 @@ export class SharepointJsomService {
   storeItem(config: { listName: string, data: any, folderName?: string, id?: string | number }): Observable<any> {
     // tslint:disable-next-line:no-console
     console.log('storeItem', config)
-    if (config.id !== undefined) {
+    if (config.id) {
       return this.refreshItem(config.listName, config.id)
         .pipe(
           concatMap((response) => this.updateItem(response.Context, response.Item, config.data))
@@ -389,10 +389,10 @@ export class SharepointJsomService {
     const context = SP.ClientContext.get_current()
     const list = context.get_web().get_lists().getByTitle(config.listName)
 
-    if (config.id !== undefined) {
+    if (config.id) {
       item = list.getItemById(config.id)
     }
-    if (item !== undefined) {
+    if (item) {
       item.recycle()
     }
 
@@ -447,7 +447,7 @@ export class SharepointJsomService {
     // "/sites/DMS/Lists/Custom/Folder"
     const folderPath = this.getFolderPath(listName, folderName)
 
-    if (id !== undefined) {
+    if (id) {
       return self.refreshItem(listName, id)
         .pipe(
           map((response) =>

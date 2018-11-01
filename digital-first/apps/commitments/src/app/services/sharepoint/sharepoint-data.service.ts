@@ -179,7 +179,7 @@ export class SharepointDataService implements AppDataService {
       )
   }
 
-  storeCommitment(commitment: Commitment): Observable<any> {
+  storeCommitment(commitment: Commitment): Observable<DataResult<CommitmentResult>> {
 
     const spCommitment = {
       WhoAnnouncedType: commitment.whoAnnouncedType,
@@ -200,7 +200,14 @@ export class SharepointDataService implements AppDataService {
         listName: 'Commitment',
         data: spCommitment,
         id: commitment.id
-      })
+      }).pipe(
+        concatMap(result => {
+          const cdr: DataResult<CommitmentResult> = { data: {
+            commitment: mapCommitment(result)
+          }, loading: false }
+          return of(cdr)
+        })
+      )
   }
 
   storeComment(comment: { commitment: any; parent: any; comment: any; }): Observable<any> {
