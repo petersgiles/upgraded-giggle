@@ -3,13 +3,14 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core'
 @Component({
   selector: 'digital-first-add-item-button',
   template: `
-  <a mdcIcon attr.aria-label="{{title}}" title="{{title}}" (click)="onAddItem.emit()">{{icon}}</a>
-  `,
-  styles: [`
-  :host {
-    padding-right:4px;
-  }
-  `]
+  <button attr.aria-label="{{title}}" title="{{title}}" (click)="onAddItem.emit()" mdc-button><mdc-icon>{{icon}}</mdc-icon>{{title}}</button>
+`,
+styles: [`
+:host {
+  padding-right:4px;
+  width: 200px;
+}
+`]
 })
 export class AddItemButtonComponent implements OnInit {
 

@@ -25,12 +25,12 @@ export class CommitmentCardComponent implements OnInit {
     if (item && item.party) {
 
       if (item.party.colour) {
-        style['background-color'] = item.party.colour
+        style['border-left'] = `${item.party.colour} 3px solid`
       }
 
-      if (item.party.icon) {
-        style['background-image'] = `url(${item.party.icon})`
-      }
+      // if (item.party.icon) {
+      //   style['background-image'] = `url(${item.party.icon})`
+      // }
       return style
     }
   }

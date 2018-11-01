@@ -3,11 +3,12 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 @Component({
   selector: 'digital-first-add-notification-button',
   template: `
-    <a mdcIcon attr.aria-label="{{title}}" title="{{title}}" (click)="onManageNotification.emit()">{{icon}}</a>
+    <button attr.aria-label="{{title}}" title="{{title}}" (click)="onManageNotification.emit()" mdc-button><mdc-icon>{{icon}}</mdc-icon>{{title}}</button>
   `,
   styles: [`
   :host {
     padding-right:4px;
+    width: 200px;
   }
   `]
 })
@@ -17,7 +18,7 @@ export class AddNotificationButtonComponent implements OnInit {
   icon = 'add_alert'
 
   @Input()
-  title = 'Manage Notification'
+  title = 'Notify Me'
 
   @Output()
   onManageNotification: EventEmitter<null> = new EventEmitter()

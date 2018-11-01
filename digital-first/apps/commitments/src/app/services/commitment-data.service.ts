@@ -26,8 +26,10 @@ import { GetAllCommitmentTypes } from '../reducers/commitment-type/commitment-ty
 import { GetCommentsByCommitment, StoreComment, RemoveComment, DeleteComment, ClearComments } from '../reducers/comment/comment.actions'
 import { AddRefiner, RemoveRefiner, ClearAllRefiners, ExpandRefinerGroup, CollapseRefinerGroup } from '../reducers/commitment-overview/commitment-overview.actions'
 import { GetAllWhoAnnouncedTypes } from '../reducers/who-announced-type/who-announced-type.actions'
+import { ChangeTimeFormat, CollapsePanel, ExpandPanel } from '../reducers/commitment-edit/commitment-edit.actions'
 
 import * as fromRoot from '../reducers'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -175,6 +177,28 @@ export class CommitmentDataService {
 
   get CommitmentTypesError(): Observable<any> {
     return this.store.select(fromRoot.getCommitmentTypeError)
+  }
+
+// Commitment Edit
+
+  get CommitmentEditExpandedPanels(): Observable<(string | number)[]> {
+    return this.store.select(fromRoot.getCommitmentEditExpandedPanels)
+  }
+
+  get CommitmentEditDiscussionTimeFormat(): Observable<'dateFormat' | 'timeAgo' | 'calendar'> {
+    return this.store.select(fromRoot.getCommitmentEditDiscussionTimeFormat)
+  }
+
+  expandCommitmentEditPanel(id: string): any {
+    this.store.dispatch(new ExpandPanel(id))
+  }
+
+  collapseCommitmentEditPanel(id: string): any {
+    this.store.dispatch(new CollapsePanel(id))
+  }
+
+  changeCommitmentEditDiscussionTimeFormat(format: 'dateFormat' | 'timeAgo' | 'calendar'): any {
+    this.store.dispatch(new ChangeTimeFormat(format))
   }
 
   // RefinerGroups

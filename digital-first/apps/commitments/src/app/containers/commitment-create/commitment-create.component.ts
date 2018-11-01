@@ -3,7 +3,6 @@ import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core'
 import { Router, ActivatedRoute, ParamMap } from '@angular/router'
 import { Observable, Subscription } from 'rxjs'
 import { MdcDialog, MdcDialogRef } from '@angular-mdc/web'
-import { map, first } from 'rxjs/operators'
 import { DialogAreYouSureComponent, DialogSpinnerOverlayComponent } from '@digital-first/df-dialogs'
 
 import { CommitmentDataService } from '../../services/commitment-data.service'
@@ -13,6 +12,7 @@ import { Portfolio } from '../../reducers/portfolio/portfolio.model'
 import { Location } from '../../reducers/location/location.model'
 import { AnnouncementType } from '../../reducers/announcement-type/announcement-type.model'
 import { CommitmentType } from '../../reducers/commitment-type/commitment-type.model'
+import { WhoAnnouncedType } from '../../reducers/who-announced-type/who-announced-type.model'
 
 @Component({
   selector: 'digital-first-commitment-create',
@@ -27,6 +27,8 @@ export class CommitmentCreateComponent implements OnInit, OnDestroy {
   error$: Observable<any>
   announcementTypes$: Observable<AnnouncementType[]>
   commitmentTypes$: Observable<CommitmentType[]>
+  whoAnnouncedTypes$: Observable<WhoAnnouncedType[]>
+
   parties$: Observable<Party[]>
   portfolios$: Observable<Portfolio[]>
   locations$: Observable<Location[]>
@@ -43,6 +45,7 @@ export class CommitmentCreateComponent implements OnInit, OnDestroy {
     this.error$ = this.service.CommitmentError
     this.commitment$ = this.service.Commitment
 
+    this.whoAnnouncedTypes$ = this.service.WhoAnnouncedTypes
     this.announcementTypes$ = this.service.AnnouncementTypes
     this.commitmentTypes$ = this.service.CommitmentTypes
     this.parties$ = this.service.Parties

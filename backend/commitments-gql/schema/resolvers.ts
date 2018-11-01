@@ -52,10 +52,19 @@ export const resolvers = {
     upsertCommitment: (_root: any, args: any) => {
 
       var id = args.id;
-
       var query = {
         id: id
-      };
+      }
+
+      if(!id) {
+
+        const max = db.commitments.find().reduce((prev: any, current: any) => ( Number(prev.id) >  Number(current.id) ? prev : current))
+
+        args.id = `${Number(max.id) + 1}`
+        
+        console.log('query =>', max.id, args.id);
+
+      }
 
       var author = db['commitment-contacts'].find({ username: args.author })
 
@@ -161,9 +170,9 @@ export const resolvers = {
       return comments
     },
     contacts(commitment: any) {
-      let commitmentcontacts = db['commitment-commitment-contacts'].find({ commitment: commitment })
+      let commitmentcontacts = db['commitment-commitment-contacts'].find({ commitment: commitment.id })
       let found = commitmentcontacts.map((f: any) => db['commitment-contacts'].findOne({ _id: f.contact })).map((c: any) => ({...c, id: c._id}))
-      console.log('commitmentContacts => ', commitmentcontacts, found)
+      console.log('commitment => ', commitment, 'commitmentContacts => ', commitmentcontacts, 'found => ', found)
       return found
     },
     tags(commitment: any) {

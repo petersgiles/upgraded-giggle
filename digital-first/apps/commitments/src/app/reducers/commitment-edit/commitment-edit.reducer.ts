@@ -2,10 +2,12 @@ import { CommitmentEditActionTypes, CommitmentEditActions } from './commitment-e
 
 export interface State {
   expandedPanels: (string | number)[]
+  timeFormat: 'dateFormat' | 'timeAgo' | 'calendar'
 }
 
 export const initialState: State = {
-  expandedPanels: []
+  expandedPanels: [],
+  timeFormat: 'timeAgo'
 }
 
 export function reducer(
@@ -28,9 +30,17 @@ export function reducer(
       }
     }
 
+    case CommitmentEditActionTypes.ChangeTimeFormat: {
+      return {
+        ...state,
+        timeFormat: action.payload
+      }
+    }
+
     default:
       return state
   }
 }
 
 export const getExpandedPanels = (state: State) => state.expandedPanels
+export const getTimeFormat = (state: State) => state.timeFormat

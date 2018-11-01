@@ -1,35 +1,20 @@
-<mdc-card *ngIf="commitment" class="commitment-card" outlined>
-  <mdc-card-primary-action>
-      <div class="commitment-card__detail-row">
-          <mdc-card-media square class="commitment-card__media commitment-card__media--party" [ngStyle]="getPartyStyle(commitment)">
-              <mdc-card-media-content class="app-card__media-content--with-title">
-                  <div class="app-card__media-title" mdcSubtitle2>{{commitment.party?.title}}</div>
-              </mdc-card-media-content>
-          </mdc-card-media>
-          <div class="commitment-card__detail-info">
-              <div class="commitment-card__detail-title" mdcHeadline5>{{commitment.title}}</div>
-              <div class="commitment-card__detail-announcedby" mdcBody2>{{commitment.announcedby}}</div>
-              <div class="commitment-card__detail-date" mdcBody2>{{commitment.date | amDateFormat:'LL' }}</div>
-              <div class="commitment-card__detail-type" mdcBody2>{{commitment.location?.title}} &middot;
-                  {{commitment.announcementType?.title}}</div>
-          </div>
-          <div class="commitment-card__detail-info right">
-              <div class="commitment-card__detail-title" mdcHeadline5>&nbsp;</div>
-              <div class="commitment-card__detail-portfolio right" mdcBody2>{{commitment.portfolio?.title}}</div>
-              <div class="commitment-card__detail-location right" mdcBody2>{{commitment.contacts}}</div>
-          </div>
-      </div>
-  </mdc-card-primary-action>
-  <mdc-ripple class="app-card-article" *ngIf="commitment.description">
-      <p class="app-card-article__snippet" mdcBody2 [innerHtml]="commitment.description | safeHtml"></p>
-  </mdc-ripple>
-  <mdc-card-actions *ngIf="!config?.disabled">
-      <mdc-card-action-buttons>
-          <button mdc-button mdcCardAction="button" (click)="onEdit.emit(commitment)">Edit</button>
-      </mdc-card-action-buttons>
-      <mdc-card-action-icons>
-          <mdc-icon mdcCardAction="icon" mdcRipple (click)="onShare.emit(commitment)">share</mdc-icon>
-          <mdc-icon mdcCardAction="icon" mdcRipple>more_vert</mdc-icon>
-      </mdc-card-action-icons>
-  </mdc-card-actions>
+<mdc-card *ngIf="commitment" class="commitment-card" outlined [ngStyle]="getPartyStyle(commitment)">
+    <mdc-card-primary-action>
+        <div class="commitment-card__detail-row">
+            <div class="commitment-card__detail-info">
+                <div class="commitment-card__detail-title" mdcHeadline5>{{commitment.title}}</div>
+                <div class="commitment-card__detail-title" mdcHeadline6>{{commitment.party?.title}}</div>
+
+                <div class="commitment-card__detail-announcedby" mdcBody2>{{commitment.announcedby}}</div>
+                <div class="commitment-card__detail-date" mdcBody2>{{commitment.date | amDateFormat:'LL' }}</div>
+                <div class="commitment-card__detail-type" mdcBody2>{{commitment.location?.title}} &middot;
+                    {{commitment.announcementType?.title}}</div>
+                <div class="commitment-card__detail-portfolio" mdcBody2>{{commitment.portfolio?.title}}</div>
+            </div>
+        </div>
+    </mdc-card-primary-action>
+    <mdc-ripple class="app-card-article" *ngIf="commitment.description">
+        <p class="app-card-article__snippet" mdcBody2 [innerHtml]="commitment.description | safeHtml"></p>
+    </mdc-ripple>
+
 </mdc-card>

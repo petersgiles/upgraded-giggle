@@ -3,13 +3,15 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 @Component({
   selector: 'digital-first-archive-button',
   template: `
-  <a mdcIcon attr.aria-label="{{title}}" title="{{title}}" (click)="onArchiveItem.emit()">{{icon}}</a>
+    <button attr.aria-label="{{title}}" title="{{title}}" (click)="onArchiveItem.emit()" mdc-button><mdc-icon>{{icon}}</mdc-icon>{{title}}</button>
   `,
   styles: [`
   :host {
     padding-right:4px;
+    width: 200px;
   }
-  `]
+`]
+
 })
 export class ArchiveButtonComponent implements OnInit {
 

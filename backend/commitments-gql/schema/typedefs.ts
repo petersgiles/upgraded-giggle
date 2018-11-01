@@ -127,7 +127,7 @@ type Tag {
   # The mutation root type, used to define all mutations.
   type Mutation {
     upsertCommitment( 
-      id: ID!,
+      id: ID,
       title: String!,
       description: String!,
       party: ID

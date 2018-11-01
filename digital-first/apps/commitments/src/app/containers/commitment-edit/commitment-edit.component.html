@@ -2,54 +2,58 @@
 
   <section>
 
-    <digital-first-page-title *ngIf="commitment$ | async" title="Commitment">
-      <digital-first-archive-button></digital-first-archive-button>
-      <digital-first-share-button></digital-first-share-button>
+    <digital-first-page-title *ngIf="commitment" title="Commitment">
+      <!-- 
+        <digital-first-archive-button></digital-first-archive-button>
+      <digital-first-share-button></digital-first-share-button> 
+    -->
       <digital-first-add-notification-button></digital-first-add-notification-button>
-      <digital-first-add-item-button icon="label" title="Add Tag"></digital-first-add-item-button>
-      <digital-first-add-item-button title="Add Related Artifact"></digital-first-add-item-button>
-      <digital-first-expand-collapse-button title="Toggle Expand Collapse All" [expanded]='commitmentPanelExpanded'
-        (onChangeExpanded)="handleExpandAll($event)"></digital-first-expand-collapse-button>
+      <!-- 
+        <digital-first-add-item-button icon="label" title="Add Tag"></digital-first-add-item-button>
+      <digital-first-add-item-button title="Add Related Artifact"></digital-first-add-item-button> 
+    -->
+      <!-- <digital-first-expand-collapse-button title="Toggle Expand Collapse All" [expanded]='panels.commitmentPanelExpanded'
+        (onChangeExpanded)="handleExpandAll($event)"></digital-first-expand-collapse-button> -->
     </digital-first-page-title>
 
-    <div class="commitment-layout__row">
+    <!-- <div class="commitment-layout__row">
       <digital-first-tags></digital-first-tags>
-    </div>
+    </div> -->
 
     <div class="commitment-layout__row">
-      <digital-first-commitment-card [commitment]="commitment$ | async" [config]="{disabled:true}"></digital-first-commitment-card>
-      <digital-first-related-artifacts></digital-first-related-artifacts>
+      <digital-first-commitment-card [commitment]="commitment" [config]="{disabled:true}"></digital-first-commitment-card>
     </div>
 
-    <digital-first-page-title *ngIf="commitment$ | async" title="Discussion">
-      <digital-first-date-format-button *ngIf="discussionPanelExpanded" [timeFormat]='timeFormat' (onChangeDateFormat)="changeDateFormat($event)"></digital-first-date-format-button>
-      <digital-first-expand-collapse-button [expanded]='discussionPanelExpanded' (onChangeExpanded)="discussionPanelExpanded = $event"></digital-first-expand-collapse-button>
+    <!-- <div class="commitment-layout__row">
+      <digital-first-related-artifacts></digital-first-related-artifacts>
+    </div> -->
+
+    <digital-first-page-title *ngIf="commitment" title="Discussion">
+      <digital-first-date-format-button *ngIf="panels.discussionPanelExpanded" [timeFormat]='commitmentEditDiscussionTimeFormat | async' (onChangeDateFormat)="changeDateFormat($event)"></digital-first-date-format-button>
+      <digital-first-expand-collapse-button [expanded]='panels.discussionPanelExpanded' (onChangeExpanded)="handleChangeExpanded($event, 'discussionPanelExpanded')"></digital-first-expand-collapse-button>
     </digital-first-page-title>
 
-    <digital-first-discussion *ngIf="(commitment$ | async) && discussionPanelExpanded" [comments]="(commitment$ | async)?.discussion"
-      [hostId]="(commitment$ | async).id" [activeComment]="activeComment" [timeFormat]="timeFormat" (onDeleteComment)="handleDeleteComment($event)"
+    <digital-first-discussion *ngIf="(commitment) && panels.discussionPanelExpanded" [comments]="(commitment)?.discussion"
+      [hostId]="(commitment).id" [activeComment]="activeComment" [timeFormat]="commitmentEditDiscussionTimeFormat | async" (onDeleteComment)="handleDeleteComment($event)"
       (onReplyToComment)="handleReplyToComment($event)" (onAddComment)="handleAddComment($event)"></digital-first-discussion>
 
-    <digital-first-page-title *ngIf="commitment$ | async" title="Contacts">
-      <digital-first-add-item-button icon="person_add" title="Add Contact" *ngIf="contactPanelExpanded"></digital-first-add-item-button>
-      <digital-first-expand-collapse-button [expanded]='contactPanelExpanded' (onChangeExpanded)="contactPanelExpanded = $event"></digital-first-expand-collapse-button>
+    <digital-first-page-title *ngIf="commitment" title="Contacts">
+      <digital-first-add-item-button icon="person_add" title="Add Contact" *ngIf="panels.contactPanelExpanded"></digital-first-add-item-button>
+      <digital-first-expand-collapse-button [expanded]='panels.contactPanelExpanded' (onChangeExpanded)="handleChangeExpanded($event, 'contactPanelExpanded')"></digital-first-expand-collapse-button>
     </digital-first-page-title>
 
-    <div class="commitment-layout__row" *ngIf="contactPanelExpanded">
-      <digital-first-contact-card></digital-first-contact-card>
-      <digital-first-contact-card></digital-first-contact-card>
-      <digital-first-contact-card></digital-first-contact-card>
-      <digital-first-contact-card></digital-first-contact-card>
+    <div class="commitment-layout__row" *ngIf="panels.contactPanelExpanded">
+      <digital-first-contact-card *ngFor="let contact of (commitment)?.contacts" [contact]="contact" (onMailClicked)="handleMailClicked(contact, commitment)"></digital-first-contact-card>
     </div>
 
 
     <digital-first-page-title title="Edit commitment">
-        <digital-first-expand-collapse-button [expanded]='formPanelExpanded' (onChangeExpanded)="formPanelExpanded = $event"></digital-first-expand-collapse-button>
+      <digital-first-expand-collapse-button [expanded]='panels.formPanelExpanded' (onChangeExpanded)="handleChangeExpanded($event, 'formPanelExpanded')"></digital-first-expand-collapse-button>
     </digital-first-page-title>
-    <digital-first-commitment-edit-form *ngIf="formPanelExpanded" [commitment]="commitment$ | async" [parties]="parties$ | async"
-      [announcementTypes]="announcementTypes$ | async" [whoAnnouncedTypes]="whoAnnouncedTypes$ | async" [commitmentTypes]="commitmentTypes$ | async" [portfolios]="portfolios$ | async"
-      [locations]="locations$ | async" (onSubmitted)="handleUpdateCommitment($event)" (onCancelled)="handleCancelled($event)"
-      (onChanged)="handleChanged($event)">
+    <digital-first-commitment-edit-form *ngIf="panels.formPanelExpanded" [commitment]="commitment" [parties]="parties$ | async"
+      [announcementTypes]="announcementTypes$ | async" [whoAnnouncedTypes]="whoAnnouncedTypes$ | async"
+      [commitmentTypes]="commitmentTypes$ | async" [portfolios]="portfolios$ | async" [locations]="locations$ | async"
+      (onSubmitted)="handleUpdateCommitment($event)" (onCancelled)="handleCancelled($event)" (onChanged)="handleChanged($event)">
     </digital-first-commitment-edit-form>
 
   </section>

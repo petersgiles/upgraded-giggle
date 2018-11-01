@@ -10,3 +10,31 @@ export const GET_CONTACTS = gql`
   }
 }
 `
+
+export const STORE_CONTACT = gql`
+  mutation StoreContact(
+    $name: String
+    $username: String
+    $email: String
+    $phone: String
+    $portfolio: ID
+  ) {
+    storeContact(
+      name: $name
+      username: $username
+      email: $email
+      phone: $phone
+      portfolio: $portfolio
+    ) {
+      id
+      name
+      username
+      email
+      phone
+      portfolio {
+        id
+        title
+      }
+    }
+  }
+`

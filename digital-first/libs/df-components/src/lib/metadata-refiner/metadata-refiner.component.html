@@ -14,8 +14,8 @@
     <div *ngIf="group.expanded && group.children">
       <mdc-list-item class="refiner" *ngFor="let refiner of group.children" (click)="onRefinerSelected.emit(refiner)">
         <mdc-icon>check_box{{refiner.selected ? '' : '_outline_blank'}}</mdc-icon>
-        {{refiner.title | truncate:[20, '...']}}
-        <span mdcListItemMeta class="refiner-metadata">0</span>
+        {{refiner.title | truncate:[25, '...']}}
+        <span mdcListItemMeta class="refiner-metadata">{{refiner.count}}</span>
       </mdc-list-item>
     </div>
     <div *ngIf="group.expanded && group.custom">

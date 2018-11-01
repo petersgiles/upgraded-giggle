@@ -36,7 +36,7 @@ import * as fromCommitmentOverview from './commitment-overview/commitment-overvi
 import * as fromCommitmentEdit from './commitment-edit/commitment-edit.reducer'
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
-    return localStorageSync({ keys: [{ 'auth': ['status'] }, 'commitmentOverview'], rehydrate: true })(reducer)
+    return localStorageSync({ keys: [{ 'auth': ['status'] }, 'commitmentOverview', 'commitmentEdit'], rehydrate: true })(reducer)
 }
 
 // console.log all actions

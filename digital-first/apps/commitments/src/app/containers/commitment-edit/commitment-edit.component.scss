@@ -1,5 +1,9 @@
 :host {
-    width: -webkit-fill-available;
-    display: flex;
-    flex-direction: column;
+  width: -webkit-fill-available;
+  display: flex;
+  flex-direction: column;
+
+  .app-page {
+    padding-left: 0px;
   }
+}

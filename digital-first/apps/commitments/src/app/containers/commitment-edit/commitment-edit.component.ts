@@ -22,7 +22,8 @@ import { WhoAnnouncedType } from '../../reducers/who-announced-type/who-announce
 })
 export class CommitmentEditComponent implements OnInit, OnDestroy {
 
-  commitment$: Observable<Commitment>
+  commitment: Commitment
+  commitmentSubscription$: Subscription
   currentComments$: Observable<Comment[]>
   selectId$: Subscription
   error$: Observable<any>
@@ -38,19 +39,29 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   loadingSubscription$: Subscription
   loadingDialogRef: MdcDialogRef<DialogSpinnerOverlayComponent, {}>
 
-  commitmentPanelExpanded = false
-  relatedPanelExpanded: boolean
-  discussionPanelExpanded: boolean
-  contactPanelExpanded: boolean
-  formPanelExpanded: boolean
+  panels: {
+    commitmentPanelExpanded?: boolean
+    relatedPanelExpanded?: boolean
+    discussionPanelExpanded?: boolean
+    contactPanelExpanded?: boolean
+    formPanelExpanded?: boolean
+  } = {
+      commitmentPanelExpanded: false,
+      relatedPanelExpanded: false,
+      discussionPanelExpanded: false,
+      contactPanelExpanded: false,
+      formPanelExpanded: false,
+    }
+
+  commitmentEditDiscussionTimeFormat: Observable<'dateFormat' | 'timeAgo' | 'calendar'>
+  commitmentEditExpandedPanelsSubscription$: Subscription
 
   constructor(private router: Router, private route: ActivatedRoute, public dialog: MdcDialog, private service: CommitmentDataService) { }
 
   ngOnInit(): void {
-    this.timeFormat = 'timeAgo'
 
     this.error$ = this.service.CommitmentError
-    this.commitment$ = this.service.Commitment
+    this.commitmentSubscription$ = this.service.Commitment.subscribe(next => this.commitment = next)
 
     this.whoAnnouncedTypes$ = this.service.WhoAnnouncedTypes
     this.announcementTypes$ = this.service.AnnouncementTypes
@@ -58,6 +69,22 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.parties$ = this.service.Parties
     this.portfolios$ = this.service.Portfolios
     this.locations$ = this.service.Locations
+    this.commitmentEditExpandedPanelsSubscription$ = this.service.CommitmentEditExpandedPanels.subscribe(
+      next => {
+        this.panels = next.reduce((a, i) => {
+          a[i] = true
+          return a
+        }, {
+          commitmentPanelExpanded: false,
+          relatedPanelExpanded: false,
+          discussionPanelExpanded: false,
+          contactPanelExpanded: false,
+          formPanelExpanded: false,
+        })
+      }
+    )
+
+    this.commitmentEditDiscussionTimeFormat = this.service.CommitmentEditDiscussionTimeFormat
 
     this.service.getAllWhoAnnouncedTypes()
     this.service.getAllAnnouncementTypes()
@@ -88,14 +115,19 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.selectId$.unsubscribe()
     this.loadingSubscription$.unsubscribe()
+    this.commitmentSubscription$.unsubscribe()
   }
 
-  handleExpandAll($event) {
-    this.commitmentPanelExpanded = $event
-    this.relatedPanelExpanded =
-      this.formPanelExpanded =
-      this.discussionPanelExpanded =
-      this.contactPanelExpanded = this.commitmentPanelExpanded
+  handleChangeExpanded($event, panel) {
+    // tslint:disable-next-line:no-console
+    console.log($event, panel)
+
+    if ($event) {
+      this.service.expandCommitmentEditPanel(panel)
+    } else {
+      this.service.collapseCommitmentEditPanel(panel)
+    }
+
   }
 
   handleUpdateCommitment(commitment) {
@@ -134,7 +166,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   }
 
   changeDateFormat(format) {
-    this.timeFormat = format
+    this.service.changeCommitmentEditDiscussionTimeFormat(format)
   }
 
   handleReplyToComment(comment) {
@@ -162,5 +194,10 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   handleTabScroll(el) {
     el.scrollIntoView()
     window.scrollBy(0, -128)
+  }
+
+  handleMailClicked(contact) {
+    const mailText = `mailto:${contact}?subject=${this.commitment.title}&body=`
+    window.location.href = mailText
   }
 }

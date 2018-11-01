@@ -47,6 +47,13 @@ export const GET_COMMITMENT = gql`
       }
       contacts {
         id
+        phone
+        name
+        email
+        portfolio {
+          id
+          title
+        }
       }
       comments {
         id
@@ -67,7 +74,7 @@ export const GET_COMMITMENT = gql`
 
 export const UPSERT_COMMITMENT = gql`
   mutation Commitment(
-    $id: Int!
+    $id: ID
     $title: String!
     $description: String!
     $party: ID

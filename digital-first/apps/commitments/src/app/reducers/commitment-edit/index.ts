@@ -8,3 +8,8 @@ export const getCommitmentEditExpandedPanels = createSelector(
     getCommitmentEditState,
     fromCommitmentEdit.getExpandedPanels
 )
+
+export const getCommitmentEditDiscussionTimeFormat = createSelector(
+    getCommitmentEditState,
+    fromCommitmentEdit.getTimeFormat
+)
