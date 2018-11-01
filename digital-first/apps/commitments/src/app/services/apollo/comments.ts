@@ -21,7 +21,7 @@ query Comments($commitment: ID!) {
 export const ADD_COMMENT = gql`
 
 mutation AddComment(
-  $commitment: Int!
+  $commitment: ID!
   $parent: String
   $text: String!
   $author: String!
@@ -43,7 +43,7 @@ mutation AddComment(
 `
 
 export const DELETE_COMMENT = gql`
-mutation DeleteComment($id: String!) {
+mutation DeleteComment($id: ID!) {
   deleteComment(id: $id) {
     id
     commitment
