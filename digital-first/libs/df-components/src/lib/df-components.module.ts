@@ -15,6 +15,7 @@ import { TagsComponent } from './tags/tags.component'
 import { ViewLayoutButtonComponent } from './view-layout-button.component'
 import { DfThemeModule } from '@digital-first/df-theme'
 import { MetadataRefinerComponent } from './metadata-refiner/metadata-refiner.component'
+import { DataTableComponent } from './data-table/data-table.component'
 
 const COMPONENTS = [
   TagsComponent,
@@ -28,7 +29,8 @@ const COMPONENTS = [
   AddNotificationButtonComponent,
   ArchiveButtonComponent,
   RelatedArtifactsComponent,
-  MetadataRefinerComponent
+  MetadataRefinerComponent,
+  DataTableComponent
 ]
 
 @NgModule({

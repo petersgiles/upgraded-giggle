@@ -6,6 +6,7 @@ import { MdcDialog, MdcDialogRef } from '@angular-mdc/web'
 
 import { DialogSpinnerOverlayComponent } from '@digital-first/df-dialogs'
 import { Commitment } from '../../reducers/commitment/commitment.model'
+import { DataTableConfig } from '@digital-first/df-components'
 
 @Component({
   selector: 'digital-first-commitment-overview',
@@ -18,13 +19,15 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
   error$: Observable<any>
   loadingSubscription$: Subscription
   loadingDialogRef: MdcDialogRef<DialogSpinnerOverlayComponent, {}>
-  pageFormat: 'card' | 'list' = 'list'
+  pageFormat: 'card' | 'list' | 'table' = 'table'
   refinerGroups$: Observable<any>
+  commitmentsTableData$: Observable<DataTableConfig>
 
   constructor(public dialog: MdcDialog, private router: Router, private service: CommitmentDataService) { }
 
   ngOnInit() {
     this.commitments$ = this.service.Commitments
+    this.commitmentsTableData$ = this.service.CommitmentDataTable
     this.refinerGroups$ = this.service.RefinerGroups
     this.error$ = this.service.CommitmentError
 

@@ -4,7 +4,7 @@ import {
 import { Injectable } from '@angular/core'
 import { tap } from 'rxjs/operators'
 import { Store } from '@ngrx/store'
-import { RefinerGroup, RefinerType } from '@digital-first/df-components'
+import { RefinerGroup, RefinerType, DataTableConfig } from '@digital-first/df-components'
 
 import { WhoAnnouncedType } from '../reducers/who-announced-type/who-announced-type.model'
 import { AnnouncementType } from '../reducers/announcement-type/announcement-type.model'
@@ -120,6 +120,7 @@ export class CommitmentDataService {
   }
 
   /// Commitments
+
   public getAllCommitments(filter?: any) {
     this.store.dispatch(new GetAllCommitments({ filter: filter }))
   }
@@ -147,6 +148,10 @@ export class CommitmentDataService {
     // return this.store.select(fromRoot.getFilteredOverviewCommitments)
 
     return this.store.select(fromRoot.getAllOverviewCommitments)
+  }
+
+  get CommitmentDataTable(): Observable<DataTableConfig> {
+    return this.store.select(fromRoot.getAllOverviewCommitmentDataTables)
   }
 
   get CommitmentLoading(): Observable<boolean> {
