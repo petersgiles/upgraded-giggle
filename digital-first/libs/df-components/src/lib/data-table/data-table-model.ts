@@ -9,6 +9,7 @@ export interface DataTableCell {
 }
 
 export interface DataTableRow {
+  id?: string | number
   cells: DataTableCell[]
 }
 

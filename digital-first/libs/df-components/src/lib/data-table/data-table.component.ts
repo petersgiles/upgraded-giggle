@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core'
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { DataTableConfig } from './data-table-model'
 
 @Component({
@@ -15,5 +15,8 @@ export class DataTableComponent implements OnInit {
 
   @Input()
   tableData: DataTableConfig
+
+@Output()
+onDataTableRowClicked: EventEmitter<string | number> = new EventEmitter()
 
 }

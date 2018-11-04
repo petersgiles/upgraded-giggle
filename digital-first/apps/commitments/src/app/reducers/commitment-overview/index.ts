@@ -140,13 +140,13 @@ export const getFilteredOverviewCommitments = createSelector(
 
 export const getAllOverviewCommitments = createSelector(
     getFilteredOverviewCommitments,
+    getLocationEntities,
     getPartyEntities,
     getPortfolioEntities,
-    getLocationEntities,
     getAnnouncementTypeEntities,
     getCommitmentTypeEntities,
     getWhoAnnouncedTypeEntities,
-    (commitments, partys, portfolios, locations, announcementTypes, commitmentTypes, whoAnnouncedTypes) => {
+    (commitments, locations, partys, portfolios, announcementTypes, commitmentTypes, whoAnnouncedTypes) => {
 
         const result = commitments.map(commitment =>
             ({
@@ -171,6 +171,7 @@ export const getAllOverviewCommitmentDataTables = createSelector(
     (commitments) => {
 
         const rows = commitments.map(c => ({
+            id: c.id,
             cells: [{
                 value: c.title
             }, {

@@ -10,7 +10,7 @@
             (onRefinerGroupSelected)="handleRefinerGroupSelected($event)"
             (onRefinerSelected)="handleRefinerSelected($event)"></digital-first-metadata-refiner>
 
-            <digital-first-data-table *ngIf="pageFormat=='table'" [tableData]="commitmentsTableData$ | async"></digital-first-data-table>
+            <digital-first-data-table *ngIf="pageFormat=='table'" [tableData]="commitmentsTableData$ | async" (onDataTableRowClicked)="handleDataTableRowClicked($event)"></digital-first-data-table>
 
             <digital-first-commitment-list *ngIf="pageFormat=='list'" [commitments]="commitments$ | async" (onEdit)="handleEdit($event)"></digital-first-commitment-list>
 
