@@ -24,7 +24,7 @@ export class CommitmentCreateComponent implements OnInit, OnDestroy {
   commitment$: Observable<Commitment>
   currentComments$: Observable<Comment[]>
   selectId$: Subscription
-  error$: Observable<any>
+  activity$: Observable<any>
   announcementTypes$: Observable<AnnouncementType[]>
   commitmentTypes$: Observable<CommitmentType[]>
   whoAnnouncedTypes$: Observable<WhoAnnouncedType[]>
@@ -34,16 +34,13 @@ export class CommitmentCreateComponent implements OnInit, OnDestroy {
   locations$: Observable<Location[]>
   activeComment: any
   timeFormat: 'timeAgo' | 'dateFormat' | 'calendar'
-  loadingSubscription$: Subscription
-  loadingDialogRef: MdcDialogRef<DialogSpinnerOverlayComponent, {}>
 
   constructor(private router: Router, private route: ActivatedRoute, public dialog: MdcDialog, private service: CommitmentDataService) { }
 
   ngOnInit(): void {
     this.timeFormat = 'timeAgo'
 
-    this.error$ = this.service.CommitmentError
-    this.commitment$ = this.service.Commitment
+    this.activity$ = this.service.CommitmentActivity
 
     this.whoAnnouncedTypes$ = this.service.WhoAnnouncedTypes
     this.announcementTypes$ = this.service.AnnouncementTypes
@@ -58,22 +55,9 @@ export class CommitmentCreateComponent implements OnInit, OnDestroy {
     this.service.getAllLocations()
     this.service.getAllPartys()
     this.service.getAllPortfolios()
-
-    // this is to avoid component validation check errors
-    setTimeout(() => {
-      this.loadingSubscription$ = this.service.CommitmentLoading.subscribe((loading) => {
-        if (loading) {
-          this.loadingDialogRef = this.dialog.open(DialogSpinnerOverlayComponent, {})
-        } else if (this.loadingDialogRef) {
-          this.loadingDialogRef.close()
-        }
-      })
-    })
   }
 
-  ngOnDestroy(): void {
-    this.loadingSubscription$.unsubscribe()
-  }
+  ngOnDestroy(): void {  }
 
   handleUpdateCommitment(commitment) {
     // tslint:disable-next-line:no-console

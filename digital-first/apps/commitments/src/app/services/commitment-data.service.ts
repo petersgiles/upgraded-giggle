@@ -37,6 +37,16 @@ export class CommitmentDataService {
 
   constructor(private store: Store<fromRoot.State>) { }
 
+  // Notification
+
+  get Notification(): Observable<string> {
+    return this.store.select(fromRoot.getNotification)
+      .pipe(
+        // tslint:disable-next-line:no-console
+        tap((result: any) => console.log('Notification => ', result)),
+      )
+  }
+
   /// WhoAnnouncedTypes
 
   public getAllWhoAnnouncedTypes(filter?: any) {

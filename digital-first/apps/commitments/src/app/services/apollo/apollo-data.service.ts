@@ -49,7 +49,7 @@ export class ApolloDataService implements AppDataService {
 
     return this.callMutate<CommitmentResult>(
       { mutation: UPSERT_COMMITMENT, variables: variables },
-      (result: any) => ({ commitment: result.data.upsertCommitment.commitment }))
+      (result: any) => ({data: { commitment: result.data.upsertCommitment }}))
 
   }
 

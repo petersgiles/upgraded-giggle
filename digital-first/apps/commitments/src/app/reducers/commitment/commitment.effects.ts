@@ -12,10 +12,11 @@ import {
   StoreCommitment,
   AddContactToCommitment
 } from './commitment.actions'
-import { switchMap, map, catchError, tap } from 'rxjs/operators'
+import { switchMap, map, catchError, tap, switchMapTo } from 'rxjs/operators'
 
 import { AppDataService } from '../../services/app-data.service'
 import { DataResult, CommitmentsResult, CommitmentResult } from '../../models'
+import { Notification, ClearNotification } from '../app.actions'
 
 @Injectable()
 export class CommitmentEffects {
@@ -49,14 +50,15 @@ export class CommitmentEffects {
     .ofType(CommitmentActionTypes.StoreCommitment)
     .pipe(
       map((action: StoreCommitment) => action.payload),
-      switchMap((commitment: any) => this.service.storeCommitment(commitment)
-        .pipe(
-          // tslint:disable-next-line:no-console
-          tap((result: DataResult<CommitmentResult>) => console.log('Reload Commitment =>', result)),
-          map((result: DataResult<CommitmentResult>) => new SetCurrentCommitment({ id: result.data.commitment.id })),
-          catchError(error => of(new CommitmentsActionFailure(error)))
-        )
-      ))
+      switchMap((commitment: any) => this.service.storeCommitment(commitment)),
+      switchMap((result: DataResult<CommitmentResult>) => [
+        new Notification({ message: 'Changes Saved' }),
+        new SetCurrentCommitment({ id: result.data.commitment.id }),
+        new ClearNotification()
+      ]),
+      catchError(error => of(new CommitmentsActionFailure(error)))
+
+    )
 
   @Effect()
   addContactToCommitment$: Observable<Action> = this.actions$
@@ -65,14 +67,15 @@ export class CommitmentEffects {
       map((action: AddContactToCommitment) => action.payload),
       // tslint:disable-next-line:no-console
       tap((payload: any) => console.log('Add Contact To Commitment Payload=>', payload)),
-      switchMap((payload: any) => this.service.addContactToCommitment(payload)
-        .pipe(
-          // tslint:disable-next-line:no-console
-          tap((result: any) => console.log('Reload Commitment =>', result)),
-          map((result: any) => new SetCurrentCommitment({ id: result.commitment.id })),
-          catchError(error => of(new CommitmentsActionFailure(error)))
-        )
-      ))
+      switchMap((payload: any) => this.service.addContactToCommitment(payload)),
+      switchMap((result: any) => [
+        new Notification({ message: 'Contact Added' }),
+        new SetCurrentCommitment({ id: result.commitment.id }),
+        new ClearNotification()
+      ]),
+      catchError(error => of(new CommitmentsActionFailure(error)))
+
+    )
 
   constructor(private actions$: Actions, private service: AppDataService) { }
 }
