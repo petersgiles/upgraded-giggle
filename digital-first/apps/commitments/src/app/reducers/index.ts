@@ -6,7 +6,8 @@ import {
 import {
     ActionReducer,
     ActionReducerMap,
-    MetaReducer
+    MetaReducer,
+    createSelector
 } from '@ngrx/store'
 
 import { environment } from '../../environments/environment'
@@ -23,6 +24,7 @@ import { storeFreeze } from 'ngrx-store-freeze'
 import { localStorageSync } from 'ngrx-store-localstorage'
 
 import { RouterStateUrl } from './router-state-url'
+import * as fromNotification from './notification.reducer'
 import * as fromWhoAnnouncedType from './who-announced-type/who-announced-type.reducer'
 import * as fromAnnouncementType from './announcement-type/announcement-type.reducer'
 import * as fromCommitment from './commitment/commitment.reducer'
@@ -44,6 +46,7 @@ export function logger(reducer: ActionReducer<State>): ActionReducer<State> { re
 
 export interface State {
     routerReducer: fromRouter.RouterReducerState<RouterStateUrl>
+    notification: fromNotification.State
     whoAnnouncedType: fromWhoAnnouncedType.State
     announcementType: fromAnnouncementType.State
     commitment: fromCommitment.State
@@ -60,6 +63,7 @@ export interface State {
 
 export const reducers: ActionReducerMap<State> = {
     routerReducer: fromRouter.routerReducer,
+    notification: fromNotification.reducer,
     whoAnnouncedType: fromWhoAnnouncedType.reducer,
     announcementType: fromAnnouncementType.reducer,
     commitment: fromCommitment.reducer,
@@ -72,6 +76,13 @@ export const reducers: ActionReducerMap<State> = {
     commitmentOverview: fromCommitmentOverview.reducer,
     commitmentEdit: fromCommitmentEdit.reducer
 }
+
+export const getNotificationState = state => state.notification
+
+export const getNotification = createSelector(
+    getNotificationState,
+    fromNotification.getNotification
+)
 
 export * from './commitment-type'
 export * from './location'

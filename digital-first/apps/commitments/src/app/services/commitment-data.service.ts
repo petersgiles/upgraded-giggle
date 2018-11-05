@@ -37,6 +37,16 @@ export class CommitmentDataService {
 
   constructor(private store: Store<fromRoot.State>) { }
 
+  // Notification
+
+  get Notification(): Observable<string> {
+    return this.store.select(fromRoot.getNotification)
+      .pipe(
+        // tslint:disable-next-line:no-console
+        tap((result: any) => console.log('Notification => ', result)),
+      )
+  }
+
   /// WhoAnnouncedTypes
 
   public getAllWhoAnnouncedTypes(filter?: any) {
@@ -162,12 +172,8 @@ export class CommitmentDataService {
     return this.store.select(fromRoot.getAllOverviewCommitmentDataTables)
   }
 
-  get CommitmentLoading(): Observable<boolean> {
-    return this.store.select(fromRoot.getCommitmentLoading)
-  }
-
-  get CommitmentError(): Observable<any> {
-    return this.store.select(fromRoot.getCommitmentError)
+  get CommitmentActivity(): Observable<any> {
+    return this.store.select(fromRoot.getCommitmentActivity)
   }
 
   /// Commitment Types

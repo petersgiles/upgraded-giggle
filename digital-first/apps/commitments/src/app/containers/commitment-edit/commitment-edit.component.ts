@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core'
 
 import { Router, ActivatedRoute, ParamMap } from '@angular/router'
 import { Observable, Subscription } from 'rxjs'
-import { MdcDialog, MdcDialogRef } from '@angular-mdc/web'
+import { MdcDialog, MdcDialogRef, MdcSnackbar } from '@angular-mdc/web'
 import { map, first } from 'rxjs/operators'
 import { DialogAreYouSureComponent, DialogSpinnerOverlayComponent, DialogAddContactComponent } from '@digital-first/df-dialogs'
 
@@ -25,9 +25,11 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   commitment: Commitment
   commitmentSubscription$: Subscription
+  commitmentEditExpandedPanelsSubscription$: Subscription
+  activitySubscription$: Subscription
+
   currentComments$: Observable<Comment[]>
   selectId$: Subscription
-  error$: Observable<any>
   whoAnnouncedTypes$: Observable<WhoAnnouncedType[]>
 
   announcementTypes$: Observable<AnnouncementType[]>
@@ -39,8 +41,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   locations$: Observable<Location[]>
   activeComment: any
   timeFormat: 'timeAgo' | 'dateFormat' | 'calendar'
-  loadingSubscription$: Subscription
-  loadingDialogRef: MdcDialogRef<DialogSpinnerOverlayComponent, {}>
 
   panels: {
     commitmentPanelExpanded?: boolean
@@ -57,14 +57,10 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     }
 
   commitmentEditDiscussionTimeFormat: Observable<'dateFormat' | 'timeAgo' | 'calendar'>
-  commitmentEditExpandedPanelsSubscription$: Subscription
 
-  constructor(private router: Router, private route: ActivatedRoute, public dialog: MdcDialog, private service: CommitmentDataService) { }
+  constructor(private router: Router, private route: ActivatedRoute, public dialog: MdcDialog, private snackbar: MdcSnackbar, private service: CommitmentDataService) { }
 
   ngOnInit(): void {
-
-    this.error$ = this.service.CommitmentError
-    this.commitmentSubscription$ = this.service.Commitment.subscribe(next => this.commitment = next)
 
     this.whoAnnouncedTypes$ = this.service.WhoAnnouncedTypes
     this.announcementTypes$ = this.service.AnnouncementTypes
@@ -73,6 +69,18 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.portfolios$ = this.service.Portfolios
     this.locations$ = this.service.Locations
     this.commitmentContactsTableData$ = this.service.CommitmentContactsTableData
+
+    this.commitmentSubscription$ = this.service.Commitment.subscribe(
+      next => {
+        this.commitment = next
+      },
+      error => this.showSnackBar(error)
+    )
+
+    this.activitySubscription$ = this.service.Notification.subscribe(
+      (next: any) => { if (next) { this.showSnackBar(next.message) } },
+      error => this.showSnackBar(error)
+    )
 
     this.commitmentEditExpandedPanelsSubscription$ = this.service.CommitmentEditExpandedPanels.subscribe(
       next => {
@@ -105,23 +113,33 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
         map(selectedId => this.service.setCurrentCommitment(selectedId))
       )
       .subscribe()
+  }
+
+  showSnackBar(message: string, action: string = 'OK'): void {
 
     // this is to avoid component validation check errors
     setTimeout(() => {
-      this.loadingSubscription$ = this.service.CommitmentLoading.subscribe((loading) => {
-        if (loading) {
-          this.loadingDialogRef = this.dialog.open(DialogSpinnerOverlayComponent, {})
-        } else if (this.loadingDialogRef) {
-          this.loadingDialogRef.close()
-        }
+      const snackbarRef = this.snackbar.show(message, action, {
+        align: 'center',
+        multiline: false,
+        dismissOnAction: false,
+        focusAction: true,
+        actionOnBottom: false,
+      })
+
+      snackbarRef.afterDismiss().subscribe(() => {
+        // tslint:disable-next-line:no-console
+        console.log('The snack-bar was dismissed')
       })
     })
   }
 
   ngOnDestroy(): void {
     this.selectId$.unsubscribe()
-    this.loadingSubscription$.unsubscribe()
     this.commitmentSubscription$.unsubscribe()
+
+    this.commitmentEditExpandedPanelsSubscription$.unsubscribe()
+    this.activitySubscription$.unsubscribe()
   }
 
   handleChangeExpanded($event, panel) {
@@ -212,7 +230,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     console.log($event)
   }
 
-  handleCreateContactDialog() {}
+  handleCreateContactDialog() { }
 
   handleOpenContactDialog() {
 

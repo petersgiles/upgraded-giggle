@@ -16,9 +16,7 @@ import { DataTableConfig } from '@digital-first/df-components'
 export class CommitmentOverviewComponent implements OnInit, OnDestroy {
 
   commitments$: Observable<Commitment[]>
-  error$: Observable<any>
-  loadingSubscription$: Subscription
-  loadingDialogRef: MdcDialogRef<DialogSpinnerOverlayComponent, {}>
+  activity$: Observable<any>
   pageFormat: 'card' | 'list' | 'table' = 'table'
   refinerGroups$: Observable<any>
   commitmentsTableData$: Observable<DataTableConfig>
@@ -29,7 +27,7 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
     this.commitments$ = this.service.Commitments
     this.commitmentsTableData$ = this.service.CommitmentDataTable
     this.refinerGroups$ = this.service.RefinerGroups
-    this.error$ = this.service.CommitmentError
+    this.activity$ = this.service.CommitmentActivity
 
     this.service.getAllWhoAnnouncedTypes()
     this.service.getAllAnnouncementTypes()
@@ -41,19 +39,19 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
     this.service.getAllCommitments()
 
     // this is to avoid component validation check errors
-    setTimeout(() => {
-      this.loadingSubscription$ = this.service.CommitmentLoading.subscribe((loading) => {
-        if (loading) {
-          this.loadingDialogRef = this.dialog.open(DialogSpinnerOverlayComponent, {})
-        } else if (this.loadingDialogRef) {
-          this.loadingDialogRef.close()
-        }
-      })
-    })
+    // setTimeout(() => {
+    //   this.loadingSubscription$ = this.service.CommitmentLoading.subscribe((loading) => {
+    //     if (loading) {
+    //       this.loadingDialogRef = this.dialog.open(DialogSpinnerOverlayComponent, {})
+    //     } else if (this.loadingDialogRef) {
+    //       this.loadingDialogRef.close()
+    //     }
+    //   })
+    // })
   }
 
   ngOnDestroy() {
-    this.loadingSubscription$.unsubscribe()
+
   }
 
   handleEdit(commitment?: Commitment) {
