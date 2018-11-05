@@ -81,6 +81,11 @@ export const getCurrentCommitment = createSelector(
     }
 )
 
+export const getCommitmentSaving = createSelector(
+    getCommitmentEntitiesState,
+    state => state.saved
+)
+
 export const getCommitmentLoading = createSelector(
     getCommitmentEntitiesState,
     state => state.loading
@@ -91,6 +96,18 @@ export const getCommitmentError = createSelector(
     state => state.error
 )
 
+export const getCommitmentActivity  = createSelector(
+    getCommitmentSaving,
+    getCommitmentLoading,
+    getCommitmentError,
+    (saved, loading, error) => (
+        {
+            saved: saved,
+            loading: loading,
+            error: error
+        }
+    )
+)
 export const getCommitmentContactsTableData = createSelector(
     getCurrentCommitment,
     (commitment) => {

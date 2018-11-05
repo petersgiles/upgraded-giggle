@@ -162,12 +162,8 @@ export class CommitmentDataService {
     return this.store.select(fromRoot.getAllOverviewCommitmentDataTables)
   }
 
-  get CommitmentLoading(): Observable<boolean> {
-    return this.store.select(fromRoot.getCommitmentLoading)
-  }
-
-  get CommitmentError(): Observable<any> {
-    return this.store.select(fromRoot.getCommitmentError)
+  get CommitmentActivity(): Observable<any> {
+    return this.store.select(fromRoot.getCommitmentActivity)
   }
 
   /// Commitment Types

@@ -6,6 +6,7 @@ export interface State extends EntityState<Commitment> {
   // additional entities state properties
   currentCommitent: number
   loading: boolean
+  saved: boolean
   error: any
 }
 
@@ -15,6 +16,7 @@ export const initialState: State = adapter.getInitialState({
   // additional entity state properties
   currentCommitent: null,
   loading: false,
+  saved: false,
   error: null
 })
 
@@ -28,6 +30,7 @@ export function reducer(
       return adapter.addOne(action.payload.data.commitment, {
         ...state,
         loading: action.payload.loading,
+        saved: false,
         error: action.payload.error
       })
     }
@@ -36,6 +39,7 @@ export function reducer(
       return adapter.upsertOne(action.payload.data.commitment, {
         ...state,
         loading: action.payload.loading,
+        saved: false,
         error: action.payload.error
       })
     }
@@ -44,6 +48,7 @@ export function reducer(
       return adapter.addMany(action.payload.data.commitments, {
         ...state,
         loading: action.payload.loading,
+        saved: false,
         error: action.payload.error
       })
     }
@@ -52,6 +57,7 @@ export function reducer(
       return adapter.upsertMany(action.payload.data.commitments, {
         ...state,
         loading: action.payload.loading,
+        saved: false,
         error: action.payload.error
       })
     }
@@ -76,6 +82,7 @@ export function reducer(
       return adapter.upsertMany(action.payload.data.commitments, {
         ...state,
         loading: action.payload.loading,
+        saved: false,
         error: action.payload.error
       })
     }
@@ -85,7 +92,7 @@ export function reducer(
     }
 
     case CommitmentActionTypes.SetCurrentCommitment: {
-      return {...state, currentCommitent: action.payload.id, loading: false}
+      return {...state, currentCommitent: action.payload.id, loading: false, saved: true}
     }
 
     // case CommitmentActionTypes.GetCommitments: {
@@ -97,7 +104,7 @@ export function reducer(
     // }
 
     case CommitmentActionTypes.CommitmentsActionFailure: {
-      return {...state, loading: false, error: action.payload.error}
+      return {...state, loading: false, saved: false, error: action.payload.error}
     }
 
     default: {

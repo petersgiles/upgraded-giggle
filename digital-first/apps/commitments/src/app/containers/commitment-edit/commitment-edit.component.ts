@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core'
 
 import { Router, ActivatedRoute, ParamMap } from '@angular/router'
 import { Observable, Subscription } from 'rxjs'
-import { MdcDialog, MdcDialogRef } from '@angular-mdc/web'
+import { MdcDialog, MdcDialogRef, MdcSnackbar } from '@angular-mdc/web'
 import { map, first } from 'rxjs/operators'
 import { DialogAreYouSureComponent, DialogSpinnerOverlayComponent, DialogAddContactComponent } from '@digital-first/df-dialogs'
 
@@ -58,13 +58,33 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   commitmentEditDiscussionTimeFormat: Observable<'dateFormat' | 'timeAgo' | 'calendar'>
   commitmentEditExpandedPanelsSubscription$: Subscription
+  commitmentActivitySubscription$: Subscription
 
-  constructor(private router: Router, private route: ActivatedRoute, public dialog: MdcDialog, private service: CommitmentDataService) { }
+  constructor(private router: Router, private route: ActivatedRoute, public dialog: MdcDialog, private snackbar: MdcSnackbar, private service: CommitmentDataService) { }
 
   ngOnInit(): void {
 
-    this.error$ = this.service.CommitmentError
-    this.commitmentSubscription$ = this.service.Commitment.subscribe(next => this.commitment = next)
+    this.commitmentSubscription$ = this.service.Commitment.subscribe(next => {
+      this.commitment = next
+    })
+
+    this.commitmentActivitySubscription$ = this.service.CommitmentActivity.subscribe(
+      next => {
+
+        if (next.saved) {
+          const snackbarRef = this.snackbar.show('Saved', 'OK', {
+            align: 'center',
+            multiline: false,
+            dismissOnAction: true
+          })
+
+          snackbarRef.afterDismiss().subscribe(() => {
+            // tslint:disable-next-line:no-console
+            console.log('The snack-bar was dismissed')
+          })
+        }
+      }
+    )
 
     this.whoAnnouncedTypes$ = this.service.WhoAnnouncedTypes
     this.announcementTypes$ = this.service.AnnouncementTypes
@@ -107,15 +127,15 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
       .subscribe()
 
     // this is to avoid component validation check errors
-    setTimeout(() => {
-      this.loadingSubscription$ = this.service.CommitmentLoading.subscribe((loading) => {
-        if (loading) {
-          this.loadingDialogRef = this.dialog.open(DialogSpinnerOverlayComponent, {})
-        } else if (this.loadingDialogRef) {
-          this.loadingDialogRef.close()
-        }
-      })
-    })
+    // setTimeout(() => {
+    //   this.loadingSubscription$ = this.service.CommitmentLoading.subscribe((loading) => {
+    //     if (loading) {
+    //       this.loadingDialogRef = this.dialog.open(DialogSpinnerOverlayComponent, {})
+    //     } else if (this.loadingDialogRef) {
+    //       this.loadingDialogRef.close()
+    //     }
+    //   })
+    // })
   }
 
   ngOnDestroy(): void {
@@ -212,7 +232,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     console.log($event)
   }
 
-  handleCreateContactDialog() {}
+  handleCreateContactDialog() { }
 
   handleOpenContactDialog() {
 

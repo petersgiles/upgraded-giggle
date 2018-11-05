@@ -20,6 +20,8 @@ export enum CommitmentActionTypes {
   GetAllCommitments = '[Commitment] Get All Commitments',
   CommitmentsActionFailure = '[Commitment] Commitments Action Failure',
   StoreCommitment = '[Commitment] Store Commitment',
+  StoreCommitmentSuccess = '[Commitment] Store Commitment Success',
+  StoreCommitmentFailure = '[Commitment] Store Commitment Failure',
   AddContactToCommitment = '[Commitment] Add Contact To Commitment',
 }
 
