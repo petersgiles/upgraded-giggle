@@ -6,11 +6,6 @@
 
 $listsToExport = @("AnnouncementType", "CommitmentType", "Electorate", "PoliticalParty", "Portfolio")
 
-if(-not (Test-Path $exportPath))
-{
-    mkdir -p $exportPath
-}
-
 foreach($listName in $listsToExport)
 {
     Write-Host "Importing list $listName"
