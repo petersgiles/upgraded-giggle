@@ -43,7 +43,7 @@
     </digital-first-page-title>
 
     <div class="commitment-layout__row" *ngIf="panels.contactPanelExpanded">
-      <digital-first-contact-card *ngFor="let contact of (commitment)?.contacts" [contact]="contact" (onMailClicked)="handleMailClicked(contact, commitment)"></digital-first-contact-card>
+      <digital-first-data-table [tableData]="commitmentContactsTableData$ | async" (onDataTableRowClicked)="handleDataTableRowClicked($event)"></digital-first-data-table>
     </div>
 
 

@@ -14,7 +14,7 @@ import { Location } from '../../reducers/location/location.model'
 import { AnnouncementType } from '../../reducers/announcement-type/announcement-type.model'
 import { CommitmentType } from '../../reducers/commitment-type/commitment-type.model'
 import { WhoAnnouncedType } from '../../reducers/who-announced-type/who-announced-type.model'
-import { Contact } from '../../reducers/contact/contact.model'
+import { DataTableConfig } from '@digital-first/df-components'
 
 @Component({
   selector: 'digital-first-commitment-edit',
@@ -32,6 +32,8 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   announcementTypes$: Observable<AnnouncementType[]>
   commitmentTypes$: Observable<CommitmentType[]>
+  commitmentContactsTableData$: Observable<DataTableConfig>
+
   parties$: Observable<Party[]>
   portfolios$: Observable<Portfolio[]>
   locations$: Observable<Location[]>
@@ -70,6 +72,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.parties$ = this.service.Parties
     this.portfolios$ = this.service.Portfolios
     this.locations$ = this.service.Locations
+    this.commitmentContactsTableData$ = this.service.CommitmentContactsTableData
 
     this.commitmentEditExpandedPanelsSubscription$ = this.service.CommitmentEditExpandedPanels.subscribe(
       next => {

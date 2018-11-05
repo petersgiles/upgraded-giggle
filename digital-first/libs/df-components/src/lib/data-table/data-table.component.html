@@ -1,11 +1,11 @@
 <table class="df-data-table df-js-data-table df-data-table--selectable df-shadow--2dp">
     <thead>
       <tr>
-        <th *ngFor="let heading of tableData.headings" class="df-data-table__cell--non-numeric">{{heading.caption}}</th>
+        <th *ngFor="let heading of tableData?.headings" class="df-data-table__cell--non-numeric">{{heading.caption}}</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let row of tableData.rows" (click)="onDataTableRowClicked.emit(row.id)" >
+      <tr *ngFor="let row of tableData?.rows" (click)="onDataTableRowClicked.emit(row.id)" >
         <td *ngFor="let cell of row.cells" class="df-data-table__cell--non-numeric">{{cell.value}}</td>
        </tr>    
     </tbody>

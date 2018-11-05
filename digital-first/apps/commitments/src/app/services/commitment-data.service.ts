@@ -154,6 +154,10 @@ export class CommitmentDataService {
     return this.store.select(fromRoot.getAllOverviewCommitments)
   }
 
+  get CommitmentContactsTableData(): Observable<DataTableConfig> {
+    return this.store.select(fromRoot.getCommitmentContactsTableData)
+  }
+
   get CommitmentDataTable(): Observable<DataTableConfig> {
     return this.store.select(fromRoot.getAllOverviewCommitmentDataTables)
   }

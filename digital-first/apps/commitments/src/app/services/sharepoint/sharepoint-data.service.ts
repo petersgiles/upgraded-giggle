@@ -235,7 +235,16 @@ export class SharepointDataService implements AppDataService {
   }
 
   addContactToCommitment(contact: { commitment: any, contact: any }) {
+    const spComment = {
+      Title: `${contact.commitment} ${contact.contact}`,
+      Commitment: contact.commitment,
+      Contact: contact.contact
+    }
 
+    return this.sharepoint.storeItem({
+      listName: 'CommitmentContact',
+      data: spComment,
+    })
   }
 
   constructor(private sharepoint: SharepointJsomService) { }
