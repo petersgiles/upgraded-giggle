@@ -6,7 +6,7 @@
 
 $listsToImport = @("AnnouncementType", "CommitmentType", "Electorate", "PoliticalParty", "Portfolio")
 
-foreach($listName in $listsToImport)
+foreach($listName in $listsToExport)
 {
     Write-Host "Importing list $listName"
     $dataFile = Join-Path $importPath "$listName.csv"
