@@ -76,7 +76,7 @@ export class ApolloDataService implements AppDataService {
       (result: any) => ({ commitment: result.data.deleteComment.commitment }))
 
   addContactToCommitment = (variables: { commitment: any, contact: any }) =>
-    this.callMutate<any>(
+   this.callMutate<any>(
       { mutation: STORE_COMMITMENT_CONTACT, variables: { ...variables } },
       (result: any) => ({ commitment: result.data.storeCommitmentContact })
     )

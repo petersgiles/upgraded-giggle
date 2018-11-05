@@ -33,6 +33,12 @@ export const byCommitmentIdQuery = (criteria: { id }) => `
         </Query>
     </View>`
 
+export const mapCommitmentContact = (commitmentContact): any => ({
+  commitment: idFromLookup(commitmentContact.Commitment),
+  contact: idFromLookup(commitmentContact.Contact)
+})
+export const mapCommitmentContacts = (commitmentContacts): any[] => commitmentContacts.map(mapCommitmentContact)
+
 export const mapComment = (comment): any => ({
   id: comment.ID,
   parent: idFromLookup(comment.Parent),
@@ -123,7 +129,7 @@ export const mapCommitment = (commitment): Commitment => {
     date: item.Date,
     announcedby: item.AnnouncedBy,
     portfolio: fromLookup(item.Portfolio),
-    contacts: item.Contacts
+    contacts: []
   }
 
   // tslint:disable-next-line:no-console

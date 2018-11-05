@@ -95,16 +95,18 @@ export const getCommitmentContactsTableData = createSelector(
     getCurrentCommitment,
     (commitment) => {
 
-        const rows = commitment && commitment.contacts.map(c => ({
-            id: c.id,
-            cells: [{
-                value: c.name
-            }, {
-                value: c.phone
-            }, {
-                value: c.email
-            }]
-        }))
+        const rows = commitment &&
+            commitment.contacts &&
+            commitment.contacts.map(c => ({
+                id: c.id,
+                cells: [{
+                    value: c.name
+                }, {
+                    value: c.phone
+                }, {
+                    value: c.email
+                }]
+            }))
 
         const dtc: DataTableConfig = {
             title: 'contacts',
@@ -119,4 +121,4 @@ export const getCommitmentContactsTableData = createSelector(
         return dtc
 
     }
-    )
+)

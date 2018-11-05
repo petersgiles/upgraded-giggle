@@ -207,27 +207,36 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     window.location.href = mailText
   }
 
+  handleDataTableRowClicked($event) {
+    // tslint:disable-next-line:no-console
+    console.log($event)
+  }
+
   handleOpenContactDialog() {
 
-    this.service.Contacts.subscribe(contacts => {
-      const dialogRef = this.dialog.open(DialogAddContactComponent, {
-        escapeToClose: true,
-        clickOutsideToClose: true,
-        data: {
-          contacts: contacts.sort((leftSide, rightSide) => {
-            if (leftSide.name < rightSide.name) { return -1 }
-            if (leftSide.name > rightSide.name) { return 1 }
-            return 0
-          })
-        }
-      })
-
-      dialogRef.afterClosed().subscribe((result: any) => {
-        this.service.addContactToCommitment(this.commitment.id, result.id)
-
-      })
-    }
+    this.service.Contacts.pipe(
+      first()
     )
+      .subscribe(contacts => {
+        const dialogRef = this.dialog.open(DialogAddContactComponent, {
+          escapeToClose: true,
+          clickOutsideToClose: true,
+          data: {
+            contacts: contacts.sort((leftSide, rightSide) => {
+              if (leftSide.name < rightSide.name) { return -1 }
+              if (leftSide.name > rightSide.name) { return 1 }
+              return 0
+            })
+          }
+        })
+
+        dialogRef.afterClosed().subscribe((result: any) => {
+          if (result.id) {
+            this.service.addContactToCommitment(this.commitment.id, result.id)
+          }
+        })
+      }
+      )
   }
 
 }
