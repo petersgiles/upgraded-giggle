@@ -4,7 +4,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router'
 import { Observable, Subscription } from 'rxjs'
 import { MdcDialog, MdcDialogRef } from '@angular-mdc/web'
 import { map, first } from 'rxjs/operators'
-import { DialogAreYouSureComponent, DialogSpinnerOverlayComponent } from '@digital-first/df-dialogs'
+import { DialogAreYouSureComponent, DialogSpinnerOverlayComponent, DialogAddContactComponent } from '@digital-first/df-dialogs'
 
 import { CommitmentDataService } from '../../services/commitment-data.service'
 import { Commitment } from '../../reducers/commitment/commitment.model'
@@ -14,6 +14,7 @@ import { Location } from '../../reducers/location/location.model'
 import { AnnouncementType } from '../../reducers/announcement-type/announcement-type.model'
 import { CommitmentType } from '../../reducers/commitment-type/commitment-type.model'
 import { WhoAnnouncedType } from '../../reducers/who-announced-type/who-announced-type.model'
+import { Contact } from '../../reducers/contact/contact.model'
 
 @Component({
   selector: 'digital-first-commitment-edit',
@@ -69,18 +70,19 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.parties$ = this.service.Parties
     this.portfolios$ = this.service.Portfolios
     this.locations$ = this.service.Locations
+
     this.commitmentEditExpandedPanelsSubscription$ = this.service.CommitmentEditExpandedPanels.subscribe(
       next => {
         this.panels = next.reduce((a, i) => {
           a[i] = true
           return a
         }, {
-          commitmentPanelExpanded: false,
-          relatedPanelExpanded: false,
-          discussionPanelExpanded: false,
-          contactPanelExpanded: false,
-          formPanelExpanded: false,
-        })
+            commitmentPanelExpanded: false,
+            relatedPanelExpanded: false,
+            discussionPanelExpanded: false,
+            contactPanelExpanded: false,
+            formPanelExpanded: false,
+          })
       }
     )
 
@@ -91,6 +93,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.service.getAllCommitmentTypes()
     this.service.getAllLocations()
     this.service.getAllPartys()
+    this.service.getAllContacts()
     this.service.getAllPortfolios()
 
     this.selectId$ = this.route.paramMap
@@ -200,4 +203,28 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     const mailText = `mailto:${contact}?subject=${this.commitment.title}&body=`
     window.location.href = mailText
   }
+
+  handleOpenContactDialog() {
+
+    this.service.Contacts.subscribe(contacts => {
+      const dialogRef = this.dialog.open(DialogAddContactComponent, {
+        escapeToClose: true,
+        clickOutsideToClose: true,
+        data: {
+          contacts: contacts.sort((leftSide, rightSide) => {
+            if (leftSide.name < rightSide.name) { return -1 }
+            if (leftSide.name > rightSide.name) { return 1 }
+            return 0
+          })
+        }
+      })
+
+      dialogRef.afterClosed().subscribe((result: any) => {
+        this.service.addContactToCommitment(this.commitment.id, result.id)
+
+      })
+    }
+    )
+  }
+
 }

@@ -17,7 +17,7 @@ import { Location } from '../reducers/location/location.model'
 import { CommitmentType } from '../reducers/commitment-type/commitment-type.model'
 
 import { GetAllLocations } from '../reducers/location/location.actions'
-import { GetCommitments, GetAllCommitments, SetCurrentCommitment, StoreCommitment } from '../reducers/commitment/commitment.actions'
+import { GetCommitments, GetAllCommitments, SetCurrentCommitment, StoreCommitment, AddContactToCommitment } from '../reducers/commitment/commitment.actions'
 import { GetAllAnnouncementTypes } from '../reducers/announcement-type/announcement-type.actions'
 import { GetAllContacts } from '../reducers/contact/contact.actions'
 import { GetAllPartys } from '../reducers/party/party.actions'
@@ -133,6 +133,10 @@ export class CommitmentDataService {
     this.store.dispatch(new SetCurrentCommitment({ id: id }))
     this.store.dispatch(new ClearComments())
     this.store.dispatch(new GetCommentsByCommitment({ commitment: id }))
+  }
+
+  public  addContactToCommitment(commitment: string | number, contact: string | number): any {
+    this.store.dispatch(new AddContactToCommitment({ commitment, contact }))
   }
 
   get Commitment(): Observable<Commitment> {

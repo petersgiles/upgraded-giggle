@@ -202,9 +202,11 @@ export class SharepointDataService implements AppDataService {
         id: commitment.id
       }).pipe(
         concatMap(result => {
-          const cdr: DataResult<CommitmentResult> = { data: {
-            commitment: mapCommitment(result)
-          }, loading: false }
+          const cdr: DataResult<CommitmentResult> = {
+            data: {
+              commitment: mapCommitment(result)
+            }, loading: false
+          }
           return of(cdr)
         })
       )
@@ -230,6 +232,10 @@ export class SharepointDataService implements AppDataService {
       listName: 'CommitmentComment',
       id: comment.id,
     })
+  }
+
+  addContactToCommitment(contact: { commitment: any, contact: any }) {
+
   }
 
   constructor(private sharepoint: SharepointJsomService) { }

@@ -11,7 +11,7 @@ import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
 import { DfDiscussionModule, DiscussionComponent } from '@digital-first/df-discussion'
 import { DfPagesModule } from '@digital-first/df-pages'
-import { DfDialogsModule, DialogAreYouSureComponent, DialogShowErrorComponent, DialogFileLockedComponent, DialogSpinnerOverlayComponent } from '@digital-first/df-dialogs'
+import { DfDialogsModule, DialogAreYouSureComponent, DialogShowErrorComponent, DialogFileLockedComponent, DialogSpinnerOverlayComponent, DialogAddContactComponent } from '@digital-first/df-dialogs'
 import { DfSharepointModule, SharepointJsomService } from '@digital-first/df-sharepoint'
 import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfMomentModule } from '@digital-first/df-moment'
@@ -96,6 +96,7 @@ const ENTRYCOMPONENTS = [
   DialogShowErrorComponent,
   DialogFileLockedComponent,
   DialogSpinnerOverlayComponent,
+  DialogAddContactComponent,
   DiscussionComponent,
   TagsComponent,
   ViewLayoutButtonComponent,

@@ -4,7 +4,6 @@ export enum CommitmentEditActionTypes {
   ExpandPanel = '[CommitmentEdit] Expand Panel',
   CollapsePanel = '[CommitmentEdit] Collapse Panel',
   ChangeTimeFormat = '[CommitmentEdit] Change Time Format',
-
 }
 
 export class ChangeTimeFormat implements Action {

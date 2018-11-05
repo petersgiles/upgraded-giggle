@@ -4,9 +4,13 @@ export const GET_CONTACTS = gql`
 {
   contacts {
     id
-    title
-    icon
-    colour
+    phone
+    name
+    email
+    portfolio {
+      id
+      title
+    }
   }
 }
 `

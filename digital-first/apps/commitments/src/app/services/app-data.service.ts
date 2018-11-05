@@ -6,6 +6,7 @@ import { Commitment } from '../reducers/commitment'
   providedIn: 'root'
 })
 export abstract class AppDataService {
+
   abstract filterWhoAnnouncedTypes(filter: any): Observable<any>
   abstract storeCommitment(commitment: Commitment): Observable<any>
 
@@ -13,6 +14,7 @@ export abstract class AppDataService {
   abstract filterCommitments(filter?: { party?: string; type?: string; portfolio?: string; }): Observable<any>
   abstract storeComment(comment: { commitment: any; parent: any; comment: any; }): Observable<any>
   abstract deleteComment(comment: { id: any }): any
+  abstract addContactToCommitment(contact: { commitment: any, contact: any}): any
 
   abstract filterAnnouncementTypes(filter?: any): Observable<any>
   abstract getCommentsByCommitment(commitment: any): Observable<any>

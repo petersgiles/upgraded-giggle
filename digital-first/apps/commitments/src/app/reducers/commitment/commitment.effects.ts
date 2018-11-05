@@ -2,7 +2,16 @@ import { Injectable } from '@angular/core'
 import { Actions, Effect } from '@ngrx/effects'
 import { Observable, of } from 'rxjs'
 import { Action } from '@ngrx/store'
-import { CommitmentActionTypes, CommitmentsActionFailure, LoadCommitments, GetAllCommitments, SetCurrentCommitment, UpsertCommitment, StoreCommitment } from './commitment.actions'
+import {
+  CommitmentActionTypes,
+  CommitmentsActionFailure,
+  LoadCommitments,
+  GetAllCommitments,
+  SetCurrentCommitment,
+  UpsertCommitment,
+  StoreCommitment,
+  AddContactToCommitment
+} from './commitment.actions'
 import { switchMap, map, catchError, tap } from 'rxjs/operators'
 
 import { AppDataService } from '../../services/app-data.service'
@@ -43,8 +52,24 @@ export class CommitmentEffects {
       switchMap((commitment: any) => this.service.storeCommitment(commitment)
         .pipe(
           // tslint:disable-next-line:no-console
-          tap((result: DataResult<CommitmentResult>) => console.log('Store Commitment =>', result)),
-          map((result: DataResult<CommitmentResult>) => new SetCurrentCommitment({id: result.data.commitment.id})),
+          tap((result: DataResult<CommitmentResult>) => console.log('Reload Commitment =>', result)),
+          map((result: DataResult<CommitmentResult>) => new SetCurrentCommitment({ id: result.data.commitment.id })),
+          catchError(error => of(new CommitmentsActionFailure(error)))
+        )
+      ))
+
+  @Effect()
+  addContactToCommitment$: Observable<Action> = this.actions$
+    .ofType(CommitmentActionTypes.AddContactToCommitment)
+    .pipe(
+      map((action: AddContactToCommitment) => action.payload),
+      // tslint:disable-next-line:no-console
+      tap((payload: any) => console.log('Add Contact To Commitment Payload=>', payload)),
+      switchMap((payload: any) => this.service.addContactToCommitment(payload)
+        .pipe(
+          // tslint:disable-next-line:no-console
+          tap((result: any) => console.log('Reload Commitment =>', result)),
+          map((result: any) => new SetCurrentCommitment({ id: result.commitment.id })),
           catchError(error => of(new CommitmentsActionFailure(error)))
         )
       ))

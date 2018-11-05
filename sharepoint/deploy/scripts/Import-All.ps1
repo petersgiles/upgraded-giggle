@@ -4,14 +4,9 @@
     [string] $importPath = "..\..\commitments\Data"
 )
 
-$listsToExport = @("AnnouncementType", "CommitmentType", "Electorate", "PoliticalParty", "Portfolio")
+$listsToImport = @("AnnouncementType", "CommitmentType", "Electorate", "PoliticalParty", "Portfolio")
 
-if(-not (Test-Path $exportPath))
-{
-    mkdir -p $exportPath
-}
-
-foreach($listName in $listsToExport)
+foreach($listName in $listsToImport)
 {
     Write-Host "Importing list $listName"
     $dataFile = Join-Path $importPath "$listName.csv"
