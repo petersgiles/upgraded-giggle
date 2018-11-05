@@ -17,9 +17,6 @@ export interface DialogContactsData {
           <mdc-list-item *ngFor="let contact of contacts" [tabIndex]="0" (click)="closeDialog(contact)" >
             <mdc-icon mdcListItemGraphic>person</mdc-icon>{{contact.name}}
           </mdc-list-item>
-          <mdc-list-item (click)="closeDialog()">
-            <mdc-icon mdcListItemGraphic>add</mdc-icon>add contact
-          </mdc-list-item>
         </mdc-list>
       </mdc-dialog-content>
     </mdc-dialog-surface>

@@ -212,6 +212,8 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     console.log($event)
   }
 
+  handleCreateContactDialog() {}
+
   handleOpenContactDialog() {
 
     this.service.Contacts.pipe(
@@ -231,7 +233,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
         })
 
         dialogRef.afterClosed().subscribe((result: any) => {
-          if (result.id) {
+          if (result && result.id) {
             this.service.addContactToCommitment(this.commitment.id, result.id)
           }
         })
