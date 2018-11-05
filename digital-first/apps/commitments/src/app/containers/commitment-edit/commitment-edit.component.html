@@ -38,7 +38,8 @@
       (onReplyToComment)="handleReplyToComment($event)" (onAddComment)="handleAddComment($event)"></digital-first-discussion>
 
     <digital-first-page-title *ngIf="commitment" title="Contacts">
-      <digital-first-add-item-button icon="person_add" title="Add Contact" *ngIf="panels.contactPanelExpanded" (onAddItem)="handleOpenContactDialog()"></digital-first-add-item-button>
+      <digital-first-add-item-button icon="person_add" title="Create&nbsp;Contact" *ngIf="panels.contactPanelExpanded" (onAddItem)="handleCreateContactDialog()"></digital-first-add-item-button>
+      <digital-first-add-item-button icon="person" title="Add&nbsp;Contact" *ngIf="panels.contactPanelExpanded" (onAddItem)="handleOpenContactDialog()"></digital-first-add-item-button>
       <digital-first-expand-collapse-button [expanded]='panels.contactPanelExpanded' (onChangeExpanded)="handleChangeExpanded($event, 'contactPanelExpanded')"></digital-first-expand-collapse-button>
     </digital-first-page-title>
 

@@ -4,13 +4,6 @@ export const GET_COMMITMENT_CONTACTS = gql`
   query CommitmentContacts($commitment: ID!) {
   commitmentContacts(commitment: $commitment) {
     id
-    phone
-    name
-    email
-    portfolio {
-      id
-      title
-    }
   }
 }
 `
