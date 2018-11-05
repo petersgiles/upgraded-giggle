@@ -1,41 +1,39 @@
-import { Apollo } from 'apollo-angular'
-import { Observable, of, throwError } from 'rxjs'
-import { Injectable } from '@angular/core'
-import { switchMap, tap, catchError } from 'rxjs/operators'
 import * as moment from 'moment'
-
-import { AppDataService } from '../app-data.service'
-
 import {
-  DataResult,
-  CommitmentResult,
-  CommitmentsResult,
-  AnnouncementTypesResult,
-  CommentsResult,
-  PortfoliosResult,
-  PartysResult,
-  ContactsResult,
-  LocationsResult,
-  CommitmentTypesResult,
-  WhoAnnouncedTypesResult
-} from '../../models'
-
-import {
-  GET_COMMITMENT,
-  UPSERT_COMMITMENT,
-  GET_ALL_COMMITMENTS,
   ADD_COMMENT,
-  DELETE_COMMENT,
   COMMENTS_BY_COMMITMENT,
+  DELETE_COMMENT,
+  GET_ALL_COMMITMENTS,
   GET_ANNOUNCEMENT_TYPES,
-  GET_PORTFOLIOS,
-  GET_PARTIES,
-  GET_LOCATIONS,
+  GET_COMMITMENT,
   GET_COMMITMENT_TYPES,
   GET_CONTACTS,
-  GET_WHO_ANNOUNCED_TYPES
+  GET_LOCATIONS,
+  GET_PARTIES,
+  GET_PORTFOLIOS,
+  GET_WHO_ANNOUNCED_TYPES,
+  UPSERT_COMMITMENT
 } from './apollo-queries'
+import {
+  AnnouncementTypesResult,
+  CommentsResult,
+  CommitmentResult,
+  CommitmentsResult,
+  CommitmentTypesResult,
+  ContactsResult,
+  DataResult,
+  LocationsResult,
+  PartysResult,
+  PortfoliosResult,
+  WhoAnnouncedTypesResult
+} from '../../models'
+import { Apollo } from 'apollo-angular'
+import { AppDataService } from '../app-data.service'
+import { catchError, switchMap, tap } from 'rxjs/operators'
 import { Commitment } from '../../reducers/commitment'
+import { Injectable } from '@angular/core'
+import { Observable, of, throwError } from 'rxjs'
+import { STORE_COMMITMENT_CONTACT } from './commitment-contacts'
 
 @Injectable({
   providedIn: 'root'
@@ -46,7 +44,7 @@ export class ApolloDataService implements AppDataService {
 
   storeCommitment(commitment: Commitment): Observable<DataResult<CommitmentResult>> {
     const variables = {
-     ...commitment
+      ...commitment
     }
 
     return this.callMutate<CommitmentResult>(
@@ -72,10 +70,16 @@ export class ApolloDataService implements AppDataService {
 
   }
 
-  deleteComment = (comment: { id: any; commitment: any }) =>
+  deleteComment = (variables: { id: any; commitment: any }) =>
     this.callMutate<{ commitment: number }>(
-      { mutation: DELETE_COMMENT, variables: { ...comment } },
+      { mutation: DELETE_COMMENT, variables: { ...variables } },
       (result: any) => ({ commitment: result.data.deleteComment.commitment }))
+
+  addContactToCommitment = (variables: { commitment: any, contact: any }) =>
+   this.callMutate<any>(
+      { mutation: STORE_COMMITMENT_CONTACT, variables: { ...variables } },
+      (result: any) => ({ commitment: result.data.storeCommitmentContact })
+    )
 
   getCommitment = (criteria: { id: any; }) => this.callQuery<CommitmentResult>({ query: GET_COMMITMENT, variables: criteria })
 
@@ -100,8 +104,10 @@ export class ApolloDataService implements AppDataService {
         ...options
       })
       .pipe(
-        // tslint:disable-next-line:no-console
-        tap((result: any) => console.log(result)),
+        tap((result: any) => {
+          // tslint:disable-next-line:no-console
+          console.log(result)
+        }),
         switchMap((result: any) => {
           if (mapper) {
             return of(mapper(result) as DataResult<T>)

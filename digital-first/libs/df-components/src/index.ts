@@ -12,3 +12,5 @@ export { RelatedArtifactsComponent } from './lib/related-artifacts/related-artif
 export { TagsComponent } from './lib/tags/tags.component'
 export { ViewLayoutButtonComponent } from './lib/view-layout-button.component'
 export { MetadataRefinerComponent } from './lib/metadata-refiner/metadata-refiner.component'
+export { DataTableComponent } from './lib/data-table/data-table.component'
+export { DataTableConfig } from './lib/data-table/data-table-model'

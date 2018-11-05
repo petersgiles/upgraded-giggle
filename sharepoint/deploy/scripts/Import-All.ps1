@@ -4,12 +4,7 @@
     [string] $importPath = "..\..\commitments\Data"
 )
 
-$listsToExport = @("AnnouncementType", "CommitmentType", "Electorate", "PoliticalParty", "Portfolio")
-
-if(-not (Test-Path $exportPath))
-{
-    mkdir -p $exportPath
-}
+$listsToImport = @("AnnouncementType", "CommitmentType", "Electorate", "PoliticalParty", "Portfolio")
 
 foreach($listName in $listsToExport)
 {

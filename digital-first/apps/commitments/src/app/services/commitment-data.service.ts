@@ -4,7 +4,7 @@ import {
 import { Injectable } from '@angular/core'
 import { tap } from 'rxjs/operators'
 import { Store } from '@ngrx/store'
-import { RefinerGroup, RefinerType } from '@digital-first/df-components'
+import { RefinerGroup, RefinerType, DataTableConfig } from '@digital-first/df-components'
 
 import { WhoAnnouncedType } from '../reducers/who-announced-type/who-announced-type.model'
 import { AnnouncementType } from '../reducers/announcement-type/announcement-type.model'
@@ -17,7 +17,7 @@ import { Location } from '../reducers/location/location.model'
 import { CommitmentType } from '../reducers/commitment-type/commitment-type.model'
 
 import { GetAllLocations } from '../reducers/location/location.actions'
-import { GetCommitments, GetAllCommitments, SetCurrentCommitment, StoreCommitment } from '../reducers/commitment/commitment.actions'
+import { GetCommitments, GetAllCommitments, SetCurrentCommitment, StoreCommitment, AddContactToCommitment } from '../reducers/commitment/commitment.actions'
 import { GetAllAnnouncementTypes } from '../reducers/announcement-type/announcement-type.actions'
 import { GetAllContacts } from '../reducers/contact/contact.actions'
 import { GetAllPartys } from '../reducers/party/party.actions'
@@ -120,6 +120,7 @@ export class CommitmentDataService {
   }
 
   /// Commitments
+
   public getAllCommitments(filter?: any) {
     this.store.dispatch(new GetAllCommitments({ filter: filter }))
   }
@@ -132,6 +133,10 @@ export class CommitmentDataService {
     this.store.dispatch(new SetCurrentCommitment({ id: id }))
     this.store.dispatch(new ClearComments())
     this.store.dispatch(new GetCommentsByCommitment({ commitment: id }))
+  }
+
+  public  addContactToCommitment(commitment: string | number, contact: string | number): any {
+    this.store.dispatch(new AddContactToCommitment({ commitment, contact }))
   }
 
   get Commitment(): Observable<Commitment> {
@@ -147,6 +152,14 @@ export class CommitmentDataService {
     // return this.store.select(fromRoot.getFilteredOverviewCommitments)
 
     return this.store.select(fromRoot.getAllOverviewCommitments)
+  }
+
+  get CommitmentContactsTableData(): Observable<DataTableConfig> {
+    return this.store.select(fromRoot.getCommitmentContactsTableData)
+  }
+
+  get CommitmentDataTable(): Observable<DataTableConfig> {
+    return this.store.select(fromRoot.getAllOverviewCommitmentDataTables)
   }
 
   get CommitmentLoading(): Observable<boolean> {

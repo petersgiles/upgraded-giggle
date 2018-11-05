@@ -38,12 +38,12 @@
       (onReplyToComment)="handleReplyToComment($event)" (onAddComment)="handleAddComment($event)"></digital-first-discussion>
 
     <digital-first-page-title *ngIf="commitment" title="Contacts">
-      <digital-first-add-item-button icon="person_add" title="Add Contact" *ngIf="panels.contactPanelExpanded"></digital-first-add-item-button>
+      <digital-first-add-item-button icon="person_add" title="Add Contact" *ngIf="panels.contactPanelExpanded" (onAddItem)="handleOpenContactDialog()"></digital-first-add-item-button>
       <digital-first-expand-collapse-button [expanded]='panels.contactPanelExpanded' (onChangeExpanded)="handleChangeExpanded($event, 'contactPanelExpanded')"></digital-first-expand-collapse-button>
     </digital-first-page-title>
 
     <div class="commitment-layout__row" *ngIf="panels.contactPanelExpanded">
-      <digital-first-contact-card *ngFor="let contact of (commitment)?.contacts" [contact]="contact" (onMailClicked)="handleMailClicked(contact, commitment)"></digital-first-contact-card>
+      <digital-first-data-table [tableData]="commitmentContactsTableData$ | async" (onDataTableRowClicked)="handleDataTableRowClicked($event)"></digital-first-data-table>
     </div>
 
 

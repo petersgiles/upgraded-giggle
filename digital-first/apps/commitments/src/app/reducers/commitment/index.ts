@@ -6,11 +6,13 @@ import * as fromCommitment from './commitment.reducer'
 import { getCommitmentTypeEntities } from '../commitment-type'
 import { getLocationEntities } from '../location'
 import { getAllComments } from '../comment'
+import { getAllContacts } from '../contact'
 
 import { getPartyEntities } from '../party'
 import { getPortfolioEntities } from '../portfolio'
 import { getAnnouncementTypeEntities } from '../announcement-type'
 import { getWhoAnnouncedTypeEntities } from '../who-announced-type'
+import { DataTableConfig } from '@digital-first/df-components'
 
 export { CommitmentEffects } from './commitment.effects'
 export * from './commitment.model'
@@ -87,4 +89,36 @@ export const getCommitmentLoading = createSelector(
 export const getCommitmentError = createSelector(
     getCommitmentEntitiesState,
     state => state.error
+)
+
+export const getCommitmentContactsTableData = createSelector(
+    getCurrentCommitment,
+    (commitment) => {
+
+        const rows = commitment &&
+            commitment.contacts &&
+            commitment.contacts.map(c => ({
+                id: c.id,
+                cells: [{
+                    value: c.name
+                }, {
+                    value: c.phone
+                }, {
+                    value: c.email
+                }]
+            }))
+
+        const dtc: DataTableConfig = {
+            title: 'contacts',
+            headings: [
+                { caption: 'Name' },
+                { caption: 'Phone' },
+                { caption: 'Email' }
+            ],
+            rows: rows
+        }
+
+        return dtc
+
+    }
 )

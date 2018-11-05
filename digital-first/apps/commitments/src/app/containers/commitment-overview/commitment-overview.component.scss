@@ -1,11 +1,21 @@
 :host {
   width:100%;
   width: -webkit-fill-available;
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-    .app-page {
-      padding-left: 0px;
-    }
+  .app-page {
+    padding-left: 0px;
   }
-  
+
+  digital-first-metadata-refiner {
+    min-width: 250px;
+  }
+
+  digital-first-data-table {
+    width:100%;
+    width: -webkit-fill-available;
+
+  }
+}
+

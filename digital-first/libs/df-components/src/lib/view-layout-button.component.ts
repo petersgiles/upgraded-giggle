@@ -3,7 +3,9 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 @Component({
   selector: 'digital-first-view-layout-button',
   template: `
-  <a mdcIcon attr.aria-label="Change Layout" title="Change Layout" (click)="onChangePageFormat.emit(pageFormat=='list'?'card':'list')">{{pageFormat=='list'?'dns':'view_list'}}</a>
+  <a mdcIcon attr.aria-label="Change Layout" title="Change Layout" *ngIf="pageFormat=='table'" (click)="onChangePageFormat.emit('list')">dns</a>
+  <a mdcIcon attr.aria-label="Change Layout" title="Change Layout" *ngIf="pageFormat=='list'" (click)="onChangePageFormat.emit('card')">view_list</a>
+  <a mdcIcon attr.aria-label="Change Layout" title="Change Layout" *ngIf="pageFormat=='card'" (click)="onChangePageFormat.emit('table')">table_chart</a>
   `,
   styles:  [`
   :host {
@@ -14,10 +16,10 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 export class ViewLayoutButtonComponent implements OnInit {
 
   @Input()
-  pageFormat: 'card' | 'list'
+  pageFormat: 'card' | 'list' | 'table'
 
   @Output()
-  onChangePageFormat: EventEmitter<'card' | 'list'> = new EventEmitter()
+  onChangePageFormat: EventEmitter<'card' | 'list' | 'table'> = new EventEmitter()
 
   constructor() { }
 

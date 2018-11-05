@@ -20,6 +20,13 @@ export enum CommitmentActionTypes {
   GetAllCommitments = '[Commitment] Get All Commitments',
   CommitmentsActionFailure = '[Commitment] Commitments Action Failure',
   StoreCommitment = '[Commitment] Store Commitment',
+  AddContactToCommitment = '[Commitment] Add Contact To Commitment',
+}
+
+export class AddContactToCommitment implements Action {
+  readonly type = CommitmentActionTypes.AddContactToCommitment
+
+  constructor(public payload: {commitment: number | string, contact:  number | string}) { }
 }
 
 export class LoadCommitments implements Action {
@@ -120,3 +127,4 @@ export type CommitmentActions =
  | GetCommitments
  | CommitmentsActionFailure
  | StoreCommitment
+ | AddContactToCommitment

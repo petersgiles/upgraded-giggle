@@ -18,6 +18,7 @@ export enum ContactActionTypes {
   SetCurrentContact = '[Contact] Set Current Contact',
   GetContacts = '[Contact] Get Contacts',
   GetAllContacts = '[Contact] Get All Contacts',
+
   ContactsActionFailure = '[Contact] Contacts Action Failure',
 }
 

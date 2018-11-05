@@ -1,5 +1,6 @@
 import { createSelector } from '@ngrx/store'
-import { RefinerGroup } from '@digital-first/df-components'
+import { RefinerGroup, DataTableConfig } from '@digital-first/df-components'
+import { of } from 'rxjs'
 
 import * as fromCommitmentOverview from './commitment-overview.reducer'
 import { getCommitmentTypeEntities, getAllCommitmentTypes } from '../commitment-type'
@@ -139,13 +140,13 @@ export const getFilteredOverviewCommitments = createSelector(
 
 export const getAllOverviewCommitments = createSelector(
     getFilteredOverviewCommitments,
+    getLocationEntities,
     getPartyEntities,
     getPortfolioEntities,
-    getLocationEntities,
     getAnnouncementTypeEntities,
     getCommitmentTypeEntities,
     getWhoAnnouncedTypeEntities,
-    (commitments, partys, portfolios, locations, announcementTypes, commitmentTypes, whoAnnouncedTypes) => {
+    (commitments, locations, partys, portfolios, announcementTypes, commitmentTypes, whoAnnouncedTypes) => {
 
         const result = commitments.map(commitment =>
             ({
@@ -163,4 +164,42 @@ export const getAllOverviewCommitments = createSelector(
 
     }
 
+)
+
+export const getAllOverviewCommitmentDataTables = createSelector(
+    getAllOverviewCommitments,
+    (commitments) => {
+
+        const rows = commitments.map(c => ({
+            id: c.id,
+            cells: [{
+                value: c.title
+            }, {
+                value: c.party && c.party.title
+            }, {
+                value: c.location && c.location.title
+            }, {
+                value: c.portfolio && c.portfolio.title
+            }, {
+                value: c.announcementType && c.announcementType.title
+            }, {
+                value: c.commitmentType && c.commitmentType.title
+            }]
+        }))
+
+        const dtc: DataTableConfig = {
+            title: 'commitments',
+            headings: [
+                { caption: 'Title' },
+                { caption: 'Party' },
+                { caption: 'Location' },
+                { caption: 'Portfolio' },
+                { caption: 'Announcement' },
+                { caption: 'Commitment' }],
+            rows: rows
+        }
+
+        return dtc
+
+    }
 )

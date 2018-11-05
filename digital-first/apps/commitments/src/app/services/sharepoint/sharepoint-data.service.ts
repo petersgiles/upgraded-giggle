@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core'
 
-import { Observable, of } from 'rxjs'
+import { Observable, of, forkJoin } from 'rxjs'
 import { concatMap, map } from 'rxjs/operators'
-import { SharepointJsomService } from '@digital-first/df-sharepoint'
+import { SharepointJsomService, fromLookup } from '@digital-first/df-sharepoint'
 import { AppDataService } from '../app-data.service'
 
 import {
@@ -17,7 +17,8 @@ import {
   mapPortfolios,
   mapContacts,
   mapCommitmentTypes,
-  mapWhoAnnouncedTypes
+  mapWhoAnnouncedTypes,
+  mapCommitmentContacts
 } from './sharepoint-data-maps'
 
 import {
@@ -40,7 +41,7 @@ import { Commitment } from '../../reducers/commitment'
 })
 export class SharepointDataService implements AppDataService {
 
-  getCommitment(criteria: { id: any; }): Observable<DataResult<CommitmentResult>> {
+  _getCommitment(criteria: { id: any; }): Observable<DataResult<CommitmentResult>> {
 
     return this.sharepoint.getItems({
       listName: 'Commitment',
@@ -52,6 +53,35 @@ export class SharepointDataService implements AppDataService {
           data: { commitment: mapCommitment(commitment) },
           loading: false
         }))
+    )
+  }
+
+  getCommitment(criteria: { id: any; }): Observable<DataResult<CommitmentResult>> {
+    return forkJoin([
+      this.sharepoint.getItems({
+        listName: 'Commitment',
+        viewXml: byIdQuery(criteria)
+      }),
+      this.sharepoint.getItems({
+        listName: 'Contact'
+      }),
+      this.sharepoint.getItems({
+        listName: 'CommitmentContact',
+        viewXml: byCommitmentIdQuery(criteria)
+      })
+    ]).pipe(
+      concatMap(([spCommitment, spContacts, spCommitmentContacts]) => {
+        const commitment = mapCommitment(spCommitment[0])
+        const contacts = mapContacts(spContacts).reduce((acc: any, item: any) => (acc[item.id] = item, acc), {})
+        const commitmentContact = mapCommitmentContacts(spCommitmentContacts)
+
+        commitment.contacts = commitmentContact.map(c => contacts[c.contact])
+
+        return of({
+          data: { commitment: commitment },
+          loading: false
+        })
+      })
     )
   }
 
@@ -202,9 +232,11 @@ export class SharepointDataService implements AppDataService {
         id: commitment.id
       }).pipe(
         concatMap(result => {
-          const cdr: DataResult<CommitmentResult> = { data: {
-            commitment: mapCommitment(result)
-          }, loading: false }
+          const cdr: DataResult<CommitmentResult> = {
+            data: {
+              commitment: mapCommitment(result)
+            }, loading: false
+          }
           return of(cdr)
         })
       )
@@ -230,6 +262,22 @@ export class SharepointDataService implements AppDataService {
       listName: 'CommitmentComment',
       id: comment.id,
     })
+  }
+
+  addContactToCommitment(contact: { commitment: any, contact: any }) {
+    const spComment = {
+      Title: `${contact.commitment} ${contact.contact}`,
+      Commitment: contact.commitment,
+      Contact: contact.contact
+    }
+
+    return this.sharepoint.storeItem({
+      listName: 'CommitmentContact',
+      data: spComment,
+    }).pipe(
+      concatMap(_ =>
+        of({ commitment: { id: contact.commitment } }))
+    )
   }
 
   constructor(private sharepoint: SharepointJsomService) { }
