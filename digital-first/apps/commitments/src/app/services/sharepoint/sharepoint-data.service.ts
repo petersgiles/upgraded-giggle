@@ -35,6 +35,7 @@ import {
   WhoAnnouncedTypesResult
 } from '../../models'
 import { Commitment } from '../../reducers/commitment'
+import { arrayToHash } from '@digital-first/df-utils'
 
 @Injectable({
   providedIn: 'root'
@@ -72,7 +73,7 @@ export class SharepointDataService implements AppDataService {
     ]).pipe(
       concatMap(([spCommitment, spContacts, spCommitmentContacts]) => {
         const commitment = mapCommitment(spCommitment[0])
-        const contacts = mapContacts(spContacts).reduce((acc: any, item: any) => (acc[item.id] = item, acc), {})
+        const contacts = arrayToHash(mapContacts(spContacts))
         const commitmentContact = mapCommitmentContacts(spCommitmentContacts)
 
         commitment.contacts = commitmentContact.map(c => contacts[c.contact])

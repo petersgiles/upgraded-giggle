@@ -1,0 +1,1 @@
+export const arrayToHash = (array: any[], id: string = 'id') =>  array.reduce((obj, item) =>  (obj[item[id]] = item , obj), {})
