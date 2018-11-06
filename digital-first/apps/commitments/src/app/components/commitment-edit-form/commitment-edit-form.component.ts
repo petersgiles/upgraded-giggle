@@ -22,6 +22,7 @@ export class CommitmentEditFormComponent  implements OnInit {
   @Input() whoAnnouncedTypes: WhoAnnouncedType[]
   @Input() commitmentTypes: CommitmentType[]
   @Input() locations: Location[]
+  @Input() busy: boolean
 
   @Output() onSubmitted: EventEmitter<any> = new EventEmitter()
   @Output() onCancelled: EventEmitter<any> = new EventEmitter()

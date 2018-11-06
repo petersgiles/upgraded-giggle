@@ -11,6 +11,17 @@
     }
   }
   
+  .form_title {
+    height: 36px;
+    color: $primary-text-color;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 8px 10px;
+    margin: 4px 0;
+    overflow: hidden;
+  }
+
   .form-layout__row {
     margin-top: .3em;
     margin-bottom: .3em;
@@ -34,3 +45,28 @@
       margin: 12px;
     }
   }
+
+  fieldset {
+    display: block;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-block-start: 0em;
+    padding-inline-start: 0em;
+    padding-inline-end: 0em;
+    padding-block-end: 0em;
+    min-width: -webkit-min-content;
+    border-width: 0px;
+    border-style: none;
+    border-color: transparent;
+    border-image: none;
+}
+
+.busy {
+  fieldset[disabled] {
+    .mdc-text-field--textarea .mdc-floating-label{
+          background-color: transparent;
+        }
+        cursor: progress;
+      }
+      cursor: progress; /* Add a pointer on hover */
+    }

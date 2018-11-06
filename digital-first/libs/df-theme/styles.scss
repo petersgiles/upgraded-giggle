@@ -10,6 +10,7 @@
 @import "./src/scss/lists";
 @import "./src/scss/navigation";
 @import "./src/scss/fab";
+@import "./src/scss/animations";
 
 .truncate {
     white-space: nowrap;
@@ -31,4 +32,9 @@
   
   .page_title_text {
     width: 100%;
+  }
+
+  .busy {
+    background-color: rgba(0,0,0,0.1); /* Black background with opacity */
+    cursor: progress; /* Add a pointer on hover */
   }
