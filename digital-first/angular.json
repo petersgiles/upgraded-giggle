@@ -1165,6 +1165,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
+            "port": 4206,
             "browserTarget": "programs-admin:build"
           },
           "configurations": {
