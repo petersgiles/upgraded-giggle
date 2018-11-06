@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core'
 
 import { Router, ActivatedRoute, ParamMap } from '@angular/router'
 import { Observable, Subscription } from 'rxjs'
-import { MdcDialog, MdcDialogRef, MdcSnackbar } from '@angular-mdc/web'
-import { map, first, delay } from 'rxjs/operators'
-import { DialogAreYouSureComponent, DialogSpinnerOverlayComponent, DialogAddContactComponent } from '@digital-first/df-dialogs'
+import { MdcDialog, MdcSnackbar } from '@angular-mdc/web'
+import { map, first } from 'rxjs/operators'
+import { DialogAreYouSureComponent, DialogAddContactComponent, ARE_YOU_SURE_ACCEPT } from '@digital-first/df-dialogs'
 
 import { CommitmentDataService } from '../../services/commitment-data.service'
 import { Commitment } from '../../reducers/commitment/commitment.model'
@@ -79,18 +79,18 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     )
 
     this.activitySubscription$ = this.service.Notification
-    // .pipe(
-    //   delay(2000)
-    // )
-    .subscribe(
-      (next: any) => {
-        if (next) {
-          this.formBusy = false
-          this.showSnackBar(next.message)
-        }
-      },
-      error => this.showSnackBar(error)
-    )
+      // .pipe(
+      //   delay(2000)
+      // )
+      .subscribe(
+        (next: any) => {
+          if (next) {
+            this.formBusy = false
+            this.showSnackBar(next.message)
+          }
+        },
+        error => this.showSnackBar(error)
+      )
 
     this.commitmentEditExpandedPanelsSubscription$ = this.service.CommitmentEditExpandedPanels.subscribe(
       next => {
@@ -187,7 +187,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
         first()
       )
       .subscribe(result => {
-        if (result && commentId) {
+        if (result === ARE_YOU_SURE_ACCEPT && commentId) {
           this.service.deleteComment({ id: commentId })
         }
       })
@@ -236,7 +236,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   handleContactsTableDeleteClicked(contact) {
 
-   const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
       clickOutsideToClose: true
     })
@@ -246,7 +246,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
         first()
       )
       .subscribe(result => {
-        if (result && contact.id) {
+        if (result === ARE_YOU_SURE_ACCEPT && contact.id) {
           this.service.removeContactFromCommitment(this.commitment.id, contact.id)
         }
       })
