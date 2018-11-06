@@ -69,6 +69,7 @@ type Contact {
   username: String
   email: String
   phone: String,
+  ccid: ID,
   portfolio: Portfolio
 }
 
@@ -159,7 +160,7 @@ type Tag {
       portfolio: ID): Contact,
     deleteContact(id:  ID!): Contact,
     storeCommitmentContact(commitment: ID!, contact: ID!): Commitment,
-    deleteCommitmentContact(commitment: ID!, contact: ID!): Commitment,
+    deleteCommitmentContact(id: ID!): Commitment,
     }
 
 `;

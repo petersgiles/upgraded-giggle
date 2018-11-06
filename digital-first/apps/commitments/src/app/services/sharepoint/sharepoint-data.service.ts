@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 
 import { Observable, of, forkJoin } from 'rxjs'
-import { concatMap, map } from 'rxjs/operators'
+import { concatMap, map, tap } from 'rxjs/operators'
 import { SharepointJsomService, fromLookup } from '@digital-first/df-sharepoint'
 import { AppDataService } from '../app-data.service'
 
@@ -18,7 +18,8 @@ import {
   mapContacts,
   mapCommitmentTypes,
   mapWhoAnnouncedTypes,
-  mapCommitmentContacts
+  mapCommitmentContacts,
+  mapCommitmentContact
 } from './sharepoint-data-maps'
 
 import {
@@ -76,7 +77,7 @@ export class SharepointDataService implements AppDataService {
         const contacts = arrayToHash(mapContacts(spContacts))
         const commitmentContact = mapCommitmentContacts(spCommitmentContacts)
 
-        commitment.contacts = commitmentContact.map(c => contacts[c.contact])
+        commitment.contacts = commitmentContact.map(c => ({...contacts[c.contact], ccid: c.id}))
 
         return of({
           data: { commitment: commitment },
@@ -281,189 +282,22 @@ export class SharepointDataService implements AppDataService {
     )
   }
 
+  removeContactFromCommitment(commitmentcontact: { id: any }) {
+    return  this.sharepoint.getItems({
+      listName: 'CommitmentContact',
+      viewXml: byIdQuery(commitmentcontact)
+    }).pipe(
+      map(mapCommitmentContacts),
+      map(result => result[0]),
+      concatMap(result =>
+        this.sharepoint.removeItem({
+          listName: 'CommitmentContact', id: commitmentcontact.id
+        }).pipe(
+          concatMap(_ => of({ commitment: { id: result.commitment } }))
+        )
+      )
+    )
+  }
+
   constructor(private sharepoint: SharepointJsomService) { }
-
-  // upsertCommitment(commitment: Commitment): Observable<DataResult<{}>> {
-  //   const spCommitment = {
-  //     AnnouncementType: commitment.announcementType.id,
-  //     CommitmentType: commitment.commitmentType.id,
-  //     Contacts: commitment.contacts,
-  //     Cost: commitment.cost,
-  //     Date: commitment.date,
-  //     Description: commitment.description,
-  //     Location: commitment.location.id,
-  //     PoliticalParty: commitment.party.id,
-  //     Portfolio: commitment.portfolio.id,
-  //     Title: commitment.title
-  //   }
-
-  //   return this.sharepoint
-  //     .storeItem({
-  //       listName: 'Commitment',
-  //       data: spCommitment,
-  //       id: commitment.id
-  //     })
-  //     .pipe(concatMap(_ => this.getCommitment({ id: commitment.id })))
-  // }
-
-  // upsertComment(comment: {
-  //   commitment: any;
-  //   parent: any;
-  //   comment: any;
-  // }): Observable<any> {
-  //   const spCommitment = {
-  //     Title: comment.commitment,
-  //     Commitment: comment.commitment,
-  //     Parent: comment.parent,
-  //     Text: comment.comment
-  //   }
-
-  //   return this.sharepoint
-  //     .storeItem({
-  //       listName: 'CommitmentComment',
-  //       data: spCommitment
-  //     })
-  //     .pipe(concatMap(_ => this.getCommitment({ id: comment.commitment })))
-  // }
-
-  // getCommitment(criteria: {
-  //   id: any;
-  // }): Observable<
-  //   DataResult<{
-  //     announcementTypes: AnnouncementType[];
-  //     parties: Party[];
-  //     portfolios: Portfolio[];
-  //     commitment: Commitment;
-  //     locations: Location[];
-  //   }>
-  // > {
-  //   return forkJoin([
-  //     this.sharepoint.getItems({
-  //       listName: 'Commitment',
-  //       viewXml: byIdQuery(criteria)
-  //     }),
-  //     this.sharepoint.getItems({
-  //       listName: 'CommitmentComment',
-  //       viewXml: byCommitmentIdQuery(criteria)
-  //     }),
-  //     this.getLookupData()
-  //   ]).pipe(
-  //     concatMap(([spCommitment, spComments, spLookups]) => {
-  //       let commitment = null
-  //       if (spCommitment[0]) {
-  //         commitment = mapCommitment({
-  //           commitment: spCommitment[0],
-  //           parties: spLookups.parties,
-  //           portfolios: spLookups.portfolios,
-  //           announcementTypes: spLookups.announcementTypes,
-  //           locations: spLookups.electorates,
-  //           comments: mapComments(spComments)
-  //         })
-  //       }
-
-  //       const response: DataResult<{
-  //         announcementTypes: AnnouncementType[];
-  //         parties: Party[];
-  //         portfolios: Portfolio[];
-  //         commitment: Commitment;
-  //         locations: Location[];
-  //       }> = {
-  //         data: {
-  //           commitment: commitment,
-  //           parties: spLookups.parties,
-  //           portfolios: spLookups.portfolios,
-  //           announcementTypes: spLookups.announcementTypes,
-  //           locations: spLookups.electorates
-  //         },
-  //         loading: false
-  //       }
-
-  //       // tslint:disable-next-line:no-console
-  //       console.log(response, spCommitment, spLookups)
-
-  //       return of(response)
-  //     })
-  //   )
-  // }
-
-  // filterCommitments(filter?: {
-  //   party?: string;
-  //   type?: string;
-  //   portfolio?: string;
-  // }): Observable<
-  //   DataResult<{
-  //     commitments: Commitment[];
-  //     announcementTypes: AnnouncementType[];
-  //     parties: Party[];
-  //     portfolios: Portfolio[];
-  //     locations: Location[];
-  //   }>
-  // > {
-  //   return forkJoin([
-  //     this.sharepoint.getItems({ listName: 'Commitment' }),
-  //     this.getLookupData()
-  //   ]).pipe(
-  //     concatMap(([spCommitments, spLookups]) => {
-  //       const commitments = mapCommitments({
-  //         commitments: spCommitments,
-  //         parties: spLookups.parties,
-  //         portfolios: spLookups.portfolios,
-  //         announcementTypes: spLookups.announcementTypes,
-  //         locations: spLookups.electorates
-  //       })
-
-  //       const response: DataResult<{
-  //         commitments: Commitment[];
-  //         announcementTypes: AnnouncementType[];
-  //         parties: Party[];
-  //         portfolios: Portfolio[];
-  //         locations: Location[];
-  //       }> = {
-  //         data: {
-  //           commitments: commitments,
-  //           parties: spLookups.parties,
-  //           portfolios: spLookups.portfolios,
-  //           announcementTypes: spLookups.announcementTypes,
-  //           locations: spLookups.electorates
-  //         },
-  //         loading: false
-  //       }
-
-  //       // tslint:disable-next-line:no-console
-  //       console.log(response, spLookups)
-
-  //       return of(response)
-  //     })
-  //   )
-  // }
-
-  // getLookupData(): Observable<{
-  //   announcementTypes: AnnouncementType[];
-  //   parties: Party[];
-  //   portfolios: Portfolio[];
-  //   electorates: Location[];
-  // }> {
-  //   return forkJoin([
-  //     this.sharepoint.getItems({ listName: 'Portfolio' }),
-  //     this.sharepoint.getItems({ listName: 'PoliticalParty' }),
-  //     this.sharepoint.getItems({ listName: 'AnnouncementType' }),
-  //     this.sharepoint.getItems({ listName: 'Electorate' })
-  //   ]).pipe(
-  //     concatMap(
-  //       ([spPortfolios, spParties, spAnnouncementTypes, spElectorates]) => {
-  //         const announcementTypes = mapAnnouncementTypes(spAnnouncementTypes)
-  //         const parties = mapParties(spParties)
-  //         const portfolios = mapPortfolios(spPortfolios)
-  //         const electorates = mapLocations(spElectorates)
-
-  //         return of({
-  //           announcementTypes,
-  //           parties,
-  //           portfolios,
-  //           electorates
-  //         })
-  //       }
-  //     )
-  //   )
-  // }
 }

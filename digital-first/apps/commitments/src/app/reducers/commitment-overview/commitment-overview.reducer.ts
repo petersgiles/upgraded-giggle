@@ -42,8 +42,7 @@ export function reducer(
       })
 
       addRefiner.push(action.payload)
-      // tslint:disable-next-line:no-console
-      console.log('AddRefiner', action.payload, addRefiner, state.selectedRefiners)
+
       return {
         ...state,
         selectedRefiners: addRefiner
@@ -64,8 +63,6 @@ export function reducer(
 
       )
 
-      // tslint:disable-next-line:no-console
-      console.log('RemoveRefiner', action.payload, removeRefiner, state.selectedRefiners)
       return {
         ...state,
         selectedRefiners: removeRefiner

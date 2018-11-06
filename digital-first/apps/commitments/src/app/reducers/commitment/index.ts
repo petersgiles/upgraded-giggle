@@ -53,9 +53,6 @@ export const getCurrentCommitment = createSelector(
         const commitment = commitments[current]
         const discussionItems = comments.map(c => ({ ...c })) // creating mutatable list
 
-        // tslint:disable-next-line:no-console
-        console.log('getCurrentCommitment =>', commitment)
-
         if (commitment) {
             return {
                 ...commitment,
@@ -115,7 +112,7 @@ export const getCommitmentContactsTableData = createSelector(
         const rows = commitment &&
             commitment.contacts &&
             commitment.contacts.map(c => ({
-                id: c.id,
+                id: c.ccid,
                 cells: [{
                     value: c.name
                 }, {

@@ -206,8 +206,6 @@ export class SharepointJsomService {
               }
             }
           } else {
-            // tslint:disable-next-line:no-console
-            console.log(items)
             result = items
           }
           return result
@@ -295,8 +293,6 @@ export class SharepointJsomService {
   }
 
   storeItem(config: { listName: string, data: any, folderName?: string, id?: string | number }): Observable<any> {
-    // tslint:disable-next-line:no-console
-    console.log('storeItem', config)
     if (config.id) {
       return this.refreshItem(config.listName, config.id)
         .pipe(
@@ -361,8 +357,7 @@ export class SharepointJsomService {
   }
 
   updateItem(context, item, data): Observable<any> {
-    // tslint:disable-next-line:no-console
-    console.log('updateItem', item, data)
+
     this.updateItemProperties(item, data)
     context.load(item)
 
@@ -373,8 +368,7 @@ export class SharepointJsomService {
   }
 
   updateItemProperties(item: any, data: any): any {
-    // tslint:disable-next-line:no-console
-    console.log('updateItemProperties', item, data)
+
     for (const prop of Object.keys(data)) {
       item.set_item(prop, data[prop])
     }

@@ -134,10 +134,9 @@ export const resolvers = {
       return c
     },
     deleteCommitmentContact: (_root: any, args: any) => {
-      //(commitment: Int!, contact: Int!): Commitment,
-      const cc = db['commitment-commitment-contacts'].findOne({ ...args })
-      var result = db['commitment-commitment-contacts'].remove({ _id: cc._id }, false);
-      const c = db.commitments.findOne({ id: args.commitment })
+      var cc = db['commitment-commitment-contacts'].findOne({ _id: args.id });
+      var result = db['commitment-commitment-contacts'].remove({ _id: args.id }, false);
+      const c = db.commitments.findOne({ id: cc.commitment })
       console.log('deleteCommitmentContact =>', result, c)
       return c
     }
@@ -171,7 +170,14 @@ export const resolvers = {
     },
     contacts(commitment: any) {
       let commitmentcontacts = db['commitment-commitment-contacts'].find({ commitment: commitment.id })
-      let found = commitmentcontacts.map((f: any) => db['commitment-contacts'].findOne({ _id: f.contact })).map((c: any) => ({...c, id: c._id}))
+      let found = commitmentcontacts
+        .map(
+          (f: any) =>( {
+            ...db['commitment-contacts'].findOne({ _id: f.contact }),
+            ccid: f._id
+          })
+        )
+        .map((c: any) => ({...c, id: c._id}))
       console.log('commitment => ', commitment, 'commitmentContacts => ', commitmentcontacts, 'found => ', found)
       return found
     },
