@@ -9,16 +9,6 @@
 
 
 .$PSScriptRoot\ClientContext-MixedAuth.ps1
-
-function Print-InputVariables() {
-    Write-Host "webUrl : $webUrl"
-    Write-Host "saveLocation : $saveLocation"
-    Write-Host "isInitialBlow : $isInitialBlow"
-    Write-Host "updateSubsites : $updateSubsites"
-    Write-Host "listFilePath : $listFilePath"
-    Write-Host "binPath : $binPath"
-}
-
 function TryGet-List([string]$title) {
     $list = $ctx.Web.Lists.GetByTitle($title)
     $ctx.Load($list)
@@ -37,7 +27,7 @@ function Apply-Properties([Object]$object, [Object[]]$properties) {
     $properties | ? { $_.Value } | % {
         $prop = $objectType.GetProperty($_.Name)
         if ($prop.CanWrite) {
-            Write-Host "Setting property:" $_.Name
+            Write-Verbose "Setting property: $($_.Name)" 
             $prop.GetSetMethod().Invoke($object, $_.Value)
         }        
     }
@@ -74,7 +64,7 @@ function Import-ListDefinition([string]$jsonFilePath) {
     foreach ($field in $fields) {      
         $listField = $listFields | ? { $_.InternalName -eq $field.InternalName }        
         if (!$listField) {
-            Write-Host Adding field $field.InternalName
+            Write-Verbose "Adding field $($field.InternalName)"
             $outnull = $listFields.AddFieldAsXml($field.SchemaXml, $false, [Microsoft.SharePoint.Client.AddFieldOptions]::DefaultValue)            
         }        
     }
@@ -89,7 +79,7 @@ function Import-ListDefinition([string]$jsonFilePath) {
     foreach ($eventReceiver in $eventReceivers) {
         $listEventReceiver = $listEventReceivers | ? { $_.ReceiverName -eq $eventReceiver.ReceiverName }
         if (!$listEventReceiver) {
-            Write-Host Adding event reciever $eventReceiver.ReceiverName
+            Write-Verbose "Adding event reciever $($eventReceiver.ReceiverName)"
             $erCreationInfo = New-Object Microsoft.SharePoint.Client.EventReceiverDefinitionCreationInformation
             Apply-Properties -object $erCreationInfo -properties $eventReceiver.PSObject.Properties
             $outnull = $listEventReceivers.Add($erCreationInfo)
@@ -112,11 +102,11 @@ function Import-ListDefinition([string]$jsonFilePath) {
 }
 
 function Add-LookupFields([string]$jsonFilePath) {
-    Write-Host "Adding lookup fields"
+    Write-Verbose "Adding lookup fields"
     $listObject = Get-Content -LiteralPath $jsonFilePath | ConvertFrom-Json
     $list = TryGet-List -title $listObject.Title
     if (!$list) {
-        Write-Host "Could not find list"
+        Write-Verbose "Could not find list"
         return
     }
     
@@ -126,11 +116,11 @@ function Add-LookupFields([string]$jsonFilePath) {
 
     $primaryLookupFields = $listObject.LookupFields | ? { !$_.PrimaryFieldId }
     foreach ($field in $primaryLookupFields) {      
-        Write-Host "Adding:" $field.InternalName
+        Write-Verbose "Adding: $($field.InternalName)" 
         $listField = $listFields | ? { $_.Id -eq $field.Id -or $_.InternalName -eq $field.InternalName}        
         
         if ($isInitialBlow -and $listField -and $listField.CanBeDeleted -and !$listField.Hidden) {
-            Write-Host "Deleting Lookup field:" $field.InternalName          
+            Write-Verbose "Deleting Lookup field:$($field.InternalName)" 
             $listField.DeleteObject()
             $list.Update()
             $ctx.ExecuteQuery()
@@ -150,12 +140,12 @@ function Add-LookupFields([string]$jsonFilePath) {
 
     $secondaryLookupFields = $listObject.LookupFields | ? { $_.PrimaryFieldId }
     foreach ($field in $secondaryLookupFields) {
-        Write-Host "Adding:" $field.InternalName
+        Write-Verbose "Adding: $($field.InternalName)"
         $listField = $listFields | ? { $_.Id -eq $field.Id -or $_.InternalName -eq $field.InternalName}        
 
         $fieldName = $field.Title.Replace(":", "-")        
         if ($isInitialBlow -and $listField -and $listField.CanBeDeleted -and !$listField.Hidden) {
-            Write-Host "Deleting Dependent Lookup field:" $field.InternalName          
+            Write-Verbose "Deleting Dependent Lookup field: $($field.InternalName)"          
             $listField.DeleteObject()
             $list.Update()
             $ctx.ExecuteQuery()
@@ -172,7 +162,7 @@ function Add-LookupFields([string]$jsonFilePath) {
 }
 
 function Add-LookupField([Microsoft.SharePoint.Client.ClientContext]$ctx, [Microsoft.SharePoint.Client.List]$list, [Object]$field) {
-    Write-Host "Adding Lookup field:" $field.InternalName
+    Write-Verbose "Adding Lookup field: $($field.InternalName)"
     $lookupList = $ctx.Web.Lists.GetByTitle($field.LookupList)
     $ctx.Load($lookupList)
     $ctx.ExecuteQuery()
@@ -185,7 +175,7 @@ function Add-LookupField([Microsoft.SharePoint.Client.ClientContext]$ctx, [Micro
 }
 
 function Add-DependentLookupField([Microsoft.SharePoint.Client.ClientContext]$ctx, [Object]$field) {
-    Write-Host "Adding Dependent Lookup field:" $field.InternalName
+    Write-Verbose "Adding Dependent Lookup field: $($field.InternalName)" 
     $fieldName = $field.Title    
     $lookupFieldName = $field.Title.Split(":")[1]
     $primaryLookupFieldObject = $primaryLookupFields | ? { $_.Id -eq $field.PrimaryFieldId }
@@ -203,7 +193,7 @@ function Ensure-Views([string]$jsonFilePath) {
         return
     }
 
-    Write-Host "Adding views for:" $list.Title
+    Write-Verbose "Adding views for:$($list.Title)" 
    
     $listViews = $list.Views
     $ctx.Load($listViews)
@@ -226,7 +216,7 @@ function Ensure-Views([string]$jsonFilePath) {
     foreach ($view in $views) {
         $listView = $viewsThatExist | ? { $_.Title -eq $view.Title }
         if ($listView) {
-            Write-Host "Updating view:" $view.Title
+            Write-Verbose "Updating view:$($view.Title) " 
             $listView.Paged = $view.Paged
             $listView.ViewQuery = $view.ViewQuery
             $listView.RowLimit = $view.RowLimit
@@ -243,7 +233,7 @@ function Ensure-Views([string]$jsonFilePath) {
             $ctx.ExecuteQuery()
         }
         else {
-            Write-Host "Creating view:" $view.Title
+            Write-Verbose "Creating view:$($view.Title)" 
             $viewCreationInfo = New-Object Microsoft.SharePoint.Client.ViewCreationInformation
             $viewCreationInfo.Paged = $view.Paged
             $viewCreationInfo.Query = $view.ViewQuery
@@ -274,4 +264,3 @@ Add-Type -Path "$binPath\Microsoft.SharePoint.Client.dll"
 Add-Type -Path "$binPath\Microsoft.SharePoint.Client.Runtime.dll"
 
 Blow -webUrl $webUrl $listFilePath
-Print-InputVariables

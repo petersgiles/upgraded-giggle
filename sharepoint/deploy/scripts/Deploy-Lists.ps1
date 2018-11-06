@@ -1,7 +1,7 @@
 Param(
-    [string]$webUrl = "https://lbs.cloud9.cabnet/sites/df/",
+    [string]$siteUrl = "https://lbs.cloud9.cabnet/sites/df/",
     [string]$saveLocation = "..\commitments\ListDefinitions",
-   [string] $binPath = "C:\Users\atpakkianathan\source\Dsuite\DF-Client\sharepoint\deploy\scripts\"
+    [string] $binPath = "C:\Users\atpakkianathan\source\Dsuite\DF-Client\sharepoint\deploy\scripts\"
 )
 
 function Get-ListsToProcess() {
@@ -26,19 +26,22 @@ function Does-ListExist($context, $listName) {
 
 function Get-ListsToProcess() {
 
-    $listsToProcess = @("AnnouncementType", "AppConfig", "Commitment", "CommitmentComment", "CommitmentType", "Electorate", "PoliticalParty", "Portfolio", "Contact", "WhoAnnouncedType")
+    $listsToProcess = @("AnnouncementType", "AppConfig", "CommitmentType", "Electorate", "PoliticalParty", "WhoAnnouncedType", "Portfolio", "Contact", "Commitment", "CommitmentContact", "CommitmentComment")
     return $listsToProcess
 }
 
 Add-Type -Path "$binPath\Microsoft.SharePoint.Client.dll"
 Add-Type -Path "$binPath\Microsoft.SharePoint.Client.Runtime.dll"
 
-
-$context = New-Object Microsoft.SharePoint.Client.ClientContext($webUrl)
+Write-Host "Deploying list schemas to $siteUrl"
+$context = New-Object Microsoft.SharePoint.Client.ClientContext($siteUrl)
 $listsToProcess = Get-ListsToProcess
 foreach ($listName in $listsToProcess) {
     $listExists = Does-ListExist $context $listName
     $isInitialBlow = -not $listExists
     $listFilePath = Join-Path $saveLocation "$listName.json"
-    . $PSScriptRoot\Blow-ListDefinitions.ps1 -webUrl $webUrl -binPath $binPath -saveLocation $saveLocation -updateSubsites $false -isInitialBlow $isInitialBlow -listFilePath $listFilePath
+    if (-not $listExists) {
+        Write-Host "Deploying List $listName"
+        . $PSScriptRoot\Blow-ListDefinitions.ps1 -webUrl $siteUrl -binPath $binPath -saveLocation $saveLocation -updateSubsites $false -isInitialBlow $isInitialBlow -listFilePath $listFilePath
+    }
 }
