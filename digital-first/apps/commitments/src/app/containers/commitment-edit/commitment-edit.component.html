@@ -49,14 +49,16 @@
 
 
     <digital-first-page-title title="Edit commitment">
+      <digital-first-busy [busy]="formBusy"></digital-first-busy>
       <digital-first-expand-collapse-button [expanded]='panels.formPanelExpanded' (onChangeExpanded)="handleChangeExpanded($event, 'formPanelExpanded')"></digital-first-expand-collapse-button>
     </digital-first-page-title>
-    <digital-first-commitment-edit-form *ngIf="panels.formPanelExpanded" [commitment]="commitment" [parties]="parties$ | async"
+    <mdc-linear-progress *ngIf="formBusy"></mdc-linear-progress>
+    <digital-first-commitment-edit-form *ngIf="panels.formPanelExpanded" [busy]="formBusy" [commitment]="commitment" [parties]="parties$ | async"
       [announcementTypes]="announcementTypes$ | async" [whoAnnouncedTypes]="whoAnnouncedTypes$ | async"
       [commitmentTypes]="commitmentTypes$ | async" [portfolios]="portfolios$ | async" [locations]="locations$ | async"
       (onSubmitted)="handleUpdateCommitment($event)" (onCancelled)="handleCancelled($event)" (onChanged)="handleChanged($event)">
     </digital-first-commitment-edit-form>
-
+    <mdc-linear-progress *ngIf="formBusy"></mdc-linear-progress>
   </section>
 
 </div>

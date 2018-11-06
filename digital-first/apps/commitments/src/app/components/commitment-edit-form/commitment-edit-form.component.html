@@ -1,77 +1,77 @@
-<div class="form-content">
-
+<div class="form-content" [ngClass]="{'busy' : busy}">
   <form [formGroup]="form" (ngSubmit)="handleSubmit($event)">
-    <input type="hidden" formControlName="id" />
-    <h3 class="form-content__headline">Commitment</h3>
-    <div class="form-layout__row">
-      <mdc-text-field formControlName="title" label="Title" required outlined [helperText]="titleFieldInputHelper"
-        (change)="handleChange($event)"></mdc-text-field>
-    </div>
-    <div class="form-layout__row">
-      <mdc-select placeholder="Location" formControlName="location" outlined (change)="handleChange($event)">
-        <option [value]="null"></option>
-        <option *ngFor="let location of locations" [value]="location.id">
-          {{location.title}}
-        </option>
-      </mdc-select>
-    </div>
-    <div class="form-layout__row">
-      <mdc-textarea formControlName="description" label="Description" required outlined (change)="handleChange($event)"
-        rows="8"></mdc-textarea>
-    </div>
+    <fieldset [attr.disabled]="busy ? '' : null">
+      <input type="hidden" formControlName="id" />
 
-    <h3 class="form-content__headline">Political</h3>
-    <div class="form-layout__row">
+      <div class="form-layout__row">
+        <mdc-text-field formControlName="title" label="Title" required outlined [helperText]="titleFieldInputHelper"
+          (change)="handleChange($event)"></mdc-text-field>
+      </div>
+      <div class="form-layout__row">
+        <mdc-select placeholder="Location" formControlName="location" outlined (change)="handleChange($event)">
+          <option [value]="null"></option>
+          <option *ngFor="let location of locations" [value]="location.id">
+            {{location.title}}
+          </option>
+        </mdc-select>
+      </div>
+      <div class="form-layout__row">
+        <mdc-textarea formControlName="description" label="Description" required outlined (change)="handleChange($event)"
+          rows="8"></mdc-textarea>
+      </div>
+
+      <h3 class="form-content__headline">Political</h3>
+      <div class="form-layout__row">
         <mdc-select placeholder="Who Announced" formControlName="whoAnnouncedType" outlined (change)="handleChange($event)">
-            <option [value]="null"></option>
-            <option *ngFor="let whoAnnouncedType of whoAnnouncedTypes" [value]="whoAnnouncedType.id">
-              {{whoAnnouncedType.title}}
-            </option>
-          </mdc-select>
-      <mdc-text-field formControlName="date" label="Date" type="date" required outlined (change)="handleChange($event)"></mdc-text-field>
-      <mdc-select placeholder="Type of Announcement" formControlName="announcementType" outlined (change)="handleChange($event)">
-        <option [value]="null"></option>
-        <option *ngFor="let announcementType of announcementTypes" [value]="announcementType.id">
-          {{announcementType.title}}
-        </option>
-      </mdc-select>
-    </div>
-    <div class="form-layout__row">
-      <mdc-select placeholder="Party" formControlName="party" outlined (change)="handleChange($event)">
-        <option [value]="null"></option>
-        <option *ngFor="let party of parties" [value]="party.id">
-          {{party.title}}
-        </option>
-      </mdc-select>
-      <mdc-select placeholder="Type of Commitment" formControlName="commitmentType" outlined (change)="handleChange($event)">
-        <option [value]="null"></option>        
-        <option *ngFor="let commitmentType of commitmentTypes" [value]="commitmentType.id">
-          {{commitmentType.title}}
-        </option>
-      </mdc-select>
+          <option [value]="null"></option>
+          <option *ngFor="let whoAnnouncedType of whoAnnouncedTypes" [value]="whoAnnouncedType.id">
+            {{whoAnnouncedType.title}}
+          </option>
+        </mdc-select>
+        <mdc-text-field formControlName="date" label="Date" type="date" required outlined (change)="handleChange($event)"></mdc-text-field>
+        <mdc-select placeholder="Type of Announcement" formControlName="announcementType" outlined (change)="handleChange($event)">
+          <option [value]="null"></option>
+          <option *ngFor="let announcementType of announcementTypes" [value]="announcementType.id">
+            {{announcementType.title}}
+          </option>
+        </mdc-select>
+      </div>
+      <div class="form-layout__row">
+        <mdc-select placeholder="Party" formControlName="party" outlined (change)="handleChange($event)">
+          <option [value]="null"></option>
+          <option *ngFor="let party of parties" [value]="party.id">
+            {{party.title}}
+          </option>
+        </mdc-select>
+        <mdc-select placeholder="Type of Commitment" formControlName="commitmentType" outlined (change)="handleChange($event)">
+          <option [value]="null"></option>
+          <option *ngFor="let commitmentType of commitmentTypes" [value]="commitmentType.id">
+            {{commitmentType.title}}
+          </option>
+        </mdc-select>
 
-    </div>
+      </div>
 
-    <h3 class="form-content__headline">Responsibility &amp; Costings</h3>
-    <div class="form-layout__row">
+      <h3 class="form-content__headline">Responsibility &amp; Costings</h3>
+      <div class="form-layout__row">
 
-      <mdc-select placeholder="Type of Portfolio" formControlName="portfolio" outlined (change)="handleChange($event)">
+        <mdc-select placeholder="Type of Portfolio" formControlName="portfolio" outlined (change)="handleChange($event)">
           <option [value]="null"></option>
           <option *ngFor="let portfolio of portfolios" [value]="portfolio.id">
-          {{portfolio.title}}
-        </option>
-      </mdc-select>
-    </div>
-    <div class="form-layout__row">
-      <mdc-text-field formControlName="cost" label="Cost" type="number" min="0.00" max="1000000000000.00" step="0.01"
-        required outlined (change)="handleChange($event)"></mdc-text-field>
-    </div>
+            {{portfolio.title}}
+          </option>
+        </mdc-select>
+      </div>
+      <div class="form-layout__row">
+        <mdc-text-field formControlName="cost" label="Cost" type="number" min="0.00" max="1000000000000.00" step="0.01"
+          required outlined (change)="handleChange($event)"></mdc-text-field>
+      </div>
 
-    <div class="form-layout__row-with-button">
-      <button mdc-button mdcCardAction="button" (click)="onReset($event)">Reset</button>
-      <button mdc-button mdcCardAction="button" type="submit" [disabled]="!form.valid">Submit</button>
-    </div>
-
+      <div class="form-layout__row-with-button">
+        <button mdc-button mdcCardAction="button" (click)="onReset($event)">Reset</button>
+        <button mdc-button mdcCardAction="button" type="submit" [disabled]="!form.valid">Submit</button>
+      </div>
+    </fieldset>
   </form>
 
 </div>

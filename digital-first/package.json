@@ -47,6 +47,7 @@
     "@angular/platform-browser": "^7.0.1",
     "@angular/platform-browser-dynamic": "^7.0.1",
     "@angular/router": "^7.0.1",
+    "@material/animation": "^0.41.0",
     "@material/button": "^0.40.1",
     "@material/card": "^0.40.1",
     "@material/dialog": "^0.40.1",

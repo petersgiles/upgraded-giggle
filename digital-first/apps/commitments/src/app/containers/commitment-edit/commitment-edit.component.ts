@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core'
 import { Router, ActivatedRoute, ParamMap } from '@angular/router'
 import { Observable, Subscription } from 'rxjs'
 import { MdcDialog, MdcDialogRef, MdcSnackbar } from '@angular-mdc/web'
-import { map, first } from 'rxjs/operators'
+import { map, first, delay } from 'rxjs/operators'
 import { DialogAreYouSureComponent, DialogSpinnerOverlayComponent, DialogAddContactComponent } from '@digital-first/df-dialogs'
 
 import { CommitmentDataService } from '../../services/commitment-data.service'
@@ -57,6 +57,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     }
 
   commitmentEditDiscussionTimeFormat: Observable<'dateFormat' | 'timeAgo' | 'calendar'>
+  formBusy = false
 
   constructor(private router: Router, private route: ActivatedRoute, public dialog: MdcDialog, private snackbar: MdcSnackbar, private service: CommitmentDataService) { }
 
@@ -77,8 +78,17 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
       error => this.showSnackBar(error)
     )
 
-    this.activitySubscription$ = this.service.Notification.subscribe(
-      (next: any) => { if (next) { this.showSnackBar(next.message) } },
+    this.activitySubscription$ = this.service.Notification
+    .pipe(
+      delay(10000)
+    )
+    .subscribe(
+      (next: any) => {
+        if (next) {
+          this.formBusy = false
+          this.showSnackBar(next.message)
+        }
+      },
       error => this.showSnackBar(error)
     )
 
@@ -155,8 +165,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   }
 
   handleUpdateCommitment(commitment) {
-    // tslint:disable-next-line:no-console
-    console.log(commitment)
+    this.formBusy = true
     this.service.upsertCommitment(commitment)
   }
 
