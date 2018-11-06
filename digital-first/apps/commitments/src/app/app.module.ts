@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { Apollo, APOLLO_OPTIONS, ApolloModule } from 'apollo-angular'
 import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
+import {NgxWigModule} from 'ngx-wig'
 
 import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
@@ -166,6 +167,7 @@ export let appDataServiceProvider = {
     ReactiveFormsModule,
     ApolloModule,
     HttpLinkModule,
+    NgxWigModule,
     NxModule.forRoot(),
     DfComponentsModule,
     DfMomentModule,

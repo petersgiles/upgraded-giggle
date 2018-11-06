@@ -19,6 +19,9 @@
         <mdc-textarea formControlName="description" label="Description" required outlined (change)="handleChange($event)"
           rows="8"></mdc-textarea>
       </div>
+      <div class="form-layout__row">
+        <ngx-wig [content]="description" [buttons]="'bold, italic'"></ngx-wig>
+      </div>
 
       <h3 class="form-content__headline">Political</h3>
       <div class="form-layout__row">
