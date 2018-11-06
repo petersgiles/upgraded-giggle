@@ -33,7 +33,7 @@ import { catchError, switchMap, tap } from 'rxjs/operators'
 import { Commitment } from '../../reducers/commitment'
 import { Injectable } from '@angular/core'
 import { Observable, of, throwError } from 'rxjs'
-import { STORE_COMMITMENT_CONTACT } from './commitment-contacts'
+import { STORE_COMMITMENT_CONTACT, REMOVE_COMMITMENT_CONTACT } from './commitment-contacts'
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +49,7 @@ export class ApolloDataService implements AppDataService {
 
     return this.callMutate<CommitmentResult>(
       { mutation: UPSERT_COMMITMENT, variables: variables },
-      (result: any) => ({data: { commitment: result.data.upsertCommitment }}))
+      (result: any) => ({ data: { commitment: result.data.upsertCommitment } }))
 
   }
 
@@ -76,9 +76,15 @@ export class ApolloDataService implements AppDataService {
       (result: any) => ({ commitment: result.data.deleteComment.commitment }))
 
   addContactToCommitment = (variables: { commitment: any, contact: any }) =>
-   this.callMutate<any>(
+    this.callMutate<any>(
       { mutation: STORE_COMMITMENT_CONTACT, variables: { ...variables } },
       (result: any) => ({ commitment: result.data.storeCommitmentContact })
+    )
+
+  removeContactFromCommitment = (variables: { commitment: any, contact: any }) =>
+    this.callMutate<any>(
+      { mutation: REMOVE_COMMITMENT_CONTACT, variables: { ...variables } },
+      (result: any) => ({ commitment: result.data.deleteCommitmentContact })
     )
 
   getCommitment = (criteria: { id: any; }) => this.callQuery<CommitmentResult>({ query: GET_COMMITMENT, variables: criteria })

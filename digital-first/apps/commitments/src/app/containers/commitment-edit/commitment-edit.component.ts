@@ -79,9 +79,9 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     )
 
     this.activitySubscription$ = this.service.Notification
-    .pipe(
-      delay(10000)
-    )
+    // .pipe(
+    //   delay(2000)
+    // )
     .subscribe(
       (next: any) => {
         if (next) {
@@ -234,9 +234,23 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     window.location.href = mailText
   }
 
-  handleDataTableRowClicked($event) {
-    // tslint:disable-next-line:no-console
-    console.log($event)
+  handleContactsTableDeleteClicked(contact) {
+
+   const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+      escapeToClose: true,
+      clickOutsideToClose: true
+    })
+
+    dialogRef.afterClosed()
+      .pipe(
+        first()
+      )
+      .subscribe(result => {
+        if (result && contact.id) {
+          this.service.removeContactFromCommitment(this.commitment.id, contact.id)
+        }
+      })
+
   }
 
   handleCreateContactDialog() { }

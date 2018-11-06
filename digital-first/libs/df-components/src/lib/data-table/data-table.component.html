@@ -1,12 +1,34 @@
+<ng-template #tableHeading let-headings>
+  <th *ngFor="let heading of headings" class="df-data-table__cell--non-numeric">{{heading.caption}}</th>
+</ng-template>
+
+<ng-template #tableHead let-tableData>
+  <thead *ngIf="tableData">
+    <tr *ngIf="tableData.headings">
+      <ng-container *ngTemplateOutlet="tableHeading; context:{ $implicit: tableData?.headings }"></ng-container>
+      <th *ngIf="tableData.hasDeleteItemButton" class="df-data-table__cell--non-numeric">
+          &nbsp;
+      </th>
+    </tr>
+  </thead>
+</ng-template>
+
+<ng-template #tableBody let-tableData>
+  <tbody *ngIf="tableData">
+    <ng-container *ngTemplateOutlet="tableBodyRow; context:{ $implicit: tableData }"></ng-container>
+  </tbody>
+</ng-template>
+
+<ng-template #tableBodyRow let-tableData>
+  <tr *ngFor="let row of tableData.rows">
+    <td *ngFor="let cell of row.cells" class="df-data-table__cell--non-numeric" (click)="onCellClicked.emit(row, cell)">{{cell.value}}</td>
+    <td *ngIf="tableData.hasDeleteItemButton" class="df-data-table__cell--non-numeric">
+        <a mdcIcon attr.aria-label="Delete Item" title="Delete Item" (click)="onDeleteItem.emit(row)">delete</a>
+    </td>
+  </tr>
+</ng-template>
+
 <table class="df-data-table df-js-data-table df-data-table--selectable df-shadow--2dp">
-    <thead>
-      <tr>
-        <th *ngFor="let heading of tableData?.headings" class="df-data-table__cell--non-numeric">{{heading.caption}}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let row of tableData?.rows" (click)="onDataTableRowClicked.emit(row.id)" >
-        <td *ngFor="let cell of row.cells" class="df-data-table__cell--non-numeric">{{cell.value}}</td>
-       </tr>    
-    </tbody>
-  </table>
+  <ng-container *ngTemplateOutlet="tableHead; context:{ $implicit: tableData }"></ng-container>
+  <ng-container *ngTemplateOutlet="tableBody; context:{ $implicit: tableData }"></ng-container>
+</table>

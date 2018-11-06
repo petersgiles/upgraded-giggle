@@ -62,8 +62,8 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
     this.router.navigate(['/', 'commitment'])
   }
 
-  handleDataTableRowClicked(id) {
-    this.router.navigate(['/', 'commitment', id])
+  handleCommitmentsRowClicked(commitment) {
+    this.router.navigate(['/', 'commitment', commitment.id])
   }
 
   handleShare(commitment?: Commitment) {
