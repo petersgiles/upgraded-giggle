@@ -79,18 +79,18 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     )
 
     this.activitySubscription$ = this.service.Notification
-    // .pipe(
-    //   delay(2000)
-    // )
-    .subscribe(
-      (next: any) => {
-        if (next) {
-          this.formBusy = false
-          this.showSnackBar(next.message)
-        }
-      },
-      error => this.showSnackBar(error)
-    )
+      // .pipe(
+      //   delay(2000)
+      // )
+      .subscribe(
+        (next: any) => {
+          if (next) {
+            this.formBusy = false
+            this.showSnackBar(next.message)
+          }
+        },
+        error => this.showSnackBar(error)
+      )
 
     this.commitmentEditExpandedPanelsSubscription$ = this.service.CommitmentEditExpandedPanels.subscribe(
       next => {
@@ -187,7 +187,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
         first()
       )
       .subscribe(result => {
-        if (result && commentId) {
+        if (result === true && commentId) {
           this.service.deleteComment({ id: commentId })
         }
       })
@@ -236,7 +236,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   handleContactsTableDeleteClicked(contact) {
 
-   const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
       clickOutsideToClose: true
     })
@@ -246,7 +246,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
         first()
       )
       .subscribe(result => {
-        if (result && contact.id) {
+        if (result === true && contact.id) {
           this.service.removeContactFromCommitment(this.commitment.id, contact.id)
         }
       })
