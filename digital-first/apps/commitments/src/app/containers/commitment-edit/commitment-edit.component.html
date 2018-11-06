@@ -44,9 +44,8 @@
     </digital-first-page-title>
 
     <div class="commitment-layout__row" *ngIf="panels.contactPanelExpanded">
-      <digital-first-data-table [tableData]="commitmentContactsTableData$ | async" (onDataTableRowClicked)="handleDataTableRowClicked($event)"></digital-first-data-table>
+      <digital-first-data-table [tableData]="commitmentContactsTableData$ | async" (onDeleteItem)="handleContactsTableDeleteClicked($event)"></digital-first-data-table>
     </div>
-
 
     <digital-first-page-title title="Edit commitment">
       <digital-first-busy [busy]="formBusy"></digital-first-busy>

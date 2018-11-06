@@ -127,6 +127,7 @@ export const getCommitmentContactsTableData = createSelector(
 
         const dtc: DataTableConfig = {
             title: 'contacts',
+            hasDeleteItemButton: true,
             headings: [
                 { caption: 'Name' },
                 { caption: 'Phone' },

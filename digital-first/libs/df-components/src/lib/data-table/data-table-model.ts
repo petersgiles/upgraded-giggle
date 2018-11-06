@@ -15,6 +15,7 @@ export interface DataTableRow {
 
 export interface DataTableConfig {
   title: string
+  hasDeleteItemButton?: boolean
   headings?: DataTableHeader[]
   rows?: DataTableRow[]
 }

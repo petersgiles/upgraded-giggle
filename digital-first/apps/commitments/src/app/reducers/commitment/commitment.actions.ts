@@ -23,10 +23,17 @@ export enum CommitmentActionTypes {
   StoreCommitmentSuccess = '[Commitment] Store Commitment Success',
   StoreCommitmentFailure = '[Commitment] Store Commitment Failure',
   AddContactToCommitment = '[Commitment] Add Contact To Commitment',
+  RemoveContactFromCommitment = '[Commitment] Remove Contact To Commitment',
 }
 
 export class AddContactToCommitment implements Action {
   readonly type = CommitmentActionTypes.AddContactToCommitment
+
+  constructor(public payload: {commitment: number | string, contact:  number | string}) { }
+}
+
+export class RemoveContactFromCommitment implements Action {
+  readonly type = CommitmentActionTypes.RemoveContactFromCommitment
 
   constructor(public payload: {commitment: number | string, contact:  number | string}) { }
 }
@@ -130,3 +137,4 @@ export type CommitmentActions =
  | CommitmentsActionFailure
  | StoreCommitment
  | AddContactToCommitment
+ | RemoveContactFromCommitment

@@ -77,5 +77,22 @@ export class CommitmentEffects {
 
     )
 
+  @Effect()
+  removeContactFromCommitment$: Observable<Action> = this.actions$
+    .ofType(CommitmentActionTypes.RemoveContactFromCommitment)
+    .pipe(
+      map((action: AddContactToCommitment) => action.payload),
+      // tslint:disable-next-line:no-console
+      tap((payload: any) => console.log('Remove Contact To Commitment Payload=>', payload)),
+      switchMap((payload: any) => this.service.removeContactFromCommitment(payload)),
+      switchMap((result: any) => [
+        new Notification({ message: 'Contact Removed' }),
+        new SetCurrentCommitment({ id: result.commitment.id }),
+        new ClearNotification()
+      ]),
+      catchError(error => of(new CommitmentsActionFailure(error)))
+
+    )
+
   constructor(private actions$: Actions, private service: AppDataService) { }
 }

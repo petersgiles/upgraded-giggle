@@ -16,7 +16,12 @@ export class DataTableComponent implements OnInit {
   @Input()
   tableData: DataTableConfig
 
-@Output()
-onDataTableRowClicked: EventEmitter<string | number> = new EventEmitter()
+  @Output()
+  onDeleteItem: EventEmitter<any> = new EventEmitter()
 
+  @Output()
+  onCellClicked: EventEmitter<any> = new EventEmitter()
+
+  @Output()
+  onRowClicked: EventEmitter<any> = new EventEmitter()
 }
