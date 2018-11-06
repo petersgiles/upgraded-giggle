@@ -30,7 +30,11 @@
     "sharepoint:build": "run-p sharepoint:build:*",
     "sharepoint:compile:commitments": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/commitments/Compile-Page.ps1",
     "sharepoint:compile": "run-p sharepoint:compile:*",
-    "sp:deploy:commitments": "run-s sharepoint:build:commitments sharepoint:compile:commitments deploy:js",
+    "sharepoint:copyListDefinitions:commitments": "cpx ../sharepoint/commitments/ListDefinitions/*.* ../sharepoint/deploy/ListDefinitions/commitments",
+    "sharepoint:copyListDefinitions": "run-p sharepoint:copyListDefinitions:*",
+    "sharepoint:copyListData:commitments": "cpx ../sharepoint/commitments/Data/*.* ../sharepoint/deploy/ListData/commitments",
+    "sharepoint:copyListData": "run-p sharepoint:copyListData:*",
+    "sp:deploy:commitments": "run-s sharepoint:build:commitments sharepoint:compile:commitments sharepoint:copyListDefinitions:commitment sharepoint:copyListData:commitments deploy:js",
     "sp:deploy": "run-s sharepoint:* deploy:js",
     "sp:all": "run-s sharepoint:* deploy:all"
   },
@@ -99,6 +103,7 @@
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
-    "typescript": "~3.1.3"
+    "typescript": "~3.1.3",
+    "cpx": "^1.5.0"
   }
 }
