@@ -1,7 +1,7 @@
 Param(
-    [string]$webUrl = "https://lbs.cloud9.cabnet/sites/df/",
+    [string]$siteUrl = "https://lbs.cloud9.cabnet/sites/df/",
     [string]$saveLocation = "..\commitments\ListDefinitions",
-   [string] $binPath = "C:\Users\atpakkianathan\source\Dsuite\DF-Client\sharepoint\deploy\scripts\"
+    [string] $binPath = "C:\Users\atpakkianathan\source\Dsuite\DF-Client\sharepoint\deploy\scripts\"
 )
 
 function Get-ListsToProcess() {
