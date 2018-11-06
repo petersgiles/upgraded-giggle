@@ -81,7 +81,7 @@ export class ApolloDataService implements AppDataService {
       (result: any) => ({ commitment: result.data.storeCommitmentContact })
     )
 
-  removeContactFromCommitment = (variables: { commitment: any, contact: any }) =>
+  removeContactFromCommitment = (variables: { id: any }) =>
     this.callMutate<any>(
       { mutation: REMOVE_COMMITMENT_CONTACT, variables: { ...variables } },
       (result: any) => ({ commitment: result.data.deleteCommitmentContact })
@@ -110,10 +110,6 @@ export class ApolloDataService implements AppDataService {
         ...options
       })
       .pipe(
-        tap((result: any) => {
-          // tslint:disable-next-line:no-console
-          console.log(result)
-        }),
         switchMap((result: any) => {
           if (mapper) {
             return of(mapper(result) as DataResult<T>)
@@ -135,8 +131,6 @@ export class ApolloDataService implements AppDataService {
         ...options
       })
       .pipe(
-        // tslint:disable-next-line:no-console
-        tap((result: any) => console.log(result)),
         switchMap((result: any) => of(result as DataResult<T>)),
         catchError(err => this.replyError<T>(err))
       )

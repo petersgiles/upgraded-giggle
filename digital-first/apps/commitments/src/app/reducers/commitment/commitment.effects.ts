@@ -10,7 +10,8 @@ import {
   SetCurrentCommitment,
   UpsertCommitment,
   StoreCommitment,
-  AddContactToCommitment
+  AddContactToCommitment,
+  RemoveContactFromCommitment
 } from './commitment.actions'
 import { switchMap, map, catchError, tap, switchMapTo } from 'rxjs/operators'
 
@@ -65,8 +66,6 @@ export class CommitmentEffects {
     .ofType(CommitmentActionTypes.AddContactToCommitment)
     .pipe(
       map((action: AddContactToCommitment) => action.payload),
-      // tslint:disable-next-line:no-console
-      tap((payload: any) => console.log('Add Contact To Commitment Payload=>', payload)),
       switchMap((payload: any) => this.service.addContactToCommitment(payload)),
       switchMap((result: any) => [
         new Notification({ message: 'Contact Added' }),
@@ -81,9 +80,7 @@ export class CommitmentEffects {
   removeContactFromCommitment$: Observable<Action> = this.actions$
     .ofType(CommitmentActionTypes.RemoveContactFromCommitment)
     .pipe(
-      map((action: AddContactToCommitment) => action.payload),
-      // tslint:disable-next-line:no-console
-      tap((payload: any) => console.log('Remove Contact To Commitment Payload=>', payload)),
+      map((action: RemoveContactFromCommitment) => action.payload),
       switchMap((payload: any) => this.service.removeContactFromCommitment(payload)),
       switchMap((result: any) => [
         new Notification({ message: 'Contact Removed' }),

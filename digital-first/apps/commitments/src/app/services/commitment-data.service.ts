@@ -41,10 +41,6 @@ export class CommitmentDataService {
 
   get Notification(): Observable<string> {
     return this.store.select(fromRoot.getNotification)
-      .pipe(
-        // tslint:disable-next-line:no-console
-        tap((result: any) => console.log('Notification => ', result)),
-      )
   }
 
   /// WhoAnnouncedTypes
@@ -55,18 +51,10 @@ export class CommitmentDataService {
 
   get WhoAnnouncedTypesLookup(): Observable<WhoAnnouncedType[]> {
     return this.store.select(fromRoot.getAllWhoAnnouncedTypes)
-      .pipe(
-        // tslint:disable-next-line:no-console
-        tap((result: any) => console.log('WhoAnnouncedTypes => ', result)),
-      )
   }
 
   get WhoAnnouncedTypes(): Observable<WhoAnnouncedType[]> {
     return this.store.select(fromRoot.getAllWhoAnnouncedTypes)
-      .pipe(
-        // tslint:disable-next-line:no-console
-        tap((result: any) => console.log('WhoAnnouncedTypes => ', result)),
-      )
   }
 
   get WhoAnnouncedTypesLoading(): Observable<boolean> {
@@ -85,18 +73,10 @@ export class CommitmentDataService {
 
   get AnnouncementTypesLookup(): Observable<AnnouncementType[]> {
     return this.store.select(fromRoot.getAllAnnouncementTypes)
-      .pipe(
-        // tslint:disable-next-line:no-console
-        tap((result: any) => console.log('AnnouncementTypes => ', result)),
-      )
   }
 
   get AnnouncementTypes(): Observable<AnnouncementType[]> {
     return this.store.select(fromRoot.getAllAnnouncementTypes)
-      .pipe(
-        // tslint:disable-next-line:no-console
-        tap((result: any) => console.log('AnnouncementTypes => ', result)),
-      )
   }
 
   get AnnouncementTypesLoading(): Observable<boolean> {
@@ -115,10 +95,6 @@ export class CommitmentDataService {
 
   get Comments(): Observable<Comment[]> {
     return this.store.select(fromRoot.getAllComments)
-    // .pipe(
-    //   // tslint:disable-next-line:no-console
-    //   tap((result: any) => console.log('Comments => ', result)),
-    // )
   }
 
   get CommentsLoading(): Observable<boolean> {
@@ -149,16 +125,12 @@ export class CommitmentDataService {
     this.store.dispatch(new AddContactToCommitment({ commitment, contact }))
   }
 
-  public removeContactFromCommitment(commitment: string | number, contact: string | number): any {
-    this.store.dispatch(new RemoveContactFromCommitment({ commitment, contact }))
+  public removeContactFromCommitment(commitmentContact: any): any {
+    this.store.dispatch(new RemoveContactFromCommitment({ id: commitmentContact.id }))
   }
 
   get Commitment(): Observable<Commitment> {
     return this.store.select(fromRoot.getCurrentCommitment)
-    // .pipe(
-    //   // tslint:disable-next-line:no-console
-    //   tap((result: any) => console.log('Current Commitment =>', result)),
-    // )
   }
 
   get Commitments(): Observable<Commitment[]> {
@@ -188,10 +160,6 @@ export class CommitmentDataService {
 
   get CommitmentTypes(): Observable<CommitmentType[]> {
     return this.store.select(fromRoot.getAllCommitmentTypes)
-    // .pipe(
-    //   // tslint:disable-next-line:no-console
-    //   tap((result: any) => console.log('CommitmentTypes => ', result)),
-    // )
   }
 
   get CommitmentTypesLoading(): Observable<boolean> {
@@ -258,10 +226,6 @@ export class CommitmentDataService {
 
   get Contacts(): Observable<Contact[]> {
     return this.store.select(fromRoot.getAllContacts)
-    // .pipe(
-    //   // tslint:disable-next-line:no-console
-    //   tap((result: any) => console.log('Contacts => ', result)),
-    // )
   }
 
   get ContactsLoading(): Observable<boolean> {
@@ -280,10 +244,6 @@ export class CommitmentDataService {
 
   get Locations(): Observable<Location[]> {
     return this.store.select(fromRoot.getAllLocations)
-    // .pipe(
-    //   // tslint:disable-next-line:no-console
-    //   tap((result: any) => console.log('Locations => ', result)),
-    // )
   }
 
   get LocationsLoading(): Observable<boolean> {
@@ -302,10 +262,6 @@ export class CommitmentDataService {
 
   get Parties(): Observable<Party[]> {
     return this.store.select(fromRoot.getAllPartys)
-    // .pipe(
-    //   // tslint:disable-next-line:no-console
-    //   tap((result: any) => console.log('Parties => ', result)),
-    // )
   }
 
   get PartiesLoading(): Observable<boolean> {
@@ -324,10 +280,6 @@ export class CommitmentDataService {
 
   get Portfolios(): Observable<Portfolio[]> {
     return this.store.select(fromRoot.getAllPortfolios)
-    // .pipe(
-    //   // tslint:disable-next-line:no-console
-    //   tap((result: any) => console.log('Portfolios => ', result)),
-    // )
   }
 
   get PortfoliosLoading(): Observable<boolean> {
@@ -339,7 +291,6 @@ export class CommitmentDataService {
   }
 
   upsertCommitment(commitment: Commitment) {
-    // this.appDataService.upsertCommitment(commitment)
     this.store.dispatch(new StoreCommitment(commitment))
   }
 

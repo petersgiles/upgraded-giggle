@@ -14,8 +14,8 @@ export abstract class AppDataService {
   abstract filterCommitments(filter?: { party?: string; type?: string; portfolio?: string; }): Observable<any>
   abstract storeComment(comment: { commitment: any; parent: any; comment: any; }): Observable<any>
   abstract deleteComment(comment: { id: any }): any
-  abstract addContactToCommitment(contact: { commitment: any, contact: any}): any
-  abstract removeContactFromCommitment(contact: {commitment: any, contact: any}): any
+  abstract addContactToCommitment(contact: { commitment: any, contact: any }): any
+  abstract removeContactFromCommitment(commitmentcontact: any): any
   abstract filterAnnouncementTypes(filter?: any): Observable<any>
   abstract getCommentsByCommitment(commitment: any): Observable<any>
   abstract filterPortfolios(filter?: any): Observable<any>

@@ -35,7 +35,7 @@ export class AddContactToCommitment implements Action {
 export class RemoveContactFromCommitment implements Action {
   readonly type = CommitmentActionTypes.RemoveContactFromCommitment
 
-  constructor(public payload: {commitment: number | string, contact:  number | string}) { }
+  constructor(public payload: {id: number | string}) { }
 }
 
 export class LoadCommitments implements Action {

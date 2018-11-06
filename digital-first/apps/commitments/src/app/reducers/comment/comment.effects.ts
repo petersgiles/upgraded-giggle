@@ -18,8 +18,6 @@ export class CommentEffects {
       map((action: GetCommentsByCommitment) => action.payload.commitment),
       switchMap((commitment: any) => this.service.getCommentsByCommitment(commitment)
         .pipe(
-          // tslint:disable-next-line:no-console
-          tap(result => console.log('GetCommentsByCommitment =>', result)),
           map((result: DataResult<CommentsResult>) => new LoadComments(result)),
           catchError(error => of(new CommentActionFailure(error)))
         )
@@ -32,8 +30,6 @@ export class CommentEffects {
       map((action: StoreComment) => action.payload),
       switchMap((comment: any) => this.service.storeComment(comment)
         .pipe(
-          // tslint:disable-next-line:no-console
-          tap(result => console.log('Store Comment =>', result)),
           map(_ => new GetCommentsByCommitment({ commitment: comment.commitment })),
           catchError(error => of(new CommentActionFailure(error)))
         )
@@ -46,8 +42,6 @@ export class CommentEffects {
       map((action: RemoveComment) => action.payload),
       switchMap((comment: any) => this.service.deleteComment(comment)
         .pipe(
-          // tslint:disable-next-line:no-console
-          tap(result => console.log('Remove Comment =>', result)),
           map((result: any) => new GetCommentsByCommitment({ commitment: result.commitment })),
           catchError(error => of(new CommentActionFailure(error)))
         )

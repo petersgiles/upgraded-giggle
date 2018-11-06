@@ -60,8 +60,6 @@ export class CommitmentCreateComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {  }
 
   handleUpdateCommitment(commitment) {
-    // tslint:disable-next-line:no-console
-    console.log(commitment)
     this.service.upsertCommitment(commitment)
   }
 
@@ -70,8 +68,7 @@ export class CommitmentCreateComponent implements OnInit, OnDestroy {
   }
 
   handleChanged(commitment: Commitment) {
-    // tslint:disable-next-line:no-console
-    console.log(commitment)
+
   }
 
   handleTabScroll(el) {

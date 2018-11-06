@@ -34,6 +34,7 @@ export const byCommitmentIdQuery = (criteria: { id }) => `
     </View>`
 
 export const mapCommitmentContact = (commitmentContact): any => ({
+  id: commitmentContact.ID,
   commitment: idFromLookup(commitmentContact.Commitment),
   contact: idFromLookup(commitmentContact.Contact)
 })
@@ -132,8 +133,6 @@ export const mapCommitment = (commitment): Commitment => {
     contacts: []
   }
 
-  // tslint:disable-next-line:no-console
-  console.log('Map Commitment =>', item, mapped)
   return mapped
 }
 

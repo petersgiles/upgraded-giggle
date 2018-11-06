@@ -138,8 +138,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
       })
 
       snackbarRef.afterDismiss().subscribe(() => {
-        // tslint:disable-next-line:no-console
-        console.log('The snack-bar was dismissed')
+
       })
     })
   }
@@ -153,8 +152,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   }
 
   handleChangeExpanded($event, panel) {
-    // tslint:disable-next-line:no-console
-    console.log($event, panel)
 
     if ($event) {
       this.service.expandCommitmentEditPanel(panel)
@@ -194,8 +191,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   }
 
   handleChanged(commitment: Commitment) {
-    // tslint:disable-next-line:no-console
-    console.log(commitment)
+
   }
 
   changeDateFormat(format) {
@@ -234,7 +230,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     window.location.href = mailText
   }
 
-  handleContactsTableDeleteClicked(contact) {
+  handleContactsTableDeleteClicked(commitmentContact) {
 
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
@@ -246,8 +242,8 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
         first()
       )
       .subscribe(result => {
-        if (result === ARE_YOU_SURE_ACCEPT && contact.id) {
-          this.service.removeContactFromCommitment(this.commitment.id, contact.id)
+        if (result === ARE_YOU_SURE_ACCEPT && commitmentContact.id) {
+          this.service.removeContactFromCommitment(commitmentContact)
         }
       })
 

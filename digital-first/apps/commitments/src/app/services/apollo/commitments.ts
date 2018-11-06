@@ -47,6 +47,7 @@ export const GET_COMMITMENT = gql`
       }
       contacts {
         id
+        ccid
         phone
         name
         email

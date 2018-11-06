@@ -62,9 +62,6 @@ export class CommitmentEditFormComponent  implements OnInit {
         cost: val.cost,
       }
 
-      // tslint:disable-next-line:no-console
-      console.log(patch)
-
       this.form.patchValue(patch)
     }
   }
@@ -99,8 +96,6 @@ export class CommitmentEditFormComponent  implements OnInit {
       date: moment(commitment.date).format(),
     }
 
-    // tslint:disable-next-line:no-console
-    console.log('mapCommitment', commitment, map)
     return map
   }
 
