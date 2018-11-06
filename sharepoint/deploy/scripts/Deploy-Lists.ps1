@@ -26,7 +26,7 @@ function Does-ListExist($context, $listName) {
 
 function Get-ListsToProcess() {
 
-    $listsToProcess = @("AnnouncementType", "AppConfig", "Commitment", "CommitmentComment", "CommitmentType", "Electorate", "PoliticalParty", "Portfolio", "Contact", "WhoAnnouncedType")
+    $listsToProcess = @("AnnouncementType", "AppConfig", "CommitmentType", "Electorate", "PoliticalParty", "WhoAnnouncedType", "Portfolio", "Contact", "Commitment", "CommitmentContact", "CommitmentComment")
     return $listsToProcess
 }
 
@@ -37,9 +37,11 @@ Write-Host "Deploying list schemas to $siteUrl"
 $context = New-Object Microsoft.SharePoint.Client.ClientContext($siteUrl)
 $listsToProcess = Get-ListsToProcess
 foreach ($listName in $listsToProcess) {
-    Write-Host "Deploying List $listName"
     $listExists = Does-ListExist $context $listName
     $isInitialBlow = -not $listExists
     $listFilePath = Join-Path $saveLocation "$listName.json"
-    . $PSScriptRoot\Blow-ListDefinitions.ps1 -webUrl $siteUrl -binPath $binPath -saveLocation $saveLocation -updateSubsites $false -isInitialBlow $isInitialBlow -listFilePath $listFilePath
+    if (-not $listExists) {
+        Write-Host "Deploying List $listName"
+        . $PSScriptRoot\Blow-ListDefinitions.ps1 -webUrl $siteUrl -binPath $binPath -saveLocation $saveLocation -updateSubsites $false -isInitialBlow $isInitialBlow -listFilePath $listFilePath
+    }
 }
