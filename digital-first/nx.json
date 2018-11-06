@@ -76,6 +76,12 @@
     },
     "df-logging": {
       "tags": []
+    },
+    "programs-admin": {
+      "tags": []
+    },
+    "programs-admin-e2e": {
+      "tags": []
     }
   }
 }

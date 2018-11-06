@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { Apollo, APOLLO_OPTIONS, ApolloModule } from 'apollo-angular'
 import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
-import {NgxWigModule} from 'ngx-wig'
+import { NgxWigModule } from 'ngx-wig'
 
 import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
@@ -80,6 +80,8 @@ import { PartyEffects } from './reducers/party/party.effects'
 import { PortfolioEffects } from './reducers/portfolio/portfolio.effects'
 import { CommitmentCreateComponent } from './containers/commitment-create/commitment-create.component'
 import { WhoAnnouncedTypeEffects } from './reducers/who-announced-type/who-announced-type.effects'
+import { ContactCreateComponent } from './containers/contact-create/contact-create.component'
+import { ContactCreateFormComponent } from './components/contact-create-form/contact-create-form.component'
 
 const COMPONENTS = [
   AppComponent,
@@ -89,7 +91,9 @@ const COMPONENTS = [
   CommitmentEditComponent,
   CommitmentOverviewComponent,
   CommitmentListComponent,
-  CommitmentCreateComponent
+  CommitmentCreateComponent,
+  ContactCreateComponent,
+  ContactCreateFormComponent
 ]
 
 const ENTRYCOMPONENTS = [
