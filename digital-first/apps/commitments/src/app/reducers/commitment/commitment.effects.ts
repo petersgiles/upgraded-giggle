@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Actions, Effect } from '@ngrx/effects'
+import { Actions, Effect, ofType } from '@ngrx/effects'
 import { Observable, of } from 'rxjs'
 import { Action } from '@ngrx/store'
 import {
@@ -24,7 +24,7 @@ export class CommitmentEffects {
 
   @Effect()
   getAllCommitments$: Observable<Action> = this.actions$
-    .ofType(CommitmentActionTypes.GetAllCommitments)
+    .pipe(ofType(CommitmentActionTypes.GetAllCommitments))
     .pipe(
       map((action: GetAllCommitments) => action.payload ? action.payload.filter : null),
       switchMap((filter: any) => this.service.filterCommitments(filter)
@@ -36,7 +36,7 @@ export class CommitmentEffects {
 
   @Effect()
   getCommitmentsById$: Observable<Action> = this.actions$
-    .ofType(CommitmentActionTypes.SetCurrentCommitment)
+    .pipe(ofType(CommitmentActionTypes.SetCurrentCommitment))
     .pipe(
       map((action: SetCurrentCommitment) => action.payload.id),
       switchMap((id: any) => this.service.getCommitment({ id })
@@ -48,7 +48,7 @@ export class CommitmentEffects {
 
   @Effect()
   storeCommitment$: Observable<Action> = this.actions$
-    .ofType(CommitmentActionTypes.StoreCommitment)
+    .pipe(ofType(CommitmentActionTypes.StoreCommitment))
     .pipe(
       map((action: StoreCommitment) => action.payload),
       switchMap((commitment: any) => this.service.storeCommitment(commitment)),
@@ -63,7 +63,7 @@ export class CommitmentEffects {
 
   @Effect()
   addContactToCommitment$: Observable<Action> = this.actions$
-    .ofType(CommitmentActionTypes.AddContactToCommitment)
+    .pipe(ofType(CommitmentActionTypes.AddContactToCommitment))
     .pipe(
       map((action: AddContactToCommitment) => action.payload),
       switchMap((payload: any) => this.service.addContactToCommitment(payload)),
@@ -78,7 +78,7 @@ export class CommitmentEffects {
 
   @Effect()
   removeContactFromCommitment$: Observable<Action> = this.actions$
-    .ofType(CommitmentActionTypes.RemoveContactFromCommitment)
+    .pipe(ofType(CommitmentActionTypes.RemoveContactFromCommitment))
     .pipe(
       map((action: RemoveContactFromCommitment) => action.payload),
       switchMap((payload: any) => this.service.removeContactFromCommitment(payload)),

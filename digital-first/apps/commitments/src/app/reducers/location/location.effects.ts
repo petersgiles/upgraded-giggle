@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Actions, Effect } from '@ngrx/effects'
+import { Actions, Effect, ofType } from '@ngrx/effects'
 import { Observable, of } from 'rxjs'
 import { Action } from '@ngrx/store'
 import { LocationActionTypes, LoadLocations, GetAllLocations, LocationsActionFailure } from './location.actions'
@@ -13,7 +13,7 @@ export class LocationEffects {
 
   @Effect()
   getAllLocations$: Observable<Action> = this.actions$
-    .ofType(LocationActionTypes.GetAllLocations)
+    .pipe(ofType(LocationActionTypes.GetAllLocations))
     .pipe(
       map((action: GetAllLocations) => action.payload ? action.payload.filter : null),
       switchMap((filter: any) => this.service.filterLocations(filter)

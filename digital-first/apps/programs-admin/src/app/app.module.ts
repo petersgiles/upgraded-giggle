@@ -67,7 +67,7 @@ import * as fromRoot from './reducers'
 
 import { AppEffects } from './reducers/app.effects'
 import { RouterEffects } from './reducers/router.effects'
-import { FEDERATEDLOGINAPIPATH } from '@digital-first/df-app-tokens';
+import { FEDERATEDLOGINAPIPATH } from '@digital-first/df-app-tokens'
 
 const COMPONENTS = [
   AppComponent,

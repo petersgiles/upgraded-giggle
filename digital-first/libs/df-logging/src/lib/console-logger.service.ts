@@ -4,7 +4,7 @@ import { Logger } from './logger.service'
 export let isDebugMode = true
 
 const noop = (): any => undefined
-
+// tslint:disable:no-console
 @Injectable()
 export class ConsoleLoggerService implements Logger {
   get info() {

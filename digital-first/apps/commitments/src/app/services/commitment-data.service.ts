@@ -3,7 +3,7 @@ import {
 } from 'rxjs'
 import { Injectable } from '@angular/core'
 import { tap } from 'rxjs/operators'
-import { Store } from '@ngrx/store'
+import { Store, select } from '@ngrx/store'
 import { RefinerGroup, RefinerType, DataTableConfig } from '@digital-first/df-components'
 
 import { WhoAnnouncedType } from '../reducers/who-announced-type/who-announced-type.model'
@@ -40,7 +40,7 @@ export class CommitmentDataService {
   // Notification
 
   get Notification(): Observable<string> {
-    return this.store.select(fromRoot.getNotification)
+    return this.store.pipe(select(fromRoot.getNotification))
   }
 
   /// WhoAnnouncedTypes
@@ -50,19 +50,19 @@ export class CommitmentDataService {
   }
 
   get WhoAnnouncedTypesLookup(): Observable<WhoAnnouncedType[]> {
-    return this.store.select(fromRoot.getAllWhoAnnouncedTypes)
+    return this.store.pipe(select(fromRoot.getAllWhoAnnouncedTypes))
   }
 
   get WhoAnnouncedTypes(): Observable<WhoAnnouncedType[]> {
-    return this.store.select(fromRoot.getAllWhoAnnouncedTypes)
+    return this.store.pipe(select(fromRoot.getAllWhoAnnouncedTypes))
   }
 
   get WhoAnnouncedTypesLoading(): Observable<boolean> {
-    return this.store.select(fromRoot.getCommitmentLoading)
+    return this.store.pipe(select(fromRoot.getCommitmentLoading))
   }
 
   get WhoAnnouncedTypesError(): Observable<any> {
-    return this.store.select(fromRoot.getCommitmentError)
+    return this.store.pipe(select(fromRoot.getCommitmentError))
   }
 
   /// AnnouncementTypes
@@ -72,19 +72,19 @@ export class CommitmentDataService {
   }
 
   get AnnouncementTypesLookup(): Observable<AnnouncementType[]> {
-    return this.store.select(fromRoot.getAllAnnouncementTypes)
+    return this.store.pipe(select(fromRoot.getAllAnnouncementTypes))
   }
 
   get AnnouncementTypes(): Observable<AnnouncementType[]> {
-    return this.store.select(fromRoot.getAllAnnouncementTypes)
+    return this.store.pipe(select(fromRoot.getAllAnnouncementTypes))
   }
 
   get AnnouncementTypesLoading(): Observable<boolean> {
-    return this.store.select(fromRoot.getCommitmentLoading)
+    return this.store.pipe(select(fromRoot.getCommitmentLoading))
   }
 
   get AnnouncementTypesError(): Observable<any> {
-    return this.store.select(fromRoot.getCommitmentError)
+    return this.store.pipe(select(fromRoot.getCommitmentError))
   }
 
   /// Comments
@@ -94,15 +94,15 @@ export class CommitmentDataService {
   }
 
   get Comments(): Observable<Comment[]> {
-    return this.store.select(fromRoot.getAllComments)
+    return this.store.pipe(select(fromRoot.getAllComments))
   }
 
   get CommentsLoading(): Observable<boolean> {
-    return this.store.select(fromRoot.getCommentLoading)
+    return this.store.pipe(select(fromRoot.getCommentLoading))
   }
 
   get CommentsError(): Observable<any> {
-    return this.store.select(fromRoot.getCommentError)
+    return this.store.pipe(select(fromRoot.getCommentError))
   }
 
   /// Commitments
@@ -130,26 +130,26 @@ export class CommitmentDataService {
   }
 
   get Commitment(): Observable<Commitment> {
-    return this.store.select(fromRoot.getCurrentCommitment)
+    return this.store.pipe(select(fromRoot.getCurrentCommitment))
   }
 
   get Commitments(): Observable<Commitment[]> {
 
     // return this.store.select(fromRoot.getFilteredOverviewCommitments)
 
-    return this.store.select(fromRoot.getAllOverviewCommitments)
+    return this.store.pipe(select(fromRoot.getAllOverviewCommitments))
   }
 
   get CommitmentContactsTableData(): Observable<DataTableConfig> {
-    return this.store.select(fromRoot.getCommitmentContactsTableData)
+    return this.store.pipe(select(fromRoot.getCommitmentContactsTableData))
   }
 
   get CommitmentDataTable(): Observable<DataTableConfig> {
-    return this.store.select(fromRoot.getAllOverviewCommitmentDataTables)
+    return this.store.pipe(select(fromRoot.getAllOverviewCommitmentDataTables))
   }
 
   get CommitmentActivity(): Observable<any> {
-    return this.store.select(fromRoot.getCommitmentActivity)
+    return this.store.pipe(select(fromRoot.getCommitmentActivity))
   }
 
   /// Commitment Types
@@ -159,25 +159,25 @@ export class CommitmentDataService {
   }
 
   get CommitmentTypes(): Observable<CommitmentType[]> {
-    return this.store.select(fromRoot.getAllCommitmentTypes)
+    return this.store.pipe(select(fromRoot.getAllCommitmentTypes))
   }
 
   get CommitmentTypesLoading(): Observable<boolean> {
-    return this.store.select(fromRoot.getCommitmentTypeLoading)
+    return this.store.pipe(select(fromRoot.getCommitmentTypeLoading))
   }
 
   get CommitmentTypesError(): Observable<any> {
-    return this.store.select(fromRoot.getCommitmentTypeError)
+    return this.store.pipe(select(fromRoot.getCommitmentTypeError))
   }
 
 // Commitment Edit
 
   get CommitmentEditExpandedPanels(): Observable<(string | number)[]> {
-    return this.store.select(fromRoot.getCommitmentEditExpandedPanels)
+    return this.store.pipe(select(fromRoot.getCommitmentEditExpandedPanels))
   }
 
   get CommitmentEditDiscussionTimeFormat(): Observable<'dateFormat' | 'timeAgo' | 'calendar'> {
-    return this.store.select(fromRoot.getCommitmentEditDiscussionTimeFormat)
+    return this.store.pipe(select(fromRoot.getCommitmentEditDiscussionTimeFormat))
   }
 
   expandCommitmentEditPanel(id: string): any {
@@ -195,7 +195,7 @@ export class CommitmentDataService {
   // RefinerGroups
 
   get RefinerGroups(): Observable<RefinerGroup[]> {
-    return this.store.select(fromRoot.getRefinerGroups)
+    return this.store.pipe(select(fromRoot.getRefinerGroups))
   }
 
   expandRefinerGroup(refiner: RefinerGroup): any {
@@ -229,15 +229,15 @@ export class CommitmentDataService {
   }
 
   get Contacts(): Observable<Contact[]> {
-    return this.store.select(fromRoot.getAllContacts)
+    return this.store.pipe(select(fromRoot.getAllContacts))
   }
 
   get ContactsLoading(): Observable<boolean> {
-    return this.store.select(fromRoot.getContactLoading)
+    return this.store.pipe(select(fromRoot.getContactLoading))
   }
 
   get ContactsError(): Observable<any> {
-    return this.store.select(fromRoot.getContactError)
+    return this.store.pipe(select(fromRoot.getContactError))
   }
 
   // Locations
@@ -247,15 +247,15 @@ export class CommitmentDataService {
   }
 
   get Locations(): Observable<Location[]> {
-    return this.store.select(fromRoot.getAllLocations)
+    return this.store.pipe(select(fromRoot.getAllLocations))
   }
 
   get LocationsLoading(): Observable<boolean> {
-    return this.store.select(fromRoot.getLocationLoading)
+    return this.store.pipe(select(fromRoot.getLocationLoading))
   }
 
   get LocationsError(): Observable<any> {
-    return this.store.select(fromRoot.getLocationError)
+    return this.store.pipe(select(fromRoot.getLocationError))
   }
 
   // Partys
@@ -265,15 +265,15 @@ export class CommitmentDataService {
   }
 
   get Parties(): Observable<Party[]> {
-    return this.store.select(fromRoot.getAllPartys)
+    return this.store.pipe(select(fromRoot.getAllPartys))
   }
 
   get PartiesLoading(): Observable<boolean> {
-    return this.store.select(fromRoot.getPartyLoading)
+    return this.store.pipe(select(fromRoot.getPartyLoading))
   }
 
   get PartiesError(): Observable<any> {
-    return this.store.select(fromRoot.getPartyError)
+    return this.store.pipe(select(fromRoot.getPartyError))
   }
 
   // Portfolios
@@ -283,15 +283,15 @@ export class CommitmentDataService {
   }
 
   get Portfolios(): Observable<Portfolio[]> {
-    return this.store.select(fromRoot.getAllPortfolios)
+    return this.store.pipe(select(fromRoot.getAllPortfolios))
   }
 
   get PortfoliosLoading(): Observable<boolean> {
-    return this.store.select(fromRoot.getPortfolioLoading)
+    return this.store.pipe(select(fromRoot.getPortfolioLoading))
   }
 
   get PortfoliosError(): Observable<any> {
-    return this.store.select(fromRoot.getPortfolioError)
+    return this.store.pipe(select(fromRoot.getPortfolioError))
   }
 
   upsertCommitment(commitment: Commitment) {

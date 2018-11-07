@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Actions, Effect } from '@ngrx/effects'
+import { Actions, Effect, ofType } from '@ngrx/effects'
 import { Observable, of } from 'rxjs'
 import { Action } from '@ngrx/store'
 import { ContactActionTypes, LoadContacts, GetAllContacts, ContactsActionFailure, StoreContact } from './contact.actions'
@@ -14,7 +14,7 @@ export class ContactEffects {
 
   @Effect()
   getAllContacts$: Observable<Action> = this.actions$
-    .ofType(ContactActionTypes.GetAllContacts)
+    .pipe(ofType(ContactActionTypes.GetAllContacts))
     .pipe(
       map((action: GetAllContacts) => action.payload ? action.payload.filter : null),
       switchMap((filter: any) => this.service.filterContacts(filter)
@@ -26,7 +26,7 @@ export class ContactEffects {
 
       @Effect()
       storeContact$: Observable<Action> = this.actions$
-        .ofType(ContactActionTypes.StoreContact)
+        .pipe(ofType(ContactActionTypes.StoreContact))
         .pipe(
           map((action: StoreContact) => action.payload),
           switchMap((commitment: any) => this.service.storeContact(commitment)),

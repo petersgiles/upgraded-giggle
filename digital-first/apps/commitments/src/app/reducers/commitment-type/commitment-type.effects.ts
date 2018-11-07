@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Actions, Effect } from '@ngrx/effects'
+import { Actions, Effect, ofType } from '@ngrx/effects'
 import { Observable, of } from 'rxjs'
 import { Action } from '@ngrx/store'
 import { CommitmentTypeActionTypes, LoadCommitmentTypes, GetAllCommitmentTypes, CommitmentTypesActionFailure } from './commitment-type.actions'
@@ -13,7 +13,7 @@ export class CommitmentTypeEffects {
 
   @Effect()
   getAllCommitmentTypes$: Observable<Action> = this.actions$
-    .ofType(CommitmentTypeActionTypes.GetAllCommitmentTypes)
+    .pipe(ofType(CommitmentTypeActionTypes.GetAllCommitmentTypes))
     .pipe(
       map((action: GetAllCommitmentTypes) => action.payload ? action.payload.filter : null),
       switchMap((filter: any) => this.service.filterCommitmentTypes(filter)

@@ -2,7 +2,7 @@ import {
   Observable,
 } from 'rxjs'
 import { Injectable } from '@angular/core'
-import { Store } from '@ngrx/store'
+import { Store, select } from '@ngrx/store'
 import * as fromRoot from '../reducers'
 
 @Injectable({
@@ -15,6 +15,6 @@ export class CommitmentDataService {
   // Notification
 
   get Notification(): Observable<string> {
-    return this.store.select(fromRoot.getNotification)
+    return this.store.pipe(select(fromRoot.getNotification))
   }
 }
