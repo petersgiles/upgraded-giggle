@@ -48,6 +48,9 @@
       ],
       "@digital-first/df-logging": [
         "libs/df-logging/src/index.ts"
+      ],
+      "@digital-first/df-auth": [
+        "libs/df-auth/src/index.ts"
       ]
     }
   },

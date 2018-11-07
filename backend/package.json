@@ -10,7 +10,7 @@
     "serve:policy-briefs": "node dist/policy-briefs-gql/server.js",
     "serve:todos": "node dist/todos-gql/server.js",
     "start": "run-p serve:*",
-    "start-serve":"run-s tsc serve:commitments"
+    "start-serve": "run-s tsc serve:commitments"
   },
   "author": "",
   "license": "ISC",

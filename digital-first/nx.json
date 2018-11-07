@@ -82,6 +82,11 @@
     },
     "programs-admin-e2e": {
       "tags": []
+    },
+    "df-auth": {
+      "tags": [
+        "auth"
+      ]
     }
   }
 }
