@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Actions, Effect } from '@ngrx/effects'
+import { Actions, Effect, ofType } from '@ngrx/effects'
 import { Observable, of } from 'rxjs'
 import { Action } from '@ngrx/store'
 import { PartyActionTypes, LoadPartys, GetAllPartys, PartysActionFailure } from './party.actions'
@@ -13,7 +13,7 @@ export class PartyEffects {
 
   @Effect()
   getAllPartys$: Observable<Action> = this.actions$
-    .ofType(PartyActionTypes.GetAllPartys)
+    .pipe(ofType(PartyActionTypes.GetAllPartys))
     .pipe(
       map((action: GetAllPartys) => action.payload ? action.payload.filter : null),
       switchMap((filter: any) => this.service.filterPartys(filter)

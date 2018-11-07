@@ -4,7 +4,6 @@ import { DfThemeModule } from '@digital-first/df-theme'
 import { ErrorPageNotFoundComponent } from './error-page-not-found/error-page-not-found.component'
 import { ErrorServerComponent } from './error-server/error-server.component'
 
-
 const COMPONENTS = [
   ErrorPageNotFoundComponent,
   ErrorServerComponent,

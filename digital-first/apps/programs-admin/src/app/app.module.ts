@@ -68,7 +68,6 @@ import * as fromRoot from './reducers'
 import { AppEffects } from './reducers/app.effects'
 import { RouterEffects } from './reducers/router.effects'
 
-
 const COMPONENTS = [
   AppComponent,
   HomeComponent,

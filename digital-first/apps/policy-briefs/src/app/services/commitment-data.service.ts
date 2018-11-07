@@ -3,7 +3,7 @@ import {
 } from 'rxjs'
 import { Injectable } from '@angular/core'
 import { tap } from 'rxjs/operators'
-import { Store } from '@ngrx/store'
+import { Store, select } from '@ngrx/store'
 import { RefinerGroup, RefinerType, DataTableConfig } from '@digital-first/df-components'
 
 import { Comment } from '../reducers/comment/comment.model'
@@ -24,7 +24,7 @@ export class CommitmentDataService {
   // Notification
 
   get Notification(): Observable<string> {
-    return this.store.select(fromRoot.getNotification)
+    return this.store.pipe(select(fromRoot.getNotification))
   }
 
   /// Comments
@@ -39,15 +39,15 @@ export class CommitmentDataService {
   }
 
   get Comments(): Observable<Comment[]> {
-    return this.store.select(fromRoot.getAllComments)
+    return this.store.pipe(select(fromRoot.getAllComments))
   }
 
   get CommentsLoading(): Observable<boolean> {
-    return this.store.select(fromRoot.getCommentLoading)
+    return this.store.pipe(select(fromRoot.getCommentLoading))
   }
 
   get CommentsError(): Observable<any> {
-    return this.store.select(fromRoot.getCommentError)
+    return this.store.pipe(select(fromRoot.getCommentError))
   }
 
   // Contacts
@@ -57,14 +57,14 @@ export class CommitmentDataService {
   }
 
   get Contacts(): Observable<Contact[]> {
-    return this.store.select(fromRoot.getAllContacts)
+    return this.store.pipe(select(fromRoot.getAllContacts))
   }
 
   get ContactsLoading(): Observable<boolean> {
-    return this.store.select(fromRoot.getContactLoading)
+    return this.store.pipe(select(fromRoot.getContactLoading))
   }
 
   get ContactsError(): Observable<any> {
-    return this.store.select(fromRoot.getContactError)
+    return this.store.pipe(select(fromRoot.getContactError))
   }
 }

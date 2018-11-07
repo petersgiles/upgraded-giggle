@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
 import { HomeComponent } from './containers/home/home.component'
-import { FullLayoutComponent, SimpleLayoutComponent } from '@digital-first/df-layouts'
-import { DfAuthGuardService } from 'libs/df-auth/src/lib/services/df-auth-guard.service';
+import { FullLayoutComponent } from '@digital-first/df-layouts'
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -12,7 +11,6 @@ const routes: Routes = [
     data: {
       title: 'Home'
     },
-    canActivate: [DfAuthGuardService],
     children: [
       {
         path: '',

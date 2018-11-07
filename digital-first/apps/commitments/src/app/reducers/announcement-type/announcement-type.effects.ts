@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Actions, Effect } from '@ngrx/effects'
+import { Actions, Effect, ofType } from '@ngrx/effects'
 import { Observable, of } from 'rxjs'
 import { Action } from '@ngrx/store'
 import { AnnouncementTypeActionTypes, LoadAnnouncementTypes, GetAllAnnouncementTypes, AnnouncementTypesActionFailure } from './announcement-type.actions'
@@ -13,7 +13,7 @@ export class AnnouncementTypeEffects {
 
   @Effect()
   getAllAnnouncementTypes$: Observable<Action> = this.actions$
-    .ofType(AnnouncementTypeActionTypes.GetAllAnnouncementTypes)
+    .pipe(ofType(AnnouncementTypeActionTypes.GetAllAnnouncementTypes))
     .pipe(
       map((action: GetAllAnnouncementTypes) => action.payload ? action.payload.filter : null),
       switchMap((filter: any) => this.service.filterAnnouncementTypes(filter)

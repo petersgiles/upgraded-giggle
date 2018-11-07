@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Actions, Effect } from '@ngrx/effects'
+import { Actions, Effect, ofType } from '@ngrx/effects'
 import { Observable, of } from 'rxjs'
 import { Action } from '@ngrx/store'
 import { PortfolioActionTypes, LoadPortfolios, GetAllPortfolios, PortfoliosActionFailure } from './portfolio.actions'
@@ -13,7 +13,7 @@ export class PortfolioEffects {
 
   @Effect()
   getAllPortfolios$: Observable<Action> = this.actions$
-    .ofType(PortfolioActionTypes.GetAllPortfolios)
+    .pipe(ofType(PortfolioActionTypes.GetAllPortfolios))
     .pipe(
       map((action: GetAllPortfolios) => action.payload ? action.payload.filter : null),
       switchMap((filter: any) => this.service.filterPortfolios(filter)

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Actions, Effect } from '@ngrx/effects'
+import { Actions, Effect, ofType } from '@ngrx/effects'
 import { Observable, of } from 'rxjs'
 import { Action } from '@ngrx/store'
 import { switchMap, map, catchError, tap } from 'rxjs/operators'
@@ -13,7 +13,7 @@ export class CommentEffects {
 
   @Effect()
   getCommentByComment$: Observable<Action> = this.actions$
-    .ofType(CommentActionTypes.GetCommentsByCommitment)
+    .pipe(ofType(CommentActionTypes.GetCommentsByCommitment))
     .pipe(
       map((action: GetCommentsByCommitment) => action.payload.commitment),
       switchMap((commitment: any) => this.service.getCommentsByCommitment(commitment)
@@ -25,7 +25,7 @@ export class CommentEffects {
 
   @Effect()
   storeComment$: Observable<Action> = this.actions$
-    .ofType(CommentActionTypes.StoreComment)
+    .pipe(ofType(CommentActionTypes.StoreComment))
     .pipe(
       map((action: StoreComment) => action.payload),
       switchMap((comment: any) => this.service.storeComment(comment)
@@ -37,7 +37,7 @@ export class CommentEffects {
 
   @Effect()
   removeComment$: Observable<Action> = this.actions$
-    .ofType(CommentActionTypes.RemoveComment)
+    .pipe(ofType(CommentActionTypes.RemoveComment))
     .pipe(
       map((action: RemoveComment) => action.payload),
       switchMap((comment: any) => this.service.deleteComment(comment)

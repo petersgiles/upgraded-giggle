@@ -50,12 +50,6 @@
     "df-sharepoint": {
       "tags": []
     },
-    "projects": {
-      "tags": []
-    },
-    "projects-e2e": {
-      "tags": []
-    },
     "df-moment": {
       "tags": []
     },
@@ -82,11 +76,6 @@
     },
     "programs-admin-e2e": {
       "tags": []
-    },
-    "df-auth": {
-      "tags": [
-        "auth"
-      ]
     }
   }
 }
