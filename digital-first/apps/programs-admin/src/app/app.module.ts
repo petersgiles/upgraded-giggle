@@ -8,7 +8,7 @@ import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { NgxWigModule } from 'ngx-wig'
 
-import { DfAuthModule, JwtAuthInterceptor } from '@digital-first/df-auth'
+import { DfAuthModule } from '@digital-first/df-auth'
 import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
 import { DfDiscussionModule, DiscussionComponent } from '@digital-first/df-discussion'
@@ -151,7 +151,7 @@ export let appDataServiceProvider = {
     HttpLinkModule,
     NgxWigModule,
     NxModule.forRoot(),
-    DfAuthModule.forRoot(),
+    DfAuthModule,
     DfComponentsModule,
     DfMomentModule,
     DfLayoutsModule,
@@ -179,7 +179,6 @@ export let appDataServiceProvider = {
       deps: [Store],
       multi: true
     },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtAuthInterceptor, multi: true },
     appDataServiceProvider,
     { provide: FullLayoutService, useClass: AppFullLayoutService },
     {

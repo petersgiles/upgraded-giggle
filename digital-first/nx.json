@@ -84,9 +84,7 @@
       "tags": []
     },
     "df-auth": {
-      "tags": [
-        "auth"
-      ]
+      "tags": []
     }
   }
 }
