@@ -9,12 +9,12 @@
       </div>
 
       <div class="form-layout__row">
-        <mdc-text-field formControlName="email" label="Email" required outlined [helperText]="emailFieldInputHelper"
+        <mdc-text-field formControlName="email" label="Email" type="email" required outlined [helperText]="emailFieldInputHelper"
           (change)="handleChange($event)"></mdc-text-field>
       </div>
 
       <div class="form-layout__row">
-        <mdc-text-field formControlName="phone" label="Phone" required outlined [helperText]="phoneeFieldInputHelper"
+        <mdc-text-field formControlName="phone" label="Phone" type="tel" required outlined [helperText]="phoneeFieldInputHelper"
           (change)="handleChange($event)"></mdc-text-field>
       </div>
 
@@ -37,7 +37,7 @@
 
       </div>
       <div class="form-layout__row-with-button">
-        <button mdc-button mdcCardAction="button" (click)="onReset($event)">Reset</button>
+        <button mdc-button mdcCardAction="button" (click)="handleReset($event)">Reset</button>
         <button mdc-button mdcCardAction="button" type="submit" [disabled]="!form.valid">Submit</button>
       </div>
     </fieldset>

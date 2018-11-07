@@ -7,6 +7,7 @@ import { CommitmentDataService } from '../../services/commitment-data.service'
 
 import { Party } from '../../reducers/party/party.model'
 import { Portfolio } from '../../reducers/portfolio/portfolio.model'
+import { Contact } from '../../reducers/contact/contact.model'
 
 @Component({
   selector: 'digital-first-contact-create',
@@ -17,12 +18,18 @@ export class ContactCreateComponent implements OnInit {
 
   parties$: Observable<Party[]>
   portfolios$: Observable<Portfolio[]>
+  contacts$: Observable<Contact[]>
 
   constructor(private router: Router, private route: ActivatedRoute, public dialog: MdcDialog, private service: CommitmentDataService) { }
 
   ngOnInit() {
     this.parties$ = this.service.Parties
     this.portfolios$ = this.service.Portfolios
+    this.contacts$ = this.service.Contacts
+    this.service.getAllPartys()
+    this.service.getAllContacts()
+    this.service.getAllPortfolios()
+
   }
 
   handleSubmit(contact) {

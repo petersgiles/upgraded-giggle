@@ -4,7 +4,9 @@
      <digital-first-contact-create-form
       [parties]="parties$ | async"
       [portfolios]="portfolios$ | async"
-      (onSubmitted)="handleSubmit($event)" (onCancelled)="handleCancelled($event)"
+      [contacts]="contacts$ | async"
+      (onSubmitted)="handleSubmit($event)" 
+      (onCancelled)="handleCancelled($event)"
       (onChanged)="handleChanged($event)">
      </digital-first-contact-create-form>
     </section>

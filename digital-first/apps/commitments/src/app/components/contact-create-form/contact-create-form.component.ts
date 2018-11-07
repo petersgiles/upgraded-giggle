@@ -14,6 +14,7 @@ export class ContactCreateFormComponent implements OnInit {
   @Input() busy: boolean
   @Input() parties: Party[]
   @Input() portfolios: Portfolio[]
+  @Input() contacts: Contact[]
 
   @Output() onSubmitted: EventEmitter<any> = new EventEmitter()
   @Output() onCancelled: EventEmitter<any> = new EventEmitter()
@@ -28,9 +29,9 @@ export class ContactCreateFormComponent implements OnInit {
     portfolio: []
   })
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   handleReset($event) {
     this.form.reset()
