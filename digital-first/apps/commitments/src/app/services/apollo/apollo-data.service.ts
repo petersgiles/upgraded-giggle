@@ -141,4 +141,8 @@ export class ApolloDataService implements AppDataService {
     return of(error)
   }
 
+  storeContact(contact: any): Observable<any> {
+    throw new Error('Method not implemented.')
+  }
+
 }

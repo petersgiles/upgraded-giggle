@@ -4,4 +4,6 @@ export interface Contact {
   email?: string
   phone?: string
   ccid?: string
+  portfolio?: string
+  party?: string
 }

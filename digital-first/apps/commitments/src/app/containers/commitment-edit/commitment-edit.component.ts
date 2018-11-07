@@ -249,7 +249,9 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   }
 
-  handleCreateContactDialog() { }
+  handleCreateContact() {
+    this.router.navigate(['/', 'contact'])
+  }
 
   handleOpenContactDialog() {
 

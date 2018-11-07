@@ -7,7 +7,7 @@ import { switchMap, map, catchError, tap } from 'rxjs/operators'
 import { AppDataService } from '../../services/app-data.service'
 import { DataResult, CommentsResult } from '../../models'
 import { CommentActionTypes, LoadComments,  CommentActionFailure, StoreComment, RemoveComment, CommentActionSuccess } from './comment.actions'
-import { Notification, ClearNotification } from '../app.actions'
+import { AppNotification, ClearAppNotification } from '../app.actions'
 
 @Injectable()
 export class CommentEffects {
@@ -20,9 +20,9 @@ export class CommentEffects {
       switchMap((payload: any) => this.service.storeComment(payload)
         .pipe(
           switchMap(result => [
-            new Notification({ message: 'Comment Saved' }),
+            new AppNotification({ message: 'Comment Saved' }),
             new CommentActionSuccess(result),
-            new ClearNotification()
+            new ClearAppNotification()
           ]),
           catchError(error => of(new CommentActionFailure(error)))
         )
@@ -36,9 +36,9 @@ export class CommentEffects {
       switchMap((comment: any) => this.service.deleteComment(comment)
         .pipe(
           switchMap(result => [
-            new Notification({ message: 'Comment Removed' }),
+            new AppNotification({ message: 'Comment Removed' }),
             new CommentActionSuccess(result),
-            new ClearNotification()
+            new ClearAppNotification()
           ]),
           catchError(error => of(new CommentActionFailure(error)))
         )

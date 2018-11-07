@@ -244,6 +244,10 @@ export class SharepointDataService implements AppDataService {
       )
   }
 
+  storeContact(contact: any): Observable<any> {
+    throw new Error('Method not implemented.')
+  }
+
   storeComment(comment: { commitment: any; parent: any; comment: any; }): Observable<any> {
 
     const spComment = {

@@ -17,7 +17,7 @@ import { switchMap, map, catchError, tap, switchMapTo } from 'rxjs/operators'
 
 import { AppDataService } from '../../services/app-data.service'
 import { DataResult, CommitmentsResult, CommitmentResult } from '../../models'
-import { Notification, ClearNotification } from '../app.actions'
+import { AppNotification, ClearAppNotification } from '../app.actions'
 
 @Injectable()
 export class CommitmentEffects {
@@ -53,9 +53,9 @@ export class CommitmentEffects {
       map((action: StoreCommitment) => action.payload),
       switchMap((commitment: any) => this.service.storeCommitment(commitment)),
       switchMap((result: DataResult<CommitmentResult>) => [
-        new Notification({ message: 'Changes Saved' }),
+        new AppNotification({ message: 'Changes Saved' }),
         new SetCurrentCommitment({ id: result.data.commitment.id }),
-        new ClearNotification()
+        new ClearAppNotification()
       ]),
       catchError(error => of(new CommitmentsActionFailure(error)))
 
@@ -68,9 +68,9 @@ export class CommitmentEffects {
       map((action: AddContactToCommitment) => action.payload),
       switchMap((payload: any) => this.service.addContactToCommitment(payload)),
       switchMap((result: any) => [
-        new Notification({ message: 'Contact Added' }),
+        new AppNotification({ message: 'Contact Added' }),
         new SetCurrentCommitment({ id: result.commitment.id }),
-        new ClearNotification()
+        new ClearAppNotification()
       ]),
       catchError(error => of(new CommitmentsActionFailure(error)))
 
@@ -83,9 +83,9 @@ export class CommitmentEffects {
       map((action: RemoveContactFromCommitment) => action.payload),
       switchMap((payload: any) => this.service.removeContactFromCommitment(payload)),
       switchMap((result: any) => [
-        new Notification({ message: 'Contact Removed' }),
+        new AppNotification({ message: 'Contact Removed' }),
         new SetCurrentCommitment({ id: result.commitment.id }),
-        new ClearNotification()
+        new ClearAppNotification()
       ]),
       catchError(error => of(new CommitmentsActionFailure(error)))
 

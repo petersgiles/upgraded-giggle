@@ -3,8 +3,8 @@ import { Action } from '@ngrx/store'
 export enum AppActionTypes {
     StartAppInitialiser = '[App] Start App Initialiser',
     FinishAppInitialiser = '[App] Finish App Initialiser',
-    Notification = '[App] Notification',
-    ClearNotification = '[App] Clear Notification',
+    AppNotification = '[App] AppNotification',
+    ClearAppNotification = '[App] Clear AppNotification',
 }
 
 export class StartAppInitialiser implements Action {
@@ -15,17 +15,17 @@ export class FinishAppInitialiser implements Action {
     readonly type = AppActionTypes.FinishAppInitialiser
 }
 
-export class Notification implements Action {
-    readonly type = AppActionTypes.Notification
+export class AppNotification implements Action {
+    readonly type = AppActionTypes.AppNotification
     constructor(public payload: {message: string, code?: string}) { }
 }
 
-export class ClearNotification implements Action {
-    readonly type = AppActionTypes.ClearNotification
+export class ClearAppNotification implements Action {
+    readonly type = AppActionTypes.ClearAppNotification
 }
 
 export type AppActions =
     StartAppInitialiser
     | FinishAppInitialiser
-    | Notification
-    | ClearNotification
+    | AppNotification
+    | ClearAppNotification

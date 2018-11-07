@@ -1,8 +1,11 @@
 <div class="app-page">
     <section>
       <digital-first-page-title title="Create Contact"></digital-first-page-title>
-     <digital-first-contact-create-form>
-       
+     <digital-first-contact-create-form
+      [parties]="parties$ | async"
+      [portfolios]="portfolios$ | async"
+      (onSubmitted)="handleSubmit($event)" (onCancelled)="handleCancelled($event)"
+      (onChanged)="handleChanged($event)">
      </digital-first-contact-create-form>
     </section>
   </div>

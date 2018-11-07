@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core'
 import { Actions, Effect } from '@ngrx/effects'
 import { Observable, of } from 'rxjs'
 import { Action } from '@ngrx/store'
-import { ContactActionTypes, LoadContacts, GetAllContacts, ContactsActionFailure } from './contact.actions'
+import { ContactActionTypes, LoadContacts, GetAllContacts, ContactsActionFailure, StoreContact } from './contact.actions'
 import { switchMap, map, catchError } from 'rxjs/operators'
 
 import { AppDataService } from '../../services/app-data.service'
 import { DataResult, ContactsResult } from '../../models'
+import { AppNotification, ClearAppNotification } from '../app.actions'
 
 @Injectable()
 export class ContactEffects {
@@ -22,6 +23,19 @@ export class ContactEffects {
           catchError(error => of(new ContactsActionFailure(error)))
         )
       ))
+
+      @Effect()
+      storeContact$: Observable<Action> = this.actions$
+        .ofType(ContactActionTypes.StoreContact)
+        .pipe(
+          map((action: StoreContact) => action.payload),
+          switchMap((commitment: any) => this.service.storeContact(commitment)),
+          switchMap((result: DataResult<ContactsResult>) => [
+            new AppNotification({ message: 'Changes Saved' }),
+            new ClearAppNotification()
+          ]),
+          catchError(error => of(new ContactsActionFailure(error)))
+        )
 
   constructor(private actions$: Actions, private service: AppDataService) { }
 }

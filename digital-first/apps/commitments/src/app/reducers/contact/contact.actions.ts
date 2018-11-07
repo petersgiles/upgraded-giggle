@@ -18,7 +18,7 @@ export enum ContactActionTypes {
   SetCurrentContact = '[Contact] Set Current Contact',
   GetContacts = '[Contact] Get Contacts',
   GetAllContacts = '[Contact] Get All Contacts',
-
+  StoreContact = '[Contact] Store Contact',
   ContactsActionFailure = '[Contact] Contacts Action Failure',
 }
 
@@ -100,6 +100,14 @@ export class ContactsActionFailure implements Action {
   constructor(public payload: any) {
   }
 }
+
+export class StoreContact implements Action {
+  readonly type = ContactActionTypes.StoreContact
+
+  constructor(public payload: any) {
+  }
+}
+
 export type ContactActions =
   LoadContacts
   | AddContact

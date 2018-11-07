@@ -19,7 +19,7 @@ import { CommitmentType } from '../reducers/commitment-type/commitment-type.mode
 import { GetAllLocations } from '../reducers/location/location.actions'
 import { GetCommitments, GetAllCommitments, SetCurrentCommitment, StoreCommitment, AddContactToCommitment, RemoveContactFromCommitment } from '../reducers/commitment/commitment.actions'
 import { GetAllAnnouncementTypes } from '../reducers/announcement-type/announcement-type.actions'
-import { GetAllContacts } from '../reducers/contact/contact.actions'
+import { GetAllContacts, StoreContact } from '../reducers/contact/contact.actions'
 import { GetAllPartys } from '../reducers/party/party.actions'
 import { GetAllPortfolios } from '../reducers/portfolio/portfolio.actions'
 import { GetAllCommitmentTypes } from '../reducers/commitment-type/commitment-type.actions'
@@ -222,6 +222,10 @@ export class CommitmentDataService {
 
   public getAllContacts(filter?: any) {
     this.store.dispatch(new GetAllContacts({ filter: filter }))
+  }
+
+  upsertContact(contact: any): any {
+    this.store.dispatch(new StoreContact({ contact: contact }))
   }
 
   get Contacts(): Observable<Contact[]> {

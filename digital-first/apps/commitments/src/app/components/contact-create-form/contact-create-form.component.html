@@ -1,36 +1,46 @@
 <div class="form-content" [ngClass]="{'busy' : busy}">
-    <form [formGroup]="form" (ngSubmit)="handleSubmit($event)">
-      <fieldset [attr.disabled]="busy ? '' : null">
-        <input type="hidden" formControlName="id" />
-  
-        <div class="form-layout__row">
-          <mdc-text-field formControlName="title" label="Title" required outlined [helperText]="titleFieldInputHelper"
-            (change)="handleChange($event)"></mdc-text-field>
-        </div>
+  <form [formGroup]="form" (ngSubmit)="handleSubmit($event)">
+    <fieldset [attr.disabled]="busy ? '' : null">
+      <input type="hidden" formControlName="id" />
 
-        <h3 class="form-content__headline">Agency</h3>
-        <div class="form-layout__row">
-  
-          <mdc-select placeholder="Type of Portfolio" formControlName="portfolio" outlined (change)="handleChange($event)">
-            <option [value]="null"></option>
-            <option *ngFor="let portfolio of portfolios" [value]="portfolio.id">
-              {{portfolio.title}}
-            </option>
-          </mdc-select>
+      <div class="form-layout__row">
+        <mdc-text-field formControlName="name" label="Name" required outlined [helperText]="nameFieldInputHelper"
+          (change)="handleChange($event)"></mdc-text-field>
+      </div>
 
-            <mdc-select placeholder="Party" formControlName="party" outlined (change)="handleChange($event)">
-              <option [value]="null"></option>
-              <option *ngFor="let party of parties" [value]="party.id">
-                {{party.title}}
-              </option>
-            </mdc-select>
+      <div class="form-layout__row">
+        <mdc-text-field formControlName="email" label="Email" required outlined [helperText]="emailFieldInputHelper"
+          (change)="handleChange($event)"></mdc-text-field>
+      </div>
 
-          </div>
-        <div class="form-layout__row-with-button">
-          <button mdc-button mdcCardAction="button" (click)="onReset($event)">Reset</button>
-          <button mdc-button mdcCardAction="button" type="submit" [disabled]="!form.valid">Submit</button>
-        </div>
-      </fieldset>
-    </form>
-  
-  </div>
+      <div class="form-layout__row">
+        <mdc-text-field formControlName="phone" label="Phone" required outlined [helperText]="phoneeFieldInputHelper"
+          (change)="handleChange($event)"></mdc-text-field>
+      </div>
+
+      <h3 class="form-content__headline">Agency</h3>
+      <div class="form-layout__row">
+
+        <mdc-select placeholder="Type of Portfolio" formControlName="portfolio" outlined (change)="handleChange($event)">
+          <option [value]="null"></option>
+          <option *ngFor="let portfolio of portfolios" [value]="portfolio.id">
+            {{portfolio.title}}
+          </option>
+        </mdc-select>
+
+        <mdc-select placeholder="Party" formControlName="party" outlined (change)="handleChange($event)">
+          <option [value]="null"></option>
+          <option *ngFor="let party of parties" [value]="party.id">
+            {{party.title}}
+          </option>
+        </mdc-select>
+
+      </div>
+      <div class="form-layout__row-with-button">
+        <button mdc-button mdcCardAction="button" (click)="onReset($event)">Reset</button>
+        <button mdc-button mdcCardAction="button" type="submit" [disabled]="!form.valid">Submit</button>
+      </div>
+    </fieldset>
+  </form>
+
+</div>

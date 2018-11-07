@@ -9,6 +9,7 @@ import { ErrorPageNotFoundComponent, ErrorServerComponent } from '@digital-first
 import { CommitmentOverviewComponent } from './containers/commitment-overview/commitment-overview.component'
 import { CommitmentEditComponent } from './containers/commitment-edit/commitment-edit.component'
 import { CommitmentCreateComponent } from './containers/commitment-create/commitment-create.component'
+import { ContactCreateComponent } from './containers/contact-create/contact-create.component'
 
 const routes: Routes = [
   { path: '', redirectTo: 'commitments', pathMatch: 'full' },
@@ -22,6 +23,18 @@ const routes: Routes = [
       {
         path: '',
         component: HomeComponent
+      }
+    ]
+  },  {
+    path: 'contact',
+    component: FullLayoutComponent,
+    data: {
+      title: 'Contact'
+    },
+    children: [
+      {
+        path: '',
+        component: ContactCreateComponent
       }
     ]
   }, {

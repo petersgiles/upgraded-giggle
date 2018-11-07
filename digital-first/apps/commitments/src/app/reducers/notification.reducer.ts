@@ -14,14 +14,14 @@ export function reducer(
 ): State {
   switch (action.type) {
 
-    case AppActionTypes.Notification: {
+    case AppActionTypes.AppNotification: {
       return {
         ...state,
         notification: action.payload
       }
     }
 
-    case AppActionTypes.ClearNotification: {
+    case AppActionTypes.ClearAppNotification: {
       return {
         ...state,
         notification: null
