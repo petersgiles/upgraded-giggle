@@ -28,11 +28,15 @@
 /.sass-cache
 /connect.lock
 /coverage
+typings
+
+# Logs
 /libpeerconnection.log
 npm-debug.log
 yarn-error.log
 testem.log
-/typings
+combined.log
+error.log
 
 # System Files
 .DS_Store
