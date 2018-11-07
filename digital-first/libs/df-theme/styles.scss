@@ -12,6 +12,12 @@
 @import "./src/scss/fab";
 @import "./src/scss/animations";
 
+
+body {
+  max-height: 100vh;
+  overflow-y: hidden;
+}
+
 .truncate {
     white-space: nowrap;
     overflow: hidden;
