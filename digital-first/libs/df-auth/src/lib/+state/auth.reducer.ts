@@ -1,4 +1,5 @@
 import { AuthAction, AuthActionTypes } from './auth.actions';
+import { User, AuthResult } from './models';
 
 export const AUTH_FEATURE_KEY = 'auth';
 
@@ -11,13 +12,11 @@ export const AUTH_FEATURE_KEY = 'auth';
  */
 
 /* tslint:disable:no-empty-interface */
-export interface Entity {}
+
 
 export interface AuthState {
-  list: Entity[]; // list of Auth; analogous to a sql normalized table
-  selectedId?: string | number; // which Auth record has been selected
-  loaded: boolean; // has the Auth list been loaded
-  error?: any; // last none error (if any)
+  user: User | null
+  auth: AuthResult
 }
 
 export interface AuthPartialState {
@@ -25,23 +24,50 @@ export interface AuthPartialState {
 }
 
 export const initialState: AuthState = {
-  list: [],
-  loaded: false
+  user: null,
+  auth: null
 };
 
 export function authReducer(
   state: AuthState = initialState,
   action: AuthAction
 ): AuthState {
+
   switch (action.type) {
-    case AuthActionTypes.AuthLoaded: {
-      state = {
+    case AuthActionTypes.LoginSuccess: {
+      return {
         ...state,
-        list: action.payload,
-        loaded: true
-      };
-      break;
+        user: action.payload.user,
+      }
+    }
+
+    case AuthActionTypes.AuthTokenSuccess: {
+
+      return {
+        ...state,
+        auth: action.payload.auth,
+      }
+    }
+
+    // TODO: check with Pete, what should we do when web api stops refreshing our token?  set it to null?
+    case AuthActionTypes.AuthTokenRefreshFailure: {
+      return {
+        ...state,
+        auth: null,
+      }
+    }
+
+    case AuthActionTypes.AuthTokenRefreshSuccess: {
+      return {
+        ...state,
+        auth: action.payload,
+      }
+    }
+
+    case AuthActionTypes.Logout: {
+      return initialState
     }
   }
+
   return state;
 }

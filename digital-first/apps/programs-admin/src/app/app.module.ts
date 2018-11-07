@@ -67,7 +67,7 @@ import * as fromRoot from './reducers'
 
 import { AppEffects } from './reducers/app.effects'
 import { RouterEffects } from './reducers/router.effects'
-
+import { FEDERATEDLOGINAPIPATH } from '@digital-first/df-app-tokens';
 
 const COMPONENTS = [
   AppComponent,
@@ -173,6 +173,7 @@ export let appDataServiceProvider = {
   ],
   providers: [
     WINDOW_PROVIDERS,
+    { provide: FEDERATEDLOGINAPIPATH, useValue: environment.federatedLoginApiPath },
     {
       provide: APP_INITIALIZER,
       useFactory: initApplication,

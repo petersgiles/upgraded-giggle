@@ -85,6 +85,9 @@
     },
     "df-auth": {
       "tags": []
+    },
+    "df-app-tokens": {
+      "tags": []
     }
   }
 }

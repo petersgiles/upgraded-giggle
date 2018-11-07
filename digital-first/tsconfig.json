@@ -51,6 +51,9 @@
       ],
       "@digital-first/df-auth": [
         "libs/df-auth/src/index.ts"
+      ],
+      "@digital-first/df-app-tokens": [
+        "libs/df-app-tokens/src/index.ts"
       ]
     }
   },

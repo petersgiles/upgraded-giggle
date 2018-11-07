@@ -1135,6 +1135,34 @@
           }
         }
       }
+    },
+    "df-app-tokens": {
+      "root": "libs/df-app-tokens",
+      "sourceRoot": "libs/df-app-tokens/src",
+      "projectType": "library",
+      "prefix": "digital-first",
+      "architect": {
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/df-app-tokens/src/test.ts",
+            "tsConfig": "libs/df-app-tokens/tsconfig.spec.json",
+            "karmaConfig": "libs/df-app-tokens/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-app-tokens/tsconfig.lib.json",
+              "libs/df-app-tokens/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "cli": {
