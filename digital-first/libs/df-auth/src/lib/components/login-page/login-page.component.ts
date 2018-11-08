@@ -1,7 +1,6 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { WINDOW } from '@digital-first/df-utils';
-import { FEDERATEDLOGINAPIPATH } from '@digital-first/df-app-tokens';
-
+import { Component, OnInit, Inject } from '@angular/core'
+import { WINDOW } from '@digital-first/df-utils'
+import { FEDERATEDLOGINAPIPATH } from '@digital-first/df-app-tokens'
 
 @Component({
   selector: 'digital-first-login-page',
@@ -9,8 +8,8 @@ import { FEDERATEDLOGINAPIPATH } from '@digital-first/df-app-tokens';
   styleUrls: ['./login-page.component.scss']
 })
 export class LoginPageComponent implements OnInit {
-  referrer: any;
-  adfsurl: string;
+  referrer: any
+  adfsurl: string
 
   constructor(@Inject(WINDOW) private window: Window, @Inject(FEDERATEDLOGINAPIPATH) private federatedLoginApiPath: any) {
     this.referrer = `${window.location.origin}`

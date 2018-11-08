@@ -1,5 +1,5 @@
-import { Action } from '@ngrx/store';
-import { AuthResult, Authenticate, User } from './models';
+import { Action } from '@ngrx/store'
+import { AuthResult, Authenticate, User } from './models'
 
 export enum AuthActionTypes {
   Login = '[Auth] Login',
@@ -17,7 +17,6 @@ export enum AuthActionTypes {
   StartAutoTokenRefreshSuccess = '[Auth] Start Auto Token Refresh Success',
   StartAutoTokenRefreshFailure = '[Auth] Start Token Refresh Failure'
 }
-
 
 export class Login implements Action {
   readonly type = AuthActionTypes.Login
@@ -105,7 +104,6 @@ export type AuthAction =
   | StartAutoTokenRefreshSuccess
   | StartAutoTokenRefreshFailure
 
-
 export const fromAuthActions = {
   Login,
   LoginSuccess,
@@ -119,4 +117,4 @@ export const fromAuthActions = {
   StartAutoTokenRefresh,
   StartAutoTokenRefreshSuccess,
   StartAutoTokenRefreshFailure
-};
+}

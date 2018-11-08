@@ -59,7 +59,7 @@ import { EffectsModule } from '@ngrx/effects'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 
 import { CustomSerializer, reducers, metaReducers } from './reducers'
-import { RouterStateSerializer } from '@ngrx/router-store'
+import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store'
 
 import { StartAppInitialiser } from './reducers/app.actions'
 
@@ -164,6 +164,13 @@ export let appDataServiceProvider = {
     AppRoutingModule,
 
     StoreModule.forRoot(reducers, { metaReducers }),
+    StoreRouterConnectingModule.forRoot({
+      /*
+        They stateKey defines the name of the state used by the router-store reducer.
+        This matches the key defined in the map of reducers
+      */
+      stateKey: 'router',
+    }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
 
     EffectsModule.forRoot([AppEffects]),

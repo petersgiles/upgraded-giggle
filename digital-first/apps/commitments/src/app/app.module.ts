@@ -212,7 +212,6 @@ export let appDataServiceProvider = {
     ]),
   ],
   providers: [
-    { provide: LoggerService, useClass: ConsoleLoggerService },
     WINDOW_PROVIDERS,
     {
       provide: APP_INITIALIZER,
