@@ -4,9 +4,9 @@ import { DataPersistence } from '@nrwl/nx'
 
 import { AuthPartialState } from './auth.reducer'
 import {
-  AuthActionTypes, LoginRedirect, AuthTokenSuccess, LoginSuccess, LoginFailure
+  AuthActionTypes, LoginRedirect, AuthTokenSuccess, LoginSuccess, LoginFailure, AuthTokenRefresh, AuthTokenRefreshSuccess, AuthTokenRefreshFailure, StartAutoTokenRefresh
 } from './auth.actions'
-import { tap, filter, mergeMap, map, switchMap, catchError } from 'rxjs/operators'
+import { tap, filter, map, switchMap, catchError} from 'rxjs/operators'
 import { Router } from '@angular/router'
 import { Action } from '@ngrx/store'
 import { of } from 'rxjs'
@@ -14,9 +14,22 @@ import { AuthService } from '../services/auth.service'
 import { LOCALSTORAGE } from '@digital-first/df-utils'
 import { LoggerService } from '@digital-first/df-logging'
 import { AUTH_KEY } from '../constants'
+import { FEDERATEDLOGINAPIPATH } from '@digital-first/df-app-tokens'
 
 @Injectable()
 export class AuthEffects {
+
+  @Effect()
+  authSuccess$ = this.actions$.pipe(ofType<AuthTokenSuccess>(AuthActionTypes.AuthTokenSuccess))
+    .pipe(
+      map((action) => action.payload),
+      switchMap((token) => this.authService.claims(token.auth.idToken)
+        .pipe(
+          tap(_ => this.localStorage.setItem(AUTH_KEY, JSON.stringify({ status: token }))),
+          map(user => new LoginSuccess({ user })),
+          catchError(error => of(new LoginFailure(error)))
+        ))
+    )
 
   @Effect({ dispatch: false })
   loginRedirect$ = this.actions$.pipe(
@@ -49,20 +62,35 @@ export class AuthEffects {
       ))
 
   @Effect()
-  authSuccess$ = this.actions$.pipe(ofType<AuthTokenSuccess>(AuthActionTypes.AuthTokenSuccess))
+  loginReissue$ = this.actions$
     .pipe(
-      map((action) => action.payload),
-      switchMap((token) =>
-        this.authService.claims(token.auth.idToken)
-          .pipe(
-            tap(_ => this.localStorage.setItem(AUTH_KEY, JSON.stringify({ status: token }))),
-            map(user => new LoginSuccess({ user })),
-            catchError(error => of(new LoginFailure(error)))
-          ))
+      ofType<AuthTokenRefresh>(AuthActionTypes.AuthTokenRefresh),
+      switchMap(_ => this.authService.reissue()
+        .pipe(
+          map(authResult => new AuthTokenRefreshSuccess(authResult)),
+          catchError(error => of(new AuthTokenRefreshFailure(error)))
+        )
+      ))
+
+  // TODO: this should dispath succes and failure
+  @Effect({ dispatch: false })
+  startAutoTokenRefresh$ = this.actions$
+    .pipe(
+      ofType<StartAutoTokenRefresh>(AuthActionTypes.StartAutoTokenRefresh),
+      map(_ => this.authService.scheduleRenewal())
+    )
+
+  @Effect()
+  tokenExpired$ = this.actions$
+    .pipe(
+      ofType<AuthTokenRefreshFailure>(AuthActionTypes.AuthTokenRefreshFailure),
+      map(_ => new LoginRedirect('')
+      )
     )
 
   constructor(
     @Inject(LOCALSTORAGE) private localStorage: any,
+    @Inject(FEDERATEDLOGINAPIPATH) private federatedLoginApiPath: any,
     private actions$: Actions,
     private router: Router,
     private authService: AuthService,

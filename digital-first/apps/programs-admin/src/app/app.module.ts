@@ -8,7 +8,7 @@ import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { NgxWigModule } from 'ngx-wig'
 
-import { DfAuthModule } from '@digital-first/df-auth'
+import { DfAuthModule, AUTH_KEY, StartAutoTokenRefresh } from '@digital-first/df-auth'
 import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
 import { DfDiscussionModule, DiscussionComponent } from '@digital-first/df-discussion'
@@ -54,7 +54,7 @@ import { SharepointDataService } from './services/sharepoint/sharepoint-data.ser
 import { ApolloDataService } from './services/apollo/apollo-data.service'
 import { AppDataService } from './services/app-data.service'
 import { environment } from '../environments/environment'
-import { StoreModule, Store } from '@ngrx/store'
+import { StoreModule, Store, select } from '@ngrx/store'
 import { EffectsModule } from '@ngrx/effects'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 
@@ -103,16 +103,14 @@ export function initApplication(store: Store<fromRoot.State>): Function {
     // tslint:disable-next-line:no-console
     console.log('app initialise started...', store)
 
-    // store.pipe(select(fromRoot.getLoggedIn)).subscribe(isLoggedIn => {
-    //   if (isLoggedIn) {
+    const auth: any = JSON.parse(window.localStorage.getItem(AUTH_KEY))
 
-    //     // tslint:disable-next-line:no-console
-    //     console.log('user is logged in, start auto token refresh')
+      if (auth) {
+        // tslint:disable-next-line:no-console
+        console.log('user is logged in, start auto token refresh')
 
-    //     store.dispatch(new StartAutoTokenRefresh())
-    //   }
-    // })
-
+        store.dispatch(new StartAutoTokenRefresh())
+      }
     resolve(true)
   })
 }
