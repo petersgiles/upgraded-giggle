@@ -5,6 +5,8 @@ db.connect('./diskdb/commitments', [
   'commitment-comments',
   'commitment-contacts',
   'commitment-commitment-contacts',
+  'commitment-map-locations',
+  'commitment-commitment-map-locations',
   'commitment-portfolios',
   'commitment-whoAnnouncedTypes',
   'commitment-announcementTypes',
@@ -28,6 +30,14 @@ export const resolvers = {
       let found = commitmentcontacts.map((f: any) => db['commitment-contacts'].findOne({ _id: f.contact })).map((c: any) => ({...c, id: c._id}))
       console.log('commitmentContacts => ', commitmentcontacts, found)
       return found
+    },
+    commitmentMapLocation: (obj: any, args: any, context: any, info: any) => {
+     // (commitment: ID!): [MapLocation]
+     let commitmentMapLocations = db['commitment-commitment-map-locations'].find({ commitment: args.commitment })
+     let found = commitmentMapLocations.map((f: any) => db['commitment-map-locations'].findOne({ _id: f.contact })).map((c: any) => ({...c, id: c._id}))
+     console.log('commitmentContacts => ', commitmentMapLocations, found)
+     return found
+
     },
     parties: () => db['commitment-parties'].find(),
     portfolios: () => db['commitment-portfolios'].find(),
@@ -179,6 +189,19 @@ export const resolvers = {
         )
         .map((c: any) => ({...c, id: c._id}))
       console.log('commitment => ', commitment, 'commitmentContacts => ', commitmentcontacts, 'found => ', found)
+      return found
+    },
+    mapLocations(commitment: any) {
+      let commitmentMapLocations = db['commitment-commitment-map-locations'].find({ commitment: commitment.id })
+      let found = commitmentMapLocations
+        .map(
+          (f: any) =>( {
+            ...db['commitment-map-locations'].findOne({ _id: f.contact }),
+            ccid: f._id
+          })
+        )
+        .map((c: any) => ({...c, id: c._id}))
+      console.log('commitment => ', commitment, 'commitmentMapLocations => ', commitmentMapLocations, 'found => ', found)
       return found
     },
     tags(commitment: any) {

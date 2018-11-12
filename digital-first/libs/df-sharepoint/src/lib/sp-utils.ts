@@ -30,10 +30,35 @@ export function fromLookup(field) {
   }
 }
 
+export function fromUser(field) {
+
+  if (field) {
+
+    const lookup = {
+      id: field.get_lookupId(),
+      title: field.get_lookupValue(),
+      username: field.get_lookupId(),
+      name: field.get_lookupValue(),
+      email: field.get_email(),
+      phone: null,
+    }
+    return lookup
+  } else {
+    return {
+      id: null,
+      title: null,
+      username: null,
+      name: null,
+      email: null,
+      phone: null,
+    }
+  }
+}
+
 export function idFromLookup(field) {
   if (field) {
     return field.get_lookupId()
   } else {
-    return  null
+    return null
   }
 }

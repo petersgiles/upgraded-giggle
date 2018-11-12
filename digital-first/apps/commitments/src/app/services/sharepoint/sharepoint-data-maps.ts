@@ -1,4 +1,4 @@
-import { fromLookup, idFromLookup } from '@digital-first/df-sharepoint'
+import { fromLookup, idFromLookup, fromUser } from '@digital-first/df-sharepoint'
 
 import { AnnouncementType } from '../../reducers/announcement-type/announcement-type.model'
 import { Party } from '../../reducers/party/party.model'
@@ -40,14 +40,19 @@ export const mapCommitmentContact = (commitmentContact): any => ({
 })
 export const mapCommitmentContacts = (commitmentContacts): any[] => commitmentContacts.map(mapCommitmentContact)
 
-export const mapComment = (comment): any => ({
-  id: comment.ID,
-  parent: idFromLookup(comment.Parent),
-  commitment: fromLookup(comment.Commitment),
-  text: comment.Text,
-  author: comment.Created_x0020_By,
-  created: comment.Created_x0020_Date
-})
+export const mapComment = (comment): any => {
+
+  const spAuthor = fromUser(comment.Author)
+
+  return {
+    id: comment.ID,
+    parent: idFromLookup(comment.Parent),
+    commitment: fromLookup(comment.Commitment),
+    text: comment.Text,
+    author: spAuthor,
+    created: comment.Created_x0020_Date
+  }
+}
 
 export const mapComments = (comments): Comment[] => comments.map(mapComment)
 

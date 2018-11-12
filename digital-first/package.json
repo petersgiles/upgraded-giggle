@@ -34,7 +34,7 @@
     "sharepoint:copyListDefinitions": "run-p sharepoint:copyListDefinitions:*",
     "sharepoint:copyListData:commitments": "cpx ../sharepoint/commitments/Data/*.* ../sharepoint/deploy/ListData/commitments",
     "sharepoint:copyListData": "run-p sharepoint:copyListData:*",
-    "sp:deploy:commitments": "run-s sharepoint:build:commitments sharepoint:compile:commitments sharepoint:copyListDefinitions:commitment sharepoint:copyListData:commitments deploy:js",
+    "sp:deploy:commitments": "run-s sharepoint:build:commitments sharepoint:compile:commitments sharepoint:copyListDefinitions:commitments sharepoint:copyListData:commitments deploy:js",
     "sp:deploy": "run-s sharepoint:* deploy:js",
     "sp:all": "run-s sharepoint:* deploy:all"
   },
