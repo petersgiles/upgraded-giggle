@@ -48,12 +48,14 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     discussionPanelExpanded?: boolean
     contactPanelExpanded?: boolean
     formPanelExpanded?: boolean
+    mapPanelExpanded?: boolean
   } = {
       commitmentPanelExpanded: false,
       relatedPanelExpanded: false,
       discussionPanelExpanded: false,
       contactPanelExpanded: false,
       formPanelExpanded: false,
+      mapPanelExpanded: false
     }
 
   commitmentEditDiscussionTimeFormat: Observable<'dateFormat' | 'timeAgo' | 'calendar'>
@@ -103,6 +105,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
             discussionPanelExpanded: false,
             contactPanelExpanded: false,
             formPanelExpanded: false,
+            mapPanelExpanded: false
           })
       }
     )

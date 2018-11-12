@@ -1,0 +1,17 @@
+<div class="form-content">
+  <div class="form-layout__row">
+    <input placeholder="search for location" 
+    autocorrect="off" autocapitalize="off" 
+    spellcheck="off" type="text" class="mdc-text-field__input"
+      #search [formControl]="searchControl">
+  </div>
+  <agm-map 
+  [latitude]="latitude" 
+  [longitude]="longitude" 
+  [zoom]="zoom"
+  [disableDefaultUI]="false" 
+  [zoomControl]="false"
+  >
+  <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+  </agm-map>
+</div>

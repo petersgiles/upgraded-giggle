@@ -7,6 +7,7 @@ import { Apollo, APOLLO_OPTIONS, ApolloModule } from 'apollo-angular'
 import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { NgxWigModule } from 'ngx-wig'
+import { AgmCoreModule } from '@agm/core'
 
 import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
@@ -48,7 +49,7 @@ import { SettingsService } from './services/settings.service'
 import { SharepointDataService } from './services/sharepoint/sharepoint-data.service'
 import { ApolloDataService } from './services/apollo/apollo-data.service'
 import { AppDataService } from './services/app-data.service'
-import { LoggerService, ConsoleLoggerService } from '@digital-first/df-logging'
+import { DfLoggingModule } from '@digital-first/df-logging'
 import { environment } from '../environments/environment'
 import { StoreModule, Store } from '@ngrx/store'
 import { EffectsModule } from '@ngrx/effects'
@@ -83,6 +84,7 @@ import { CommitmentCreateComponent } from './containers/commitment-create/commit
 import { WhoAnnouncedTypeEffects } from './reducers/who-announced-type/who-announced-type.effects'
 import { ContactCreateComponent } from './containers/contact-create/contact-create.component'
 import { ContactCreateFormComponent } from './components/contact-create-form/contact-create-form.component'
+import { MapComponent } from './components/map/map.component'
 
 const COMPONENTS = [
   AppComponent,
@@ -94,7 +96,8 @@ const COMPONENTS = [
   CommitmentListComponent,
   CommitmentCreateComponent,
   ContactCreateComponent,
-  ContactCreateFormComponent
+  ContactCreateFormComponent,
+  MapComponent
 ]
 
 const ENTRYCOMPONENTS = [
@@ -170,10 +173,15 @@ export let appDataServiceProvider = {
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDbiAzbni3d2FTFOJAHP185j7lZWm95kgc',
+      libraries: ['places']
+    }),
     ApolloModule,
     HttpLinkModule,
     NgxWigModule,
     NxModule.forRoot(),
+    DfLoggingModule,
     DfComponentsModule,
     DfMomentModule,
     DfLayoutsModule,
