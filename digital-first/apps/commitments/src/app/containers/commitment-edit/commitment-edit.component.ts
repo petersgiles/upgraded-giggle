@@ -39,6 +39,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   parties$: Observable<Party[]>
   portfolios$: Observable<Portfolio[]>
   locations$: Observable<Location[]>
+  selectedLocations: Location[] = []
   activeComment: any
   timeFormat: 'timeAgo' | 'dateFormat' | 'calendar'
 
@@ -286,6 +287,19 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
         })
       }
       )
+  }
+
+  handleRemoveElectorateFromCommitment($event) {
+    // tslint:disable-next-line:no-console
+    console.log($event)
+    this.selectedLocations = this.selectedLocations.filter(l => l.id !== $event)
+  }
+
+  handleAddElectorateToCommitment($event) {
+    // tslint:disable-next-line:no-console
+    console.log($event)
+
+    this.selectedLocations.push($event)
   }
 
 }

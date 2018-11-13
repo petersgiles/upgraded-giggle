@@ -82,9 +82,7 @@ export class MapComponent implements OnInit {
     // load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
 
-      const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-        types: ['address']
-      })
+      const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {})
 
       autocomplete.addListener('place_changed', () => {
         this.ngZone.run(() => {
@@ -97,6 +95,9 @@ export class MapComponent implements OnInit {
           if (place.geometry === undefined || place.geometry === null) {
             return
           }
+
+          // tslint:disable-next-line:no-console
+          console.log(place)
 
           this.mapPoint = {
             place_id: place.place_id,

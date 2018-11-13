@@ -18,7 +18,27 @@ export enum MapPointActionTypes {
   SetCurrentMapPoint = '[MapPoint] Set Current MapPoint',
   GetMapPoints = '[MapPoint] Get MapPoints',
   GetAllMapPoints = '[MapPoint] Get All MapPoints',
+  GetMapPointsByCommitment = '[MapPoint] Get Map Points By Commitment',
+  StoreMapPoint = '[MapPoint] Store MapPoint',
+  RemoveMapPoint = '[MapPoint] Remove MapPoint',
   MapPointsActionFailure = '[MapPoint] MapPoints Action Failure',
+}
+
+export class GetMapPointsByCommitment implements Action {
+  readonly type = MapPointActionTypes.GetMapPointsByCommitment
+  constructor(public payload: { commitment: number }) {}
+}
+
+export class StoreMapPoint implements Action {
+  readonly type = MapPointActionTypes.StoreMapPoint
+
+  constructor(public payload: MapPoint) {}
+}
+
+export class RemoveMapPoint implements Action {
+  readonly type = MapPointActionTypes.RemoveMapPoint
+
+  constructor(public payload: {id: number}) {}
 }
 
 export class LoadMapPoints implements Action {
@@ -114,4 +134,7 @@ export type MapPointActions =
   | SetCurrentMapPoint
   | GetAllMapPoints
   | GetMapPoints
+  | GetMapPointsByCommitment
+  | StoreMapPoint
+  | RemoveMapPoint
   | MapPointsActionFailure

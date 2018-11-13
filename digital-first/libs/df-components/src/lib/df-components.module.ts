@@ -20,6 +20,7 @@ import { MetadataRefinerComponent } from './metadata-refiner/metadata-refiner.co
 import { DataTableComponent } from './data-table/data-table.component'
 import { BusyComponent } from './busy.component'
 import { MapComponent } from './map/map.component'
+import { ElectorateSelectorComponent } from './electorate-selector/electorate-selector.component'
 
 const COMPONENTS = [
   TagsComponent,
@@ -36,7 +37,8 @@ const COMPONENTS = [
   MetadataRefinerComponent,
   DataTableComponent,
   BusyComponent,
-  MapComponent
+  MapComponent,
+  ElectorateSelectorComponent
 ]
 
 @NgModule({
