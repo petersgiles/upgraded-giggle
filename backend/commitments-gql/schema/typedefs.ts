@@ -90,15 +90,16 @@ type Tag {
     contact: Contact
   }
 
-  type MapLocation {
-    address: string
-    latitude: number
-    longitude: number
+   type MapPoint {
+    place_id: String
+    address: String
+    latitude: Int
+    longitude: Int
   }
 
-    type CommitmentMapLocation {
+  type CommitmentMapPoint {
     commitment: Commitment,
-    mapLocation: MapLocation
+    mapPoint: MapPoint
   }
 
   # This "Commitment" type can be used in other type declarations.
@@ -115,7 +116,7 @@ type Tag {
     date: String,
     announcedby: String,
     portfolio: Portfolio,
-    mapLocations: [MapLocation],
+    mapPoints: [CommitmentMapPoint],
     contacts: [Contact]
     tags: [Tag]
     comments: [Comment]
@@ -126,10 +127,10 @@ type Tag {
     commitments: [Commitment],
     commitment(id: ID!): Commitment,
     commitmentContacts(commitment: ID!): [Contact],
-    commitmentMapLocation(commitment: ID!): [MapLocation],
+    commitmentMapPoints(commitment: ID!): [MapPoint],
     parties: [PoliticalParty],
     portfolios: [Portfolio],
-    mapLocations: [MapLocation],
+    mapPoints: [MapPoint],
     announcementTypes: [AnnouncementType],
     commitmentTypes: [CommitmentType]
     whoAnnouncedTypes: [WhoAnnouncedType]

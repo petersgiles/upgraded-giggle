@@ -8,6 +8,7 @@ import { CommitmentType } from '../../reducers/commitment-type/commitment-type.m
 import { Contact } from '../../reducers/contact/contact.model'
 import { Location } from '../../reducers/location/location.model'
 import { WhoAnnouncedType } from '../../reducers/who-announced-type/who-announced-type.model'
+import { MapPoint } from '../../reducers/map-point/map-point.model'
 
 export const byIdQuery = (criteria: { id }) =>
   `<View>
@@ -40,6 +41,13 @@ export const mapCommitmentContact = (commitmentContact): any => ({
 })
 export const mapCommitmentContacts = (commitmentContacts): any[] => commitmentContacts.map(mapCommitmentContact)
 
+export const mapCommitmentMapPoint = (commitmentMapPoint): any => ({
+  id: commitmentMapPoint.ID,
+  commitment: idFromLookup(commitmentMapPoint.Commitment),
+  mapPoint: idFromLookup(commitmentMapPoint.MapPoint)
+})
+export const mapCommitmentMapPoints = (commitmentMapPoints): any[] => commitmentMapPoints.map(mapCommitmentMapPoint)
+
 export const mapComment = (comment): any => {
 
   const spAuthor = fromUser(comment.Author)
@@ -63,6 +71,16 @@ export const mapLocation = (location): Location => ({
 
 export const mapLocations = (locations): Location[] =>
   locations.map(mapLocation)
+
+export const mapMapPoint = (location): MapPoint => ({
+  place_id: location.ID,
+  address: location.Title,
+  latitude: location.Latitude,
+  longitude: location.Longitude
+})
+
+export const mapMapPoints = (mapPoints): MapPoint[] =>
+  mapPoints.map(mapMapPoint)
 
 export const mapContact = (contact): Contact => ({
   id: contact.ID,

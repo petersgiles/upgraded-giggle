@@ -1,9 +1,11 @@
 <div class="form-content">
-  <div class="form-layout__row">
+  <div class="form-layout__row--no-wrap form-layout__row-with-button">
     <input placeholder="search for location" 
     autocorrect="off" autocapitalize="off" 
     spellcheck="off" type="text" class="mdc-text-field__input"
       #search [formControl]="searchControl">
+      <digital-first-add-item-button icon="person" title="Add&nbsp;Map&nbsp;Point"
+      (onAddItem)="handleAddItem($event)"></digital-first-add-item-button>
   </div>
   <agm-map 
   [latitude]="latitude" 
@@ -14,4 +16,7 @@
   >
   <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
   </agm-map>
+  
+  <digital-first-data-table [tableData]="_mapPointTableData" (onDeleteItem)="handleMapPointTableDeleteClicked($event)"></digital-first-data-table>
+   
 </div>

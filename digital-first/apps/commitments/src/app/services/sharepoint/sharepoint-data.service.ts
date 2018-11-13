@@ -19,7 +19,9 @@ import {
   mapCommitmentTypes,
   mapWhoAnnouncedTypes,
   mapCommitmentContacts,
-  mapCommitmentContact
+  mapCommitmentContact,
+  mapMapPoints,
+  mapCommitmentMapPoints
 } from './sharepoint-data-maps'
 
 import {
@@ -33,10 +35,12 @@ import {
   ContactsResult,
   LocationsResult,
   CommitmentTypesResult,
-  WhoAnnouncedTypesResult
+  WhoAnnouncedTypesResult,
+  MapPointsResult
 } from '../../models'
 import { Commitment } from '../../reducers/commitment'
 import { arrayToHash } from '@digital-first/df-utils'
+import { MapPoint } from '../../reducers/map-point/map-point.model'
 
 @Injectable({
   providedIn: 'root'
@@ -118,6 +122,19 @@ export class SharepointDataService implements AppDataService {
         concatMap((result: any) =>
           of({
             data: { whoAnnouncedTypes: mapWhoAnnouncedTypes(result) },
+            loading: false,
+            error: null
+          }))
+      )
+
+  }
+
+  filterMapPoints(filter?: any): Observable<DataResult<MapPointsResult>> {
+    return this.sharepoint.getItems({ listName: 'MapPoint' })
+      .pipe(
+        concatMap((result: any) =>
+          of({
+            data: { mapPoints: mapMapPoints(result) },
             loading: false,
             error: null
           }))
@@ -296,6 +313,62 @@ export class SharepointDataService implements AppDataService {
       concatMap(result =>
         this.sharepoint.removeItem({
           listName: 'CommitmentContact', id: commitmentcontact.id
+        }).pipe(
+          concatMap(_ => of({ commitment: { id: result.commitment } }))
+        )
+      )
+    )
+  }
+
+  storeMapPoint(mapPoint: MapPoint): Observable<any> {
+
+    const spComment = {
+      Title: mapPoint.address,
+      Latitude: mapPoint.latitude,
+      Longitude: mapPoint.longitude,
+      PlaceId: mapPoint.place_id,
+
+    }
+
+    return this.sharepoint.storeItem({
+      listName: 'MapPoint',
+      data: spComment,
+    })
+  }
+
+  deleteMapPoint(mapPoint: { id: any }) {
+    return this.sharepoint.removeItem({
+      listName: 'MapPoint',
+      id: mapPoint.id,
+    })
+  }
+
+  addMapPointToCommitment(contact: { commitment: any, mapPoint: any }) {
+    const spMapPoint = {
+      Title: `${contact.commitment} ${contact.mapPoint}`,
+      Commitment: contact.commitment,
+      MapPoint: contact.mapPoint
+    }
+
+    return this.sharepoint.storeItem({
+      listName: 'CommitmentMapPoint',
+      data: spMapPoint,
+    }).pipe(
+      concatMap(_ =>
+        of({ commitment: { id: contact.commitment } }))
+    )
+  }
+
+  removeMapPointFromCommitment(commitmentMapPoint: { id: any }) {
+    return  this.sharepoint.getItems({
+      listName: 'CommitmentMapPoint',
+      viewXml: byIdQuery(commitmentMapPoint)
+    }).pipe(
+      map(mapCommitmentMapPoints),
+      map(result => result[0]),
+      concatMap(result =>
+        this.sharepoint.removeItem({
+          listName: 'CommitmentMapPoint', id: commitmentMapPoint.id
         }).pipe(
           concatMap(_ => of({ commitment: { id: result.commitment } }))
         )

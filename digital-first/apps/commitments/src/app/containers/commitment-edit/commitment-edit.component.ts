@@ -197,6 +197,11 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   }
 
+  handleAddMapPoint($event) {
+    // tslint:disable-next-line:no-console
+    console.log($event)
+  }
+
   changeDateFormat(format) {
     this.service.changeCommitmentEditDiscussionTimeFormat(format)
   }

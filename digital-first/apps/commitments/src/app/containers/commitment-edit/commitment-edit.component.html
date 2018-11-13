@@ -7,20 +7,20 @@
         <digital-first-archive-button></digital-first-archive-button>
       <digital-first-share-button></digital-first-share-button> 
     -->
-      <digital-first-add-notification-button></digital-first-add-notification-button>
+      <digital-first-add-notification-button *ngIf="panels.commitmentPanelExpanded"></digital-first-add-notification-button>
       <!-- 
         <digital-first-add-item-button icon="label" title="Add Tag"></digital-first-add-item-button>
       <digital-first-add-item-button title="Add Related Artifact"></digital-first-add-item-button> 
     -->
-      <!-- <digital-first-expand-collapse-button title="Toggle Expand Collapse All" [expanded]='panels.commitmentPanelExpanded'
-        (onChangeExpanded)="handleExpandAll($event)"></digital-first-expand-collapse-button> -->
+      <digital-first-expand-collapse-button title="Toggle Expand Collapse All" [expanded]='panels.commitmentPanelExpanded'
+        (onChangeExpanded)="handleChangeExpanded($event, 'commitmentPanelExpanded')"></digital-first-expand-collapse-button> 
     </digital-first-page-title>
 
     <!-- <div class="commitment-layout__row">
       <digital-first-tags></digital-first-tags>
     </div> -->
 
-    <div class="commitment-layout__row">
+    <div class="commitment-layout__row" *ngIf="(commitment) && panels.commitmentPanelExpanded">
       <digital-first-commitment-card [commitment]="commitment" [config]="{disabled:true}"></digital-first-commitment-card>
     </div>
 
@@ -43,7 +43,7 @@
       <digital-first-expand-collapse-button [expanded]='panels.mapPanelExpanded' (onChangeExpanded)="handleChangeExpanded($event, 'mapPanelExpanded')"></digital-first-expand-collapse-button>
     </digital-first-page-title>
 
-    <digital-first-map *ngIf="commitment && panels.mapPanelExpanded"></digital-first-map>
+    <digital-first-map *ngIf="commitment && panels.mapPanelExpanded" [mapPoints]="[]" (onAddMapPoint)="handleAddMapPoint($event)"></digital-first-map>
 
     <digital-first-page-title *ngIf="commitment" title="Contacts">
       <digital-first-add-item-button icon="person_add" title="New&nbsp;Contact" *ngIf="panels.contactPanelExpanded"

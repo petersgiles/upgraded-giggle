@@ -84,7 +84,6 @@ import { CommitmentCreateComponent } from './containers/commitment-create/commit
 import { WhoAnnouncedTypeEffects } from './reducers/who-announced-type/who-announced-type.effects'
 import { ContactCreateComponent } from './containers/contact-create/contact-create.component'
 import { ContactCreateFormComponent } from './components/contact-create-form/contact-create-form.component'
-import { MapComponent } from './components/map/map.component'
 
 const COMPONENTS = [
   AppComponent,
@@ -96,8 +95,7 @@ const COMPONENTS = [
   CommitmentListComponent,
   CommitmentCreateComponent,
   ContactCreateComponent,
-  ContactCreateFormComponent,
-  MapComponent
+  ContactCreateFormComponent
 ]
 
 const ENTRYCOMPONENTS = [
