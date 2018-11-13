@@ -7,12 +7,6 @@ export const GET_COMMITMENT = gql`
       title
       description
       cost
-      location {
-        id
-        title
-        state
-        area
-      }
       date
       announcedby
       party {
@@ -34,12 +28,6 @@ export const GET_COMMITMENT = gql`
         colour
       }
       commitmentType {
-        id
-        title
-        icon
-        colour
-      }
-      portfolio {
         id
         title
         icon
