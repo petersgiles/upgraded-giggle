@@ -6,6 +6,7 @@ import { CommitmentType } from '../reducers/commitment-type/commitment-type.mode
 import { Contact } from '../reducers/contact/contact.model'
 import { Location } from '../reducers/location/location.model'
 import { WhoAnnouncedType } from '../reducers/who-announced-type/who-announced-type.model'
+import { MapPoint } from '../reducers/map-point/map-point.model'
 
 export interface ServiceData<T> {
   data: { [key: string]: T }
@@ -48,9 +49,16 @@ export interface ContactsResult {
 export interface LocationsResult {
   locations: Location[]
 }
+export interface ElectoratesResult {
+  electorates: Location[]
+}
+
 export interface PartysResult {
   parties: Party[]
 }
 export interface PortfoliosResult {
   portfolios: Portfolio[]
+}
+export interface MapPointsResult {
+  mapPoints: MapPoint[]
 }

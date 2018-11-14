@@ -17,7 +17,16 @@ import { Location } from '../reducers/location/location.model'
 import { CommitmentType } from '../reducers/commitment-type/commitment-type.model'
 
 import { GetAllLocations } from '../reducers/location/location.actions'
-import { GetCommitments, GetAllCommitments, SetCurrentCommitment, StoreCommitment, AddContactToCommitment, RemoveContactFromCommitment } from '../reducers/commitment/commitment.actions'
+import {
+  GetCommitments,
+  GetAllCommitments,
+  SetCurrentCommitment,
+  StoreCommitment,
+  AddContactToCommitment,
+  RemoveContactFromCommitment,
+  AddElectorateToCommitment,
+  RemoveElectorateFromCommitment
+} from '../reducers/commitment/commitment.actions'
 import { GetAllAnnouncementTypes } from '../reducers/announcement-type/announcement-type.actions'
 import { GetAllContacts, StoreContact } from '../reducers/contact/contact.actions'
 import { GetAllPartys } from '../reducers/party/party.actions'
@@ -121,12 +130,19 @@ export class CommitmentDataService {
     this.store.dispatch(new GetCommentsByCommitment({ commitment: id }))
   }
 
-  public  addContactToCommitment(commitment: string | number, contact: string | number): any {
+  public addContactToCommitment(commitment: string | number, contact: string | number): any {
     this.store.dispatch(new AddContactToCommitment({ commitment, contact }))
   }
 
   public removeContactFromCommitment(commitmentContact: any): any {
     this.store.dispatch(new RemoveContactFromCommitment({ id: commitmentContact.id }))
+  }
+
+  public addElectorateToCommitment(commitment: string | number, electorate: string | number): any {
+    this.store.dispatch(new AddElectorateToCommitment({ commitment, electorate }))
+  }
+  public removeElectorateFromCommitment(commitment: string | number, electorate: string | number): any {
+    this.store.dispatch(new RemoveElectorateFromCommitment({ commitment, electorate }))
   }
 
   get Commitment(): Observable<Commitment> {
@@ -170,7 +186,7 @@ export class CommitmentDataService {
     return this.store.pipe(select(fromRoot.getCommitmentTypeError))
   }
 
-// Commitment Edit
+  // Commitment Edit
 
   get CommitmentEditExpandedPanels(): Observable<(string | number)[]> {
     return this.store.pipe(select(fromRoot.getCommitmentEditExpandedPanels))

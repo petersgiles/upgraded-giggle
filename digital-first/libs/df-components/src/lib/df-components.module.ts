@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { CommonModule } from '@angular/common'
+import { AgmCoreModule } from '@agm/core'
+import { NgSelectModule } from '@ng-select/ng-select'
 import { DfPipesModule } from '@digital-first/df-pipes'
+import { DfThemeModule } from '@digital-first/df-theme'
 
 import { ContactCardComponent } from './contact-card/contact-card.component'
 import { PageTitleComponent } from './page-title.component'
@@ -13,10 +17,11 @@ import { ArchiveButtonComponent } from './archive-button.component'
 import { RelatedArtifactsComponent } from './related-artifacts/related-artifacts.component'
 import { TagsComponent } from './tags/tags.component'
 import { ViewLayoutButtonComponent } from './view-layout-button.component'
-import { DfThemeModule } from '@digital-first/df-theme'
 import { MetadataRefinerComponent } from './metadata-refiner/metadata-refiner.component'
 import { DataTableComponent } from './data-table/data-table.component'
 import { BusyComponent } from './busy.component'
+import { MapComponent } from './map/map.component'
+import { ElectorateSelectorComponent } from './electorate-selector/electorate-selector.component'
 
 const COMPONENTS = [
   TagsComponent,
@@ -32,12 +37,18 @@ const COMPONENTS = [
   RelatedArtifactsComponent,
   MetadataRefinerComponent,
   DataTableComponent,
-  BusyComponent
+  BusyComponent,
+  MapComponent,
+  ElectorateSelectorComponent
 ]
 
 @NgModule({
   imports: [
     CommonModule,
+    NgSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AgmCoreModule,
     DfPipesModule,
     DfThemeModule
   ],

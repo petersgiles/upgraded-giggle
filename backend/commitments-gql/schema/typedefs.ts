@@ -90,35 +90,46 @@ type Tag {
     contact: Contact
   }
 
-  type MapLocation {
-    address: string
-    latitude: number
-    longitude: number
+   type MapPoint {
+    place_id: String
+    address: String
+    latitude: Int
+    longitude: Int
   }
 
-    type CommitmentMapLocation {
+  type CommitmentMapPoint {
     commitment: Commitment,
-    mapLocation: MapLocation
+    mapPoint: MapPoint
+  }
+
+  type CommitmentElectorate {
+    commitment: Commitment,
+    electorate: Electorate
+  }
+
+  type CommitmentPortfolio {
+    commitment: Commitment,
+    portfolio: Portfolio
   }
 
   # This "Commitment" type can be used in other type declarations.
   type Commitment {
     id: ID,
     title: String,
-    party: PoliticalParty,
     description: String,
     cost: String,
-    location: Electorate,
-    announcementType: AnnouncementType,
-    whoAnnouncedType: WhoAnnouncedType,
-    commitmentType: CommitmentType
     date: String,
     announcedby: String,
-    portfolio: Portfolio,
-    mapLocations: [MapLocation],
-    contacts: [Contact]
+    party: PoliticalParty,
+    whoAnnouncedType: WhoAnnouncedType,
+    announcementType: AnnouncementType,
+    commitmentType: CommitmentType,
+    portfolios: [Portfolio],
+    electorates: [Electorate],
+    comments: [Comment],
+    contacts: [Contact],
+    mapPoints: [MapPoint],
     tags: [Tag]
-    comments: [Comment]
   }
 
   # The "Query" type is the root of all GraphQL queries.
@@ -126,16 +137,18 @@ type Tag {
     commitments: [Commitment],
     commitment(id: ID!): Commitment,
     commitmentContacts(commitment: ID!): [Contact],
-    commitmentMapLocation(commitment: ID!): [MapLocation],
+    commitmentMapPoints(commitment: ID!): [MapPoint],
+    commitmentPortfolios(commitment: ID!): [Portfolio],
+    commitmentElectorates(commitment: ID!): [Electorate],
     parties: [PoliticalParty],
     portfolios: [Portfolio],
-    mapLocations: [MapLocation],
+    mapPoints: [MapPoint],
     announcementTypes: [AnnouncementType],
     commitmentTypes: [CommitmentType]
     whoAnnouncedTypes: [WhoAnnouncedType]
-    locations: [Electorate],
     contacts: [Contact],
-    comments(commitment: ID!):  [Comment],
+    comments(commitment: ID!): [Comment],
+    locations: [Electorate],
     tags:[Tag]
   }
 
@@ -175,6 +188,12 @@ type Tag {
     deleteContact(id:  ID!): Contact,
     storeCommitmentContact(commitment: ID!, contact: ID!): Commitment,
     deleteCommitmentContact(id: ID!): Commitment,
+    storeCommitmentMapPoint(commitment: ID!, mapPoint: ID!): Commitment,
+    deleteCommitmentMapPoint(id: ID!): Commitment,
+    storeCommitmentElectorate(commitment: ID!, electorate: ID!): Commitment,
+    deleteCommitmentElectorate(commitment: ID!, electorate: ID!): Commitment,
+    storeCommitmentPortfolio(commitment: ID!, portfolio: ID!): Commitment,
+    deleteCommitmentPortfolio(id: ID!): Commitment,
     }
 
 `;

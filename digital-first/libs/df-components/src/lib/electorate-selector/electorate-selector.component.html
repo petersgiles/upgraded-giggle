@@ -1,0 +1,17 @@
+<div class="form-content">
+  <div class="form-layout__row--no-wrap form-layout__row-with-button">
+    <ng-select [items]="_electorates" bindValue="id" bindLabel="title" placeholder="Select Electorate" [formControl]="selectControl">
+    </ng-select>
+  </div>
+
+</div>
+
+
+
+<div class="app-layout__row">
+  <mdc-chip-set input>
+    <mdc-chip *ngFor="let electorate of selected" [label]="electorate.title" (removed)="handleRemove(electorate)">
+      <mdc-chip-icon trailing>cancel</mdc-chip-icon>
+    </mdc-chip>
+  </mdc-chip-set>
+</div>

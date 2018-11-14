@@ -8,6 +8,7 @@ import { CommitmentType } from '../../reducers/commitment-type/commitment-type.m
 import { Contact } from '../../reducers/contact/contact.model'
 import { Location } from '../../reducers/location/location.model'
 import { WhoAnnouncedType } from '../../reducers/who-announced-type/who-announced-type.model'
+import { MapPoint } from '../../reducers/map-point/map-point.model'
 
 export const byIdQuery = (criteria: { id }) =>
   `<View>
@@ -21,7 +22,7 @@ export const byIdQuery = (criteria: { id }) =>
         </Query>
     </View>`
 
-export const byCommitmentIdQuery = (criteria: { id }) => `
+export const byCommitmentIdQuery = (criteria: { id: any }) => `
     <View>
         <Query>
             <Where>
@@ -33,12 +34,37 @@ export const byCommitmentIdQuery = (criteria: { id }) => `
         </Query>
     </View>`
 
+  export const byJoinTableQuery = (criteria: { fieldA: { name: string, id: string }, fieldB: { name: string, id: string } }) => `
+    <View>
+    <Query>
+        <Where>
+          <And>
+              <Eq>
+                <FieldRef Name='${criteria.fieldA.name}' LookupId='True'/>
+                <Value Type='Lookup'>${criteria.fieldA.id}</Value>
+              </Eq>
+              <Eq>
+                <FieldRef Name='${criteria.fieldB.name}' LookupId='True'/>
+                <Value Type='Lookup'>${criteria.fieldB.id}</Value>
+              </Eq>
+          </And>
+        </Where>
+    </Query>
+    </View>`
+
 export const mapCommitmentContact = (commitmentContact): any => ({
   id: commitmentContact.ID,
   commitment: idFromLookup(commitmentContact.Commitment),
   contact: idFromLookup(commitmentContact.Contact)
 })
 export const mapCommitmentContacts = (commitmentContacts): any[] => commitmentContacts.map(mapCommitmentContact)
+
+export const mapCommitmentMapPoint = (commitmentMapPoint): any => ({
+  id: commitmentMapPoint.ID,
+  commitment: idFromLookup(commitmentMapPoint.Commitment),
+  mapPoint: idFromLookup(commitmentMapPoint.MapPoint)
+})
+export const mapCommitmentMapPoints = (commitmentMapPoints): any[] => commitmentMapPoints.map(mapCommitmentMapPoint)
 
 export const mapComment = (comment): any => {
 
@@ -56,6 +82,20 @@ export const mapComment = (comment): any => {
 
 export const mapComments = (comments): Comment[] => comments.map(mapComment)
 
+export const mapElectorate = (electorate): Location => ({
+  id: electorate.ID,
+  title: electorate.Title
+})
+
+export const mapElectorates = (electorates): Location[] => electorates.map(mapElectorate)
+
+export const mapCommitmentElectorate = (commitmentElectorate): any => ({
+  id: commitmentElectorate.ID,
+  commitment: idFromLookup(commitmentElectorate.Commitment),
+  electorate: idFromLookup(commitmentElectorate.Electorate)
+})
+export const mapCommitmentElectorates = (commitmentElectorates): any[] => commitmentElectorates.map(mapCommitmentElectorate)
+
 export const mapLocation = (location): Location => ({
   id: location.ID,
   title: location.Title
@@ -63,6 +103,16 @@ export const mapLocation = (location): Location => ({
 
 export const mapLocations = (locations): Location[] =>
   locations.map(mapLocation)
+
+export const mapMapPoint = (location): MapPoint => ({
+  place_id: location.ID,
+  address: location.Title,
+  latitude: location.Latitude,
+  longitude: location.Longitude
+})
+
+export const mapMapPoints = (mapPoints): MapPoint[] =>
+  mapPoints.map(mapMapPoint)
 
 export const mapContact = (contact): Contact => ({
   id: contact.ID,
@@ -119,6 +169,13 @@ export const mapPortfolio = (portfolio): any => ({
 
 export const mapPortfolios = (portfolios): Portfolio[] => portfolios.map(mapPortfolio)
 
+export const mapCommitmentPortfolio = (commitmentPortfolio): any => ({
+  id: commitmentPortfolio.ID,
+  commitment: idFromLookup(commitmentPortfolio.Commitment),
+  portfolio: idFromLookup(commitmentPortfolio.Portfolio)
+})
+export const mapCommitmentPortfolios = (commitmentPortfolios): any[] => commitmentPortfolios.map(mapCommitmentPortfolio)
+
 export const mapCommitment = (commitment): Commitment => {
   const item: any = commitment
 
@@ -128,6 +185,7 @@ export const mapCommitment = (commitment): Commitment => {
     party: fromLookup(item.PoliticalParty),
     description: item.Description,
     cost: item.Cost,
+    electorates: [],
     location: fromLookup(item.Location),
     whoAnnouncedType: fromLookup(item.WhoAnnouncedType),
     announcementType: fromLookup(item.AnnouncementType),
@@ -135,6 +193,7 @@ export const mapCommitment = (commitment): Commitment => {
     date: item.Date,
     announcedby: item.AnnouncedBy,
     portfolio: fromLookup(item.Portfolio),
+    portfolios: [],
     contacts: []
   }
 

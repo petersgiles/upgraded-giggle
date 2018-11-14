@@ -2,75 +2,71 @@ import gql from 'graphql-tag'
 
 export const GET_COMMITMENT = gql`
   query Commitment($id: ID!) {
-    commitment(id: $id) {
+  commitment(id: $id) {
+    id
+    title
+    description
+    cost
+    contacts {
       id
-      title
-      description
-      cost
-      location {
-        id
-        title
-        state
-        area
-      }
-      date
-      announcedby
-      party {
-        id
-        title
-        icon
-        colour
-      }
-      announcementType {
-        id
-        title
-        icon
-        colour
-      }
-      whoAnnouncedType {
-        id
-        title
-        icon
-        colour
-      }
-      commitmentType {
-        id
-        title
-        icon
-        colour
-      }
+      ccid
+      phone
+      name
+      email
       portfolio {
         id
         title
-        icon
-        colour
       }
-      contacts {
-        id
-        ccid
-        phone
+    }
+    electorates {
+      id
+      title
+    }
+    date
+    announcedby
+    party {
+      id
+      title
+      icon
+      colour
+    }
+    commitmentType {
+      id
+      title
+      icon
+      colour
+    }
+    whoAnnouncedType {
+      id
+      title
+      icon
+      colour
+    }
+    announcementType {
+      id
+      title
+      icon
+      colour
+    }
+    portfolios {
+      id
+      title
+    }
+    comments {
+      id
+      commitment
+      text
+      created
+      parent
+      author {
+        username
         name
         email
-        portfolio {
-          id
-          title
-        }
-      }
-      comments {
-        id
-        commitment
-        text
-        created
-        parent
-        author {
-          username
-          name
-          email
-          phone
-        }
+        phone
       }
     }
   }
+}
 `
 
 export const UPSERT_COMMITMENT = gql`
@@ -168,7 +164,7 @@ export const GET_ALL_COMMITMENTS = gql`
     commitments {
       id
       title
-      location {
+      electorates {
         id
       }
       date
@@ -182,7 +178,7 @@ export const GET_ALL_COMMITMENTS = gql`
       announcementType {
         id
       }
-      portfolio {
+      portfolios {
         id
       }
       whoAnnouncedType {

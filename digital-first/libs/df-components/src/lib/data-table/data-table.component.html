@@ -6,7 +6,7 @@
   <thead *ngIf="tableData">
     <tr *ngIf="tableData.headings">
       <ng-container *ngTemplateOutlet="tableHeading; context:{ $implicit: tableData?.headings }"></ng-container>
-      <th *ngIf="tableData.hasDeleteItemButton" class="df-data-table__cell--non-numeric">
+      <th *ngIf="tableData.hasDeleteItemButton" class="df-data-table__cell--non-numeric df-data-table__action-cell">
           &nbsp;
       </th>
     </tr>

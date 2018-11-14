@@ -15,6 +15,7 @@ import { AnnouncementType } from '../../reducers/announcement-type/announcement-
 import { CommitmentType } from '../../reducers/commitment-type/commitment-type.model'
 import { WhoAnnouncedType } from '../../reducers/who-announced-type/who-announced-type.model'
 import { DataTableConfig } from '@digital-first/df-components'
+import { arrayToIndex } from '@digital-first/df-utils'
 
 @Component({
   selector: 'digital-first-commitment-edit',
@@ -38,7 +39,8 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   parties$: Observable<Party[]>
   portfolios$: Observable<Portfolio[]>
-  locations$: Observable<Location[]>
+  electorates$: Observable<Location[]>
+  selectedElectorateIds: Location[] = []
   activeComment: any
   timeFormat: 'timeAgo' | 'dateFormat' | 'calendar'
 
@@ -70,12 +72,13 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.commitmentTypes$ = this.service.CommitmentTypes
     this.parties$ = this.service.Parties
     this.portfolios$ = this.service.Portfolios
-    this.locations$ = this.service.Locations
+    this.electorates$ = this.service.Locations
     this.commitmentContactsTableData$ = this.service.CommitmentContactsTableData
 
     this.commitmentSubscription$ = this.service.Commitment.subscribe(
       next => {
         this.commitment = next
+        this.selectedElectorateIds = this.commitment ? arrayToIndex(this.commitment.electorates) : []
       },
       error => this.showSnackBar(error)
     )
@@ -197,6 +200,11 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   }
 
+  handleAddMapPoint($event) {
+    // tslint:disable-next-line:no-console
+    console.log($event)
+  }
+
   changeDateFormat(format) {
     this.service.changeCommitmentEditDiscussionTimeFormat(format)
   }
@@ -281,6 +289,14 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
         })
       }
       )
+  }
+
+  handleRemoveElectorateFromCommitment(electorate) {
+    this.service.removeElectorateFromCommitment(this.commitment.id, electorate.value.id)
+  }
+
+  handleAddElectorateToCommitment(electorate) {
+    this.service.addElectorateToCommitment(this.commitment.id, electorate.id)
   }
 
 }

@@ -11,7 +11,11 @@ import {
   UpsertCommitment,
   StoreCommitment,
   AddContactToCommitment,
-  RemoveContactFromCommitment
+  RemoveContactFromCommitment,
+  AddMapPointToCommitment,
+  RemoveMapPointFromCommitment,
+  AddElectorateToCommitment,
+  RemoveElectorateFromCommitment
 } from './commitment.actions'
 import { switchMap, map, catchError, tap, switchMapTo } from 'rxjs/operators'
 
@@ -89,6 +93,66 @@ export class CommitmentEffects {
       ]),
       catchError(error => of(new CommitmentsActionFailure(error)))
 
+    )
+
+  @Effect()
+  addElectorateToCommitment$: Observable<Action> = this.actions$
+    .pipe(ofType(CommitmentActionTypes.AddElectorateToCommitment))
+    .pipe(
+      map((action: AddElectorateToCommitment) => action.payload),
+      switchMap((payload: any) => this.service.addElectorateToCommitment(payload)),
+      switchMap((result: any) => [
+        new AppNotification({ message: 'Electorate Added' }),
+        new SetCurrentCommitment({ id: result.commitment.id }),
+        new ClearAppNotification()
+      ]),
+      catchError(error => of(new CommitmentsActionFailure(error)))
+
+    )
+
+  @Effect()
+  removeElectorateFromCommitment$: Observable<Action> = this.actions$
+    .pipe(ofType(CommitmentActionTypes.RemoveElectorateFromCommitment))
+    .pipe(
+      map((action: RemoveElectorateFromCommitment) => action.payload),
+      // tslint:disable-next-line:no-console
+      tap(payload => console.log(payload)),
+      switchMap((payload: any) => this.service.removeElectorateFromCommitment(payload)),
+      switchMap((result: any) => [
+        new AppNotification({ message: 'Electorate Removed' }),
+        new SetCurrentCommitment({ id: result.commitment.id }),
+        new ClearAppNotification()
+      ]),
+      catchError(error => of(new CommitmentsActionFailure(error)))
+
+    )
+
+  @Effect()
+  addMapPointToCommitment$: Observable<Action> = this.actions$
+    .pipe(ofType(CommitmentActionTypes.AddMapPointToCommitment))
+    .pipe(
+      map((action: AddMapPointToCommitment) => action.payload),
+      switchMap((payload: any) => this.service.addMapPointToCommitment(payload)),
+      switchMap((result: any) => [
+        new AppNotification({ message: 'Contact Added' }),
+        new SetCurrentCommitment({ id: result.commitment.id }),
+        new ClearAppNotification()
+      ]),
+      catchError(error => of(new CommitmentsActionFailure(error)))
+    )
+
+  @Effect()
+  removeMapPointFromCommitment$: Observable<Action> = this.actions$
+    .pipe(ofType(CommitmentActionTypes.RemoveMapPointFromCommitment))
+    .pipe(
+      map((action: RemoveMapPointFromCommitment) => action.payload),
+      switchMap((payload: any) => this.service.removeMapPointFromCommitment(payload)),
+      switchMap((result: any) => [
+        new AppNotification({ message: 'Contact Removed' }),
+        new SetCurrentCommitment({ id: result.commitment.id }),
+        new ClearAppNotification()
+      ]),
+      catchError(error => of(new CommitmentsActionFailure(error)))
     )
 
   constructor(private actions$: Actions, private service: AppDataService) { }
