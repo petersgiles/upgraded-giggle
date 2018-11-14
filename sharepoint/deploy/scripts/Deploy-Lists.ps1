@@ -26,7 +26,7 @@ function Does-ListExist($context, $listName) {
 
 function Get-ListsToProcess($saveLocation) {
     $listsToProcess = @()
-    Get-ChildItem $saveLocation |% {$listsToProcess += ("$($_.BaseName)")}
+    Get-ChildItem $saveLocation -File |% {$listsToProcess += ("$($_.BaseName)")}
     return $listsToProcess
 }
 
@@ -35,13 +35,14 @@ Add-Type -Path "$binPath\Microsoft.SharePoint.Client.Runtime.dll"
 
 Write-Host "Deploying list schemas to $siteUrl"
 $context = New-Object Microsoft.SharePoint.Client.ClientContext($siteUrl)
-$listsToProcess = Get-ListsToProcess $saveLocation
-foreach ($listName in $listsToProcess) {
+$listsAll = Get-ListsToProcess $saveLocation
+$listsToProcess = @()
+foreach ($listName in $listsAll) {
     $listExists = Does-ListExist $context $listName
-    $isInitialBlow = -not $listExists
-    $listFilePath = Join-Path $saveLocation "$listName.json"
+    Write-Host "List $listName already exists"
     if (-not $listExists) {
-        Write-Host "Deploying List $listName"
-        . $PSScriptRoot\Blow-ListDefinitions.ps1 -webUrl $siteUrl -binPath $binPath -saveLocation $saveLocation -updateSubsites $false -isInitialBlow $isInitialBlow -listFilePath $listFilePath
+        $listsToProcess += $listName
     }
 }
+
+. $PSScriptRoot\Blow-ListDefinitions.ps1 -webUrl $siteUrl -binPath $binPath -saveLocation $saveLocation -updateSubsites $false -isInitialBlow $false  -listsToProcess $listsToProcess
