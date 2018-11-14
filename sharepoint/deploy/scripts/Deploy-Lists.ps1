@@ -39,7 +39,7 @@ $listsAll = Get-ListsToProcess $saveLocation
 $listsToProcess = @()
 foreach ($listName in $listsAll) {
     $listExists = Does-ListExist $context $listName
-    Write-Host "List $listName already exists"
+    Write-Verbose "List $listName already exists"
     if (-not $listExists) {
         $listsToProcess += $listName
     }
