@@ -24,8 +24,9 @@ function Does-ListExist($context, $listName) {
     return $listExists
 }
 
-function Get-ListsToProcess() {
-    $listsToProcess = (Get-ChildItem $saveLocation) | Select-Object BaseName
+function Get-ListsToProcess($saveLocation) {
+    $listsToProcess = @()
+    Get-ChildItem $saveLocation |% {$listsToProcess += ("$($_.BaseName)")}
     return $listsToProcess
 }
 
@@ -34,7 +35,7 @@ Add-Type -Path "$binPath\Microsoft.SharePoint.Client.Runtime.dll"
 
 Write-Host "Deploying list schemas to $siteUrl"
 $context = New-Object Microsoft.SharePoint.Client.ClientContext($siteUrl)
-$listsToProcess = Get-ListsToProcess
+$listsToProcess = Get-ListsToProcess $saveLocation
 foreach ($listName in $listsToProcess) {
     $listExists = Does-ListExist $context $listName
     $isInitialBlow = -not $listExists
