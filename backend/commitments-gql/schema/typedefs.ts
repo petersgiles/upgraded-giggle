@@ -191,7 +191,7 @@ type Tag {
     storeCommitmentMapPoint(commitment: ID!, mapPoint: ID!): Commitment,
     deleteCommitmentMapPoint(id: ID!): Commitment,
     storeCommitmentElectorate(commitment: ID!, electorate: ID!): Commitment,
-    deleteCommitmentElectorate(id: ID!): Commitment,
+    deleteCommitmentElectorate(commitment: ID!, electorate: ID!): Commitment,
     storeCommitmentPortfolio(commitment: ID!, portfolio: ID!): Commitment,
     deleteCommitmentPortfolio(id: ID!): Commitment,
     }

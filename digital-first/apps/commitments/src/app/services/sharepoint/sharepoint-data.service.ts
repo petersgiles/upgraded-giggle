@@ -81,7 +81,7 @@ export class SharepointDataService implements AppDataService {
         const contacts = arrayToHash(mapContacts(spContacts))
         const commitmentContact = mapCommitmentContacts(spCommitmentContacts)
 
-        commitment.contacts = commitmentContact.map(c => ({...contacts[c.contact], ccid: c.id}))
+        commitment.contacts = commitmentContact.map(c => ({ ...contacts[c.contact], ccid: c.id }))
 
         return of({
           data: { commitment: commitment },
@@ -304,7 +304,7 @@ export class SharepointDataService implements AppDataService {
   }
 
   removeContactFromCommitment(commitmentcontact: { id: any }) {
-    return  this.sharepoint.getItems({
+    return this.sharepoint.getItems({
       listName: 'CommitmentContact',
       viewXml: byIdQuery(commitmentcontact)
     }).pipe(
@@ -360,7 +360,7 @@ export class SharepointDataService implements AppDataService {
   }
 
   removeMapPointFromCommitment(commitmentMapPoint: { id: any }) {
-    return  this.sharepoint.getItems({
+    return this.sharepoint.getItems({
       listName: 'CommitmentMapPoint',
       viewXml: byIdQuery(commitmentMapPoint)
     }).pipe(
@@ -376,5 +376,37 @@ export class SharepointDataService implements AppDataService {
     )
   }
 
+  removeElectorateFromCommitment(payload: any): Observable<any> {
+    return this.sharepoint.getItems({
+      listName: 'CommitmentElectorate',
+      viewXml: byCommitmentIdQuery(payload.commitment)
+    }).pipe(
+      map(mapCommitmentMapPoints),
+      map(result => result[0]),
+      concatMap(result =>
+        this.sharepoint.removeItem({
+          listName: 'CommitmentElectorate', id: payload.id
+        }).pipe(
+          concatMap(_ => of({ commitment: { id: result.commitment } }))
+        )
+      )
+    )
+  }
+
+  addElectorateToCommitment(payload: any): Observable<any> {
+    const spMapPoint = {
+      Title: `${payload.commitment} ${payload.electorate}`,
+      Commitment: payload.commitment,
+      Electorate: payload.mapPoint
+    }
+
+    return this.sharepoint.storeItem({
+      listName: 'CommitmentElectorate',
+      data: spMapPoint,
+    }).pipe(
+      concatMap(_ =>
+        of({ commitment: { id: payload.commitment } }))
+    )
+  }
   constructor(private sharepoint: SharepointJsomService) { }
 }

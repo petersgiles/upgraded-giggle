@@ -290,7 +290,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   }
 
   handleRemoveElectorateFromCommitment(electorate) {
-    this.service.removeElectorateFromCommitment(this.commitment.id, electorate.id)
+    this.service.removeElectorateFromCommitment(this.commitment.id, electorate.value.id)
   }
 
   handleAddElectorateToCommitment(electorate) {

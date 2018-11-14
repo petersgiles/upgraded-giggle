@@ -49,6 +49,10 @@ export interface ContactsResult {
 export interface LocationsResult {
   locations: Location[]
 }
+export interface ElectoratesResult {
+  electorates: Location[]
+}
+
 export interface PartysResult {
   parties: Party[]
 }

@@ -191,6 +191,28 @@ export const resolvers = {
       console.log('deleteCommitmentContact =>', result, c)
       return c
     },
+    storeCommitmentElectorate: (_root: any, args: any) => {
+      //(commitment: Int!, contact: Int!): Commitment,
+      const data = { ...args };
+      const ccc = db['commitment-commitment-electorates'].findOne(data)
+      var saved = null
+      if (ccc) {
+        saved = db['commitment-commitment-electorates'].update({ _id: ccc._id }, data, { multi: false, upsert: true });
+      } else {
+        saved = db['commitment-commitment-electorates'].save([data]);
+      }
+
+      const c = db.commitments.findOne({ id: args.commitment })
+      console.log('storeCommitmentElectorates =>', saved, c)
+      return c
+    },
+    deleteCommitmentElectorate: (_root: any, args: any) => {
+      var cc = db['commitment-commitment-electorates'].findOne({ commitment: args.commitment, electorate: args.electorate });
+      var result = db['commitment-commitment-electorates'].remove({ _id: args.id }, false);
+      const c = db.commitments.findOne({ id: cc.commitment })
+      console.log('deleteCommitmentElectorates =>', result, c)
+      return c
+    },
     storeCommitmentPortfolio: (_root: any, args: any) => {
       //(commitment: Int!, contact: Int!): Commitment,
       const data = { ...args };
