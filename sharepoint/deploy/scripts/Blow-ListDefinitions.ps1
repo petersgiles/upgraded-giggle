@@ -3,7 +3,7 @@
     [string]$saveLocation = "D:\Comments",
     [string]$isInitialBlow = $true,
     [string]$updateSubsites = $false,
-    [string]$listFilePath,
+    $listsToProcess,
     [string]$binPath = "C:\Program Files\Common Files\microsoft shared\Web Server Extensions\16\ISAPI"    
 )
 
@@ -248,19 +248,27 @@ function Ensure-Views([string]$jsonFilePath) {
     }
 }
 
-function Blow([string]$webUrl, $listFilePath) {
+function Blow([string]$webUrl, $listsToProcess) {
     $ctx = New-Object Microsoft.SharePoint.Client.ClientContext($webUrl)
     HandleMixedModeWebApplication $ctx $binPath
-    Import-ListDefinition -jsonFilePath $listFilePath    
-
-    # Add lookup fields after all lists are created, to ensure the lookup targets exist at creation time
-    Add-LookupFields -jsonFilePath $listFilePath
-    #Add views after lookups, to ensure all fields are available
-    Ensure-Views -jsonFilePath $listFilePath
+    
+    $listsToProcess | % {
+        $listName = $_
+        Write-Host "Blowing $listName" 
+        Import-ListDefinition -jsonFilePath (Join-Path $saveLocation "$listName.json")   
+    }   
+    $listsToProcess | % {
+        $listName = $_
+        $listFilePath = (Join-Path $saveLocation "$listName.json")   
+        Add-LookupFields -jsonFilePath $listFilePath
+        #Add views after lookups, to ensure all fields are available
+        Ensure-Views -jsonFilePath $listFilePath
+    }   
+  
 }
 
 
 Add-Type -Path "$binPath\Microsoft.SharePoint.Client.dll"
 Add-Type -Path "$binPath\Microsoft.SharePoint.Client.Runtime.dll"
 
-Blow -webUrl $webUrl $listFilePath
+Blow -webUrl $webUrl $listsToProcess
