@@ -164,7 +164,7 @@ export const GET_ALL_COMMITMENTS = gql`
     commitments {
       id
       title
-      location {
+      electorates {
         id
       }
       date
@@ -178,7 +178,7 @@ export const GET_ALL_COMMITMENTS = gql`
       announcementType {
         id
       }
-      portfolio {
+      portfolios {
         id
       }
       whoAnnouncedType {

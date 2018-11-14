@@ -22,7 +22,7 @@ export const byIdQuery = (criteria: { id }) =>
         </Query>
     </View>`
 
-export const byCommitmentIdQuery = (criteria: { id }) => `
+export const byCommitmentIdQuery = (criteria: { id: any }) => `
     <View>
         <Query>
             <Where>
@@ -32,6 +32,24 @@ export const byCommitmentIdQuery = (criteria: { id }) => `
             </Eq>
             </Where>
         </Query>
+    </View>`
+
+  export const byJoinTableQuery = (criteria: { fieldA: { name: string, id: string }, fieldB: { name: string, id: string } }) => `
+    <View>
+    <Query>
+        <Where>
+          <And>
+              <Eq>
+                <FieldRef Name='${criteria.fieldA.name}' LookupId='True'/>
+                <Value Type='Lookup'>${criteria.fieldA.id}</Value>
+              </Eq>
+              <Eq>
+                <FieldRef Name='${criteria.fieldB.name}' LookupId='True'/>
+                <Value Type='Lookup'>${criteria.fieldB.id}</Value>
+              </Eq>
+          </And>
+        </Where>
+    </Query>
     </View>`
 
 export const mapCommitmentContact = (commitmentContact): any => ({
@@ -63,6 +81,20 @@ export const mapComment = (comment): any => {
 }
 
 export const mapComments = (comments): Comment[] => comments.map(mapComment)
+
+export const mapElectorate = (electorate): Location => ({
+  id: electorate.ID,
+  title: electorate.Title
+})
+
+export const mapElectorates = (electorates): Location[] => electorates.map(mapElectorate)
+
+export const mapCommitmentElectorate = (commitmentElectorate): any => ({
+  id: commitmentElectorate.ID,
+  commitment: idFromLookup(commitmentElectorate.Commitment),
+  electorate: idFromLookup(commitmentElectorate.Electorate)
+})
+export const mapCommitmentElectorates = (commitmentElectorates): any[] => commitmentElectorates.map(mapCommitmentElectorate)
 
 export const mapLocation = (location): Location => ({
   id: location.ID,
@@ -136,6 +168,13 @@ export const mapPortfolio = (portfolio): any => ({
 })
 
 export const mapPortfolios = (portfolios): Portfolio[] => portfolios.map(mapPortfolio)
+
+export const mapCommitmentPortfolio = (commitmentPortfolio): any => ({
+  id: commitmentPortfolio.ID,
+  commitment: idFromLookup(commitmentPortfolio.Commitment),
+  portfolio: idFromLookup(commitmentPortfolio.Portfolio)
+})
+export const mapCommitmentPortfolios = (commitmentPortfolios): any[] => commitmentPortfolios.map(mapCommitmentPortfolio)
 
 export const mapCommitment = (commitment): Commitment => {
   const item: any = commitment

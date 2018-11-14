@@ -115,6 +115,8 @@ export class CommitmentEffects {
     .pipe(ofType(CommitmentActionTypes.RemoveElectorateFromCommitment))
     .pipe(
       map((action: RemoveElectorateFromCommitment) => action.payload),
+      // tslint:disable-next-line:no-console
+      tap(payload => console.log(payload)),
       switchMap((payload: any) => this.service.removeElectorateFromCommitment(payload)),
       switchMap((result: any) => [
         new AppNotification({ message: 'Electorate Removed' }),
