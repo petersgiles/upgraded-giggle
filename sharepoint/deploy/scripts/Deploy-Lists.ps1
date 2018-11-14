@@ -25,8 +25,7 @@ function Does-ListExist($context, $listName) {
 }
 
 function Get-ListsToProcess() {
-
-    $listsToProcess = @("AnnouncementType", "AppConfig", "CommitmentType", "Electorate", "PoliticalParty", "WhoAnnouncedType", "Portfolio", "Contact", "Commitment", "CommitmentContact", "CommitmentComment")
+    $listsToProcess = (Get-ChildItem $saveLocation) | Select-Object BaseName
     return $listsToProcess
 }
 
