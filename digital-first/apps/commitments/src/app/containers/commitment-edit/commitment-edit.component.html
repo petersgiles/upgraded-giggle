@@ -43,6 +43,7 @@
             bindValue="id" 
             bindLabel="title" 
             placeholder="Electorate" 
+            maxSelectedItems="8"
             (add)="handleAddElectorateToCommitment($event)"
             (remove)="handleRemoveElectorateFromCommitment($event)"
             [ngModel]="selectedElectorateIds"

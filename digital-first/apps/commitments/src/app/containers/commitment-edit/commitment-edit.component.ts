@@ -15,6 +15,7 @@ import { AnnouncementType } from '../../reducers/announcement-type/announcement-
 import { CommitmentType } from '../../reducers/commitment-type/commitment-type.model'
 import { WhoAnnouncedType } from '../../reducers/who-announced-type/who-announced-type.model'
 import { DataTableConfig } from '@digital-first/df-components'
+import { arrayToIndex } from '@digital-first/df-utils'
 
 @Component({
   selector: 'digital-first-commitment-edit',
@@ -77,6 +78,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.commitmentSubscription$ = this.service.Commitment.subscribe(
       next => {
         this.commitment = next
+        this.selectedElectorateIds = this.commitment ? arrayToIndex(this.commitment.electorates) : []
       },
       error => this.showSnackBar(error)
     )

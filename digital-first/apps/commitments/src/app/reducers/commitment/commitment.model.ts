@@ -14,12 +14,14 @@ export interface Commitment {
   description: string,
   cost: string,
   location: Location,
+  electorates: Location[],
   whoAnnouncedType: WhoAnnouncedType
   announcementType: AnnouncementType,
   commitmentType: CommitmentType,
   date: any,
   announcedby: string,
   portfolio: Portfolio,
+  portfolios: Portfolio[],
   contacts: Contact[],
   discussion?: Comment[]
 }

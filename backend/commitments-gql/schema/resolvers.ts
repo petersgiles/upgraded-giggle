@@ -16,6 +16,7 @@ db.connect('./diskdb/commitments', [
   'commitment-parties',
   'commitment-tags',
   'commitment-electorates',
+  'commitment-commitment-portfolios',
   'commitment-commitment-electorates'
 ]);
 
@@ -53,7 +54,7 @@ export const resolvers = {
     commitmentElectorates: (obj: any, args: any, context: any, info: any) => {
       // (commitment: ID!): [MapPoint]
       let set = db['commitment-commitment-electorates'].find({ commitment: args.commitment })
-      let found = set.map((f: any) => db['commitment-electorates'].findOne({ _id: f.electorate })).map((c: any) => ({ ...c, id: c._id }))
+      let found = set.map((f: any) => db['commitment-electorates'].findOne({ id: f.electorate })).map((c: any) => ({ ...c }))
       console.log('commitment Locations => ', set, found)
       return found
 
@@ -208,7 +209,7 @@ export const resolvers = {
     },
     deleteCommitmentElectorate: (_root: any, args: any) => {
       var cc = db['commitment-commitment-electorates'].findOne({ commitment: args.commitment, electorate: args.electorate });
-      var result = db['commitment-commitment-electorates'].remove({ _id: args.id }, false);
+      var result = db['commitment-commitment-electorates'].remove({ _id: cc._id }, false);
       const c = db.commitments.findOne({ id: cc.commitment })
       console.log('deleteCommitmentElectorates =>', result, c)
       return c
@@ -265,16 +266,13 @@ export const resolvers = {
       return found
     },
     electorates(commitment: any) {
+
       let set = db['commitment-commitment-electorates'].find({ commitment: commitment.id })
-      let found = set
-        .map(
-          (f: any) => ({
-            ...db['commitment-electorates'].findOne({ _id: f.electorate }),
-            ccid: f._id
-          })
-        )
-        .map((c: any) => ({ ...c, id: c._id }))
-      console.log('commitment => ', commitment, 'commitmentelectoratess => ', set, 'found => ', found)
+      let found = set.map((electorate: any) => {
+        return db['commitment-electorates'].findOne({ id: electorate.electorate })
+      })
+
+      console.log('commitment-electorates => ', set, 'found => ', found)
       return found
     },
     comments(commitment: any) {

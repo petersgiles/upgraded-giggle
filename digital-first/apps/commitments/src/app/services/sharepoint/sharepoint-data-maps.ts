@@ -146,6 +146,7 @@ export const mapCommitment = (commitment): Commitment => {
     party: fromLookup(item.PoliticalParty),
     description: item.Description,
     cost: item.Cost,
+    electorates: [],
     location: fromLookup(item.Location),
     whoAnnouncedType: fromLookup(item.WhoAnnouncedType),
     announcementType: fromLookup(item.AnnouncementType),
@@ -153,6 +154,7 @@ export const mapCommitment = (commitment): Commitment => {
     date: item.Date,
     announcedby: item.AnnouncedBy,
     portfolio: fromLookup(item.Portfolio),
+    portfolios: [],
     contacts: []
   }
 

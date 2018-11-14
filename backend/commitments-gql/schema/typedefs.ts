@@ -124,11 +124,11 @@ type Tag {
     whoAnnouncedType: WhoAnnouncedType,
     announcementType: AnnouncementType,
     commitmentType: CommitmentType,
-    portfolios: [CommitmentPortfolio],
-    electorates: [CommitmentElectorate],
+    portfolios: [Portfolio],
+    electorates: [Electorate],
     comments: [Comment],
     contacts: [Contact],
-    mapPoints: [CommitmentMapPoint],
+    mapPoints: [MapPoint],
     tags: [Tag]
   }
 
