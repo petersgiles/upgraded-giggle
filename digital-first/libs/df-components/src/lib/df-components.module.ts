@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { CommonModule } from '@angular/common'
 import { AgmCoreModule } from '@agm/core'
+import { NgSelectModule } from '@ng-select/ng-select'
 import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfThemeModule } from '@digital-first/df-theme'
 
@@ -44,6 +45,7 @@ const COMPONENTS = [
 @NgModule({
   imports: [
     CommonModule,
+    NgSelectModule,
     FormsModule,
     ReactiveFormsModule,
     AgmCoreModule,

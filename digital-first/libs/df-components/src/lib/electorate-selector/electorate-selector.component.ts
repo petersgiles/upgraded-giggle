@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core'
 import { FormControl } from '@angular/forms'
+import { sortBy } from '@digital-first/df-utils'
 
 @Component({
   selector: 'digital-first-electorate-selector',
@@ -8,8 +9,16 @@ import { FormControl } from '@angular/forms'
 })
 export class ElectorateSelectorComponent implements OnInit {
 
+  _electorates: any
+
   @Input() selected
-  @Input() electorates
+
+  @Input()
+  set electorates(val) {
+    this._electorates = val
+
+    this._electorates.sort(sortBy('title'))
+  }
   @Output() onAddElectorate: EventEmitter<any> = new EventEmitter()
   @Output() onRemoveElectorate: EventEmitter<any> = new EventEmitter()
 
@@ -18,15 +27,18 @@ export class ElectorateSelectorComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-       // create search FormControl
-        this.selectControl = new FormControl()
+    // create search FormControl
+    this.selectControl = new FormControl()
   }
 
   handleSelect($event) {
 
     const id = $event.target.value
 
-    this.onAddElectorate.emit(this.electorates.find(e => e.id === id))
+    this.onAddElectorate.emit(this._electorates.find(e => e.id === id))
+
+    this.selectControl.setValue(null)
+
   }
 
   handleRemove($event) {

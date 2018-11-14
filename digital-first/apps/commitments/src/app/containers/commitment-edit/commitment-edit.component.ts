@@ -38,8 +38,8 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   parties$: Observable<Party[]>
   portfolios$: Observable<Portfolio[]>
-  locations$: Observable<Location[]>
-  selectedLocations: Location[] = []
+  electorates$: Observable<Location[]>
+  selectedElectorateIds: Location[] = []
   activeComment: any
   timeFormat: 'timeAgo' | 'dateFormat' | 'calendar'
 
@@ -71,7 +71,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.commitmentTypes$ = this.service.CommitmentTypes
     this.parties$ = this.service.Parties
     this.portfolios$ = this.service.Portfolios
-    this.locations$ = this.service.Locations
+    this.electorates$ = this.service.Locations
     this.commitmentContactsTableData$ = this.service.CommitmentContactsTableData
 
     this.commitmentSubscription$ = this.service.Commitment.subscribe(
@@ -289,17 +289,12 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
       )
   }
 
-  handleRemoveElectorateFromCommitment($event) {
-    // tslint:disable-next-line:no-console
-    console.log($event)
-    this.selectedLocations = this.selectedLocations.filter(l => l.id !== $event)
+  handleRemoveElectorateFromCommitment(electorate) {
+    this.service.removeElectorateFromCommitment(this.commitment.id, electorate.id)
   }
 
-  handleAddElectorateToCommitment($event) {
-    // tslint:disable-next-line:no-console
-    console.log($event)
-
-    this.selectedLocations.push($event)
+  handleAddElectorateToCommitment(electorate) {
+    this.service.addElectorateToCommitment(this.commitment.id, electorate.id)
   }
 
 }

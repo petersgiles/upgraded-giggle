@@ -27,6 +27,8 @@ export enum CommitmentActionTypes {
   RemoveContactFromCommitment = '[Commitment] Remove Contact From Commitment',
   AddMapPointToCommitment = '[Commitment] Add MapPoint To Commitment',
   RemoveMapPointFromCommitment = '[Commitment] Remove MapPoint From Commitment',
+  AddElectorateToCommitment = '[Commitment] Add Electorate ToCommitment',
+  RemoveElectorateFromCommitment = '[Commitment] Remove Electorate From Commitment',
 }
 
 export class AddMapPointToCommitment implements Action {
@@ -51,6 +53,18 @@ export class RemoveContactFromCommitment implements Action {
   readonly type = CommitmentActionTypes.RemoveContactFromCommitment
 
   constructor(public payload: {id: number | string}) { }
+}
+
+export class AddElectorateToCommitment implements Action {
+  readonly type = CommitmentActionTypes.AddElectorateToCommitment
+
+  constructor(public payload: {commitment: number | string, electorate: string | number}) { }
+}
+
+export class RemoveElectorateFromCommitment implements Action {
+  readonly type = CommitmentActionTypes.RemoveElectorateFromCommitment
+
+  constructor(public payload: {commitment: number | string, electorate: string | number}) { }
 }
 
 export class LoadCommitments implements Action {
@@ -155,3 +169,5 @@ export type CommitmentActions =
  | RemoveContactFromCommitment
  | AddMapPointToCommitment
  | RemoveMapPointFromCommitment
+ |AddElectorateToCommitment
+ |RemoveElectorateFromCommitment

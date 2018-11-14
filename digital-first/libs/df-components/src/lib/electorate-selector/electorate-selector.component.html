@@ -1,18 +1,12 @@
 <div class="form-content">
   <div class="form-layout__row--no-wrap form-layout__row-with-button">
-    <div class="mdc-select">
-      <i class="mdc-select__dropdown-icon"></i>
-      <select class="mdc-select__native-control" [formControl]="selectControl" (change)="handleSelect($event)">
-        <option [value]="null"></option>
-        <option *ngFor="let electorate of electorates" [value]="electorate.id">
-          {{electorate.title}}
-        </option>
-      </select>
-      <label class="mdc-floating-label mdc-floating-label--float-above">Electorate</label>
-      <div class="mdc-line-ripple"></div>
-    </div>
+    <ng-select [items]="_electorates" bindValue="id" bindLabel="title" placeholder="Select Electorate" [formControl]="selectControl">
+    </ng-select>
   </div>
+
 </div>
+
+
 
 <div class="app-layout__row">
   <mdc-chip-set input>

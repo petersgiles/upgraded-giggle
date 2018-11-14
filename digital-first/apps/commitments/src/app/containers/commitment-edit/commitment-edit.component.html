@@ -36,11 +36,24 @@
     </digital-first-page-title>
 
     <div class="commitment-layout__row" *ngIf="commitment && panels.mapPanelExpanded">
-      <digital-first-electorate-selector  [electorates]="locations$ | async" [selected]="selectedLocations" 
-      (onRemoveElectorate)="handleRemoveElectorateFromCommitment($event)" 
-      (onAddElectorate)="handleAddElectorateToCommitment($event)"
-      ></digital-first-electorate-selector>
-      <digital-first-map  [mapPoints]="[]" (onAddMapPoint)="handleAddMapPoint($event)"></digital-first-map>
+
+      <div class="form-content">
+        <div class="form-layout__row--no-wrap">
+          <ng-select [items]="electorates$ | async" 
+            bindValue="id" 
+            bindLabel="title" 
+            placeholder="Electorate" 
+            (add)="handleAddElectorateToCommitment($event)"
+            (remove)="handleRemoveElectorateFromCommitment($event)"
+            [ngModel]="selectedElectorateIds"
+            [multiple]="true"
+            [clearable]="false"
+            [hideSelected]="true">
+          </ng-select>
+        </div>
+      </div>
+
+      <digital-first-map [mapPoints]="[]" (onAddMapPoint)="handleAddMapPoint($event)"></digital-first-map>
     </div>
     <digital-first-page-title *ngIf="commitment" title="Contacts">
       <digital-first-add-item-button icon="person_add" title="New&nbsp;Contact" *ngIf="panels.contactPanelExpanded"

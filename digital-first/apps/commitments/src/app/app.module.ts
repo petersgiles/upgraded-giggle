@@ -8,6 +8,7 @@ import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { NgxWigModule } from 'ngx-wig'
 import { AgmCoreModule } from '@agm/core'
+import { NgSelectModule } from '@ng-select/ng-select'
 
 import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
@@ -169,6 +170,7 @@ export let appDataServiceProvider = {
   imports: [
     BrowserModule,
     HttpClientModule,
+    NgSelectModule,
     FormsModule,
     ReactiveFormsModule,
     AgmCoreModule.forRoot({
