@@ -271,19 +271,24 @@ export const resolvers = {
     commitmentType(commitment: any) {
       return db['commitment-commitmentTypes'].findOne({ id: commitment.commitmentType })
     },
-    portfolios(commitment: any) {
-      let set = db['commitment-commitment-portfolios'].find({ commitment: commitment.id })
-      let found = set
-        .map(
-          (f: any) => ({
-            ...db['commitment-portfolios'].findOne({ _id: f.portfolio }),
-            ccid: f._id
-          })
-        )
-        .map((c: any) => ({ ...c, id: c._id }))
-      console.log('commitment => ', commitment, 'commitmentportfolios => ', set, 'found => ', found)
+    portfolio(commitment: any) {
+      let found = db['commitment-portfolios'].findOne({ id: commitment.portfolio })
+      console.log('commitment-portfolios', { id: commitment.portfolio }, found)
       return found
     },
+    // portfolios(commitment: any) {
+    //   let set = db['commitment-commitment-portfolios'].find({ commitment: commitment.id })
+    //   let found = set
+    //     .map(
+    //       (f: any) => ({
+    //         ...db['commitment-portfolios'].findOne({ _id: f.portfolio }),
+    //         ccid: f._id
+    //       })
+    //     )
+    //     .map((c: any) => ({ ...c, id: c._id }))
+    //   console.log('commitment => ', commitment, 'commitmentportfolios => ', set, 'found => ', found)
+    //   return found
+    // },
     electorates(commitment: any) {
 
       let set = db['commitment-commitment-electorates'].find({ commitment: commitment.id })

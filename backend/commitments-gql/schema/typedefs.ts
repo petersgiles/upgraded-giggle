@@ -125,7 +125,7 @@ type Tag {
     whoAnnouncedType: WhoAnnouncedType,
     announcementType: AnnouncementType,
     commitmentType: CommitmentType,
-    portfolios: [Portfolio],
+    portfolio: Portfolio,
     electorates: [Electorate],
     comments: [Comment],
     contacts: [Contact],

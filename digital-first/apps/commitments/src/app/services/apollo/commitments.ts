@@ -7,6 +7,10 @@ export const GET_COMMITMENT = gql`
     title
     description
     cost
+    portfolio {
+        id
+        title
+      }
     contacts {
       id
       ccid
@@ -47,10 +51,6 @@ export const GET_COMMITMENT = gql`
       title
       icon
       colour
-    }
-    portfolios {
-      id
-      title
     }
     mapPoints {
       place_id
@@ -151,10 +151,10 @@ mutation Commitment(
       icon
       colour
     }
-    portfolios {
-      id
-      title
-    }
+    portfolio {
+        id
+        title
+      }
     mapPoints {
       place_id
       latitude
@@ -196,7 +196,7 @@ export const GET_ALL_COMMITMENTS = gql`
       announcementType {
         id
       }
-      portfolios {
+      portfolio {
         id
       }
       whoAnnouncedType {

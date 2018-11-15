@@ -90,7 +90,7 @@ export class ApolloDataService implements AppDataService {
     party: string
   }): Observable<DataResult<ContactsResult>> {
     const variables = { ...contact }
-    return this.callMutate<any>({ mutation: STORE_CONTACT, variables: { ...variables } })
+    return this.callMutate<any>({ mutation: STORE_CONTACT, variables: variables })
   }
 
   deleteComment = (variables: { id: any; commitment: any }) =>
