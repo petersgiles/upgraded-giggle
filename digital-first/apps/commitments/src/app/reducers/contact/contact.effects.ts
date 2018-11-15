@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects'
 import { Observable, of } from 'rxjs'
 import { Action } from '@ngrx/store'
 import { ContactActionTypes, LoadContacts, GetAllContacts, ContactsActionFailure, StoreContact } from './contact.actions'
-import { switchMap, map, catchError } from 'rxjs/operators'
+import { switchMap, map, catchError, tap } from 'rxjs/operators'
 
 import { AppDataService } from '../../services/app-data.service'
 import { DataResult, ContactsResult } from '../../models'
@@ -29,7 +29,9 @@ export class ContactEffects {
     .pipe(ofType(ContactActionTypes.StoreContact))
     .pipe(
       map((action: StoreContact) => action.payload),
-      switchMap((commitment: any) => this.service.storeContact(commitment)),
+      // tslint:disable-next-line:no-console
+      tap(payload => console.log('StoreContact', payload)),
+      switchMap((payload: any) => this.service.storeContact(payload.contact)),
       switchMap((result: DataResult<ContactsResult>) => [
         new AppNotification({ message: 'Contact Created' }),
         new GetAllContacts(),
