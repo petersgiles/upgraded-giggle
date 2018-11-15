@@ -13,7 +13,8 @@
     <digital-first-commitment-edit-form *ngIf="panels.formPanelExpanded" [busy]="formBusy" [commitment]="commitment"
       [parties]="parties$ | async" [announcementTypes]="announcementTypes$ | async" [whoAnnouncedTypes]="whoAnnouncedTypes$ | async"
       [commitmentTypes]="commitmentTypes$ | async" [portfolios]="portfolios$ | async" [locations]="locations$ | async"
-      (onSubmitted)="handleUpdateCommitment($event)" (onCancelled)="handleCancelled($event)" (onChanged)="handleChanged($event)">
+      (onSubmitted)="handleUpdateCommitment($event)" (onCancelled)="handleCancelled($event)" (onChanged)="handleUpdateCommitment($event)"      
+      >
     </digital-first-commitment-edit-form>
 
     <!-- <div class="commitment-layout__row">

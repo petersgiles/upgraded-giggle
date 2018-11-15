@@ -5,63 +5,50 @@
       <input type="hidden" formControlName="location" />
 
       <div class="form-layout__row">
-        <mdc-text-field formControlName="title" label="Title" required  [helperText]="titleFieldInputHelper"
-          (change)="handleChange($event)"></mdc-text-field>
+        <mdc-text-field formControlName="title" label="Title" required [helperText]="titleFieldInputHelper" ></mdc-text-field>
       </div>
-    
+
       <div class="form-layout__row">
         <ngx-wig formControlName="description"></ngx-wig>
       </div>
 
       <h3 class="form-content__headline">Political</h3>
       <div class="form-layout__row">
-        <mdc-select placeholder="Who Announced" formControlName="whoAnnouncedType"  (change)="handleChange($event)">
-          <option [value]="null"></option>
-          <option *ngFor="let whoAnnouncedType of whoAnnouncedTypes" [value]="whoAnnouncedType.id">
-            {{whoAnnouncedType.title}}
-          </option>
-        </mdc-select>
-        <mdc-text-field formControlName="date" label="Date" type="date" required  (change)="handleChange($event)"></mdc-text-field>
-        <mdc-select placeholder="Type of Announcement" formControlName="announcementType"  (change)="handleChange($event)">
-          <option [value]="null"></option>
-          <option *ngFor="let announcementType of announcementTypes" [value]="announcementType.id">
-            {{announcementType.title}}
-          </option>
-        </mdc-select>
+
+        <ng-select [items]="whoAnnouncedTypes" bindValue="id" bindLabel="title" placeholder="Who Announced"
+          formControlName="whoAnnouncedType" >
+        </ng-select>
+
+
+        <mdc-text-field formControlName="date" label="Date" type="date" required ></mdc-text-field>
+
+        <ng-select [items]="announcementTypes" bindValue="id" bindLabel="title" placeholder="Type of Announcement"
+          formControlName="announcementType" >
+        </ng-select>
       </div>
       <div class="form-layout__row">
-        <mdc-select placeholder="Party" formControlName="party"  (change)="handleChange($event)">
-          <option [value]="null"></option>
-          <option *ngFor="let party of parties" [value]="party.id">
-            {{party.title}}
-          </option>
-        </mdc-select>
-        <mdc-select placeholder="Type of Commitment" formControlName="commitmentType"  (change)="handleChange($event)">
-          <option [value]="null"></option>
-          <option *ngFor="let commitmentType of commitmentTypes" [value]="commitmentType.id">
-            {{commitmentType.title}}
-          </option>
-        </mdc-select>
+
+        <ng-select [items]="parties" bindValue="id" bindLabel="title" placeholder="Party" formControlName="party" >
+        </ng-select>
+
+        <ng-select [items]="commitmentTypes" bindValue="id" bindLabel="title" placeholder="Type of Commitment"
+          formControlName="commitmentType" >
+        </ng-select>
 
       </div>
 
       <h3 class="form-content__headline">Responsibility &amp; Costings</h3>
       <div class="form-layout__row">
+        <ng-select [items]="portfolios" bindValue="id" bindLabel="title" placeholder="Portfolio" formControlName="portfolio" >
+        </ng-select>
 
-        <mdc-select placeholder="Type of Portfolio" formControlName="portfolio"  (change)="handleChange($event)">
-          <option [value]="null"></option>
-          <option *ngFor="let portfolio of portfolios" [value]="portfolio.id">
-            {{portfolio.title}}
-          </option>
-        </mdc-select>
       </div>
       <div class="form-layout__row">
         <mdc-text-field formControlName="cost" label="Cost" type="number" min="0.00" max="1000000000000.00" step="0.01"
-          required  (change)="handleChange($event)"></mdc-text-field>
+          required ></mdc-text-field>
       </div>
 
       <div class="form-layout__row-with-button">
-        <button mdc-button mdcCardAction="button" (click)="handleReset($event)">Reset</button>
         <button mdc-button mdcCardAction="button" type="submit" [disabled]="!form.valid">Submit</button>
       </div>
     </fieldset>

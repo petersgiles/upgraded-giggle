@@ -70,94 +70,100 @@ export const GET_COMMITMENT = gql`
 `
 
 export const UPSERT_COMMITMENT = gql`
-  mutation Commitment(
-    $id: ID
-    $title: String!
-    $description: String!
-    $party: ID
-    $cost: String
-    $location: ID
-    $announcementType: ID
-    $whoAnnouncedType: ID
-    $commitmentType: ID
-    $date: String
-    $announcedby: String
-    $portfolio: ID
-    $contacts: String
+mutation Commitment(
+  $id: ID
+  $title: String!
+  $description: String!
+  $party: ID
+  $cost: String
+  $location: ID
+  $announcementType: ID
+  $whoAnnouncedType: ID
+  $commitmentType: ID
+  $date: String
+  $announcedby: String
+  $portfolio: ID
+  $contacts: String
+) {
+  upsertCommitment(
+    id: $id
+    title: $title
+    description: $description
+    party: $party
+    cost: $cost
+    location: $location
+    announcementType: $announcementType
+    whoAnnouncedType: $whoAnnouncedType
+    commitmentType: $commitmentType
+    date: $date
+    announcedby: $announcedby
+    portfolio: $portfolio
+    contacts: $contacts
   ) {
-    upsertCommitment(
-      id: $id
-      title: $title
-      description: $description
-      party: $party
-      cost: $cost
-      location: $location
-      announcementType: $announcementType
-      whoAnnouncedType: $whoAnnouncedType
-      commitmentType: $commitmentType
-      date: $date
-      announcedby: $announcedby
-      portfolio: $portfolio
-      contacts: $contacts
-    ) {
+    id
+    title
+    description
+    cost
+    contacts {
       id
-      title
-      description
-      cost
-      location {
-        id
-        title
-      }
-      date
-      announcedby
-      party {
-        id
-        title
-        icon
-        colour
-      }
-      announcementType {
-        id
-        title
-        icon
-        colour
-      }
-      whoAnnouncedType {
-        id
-        title
-        icon
-        colour
-      }
-      commitmentType {
-        id
-        title
-        icon
-        colour
-      }
+      ccid
+      phone
+      name
+      email
       portfolio {
         id
         title
-        icon
-        colour
       }
-      contacts {
-        id
-      }
-      comments {
-        id
-        commitment
-        text
-        created
-        parent
-        author {
-          username
-          name
-          email
-          phone
-        }
+    }
+    electorates {
+      id
+      title
+    }
+    date
+    announcedby
+    party {
+      id
+      title
+      icon
+      colour
+    }
+    commitmentType {
+      id
+      title
+      icon
+      colour
+    }
+    whoAnnouncedType {
+      id
+      title
+      icon
+      colour
+    }
+    announcementType {
+      id
+      title
+      icon
+      colour
+    }
+    portfolios {
+      id
+      title
+    }
+    comments {
+      id
+      commitment
+      text
+      created
+      parent
+      author {
+        username
+        name
+        email
+        phone
       }
     }
   }
+}
 `
 export const GET_ALL_COMMITMENTS = gql`
   {

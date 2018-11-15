@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
+import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import * as moment from 'moment'
 import { Party } from '../../reducers/party/party.model'
@@ -8,13 +8,15 @@ import { Commitment } from '../../reducers/commitment/commitment.model'
 import { Location } from '../../reducers/location/location.model'
 import { CommitmentType } from '../../reducers/commitment-type/commitment-type.model'
 import { WhoAnnouncedType } from '../../reducers/who-announced-type/who-announced-type.model'
+import { Subscription } from 'rxjs'
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 
 @Component({
   selector: 'digital-first-commitment-edit-form',
   templateUrl: './commitment-edit-form.component.html',
   styleUrls: ['./commitment-edit-form.component.scss']
 })
-export class CommitmentEditFormComponent  implements OnInit {
+export class CommitmentEditFormComponent implements OnDestroy {
 
   @Input() parties: Party[]
   @Input() portfolios: Portfolio[]
@@ -23,6 +25,8 @@ export class CommitmentEditFormComponent  implements OnInit {
   @Input() commitmentTypes: CommitmentType[]
   @Input() locations: Location[]
   @Input() busy: boolean
+
+  formValueChangeSubscription: Subscription
 
   @Output() onSubmitted: EventEmitter<any> = new EventEmitter()
   @Output() onCancelled: EventEmitter<any> = new EventEmitter()
@@ -46,6 +50,9 @@ export class CommitmentEditFormComponent  implements OnInit {
   @Input()
   set commitment(val: Commitment) {
     if (val) {
+      if (this.formValueChangeSubscription) {
+        this.formValueChangeSubscription.unsubscribe()
+      }
 
       const patch = {
         id: val.id,
@@ -63,6 +70,17 @@ export class CommitmentEditFormComponent  implements OnInit {
       }
 
       this.form.patchValue(patch)
+
+      this.formValueChangeSubscription = this.form.valueChanges
+        .pipe(
+          debounceTime(3000),
+          distinctUntilChanged()
+        )
+        .subscribe(blurEvent => {
+          this.handleChange(blurEvent)
+          this.formValueChangeSubscription.unsubscribe()
+        })
+
     }
   }
 
@@ -72,7 +90,10 @@ export class CommitmentEditFormComponent  implements OnInit {
 
   constructor(private fb: FormBuilder) { }
 
-  ngOnInit() {
+  ngOnDestroy() {
+    if (this.formValueChangeSubscription) {
+      this.formValueChangeSubscription.unsubscribe()
+    }
   }
 
   handleReset($event) {

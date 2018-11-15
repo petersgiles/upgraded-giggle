@@ -1,0 +1,19 @@
+.ng-select {
+    flex-grow: 1;
+    margin-left: .3em;
+    margin-right: .3em;
+    padding-bottom: 0;
+}
+
+.ng-select-container {
+    padding-top: 6px;
+    align-items: baseline;
+    height: 56px;
+    max-height: 56px;
+    min-height: 56px;
+    background-color: whitesmoke;
+}
+
+.ng-value-container {
+    padding: 6px 16px !important;
+}

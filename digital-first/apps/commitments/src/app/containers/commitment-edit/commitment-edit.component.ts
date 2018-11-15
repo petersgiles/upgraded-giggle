@@ -196,10 +196,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
       })
   }
 
-  handleChanged(commitment: Commitment) {
-
-  }
-
   handleAddMapPoint($event) {
     // tslint:disable-next-line:no-console
     console.log($event)
