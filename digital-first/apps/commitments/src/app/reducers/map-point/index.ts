@@ -1,6 +1,6 @@
 import * as fromMapPoint from './map-point.reducer'
 import { createSelector } from '@ngrx/store'
-export const getMapPointEntitiesState = state => state.location
+export const getMapPointEntitiesState = state => state.mapPoint
 
 export const {
     selectIds: getMapPointIds,

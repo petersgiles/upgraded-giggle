@@ -40,7 +40,7 @@ export class AddMapPointToCommitment implements Action {
 export class RemoveMapPointFromCommitment implements Action {
   readonly type = CommitmentActionTypes.RemoveMapPointFromCommitment
 
-  constructor(public payload: {id: number | string}) { }
+  constructor(public payload: {commitment: string | number, mapPoint: MapPoint}) { }
 }
 
 export class AddContactToCommitment implements Action {
@@ -66,7 +66,6 @@ export class RemoveElectorateFromCommitment implements Action {
 
   constructor(public payload: {commitment: number | string, electorate: string | number}) { }
 }
-
 export class LoadCommitments implements Action {
   readonly type = CommitmentActionTypes.LoadCommitments
   constructor(public payload: DataResult<CommitmentsResult>) {}

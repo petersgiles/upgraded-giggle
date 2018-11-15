@@ -8,7 +8,9 @@ export interface State extends EntityState<MapPoint> {
   error: any
 }
 
-export const adapter: EntityAdapter<MapPoint> = createEntityAdapter<MapPoint>()
+export const adapter: EntityAdapter<MapPoint> = createEntityAdapter<MapPoint>({
+  selectId: entitiy => entitiy.place_id
+})
 
 export const initialState: State = adapter.getInitialState({
   // additional entity state properties

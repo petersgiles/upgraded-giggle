@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core'
 
 import { Router, ActivatedRoute, ParamMap } from '@angular/router'
 import { Observable, Subscription } from 'rxjs'
-import { MdcDialog, MdcDialogRef } from '@angular-mdc/web'
+import { MdcDialog, MdcDialogRef, MdcSnackbar } from '@angular-mdc/web'
 import { DialogAreYouSureComponent, DialogSpinnerOverlayComponent } from '@digital-first/df-dialogs'
 
 import { CommitmentDataService } from '../../services/commitment-data.service'
@@ -28,14 +28,15 @@ export class CommitmentCreateComponent implements OnInit, OnDestroy {
   announcementTypes$: Observable<AnnouncementType[]>
   commitmentTypes$: Observable<CommitmentType[]>
   whoAnnouncedTypes$: Observable<WhoAnnouncedType[]>
-
+  activitySubscription$: Subscription
   parties$: Observable<Party[]>
   portfolios$: Observable<Portfolio[]>
   locations$: Observable<Location[]>
   activeComment: any
   timeFormat: 'timeAgo' | 'dateFormat' | 'calendar'
+  formBusy = false
 
-  constructor(private router: Router, private route: ActivatedRoute, public dialog: MdcDialog, private service: CommitmentDataService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private snackbar: MdcSnackbar, public dialog: MdcDialog, private service: CommitmentDataService) { }
 
   ngOnInit(): void {
     this.timeFormat = 'timeAgo'
@@ -55,9 +56,43 @@ export class CommitmentCreateComponent implements OnInit, OnDestroy {
     this.service.getAllLocations()
     this.service.getAllPartys()
     this.service.getAllPortfolios()
+
+    this.activitySubscription$ = this.service.Notification
+      // .pipe(
+      //   delay(2000)
+      // )
+      .subscribe(
+        (next: any) => {
+          if (next) {
+            this.formBusy = false
+            this.showSnackBar(next.message)
+          }
+        },
+        error => this.showSnackBar(error)
+      )
   }
 
-  ngOnDestroy(): void {  }
+  showSnackBar(message: string, action: string = 'OK'): void {
+
+    // this is to avoid component validation check errors
+    setTimeout(() => {
+      const snackbarRef = this.snackbar.show(message, action, {
+        align: 'center',
+        multiline: false,
+        dismissOnAction: false,
+        focusAction: true,
+        actionOnBottom: false,
+      })
+
+      snackbarRef.afterDismiss().subscribe(() => {
+
+      })
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.activitySubscription$.unsubscribe()
+  }
 
   handleUpdateCommitment(commitment) {
     this.service.upsertCommitment(commitment)

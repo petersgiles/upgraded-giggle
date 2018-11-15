@@ -22,6 +22,7 @@ export const STORE_CONTACT = gql`
     $email: String
     $phone: String
     $portfolio: ID
+    $party: ID
   ) {
     storeContact(
       name: $name
@@ -29,6 +30,7 @@ export const STORE_CONTACT = gql`
       email: $email
       phone: $phone
       portfolio: $portfolio
+      party: $party
     ) {
       id
       name
@@ -36,6 +38,10 @@ export const STORE_CONTACT = gql`
       email
       phone
       portfolio {
+        id
+        title
+      }
+      party {
         id
         title
       }

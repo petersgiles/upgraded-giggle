@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core'
 import { CommitmentDataService } from '../../services/commitment-data.service'
 import { Observable, Subscription } from 'rxjs'
 import { Router } from '@angular/router'
-import { MdcDialog, MdcDialogRef } from '@angular-mdc/web'
+import { MdcDialog, MdcDialogRef, MdcSnackbar } from '@angular-mdc/web'
 
 import { DialogSpinnerOverlayComponent } from '@digital-first/df-dialogs'
 import { Commitment } from '../../reducers/commitment/commitment.model'
@@ -20,8 +20,10 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
   pageFormat: 'card' | 'list' | 'table' = 'table'
   refinerGroups$: Observable<any>
   commitmentsTableData$: Observable<DataTableConfig>
+  activitySubscription$: Subscription
+  formBusy = false
 
-  constructor(public dialog: MdcDialog, private router: Router, private service: CommitmentDataService) { }
+  constructor(private snackbar: MdcSnackbar, public dialog: MdcDialog, private router: Router, private service: CommitmentDataService) { }
 
   ngOnInit() {
     this.commitments$ = this.service.Commitments
@@ -38,20 +40,41 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
 
     this.service.getAllCommitments()
 
-    // this is to avoid component validation check errors
-    // setTimeout(() => {
-    //   this.loadingSubscription$ = this.service.CommitmentLoading.subscribe((loading) => {
-    //     if (loading) {
-    //       this.loadingDialogRef = this.dialog.open(DialogSpinnerOverlayComponent, {})
-    //     } else if (this.loadingDialogRef) {
-    //       this.loadingDialogRef.close()
-    //     }
-    //   })
-    // })
+    this.activitySubscription$ = this.service.Notification
+      // .pipe(
+      //   delay(2000)
+      // )
+      .subscribe(
+        (next: any) => {
+          if (next) {
+            this.formBusy = false
+            this.showSnackBar(next.message)
+          }
+        },
+        error => this.showSnackBar(error)
+      )
   }
 
-  ngOnDestroy() {
+  showSnackBar(message: string, action: string = 'OK'): void {
 
+    // this is to avoid component validation check errors
+    setTimeout(() => {
+      const snackbarRef = this.snackbar.show(message, action, {
+        align: 'center',
+        multiline: false,
+        dismissOnAction: false,
+        focusAction: true,
+        actionOnBottom: false,
+      })
+
+      snackbarRef.afterDismiss().subscribe(() => {
+
+      })
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.activitySubscription$.unsubscribe()
   }
 
   handleEdit(commitment?: Commitment) {

@@ -35,12 +35,12 @@ export class MapComponent implements OnInit {
   }
 
   mapMapPointToDataTable(data: MapPoint[]) {
-    const rows = data.map(c => ({
+    const rows = data ? data.filter(c => c && c.place_id).map(c => ({
       id: c.place_id,
       cells: [{
         value: c.address
       }]
-    }))
+    })) : []
 
     const dtc: DataTableConfig = {
       title: 'map points',

@@ -128,6 +128,19 @@ export class SharepointDataService implements AppDataService {
     )
   }
 
+  getMapPointsByCommitment(commitment: number): Observable<DataResult<MapPointsResult>> {
+    return this.sharepoint.getItems({
+      listName: 'CommitmentMapPoints',
+      viewXml: byCommitmentIdQuery({ id: commitment })
+    }).pipe(
+      concatMap((mapPoints: any) =>
+        of({
+          data: { mapPoints: mapMapPoints(mapPoints) },
+          loading: false
+        }))
+    )
+  }
+
   filterCommitments(filter?: { party?: string; type?: string; portfolio?: string; }): Observable<DataResult<CommitmentsResult>> {
     return this.sharepoint.getItems({ listName: 'Commitment' })
       .pipe(
@@ -350,7 +363,7 @@ export class SharepointDataService implements AppDataService {
       Title: mapPoint.address,
       Latitude: mapPoint.latitude,
       Longitude: mapPoint.longitude,
-      PlaceId: mapPoint.place_id,
+      Id: mapPoint.place_id,
 
     }
 
@@ -360,10 +373,10 @@ export class SharepointDataService implements AppDataService {
     })
   }
 
-  deleteMapPoint(mapPoint: { id: any }) {
+  removeMapPoint(placeId: any) {
     return this.sharepoint.removeItem({
       listName: 'MapPoint',
-      id: mapPoint.id,
+      id: placeId,
     })
   }
 

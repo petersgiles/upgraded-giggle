@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core'
 import { MdcDialogRef, MDC_DIALOG_DATA } from '@angular-mdc/web'
 
 export interface DialogContactsData {
-  contacts: {id: any, name: string}[]
+  contacts: { id: any, name: string }[]
 }
 
 @Component({
@@ -45,11 +45,18 @@ export class DialogAddContactComponent implements OnInit {
       this.filteredItems = [...this.contacts]
     } else {
       this.filteredItems = [...this.contacts].filter(
-        item => item.name.toLowerCase().indexOf(value.toLowerCase()) > -1
-     )
+        item => {
+          if (item.name) {
+            return item.name.toLowerCase().indexOf(value.toLowerCase()) > -1
+          } else {
+            return 0
+          }
+
+        }
+      )
     }
 
- }
+  }
 
   ngOnInit() {
     this.contacts = this.data.contacts

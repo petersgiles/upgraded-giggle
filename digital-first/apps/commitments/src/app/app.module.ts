@@ -70,6 +70,7 @@ import * as fromParty from './reducers/party/party.reducer'
 import * as fromComment from './reducers/comment/comment.reducer'
 import * as fromContact from './reducers/contact/contact.reducer'
 import * as fromLocation from './reducers/location/location.reducer'
+import * as fromMapPoint from './reducers/map-point/map-point.reducer'
 import * as fromCommitmentType from './reducers/commitment-type/commitment-type.reducer'
 import { AppEffects } from './reducers/app.effects'
 import { RouterEffects } from './reducers/router.effects'
@@ -85,6 +86,7 @@ import { CommitmentCreateComponent } from './containers/commitment-create/commit
 import { WhoAnnouncedTypeEffects } from './reducers/who-announced-type/who-announced-type.effects'
 import { ContactCreateComponent } from './containers/contact-create/contact-create.component'
 import { ContactCreateFormComponent } from './components/contact-create-form/contact-create-form.component'
+import { MapPointEffects } from './reducers/map-point/map-point.effects'
 
 const COMPONENTS = [
   AppComponent,
@@ -204,6 +206,7 @@ export let appDataServiceProvider = {
     StoreModule.forFeature('contact', fromContact.reducer),
     StoreModule.forFeature('location', fromLocation.reducer),
     StoreModule.forFeature('commitmentType', fromCommitmentType.reducer),
+    StoreModule.forFeature('mapPoint', fromMapPoint.reducer),
 
     EffectsModule.forRoot([AppEffects]),
     EffectsModule.forFeature([
@@ -215,6 +218,7 @@ export let appDataServiceProvider = {
       CommitmentTypeEffects,
       ContactEffects,
       LocationEffects,
+      MapPointEffects,
       PartyEffects,
       PortfolioEffects
     ]),

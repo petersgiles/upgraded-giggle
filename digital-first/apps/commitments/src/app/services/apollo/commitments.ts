@@ -7,6 +7,10 @@ export const GET_COMMITMENT = gql`
     title
     description
     cost
+    portfolio {
+        id
+        title
+      }
     contacts {
       id
       ccid
@@ -48,9 +52,11 @@ export const GET_COMMITMENT = gql`
       icon
       colour
     }
-    portfolios {
-      id
-      title
+    mapPoints {
+      place_id
+      latitude
+      longitude
+      address
     }
     comments {
       id
@@ -70,94 +76,106 @@ export const GET_COMMITMENT = gql`
 `
 
 export const UPSERT_COMMITMENT = gql`
-  mutation Commitment(
-    $id: ID
-    $title: String!
-    $description: String!
-    $party: ID
-    $cost: String
-    $location: ID
-    $announcementType: ID
-    $whoAnnouncedType: ID
-    $commitmentType: ID
-    $date: String
-    $announcedby: String
-    $portfolio: ID
-    $contacts: String
+mutation Commitment(
+  $id: ID
+  $title: String!
+  $description: String!
+  $party: ID
+  $cost: String
+  $location: ID
+  $announcementType: ID
+  $whoAnnouncedType: ID
+  $commitmentType: ID
+  $date: String
+  $announcedby: String
+  $portfolio: ID
+  $contacts: String
+) {
+  upsertCommitment(
+    id: $id
+    title: $title
+    description: $description
+    party: $party
+    cost: $cost
+    location: $location
+    announcementType: $announcementType
+    whoAnnouncedType: $whoAnnouncedType
+    commitmentType: $commitmentType
+    date: $date
+    announcedby: $announcedby
+    portfolio: $portfolio
+    contacts: $contacts
   ) {
-    upsertCommitment(
-      id: $id
-      title: $title
-      description: $description
-      party: $party
-      cost: $cost
-      location: $location
-      announcementType: $announcementType
-      whoAnnouncedType: $whoAnnouncedType
-      commitmentType: $commitmentType
-      date: $date
-      announcedby: $announcedby
-      portfolio: $portfolio
-      contacts: $contacts
-    ) {
+    id
+    title
+    description
+    cost
+    contacts {
       id
-      title
-      description
-      cost
-      location {
-        id
-        title
-      }
-      date
-      announcedby
-      party {
-        id
-        title
-        icon
-        colour
-      }
-      announcementType {
-        id
-        title
-        icon
-        colour
-      }
-      whoAnnouncedType {
-        id
-        title
-        icon
-        colour
-      }
-      commitmentType {
-        id
-        title
-        icon
-        colour
-      }
+      ccid
+      phone
+      name
+      email
       portfolio {
         id
         title
-        icon
-        colour
       }
-      contacts {
+    }
+    electorates {
+      id
+      title
+    }
+    date
+    announcedby
+    party {
+      id
+      title
+      icon
+      colour
+    }
+    commitmentType {
+      id
+      title
+      icon
+      colour
+    }
+    whoAnnouncedType {
+      id
+      title
+      icon
+      colour
+    }
+    announcementType {
+      id
+      title
+      icon
+      colour
+    }
+    portfolio {
         id
+        title
       }
-      comments {
-        id
-        commitment
-        text
-        created
-        parent
-        author {
-          username
-          name
-          email
-          phone
-        }
+    mapPoints {
+      place_id
+      latitude
+      longitude
+      address
+    }
+    comments {
+      id
+      commitment
+      text
+      created
+      parent
+      author {
+        username
+        name
+        email
+        phone
       }
     }
   }
+}
 `
 export const GET_ALL_COMMITMENTS = gql`
   {
@@ -178,7 +196,7 @@ export const GET_ALL_COMMITMENTS = gql`
       announcementType {
         id
       }
-      portfolios {
+      portfolio {
         id
       }
       whoAnnouncedType {
@@ -186,6 +204,9 @@ export const GET_ALL_COMMITMENTS = gql`
       }
       contacts {
           id
+      }
+      mapPoints {
+        place_id
       }
     }
   }

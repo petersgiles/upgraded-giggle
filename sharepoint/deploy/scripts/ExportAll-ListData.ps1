@@ -4,7 +4,7 @@
     [string] $exportPath = "..\..\commitments\Data"
 )
 
-$listsToExport = @("AnnouncementType", "CommitmentType", "Electorate", "PoliticalParty", "Portfolio")
+$listsToExport = @("AnnouncementType", "CommitmentType", "CriticalDate", "Electorate", "PoliticalParty", "Portfolio", "WhoAnnouncedType" )
 
 if(-not (Test-Path $exportPath))
 {
