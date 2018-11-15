@@ -90,6 +90,8 @@ export class ApolloDataService implements AppDataService {
     party: string
   }): Observable<DataResult<ContactsResult>> {
     const variables = { ...contact }
+    // tslint:disable-next-line:no-console
+    console.log('storeContact', variables)
     return this.callMutate<any>({ mutation: STORE_CONTACT, variables: variables })
   }
 
@@ -161,7 +163,7 @@ export class ApolloDataService implements AppDataService {
   getCommentsByCommitment = (commitment: any) => this.callQuery<CommentsResult>({ query: COMMENTS_BY_COMMITMENT, variables: { commitment: commitment } })
   getMapPointsByCommitment = (commitment: any) =>
     this.callQuery<MapPointsResult>({ query: MAP_POINTS_BY_COMMITMENT, variables: { commitment: commitment } },
-      (result: any): any => ({ data: { mapPoints: result.data.commitmentMapPoints }}))
+      (result: any): any => ({ data: { mapPoints: result.data.commitmentMapPoints } }))
 
   callMutate<T>(options: {
     mutation: any,
