@@ -52,6 +52,12 @@ export const GET_COMMITMENT = gql`
       id
       title
     }
+    mapPoints {
+      place_id
+      latitude
+      longitude
+      address
+    }
     comments {
       id
       commitment
@@ -149,6 +155,12 @@ mutation Commitment(
       id
       title
     }
+    mapPoints {
+      place_id
+      latitude
+      longitude
+      address
+    }
     comments {
       id
       commitment
@@ -192,6 +204,9 @@ export const GET_ALL_COMMITMENTS = gql`
       }
       contacts {
           id
+      }
+      mapPoints {
+        place_id
       }
     }
   }

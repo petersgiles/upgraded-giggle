@@ -94,8 +94,8 @@ type Tag {
    type MapPoint {
     place_id: String
     address: String
-    latitude: Int
-    longitude: Int
+    latitude: Float
+    longitude: Float
   }
 
   type CommitmentMapPoint {

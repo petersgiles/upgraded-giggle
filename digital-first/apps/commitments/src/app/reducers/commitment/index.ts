@@ -6,7 +6,7 @@ import * as fromCommitment from './commitment.reducer'
 import { getCommitmentTypeEntities } from '../commitment-type'
 import { getLocationEntities } from '../location'
 import { getAllComments } from '../comment'
-import { getAllContacts } from '../contact'
+import { getMapPointEntities } from '../map-point'
 
 import { getPartyEntities } from '../party'
 import { getPortfolioEntities } from '../portfolio'
@@ -38,9 +38,10 @@ export const getLookupEnitites = createSelector(
     getAnnouncementTypeEntities,
     getCommitmentTypeEntities,
     getWhoAnnouncedTypeEntities,
-    (partys, portfolios, locations, announcementTypes, commitmentTypes, whoAnnouncedTypes) =>
+    getMapPointEntities,
+    (partys, portfolios, locations, announcementTypes, commitmentTypes, whoAnnouncedTypes, mapPoints) =>
         ({
-            partys, portfolios, locations, announcementTypes, commitmentTypes, whoAnnouncedTypes
+            partys, portfolios, locations, announcementTypes, commitmentTypes, whoAnnouncedTypes, mapPoints
         })
 )
 
@@ -62,6 +63,7 @@ export const getCurrentCommitment = createSelector(
                 whoAnnouncedType: commitment.whoAnnouncedType ? lookups.whoAnnouncedTypes[commitment.whoAnnouncedType.id] : null,
                 announcementType: commitment.announcementType ? lookups.announcementTypes[commitment.announcementType.id] : null,
                 commitmentType: commitment.commitmentType ? lookups.commitmentTypes[commitment.commitmentType.id] : null,
+                mapPoints: commitment.mapPoints ? commitment.mapPoints.map(mp => lookups.mapPoints[mp.place_id]) : null,
                 date: moment(commitment.date),
 
                 discussion: toTree(discussionItems, {
@@ -93,7 +95,7 @@ export const getCommitmentError = createSelector(
     state => state.error
 )
 
-export const getCommitmentActivity  = createSelector(
+export const getCommitmentActivity = createSelector(
     getCommitmentSaving,
     getCommitmentLoading,
     getCommitmentError,

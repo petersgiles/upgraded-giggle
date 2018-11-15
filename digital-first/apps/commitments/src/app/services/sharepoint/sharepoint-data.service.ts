@@ -128,6 +128,19 @@ export class SharepointDataService implements AppDataService {
     )
   }
 
+  getMapPointsByCommitment(commitment: number): Observable<DataResult<MapPointsResult>> {
+    return this.sharepoint.getItems({
+      listName: 'CommitmentMapPoints',
+      viewXml: byCommitmentIdQuery({ id: commitment })
+    }).pipe(
+      concatMap((mapPoints: any) =>
+        of({
+          data: { mapPoints: mapMapPoints(mapPoints) },
+          loading: false
+        }))
+    )
+  }
+
   filterCommitments(filter?: { party?: string; type?: string; portfolio?: string; }): Observable<DataResult<CommitmentsResult>> {
     return this.sharepoint.getItems({ listName: 'Commitment' })
       .pipe(

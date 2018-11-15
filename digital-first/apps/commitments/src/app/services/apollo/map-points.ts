@@ -48,3 +48,14 @@ mutation DeleteCommitmentMapPoint($commitment: ID!, $mapPoint: ID!) {
   }
 }
 `
+
+export const MAP_POINTS_BY_COMMITMENT = gql`
+query CommitmentMapPoints($commitment: ID!) {
+  commitmentMapPoints(commitment: $commitment) {
+    place_id
+    latitude
+    longitude
+    address
+  }
+}
+`

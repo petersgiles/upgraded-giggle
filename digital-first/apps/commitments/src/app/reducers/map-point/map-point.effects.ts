@@ -14,11 +14,11 @@ import { ContactsActionFailure } from '../contact/contact.actions'
 export class MapPointEffects {
 
   @Effect()
-  getMapPointsByComment$: Observable<Action> = this.actions$
+  getMapPointsByCommitment$: Observable<Action> = this.actions$
     .pipe(ofType(MapPointActionTypes.GetMapPointsByCommitment))
     .pipe(
-      map((action: GetMapPointsByCommitment) => action.payload.commitment),
-      switchMap((commitment: any) => this.service.getCommentsByCommitment(commitment)
+      map((action: GetMapPointsByCommitment) => action.payload),
+      switchMap((payload: any) => this.service.getMapPointsByCommitment(payload.commitment)
         .pipe(
           map((result: DataResult<MapPointsResult>) => new LoadMapPoints(result)),
           catchError(error => of(new MapPointsActionFailure(error)))

@@ -38,7 +38,7 @@ export const resolvers = {
     commitmentMapPoints: (obj: any, args: any, context: any, info: any) => {
       // (commitment: ID!): [MapPoint]
       let set = db['commitment-commitment-map-points'].find({ commitment: args.commitment })
-      let found = set.map((f: any) => db['commitment-map-points'].findOne({ _id: f.mapPoint })).map((c: any) => ({ ...c, id: c._id }))
+      let found = set.map((f: any) => db['commitment-map-points'].findOne({ place_id: f.mapPoint })).map((c: any) => ({ ...c, id: c._id }))
       console.log('commitment MapPoints => ', set, found)
       return found
 
@@ -317,8 +317,7 @@ export const resolvers = {
       let found = set
         .map(
           (f: any) => ({
-            ...db['commitment-map-points'].findOne({ _id: f.mapPoint }),
-            ccid: f._id
+            ...db['commitment-map-points'].findOne({ place_id: f.mapPoint })
           })
         )
         .map((c: any) => ({ ...c, id: c._id }))

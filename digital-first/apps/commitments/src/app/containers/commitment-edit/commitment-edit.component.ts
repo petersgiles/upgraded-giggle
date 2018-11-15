@@ -202,7 +202,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.service.addMapPointToCommitment(this.commitment.id, mapPoint)
   }
 
-  handleRemoveMapPoint(mapPoint) {
+  handleDeleteMapPoint(mapPoint) {
 
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
@@ -215,7 +215,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
       )
       .subscribe(result => {
         if (result === ARE_YOU_SURE_ACCEPT) {
-          this.service.removeMapPointFromCommitment(this.commitment.id, mapPoint)
+          this.service.removeMapPointFromCommitment(this.commitment.id, mapPoint.id)
         }
       })
   }

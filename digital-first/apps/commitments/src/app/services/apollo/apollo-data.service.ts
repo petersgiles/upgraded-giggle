@@ -20,7 +20,8 @@ import {
   STORE_COMMITMENT_ELECTORATE,
   STORE_CONTACT,
   STORE_MAP_POINT,
-  REMOVE_MAP_POINT
+  REMOVE_MAP_POINT,
+  MAP_POINTS_BY_COMMITMENT
 } from './apollo-queries'
 import {
   AnnouncementTypesResult,
@@ -158,9 +159,9 @@ export class ApolloDataService implements AppDataService {
   filterCommitmentTypes = (filter?: any) => this.callQuery<CommitmentTypesResult>({ query: GET_COMMITMENT_TYPES, variables: filter })
   filterParties = (filter?: any) => this.callQuery<PartysResult>({ query: GET_PARTIES, variables: filter })
   getCommentsByCommitment = (commitment: any) => this.callQuery<CommentsResult>({ query: COMMENTS_BY_COMMITMENT, variables: { commitment: commitment } })
-  getMapPointsByCommitment = (commitment: any) => this.callQuery<MapPointsResult>({ query: COMMENTS_BY_COMMITMENT, variables: { commitment: commitment } })
-  getElectoratesByCommitment = (commitment: any) => this.callQuery<ElectoratesResult>({ query: COMMENTS_BY_COMMITMENT, variables: { commitment: commitment } })
-  getPortfoliosByCommitment = (commitment: any) => this.callQuery<PortfoliosResult>({ query: COMMENTS_BY_COMMITMENT, variables: { commitment: commitment } })
+  getMapPointsByCommitment = (commitment: any) =>
+    this.callQuery<MapPointsResult>({ query: MAP_POINTS_BY_COMMITMENT, variables: { commitment: commitment } },
+      (result: any): any => ({ data: { mapPoints: result.data.commitmentMapPoints }}))
 
   callMutate<T>(options: {
     mutation: any,
@@ -186,14 +187,19 @@ export class ApolloDataService implements AppDataService {
     query: any,
     fetchPolicy?: 'no-cache' | 'network-only',
     variables?: any
-  }): Observable<DataResult<T>> {
+  }, mapper?: any): Observable<DataResult<T>> {
 
     return this.apollo
       .query({
         ...options
       })
       .pipe(
-        switchMap((result: any) => of(result as DataResult<T>)),
+        switchMap((result: any) => {
+          if (mapper) {
+            return of(mapper(result) as DataResult<T>)
+          }
+          return of(result as DataResult<T>)
+        }),
         catchError(err => this.replyError<T>(err))
       )
   }

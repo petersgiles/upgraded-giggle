@@ -6,6 +6,7 @@ import { Commitment } from '../reducers/commitment'
   providedIn: 'root'
 })
 export abstract class AppDataService {
+
   abstract removeElectorateFromCommitment(payload: any): Observable<any>
 
   abstract addElectorateToCommitment(payload: any): Observable<any>
@@ -15,6 +16,7 @@ export abstract class AppDataService {
 
   abstract removeMapPointFromCommitment(payload: any): Observable<any>
   abstract addMapPointToCommitment(payload: any): Observable<any>
+  abstract getMapPointsByCommitment(commitment: any): Observable<any>
 
   abstract filterWhoAnnouncedTypes(filter: any): Observable<any>
   abstract storeCommitment(commitment: Commitment): Observable<any>

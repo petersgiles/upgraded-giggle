@@ -6,6 +6,7 @@ import { Location } from '../location/location.model'
 import { CommitmentType } from '../commitment-type/commitment-type.model'
 import { WhoAnnouncedType } from '../who-announced-type/who-announced-type.model'
 import { Contact } from '../contact/contact.model'
+import { MapPoint } from '../map-point/map-point.model'
 
 export interface Commitment {
   id: number
@@ -22,6 +23,7 @@ export interface Commitment {
   announcedby: string,
   portfolio: Portfolio,
   portfolios: Portfolio[],
+  mapPoints: MapPoint[],
   contacts: Contact[],
   discussion?: Comment[]
 }

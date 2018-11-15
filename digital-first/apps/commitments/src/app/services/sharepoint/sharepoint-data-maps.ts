@@ -194,6 +194,7 @@ export const mapCommitment = (commitment): Commitment => {
     announcedby: item.AnnouncedBy,
     portfolio: fromLookup(item.Portfolio),
     portfolios: [],
+    mapPoints: [],
     contacts: []
   }
 

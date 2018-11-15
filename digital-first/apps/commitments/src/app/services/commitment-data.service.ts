@@ -29,6 +29,7 @@ import {
   AddMapPointToCommitment,
   RemoveMapPointFromCommitment
 } from '../reducers/commitment/commitment.actions'
+import { GetMapPointsByCommitment } from '../reducers/map-point/map-point.actions'
 import { GetAllAnnouncementTypes } from '../reducers/announcement-type/announcement-type.actions'
 import { GetAllContacts, StoreContact } from '../reducers/contact/contact.actions'
 import { GetAllPartys } from '../reducers/party/party.actions'
@@ -100,10 +101,6 @@ export class CommitmentDataService {
 
   /// Comments
 
-  public getCommentsByCommitment(commitment: number) {
-    this.store.dispatch(new GetCommentsByCommitment({ commitment: commitment }))
-  }
-
   get Comments(): Observable<Comment[]> {
     return this.store.pipe(select(fromRoot.getAllComments))
   }
@@ -130,6 +127,7 @@ export class CommitmentDataService {
     this.store.dispatch(new SetCurrentCommitment({ id: id }))
     this.store.dispatch(new ClearComments())
     this.store.dispatch(new GetCommentsByCommitment({ commitment: id }))
+    this.store.dispatch(new GetMapPointsByCommitment({ commitment: id }))
   }
 
   public addContactToCommitment(commitment: string | number, contact: string | number): any {
