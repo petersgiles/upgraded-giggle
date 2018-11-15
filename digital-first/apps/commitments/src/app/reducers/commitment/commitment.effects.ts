@@ -57,7 +57,7 @@ export class CommitmentEffects {
       map((action: StoreCommitment) => action.payload),
       switchMap((commitment: any) => this.service.storeCommitment(commitment)),
       switchMap((result: DataResult<CommitmentResult>) => [
-        new AppNotification({ message: 'Changes Saved' }),
+        new AppNotification({ message: 'Commitment Saved' }),
         new SetCurrentCommitment({ id: result.data.commitment.id }),
         new ClearAppNotification()
       ]),

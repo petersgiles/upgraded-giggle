@@ -24,18 +24,19 @@ export class ContactEffects {
         )
       ))
 
-      @Effect()
-      storeContact$: Observable<Action> = this.actions$
-        .pipe(ofType(ContactActionTypes.StoreContact))
-        .pipe(
-          map((action: StoreContact) => action.payload),
-          switchMap((commitment: any) => this.service.storeContact(commitment)),
-          switchMap((result: DataResult<ContactsResult>) => [
-            new AppNotification({ message: 'Changes Saved' }),
-            new ClearAppNotification()
-          ]),
-          catchError(error => of(new ContactsActionFailure(error)))
-        )
+  @Effect()
+  storeContact$: Observable<Action> = this.actions$
+    .pipe(ofType(ContactActionTypes.StoreContact))
+    .pipe(
+      map((action: StoreContact) => action.payload),
+      switchMap((commitment: any) => this.service.storeContact(commitment)),
+      switchMap((result: DataResult<ContactsResult>) => [
+        new AppNotification({ message: 'Contact Created' }),
+        new GetAllContacts(),
+        new ClearAppNotification()
+      ]),
+      catchError(error => of(new ContactsActionFailure(error)))
+    )
 
   constructor(private actions$: Actions, private service: AppDataService) { }
 }

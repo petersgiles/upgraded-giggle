@@ -50,8 +50,7 @@ export class ContactCreateFormComponent implements OnInit {
 
   mapFormToObject(formValue): any {
     const map: any = {
-      ...formValue,
-      date: moment(formValue.date).format()
+      ...formValue
     }
 
     return map
