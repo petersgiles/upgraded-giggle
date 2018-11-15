@@ -196,9 +196,28 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
       })
   }
 
-  handleAddMapPoint($event) {
+  handleAddMapPoint(mapPoint) {
     // tslint:disable-next-line:no-console
-    console.log($event)
+    console.log(mapPoint)
+    this.service.addMapPointToCommitment(this.commitment.id, mapPoint)
+  }
+
+  handleRemoveMapPoint(mapPoint) {
+
+    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+      escapeToClose: true,
+      clickOutsideToClose: true
+    })
+
+    dialogRef.afterClosed()
+      .pipe(
+        first()
+      )
+      .subscribe(result => {
+        if (result === ARE_YOU_SURE_ACCEPT) {
+          this.service.removeMapPointFromCommitment(this.commitment.id, mapPoint)
+        }
+      })
   }
 
   changeDateFormat(format) {

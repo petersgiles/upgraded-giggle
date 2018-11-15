@@ -4,7 +4,7 @@ import {
 import { Injectable } from '@angular/core'
 import { tap } from 'rxjs/operators'
 import { Store, select } from '@ngrx/store'
-import { RefinerGroup, RefinerType, DataTableConfig } from '@digital-first/df-components'
+import { RefinerGroup, RefinerType, DataTableConfig, MapPoint } from '@digital-first/df-components'
 
 import { WhoAnnouncedType } from '../reducers/who-announced-type/who-announced-type.model'
 import { AnnouncementType } from '../reducers/announcement-type/announcement-type.model'
@@ -25,7 +25,9 @@ import {
   AddContactToCommitment,
   RemoveContactFromCommitment,
   AddElectorateToCommitment,
-  RemoveElectorateFromCommitment
+  RemoveElectorateFromCommitment,
+  AddMapPointToCommitment,
+  RemoveMapPointFromCommitment
 } from '../reducers/commitment/commitment.actions'
 import { GetAllAnnouncementTypes } from '../reducers/announcement-type/announcement-type.actions'
 import { GetAllContacts, StoreContact } from '../reducers/contact/contact.actions'
@@ -143,6 +145,13 @@ export class CommitmentDataService {
   }
   public removeElectorateFromCommitment(commitment: string | number, electorate: string | number): any {
     this.store.dispatch(new RemoveElectorateFromCommitment({ commitment, electorate }))
+  }
+
+  public addMapPointToCommitment(commitment: string | number, mapPoint: MapPoint): any {
+    this.store.dispatch(new AddMapPointToCommitment({ commitment, mapPoint }))
+  }
+  public removeMapPointFromCommitment(commitment: string | number, mapPoint: MapPoint): any {
+    this.store.dispatch(new RemoveMapPointFromCommitment({ commitment, mapPoint }))
   }
 
   get Commitment(): Observable<Commitment> {

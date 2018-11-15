@@ -170,6 +170,25 @@ export const resolvers = {
       console.log('deleteCommitmentContact =>', result, c)
       return c
     },
+    storeMapPoint: (_root: any, args: any) => {
+      const data = { ...args };
+      var saved = db['commitment-map-points'].save(data);
+      var result = { ...saved }
+      console.log('storeMapPoint =>', result, data)
+      return result
+    },
+    deleteMapPoint: (_root: any, args: any) => {
+
+      var query = {
+        place_id: args.place_id
+      };
+
+      const c = db['commitment-map-points'].findOne(query)
+      var result = db['commitment-map-points'].remove({ _id: c._id }, false);
+      console.log('deleteMapPoint =>', result)
+      return { ...c }
+
+    }, 
     storeCommitmentMapPoint: (_root: any, args: any) => {
       //(commitment: Int!, contact: Int!): Commitment,
       const data = { ...args };

@@ -132,9 +132,12 @@ export class CommitmentEffects {
     .pipe(ofType(CommitmentActionTypes.AddMapPointToCommitment))
     .pipe(
       map((action: AddMapPointToCommitment) => action.payload),
-      switchMap((payload: any) => this.service.addMapPointToCommitment(payload)),
+      switchMap((payload) => this.service.storeMapPoint(payload.mapPoint)
+        .pipe(
+          switchMap(_ => this.service.addMapPointToCommitment(payload))
+        )),
       switchMap((result: any) => [
-        new AppNotification({ message: 'Contact Added' }),
+        new AppNotification({ message: 'Map Point Added' }),
         new SetCurrentCommitment({ id: result.commitment.id }),
         new ClearAppNotification()
       ]),
@@ -148,7 +151,7 @@ export class CommitmentEffects {
       map((action: RemoveMapPointFromCommitment) => action.payload),
       switchMap((payload: any) => this.service.removeMapPointFromCommitment(payload)),
       switchMap((result: any) => [
-        new AppNotification({ message: 'Contact Removed' }),
+        new AppNotification({ message: 'Map Point Removed' }),
         new SetCurrentCommitment({ id: result.commitment.id }),
         new ClearAppNotification()
       ]),

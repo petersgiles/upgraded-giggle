@@ -17,7 +17,10 @@ import {
   STORE_COMMITMENT_MAP_POINT,
   REMOVE_COMMITMENT_MAP_POINT,
   REMOVE_COMMITMENT_ELECTORATE,
-  STORE_COMMITMENT_ELECTORATE
+  STORE_COMMITMENT_ELECTORATE,
+  STORE_CONTACT,
+  STORE_MAP_POINT,
+  REMOVE_MAP_POINT
 } from './apollo-queries'
 import {
   AnnouncementTypesResult,
@@ -77,6 +80,18 @@ export class ApolloDataService implements AppDataService {
 
   }
 
+  storeContact(contact: {
+    name: string,
+    username: string,
+    email: string,
+    phone: string,
+    portfolio: string,
+    party: string
+  }): Observable<DataResult<ContactsResult>> {
+    const variables = { ...contact }
+    return this.callMutate<any>({ mutation: STORE_CONTACT, variables: { ...variables } })
+  }
+
   deleteComment = (variables: { id: any; commitment: any }) =>
     this.callMutate<{ commitment: number }>(
       { mutation: DELETE_COMMENT, variables: { ...variables } },
@@ -94,11 +109,22 @@ export class ApolloDataService implements AppDataService {
       (result: any) => ({ commitment: result.data.deleteCommitmentContact })
     )
 
-  addMapPointToCommitment = (variables: { commitment: any, mapPoint: any }) =>
+  storeMapPoint = (mapPoint: any) =>
     this.callMutate<any>(
-      { mutation: STORE_COMMITMENT_MAP_POINT, variables: { ...variables } },
-      (result: any) => ({ commitment: result.data.storeCommitmentMapPoint })
+      { mutation: STORE_MAP_POINT, variables: { ...mapPoint } },
+      (result: any) => ({ commitment: result.data.storeMapPoint })
     )
+
+  removeMapPoint = (placeId: any) =>
+    this.callMutate<any>(
+      { mutation: REMOVE_MAP_POINT, variables: { place_id: placeId } },
+      (result: any) => ({ commitment: result.data.removeMapPoint })
+    )
+
+  addMapPointToCommitment = (variables: { commitment: any, mapPoint: any }) => this.callMutate<any>(
+    { mutation: STORE_COMMITMENT_MAP_POINT, variables: { commitment: variables.commitment, mapPoint: variables.mapPoint.place_id } },
+    (result: any) => ({ commitment: result.data.storeCommitmentMapPoint })
+  )
 
   removeMapPointFromCommitment = (variables: { id: any }) =>
     this.callMutate<any>(
@@ -176,9 +202,4 @@ export class ApolloDataService implements AppDataService {
     const error: DataResult<T> = { data: null, error: err, loading: false }
     return of(error)
   }
-
-  storeContact(contact: any): Observable<any> {
-    throw new Error('Method not implemented.')
-  }
-
 }

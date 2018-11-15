@@ -71,6 +71,7 @@ type Contact {
   phone: String,
   ccid: ID,
   portfolio: Portfolio
+  party: PoliticalParty
 }
 
 type Electorate {
@@ -184,12 +185,15 @@ type Tag {
       username: String,
       email: String,
       phone: String,
-      portfolio: ID): Contact,
+      portfolio: ID,
+      party: ID): Contact,
     deleteContact(id:  ID!): Contact,
     storeCommitmentContact(commitment: ID!, contact: ID!): Commitment,
     deleteCommitmentContact(id: ID!): Commitment,
+    storeMapPoint(place_id: String!, latitude: Float!, longitude: Float!, address: String!): MapPoint,
+    deleteMapPoint(place_id: String!): MapPoint,
     storeCommitmentMapPoint(commitment: ID!, mapPoint: ID!): Commitment,
-    deleteCommitmentMapPoint(id: ID!): Commitment,
+    deleteCommitmentMapPoint(commitment: ID!, mapPoint: ID!): Commitment,
     storeCommitmentElectorate(commitment: ID!, electorate: ID!): Commitment,
     deleteCommitmentElectorate(commitment: ID!, electorate: ID!): Commitment,
     storeCommitmentPortfolio(commitment: ID!, portfolio: ID!): Commitment,

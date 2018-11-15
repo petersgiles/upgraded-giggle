@@ -350,7 +350,7 @@ export class SharepointDataService implements AppDataService {
       Title: mapPoint.address,
       Latitude: mapPoint.latitude,
       Longitude: mapPoint.longitude,
-      PlaceId: mapPoint.place_id,
+      Id: mapPoint.place_id,
 
     }
 
@@ -360,10 +360,10 @@ export class SharepointDataService implements AppDataService {
     })
   }
 
-  deleteMapPoint(mapPoint: { id: any }) {
+  removeMapPoint(placeId: any) {
     return this.sharepoint.removeItem({
       listName: 'MapPoint',
-      id: mapPoint.id,
+      id: placeId,
     })
   }
 
