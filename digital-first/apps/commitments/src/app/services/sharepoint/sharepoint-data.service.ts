@@ -299,7 +299,21 @@ export class SharepointDataService implements AppDataService {
   }
 
   storeContact(contact: any): Observable<any> {
-    throw new Error('Method not implemented.')
+    const spContact = {
+      Title: contact.name,
+      FirstName: contact.username,
+      Email: contact.email,
+      WorkPhone: contact.phone,
+      Portfolio: contact.portfolio,
+      Party: contact.party
+    }
+
+    // tslint:disable-next-line:no-console
+    console.log('Store Contact', spContact)
+    return this.sharepoint.storeItem({
+      listName: 'Contact',
+      data: spContact,
+    })
   }
 
   storeComment(comment: { commitment: any; parent: any; comment: any; }): Observable<any> {
