@@ -1,9 +1,10 @@
 /// <reference types="@types/googlemaps" />
 import { Component, OnInit, Input, ViewChild, ElementRef, NgZone, Output, EventEmitter } from '@angular/core'
-import { MouseEvent, MapsAPILoader } from '@agm/core'
+import { MapsAPILoader } from '@agm/core'
 import { FormControl } from '@angular/forms'
 import { MapPoint } from './map-point-model'
 import { DataTableConfig } from '../data-table/data-table-model'
+import { getLatLngCenter } from '@digital-first/df-utils'
 
 @Component({
   selector: 'digital-first-map',
@@ -14,6 +15,7 @@ export class MapComponent implements OnInit {
 
   public latitude: number
   public longitude: number
+
   public searchControl: FormControl
   public zoom: number
   public mapPoint: MapPoint
@@ -22,6 +24,7 @@ export class MapComponent implements OnInit {
 
   @ViewChild('search')
   public searchElementRef: ElementRef
+  centre: any
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
@@ -31,7 +34,16 @@ export class MapComponent implements OnInit {
   @Input()
   set mapPoints(val: MapPoint[]) {
     this._mapPoints = val
+
     this._mapPointTableData = this.mapMapPointToDataTable(val)
+
+    // set centre position
+    this.centre = getLatLngCenter(val)
+    this.setCurrentPosition(this.centre)
+  }
+
+  get mapPoints() {
+    return this._mapPoints
   }
 
   mapMapPointToDataTable(data: MapPoint[]) {
@@ -59,7 +71,8 @@ export class MapComponent implements OnInit {
   @Output() onDeleteMapPoint: EventEmitter<any> = new EventEmitter()
 
   handleAddItem($event) {
-    this.onAddMapPoint.emit(this.mapPoint)
+    this.onAddMapPoint.emit({ ...this.mapPoint })
+    this.mapPoint = null
   }
 
   handleMapPointTableDeleteClicked($event) {
@@ -70,14 +83,16 @@ export class MapComponent implements OnInit {
   ngOnInit() {
     // set google maps defaults
     this.zoom = 8
+
     this.latitude = 51.678418
     this.longitude = 7.809007
 
+    // set centre position
+    this.centre = getLatLngCenter(this._mapPoints)
+    this.setCurrentPosition(this.centre)
+
     // create search FormControl
     this.searchControl = new FormControl()
-
-    // set current position
-    this.setCurrentPosition()
 
     // load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
@@ -114,8 +129,11 @@ export class MapComponent implements OnInit {
     })
   }
 
-  private setCurrentPosition() {
-    if ('geolocation' in navigator) {
+  private setCurrentPosition(centre?) {
+    if (centre) {
+     this.latitude = centre.latitude
+     this.longitude = centre.longitude
+    } else if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.latitude = position.coords.latitude
         this.longitude = position.coords.longitude

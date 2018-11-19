@@ -38,10 +38,9 @@ export const getLookupEnitites = createSelector(
     getAnnouncementTypeEntities,
     getCommitmentTypeEntities,
     getWhoAnnouncedTypeEntities,
-    getMapPointEntities,
-    (partys, portfolios, locations, announcementTypes, commitmentTypes, whoAnnouncedTypes, mapPoints) =>
+    (partys, portfolios, locations, announcementTypes, commitmentTypes, whoAnnouncedTypes) =>
         ({
-            partys, portfolios, locations, announcementTypes, commitmentTypes, whoAnnouncedTypes, mapPoints
+            partys, portfolios, locations, announcementTypes, commitmentTypes, whoAnnouncedTypes
         })
 )
 
@@ -50,12 +49,22 @@ export const getCurrentCommitment = createSelector(
     getCurrentCommitentId,
     getAllComments,
     getLookupEnitites,
-    (commitments, current, comments, lookups) => {
+    getMapPointEntities,
+    (commitments, current, comments, lookups, mapPoints) => {
         const commitment = commitments[current]
         const discussionItems = comments.map(c => ({ ...c })) // creating mutatable list
 
         if (commitment) {
-            return {
+
+            const commitmentMapPoints = (commitment.mapPoints || []).reduce((acc, item) => {
+                const mp = mapPoints[item.place_id]
+                if (mp) {
+                    acc.push(mp)
+                }
+                return acc
+            }, [])
+
+            const mappedCommitment = {
                 ...commitment,
                 portfolio: commitment.portfolio ? lookups.portfolios[commitment.portfolio.id] : null,
                 party: commitment.party ? lookups.partys[commitment.party.id] : null,
@@ -63,7 +72,7 @@ export const getCurrentCommitment = createSelector(
                 whoAnnouncedType: commitment.whoAnnouncedType ? lookups.whoAnnouncedTypes[commitment.whoAnnouncedType.id] : null,
                 announcementType: commitment.announcementType ? lookups.announcementTypes[commitment.announcementType.id] : null,
                 commitmentType: commitment.commitmentType ? lookups.commitmentTypes[commitment.commitmentType.id] : null,
-                mapPoints: commitment.mapPoints ? commitment.mapPoints.map(mp => lookups.mapPoints[mp.place_id]) : null,
+                mapPoints: commitmentMapPoints,
                 date: moment(commitment.date),
 
                 discussion: toTree(discussionItems, {
@@ -74,6 +83,11 @@ export const getCurrentCommitment = createSelector(
                     firstParentId: null
                 })
             }
+
+            // tslint:disable-next-line:no-console
+            console.log('mappedCommitment', mappedCommitment)
+
+            return mappedCommitment
         }
 
         return commitment

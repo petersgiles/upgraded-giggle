@@ -6,6 +6,7 @@ export { AddItemButtonComponent } from './lib/add-item-button.component'
 export { ShareButtonComponent } from './lib/share-button.component'
 export { AddNotificationButtonComponent } from './lib/add-notification-button.component'
 export { ArchiveButtonComponent } from './lib/archive-button.component'
+export { NavigateButtonComponent } from './lib/navigation-button.component'
 
 export { ViewLayoutButtonComponent } from './lib/view-layout-button.component'
 

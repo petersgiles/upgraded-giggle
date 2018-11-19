@@ -4,7 +4,7 @@
     autocorrect="off" autocapitalize="off" 
     spellcheck="off" type="text" class="mdc-text-field__input"
       #search [formControl]="searchControl">
-      <digital-first-add-item-button icon="person" title="Add&nbsp;Map&nbsp;Point"
+      <digital-first-add-item-button *ngIf="mapPoint" icon="person" title="Add&nbsp;Map&nbsp;Point"
       (onAddItem)="handleAddItem($event)"></digital-first-add-item-button>
   </div>
   <agm-map 
@@ -14,7 +14,7 @@
   [disableDefaultUI]="false" 
   [zoomControl]="true"
   >
-  <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+  <agm-marker *ngFor="let mapPoint of mapPoints" [latitude]="mapPoint.latitude" [longitude]="mapPoint.longitude"></agm-marker>
   </agm-map>
   
   <digital-first-data-table [tableData]="_mapPointTableData" (onDeleteItem)="handleMapPointTableDeleteClicked($event)"></digital-first-data-table>

@@ -36,11 +36,24 @@ export const resolvers = {
       return found
     },
     commitmentMapPoints: (obj: any, args: any, context: any, info: any) => {
-      // (commitment: ID!): [MapPoint]
+  
       let set = db['commitment-commitment-map-points'].find({ commitment: args.commitment })
-      let found = set.map((f: any) => db['commitment-map-points'].findOne({ place_id: f.mapPoint })).map((c: any) => ({ ...c, id: c._id }))
-      // console.log('commitment MapPoints => ', set, found)
+      console.log('commitment MapPoints => ', set)
+      let found = set
+        .map(
+          (f: any) => {
+
+            let mpfound = db['commitment-map-points'].findOne({ place_id: f.mapPoint })
+            return {
+              ...mpfound, id: mpfound._id
+            }
+          }
+        )
+        console.log('commitment MapPoints found => ', found)
+      // console.log('commitment => ', commitment, 'commitmentMapPoints => ', set, 'found => ', found)
       return found
+
+
 
     },
     commitmentPortfolios: (obj: any, args: any, context: any, info: any) => {
@@ -75,6 +88,7 @@ export const resolvers = {
       var comments = found.map((c: any) => ({ ...c, id: c._id }))
       return comments
     },
+    mapPoints:() => db['commitment-map-points'].find(),
     locations: () => db['commitment-electorates'].find(),
     tags: () => db['commitment-tags'].find(),
   },
@@ -205,8 +219,8 @@ export const resolvers = {
       return c
     },
     deleteCommitmentMapPoint: (_root: any, args: any) => {
-      var cc = db['commitment-commitment-map-points'].findOne({ _id: args.id });
-      var result = db['commitment-commitment-map-points'].remove({ _id: args.id }, false);
+      var cc = db['commitment-commitment-map-points'].findOne({ commitment: args.commitment, mapPoint: args.mapPoint });
+      var result = db['commitment-commitment-map-points'].remove({ _id: cc._id }, false);
       const c = db.commitments.findOne({ id: cc.commitment })
       // console.log('deleteCommitmentContact =>', result, c)
       return c
@@ -317,15 +331,20 @@ export const resolvers = {
       // console.log('commitment => ', commitment, 'commitmentContacts => ', commitmentcontacts, 'found => ', found)
       return found
     },
-    mapPoints(commitment: any) {
+    mapPoints (commitment: any) {
       let set = db['commitment-commitment-map-points'].find({ commitment: commitment.id })
+      console.log('commitment MapPoints => ', set)
       let found = set
         .map(
-          (f: any) => ({
-            ...db['commitment-map-points'].findOne({ place_id: f.mapPoint })
-          })
+          (f: any) => {
+
+            let mpfound = db['commitment-map-points'].findOne({ place_id: f.mapPoint })
+            return {
+              ...mpfound, id: mpfound._id
+            }
+          }
         )
-        .map((c: any) => ({ ...c, id: c._id }))
+        console.log('commitment MapPoints found => ', found)
       // console.log('commitment => ', commitment, 'commitmentMapPoints => ', set, 'found => ', found)
       return found
     },

@@ -26,7 +26,7 @@ export enum MapPointActionTypes {
 
 export class GetMapPointsByCommitment implements Action {
   readonly type = MapPointActionTypes.GetMapPointsByCommitment
-  constructor(public payload: { commitment: number }) {}
+  constructor(public payload: { commitment: number | string }) {}
 }
 
 export class StoreMapPoint implements Action {
