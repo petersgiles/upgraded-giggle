@@ -56,10 +56,16 @@ export const getCurrentCommitment = createSelector(
 
         if (commitment) {
 
-            const commitmentMapPoints = commitment.mapPoints ? commitment.mapPoints.map(mp => mapPoints[mp.place_id]) : null
+            const commitmentMapPoints = (commitment.mapPoints || []).reduce((acc, item) => {
+                const mp = mapPoints[item.place_id]
+                if (mp) {
+                    acc.push(mp)
+                }
+                return acc
+            }, [])
 
             const mappedCommitment = {
-                 ...commitment,
+                ...commitment,
                 portfolio: commitment.portfolio ? lookups.portfolios[commitment.portfolio.id] : null,
                 party: commitment.party ? lookups.partys[commitment.party.id] : null,
                 location: commitment.location ? lookups.locations[commitment.location.id] : null,

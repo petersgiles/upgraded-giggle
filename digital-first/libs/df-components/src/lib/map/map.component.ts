@@ -4,6 +4,7 @@ import { MapsAPILoader } from '@agm/core'
 import { FormControl } from '@angular/forms'
 import { MapPoint } from './map-point-model'
 import { DataTableConfig } from '../data-table/data-table-model'
+import { getLatLngCenter } from '@digital-first/df-utils'
 
 @Component({
   selector: 'digital-first-map',
@@ -31,7 +32,15 @@ export class MapComponent implements OnInit {
   @Input()
   set mapPoints(val: MapPoint[]) {
     this._mapPoints = val
+
     this._mapPointTableData = this.mapMapPointToDataTable(val)
+    // set centre position
+    const centre: any = getLatLngCenter(val)
+    this.setCurrentPosition(centre)
+  }
+
+  get mapPoints() {
+    return this._mapPoints
   }
 
   mapMapPointToDataTable(data: MapPoint[]) {
@@ -59,7 +68,7 @@ export class MapComponent implements OnInit {
   @Output() onDeleteMapPoint: EventEmitter<any> = new EventEmitter()
 
   handleAddItem($event) {
-    this.onAddMapPoint.emit({...this.mapPoint})
+    this.onAddMapPoint.emit({ ...this.mapPoint })
     this.mapPoint = null
   }
 
@@ -71,14 +80,9 @@ export class MapComponent implements OnInit {
   ngOnInit() {
     // set google maps defaults
     this.zoom = 8
-    this.latitude = 51.678418
-    this.longitude = 7.809007
 
     // create search FormControl
     this.searchControl = new FormControl()
-
-    // set current position
-    this.setCurrentPosition()
 
     // load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
@@ -115,8 +119,11 @@ export class MapComponent implements OnInit {
     })
   }
 
-  private setCurrentPosition() {
-    if ('geolocation' in navigator) {
+  private setCurrentPosition(centre?) {
+    if (centre) {
+     this.latitude = centre.latitude
+     this.longitude = centre.longitude
+    } else if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.latitude = position.coords.latitude
         this.longitude = position.coords.longitude
