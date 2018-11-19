@@ -8,7 +8,7 @@ import { switchMap, map, catchError, tap } from 'rxjs/operators'
 import { AppDataService } from '../../services/app-data.service'
 import { DataResult, MapPointsResult } from '../../models'
 import { AppNotification, ClearAppNotification } from '../app.actions'
-import { ContactsActionFailure } from '../contact/contact.actions'
+import { SetCurrentCommitment } from '../commitment/commitment.actions'
 
 @Injectable()
 export class MapPointEffects {

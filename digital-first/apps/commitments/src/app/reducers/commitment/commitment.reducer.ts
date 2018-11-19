@@ -4,7 +4,7 @@ import { CommitmentActions, CommitmentActionTypes } from './commitment.actions'
 
 export interface State extends EntityState<Commitment> {
   // additional entities state properties
-  currentCommitent: number
+  currentCommitent: number | string
   loading: boolean
   saved: boolean
   error: any

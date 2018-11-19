@@ -124,7 +124,7 @@ export class ClearCommitments implements Action {
 
 export class SetCurrentCommitment implements Action {
   readonly type = CommitmentActionTypes.SetCurrentCommitment
-  constructor(public payload: { id: number }) {}
+  constructor(public payload: { id: number | string }) {}
 }
 export class GetCommitments implements Action {
   readonly type = CommitmentActionTypes.GetCommitments

@@ -22,6 +22,7 @@ import { switchMap, map, catchError, tap, switchMapTo, concatMap } from 'rxjs/op
 import { AppDataService } from '../../services/app-data.service'
 import { DataResult, CommitmentsResult, CommitmentResult } from '../../models'
 import { AppNotification, ClearAppNotification } from '../app.actions'
+import { GetMapPointsByCommitment } from '../map-point/map-point.actions'
 
 @Injectable()
 export class CommitmentEffects {
@@ -45,6 +46,8 @@ export class CommitmentEffects {
       map((action: SetCurrentCommitment) => action.payload.id),
       switchMap((id: any) => this.service.getCommitment({ id })
         .pipe(
+          // tslint:disable-next-line:no-console
+          tap(result => console.log('getCommitmentsById', result, id)),
           map((result: DataResult<CommitmentResult>) => new UpsertCommitment(result)),
           catchError(error => of(new CommitmentsActionFailure(error)))
         )
@@ -136,9 +139,12 @@ export class CommitmentEffects {
         .pipe(
           concatMap(_ => this.service.addMapPointToCommitment(payload)
             .pipe(
+              // tslint:disable-next-line:no-console
+              tap(result => console.log('addMapPointToCommitment', result, result.commitment.id,  payload.commitment)),
               concatMap((result: any) => [
+                new GetMapPointsByCommitment({commitment: payload.commitment}),
                 new AppNotification({ message: 'Map Point Added' }),
-                new SetCurrentCommitment({ id: result.commitment.id }),
+                new SetCurrentCommitment({ id: payload.commitment }),
                 new ClearAppNotification()
               ]),
               catchError(error => of(new CommitmentsActionFailure(error))

@@ -37,7 +37,7 @@ export const resolvers = {
     },
     commitmentMapPoints: (obj: any, args: any, context: any, info: any) => {
   
-      let set = db['commitment-commitment-map-points'].find({ commitment: args.id })
+      let set = db['commitment-commitment-map-points'].find({ commitment: args.commitment })
       console.log('commitment MapPoints => ', set)
       let found = set
         .map(
