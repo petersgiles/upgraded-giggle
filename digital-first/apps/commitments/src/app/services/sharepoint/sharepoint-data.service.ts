@@ -6,27 +6,12 @@ import { SharepointJsomService, fromLookup } from '@digital-first/df-sharepoint'
 import { AppDataService } from '../app-data.service'
 
 import {
-  byIdQuery,
-  byCommitmentIdQuery,
-  mapLocations,
-  mapCommitment,
-  mapComments,
-  mapCommitments,
   mapAnnouncementTypes,
   mapParties,
   mapPortfolios,
-  mapContacts,
   mapCommitmentTypes,
   mapWhoAnnouncedTypes,
-  mapCommitmentContacts,
-  mapCommitmentContact,
-  mapMapPoints,
-  mapCommitmentMapPoints,
-  mapElectorates,
-  mapCommitmentElectorates,
   mapCommitmentPortfolios,
-  byJoinTableQuery,
-  byMapPointPlaceIdQuery
 } from './sharepoint-data-maps'
 
 import {
@@ -46,29 +31,52 @@ import {
 import { Commitment } from '../../reducers/commitment'
 import { arrayToHash } from '@digital-first/df-utils'
 import { MapPoint } from '../../reducers/map-point/map-point.model'
+import { byIdQuery, byCommitmentIdQuery, byMapPointPlaceIdQuery, byJoinTableQuery } from './caml'
+import { mapContact, mapContacts, mapCommitmentContacts } from './contact'
+import { mapComments } from './comment'
+import { mapElectorates, mapCommitmentElectorates, mapMapPoints, mapCommitmentMapPoints, mapLocations } from './geo'
+import { mapCommitment, mapCommitments } from './commitment'
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharepointDataService implements AppDataService {
 
-  _getCommitment(criteria: { id: any; }): Observable<DataResult<CommitmentResult>> {
+  storeCommitment = (commitment: Commitment): Observable<DataResult<CommitmentResult>> => {
 
-    return this.sharepoint.getItems({
-      listName: 'Commitment',
-      viewXml: byIdQuery(criteria)
-    }).pipe(
-      map(result => result[0]),
-      concatMap((commitment: any) =>
-        of({
-          data: { commitment: mapCommitment(commitment) },
-          loading: false
-        }))
-    )
+    const spCommitment = {
+      WhoAnnouncedType: commitment.whoAnnouncedType,
+      AnnouncementType: commitment.announcementType,
+      CommitmentType: commitment.commitmentType,
+      Contacts: commitment.contacts,
+      Cost: commitment.cost,
+      Date: commitment.date,
+      Description: commitment.description,
+      Location: commitment.location,
+      PoliticalParty: commitment.party,
+      Portfolio: commitment.portfolio,
+      Title: commitment.title
+    }
+
+    return this.sharepoint
+      .storeItem({
+        listName: 'Commitment',
+        data: spCommitment,
+        id: commitment.id
+      }).pipe(
+        concatMap(result => {
+          const cdr: DataResult<CommitmentResult> = {
+            data: {
+              commitment: mapCommitment(result)
+            }, loading: false
+          }
+          return of(cdr)
+        })
+      )
   }
 
-  getCommitment(criteria: { id: any; }): Observable<DataResult<CommitmentResult>> {
-    return forkJoin([
+  getCommitment = (criteria: { id: any; }): Observable<DataResult<CommitmentResult>> =>
+    forkJoin([
       this.sharepoint.getItems({
         listName: 'Commitment',
         viewXml: byIdQuery(criteria)
@@ -124,7 +132,6 @@ export class SharepointDataService implements AppDataService {
         })
       })
     )
-  }
 
   getCommentsByCommitment(commitment: number): Observable<DataResult<CommentsResult>> {
     return this.sharepoint.getItems({
@@ -278,39 +285,6 @@ export class SharepointDataService implements AppDataService {
             loading: false,
             error: null
           }))
-      )
-  }
-
-  storeCommitment(commitment: Commitment): Observable<DataResult<CommitmentResult>> {
-
-    const spCommitment = {
-      WhoAnnouncedType: commitment.whoAnnouncedType,
-      AnnouncementType: commitment.announcementType,
-      CommitmentType: commitment.commitmentType,
-      Contacts: commitment.contacts,
-      Cost: commitment.cost,
-      Date: commitment.date,
-      Description: commitment.description,
-      Location: commitment.location,
-      PoliticalParty: commitment.party,
-      Portfolio: commitment.portfolio,
-      Title: commitment.title
-    }
-
-    return this.sharepoint
-      .storeItem({
-        listName: 'Commitment',
-        data: spCommitment,
-        id: commitment.id
-      }).pipe(
-        concatMap(result => {
-          const cdr: DataResult<CommitmentResult> = {
-            data: {
-              commitment: mapCommitment(result)
-            }, loading: false
-          }
-          return of(cdr)
-        })
       )
   }
 
