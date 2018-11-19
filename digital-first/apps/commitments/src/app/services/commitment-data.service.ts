@@ -29,7 +29,7 @@ import {
   AddMapPointToCommitment,
   RemoveMapPointFromCommitment
 } from '../reducers/commitment/commitment.actions'
-import { GetMapPointsByCommitment } from '../reducers/map-point/map-point.actions'
+import { GetMapPointsByCommitment, ClearMapPoints } from '../reducers/map-point/map-point.actions'
 import { GetAllAnnouncementTypes } from '../reducers/announcement-type/announcement-type.actions'
 import { GetAllContacts, StoreContact } from '../reducers/contact/contact.actions'
 import { GetAllPartys } from '../reducers/party/party.actions'
@@ -126,6 +126,7 @@ export class CommitmentDataService {
   public setCurrentCommitment(id: number) {
     this.store.dispatch(new SetCurrentCommitment({ id: id }))
     this.store.dispatch(new ClearComments())
+    this.store.dispatch(new ClearMapPoints())
     this.store.dispatch(new GetCommentsByCommitment({ commitment: id }))
     this.store.dispatch(new GetMapPointsByCommitment({ commitment: id }))
   }

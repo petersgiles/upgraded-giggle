@@ -17,7 +17,7 @@ import {
   AddElectorateToCommitment,
   RemoveElectorateFromCommitment
 } from './commitment.actions'
-import { switchMap, map, catchError, tap, switchMapTo } from 'rxjs/operators'
+import { switchMap, map, catchError, tap, switchMapTo, concatMap } from 'rxjs/operators'
 
 import { AppDataService } from '../../services/app-data.service'
 import { DataResult, CommitmentsResult, CommitmentResult } from '../../models'
@@ -28,8 +28,8 @@ export class CommitmentEffects {
 
   @Effect()
   getAllCommitments$: Observable<Action> = this.actions$
-    .pipe(ofType(CommitmentActionTypes.GetAllCommitments))
     .pipe(
+      ofType(CommitmentActionTypes.GetAllCommitments),
       map((action: GetAllCommitments) => action.payload ? action.payload.filter : null),
       switchMap((filter: any) => this.service.filterCommitments(filter)
         .pipe(
@@ -40,8 +40,8 @@ export class CommitmentEffects {
 
   @Effect()
   getCommitmentsById$: Observable<Action> = this.actions$
-    .pipe(ofType(CommitmentActionTypes.SetCurrentCommitment))
     .pipe(
+      ofType(CommitmentActionTypes.SetCurrentCommitment),
       map((action: SetCurrentCommitment) => action.payload.id),
       switchMap((id: any) => this.service.getCommitment({ id })
         .pipe(
@@ -52,8 +52,8 @@ export class CommitmentEffects {
 
   @Effect()
   storeCommitment$: Observable<Action> = this.actions$
-    .pipe(ofType(CommitmentActionTypes.StoreCommitment))
     .pipe(
+      ofType(CommitmentActionTypes.StoreCommitment),
       map((action: StoreCommitment) => action.payload),
       switchMap((commitment: any) => this.service.storeCommitment(commitment)),
       switchMap((result: DataResult<CommitmentResult>) => [
@@ -67,8 +67,8 @@ export class CommitmentEffects {
 
   @Effect()
   addContactToCommitment$: Observable<Action> = this.actions$
-    .pipe(ofType(CommitmentActionTypes.AddContactToCommitment))
     .pipe(
+      ofType(CommitmentActionTypes.AddContactToCommitment),
       map((action: AddContactToCommitment) => action.payload),
       switchMap((payload: any) => this.service.addContactToCommitment(payload)),
       switchMap((result: any) => [
@@ -82,8 +82,8 @@ export class CommitmentEffects {
 
   @Effect()
   removeContactFromCommitment$: Observable<Action> = this.actions$
-    .pipe(ofType(CommitmentActionTypes.RemoveContactFromCommitment))
     .pipe(
+      ofType(CommitmentActionTypes.RemoveContactFromCommitment),
       map((action: RemoveContactFromCommitment) => action.payload),
       switchMap((payload: any) => this.service.removeContactFromCommitment(payload)),
       switchMap((result: any) => [
@@ -97,8 +97,8 @@ export class CommitmentEffects {
 
   @Effect()
   addElectorateToCommitment$: Observable<Action> = this.actions$
-    .pipe(ofType(CommitmentActionTypes.AddElectorateToCommitment))
     .pipe(
+      ofType(CommitmentActionTypes.AddElectorateToCommitment),
       map((action: AddElectorateToCommitment) => action.payload),
       switchMap((payload: any) => this.service.addElectorateToCommitment(payload)),
       switchMap((result: any) => [
@@ -112,8 +112,8 @@ export class CommitmentEffects {
 
   @Effect()
   removeElectorateFromCommitment$: Observable<Action> = this.actions$
-    .pipe(ofType(CommitmentActionTypes.RemoveElectorateFromCommitment))
     .pipe(
+      ofType(CommitmentActionTypes.RemoveElectorateFromCommitment),
       map((action: RemoveElectorateFromCommitment) => action.payload),
       // tslint:disable-next-line:no-console
       tap(payload => console.log(payload)),
@@ -129,33 +129,40 @@ export class CommitmentEffects {
 
   @Effect()
   addMapPointToCommitment$: Observable<Action> = this.actions$
-    .pipe(ofType(CommitmentActionTypes.AddMapPointToCommitment))
     .pipe(
+      ofType(CommitmentActionTypes.AddMapPointToCommitment),
       map((action: AddMapPointToCommitment) => action.payload),
       switchMap((payload) => this.service.storeMapPoint(payload.mapPoint)
         .pipe(
-          switchMap(_ => this.service.addMapPointToCommitment(payload))
-        )),
-      switchMap((result: any) => [
-        new AppNotification({ message: 'Map Point Added' }),
-        new SetCurrentCommitment({ id: result.commitment.id }),
-        new ClearAppNotification()
-      ]),
-      catchError(error => of(new CommitmentsActionFailure(error)))
+          concatMap(_ => this.service.addMapPointToCommitment(payload)
+            .pipe(
+              concatMap((result: any) => [
+                new AppNotification({ message: 'Map Point Added' }),
+                new SetCurrentCommitment({ id: result.commitment.id }),
+                new ClearAppNotification()
+              ]),
+              catchError(error => of(new CommitmentsActionFailure(error))
+              )
+            )
+          )
+        )
+      )
     )
 
   @Effect()
   removeMapPointFromCommitment$: Observable<Action> = this.actions$
-    .pipe(ofType(CommitmentActionTypes.RemoveMapPointFromCommitment))
     .pipe(
+      ofType(CommitmentActionTypes.RemoveMapPointFromCommitment),
       map((action: RemoveMapPointFromCommitment) => action.payload),
-      switchMap((payload: any) => this.service.removeMapPointFromCommitment(payload)),
-      switchMap((result: any) => [
-        new AppNotification({ message: 'Map Point Removed' }),
-        new SetCurrentCommitment({ id: result.commitment.id }),
-        new ClearAppNotification()
-      ]),
-      catchError(error => of(new CommitmentsActionFailure(error)))
+      switchMap((payload: any) => this.service.removeMapPointFromCommitment(payload)
+        .pipe(
+          concatMap((result: any) => [
+            new AppNotification({ message: 'Map Point Removed' }),
+            new SetCurrentCommitment({ id: result.commitment.id }),
+            new ClearAppNotification()
+          ]),
+          catchError(error => of(new CommitmentsActionFailure(error))
+          )))
     )
 
   constructor(private actions$: Actions, private service: AppDataService) { }

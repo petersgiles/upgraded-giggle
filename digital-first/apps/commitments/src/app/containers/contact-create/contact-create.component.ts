@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { Router, ActivatedRoute } from '@angular/router'
+import { Location } from '@angular/common'
 import { MdcDialog, MdcSnackbar } from '@angular-mdc/web'
 import { Observable, Subscription } from 'rxjs'
 
@@ -22,7 +23,7 @@ export class ContactCreateComponent implements OnInit, OnDestroy {
   contacts$: Observable<Contact[]>
   formBusy = false
 
-  constructor(private router: Router, private route: ActivatedRoute, private snackbar: MdcSnackbar, public dialog: MdcDialog, private service: CommitmentDataService) { }
+  constructor(private router: Router, private location: Location, private snackbar: MdcSnackbar, public dialog: MdcDialog, private service: CommitmentDataService) { }
 
   ngOnInit() {
     this.parties$ = this.service.Parties
@@ -46,6 +47,10 @@ export class ContactCreateComponent implements OnInit, OnDestroy {
         error => this.showSnackBar(error)
       )
 
+  }
+
+  handleGoBack($event) {
+    this.location.back()
   }
 
   handleSubmit(contact) {

@@ -129,7 +129,7 @@ export class ApolloDataService implements AppDataService {
     (result: any) => ({ commitment: result.data.storeCommitmentMapPoint })
   )
 
-  removeMapPointFromCommitment = (variables: { id: any }) =>
+  removeMapPointFromCommitment = (variables: { commitment: any, mapPoint: any }) =>
     this.callMutate<any>(
       { mutation: REMOVE_COMMITMENT_MAP_POINT, variables: { ...variables } },
       (result: any) => ({ commitment: result.data.deleteCommitmentMapPoint })

@@ -56,11 +56,23 @@ export function reducer(
     }
 
     case MapPointActionTypes.LoadMapPoints: {
-      return adapter.upsertMany(action.payload.data.mapPoints, {
+
+      // tslint:disable-next-line:no-console
+      console.log('Load Map Point', action)
+
+      if (action.payload.data.mapPoints) {
+        return adapter.upsertMany(action.payload.data.mapPoints, {
+          ...state,
+          loading: action.payload.loading,
+          error: action.payload.error
+        })
+      }
+
+      return {
         ...state,
         loading: action.payload.loading,
         error: action.payload.error
-      })
+      }
     }
 
     case MapPointActionTypes.ClearMapPoints: {
@@ -68,15 +80,15 @@ export function reducer(
     }
 
     case MapPointActionTypes.GetMapPoints: {
-      return {...state, loading: true, error: null}
+      return { ...state, loading: true, error: null }
     }
 
     case MapPointActionTypes.GetAllMapPoints: {
-      return {...state, loading: true, error: null}
+      return { ...state, loading: true, error: null }
     }
 
     case MapPointActionTypes.MapPointsActionFailure: {
-      return {...state, loading: false, error: action.payload.error}
+      return { ...state, loading: false, error: action.payload.error }
     }
 
     default: {

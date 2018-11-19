@@ -1,6 +1,6 @@
 /// <reference types="@types/googlemaps" />
 import { Component, OnInit, Input, ViewChild, ElementRef, NgZone, Output, EventEmitter } from '@angular/core'
-import { MouseEvent, MapsAPILoader } from '@agm/core'
+import { MapsAPILoader } from '@agm/core'
 import { FormControl } from '@angular/forms'
 import { MapPoint } from './map-point-model'
 import { DataTableConfig } from '../data-table/data-table-model'
@@ -59,7 +59,8 @@ export class MapComponent implements OnInit {
   @Output() onDeleteMapPoint: EventEmitter<any> = new EventEmitter()
 
   handleAddItem($event) {
-    this.onAddMapPoint.emit(this.mapPoint)
+    this.onAddMapPoint.emit({...this.mapPoint})
+    this.mapPoint = null
   }
 
   handleMapPointTableDeleteClicked($event) {

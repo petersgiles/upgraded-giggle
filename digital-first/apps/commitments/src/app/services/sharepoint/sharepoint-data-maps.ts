@@ -22,6 +22,18 @@ export const byIdQuery = (criteria: { id }) =>
         </Query>
     </View>`
 
+export const byMapPointPlaceIdQuery = (criteria: { id }) =>
+  `<View>
+          <Query>
+              <Where>
+              <Eq>
+                  <FieldRef Name='PlaceId' />
+                  <Value Type='String'>${criteria.id}</Value>
+              </Eq>
+              </Where>
+          </Query>
+      </View>`
+
 export const byCommitmentIdQuery = (criteria: { id: any }) => `
     <View>
         <Query>
@@ -34,7 +46,7 @@ export const byCommitmentIdQuery = (criteria: { id: any }) => `
         </Query>
     </View>`
 
-  export const byJoinTableQuery = (criteria: { fieldA: { name: string, id: string }, fieldB: { name: string, id: string } }) => `
+export const byJoinTableQuery = (criteria: { fieldA: { name: string, id: string }, fieldB: { name: string, id: string } }) => `
     <View>
     <Query>
         <Where>
@@ -105,7 +117,7 @@ export const mapLocations = (locations): Location[] =>
   locations.map(mapLocation)
 
 export const mapMapPoint = (location): MapPoint => ({
-  place_id: location.ID,
+  place_id: location.PlaceId,
   address: location.Title,
   latitude: location.Latitude,
   longitude: location.Longitude
