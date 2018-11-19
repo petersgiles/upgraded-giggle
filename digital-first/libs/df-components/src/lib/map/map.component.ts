@@ -15,6 +15,7 @@ export class MapComponent implements OnInit {
 
   public latitude: number
   public longitude: number
+
   public searchControl: FormControl
   public zoom: number
   public mapPoint: MapPoint
@@ -23,6 +24,7 @@ export class MapComponent implements OnInit {
 
   @ViewChild('search')
   public searchElementRef: ElementRef
+  centre: any
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
@@ -34,9 +36,10 @@ export class MapComponent implements OnInit {
     this._mapPoints = val
 
     this._mapPointTableData = this.mapMapPointToDataTable(val)
+
     // set centre position
-    const centre: any = getLatLngCenter(val)
-    this.setCurrentPosition(centre)
+    this.centre = getLatLngCenter(val)
+    this.setCurrentPosition(this.centre)
   }
 
   get mapPoints() {
@@ -80,6 +83,13 @@ export class MapComponent implements OnInit {
   ngOnInit() {
     // set google maps defaults
     this.zoom = 8
+
+    this.latitude = 51.678418
+    this.longitude = 7.809007
+
+    // set centre position
+    this.centre = getLatLngCenter(this._mapPoints)
+    this.setCurrentPosition(this.centre)
 
     // create search FormControl
     this.searchControl = new FormControl()

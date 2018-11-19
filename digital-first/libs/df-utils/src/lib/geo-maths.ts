@@ -11,6 +11,13 @@ export function degr2rad(degr) { return degr * Math.PI / 180 }
  */
 export function getLatLngCenter(latlongs, latfield = 'latitude', lngfield = 'longitude') {
 
+    if (!latlongs.length) {
+        return {
+            latitude: 51.678418,
+            longitude: 7.809007
+        }
+    }
+
     let sumX = 0
     let sumY = 0
     let sumZ = 0

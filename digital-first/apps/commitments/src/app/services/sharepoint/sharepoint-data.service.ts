@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 
 import { Observable, of, forkJoin } from 'rxjs'
-import { concatMap, map, tap } from 'rxjs/operators'
+import { concatMap, map, tap, filter } from 'rxjs/operators'
 import { SharepointJsomService, fromLookup } from '@digital-first/df-sharepoint'
 import { AppDataService } from '../app-data.service'
 
@@ -93,9 +93,16 @@ export class SharepointDataService implements AppDataService {
       this.sharepoint.getItems({
         listName: 'CommitmentPortfolio',
         viewXml: byCommitmentIdQuery(criteria)
+      }),
+      this.sharepoint.getItems({
+        listName: 'MapPoint'
+      }),
+      this.sharepoint.getItems({
+        listName: 'CommitmentMapPoint',
+        viewXml: byCommitmentIdQuery(criteria)
       })
     ]).pipe(
-      concatMap(([spCommitment, spContacts, spCommitmentContacts, spElectorates, spCommitmentElectorates, spPortfolios, spCommitmentPortfolios]) => {
+      concatMap(([spCommitment, spContacts, spCommitmentContacts, spElectorates, spCommitmentElectorates, spPortfolios, spCommitmentPortfolios, spMapPoints, spCommitmentMapPoints]) => {
         const commitment = mapCommitment(spCommitment[0])
         const contacts = arrayToHash(mapContacts(spContacts))
         const commitmentContact = mapCommitmentContacts(spCommitmentContacts)
@@ -103,10 +110,13 @@ export class SharepointDataService implements AppDataService {
         const commitmentElectorate = mapCommitmentElectorates(spCommitmentElectorates)
         const portfolios = arrayToHash(mapPortfolios(spPortfolios))
         const commitmentPortfolio = mapCommitmentPortfolios(spCommitmentPortfolios)
+        const mapPoints = arrayToHash(mapMapPoints(spMapPoints))
+        const commitmentMapPoints = mapCommitmentMapPoints(spCommitmentMapPoints)
 
         commitment.contacts = commitmentContact.map(c => ({ ...contacts[c.contact], ccid: c.id }))
         commitment.electorates = commitmentElectorate.map(c => ({ ...electorates[c.electorate] }))
         commitment.portfolios = commitmentPortfolio.map(c => ({ ...portfolios[c.portfolio] }))
+        commitment.mapPoints = commitmentMapPoints.map(c => ({ ...mapPoints[c.mapPoint] }))
 
         return of({
           data: { commitment: commitment },
@@ -130,19 +140,24 @@ export class SharepointDataService implements AppDataService {
   }
 
   getMapPointsByCommitment(commitment: number): Observable<DataResult<MapPointsResult>> {
+
+    const viewXml = byCommitmentIdQuery({ id: commitment })
+
     return this.sharepoint.getItems({
-      listName: 'CommitmentMapPoints',
-      viewXml: byCommitmentIdQuery({ id: commitment })
+      listName: 'CommitmentMapPoint',
+      viewXml: viewXml
     }).pipe(
+      // tslint:disable-next-line:no-console
+      tap(result => console.log('getMapPointsByCommitment', result, commitment)),
       concatMap((mapPoints: any) =>
         of({
-          data: { mapPoints: mapMapPoints(mapPoints) },
+          data: { mapPoints: mapCommitmentMapPoints(mapPoints) },
           loading: false
         }))
     )
   }
 
-  filterCommitments(filter?: { party?: string; type?: string; portfolio?: string; }): Observable<DataResult<CommitmentsResult>> {
+  filterCommitments(payload?: { party?: string; type?: string; portfolio?: string; }): Observable<DataResult<CommitmentsResult>> {
     return this.sharepoint.getItems({ listName: 'Commitment' })
       .pipe(
         concatMap((result: any) =>
@@ -154,7 +169,7 @@ export class SharepointDataService implements AppDataService {
       )
   }
 
-  filterWhoAnnouncedTypes(filter?: any): Observable<DataResult<WhoAnnouncedTypesResult>> {
+  filterWhoAnnouncedTypes(payload?: any): Observable<DataResult<WhoAnnouncedTypesResult>> {
     return this.sharepoint.getItems({ listName: 'WhoAnnouncedType' })
       .pipe(
         concatMap((result: any) =>
@@ -167,7 +182,7 @@ export class SharepointDataService implements AppDataService {
 
   }
 
-  filterMapPoints(filter?: any): Observable<DataResult<MapPointsResult>> {
+  filterMapPoints(payload?: any): Observable<DataResult<MapPointsResult>> {
     return this.sharepoint.getItems({ listName: 'MapPoint' })
       .pipe(
         concatMap((result: any) =>
@@ -180,7 +195,7 @@ export class SharepointDataService implements AppDataService {
 
   }
 
-  filterAnnouncementTypes(filter?: any): Observable<DataResult<AnnouncementTypesResult>> {
+  filterAnnouncementTypes(payload?: any): Observable<DataResult<AnnouncementTypesResult>> {
     return this.sharepoint.getItems({ listName: 'AnnouncementType' })
       .pipe(
         concatMap((result: any) =>
@@ -193,7 +208,7 @@ export class SharepointDataService implements AppDataService {
 
   }
 
-  filterPortfolios(filter?: any): Observable<DataResult<PortfoliosResult>> {
+  filterPortfolios(payload?: any): Observable<DataResult<PortfoliosResult>> {
     return this.sharepoint.getItems({ listName: 'Portfolio' })
       .pipe(
         concatMap((result: any) =>
@@ -205,7 +220,7 @@ export class SharepointDataService implements AppDataService {
       )
   }
 
-  filterPartys(filter?: any): Observable<DataResult<PartysResult>> {
+  filterPartys(payload?: any): Observable<DataResult<PartysResult>> {
     return this.sharepoint.getItems({ listName: 'PoliticalParty' })
       .pipe(
         concatMap((result: any) =>
@@ -217,7 +232,7 @@ export class SharepointDataService implements AppDataService {
       )
   }
 
-  filterParties(filter?: any): Observable<DataResult<PartysResult>> {
+  filterParties(payload?: any): Observable<DataResult<PartysResult>> {
     return this.sharepoint.getItems({ listName: 'PoliticalParty' })
       .pipe(
         concatMap((result: any) =>
@@ -229,7 +244,7 @@ export class SharepointDataService implements AppDataService {
       )
   }
 
-  filterContacts(filter?: any): Observable<DataResult<ContactsResult>> {
+  filterContacts(payload?: any): Observable<DataResult<ContactsResult>> {
     return this.sharepoint.getItems({ listName: 'Contact' })
       .pipe(
         concatMap((result: any) =>
@@ -241,7 +256,7 @@ export class SharepointDataService implements AppDataService {
       )
   }
 
-  filterLocations(filter?: any): Observable<DataResult<LocationsResult>> {
+  filterLocations(payload?: any): Observable<DataResult<LocationsResult>> {
     return this.sharepoint.getItems({ listName: 'Electorate' })
       .pipe(
         concatMap((result: any) =>
@@ -253,7 +268,7 @@ export class SharepointDataService implements AppDataService {
       )
   }
 
-  filterCommitmentTypes(filter?: any): Observable<DataResult<CommitmentTypesResult>> {
+  filterCommitmentTypes(payload?: any): Observable<DataResult<CommitmentTypesResult>> {
 
     return this.sharepoint.getItems({ listName: 'CommitmentType' })
       .pipe(
@@ -381,12 +396,15 @@ export class SharepointDataService implements AppDataService {
       PlaceId: mapPoint.place_id,
     }
 
+    const viewXml = byMapPointPlaceIdQuery({ placeId: spMapPoint.PlaceId })
+
     return this.sharepoint.getItems({
       listName: LISTNAME,
-      viewXml: byMapPointPlaceIdQuery({ id: spMapPoint.PlaceId })
+      viewXml: viewXml
     }).pipe(
       // tslint:disable-next-line:no-console
       tap(found => console.log('Map Point ?', found)),
+      filter(found => !found.length),
       concatMap((found) => found ? this.sharepoint.storeItem({
         listName: 'MapPoint',
         data: spMapPoint,
@@ -395,15 +413,10 @@ export class SharepointDataService implements AppDataService {
         tap(stored => console.log('Map Point Stored', stored)),
         concatMap(_ => this.sharepoint.getItems({
           listName: LISTNAME,
-          viewXml: byMapPointPlaceIdQuery({ id: spMapPoint.PlaceId })
+          viewXml: byMapPointPlaceIdQuery({ placeId: spMapPoint.PlaceId })
         }))
       ) : of(found)
-      ),
-      concatMap((mapPoints: any) =>
-        of({
-          data: { mapPoints: mapMapPoints(mapPoints) },
-          loading: false
-        }))
+      )
     )
   }
 
@@ -415,18 +428,30 @@ export class SharepointDataService implements AppDataService {
   }
 
   addMapPointToCommitment(payload: { commitment: any, mapPoint: any }) {
-    const spMapPoint = {
-      Title: `${payload.commitment} ${payload.mapPoint}`,
-      Commitment: payload.commitment,
-      MapPoint: payload.mapPoint
-    }
 
-    return this.sharepoint.storeItem({
-      listName: 'CommitmentMapPoint',
-      data: spMapPoint,
+    const viewXml = byMapPointPlaceIdQuery({ placeId: payload.mapPoint.place_id })
+
+    return this.sharepoint.getItems({
+      listName: 'MapPoint',
+      viewXml: viewXml
     }).pipe(
-      concatMap(_ =>
-        of({ id: payload.commitment }))
+      // tslint:disable-next-line:no-console
+      tap(found => console.log('Add Commitment Map Point ?', found)),
+      map(found => found[0]),
+      concatMap((found: any) => {
+        const spMapPoint = {
+          Title: `${payload.commitment} ${payload.mapPoint.ID}`,
+          Commitment: payload.commitment,
+          MapPoint: found.ID
+        }
+
+        return this.sharepoint.storeItem({
+          listName: 'CommitmentMapPoint',
+          data: spMapPoint,
+        }).pipe(
+          concatMap(_ => of({ commitment: { id: payload.commitment } }))
+        )
+      })
     )
   }
 

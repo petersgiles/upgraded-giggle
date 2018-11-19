@@ -137,6 +137,8 @@ export class CommitmentEffects {
       map((action: AddMapPointToCommitment) => action.payload),
       switchMap((payload) => this.service.storeMapPoint(payload.mapPoint)
         .pipe(
+          // tslint:disable-next-line:no-console
+          tap(result => console.log(result)),
           concatMap(_ => this.service.addMapPointToCommitment(payload)
             .pipe(
               // tslint:disable-next-line:no-console
