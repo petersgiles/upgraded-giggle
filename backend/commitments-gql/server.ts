@@ -5,7 +5,9 @@ import { ApolloServer } from 'apollo-server-express'
 import * as path from "path"; // normalize the paths : http://stackoverflow.com/questions/9756567/do-you-need-to-use-path-join-in-node-js
 import * as bodyParser from "body-parser"; // pull information from HTML POST (express4)
 import * as methodOverride from "method-override"; // simulate DELETE and PUT (express4)
-import * as compression from "compression";
+import * as fs from 'fs'
+import * as https from 'https'
+import * as http from 'http'
 import * as helmet from "helmet"; // Security
 import * as express from 'express'
 import * as morgan from 'morgan'
@@ -15,8 +17,20 @@ import { allowCrossDomain } from '../shared/cors';
 import { typeDefs, resolvers } from './schema'
 import { HomeController } from './controllers'
 
-const app: express.Application = express();
 const port: number = 3001;
+
+const configurations: any = {
+  // Note: You may need sudo to run on port 443
+  production: { ssl: true, port: 443, hostname: 'example.com' },
+  development: { ssl: false, port: port, hostname: 'localhost' }
+}
+
+const environment = process.env.NODE_ENV || 'development'
+const config: any = configurations[environment]
+
+
+const app: express.Application = express();
+
 
 app.use(allowCrossDomain)
 app.use(helmet());
@@ -30,16 +44,35 @@ app.use('/hello', HomeController)
 //   res.status(404).send('This page does not exist!');
 // });
 
-const server = new ApolloServer({
+const apollo = new ApolloServer({
   typeDefs,
   resolvers
-  });
+});
 
-server.applyMiddleware({ app: app }); // app is from an existing express app
+apollo.applyMiddleware({ app: app }); // app is from an existing express app
 
-app.listen({ port: port }, () =>
-  {
-    logger.info(`${path.join(process.cwd(), 'public')}`)
-    logger.info(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`)
-  }
+// Create the HTTPS or HTTP server, per configuration
+var server: any
+if (config.ssl) {
+  // Assumes certificates are in .ssl folder from package root. Make sure the files
+  // are secured.
+  server = https.createServer(
+    {
+      key: fs.readFileSync(`./../ssl/${environment}/server.key`),
+      cert: fs.readFileSync(`./../ssl/${environment}/server.crt`)
+    },
+    app
+  )
+} else {
+  server = http.createServer(app)
+}
+
+// Add subscription support
+apollo.installSubscriptionHandlers(server)
+
+server.listen({ port: config.port }, () =>
+  console.log(
+    '🚀 Server ready at',
+    `http${config.ssl ? 's' : ''}://${config.hostname}:${config.port}${apollo.graphqlPath}`
+  )
 )
