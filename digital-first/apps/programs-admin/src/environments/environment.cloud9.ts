@@ -10,7 +10,7 @@ export const environment = {
     type: 'local',
     dataServiceUrl: '//localhost:3001/graphql',
   },
-  federatedLoginApiPath: '//localhost:52629'
+  federatedLoginApiPath: '//programs.cloud9.cabnet'
 }
 
 /*
