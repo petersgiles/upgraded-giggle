@@ -24,6 +24,11 @@ export const getCommitmentOverviewSelectedRefiners = createSelector(
     fromCommitmentOverview.getSelectedRefiners
 )
 
+export const getCommitmentOverviewTextRefiner = createSelector(
+    getCommitmentOverviewState,
+    fromCommitmentOverview.getTextRefiner
+)
+
 export const getRefinerGroupCounts = createSelector(
     getCommitmentOverviewSelectedRefiners,
     (selected) => {
@@ -73,14 +78,14 @@ export const getRefinerGroups = createSelector(
 
         const refinerGroups: RefinerGroup[] = []
 
-        const userDefinedRefiners: RefinerGroup = {
-            id: REFINER_GROUP_FAVOURITES.key,
-            title: REFINER_GROUP_FAVOURITES.title,
-            expanded: true,
-            custom: true,
-            children: []
-        }
-        refinerGroups.push(userDefinedRefiners)
+        // const userDefinedRefiners: RefinerGroup = {
+        //     id: REFINER_GROUP_FAVOURITES.key,
+        //     title: REFINER_GROUP_FAVOURITES.title,
+        //     expanded: true,
+        //     custom: true,
+        //     children: []
+        // }
+        // refinerGroups.push(userDefinedRefiners)
 
         const refiners = [partys, portfolios, locations, announcementTypes, commitmentTypes, whoAnnouncedTypes]
         const refinerGroupTitles = [
@@ -125,9 +130,10 @@ export const getRefinersAsFilter = createSelector(
 export const getFilteredOverviewCommitments = createSelector(
     getAllCommitments,
     getRefinersAsFilter,
-    (arr: Commitment[], filters: any) => {
+    getCommitmentOverviewTextRefiner,
+    (arr: Commitment[], filters: any, filterText) => {
         const filterKeys = Object.keys(filters)
-        return arr.filter(eachObj =>
+        const refined = arr.filter(eachObj =>
             filterKeys.every(eachKey => {
                 if (!filters[eachKey].length) {
                     return true // passing an empty filter means that filter is ignored.
@@ -135,6 +141,24 @@ export const getFilteredOverviewCommitments = createSelector(
                 const filteredProperty = filters[eachKey].map(fp => fp.id).includes(eachObj[eachKey] && eachObj[eachKey].id)
                 return filteredProperty // filters[eachKey].includes(eachObj[eachKey])
             }))
+
+        // tslint:disable-next-line:no-console
+        console.log('filterText', filterText)
+
+        if (!filterText) {
+
+            return refined
+        }
+        return refined.filter(o => Object.keys(o).some(k => {
+
+            if (typeof o[k] === 'string') {
+                // tslint:disable-next-line:no-console
+                console.log('toLowerCase', filterText, o[k], o[k].toLowerCase().includes(filterText.toLowerCase()))
+                return o[k].toLowerCase().includes(filterText.toLowerCase())
+            }
+            return false
+        }
+        ))
     }
 )
 

@@ -36,7 +36,7 @@ import { GetAllPartys } from '../reducers/party/party.actions'
 import { GetAllPortfolios } from '../reducers/portfolio/portfolio.actions'
 import { GetAllCommitmentTypes } from '../reducers/commitment-type/commitment-type.actions'
 import { GetCommentsByCommitment, StoreComment, RemoveComment, DeleteComment, ClearComments } from '../reducers/comment/comment.actions'
-import { AddRefiner, RemoveRefiner, ClearAllRefiners, ExpandRefinerGroup, CollapseRefinerGroup } from '../reducers/commitment-overview/commitment-overview.actions'
+import { AddRefiner, RemoveRefiner, ClearAllRefiners, ExpandRefinerGroup, CollapseRefinerGroup, SetTextRefiner } from '../reducers/commitment-overview/commitment-overview.actions'
 import { GetAllWhoAnnouncedTypes } from '../reducers/who-announced-type/who-announced-type.actions'
 import { ChangeTimeFormat, CollapsePanel, ExpandPanel } from '../reducers/commitment-edit/commitment-edit.actions'
 
@@ -236,6 +236,10 @@ export class CommitmentDataService {
 
   removeRefiner(refiner: RefinerType) {
     this.store.dispatch(new RemoveRefiner(refiner))
+  }
+
+  setTextRefiner(text) {
+    this.store.dispatch(new SetTextRefiner(text))
   }
 
   clearAllRefiners() {

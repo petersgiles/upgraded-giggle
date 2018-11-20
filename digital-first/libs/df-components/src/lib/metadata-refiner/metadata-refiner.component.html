@@ -1,10 +1,11 @@
 <mdc-list dense>
-  <mdc-list-item class="digital-first-list-heading">
-    Text Search
-    <mdc-icon mdcListItemMeta (click)="onClear.emit('search')">clear</mdc-icon>
-  </mdc-list-item>
-  <mdc-list-item>
-    <mdc-text-field label="Search" fullwidth></mdc-text-field>
+  <mdc-list-item class="search-item">
+
+    <mdc-text-field label="Search" fullwidth autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" 
+      #search [formControl]="searchControl">
+      <mdc-icon mdcTextFieldIcon trailing clickable="true" (click)="handleOnClear('search')">clear</mdc-icon>
+    </mdc-text-field>
+
   </mdc-list-item>
   <ng-container *ngFor="let group of refinerGroups">
     <mdc-list-item class="digital-first-list-heading" (click)="onRefinerGroupSelected.emit(group)">

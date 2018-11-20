@@ -4,11 +4,13 @@ import { RefinerType } from '@digital-first/df-components'
 export interface State {
   expandedRefinerGroups: (string | number)[]
   selectedRefiners: RefinerType[]
+  textRefiner: string
 }
 
 export const initialState: State = {
   expandedRefinerGroups: [],
-  selectedRefiners: []
+  selectedRefiners: [],
+  textRefiner: null
 }
 
 export function reducer(
@@ -16,6 +18,13 @@ export function reducer(
   action: CommitmentOverviewActions
 ): State {
   switch (action.type) {
+
+    case CommitmentOverviewActionTypes.SetTextRefiner: {
+      return {
+        ...state,
+        textRefiner: action.payload
+      }
+    }
 
     case CommitmentOverviewActionTypes.ExpandRefinerGroup: {
       return {
@@ -81,5 +90,6 @@ export function reducer(
   }
 }
 
+export const getTextRefiner = (state: State) => state.textRefiner
 export const getSelectedRefiners = (state: State) => state.selectedRefiners
 export const getExpandedRefinerGroups = (state: State) => state.expandedRefinerGroups

@@ -7,6 +7,7 @@ export enum CommitmentOverviewActionTypes {
   AddRefiner = '[CommitmentOverview] Add Refiner',
   RemoveRefiner = '[CommitmentOverview] Remove Refiner',
   ClearAllRefiners = '[CommitmentOverview] Clear All Refiners',
+  SetTextRefiner = '[CommitmentOverview] Set Text Refiner',
 }
 export class CollapseRefinerGroup implements Action {
   readonly type = CommitmentOverviewActionTypes.CollapseRefinerGroup
@@ -32,6 +33,12 @@ export class RemoveRefiner implements Action {
   constructor(public payload: RefinerType) { }
 }
 
+export class SetTextRefiner implements Action {
+  readonly type = CommitmentOverviewActionTypes.SetTextRefiner
+
+  constructor(public payload?: string) { }
+}
+
 export class ClearAllRefiners implements Action {
   readonly type = CommitmentOverviewActionTypes.ClearAllRefiners
 }
@@ -42,3 +49,4 @@ export type CommitmentOverviewActions =
   | AddRefiner
   | RemoveRefiner
   | ClearAllRefiners
+  | SetTextRefiner

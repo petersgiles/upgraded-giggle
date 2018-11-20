@@ -42,6 +42,7 @@ export class ContactCreateComponent implements OnInit, OnDestroy {
           if (next) {
             this.formBusy = false
             this.showSnackBar(next.message)
+            this.handleGoBack(null)
           }
         },
         error => this.showSnackBar(error)
