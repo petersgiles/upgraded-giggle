@@ -42,6 +42,10 @@ import { mapCommitment, mapCommitments } from './commitment'
 })
 export class SharepointDataService implements AppDataService {
 
+  getCurrentUser(): Observable<any> {
+    return this.sharepoint.getSharePointUserProfile()
+  }
+
   storeCommitment = (commitment: Commitment): Observable<DataResult<CommitmentResult>> => {
 
     const spCommitment = {

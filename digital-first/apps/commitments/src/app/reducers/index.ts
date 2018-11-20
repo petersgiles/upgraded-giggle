@@ -29,6 +29,7 @@ import * as fromWhoAnnouncedType from './who-announced-type/who-announced-type.r
 import * as fromAnnouncementType from './announcement-type/announcement-type.reducer'
 import * as fromCommitment from './commitment/commitment.reducer'
 import * as fromPortfolio from './portfolio/portfolio.reducer'
+import * as fromUser from './user/user.reducer'
 import * as fromParty from './party/party.reducer'
 import * as fromComment from './comment/comment.reducer'
 import * as fromContact from './contact/contact.reducer'
@@ -46,6 +47,7 @@ export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionRedu
 export function logger(reducer: ActionReducer<State>): ActionReducer<State> { return reducer }
 
 export interface State {
+    user: fromUser.State
     routerReducer: fromRouter.RouterReducerState<RouterStateUrl>
     notification: fromNotification.State
     whoAnnouncedType: fromWhoAnnouncedType.State
@@ -64,6 +66,7 @@ export interface State {
 }
 
 export const reducers: ActionReducerMap<State> = {
+    user: fromUser.reducer,
     routerReducer: fromRouter.routerReducer,
     notification: fromNotification.reducer,
     whoAnnouncedType: fromWhoAnnouncedType.reducer,
@@ -87,6 +90,7 @@ export const getNotification = createSelector(
     fromNotification.getNotification
 )
 
+export * from './user'
 export * from './commitment-type'
 export * from './location'
 export * from './map-point'

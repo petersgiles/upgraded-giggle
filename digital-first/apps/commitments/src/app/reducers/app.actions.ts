@@ -9,6 +9,7 @@ export enum AppActionTypes {
 
 export class StartAppInitialiser implements Action {
     readonly type = AppActionTypes.StartAppInitialiser
+    constructor(public payload: {environment: any}) { }
 }
 
 export class FinishAppInitialiser implements Action {

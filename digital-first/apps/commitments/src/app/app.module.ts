@@ -125,7 +125,7 @@ const ENTRYCOMPONENTS = [
 
 export function initApplication(store: Store<fromRoot.State>): Function {
   return () => new Promise(resolve => {
-    store.dispatch(new StartAppInitialiser())
+    store.dispatch(new StartAppInitialiser({environment: environment}))
 
     // tslint:disable-next-line:no-console
     console.log('app initialise started...', store)

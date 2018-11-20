@@ -7,6 +7,8 @@ import { Commitment } from '../reducers/commitment'
 })
 export abstract class AppDataService {
 
+  abstract getCurrentUser(): Observable<any>
+
   abstract removeElectorateFromCommitment(payload: any): Observable<any>
 
   abstract addElectorateToCommitment(payload: any): Observable<any>

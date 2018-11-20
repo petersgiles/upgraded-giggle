@@ -50,6 +50,11 @@ import { STORE_COMMITMENT_CONTACT, REMOVE_COMMITMENT_CONTACT } from './commitmen
   providedIn: 'root'
 })
 export class ApolloDataService implements AppDataService {
+  getCurrentUser(): Observable<any> {
+    return of({
+      username: 'guest'
+    })
+  }
 
   constructor(private apollo: Apollo) { }
 
