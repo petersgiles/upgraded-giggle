@@ -11,6 +11,27 @@ export const byIdQuery = (criteria: { id }) =>
       </Query>
   </View>`
 
+export const byIdsQuery = (criteria: []) => {
+
+    const set = criteria.map(id => `<Eq><FieldRef Name='ID' /><Value Type='Number'>${id}</Value></Eq>`)
+
+    const orDSet = set.reduce((acc, item) => {
+
+        let last = acc.pop()
+
+        if (last) {
+            last = `<Or>${item}${last}</Or>`
+        } else {
+            last = item
+        }
+
+        acc.push(last)
+        return acc
+    }, [])[0]
+
+    return `<View><Query><Where>${orDSet}</Where></Query></View>`
+}
+
 export const byMapPointPlaceIdQuery = (criteria: { placeId }) =>
     `<View>
         <Query>
