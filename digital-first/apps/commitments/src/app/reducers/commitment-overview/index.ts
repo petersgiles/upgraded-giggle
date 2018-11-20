@@ -46,7 +46,7 @@ const REFINER_GROUP_PARTY = {
 }
 const REFINER_GROUP_PORTFOLIO = {
     key: 'portfolio', // key needs to match property on artifact
-    title: 'Portfolio'
+    title: 'Responsible Portfolio'
 }
 const REFINER_GROUP_LOCATION = {
     key: 'location',  // key needs to match property on artifact
@@ -217,7 +217,7 @@ export const getAllOverviewCommitmentDataTables = createSelector(
                 { caption: 'Title' },
                 { caption: 'Party' },
                 { caption: 'Location' },
-                { caption: 'Portfolio' },
+                { caption: 'Responsible Portfolio' },
                 { caption: 'Announcement' },
                 { caption: 'Commitment' }],
             rows: rows

@@ -46,7 +46,6 @@
 
   td, th {
     padding: 0 $data-table-column-padding 12px $data-table-column-padding;
-    text-align: right;
 
     &:first-of-type {
       padding-left: 24px;
@@ -109,7 +108,7 @@
   width: 16px;
 }
 
-.df-data-table__cell--non-numeric.df-data-table__cell--non-numeric {
+.df-data-table__cell--non-numeric {
   text-align: left;
 }
 
