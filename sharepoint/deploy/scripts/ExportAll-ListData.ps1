@@ -14,5 +14,5 @@ if(-not (Test-Path $exportPath))
 foreach($listName in $listsToExport)
 {
     Write-Host "Export list $listName"
-   .\Export-ListData.ps1 -webUrl $webUrl -listName $listName -binPath $binPath -exportPath $exportPath
+   . "$PSScriptRoot\Export-ListData.ps1" -webUrl $webUrl -listName $listName -binPath $binPath -exportPath $exportPath
 }

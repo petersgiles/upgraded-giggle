@@ -10,5 +10,5 @@ foreach($listName in $listsToImport)
 {
     Write-Host "Importing list $listName"
     $dataFile = Join-Path $importPath "$listName.csv"
-   .\Import-ListData.ps1 -webUrl $webUrl -listName $listName -binPath $binPath -dataFile $dataFile
+   . "$PSScriptRoot\Import-ListData.ps1" -webUrl $webUrl -listName $listName -binPath $binPath -dataFile $dataFile
 }

@@ -149,9 +149,6 @@ function PopulateFolder($ListRootFolder, $FolderRelativePath)
         UploadFile $WorkingFolder $File
 
     }
-    
-    
-    
 }
 
 
@@ -203,8 +200,6 @@ Foreach ($File in ($FilesInRoot))
 
     #Upload the file
     UploadFile($list.RootFolder) $File
-    
-
 }
 
 $FolderFullPath = (Get-Item $Folder).FullName
@@ -216,7 +211,4 @@ foreach($CurrentFolder in $AllFolders)
     
     #Call the PopulateFolder function for the current folder, which will ensure that the folder exists and upload all files in the folder to the appropriate location
     PopulateFolder ($list.RootFolder) $FolderRelativePath
-
-    
-
 }
