@@ -4,6 +4,8 @@ Param(
     [string] $binPath = "C:\Users\atpakkianathan\source\Dsuite\DF-Client\sharepoint\deploy\scripts\"
 )
 
+.$PSSCriptRoot\ClientContext-MixedAuth.ps1
+
 function Does-ListExist($context, $listName) {
     $list = $context.Web.Lists.GetByTitle($listName)
     $context.Load($list)
@@ -28,7 +30,11 @@ Add-Type -Path "$binPath\Microsoft.SharePoint.Client.dll"
 Add-Type -Path "$binPath\Microsoft.SharePoint.Client.Runtime.dll"
 
 Write-Host "Deploying list schemas to $siteUrl"
+
+
 $context = New-Object Microsoft.SharePoint.Client.ClientContext($siteUrl)
+HandleMixedModeWebApplication $context $binPath
+
 $listsAll = Get-ListsToProcess $saveLocation
 $listsToProcess = @()
 foreach ($listName in $listsAll) {
