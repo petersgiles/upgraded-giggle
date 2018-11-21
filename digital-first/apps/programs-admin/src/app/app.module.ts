@@ -69,6 +69,9 @@ import { AppEffects } from './reducers/app.effects'
 import { RouterEffects } from './reducers/router.effects'
 import { FEDERATEDLOGINAPIPATH } from '@digital-first/df-app-tokens'
 
+import { FileDropModule } from 'ngx-file-drop';
+import { HomeaffairsComponent } from './containers/homeaffairs/homeaffairs.component';
+
 const COMPONENTS = [
   AppComponent,
   HomeComponent,
@@ -138,7 +141,7 @@ export let appDataServiceProvider = {
 }
 
 @NgModule({
-  declarations: [...COMPONENTS],
+  declarations: [...COMPONENTS, HomeaffairsComponent],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [
     BrowserModule,
@@ -160,6 +163,7 @@ export let appDataServiceProvider = {
     DfSharepointModule,
     DfPipesModule,
     AppRoutingModule,
+    FileDropModule,
 
     StoreModule.forRoot(reducers, { metaReducers }),
     StoreRouterConnectingModule.forRoot({
