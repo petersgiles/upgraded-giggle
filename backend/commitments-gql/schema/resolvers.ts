@@ -21,6 +21,7 @@ db.connect('./diskdb/commitments', [
   'commitment-commitment-electorates'
 ]);
 
+
 // A map of functions which return data for the schema.
 export const resolvers = {
   Query: {
