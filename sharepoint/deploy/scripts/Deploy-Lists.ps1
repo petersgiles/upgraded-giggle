@@ -1,14 +1,8 @@
 Param(
     [string]$siteUrl = "https://lbs.cloud9.cabnet/sites/df/",
-    [string]$saveLocation = "..\commitments\ListDefinitions",
+    [string]$saveLocation = "$PSScriptRoot\..\..\commitments\ListDefinitions",
     [string] $binPath = "C:\Users\atpakkianathan\source\Dsuite\DF-Client\sharepoint\deploy\scripts\"
 )
-
-function Get-ListsToProcess() {
-
-    $listsToProcess = @("Commitment", "CommitmentComment", "CommitmentType", "Electorate", "PoliticalParty", "Portfolio")
-    return $listsToProcess
-}
 
 function Does-ListExist($context, $listName) {
     $list = $context.Web.Lists.GetByTitle($listName)
