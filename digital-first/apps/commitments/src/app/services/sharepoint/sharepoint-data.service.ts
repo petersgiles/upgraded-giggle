@@ -12,6 +12,7 @@ import {
   mapCommitmentTypes,
   mapWhoAnnouncedTypes,
   mapCommitmentPortfolios,
+  mapCriticalDates,
 } from './sharepoint-data-maps'
 
 import {
@@ -26,7 +27,8 @@ import {
   LocationsResult,
   CommitmentTypesResult,
   WhoAnnouncedTypesResult,
-  MapPointsResult
+  MapPointsResult,
+  CriticalDatesResult
 } from '../../models'
 import { Commitment } from '../../reducers/commitment'
 import { arrayToHash } from '@digital-first/df-utils'
@@ -235,6 +237,18 @@ export class SharepointDataService implements AppDataService {
         concatMap((result: any) =>
           of({
             data: { portfolios: mapPortfolios(result) },
+            loading: false,
+            error: null
+          }))
+      )
+  }
+
+  filterCriticalDates(payload?: any): Observable<DataResult<CriticalDatesResult>> {
+    return this.sharepoint.getItems({ listName: 'CriticalDate' })
+      .pipe(
+        concatMap((result: any) =>
+          of({
+            data: { criticalDates: mapCriticalDates(result) },
             loading: false,
             error: null
           }))

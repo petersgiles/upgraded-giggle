@@ -36,6 +36,15 @@ type AnnouncementType {
     icon: String,
 }
 
+type CriticalDate {
+    id: ID,
+    title: String,
+    description: String,
+    sortorder: String,
+    colour: String,
+    icon: String,
+}
+
 type WhoAnnouncedType {
     id: ID,
     title: String,
@@ -120,6 +129,7 @@ type Tag {
     description: String,
     cost: String,
     date: String,
+    criticalDate: CriticalDate,
     announcedby: String,
     party: PoliticalParty,
     whoAnnouncedType: WhoAnnouncedType,
@@ -143,6 +153,7 @@ type Tag {
     commitmentElectorates(commitment: ID!): [Electorate],
     parties: [PoliticalParty],
     portfolios: [Portfolio],
+    criticalDates: [CriticalDate],
     mapPoints: [MapPoint],
     announcementTypes: [AnnouncementType],
     commitmentTypes: [CommitmentType]

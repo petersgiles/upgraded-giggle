@@ -72,6 +72,8 @@ import * as fromContact from './reducers/contact/contact.reducer'
 import * as fromLocation from './reducers/location/location.reducer'
 import * as fromMapPoint from './reducers/map-point/map-point.reducer'
 import * as fromCommitmentType from './reducers/commitment-type/commitment-type.reducer'
+import * as fromCriticalDate from './reducers/critical-date/critical-date.reducer'
+
 import { AppEffects } from './reducers/app.effects'
 import { RouterEffects } from './reducers/router.effects'
 import { CommitmentEffects } from './reducers/commitment'
@@ -87,6 +89,7 @@ import { WhoAnnouncedTypeEffects } from './reducers/who-announced-type/who-annou
 import { ContactCreateComponent } from './containers/contact-create/contact-create.component'
 import { ContactCreateFormComponent } from './components/contact-create-form/contact-create-form.component'
 import { MapPointEffects } from './reducers/map-point/map-point.effects'
+import { CriticalDateEffects } from './reducers/critical-date/critical-date.effects'
 
 const COMPONENTS = [
   AppComponent,
@@ -207,12 +210,14 @@ export let appDataServiceProvider = {
     StoreModule.forFeature('location', fromLocation.reducer),
     StoreModule.forFeature('commitmentType', fromCommitmentType.reducer),
     StoreModule.forFeature('mapPoint', fromMapPoint.reducer),
+    StoreModule.forFeature('criticalDate', fromCriticalDate.reducer),
 
     EffectsModule.forRoot([AppEffects]),
     EffectsModule.forFeature([
       RouterEffects,
       WhoAnnouncedTypeEffects,
       AnnouncementTypeEffects,
+      CriticalDateEffects,
       CommentEffects,
       CommitmentEffects,
       CommitmentTypeEffects,

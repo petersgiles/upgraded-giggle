@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, NgZone } from '@angular/core'
 import { Subject, Observable } from 'rxjs'
 import { Router, NavigationEnd } from '@angular/router'
 import { takeUntil, filter } from 'rxjs/operators'
-import { FullLayoutService, AppUserProfile } from './full-layout.service'
+import { FullLayoutService, AppUserProfile, SideBarItem } from './full-layout.service'
 
 @Component({
   selector: 'digital-first-full-layout',
@@ -13,6 +13,7 @@ export class FullLayoutComponent implements OnInit, OnDestroy {
 
   private _destroy = new Subject<void>()
   _profile: AppUserProfile
+  sidebarItems$: Observable<SideBarItem[]>
 
   constructor(
     private router: Router,
@@ -40,6 +41,8 @@ export class FullLayoutComponent implements OnInit, OnDestroy {
     this.service.profile.subscribe(p => {
       this._profile = p
     })
+
+    this.sidebarItems$ = this.service.sidebarItems$
   }
   ngOnDestroy(): void {
     this._destroy.next()

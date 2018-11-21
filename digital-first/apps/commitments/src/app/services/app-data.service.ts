@@ -37,6 +37,7 @@ export abstract class AppDataService {
   abstract filterContacts(filter?: any): Observable<any>
   abstract filterLocations(filter?: any): Observable<any>
   abstract filterMapPoints(filter: any): Observable<any>
+  abstract filterCriticalDates(filter: any): Observable<any>
 
   abstract filterCommitmentTypes(filter?: any): Observable<any>
   abstract filterParties(filter?: any): Observable<any>

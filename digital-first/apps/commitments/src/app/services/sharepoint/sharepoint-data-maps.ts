@@ -6,6 +6,7 @@ import { Portfolio } from '../../reducers/portfolio/portfolio.model'
 import { CommitmentType } from '../../reducers/commitment-type/commitment-type.model'
 
 import { WhoAnnouncedType } from '../../reducers/who-announced-type/who-announced-type.model'
+import { CriticalDate } from '../../reducers/critical-date/critical-date.model'
 
 export const mapAnnouncementType = (announcementType): any => ({
   id: announcementType.ID,
@@ -15,6 +16,15 @@ export const mapAnnouncementType = (announcementType): any => ({
 })
 
 export const mapAnnouncementTypes = (announcementTypes): AnnouncementType[] => announcementTypes.map(mapAnnouncementType)
+
+export const mapCriticalDate = (item): any => ({
+  id: item.ID,
+  title: item.Title,
+  colour: item.Colour,
+  sortOrder: item.SortOrder
+})
+
+export const mapCriticalDates = (list): CriticalDate[] => list.map(mapCriticalDate)
 
 export const mapWhoAnnouncedType = (announcementType): any => ({
   id: announcementType.ID,

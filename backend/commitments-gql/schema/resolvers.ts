@@ -8,6 +8,7 @@ db.connect('./diskdb/commitments', [
   'commitment-map-locations',
   'commitment-commitment-map-locations',
   'commitment-map-points',
+  'commitment-critical-dates',
   'commitment-commitment-map-points',
   'commitment-portfolios',
   'commitment-whoAnnouncedTypes',
@@ -75,6 +76,7 @@ export const resolvers = {
     parties: () => db['commitment-parties'].find(),
     portfolios: () => db['commitment-portfolios'].find(),
     announcementTypes: () => db['commitment-announcementTypes'].find(),
+    criticalDates: () => db['commitment-critical-dates'].find(),
     commitmentTypes: () => db['commitment-commitmentTypes'].find(),
     whoAnnouncedTypes: () => db['commitment-whoAnnouncedTypes'].find(),
     contacts: () => {
@@ -281,6 +283,9 @@ export const resolvers = {
     },
     announcementType(commitment: any) {
       return db['commitment-announcementTypes'].findOne({ id: commitment.announcementType })
+    },
+    criticalDate(commitment: any) {
+      return db['commitment-critical-dates'].findOne({ id: commitment.criticalDate })
     },
     commitmentType(commitment: any) {
       return db['commitment-commitmentTypes'].findOne({ id: commitment.commitmentType })

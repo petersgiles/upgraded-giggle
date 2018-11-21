@@ -33,6 +33,7 @@ import * as fromUser from './user/user.reducer'
 import * as fromParty from './party/party.reducer'
 import * as fromComment from './comment/comment.reducer'
 import * as fromContact from './contact/contact.reducer'
+import * as fromCriticalDate from './critical-date/critical-date.reducer'
 import * as fromLocation from './location/location.reducer'
 import * as fromMapPoint from './map-point/map-point.reducer'
 import * as fromCommitmentType from './commitment-type/commitment-type.reducer'
@@ -53,6 +54,7 @@ export interface State {
     whoAnnouncedType: fromWhoAnnouncedType.State
     announcementType: fromAnnouncementType.State
     commitment: fromCommitment.State
+    criticalDate: fromCriticalDate.State
     portfolio: fromPortfolio.State
     party: fromParty.State
     comment: fromComment.State
@@ -72,6 +74,7 @@ export const reducers: ActionReducerMap<State> = {
     whoAnnouncedType: fromWhoAnnouncedType.reducer,
     announcementType: fromAnnouncementType.reducer,
     commitment: fromCommitment.reducer,
+    criticalDate: fromCriticalDate.reducer,
     portfolio: fromPortfolio.reducer,
     party: fromParty.reducer,
     comment: fromComment.reducer,
@@ -90,6 +93,7 @@ export const getNotification = createSelector(
     fromNotification.getNotification
 )
 
+export * from './critical-date'
 export * from './user'
 export * from './commitment-type'
 export * from './location'

@@ -21,7 +21,8 @@ import {
   STORE_CONTACT,
   STORE_MAP_POINT,
   REMOVE_MAP_POINT,
-  MAP_POINTS_BY_COMMITMENT
+  MAP_POINTS_BY_COMMITMENT,
+  GET_CRITICAL_DATES
 } from './apollo-queries'
 import {
   AnnouncementTypesResult,
@@ -51,6 +52,7 @@ import { AppUserProfile } from '@digital-first/df-layouts'
   providedIn: 'root'
 })
 export class ApolloDataService implements AppDataService {
+
   getCurrentUser(): Observable<AppUserProfile> {
 
    const userprofile = {
@@ -166,6 +168,7 @@ export class ApolloDataService implements AppDataService {
 
   filterWhoAnnouncedTypes = (filter?: any) => this.callQuery<WhoAnnouncedTypesResult>({ query: GET_WHO_ANNOUNCED_TYPES })
   filterAnnouncementTypes = (filter?: any) => this.callQuery<AnnouncementTypesResult>({ query: GET_ANNOUNCEMENT_TYPES })
+  filterCriticalDates = (filter?: any) => this.callQuery<AnnouncementTypesResult>({ query: GET_CRITICAL_DATES })
   filterCommitments = (filter?: any) => this.callQuery<CommitmentsResult>({ query: GET_ALL_COMMITMENTS, variables: filter })
   filterPortfolios = (filter?: any) => this.callQuery<PortfoliosResult>({ query: GET_PORTFOLIOS, variables: filter })
   filterPartys = (filter?: any) => this.callQuery<PartysResult>({ query: GET_PARTIES, variables: filter })
