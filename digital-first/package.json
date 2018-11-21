@@ -27,6 +27,7 @@
     "help": "./node_modules/.bin/nx help",
     "deploy:all": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrl 'http://vm-dev-lbs13/sites/commitments'",
     "deploy:js": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrl 'http://vm-dev-lbs13/sites/commitments' -jsOnly",
+    "programs-admin:build:commitments": "ng build programs-admin --configuration=dev",
     "sharepoint:build:commitments": "ng build commitments --configuration=sharepoint",
     "sharepoint:build": "run-p sharepoint:build:*",
     "sharepoint:compile:commitments": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/commitments/Compile-Page.ps1",
