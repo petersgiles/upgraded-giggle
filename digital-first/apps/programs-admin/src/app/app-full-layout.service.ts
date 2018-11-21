@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { environment } from '../environments/environment'
 import { of, Observable } from 'rxjs'
-import { SideBarItem } from '@digital-first/df-layouts'
+import { SideBarItem, AppUserProfile } from '@digital-first/df-layouts'
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,10 @@ export class AppFullLayoutService {
 
   get title(): string {
     return 'Programs Admin'
+  }
+
+  get profile(): Observable<AppUserProfile> {
+    return of(null)
   }
 
   get sidebarItems$(): Observable<SideBarItem[]> {
