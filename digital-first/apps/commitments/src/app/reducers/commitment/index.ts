@@ -84,9 +84,6 @@ export const getCurrentCommitment = createSelector(
                 })
             }
 
-            // tslint:disable-next-line:no-console
-            console.log('mappedCommitment', mappedCommitment)
-
             return mappedCommitment
         }
 

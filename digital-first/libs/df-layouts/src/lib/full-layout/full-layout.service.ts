@@ -18,10 +18,27 @@ export class FullLayoutService {
     return 'New Application'
   }
 
+  get profile(): Observable<AppUserProfile> {
+    return of({
+      name: 'Guest',
+      background: 'red',
+      displayType: 'circle',
+      size: 35
+    })
+  }
+
   get sidebarItems$(): Observable<SideBarItem[]> {
     return of([])
   }
 
   constructor() { }
 
+}
+
+export interface AppUserProfile {
+  name: string
+  email?: string
+  background?: string
+  displayType?: string
+  size?: number
 }

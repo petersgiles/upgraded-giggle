@@ -197,8 +197,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   }
 
   handleAddMapPoint(mapPoint) {
-    // tslint:disable-next-line:no-console
-    console.log(mapPoint)
     this.service.addMapPointToCommitment(this.commitment.id, mapPoint)
   }
 

@@ -4,6 +4,7 @@ import * as X2JS from 'x2js'
 
 import { HttpClient } from '@angular/common/http'
 import { tap, map, concatMap } from 'rxjs/operators'
+import { AppUserProfile } from '@digital-first/df-layouts'
 
 declare var SP: any
 declare var _spPageContextInfo: any
@@ -55,6 +56,29 @@ export class SharepointJsomService {
       .pipe(
         tap((response: any) => this.log(response)),
         map((response: any) => ({ ...response.d, is_current_user: true }))
+      )
+  }
+
+  getCurrentUser(): Observable<AppUserProfile> {
+
+    const context = SP.ClientContext.get_current()
+    const web = context.get_web()
+    const user = web.get_currentUser() // must load this to access info.
+    context.load(user)
+
+    const currentInfo = {
+      userid: _spPageContextInfo.userId,
+      login: _spPageContextInfo.userLoginName,
+      isSiteAdmin: _spPageContextInfo.isSiteAdmin,
+      systemUserKey: _spPageContextInfo.systemUserKey
+    }
+
+    return executeQueryAsObservable(context)
+      .pipe(
+        map(_ => ({
+          ...currentInfo,
+          name: user.get_title()
+        }))
       )
   }
 

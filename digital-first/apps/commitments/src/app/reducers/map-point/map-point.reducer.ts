@@ -57,9 +57,6 @@ export function reducer(
 
     case MapPointActionTypes.LoadMapPoints: {
 
-      // tslint:disable-next-line:no-console
-      console.log('Load Map Point', action)
-
       if (action.payload.data.mapPoints) {
         return adapter.upsertMany(action.payload.data.mapPoints, {
           ...state,

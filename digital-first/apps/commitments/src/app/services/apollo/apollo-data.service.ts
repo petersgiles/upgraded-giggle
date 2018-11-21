@@ -45,15 +45,25 @@ import { Commitment } from '../../reducers/commitment'
 import { Injectable } from '@angular/core'
 import { Observable, of, throwError } from 'rxjs'
 import { STORE_COMMITMENT_CONTACT, REMOVE_COMMITMENT_CONTACT } from './commitment-contacts'
+import { AppUserProfile } from '@digital-first/df-layouts'
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApolloDataService implements AppDataService {
-  getCurrentUser(): Observable<any> {
-    return of({
-      username: 'guest'
-    })
+  getCurrentUser(): Observable<AppUserProfile> {
+
+   const userprofile = {
+      userid: 0,
+      login: 'guest',
+      isSiteAdmin: true,
+      systemUserKey: 'guest',
+      name: 'Guest User'
+    }
+
+    return of(
+      userprofile
+    )
   }
 
   constructor(private apollo: Apollo) { }
@@ -95,8 +105,6 @@ export class ApolloDataService implements AppDataService {
     party: string
   }): Observable<DataResult<ContactsResult>> {
     const variables = { ...contact }
-    // tslint:disable-next-line:no-console
-    console.log('storeContact', variables)
     return this.callMutate<any>({ mutation: STORE_CONTACT, variables: variables })
   }
 

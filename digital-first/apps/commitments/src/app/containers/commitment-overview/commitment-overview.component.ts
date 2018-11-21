@@ -110,8 +110,6 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
   }
 
   handleSearchCriteriaChanged(text) {
-    // tslint:disable-next-line:no-console
-    console.log('handleSearchCriteriaChanged', text)
     this.service.setTextRefiner(text)
   }
 

@@ -11,8 +11,9 @@
   <ng-template #recursiveList let-comments>
       <mdc-list *ngFor="let comment of comments" class="discussion-list--custom">
           <mdc-list-item class="discussion-list_item--custom" [ngStyle]="getIndent(comment.level)" [ngClass]="{'active': activeComment === comment.id}">
-              <mdc-icon *ngIf="hasChildren(comment)" mdcListItemGraphic>chat_bubble</mdc-icon>
-              <mdc-icon *ngIf="!hasChildren(comment)" mdcListItemGraphic>message</mdc-icon>
+              <!-- <mdc-icon *ngIf="hasChildren(comment)" mdcListItemGraphic>chat_bubble</mdc-icon>
+              <mdc-icon *ngIf="!hasChildren(comment)" mdcListItemGraphic>message</mdc-icon> -->
+              <digital-first-avatar [name]="comment?.author?.name" displayType="circle" size="35"></digital-first-avatar>
               <mdc-list-item-text [secondaryText]="getSecondaryText(comment)">{{comment.text}}</mdc-list-item-text>
               <a mdcListItemMeta mdcIcon aria-label="Delete this comment" title="Delete this comment" *ngIf="!hasChildren(comment)" (click)="handleDeleteComment(comment)">delete</a>
               <a mdcListItemMeta mdcIcon aria-label="Reply to this comment" title="Reply to this comment" (click)="onReplyToComment.emit(comment)">reply</a>

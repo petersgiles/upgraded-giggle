@@ -142,9 +142,6 @@ export const getFilteredOverviewCommitments = createSelector(
                 return filteredProperty // filters[eachKey].includes(eachObj[eachKey])
             }))
 
-        // tslint:disable-next-line:no-console
-        console.log('filterText', filterText)
-
         if (!filterText) {
 
             return refined
@@ -152,8 +149,6 @@ export const getFilteredOverviewCommitments = createSelector(
         return refined.filter(o => Object.keys(o).some(k => {
 
             if (typeof o[k] === 'string') {
-                // tslint:disable-next-line:no-console
-                console.log('toLowerCase', filterText, o[k], o[k].toLowerCase().includes(filterText.toLowerCase()))
                 return o[k].toLowerCase().includes(filterText.toLowerCase())
             }
             return false

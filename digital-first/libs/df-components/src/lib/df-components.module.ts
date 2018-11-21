@@ -23,6 +23,7 @@ import { BusyComponent } from './busy.component'
 import { MapComponent } from './map/map.component'
 import { ElectorateSelectorComponent } from './electorate-selector/electorate-selector.component'
 import { NavigateButtonComponent } from './navigation-button.component'
+import { AvatarComponent } from './avatar/avatar.component'
 
 const COMPONENTS = [
   TagsComponent,
@@ -41,7 +42,8 @@ const COMPONENTS = [
   DataTableComponent,
   BusyComponent,
   MapComponent,
-  ElectorateSelectorComponent
+  ElectorateSelectorComponent,
+  AvatarComponent
 ]
 
 @NgModule({

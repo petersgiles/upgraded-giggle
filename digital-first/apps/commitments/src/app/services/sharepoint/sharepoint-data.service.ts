@@ -36,14 +36,14 @@ import { mapContact, mapContacts, mapCommitmentContacts } from './contact'
 import { mapComments } from './comment'
 import { mapElectorates, mapCommitmentElectorates, mapMapPoints, mapCommitmentMapPoints, mapLocations } from './geo'
 import { mapCommitment, mapCommitments } from './commitment'
-
+import { AppUserProfile } from '@digital-first/df-layouts'
 @Injectable({
   providedIn: 'root'
 })
 export class SharepointDataService implements AppDataService {
 
-  getCurrentUser(): Observable<any> {
-    return this.sharepoint.getSharePointUserProfile()
+  getCurrentUser(): Observable<AppUserProfile> {
+    return this.sharepoint.getCurrentUser()
   }
 
   storeCommitment = (commitment: Commitment): Observable<DataResult<CommitmentResult>> => {
@@ -158,22 +158,15 @@ export class SharepointDataService implements AppDataService {
       listName: 'CommitmentMapPoint',
       viewXml: viewXml
     }).pipe(
-      // tslint:disable-next-line:no-console
-      tap(result => console.log('SP Get Map Points By Commitment', result, commitment)),
       map(mapCommitmentMapPoints),
       concatMap((commitmentMapPoints: any) => {
         const mpIds = commitmentMapPoints.map(mp => mp.mapPoint)
         const mapPointViewXml = byIdsQuery(mpIds)
 
-        // tslint:disable-next-line:no-console
-        console.log('Map Point View Xml', mapPointViewXml)
-
         return this.sharepoint.getItems({
           listName: 'MapPoint',
           viewXml: mapPointViewXml
         }).pipe(
-          // tslint:disable-next-line:no-console
-          tap(result => console.log('SP Get Map Points By Commitment Map Points', result, commitment)),
           concatMap(mapPoints =>
             of({
               data: { mapPoints: mapMapPoints(mapPoints) },
@@ -399,8 +392,6 @@ export class SharepointDataService implements AppDataService {
       listName: LISTNAME,
       viewXml: viewXml
     }).pipe(
-      // tslint:disable-next-line:no-console
-      tap(found => console.log('Map Point ?', found)),
       concatMap((found) => {
         if (found && found.length) {
           return of(found)
@@ -410,17 +401,13 @@ export class SharepointDataService implements AppDataService {
           listName: 'MapPoint',
           data: spMapPoint,
         }).pipe(
-          // tslint:disable-next-line:no-console
-          tap(stored => console.log('Map Point Stored', stored)),
           concatMap(_ => this.sharepoint.getItems({
             listName: LISTNAME,
             viewXml: byMapPointPlaceIdQuery({ placeId: spMapPoint.PlaceId })
           }))
         )
       }
-      ),
-      // tslint:disable-next-line:no-console
-      tap(found => console.log('Map Point Return', found)),
+      )
     )
   }
 
@@ -439,8 +426,6 @@ export class SharepointDataService implements AppDataService {
       listName: 'MapPoint',
       viewXml: viewXml
     }).pipe(
-      // tslint:disable-next-line:no-console
-      tap(found => console.log('Add Commitment Map Point ?', found)),
       map(found => found[0]),
       concatMap((found: any) => {
         const spMapPoint = {
@@ -469,8 +454,6 @@ export class SharepointDataService implements AppDataService {
       listName: 'MapPoint',
       viewXml: mapPointViewXml
     }).pipe(
-      // tslint:disable-next-line:no-console
-      tap(result => console.log('Map Points Results', result, mapPointViewXml)),
       map(result => result[0]),
       concatMap((result: any) => {
         const viewXml = byJoinTableQuery({ fieldA: { name: 'Commitment', id: payload.commitment }, fieldB: { name: 'MapPoint', id: result.ID } })
@@ -481,8 +464,6 @@ export class SharepointDataService implements AppDataService {
         }).pipe(
           map(mapCommitmentMapPoints),
           map(mapCommitmentPointsResult => mapCommitmentPointsResult[0]),
-          // tslint:disable-next-line:no-console
-          tap(mapCommitmentPointsResult => console.log(mapCommitmentPointsResult, viewXml)),
           concatMap(mapCommitmentPointsResult =>
             this.sharepoint.removeItem({
               listName: LISTNAME, id: mapCommitmentPointsResult.id
@@ -499,15 +480,11 @@ export class SharepointDataService implements AppDataService {
 
     const LISTNAME = 'CommitmentElectorate'
 
-    // tslint:disable-next-line:no-console
-    console.log(payload)
     return this.sharepoint.getItems({
       listName: LISTNAME,
       viewXml: byJoinTableQuery({ fieldA: { name: 'Commitment', id: payload.commitment }, fieldB: { name: 'Electorate', id: payload.electorate } })
     }).pipe(
       map(mapCommitmentElectorates),
-      // tslint:disable-next-line:no-console
-      tap(result => console.log(result)),
       map(result => result[0]),
       concatMap(result =>
         this.sharepoint.removeItem({

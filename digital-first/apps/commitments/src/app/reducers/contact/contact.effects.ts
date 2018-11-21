@@ -29,8 +29,6 @@ export class ContactEffects {
     .pipe(ofType(ContactActionTypes.StoreContact))
     .pipe(
       map((action: StoreContact) => action.payload),
-      // tslint:disable-next-line:no-console
-      tap(payload => console.log('StoreContact', payload)),
       switchMap((payload: any) => this.service.storeContact(payload.contact)),
       switchMap((result: DataResult<ContactsResult>) => [
         new AppNotification({ message: 'Contact Created' }),

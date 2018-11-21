@@ -55,6 +55,10 @@ export class CommitmentDataService {
     return this.store.pipe(select(fromRoot.getNotification))
   }
 
+  getCurrentUser(): Observable<any> {
+    return this.store.pipe(select(fromRoot.getCurrentUserProfile))
+  }
+
   /// WhoAnnouncedTypes
 
   public getAllWhoAnnouncedTypes(filter?: any) {

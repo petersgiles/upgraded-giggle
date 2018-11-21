@@ -10,6 +10,9 @@
               <img src="https://trimox.github.io/angular-mdc-web/assets/github-circle-white-transparent.svg" height="24" />
             </mdc-icon>
           </a>  -->
+            <digital-first-avatar [name]="profile?.name" [email]="profile?.email" [displayType]="profile?.displayType"
+                [size]="profile?.size" [background]="profile?.background">
+            </digital-first-avatar>
         </mdc-top-app-bar-section>
     </mdc-top-app-bar-row>
 </mdc-top-app-bar>

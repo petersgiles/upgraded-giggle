@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, NgZone } from '@angular/core'
-import { Subject } from 'rxjs'
+import { Subject, Observable } from 'rxjs'
 import { Router, NavigationEnd } from '@angular/router'
 import { takeUntil, filter } from 'rxjs/operators'
-import { FullLayoutService } from './full-layout.service'
+import { FullLayoutService, AppUserProfile } from './full-layout.service'
 
 @Component({
   selector: 'digital-first-full-layout',
@@ -12,6 +12,7 @@ import { FullLayoutService } from './full-layout.service'
 export class FullLayoutComponent implements OnInit, OnDestroy {
 
   private _destroy = new Subject<void>()
+  _profile: AppUserProfile
 
   constructor(
     private router: Router,
@@ -26,11 +27,19 @@ export class FullLayoutComponent implements OnInit, OnDestroy {
     return this.service.title
   }
 
+  get profile(): AppUserProfile {
+    return this._profile
+  }
+
   ngOnInit() {
     this.router.events
     .pipe(takeUntil(this._destroy),
       filter(event => event instanceof NavigationEnd))
     .subscribe(_ => { })
+
+    this.service.profile.subscribe(p => {
+      this._profile = p
+    })
   }
   ngOnDestroy(): void {
     this._destroy.next()

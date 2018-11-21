@@ -20,8 +20,6 @@ export class MapPointEffects {
       map((action: GetMapPointsByCommitment) => action.payload),
       switchMap((payload: any) => this.service.getMapPointsByCommitment(payload.commitment)
         .pipe(
-          // tslint:disable-next-line:no-console
-          tap(result => console.log('Get Map Points By Commitment', result)),
           map((result: DataResult<MapPointsResult>) => new LoadMapPoints(result)),
           catchError(error => of(new MapPointsActionFailure(error)))
         )
@@ -32,8 +30,6 @@ export class MapPointEffects {
     .pipe(
       ofType(MapPointActionTypes.StoreMapPoint),
       map((action: StoreMapPoint) => action.payload),
-      // tslint:disable-next-line:no-console
-      tap(payload => console.log('Store Map Point', payload)),
       switchMap((payload: any) => this.service.storeMapPoint(payload)
       .pipe(
         switchMap((result: DataResult<MapPointsResult>) => [

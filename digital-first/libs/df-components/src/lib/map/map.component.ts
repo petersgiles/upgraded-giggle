@@ -111,9 +111,6 @@ export class MapComponent implements OnInit {
             return
           }
 
-          // tslint:disable-next-line:no-console
-          console.log(place)
-
           this.mapPoint = {
             place_id: place.place_id,
             address: place.formatted_address,

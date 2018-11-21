@@ -46,8 +46,6 @@ export class CommitmentEffects {
       map((action: SetCurrentCommitment) => action.payload.id),
       switchMap((id: any) => this.service.getCommitment({ id })
         .pipe(
-          // tslint:disable-next-line:no-console
-          tap(result => console.log('getCommitmentsById', result, id)),
           map((result: DataResult<CommitmentResult>) => new UpsertCommitment(result)),
           catchError(error => of(new CommitmentsActionFailure(error)))
         )
@@ -118,8 +116,6 @@ export class CommitmentEffects {
     .pipe(
       ofType(CommitmentActionTypes.RemoveElectorateFromCommitment),
       map((action: RemoveElectorateFromCommitment) => action.payload),
-      // tslint:disable-next-line:no-console
-      tap(payload => console.log(payload)),
       switchMap((payload: any) => this.service.removeElectorateFromCommitment(payload)),
       switchMap((result: any) => [
         new AppNotification({ message: 'Electorate Removed' }),
@@ -137,12 +133,8 @@ export class CommitmentEffects {
       map((action: AddMapPointToCommitment) => action.payload),
       switchMap((payload) => this.service.storeMapPoint(payload.mapPoint)
         .pipe(
-          // tslint:disable-next-line:no-console
-          tap(result => console.log(result)),
           concatMap(_ => this.service.addMapPointToCommitment(payload)
             .pipe(
-              // tslint:disable-next-line:no-console
-              tap(result => console.log('addMapPointToCommitment', result, result.commitment.id,  payload.commitment)),
               concatMap((result: any) => [
                 new GetMapPointsByCommitment({commitment: payload.commitment}),
                 new AppNotification({ message: 'Map Point Added' }),
