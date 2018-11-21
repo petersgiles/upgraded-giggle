@@ -18,6 +18,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 })
 export class CommitmentEditFormComponent implements OnDestroy {
 
+  @Input() showSubmit = false
   @Input() parties: Party[]
   @Input() portfolios: Portfolio[]
   @Input() announcementTypes: AnnouncementType[]

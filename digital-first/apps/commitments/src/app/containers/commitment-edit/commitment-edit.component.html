@@ -10,12 +10,13 @@
 
     <mdc-linear-progress *ngIf="formBusy"></mdc-linear-progress>
 
-    <digital-first-commitment-edit-form *ngIf="panels.formPanelExpanded" [busy]="formBusy" [commitment]="commitment"
-      [parties]="parties$ | async" [announcementTypes]="announcementTypes$ | async" [whoAnnouncedTypes]="whoAnnouncedTypes$ | async"
-      [commitmentTypes]="commitmentTypes$ | async" [portfolios]="portfolios$ | async" [locations]="locations$ | async"
-      (onSubmitted)="handleUpdateCommitment($event)" (onCancelled)="handleCancelled($event)" (onChanged)="handleUpdateCommitment($event)"      
-      >
-    </digital-first-commitment-edit-form>
+      <digital-first-commitment-edit-form *ngIf="panels.formPanelExpanded" [busy]="formBusy" [commitment]="commitment"
+        [parties]="parties$ | async" [announcementTypes]="announcementTypes$ | async" [whoAnnouncedTypes]="whoAnnouncedTypes$ | async"
+        [commitmentTypes]="commitmentTypes$ | async" [portfolios]="portfolios$ | async" [locations]="locations$ | async"
+        (onSubmitted)="handleUpdateCommitment($event)" (onCancelled)="handleCancelled($event)" (onChanged)="handleUpdateCommitment($event)">
+      </digital-first-commitment-edit-form>
+
+
 
     <!-- <div class="commitment-layout__row">
       <digital-first-related-artifacts></digital-first-related-artifacts>
@@ -40,22 +41,15 @@
 
       <div class="form-content">
         <div class="form-layout__row--no-wrap">
-          <ng-select [items]="electorates$ | async" 
-            bindValue="id" 
-            bindLabel="title" 
-            placeholder="Electorate" 
-            maxSelectedItems="8"
-            (add)="handleAddElectorateToCommitment($event)"
-            (remove)="handleRemoveElectorateFromCommitment($event)"
-            [ngModel]="selectedElectorateIds"
-            [multiple]="true"
-            [clearable]="false"
-            [hideSelected]="true">
+          <ng-select [items]="electorates$ | async" bindValue="id" bindLabel="title" placeholder="Electorate"
+            maxSelectedItems="8" (add)="handleAddElectorateToCommitment($event)" (remove)="handleRemoveElectorateFromCommitment($event)"
+            [ngModel]="selectedElectorateIds" [multiple]="true" [clearable]="false" [hideSelected]="true">
           </ng-select>
         </div>
       </div>
 
-      <digital-first-map [mapPoints]="commitment.mapPoints" (onAddMapPoint)="handleAddMapPoint($event)" (onDeleteMapPoint)=handleDeleteMapPoint($event)></digital-first-map>
+      <digital-first-map [mapPoints]="commitment.mapPoints" (onAddMapPoint)="handleAddMapPoint($event)"
+        (onDeleteMapPoint)=handleDeleteMapPoint($event)></digital-first-map>
     </div>
     <digital-first-page-title *ngIf="commitment" title="Contacts">
       <digital-first-add-item-button icon="person_add" title="New&nbsp;Contact" *ngIf="panels.contactPanelExpanded"
