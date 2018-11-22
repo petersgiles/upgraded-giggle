@@ -7,6 +7,7 @@ import { CommitmentType } from '../commitment-type/commitment-type.model'
 import { WhoAnnouncedType } from '../who-announced-type/who-announced-type.model'
 import { Contact } from '../contact/contact.model'
 import { MapPoint } from '../map-point/map-point.model'
+import { CriticalDate } from '../critical-date/critical-date.model'
 
 export interface Commitment {
   id: number
@@ -22,6 +23,7 @@ export interface Commitment {
   date: any,
   announcedby: string,
   portfolio: Portfolio,
+  criticalDate: CriticalDate,
   portfolios: Portfolio[],
   mapPoints: MapPoint[],
   contacts: Contact[],

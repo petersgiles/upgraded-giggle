@@ -16,6 +16,7 @@ import { CommitmentType } from '../../reducers/commitment-type/commitment-type.m
 import { WhoAnnouncedType } from '../../reducers/who-announced-type/who-announced-type.model'
 import { DataTableConfig } from '@digital-first/df-components'
 import { arrayToIndex } from '@digital-first/df-utils'
+import { CriticalDate } from '../../reducers/critical-date/critical-date.model'
 
 @Component({
   selector: 'digital-first-commitment-edit',
@@ -37,6 +38,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   commitmentTypes$: Observable<CommitmentType[]>
   commitmentContactsTableData$: Observable<DataTableConfig>
 
+  criticalDates$: Observable<CriticalDate[]>
   parties$: Observable<Party[]>
   portfolios$: Observable<Portfolio[]>
   electorates$: Observable<Location[]>
@@ -69,6 +71,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
     this.whoAnnouncedTypes$ = this.service.WhoAnnouncedTypes
     this.announcementTypes$ = this.service.AnnouncementTypes
+    this.criticalDates$ = this.service.CriticalDates
     this.commitmentTypes$ = this.service.CommitmentTypes
     this.parties$ = this.service.Parties
     this.portfolios$ = this.service.Portfolios
@@ -117,6 +120,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
     this.service.getAllWhoAnnouncedTypes()
     this.service.getAllAnnouncementTypes()
+    this.service.getAllCriticalDates()
     this.service.getAllCommitmentTypes()
     this.service.getAllLocations()
     this.service.getAllPartys()

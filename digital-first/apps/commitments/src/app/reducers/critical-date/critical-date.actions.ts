@@ -30,37 +30,37 @@ export class LoadCriticalDates implements Action {
 export class AddCriticalDate implements Action {
   readonly type = CriticalDateActionTypes.AddCriticalDate
 
-  constructor(public payload: { announcementType: CriticalDate }) {}
+  constructor(public payload: { criticalDate: CriticalDate }) {}
 }
 
 export class UpsertCriticalDate implements Action {
   readonly type = CriticalDateActionTypes.UpsertCriticalDate
 
-  constructor(public payload: { announcementType: CriticalDate }) {}
+  constructor(public payload: { criticalDate: CriticalDate }) {}
 }
 
 export class AddCriticalDates implements Action {
   readonly type = CriticalDateActionTypes.AddCriticalDates
 
-  constructor(public payload: { announcementTypes: CriticalDate[] }) {}
+  constructor(public payload: { criticalDates: CriticalDate[] }) {}
 }
 
 export class UpsertCriticalDates implements Action {
   readonly type = CriticalDateActionTypes.UpsertCriticalDates
 
-  constructor(public payload: { announcementTypes: CriticalDate[] }) {}
+  constructor(public payload: { criticalDates: CriticalDate[] }) {}
 }
 
 export class UpdateCriticalDate implements Action {
   readonly type = CriticalDateActionTypes.UpdateCriticalDate
 
-  constructor(public payload: { announcementType: Update<CriticalDate> }) {}
+  constructor(public payload: { criticalDate: Update<CriticalDate> }) {}
 }
 
 export class UpdateCriticalDates implements Action {
   readonly type = CriticalDateActionTypes.UpdateCriticalDates
 
-  constructor(public payload: { announcementTypes: Update<CriticalDate>[] }) {}
+  constructor(public payload: { criticalDates: Update<CriticalDate>[] }) {}
 }
 
 export class DeleteCriticalDate implements Action {

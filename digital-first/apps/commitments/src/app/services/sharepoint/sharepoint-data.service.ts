@@ -53,6 +53,7 @@ export class SharepointDataService implements AppDataService {
     const spCommitment = {
       WhoAnnouncedType: commitment.whoAnnouncedType,
       AnnouncementType: commitment.announcementType,
+      CriticalDate: commitment.criticalDate,
       CommitmentType: commitment.commitmentType,
       Contacts: commitment.contacts,
       Cost: commitment.cost,
@@ -116,7 +117,8 @@ export class SharepointDataService implements AppDataService {
         viewXml: byCommitmentIdQuery(criteria)
       })
     ]).pipe(
-      concatMap(([spCommitment, spContacts, spCommitmentContacts, spElectorates, spCommitmentElectorates, spPortfolios, spCommitmentPortfolios, spMapPoints, spCommitmentMapPoints]) => {
+      concatMap(([spCommitment, spContacts, spCommitmentContacts,
+        spElectorates, spCommitmentElectorates, spPortfolios, spCommitmentPortfolios, spMapPoints, spCommitmentMapPoints]) => {
         const commitment = mapCommitment(spCommitment[0])
         const contacts = arrayToHash(mapContacts(spContacts))
         const commitmentContact = mapCommitmentContacts(spCommitmentContacts)

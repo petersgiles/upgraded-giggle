@@ -14,6 +14,7 @@ export const mapCommitment = (commitment): Commitment => {
         location: fromLookup(item.Location),
         whoAnnouncedType: fromLookup(item.WhoAnnouncedType),
         announcementType: fromLookup(item.AnnouncementType),
+        criticalDate: fromLookup(item.CriticalDate),
         commitmentType: fromLookup(item.CommitmentType),
         date: item.Date,
         announcedby: item.AnnouncedBy,

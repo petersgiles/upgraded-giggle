@@ -175,6 +175,7 @@ type Tag {
       location: ID,
       whoAnnouncedType: ID,
       announcementType: ID,
+      criticalDate: ID,
       commitmentType: ID,
       date: String,
       announcedby: String,

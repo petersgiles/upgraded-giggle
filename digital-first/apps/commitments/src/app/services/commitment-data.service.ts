@@ -15,7 +15,7 @@ import { Comment } from '../reducers/comment/comment.model'
 import { Contact } from '../reducers/contact/contact.model'
 import { Location } from '../reducers/location/location.model'
 import { CommitmentType } from '../reducers/commitment-type/commitment-type.model'
-
+import { CriticalDate } from '../reducers/critical-date/critical-date.model'
 import { GetAllLocations } from '../reducers/location/location.actions'
 import {
   GetCommitments,
@@ -31,6 +31,7 @@ import {
 } from '../reducers/commitment/commitment.actions'
 import { GetMapPointsByCommitment, ClearMapPoints } from '../reducers/map-point/map-point.actions'
 import { GetAllAnnouncementTypes } from '../reducers/announcement-type/announcement-type.actions'
+import { GetAllCriticalDates } from '../reducers/critical-date/critical-date.actions'
 import { GetAllContacts, StoreContact } from '../reducers/contact/contact.actions'
 import { GetAllPartys } from '../reducers/party/party.actions'
 import { GetAllPortfolios } from '../reducers/portfolio/portfolio.actions'
@@ -48,6 +49,16 @@ import * as fromRoot from '../reducers'
 export class CommitmentDataService {
 
   constructor(private store: Store<fromRoot.State>) { }
+
+  /// CriticalDates
+
+  getAllCriticalDates(filter?: any) {
+    this.store.dispatch(new GetAllCriticalDates({ filter: filter }))
+  }
+
+  get CriticalDates(): Observable<CriticalDate[]> {
+    return this.store.pipe(select(fromRoot.getAllCriticalDates))
+  }
 
   // Notification
 

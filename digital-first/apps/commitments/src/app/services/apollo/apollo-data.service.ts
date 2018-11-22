@@ -37,7 +37,8 @@ import {
   PortfoliosResult,
   WhoAnnouncedTypesResult,
   MapPointsResult,
-  ElectoratesResult
+  ElectoratesResult,
+  CriticalDatesResult
 } from '../../models'
 import { Apollo } from 'apollo-angular'
 import { AppDataService } from '../app-data.service'
@@ -166,9 +167,9 @@ export class ApolloDataService implements AppDataService {
 
   filterMapPoints = (filter?: any) => this.callQuery<MapPointsResult>({ query: GET_MAP_POINTS })
 
-  filterWhoAnnouncedTypes = (filter?: any) => this.callQuery<WhoAnnouncedTypesResult>({ query: GET_WHO_ANNOUNCED_TYPES })
-  filterAnnouncementTypes = (filter?: any) => this.callQuery<AnnouncementTypesResult>({ query: GET_ANNOUNCEMENT_TYPES })
-  filterCriticalDates = (filter?: any) => this.callQuery<AnnouncementTypesResult>({ query: GET_CRITICAL_DATES })
+  filterWhoAnnouncedTypes = (filter?: any) => this.callQuery<WhoAnnouncedTypesResult>({ query: GET_WHO_ANNOUNCED_TYPES, variables: filter })
+  filterAnnouncementTypes = (filter?: any) => this.callQuery<AnnouncementTypesResult>({ query: GET_ANNOUNCEMENT_TYPES, variables: filter })
+  filterCriticalDates = (filter?: any) => this.callQuery<CriticalDatesResult>({ query: GET_CRITICAL_DATES, variables: filter })
   filterCommitments = (filter?: any) => this.callQuery<CommitmentsResult>({ query: GET_ALL_COMMITMENTS, variables: filter })
   filterPortfolios = (filter?: any) => this.callQuery<PortfoliosResult>({ query: GET_PORTFOLIOS, variables: filter })
   filterPartys = (filter?: any) => this.callQuery<PartysResult>({ query: GET_PARTIES, variables: filter })

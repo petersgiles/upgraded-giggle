@@ -10,6 +10,7 @@ import { CommitmentType } from '../../reducers/commitment-type/commitment-type.m
 import { WhoAnnouncedType } from '../../reducers/who-announced-type/who-announced-type.model'
 import { Subscription } from 'rxjs'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
+import { CriticalDate } from '../../reducers/critical-date/critical-date.model'
 
 @Component({
   selector: 'digital-first-commitment-edit-form',
@@ -24,6 +25,7 @@ export class CommitmentEditFormComponent implements OnDestroy {
   @Input() announcementTypes: AnnouncementType[]
   @Input() whoAnnouncedTypes: WhoAnnouncedType[]
   @Input() commitmentTypes: CommitmentType[]
+  @Input() criticalDates: CriticalDate[]
   @Input() locations: Location[]
   @Input() busy: boolean
 
@@ -45,6 +47,7 @@ export class CommitmentEditFormComponent implements OnDestroy {
     whoAnnouncedType: [''],
     commitmentType: [''],
     portfolio: [],
+    criticalDate: [],
     cost: [''],
   })
 
@@ -67,6 +70,7 @@ export class CommitmentEditFormComponent implements OnDestroy {
         announcementType: val.announcementType && val.announcementType.id,
         commitmentType: val.commitmentType && val.commitmentType.id,
         portfolio: val.portfolio && val.portfolio.id,
+        criticalDate: val.criticalDate && val.criticalDate.id,
         cost: val.cost,
       }
 
