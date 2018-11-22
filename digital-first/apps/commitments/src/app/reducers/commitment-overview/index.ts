@@ -52,6 +52,10 @@ const REFINER_GROUP_LOCATION = {
     key: 'location',  // key needs to match property on artifact
     title: 'Location'
 }
+const REFINER_GROUP_CRITICAL_DATE = {
+    key: 'criticalDate',  // key needs to match property on artifact
+    title: 'Critical Date'
+}
 const REFINER_GROUP_ANNOUNCEMENT_TYPE = {
     key: 'announcementType', // key needs to match property on artifact
     title: 'Announcement'
@@ -70,11 +74,13 @@ export const getRefinerGroups = createSelector(
     getCommitmentOverviewExpandedRefinerGroups,
     getAllPartys,
     getAllPortfolios,
-    getAllLocations,
+    // getAllLocations,
     getAllAnnouncementTypes,
     getAllCommitmentTypes,
     getAllWhoAnnouncedTypes,
-    (selected, groups, partys, portfolios, locations, announcementTypes, commitmentTypes, whoAnnouncedTypes) => {
+    (selected, groups, partys, portfolios,
+        // locations,
+        announcementTypes, commitmentTypes, whoAnnouncedTypes) => {
 
         const refinerGroups: RefinerGroup[] = []
 
@@ -87,11 +93,18 @@ export const getRefinerGroups = createSelector(
         // }
         // refinerGroups.push(userDefinedRefiners)
 
-        const refiners = [partys, portfolios, locations, announcementTypes, commitmentTypes, whoAnnouncedTypes]
+        const refiners = [
+            partys,
+            portfolios,
+            // locations,
+            announcementTypes,
+            commitmentTypes,
+            whoAnnouncedTypes]
+
         const refinerGroupTitles = [
             REFINER_GROUP_PARTY,
             REFINER_GROUP_PORTFOLIO,
-            REFINER_GROUP_LOCATION,
+            // REFINER_GROUP_LOCATION,
             REFINER_GROUP_ANNOUNCEMENT_TYPE,
             REFINER_GROUP_COMMITMENT_TYPE,
             REFINER_GROUP_WHO_ANNOUNCED_TYPE
