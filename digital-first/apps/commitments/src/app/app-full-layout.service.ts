@@ -3,7 +3,6 @@ import { environment } from '../environments/environment'
 import { CommitmentDataService } from './services/commitment-data.service'
 import { Observable, of, Subscription } from 'rxjs'
 import { SideBarItem, AppUserProfile } from '@digital-first/df-layouts'
-import { delay, tap } from 'rxjs/operators'
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +31,10 @@ export class AppFullLayoutService {
 
   get notification$(): Observable<string> {
     return this.service.Notification
+  }
+
+  get open$(): Observable<boolean>  {
+    return this.service.getBusy()
   }
 
   get profile(): Observable<AppUserProfile> {

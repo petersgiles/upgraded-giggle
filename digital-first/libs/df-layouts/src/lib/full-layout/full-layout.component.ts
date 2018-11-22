@@ -15,6 +15,7 @@ export class FullLayoutComponent implements OnInit, OnDestroy {
   _profile: AppUserProfile
   sidebarItems$: Observable<SideBarItem[]>
   notification$: Observable<string>
+  open$: Observable<boolean>
 
   constructor(
     private router: Router,
@@ -50,6 +51,8 @@ export class FullLayoutComponent implements OnInit, OnDestroy {
         // tslint:disable-next-line:no-console
         tap(result => console.log(result)),
       )
+
+    this.open$ = this.service.open$
   }
   ngOnDestroy(): void {
     this._destroy.next()

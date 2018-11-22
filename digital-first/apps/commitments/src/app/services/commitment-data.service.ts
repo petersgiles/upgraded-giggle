@@ -48,6 +48,10 @@ import * as fromRoot from '../reducers'
 })
 export class CommitmentDataService {
 
+  getBusy(): Observable<boolean> {
+    return this.store.pipe(select(fromRoot.getCommitmentLoading))
+  }
+
   constructor(private store: Store<fromRoot.State>) { }
 
   /// CriticalDates
