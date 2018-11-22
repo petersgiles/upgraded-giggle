@@ -2,9 +2,9 @@
 
   <section>
 
-    <digital-first-page-title title="Commitment">
+    <digital-first-page-title title="Commitment" (onTitleClicked)="handleChangeExpanded(!panels.formPanelExpanded, 'formPanelExpanded')" [background]="commitment?.party?.colour">
       <digital-first-busy [busy]="formBusy"></digital-first-busy>
-      <digital-first-add-notification-button *ngIf="panels.formPanelExpanded"></digital-first-add-notification-button>
+      <digital-first-add-notification-button *ngIf="panels.formPanelExpanded" [background]="commitment?.party?.colour"></digital-first-add-notification-button>
       <digital-first-expand-collapse-button [expanded]='panels.formPanelExpanded' (onChangeExpanded)="handleChangeExpanded($event, 'formPanelExpanded')"></digital-first-expand-collapse-button>
     </digital-first-page-title>
 
@@ -22,7 +22,7 @@
       <digital-first-related-artifacts></digital-first-related-artifacts>
     </div> -->
 
-    <digital-first-page-title *ngIf="commitment" title="Discussion">
+    <digital-first-page-title *ngIf="commitment" title="Discussion" (onTitleClicked)="handleChangeExpanded(!panels.discussionPanelExpanded, 'discussionPanelExpanded')">
       <digital-first-date-format-button *ngIf="panels.discussionPanelExpanded" [timeFormat]='commitmentEditDiscussionTimeFormat | async'
         (onChangeDateFormat)="changeDateFormat($event)"></digital-first-date-format-button>
       <digital-first-expand-collapse-button [expanded]='panels.discussionPanelExpanded' (onChangeExpanded)="handleChangeExpanded($event, 'discussionPanelExpanded')"></digital-first-expand-collapse-button>
@@ -33,7 +33,7 @@
       (onDeleteComment)="handleDeleteComment($event)" (onReplyToComment)="handleReplyToComment($event)" (onAddComment)="handleAddComment($event)">
     </digital-first-discussion>
 
-    <digital-first-page-title *ngIf="commitment" title="Locations">
+    <digital-first-page-title *ngIf="commitment" title="Locations" (onTitleClicked)="handleChangeExpanded(!panels.mapPanelExpanded, 'mapPanelExpanded')">
       <digital-first-expand-collapse-button [expanded]='panels.mapPanelExpanded' (onChangeExpanded)="handleChangeExpanded($event, 'mapPanelExpanded')"></digital-first-expand-collapse-button>
     </digital-first-page-title>
 
@@ -51,7 +51,7 @@
       <digital-first-map [mapPoints]="commitment.mapPoints" (onAddMapPoint)="handleAddMapPoint($event)"
         (onDeleteMapPoint)=handleDeleteMapPoint($event)></digital-first-map>
     </div>
-    <digital-first-page-title *ngIf="commitment" title="Contacts">
+    <digital-first-page-title *ngIf="commitment" title="Contacts" (onTitleClicked)="handleChangeExpanded(!panels.contactPanelExpanded, 'contactPanelExpanded')">
       <digital-first-add-item-button icon="person_add" title="New&nbsp;Contact" *ngIf="panels.contactPanelExpanded"
         (onAddItem)="handleCreateContact()"></digital-first-add-item-button>
       <digital-first-add-item-button icon="person" title="Add&nbsp;Contact" *ngIf="panels.contactPanelExpanded"

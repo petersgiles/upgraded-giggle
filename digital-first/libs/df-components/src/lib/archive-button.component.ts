@@ -3,7 +3,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 @Component({
   selector: 'digital-first-archive-button',
   template: `
-    <button attr.aria-label="{{title}}" title="{{title}}" (click)="onArchiveItem.emit()" mdc-button><mdc-icon>{{icon}}</mdc-icon>{{title}}</button>
+    <button attr.aria-label="{{title}}" title="{{title}}" (click)="onArchiveItem.emit()" mdc-button dense><mdc-icon>{{icon}}</mdc-icon>{{title}}</button>
   `,
   styles: [`
   :host {
