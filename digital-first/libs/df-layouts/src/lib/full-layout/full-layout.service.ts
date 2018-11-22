@@ -31,6 +31,8 @@ export class FullLayoutService {
     return of([])
   }
 
+  get notification$(): Observable<any>  { return of(null) }
+
   constructor() { }
 
 }

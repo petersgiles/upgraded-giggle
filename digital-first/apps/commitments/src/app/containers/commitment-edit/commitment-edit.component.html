@@ -8,7 +8,7 @@
       <digital-first-expand-collapse-button [expanded]='panels.formPanelExpanded' (onChangeExpanded)="handleChangeExpanded($event, 'formPanelExpanded')"></digital-first-expand-collapse-button>
     </digital-first-page-title>
 
-    <mdc-linear-progress *ngIf="formBusy"></mdc-linear-progress>
+    <!-- <mdc-linear-progress *ngIf="formBusy"></mdc-linear-progress> -->
 
       <digital-first-commitment-edit-form *ngIf="panels.formPanelExpanded" [busy]="formBusy" [commitment]="commitment"
         [parties]="parties$ | async" [criticalDates]="criticalDates$ | async" [announcementTypes]="announcementTypes$ | async" [whoAnnouncedTypes]="whoAnnouncedTypes$ | async"
@@ -63,7 +63,7 @@
       <digital-first-data-table [tableData]="commitmentContactsTableData$ | async" (onDeleteItem)="handleContactsTableDeleteClicked($event)"></digital-first-data-table>
     </div>
 
-    <mdc-linear-progress *ngIf="formBusy"></mdc-linear-progress>
+    <!-- <mdc-linear-progress *ngIf="formBusy"></mdc-linear-progress> -->
   </section>
 
 </div>

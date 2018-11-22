@@ -87,9 +87,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     )
 
     this.activitySubscription$ = this.service.Notification
-      // .pipe(
-      //   delay(2000)
-      // )
       .subscribe(
         (next: any) => {
           if (next) {
@@ -143,7 +140,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
         align: 'center',
         multiline: false,
         dismissOnAction: false,
-        focusAction: true,
+        focusAction: false,
         actionOnBottom: false,
       })
 

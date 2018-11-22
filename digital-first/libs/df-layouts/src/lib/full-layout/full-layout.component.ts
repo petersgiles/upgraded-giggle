@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, NgZone } from '@angular/core'
-import { Subject, Observable } from 'rxjs'
+import { Subject, Observable, Subscription, BehaviorSubject, interval, of } from 'rxjs'
 import { Router, NavigationEnd } from '@angular/router'
-import { takeUntil, filter } from 'rxjs/operators'
+import { takeUntil, filter, delay, tap, throttle, map, concatMap } from 'rxjs/operators'
 import { FullLayoutService, AppUserProfile, SideBarItem } from './full-layout.service'
 
 @Component({
@@ -14,6 +14,7 @@ export class FullLayoutComponent implements OnInit, OnDestroy {
   private _destroy = new Subject<void>()
   _profile: AppUserProfile
   sidebarItems$: Observable<SideBarItem[]>
+  notification$: Observable<string>
 
   constructor(
     private router: Router,
@@ -34,15 +35,21 @@ export class FullLayoutComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.router.events
-    .pipe(takeUntil(this._destroy),
-      filter(event => event instanceof NavigationEnd))
-    .subscribe(_ => { })
+      .pipe(takeUntil(this._destroy),
+        filter(event => event instanceof NavigationEnd))
+      .subscribe(_ => { })
 
     this.service.profile.subscribe(p => {
       this._profile = p
     })
 
     this.sidebarItems$ = this.service.sidebarItems$
+    this.notification$ = this.service.notification$
+      .pipe(
+        concatMap(result => result ? of(result.message) : of(null).pipe(delay(2750))),
+        // tslint:disable-next-line:no-console
+        tap(result => console.log(result)),
+      )
   }
   ngOnDestroy(): void {
     this._destroy.next()

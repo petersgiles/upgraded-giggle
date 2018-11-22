@@ -80,7 +80,7 @@ export class CommitmentCreateComponent implements OnInit, OnDestroy {
         align: 'center',
         multiline: false,
         dismissOnAction: false,
-        focusAction: true,
+        focusAction: false,
         actionOnBottom: false,
       })
 
