@@ -5,5 +5,6 @@ export * from './lib/local-storage.providers'
 export * from './lib/multifilter'
 export * from './lib/hex'
 export * from './lib/geo-maths'
+export * from './lib/colour'
 
 export { UuidService, UUID } from './lib/uuid'
