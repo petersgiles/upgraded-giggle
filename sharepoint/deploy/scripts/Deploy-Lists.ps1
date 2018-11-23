@@ -1,7 +1,7 @@
 Param(
     [string]$siteUrl = "https://lbs.cloud9.cabnet/sites/df/",
     [string]$saveLocation = "$PSScriptRoot\..\..\commitments\ListDefinitions",
-    [string] $binPath = "C:\Users\atpakkianathan\source\Dsuite\DF-Client\sharepoint\deploy\scripts\"
+    [string] $binPath = "$PSScriptRoot"
 )
 
 .$PSSCriptRoot\ClientContext-MixedAuth.ps1
