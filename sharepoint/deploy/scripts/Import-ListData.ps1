@@ -1,5 +1,5 @@
 ﻿param (
-   [string]$webUrl ="https://lbs.cloud9.cabnet/sites/df",
+   [string]$webUrl ="https://lbs.cloud9.cabnet/sites/commitments",
    [string]$dataFile = "$PSScriptRoot\..\..\commitments\Data\Portfolio.csv",
    [string]$listName = "Portfolio",
    [string] $binPath = "$PSScriptRoot"

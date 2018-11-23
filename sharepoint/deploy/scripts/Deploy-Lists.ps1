@@ -1,5 +1,5 @@
 Param(
-    [string]$siteUrl = "https://lbs.cloud9.cabnet/sites/df/",
+    [string]$siteUrl = "https://lbs.cloud9.cabnet/sites/commitments/",
     [string]$saveLocation = "$PSScriptRoot\..\..\commitments\ListDefinitions",
     [string] $binPath = "$PSScriptRoot"
 )
