@@ -75,6 +75,8 @@ type Portfolio {
 type Contact {
   id: ID,
   name: String
+  jobTitle: String
+  firstName: String
   username: String
   email: String
   phone: String,
@@ -194,6 +196,8 @@ type Tag {
     ): Comment,
     storeContact( 
       name: String,
+      jobTitle: String
+      firstName: String
       username: String,
       email: String,
       phone: String,

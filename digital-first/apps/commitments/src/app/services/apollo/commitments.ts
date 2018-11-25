@@ -14,9 +14,12 @@ export const GET_COMMITMENT = gql`
     contacts {
       id
       ccid
-      phone
       name
+      username
       email
+      jobTitle
+      firstName
+      phone
       portfolio {
         id
         title
@@ -121,9 +124,12 @@ mutation Commitment(
     contacts {
       id
       ccid
-      phone
       name
+      username
       email
+      jobTitle
+      firstName
+      phone
       portfolio {
         id
         title

@@ -4,9 +4,12 @@ export const GET_CONTACTS = gql`
 {
   contacts {
     id
-    phone
     name
+    username
     email
+    jobTitle
+    firstName
+    phone
     portfolio {
       id
       title
@@ -17,34 +20,36 @@ export const GET_CONTACTS = gql`
 
 export const STORE_CONTACT = gql`
   mutation StoreContact(
-    $name: String
-    $username: String
-    $email: String
-    $phone: String
-    $portfolio: ID
-    $party: ID
+  $name: String
+  $jobTitle: String
+  $firstName: String
+  $username: String
+  $email: String
+  $phone: String
+  $portfolio: ID
+  $party: ID
+) {
+  storeContact(
+    name: $name
+    username: $username
+    jobTitle: $jobTitle
+    firstName: $firstName
+    email: $email
+    phone: $phone
+    portfolio: $portfolio
+    party: $party
   ) {
-    storeContact(
-      name: $name
-      username: $username
-      email: $email
-      phone: $phone
-      portfolio: $portfolio
-      party: $party
-    ) {
+    id
+    name
+    username
+    email
+    jobTitle
+    firstName
+    phone
+    portfolio {
       id
-      name
-      username
-      email
-      phone
-      portfolio {
-        id
-        title
-      }
-      party {
-        id
-        title
-      }
+      title
     }
   }
+}
 `

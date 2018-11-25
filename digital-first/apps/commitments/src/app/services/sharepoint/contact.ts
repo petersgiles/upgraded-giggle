@@ -8,12 +8,14 @@ export const mapCommitmentContact = (commitmentContact): any => ({
 })
 export const mapCommitmentContacts = (commitmentContacts): any[] => commitmentContacts.map(mapCommitmentContact)
 
-export const mapContact = (contact): Contact => ({
-    id: contact.ID,
-    name: contact.Title,
-    email: contact.Email,
-    phone: contact.Phone
-
+export const mapContact = (item): Contact => ({
+    id: item.ID,
+    name: item.Title,
+    jobTitle: item.JobTitle,
+    firstName: item.FirstName,
+    email: item.Email,
+    phone: item.WorkPhone,
+    portfolio: fromLookup(item.Portfolio),
 })
 
 export const mapContacts = (contacts): Contact[] => contacts.map(mapContact)

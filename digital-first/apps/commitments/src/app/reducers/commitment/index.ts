@@ -127,24 +127,42 @@ export const getCommitmentContactsTableData = createSelector(
 
         const rows = commitment &&
             commitment.contacts &&
-            commitment.contacts.map(c => ({
-                id: c.ccid,
-                cells: [{
-                    value: c.name
-                }, {
-                    value: c.phone
-                }, {
-                    value: c.email
-                }]
-            }))
+            commitment.contacts.map(c => {
+
+                const fullname = []
+                if (c.firstName) {
+                    fullname.push(c.firstName)
+                }
+
+                if (c.name) {
+                    fullname.push(c.name)
+                }
+
+                return {
+                    id: c.ccid,
+                    cells: [{
+                        value: `${fullname.join(' ')}`
+                    }, {
+                        value: c.jobTitle
+                    }, {
+                        value: c.phone
+                    }, {
+                        value: c.email
+                    }, {
+                        value: c.portfolio ? c.portfolio.title : ''
+                    }]
+                }
+            })
 
         const dtc: DataTableConfig = {
             title: 'contacts',
             hasDeleteItemButton: true,
             headings: [
                 { caption: 'Name' },
+                { caption: 'Job Title' },
                 { caption: 'Phone' },
-                { caption: 'Email' }
+                { caption: 'Email' },
+                { caption: 'Portfolio' }
             ],
             rows: rows
         }
