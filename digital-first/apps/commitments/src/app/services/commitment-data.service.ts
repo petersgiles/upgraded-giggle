@@ -44,7 +44,7 @@ import { GetAllWhoAnnouncedTypes } from '../reducers/who-announced-type/who-anno
 import { ChangeTimeFormat, CollapsePanel, ExpandPanel } from '../reducers/commitment-edit/commitment-edit.actions'
 
 import * as fromRoot from '../reducers'
-import { GetAllRelatedCommitments } from '../reducers/related-commitment/related-commitment.actions'
+import { GetRelatedCommitmentsByCommitment } from '../reducers/related-commitment/related-commitment.actions'
 
 @Injectable({
   providedIn: 'root'
@@ -56,12 +56,6 @@ export class CommitmentDataService {
   }
 
   constructor(private store: Store<fromRoot.State>) { }
-
-  /// RelatedCommitments
-
-  getAllRelatedCommitments(filter?: any): any {
-    this.store.dispatch(new GetAllRelatedCommitments({ filter: filter }))
-  }
 
   /// CriticalDates
 
@@ -157,6 +151,7 @@ export class CommitmentDataService {
     this.store.dispatch(new ClearMapPoints())
     this.store.dispatch(new GetCommentsByCommitment({ commitment: id }))
     this.store.dispatch(new GetMapPointsByCommitment({ commitment: id }))
+    this.store.dispatch(new GetRelatedCommitmentsByCommitment({ commitment: id }))
   }
 
   public addContactToCommitment(commitment: string | number, contact: string | number): any {

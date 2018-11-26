@@ -22,7 +22,8 @@ import {
   STORE_MAP_POINT,
   REMOVE_MAP_POINT,
   MAP_POINTS_BY_COMMITMENT,
-  GET_CRITICAL_DATES
+  GET_CRITICAL_DATES,
+  RELATED_COMMITMENTS_BY_COMMITMENT
 } from './apollo-queries'
 import {
   AnnouncementTypesResult,
@@ -49,15 +50,10 @@ import { Injectable } from '@angular/core'
 import { Observable, of, throwError } from 'rxjs'
 import { STORE_COMMITMENT_CONTACT, REMOVE_COMMITMENT_CONTACT } from './commitment-contacts'
 import { AppUserProfile } from '@digital-first/df-layouts'
-
 @Injectable({
   providedIn: 'root'
 })
 export class ApolloDataService implements AppDataService {
-
-  getRelatedCommitmentsByCommitment(commitment: number): Observable<DataResult<RelatedCommitmentsResult>> {
-    throw new Error('Method not implemented.')
-  }
 
   removeCommitmentFromCommitment(payload: any): Observable<any> {
     throw new Error('Method not implemented.')
@@ -193,6 +189,8 @@ export class ApolloDataService implements AppDataService {
   getMapPointsByCommitment = (commitment: any) =>
     this.callQuery<MapPointsResult>({ query: MAP_POINTS_BY_COMMITMENT, variables: { commitment: commitment } },
       (result: any): any => ({ data: { mapPoints: result.data.commitmentMapPoints } }))
+
+  getRelatedCommitmentsByCommitment = (commitment: any) => this.callQuery<RelatedCommitmentsResult>({ query: RELATED_COMMITMENTS_BY_COMMITMENT, variables: { commitment: commitment } })
 
   callMutate<T>(options: {
     mutation: any,

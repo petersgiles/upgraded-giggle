@@ -31,7 +31,7 @@
   background-color: unquote("rgb(#{$color-white})");
   width:100%;
   width: -webkit-fill-available;
-  
+
   thead {
     padding-bottom: 3px;
 
@@ -125,6 +125,7 @@
   text-align: left;
 }
 
-.df-data-table__action-cell {
+.df-data-table__cell--action {
   max-width: 200px;
+  text-align: right;
 }

@@ -122,7 +122,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.commitmentEditDiscussionTimeFormat = this.service.CommitmentEditDiscussionTimeFormat
 
     this.service.getAllCommitments()
-    this.service.getAllRelatedCommitments()
     this.service.getAllWhoAnnouncedTypes()
     this.service.getAllAnnouncementTypes()
     this.service.getAllCriticalDates()

@@ -22,7 +22,6 @@ db.connect('./diskdb/commitments', [
   'commitment-related-commitments'
 ]);
 
-
 // A map of functions which return data for the schema.
 export const resolvers = {
   Query: {
@@ -79,7 +78,7 @@ export const resolvers = {
       // (commitment: ID!): [MapPoint]
       let set = db['commitment-related-commitments'].find({ commitment: args.commitment })
       let found = set.map((f: any) => db['commitment-commitments'].findOne({ id: f.relatedTo })).map((c: any) => ({ ...c }))
-      // console.log('commitment Locations => ', set, found)
+      console.log('commitment Related Commitments=> ', args, set, found)
       return found
 
     },

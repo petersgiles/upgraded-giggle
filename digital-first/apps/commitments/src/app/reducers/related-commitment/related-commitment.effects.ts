@@ -20,6 +20,8 @@ export class RelatedCommitmentEffects {
       map((action: GetRelatedCommitmentsByCommitment) => action.payload),
       switchMap((payload: any) => this.service.getRelatedCommitmentsByCommitment(payload.commitment)
         .pipe(
+          // tslint:disable-next-line:no-console
+          tap(console.log),
           map((result: DataResult<RelatedCommitmentsResult>) => new LoadRelatedCommitments(result)),
           catchError(error => of(new RelatedCommitmentsActionFailure(error)))
         )

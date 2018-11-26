@@ -125,8 +125,8 @@ type Tag {
   }
 
   type RelatedCommitment {
-    commitment: Commitment,
-    relatedTo: Commitment
+    commitment: ID,
+    relatedTo: ID
   }
 
   # This "Commitment" type can be used in other type declarations.
