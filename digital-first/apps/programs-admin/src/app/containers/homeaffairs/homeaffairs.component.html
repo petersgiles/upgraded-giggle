@@ -1,14 +1,45 @@
 <div class="page_title">
-  <div class="reader-card-article__title page_title_text" mdcHeadline5>Home affairs Report Upload</div>
+  <div class="reader-card-article__title page_title_text" mdcHeadline5>Home affairs data upload</div>
 </div>
-<div class="app-page">
-  <section>
-    <div class="app-layout__row--no-wrap">
-      <p>stuff</p>
+<ul>
+  <li>TODO: apply layout and styling</li>
+  <li>TODO: error handling</li>
+  <li>TODO: how to notify user when upload has finished processing</li>
+</ul>
+<div>
+  <h2>Assumptions</h2>
+  <p>
+    This is designed to handle the spreadsheet (.xlsx) supplied by Home Affairs.
+  </p>
+  <ul>
+    <li>Electorate names that can't be found (e.g. spelling errors) are currently being logged to SEQ and will not be
+      uploaded. This will not prevent the rest of the valid electorates from being uploaded.
+    </li>
+    <li>
+      Each worksheet will create a report.
+    </li>
+    <li>
+      It makes some assumptions about worksheet names and which reports they map to. Document those here.
+    </li>
+  </ul>
+</div>
+<div>
+  <h2>Home Affairs Spreadsheet Upload Form</h2>
+  <form (ngSubmit)="onSubmit()" #homeAffairsUpload="ngForm">
+    <div>
+      <label for="dataDate">Data date</label>
+      <input type="date" id="dataDate" required [(ngModel)]="model.dataDate" name="dataDate">
     </div>
-  </section>
-  <!--<div class="center">-->
-    <!--<file-drop headertext="Drop Home Affairs spreadsheet here" (onFileDrop)="dropped($event)">-->
-    <!--</file-drop>-->
-  <!--</div>-->
+    <div>
+      <label for="notes">Notes</label>
+      <textarea name="notes" id="notes" [(ngModel)]="model.notes" cols="40" rows="3" maxlength="250"
+                spellcheck="true"></textarea>
+    </div>
+    <div>
+      <label for="fileToUpload">File to upload</label>
+      <input type="file" accept=".xlsx" (change)="fileChange($event)" class="form-control" id="fileToUpload"
+             name="fileToUpload" required>
+    </div>
+    <button type="submit" class="btn btn-success" [disabled]="!homeAffairsUpload.form.valid">Submit</button>
+  </form>
 </div>
