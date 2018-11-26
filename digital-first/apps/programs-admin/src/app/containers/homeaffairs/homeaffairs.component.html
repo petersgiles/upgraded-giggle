@@ -3,6 +3,7 @@
 </div>
 <ul>
   <li>TODO: apply layout and styling</li>
+  <li>TODO: add validation</li>
   <li>TODO: error handling</li>
   <li>TODO: how to notify user when upload has finished processing</li>
 </ul>
@@ -37,7 +38,7 @@
     </div>
     <div>
       <label for="fileToUpload">File to upload</label>
-      <input type="file" accept=".xlsx" (change)="fileChange($event)" class="form-control" id="fileToUpload"
+      <input type="file" accept=".xlsx" (change)="fileChange($event)" id="fileToUpload"
              name="fileToUpload" required>
     </div>
     <button type="submit" class="btn btn-success" [disabled]="!homeAffairsUpload.form.valid">Submit</button>

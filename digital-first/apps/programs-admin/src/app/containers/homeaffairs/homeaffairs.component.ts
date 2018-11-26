@@ -9,14 +9,14 @@ import {Component, OnInit} from '@angular/core'
 })
 export class HomeaffairsComponent implements OnInit {
 
+  fileToUpload: File;
+  model = new FormModel();
+
   constructor(private http: HttpClient) {
   }
 
   ngOnInit() {
   }
-
-  fileToUpload: File;
-  model = new FormModel();
 
   fileChange(event) {
     let fileList: FileList = event.target.files;
@@ -60,12 +60,7 @@ export class HomeaffairsComponent implements OnInit {
 }
 
 export class FormModel {
-
-  constructor() {
-  }
-
   public id: number;
   public dataDate: Date;
   public notes: string;
-
 }
