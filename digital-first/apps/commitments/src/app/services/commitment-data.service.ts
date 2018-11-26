@@ -294,7 +294,7 @@ export class CommitmentDataService {
   }
 
   get Locations(): Observable<Location[]> {
-    return this.store.pipe(select(fromRoot.getAllLocations))
+    return this.store.pipe(select(fromRoot.getAllLocationsGrouped))
   }
 
   get LocationsLoading(): Observable<boolean> {

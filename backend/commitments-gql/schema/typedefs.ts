@@ -88,7 +88,7 @@ type Contact {
 type Electorate {
     id: ID,
     title: String,
-    state: String, 
+    group: String, 
     area: String
 }
 

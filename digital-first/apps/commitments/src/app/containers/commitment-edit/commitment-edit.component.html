@@ -23,7 +23,7 @@
     </div> -->
 
 
-    <digital-first-page-title *ngIf="commitment" title="Locations" (onTitleClicked)="handleChangeExpanded(!panels.mapPanelExpanded, 'mapPanelExpanded')">
+    <digital-first-page-title *ngIf="commitment" title="Delivery location" (onTitleClicked)="handleChangeExpanded(!panels.mapPanelExpanded, 'mapPanelExpanded')">
       <digital-first-expand-collapse-button [expanded]='panels.mapPanelExpanded' (onChangeExpanded)="handleChangeExpanded($event, 'mapPanelExpanded')"></digital-first-expand-collapse-button>
     </digital-first-page-title>
 
@@ -31,7 +31,7 @@
 
       <div class="form-content">
         <div class="form-layout__row--no-wrap">
-          <ng-select [items]="electorates$ | async" bindValue="id" bindLabel="title" placeholder="Electorate"
+          <ng-select [items]="electorates$ | async" bindValue="id" bindLabel="title" groupBy="group" placeholder="Electorate"
             maxSelectedItems="8" (add)="handleAddElectorateToCommitment($event)" (remove)="handleRemoveElectorateFromCommitment($event)"
             [ngModel]="selectedElectorateIds" [multiple]="true" [clearable]="false" [hideSelected]="true">
           </ng-select>

@@ -9,6 +9,31 @@ export const {
     selectTotal: getTotalLocations,
 } = fromLocation.adapter.getSelectors(getLocationEntitiesState)
 
+const groupSortOrder = ['national', 'state', 'act', 'nsw', 'nt', 'qld', 'sa', 'tas', 'vic', 'wa']
+
+export const getAllLocationsGrouped = createSelector(
+    getAllLocations,
+    (locations) => {
+        const sorted = locations.sort((leftSide, rightSide) => {
+
+            let compare = 0
+
+            const leftTitle = `${leftSide.group}${leftSide.title}`.toLowerCase()
+            const rightTitle = `${rightSide.group}${rightSide.title}`.toLowerCase()
+
+            if (leftTitle < rightTitle) { compare = -1 }
+            if (leftTitle > rightTitle) { compare = 1 }
+
+                // tslint:disable-next-line:no-console
+            console.log('groupSortOrder', leftTitle, rightTitle, compare)
+
+            return compare
+
+        })
+        return sorted
+    }
+)
+
 export const getLocationLoading = createSelector(
     getLocationEntitiesState,
     state => state.loading
