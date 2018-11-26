@@ -183,23 +183,6 @@ export class SharepointDataService implements AppDataService {
     )
   }
 
-  getRelatedCommitmentsByCommitment(commitment: number): Observable<DataResult<RelatedCommitmentsResult>> {
-
-    const viewXml = byCommitmentIdQuery({ id: commitment })
-
-    return this.sharepoint.getItems({
-      listName: 'RelatedCommitment',
-      viewXml: viewXml
-    }).pipe(
-      concatMap(items =>
-        of({
-          data: { commitmentRelatedCommitments: mapRelatedCommitments(items) },
-          loading: false
-        }))
-      )
-
-  }
-
   filterCommitments(payload?: { party?: string; type?: string; portfolio?: string; }): Observable<DataResult<CommitmentsResult>> {
     return this.sharepoint.getItems({ listName: 'Commitment' })
       .pipe(
@@ -546,12 +529,33 @@ export class SharepointDataService implements AppDataService {
     )
   }
 
+  getRelatedCommitmentsByCommitment(commitment: number): Observable<DataResult<RelatedCommitmentsResult>> {
+
+    const viewXml = byCommitmentIdQuery({ id: commitment })
+
+    return this.sharepoint.getItems({
+      listName: 'RelatedCommitment',
+      viewXml: viewXml
+    }).pipe(
+      concatMap(items =>
+        of({
+          data: { commitmentRelatedCommitments: mapRelatedCommitments(items) },
+          loading: false
+        }))
+      )
+
+  }
+
   removeCommitmentFromCommitment(payload: any): Observable<any> {
     const LISTNAME = 'RelatedCommitment'
 
+    const viewXml = byJoinTableQuery({ fieldA: { name: 'Commitment', id: payload.commitment }, fieldB: { name: 'RelatedTo', id: payload.relatedTo } })
+    // tslint:disable-next-line:no-console
+    console.log('removeCommitmentFromCommitment', viewXml, payload)
+
     return this.sharepoint.getItems({
       listName: LISTNAME,
-      viewXml: byJoinTableQuery({ fieldA: { name: 'Commitment', id: payload.commitment }, fieldB: { name: 'RelatedTo', id: payload.relatedTo } })
+      viewXml: viewXml
     }).pipe(
       map(mapRelatedCommitments),
       map(result => result[0]),
@@ -559,13 +563,16 @@ export class SharepointDataService implements AppDataService {
         this.sharepoint.removeItem({
           listName: LISTNAME, id: result.id
         }).pipe(
-          concatMap(_ => of({ commitment: { id: result.commitment } }))
+          concatMap(_ => of({ commitment: { id: payload.commitment } }))
         )
       )
     )
   }
 
   addCommitmentToCommitment(payload: any): Observable<any> {
+
+    const LISTNAME = 'RelatedCommitment'
+
     const sp = {
       Title: `${payload.commitment} ${payload.relatedTo}`,
       Commitment: payload.commitment,
@@ -573,7 +580,7 @@ export class SharepointDataService implements AppDataService {
     }
 
     return this.sharepoint.storeItem({
-      listName: 'RelatedCommitment',
+      listName: LISTNAME,
       data: sp,
     }).pipe(
       concatMap(_ =>

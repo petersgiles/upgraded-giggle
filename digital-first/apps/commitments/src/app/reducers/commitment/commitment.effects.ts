@@ -24,7 +24,9 @@ import { switchMap, map, catchError, tap, switchMapTo, concatMap } from 'rxjs/op
 import { AppDataService } from '../../services/app-data.service'
 import { DataResult, CommitmentsResult, CommitmentResult } from '../../models'
 import { AppNotification, ClearAppNotification } from '../app.actions'
-import { GetMapPointsByCommitment } from '../map-point/map-point.actions'
+import { GetMapPointsByCommitment, ClearMapPoints } from '../map-point/map-point.actions'
+import { ClearComments, GetCommentsByCommitment } from '../comment/comment.actions'
+import { ClearRelatedCommitments, GetRelatedCommitmentsByCommitment } from '../related-commitment/related-commitment.actions'
 
 @Injectable()
 export class CommitmentEffects {
@@ -48,7 +50,15 @@ export class CommitmentEffects {
       map((action: SetCurrentCommitment) => action.payload.id),
       switchMap((id: any) => this.service.getCommitment({ id })
         .pipe(
-          map((result: DataResult<CommitmentResult>) => new UpsertCommitment(result)),
+          concatMap((result: DataResult<CommitmentResult>) => [
+            new UpsertCommitment(result),
+            new ClearComments(),
+            new ClearMapPoints(),
+            new ClearRelatedCommitments(),
+            new GetCommentsByCommitment({ commitment: result.data.commitment.id }),
+            new GetMapPointsByCommitment({ commitment: result.data.commitment.id }),
+            new GetRelatedCommitmentsByCommitment({ commitment: result.data.commitment.id })
+          ]),
           catchError(error => of(new CommitmentsActionFailure(error)))
         )
       ))
@@ -60,7 +70,7 @@ export class CommitmentEffects {
       map((action: StoreCommitment) => action.payload),
       switchMap((commitment: any) => this.service.storeCommitment(commitment)),
       switchMap((result: DataResult<CommitmentResult>) => [
-        new AppNotification({ message: 'Commitment Saved' }),
+        new AppNotification({ message: 'Commitment Saved', code: 'stored', data: result.data.commitment }),
         new SetCurrentCommitment({ id: result.data.commitment.id }),
         new ClearAppNotification()
       ]),
@@ -103,9 +113,13 @@ export class CommitmentEffects {
     .pipe(
       ofType(CommitmentActionTypes.AddCommitmentToCommitment),
       map((action: AddCommitmentToCommitment) => action.payload),
+      // tslint:disable-next-line:no-console
+      tap(result => console.log('addCommitmentToCommitment', result)),
       switchMap((payload: any) => this.service.addCommitmentToCommitment(payload)),
+      // tslint:disable-next-line:no-console
+      tap(result => console.log('addCommitmentToCommitment', result)),
       switchMap((result: any) => [
-        new AppNotification({ message: 'Commitment Added' }),
+        new AppNotification({ message: 'Related Commitment Added' }),
         new SetCurrentCommitment({ id: result.commitment.id }),
         new ClearAppNotification()
       ]),
@@ -117,9 +131,13 @@ export class CommitmentEffects {
     .pipe(
       ofType(CommitmentActionTypes.RemoveCommitmentFromCommitment),
       map((action: RemoveCommitmentFromCommitment) => action.payload),
+      // tslint:disable-next-line:no-console
+      tap(result => console.log('removeCommitmentFromCommitment', result)),
       switchMap((payload: any) => this.service.removeCommitmentFromCommitment(payload)),
+      // tslint:disable-next-line:no-console
+      tap(result => console.log('removeCommitmentFromCommitment', result)),
       switchMap((result: any) => [
-        new AppNotification({ message: 'Commitment Removed' }),
+        new AppNotification({ message: 'Related Commitment Removed' }),
         new SetCurrentCommitment({ id: result.commitment.id }),
         new ClearAppNotification()
       ]),

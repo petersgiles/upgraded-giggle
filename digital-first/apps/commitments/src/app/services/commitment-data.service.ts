@@ -147,12 +147,6 @@ export class CommitmentDataService {
 
   public setCurrentCommitment(id: number) {
     this.store.dispatch(new SetCurrentCommitment({ id: id }))
-    this.store.dispatch(new ClearComments())
-    this.store.dispatch(new ClearMapPoints())
-    this.store.dispatch(new ClearRelatedCommitments())
-    this.store.dispatch(new GetCommentsByCommitment({ commitment: id }))
-    this.store.dispatch(new GetMapPointsByCommitment({ commitment: id }))
-    this.store.dispatch(new GetRelatedCommitmentsByCommitment({ commitment: id }))
   }
 
   public addContactToCommitment(commitment: string | number, contact: string | number): any {

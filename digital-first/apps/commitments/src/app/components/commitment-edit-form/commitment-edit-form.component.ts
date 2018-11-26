@@ -20,6 +20,7 @@ import { CriticalDate } from '../../reducers/critical-date/critical-date.model'
 export class CommitmentEditFormComponent implements OnDestroy {
 
   @Input() showSubmit = false
+  @Input() submitButtonText = 'Submit'
   @Input() parties: Party[]
   @Input() portfolios: Portfolio[]
   @Input() announcementTypes: AnnouncementType[]

@@ -27,22 +27,5 @@ export class RelatedCommitmentEffects {
         )
       ))
 
-  @Effect()
-  storeRelatedCommitment$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(RelatedCommitmentActionTypes.StoreRelatedCommitment),
-      map((action: StoreRelatedCommitment) => action.payload),
-      switchMap((payload: any) => this.service.addCommitmentToCommitment(payload)
-      .pipe(
-        switchMap((result: DataResult<RelatedCommitmentsResult>) => [
-          new AppNotification({ message: 'Map Point Stored' }),
-          new GetRelatedCommitmentsByCommitment({ commitment: payload.commitment }),
-          new ClearAppNotification()
-        ]),
-        catchError(error => of(new RelatedCommitmentsActionFailure(error)))
-      )
-      ),
-    )
-
   constructor(private actions$: Actions, private service: AppDataService) { }
 }

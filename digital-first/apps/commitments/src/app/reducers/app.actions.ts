@@ -18,7 +18,7 @@ export class FinishAppInitialiser implements Action {
 
 export class AppNotification implements Action {
     readonly type = AppActionTypes.AppNotification
-    constructor(public payload: {message: string, code?: string}) { }
+    constructor(public payload: {message: string, code?: string, data?: any}) { }
 }
 
 export class ClearAppNotification implements Action {

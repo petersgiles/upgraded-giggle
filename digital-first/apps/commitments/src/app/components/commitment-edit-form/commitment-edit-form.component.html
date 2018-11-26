@@ -49,7 +49,7 @@
       </div>
 
       <div class="form-layout__row-with-button" *ngIf="showSubmit">
-        <button mdc-button mdcCardAction="button" type="submit" [disabled]="!form.valid">Submit</button>
+        <button mdc-button mdcCardAction="button" type="submit" [disabled]="!form.valid">{{submitButtonText}}</button>
       </div>
     </fieldset>
   </form>
