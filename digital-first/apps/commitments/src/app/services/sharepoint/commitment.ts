@@ -28,3 +28,12 @@ export const mapCommitment = (commitment): Commitment => {
 }
 
 export const mapCommitments = (commitments): Commitment[] => commitments.map(mapCommitment)
+
+export const mapRelatedCommitment = (item): any => ({
+    id: item.ID,
+    title: item.Title,
+    commitment: fromLookup(item.Commitment),
+    relatedTo: fromLookup(item.RelatedTo),
+  })
+
+export const mapRelatedCommitments = (commitments): Commitment[] => commitments.map(mapRelatedCommitment)

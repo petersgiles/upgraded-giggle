@@ -37,7 +37,7 @@ import { byIdQuery, byCommitmentIdQuery, byMapPointPlaceIdQuery, byJoinTableQuer
 import { mapContact, mapContacts, mapCommitmentContacts } from './contact'
 import { mapComments } from './comment'
 import { mapElectorates, mapCommitmentElectorates, mapMapPoints, mapCommitmentMapPoints, mapLocations } from './geo'
-import { mapCommitment, mapCommitments } from './commitment'
+import { mapCommitment, mapCommitments, mapRelatedCommitments } from './commitment'
 import { AppUserProfile } from '@digital-first/df-layouts'
 @Injectable({
   providedIn: 'root'
@@ -527,5 +527,41 @@ export class SharepointDataService implements AppDataService {
         of({ commitment: { id: payload.commitment } }))
     )
   }
+
+  removeCommitmentFromCommitment(payload: any): Observable<any> {
+    const LISTNAME = 'RelatedCommitment'
+
+    return this.sharepoint.getItems({
+      listName: LISTNAME,
+      viewXml: byJoinTableQuery({ fieldA: { name: 'Commitment', id: payload.commitment }, fieldB: { name: 'RelatedTo', id: payload.relatedTo } })
+    }).pipe(
+      map(mapRelatedCommitments),
+      map(result => result[0]),
+      concatMap((result: any) =>
+        this.sharepoint.removeItem({
+          listName: LISTNAME, id: result.id
+        }).pipe(
+          concatMap(_ => of({ commitment: { id: result.commitment } }))
+        )
+      )
+    )
+  }
+
+  addCommitmentToCommitment(payload: any): Observable<any> {
+    const sp = {
+      Title: `${payload.commitment} ${payload.relatedTo}`,
+      Commitment: payload.commitment,
+      RelatedTo: payload.relatedTo
+    }
+
+    return this.sharepoint.storeItem({
+      listName: 'RelatedCommitment',
+      data: sp,
+    }).pipe(
+      concatMap(_ =>
+        of({ commitment: { id: payload.commitment } }))
+    )
+  }
+
   constructor(private sharepoint: SharepointJsomService) { }
 }

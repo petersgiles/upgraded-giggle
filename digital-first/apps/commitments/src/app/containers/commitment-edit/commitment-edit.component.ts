@@ -18,6 +18,7 @@ import { DataTableConfig } from '@digital-first/df-components'
 import { arrayToIndex } from '@digital-first/df-utils'
 import { CriticalDate } from '../../reducers/critical-date/critical-date.model'
 import { formatCommitmentTitle } from '../../formatters'
+import { DialogAddCommitmentComponent } from '../../dialogs/dialog-add-commitment.component'
 
 @Component({
   selector: 'digital-first-commitment-edit',
@@ -38,6 +39,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   announcementTypes$: Observable<AnnouncementType[]>
   commitmentTypes$: Observable<CommitmentType[]>
   commitmentContactsTableData$: Observable<DataTableConfig>
+  commitmentCommitmentsTableData$: Observable<DataTableConfig>
 
   criticalDates$: Observable<CriticalDate[]>
   parties$: Observable<Party[]>
@@ -54,13 +56,15 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     contactPanelExpanded?: boolean
     formPanelExpanded?: boolean
     mapPanelExpanded?: boolean
+    relatedItemsPanelExpanded?: boolean
   } = {
       commitmentPanelExpanded: false,
       relatedPanelExpanded: false,
       discussionPanelExpanded: false,
       contactPanelExpanded: false,
       formPanelExpanded: false,
-      mapPanelExpanded: false
+      mapPanelExpanded: false,
+      relatedItemsPanelExpanded: false,
     }
 
   commitmentEditDiscussionTimeFormat: Observable<'dateFormat' | 'timeAgo' | 'calendar'>
@@ -116,6 +120,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
     this.commitmentEditDiscussionTimeFormat = this.service.CommitmentEditDiscussionTimeFormat
 
+    this.service.getAllCommitments()
     this.service.getAllWhoAnnouncedTypes()
     this.service.getAllAnnouncementTypes()
     this.service.getAllCriticalDates()
@@ -279,6 +284,25 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   }
 
+  handleCommitmentsTableDeleteClicked(relatedTo) {
+
+    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+      escapeToClose: true,
+      clickOutsideToClose: true
+    })
+
+    dialogRef.afterClosed()
+      .pipe(
+        first()
+      )
+      .subscribe(result => {
+        if (result === ARE_YOU_SURE_ACCEPT && relatedTo.id) {
+          this.service.removeCommitmentFromCommitment(this.commitment.id, relatedTo.id)
+        }
+      })
+
+  }
+
   handleCreateContact() {
     this.router.navigate(['/', 'contact'])
   }
@@ -304,6 +328,37 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
         dialogRef.afterClosed().subscribe((result: any) => {
           if (result && result.id) {
             this.service.addContactToCommitment(this.commitment.id, result.id)
+          }
+        })
+      }
+      )
+  }
+
+  handleOpenCommitmenttDialog() {
+
+    this.service.Commitments.pipe(
+      first()
+    )
+      .subscribe(commitments => {
+        const dialogRef = this.dialog.open(DialogAddCommitmentComponent, {
+          escapeToClose: true,
+          clickOutsideToClose: true,
+          data: {
+            commitments: commitments.sort((leftSide, rightSide) => {
+
+              const leftTitle = formatCommitmentTitle(leftSide).toLowerCase()
+              const rightTitle = formatCommitmentTitle(rightSide).toLowerCase()
+
+              if (leftTitle < rightTitle) { return -1 }
+              if (leftTitle > rightTitle) { return 1 }
+              return 0
+            })
+          }
+        })
+
+        dialogRef.afterClosed().subscribe((result: any) => {
+          if (result && result.id) {
+            this.service.addCommitmentToCommitment(this.commitment.id, result.id)
           }
         })
       }

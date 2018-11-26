@@ -53,6 +53,12 @@ import { AppUserProfile } from '@digital-first/df-layouts'
   providedIn: 'root'
 })
 export class ApolloDataService implements AppDataService {
+  removeCommitmentFromCommitment(payload: any): Observable<any> {
+    throw new Error('Method not implemented.')
+  }
+  addCommitmentToCommitment(payload: any): Observable<any> {
+    throw new Error('Method not implemented.')
+  }
 
   getCurrentUser(): Observable<AppUserProfile> {
 

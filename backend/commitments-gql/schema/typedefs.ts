@@ -124,6 +124,11 @@ type Tag {
     portfolio: Portfolio
   }
 
+  type RelatedCommitment {
+    commitment: Commitment,
+    relatedTo: Commitment
+  }
+
   # This "Commitment" type can be used in other type declarations.
   type Commitment {
     id: ID,
@@ -153,10 +158,12 @@ type Tag {
     commitmentMapPoints(commitment: ID!): [MapPoint],
     commitmentPortfolios(commitment: ID!): [Portfolio],
     commitmentElectorates(commitment: ID!): [Electorate],
+    commitmentRelatedCommitments(commitment: ID!): [Commitment],
     parties: [PoliticalParty],
     portfolios: [Portfolio],
     criticalDates: [CriticalDate],
     mapPoints: [MapPoint],
+    relatedCommitment: [RelatedCommitment],
     announcementTypes: [AnnouncementType],
     commitmentTypes: [CommitmentType]
     whoAnnouncedTypes: [WhoAnnouncedType]
@@ -212,6 +219,8 @@ type Tag {
     deleteCommitmentMapPoint(commitment: ID!, mapPoint: ID!): Commitment,
     storeCommitmentElectorate(commitment: ID!, electorate: ID!): Commitment,
     deleteCommitmentElectorate(commitment: ID!, electorate: ID!): Commitment,
+    storeRelatedCommitment(commitment: ID!, relatedTo: ID!): Commitment,
+    deleteRelatedCommitment(commitment: ID!, relatedTo: ID!): Commitment,
     storeCommitmentPortfolio(commitment: ID!, portfolio: ID!): Commitment,
     deleteCommitmentPortfolio(id: ID!): Commitment,
     }

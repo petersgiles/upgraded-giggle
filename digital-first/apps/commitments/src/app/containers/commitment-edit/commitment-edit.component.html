@@ -53,6 +53,15 @@
       <digital-first-data-table [tableData]="commitmentContactsTableData$ | async" (onDeleteItem)="handleContactsTableDeleteClicked($event)"></digital-first-data-table>
     </div>
 
+    <digital-first-page-title *ngIf="commitment" title="Related Items" (onTitleClicked)="handleChangeExpanded(!panels.relatedItemsPanelExpanded, 'relatedItemsPanelExpanded')">
+        <digital-first-add-item-button icon="person" title="Add&nbsp;commitment" *ngIf="panels.relatedItemsPanelExpanded"
+          (onAddItem)="handleOpenCommitmenttDialog()"></digital-first-add-item-button>
+        <digital-first-expand-collapse-button [expanded]='panels.relatedItemsPanelExpanded' (onChangeExpanded)="handleChangeExpanded($event, 'relatedItemsPanelExpanded')"></digital-first-expand-collapse-button>
+      </digital-first-page-title>
+  
+      <div class="commitment-layout__row" *ngIf="panels.relatedItemsPanelExpanded">
+        <digital-first-data-table [tableData]="commitmentCommitmentsTableData$ | async" (onDeleteItem)="handleCommitmentsTableDeleteClicked($event)"></digital-first-data-table>
+      </div>
 
     <digital-first-page-title *ngIf="commitment" title="Discussion" (onTitleClicked)="handleChangeExpanded(!panels.discussionPanelExpanded, 'discussionPanelExpanded')">
         <digital-first-date-format-button *ngIf="panels.discussionPanelExpanded" [timeFormat]='commitmentEditDiscussionTimeFormat | async'

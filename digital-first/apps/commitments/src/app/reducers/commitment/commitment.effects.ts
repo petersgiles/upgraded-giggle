@@ -15,7 +15,9 @@ import {
   AddMapPointToCommitment,
   RemoveMapPointFromCommitment,
   AddElectorateToCommitment,
-  RemoveElectorateFromCommitment
+  RemoveElectorateFromCommitment,
+  AddCommitmentToCommitment,
+  RemoveCommitmentFromCommitment
 } from './commitment.actions'
 import { switchMap, map, catchError, tap, switchMapTo, concatMap } from 'rxjs/operators'
 
@@ -97,6 +99,35 @@ export class CommitmentEffects {
     )
 
   @Effect()
+  addCommitmentToCommitment$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(CommitmentActionTypes.AddCommitmentToCommitment),
+      map((action: AddCommitmentToCommitment) => action.payload),
+      switchMap((payload: any) => this.service.addCommitmentToCommitment(payload)),
+      switchMap((result: any) => [
+        new AppNotification({ message: 'Commitment Added' }),
+        new SetCurrentCommitment({ id: result.commitment.id }),
+        new ClearAppNotification()
+      ]),
+      catchError(error => of(new CommitmentsActionFailure(error)))
+    )
+
+  @Effect()
+  removeCommitmentFromCommitment$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(CommitmentActionTypes.RemoveCommitmentFromCommitment),
+      map((action: RemoveCommitmentFromCommitment) => action.payload),
+      switchMap((payload: any) => this.service.removeCommitmentFromCommitment(payload)),
+      switchMap((result: any) => [
+        new AppNotification({ message: 'Commitment Removed' }),
+        new SetCurrentCommitment({ id: result.commitment.id }),
+        new ClearAppNotification()
+      ]),
+      catchError(error => of(new CommitmentsActionFailure(error)))
+
+    )
+
+  @Effect()
   addElectorateToCommitment$: Observable<Action> = this.actions$
     .pipe(
       ofType(CommitmentActionTypes.AddElectorateToCommitment),
@@ -136,7 +167,7 @@ export class CommitmentEffects {
           concatMap(_ => this.service.addMapPointToCommitment(payload)
             .pipe(
               concatMap((result: any) => [
-                new GetMapPointsByCommitment({commitment: payload.commitment}),
+                new GetMapPointsByCommitment({ commitment: payload.commitment }),
                 new AppNotification({ message: 'Map Point Added' }),
                 new SetCurrentCommitment({ id: payload.commitment }),
                 new ClearAppNotification()

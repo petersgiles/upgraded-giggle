@@ -45,6 +45,7 @@ import { CommitmentEditFormComponent } from './components/commitment-edit-form/c
 import { CommitmentEditComponent } from './containers/commitment-edit/commitment-edit.component'
 import { CommitmentListComponent } from './components/commitment-list/commitment-list.component'
 import { CommitmentOverviewComponent } from './containers/commitment-overview/commitment-overview.component'
+import { DialogAddCommitmentComponent } from './dialogs/dialog-add-commitment.component'
 
 import { SettingsService } from './services/settings.service'
 import { SharepointDataService } from './services/sharepoint/sharepoint-data.service'
@@ -101,7 +102,8 @@ const COMPONENTS = [
   CommitmentListComponent,
   CommitmentCreateComponent,
   ContactCreateComponent,
-  ContactCreateFormComponent
+  ContactCreateFormComponent,
+  DialogAddCommitmentComponent
 ]
 
 const ENTRYCOMPONENTS = [
@@ -110,6 +112,7 @@ const ENTRYCOMPONENTS = [
   DialogFileLockedComponent,
   DialogSpinnerOverlayComponent,
   DialogAddContactComponent,
+  DialogAddCommitmentComponent,
   DiscussionComponent,
   TagsComponent,
   ViewLayoutButtonComponent,

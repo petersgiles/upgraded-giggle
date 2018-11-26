@@ -27,7 +27,9 @@ import {
   AddElectorateToCommitment,
   RemoveElectorateFromCommitment,
   AddMapPointToCommitment,
-  RemoveMapPointFromCommitment
+  RemoveMapPointFromCommitment,
+  AddCommitmentToCommitment,
+  RemoveCommitmentFromCommitment
 } from '../reducers/commitment/commitment.actions'
 import { GetMapPointsByCommitment, ClearMapPoints } from '../reducers/map-point/map-point.actions'
 import { GetAllAnnouncementTypes } from '../reducers/announcement-type/announcement-type.actions'
@@ -170,6 +172,13 @@ export class CommitmentDataService {
   }
   public removeMapPointFromCommitment(commitment: string | number, mapPoint: MapPoint): any {
     this.store.dispatch(new RemoveMapPointFromCommitment({ commitment, mapPoint }))
+  }
+
+  public addCommitmentToCommitment(commitment: string | number, relatedTo: string | number): any {
+    this.store.dispatch(new AddCommitmentToCommitment({ commitment, relatedTo }))
+  }
+  public removeCommitmentFromCommitment(commitment: string | number, relatedTo: string | number): any {
+    this.store.dispatch(new RemoveCommitmentFromCommitment({ commitment, relatedTo }))
   }
 
   get Commitment(): Observable<Commitment> {
