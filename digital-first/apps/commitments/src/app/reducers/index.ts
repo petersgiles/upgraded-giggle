@@ -36,6 +36,7 @@ import * as fromContact from './contact/contact.reducer'
 import * as fromCriticalDate from './critical-date/critical-date.reducer'
 import * as fromLocation from './location/location.reducer'
 import * as fromMapPoint from './map-point/map-point.reducer'
+import * as fromRelatedCommitment from './related-commitment/related-commitment.reducer'
 import * as fromCommitmentType from './commitment-type/commitment-type.reducer'
 import * as fromCommitmentOverview from './commitment-overview/commitment-overview.reducer'
 import * as fromCommitmentEdit from './commitment-edit/commitment-edit.reducer'
@@ -61,6 +62,7 @@ export interface State {
     contact: fromContact.State
     location: fromLocation.State
     mapPoint: fromMapPoint.State
+    relatedCommitment: fromRelatedCommitment.State,
     commitmentType: fromCommitmentType.State
     commitmentOverview: fromCommitmentOverview.State,
     commitmentEdit: fromCommitmentEdit.State
@@ -80,6 +82,7 @@ export const reducers: ActionReducerMap<State> = {
     comment: fromComment.reducer,
     contact: fromContact.reducer,
     location: fromLocation.reducer,
+    relatedCommitment: fromRelatedCommitment.reducer,
     mapPoint: fromMapPoint.reducer,
     commitmentType: fromCommitmentType.reducer,
     commitmentOverview: fromCommitmentOverview.reducer,
@@ -98,6 +101,7 @@ export * from './user'
 export * from './commitment-type'
 export * from './location'
 export * from './map-point'
+export * from './related-commitment'
 export * from './contact'
 export * from './comment'
 export * from './party'

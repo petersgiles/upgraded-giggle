@@ -14,6 +14,7 @@ export abstract class AppDataService {
 
   abstract removeCommitmentFromCommitment(payload: any): Observable<any>
   abstract addCommitmentToCommitment(payload: any): Observable<any>
+  abstract getRelatedCommitmentsByCommitment(commitment: any): Observable<any>
 
   abstract storeMapPoint(mapPoint: any): Observable<any>
   abstract removeMapPoint(placeId: any): Observable<any>

@@ -7,7 +7,7 @@
     <tr *ngIf="tableData.headings">
       <ng-container *ngTemplateOutlet="tableHeading; context:{ $implicit: tableData?.headings }"></ng-container>
       <th *ngIf="tableData.hasDeleteItemButton" class="df-data-table__cell--non-numeric df-data-table__action-cell">
-          &nbsp;
+        &nbsp;
       </th>
     </tr>
   </thead>
@@ -23,12 +23,17 @@
   <tr *ngFor="let row of tableData.rows">
     <td *ngFor="let cell of row.cells" class="df-data-table__cell--non-numeric" (click)="onCellClicked.emit(row, cell)">{{cell.value}}</td>
     <td *ngIf="tableData.hasDeleteItemButton" class="df-data-table__cell--non-numeric">
-        <a mdcIcon attr.aria-label="Delete Item" title="Delete Item" (click)="onDeleteItem.emit(row)">delete</a>
+      <a mdcIcon attr.aria-label="Delete Item" title="Delete Item" (click)="onDeleteItem.emit(row)">delete</a>
     </td>
   </tr>
 </ng-template>
 
-<table class="df-data-table df-js-data-table df-data-table--selectable df-shadow--2dp">
+<table class="df-data-table df-js-data-table df-data-table--selectable df-shadow--2dp" *ngIf="tableData.rows?.length > 0">
   <ng-container *ngTemplateOutlet="tableHead; context:{ $implicit: tableData }"></ng-container>
   <ng-container *ngTemplateOutlet="tableBody; context:{ $implicit: tableData }"></ng-container>
 </table>
+
+<div class="df-no-data-table" *ngIf="!(tableData.rows?.length > 0)">
+  <div *ngIf="tableData?.noDataMessage">{{tableData?.noDataMessage}}</div>
+  <div *ngIf="!(tableData?.noDataMessage)">No data to display</div>
+</div>

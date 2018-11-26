@@ -58,7 +58,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     mapPanelExpanded?: boolean
     relatedItemsPanelExpanded?: boolean
   } = {
-      commitmentPanelExpanded: false,
+      commitmentPanelExpanded: true,
       relatedPanelExpanded: false,
       discussionPanelExpanded: false,
       contactPanelExpanded: false,
@@ -82,6 +82,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.portfolios$ = this.service.Portfolios
     this.electorates$ = this.service.Locations
     this.commitmentContactsTableData$ = this.service.CommitmentContactsTableData
+    this.commitmentCommitmentsTableData$ = this.service.RelatedCommitmentsTableData
 
     this.commitmentSubscription$ = this.service.Commitment.subscribe(
       next => {
@@ -121,6 +122,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.commitmentEditDiscussionTimeFormat = this.service.CommitmentEditDiscussionTimeFormat
 
     this.service.getAllCommitments()
+    this.service.getAllRelatedCommitments()
     this.service.getAllWhoAnnouncedTypes()
     this.service.getAllAnnouncementTypes()
     this.service.getAllCriticalDates()

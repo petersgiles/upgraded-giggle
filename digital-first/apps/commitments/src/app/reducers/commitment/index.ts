@@ -121,6 +121,34 @@ export const getCommitmentActivity = createSelector(
         }
     )
 )
+
+export const getRelatedCommitmentsTableData = createSelector(
+    getCurrentCommitment,
+    (commitment) => {
+
+        const rows = commitment &&
+            commitment.relatedContacts &&
+            commitment.relatedContacts.map(c => ({
+                id: c.id,
+                cells: [{
+                    value: `${c.title}`
+                }]
+            }))
+
+        const dtc: DataTableConfig = {
+            title: 'related commitments',
+            hasDeleteItemButton: true,
+            headings: [
+                { caption: 'Commitment' }
+            ],
+            rows: rows
+        }
+
+        return dtc
+
+    }
+)
+
 export const getCommitmentContactsTableData = createSelector(
     getCurrentCommitment,
     (commitment) => {

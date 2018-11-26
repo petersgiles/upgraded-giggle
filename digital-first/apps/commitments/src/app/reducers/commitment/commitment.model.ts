@@ -27,5 +27,6 @@ export interface Commitment {
   portfolios: Portfolio[],
   mapPoints: MapPoint[],
   contacts: Contact[],
+  relatedContacts: Commitment[]
   discussion?: Comment[]
 }

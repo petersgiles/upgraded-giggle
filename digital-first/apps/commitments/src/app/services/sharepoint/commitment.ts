@@ -1,5 +1,6 @@
 import { Commitment } from '../../reducers'
 import { fromLookup } from '@digital-first/df-sharepoint'
+import { RelatedCommitment } from '../../reducers/related-commitment/related-commitment.model'
 
 export const mapCommitment = (commitment): Commitment => {
     const item: any = commitment
@@ -21,7 +22,8 @@ export const mapCommitment = (commitment): Commitment => {
         portfolio: fromLookup(item.Portfolio),
         portfolios: [],
         mapPoints: [],
-        contacts: []
+        contacts: [],
+        relatedContacts: []
     }
 
     return mapped
@@ -36,4 +38,4 @@ export const mapRelatedCommitment = (item): any => ({
     relatedTo: fromLookup(item.RelatedTo),
   })
 
-export const mapRelatedCommitments = (commitments): Commitment[] => commitments.map(mapRelatedCommitment)
+export const mapRelatedCommitments = (commitments): RelatedCommitment[] => commitments.map(mapRelatedCommitment)

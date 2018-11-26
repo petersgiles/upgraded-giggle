@@ -44,6 +44,7 @@ import { GetAllWhoAnnouncedTypes } from '../reducers/who-announced-type/who-anno
 import { ChangeTimeFormat, CollapsePanel, ExpandPanel } from '../reducers/commitment-edit/commitment-edit.actions'
 
 import * as fromRoot from '../reducers'
+import { GetAllRelatedCommitments } from '../reducers/related-commitment/related-commitment.actions'
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +56,12 @@ export class CommitmentDataService {
   }
 
   constructor(private store: Store<fromRoot.State>) { }
+
+  /// RelatedCommitments
+
+  getAllRelatedCommitments(filter?: any): any {
+    this.store.dispatch(new GetAllRelatedCommitments({ filter: filter }))
+  }
 
   /// CriticalDates
 
@@ -194,6 +201,10 @@ export class CommitmentDataService {
 
   get CommitmentContactsTableData(): Observable<DataTableConfig> {
     return this.store.pipe(select(fromRoot.getCommitmentContactsTableData))
+  }
+
+  get RelatedCommitmentsTableData(): Observable<DataTableConfig> {
+    return this.store.pipe(select(fromRoot.getRelatedCommitmentsTableData))
   }
 
   get CommitmentDataTable(): Observable<DataTableConfig> {

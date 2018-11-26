@@ -38,7 +38,8 @@ import {
   WhoAnnouncedTypesResult,
   MapPointsResult,
   ElectoratesResult,
-  CriticalDatesResult
+  CriticalDatesResult,
+  RelatedCommitmentsResult
 } from '../../models'
 import { Apollo } from 'apollo-angular'
 import { AppDataService } from '../app-data.service'
@@ -53,6 +54,11 @@ import { AppUserProfile } from '@digital-first/df-layouts'
   providedIn: 'root'
 })
 export class ApolloDataService implements AppDataService {
+
+  getRelatedCommitmentsByCommitment(commitment: number): Observable<DataResult<RelatedCommitmentsResult>> {
+    throw new Error('Method not implemented.')
+  }
+
   removeCommitmentFromCommitment(payload: any): Observable<any> {
     throw new Error('Method not implemented.')
   }

@@ -28,7 +28,8 @@ import {
   CommitmentTypesResult,
   WhoAnnouncedTypesResult,
   MapPointsResult,
-  CriticalDatesResult
+  CriticalDatesResult,
+  RelatedCommitmentsResult
 } from '../../models'
 import { Commitment } from '../../reducers/commitment'
 import { arrayToHash } from '@digital-first/df-utils'
@@ -180,6 +181,23 @@ export class SharepointDataService implements AppDataService {
 
       })
     )
+  }
+
+  getRelatedCommitmentsByCommitment(commitment: number): Observable<DataResult<RelatedCommitmentsResult>> {
+
+    const viewXml = byCommitmentIdQuery({ id: commitment })
+
+    return this.sharepoint.getItems({
+      listName: 'RelatedCommitment',
+      viewXml: viewXml
+    }).pipe(
+      concatMap(items =>
+        of({
+          data: { relatedCommitments: mapRelatedCommitments(items) },
+          loading: false
+        }))
+      )
+
   }
 
   filterCommitments(payload?: { party?: string; type?: string; portfolio?: string; }): Observable<DataResult<CommitmentsResult>> {
