@@ -17,6 +17,7 @@ import { WhoAnnouncedType } from '../../reducers/who-announced-type/who-announce
 import { DataTableConfig } from '@digital-first/df-components'
 import { arrayToIndex } from '@digital-first/df-utils'
 import { CriticalDate } from '../../reducers/critical-date/critical-date.model'
+import { formatCommitmentTitle } from '../../formatters'
 
 @Component({
   selector: 'digital-first-commitment-edit',
@@ -130,6 +131,10 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
         map(selectedId => this.service.setCurrentCommitment(selectedId))
       )
       .subscribe()
+  }
+
+  getTitle(commitment) {
+    return formatCommitmentTitle(commitment)
   }
 
   showSnackBar(message: string, action: string = 'OK'): void {

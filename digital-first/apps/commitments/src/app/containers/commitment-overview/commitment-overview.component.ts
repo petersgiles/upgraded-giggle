@@ -7,6 +7,7 @@ import { MdcDialog, MdcDialogRef, MdcSnackbar } from '@angular-mdc/web'
 import { DialogSpinnerOverlayComponent } from '@digital-first/df-dialogs'
 import { Commitment } from '../../reducers/commitment/commitment.model'
 import { DataTableConfig } from '@digital-first/df-components'
+import { formatCommitmentTitle } from '../../formatters'
 
 @Component({
   selector: 'digital-first-commitment-overview',

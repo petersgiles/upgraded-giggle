@@ -11,6 +11,8 @@ import { getAnnouncementTypeEntities, getAllAnnouncementTypes } from '../announc
 import { getAllCommitments } from '../commitment'
 import { Commitment } from '../commitment/commitment.model'
 import { getAllWhoAnnouncedTypes, getWhoAnnouncedTypeEntities } from '../who-announced-type'
+import { formatCommitmentTitle } from '../../formatters'
+import { getCriticalDateEntities } from '../critical-date'
 
 export const getCommitmentOverviewState = state => state.commitmentOverview
 
@@ -172,13 +174,13 @@ export const getFilteredOverviewCommitments = createSelector(
 
 export const getAllOverviewCommitments = createSelector(
     getFilteredOverviewCommitments,
-    getLocationEntities,
+    getCriticalDateEntities,
     getPartyEntities,
     getPortfolioEntities,
     getAnnouncementTypeEntities,
     getCommitmentTypeEntities,
     getWhoAnnouncedTypeEntities,
-    (commitments, locations, partys, portfolios, announcementTypes, commitmentTypes, whoAnnouncedTypes) => {
+    (commitments, criticalDates, partys, portfolios, announcementTypes, commitmentTypes, whoAnnouncedTypes) => {
 
         const result = commitments.map(commitment =>
             ({
@@ -186,7 +188,7 @@ export const getAllOverviewCommitments = createSelector(
                 description: null,
                 portfolio: commitment.portfolio ? portfolios[commitment.portfolio.id] : null,
                 party: commitment.party ? partys[commitment.party.id] : null,
-                location: commitment.location ? locations[commitment.location.id] : null,
+                criticalDate: commitment.criticalDate ? criticalDates[commitment.criticalDate.id] : null,
                 whoAnnouncedType: commitment.whoAnnouncedType ? whoAnnouncedTypes[commitment.whoAnnouncedType.id] : null,
                 announcementType: commitment.announcementType ? announcementTypes[commitment.announcementType.id] : null,
                 commitmentType: commitment.commitmentType ? commitmentTypes[commitment.commitmentType.id] : null,
@@ -205,11 +207,11 @@ export const getAllOverviewCommitmentDataTables = createSelector(
         const rows = commitments.map(c => ({
             id: c.id,
             cells: [{
-                value: c.title
+                value: formatCommitmentTitle(c)
             }, {
                 value: c.party && c.party.title
             }, {
-                value: c.location && c.location.title
+                value: c.criticalDate && c.criticalDate.title
             }, {
                 value: c.portfolio && c.portfolio.title
             }, {
@@ -224,7 +226,7 @@ export const getAllOverviewCommitmentDataTables = createSelector(
             headings: [
                 { caption: 'Title' },
                 { caption: 'Party' },
-                { caption: 'Location' },
+                { caption: 'Critical Date' },
                 { caption: 'Responsible Portfolio' },
                 { caption: 'Announcement' },
                 { caption: 'Commitment' }],
