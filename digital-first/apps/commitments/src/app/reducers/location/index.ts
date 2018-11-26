@@ -24,9 +24,6 @@ export const getAllLocationsGrouped = createSelector(
             if (leftTitle < rightTitle) { compare = -1 }
             if (leftTitle > rightTitle) { compare = 1 }
 
-                // tslint:disable-next-line:no-console
-            console.log('groupSortOrder', leftTitle, rightTitle, compare)
-
             return compare
 
         })
