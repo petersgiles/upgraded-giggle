@@ -1,0 +1,20 @@
+query allAgencies{
+  agencies{
+    id
+    metadata
+    title
+  }
+}
+
+query allPortfolios{
+  portfolios{
+    id
+    title
+    metadata
+    agencies{
+      id
+      metadata
+      title
+    }
+  }
+}

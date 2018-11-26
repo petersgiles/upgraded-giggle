@@ -8,7 +8,7 @@ export const environment = {
   version: require('../../../../package.json').version,
   datasource: {
     type: 'local',
-    dataServiceUrl: '//localhost:3001/graphql',
+    dataServiceUrl: 'https://localhost:52619/graphql',
   },
   federatedLoginApiPath: '//localhost:52629'
 }

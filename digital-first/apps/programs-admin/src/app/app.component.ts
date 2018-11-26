@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
-import { Router, NavigationEnd } from '@angular/router'
+import {Component, OnInit, OnDestroy} from '@angular/core'
+import {Router, NavigationEnd} from '@angular/router'
 
 @Component({
   selector: 'digital-first-root',
@@ -7,9 +7,10 @@ import { Router, NavigationEnd } from '@angular/router'
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-  title = 'program-admin'
+  title = 'program-admin';
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+  }
 
   ngOnInit() {
     this.router.events.subscribe((evt) => {

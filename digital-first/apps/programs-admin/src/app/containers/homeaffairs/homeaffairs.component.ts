@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {FileSystemDirectoryEntry, FileSystemFileEntry, UploadEvent, UploadFile} from "ngx-file-drop";
+import {FileSystemFileEntry, UploadEvent, UploadFile} from "ngx-file-drop";
+import {UUID} from "@digital-first/df-utils";
 
 @Component({
   selector: 'digital-first-homeaffairs',
@@ -13,34 +14,40 @@ export class HomeaffairsComponent implements OnInit {
   }
 
   ngOnInit() {
+
   }
 
   public files: UploadFile[] = [];
 
   public dropped(event: UploadEvent) {
+    //TODO: blow up if more than one file is uploaded?
+
     this.files = event.files;
+
     for (const droppedFile of event.files) {
 
       if (droppedFile.fileEntry.isFile) {
         const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
         fileEntry.file((file: File) => {
 
-
           console.log(droppedFile.relativePath, file);
 
-
-          //NB.  specifying multipart/form-data as content type resulted in boundary errors?  not setting it works.
           const httpOptions = {
             headers: new HttpHeaders({
               'MessageType': 'UploadHomeAffairsElectorateReportSpreadsheet',
               'MessageNamespace': 'ProgramsManager.Messages',
-              'Referer': 'https://www.pmc.gov.au',
-              'MessageId': 'C12E0B3E-D1A3-4E60-87E7-2495E714B0DF'
+              'MessageId': UUID.UUID()
             })
           };
 
+          const fileExtension = file.name.substr(file.name.lastIndexOf('.') + 1);
+
           const formData = new FormData();
-          let fileName = Date.now() + '.xlsx';
+          let fileName = `${UUID.UUID()}.${fileExtension}`;
+
+          //TODO: currently a 50 character limit on the name in nservicebus attachments
+          // let fileName = `${file.name}-${UUID.UUID()}.${fileExtension}`;
+
           formData.append('file', file, fileName);
 
           formData.append('message', `{Notes: "wtf", DataDate:"1/1/2018",FileName:"${fileName}"}`);
@@ -49,9 +56,8 @@ export class HomeaffairsComponent implements OnInit {
 
         });
       } else {
-        // It was a directory (empty directories are added, otherwise only files)
-        const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
-        console.log(droppedFile.relativePath, fileEntry);
+        // It was a directory
+        //TODO: blow up here because we don't want directories upload?
       }
     }
   }
