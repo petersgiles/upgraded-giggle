@@ -38,6 +38,9 @@ export class MapComponent implements OnInit {
     this._mapPointTableData = this.mapMapPointToDataTable(val)
 
     // set centre position
+    if (val) {
+      this.zoom = Math.max(12 - (val.length), 2)
+    }
     this.centre = getLatLngCenter(val)
     this.setCurrentPosition(this.centre)
   }
@@ -120,7 +123,6 @@ export class MapComponent implements OnInit {
           // set latitude, longitude and zoom
           this.latitude = place.geometry.location.lat()
           this.longitude = place.geometry.location.lng()
-          this.zoom = 8
         })
       })
     })
@@ -128,13 +130,12 @@ export class MapComponent implements OnInit {
 
   private setCurrentPosition(centre?) {
     if (centre) {
-     this.latitude = centre.latitude
-     this.longitude = centre.longitude
+      this.latitude = centre.latitude
+      this.longitude = centre.longitude
     } else if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.latitude = position.coords.latitude
         this.longitude = position.coords.longitude
-        this.zoom = 8
       })
     }
   }

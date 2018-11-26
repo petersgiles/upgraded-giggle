@@ -16,7 +16,7 @@
   >
   <agm-marker *ngFor="let mapPoint of mapPoints" [latitude]="mapPoint.latitude" [longitude]="mapPoint.longitude"></agm-marker>
   </agm-map>
-  
+
   <digital-first-data-table [tableData]="_mapPointTableData" (onDeleteItem)="handleMapPointTableDeleteClicked($event)"></digital-first-data-table>
    
 </div>
