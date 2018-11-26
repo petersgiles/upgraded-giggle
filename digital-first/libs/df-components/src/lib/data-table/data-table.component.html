@@ -28,12 +28,12 @@
   </tr>
 </ng-template>
 
-<table class="df-data-table df-js-data-table df-data-table--selectable df-shadow--2dp" *ngIf="tableData.rows?.length > 0">
+<table class="df-data-table df-js-data-table df-data-table--selectable df-shadow--2dp" *ngIf="tableData?.rows?.length > 0">
   <ng-container *ngTemplateOutlet="tableHead; context:{ $implicit: tableData }"></ng-container>
   <ng-container *ngTemplateOutlet="tableBody; context:{ $implicit: tableData }"></ng-container>
 </table>
 
-<div class="df-no-data-table" *ngIf="!(tableData.rows?.length > 0)">
+<div class="df-no-data-table" *ngIf="!(tableData?.rows?.length > 0)">
   <div *ngIf="tableData?.noDataMessage">{{tableData?.noDataMessage}}</div>
   <div *ngIf="!(tableData?.noDataMessage)">No data to display</div>
 </div>

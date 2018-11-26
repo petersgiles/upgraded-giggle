@@ -23,7 +23,9 @@ import {
   REMOVE_MAP_POINT,
   MAP_POINTS_BY_COMMITMENT,
   GET_CRITICAL_DATES,
-  RELATED_COMMITMENTS_BY_COMMITMENT
+  RELATED_COMMITMENTS_BY_COMMITMENT,
+  STORE_RELATED_COMMITMENT,
+  REMOVE_RELATED_COMMITMENT
 } from './apollo-queries'
 import {
   AnnouncementTypesResult,
@@ -55,16 +57,9 @@ import { AppUserProfile } from '@digital-first/df-layouts'
 })
 export class ApolloDataService implements AppDataService {
 
-  removeCommitmentFromCommitment(payload: any): Observable<any> {
-    throw new Error('Method not implemented.')
-  }
-  addCommitmentToCommitment(payload: any): Observable<any> {
-    throw new Error('Method not implemented.')
-  }
-
   getCurrentUser(): Observable<AppUserProfile> {
 
-   const userprofile = {
+    const userprofile = {
       userid: 0,
       login: 'guest',
       isSiteAdmin: true,
@@ -158,6 +153,16 @@ export class ApolloDataService implements AppDataService {
       { mutation: REMOVE_COMMITMENT_MAP_POINT, variables: { ...variables } },
       (result: any) => ({ commitment: result.data.deleteCommitmentMapPoint })
     )
+
+  addCommitmentToCommitment = (variables: { commitment: any, relatedTo: any }) => this.callMutate<any>(
+    { mutation: STORE_RELATED_COMMITMENT, variables: { ...variables } },
+    (result: any) => ({ commitment: result.data.storeRelatedCommitment })
+  )
+
+  removeCommitmentFromCommitment = (variables: { commitment: any, relatedTo: any }) => this.callMutate<any>(
+    { mutation: REMOVE_RELATED_COMMITMENT, variables: { ...variables } },
+    (result: any) => ({ commitment: result.data.deleteRelatedCommitment })
+  )
 
   removeElectorateFromCommitment = (variables: { commitment: any, electorate: any }) =>
     this.callMutate<any>(

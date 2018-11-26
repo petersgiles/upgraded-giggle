@@ -23,7 +23,7 @@ export interface DataResult<T> {
 }
 
 export interface RelatedCommitmentsResult {
-  relatedCommitments: RelatedCommitment[]
+  commitmentRelatedCommitments: RelatedCommitment[]
 }
 export interface AnnouncementTypesResult {
   announcementTypes: AnnouncementType[]

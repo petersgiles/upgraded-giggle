@@ -23,37 +23,37 @@ export function reducer(
   action: MapPointActions
 ): State {
   switch (action.type) {
-    case MapPointActionTypes.AddMapPoint: {
-      return adapter.addOne(action.payload.location, state)
-    }
+    // case MapPointActionTypes.AddMapPoint: {
+    //   return adapter.addOne(action.payload.location, state)
+    // }
 
-    case MapPointActionTypes.UpsertMapPoint: {
-      return adapter.upsertOne(action.payload.location, state)
-    }
+    // case MapPointActionTypes.UpsertMapPoint: {
+    //   return adapter.upsertOne(action.payload.location, state)
+    // }
 
-    case MapPointActionTypes.AddMapPoints: {
-      return adapter.addMany(action.payload.locations, state)
-    }
+    // case MapPointActionTypes.AddMapPoints: {
+    //   return adapter.addMany(action.payload.locations, state)
+    // }
 
-    case MapPointActionTypes.UpsertMapPoints: {
-      return adapter.upsertMany(action.payload.locations, state)
-    }
+    // case MapPointActionTypes.UpsertMapPoints: {
+    //   return adapter.upsertMany(action.payload.locations, state)
+    // }
 
-    case MapPointActionTypes.UpdateMapPoint: {
-      return adapter.updateOne(action.payload.location, state)
-    }
+    // case MapPointActionTypes.UpdateMapPoint: {
+    //   return adapter.updateOne(action.payload.location, state)
+    // }
 
-    case MapPointActionTypes.UpdateMapPoints: {
-      return adapter.updateMany(action.payload.locations, state)
-    }
+    // case MapPointActionTypes.UpdateMapPoints: {
+    //   return adapter.updateMany(action.payload.locations, state)
+    // }
 
-    case MapPointActionTypes.DeleteMapPoint: {
-      return adapter.removeOne(action.payload.id, state)
-    }
+    // case MapPointActionTypes.DeleteMapPoint: {
+    //   return adapter.removeOne(action.payload.id, state)
+    // }
 
-    case MapPointActionTypes.DeleteMapPoints: {
-      return adapter.removeMany(action.payload.ids, state)
-    }
+    // case MapPointActionTypes.DeleteMapPoints: {
+    //   return adapter.removeMany(action.payload.ids, state)
+    // }
 
     case MapPointActionTypes.LoadMapPoints: {
 

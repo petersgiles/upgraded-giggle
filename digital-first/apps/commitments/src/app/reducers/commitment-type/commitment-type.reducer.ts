@@ -49,9 +49,9 @@ export function reducer(
       return adapter.removeOne(action.payload.id, state)
     }
 
-    case CommitmentTypeActionTypes.DeleteCommitmentTypes: {
-      return adapter.removeMany(action.payload.ids, state)
-    }
+    // case CommitmentTypeActionTypes.DeleteCommitmentTypes: {
+    //   return adapter.removeMany(action.payload.ids, state)
+    // }
 
     case CommitmentTypeActionTypes.LoadCommitmentTypes: {
       return adapter.upsertMany(action.payload.data.commitmentTypes, {

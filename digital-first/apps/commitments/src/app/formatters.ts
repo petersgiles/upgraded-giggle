@@ -1,6 +1,6 @@
 import { Commitment } from './reducers/commitment/commitment.model'
 
-export function formatCommitmentTitle(commitment: Commitment) {
+export function formatCommitmentTitle(commitment: {id: string | number, title: string}) {
 
     const fullTitle = []
 

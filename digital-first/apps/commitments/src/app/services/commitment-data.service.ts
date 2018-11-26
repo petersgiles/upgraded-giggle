@@ -44,7 +44,7 @@ import { GetAllWhoAnnouncedTypes } from '../reducers/who-announced-type/who-anno
 import { ChangeTimeFormat, CollapsePanel, ExpandPanel } from '../reducers/commitment-edit/commitment-edit.actions'
 
 import * as fromRoot from '../reducers'
-import { GetRelatedCommitmentsByCommitment } from '../reducers/related-commitment/related-commitment.actions'
+import { GetRelatedCommitmentsByCommitment, ClearRelatedCommitments } from '../reducers/related-commitment/related-commitment.actions'
 
 @Injectable({
   providedIn: 'root'
@@ -149,6 +149,7 @@ export class CommitmentDataService {
     this.store.dispatch(new SetCurrentCommitment({ id: id }))
     this.store.dispatch(new ClearComments())
     this.store.dispatch(new ClearMapPoints())
+    this.store.dispatch(new ClearRelatedCommitments())
     this.store.dispatch(new GetCommentsByCommitment({ commitment: id }))
     this.store.dispatch(new GetMapPointsByCommitment({ commitment: id }))
     this.store.dispatch(new GetRelatedCommitmentsByCommitment({ commitment: id }))

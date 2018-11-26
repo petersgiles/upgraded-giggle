@@ -9,6 +9,7 @@ export interface State extends EntityState<RelatedCommitment> {
 }
 
 export const adapter: EntityAdapter<RelatedCommitment> = createEntityAdapter<RelatedCommitment>({
+  selectId: entitiy => entitiy.id
 })
 
 export const initialState: State = adapter.getInitialState({
@@ -22,42 +23,45 @@ export function reducer(
   action: RelatedCommitmentActions
 ): State {
   switch (action.type) {
-    case RelatedCommitmentActionTypes.AddRelatedCommitment: {
-      return adapter.addOne(action.payload.location, state)
-    }
+    // case RelatedCommitmentActionTypes.AddRelatedCommitment: {
+    //   return adapter.addOne(action.payload.location, state)
+    // }
 
-    case RelatedCommitmentActionTypes.UpsertRelatedCommitment: {
-      return adapter.upsertOne(action.payload.location, state)
-    }
+    // case RelatedCommitmentActionTypes.UpsertRelatedCommitment: {
+    //   return adapter.upsertOne(action.payload.location, state)
+    // }
 
-    case RelatedCommitmentActionTypes.AddRelatedCommitments: {
-      return adapter.addMany(action.payload.locations, state)
-    }
+    // case RelatedCommitmentActionTypes.AddRelatedCommitments: {
+    //   return adapter.addMany(action.payload.locations, state)
+    // }
 
-    case RelatedCommitmentActionTypes.UpsertRelatedCommitments: {
-      return adapter.upsertMany(action.payload.locations, state)
-    }
+    // case RelatedCommitmentActionTypes.UpsertRelatedCommitments: {
+    //   return adapter.upsertMany(action.payload.locations, state)
+    // }
 
-    case RelatedCommitmentActionTypes.UpdateRelatedCommitment: {
-      return adapter.updateOne(action.payload.location, state)
-    }
+    // case RelatedCommitmentActionTypes.UpdateRelatedCommitment: {
+    //   return adapter.updateOne(action.payload.location, state)
+    // }
 
-    case RelatedCommitmentActionTypes.UpdateRelatedCommitments: {
-      return adapter.updateMany(action.payload.locations, state)
-    }
+    // case RelatedCommitmentActionTypes.UpdateRelatedCommitments: {
+    //   return adapter.updateMany(action.payload.locations, state)
+    // }
 
-    case RelatedCommitmentActionTypes.DeleteRelatedCommitment: {
-      return adapter.removeOne(action.payload.id, state)
-    }
+    // case RelatedCommitmentActionTypes.DeleteRelatedCommitment: {
+    //   return adapter.removeOne(action.payload.id, state)
+    // }
 
-    case RelatedCommitmentActionTypes.DeleteRelatedCommitments: {
-      return adapter.removeMany(action.payload.ids, state)
-    }
+    // case RelatedCommitmentActionTypes.DeleteRelatedCommitments: {
+    //   return adapter.removeMany(action.payload.ids, state)
+    // }
 
     case RelatedCommitmentActionTypes.LoadRelatedCommitments: {
 
-      if (action.payload.data.relatedCommitments) {
-        return adapter.upsertMany(action.payload.data.relatedCommitments, {
+      // tslint:disable-next-line:no-console
+      console.log('RelatedCommitmentActionTypes', action.payload.data)
+
+      if (action.payload.data.commitmentRelatedCommitments) {
+        return adapter.upsertMany(action.payload.data.commitmentRelatedCommitments, {
           ...state,
           loading: action.payload.loading,
           error: action.payload.error

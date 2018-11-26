@@ -193,7 +193,7 @@ export class SharepointDataService implements AppDataService {
     }).pipe(
       concatMap(items =>
         of({
-          data: { relatedCommitments: mapRelatedCommitments(items) },
+          data: { commitmentRelatedCommitments: mapRelatedCommitments(items) },
           loading: false
         }))
       )

@@ -77,7 +77,7 @@ export const resolvers = {
     commitmentRelatedCommitments: (obj: any, args: any, context: any, info: any) => {
       // (commitment: ID!): [MapPoint]
       let set = db['commitment-related-commitments'].find({ commitment: args.commitment })
-      let found = set.map((f: any) => db['commitment-commitments'].findOne({ id: f.relatedTo })).map((c: any) => ({ ...c }))
+      let found = set.map((f: any) => db['commitments'].findOne({ id: f.relatedTo })).map((c: any) => ({ ...c }))
       console.log('commitment Related Commitments=> ', args, set, found)
       return found
 

@@ -21,37 +21,37 @@ export function reducer(
   action: CriticalDateActions
 ): State {
   switch (action.type) {
-    case CriticalDateActionTypes.AddCriticalDate: {
-      return adapter.addOne(action.payload.criticalDate, state)
-    }
+    // case CriticalDateActionTypes.AddCriticalDate: {
+    //   return adapter.addOne(action.payload.criticalDate, state)
+    // }
 
-    case CriticalDateActionTypes.UpsertCriticalDate: {
-      return adapter.upsertOne(action.payload.criticalDate, state)
-    }
+    // case CriticalDateActionTypes.UpsertCriticalDate: {
+    //   return adapter.upsertOne(action.payload.criticalDate, state)
+    // }
 
-    case CriticalDateActionTypes.AddCriticalDates: {
-      return adapter.addMany(action.payload.criticalDates, state)
-    }
+    // case CriticalDateActionTypes.AddCriticalDates: {
+    //   return adapter.addMany(action.payload.criticalDates, state)
+    // }
 
-    case CriticalDateActionTypes.UpsertCriticalDates: {
-      return adapter.upsertMany(action.payload.criticalDates, state)
-    }
+    // case CriticalDateActionTypes.UpsertCriticalDates: {
+    //   return adapter.upsertMany(action.payload.criticalDates, state)
+    // }
 
-    case CriticalDateActionTypes.UpdateCriticalDate: {
-      return adapter.updateOne(action.payload.criticalDate, state)
-    }
+    // case CriticalDateActionTypes.UpdateCriticalDate: {
+    //   return adapter.updateOne(action.payload.criticalDate, state)
+    // }
 
-    case CriticalDateActionTypes.UpdateCriticalDates: {
-      return adapter.updateMany(action.payload.criticalDates, state)
-    }
+    // case CriticalDateActionTypes.UpdateCriticalDates: {
+    //   return adapter.updateMany(action.payload.criticalDates, state)
+    // }
 
-    case CriticalDateActionTypes.DeleteCriticalDate: {
-      return adapter.removeOne(action.payload.id, state)
-    }
+    // case CriticalDateActionTypes.DeleteCriticalDate: {
+    //   return adapter.removeOne(action.payload.id, state)
+    // }
 
-    case CriticalDateActionTypes.DeleteCriticalDates: {
-      return adapter.removeMany(action.payload.ids, state)
-    }
+    // case CriticalDateActionTypes.DeleteCriticalDates: {
+    //   return adapter.removeMany(action.payload.ids, state)
+    // }
 
     case CriticalDateActionTypes.LoadCriticalDates: {
 

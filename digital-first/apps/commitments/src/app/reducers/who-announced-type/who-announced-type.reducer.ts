@@ -21,37 +21,37 @@ export function reducer(
   action: WhoAnnouncedTypeActions
 ): State {
   switch (action.type) {
-    case WhoAnnouncedTypeActionTypes.AddWhoAnnouncedType: {
-      return adapter.addOne(action.payload.whoAnnouncedType, state)
-    }
+    // case WhoAnnouncedTypeActionTypes.AddWhoAnnouncedType: {
+    //   return adapter.addOne(action.payload.whoAnnouncedType, state)
+    // }
 
-    case WhoAnnouncedTypeActionTypes.UpsertWhoAnnouncedType: {
-      return adapter.upsertOne(action.payload.whoAnnouncedType, state)
-    }
+    // case WhoAnnouncedTypeActionTypes.UpsertWhoAnnouncedType: {
+    //   return adapter.upsertOne(action.payload.whoAnnouncedType, state)
+    // }
 
-    case WhoAnnouncedTypeActionTypes.AddWhoAnnouncedTypes: {
-      return adapter.addMany(action.payload.whoAnnouncedTypes, state)
-    }
+    // case WhoAnnouncedTypeActionTypes.AddWhoAnnouncedTypes: {
+    //   return adapter.addMany(action.payload.whoAnnouncedTypes, state)
+    // }
 
-    case WhoAnnouncedTypeActionTypes.UpsertWhoAnnouncedTypes: {
-      return adapter.upsertMany(action.payload.whoAnnouncedTypes, state)
-    }
+    // case WhoAnnouncedTypeActionTypes.UpsertWhoAnnouncedTypes: {
+    //   return adapter.upsertMany(action.payload.whoAnnouncedTypes, state)
+    // }
 
-    case WhoAnnouncedTypeActionTypes.UpdateWhoAnnouncedType: {
-      return adapter.updateOne(action.payload.whoAnnouncedType, state)
-    }
+    // case WhoAnnouncedTypeActionTypes.UpdateWhoAnnouncedType: {
+    //   return adapter.updateOne(action.payload.whoAnnouncedType, state)
+    // }
 
-    case WhoAnnouncedTypeActionTypes.UpdateWhoAnnouncedTypes: {
-      return adapter.updateMany(action.payload.whoAnnouncedTypes, state)
-    }
+    // case WhoAnnouncedTypeActionTypes.UpdateWhoAnnouncedTypes: {
+    //   return adapter.updateMany(action.payload.whoAnnouncedTypes, state)
+    // }
 
-    case WhoAnnouncedTypeActionTypes.DeleteWhoAnnouncedType: {
-      return adapter.removeOne(action.payload.id, state)
-    }
+    // case WhoAnnouncedTypeActionTypes.DeleteWhoAnnouncedType: {
+    //   return adapter.removeOne(action.payload.id, state)
+    // }
 
-    case WhoAnnouncedTypeActionTypes.DeleteWhoAnnouncedTypes: {
-      return adapter.removeMany(action.payload.ids, state)
-    }
+    // case WhoAnnouncedTypeActionTypes.DeleteWhoAnnouncedTypes: {
+    //   return adapter.removeMany(action.payload.ids, state)
+    // }
 
     case WhoAnnouncedTypeActionTypes.LoadWhoAnnouncedTypes: {
       return adapter.upsertMany(action.payload.data.whoAnnouncedTypes, {
