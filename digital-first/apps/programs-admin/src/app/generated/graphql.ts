@@ -1996,6 +1996,38 @@ export namespace AllAgencies {
   };
 }
 
+export namespace AllStatistics {
+  export type Variables = {};
+
+  export type Query = {
+    __typename?: "Query";
+    statistics?: (Statistics | null)[] | null;
+  };
+
+  export type Statistics = {
+    __typename?: "StatisticGraph";
+    id: Guid;
+    name: string;
+    agency?: Agency | null;
+    statisticReports?: (StatisticReports | null)[] | null;
+  };
+
+  export type Agency = {
+    __typename?: "AgencyGraph";
+    id: Guid;
+    title: string;
+  };
+
+  export type StatisticReports = {
+    __typename?: "StatisticReportGraph";
+    id: Guid;
+    name: string;
+    notes?: string | null;
+  };
+}
+
+
+
 export namespace AllPortfolios {
   export type Variables = {};
 
@@ -2107,6 +2139,32 @@ export class MutatePortfolioGQL extends Apollo.Mutation<MutatePortfolio.Mutation
         portfolio: $portfolio
       ) {
         id
+      }
+    }
+  `;
+}
+
+@Injectable({
+  providedIn: "root"
+})
+export class AllStatisticsGQL extends Apollo.Query<
+  AllStatistics.Query,
+  AllStatistics.Variables
+  > {
+  document: any = gql`
+    query allStatistics {
+      statistics {
+        id
+        name
+        agency {
+          id
+          title
+        }
+        statisticReports {
+          id
+          name
+          notes
+        }
       }
     }
   `;

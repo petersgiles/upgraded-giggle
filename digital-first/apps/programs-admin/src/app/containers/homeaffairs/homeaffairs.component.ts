@@ -63,4 +63,5 @@ export class FormModel {
   public id: number;
   public dataDate: Date;
   public notes: string;
+  public statisticId: string;
 }

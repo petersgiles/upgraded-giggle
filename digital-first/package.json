@@ -109,7 +109,7 @@
     "@angular/language-service": "^7.0.1",
     "@ngrx/schematics": "^6.1.0",
     "@ngrx/store-devtools": "^6.1.0",
-    "@nrwl/schematics": "^7.0.1",
+    "@nrwl/schematics": "^7.1.1",
     "@types/googlemaps": "^3.30.16",
     "@types/jasmine": "~2.8.6",
     "@types/jasminewd2": "~2.0.3",

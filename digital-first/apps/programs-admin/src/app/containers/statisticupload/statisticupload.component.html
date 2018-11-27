@@ -1,0 +1,38 @@
+<div>
+  <h2>Statistic csv upload form</h2>
+  <form (ngSubmit)="onSubmit()" #statisticUpload="ngForm">
+    <div>
+      <label for="statistic">Statistic</label>
+      <select id="statistic"
+              required
+              [(ngModel)]="model.statisticId" name="statistic"
+              (change)="onSelect($event.target.value)">
+        <option *ngFor="let statistic of statistics | async" [value]="statistic.id">{{statistic.name}}</option>
+      </select>
+    </div>
+    <!--TODO: bind this to the statistic reports  -->
+    <div>
+      <label for="statisticReport">Statistic Report</label>
+      <select id="statisticReport"
+              required
+              [(ngModel)]="model.statisticId" name="statisticReport">
+        <option *ngFor="let statistic of statistics | async" [value]="statistic.id">{{statistic.name}}</option>
+      </select>
+    </div>
+    <div>
+      <label for="dataDate">Data date</label>
+      <input type="date" id="dataDate" required [(ngModel)]="model.dataDate" name="dataDate">
+    </div>
+    <div>
+      <label for="notes">Notes</label>
+      <textarea name="notes" id="notes" [(ngModel)]="model.notes" cols="40" rows="3" maxlength="250"
+                spellcheck="true"></textarea>
+    </div>
+    <div>
+      <label for="fileToUpload">File to upload</label>
+      <input type="file" accept=".xlsx" (change)="fileChange($event)" id="fileToUpload"
+             name="fileToUpload" required>
+    </div>
+    <button type="submit" class="btn btn-success" [disabled]="!statisticUpload.form.valid">Submit</button>
+  </form>
+</div>

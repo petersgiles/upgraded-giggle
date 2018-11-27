@@ -65,6 +65,7 @@ import {FEDERATEDLOGINAPIPATH} from '@digital-first/df-app-tokens'
 
 import {FileDropModule} from 'ngx-file-drop';
 import {HomeaffairsComponent} from './containers/homeaffairs/homeaffairs.component';
+import {StatisticuploadComponent} from "./containers/statisticupload/statisticupload.component";
 import {GraphQLModule} from "./graphql.module";
 
 const COMPONENTS = [
@@ -114,7 +115,7 @@ export function initApplication(store: Store<fromRoot.State>): Function {
 }
 
 @NgModule({
-  declarations: [...COMPONENTS, HomeaffairsComponent],
+  declarations: [...COMPONENTS, HomeaffairsComponent, StatisticuploadComponent],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [
     BrowserModule,

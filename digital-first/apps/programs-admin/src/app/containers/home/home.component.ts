@@ -1,5 +1,12 @@
 import {Component, OnInit} from '@angular/core'
-import {AllAgencies, AllAgenciesGQL, AllPortfolios, AllPortfoliosGQL, MutatePortfolioGQL} from "../../generated/graphql"
+import {
+  AllAgencies,
+  AllAgenciesGQL,
+  AllPortfolios,
+  AllPortfoliosGQL, AllStatistics,
+  AllStatisticsGQL,
+  MutatePortfolioGQL
+} from "../../generated/graphql"
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {UUID} from "@digital-first/df-utils";
@@ -15,10 +22,12 @@ export class HomeComponent implements OnInit {
 
   agencies: Observable<AllAgencies.Agencies[]>;
   portfolios: Observable<AllPortfolios.Portfolios[]>;
+  statistics: Observable<AllStatistics.Statistics[]>;
 
   constructor(private allAgenciesGQL: AllAgenciesGQL,
               private allPortfoliosGQL: AllPortfoliosGQL,
-              private mutatePortfolioGQL: MutatePortfolioGQL) {
+              private mutatePortfolioGQL: MutatePortfolioGQL,
+              private allStatistics: AllStatisticsGQL) {
   }
 
   ngOnInit() {
@@ -31,6 +40,10 @@ export class HomeComponent implements OnInit {
     //
     // this.agencies.subscribe(value => console.log(value))
 
+    this.statistics = this.allStatistics.watch().valueChanges.pipe(map(result => result.data.statistics));
+
+    this.statistics.subscribe(value => console.log(value));
+  //
   }
 
   mutate() {

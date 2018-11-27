@@ -18,3 +18,20 @@ query allPortfolios{
     }
   }
 }
+
+query allStatistics{
+  statistics{
+    id
+    name
+    agency{
+      id
+      title
+    }
+    statisticReports{
+      id
+      name
+      notes
+    }
+  }
+}
+
