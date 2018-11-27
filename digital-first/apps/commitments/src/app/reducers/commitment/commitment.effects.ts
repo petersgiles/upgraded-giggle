@@ -152,7 +152,7 @@ export class CommitmentEffects {
       map((action: AddElectorateToCommitment) => action.payload),
       switchMap((payload: any) => this.service.addElectorateToCommitment(payload)),
       switchMap((result: any) => [
-        new AppNotification({ message: 'Electorate Added' }),
+        new AppNotification({ message: 'Location Added' }),
         new SetCurrentCommitment({ id: result.commitment.id }),
         new ClearAppNotification()
       ]),
@@ -167,7 +167,7 @@ export class CommitmentEffects {
       map((action: RemoveElectorateFromCommitment) => action.payload),
       switchMap((payload: any) => this.service.removeElectorateFromCommitment(payload)),
       switchMap((result: any) => [
-        new AppNotification({ message: 'Electorate Removed' }),
+        new AppNotification({ message: 'Location Removed' }),
         new SetCurrentCommitment({ id: result.commitment.id }),
         new ClearAppNotification()
       ]),

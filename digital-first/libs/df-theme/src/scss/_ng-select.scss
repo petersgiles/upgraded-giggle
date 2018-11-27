@@ -48,3 +48,8 @@ ng-select[required] {
         }
     }
 }
+
+
+.ng-dropdown-panel.ng-select-bottom {
+    top: calc(100% - 0.25em);
+}
