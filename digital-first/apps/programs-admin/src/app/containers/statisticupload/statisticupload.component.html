@@ -1,3 +1,26 @@
+<div class="page_title">
+  <div class="reader-card-article__title page_title_text" mdcHeadline5>Statistic csv upload form</div>
+</div>
+<ul>
+  <li>TODO: apply layout and styling</li>
+  <li>TODO: add validation</li>
+  <li>TODO: error handling</li>
+  <li>TODO: how to notify user when upload has finished processing</li>
+</ul>
+<div>
+  <h2>Assumptions</h2>
+  <p>
+    This is designed to handle statistic uploads via a file (.csv) that conforms to the statistic's schema.
+  </p>
+  <ul>
+    <li>Electorate names that can't be found (e.g. spelling errors) are currently being logged to SEQ and will not be
+      uploaded. This will not prevent the rest of the valid electorates from being uploaded.
+    </li>
+    <li>
+      It makes some assumptions about the layout.
+    </li>
+  </ul>
+</div>
 <div>
   <h2>Statistic csv upload form</h2>
   <form (ngSubmit)="onSubmit()" #statisticUpload="ngForm">
@@ -10,13 +33,12 @@
         <option *ngFor="let statistic of statistics | async" [value]="statistic.id">{{statistic.name}}</option>
       </select>
     </div>
-    <!--TODO: bind this to the statistic reports  -->
     <div>
       <label for="statisticReport">Statistic Report</label>
       <select id="statisticReport"
               required
               [(ngModel)]="model.statisticReportId" name="statisticReport">
-        <option *ngFor="let statisticReport of statisticReports | async" [value]="statisticReport.id">{{statisticReport.name}}</option>
+        <option *ngFor="let statisticReport of statisticReports" [value]="statisticReport.id">{{statisticReport.name}}</option>
       </select>
     </div>
     <div>
@@ -30,7 +52,7 @@
     </div>
     <div>
       <label for="fileToUpload">File to upload</label>
-      <input type="file" accept=".xlsx" (change)="fileChange($event)" id="fileToUpload"
+      <input type="file" accept=".csv" (change)="fileChange($event)" id="fileToUpload"
              name="fileToUpload" required>
     </div>
     <button type="submit" class="btn btn-success" [disabled]="!statisticUpload.form.valid">Submit</button>

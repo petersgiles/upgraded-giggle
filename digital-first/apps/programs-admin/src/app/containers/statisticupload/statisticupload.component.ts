@@ -18,33 +18,30 @@ export class StatisticuploadComponent implements OnInit {
 
   statistics: Observable<AllStatistics.Statistics[]>;
 
-  statisticReports: Observable<AllStatistics.StatisticReports[]>;
+  statisticReports: AllStatistics.StatisticReports[];
 
   constructor(private allStatistics: AllStatisticsGQL, private http: HttpClient) {
   }
 
-  static onSelect(statisticId) {
+  onSelect(statisticId) {
 
-    console.log(`selected id from dropdown => ${statisticId}`);
-
-    //TODO:  Filter the statistics observable and return it statistic reports as an observable?
+    this.statistics
+      .subscribe(statistics => {
+        this.statisticReports = statistics.filter(statistic => statistic.id == statisticId)[0].statisticReports;
+      });
   }
 
   ngOnInit() {
 
-    //grab the list of statistics with their statistic report children
     this.statistics = this.allStatistics.watch().valueChanges.pipe(map(result => result.data.statistics));
-
-    this.statistics.subscribe(value => console.log(value));
   }
 
   fileChange(event) {
     let fileList: FileList = event.target.files;
 
-    if (fileList.length > 0) {
+    if (fileList.length == 1) {
 
       this.fileToUpload = fileList[0];
-
     }
   }
 
@@ -65,7 +62,7 @@ export class StatisticuploadComponent implements OnInit {
     const formData = new FormData();
     formData.append('file', this.fileToUpload, fileName);
 
-    formData.append('message', `{Notes: "${this.model.notes}", DataDate:"${this.model.dataDate}",FileName:"${fileName}"}`);
+    formData.append('message', `{Notes: "${this.model.notes}", DataDate:"${this.model.dataDate}",FileName:"${fileName}", StatisticReportId:"${this.model.statisticReportId}"}`);
 
     this.http.post('https://localhost:52629/api/sendmessage', formData, httpOptions).subscribe(value => console.log('TODO: handle error.'));
   }

@@ -21,7 +21,7 @@ export class HomeaffairsComponent implements OnInit {
   fileChange(event) {
     let fileList: FileList = event.target.files;
 
-    if (fileList.length > 0) {
+    if (fileList.length == 1) {
 
       this.fileToUpload = fileList[0];
 
