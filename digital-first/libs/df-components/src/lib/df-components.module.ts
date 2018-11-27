@@ -24,6 +24,7 @@ import { MapComponent } from './map/map.component'
 import { ElectorateSelectorComponent } from './electorate-selector/electorate-selector.component'
 import { NavigateButtonComponent } from './navigation-button.component'
 import { AvatarComponent } from './avatar/avatar.component'
+import { AddSubscriptionButtonComponent } from './subscriber-button.component'
 
 const COMPONENTS = [
   TagsComponent,
@@ -33,6 +34,7 @@ const COMPONENTS = [
   ExpandCollapseButtonComponent,
   NavigateButtonComponent,
   DateFormatButtonComponent,
+  AddSubscriptionButtonComponent,
   AddItemButtonComponent,
   ShareButtonComponent,
   AddNotificationButtonComponent,

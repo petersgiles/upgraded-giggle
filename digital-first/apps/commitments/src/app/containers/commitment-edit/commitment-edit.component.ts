@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core'
 
 import { Router, ActivatedRoute, ParamMap } from '@angular/router'
-import { Observable, Subscription } from 'rxjs'
+import { Observable, Subscription, of } from 'rxjs'
 import { MdcDialog, MdcSnackbar } from '@angular-mdc/web'
 import { map, first } from 'rxjs/operators'
 import { DialogAreYouSureComponent, DialogAddContactComponent, ARE_YOU_SURE_ACCEPT } from '@digital-first/df-dialogs'
@@ -69,6 +69,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   commitmentEditDiscussionTimeFormat: Observable<'dateFormat' | 'timeAgo' | 'calendar'>
   formBusy = false
+  isSubscribed$: Observable<boolean>
 
   constructor(private router: Router, private route: ActivatedRoute, public dialog: MdcDialog, private snackbar: MdcSnackbar, private service: CommitmentDataService) { }
 
@@ -167,6 +168,10 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
     this.commitmentEditExpandedPanelsSubscription$.unsubscribe()
     this.activitySubscription$.unsubscribe()
+  }
+
+  handleManageSubscription($event) {
+    this.isSubscribed$ = of($event)
   }
 
   handleChangeExpanded($event, panel) {

@@ -4,7 +4,7 @@
 
     <digital-first-page-title [title]="getTitle(commitment)" (onTitleClicked)="handleChangeExpanded(!panels.formPanelExpanded, 'formPanelExpanded')" [background]="commitment?.party?.colour">
       <digital-first-busy [busy]="formBusy"></digital-first-busy>
-      <digital-first-add-notification-button *ngIf="panels.formPanelExpanded" [background]="commitment?.party?.colour"></digital-first-add-notification-button>
+      <digital-first-subscriber-button *ngIf="panels.formPanelExpanded" [background]="commitment?.party?.colour" [isSubscribed]="isSubscribed$ | async" (onManageSubscription)="handleManageSubscription($event)"></digital-first-subscriber-button>
       <digital-first-expand-collapse-button [expanded]='panels.formPanelExpanded' (onChangeExpanded)="handleChangeExpanded($event, 'formPanelExpanded')"></digital-first-expand-collapse-button>
     </digital-first-page-title>
 
