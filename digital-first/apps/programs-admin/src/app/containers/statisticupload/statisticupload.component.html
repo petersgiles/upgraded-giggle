@@ -15,8 +15,8 @@
       <label for="statisticReport">Statistic Report</label>
       <select id="statisticReport"
               required
-              [(ngModel)]="model.statisticId" name="statisticReport">
-        <option *ngFor="let statistic of statistics | async" [value]="statistic.id">{{statistic.name}}</option>
+              [(ngModel)]="model.statisticReportId" name="statisticReport">
+        <option *ngFor="let statisticReport of statisticReports | async" [value]="statisticReport.id">{{statisticReport.name}}</option>
       </select>
     </div>
     <div>
