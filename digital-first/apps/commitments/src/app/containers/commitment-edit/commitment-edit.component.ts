@@ -285,6 +285,10 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   }
 
+  handleRelatedCommitmentsRowClicked($event) {
+    this.router.navigate(['/', 'commitment', $event.id])
+  }
+
   handleCommitmentsTableDeleteClicked(relatedTo) {
 
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {

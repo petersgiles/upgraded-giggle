@@ -60,7 +60,7 @@
       </digital-first-page-title>
   
       <div class="commitment-layout__row" *ngIf="panels.relatedItemsPanelExpanded">
-        <digital-first-data-table [tableData]="commitmentCommitmentsTableData$ | async" (onDeleteItem)="handleCommitmentsTableDeleteClicked($event)"></digital-first-data-table>
+        <digital-first-data-table [tableData]="commitmentCommitmentsTableData$ | async" (onDeleteItem)="handleCommitmentsTableDeleteClicked($event)" (onCellClicked)="handleRelatedCommitmentsRowClicked($event)"></digital-first-data-table>
       </div>
 
     <digital-first-page-title *ngIf="commitment" title="Discussion" (onTitleClicked)="handleChangeExpanded(!panels.discussionPanelExpanded, 'discussionPanelExpanded')">

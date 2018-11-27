@@ -38,18 +38,17 @@ export class CommitmentEditFormComponent implements OnDestroy {
 
   form = this.fb.group({
     id: [],
-    title: ['', Validators.required],
-    location: [''],
+    title: [null, Validators.required],
     description: [''],
-    announcedby: [''],
-    date: [''],
-    party: [''],
-    announcementType: [''],
-    whoAnnouncedType: [''],
-    commitmentType: [''],
-    portfolio: [],
-    criticalDate: [],
-    cost: [''],
+    date: [null, Validators.required],
+    announcedby: [null],
+    party: [null],
+    announcementType: [null],
+    whoAnnouncedType: [null],
+    commitmentType: [null],
+    portfolio: [null],
+    criticalDate: [null],
+    cost: [null],
   })
 
   @Input()
@@ -62,7 +61,6 @@ export class CommitmentEditFormComponent implements OnDestroy {
       const patch = {
         id: val.id,
         title: val.title,
-        location: val.location && val.location.id,
         description: val.description,
         announcedby: val.announcedby,
         date: moment(val.date).format('YYYY-MM-DD'),
