@@ -2,19 +2,22 @@
 
   <section>
 
-    <digital-first-page-title [title]="getTitle(commitment)" (onTitleClicked)="handleChangeExpanded(!panels.formPanelExpanded, 'formPanelExpanded')" [background]="commitment?.party?.colour">
+    <digital-first-page-title [title]="getTitle(commitment)" (onTitleClicked)="handleChangeExpanded(!panels.formPanelExpanded, 'formPanelExpanded')"
+      [background]="commitment?.party?.colour">
       <digital-first-busy [busy]="formBusy"></digital-first-busy>
-      <digital-first-subscriber-button *ngIf="panels.formPanelExpanded" [background]="commitment?.party?.colour" [isSubscribed]="isSubscribed$ | async" (onManageSubscription)="handleManageSubscription($event)"></digital-first-subscriber-button>
+      <digital-first-subscriber-button *ngIf="panels.formPanelExpanded" [background]="commitment?.party?.colour"
+        [isSubscribed]="isSubscribed$ | async" (onManageSubscription)="handleManageSubscription($event)"></digital-first-subscriber-button>
       <digital-first-expand-collapse-button [expanded]='panels.formPanelExpanded' (onChangeExpanded)="handleChangeExpanded($event, 'formPanelExpanded')"></digital-first-expand-collapse-button>
     </digital-first-page-title>
 
     <!-- <mdc-linear-progress *ngIf="formBusy"></mdc-linear-progress> -->
 
-      <digital-first-commitment-edit-form *ngIf="panels.formPanelExpanded" [busy]="formBusy" [commitment]="commitment"
-        [parties]="parties$ | async" [criticalDates]="criticalDates$ | async" [announcementTypes]="announcementTypes$ | async" [whoAnnouncedTypes]="whoAnnouncedTypes$ | async"
-        [commitmentTypes]="commitmentTypes$ | async" [portfolios]="portfolios$ | async" [locations]="locations$ | async"
-        (onSubmitted)="handleUpdateCommitment($event)" (onCancelled)="handleCancelled($event)" (onChanged)="handleUpdateCommitment($event)">
-      </digital-first-commitment-edit-form>
+    <digital-first-commitment-edit-form *ngIf="panels.formPanelExpanded" [busy]="formBusy" [commitment]="commitment"
+      [parties]="parties$ | async" [criticalDates]="criticalDates$ | async" [announcementTypes]="announcementTypes$ | async"
+      [whoAnnouncedTypes]="whoAnnouncedTypes$ | async" [commitmentTypes]="commitmentTypes$ | async" [portfolios]="portfolios$ | async"
+      [locations]="locations$ | async" (onSubmitted)="handleUpdateCommitment($event)" (onCancelled)="handleCancelled($event)"
+      (onChanged)="handleUpdateCommitment($event)">
+    </digital-first-commitment-edit-form>
 
 
 
@@ -31,10 +34,16 @@
 
       <div class="form-content">
         <div class="form-layout__row--no-wrap">
-          <ng-select [items]="electorates$ | async" bindValue="id" bindLabel="title" groupBy="group" placeholder="Electorate"
+          <ng-select [items]="electorates$ | async" bindValue="id" bindLabel="title" groupBy="group" placeholder="Select Location"
             maxSelectedItems="8" (add)="handleAddElectorateToCommitment($event)" (remove)="handleRemoveElectorateFromCommitment($event)"
             [ngModel]="selectedElectorateIds" [multiple]="true" [clearable]="false" [hideSelected]="true">
           </ng-select>
+        </div>
+        <div class="form-layout__row--no-wrap">
+          <digital-first-info>
+            You can select multiple locations by using the drop down selector or by clicking in the Select Location
+            field and typing
+          </digital-first-info>
         </div>
       </div>
 
@@ -54,25 +63,26 @@
     </div>
 
     <digital-first-page-title *ngIf="commitment" title="Related Items" (onTitleClicked)="handleChangeExpanded(!panels.relatedItemsPanelExpanded, 'relatedItemsPanelExpanded')">
-        <digital-first-add-item-button icon="person" title="Add&nbsp;commitment" *ngIf="panels.relatedItemsPanelExpanded"
-          (onAddItem)="handleOpenCommitmenttDialog()"></digital-first-add-item-button>
-        <digital-first-expand-collapse-button [expanded]='panels.relatedItemsPanelExpanded' (onChangeExpanded)="handleChangeExpanded($event, 'relatedItemsPanelExpanded')"></digital-first-expand-collapse-button>
-      </digital-first-page-title>
-  
-      <div class="commitment-layout__row" *ngIf="panels.relatedItemsPanelExpanded">
-        <digital-first-data-table [tableData]="commitmentCommitmentsTableData$ | async" (onDeleteItem)="handleCommitmentsTableDeleteClicked($event)" (onCellClicked)="handleRelatedCommitmentsRowClicked($event)"></digital-first-data-table>
-      </div>
+      <digital-first-add-item-button icon="person" title="Add&nbsp;commitment" *ngIf="panels.relatedItemsPanelExpanded"
+        (onAddItem)="handleOpenCommitmenttDialog()"></digital-first-add-item-button>
+      <digital-first-expand-collapse-button [expanded]='panels.relatedItemsPanelExpanded' (onChangeExpanded)="handleChangeExpanded($event, 'relatedItemsPanelExpanded')"></digital-first-expand-collapse-button>
+    </digital-first-page-title>
+
+    <div class="commitment-layout__row" *ngIf="panels.relatedItemsPanelExpanded">
+      <digital-first-data-table [tableData]="commitmentCommitmentsTableData$ | async" (onDeleteItem)="handleCommitmentsTableDeleteClicked($event)"
+        (onCellClicked)="handleRelatedCommitmentsRowClicked($event)"></digital-first-data-table>
+    </div>
 
     <digital-first-page-title *ngIf="commitment" title="Discussion" (onTitleClicked)="handleChangeExpanded(!panels.discussionPanelExpanded, 'discussionPanelExpanded')">
-        <digital-first-date-format-button *ngIf="panels.discussionPanelExpanded" [timeFormat]='commitmentEditDiscussionTimeFormat | async'
-          (onChangeDateFormat)="changeDateFormat($event)"></digital-first-date-format-button>
-        <digital-first-expand-collapse-button [expanded]='panels.discussionPanelExpanded' (onChangeExpanded)="handleChangeExpanded($event, 'discussionPanelExpanded')"></digital-first-expand-collapse-button>
-      </digital-first-page-title>
-  
-      <digital-first-discussion *ngIf="(commitment) && panels.discussionPanelExpanded" [comments]="(commitment)?.discussion"
-        [hostId]="(commitment).id" [activeComment]="activeComment" [timeFormat]="commitmentEditDiscussionTimeFormat | async"
-        (onDeleteComment)="handleDeleteComment($event)" (onReplyToComment)="handleReplyToComment($event)" (onAddComment)="handleAddComment($event)">
-      </digital-first-discussion>
+      <digital-first-date-format-button *ngIf="panels.discussionPanelExpanded" [timeFormat]='commitmentEditDiscussionTimeFormat | async'
+        (onChangeDateFormat)="changeDateFormat($event)"></digital-first-date-format-button>
+      <digital-first-expand-collapse-button [expanded]='panels.discussionPanelExpanded' (onChangeExpanded)="handleChangeExpanded($event, 'discussionPanelExpanded')"></digital-first-expand-collapse-button>
+    </digital-first-page-title>
+
+    <digital-first-discussion *ngIf="(commitment) && panels.discussionPanelExpanded" [comments]="(commitment)?.discussion"
+      [hostId]="(commitment).id" [activeComment]="activeComment" [timeFormat]="commitmentEditDiscussionTimeFormat | async"
+      (onDeleteComment)="handleDeleteComment($event)" (onReplyToComment)="handleReplyToComment($event)" (onAddComment)="handleAddComment($event)">
+    </digital-first-discussion>
 
     <!-- <mdc-linear-progress *ngIf="formBusy"></mdc-linear-progress> -->
   </section>

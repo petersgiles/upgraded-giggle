@@ -21,3 +21,4 @@ export { RelatedArtifactsComponent } from './lib/related-artifacts/related-artif
 export { ContactCardComponent } from './lib/contact-card/contact-card.component'
 export { PageTitleComponent } from './lib/page-title.component'
 export { AvatarComponent } from './lib/avatar/avatar.component'
+export { InfoComponent } from './lib/info/info.component'
