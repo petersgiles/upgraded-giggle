@@ -8,6 +8,7 @@ import { Location } from '../reducers/location/location.model'
 import { WhoAnnouncedType } from '../reducers/who-announced-type/who-announced-type.model'
 import { MapPoint } from '../reducers/map-point/map-point.model'
 import { CriticalDate } from '../reducers/critical-date/critical-date.model'
+import { RelatedCommitment } from '../reducers/related-commitment/related-commitment.model'
 
 export interface ServiceData<T> {
   data: { [key: string]: T }
@@ -21,6 +22,9 @@ export interface DataResult<T> {
   stale?: boolean
 }
 
+export interface RelatedCommitmentsResult {
+  commitmentRelatedCommitments: RelatedCommitment[]
+}
 export interface AnnouncementTypesResult {
   announcementTypes: AnnouncementType[]
 }

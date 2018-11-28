@@ -36,6 +36,7 @@ import * as fromContact from './contact/contact.reducer'
 import * as fromCriticalDate from './critical-date/critical-date.reducer'
 import * as fromLocation from './location/location.reducer'
 import * as fromMapPoint from './map-point/map-point.reducer'
+import * as fromRelatedCommitment from './related-commitment/related-commitment.reducer'
 import * as fromCommitmentType from './commitment-type/commitment-type.reducer'
 import * as fromCommitmentOverview from './commitment-overview/commitment-overview.reducer'
 import * as fromCommitmentEdit from './commitment-edit/commitment-edit.reducer'
@@ -50,6 +51,7 @@ export function logger(reducer: ActionReducer<State>): ActionReducer<State> { re
 export interface State {
     user: fromUser.State
     routerReducer: fromRouter.RouterReducerState<RouterStateUrl>
+    relatedCommitment: fromRelatedCommitment.State
     notification: fromNotification.State
     whoAnnouncedType: fromWhoAnnouncedType.State
     announcementType: fromAnnouncementType.State
@@ -62,7 +64,7 @@ export interface State {
     location: fromLocation.State
     mapPoint: fromMapPoint.State
     commitmentType: fromCommitmentType.State
-    commitmentOverview: fromCommitmentOverview.State,
+    commitmentOverview: fromCommitmentOverview.State
     commitmentEdit: fromCommitmentEdit.State
 
 }
@@ -70,6 +72,7 @@ export interface State {
 export const reducers: ActionReducerMap<State> = {
     user: fromUser.reducer,
     routerReducer: fromRouter.routerReducer,
+    relatedCommitment: fromRelatedCommitment.reducer,
     notification: fromNotification.reducer,
     whoAnnouncedType: fromWhoAnnouncedType.reducer,
     announcementType: fromAnnouncementType.reducer,
@@ -93,6 +96,7 @@ export const getNotification = createSelector(
     fromNotification.getNotification
 )
 
+export * from './related-commitment'
 export * from './critical-date'
 export * from './user'
 export * from './commitment-type'

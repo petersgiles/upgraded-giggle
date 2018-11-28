@@ -13,6 +13,7 @@ import { getPortfolioEntities } from '../portfolio'
 import { getAnnouncementTypeEntities } from '../announcement-type'
 import { getWhoAnnouncedTypeEntities } from '../who-announced-type'
 import { DataTableConfig } from '@digital-first/df-components'
+import { getCriticalDateEntities } from '../critical-date'
 
 export { CommitmentEffects } from './commitment.effects'
 export * from './commitment.model'
@@ -38,9 +39,10 @@ export const getLookupEnitites = createSelector(
     getAnnouncementTypeEntities,
     getCommitmentTypeEntities,
     getWhoAnnouncedTypeEntities,
-    (partys, portfolios, locations, announcementTypes, commitmentTypes, whoAnnouncedTypes) =>
+    getCriticalDateEntities,
+    (partys, portfolios, locations, announcementTypes, commitmentTypes, whoAnnouncedTypes, criticalDates) =>
         ({
-            partys, portfolios, locations, announcementTypes, commitmentTypes, whoAnnouncedTypes
+            partys, portfolios, locations, announcementTypes, commitmentTypes, whoAnnouncedTypes, criticalDates
         })
 )
 
@@ -71,6 +73,7 @@ export const getCurrentCommitment = createSelector(
                 location: commitment.location ? lookups.locations[commitment.location.id] : null,
                 whoAnnouncedType: commitment.whoAnnouncedType ? lookups.whoAnnouncedTypes[commitment.whoAnnouncedType.id] : null,
                 announcementType: commitment.announcementType ? lookups.announcementTypes[commitment.announcementType.id] : null,
+                criticalDate: commitment.criticalDate ? lookups.criticalDates[commitment.criticalDate.id] : null,
                 commitmentType: commitment.commitmentType ? lookups.commitmentTypes[commitment.commitmentType.id] : null,
                 mapPoints: commitmentMapPoints,
                 date: moment(commitment.date),
@@ -118,30 +121,49 @@ export const getCommitmentActivity = createSelector(
         }
     )
 )
+
 export const getCommitmentContactsTableData = createSelector(
     getCurrentCommitment,
     (commitment) => {
 
         const rows = commitment &&
             commitment.contacts &&
-            commitment.contacts.map(c => ({
-                id: c.ccid,
-                cells: [{
-                    value: c.name
-                }, {
-                    value: c.phone
-                }, {
-                    value: c.email
-                }]
-            }))
+            commitment.contacts.map(c => {
+
+                const fullname = []
+                if (c.firstName) {
+                    fullname.push(c.firstName)
+                }
+
+                if (c.name) {
+                    fullname.push(c.name)
+                }
+
+                return {
+                    id: c.ccid,
+                    cells: [{
+                        value: `${fullname.join(' ')}`
+                    }, {
+                        value: c.jobTitle
+                    }, {
+                        value: c.phone
+                    }, {
+                        value: c.email
+                    }, {
+                        value: c.portfolio ? c.portfolio.title : ''
+                    }]
+                }
+            })
 
         const dtc: DataTableConfig = {
             title: 'contacts',
             hasDeleteItemButton: true,
             headings: [
                 { caption: 'Name' },
+                { caption: 'Job Title' },
                 { caption: 'Phone' },
-                { caption: 'Email' }
+                { caption: 'Email' },
+                { caption: 'Portfolio' }
             ],
             rows: rows
         }

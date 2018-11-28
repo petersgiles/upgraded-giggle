@@ -15,7 +15,7 @@ import { Comment } from '../reducers/comment/comment.model'
 import { Contact } from '../reducers/contact/contact.model'
 import { Location } from '../reducers/location/location.model'
 import { CommitmentType } from '../reducers/commitment-type/commitment-type.model'
-
+import { CriticalDate } from '../reducers/critical-date/critical-date.model'
 import { GetAllLocations } from '../reducers/location/location.actions'
 import {
   GetCommitments,
@@ -27,10 +27,13 @@ import {
   AddElectorateToCommitment,
   RemoveElectorateFromCommitment,
   AddMapPointToCommitment,
-  RemoveMapPointFromCommitment
+  RemoveMapPointFromCommitment,
+  AddCommitmentToCommitment,
+  RemoveCommitmentFromCommitment
 } from '../reducers/commitment/commitment.actions'
 import { GetMapPointsByCommitment, ClearMapPoints } from '../reducers/map-point/map-point.actions'
 import { GetAllAnnouncementTypes } from '../reducers/announcement-type/announcement-type.actions'
+import { GetAllCriticalDates } from '../reducers/critical-date/critical-date.actions'
 import { GetAllContacts, StoreContact } from '../reducers/contact/contact.actions'
 import { GetAllPartys } from '../reducers/party/party.actions'
 import { GetAllPortfolios } from '../reducers/portfolio/portfolio.actions'
@@ -41,13 +44,28 @@ import { GetAllWhoAnnouncedTypes } from '../reducers/who-announced-type/who-anno
 import { ChangeTimeFormat, CollapsePanel, ExpandPanel } from '../reducers/commitment-edit/commitment-edit.actions'
 
 import * as fromRoot from '../reducers'
+import { GetRelatedCommitmentsByCommitment, ClearRelatedCommitments } from '../reducers/related-commitment/related-commitment.actions'
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommitmentDataService {
 
+  getBusy(): Observable<boolean> {
+    return this.store.pipe(select(fromRoot.getCommitmentLoading))
+  }
+
   constructor(private store: Store<fromRoot.State>) { }
+
+  /// CriticalDates
+
+  getAllCriticalDates(filter?: any) {
+    this.store.dispatch(new GetAllCriticalDates({ filter: filter }))
+  }
+
+  get CriticalDates(): Observable<CriticalDate[]> {
+    return this.store.pipe(select(fromRoot.getAllCriticalDates))
+  }
 
   // Notification
 
@@ -129,10 +147,6 @@ export class CommitmentDataService {
 
   public setCurrentCommitment(id: number) {
     this.store.dispatch(new SetCurrentCommitment({ id: id }))
-    this.store.dispatch(new ClearComments())
-    this.store.dispatch(new ClearMapPoints())
-    this.store.dispatch(new GetCommentsByCommitment({ commitment: id }))
-    this.store.dispatch(new GetMapPointsByCommitment({ commitment: id }))
   }
 
   public addContactToCommitment(commitment: string | number, contact: string | number): any {
@@ -157,6 +171,13 @@ export class CommitmentDataService {
     this.store.dispatch(new RemoveMapPointFromCommitment({ commitment, mapPoint }))
   }
 
+  public addCommitmentToCommitment(commitment: string | number, relatedTo: string | number): any {
+    this.store.dispatch(new AddCommitmentToCommitment({ commitment, relatedTo }))
+  }
+  public removeCommitmentFromCommitment(commitment: string | number, relatedTo: string | number): any {
+    this.store.dispatch(new RemoveCommitmentFromCommitment({ commitment, relatedTo }))
+  }
+
   get Commitment(): Observable<Commitment> {
     return this.store.pipe(select(fromRoot.getCurrentCommitment))
   }
@@ -170,6 +191,10 @@ export class CommitmentDataService {
 
   get CommitmentContactsTableData(): Observable<DataTableConfig> {
     return this.store.pipe(select(fromRoot.getCommitmentContactsTableData))
+  }
+
+  get RelatedCommitmentsTableData(): Observable<DataTableConfig> {
+    return this.store.pipe(select(fromRoot.getRelatedCommitmentsTableData))
   }
 
   get CommitmentDataTable(): Observable<DataTableConfig> {
@@ -279,7 +304,7 @@ export class CommitmentDataService {
   }
 
   get Locations(): Observable<Location[]> {
-    return this.store.pipe(select(fromRoot.getAllLocations))
+    return this.store.pipe(select(fromRoot.getAllLocationsGrouped))
   }
 
   get LocationsLoading(): Observable<boolean> {

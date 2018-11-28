@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core'
 
 import { Router, ActivatedRoute, ParamMap } from '@angular/router'
-import { Observable, Subscription } from 'rxjs'
+import { Observable, Subscription, of } from 'rxjs'
 import { MdcDialog, MdcSnackbar } from '@angular-mdc/web'
 import { map, first } from 'rxjs/operators'
 import { DialogAreYouSureComponent, DialogAddContactComponent, ARE_YOU_SURE_ACCEPT } from '@digital-first/df-dialogs'
@@ -16,6 +16,9 @@ import { CommitmentType } from '../../reducers/commitment-type/commitment-type.m
 import { WhoAnnouncedType } from '../../reducers/who-announced-type/who-announced-type.model'
 import { DataTableConfig } from '@digital-first/df-components'
 import { arrayToIndex } from '@digital-first/df-utils'
+import { CriticalDate } from '../../reducers/critical-date/critical-date.model'
+import { formatCommitmentTitle } from '../../formatters'
+import { DialogAddCommitmentComponent } from '../../dialogs/dialog-add-commitment.component'
 
 @Component({
   selector: 'digital-first-commitment-edit',
@@ -36,7 +39,9 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   announcementTypes$: Observable<AnnouncementType[]>
   commitmentTypes$: Observable<CommitmentType[]>
   commitmentContactsTableData$: Observable<DataTableConfig>
+  commitmentCommitmentsTableData$: Observable<DataTableConfig>
 
+  criticalDates$: Observable<CriticalDate[]>
   parties$: Observable<Party[]>
   portfolios$: Observable<Portfolio[]>
   electorates$: Observable<Location[]>
@@ -51,17 +56,20 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     contactPanelExpanded?: boolean
     formPanelExpanded?: boolean
     mapPanelExpanded?: boolean
+    relatedItemsPanelExpanded?: boolean
   } = {
-      commitmentPanelExpanded: false,
+      commitmentPanelExpanded: true,
       relatedPanelExpanded: false,
       discussionPanelExpanded: false,
       contactPanelExpanded: false,
       formPanelExpanded: false,
-      mapPanelExpanded: false
+      mapPanelExpanded: false,
+      relatedItemsPanelExpanded: false,
     }
 
   commitmentEditDiscussionTimeFormat: Observable<'dateFormat' | 'timeAgo' | 'calendar'>
   formBusy = false
+  isSubscribed$: Observable<boolean>
 
   constructor(private router: Router, private route: ActivatedRoute, public dialog: MdcDialog, private snackbar: MdcSnackbar, private service: CommitmentDataService) { }
 
@@ -69,11 +77,13 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
     this.whoAnnouncedTypes$ = this.service.WhoAnnouncedTypes
     this.announcementTypes$ = this.service.AnnouncementTypes
+    this.criticalDates$ = this.service.CriticalDates
     this.commitmentTypes$ = this.service.CommitmentTypes
     this.parties$ = this.service.Parties
     this.portfolios$ = this.service.Portfolios
     this.electorates$ = this.service.Locations
     this.commitmentContactsTableData$ = this.service.CommitmentContactsTableData
+    this.commitmentCommitmentsTableData$ = this.service.RelatedCommitmentsTableData
 
     this.commitmentSubscription$ = this.service.Commitment.subscribe(
       next => {
@@ -84,9 +94,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     )
 
     this.activitySubscription$ = this.service.Notification
-      // .pipe(
-      //   delay(2000)
-      // )
       .subscribe(
         (next: any) => {
           if (next) {
@@ -115,8 +122,10 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
     this.commitmentEditDiscussionTimeFormat = this.service.CommitmentEditDiscussionTimeFormat
 
+    this.service.getAllCommitments()
     this.service.getAllWhoAnnouncedTypes()
     this.service.getAllAnnouncementTypes()
+    this.service.getAllCriticalDates()
     this.service.getAllCommitmentTypes()
     this.service.getAllLocations()
     this.service.getAllPartys()
@@ -131,6 +140,10 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
       .subscribe()
   }
 
+  getTitle(commitment) {
+    return formatCommitmentTitle(commitment)
+  }
+
   showSnackBar(message: string, action: string = 'OK'): void {
 
     // this is to avoid component validation check errors
@@ -139,7 +152,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
         align: 'center',
         multiline: false,
         dismissOnAction: false,
-        focusAction: true,
+        focusAction: false,
         actionOnBottom: false,
       })
 
@@ -155,6 +168,10 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
     this.commitmentEditExpandedPanelsSubscription$.unsubscribe()
     this.activitySubscription$.unsubscribe()
+  }
+
+  handleManageSubscription($event) {
+    this.isSubscribed$ = of($event)
   }
 
   handleChangeExpanded($event, panel) {
@@ -273,6 +290,29 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   }
 
+  handleRelatedCommitmentsRowClicked($event) {
+    this.router.navigate(['/', 'commitment', $event.id])
+  }
+
+  handleCommitmentsTableDeleteClicked(relatedTo) {
+
+    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+      escapeToClose: true,
+      clickOutsideToClose: true
+    })
+
+    dialogRef.afterClosed()
+      .pipe(
+        first()
+      )
+      .subscribe(result => {
+        if (result === ARE_YOU_SURE_ACCEPT && relatedTo.id) {
+          this.service.removeCommitmentFromCommitment(this.commitment.id, relatedTo.id)
+        }
+      })
+
+  }
+
   handleCreateContact() {
     this.router.navigate(['/', 'contact'])
   }
@@ -298,6 +338,37 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
         dialogRef.afterClosed().subscribe((result: any) => {
           if (result && result.id) {
             this.service.addContactToCommitment(this.commitment.id, result.id)
+          }
+        })
+      }
+      )
+  }
+
+  handleOpenCommitmenttDialog() {
+
+    this.service.Commitments.pipe(
+      first()
+    )
+      .subscribe(commitments => {
+        const dialogRef = this.dialog.open(DialogAddCommitmentComponent, {
+          escapeToClose: true,
+          clickOutsideToClose: true,
+          data: {
+            commitments: commitments.sort((leftSide, rightSide) => {
+
+              const leftTitle = formatCommitmentTitle(leftSide).toLowerCase()
+              const rightTitle = formatCommitmentTitle(rightSide).toLowerCase()
+
+              if (leftTitle < rightTitle) { return -1 }
+              if (leftTitle > rightTitle) { return 1 }
+              return 0
+            })
+          }
+        })
+
+        dialogRef.afterClosed().subscribe((result: any) => {
+          if (result && result.id) {
+            this.service.addCommitmentToCommitment(this.commitment.id, result.id)
           }
         })
       }

@@ -10,6 +10,7 @@ import { CommitmentType } from '../../reducers/commitment-type/commitment-type.m
 import { WhoAnnouncedType } from '../../reducers/who-announced-type/who-announced-type.model'
 import { Subscription } from 'rxjs'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
+import { CriticalDate } from '../../reducers/critical-date/critical-date.model'
 
 @Component({
   selector: 'digital-first-commitment-edit-form',
@@ -18,11 +19,14 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 })
 export class CommitmentEditFormComponent implements OnDestroy {
 
+  @Input() showSubmit = false
+  @Input() submitButtonText = 'Submit'
   @Input() parties: Party[]
   @Input() portfolios: Portfolio[]
   @Input() announcementTypes: AnnouncementType[]
   @Input() whoAnnouncedTypes: WhoAnnouncedType[]
   @Input() commitmentTypes: CommitmentType[]
+  @Input() criticalDates: CriticalDate[]
   @Input() locations: Location[]
   @Input() busy: boolean
 
@@ -34,17 +38,17 @@ export class CommitmentEditFormComponent implements OnDestroy {
 
   form = this.fb.group({
     id: [],
-    title: ['', Validators.required],
-    location: [''],
+    title: [null, Validators.required],
     description: [''],
-    announcedby: [''],
-    date: [''],
-    party: [''],
-    announcementType: [''],
-    whoAnnouncedType: [''],
-    commitmentType: [''],
-    portfolio: [],
-    cost: [''],
+    date: [null, Validators.required],
+    announcedby: [null],
+    party: [null],
+    announcementType: [null],
+    whoAnnouncedType: [null],
+    commitmentType: [null],
+    portfolio: [null],
+    criticalDate: [null],
+    cost: [null],
   })
 
   @Input()
@@ -57,7 +61,6 @@ export class CommitmentEditFormComponent implements OnDestroy {
       const patch = {
         id: val.id,
         title: val.title,
-        location: val.location && val.location.id,
         description: val.description,
         announcedby: val.announcedby,
         date: moment(val.date).format('YYYY-MM-DD'),
@@ -66,6 +69,7 @@ export class CommitmentEditFormComponent implements OnDestroy {
         announcementType: val.announcementType && val.announcementType.id,
         commitmentType: val.commitmentType && val.commitmentType.id,
         portfolio: val.portfolio && val.portfolio.id,
+        criticalDate: val.criticalDate && val.criticalDate.id,
         cost: val.cost,
       }
 

@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects'
 import { Observable, of } from 'rxjs'
 import { Action } from '@ngrx/store'
 import { CriticalDateActionTypes, LoadCriticalDates, GetAllCriticalDates, CriticalDatesActionFailure } from './critical-date.actions'
-import { switchMap, map, catchError } from 'rxjs/operators'
+import { switchMap, map, catchError, tap } from 'rxjs/operators'
 
 import { AppDataService } from '../../services/app-data.service'
 import { DataResult, CriticalDatesResult } from '../../models'
@@ -18,6 +18,8 @@ export class CriticalDateEffects {
       map((action: GetAllCriticalDates) => action.payload ? action.payload.filter : null),
       switchMap((filter: any) => this.service.filterCriticalDates(filter)
         .pipe(
+          // tslint:disable-next-line:no-console
+          tap(result => console.log(result)),
           map((result: DataResult<CriticalDatesResult>) => new LoadCriticalDates(result)),
           catchError(error => of(new CriticalDatesActionFailure(error)))
         )

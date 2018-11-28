@@ -17,3 +17,34 @@
 .ng-value-container {
     padding: 6px 16px !important;
 }
+
+ng-select.ng-invalid.ng-touched { 
+    .ng-select-container {
+
+        .ng-value-container {    
+            border-bottom-color: $mdc-theme-error;
+            color: $mdc-theme-error;
+
+            .ng-placeholder {
+                border-bottom-color: $mdc-theme-error;
+                color: $mdc-theme-error;
+            }
+        }
+    }
+
+    .ng-select-container::after {
+        border-bottom-color: $mdc-theme-error;
+    }
+}
+
+
+ng-select[required] { 
+    .ng-select-container {
+        .ng-value-container {    
+            .ng-placeholder::after {
+                margin-left: 1px;
+                content: "*";
+            }
+        }
+    }
+}

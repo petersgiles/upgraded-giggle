@@ -14,9 +14,12 @@ export const GET_COMMITMENT = gql`
     contacts {
       id
       ccid
-      phone
       name
+      username
       email
+      jobTitle
+      firstName
+      phone
       portfolio {
         id
         title
@@ -41,6 +44,12 @@ export const GET_COMMITMENT = gql`
       colour
     }
     whoAnnouncedType {
+      id
+      title
+      icon
+      colour
+    }
+    criticalDate {
       id
       title
       icon
@@ -84,6 +93,7 @@ mutation Commitment(
   $cost: String
   $location: ID
   $announcementType: ID
+  $criticalDate: ID
   $whoAnnouncedType: ID
   $commitmentType: ID
   $date: String
@@ -99,6 +109,7 @@ mutation Commitment(
     cost: $cost
     location: $location
     announcementType: $announcementType
+    criticalDate: $criticalDate
     whoAnnouncedType: $whoAnnouncedType
     commitmentType: $commitmentType
     date: $date
@@ -113,9 +124,12 @@ mutation Commitment(
     contacts {
       id
       ccid
-      phone
       name
+      username
       email
+      jobTitle
+      firstName
+      phone
       portfolio {
         id
         title
@@ -140,6 +154,12 @@ mutation Commitment(
       colour
     }
     whoAnnouncedType {
+      id
+      title
+      icon
+      colour
+    }
+    criticalDate {
       id
       title
       icon
@@ -191,6 +211,9 @@ export const GET_ALL_COMMITMENTS = gql`
         id
       }
       commitmentType {
+        id
+      }
+      criticalDate {
         id
       }
       announcementType {

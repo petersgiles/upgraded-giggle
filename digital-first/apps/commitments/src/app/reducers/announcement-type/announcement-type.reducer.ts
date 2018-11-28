@@ -49,9 +49,9 @@ export function reducer(
       return adapter.removeOne(action.payload.id, state)
     }
 
-    case AnnouncementTypeActionTypes.DeleteAnnouncementTypes: {
-      return adapter.removeMany(action.payload.ids, state)
-    }
+    // case AnnouncementTypeActionTypes.DeleteAnnouncementTypes: {
+    //   return adapter.removeMany(action.payload.ids, state)
+    // }
 
     case AnnouncementTypeActionTypes.LoadAnnouncementTypes: {
       return adapter.upsertMany(action.payload.data.announcementTypes, {

@@ -22,7 +22,10 @@ import {
   STORE_MAP_POINT,
   REMOVE_MAP_POINT,
   MAP_POINTS_BY_COMMITMENT,
-  GET_CRITICAL_DATES
+  GET_CRITICAL_DATES,
+  RELATED_COMMITMENTS_BY_COMMITMENT,
+  STORE_RELATED_COMMITMENT,
+  REMOVE_RELATED_COMMITMENT
 } from './apollo-queries'
 import {
   AnnouncementTypesResult,
@@ -37,7 +40,9 @@ import {
   PortfoliosResult,
   WhoAnnouncedTypesResult,
   MapPointsResult,
-  ElectoratesResult
+  ElectoratesResult,
+  CriticalDatesResult,
+  RelatedCommitmentsResult
 } from '../../models'
 import { Apollo } from 'apollo-angular'
 import { AppDataService } from '../app-data.service'
@@ -47,7 +52,6 @@ import { Injectable } from '@angular/core'
 import { Observable, of, throwError } from 'rxjs'
 import { STORE_COMMITMENT_CONTACT, REMOVE_COMMITMENT_CONTACT } from './commitment-contacts'
 import { AppUserProfile } from '@digital-first/df-layouts'
-
 @Injectable({
   providedIn: 'root'
 })
@@ -55,7 +59,7 @@ export class ApolloDataService implements AppDataService {
 
   getCurrentUser(): Observable<AppUserProfile> {
 
-   const userprofile = {
+    const userprofile = {
       userid: 0,
       login: 'guest',
       isSiteAdmin: true,
@@ -150,6 +154,16 @@ export class ApolloDataService implements AppDataService {
       (result: any) => ({ commitment: result.data.deleteCommitmentMapPoint })
     )
 
+  addCommitmentToCommitment = (variables: { commitment: any, relatedTo: any }) => this.callMutate<any>(
+    { mutation: STORE_RELATED_COMMITMENT, variables: { ...variables } },
+    (result: any) => ({ commitment: result.data.storeRelatedCommitment })
+  )
+
+  removeCommitmentFromCommitment = (variables: { commitment: any, relatedTo: any }) => this.callMutate<any>(
+    { mutation: REMOVE_RELATED_COMMITMENT, variables: { ...variables } },
+    (result: any) => ({ commitment: result.data.deleteRelatedCommitment })
+  )
+
   removeElectorateFromCommitment = (variables: { commitment: any, electorate: any }) =>
     this.callMutate<any>(
       { mutation: REMOVE_COMMITMENT_ELECTORATE, variables: { ...variables } },
@@ -166,9 +180,9 @@ export class ApolloDataService implements AppDataService {
 
   filterMapPoints = (filter?: any) => this.callQuery<MapPointsResult>({ query: GET_MAP_POINTS })
 
-  filterWhoAnnouncedTypes = (filter?: any) => this.callQuery<WhoAnnouncedTypesResult>({ query: GET_WHO_ANNOUNCED_TYPES })
-  filterAnnouncementTypes = (filter?: any) => this.callQuery<AnnouncementTypesResult>({ query: GET_ANNOUNCEMENT_TYPES })
-  filterCriticalDates = (filter?: any) => this.callQuery<AnnouncementTypesResult>({ query: GET_CRITICAL_DATES })
+  filterWhoAnnouncedTypes = (filter?: any) => this.callQuery<WhoAnnouncedTypesResult>({ query: GET_WHO_ANNOUNCED_TYPES, variables: filter })
+  filterAnnouncementTypes = (filter?: any) => this.callQuery<AnnouncementTypesResult>({ query: GET_ANNOUNCEMENT_TYPES, variables: filter })
+  filterCriticalDates = (filter?: any) => this.callQuery<CriticalDatesResult>({ query: GET_CRITICAL_DATES, variables: filter })
   filterCommitments = (filter?: any) => this.callQuery<CommitmentsResult>({ query: GET_ALL_COMMITMENTS, variables: filter })
   filterPortfolios = (filter?: any) => this.callQuery<PortfoliosResult>({ query: GET_PORTFOLIOS, variables: filter })
   filterPartys = (filter?: any) => this.callQuery<PartysResult>({ query: GET_PARTIES, variables: filter })
@@ -180,6 +194,8 @@ export class ApolloDataService implements AppDataService {
   getMapPointsByCommitment = (commitment: any) =>
     this.callQuery<MapPointsResult>({ query: MAP_POINTS_BY_COMMITMENT, variables: { commitment: commitment } },
       (result: any): any => ({ data: { mapPoints: result.data.commitmentMapPoints } }))
+
+  getRelatedCommitmentsByCommitment = (commitment: any) => this.callQuery<RelatedCommitmentsResult>({ query: RELATED_COMMITMENTS_BY_COMMITMENT, variables: { commitment: commitment } })
 
   callMutate<T>(options: {
     mutation: any,

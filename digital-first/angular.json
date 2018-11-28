@@ -1028,6 +1028,14 @@
                   "maximumError": "5mb"
                 }
               ]
+            },
+            "dev": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/programs-admin/src/environments/environment.ts",
+                  "with": "apps/programs-admin/src/environments/environment.dev.ts"
+                }
+              ]
             }
           }
         },

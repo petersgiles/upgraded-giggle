@@ -28,7 +28,8 @@ import {
   CommitmentTypesResult,
   WhoAnnouncedTypesResult,
   MapPointsResult,
-  CriticalDatesResult
+  CriticalDatesResult,
+  RelatedCommitmentsResult
 } from '../../models'
 import { Commitment } from '../../reducers/commitment'
 import { arrayToHash } from '@digital-first/df-utils'
@@ -37,7 +38,7 @@ import { byIdQuery, byCommitmentIdQuery, byMapPointPlaceIdQuery, byJoinTableQuer
 import { mapContact, mapContacts, mapCommitmentContacts } from './contact'
 import { mapComments } from './comment'
 import { mapElectorates, mapCommitmentElectorates, mapMapPoints, mapCommitmentMapPoints, mapLocations } from './geo'
-import { mapCommitment, mapCommitments } from './commitment'
+import { mapCommitment, mapCommitments, mapRelatedCommitments } from './commitment'
 import { AppUserProfile } from '@digital-first/df-layouts'
 @Injectable({
   providedIn: 'root'
@@ -53,6 +54,7 @@ export class SharepointDataService implements AppDataService {
     const spCommitment = {
       WhoAnnouncedType: commitment.whoAnnouncedType,
       AnnouncementType: commitment.announcementType,
+      CriticalDate: commitment.criticalDate,
       CommitmentType: commitment.commitmentType,
       Contacts: commitment.contacts,
       Cost: commitment.cost,
@@ -116,7 +118,8 @@ export class SharepointDataService implements AppDataService {
         viewXml: byCommitmentIdQuery(criteria)
       })
     ]).pipe(
-      concatMap(([spCommitment, spContacts, spCommitmentContacts, spElectorates, spCommitmentElectorates, spPortfolios, spCommitmentPortfolios, spMapPoints, spCommitmentMapPoints]) => {
+      concatMap(([spCommitment, spContacts, spCommitmentContacts,
+        spElectorates, spCommitmentElectorates, spPortfolios, spCommitmentPortfolios, spMapPoints, spCommitmentMapPoints]) => {
         const commitment = mapCommitment(spCommitment[0])
         const contacts = arrayToHash(mapContacts(spContacts))
         const commitmentContact = mapCommitmentContacts(spCommitmentContacts)
@@ -525,5 +528,65 @@ export class SharepointDataService implements AppDataService {
         of({ commitment: { id: payload.commitment } }))
     )
   }
+
+  getRelatedCommitmentsByCommitment(commitment: number): Observable<DataResult<RelatedCommitmentsResult>> {
+
+    const viewXml = byCommitmentIdQuery({ id: commitment })
+
+    return this.sharepoint.getItems({
+      listName: 'RelatedCommitment',
+      viewXml: viewXml
+    }).pipe(
+      concatMap(items =>
+        of({
+          data: { commitmentRelatedCommitments: mapRelatedCommitments(items) },
+          loading: false
+        }))
+      )
+
+  }
+
+  removeCommitmentFromCommitment(payload: any): Observable<any> {
+    const LISTNAME = 'RelatedCommitment'
+
+    const viewXml = byJoinTableQuery({ fieldA: { name: 'Commitment', id: payload.commitment }, fieldB: { name: 'RelatedTo', id: payload.relatedTo } })
+    // tslint:disable-next-line:no-console
+    console.log('removeCommitmentFromCommitment', viewXml, payload)
+
+    return this.sharepoint.getItems({
+      listName: LISTNAME,
+      viewXml: viewXml
+    }).pipe(
+      map(mapRelatedCommitments),
+      map(result => result[0]),
+      concatMap((result: any) =>
+        this.sharepoint.removeItem({
+          listName: LISTNAME, id: result.id
+        }).pipe(
+          concatMap(_ => of({ commitment: { id: payload.commitment } }))
+        )
+      )
+    )
+  }
+
+  addCommitmentToCommitment(payload: any): Observable<any> {
+
+    const LISTNAME = 'RelatedCommitment'
+
+    const sp = {
+      Title: `${payload.commitment} ${payload.relatedTo}`,
+      Commitment: payload.commitment,
+      RelatedTo: payload.relatedTo
+    }
+
+    return this.sharepoint.storeItem({
+      listName: LISTNAME,
+      data: sp,
+    }).pipe(
+      concatMap(_ =>
+        of({ commitment: { id: payload.commitment } }))
+    )
+  }
+
   constructor(private sharepoint: SharepointJsomService) { }
 }

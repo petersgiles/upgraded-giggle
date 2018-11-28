@@ -6,3 +6,7 @@
 //   {"id":`${index++}`,"title":"First year","description":"","sortorder":999,"colour":"red","icon":"category"},
 //   {"id":`${index++}`,"title":"Undefined ","description":"","sortorder":999,"colour":"red","icon":"category"},
 // ])
+
+// db['commitment-related-commitments'].save([
+//     {"commitment": 20, "relatedTo": 19}
+// ])

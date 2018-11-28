@@ -107,6 +107,9 @@ export function reducer(
       return {...state, loading: false, saved: false, error: action.payload.error}
     }
 
+    case CommitmentActionTypes.StoreCommitment: {
+      return {...state, loading: true, saved: false, error: action.payload.error}
+    }
     default: {
       return state
     }

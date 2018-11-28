@@ -24,6 +24,8 @@ import { MapComponent } from './map/map.component'
 import { ElectorateSelectorComponent } from './electorate-selector/electorate-selector.component'
 import { NavigateButtonComponent } from './navigation-button.component'
 import { AvatarComponent } from './avatar/avatar.component'
+import { AddSubscriptionButtonComponent } from './subscriber-button.component'
+import { InfoComponent } from './info/info.component'
 
 const COMPONENTS = [
   TagsComponent,
@@ -33,6 +35,7 @@ const COMPONENTS = [
   ExpandCollapseButtonComponent,
   NavigateButtonComponent,
   DateFormatButtonComponent,
+  AddSubscriptionButtonComponent,
   AddItemButtonComponent,
   ShareButtonComponent,
   AddNotificationButtonComponent,
@@ -43,7 +46,8 @@ const COMPONENTS = [
   BusyComponent,
   MapComponent,
   ElectorateSelectorComponent,
-  AvatarComponent
+  AvatarComponent,
+  InfoComponent
 ]
 
 @NgModule({

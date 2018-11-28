@@ -22,12 +22,16 @@ export class ContactCreateFormComponent implements OnInit {
 
   form = this.fb.group({
     id: [],
+    firstName: [],
     name: ['', Validators.required],
+    jobTitle: [],
     email: ['', Validators.required],
     phone: ['', Validators.required],
-    party: [],
     portfolio: []
   })
+
+  // convenience getter for easy access to form fields
+  get controls() { return this.form.controls }
 
   constructor(private fb: FormBuilder) { }
 

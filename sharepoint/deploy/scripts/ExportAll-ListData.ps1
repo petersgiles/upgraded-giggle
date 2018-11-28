@@ -1,7 +1,7 @@
 ﻿param (
     [string] $webUrl = "http://vm-dev-lbs13/sites/commitments/",
-    [string] $binPath = "C:\Users\atpakkianathan\source\Dsuite\DF-Client\sharepoint\deploy\scripts\",
-    [string] $exportPath = "..\..\commitments\Data"
+    [string] $binPath = "$PSScriptRoot",
+    [string] $exportPath = "$PSScriptRoot\..\..\commitments\Data"
 )
 
 $listsToExport = @("AnnouncementType", "CommitmentType", "CriticalDate", "Electorate", "PoliticalParty", "Portfolio", "WhoAnnouncedType" )

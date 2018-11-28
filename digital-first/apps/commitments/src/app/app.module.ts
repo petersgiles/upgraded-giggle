@@ -45,6 +45,7 @@ import { CommitmentEditFormComponent } from './components/commitment-edit-form/c
 import { CommitmentEditComponent } from './containers/commitment-edit/commitment-edit.component'
 import { CommitmentListComponent } from './components/commitment-list/commitment-list.component'
 import { CommitmentOverviewComponent } from './containers/commitment-overview/commitment-overview.component'
+import { DialogAddCommitmentComponent } from './dialogs/dialog-add-commitment.component'
 
 import { SettingsService } from './services/settings.service'
 import { SharepointDataService } from './services/sharepoint/sharepoint-data.service'
@@ -71,6 +72,7 @@ import * as fromComment from './reducers/comment/comment.reducer'
 import * as fromContact from './reducers/contact/contact.reducer'
 import * as fromLocation from './reducers/location/location.reducer'
 import * as fromMapPoint from './reducers/map-point/map-point.reducer'
+import * as fromRelatedCommitment from './reducers/related-commitment/related-commitment.reducer'
 import * as fromCommitmentType from './reducers/commitment-type/commitment-type.reducer'
 import * as fromCriticalDate from './reducers/critical-date/critical-date.reducer'
 
@@ -90,6 +92,7 @@ import { ContactCreateComponent } from './containers/contact-create/contact-crea
 import { ContactCreateFormComponent } from './components/contact-create-form/contact-create-form.component'
 import { MapPointEffects } from './reducers/map-point/map-point.effects'
 import { CriticalDateEffects } from './reducers/critical-date/critical-date.effects'
+import { RelatedCommitmentEffects } from './reducers/related-commitment/related-commitment.effects'
 
 const COMPONENTS = [
   AppComponent,
@@ -101,7 +104,8 @@ const COMPONENTS = [
   CommitmentListComponent,
   CommitmentCreateComponent,
   ContactCreateComponent,
-  ContactCreateFormComponent
+  ContactCreateFormComponent,
+  DialogAddCommitmentComponent
 ]
 
 const ENTRYCOMPONENTS = [
@@ -110,6 +114,7 @@ const ENTRYCOMPONENTS = [
   DialogFileLockedComponent,
   DialogSpinnerOverlayComponent,
   DialogAddContactComponent,
+  DialogAddCommitmentComponent,
   DiscussionComponent,
   TagsComponent,
   ViewLayoutButtonComponent,
@@ -210,6 +215,7 @@ export let appDataServiceProvider = {
     StoreModule.forFeature('location', fromLocation.reducer),
     StoreModule.forFeature('commitmentType', fromCommitmentType.reducer),
     StoreModule.forFeature('mapPoint', fromMapPoint.reducer),
+    StoreModule.forFeature('relatedCommitment', fromRelatedCommitment.reducer),
     StoreModule.forFeature('criticalDate', fromCriticalDate.reducer),
 
     EffectsModule.forRoot([AppEffects]),
@@ -224,6 +230,7 @@ export let appDataServiceProvider = {
       ContactEffects,
       LocationEffects,
       MapPointEffects,
+      RelatedCommitmentEffects,
       PartyEffects,
       PortfolioEffects
     ]),

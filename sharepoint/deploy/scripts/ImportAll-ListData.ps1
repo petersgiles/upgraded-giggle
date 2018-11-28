@@ -1,7 +1,7 @@
 ﻿param (
-    [string] $webUrl = "https://lbs.cloud9.cabnet/sites/df/",
-    [string] $binPath = "C:\Users\atpakkianathan\source\Dsuite\DF-Client\sharepoint\deploy\scripts\",
-    [string] $importPath = "..\..\commitments\Data"
+    [string] $webUrl = "https://lbs.cloud9.cabnet/sites/commitments/",
+    [string] $binPath = "$PSScriptRoot",
+    [string] $importPath = "$PSScriptRoot\..\..\commitments\Data"
 )
 
 $listsToImport = @("AnnouncementType", "CommitmentType", "CriticalDate", "Electorate", "PoliticalParty", "Portfolio", "WhoAnnouncedType" )

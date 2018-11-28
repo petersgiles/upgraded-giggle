@@ -21,37 +21,37 @@ export function reducer(
   action: ContactActions
 ): State {
   switch (action.type) {
-    case ContactActionTypes.AddContact: {
-      return adapter.addOne(action.payload.contact, state)
-    }
+    // case ContactActionTypes.AddContact: {
+    //   return adapter.addOne(action.payload.contact, state)
+    // }
 
-    case ContactActionTypes.UpsertContact: {
-      return adapter.upsertOne(action.payload.contact, state)
-    }
+    // case ContactActionTypes.UpsertContact: {
+    //   return adapter.upsertOne(action.payload.contact, state)
+    // }
 
-    case ContactActionTypes.AddContacts: {
-      return adapter.addMany(action.payload.contacts, state)
-    }
+    // case ContactActionTypes.AddContacts: {
+    //   return adapter.addMany(action.payload.contacts, state)
+    // }
 
-    case ContactActionTypes.UpsertContacts: {
-      return adapter.upsertMany(action.payload.contacts, state)
-    }
+    // case ContactActionTypes.UpsertContacts: {
+    //   return adapter.upsertMany(action.payload.contacts, state)
+    // }
 
-    case ContactActionTypes.UpdateContact: {
-      return adapter.updateOne(action.payload.contact, state)
-    }
+    // case ContactActionTypes.UpdateContact: {
+    //   return adapter.updateOne(action.payload.contact, state)
+    // }
 
-    case ContactActionTypes.UpdateContacts: {
-      return adapter.updateMany(action.payload.contacts, state)
-    }
+    // case ContactActionTypes.UpdateContacts: {
+    //   return adapter.updateMany(action.payload.contacts, state)
+    // }
 
-    case ContactActionTypes.DeleteContact: {
-      return adapter.removeOne(action.payload.id, state)
-    }
+    // case ContactActionTypes.DeleteContact: {
+    //   return adapter.removeOne(action.payload.id, state)
+    // }
 
-    case ContactActionTypes.DeleteContacts: {
-      return adapter.removeMany(action.payload.ids, state)
-    }
+    // case ContactActionTypes.DeleteContacts: {
+    //   return adapter.removeMany(action.payload.ids, state)
+    // }
 
     case ContactActionTypes.LoadContacts: {
       return adapter.upsertMany(action.payload.data.contacts, {

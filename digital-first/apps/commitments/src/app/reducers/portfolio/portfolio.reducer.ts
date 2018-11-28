@@ -21,37 +21,37 @@ export function reducer(
   action: PortfolioActions
 ): State {
   switch (action.type) {
-    case PortfolioActionTypes.AddPortfolio: {
-      return adapter.addOne(action.payload.portfolio, state)
-    }
+    // case PortfolioActionTypes.AddPortfolio: {
+    //   return adapter.addOne(action.payload.portfolio, state)
+    // }
 
-    case PortfolioActionTypes.UpsertPortfolio: {
-      return adapter.upsertOne(action.payload.portfolio, state)
-    }
+    // case PortfolioActionTypes.UpsertPortfolio: {
+    //   return adapter.upsertOne(action.payload.portfolio, state)
+    // }
 
-    case PortfolioActionTypes.AddPortfolios: {
-      return adapter.addMany(action.payload.portfolios, state)
-    }
+    // case PortfolioActionTypes.AddPortfolios: {
+    //   return adapter.addMany(action.payload.portfolios, state)
+    // }
 
-    case PortfolioActionTypes.UpsertPortfolios: {
-      return adapter.upsertMany(action.payload.portfolios, state)
-    }
+    // case PortfolioActionTypes.UpsertPortfolios: {
+    //   return adapter.upsertMany(action.payload.portfolios, state)
+    // }
 
-    case PortfolioActionTypes.UpdatePortfolio: {
-      return adapter.updateOne(action.payload.portfolio, state)
-    }
+    // case PortfolioActionTypes.UpdatePortfolio: {
+    //   return adapter.updateOne(action.payload.portfolio, state)
+    // }
 
-    case PortfolioActionTypes.UpdatePortfolios: {
-      return adapter.updateMany(action.payload.portfolios, state)
-    }
+    // case PortfolioActionTypes.UpdatePortfolios: {
+    //   return adapter.updateMany(action.payload.portfolios, state)
+    // }
 
-    case PortfolioActionTypes.DeletePortfolio: {
-      return adapter.removeOne(action.payload.id, state)
-    }
+    // case PortfolioActionTypes.DeletePortfolio: {
+    //   return adapter.removeOne(action.payload.id, state)
+    // }
 
-    case PortfolioActionTypes.DeletePortfolios: {
-      return adapter.removeMany(action.payload.ids, state)
-    }
+    // case PortfolioActionTypes.DeletePortfolios: {
+    //   return adapter.removeMany(action.payload.ids, state)
+    // }
 
     case PortfolioActionTypes.LoadPortfolios: {
       return adapter.upsertMany(action.payload.data.portfolios, {

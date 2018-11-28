@@ -13,6 +13,7 @@ import { Location } from '../../reducers/location/location.model'
 import { AnnouncementType } from '../../reducers/announcement-type/announcement-type.model'
 import { CommitmentType } from '../../reducers/commitment-type/commitment-type.model'
 import { WhoAnnouncedType } from '../../reducers/who-announced-type/who-announced-type.model'
+import { CriticalDate } from '../../reducers/critical-date/critical-date.model'
 
 @Component({
   selector: 'digital-first-commitment-create',
@@ -25,6 +26,7 @@ export class CommitmentCreateComponent implements OnInit, OnDestroy {
   currentComments$: Observable<Comment[]>
   selectId$: Subscription
   activity$: Observable<any>
+  criticalDates$: Observable<CriticalDate[]>
   announcementTypes$: Observable<AnnouncementType[]>
   commitmentTypes$: Observable<CommitmentType[]>
   whoAnnouncedTypes$: Observable<WhoAnnouncedType[]>
@@ -44,6 +46,7 @@ export class CommitmentCreateComponent implements OnInit, OnDestroy {
     this.activity$ = this.service.CommitmentActivity
 
     this.whoAnnouncedTypes$ = this.service.WhoAnnouncedTypes
+    this.criticalDates$ = this.service.CriticalDates
     this.announcementTypes$ = this.service.AnnouncementTypes
     this.commitmentTypes$ = this.service.CommitmentTypes
     this.parties$ = this.service.Parties
@@ -52,8 +55,8 @@ export class CommitmentCreateComponent implements OnInit, OnDestroy {
 
     this.service.getAllWhoAnnouncedTypes()
     this.service.getAllAnnouncementTypes()
+    this.service.getAllCriticalDates()
     this.service.getAllCommitmentTypes()
-    this.service.getAllLocations()
     this.service.getAllPartys()
     this.service.getAllPortfolios()
 
@@ -65,7 +68,13 @@ export class CommitmentCreateComponent implements OnInit, OnDestroy {
         (next: any) => {
           if (next) {
             this.formBusy = false
+            // tslint:disable-next-line:no-console
+            console.log(next)
             this.showSnackBar(next.message)
+            if (next.code === 'stored') {
+
+              this.router.navigate(['/', 'commitment', next.data.id])
+            }
           }
         },
         error => this.showSnackBar(error)
@@ -80,7 +89,7 @@ export class CommitmentCreateComponent implements OnInit, OnDestroy {
         align: 'center',
         multiline: false,
         dismissOnAction: false,
-        focusAction: true,
+        focusAction: false,
         actionOnBottom: false,
       })
 

@@ -10,8 +10,11 @@ export abstract class AppDataService {
   abstract getCurrentUser(): Observable<any>
 
   abstract removeElectorateFromCommitment(payload: any): Observable<any>
-
   abstract addElectorateToCommitment(payload: any): Observable<any>
+
+  abstract removeCommitmentFromCommitment(payload: any): Observable<any>
+  abstract addCommitmentToCommitment(payload: any): Observable<any>
+  abstract getRelatedCommitmentsByCommitment(commitment: any): Observable<any>
 
   abstract storeMapPoint(mapPoint: any): Observable<any>
   abstract removeMapPoint(placeId: any): Observable<any>
