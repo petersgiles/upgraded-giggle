@@ -5,7 +5,6 @@ import { toTree } from '@digital-first/df-utils'
 import * as fromCommitment from './commitment.reducer'
 import { getCommitmentTypeEntities } from '../commitment-type'
 import { getLocationEntities } from '../location'
-import { getAllComments } from '../comment'
 import { getMapPointEntities } from '../map-point'
 
 import { getPartyEntities } from '../party'
@@ -49,13 +48,10 @@ export const getLookupEnitites = createSelector(
 export const getCurrentCommitment = createSelector(
     getCommitmentEntities,
     getCurrentCommitentId,
-    getAllComments,
     getLookupEnitites,
     getMapPointEntities,
-    (commitments, current, comments, lookups, mapPoints) => {
+    (commitments, current,  lookups, mapPoints) => {
         const commitment = commitments[current]
-        const discussionItems = comments.map(c => ({ ...c })) // creating mutatable list
-
         if (commitment) {
 
             const commitmentMapPoints = (commitment.mapPoints || []).reduce((acc, item) => {
@@ -77,14 +73,6 @@ export const getCurrentCommitment = createSelector(
                 commitmentType: commitment.commitmentType ? lookups.commitmentTypes[commitment.commitmentType.id] : null,
                 mapPoints: commitmentMapPoints,
                 date: moment(commitment.date),
-
-                discussion: toTree(discussionItems, {
-                    id: 'id',
-                    parentId: 'parent',
-                    children: 'children',
-                    level: 'level',
-                    firstParentId: null
-                })
             }
 
             return mappedCommitment

@@ -142,19 +142,6 @@ export class SharepointDataService implements AppDataService {
       })
     )
 
-  getCommentsByCommitment(commitment: number): Observable<DataResult<CommentsResult>> {
-    return this.sharepoint.getItems({
-      listName: 'CommitmentComment',
-      viewXml: byCommitmentIdQuery({ id: commitment })
-    }).pipe(
-      concatMap((comments: any) =>
-        of({
-          data: { comments: mapComments(comments) },
-          loading: false
-        }))
-    )
-  }
-
   getMapPointsByCommitment(commitment: number): Observable<DataResult<MapPointsResult>> {
 
     const viewXml = byCommitmentIdQuery({ id: commitment })
@@ -332,28 +319,6 @@ export class SharepointDataService implements AppDataService {
     return this.sharepoint.storeItem({
       listName: 'Contact',
       data: spContact,
-    })
-  }
-
-  storeComment(comment: { commitment: any; parent: any; comment: any; }): Observable<any> {
-
-    const spComment = {
-      Title: comment.commitment,
-      Commitment: comment.commitment,
-      Parent: comment.parent,
-      Text: comment.comment
-    }
-
-    return this.sharepoint.storeItem({
-      listName: 'CommitmentComment',
-      data: spComment,
-    })
-  }
-
-  deleteComment(comment: { id: any }) {
-    return this.sharepoint.removeItem({
-      listName: 'CommitmentComment',
-      id: comment.id,
     })
   }
 

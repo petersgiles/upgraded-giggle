@@ -1,5 +1,4 @@
 export * from './announcement-types'
-export * from './comments'
 export * from './commitment-types'
 export * from './commitments'
 export * from './contacts'

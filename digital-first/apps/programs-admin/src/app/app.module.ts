@@ -69,8 +69,8 @@ import { AppEffects } from './reducers/app.effects'
 import { RouterEffects } from './reducers/router.effects'
 import { FEDERATEDLOGINAPIPATH } from '@digital-first/df-app-tokens'
 
-import { FileDropModule } from 'ngx-file-drop';
-import { HomeaffairsComponent } from './containers/homeaffairs/homeaffairs.component';
+import { FileDropModule } from 'ngx-file-drop'
+import { HomeaffairsComponent } from './containers/homeaffairs/homeaffairs.component'
 
 const COMPONENTS = [
   AppComponent,

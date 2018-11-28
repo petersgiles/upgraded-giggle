@@ -25,7 +25,6 @@ import { AppDataService } from '../../services/app-data.service'
 import { DataResult, CommitmentsResult, CommitmentResult } from '../../models'
 import { AppNotification, ClearAppNotification } from '../app.actions'
 import { GetMapPointsByCommitment, ClearMapPoints } from '../map-point/map-point.actions'
-import { ClearComments, GetCommentsByCommitment } from '../comment/comment.actions'
 import { ClearRelatedCommitments, GetRelatedCommitmentsByCommitment } from '../related-commitment/related-commitment.actions'
 
 @Injectable()
@@ -52,10 +51,8 @@ export class CommitmentEffects {
         .pipe(
           concatMap((result: DataResult<CommitmentResult>) => [
             new UpsertCommitment(result),
-            new ClearComments(),
             new ClearMapPoints(),
             new ClearRelatedCommitments(),
-            new GetCommentsByCommitment({ commitment: result.data.commitment.id }),
             new GetMapPointsByCommitment({ commitment: result.data.commitment.id }),
             new GetRelatedCommitmentsByCommitment({ commitment: result.data.commitment.id })
           ]),

@@ -11,7 +11,7 @@ import { AnnouncementType } from '../reducers/announcement-type/announcement-typ
 import { Party } from '../reducers/party/party.model'
 import { Portfolio } from '../reducers/portfolio/portfolio.model'
 import { Commitment } from '../reducers/commitment/commitment.model'
-import { Comment } from '../reducers/comment/comment.model'
+import { Comment } from '../reducers/commitment-discussion/comment.model'
 import { Contact } from '../reducers/contact/contact.model'
 import { Location } from '../reducers/location/location.model'
 import { CommitmentType } from '../reducers/commitment-type/commitment-type.model'
@@ -31,20 +31,17 @@ import {
   AddCommitmentToCommitment,
   RemoveCommitmentFromCommitment
 } from '../reducers/commitment/commitment.actions'
-import { GetMapPointsByCommitment, ClearMapPoints } from '../reducers/map-point/map-point.actions'
 import { GetAllAnnouncementTypes } from '../reducers/announcement-type/announcement-type.actions'
 import { GetAllCriticalDates } from '../reducers/critical-date/critical-date.actions'
 import { GetAllContacts, StoreContact } from '../reducers/contact/contact.actions'
 import { GetAllPartys } from '../reducers/party/party.actions'
 import { GetAllPortfolios } from '../reducers/portfolio/portfolio.actions'
 import { GetAllCommitmentTypes } from '../reducers/commitment-type/commitment-type.actions'
-import { GetCommentsByCommitment, StoreComment, RemoveComment, DeleteComment, ClearComments } from '../reducers/comment/comment.actions'
 import { AddRefiner, RemoveRefiner, ClearAllRefiners, ExpandRefinerGroup, CollapseRefinerGroup, SetTextRefiner } from '../reducers/commitment-overview/commitment-overview.actions'
 import { GetAllWhoAnnouncedTypes } from '../reducers/who-announced-type/who-announced-type.actions'
 import { ChangeTimeFormat, CollapsePanel, ExpandPanel } from '../reducers/commitment-edit/commitment-edit.actions'
 
 import * as fromRoot from '../reducers'
-import { GetRelatedCommitmentsByCommitment, ClearRelatedCommitments } from '../reducers/related-commitment/related-commitment.actions'
 
 @Injectable({
   providedIn: 'root'
@@ -119,20 +116,6 @@ export class CommitmentDataService {
 
   get AnnouncementTypesError(): Observable<any> {
     return this.store.pipe(select(fromRoot.getCommitmentError))
-  }
-
-  /// Comments
-
-  get Comments(): Observable<Comment[]> {
-    return this.store.pipe(select(fromRoot.getAllComments))
-  }
-
-  get CommentsLoading(): Observable<boolean> {
-    return this.store.pipe(select(fromRoot.getCommentLoading))
-  }
-
-  get CommentsError(): Observable<any> {
-    return this.store.pipe(select(fromRoot.getCommentError))
   }
 
   /// Commitments
@@ -353,14 +336,5 @@ export class CommitmentDataService {
 
   upsertCommitment(commitment: Commitment) {
     this.store.dispatch(new StoreCommitment(commitment))
-  }
-
-  createComment(comment: { commitment: any; parent: any; comment: any; }) {
-    this.store.dispatch(new StoreComment(comment))
-  }
-
-  deleteComment(comment: { id: any }): any {
-    this.store.dispatch(new DeleteComment(comment))
-    this.store.dispatch(new RemoveComment(comment))
   }
 }
