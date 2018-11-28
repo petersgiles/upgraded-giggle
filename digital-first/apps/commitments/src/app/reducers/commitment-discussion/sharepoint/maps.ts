@@ -16,3 +16,12 @@ export const mapComment = (comment): any => {
 }
 
 export const mapComments = (comments): Comment[] => comments.map(mapComment)
+
+export const mapCommitmentComment = (item): any =>
+    ({
+        id: item.ID,
+        commitment: idFromLookup(item.Commitment),
+        comment: idFromLookup(item.Comment),
+    })
+
+export const mapCommitmentComments = (items): any[] => items.map(mapCommitmentComment)

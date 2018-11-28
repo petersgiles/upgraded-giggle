@@ -51,7 +51,7 @@ export class StoreComment implements Action {
 export class RemoveComment implements Action {
   readonly type = CommitmentDiscussionActionTypes.RemoveComment
 
-  constructor(public payload: {id: number}) {}
+  constructor(public payload: {id: number, commitment?: any}) {}
 }
 
 export class CommentActionFailure implements Action {

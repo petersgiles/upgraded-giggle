@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core'
+import { Component, OnInit, Input, OnDestroy } from '@angular/core'
 import { CommitmentDiscussionService } from '../../reducers/commitment-discussion/commitment-discussion.service'
 import { Observable, Subscription } from 'rxjs'
 import { Comment } from '../../reducers/commitment-discussion/comment.model'
@@ -11,21 +11,19 @@ import { MdcDialog } from '@angular-mdc/web'
   templateUrl: './commitment-discussion.component.html',
   styles: [``]
 })
-export class CommitmentDiscussionComponent implements OnInit {
+export class CommitmentDiscussionComponent implements OnInit, OnDestroy {
+
   _commitment: number
 
   expanded: boolean
-  timeFormat: any
+  timeFormat: 'dateFormat' | 'timeAgo' | 'calendar'
   discussion: Comment[]
   activeComment: any
-  expandedSubscription$: Subscription
   discussion$: Observable<Comment[]>
-  constructor(public dialog: MdcDialog, private service: CommitmentDiscussionService) { }
+  timeFormatSubscription$: Subscription
+  expandedSubscription$: Subscription
 
-  ngOnInit() {
-    this.expandedSubscription$ = this.service.Expanded.subscribe(p => this.expanded = p)
-    this.discussion$ = this.service.Comments
-  }
+  constructor(public dialog: MdcDialog, private service: CommitmentDiscussionService) { }
 
   @Input()
   set commitment(val: number) {
@@ -72,7 +70,7 @@ export class CommitmentDiscussionComponent implements OnInit {
         // tslint:disable-next-line:no-console
         console.log(result)
         if (result === ARE_YOU_SURE_ACCEPT && commentId) {
-          this.service.deleteComment({ id: commentId })
+          this.service.deleteComment({ id: commentId, commitment: this._commitment })
         }
       })
   }
@@ -105,7 +103,18 @@ export class CommitmentDiscussionComponent implements OnInit {
 
   }
 
-  handleChangeDateFormat($event) {
+  handleChangeDateFormat(format: 'dateFormat' | 'timeAgo' | 'calendar') {
+    this.service.changeTimeFormat(format)
+  }
 
+  ngOnInit() {
+    this.discussion$ = this.service.Comments
+    this.expandedSubscription$ = this.service.Expanded.subscribe(p => this.expanded = p)
+    this.timeFormatSubscription$ = this.service.TimeFormat.subscribe(p => this.timeFormat = p)
+  }
+
+  ngOnDestroy(): void {
+    this.expandedSubscription$.unsubscribe()
+    this.timeFormatSubscription$.unsubscribe()
   }
 }

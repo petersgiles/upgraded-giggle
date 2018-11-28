@@ -6,7 +6,7 @@ import { Store, select } from '@ngrx/store'
 import { Comment } from './comment.model'
 
 import * as fromRoot from '..'
-import { ExpandPanel, CollapsePanel, GetCommentsByCommitment, StoreComment, RemoveComment } from './commitment-discussion.actions'
+import { ExpandPanel, CollapsePanel, GetCommentsByCommitment, StoreComment, RemoveComment, ChangeTimeFormat } from './commitment-discussion.actions'
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +39,14 @@ export class CommitmentDiscussionService {
     return this.store.pipe(select(fromRoot.getCurrentCommitmentDiscussion))
   }
 
+  get TimeFormat(): Observable<'dateFormat' | 'timeAgo' | 'calendar'> {
+    return this.store.pipe(select(fromRoot.getCommitmentDiscussionTimeFormat))
+  }
+
+  changeTimeFormat(format: 'dateFormat' | 'timeAgo' | 'calendar'): any {
+    this.store.dispatch(new ChangeTimeFormat(format))
+  }
+
   get CommentsLoading(): Observable<boolean> {
     return this.store.pipe(select(fromRoot.getDiscussionCommentLoading))
   }
@@ -51,7 +59,7 @@ export class CommitmentDiscussionService {
     this.store.dispatch(new StoreComment(comment))
   }
 
-  deleteComment(comment: { id: any }): any {
+  deleteComment(comment: { id: any, commitment?: any }): any {
     this.store.dispatch(new RemoveComment(comment))
   }
 

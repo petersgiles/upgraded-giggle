@@ -4,7 +4,7 @@ import { Comment } from './comment.model'
 
 export interface State {
   expanded: boolean
-  timeFormat: 'dateFormat' | 'timeAgo' | 'calendar' | string
+  timeFormat: 'dateFormat' | 'timeAgo' | 'calendar'
   activeComment: any
   comments: []
   loading: boolean

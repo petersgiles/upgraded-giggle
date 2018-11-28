@@ -45,7 +45,7 @@ export class CommentDiscussionEffects {
     .pipe(
       ofType(CommitmentDiscussionActionTypes.RemoveComment),
       map((action: RemoveComment) => action.payload),
-      switchMap((comment: any) => this.service.deleteComment(comment)
+      switchMap((payload: any) => this.service.deleteComment(payload)
         .pipe(
           // tslint:disable-next-line:no-console
           tap(result => console.log('removeComment', result)),
