@@ -2,26 +2,23 @@ import { CommitmentDiscussionActionTypes, CommitmentDiscussionActions } from './
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity'
 import { Comment } from './comment.model'
 
-export interface State extends EntityState<Comment> {
+export interface State {
   expanded: boolean
   timeFormat: 'dateFormat' | 'timeAgo' | 'calendar' | string
   activeComment: any
+  comments: []
   loading: boolean
   error: any
 }
 
-export const adapter: EntityAdapter<Comment> = createEntityAdapter<Comment>({
-  selectId: entitiy => entitiy.id,
-})
-
-export const initialState: State = adapter.getInitialState({
+export const initialState: State = {
   expanded: false,
   timeFormat: 'timeAgo',
   activeComment: null,
   comments: null,
   loading: false,
   error: null,
-})
+}
 
 export function reducer(
   state = initialState,
@@ -55,15 +52,21 @@ export function reducer(
         // tslint:disable-next-line:no-console
         console.log('LoadComments', action.payload)
 
-      return adapter.addMany(action.payload.data.comments, {
+      return {
           ...state,
+          comments: action.payload.data.comments,
           loading: action.payload.loading,
           error: action.payload.error
-        })
+        }
     }
 
     case CommitmentDiscussionActionTypes.ClearComments: {
-      return adapter.removeAll(state)
+      return {
+        ...state,
+        comments: null,
+        loading: false,
+        error: null,
+      }
     }
 
     case CommitmentDiscussionActionTypes.GetCommentsByCommitment: {
@@ -75,13 +78,7 @@ export function reducer(
   }
 }
 
-export const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal,
-} = adapter.getSelectors()
-
+export const selectAll = (state: State) => state.comments
 export const getExpanded = (state: State) => state.expanded
 export const getTimeFormat = (state: State) => state.timeFormat
 export const getDiscussionActiveComment = (state: State) => state.activeComment

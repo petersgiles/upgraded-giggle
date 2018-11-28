@@ -5,12 +5,10 @@ import { toTree } from '@digital-first/df-utils'
 
 export const getCommitmentDiscussionState = state => state.commitmentDiscussion
 
-export const {
-    selectIds: getDiscussionCommentIds,
-    selectEntities: getDiscussionCommentEntities,
-    selectAll: getAllDiscussionComments,
-    selectTotal: getTotalDiscussionComments,
-} = fromCommitmentDiscussion.adapter.getSelectors(getCommitmentDiscussionState)
+export const getAllDiscussionComments = createSelector(
+    getCommitmentDiscussionState,
+    state => state.comments
+)
 
 export const getDiscussionCommentLoading = createSelector(
     getCommitmentDiscussionState,

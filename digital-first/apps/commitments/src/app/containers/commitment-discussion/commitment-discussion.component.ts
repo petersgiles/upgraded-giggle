@@ -32,9 +32,9 @@ export class CommitmentDiscussionComponent implements OnInit {
     this._commitment = val
     // tslint:disable-next-line:no-console
     console.log('commitment', val)
-    // if (val) {
-    //   this.service.getCommentsByCommitment(val)
-    // }
+    if (val) {
+      this.service.getCommentsByCommitment(val)
+    }
   }
 
   get commitment() {
