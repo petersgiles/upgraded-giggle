@@ -1,16 +1,16 @@
 import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import * as moment from 'moment'
-import { Party } from '../../reducers/party/party.model'
-import { Portfolio } from '../../reducers/portfolio/portfolio.model'
-import { AnnouncementType } from '../../reducers/announcement-type/announcement-type.model'
+import { Party } from '../../models/party.model'
+import { Portfolio } from '../../models/portfolio.model'
+import { AnnouncementType } from '../../models/announcement-type.model'
 import { Commitment } from '../../reducers/commitment/commitment.model'
-import { Location } from '../../reducers/location/location.model'
-import { CommitmentType } from '../../reducers/commitment-type/commitment-type.model'
-import { WhoAnnouncedType } from '../../reducers/who-announced-type/who-announced-type.model'
+import { Location } from '../../models/location.model'
+import { CommitmentType } from '../../models/commitment-type.model'
+import { WhoAnnouncedType } from '../../models/who-announced-type.model'
 import { Subscription } from 'rxjs'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
-import { CriticalDate } from '../../reducers/critical-date/critical-date.model'
+import { CriticalDate } from '../../models/critical-date.model'
 
 @Component({
   selector: 'digital-first-commitment-edit-form',

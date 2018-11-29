@@ -1,12 +1,12 @@
 import { idFromLookup } from '@digital-first/df-sharepoint'
 
-import { AnnouncementType } from '../../reducers/announcement-type/announcement-type.model'
-import { Party } from '../../reducers/party/party.model'
-import { Portfolio } from '../../reducers/portfolio/portfolio.model'
-import { CommitmentType } from '../../reducers/commitment-type/commitment-type.model'
+import { AnnouncementType } from '../../models/announcement-type.model'
+import { Party } from '../../models/party.model'
+import { Portfolio } from '../../models/portfolio.model'
+import { CommitmentType } from '../../models/commitment-type.model'
 
-import { WhoAnnouncedType } from '../../reducers/who-announced-type/who-announced-type.model'
-import { CriticalDate } from '../../reducers/critical-date/critical-date.model'
+import { WhoAnnouncedType } from '../../models/who-announced-type.model'
+import { CriticalDate } from '../../models/critical-date.model'
 
 export const mapAnnouncementType = (announcementType): any => ({
   id: announcementType.ID,

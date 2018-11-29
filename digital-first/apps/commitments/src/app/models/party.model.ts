@@ -4,3 +4,7 @@ export interface Party {
   icon?: string
   colour?: string
 }
+
+export interface PartysResult {
+  parties: Party[]
+}

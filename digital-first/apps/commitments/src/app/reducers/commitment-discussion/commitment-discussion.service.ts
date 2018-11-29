@@ -15,26 +15,6 @@ export class CommitmentDiscussionService {
 
   constructor(private store: Store<fromRoot.State>) { }
 
-  // Notification
-
-  get Notification(): Observable<string> {
-    return this.store.pipe(select(fromRoot.getNotification))
-  }
-
-  getCurrentUser(): Observable<any> {
-    return this.store.pipe(select(fromRoot.getCurrentUserProfile))
-  }
-
-  /// Comments
-
-  get Expanded(): Observable<boolean> {
-    return this.store.pipe(select(fromRoot.getCommitmentDiscussionPanelExpanded))
-  }
-
-  getCommentsByCommitment(commitment: number): any {
-    this.store.dispatch(new GetCommentsByCommitment({ commitment: commitment}))
-}
-
   get Comments(): Observable<Comment[]> {
     return this.store.pipe(select(fromRoot.getCurrentCommitmentDiscussion))
   }
@@ -43,8 +23,8 @@ export class CommitmentDiscussionService {
     return this.store.pipe(select(fromRoot.getCommitmentDiscussionTimeFormat))
   }
 
-  changeTimeFormat(format: 'dateFormat' | 'timeAgo' | 'calendar'): any {
-    this.store.dispatch(new ChangeTimeFormat(format))
+  get Expanded(): Observable<boolean> {
+    return this.store.pipe(select(fromRoot.getCommitmentDiscussionPanelExpanded))
   }
 
   get CommentsLoading(): Observable<boolean> {
@@ -53,6 +33,14 @@ export class CommitmentDiscussionService {
 
   get CommentsError(): Observable<any> {
     return this.store.pipe(select(fromRoot.getDiscussionCommentError))
+  }
+
+  getCommentsByCommitment(commitment: number): any {
+    this.store.dispatch(new GetCommentsByCommitment({ commitment: commitment }))
+  }
+
+  changeTimeFormat(format: 'dateFormat' | 'timeAgo' | 'calendar'): any {
+    this.store.dispatch(new ChangeTimeFormat(format))
   }
 
   createComment(comment: { commitment: any; parent: any; comment: any; }) {
@@ -66,31 +54,9 @@ export class CommitmentDiscussionService {
   expandPanel() {
     this.store.dispatch(new ExpandPanel())
   }
+
   collapsePanel() {
     this.store.dispatch(new CollapsePanel())
   }
 
 }
-
-// createComment(comment: { commitment: any; parent: any; comment: any; }) {
-//   this.store.dispatch(new StoreComment(comment))
-// }
-
-// deleteComment(comment: { id: any }): any {
-//   this.store.dispatch(new DeleteComment(comment))
-//   this.store.dispatch(new RemoveComment(comment))
-// }
-
-// /// Comments
-
-// get Comments(): Observable<Comment[]> {
-//   return this.store.pipe(select(fromRoot.getAllComments))
-// }
-
-// get CommentsLoading(): Observable<boolean> {
-//   return this.store.pipe(select(fromRoot.getCommentLoading))
-// }
-
-// get CommentsError(): Observable<any> {
-//   return this.store.pipe(select(fromRoot.getCommentError))
-// }

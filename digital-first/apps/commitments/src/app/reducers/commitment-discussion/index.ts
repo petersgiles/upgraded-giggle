@@ -1,6 +1,5 @@
 import { createSelector } from '@ngrx/store'
 
-import * as fromCommitmentDiscussion from './commitment-discussion.reducer'
 import { toTree } from '@digital-first/df-utils'
 
 export const getCommitmentDiscussionState = state => state.commitmentDiscussion

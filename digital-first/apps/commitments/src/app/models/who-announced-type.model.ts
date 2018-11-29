@@ -4,3 +4,7 @@ export interface WhoAnnouncedType {
   icon?: string
   colour?: string
 }
+
+export interface WhoAnnouncedTypesResult {
+  whoAnnouncedTypes: WhoAnnouncedType[]
+}

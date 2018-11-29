@@ -1,5 +1,5 @@
 import { MapPoint } from '../../reducers/map-point/map-point.model'
-import { Location } from '../../reducers/location/location.model'
+import { Location } from '../../models/location.model'
 import { idFromLookup } from '@digital-first/df-sharepoint'
 
 export const mapCommitmentMapPoint = (commitmentMapPoint): any => ({
