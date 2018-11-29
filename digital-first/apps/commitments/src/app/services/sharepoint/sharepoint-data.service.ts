@@ -21,6 +21,7 @@ import {
   CommitmentsResult,
   AnnouncementTypesResult,
   CommentsResult,
+  SubscriptionResult,
   PortfoliosResult,
   PartysResult,
   ContactsResult,

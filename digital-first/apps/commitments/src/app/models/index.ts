@@ -36,8 +36,13 @@ export interface CriticalDatesResult {
 export interface WhoAnnouncedTypesResult {
   whoAnnouncedTypes: WhoAnnouncedType[]
 }
+
 export interface CommentsResult {
   comments
+}
+
+export interface SubscriptionResult {
+  subscription
 }
 export interface CommitmentResult {
   commitment: Commitment
