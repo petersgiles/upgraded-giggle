@@ -6,10 +6,7 @@ import {
   SimpleLayoutComponent
 } from '@digital-first/df-layouts'
 import { ErrorPageNotFoundComponent, ErrorServerComponent } from '@digital-first/df-pages'
-import { CommitmentOverviewComponent } from './containers/commitment-overview/commitment-overview.component'
-import { CommitmentEditComponent } from './containers/commitment-edit/commitment-edit.component'
-import { CommitmentCreateComponent } from './containers/commitment-create/commitment-create.component'
-import { ContactCreateComponent } from './containers/contact-create/contact-create.component'
+import { CommitmentOverviewComponent, CommitmentEditComponent, CommitmentCreateComponent, ContactCreateComponent } from './pages'
 
 const routes: Routes = [
   { path: '', redirectTo: 'commitments', pathMatch: 'full' },
@@ -25,7 +22,7 @@ const routes: Routes = [
         component: HomeComponent
       }
     ]
-  },  {
+  }, {
     path: 'contact',
     component: FullLayoutComponent,
     data: {
@@ -49,7 +46,7 @@ const routes: Routes = [
         component: CommitmentOverviewComponent,
       }
     ]
-  },  {
+  }, {
     path: 'commitment',
     component: FullLayoutComponent,
     data: {
@@ -89,4 +86,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

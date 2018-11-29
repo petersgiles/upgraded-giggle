@@ -67,7 +67,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
       relatedItemsPanelExpanded: false,
     }
 
-  commitmentEditDiscussionTimeFormat: Observable<'dateFormat' | 'timeAgo' | 'calendar'>
   formBusy = false
   isSubscribed$: Observable<boolean>
 
@@ -119,8 +118,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
           })
       }
     )
-
-    this.commitmentEditDiscussionTimeFormat = this.service.CommitmentEditDiscussionTimeFormat
 
     this.service.getAllCommitments()
     this.service.getAllWhoAnnouncedTypes()
@@ -193,26 +190,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.router.navigate(['/', 'commitments'])
   }
 
-  handleDeleteComment(comment) {
-
-    const commentId = comment.id
-
-    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
-      escapeToClose: true,
-      clickOutsideToClose: true
-    })
-
-    dialogRef.afterClosed()
-      .pipe(
-        first()
-      )
-      .subscribe(result => {
-        if (result === ARE_YOU_SURE_ACCEPT && commentId) {
-          this.service.deleteComment({ id: commentId })
-        }
-      })
-  }
-
   handleAddMapPoint(mapPoint) {
     this.service.addMapPointToCommitment(this.commitment.id, mapPoint)
   }
@@ -237,28 +214,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   changeDateFormat(format) {
     this.service.changeCommitmentEditDiscussionTimeFormat(format)
-  }
-
-  handleReplyToComment(comment) {
-    const oldActive = this.activeComment
-    this.activeComment = null
-    if (comment) {
-      if (oldActive !== comment.id) {
-        this.activeComment = comment.id
-      }
-    }
-  }
-
-  handleAddComment(newComment) {
-
-    const parentId = newComment.parent ? newComment.parent.id : null
-
-    this.service.createComment({
-      commitment: newComment.hostId,
-      parent: parentId,
-      comment: newComment.text
-    })
-    this.activeComment = null
   }
 
   handleTabScroll(el) {

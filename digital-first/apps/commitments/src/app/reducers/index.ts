@@ -31,7 +31,6 @@ import * as fromCommitment from './commitment/commitment.reducer'
 import * as fromPortfolio from './portfolio/portfolio.reducer'
 import * as fromUser from './user/user.reducer'
 import * as fromParty from './party/party.reducer'
-import * as fromComment from './comment/comment.reducer'
 import * as fromContact from './contact/contact.reducer'
 import * as fromCriticalDate from './critical-date/critical-date.reducer'
 import * as fromLocation from './location/location.reducer'
@@ -40,9 +39,17 @@ import * as fromRelatedCommitment from './related-commitment/related-commitment.
 import * as fromCommitmentType from './commitment-type/commitment-type.reducer'
 import * as fromCommitmentOverview from './commitment-overview/commitment-overview.reducer'
 import * as fromCommitmentEdit from './commitment-edit/commitment-edit.reducer'
+import * as fromCommitmentDiscussion from './commitment-discussion/commitment-discussion.reducer'
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
-    return localStorageSync({ keys: [{ 'auth': ['status'] }, 'commitmentOverview', 'commitmentEdit'], rehydrate: true })(reducer)
+    return localStorageSync({
+        keys: [
+            { 'auth': ['status'] },
+            'commitmentOverview',
+            { 'commitmentEdit': ['expandedPanels'] },
+            { 'commitmentDiscussion': ['expanded', 'timeFormat'] }
+        ], rehydrate: true
+    })(reducer)
 }
 
 // console.log all actions
@@ -59,13 +66,13 @@ export interface State {
     criticalDate: fromCriticalDate.State
     portfolio: fromPortfolio.State
     party: fromParty.State
-    comment: fromComment.State
     contact: fromContact.State
     location: fromLocation.State
     mapPoint: fromMapPoint.State
     commitmentType: fromCommitmentType.State
     commitmentOverview: fromCommitmentOverview.State
     commitmentEdit: fromCommitmentEdit.State
+    commitmentDiscussion: fromCommitmentDiscussion.State
 
 }
 
@@ -80,13 +87,13 @@ export const reducers: ActionReducerMap<State> = {
     criticalDate: fromCriticalDate.reducer,
     portfolio: fromPortfolio.reducer,
     party: fromParty.reducer,
-    comment: fromComment.reducer,
     contact: fromContact.reducer,
     location: fromLocation.reducer,
     mapPoint: fromMapPoint.reducer,
     commitmentType: fromCommitmentType.reducer,
     commitmentOverview: fromCommitmentOverview.reducer,
-    commitmentEdit: fromCommitmentEdit.reducer
+    commitmentEdit: fromCommitmentEdit.reducer,
+    commitmentDiscussion: fromCommitmentDiscussion.reducer
 }
 
 export const getNotificationState = state => state.notification
@@ -103,12 +110,12 @@ export * from './commitment-type'
 export * from './location'
 export * from './map-point'
 export * from './contact'
-export * from './comment'
 export * from './party'
 export * from './portfolio'
 export * from './announcement-type'
 export * from './commitment-overview'
 export * from './commitment-edit'
+export * from './commitment-discussion'
 export * from './commitment'
 export * from './who-announced-type'
 

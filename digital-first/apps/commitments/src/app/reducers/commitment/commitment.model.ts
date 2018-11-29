@@ -1,7 +1,7 @@
 import { Party } from '../party/party.model'
 import { AnnouncementType } from '../announcement-type/announcement-type.model'
 import { Portfolio } from '../portfolio/portfolio.model'
-import { Comment } from '../comment/comment.model'
+import { Comment } from '../commitment-discussion/comment.model'
 import { Location } from '../location/location.model'
 import { CommitmentType } from '../commitment-type/commitment-type.model'
 import { WhoAnnouncedType } from '../who-announced-type/who-announced-type.model'

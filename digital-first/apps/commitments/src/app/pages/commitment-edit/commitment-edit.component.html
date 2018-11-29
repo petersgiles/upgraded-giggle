@@ -73,16 +73,7 @@
         (onCellClicked)="handleRelatedCommitmentsRowClicked($event)"></digital-first-data-table>
     </div>
 
-    <digital-first-page-title *ngIf="commitment" title="Discussion" (onTitleClicked)="handleChangeExpanded(!panels.discussionPanelExpanded, 'discussionPanelExpanded')">
-      <digital-first-date-format-button *ngIf="panels.discussionPanelExpanded" [timeFormat]='commitmentEditDiscussionTimeFormat | async'
-        (onChangeDateFormat)="changeDateFormat($event)"></digital-first-date-format-button>
-      <digital-first-expand-collapse-button [expanded]='panels.discussionPanelExpanded' (onChangeExpanded)="handleChangeExpanded($event, 'discussionPanelExpanded')"></digital-first-expand-collapse-button>
-    </digital-first-page-title>
-
-    <digital-first-discussion *ngIf="(commitment) && panels.discussionPanelExpanded" [comments]="(commitment)?.discussion"
-      [hostId]="(commitment).id" [activeComment]="activeComment" [timeFormat]="commitmentEditDiscussionTimeFormat | async"
-      (onDeleteComment)="handleDeleteComment($event)" (onReplyToComment)="handleReplyToComment($event)" (onAddComment)="handleAddComment($event)">
-    </digital-first-discussion>
+  <digital-first-commitment-discussion *ngIf="commitment" [commitment]="commitment?.id"></digital-first-commitment-discussion>
 
     <!-- <mdc-linear-progress *ngIf="formBusy"></mdc-linear-progress> -->
   </section>
