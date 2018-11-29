@@ -11,11 +11,10 @@ import { CommitmentSubscriptionDataApolloService } from './apollo/commitment-sub
   providedIn: 'root'
 })
 export abstract class CommitmentSubscriptionDataService {
-  abstract unsubscribeFromCommitment(variables: { id: any; commitment: any }): Observable<DataResult<{ commitment: number }>>
+  abstract unsubscribeFromCommitment(variables: { user: any; commitment: any }): Observable<DataResult<{ commitment: number }>>
   abstract subscribeToCommitment(comment: {
     commitment: any;
-    parent: any;
-    comment: any;
+    user: any;
     author: any;
   }): Observable<DataResult<{ commitment: number }>>
   // abstract getSubscriptionsByCommitment(commitment: any): Observable<DataResult<SubscriptionResult>>
@@ -27,6 +26,8 @@ const subscriptionDataServiceFactory = (settings: SettingsService, sharepointlib
   if (settings.datasource) {
     source = settings.datasource.type
   }
+
+   console.log('Commitment Subscription Data Service')
 
   switch (source) {
     case 'sharepoint':

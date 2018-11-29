@@ -32,13 +32,12 @@ export class GetSubscriptionsByCommitment implements Action {
 export class SubscribeToCommitment implements Action {
   readonly type = CommitmentSubscriptionActionTypes.SubscribeToCommitment
 
-  constructor(public payload: { commitment: any; parent: any; comment: any; }) {}
+  constructor(public payload: { commitment: string | number, user: any}) {}
 }
-
 export class UnsubscribeFromCommitment implements Action {
   readonly type = CommitmentSubscriptionActionTypes.UnsubscribeFromCommitment
 
-  constructor(public payload: {id: number, commitment?: any}) {}
+  constructor(public payload: {commitment: string | number, user?: any}) {}
 }
 
 export class SubscriptionActionFailure implements Action {

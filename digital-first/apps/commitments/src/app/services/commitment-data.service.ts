@@ -16,6 +16,8 @@ import { Contact } from '../reducers/contact/contact.model'
 import { Location } from '../models/location.model'
 import { CommitmentType } from '../models/commitment-type.model'
 import { CriticalDate } from '../models/critical-date.model'
+import { CommitmentSubscriptionActionTypes, UnsubscribeFromCommitment, GetSubscriptionsByCommitment, SubscriptionActionFailure,
+  SubscribeToCommitment, LoadSubscriptions} from './../reducers/commitment-subscription/commitment-subscription.actions'
 
 import {
   GetCommitments,
@@ -148,6 +150,19 @@ export class CommitmentDataService {
 
   changeCommitmentEditDiscussionTimeFormat(format: 'dateFormat' | 'timeAgo' | 'calendar'): any {
     this.store.dispatch(new ChangeTimeFormat(format))
+  }
+
+  subscribeToCommitment(commitment: string | number) {
+
+    const currentUser = this.getCurrentUserSP()
+    return this.store.dispatch(new SubscribeToCommitment({commitment: commitment, user: currentUser}))
+  }
+
+  getCurrentUserSP(): any {
+    let currentUser: any
+    this.getCurrentUser().subscribe(user => currentUser = user)
+
+    return currentUser
   }
 
   // RefinerGroups

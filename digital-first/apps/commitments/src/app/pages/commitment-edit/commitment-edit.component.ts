@@ -175,6 +175,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   handleManageSubscription($event) {
     this.isSubscribed$ = of($event)
+    this.service.subscribeToCommitment(this.commitment.id)
   }
 
   handleChangeExpanded($event, panel) {

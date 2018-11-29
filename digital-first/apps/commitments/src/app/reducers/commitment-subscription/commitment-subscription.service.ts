@@ -34,7 +34,7 @@ export class CommitmentSubscriptionService {
     )
   }
 
-  getCommentsByCommitment(commitment: number): any {
+  getSubscriptionByCommitment(commitment: number): any {
     this.store.dispatch(
       new GetSubscriptionsByCommitment({ commitment: commitment })
     )
@@ -52,8 +52,8 @@ export class CommitmentSubscriptionService {
     return this.store.pipe(select(fromRoot.getSubscriptionCommentError))
   }
 
-  unsubscribeFromCommitment(comment: { id: any, subscription?: any }): any {
-    this.store.dispatch(new UnsubscribeFromCommitment(comment))
+  unsubscribeFromCommitment(subscription: { commitment: string | number, user?: any }): any {
+    this.store.dispatch(new UnsubscribeFromCommitment(subscription))
   }
 
   expandPanel() {

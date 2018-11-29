@@ -6,10 +6,9 @@ import { switchMap, map, catchError, tap } from 'rxjs/operators'
 import { CommitmentSubscriptionDataService } from './commitment-subscription-data.service'
 import { CommitmentSubscriptionActionTypes, UnsubscribeFromCommitment, GetSubscriptionsByCommitment, SubscriptionActionFailure,
   SubscribeToCommitment, LoadSubscriptions} from './commitment-subscription.actions'
-import { SubscriptionResult, DataResult } from '../../models'
 
 @Injectable()
-export class CommentSubscriptionEffects {
+export class CommitmentSubscriptionEffects {
 
   // @Effect()
   // getSubscriptionByCommitment$: Observable<Action> = this.actions$

@@ -73,6 +73,7 @@ import { ContactEffects } from './reducers/contact/contact.effects'
 import { ContactCreateFormComponent } from './components/contact-create-form/contact-create-form.component'
 import { MapPointEffects } from './reducers/map-point/map-point.effects'
 import { RelatedCommitmentEffects } from './reducers/related-commitment/related-commitment.effects'
+import {CommitmentSubscriptionEffects} from './reducers/commitment-subscription/commitment-subscription.effects'
 
 import { CommitmentDiscussionComponent } from './containers/commitment-discussion/commitment-discussion.component'
 import { CommitmentDeliveryLocationComponent } from './containers/commitment-delivery-location/commitment-delivery-location.component'
@@ -84,6 +85,7 @@ import { ContactCreateComponent } from './pages/contact-create/contact-create.co
 import { CommitmentCreateComponent } from './pages/commitment-create/commitment-create.component'
 import { discussionDataServiceProvider } from './reducers/commitment-discussion/commitment-discussion-data.service'
 import { lookupDataServiceProvider } from './reducers/commitment-lookup/commitment-lookup-data.service'
+import { subscriptionDataServiceProvider} from './reducers/commitment-subscription/commitment-subscription-data.service'
 
 const COMPONENTS = [
   AppComponent,
@@ -209,6 +211,7 @@ export let appDataServiceProvider = {
       RelatedCommitmentEffects,
       CommentDiscussionEffects,
       CommitmentEffects,
+      CommitmentSubscriptionEffects
     ]),
   ],
   providers: [
@@ -222,6 +225,7 @@ export let appDataServiceProvider = {
     appDataServiceProvider,
     discussionDataServiceProvider,
     lookupDataServiceProvider,
+    subscriptionDataServiceProvider,
     { provide: FullLayoutService, useClass: AppFullLayoutService },
     {
       provide: APOLLO_OPTIONS,
