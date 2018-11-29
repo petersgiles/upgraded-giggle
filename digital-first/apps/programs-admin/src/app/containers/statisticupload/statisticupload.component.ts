@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
 import {AllStatistics, AllStatisticsGQL} from "../../generated/graphql";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {map} from "rxjs/operators";
 import {PassthroughService} from "../../services/passthrough.service";
+import {UploadElectorateStatisticSpreadsheet} from "@dsuite/programs-manager-messages";
 
 @Component({
   selector: 'digital-first-statisticupload',
@@ -20,7 +20,7 @@ export class StatisticuploadComponent implements OnInit {
 
   statisticReports: AllStatistics.StatisticReports[];
 
-  constructor(private allStatistics: AllStatisticsGQL, private http: HttpClient, private passthrough: PassthroughService) {
+  constructor(private allStatistics: AllStatisticsGQL, private passthrough: PassthroughService) {
   }
 
   onSelect(statisticId) {
@@ -51,9 +51,16 @@ export class StatisticuploadComponent implements OnInit {
 
     formData.append('file', this.fileToUpload, this.fileToUpload.name);
 
-    formData.append('message', `{Notes: "${this.model.notes}", DataDate:"${this.model.dataDate}",FileName:"${this.fileToUpload.name}", StatisticReportId:"${this.model.statisticReportId}"}`);
+    const message = new UploadElectorateStatisticSpreadsheet();
 
-    this.passthrough.sendMessageOnToBus(formData, 'UploadElectorateStatisticSpreadsheet').subscribe(value => console.log('TODO: handle error.'));
+    message.statisticReportId = this.model.statisticReportId;
+    message.dataDate = new Date(this.model.dataDate);
+    message.fileName = this.fileToUpload.name;
+    message.notes = this.model.notes;
+
+    formData.append('message', JSON.stringify(message));
+
+    this.passthrough.sendMessageOnToBus(formData, message.constructor.name).subscribe(value => console.log('TODO: handle error.'));
   }
 }
 

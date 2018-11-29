@@ -57,6 +57,7 @@
     "@angular/platform-browser-dynamic": "^7.0.1",
     "@angular/router": "^7.0.1",
     "@auth0/angular-jwt": "^2.0.0",
+    "@dsuite/programs-manager-messages": "^1.0.22841",
     "@material/animation": "^0.41.0",
     "@material/base": "^0.41.0",
     "@material/button": "^0.40.1",
