@@ -45,12 +45,12 @@ export class FullLayoutComponent implements OnInit, OnDestroy {
     })
 
     this.sidebarItems$ = this.service.sidebarItems$
-    // this.notification$ = this.service.notification$
-    //   .pipe(
-    //     concatMap(result => result ? of(result.message) : of(null).pipe(delay(2750))),
-    //     // tslint:disable-next-line:no-console
-    //     tap(result => console.log(result)),
-    //   )
+    this.notification$ = this.service.notification$
+      .pipe(
+        concatMap(result => result ? of(result.message) : of(null).pipe(delay(2750))),
+        // tslint:disable-next-line:no-console
+        tap(result => console.log(result)),
+      )
 
     this.open$ = this.service.open$
   }
