@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit {
     this.mutatePortfolioGQL.mutate({
       conversationId: UUID.UUID(),
       messageId: UUID.UUID(),
-      portfolio: {id: "8FB9CD84-B6F0-4836-BB4A-072C4D537398", title: `dave was here at ${Date.now()}`}
+      portfolio: {id: "8FB9CD84-B6F0-4836-BB4A-072C4D537398", title: `mutate spike at ${Date.now()}`}
     }).subscribe(value => console.log(value))
   }
 
