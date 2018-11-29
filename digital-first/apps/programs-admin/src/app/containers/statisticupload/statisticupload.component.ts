@@ -24,12 +24,17 @@ export class StatisticuploadComponent implements OnInit {
   constructor(private allStatistics: AllStatisticsGQL, private passthrough: PassthroughService, private snackbar: MdcSnackbar) {
   }
 
-  onSelect(statisticId) {
+  onSelectionChange(event: { index: any, value: any }) {
+    console.log(`onSelectionChange: ${event.index} ${event.value}`);
 
-    this.statistics
-      .subscribe(statistics => {
-        this.statisticReports = statistics.filter(statistic => statistic.id == statisticId)[0].statisticReports;
-      });
+
+    if (event.index>-1) {
+      const statisticId = event.value;
+      this.statistics
+        .subscribe(statistics => {
+          this.statisticReports = statistics.filter(statistic => statistic.id == statisticId)[0].statisticReports;
+        });
+    }
   }
 
   ngOnInit() {

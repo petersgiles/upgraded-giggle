@@ -1,60 +1,87 @@
-<div class="page_title">
-  <div class="reader-card-article__title page_title_text" mdcHeadline5>Statistic csv upload form</div>
-</div>
-<ul>
-  <li>TODO: apply layout and styling</li>
-  <li>TODO: add validation</li>
-  <li>TODO: error handling</li>
-  <li>TODO: how to notify user when upload has finished processing</li>
-</ul>
-<div>
-  <h2>Assumptions</h2>
-  <p>
-    This is designed to handle statistic uploads via a file (.csv) that conforms to the statistic's schema.
-  </p>
+<div >
+<div class="app-page">
+  <div class="page_title">
+    <div class="reader-card-article__title page_title_text" mdcHeadline5>Statistic csv upload form</div>
+  </div>
   <ul>
-    <li>Electorate names that can't be found (e.g. spelling errors) are currently being logged to SEQ and will not be
-      uploaded. This will not prevent the rest of the valid electorates from being uploaded.
-    </li>
-    <li>
-      It makes some assumptions about the layout.
-    </li>
+    <li>TODO: apply layout and styling</li>
+    <li>TODO: add validation</li>
+    <li>TODO: error handling</li>
+    <li>TODO: how to notify user when upload has finished processing</li>
   </ul>
+  <div>
+    <h2>Assumptions</h2>
+    <p>
+      This is designed to handle statistic uploads via a file (.csv) that conforms to the statistic's schema.
+    </p>
+    <ul>
+      <li>Electorate names that can't be found (e.g. spelling errors) are currently being logged to SEQ and will not be
+        uploaded. This will not prevent the rest of the valid electorates from being uploaded.
+      </li>
+      <li>
+        It makes some assumptions about the layout.
+      </li>
+    </ul>
+  </div>
+  <div>
+
+    <div class="form-content">
+      <form (ngSubmit)="onSubmit()" #statisticUpload="ngForm">
+        <fieldset>
+
+          <h3 class="form-content__headline">Statistic CSV upload form</h3>
+
+          <div class="form-layout__row">
+            <mdc-select id="statistic" placeholder="Statistic" [outlined]="true" required
+                        [(ngModel)]="model.statisticId" name="statistic"
+                        (selectionChange)="onSelectionChange($event)">
+              <option *ngFor="let statistic of statistics | async" [value]="statistic.id">{{statistic.name}}</option>
+            </mdc-select>
+          </div>
+
+
+          <div class="form-layout__row">
+            <mdc-select id="statisticReport" placeholder="Statistic report" [outlined]="true" required
+                        [(ngModel)]="model.statisticReportId" name="statisticReport">
+              <option *ngFor="let statisticReport of statisticReports" [value]="statisticReport.id">
+                {{statisticReport.name}}
+              </option>
+            </mdc-select>
+          </div>
+
+          <div class="form-layout__row">
+            <mdc-text-field type="date" id="dataDate" #outlinedicon outlined required [(ngModel)]="model.dataDate"
+                            label="Data date" name="dataDate">
+              <mdc-icon mdcTextFieldIcon leading #leadingicon>event</mdc-icon>
+            </mdc-text-field>
+          </div>
+
+
+          <div class="form-layout__row">
+            <mdc-textarea name="notes" id="notes" [(ngModel)]="model.notes" cols="8" rows="3" maxlength="250"
+                          label="Notes" spellcheck="true">
+            </mdc-textarea>
+          </div>
+
+
+          <div class="form-layout__row">
+            <mdc-form-field [alignEnd]="true">
+              <input type="file" accept=".csv" (change)="fileChange($event)" id="fileToUpload"
+                     name="fileToUpload" required>
+              <label>File to upload</label>
+            </mdc-form-field>
+          </div>
+
+          <div class="form-layout__row-with-button">
+            <button id="submit" mdc-button
+                    class="mdc-button ng-mdc-button--primary mdc-button--raised mdc-ripple-upgraded"
+                    type="submit"
+                    [disabled]="!statisticUpload.form.valid">Submit
+            </button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
 </div>
-<div>
-  <h2>Statistic csv upload form</h2>
-  <form (ngSubmit)="onSubmit()" #statisticUpload="ngForm">
-    <div>
-      <label for="statistic">Statistic</label>
-      <select id="statistic"
-              required
-              [(ngModel)]="model.statisticId" name="statistic"
-              (change)="onSelect($event.target.value)">
-        <option *ngFor="let statistic of statistics | async" [value]="statistic.id">{{statistic.name}}</option>
-      </select>
-    </div>
-    <div>
-      <label for="statisticReport">Statistic Report</label>
-      <select id="statisticReport"
-              required
-              [(ngModel)]="model.statisticReportId" name="statisticReport">
-        <option *ngFor="let statisticReport of statisticReports" [value]="statisticReport.id">{{statisticReport.name}}</option>
-      </select>
-    </div>
-    <div>
-      <label for="dataDate">Data date</label>
-      <input type="date" id="dataDate" required [(ngModel)]="model.dataDate" name="dataDate">
-    </div>
-    <div>
-      <label for="notes">Notes</label>
-      <textarea name="notes" id="notes" [(ngModel)]="model.notes" cols="40" rows="3" maxlength="250"
-                spellcheck="true"></textarea>
-    </div>
-    <div>
-      <label for="fileToUpload">File to upload</label>
-      <input type="file" accept=".csv" (change)="fileChange($event)" id="fileToUpload"
-             name="fileToUpload" required>
-    </div>
-    <button type="submit" class="btn btn-success" [disabled]="!statisticUpload.form.valid">Submit</button>
-  </form>
 </div>
