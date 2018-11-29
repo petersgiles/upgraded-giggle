@@ -60,7 +60,8 @@ export class StatisticuploadComponent implements OnInit {
 
     formData.append('message', JSON.stringify(message));
 
-    this.passthrough.sendMessageOnToBus(formData, message.constructor.name).subscribe(value => console.log('TODO: handle error.'));
+    this.passthrough.sendMessageOnToBus<UploadElectorateStatisticSpreadsheet>(message, formData)
+      .subscribe(value => console.log('TODO: handle error.'));
   }
 }
 

@@ -12,16 +12,17 @@ export class PassthroughService {
   constructor(private http: HttpClient) {
   }
 
-  sendMessageOnToBus(formData: FormData, messageType: string): Observable<any> {
+  sendMessageOnToBus<T>(message: T, formData: FormData) : Observable<any> {
 
     const httpOptions = {
       headers: new HttpHeaders({
-        'MessageType': messageType,
+        'MessageType': message.constructor.name,
         'MessageNamespace': 'ProgramsManager.Messages',
         'MessageId': UUID.UUID()
       })
     };
 
     return this.http.post(environment.datasource.passthroughUrl, formData, httpOptions);
+
   }
 }
