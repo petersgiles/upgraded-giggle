@@ -8,17 +8,18 @@ import { DialogAreYouSureComponent, DialogAddContactComponent, ARE_YOU_SURE_ACCE
 
 import { CommitmentDataService } from '../../services/commitment-data.service'
 import { Commitment } from '../../reducers/commitment/commitment.model'
-import { Party } from '../../reducers/party/party.model'
-import { Portfolio } from '../../reducers/portfolio/portfolio.model'
-import { Location } from '../../reducers/location/location.model'
-import { AnnouncementType } from '../../reducers/announcement-type/announcement-type.model'
-import { CommitmentType } from '../../reducers/commitment-type/commitment-type.model'
-import { WhoAnnouncedType } from '../../reducers/who-announced-type/who-announced-type.model'
+import { Party } from '../../models/party.model'
+import { Portfolio } from '../../models/portfolio.model'
+import { Location } from '../../models/location.model'
+import { AnnouncementType } from '../../models/announcement-type.model'
+import { CommitmentType } from '../../models/commitment-type.model'
+import { WhoAnnouncedType } from '../../models/who-announced-type.model'
 import { DataTableConfig } from '@digital-first/df-components'
 import { arrayToIndex } from '@digital-first/df-utils'
-import { CriticalDate } from '../../reducers/critical-date/critical-date.model'
+import { CriticalDate } from '../../models/critical-date.model'
 import { formatCommitmentTitle } from '../../formatters'
 import { DialogAddCommitmentComponent } from '../../dialogs/dialog-add-commitment.component'
+import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 
 @Component({
   selector: 'digital-first-commitment-edit',
@@ -70,17 +71,20 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   formBusy = false
   isSubscribed$: Observable<boolean>
 
-  constructor(private router: Router, private route: ActivatedRoute, public dialog: MdcDialog, private snackbar: MdcSnackbar, private service: CommitmentDataService) { }
+  constructor(private router: Router, private route: ActivatedRoute, public dialog: MdcDialog, private snackbar: MdcSnackbar,
+    private service: CommitmentDataService,
+    private lookup: CommitmentLookupService) { }
 
   ngOnInit(): void {
 
-    this.whoAnnouncedTypes$ = this.service.WhoAnnouncedTypes
-    this.announcementTypes$ = this.service.AnnouncementTypes
-    this.criticalDates$ = this.service.CriticalDates
-    this.commitmentTypes$ = this.service.CommitmentTypes
-    this.parties$ = this.service.Parties
-    this.portfolios$ = this.service.Portfolios
-    this.electorates$ = this.service.Locations
+    this.whoAnnouncedTypes$ = this.lookup.WhoAnnouncedTypes
+    this.announcementTypes$ = this.lookup.AnnouncementTypes
+    this.criticalDates$ = this.lookup.CriticalDates
+    this.commitmentTypes$ = this.lookup.CommitmentTypes
+    this.parties$ = this.lookup.Parties
+    this.portfolios$ = this.lookup.Portfolios
+    this.electorates$ = this.lookup.Locations
+
     this.commitmentContactsTableData$ = this.service.CommitmentContactsTableData
     this.commitmentCommitmentsTableData$ = this.service.RelatedCommitmentsTableData
 
@@ -119,15 +123,17 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
       }
     )
 
+    this.lookup.getAllWhoAnnouncedTypes()
+    this.lookup.getAllAnnouncementTypes()
+    this.lookup.getAllCriticalDates()
+    this.lookup.getAllCommitmentTypes()
+    this.lookup.getAllLocations()
+    this.lookup.getAllPartys()
+
+    this.lookup.getAllPortfolios()
+
     this.service.getAllCommitments()
-    this.service.getAllWhoAnnouncedTypes()
-    this.service.getAllAnnouncementTypes()
-    this.service.getAllCriticalDates()
-    this.service.getAllCommitmentTypes()
-    this.service.getAllLocations()
-    this.service.getAllPartys()
     this.service.getAllContacts()
-    this.service.getAllPortfolios()
 
     this.selectId$ = this.route.paramMap
       .pipe(

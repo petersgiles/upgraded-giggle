@@ -4,3 +4,7 @@ export interface AnnouncementType {
   icon?: string
   colour?: string
 }
+
+export interface AnnouncementTypesResult {
+  announcementTypes: AnnouncementType[]
+}

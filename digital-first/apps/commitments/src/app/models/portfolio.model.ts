@@ -4,3 +4,7 @@ export interface Portfolio {
   icon?: string
   colour?: string
 }
+
+export interface PortfoliosResult {
+  portfolios: Portfolio[]
+}

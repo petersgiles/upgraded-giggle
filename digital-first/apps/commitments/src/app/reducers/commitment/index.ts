@@ -3,17 +3,17 @@ import moment = require('moment')
 import { toTree } from '@digital-first/df-utils'
 
 import * as fromCommitment from './commitment.reducer'
-import { getCommitmentTypeEntities } from '../commitment-type'
-import { getLocationEntities } from '../location'
 import { getMapPointEntities } from '../map-point'
-
-import { getPartyEntities } from '../party'
-import { getPortfolioEntities } from '../portfolio'
-import { getAnnouncementTypeEntities } from '../announcement-type'
-import { getWhoAnnouncedTypeEntities } from '../who-announced-type'
 import { DataTableConfig } from '@digital-first/df-components'
-import { getCriticalDateEntities } from '../critical-date'
-
+import {
+    getPartyEntities,
+    getPortfolioEntities,
+    getLocationEntities,
+    getAnnouncementTypeEntities,
+    getCommitmentTypeEntities,
+    getWhoAnnouncedTypeEntities,
+    getCriticalDateEntities
+} from '../commitment-lookup'
 export { CommitmentEffects } from './commitment.effects'
 export * from './commitment.model'
 
@@ -50,7 +50,7 @@ export const getCurrentCommitment = createSelector(
     getCurrentCommitentId,
     getLookupEnitites,
     getMapPointEntities,
-    (commitments, current,  lookups, mapPoints) => {
+    (commitments, current, lookups, mapPoints) => {
         const commitment = commitments[current]
         if (commitment) {
 

@@ -1,4 +1,4 @@
-import { Portfolio } from '../portfolio/portfolio.model'
+import { Portfolio } from '../../models/portfolio.model'
 
 export interface Contact {
   id: number
