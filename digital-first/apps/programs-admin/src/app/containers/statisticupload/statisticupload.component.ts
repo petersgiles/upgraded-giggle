@@ -4,6 +4,7 @@ import {AllStatistics, AllStatisticsGQL} from "../../generated/graphql";
 import {map} from "rxjs/operators";
 import {PassthroughService} from "../../services/passthrough.service";
 import {UploadElectorateStatisticSpreadsheet} from "@dsuite/programs-manager-messages";
+import {MdcSnackbar} from '@angular-mdc/web'
 
 @Component({
   selector: 'digital-first-statisticupload',
@@ -20,7 +21,7 @@ export class StatisticuploadComponent implements OnInit {
 
   statisticReports: AllStatistics.StatisticReports[];
 
-  constructor(private allStatistics: AllStatisticsGQL, private passthrough: PassthroughService) {
+  constructor(private allStatistics: AllStatisticsGQL, private passthrough: PassthroughService, private snackbar: MdcSnackbar) {
   }
 
   onSelect(statisticId) {
@@ -60,12 +61,17 @@ export class StatisticuploadComponent implements OnInit {
 
     formData.append('message', JSON.stringify(message));
 
+    //TODO: how does DFC framework want to handle errors?
     this.passthrough.sendMessageOnToBus<UploadElectorateStatisticSpreadsheet>(message, formData)
-      .subscribe(value => console.log('TODO: handle error.'));
+      .subscribe(value => {
+
+          this.snackbar.show('File uploaded successfully.', null, {align: 'center'});
+        }
+      );
   }
 }
 
-export class StatisticUploadFormModel {
+class StatisticUploadFormModel {
   public id: number;
   public dataDate: Date;
   public notes: string;

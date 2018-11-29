@@ -1,21 +1,19 @@
-import {Component, OnInit} from '@angular/core'
+import {Component} from '@angular/core'
 import {PassthroughService} from "../../services/passthrough.service";
 import {UploadHomeAffairsElectorateReportSpreadsheet} from "@dsuite/programs-manager-messages";
+import {MdcSnackbar} from "@angular-mdc/web";
 
 @Component({
   selector: 'digital-first-homeaffairs',
   templateUrl: './homeaffairs.component.html',
   styleUrls: ['./homeaffairs.component.scss']
 })
-export class HomeaffairsComponent implements OnInit {
+export class HomeaffairsComponent {
 
   fileToUpload: File;
   model = new FormModel();
 
-  constructor(private passthrough: PassthroughService) {
-  }
-
-  ngOnInit() {
+  constructor(private passthrough: PassthroughService, private snackbar: MdcSnackbar) {
   }
 
   fileChange(event) {
@@ -41,12 +39,15 @@ export class HomeaffairsComponent implements OnInit {
 
     formData.append('message', JSON.stringify(message));
 
+    //TODO: how does DFC framework want to handle errors?
     this.passthrough.sendMessageOnToBus<UploadHomeAffairsElectorateReportSpreadsheet>(message, formData)
-      .subscribe(value => console.log('TODO: handle error.'));
+      .subscribe(value => {
+        this.snackbar.show('File uploaded successfully.', null, {align: 'center'})
+      });
   }
 }
 
-export class FormModel {
+class FormModel {
   public id: number;
   public dataDate: Date;
   public notes: string;
