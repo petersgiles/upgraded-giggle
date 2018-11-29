@@ -12,7 +12,7 @@ export const environment = {
     passthroughUrl: 'https://localhost:52629/api/sendmessage'
   },
   federatedLoginApiPath: '//localhost:52629'
-}
+};
 
 /*
  * In development mode, for easier debugging, you can ignore zone related error
