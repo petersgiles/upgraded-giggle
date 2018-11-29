@@ -19,13 +19,23 @@ db.connect('./diskdb/commitments', [
   'commitment-electorates',
   'commitment-commitment-portfolios',
   'commitment-commitment-electorates',
-  'commitment-related-commitments'
+  'commitment-related-commitments',
+  'commitment-subscriptions',
 ]);
 
 // A map of functions which return data for the schema.
 export const resolvers = {
   Query: {
-    commitments: () => db.commitments.find(),
+
+    commitmentSubscription: (obj: any, args: any, context: any, info: any) => {
+      console.log("args", args)
+      var criteria = { commitment : args.commitment, subscriber: args.user}
+      console.log(criteria)
+      let found = db["commitment-subscriptions"].find(criteria)
+      return found
+    },
+    
+    commitments: () => db.commients.find(),
     commitment: (obj: any, args: any, context: any, info: any) => {
       let found = db.commitments.findOne({ id: args.id })
       // console.log("commitment => ", found)

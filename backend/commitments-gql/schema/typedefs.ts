@@ -129,6 +129,12 @@ type Tag {
     relatedTo: ID
   }
 
+  type Subscription {
+    Title: String
+    commitment: ID,
+    subscriber: ID
+  }
+
   # This "Commitment" type can be used in other type declarations.
   type Commitment {
     id: ID,
@@ -164,6 +170,7 @@ type Tag {
     criticalDates: [CriticalDate],
     mapPoints: [MapPoint],
     relatedCommitment: [RelatedCommitment],
+    commitmentSubscription(commitment: ID!, user: ID!): [Subscription]
     announcementTypes: [AnnouncementType],
     commitmentTypes: [CommitmentType]
     whoAnnouncedTypes: [WhoAnnouncedType]
