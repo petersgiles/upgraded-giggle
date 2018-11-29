@@ -26,11 +26,6 @@ export interface DataResult<T> {
 export interface RelatedCommitmentsResult {
   commitmentRelatedCommitments: RelatedCommitment[]
 }
-
-export interface WhoAnnouncedTypesResult {
-  whoAnnouncedTypes: WhoAnnouncedType[]
-}
-
 export interface CommentsResult {
   comments
 }
