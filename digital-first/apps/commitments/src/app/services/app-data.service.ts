@@ -23,23 +23,16 @@ export abstract class AppDataService {
   abstract addMapPointToCommitment(payload: any): Observable<any>
   abstract getMapPointsByCommitment(commitment: any): Observable<any>
 
-  abstract filterWhoAnnouncedTypes(filter: any): Observable<any>
   abstract storeCommitment(commitment: Commitment): Observable<any>
 
   abstract getCommitment(criteria: { id: any; }): Observable<any>
-  abstract filterCommitments(filter?: { party?: string; type?: string; portfolio?: string; }): Observable<any>
 
   abstract storeContact(contact: any): Observable<any>
   abstract addContactToCommitment(contact: { commitment: any, contact: any }): any
   abstract removeContactFromCommitment(commitmentcontact: any): any
-  abstract filterAnnouncementTypes(filter?: any): Observable<any>
-  abstract filterPortfolios(filter?: any): Observable<any>
-  abstract filterPartys(filter?: any): Observable<any>
-  abstract filterContacts(filter?: any): Observable<any>
-  abstract filterLocations(filter?: any): Observable<any>
-  abstract filterMapPoints(filter: any): Observable<any>
-  abstract filterCriticalDates(filter: any): Observable<any>
 
-  abstract filterCommitmentTypes(filter?: any): Observable<any>
-  abstract filterParties(filter?: any): Observable<any>
+  abstract filterContacts(filter?: any): Observable<any>
+  abstract filterMapPoints(filter: any): Observable<any>
+  abstract filterCommitments(filter?: { party?: string; type?: string; portfolio?: string; }): Observable<any>
+
 }

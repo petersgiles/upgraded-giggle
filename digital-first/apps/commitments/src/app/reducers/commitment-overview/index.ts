@@ -1,18 +1,24 @@
 import { createSelector } from '@ngrx/store'
 import { RefinerGroup, DataTableConfig } from '@digital-first/df-components'
-import { of } from 'rxjs'
 
 import * as fromCommitmentOverview from './commitment-overview.reducer'
-import { getCommitmentTypeEntities, getAllCommitmentTypes } from '../commitment-type'
-import { getLocationEntities, getAllLocations } from '../location'
-import { getPartyEntities, getAllPartys } from '../party'
-import { getPortfolioEntities, getAllPortfolios } from '../portfolio'
-import { getAnnouncementTypeEntities, getAllAnnouncementTypes } from '../announcement-type'
+
 import { getAllCommitments } from '../commitment'
 import { Commitment } from '../commitment/commitment.model'
-import { getAllWhoAnnouncedTypes, getWhoAnnouncedTypeEntities } from '../who-announced-type'
 import { formatCommitmentTitle } from '../../formatters'
-import { getCriticalDateEntities } from '../critical-date'
+import {
+    getAllPortfolios,
+    getAllAnnouncementTypes,
+    getAllCommitmentTypes,
+    getAllWhoAnnouncedTypes,
+    getCriticalDateEntities,
+    getPartyEntities,
+    getPortfolioEntities,
+    getAnnouncementTypeEntities,
+    getCommitmentTypeEntities,
+    getWhoAnnouncedTypeEntities,
+    getAllPartys
+} from '../commitment-lookup'
 
 export const getCommitmentOverviewState = state => state.commitmentOverview
 

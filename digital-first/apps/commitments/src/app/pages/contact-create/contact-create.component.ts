@@ -6,9 +6,10 @@ import { Observable, Subscription } from 'rxjs'
 
 import { CommitmentDataService } from '../../services/commitment-data.service'
 
-import { Party } from '../../reducers/party/party.model'
-import { Portfolio } from '../../reducers/portfolio/portfolio.model'
+import { Party } from '../../models/party.model'
+import { Portfolio } from '../../models/portfolio.model'
 import { Contact } from '../../reducers/contact/contact.model'
+import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 
 @Component({
   selector: 'digital-first-contact-create',
@@ -23,15 +24,16 @@ export class ContactCreateComponent implements OnInit, OnDestroy {
   contacts$: Observable<Contact[]>
   formBusy = false
 
-  constructor(private router: Router, private location: Location, private snackbar: MdcSnackbar, public dialog: MdcDialog, private service: CommitmentDataService) { }
+  constructor(private router: Router, private location: Location, private snackbar: MdcSnackbar, public dialog: MdcDialog, private service: CommitmentDataService,
+    private lookup: CommitmentLookupService) { }
 
   ngOnInit() {
-    this.parties$ = this.service.Parties
-    this.portfolios$ = this.service.Portfolios
+    this.parties$ = this.lookup.Parties
+    this.portfolios$ = this.lookup.Portfolios
     this.contacts$ = this.service.Contacts
-    this.service.getAllPartys()
+    this.lookup.getAllPartys()
     this.service.getAllContacts()
-    this.service.getAllPortfolios()
+    this.lookup.getAllPortfolios()
 
     this.activitySubscription$ = this.service.Notification
       // .pipe(

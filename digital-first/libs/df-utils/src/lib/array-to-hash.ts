@@ -1,2 +1,2 @@
-export const arrayToHash = (array: any[], id: string = 'id') =>  array.reduce((obj, item) =>  (obj[item[id]] = item , obj), {})
-export const arrayToIndex = (array: any[], id: string = 'id') =>  array.map(item => item[id])
+export const arrayToHash = (array: any[], id: string = 'id') =>  array && array.reduce((obj, item) =>  (obj[item[id]] = item , obj), {})
+export const arrayToIndex = (array: any[], id: string = 'id') =>  array && array.map(item => item[id])

@@ -1,19 +1,19 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core'
+import { Component, OnInit, OnDestroy } from '@angular/core'
 
-import { Router, ActivatedRoute, ParamMap } from '@angular/router'
+import { Router, ActivatedRoute } from '@angular/router'
 import { Observable, Subscription } from 'rxjs'
-import { MdcDialog, MdcDialogRef, MdcSnackbar } from '@angular-mdc/web'
-import { DialogAreYouSureComponent, DialogSpinnerOverlayComponent } from '@digital-first/df-dialogs'
+import { MdcDialog, MdcSnackbar } from '@angular-mdc/web'
 
 import { CommitmentDataService } from '../../services/commitment-data.service'
 import { Commitment } from '../../reducers/commitment/commitment.model'
-import { Party } from '../../reducers/party/party.model'
-import { Portfolio } from '../../reducers/portfolio/portfolio.model'
-import { Location } from '../../reducers/location/location.model'
-import { AnnouncementType } from '../../reducers/announcement-type/announcement-type.model'
-import { CommitmentType } from '../../reducers/commitment-type/commitment-type.model'
-import { WhoAnnouncedType } from '../../reducers/who-announced-type/who-announced-type.model'
-import { CriticalDate } from '../../reducers/critical-date/critical-date.model'
+import { Party } from '../../models/party.model'
+import { Portfolio } from '../../models/portfolio.model'
+import { Location } from '../../models/location.model'
+import { AnnouncementType } from '../../models/announcement-type.model'
+import { CommitmentType } from '../../models/commitment-type.model'
+import { WhoAnnouncedType } from '../../models/who-announced-type.model'
+import { CriticalDate } from '../../models/critical-date.model'
+import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 
 @Component({
   selector: 'digital-first-commitment-create',
@@ -38,27 +38,28 @@ export class CommitmentCreateComponent implements OnInit, OnDestroy {
   timeFormat: 'timeAgo' | 'dateFormat' | 'calendar'
   formBusy = false
 
-  constructor(private router: Router, private route: ActivatedRoute, private snackbar: MdcSnackbar, public dialog: MdcDialog, private service: CommitmentDataService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private snackbar: MdcSnackbar, public dialog: MdcDialog, private service: CommitmentDataService,
+    private lookup: CommitmentLookupService) { }
 
   ngOnInit(): void {
     this.timeFormat = 'timeAgo'
 
     this.activity$ = this.service.CommitmentActivity
 
-    this.whoAnnouncedTypes$ = this.service.WhoAnnouncedTypes
-    this.criticalDates$ = this.service.CriticalDates
-    this.announcementTypes$ = this.service.AnnouncementTypes
-    this.commitmentTypes$ = this.service.CommitmentTypes
-    this.parties$ = this.service.Parties
-    this.portfolios$ = this.service.Portfolios
-    this.locations$ = this.service.Locations
+    this.whoAnnouncedTypes$ = this.lookup.WhoAnnouncedTypes
+    this.criticalDates$ = this.lookup.CriticalDates
+    this.announcementTypes$ = this.lookup.AnnouncementTypes
+    this.commitmentTypes$ = this.lookup.CommitmentTypes
+    this.parties$ = this.lookup.Parties
+    this.portfolios$ = this.lookup.Portfolios
+    this.locations$ = this.lookup.Locations
 
-    this.service.getAllWhoAnnouncedTypes()
-    this.service.getAllAnnouncementTypes()
-    this.service.getAllCriticalDates()
-    this.service.getAllCommitmentTypes()
-    this.service.getAllPartys()
-    this.service.getAllPortfolios()
+    this.lookup.getAllWhoAnnouncedTypes()
+    this.lookup.getAllAnnouncementTypes()
+    this.lookup.getAllCriticalDates()
+    this.lookup.getAllCommitmentTypes()
+    this.lookup.getAllPartys()
+    this.lookup.getAllPortfolios()
 
     this.activitySubscription$ = this.service.Notification
       // .pipe(

@@ -4,3 +4,7 @@ export interface CommitmentType {
   icon?: string
   colour?: string
 }
+
+export interface CommitmentTypesResult {
+  commitmentTypes: CommitmentType[]
+}

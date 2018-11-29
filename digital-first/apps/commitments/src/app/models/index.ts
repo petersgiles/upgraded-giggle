@@ -1,15 +1,16 @@
-import { AnnouncementType } from '../reducers/announcement-type/announcement-type.model'
-import { Party } from '../reducers/party/party.model'
-import { Portfolio } from '../reducers/portfolio/portfolio.model'
 import { Commitment } from '../reducers/commitment'
-import { CommitmentType } from '../reducers/commitment-type/commitment-type.model'
+
 import { Contact } from '../reducers/contact/contact.model'
-import { Location } from '../reducers/location/location.model'
-import { WhoAnnouncedType } from '../reducers/who-announced-type/who-announced-type.model'
 import { MapPoint } from '../reducers/map-point/map-point.model'
-import { CriticalDate } from '../reducers/critical-date/critical-date.model'
 import { RelatedCommitment } from '../reducers/related-commitment/related-commitment.model'
 
+export { CommitmentType, CommitmentTypesResult } from './commitment-type.model'
+export { Location, LocationsResult } from './location.model'
+export { WhoAnnouncedType, WhoAnnouncedTypesResult } from './who-announced-type.model'
+export { CriticalDate, CriticalDatesResult } from './critical-date.model'
+export { Party, PartysResult } from './party.model'
+export { Portfolio, PortfoliosResult } from './portfolio.model'
+export { AnnouncementType, AnnouncementTypesResult } from './announcement-type.model'
 export interface ServiceData<T> {
   data: { [key: string]: T }
 }
@@ -24,13 +25,6 @@ export interface DataResult<T> {
 
 export interface RelatedCommitmentsResult {
   commitmentRelatedCommitments: RelatedCommitment[]
-}
-export interface AnnouncementTypesResult {
-  announcementTypes: AnnouncementType[]
-}
-
-export interface CriticalDatesResult {
-  criticalDates: CriticalDate[]
 }
 
 export interface WhoAnnouncedTypesResult {
@@ -52,27 +46,10 @@ export interface CommitmentsResult {
   commitments: Commitment[]
 }
 
-export interface CommitmentTypesResult {
-  commitmentTypes: CommitmentType[]
-}
-
 export interface ContactsResult {
   contacts: Contact[]
 }
 
-export interface LocationsResult {
-  locations: Location[]
-}
-export interface ElectoratesResult {
-  electorates: Location[]
-}
-
-export interface PartysResult {
-  parties: Party[]
-}
-export interface PortfoliosResult {
-  portfolios: Portfolio[]
-}
 export interface MapPointsResult {
   mapPoints: MapPoint[]
 }

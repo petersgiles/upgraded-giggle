@@ -4,3 +4,7 @@ export interface CriticalDate {
   icon?: string
   colour?: string
 }
+
+export interface CriticalDatesResult {
+  criticalDates: CriticalDate[]
+}

@@ -1,5 +1,22 @@
 import gql from 'graphql-tag'
 
+export const STORE_COMMITMENT_ELECTORATE = gql`
+mutation StoreCommitmentElectorate($commitment: ID!, $electorate: ID!) {
+  storeCommitmentElectorate(commitment: $commitment, electorate: $electorate) {
+    id
+    title
+  }
+}
+`
+export const REMOVE_COMMITMENT_ELECTORATE = gql`
+mutation DeleteCommitmentElectorate($commitment: ID!, $electorate: ID!) {
+  deleteCommitmentElectorate(commitment: $commitment, electorate: $electorate) {
+    id
+    title
+  }
+}
+`
+
 export const GET_COMMITMENT = gql`
   query Commitment($id: ID!) {
   commitment(id: $id) {

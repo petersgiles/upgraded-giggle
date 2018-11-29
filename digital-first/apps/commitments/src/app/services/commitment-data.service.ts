@@ -2,21 +2,21 @@ import {
   Observable,
 } from 'rxjs'
 import { Injectable } from '@angular/core'
-import { tap } from 'rxjs/operators'
+
 import { Store, select } from '@ngrx/store'
 import { RefinerGroup, RefinerType, DataTableConfig, MapPoint } from '@digital-first/df-components'
 
-import { WhoAnnouncedType } from '../reducers/who-announced-type/who-announced-type.model'
-import { AnnouncementType } from '../reducers/announcement-type/announcement-type.model'
-import { Party } from '../reducers/party/party.model'
-import { Portfolio } from '../reducers/portfolio/portfolio.model'
+import { WhoAnnouncedType } from '../models/who-announced-type.model'
+import { AnnouncementType } from '../models/announcement-type.model'
+import { Party } from '../models/party.model'
+import { Portfolio } from '../models/portfolio.model'
 import { Commitment } from '../reducers/commitment/commitment.model'
-import { Comment } from '../reducers/commitment-discussion/comment.model'
+
 import { Contact } from '../reducers/contact/contact.model'
-import { Location } from '../reducers/location/location.model'
-import { CommitmentType } from '../reducers/commitment-type/commitment-type.model'
-import { CriticalDate } from '../reducers/critical-date/critical-date.model'
-import { GetAllLocations } from '../reducers/location/location.actions'
+import { Location } from '../models/location.model'
+import { CommitmentType } from '../models/commitment-type.model'
+import { CriticalDate } from '../models/critical-date.model'
+
 import {
   GetCommitments,
   GetAllCommitments,
@@ -31,14 +31,8 @@ import {
   AddCommitmentToCommitment,
   RemoveCommitmentFromCommitment
 } from '../reducers/commitment/commitment.actions'
-import { GetAllAnnouncementTypes } from '../reducers/announcement-type/announcement-type.actions'
-import { GetAllCriticalDates } from '../reducers/critical-date/critical-date.actions'
 import { GetAllContacts, StoreContact } from '../reducers/contact/contact.actions'
-import { GetAllPartys } from '../reducers/party/party.actions'
-import { GetAllPortfolios } from '../reducers/portfolio/portfolio.actions'
-import { GetAllCommitmentTypes } from '../reducers/commitment-type/commitment-type.actions'
 import { AddRefiner, RemoveRefiner, ClearAllRefiners, ExpandRefinerGroup, CollapseRefinerGroup, SetTextRefiner } from '../reducers/commitment-overview/commitment-overview.actions'
-import { GetAllWhoAnnouncedTypes } from '../reducers/who-announced-type/who-announced-type.actions'
 import { ChangeTimeFormat, CollapsePanel, ExpandPanel } from '../reducers/commitment-edit/commitment-edit.actions'
 
 import * as fromRoot from '../reducers'
@@ -54,16 +48,6 @@ export class CommitmentDataService {
 
   constructor(private store: Store<fromRoot.State>) { }
 
-  /// CriticalDates
-
-  getAllCriticalDates(filter?: any) {
-    this.store.dispatch(new GetAllCriticalDates({ filter: filter }))
-  }
-
-  get CriticalDates(): Observable<CriticalDate[]> {
-    return this.store.pipe(select(fromRoot.getAllCriticalDates))
-  }
-
   // Notification
 
   get Notification(): Observable<string> {
@@ -72,50 +56,6 @@ export class CommitmentDataService {
 
   getCurrentUser(): Observable<any> {
     return this.store.pipe(select(fromRoot.getCurrentUserProfile))
-  }
-
-  /// WhoAnnouncedTypes
-
-  public getAllWhoAnnouncedTypes(filter?: any) {
-    this.store.dispatch(new GetAllWhoAnnouncedTypes({ filter: filter }))
-  }
-
-  get WhoAnnouncedTypesLookup(): Observable<WhoAnnouncedType[]> {
-    return this.store.pipe(select(fromRoot.getAllWhoAnnouncedTypes))
-  }
-
-  get WhoAnnouncedTypes(): Observable<WhoAnnouncedType[]> {
-    return this.store.pipe(select(fromRoot.getAllWhoAnnouncedTypes))
-  }
-
-  get WhoAnnouncedTypesLoading(): Observable<boolean> {
-    return this.store.pipe(select(fromRoot.getCommitmentLoading))
-  }
-
-  get WhoAnnouncedTypesError(): Observable<any> {
-    return this.store.pipe(select(fromRoot.getCommitmentError))
-  }
-
-  /// AnnouncementTypes
-
-  public getAllAnnouncementTypes(filter?: any) {
-    this.store.dispatch(new GetAllAnnouncementTypes({ filter: filter }))
-  }
-
-  get AnnouncementTypesLookup(): Observable<AnnouncementType[]> {
-    return this.store.pipe(select(fromRoot.getAllAnnouncementTypes))
-  }
-
-  get AnnouncementTypes(): Observable<AnnouncementType[]> {
-    return this.store.pipe(select(fromRoot.getAllAnnouncementTypes))
-  }
-
-  get AnnouncementTypesLoading(): Observable<boolean> {
-    return this.store.pipe(select(fromRoot.getCommitmentLoading))
-  }
-
-  get AnnouncementTypesError(): Observable<any> {
-    return this.store.pipe(select(fromRoot.getCommitmentError))
   }
 
   /// Commitments
@@ -186,24 +126,6 @@ export class CommitmentDataService {
 
   get CommitmentActivity(): Observable<any> {
     return this.store.pipe(select(fromRoot.getCommitmentActivity))
-  }
-
-  /// Commitment Types
-
-  public getAllCommitmentTypes(filter?: any) {
-    this.store.dispatch(new GetAllCommitmentTypes({ filter: filter }))
-  }
-
-  get CommitmentTypes(): Observable<CommitmentType[]> {
-    return this.store.pipe(select(fromRoot.getAllCommitmentTypes))
-  }
-
-  get CommitmentTypesLoading(): Observable<boolean> {
-    return this.store.pipe(select(fromRoot.getCommitmentTypeLoading))
-  }
-
-  get CommitmentTypesError(): Observable<any> {
-    return this.store.pipe(select(fromRoot.getCommitmentTypeError))
   }
 
   // Commitment Edit
@@ -278,60 +200,6 @@ export class CommitmentDataService {
 
   get ContactsError(): Observable<any> {
     return this.store.pipe(select(fromRoot.getContactError))
-  }
-
-  // Locations
-
-  public getAllLocations(filter?: any) {
-    this.store.dispatch(new GetAllLocations(filter))
-  }
-
-  get Locations(): Observable<Location[]> {
-    return this.store.pipe(select(fromRoot.getAllLocationsGrouped))
-  }
-
-  get LocationsLoading(): Observable<boolean> {
-    return this.store.pipe(select(fromRoot.getLocationLoading))
-  }
-
-  get LocationsError(): Observable<any> {
-    return this.store.pipe(select(fromRoot.getLocationError))
-  }
-
-  // Partys
-
-  public getAllPartys(filter?: any) {
-    this.store.dispatch(new GetAllPartys({ filter: filter }))
-  }
-
-  get Parties(): Observable<Party[]> {
-    return this.store.pipe(select(fromRoot.getAllPartys))
-  }
-
-  get PartiesLoading(): Observable<boolean> {
-    return this.store.pipe(select(fromRoot.getPartyLoading))
-  }
-
-  get PartiesError(): Observable<any> {
-    return this.store.pipe(select(fromRoot.getPartyError))
-  }
-
-  // Portfolios
-
-  public getAllPortfolios(filter?: any) {
-    this.store.dispatch(new GetAllPortfolios({ filter: filter }))
-  }
-
-  get Portfolios(): Observable<Portfolio[]> {
-    return this.store.pipe(select(fromRoot.getAllPortfolios))
-  }
-
-  get PortfoliosLoading(): Observable<boolean> {
-    return this.store.pipe(select(fromRoot.getPortfolioLoading))
-  }
-
-  get PortfoliosError(): Observable<any> {
-    return this.store.pipe(select(fromRoot.getPortfolioError))
   }
 
   upsertCommitment(commitment: Commitment) {

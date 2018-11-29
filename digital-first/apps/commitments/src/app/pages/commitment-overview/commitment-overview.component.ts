@@ -2,12 +2,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core'
 import { CommitmentDataService } from '../../services/commitment-data.service'
 import { Observable, Subscription } from 'rxjs'
 import { Router } from '@angular/router'
-import { MdcDialog, MdcDialogRef, MdcSnackbar } from '@angular-mdc/web'
-
-import { DialogSpinnerOverlayComponent } from '@digital-first/df-dialogs'
+import { MdcDialog, MdcSnackbar } from '@angular-mdc/web'
 import { Commitment } from '../../reducers/commitment/commitment.model'
 import { DataTableConfig } from '@digital-first/df-components'
-import { formatCommitmentTitle } from '../../formatters'
+import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 
 @Component({
   selector: 'digital-first-commitment-overview',
@@ -24,7 +22,8 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
   activitySubscription$: Subscription
   formBusy = false
 
-  constructor(private snackbar: MdcSnackbar, public dialog: MdcDialog, private router: Router, private service: CommitmentDataService) { }
+  constructor(private snackbar: MdcSnackbar, public dialog: MdcDialog, private router: Router, private service: CommitmentDataService,
+    private lookup: CommitmentLookupService) { }
 
   ngOnInit() {
     this.commitments$ = this.service.Commitments
@@ -32,12 +31,12 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
     this.refinerGroups$ = this.service.RefinerGroups
     this.activity$ = this.service.CommitmentActivity
 
-    this.service.getAllWhoAnnouncedTypes()
-    this.service.getAllAnnouncementTypes()
-    this.service.getAllCommitmentTypes()
-    this.service.getAllLocations()
-    this.service.getAllPartys()
-    this.service.getAllPortfolios()
+    this.lookup.getAllWhoAnnouncedTypes()
+    this.lookup.getAllAnnouncementTypes()
+    this.lookup.getAllCommitmentTypes()
+    this.lookup.getAllLocations()
+    this.lookup.getAllPartys()
+    this.lookup.getAllPortfolios()
 
     this.service.getAllCommitments()
 

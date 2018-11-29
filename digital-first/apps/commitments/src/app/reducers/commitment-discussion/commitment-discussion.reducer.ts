@@ -1,6 +1,4 @@
 import { CommitmentDiscussionActionTypes, CommitmentDiscussionActions } from './commitment-discussion.actions'
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity'
-import { Comment } from './comment.model'
 
 export interface State {
   expanded: boolean
