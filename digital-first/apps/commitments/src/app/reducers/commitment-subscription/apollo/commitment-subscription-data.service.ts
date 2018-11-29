@@ -4,7 +4,7 @@ import { Apollo } from 'apollo-angular'
 import { Observable } from 'rxjs'
 import { callQuery, callMutate } from '../../../services/apollo/apollo-helpers'
 import { SubscriptionResult, DataResult } from '../../../models'
-import { SUBSCRIPTION_BY_COMMITMENT, ADD_COMMENT, DELETE_COMMENT } from './queries'
+import { SUBSCRIPTION_BY_COMMITMENT, ADD_SUBSCRIPTION, DELETE_SUBSCRIPTION } from './queries'
 import { CommitmentSubscriptionDataService } from '../commitment-subscription-data.service'
 
 @Injectable({
@@ -14,7 +14,7 @@ export class CommitmentSubscriptionDataApolloService implements CommitmentSubscr
 
     deleteSubscription = (variables: { id: any; commitment: any }): Observable<DataResult<{ commitment: number }>> => callMutate<{ commitment: number }>(
         this.apollo,
-        { mutation: DELETE_COMMENT, variables: { ...variables } },
+        { mutation: DELETE_SUBSCRIPTION, variables: { ...variables } },
         (result: any) => ({ data: { commitment: result.data.deleteComment.commitment } })
     )
 
@@ -31,7 +31,7 @@ export class CommitmentSubscriptionDataApolloService implements CommitmentSubscr
             author: 'Domenica20',
             created: moment()
         }
-        return callMutate<any>(this.apollo, { mutation: ADD_COMMENT, variables: { ...variables } },
+        return callMutate<any>(this.apollo, { mutation: ADD_SUBSCRIPTION, variables: { ...variables } },
             (result: any) => ({ data: { commitment: result.data.addComment.commitment } })
         )
 

@@ -3,8 +3,8 @@ import { Actions, Effect, ofType } from '@ngrx/effects'
 import { Observable, of } from 'rxjs'
 import { Action } from '@ngrx/store'
 import { switchMap, map, catchError, tap } from 'rxjs/operators'
-import { CommitmentDiscussionDataService } from './commitment-discussion-data.service'
-import { CommitmentDiscussionActionTypes, RemoveComment, GetCommentsByCommitment, CommentActionFailure, StoreComment, LoadComments, ClearComments } from './commitment-discussion.actions'
+import { CommitmentSubscriptionDataService } from './commitment-subscription-data.service'
+import { CommitmentDiscussionActionTypes, RemoveComment, GetCommentsByCommitment, CommentActionFailure, StoreComment, LoadComments, ClearComments } from './commitment-subscription.actions'
 import { SubscriptionResult, DataResult } from '../../models'
 
 @Injectable()
