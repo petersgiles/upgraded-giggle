@@ -1,5 +1,5 @@
 import { fromLookup, idFromLookup, fromUser } from '@digital-first/df-sharepoint'
-import { Comment } from '../subscription.model'
+import { Subscription } from '../subscription.model'
 
 export const mapSubscription = (subscription): any => {
 
@@ -15,13 +15,13 @@ export const mapSubscription = (subscription): any => {
     }
 }
 
-export const mapComments = (subscription): Comment[] => subscription.map(mapSubscription)
+export const mapSubscriptions = (subscription): [] => subscription.map(mapSubscription)
 
-export const mapCommitmentComment = (item): any =>
+export const mapCommitmentSubscription = (item): any =>
     ({
         id: item.ID,
         commitment: idFromLookup(item.Commitment),
-        comment: idFromLookup(item.Comment),
+        comment: idFromLookup(item.Subscription),
     })
 
-export const mapCommitmentComments = (items): any[] => items.map(mapCommitmentComment)
+export const mapCommitmentSubscriptions = (items): any[] => items.map(mapCommitmentSubscription)

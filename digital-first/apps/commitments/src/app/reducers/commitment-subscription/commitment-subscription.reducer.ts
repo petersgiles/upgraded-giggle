@@ -1,12 +1,11 @@
-import { CommitmentDiscussionActionTypes, CommitmentDiscussionActions } from './commitment-discussion.actions'
+import { CommitmentSubscriptionActionTypes, CommitmentSubscriptionActions } from './commitment-subscription.actions'
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity'
-import { Comment } from './comment.model'
+import { Subscription } from './subscription.model'
 
 export interface State {
   expanded: boolean
   timeFormat: 'dateFormat' | 'timeAgo' | 'calendar'
-  activeComment: any
-  comments: []
+  subscriptions: []
   loading: boolean
   error: any
 }
@@ -14,62 +13,45 @@ export interface State {
 export const initialState: State = {
   expanded: false,
   timeFormat: 'timeAgo',
-  activeComment: null,
-  comments: null,
+  subscriptions: null,
   loading: false,
   error: null,
 }
 
 export function reducer(
   state = initialState,
-  action: CommitmentDiscussionActions
+  action: CommitmentSubscriptionActions
 ): State {
   switch (action.type) {
 
-    case CommitmentDiscussionActionTypes.ExpandPanel: {
+    case CommitmentSubscriptionActionTypes.ExpandPanel: {
       return {
         ...state,
         expanded: true
       }
     }
 
-    case CommitmentDiscussionActionTypes.CollapsePanel: {
+    case CommitmentSubscriptionActionTypes.CollapsePanel: {
       return {
         ...state,
         expanded: false
       }
     }
 
-    case CommitmentDiscussionActionTypes.ChangeTimeFormat: {
-      return {
-        ...state,
-        timeFormat: action.payload
-      }
-    }
-
-    case CommitmentDiscussionActionTypes.LoadComments: {
+    case CommitmentSubscriptionActionTypes.LoadSubscriptions: {
 
         // tslint:disable-next-line:no-console
-        console.log('LoadComments', action.payload)
+        console.log('LoadSubsriptions', action.payload)
 
       return {
           ...state,
-          comments: action.payload.data.comments,
+          subscriptions: action.payload.data.subscription,
           loading: action.payload.loading,
           error: action.payload.error
         }
     }
 
-    case CommitmentDiscussionActionTypes.ClearComments: {
-      return {
-        ...state,
-        comments: null,
-        loading: false,
-        error: null,
-      }
-    }
-
-    case CommitmentDiscussionActionTypes.GetCommentsByCommitment: {
+    case CommitmentSubscriptionActionTypes.GetSubscriptionsByCommitment: {
       return { ...state, loading: true, error: null }
     }
 
@@ -78,9 +60,8 @@ export function reducer(
   }
 }
 
-export const selectAll = (state: State) => state.comments
+export const selectAll = (state: State) => state.subscriptions
 export const getExpanded = (state: State) => state.expanded
 export const getTimeFormat = (state: State) => state.timeFormat
-export const getDiscussionActiveComment = (state: State) => state.activeComment
-export const getDiscussionLoading = (state: State) => state.loading
-export const getDiscussionError = (state: State) => state.error
+export const getSubscriptionLoading = (state: State) => state.loading
+export const getSubscriptionError = (state: State) => state.error

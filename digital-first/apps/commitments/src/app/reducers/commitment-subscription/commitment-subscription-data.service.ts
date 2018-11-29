@@ -11,14 +11,14 @@ import { CommitmentSubscriptionDataApolloService } from './apollo/commitment-sub
   providedIn: 'root'
 })
 export abstract class CommitmentSubscriptionDataService {
-  abstract deleteSubscription(variables: { id: any; commitment: any }): Observable<DataResult<{ commitment: number }>>
-  abstract storeSubscription(comment: {
+  abstract unsubscribeFromCommitment(variables: { id: any; commitment: any }): Observable<DataResult<{ commitment: number }>>
+  abstract subscribeToCommitment(comment: {
     commitment: any;
     parent: any;
     comment: any;
     author: any;
   }): Observable<DataResult<{ commitment: number }>>
-  abstract getSubscriptionByCommitment(commitment: any): Observable<DataResult<SubscriptionResult>>
+  // abstract getSubscriptionsByCommitment(commitment: any): Observable<DataResult<SubscriptionResult>>
 }
 
 const subscriptionDataServiceFactory = (settings: SettingsService, sharepointlib: SharepointJsomService, apollo: Apollo) => {

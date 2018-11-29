@@ -1,21 +1,24 @@
-import {
-  Observable,
-} from 'rxjs'
+import { Observable } from 'rxjs'
 import { Injectable } from '@angular/core'
 import { Store, select } from '@ngrx/store'
-import { Comment } from './comment.model'
+import { Subscription } from './subscription.model'
 
 import * as fromRoot from '..'
-import { ExpandPanel, CollapsePanel, GetCommentsByCommitment, StoreComment, RemoveComment, ChangeTimeFormat } from './commitment-discussion.actions'
+import {
+  CollapsePanel,
+  ExpandPanel,
+  LoadSubscriptions,
+  GetSubscriptionsByCommitment,
+  SubscriptionActionFailure,
+  SubscribeToCommitment,
+  UnsubscribeFromCommitment
+} from './commitment-subscription.actions'
 
 @Injectable({
   providedIn: 'root'
 })
-export class CommitmentDiscussionService {
-
-  constructor(private store: Store<fromRoot.State>) { }
-
-  // Notification
+export class CommitmentSubscriptionService {
+  constructor(private store: Store<fromRoot.State>) {}
 
   get Notification(): Observable<string> {
     return this.store.pipe(select(fromRoot.getNotification))
@@ -25,42 +28,32 @@ export class CommitmentDiscussionService {
     return this.store.pipe(select(fromRoot.getCurrentUserProfile))
   }
 
-  /// Comments
-
   get Expanded(): Observable<boolean> {
-    return this.store.pipe(select(fromRoot.getCommitmentDiscussionPanelExpanded))
+    return this.store.pipe(
+      select(fromRoot.getCommitmentSubscriptionPanelExpanded)
+    )
   }
 
   getCommentsByCommitment(commitment: number): any {
-    this.store.dispatch(new GetCommentsByCommitment({ commitment: commitment}))
-}
-
-  get Comments(): Observable<Comment[]> {
-    return this.store.pipe(select(fromRoot.getCurrentCommitmentDiscussion))
+    this.store.dispatch(
+      new GetSubscriptionsByCommitment({ commitment: commitment })
+    )
   }
 
-  get TimeFormat(): Observable<'dateFormat' | 'timeAgo' | 'calendar'> {
-    return this.store.pipe(select(fromRoot.getCommitmentDiscussionTimeFormat))
+  get Subscriptions(): Observable<Comment[]> {
+    return this.store.pipe(select(fromRoot.getCurrentCommitmentSubscription))
   }
 
-  changeTimeFormat(format: 'dateFormat' | 'timeAgo' | 'calendar'): any {
-    this.store.dispatch(new ChangeTimeFormat(format))
+  get SubscriptionLoading(): Observable<boolean> {
+    return this.store.pipe(select(fromRoot.getSubscriptionCommentLoading))
   }
 
-  get CommentsLoading(): Observable<boolean> {
-    return this.store.pipe(select(fromRoot.getDiscussionCommentLoading))
+  get SubscriptionError(): Observable<any> {
+    return this.store.pipe(select(fromRoot.getSubscriptionCommentError))
   }
 
-  get CommentsError(): Observable<any> {
-    return this.store.pipe(select(fromRoot.getDiscussionCommentError))
-  }
-
-  createComment(comment: { commitment: any; parent: any; comment: any; }) {
-    this.store.dispatch(new StoreComment(comment))
-  }
-
-  deleteComment(comment: { id: any, commitment?: any }): any {
-    this.store.dispatch(new RemoveComment(comment))
+  unsubscribeFromCommitment(comment: { id: any, subscription?: any }): any {
+    this.store.dispatch(new UnsubscribeFromCommitment(comment))
   }
 
   expandPanel() {
@@ -69,28 +62,4 @@ export class CommitmentDiscussionService {
   collapsePanel() {
     this.store.dispatch(new CollapsePanel())
   }
-
 }
-
-// createComment(comment: { commitment: any; parent: any; comment: any; }) {
-//   this.store.dispatch(new StoreComment(comment))
-// }
-
-// deleteComment(comment: { id: any }): any {
-//   this.store.dispatch(new DeleteComment(comment))
-//   this.store.dispatch(new RemoveComment(comment))
-// }
-
-// /// Comments
-
-// get Comments(): Observable<Comment[]> {
-//   return this.store.pipe(select(fromRoot.getAllComments))
-// }
-
-// get CommentsLoading(): Observable<boolean> {
-//   return this.store.pipe(select(fromRoot.getCommentLoading))
-// }
-
-// get CommentsError(): Observable<any> {
-//   return this.store.pipe(select(fromRoot.getCommentError))
-// }

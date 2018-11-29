@@ -1,9 +1,9 @@
 import { Contact } from '../contact/contact.model'
 
-export interface Comment {
+export interface Subscription {
   id: number
   parent: string
-  commitment: string
+  subscription: string
   text: string
   author: Contact
   created: string

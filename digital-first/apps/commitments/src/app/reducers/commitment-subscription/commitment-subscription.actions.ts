@@ -1,73 +1,58 @@
 import { Action } from '@ngrx/store'
 import { DataResult, SubscriptionResult } from '../../models'
 
-export enum CommitmentDiscussionActionTypes {
-  ExpandPanel = '[CommitmentDiscussion] Expand Panel',
-  CollapsePanel = '[CommitmentDiscussion] Collapse Panel',
-  ChangeTimeFormat = '[CommitmentDiscussion] Change Time Format',
-  LoadComments = '[CommitmentDiscussion] Load Comments',
-  ClearComments = '[CommitmentDiscussion] Clear Comments',
-  GetCommentsByCommitment = '[CommitmentDiscussion] Get Comments By Commitment',
-  CommentActionFailure = '[CommitmentDiscussion] Comment Action Failure',
-  StoreComment = '[CommitmentDiscussion] Store Comment',
-  RemoveComment = '[CommitmentDiscussion] Remove Comment',
-}
-
-export class ChangeTimeFormat implements Action {
-  readonly type = CommitmentDiscussionActionTypes.ChangeTimeFormat
-
-  constructor(public payload: 'dateFormat' | 'timeAgo' | 'calendar') { }
+export enum CommitmentSubscriptionActionTypes {
+  ExpandPanel = '[CommitmentSubscription] Expand Panel',
+  CollapsePanel = '[CommitmentSubscription] Collapse Panel',
+  LoadSubscriptions = '[CommitmentSubscription] Load Subscriptions',
+  GetSubscriptionsByCommitment = '[CommitmentSubscription] Get Subscriptions By Commitment',
+  SubscriptionActionFailure = '[CommitmentSubscription] Subscription  Action Failure',
+  SubscribeToCommitment = '[CommitmentSubscription] Add Subscription',
+  UnsubscribeFromCommitment = '[CommitmentSubscription] Remove Subscription',
 }
 
 export class CollapsePanel implements Action {
-  readonly type = CommitmentDiscussionActionTypes.CollapsePanel
+  readonly type = CommitmentSubscriptionActionTypes.CollapsePanel
 }
 
 export class ExpandPanel implements Action {
-  readonly type = CommitmentDiscussionActionTypes.ExpandPanel
+  readonly type = CommitmentSubscriptionActionTypes.ExpandPanel
 }
 
-export class LoadComments implements Action {
-  readonly type = CommitmentDiscussionActionTypes.LoadComments
+export class LoadSubscriptions implements Action {
+  readonly type = CommitmentSubscriptionActionTypes.LoadSubscriptions
 
   constructor(public payload: DataResult<SubscriptionResult>) {}
 }
-
-export class ClearComments implements Action {
-  readonly type = CommitmentDiscussionActionTypes.ClearComments
-}
-
-export class GetCommentsByCommitment implements Action {
-  readonly type = CommitmentDiscussionActionTypes.GetCommentsByCommitment
+export class GetSubscriptionsByCommitment implements Action {
+  readonly type = CommitmentSubscriptionActionTypes.GetSubscriptionsByCommitment
   constructor(public payload: { commitment: number }) {}
 }
 
-export class StoreComment implements Action {
-  readonly type = CommitmentDiscussionActionTypes.StoreComment
+export class SubscribeToCommitment implements Action {
+  readonly type = CommitmentSubscriptionActionTypes.SubscribeToCommitment
 
   constructor(public payload: { commitment: any; parent: any; comment: any; }) {}
 }
 
-export class RemoveComment implements Action {
-  readonly type = CommitmentDiscussionActionTypes.RemoveComment
+export class UnsubscribeFromCommitment implements Action {
+  readonly type = CommitmentSubscriptionActionTypes.UnsubscribeFromCommitment
 
   constructor(public payload: {id: number, commitment?: any}) {}
 }
 
-export class CommentActionFailure implements Action {
-  readonly type = CommitmentDiscussionActionTypes.CommentActionFailure
+export class SubscriptionActionFailure implements Action {
+  readonly type = CommitmentSubscriptionActionTypes.SubscriptionActionFailure
 
   constructor(public payload: any) {
   }
 }
 
-export type CommitmentDiscussionActions =
+export type CommitmentSubscriptionActions =
     CollapsePanel
   | ExpandPanel
-  | LoadComments
-  | ChangeTimeFormat
-  | ClearComments
-  | GetCommentsByCommitment
-  | CommentActionFailure
-  | StoreComment
-  | RemoveComment
+  | LoadSubscriptions
+  | GetSubscriptionsByCommitment
+  | SubscriptionActionFailure
+  | SubscribeToCommitment
+  | UnsubscribeFromCommitment

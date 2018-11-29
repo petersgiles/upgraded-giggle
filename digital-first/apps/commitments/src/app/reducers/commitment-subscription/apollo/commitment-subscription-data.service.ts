@@ -12,13 +12,13 @@ import { CommitmentSubscriptionDataService } from '../commitment-subscription-da
 })
 export class CommitmentSubscriptionDataApolloService implements CommitmentSubscriptionDataService {
 
-    deleteSubscription = (variables: { id: any; commitment: any }): Observable<DataResult<{ commitment: number }>> => callMutate<{ commitment: number }>(
+  unsubscribeFromCommitment = (variables: { id: any; commitment: any }): Observable<DataResult<{ commitment: number }>> => callMutate<{ commitment: number }>(
         this.apollo,
         { mutation: DELETE_SUBSCRIPTION, variables: { ...variables } },
         (result: any) => ({ data: { commitment: result.data.deleteComment.commitment } })
     )
 
-    storeSubscription = (comment: {
+    subscribeToCommitment = (comment: {
         commitment: any;
         parent: any;
         comment: any;
@@ -36,7 +36,7 @@ export class CommitmentSubscriptionDataApolloService implements CommitmentSubscr
         )
 
     }
-    getSubscriptionByCommitment = (commitment: any) => callQuery<SubscriptionResult>(this.apollo, { query: SUBSCRIPTION_BY_COMMITMENT, variables: { commitment: commitment } })
+    getSubscriptionsByCommitment = (commitment: any) => callQuery<SubscriptionResult>(this.apollo, { query: SUBSCRIPTION_BY_COMMITMENT, variables: { commitment: commitment } })
 
     constructor(private apollo: Apollo) { }
 }

@@ -1,50 +1,45 @@
 import { createSelector } from '@ngrx/store'
 
-import * as fromCommitmentDiscussion from './commitment-discussion.reducer'
+import * as fromCommitmentSubscription from './commitment-Subscription.reducer'
 import { toTree } from '@digital-first/df-utils'
 
-export const getCommitmentDiscussionState = state => state.commitmentDiscussion
+export const getCommitmentSubscriptionState = state => state.commitmentSubscription
 
-export const getAllDiscussionComments = createSelector(
-    getCommitmentDiscussionState,
+export const getAllSubscriptionComments = createSelector(
+    getCommitmentSubscriptionState,
     state => state.comments
 )
 
-export const getDiscussionCommentLoading = createSelector(
-    getCommitmentDiscussionState,
+export const getSubscriptionCommentLoading = createSelector(
+    getCommitmentSubscriptionState,
     state => state.loading
 )
 
-export const getDiscussionCommentError = createSelector(
-    getCommitmentDiscussionState,
+export const getSubscriptionCommentError = createSelector(
+    getCommitmentSubscriptionState,
     state => state.error
 )
 
-export const getDiscussionActiveComment = createSelector(
-    getCommitmentDiscussionState,
+export const getSubscriptionActiveComment = createSelector(
+    getCommitmentSubscriptionState,
     state => state.activeComment
 )
 
-export const getCommitmentDiscussionPanelExpanded = createSelector(
-    getCommitmentDiscussionState,
+export const getCommitmentSubscriptionPanelExpanded = createSelector(
+    getCommitmentSubscriptionState,
     state => state.expanded
 )
 
-export const getCommitmentDiscussionTimeFormat = createSelector(
-    getCommitmentDiscussionState,
-    state => state.timeFormat
-)
-
-export const getCurrentCommitmentDiscussion = createSelector(
-    getAllDiscussionComments,
+export const getCurrentCommitmentSubscription = createSelector(
+    getAllSubscriptionComments,
     (comments) => {
 
         // tslint:disable-next-line:no-console
-        console.log('getCurrentCommitmentDiscussion', comments)
+        console.log('getCurrentCommitmentSubscription', comments)
 
-        const discussionItems = (comments || []).map(c => ({ ...c })) // creating mutatable list
+        const subscriptionItems = (comments || []).map(c => ({ ...c })) // creating mutatable list
 
-        const discussion = toTree(discussionItems, {
+        const subscription = toTree(subscriptionItems, {
             id: 'id',
             parentId: 'parent',
             children: 'children',
@@ -52,7 +47,7 @@ export const getCurrentCommitmentDiscussion = createSelector(
             firstParentId: null
         })
 
-        return discussion
+        return subscription
 
     }
 )

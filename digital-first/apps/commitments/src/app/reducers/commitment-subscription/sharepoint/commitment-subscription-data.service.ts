@@ -3,64 +3,59 @@ import { SharepointJsomService } from '@digital-first/df-sharepoint'
 import { Observable, of } from 'rxjs'
 import { SubscriptionResult, DataResult } from '../../../models'
 import { concatMap, tap, map } from 'rxjs/operators'
-import { byCommitmentIdQuery } from '../../../services/sharepoint/caml'
-import { mapSubscription, mapCommitmentComment } from './maps'
+import { byCommitmentIdQuery, byJoinTableQuery } from '../../../services/sharepoint/caml'
+import { mapSubscription, mapSubscriptions } from './maps'
 import { CommitmentSubscriptionDataService } from '../commitment-subscription-data.service'
+import { AppUserProfile } from '@digital-first/df-layouts'
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class CommitmentSubscriptionDataSharePointService implements CommitmentSubscriptionDataService {
 
-    deleteSubscription = (variables: { id: any; commitment: any }): Observable<DataResult<{ commitment: number }>> =>
+  unsubscribeFromCommitment(payload: any): Observable<any> {
+
+    const LISTNAME = 'CommitmentSubscription'
+
+    const viewXml = byJoinTableQuery({ fieldA: { name: 'Commitment', id: payload.commitment }, fieldB: { name: 'Subscriber', id: payload.user.userid } })
+
+    return this.sharepoint.getItems({
+      listName: LISTNAME,
+      viewXml: viewXml
+    }).pipe(
+      map(result => result[0]),
+      concatMap((result: any) =>
         this.sharepoint.removeItem({
-            listName: 'CommitmentComment',
-            id: variables.id,
+          listName: LISTNAME,
+          id: result.ID,
         }).pipe(
-            concatMap((result: any) =>
-                of({
-                    data: { commitment: variables.commitment },
-                    loading: false
-                }))
-        )
+          concatMap(_ =>
+            of({ commitment: { id: payload.commitment } }))
 
-    storeSubscription = (comment: {
-        commitment: any;
-        parent: any;
-        comment: any;
-        author: any;
-    }): Observable<DataResult<{ commitment: number }>> => {
+        )))
+  }
 
-        const spComment = {
-            Title: comment.commitment,
-            Commitment: comment.commitment,
-            Parent: comment.parent,
-            Text: comment.comment
-        }
+  subscribeToCommitment(payload: any): Observable<any> {
+    const LISTNAME = 'CommitmentSubscription'
 
-        return this.sharepoint.storeItem({
-            listName: 'CommitmentComment',
-            data: spComment,
-        }).pipe(
-            map(mapCommitmentComment),
-            concatMap((result: any) =>
-                of({
-                    data: { commitment: result.commitment },
-                    loading: false
-                }))
-        )
+    const subscriptionItem = {
+      Title: payload.commitment,
+      Subscriber: payload.user.userid,
+      Commitment: payload.commitment
     }
-    getSubscriptionByCommitment = (commitment: any): Observable<DataResult<SubscriptionResult>> =>
-        this.sharepoint.getItems({
-            listName: 'CommitmentComment',
-            viewXml: byCommitmentIdQuery({ id: commitment })
-        }).pipe(
-            concatMap((comments: any) =>
-                of({
-                    data: { comments: mapSubscription(comments) },
-                    loading: false
-                }))
-        )
 
-    constructor(private sharepoint: SharepointJsomService) { }
+    return this.sharepoint.storeItem({
+      listName: LISTNAME,
+      data: subscriptionItem
+    }).pipe(
+      concatMap(_ =>
+        of({ commitment: { id: payload.commitment } }))
+    )
+  }
+
+  getCurrentUser(): Observable<AppUserProfile> {
+    return this.sharepoint.getCurrentUser()
+  }
+
+  constructor(private sharepoint: SharepointJsomService) { }
 }
