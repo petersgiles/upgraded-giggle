@@ -22,31 +22,27 @@ export const ADD_SUBSCRIPTION = gql`
 
 mutation AddSubscription(
   $commitment: ID!
-  $parent: String
-  $text: String!
-  $author: String!
-  $created: String!
+  $subscriber: ID!
 ) {
-  addComment(
+  storeCommitmentSubscription(
     commitment: $commitment
-    parent: $parent
-    text: $text
-    author: $author
-    created: $created
+    subscriber: $subscriber
   ) {
     id
-    commitment
-    parent
-    text
+    title
+
   }
 }
 `
 
 export const DELETE_SUBSCRIPTION = gql`
-mutation DeleteComment($id: ID!) {
-  deleteComment(id: $id) {
+mutation RemoveSubscription(
+  $commitment: ID!
+  $subscriber: ID!
+  ) {
+    deleteCommitmentSubscription(commitment: $commitment, subscriber: $subscriber) {
     id
-    commitment
+    title
   }
 }
 `

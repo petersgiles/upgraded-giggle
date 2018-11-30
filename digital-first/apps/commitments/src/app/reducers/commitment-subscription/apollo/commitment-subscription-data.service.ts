@@ -1,3 +1,4 @@
+import { Commitment } from './../../commitment/commitment.model';
 import { Injectable } from '@angular/core'
 import * as moment from 'moment'
 import { Apollo } from 'apollo-angular'
@@ -12,24 +13,34 @@ import { CommitmentSubscriptionDataService } from '../commitment-subscription-da
 })
 export class CommitmentSubscriptionDataApolloService implements CommitmentSubscriptionDataService {
 
-  unsubscribeFromCommitment = (variables: { user: any; commitment: any }): Observable<DataResult<{ commitment: number }>> => callMutate<{ commitment: number }>(
+  unsubscribeFromCommitment = (subscription: { user: any; commitment: any }): Observable<DataResult<{ commitment: number }>> =>{
+
+    const variables = {
+      commitment: subscription.commitment,
+      subscriber: subscription.user.userid
+    }
+
+   return callMutate<{ commitment: number }>(
         this.apollo,
         { mutation: DELETE_SUBSCRIPTION, variables: { ...variables } },
-        (result: any) => ({ data: { commitment: result.data.deleteComment.commitment } })
+        (result: any) => ({ data: { commitment: result.data.deleteCommitmentSubscription.id } })
     )
+  }
 
     subscribeToCommitment = (subscription: {
         commitment: any;
         user: any;
     }): Observable<DataResult<{ commitment: number }>> => {
-        const variables = {
-            commitment: subscription.commitment,
-            text: subscription.user,
-            author: 'Domenica20',
-            created: moment()
+      const variables = {
+        commitment: subscription.commitment,
+        subscriber: subscription.user.userid
         }
+        console.log('subscribe to commitment appollo')
         return callMutate<any>(this.apollo, { mutation: ADD_SUBSCRIPTION, variables: { ...variables } },
-            (result: any) => ({ data: { commitment: result.data.addComment.commitment } })
+            (result: any) => {
+              console.log(result.data)
+              return ({ data: { commitment: result.data.storeCommitmentSubscription.id } })
+            }
         )
 
     }

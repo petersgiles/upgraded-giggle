@@ -331,6 +331,8 @@ export const resolvers = {
       return db.commitments.findOne({ id: args.commitment })
     },
     deleteCommitmentSubscription: (_root: any, args: any) => {
+      console.log('commitment-unsubscription')
+      console.log(args)
       const where = { commitment: args.commitment, subscriber: args.subscriber }
       return deleteCommitementRelatedEntity(commitmentSubscriptionTable, where);
     }

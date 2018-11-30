@@ -153,9 +153,13 @@ export class CommitmentDataService {
   }
 
   subscribeToCommitment(commitment: string | number) {
-
     const currentUser = this.getCurrentUserSP()
     return this.store.dispatch(new SubscribeToCommitment({commitment: commitment, user: currentUser}))
+  }
+
+  unsubscibeFromCommitment(commitment: string | number) {
+    const currentUser = this.getCurrentUserSP()
+    return this.store.dispatch(new UnsubscribeFromCommitment({commitment: commitment, user: currentUser}))
   }
 
   getCurrentUserSP(): any {

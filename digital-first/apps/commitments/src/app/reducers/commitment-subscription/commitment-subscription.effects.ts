@@ -6,6 +6,7 @@ import { switchMap, map, catchError, tap } from 'rxjs/operators'
 import { CommitmentSubscriptionDataService } from './commitment-subscription-data.service'
 import { CommitmentSubscriptionActionTypes, UnsubscribeFromCommitment, GetSubscriptionsByCommitment, SubscriptionActionFailure,
   SubscribeToCommitment, LoadSubscriptions} from './commitment-subscription.actions'
+import { AppNotification, ClearAppNotification } from '../app.actions';
 
 @Injectable()
 export class CommitmentSubscriptionEffects {
@@ -35,7 +36,13 @@ export class CommitmentSubscriptionEffects {
         .pipe(
           // tslint:disable-next-line:no-console
           tap(result => console.log('storeSubscription', result)),
-          map((result: any) => new GetSubscriptionsByCommitment({ commitment: result.data.commitment })),
+
+        switchMap((result: any) => [
+          new AppNotification({ message: 'Subscribed to commitment' }),
+          new GetSubscriptionsByCommitment({ commitment: result.data.commitment }),
+          new ClearAppNotification()
+
+        ]),
           catchError(error => of(new SubscriptionActionFailure(error)))
         )
       ))
@@ -50,7 +57,9 @@ export class CommitmentSubscriptionEffects {
           // tslint:disable-next-line:no-console
           tap(result => console.log('removeSubscription', result)),
           switchMap((result) => [
-            new GetSubscriptionsByCommitment({ commitment: result.data.commitment })
+            new AppNotification({ message: 'Unsubscribed to commitment' }),
+            new GetSubscriptionsByCommitment({ commitment: result.data.commitment }),
+            new ClearAppNotification()
           ]),
           catchError(error => of(new SubscriptionActionFailure(error)))
         )
