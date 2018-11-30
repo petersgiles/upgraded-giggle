@@ -23,6 +23,7 @@ db.connect('./diskdb/commitments', [
   'commitment-subscriptions',
 ]);
 
+const commitmentSubscriptionTable = 'commitment-subscriptions';
 // A map of functions which return data for the schema.
 export const resolvers = {
   Query: {
@@ -34,7 +35,10 @@ export const resolvers = {
       return found
     },
 
-    commitments: () => db.commients.find(),
+    commitments: () => {
+      console.log('Getting all commitments')
+      db.commitments.find()
+    },
     commitment: (obj: any, args: any, context: any, info: any) => {
       let found = db.commitments.findOne({ id: args.id })
       // console.log("commitment => ", found)
@@ -313,24 +317,24 @@ export const resolvers = {
     },
     storeCommitmentSubscription: (_root: any, args: any) => {
       const data = { ...args, Title: `${args.commitment} - ${args.subscriber}` }
-      const found = db['commitment-subscriptions'].findOne(data)
+      const tableName = 'commitment-subscriptions'
+      console.log(tableName)
+      const found = db[tableName].findOne(data)
 
       var saved = null
       if (found) {
-        saved = db['commitment-subscriptions'].update({ _id: found._id }, data, { multi: false, upsert: true })
+        saved = db[tableName].update({ _id: found._id }, data, { multi: false, upsert: true })
       }
       else {
-        saved = db['commitment-subscriptions'].save([data])
+        saved = db[tableName].save([data])
       }
       return db.commitments.findOne({ id: args.commitment })
     },
     deleteCommitmentSubscription: (_root: any, args: any) => {
-      var cs = db['commitment-subscriptions'].findOne({ commitment: args.commitment, subscriber: args.subscriber })
-      if (cs) {
-        var result = db['commitment-subscriptions'].remove({ _id: cs._id }, false)
-      }
-      return db.commitments.findOne({ id: args.commitment })
+      const where = { commitment: args.commitment, subscriber: args.subscriber }
+      return deleteCommitementRelatedEntity(commitmentSubscriptionTable, where);
     }
+
   },
   Commitment: {
     party(commitment: any) {
@@ -437,3 +441,13 @@ export const resolvers = {
   }
 
 };
+
+function deleteCommitementRelatedEntity(tableName: string, where: any) {
+  console.log('deleteCommitmentRelatedEntity')
+  console.log(where)
+  var found = db[tableName].findOne(where);
+  if (found) {
+    var result = db[tableName].remove({ _id: found._id }, false);
+  }
+  return db.commitments.findOne({ id: where.commitment });
+}
