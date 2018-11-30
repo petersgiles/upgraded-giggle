@@ -22,22 +22,22 @@ export class ExpandPanel implements Action {
 export class LoadSubscriptions implements Action {
   readonly type = CommitmentSubscriptionActionTypes.LoadSubscriptions
 
-  constructor(public payload: DataResult<SubscriptionResult>) {}
+  constructor(public payload: DataResult<SubscriptionResult>) { }
 }
 export class GetSubscriptionsByCommitment implements Action {
   readonly type = CommitmentSubscriptionActionTypes.GetSubscriptionsByCommitment
-  constructor(public payload: { commitment: number }) {}
+  constructor(public payload: { commitment: number }) { }
 }
 
 export class SubscribeToCommitment implements Action {
   readonly type = CommitmentSubscriptionActionTypes.SubscribeToCommitment
 
-  constructor(public payload: { commitment: string | number, user: any}) {}
+  constructor(public payload: { commitment: string | number, user: any }) { }
 }
 export class UnsubscribeFromCommitment implements Action {
   readonly type = CommitmentSubscriptionActionTypes.UnsubscribeFromCommitment
 
-  constructor(public payload: {commitment: string | number, user?: any}) {}
+  constructor(public payload: { commitment: string | number, user?: any }) { }
 }
 
 export class SubscriptionActionFailure implements Action {
@@ -48,9 +48,7 @@ export class SubscriptionActionFailure implements Action {
 }
 
 export type CommitmentSubscriptionActions =
-    CollapsePanel
-  | ExpandPanel
-  | LoadSubscriptions
+  LoadSubscriptions
   | GetSubscriptionsByCommitment
   | SubscriptionActionFailure
   | SubscribeToCommitment

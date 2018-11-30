@@ -22,20 +22,6 @@ export function reducer(
 ): State {
   switch (action.type) {
 
-    case CommitmentSubscriptionActionTypes.ExpandPanel: {
-      return {
-        ...state,
-        expanded: true
-      }
-    }
-
-    case CommitmentSubscriptionActionTypes.CollapsePanel: {
-      return {
-        ...state,
-        expanded: false
-      }
-    }
-
     case CommitmentSubscriptionActionTypes.LoadSubscriptions: {
 
         // tslint:disable-next-line:no-console

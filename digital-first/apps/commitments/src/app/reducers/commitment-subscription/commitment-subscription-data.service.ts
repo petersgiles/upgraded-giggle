@@ -27,8 +27,6 @@ const subscriptionDataServiceFactory = (settings: SettingsService, sharepointlib
     source = settings.datasource.type
   }
 
-   console.log('Commitment Subscription Data Service')
-
   switch (source) {
     case 'sharepoint':
       return new CommitmentSubscriptionDataSharePointService(sharepointlib)
