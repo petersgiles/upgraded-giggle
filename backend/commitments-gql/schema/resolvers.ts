@@ -325,13 +325,11 @@ export const resolvers = {
       return db.commitments.findOne({ id: args.commitment })
     },
     deleteCommitmentSubscription: (_root: any, args: any) => {
-      var cc = db['commitment-subscriptions'].findOne({ commitment: args.commitment, subscriber: args.subscriber })
-      console.log(cc)
-      if (cc) {
-
-        var result = db['commitment-subscriptions'].remove({ _id: cc._id }, false)
-        const c = db.commitments.findOne({ id: cc.commitment })
+      var cs = db['commitment-subscriptions'].findOne({ commitment: args.commitment, subscriber: args.subscriber })
+      if (cs) {
+        var result = db['commitment-subscriptions'].remove({ _id: cs._id }, false)
       }
+      return db.commitments.findOne({ id: args.commitment })
     }
   },
   Commitment: {
