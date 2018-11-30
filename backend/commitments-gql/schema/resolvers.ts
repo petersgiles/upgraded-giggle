@@ -37,7 +37,7 @@ export const resolvers = {
 
     commitments: () => {
       console.log('Getting all commitments')
-      db.commitments.find()
+      return db.commitments.find()
     },
     commitment: (obj: any, args: any, context: any, info: any) => {
       let found = db.commitments.findOne({ id: args.id })
