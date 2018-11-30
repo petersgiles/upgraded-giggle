@@ -26,15 +26,14 @@ db.connect('./diskdb/commitments', [
 // A map of functions which return data for the schema.
 export const resolvers = {
   Query: {
-
     commitmentSubscription: (obj: any, args: any, context: any, info: any) => {
       console.log("args", args)
-      var criteria = { commitment : args.commitment, subscriber: args.user}
+      var criteria = { commitment: args.commitment, subscriber: args.user }
       console.log(criteria)
       let found = db["commitment-subscriptions"].find(criteria)
       return found
     },
-    
+
     commitments: () => db.commients.find(),
     commitment: (obj: any, args: any, context: any, info: any) => {
       let found = db.commitments.findOne({ id: args.id })
@@ -48,7 +47,7 @@ export const resolvers = {
       return found
     },
     commitmentMapPoints: (obj: any, args: any, context: any, info: any) => {
-  
+
       let set = db['commitment-commitment-map-points'].find({ commitment: args.commitment })
       console.log('commitment MapPoints => ', set)
       let found = set
@@ -61,7 +60,7 @@ export const resolvers = {
             }
           }
         )
-        console.log('commitment MapPoints found => ', found)
+      console.log('commitment MapPoints found => ', found)
       // console.log('commitment => ', commitment, 'commitmentMapPoints => ', set, 'found => ', found)
       return found
 
@@ -109,8 +108,8 @@ export const resolvers = {
       var comments = found.map((c: any) => ({ ...c, id: c._id }))
       return comments
     },
-    mapPoints:() => db['commitment-map-points'].find(),
-    relatedCommitment:() => db['commitment-related-commitments'].find(),
+    mapPoints: () => db['commitment-map-points'].find(),
+    relatedCommitment: () => db['commitment-related-commitments'].find(),
     locations: () => db['commitment-electorates'].find(),
     tags: () => db['commitment-tags'].find(),
   },
@@ -225,7 +224,7 @@ export const resolvers = {
       // console.log('deleteMapPoint =>', result)
       return { ...c }
 
-    }, 
+    },
     storeRelatedCommitment: (_root: any, args: any) => {
       const data = { ...args };
       const ccc = db['commitment-related-commitments'].findOne(data)
@@ -311,6 +310,28 @@ export const resolvers = {
       const c = db.commitments.findOne({ id: cc.commitment })
       // console.log('deleteCommitmentContact =>', result, c)
       return c
+    },
+    storeCommitmentSubscription: (_root: any, args: any) => {
+      const data = { ...args, Title: `${args.commitment} - ${args.subscriber}` }
+      const found = db['commitment-subscriptions'].findOne(data)
+
+      var saved = null
+      if (found) {
+        saved = db['commitment-subscriptions'].update({ _id: found._id }, data, { multi: false, upsert: true })
+      }
+      else {
+        saved = db['commitment-subscriptions'].save([data])
+      }
+      return db.commitments.findOne({ id: args.commitment })
+    },
+    deleteCommitmentSubscription: (_root: any, args: any) => {
+      var cc = db['commitment-subscriptions'].findOne({ commitment: args.commitment, subscriber: args.subscriber })
+      console.log(cc)
+      if (cc) {
+
+        var result = db['commitment-subscriptions'].remove({ _id: cc._id }, false)
+        const c = db.commitments.findOne({ id: cc.commitment })
+      }
     }
   },
   Commitment: {
@@ -377,7 +398,7 @@ export const resolvers = {
       // console.log('commitment => ', commitment, 'commitmentContacts => ', commitmentcontacts, 'found => ', found)
       return found
     },
-    mapPoints (commitment: any) {
+    mapPoints(commitment: any) {
       let set = db['commitment-commitment-map-points'].find({ commitment: commitment.id })
       console.log('commitment MapPoints => ', set)
       let found = set
@@ -390,13 +411,13 @@ export const resolvers = {
             }
           }
         )
-        console.log('commitment MapPoints found => ', found)
+      console.log('commitment MapPoints found => ', found)
       // console.log('commitment => ', commitment, 'commitmentMapPoints => ', set, 'found => ', found)
       return found
     },
     tags(commitment: any) {
       var found = db['commitment-tags'].find({ id: commitment.tags })
-      if (found.length) { 
+      if (found.length) {
         // console.log('tags =>', found) 
       }
       var tags = found.map((c: any) => ({ ...c, id: c._id }))

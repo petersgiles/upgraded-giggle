@@ -4,7 +4,6 @@ import { Subscription } from './subscription.model'
 
 export interface State {
   expanded: boolean
-  timeFormat: 'dateFormat' | 'timeAgo' | 'calendar'
   subscriptions: []
   loading: boolean
   error: any
@@ -12,7 +11,6 @@ export interface State {
 
 export const initialState: State = {
   expanded: false,
-  timeFormat: 'timeAgo',
   subscriptions: null,
   loading: false,
   error: null,
@@ -41,7 +39,7 @@ export function reducer(
     case CommitmentSubscriptionActionTypes.LoadSubscriptions: {
 
         // tslint:disable-next-line:no-console
-        console.log('LoadSubsriptions', action.payload)
+        console.log('LoadSubscriptions', action.payload)
 
       return {
           ...state,
@@ -62,6 +60,5 @@ export function reducer(
 
 export const selectAll = (state: State) => state.subscriptions
 export const getExpanded = (state: State) => state.expanded
-export const getTimeFormat = (state: State) => state.timeFormat
 export const getSubscriptionLoading = (state: State) => state.loading
 export const getSubscriptionError = (state: State) => state.error

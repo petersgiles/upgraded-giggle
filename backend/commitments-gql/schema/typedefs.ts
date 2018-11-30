@@ -230,6 +230,8 @@ type Tag {
     deleteRelatedCommitment(commitment: ID!, relatedTo: ID!): Commitment,
     storeCommitmentPortfolio(commitment: ID!, portfolio: ID!): Commitment,
     deleteCommitmentPortfolio(id: ID!): Commitment,
+    storeCommitmentSubscription(commitment: ID!, subscriber: ID!): Commitment,
+    deleteCommitmentSubscription(commitment: ID!, subscriber: ID!): Commitment,
     }
 
 `;
