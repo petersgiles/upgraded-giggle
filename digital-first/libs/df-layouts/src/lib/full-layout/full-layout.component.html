@@ -22,7 +22,7 @@
 
 <div #mainContent class="app-layout__row--no-wrap">
 
-    <mdc-drawer #appdrawer [drawer]="'modal'" fixed>
+    <mdc-drawer #appdrawer [drawer]="drawerStyle" fixed>
         <mdc-drawer-header (click)="appdrawer.open = !appdrawer.open">
             <h3 mdcDrawerTitle>{{title}}</h3>
             <h6 mdcDrawerSubtitle> {{version}}</h6>

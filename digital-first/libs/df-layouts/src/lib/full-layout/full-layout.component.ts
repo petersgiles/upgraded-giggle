@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, NgZone } from '@angular/core'
+import { Component, OnInit, OnDestroy, NgZone, Input } from '@angular/core'
 import { Subject, Observable, Subscription, BehaviorSubject, interval, of } from 'rxjs'
 import { Router, NavigationEnd } from '@angular/router'
 import { takeUntil, filter, delay, tap, throttle, map, concatMap } from 'rxjs/operators'
@@ -10,6 +10,10 @@ import { FullLayoutService, AppUserProfile, SideBarItem } from './full-layout.se
   styleUrls: ['./full-layout.component.scss']
 })
 export class FullLayoutComponent implements OnInit, OnDestroy {
+
+  get drawerStyle(): 'permanent' | 'dismissible' | 'modal' {
+    return this.service.drawerStyle || 'modal'
+  }
 
   private _destroy = new Subject<void>()
   _profile: AppUserProfile
