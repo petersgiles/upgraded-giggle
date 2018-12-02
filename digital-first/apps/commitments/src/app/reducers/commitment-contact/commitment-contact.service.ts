@@ -14,8 +14,7 @@ export class CommitmentContactService {
     constructor(private store: Store<fromRoot.State>) { }
 
     get Expanded(): Observable<boolean> {
-        return of(true)
-        // return this.store.pipe(select(fromRoot.getCommitmentContactPanelExpanded))
+        return this.store.pipe(select(fromRoot.getCommitmentContactPanelExpanded))
     }
 
     expandPanel() {
