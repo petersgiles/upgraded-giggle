@@ -8,8 +8,8 @@ export const environment = {
   version: require('../../../../package.json').version,
   datasource: {
     type: 'local',
-    dataServiceUrl: '//localhost:3001/graphql',
-    passthroughUrl: '//programs.cloud9.cabnet:52629/api/sendmessage'
+    dataServiceUrl: '//programs.cloud9.cabnet/graphql',
+    passthroughUrl: '//programsadmin.cloud9.cabnet/api/sendmessage'
   },
   federatedLoginApiPath: '#{ApiPath}'
 };
