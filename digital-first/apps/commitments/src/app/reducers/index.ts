@@ -34,6 +34,7 @@ import * as fromCommitmentLookup from './commitment-lookup/commitment-lookup.red
 import * as fromCommitmentOverview from './commitment-overview/commitment-overview.reducer'
 import * as fromCommitmentEdit from './commitment-edit/commitment-edit.reducer'
 import * as fromCommitmentDiscussion from './commitment-discussion/commitment-discussion.reducer'
+import * as fromCommitmentContact from './commitment-contact/commitment-contact.reducer'
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
     return localStorageSync({
@@ -61,7 +62,7 @@ export interface State {
     commitmentOverview: fromCommitmentOverview.State
     commitmentEdit: fromCommitmentEdit.State
     commitmentDiscussion: fromCommitmentDiscussion.State
-
+    commitmentContact: fromCommitmentContact.State
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -75,7 +76,8 @@ export const reducers: ActionReducerMap<State> = {
     commitmentLookup: fromCommitmentLookup.reducer,
     commitmentOverview: fromCommitmentOverview.reducer,
     commitmentEdit: fromCommitmentEdit.reducer,
-    commitmentDiscussion: fromCommitmentDiscussion.reducer
+    commitmentDiscussion: fromCommitmentDiscussion.reducer,
+    commitmentContact: fromCommitmentContact.reducer
 }
 
 export const getNotificationState = state => state.notification
@@ -93,6 +95,7 @@ export * from './contact'
 export * from './commitment-overview'
 export * from './commitment-edit'
 export * from './commitment-discussion'
+export * from './commitment-contact'
 export * from './commitment'
 
 export class CustomSerializer
