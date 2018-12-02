@@ -50,17 +50,8 @@
       <digital-first-map [mapPoints]="commitment.mapPoints" (onAddMapPoint)="handleAddMapPoint($event)"
         (onDeleteMapPoint)=handleDeleteMapPoint($event)></digital-first-map>
     </div>
-    <digital-first-page-title *ngIf="commitment" title="Contacts" (onTitleClicked)="handleChangeExpanded(!panels.contactPanelExpanded, 'contactPanelExpanded')">
-      <digital-first-add-item-button icon="person_add" title="New&nbsp;Contact" *ngIf="panels.contactPanelExpanded"
-        (onAddItem)="handleCreateContact()"></digital-first-add-item-button>
-      <digital-first-add-item-button icon="person" title="Add&nbsp;Contact" *ngIf="panels.contactPanelExpanded"
-        (onAddItem)="handleOpenContactDialog()"></digital-first-add-item-button>
-      <digital-first-expand-collapse-button [expanded]='panels.contactPanelExpanded' (onChangeExpanded)="handleChangeExpanded($event, 'contactPanelExpanded')"></digital-first-expand-collapse-button>
-    </digital-first-page-title>
 
-    <div class="commitment-layout__row" *ngIf="panels.contactPanelExpanded">
-      <digital-first-data-table [tableData]="commitmentContactsTableData$ | async" (onDeleteItem)="handleContactsTableDeleteClicked($event)"></digital-first-data-table>
-    </div>
+    <digital-first-commitment-contacts *ngIf="commitment" [commitment]="commitment?.id"></digital-first-commitment-contacts>
 
     <digital-first-page-title *ngIf="commitment" title="Related Items" (onTitleClicked)="handleChangeExpanded(!panels.relatedItemsPanelExpanded, 'relatedItemsPanelExpanded')">
       <digital-first-add-item-button icon="person" title="Add&nbsp;commitment" *ngIf="panels.relatedItemsPanelExpanded"
