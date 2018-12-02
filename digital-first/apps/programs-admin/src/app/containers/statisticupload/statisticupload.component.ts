@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {Observable} from "rxjs";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Subscription} from "rxjs";
 import {AllStatistics, AllStatisticsGQL} from "../../generated/graphql";
 import {map} from "rxjs/operators";
 import {PassthroughService} from "../../services/passthrough.service";
@@ -12,37 +12,52 @@ import {MdcSnackbar} from '@angular-mdc/web'
   styleUrls: ['./statisticupload.component.scss']
 })
 
-export class StatisticuploadComponent implements OnInit {
+export class StatisticuploadComponent implements OnInit, OnDestroy {
 
   fileToUpload: File;
-  model = new StatisticUploadFormModel();
-
-  statistics: Observable<AllStatistics.Statistics[]>;
-
+  model: StatisticUploadFormModel;
+  statistics: AllStatistics.Statistics[];
   statisticReports: AllStatistics.StatisticReports[];
+  statisticsSub: Subscription;
 
-  constructor(private allStatistics: AllStatisticsGQL, private passthrough: PassthroughService, private snackbar: MdcSnackbar) {
+  constructor(private allStatistics: AllStatisticsGQL,
+              private passthrough: PassthroughService,
+              private snackbar: MdcSnackbar) {
+  }
+
+  get diagnostic() {
+    return JSON.stringify(this.model);
   }
 
   onSelectionChange(event: { index: any, value: any }) {
-    console.log(`onSelectionChange: ${event.index} ${event.value}`);
 
+    if (event.index > -1) {
+      // this.model.statisticId = event.value;
 
-    if (event.index>-1) {
-      const statisticId = event.value;
-      this.statistics
-        .subscribe(statistics => {
-          this.statisticReports = statistics.filter(statistic => statistic.id == statisticId)[0].statisticReports;
-        });
+      this.model.statisticReportId = null;
+
+      this.statisticReports = this.statistics.filter(value => value.id == event.value)[0].statisticReports;
+
     }
+    else {
+      // this.model.statisticId = null;
+    }
+
   }
 
   ngOnInit() {
 
-    this.statistics = this.allStatistics.watch().valueChanges.pipe(map(result => result.data.statistics));
+    this.model = new StatisticUploadFormModel();
+
+    this.statisticsSub = this.allStatistics.watch().valueChanges
+      .pipe(map(result => result.data.statistics)).subscribe(value => {
+        this.statistics = value;
+      });
+
   }
 
   fileChange(event) {
+
     let fileList: FileList = event.target.files;
 
     if (fileList.length == 1) {
@@ -51,6 +66,7 @@ export class StatisticuploadComponent implements OnInit {
     }
   }
 
+  //send message and attachment onto the bus
   onSubmit() {
 
     const formData = new FormData();
@@ -66,13 +82,19 @@ export class StatisticuploadComponent implements OnInit {
 
     formData.append('message', JSON.stringify(message));
 
-    //TODO: how does DFC framework want to handle errors?
-    this.passthrough.sendMessageOnToBus<UploadElectorateStatisticSpreadsheet>(message, formData)
+    this.passthrough
+      .sendMessageOnToBus<UploadElectorateStatisticSpreadsheet>(message, formData)
       .subscribe(value => {
-
           this.snackbar.show('File uploaded successfully.', null, {align: 'center'});
         }
-      );
+        , error => {
+          this.snackbar.show(`File uploaded failed. ${error}`, null, {align: 'center'});
+        });
+  }
+
+  ngOnDestroy(): void {
+
+    this.statisticsSub.unsubscribe();
   }
 }
 
@@ -81,4 +103,5 @@ class StatisticUploadFormModel {
   public dataDate: Date;
   public notes: string;
   public statisticReportId: string;
+  public statisticId: string;
 }

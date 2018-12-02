@@ -63,7 +63,6 @@ import {AppEffects} from './reducers/app.effects'
 import {RouterEffects} from './reducers/router.effects'
 import {FEDERATEDLOGINAPIPATH} from '@digital-first/df-app-tokens'
 
-import {HomeaffairsComponent} from './containers/homeaffairs/homeaffairs.component';
 import {StatisticuploadComponent} from "./containers/statisticupload/statisticupload.component";
 import {GraphQLModule} from "./graphql.module";
 
@@ -114,7 +113,7 @@ export function initApplication(store: Store<fromRoot.State>): Function {
 }
 
 @NgModule({
-  declarations: [...COMPONENTS, HomeaffairsComponent, StatisticuploadComponent],
+  declarations: [...COMPONENTS, StatisticuploadComponent],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [
     BrowserModule,

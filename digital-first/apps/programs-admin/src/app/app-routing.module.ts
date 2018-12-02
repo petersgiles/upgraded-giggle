@@ -3,7 +3,6 @@ import {Routes, RouterModule} from '@angular/router'
 import {HomeComponent} from './containers/home/home.component'
 import {FullLayoutComponent} from '@digital-first/df-layouts'
 import {AuthGuard} from '@digital-first/df-auth'
-import {HomeaffairsComponent} from "./containers/homeaffairs/homeaffairs.component";
 import {StatisticuploadComponent} from "./containers/statisticupload/statisticupload.component";
 
 export const routes: Routes = [
@@ -20,21 +19,6 @@ export const routes: Routes = [
       {
         path: '',
         component: HomeComponent,
-      }
-    ]
-  },
-  {
-    path: 'homeaffairs',
-    component: FullLayoutComponent,
-    canActivate: [AuthGuard],
-    data: {
-      title: 'Home Affairs Report',
-      icon: 'security'
-    },
-    children: [
-      {
-        path: '',
-        component: HomeaffairsComponent,
       }
     ]
   },
