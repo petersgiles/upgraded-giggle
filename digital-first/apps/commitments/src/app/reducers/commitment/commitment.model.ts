@@ -1,12 +1,13 @@
-import { Party } from '../party/party.model'
-import { AnnouncementType } from '../announcement-type/announcement-type.model'
-import { Portfolio } from '../portfolio/portfolio.model'
-import { Comment } from '../comment/comment.model'
-import { Location } from '../location/location.model'
-import { CommitmentType } from '../commitment-type/commitment-type.model'
-import { WhoAnnouncedType } from '../who-announced-type/who-announced-type.model'
+import { Party } from '../../models/party.model'
+import { AnnouncementType } from '../../models/announcement-type.model'
+import { Portfolio } from '../../models/portfolio.model'
+import { Comment } from '../commitment-discussion/comment.model'
+import { Location } from '../../models/location.model'
+import { CommitmentType } from '../../models/commitment-type.model'
+import { WhoAnnouncedType } from '../../models/who-announced-type.model'
 import { Contact } from '../contact/contact.model'
 import { MapPoint } from '../map-point/map-point.model'
+import { CriticalDate } from '../../models/critical-date.model'
 
 export interface Commitment {
   id: number
@@ -22,8 +23,10 @@ export interface Commitment {
   date: any,
   announcedby: string,
   portfolio: Portfolio,
+  criticalDate: CriticalDate,
   portfolios: Portfolio[],
   mapPoints: MapPoint[],
   contacts: Contact[],
+  relatedContacts: Commitment[]
   discussion?: Comment[]
 }

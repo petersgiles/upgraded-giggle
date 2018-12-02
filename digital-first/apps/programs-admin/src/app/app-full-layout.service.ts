@@ -26,6 +26,10 @@ export class AppFullLayoutService {
     return of(this.sidebarRoutes)
   }
 
+  get notification$(): Observable<string> {
+    return of(null)
+  }
+
   constructor() {
 
     this.sidebarRoutes = routes.filter(r => r.data).map(r => ({

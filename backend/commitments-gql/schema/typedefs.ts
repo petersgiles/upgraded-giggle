@@ -75,6 +75,8 @@ type Portfolio {
 type Contact {
   id: ID,
   name: String
+  jobTitle: String
+  firstName: String
   username: String
   email: String
   phone: String,
@@ -86,7 +88,7 @@ type Contact {
 type Electorate {
     id: ID,
     title: String,
-    state: String, 
+    group: String, 
     area: String
 }
 
@@ -122,6 +124,11 @@ type Tag {
     portfolio: Portfolio
   }
 
+  type RelatedCommitment {
+    commitment: ID,
+    relatedTo: ID
+  }
+
   # This "Commitment" type can be used in other type declarations.
   type Commitment {
     id: ID,
@@ -151,10 +158,12 @@ type Tag {
     commitmentMapPoints(commitment: ID!): [MapPoint],
     commitmentPortfolios(commitment: ID!): [Portfolio],
     commitmentElectorates(commitment: ID!): [Electorate],
+    commitmentRelatedCommitments(commitment: ID!): [Commitment],
     parties: [PoliticalParty],
     portfolios: [Portfolio],
     criticalDates: [CriticalDate],
     mapPoints: [MapPoint],
+    relatedCommitment: [RelatedCommitment],
     announcementTypes: [AnnouncementType],
     commitmentTypes: [CommitmentType]
     whoAnnouncedTypes: [WhoAnnouncedType]
@@ -175,6 +184,7 @@ type Tag {
       location: ID,
       whoAnnouncedType: ID,
       announcementType: ID,
+      criticalDate: ID,
       commitmentType: ID,
       date: String,
       announcedby: String,
@@ -193,6 +203,8 @@ type Tag {
     ): Comment,
     storeContact( 
       name: String,
+      jobTitle: String
+      firstName: String
       username: String,
       email: String,
       phone: String,
@@ -207,6 +219,8 @@ type Tag {
     deleteCommitmentMapPoint(commitment: ID!, mapPoint: ID!): Commitment,
     storeCommitmentElectorate(commitment: ID!, electorate: ID!): Commitment,
     deleteCommitmentElectorate(commitment: ID!, electorate: ID!): Commitment,
+    storeRelatedCommitment(commitment: ID!, relatedTo: ID!): Commitment,
+    deleteRelatedCommitment(commitment: ID!, relatedTo: ID!): Commitment,
     storeCommitmentPortfolio(commitment: ID!, portfolio: ID!): Commitment,
     deleteCommitmentPortfolio(id: ID!): Commitment,
     }

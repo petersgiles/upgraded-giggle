@@ -7,6 +7,7 @@ export { ShareButtonComponent } from './lib/share-button.component'
 export { AddNotificationButtonComponent } from './lib/add-notification-button.component'
 export { ArchiveButtonComponent } from './lib/archive-button.component'
 export { NavigateButtonComponent } from './lib/navigation-button.component'
+export { AddSubscriptionButtonComponent } from './lib/subscriber-button.component'
 
 export { ViewLayoutButtonComponent } from './lib/view-layout-button.component'
 
@@ -20,3 +21,4 @@ export { RelatedArtifactsComponent } from './lib/related-artifacts/related-artif
 export { ContactCardComponent } from './lib/contact-card/contact-card.component'
 export { PageTitleComponent } from './lib/page-title.component'
 export { AvatarComponent } from './lib/avatar/avatar.component'
+export { InfoComponent } from './lib/info/info.component'

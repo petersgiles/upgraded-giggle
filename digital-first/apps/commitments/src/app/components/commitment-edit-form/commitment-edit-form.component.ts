@@ -1,15 +1,16 @@
 import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import * as moment from 'moment'
-import { Party } from '../../reducers/party/party.model'
-import { Portfolio } from '../../reducers/portfolio/portfolio.model'
-import { AnnouncementType } from '../../reducers/announcement-type/announcement-type.model'
+import { Party } from '../../models/party.model'
+import { Portfolio } from '../../models/portfolio.model'
+import { AnnouncementType } from '../../models/announcement-type.model'
 import { Commitment } from '../../reducers/commitment/commitment.model'
-import { Location } from '../../reducers/location/location.model'
-import { CommitmentType } from '../../reducers/commitment-type/commitment-type.model'
-import { WhoAnnouncedType } from '../../reducers/who-announced-type/who-announced-type.model'
+import { Location } from '../../models/location.model'
+import { CommitmentType } from '../../models/commitment-type.model'
+import { WhoAnnouncedType } from '../../models/who-announced-type.model'
 import { Subscription } from 'rxjs'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
+import { CriticalDate } from '../../models/critical-date.model'
 
 @Component({
   selector: 'digital-first-commitment-edit-form',
@@ -19,11 +20,13 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 export class CommitmentEditFormComponent implements OnDestroy {
 
   @Input() showSubmit = false
+  @Input() submitButtonText = 'Submit'
   @Input() parties: Party[]
   @Input() portfolios: Portfolio[]
   @Input() announcementTypes: AnnouncementType[]
   @Input() whoAnnouncedTypes: WhoAnnouncedType[]
   @Input() commitmentTypes: CommitmentType[]
+  @Input() criticalDates: CriticalDate[]
   @Input() locations: Location[]
   @Input() busy: boolean
 
@@ -35,17 +38,17 @@ export class CommitmentEditFormComponent implements OnDestroy {
 
   form = this.fb.group({
     id: [],
-    title: ['', Validators.required],
-    location: [''],
+    title: [null, Validators.required],
     description: [''],
-    announcedby: [''],
-    date: [''],
-    party: [''],
-    announcementType: [''],
-    whoAnnouncedType: [''],
-    commitmentType: [''],
-    portfolio: [],
-    cost: [''],
+    date: [null, Validators.required],
+    announcedby: [null],
+    party: [null],
+    announcementType: [null],
+    whoAnnouncedType: [null],
+    commitmentType: [null],
+    portfolio: [null],
+    criticalDate: [null],
+    cost: [null],
   })
 
   @Input()
@@ -58,7 +61,6 @@ export class CommitmentEditFormComponent implements OnDestroy {
       const patch = {
         id: val.id,
         title: val.title,
-        location: val.location && val.location.id,
         description: val.description,
         announcedby: val.announcedby,
         date: moment(val.date).format('YYYY-MM-DD'),
@@ -67,6 +69,7 @@ export class CommitmentEditFormComponent implements OnDestroy {
         announcementType: val.announcementType && val.announcementType.id,
         commitmentType: val.commitmentType && val.commitmentType.id,
         portfolio: val.portfolio && val.portfolio.id,
+        criticalDate: val.criticalDate && val.criticalDate.id,
         cost: val.cost,
       }
 

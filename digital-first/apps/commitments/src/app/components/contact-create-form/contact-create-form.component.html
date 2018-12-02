@@ -4,18 +4,18 @@
       <input type="hidden" formControlName="id" />
 
       <div class="form-layout__row">
-        <mdc-text-field formControlName="name" label="Name" required  [helperText]="nameFieldInputHelper"
-          (change)="handleChange($event)"></mdc-text-field>
+        <mdc-text-field formControlName="firstName" label="First Name" required dense (change)="handleChange($event)"></mdc-text-field>
+        <mdc-text-field formControlName="name" label="Last Name" required dense (change)="handleChange($event)"></mdc-text-field>
       </div>
 
       <div class="form-layout__row">
-        <mdc-text-field formControlName="email" label="Email" type="email" required  [helperText]="emailFieldInputHelper"
-          (change)="handleChange($event)"></mdc-text-field>
+          <mdc-text-field formControlName="jobTitle" label="Job Title" required dense (change)="handleChange($event)"></mdc-text-field>
       </div>
 
       <div class="form-layout__row">
-        <mdc-text-field formControlName="phone" label="Phone" type="tel" required  [helperText]="phoneeFieldInputHelper"
-          (change)="handleChange($event)"></mdc-text-field>
+        <mdc-text-field formControlName="email" label="Email" type="email" required dense (change)="handleChange($event)"></mdc-text-field>
+
+        <mdc-text-field formControlName="phone" label="Phone" type="tel" required dense (change)="handleChange($event)"></mdc-text-field>
       </div>
 
       <h3 class="form-content__headline">Agency</h3>
@@ -24,15 +24,14 @@
         <ng-select [items]="portfolios" bindValue="id" bindLabel="title" placeholder="Responsible Portfolio" formControlName="portfolio">
         </ng-select>
 
-        <ng-select [items]="parties" bindValue="id" bindLabel="title" placeholder="Party" formControlName="party">
-        </ng-select>
-
       </div>
       <div class="form-layout__row-with-button">
         <button mdc-button mdcCardAction="button" type="reset" (click)="handleReset($event)">Clear</button>
         <button mdc-button mdcCardAction="button" type="submit" [disabled]="!form.valid">Submit</button>
       </div>
     </fieldset>
+
+
   </form>
 
 </div>

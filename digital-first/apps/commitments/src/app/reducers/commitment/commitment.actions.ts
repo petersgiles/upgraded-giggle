@@ -29,93 +29,108 @@ export enum CommitmentActionTypes {
   RemoveMapPointFromCommitment = '[Commitment] Remove MapPoint From Commitment',
   AddElectorateToCommitment = '[Commitment] Add Electorate ToCommitment',
   RemoveElectorateFromCommitment = '[Commitment] Remove Electorate From Commitment',
+  AddCommitmentToCommitment = '[Commitment] Add Commitment ToCommitment',
+  RemoveCommitmentFromCommitment = '[Commitment] Remove Commitment From Commitment',
 }
 
 export class AddMapPointToCommitment implements Action {
   readonly type = CommitmentActionTypes.AddMapPointToCommitment
 
-  constructor(public payload: {commitment: number | string, mapPoint:  MapPoint}) { }
+  constructor(public payload: { commitment: number | string, mapPoint: MapPoint }) { }
 }
 
 export class RemoveMapPointFromCommitment implements Action {
   readonly type = CommitmentActionTypes.RemoveMapPointFromCommitment
 
-  constructor(public payload: {commitment: string | number, mapPoint: MapPoint}) { }
+  constructor(public payload: { commitment: string | number, mapPoint: MapPoint }) { }
 }
 
 export class AddContactToCommitment implements Action {
   readonly type = CommitmentActionTypes.AddContactToCommitment
 
-  constructor(public payload: {commitment: number | string, contact:  number | string}) { }
+  constructor(public payload: { commitment: number | string, contact: number | string }) { }
 }
 
 export class RemoveContactFromCommitment implements Action {
   readonly type = CommitmentActionTypes.RemoveContactFromCommitment
 
-  constructor(public payload: {id: number | string}) { }
+  constructor(public payload: { id: number | string }) { }
 }
 
 export class AddElectorateToCommitment implements Action {
   readonly type = CommitmentActionTypes.AddElectorateToCommitment
 
-  constructor(public payload: {commitment: number | string, electorate: string | number}) { }
+  constructor(public payload: { commitment: number | string, electorate: string | number }) { }
 }
 
 export class RemoveElectorateFromCommitment implements Action {
   readonly type = CommitmentActionTypes.RemoveElectorateFromCommitment
 
-  constructor(public payload: {commitment: number | string, electorate: string | number}) { }
+  constructor(public payload: { commitment: number | string, electorate: string | number }) { }
 }
+
+export class AddCommitmentToCommitment implements Action {
+  readonly type = CommitmentActionTypes.AddCommitmentToCommitment
+
+  constructor(public payload: { commitment: number | string, relatedTo: string | number }) { }
+}
+
+export class RemoveCommitmentFromCommitment implements Action {
+  readonly type = CommitmentActionTypes.RemoveCommitmentFromCommitment
+
+  constructor(public payload: { commitment: number | string, relatedTo: string | number }) { }
+}
+
 export class LoadCommitments implements Action {
   readonly type = CommitmentActionTypes.LoadCommitments
-  constructor(public payload: DataResult<CommitmentsResult>) {}
+  constructor(public payload: DataResult<CommitmentsResult>) { }
 }
 export class AddCommitment implements Action {
   readonly type = CommitmentActionTypes.AddCommitment
 
-  constructor(public payload: DataResult<CommitmentResult>) {}
+  constructor(public payload: DataResult<CommitmentResult>) { }
 }
 
 export class UpsertCommitment implements Action {
   readonly type = CommitmentActionTypes.UpsertCommitment
 
-  constructor(public payload: DataResult<CommitmentResult>) {}
+  constructor(public payload: DataResult<CommitmentResult>) { }
 }
 
 export class AddCommitments implements Action {
   readonly type = CommitmentActionTypes.AddCommitments
 
-  constructor(public payload: DataResult<CommitmentsResult>) {}
+  constructor(public payload: DataResult<CommitmentsResult>) { }
 }
 
 export class UpsertCommitments implements Action {
   readonly type = CommitmentActionTypes.UpsertCommitments
 
-  constructor(public payload: DataResult<CommitmentsResult>) {}
+  constructor(public payload: DataResult<CommitmentsResult>) { }
 }
 
 export class UpdateCommitment implements Action {
   readonly type = CommitmentActionTypes.UpdateCommitment
 
-  constructor(public payload: { commitment: Update<Commitment> }) {}
+  constructor(public payload: { commitment: Update<Commitment> }) { }
 }
 
 export class UpdateCommitments implements Action {
   readonly type = CommitmentActionTypes.UpdateCommitments
 
-  constructor(public payload: { commitments: Update<Commitment>[] }) {}
+  constructor(public payload: { commitments: Update<Commitment>[] }) { }
 }
 
 export class DeleteCommitment implements Action {
   readonly type = CommitmentActionTypes.DeleteCommitment
 
-  constructor(public payload: { id: string }) {}
+  constructor(public payload: { id: string }) { }
 }
 
 export class DeleteCommitments implements Action {
   readonly type = CommitmentActionTypes.DeleteCommitments
 
-  constructor(public payload: { ids: string[] }) {}
+  constructor(public payload: { ids: string[] }) { }
 }
 
 export class ClearCommitments implements Action {
@@ -124,22 +139,22 @@ export class ClearCommitments implements Action {
 
 export class SetCurrentCommitment implements Action {
   readonly type = CommitmentActionTypes.SetCurrentCommitment
-  constructor(public payload: { id: number | string }) {}
+  constructor(public payload: { id: number | string }) { }
 }
 export class GetCommitments implements Action {
   readonly type = CommitmentActionTypes.GetCommitments
-  constructor(public payload: { ids: number[] }) {}
+  constructor(public payload: { ids: number[] }) { }
 }
 
 export class GetAllCommitments implements Action {
   readonly type = CommitmentActionTypes.GetAllCommitments
-  constructor(public payload?: { filter?: any }) {}
+  constructor(public payload?: { filter?: any }) { }
 }
 
 export class StoreCommitment implements Action {
   readonly type = CommitmentActionTypes.StoreCommitment
 
-  constructor(public payload: any) {}
+  constructor(public payload: any) { }
 }
 export class CommitmentsActionFailure implements Action {
   readonly type = CommitmentActionTypes.CommitmentsActionFailure
@@ -149,24 +164,24 @@ export class CommitmentsActionFailure implements Action {
 }
 
 export type CommitmentActions =
- LoadCommitments
- | AddCommitment
- | UpsertCommitment
- | AddCommitments
- | UpsertCommitments
- | UpdateCommitment
- | UpdateCommitments
- | DeleteCommitment
- | DeleteCommitments
- | ClearCommitments
- | SetCurrentCommitment
- | GetAllCommitments
- | GetCommitments
- | CommitmentsActionFailure
- | StoreCommitment
- | AddContactToCommitment
- | RemoveContactFromCommitment
- | AddMapPointToCommitment
- | RemoveMapPointFromCommitment
- |AddElectorateToCommitment
- |RemoveElectorateFromCommitment
+  LoadCommitments
+  | AddCommitment
+  | UpsertCommitment
+  | AddCommitments
+  | UpsertCommitments
+  | UpdateCommitment
+  | UpdateCommitments
+  | DeleteCommitment
+  | DeleteCommitments
+  | ClearCommitments
+  | SetCurrentCommitment
+  | GetAllCommitments
+  | GetCommitments
+  | CommitmentsActionFailure
+  | StoreCommitment
+  | AddContactToCommitment
+  | RemoveContactFromCommitment
+  | AddMapPointToCommitment
+  | RemoveMapPointFromCommitment
+  | AddElectorateToCommitment
+  | RemoveElectorateFromCommitment

@@ -31,6 +31,10 @@ export class FullLayoutService {
     return of([])
   }
 
+  get notification$(): Observable<any>  { return of(null) }
+
+  get open$(): Observable<boolean>  { return of(null) }
+
   constructor() { }
 
 }

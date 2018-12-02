@@ -1,18 +1,17 @@
-import { BrowserModule } from '@angular/platform-browser'
-import { NgModule, APP_INITIALIZER } from '@angular/core'
-import { NxModule } from '@nrwl/nx'
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { Apollo, APOLLO_OPTIONS, ApolloModule } from 'apollo-angular'
-import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http'
-import { InMemoryCache } from 'apollo-cache-inmemory'
-import { NgxWigModule } from 'ngx-wig'
+import {BrowserModule} from '@angular/platform-browser'
+import {NgModule, APP_INITIALIZER} from '@angular/core'
+import {NxModule} from '@nrwl/nx'
+import {HttpClientModule} from '@angular/common/http'
+import {FormsModule, ReactiveFormsModule} from '@angular/forms'
+import {ApolloModule} from 'apollo-angular'
+import {HttpLinkModule} from 'apollo-angular-link-http'
+import {NgxWigModule} from 'ngx-wig'
 
-import { DfAuthModule, AUTH_KEY, StartAutoTokenRefresh } from '@digital-first/df-auth'
-import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
-import { DfThemeModule } from '@digital-first/df-theme'
-import { DfDiscussionModule, DiscussionComponent } from '@digital-first/df-discussion'
-import { DfPagesModule } from '@digital-first/df-pages'
+import {DfAuthModule, AUTH_KEY, StartAutoTokenRefresh} from '@digital-first/df-auth'
+import {DfLayoutsModule, FullLayoutService} from '@digital-first/df-layouts'
+import {DfThemeModule} from '@digital-first/df-theme'
+import {DfDiscussionModule, DiscussionComponent} from '@digital-first/df-discussion'
+import {DfPagesModule} from '@digital-first/df-pages'
 
 import {
   DfDialogsModule,
@@ -23,10 +22,9 @@ import {
   DialogAddContactComponent
 } from '@digital-first/df-dialogs'
 
-import { DfSharepointModule, SharepointJsomService } from '@digital-first/df-sharepoint'
-import { DfPipesModule } from '@digital-first/df-pipes'
-import { DfMomentModule } from '@digital-first/df-moment'
-import { WINDOW_PROVIDERS } from '@digital-first/df-utils'
+import {DfPipesModule} from '@digital-first/df-pipes'
+import {DfMomentModule} from '@digital-first/df-moment'
+import {WINDOW_PROVIDERS} from '@digital-first/df-utils'
 import {
   DfComponentsModule,
   TagsComponent,
@@ -44,38 +42,34 @@ import {
   DataTableComponent
 } from '@digital-first/df-components'
 
-import { AppComponent } from './app.component'
-import { AppFullLayoutService } from './app-full-layout.service'
-import { HomeComponent } from './containers/home/home.component'
-import { AppRoutingModule } from './app-routing.module'
+import {AppComponent} from './app.component'
+import {AppFullLayoutService} from './app-full-layout.service'
+import {HomeComponent} from './containers/home/home.component'
+import {AppRoutingModule} from './app-routing.module'
 
-import { SettingsService } from './services/settings.service'
-import { SharepointDataService } from './services/sharepoint/sharepoint-data.service'
-import { ApolloDataService } from './services/apollo/apollo-data.service'
-import { AppDataService } from './services/app-data.service'
-import { environment } from '../environments/environment'
-import { StoreModule, Store, select } from '@ngrx/store'
-import { EffectsModule } from '@ngrx/effects'
-import { StoreDevtoolsModule } from '@ngrx/store-devtools'
+import {environment} from '../environments/environment'
+import {StoreModule, Store} from '@ngrx/store'
+import {EffectsModule} from '@ngrx/effects'
+import {StoreDevtoolsModule} from '@ngrx/store-devtools'
 
-import { CustomSerializer, reducers, metaReducers } from './reducers'
-import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store'
+import {CustomSerializer, reducers, metaReducers} from './reducers'
+import {RouterStateSerializer, StoreRouterConnectingModule} from '@ngrx/router-store'
 
-import { StartAppInitialiser } from './reducers/app.actions'
+import {StartAppInitialiser} from './reducers/app.actions'
 
 import * as fromRoot from './reducers'
 
-import { AppEffects } from './reducers/app.effects'
-import { RouterEffects } from './reducers/router.effects'
-import { FEDERATEDLOGINAPIPATH } from '@digital-first/df-app-tokens'
+import {AppEffects} from './reducers/app.effects'
+import {RouterEffects} from './reducers/router.effects'
+import {FEDERATEDLOGINAPIPATH} from '@digital-first/df-app-tokens'
 
-import { FileDropModule } from 'ngx-file-drop';
-import { HomeaffairsComponent } from './containers/homeaffairs/homeaffairs.component';
+import {StatisticuploadComponent} from "./containers/statisticupload/statisticupload.component";
+import {GraphQLModule} from "./graphql.module";
 
 const COMPONENTS = [
   AppComponent,
   HomeComponent,
-]
+];
 
 const ENTRYCOMPONENTS = [
   DialogAreYouSureComponent,
@@ -97,51 +91,29 @@ const ENTRYCOMPONENTS = [
   RelatedArtifactsComponent,
   MetadataRefinerComponent,
   DataTableComponent
-]
+];
 
 export function initApplication(store: Store<fromRoot.State>): Function {
   return () => new Promise(resolve => {
-    store.dispatch(new StartAppInitialiser())
+    store.dispatch(new StartAppInitialiser());
 
     // tslint:disable-next-line:no-console
-    console.log('app initialise started...', store)
+    console.log('app initialise started...', store);
 
-    const auth: any = JSON.parse(window.localStorage.getItem(AUTH_KEY))
+    const auth: any = JSON.parse(window.localStorage.getItem(AUTH_KEY));
 
-      if (auth) {
-        // tslint:disable-next-line:no-console
-        console.log('user is logged in, start auto token refresh')
+    if (auth) {
+      // tslint:disable-next-line:no-console
+      console.log('user is logged in, start auto token refresh');
 
-        store.dispatch(new StartAutoTokenRefresh())
-      }
+      store.dispatch(new StartAutoTokenRefresh())
+    }
     resolve(true)
   })
 }
 
-const appDataServiceFactory = (settings: SettingsService, sharepointlib: SharepointJsomService, apollo: Apollo) => {
-
-  let source = null
-  if (settings.datasource) {
-    source = settings.datasource.type
-  }
-
-  switch (source) {
-    case 'sharepoint':
-      return new SharepointDataService(sharepointlib)
-    default:
-      return new ApolloDataService(apollo)
-  }
-
-}
-
-export let appDataServiceProvider = {
-  provide: AppDataService,
-  useFactory: appDataServiceFactory,
-  deps: [SettingsService, SharepointJsomService, Apollo]
-}
-
 @NgModule({
-  declarations: [...COMPONENTS, HomeaffairsComponent],
+  declarations: [...COMPONENTS, StatisticuploadComponent],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [
     BrowserModule,
@@ -160,12 +132,10 @@ export let appDataServiceProvider = {
     DfDiscussionModule,
     DfPagesModule,
     DfDialogsModule,
-    DfSharepointModule,
     DfPipesModule,
     AppRoutingModule,
-    FileDropModule,
-
-    StoreModule.forRoot(reducers, { metaReducers }),
+    GraphQLModule,
+    StoreModule.forRoot(reducers, {metaReducers}),
     StoreRouterConnectingModule.forRoot({
       /*
         They stateKey defines the name of the state used by the router-store reducer.
@@ -182,47 +152,17 @@ export let appDataServiceProvider = {
   ],
   providers: [
     WINDOW_PROVIDERS,
-    { provide: FEDERATEDLOGINAPIPATH, useValue: environment.federatedLoginApiPath },
+    {provide: FEDERATEDLOGINAPIPATH, useValue: environment.federatedLoginApiPath},
     {
       provide: APP_INITIALIZER,
       useFactory: initApplication,
       deps: [Store],
       multi: true
     },
-    appDataServiceProvider,
-    { provide: FullLayoutService, useClass: AppFullLayoutService },
-    {
-      provide: APOLLO_OPTIONS,
-      useFactory(httpLink: HttpLink) {
-
-        const defaultOptions = {
-          watchQuery: {
-            fetchPolicy: 'network-only',
-            errorPolicy: 'ignore',
-          },
-          query: {
-            fetchPolicy: 'network-only',
-            errorPolicy: 'all',
-          },
-        }
-
-        return {
-          cache: new InMemoryCache(),
-          link: httpLink.create({
-            uri: environment.datasource.dataServiceUrl
-          }),
-          defaultOptions: defaultOptions
-        }
-      },
-      deps: [HttpLink]
-    },
-    /**
-    * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.
-    * A custom RouterStateSerializer is used to parse the `RouterStateSnapshot` provided
-    * by `@ngrx/router-store` to include only the desired pieces of the snapshot.
-    */
-    { provide: RouterStateSerializer, useClass: CustomSerializer }
+    {provide: FullLayoutService, useClass: AppFullLayoutService},
+    {provide: RouterStateSerializer, useClass: CustomSerializer}
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

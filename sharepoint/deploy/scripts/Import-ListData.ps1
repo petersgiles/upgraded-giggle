@@ -1,8 +1,8 @@
 ﻿param (
-   [string]$webUrl ="https://lbs.cloud9.cabnet/sites/df",
-   [string]$dataFile = "..\..\commitments\Data\Portfolio.csv",
+   [string]$webUrl ="https://lbs.cloud9.cabnet/sites/commitments",
+   [string]$dataFile = "$PSScriptRoot\..\..\commitments\Data\Portfolio.csv",
    [string]$listName = "Portfolio",
-   [string] $binPath = "C:\Users\atpakkianathan\source\Dsuite\DF-Client\sharepoint\deploy\scripts\"
+   [string] $binPath = "$PSScriptRoot"
 )
 
 Add-Type -Path $binPath\Microsoft.SharePoint.Client.dll

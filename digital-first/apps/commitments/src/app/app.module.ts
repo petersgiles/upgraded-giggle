@@ -42,9 +42,10 @@ import { HomeComponent } from './containers/home/home.component'
 import { AppRoutingModule } from './app-routing.module'
 import { CommitmentCardComponent } from './components/commitment-card/commitment-card.component'
 import { CommitmentEditFormComponent } from './components/commitment-edit-form/commitment-edit-form.component'
-import { CommitmentEditComponent } from './containers/commitment-edit/commitment-edit.component'
+
 import { CommitmentListComponent } from './components/commitment-list/commitment-list.component'
-import { CommitmentOverviewComponent } from './containers/commitment-overview/commitment-overview.component'
+
+import { DialogAddCommitmentComponent } from './dialogs/dialog-add-commitment.component'
 
 import { SettingsService } from './services/settings.service'
 import { SharepointDataService } from './services/sharepoint/sharepoint-data.service'
@@ -62,34 +63,27 @@ import { RouterStateSerializer } from '@ngrx/router-store'
 import { StartAppInitialiser } from './reducers/app.actions'
 
 import * as fromRoot from './reducers'
-import * as fromAnnouncementType from './reducers/announcement-type/announcement-type.reducer'
-import * as fromWhoAnnouncedType from './reducers/who-announced-type/who-announced-type.reducer'
-import * as fromCommitment from './reducers/commitment/commitment.reducer'
-import * as fromPortfolio from './reducers/portfolio/portfolio.reducer'
-import * as fromParty from './reducers/party/party.reducer'
-import * as fromComment from './reducers/comment/comment.reducer'
-import * as fromContact from './reducers/contact/contact.reducer'
-import * as fromLocation from './reducers/location/location.reducer'
-import * as fromMapPoint from './reducers/map-point/map-point.reducer'
-import * as fromCommitmentType from './reducers/commitment-type/commitment-type.reducer'
-import * as fromCriticalDate from './reducers/critical-date/critical-date.reducer'
 
 import { AppEffects } from './reducers/app.effects'
 import { RouterEffects } from './reducers/router.effects'
+import { CommitmentLookupEffects } from './reducers/commitment-lookup/commitment-lookup.effects'
 import { CommitmentEffects } from './reducers/commitment'
-import { AnnouncementTypeEffects } from './reducers/announcement-type/announcement-type.effects'
-import { CommentEffects } from './reducers/comment/comment.effects'
-import { CommitmentTypeEffects } from './reducers/commitment-type/commitment-type.effects'
+import { CommentDiscussionEffects } from './reducers/commitment-discussion/commitment-discussion.effects'
 import { ContactEffects } from './reducers/contact/contact.effects'
-import { LocationEffects } from './reducers/location/location.effects'
-import { PartyEffects } from './reducers/party/party.effects'
-import { PortfolioEffects } from './reducers/portfolio/portfolio.effects'
-import { CommitmentCreateComponent } from './containers/commitment-create/commitment-create.component'
-import { WhoAnnouncedTypeEffects } from './reducers/who-announced-type/who-announced-type.effects'
-import { ContactCreateComponent } from './containers/contact-create/contact-create.component'
 import { ContactCreateFormComponent } from './components/contact-create-form/contact-create-form.component'
 import { MapPointEffects } from './reducers/map-point/map-point.effects'
-import { CriticalDateEffects } from './reducers/critical-date/critical-date.effects'
+import { RelatedCommitmentEffects } from './reducers/related-commitment/related-commitment.effects'
+
+import { CommitmentDiscussionComponent } from './containers/commitment-discussion/commitment-discussion.component'
+import { CommitmentDeliveryLocationComponent } from './containers/commitment-delivery-location/commitment-delivery-location.component'
+import { CommitmentContactsComponent } from './containers/commitment-contacts/commitment-contacts.component'
+
+import { CommitmentOverviewComponent } from './pages/commitment-overview/commitment-overview.component'
+import { CommitmentEditComponent } from './pages/commitment-edit/commitment-edit.component'
+import { ContactCreateComponent } from './pages/contact-create/contact-create.component'
+import { CommitmentCreateComponent } from './pages/commitment-create/commitment-create.component'
+import { discussionDataServiceProvider } from './reducers/commitment-discussion/commitment-discussion-data.service'
+import { lookupDataServiceProvider } from './reducers/commitment-lookup/commitment-lookup-data.service'
 
 const COMPONENTS = [
   AppComponent,
@@ -101,7 +95,11 @@ const COMPONENTS = [
   CommitmentListComponent,
   CommitmentCreateComponent,
   ContactCreateComponent,
-  ContactCreateFormComponent
+  ContactCreateFormComponent,
+  DialogAddCommitmentComponent,
+  CommitmentDiscussionComponent,
+  CommitmentDeliveryLocationComponent,
+  CommitmentContactsComponent
 ]
 
 const ENTRYCOMPONENTS = [
@@ -110,6 +108,7 @@ const ENTRYCOMPONENTS = [
   DialogFileLockedComponent,
   DialogSpinnerOverlayComponent,
   DialogAddContactComponent,
+  DialogAddCommitmentComponent,
   DiscussionComponent,
   TagsComponent,
   ViewLayoutButtonComponent,
@@ -128,7 +127,7 @@ const ENTRYCOMPONENTS = [
 
 export function initApplication(store: Store<fromRoot.State>): Function {
   return () => new Promise(resolve => {
-    store.dispatch(new StartAppInitialiser({environment: environment}))
+    store.dispatch(new StartAppInitialiser({ environment: environment }))
 
     // tslint:disable-next-line:no-console
     console.log('app initialise started...', store)
@@ -200,32 +199,16 @@ export let appDataServiceProvider = {
 
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    StoreModule.forFeature('whoAnnouncedType', fromWhoAnnouncedType.reducer),
-    StoreModule.forFeature('announcementType', fromAnnouncementType.reducer),
-    StoreModule.forFeature('commitment', fromCommitment.reducer),
-    StoreModule.forFeature('portfolio', fromPortfolio.reducer),
-    StoreModule.forFeature('party', fromParty.reducer),
-    StoreModule.forFeature('comment', fromComment.reducer),
-    StoreModule.forFeature('contact', fromContact.reducer),
-    StoreModule.forFeature('location', fromLocation.reducer),
-    StoreModule.forFeature('commitmentType', fromCommitmentType.reducer),
-    StoreModule.forFeature('mapPoint', fromMapPoint.reducer),
-    StoreModule.forFeature('criticalDate', fromCriticalDate.reducer),
 
     EffectsModule.forRoot([AppEffects]),
     EffectsModule.forFeature([
       RouterEffects,
-      WhoAnnouncedTypeEffects,
-      AnnouncementTypeEffects,
-      CriticalDateEffects,
-      CommentEffects,
-      CommitmentEffects,
-      CommitmentTypeEffects,
+      CommitmentLookupEffects,
       ContactEffects,
-      LocationEffects,
       MapPointEffects,
-      PartyEffects,
-      PortfolioEffects
+      RelatedCommitmentEffects,
+      CommentDiscussionEffects,
+      CommitmentEffects,
     ]),
   ],
   providers: [
@@ -237,6 +220,8 @@ export let appDataServiceProvider = {
       multi: true
     },
     appDataServiceProvider,
+    discussionDataServiceProvider,
+    lookupDataServiceProvider,
     { provide: FullLayoutService, useClass: AppFullLayoutService },
     {
       provide: APOLLO_OPTIONS,

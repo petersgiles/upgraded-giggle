@@ -2,53 +2,54 @@
   <form [formGroup]="form" (ngSubmit)="handleSubmit($event)" autocomplete="off">
     <fieldset [attr.disabled]="busy ? '' : null">
       <input type="hidden" formControlName="id" />
-      <input type="hidden" formControlName="location" />
 
+      <h3 class="form-content__headline">Commitment</h3>
       <div class="form-layout__row">
-        <mdc-text-field formControlName="title" label="Title" required [helperText]="titleFieldInputHelper" ></mdc-text-field>
+        <mdc-text-field formControlName="title" label="Title" required [helperText]="titleFieldInputHelper"></mdc-text-field>
       </div>
+      <div class="form-layout__row">
 
+        <ng-select [items]="parties" bindValue="id" bindLabel="title" placeholder="Party" required formControlName="party">
+        </ng-select>
+
+        <ng-select [items]="criticalDates" bindValue="id" bindLabel="title" placeholder="Critical Date" required formControlName="criticalDate">
+        </ng-select>
+
+        <ng-select [items]="commitmentTypes" bindValue="id" bindLabel="title" required placeholder="Type of Commitment"
+          formControlName="commitmentType">
+        </ng-select>
+
+      </div>
       <div class="form-layout__row">
         <ngx-wig formControlName="description"></ngx-wig>
       </div>
 
-      <h3 class="form-content__headline">Political</h3>
+      <h3 class="form-content__headline">Announcement</h3>
       <div class="form-layout__row">
 
-        <ng-select [items]="whoAnnouncedTypes" bindValue="id" bindLabel="title" placeholder="Announced By"
-          formControlName="whoAnnouncedType" >
+        <ng-select [items]="whoAnnouncedTypes" bindValue="id" bindLabel="title" required placeholder="Announced By"
+          formControlName="whoAnnouncedType">
         </ng-select>
 
+        <mdc-text-field formControlName="date" label="Date" type="date" required></mdc-text-field>
 
-        <mdc-text-field formControlName="date" label="Date" type="date" required ></mdc-text-field>
-
-        <ng-select [items]="announcementTypes" bindValue="id" bindLabel="title" placeholder="Type of Announcement"
-          formControlName="announcementType" >
+        <ng-select [items]="announcementTypes" bindValue="id" bindLabel="title" required placeholder="Type of Announcement"
+          formControlName="announcementType">
         </ng-select>
       </div>
-      <div class="form-layout__row">
 
-        <ng-select [items]="parties" bindValue="id" bindLabel="title" placeholder="Party" formControlName="party" >
-        </ng-select>
-
-        <ng-select [items]="commitmentTypes" bindValue="id" bindLabel="title" placeholder="Type of Commitment"
-          formControlName="commitmentType" >
-        </ng-select>
-
-      </div>
 
       <h3 class="form-content__headline">Responsibility &amp; Costings</h3>
       <div class="form-layout__row">
-        <ng-select [items]="portfolios" bindValue="id" bindLabel="title" placeholder="Responsible Portfolio" formControlName="portfolio" >
+        <ng-select [items]="portfolios" bindValue="id" bindLabel="title" required placeholder="Responsible Portfolio"
+        formControlName="portfolio">
         </ng-select>
 
-      </div>
-      <div class="form-layout__row">
-        <mdc-text-field formControlName="cost" label="Party funding commitment" type="money" min="0.00" step="any" ></mdc-text-field>
+        <mdc-text-field formControlName="cost" label="Party funding commitment ($M)" type="money" min="0.00" step="any"></mdc-text-field>
       </div>
 
       <div class="form-layout__row-with-button" *ngIf="showSubmit">
-        <button mdc-button mdcCardAction="button" type="submit" [disabled]="!form.valid">Submit</button>
+        <button mdc-button mdcCardAction="button" type="submit" [disabled]="!form.valid">{{submitButtonText}}</button>
       </div>
     </fieldset>
   </form>

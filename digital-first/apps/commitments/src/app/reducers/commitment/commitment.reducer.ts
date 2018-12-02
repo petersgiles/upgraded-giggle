@@ -61,23 +61,6 @@ export function reducer(
         error: action.payload.error
       })
     }
-
-    // case CommitmentActionTypes.UpdateCommitment: {
-    //   return adapter.updateOne(action.payload.commitment, state)
-    // }
-
-    // case CommitmentActionTypes.UpdateCommitments: {
-    //   return adapter.updateMany(action.payload.commitments, state)
-    // }
-
-    // case CommitmentActionTypes.DeleteCommitment: {
-    //   return adapter.removeOne(action.payload.id, state)
-    // }
-
-    // case CommitmentActionTypes.DeleteCommitments: {
-    //   return adapter.removeMany(action.payload.ids, state)
-    // }
-
     case CommitmentActionTypes.LoadCommitments: {
       return adapter.upsertMany(action.payload.data.commitments, {
         ...state,
@@ -95,18 +78,13 @@ export function reducer(
       return {...state, currentCommitent: action.payload.id, loading: false, saved: true}
     }
 
-    // case CommitmentActionTypes.GetCommitments: {
-    //   return {...state, loading: true, error: null}
-    // }
-
-    // case CommitmentActionTypes.GetAllCommitments: {
-    //   return {...state, loading: true, error: null}
-    // }
-
     case CommitmentActionTypes.CommitmentsActionFailure: {
       return {...state, loading: false, saved: false, error: action.payload.error}
     }
 
+    case CommitmentActionTypes.StoreCommitment: {
+      return {...state, loading: true, saved: false, error: action.payload.error}
+    }
     default: {
       return state
     }

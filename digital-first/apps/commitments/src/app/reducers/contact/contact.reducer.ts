@@ -49,9 +49,9 @@ export function reducer(
       return adapter.removeOne(action.payload.id, state)
     }
 
-    case ContactActionTypes.DeleteContacts: {
-      return adapter.removeMany(action.payload.ids, state)
-    }
+    // case ContactActionTypes.DeleteContacts: {
+    //   return adapter.removeMany(action.payload.ids, state)
+    // }
 
     case ContactActionTypes.LoadContacts: {
       return adapter.upsertMany(action.payload.data.contacts, {

@@ -25,23 +25,25 @@ import { localStorageSync } from 'ngrx-store-localstorage'
 
 import { RouterStateUrl } from './router-state-url'
 import * as fromNotification from './notification.reducer'
-import * as fromWhoAnnouncedType from './who-announced-type/who-announced-type.reducer'
-import * as fromAnnouncementType from './announcement-type/announcement-type.reducer'
 import * as fromCommitment from './commitment/commitment.reducer'
-import * as fromPortfolio from './portfolio/portfolio.reducer'
 import * as fromUser from './user/user.reducer'
-import * as fromParty from './party/party.reducer'
-import * as fromComment from './comment/comment.reducer'
 import * as fromContact from './contact/contact.reducer'
-import * as fromCriticalDate from './critical-date/critical-date.reducer'
-import * as fromLocation from './location/location.reducer'
 import * as fromMapPoint from './map-point/map-point.reducer'
-import * as fromCommitmentType from './commitment-type/commitment-type.reducer'
+import * as fromRelatedCommitment from './related-commitment/related-commitment.reducer'
+import * as fromCommitmentLookup from './commitment-lookup/commitment-lookup.reducer'
 import * as fromCommitmentOverview from './commitment-overview/commitment-overview.reducer'
 import * as fromCommitmentEdit from './commitment-edit/commitment-edit.reducer'
+import * as fromCommitmentDiscussion from './commitment-discussion/commitment-discussion.reducer'
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
-    return localStorageSync({ keys: [{ 'auth': ['status'] }, 'commitmentOverview', 'commitmentEdit'], rehydrate: true })(reducer)
+    return localStorageSync({
+        keys: [
+            { 'auth': ['status'] },
+            'commitmentOverview',
+            { 'commitmentEdit': ['expandedPanels'] },
+            { 'commitmentDiscussion': ['expanded', 'timeFormat'] }
+        ], rehydrate: true
+    })(reducer)
 }
 
 // console.log all actions
@@ -50,40 +52,30 @@ export function logger(reducer: ActionReducer<State>): ActionReducer<State> { re
 export interface State {
     user: fromUser.State
     routerReducer: fromRouter.RouterReducerState<RouterStateUrl>
+    relatedCommitment: fromRelatedCommitment.State
     notification: fromNotification.State
-    whoAnnouncedType: fromWhoAnnouncedType.State
-    announcementType: fromAnnouncementType.State
     commitment: fromCommitment.State
-    criticalDate: fromCriticalDate.State
-    portfolio: fromPortfolio.State
-    party: fromParty.State
-    comment: fromComment.State
     contact: fromContact.State
-    location: fromLocation.State
     mapPoint: fromMapPoint.State
-    commitmentType: fromCommitmentType.State
-    commitmentOverview: fromCommitmentOverview.State,
+    commitmentLookup: fromCommitmentLookup.State
+    commitmentOverview: fromCommitmentOverview.State
     commitmentEdit: fromCommitmentEdit.State
+    commitmentDiscussion: fromCommitmentDiscussion.State
 
 }
 
 export const reducers: ActionReducerMap<State> = {
     user: fromUser.reducer,
     routerReducer: fromRouter.routerReducer,
+    relatedCommitment: fromRelatedCommitment.reducer,
     notification: fromNotification.reducer,
-    whoAnnouncedType: fromWhoAnnouncedType.reducer,
-    announcementType: fromAnnouncementType.reducer,
     commitment: fromCommitment.reducer,
-    criticalDate: fromCriticalDate.reducer,
-    portfolio: fromPortfolio.reducer,
-    party: fromParty.reducer,
-    comment: fromComment.reducer,
     contact: fromContact.reducer,
-    location: fromLocation.reducer,
     mapPoint: fromMapPoint.reducer,
-    commitmentType: fromCommitmentType.reducer,
+    commitmentLookup: fromCommitmentLookup.reducer,
     commitmentOverview: fromCommitmentOverview.reducer,
-    commitmentEdit: fromCommitmentEdit.reducer
+    commitmentEdit: fromCommitmentEdit.reducer,
+    commitmentDiscussion: fromCommitmentDiscussion.reducer
 }
 
 export const getNotificationState = state => state.notification
@@ -93,20 +85,15 @@ export const getNotification = createSelector(
     fromNotification.getNotification
 )
 
-export * from './critical-date'
+export * from './commitment-lookup'
+export * from './related-commitment'
 export * from './user'
-export * from './commitment-type'
-export * from './location'
 export * from './map-point'
 export * from './contact'
-export * from './comment'
-export * from './party'
-export * from './portfolio'
-export * from './announcement-type'
 export * from './commitment-overview'
 export * from './commitment-edit'
+export * from './commitment-discussion'
 export * from './commitment'
-export * from './who-announced-type'
 
 export class CustomSerializer
     implements fromRouter.RouterStateSerializer<RouterStateUrl> {
