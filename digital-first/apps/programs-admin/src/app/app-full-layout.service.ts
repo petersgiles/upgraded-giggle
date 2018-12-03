@@ -30,6 +30,19 @@ export class AppFullLayoutService {
     return of(null)
   }
 
+
+  get drawOpen$(): Observable<boolean> {
+    return of(true) //TODO: set up state for these
+  }
+
+  setDrawState(appdrawerOpen: any): any {
+   return of(true) //TODO: set up state for these
+  }
+
+  get drawerStyle(): 'permanent' | 'dismissible' | 'modal' {
+    return 'dismissible'
+  }
+
   constructor() {
 
     this.sidebarRoutes = routes.filter(r => r.data).map(r => ({
