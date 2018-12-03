@@ -28,8 +28,6 @@ export abstract class AppDataService {
   abstract getCommitment(criteria: { id: any; }): Observable<any>
 
   abstract storeContact(contact: any): Observable<any>
-  abstract addContactToCommitment(contact: { commitment: any, contact: any }): any
-  abstract removeContactFromCommitment(commitmentcontact: any): any
 
   abstract filterContacts(filter?: any): Observable<any>
   abstract filterMapPoints(filter: any): Observable<any>

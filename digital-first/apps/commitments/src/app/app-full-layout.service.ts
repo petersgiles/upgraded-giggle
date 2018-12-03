@@ -10,8 +10,6 @@ import { SideBarItem, AppUserProfile } from '@digital-first/df-layouts'
 export class AppFullLayoutService {
   _profile: any
   profileSubscription$: Subscription
-  _notification: string
-  notificationSubscription$: Subscription
 
   get version(): string {
     return environment.version

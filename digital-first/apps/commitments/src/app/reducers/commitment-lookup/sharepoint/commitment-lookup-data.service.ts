@@ -5,31 +5,88 @@ import { CommentsResult, DataResult } from '../../../models'
 import { concatMap, tap, map } from 'rxjs/operators'
 import { byCommitmentIdQuery } from '../../../services/sharepoint/caml'
 import { CommitmentLookupDataService } from '../commitment-lookup-data.service'
+import { mapWhoAnnouncedTypes, mapAnnouncementTypes, mapPortfolios, mapCriticalDates, mapParties, mapCommitmentTypes, mapLocations } from './maps'
 
 @Injectable({
     providedIn: 'root'
 })
 export class CommitmentLookupDataSharePointService implements CommitmentLookupDataService {
     filterWhoAnnouncedTypes(filter: any) {
-        throw new Error('Method not implemented.')
+        return this.sharepoint.getItems({ listName: 'WhoAnnouncedType' })
+        .pipe(
+          concatMap((result: any) =>
+            of({
+              data: { whoAnnouncedTypes: mapWhoAnnouncedTypes(result) },
+              loading: false,
+              error: null
+            }))
+        )
     }
     filterPortfolios(filter: any) {
-        throw new Error('Method not implemented.')
+        return this.sharepoint.getItems({ listName: 'Portfolio' })
+        .pipe(
+          concatMap((result: any) =>
+            of({
+              data: { portfolios: mapPortfolios(result) },
+              loading: false,
+              error: null
+            }))
+        )
     }
     filterPartys(filter: any) {
-        throw new Error('Method not implemented.')
+        return this.sharepoint.getItems({ listName: 'PoliticalParty' })
+        .pipe(
+          concatMap((result: any) =>
+            of({
+              data: { parties: mapParties(result) },
+              loading: false,
+              error: null
+            }))
+        )
     }
     filterLocations(filter: any) {
-        throw new Error('Method not implemented.')
+        return this.sharepoint.getItems({ listName: 'Electorate' })
+        .pipe(
+          concatMap((result: any) =>
+            of({
+              data: { locations: mapLocations(result) },
+              loading: false,
+              error: null
+            }))
+        )
     }
     filterCriticalDates(filter: any) {
-        throw new Error('Method not implemented.')
+        return this.sharepoint.getItems({ listName: 'CriticalDate' })
+        .pipe(
+          concatMap((result: any) =>
+            of({
+              data: { criticalDates: mapCriticalDates(result) },
+              loading: false,
+              error: null
+            }))
+        )
     }
     filterCommitmentTypes(filter: any) {
-        throw new Error('Method not implemented.')
+        return this.sharepoint.getItems({ listName: 'CommitmentType' })
+        .pipe(
+          concatMap((result: any) =>
+            of({
+              data: { commitmentTypes: mapCommitmentTypes(result) },
+              loading: false,
+              error: null
+            }))
+        )
     }
     filterAnnouncementTypes(filter: any) {
-        throw new Error('Method not implemented.')
+        return this.sharepoint.getItems({ listName: 'AnnouncementType' })
+        .pipe(
+          concatMap((result: any) =>
+            of({
+              data: { announcementTypes: mapAnnouncementTypes(result) },
+              loading: false,
+              error: null
+            }))
+        )
     }
 
     constructor(private sharepoint: SharepointJsomService) { }

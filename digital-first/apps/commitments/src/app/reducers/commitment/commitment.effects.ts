@@ -79,36 +79,6 @@ export class CommitmentEffects {
     )
 
   @Effect()
-  addContactToCommitment$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(CommitmentActionTypes.AddContactToCommitment),
-      map((action: AddContactToCommitment) => action.payload),
-      switchMap((payload: any) => this.service.addContactToCommitment(payload)),
-      switchMap((result: any) => [
-        new AppNotification({ message: 'Contact Added' }),
-        new SetCurrentCommitment({ id: result.commitment.id }),
-        new ClearAppNotification()
-      ]),
-      catchError(error => of(new CommitmentsActionFailure(error)))
-
-    )
-
-  @Effect()
-  removeContactFromCommitment$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(CommitmentActionTypes.RemoveContactFromCommitment),
-      map((action: RemoveContactFromCommitment) => action.payload),
-      switchMap((payload: any) => this.service.removeContactFromCommitment(payload)),
-      switchMap((result: any) => [
-        new AppNotification({ message: 'Contact Removed' }),
-        new SetCurrentCommitment({ id: result.commitment.id }),
-        new ClearAppNotification()
-      ]),
-      catchError(error => of(new CommitmentsActionFailure(error)))
-
-    )
-
-  @Effect()
   addCommitmentToCommitment$: Observable<Action> = this.actions$
     .pipe(
       ofType(CommitmentActionTypes.AddCommitmentToCommitment),

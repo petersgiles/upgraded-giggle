@@ -10,7 +10,7 @@ import {
   GetContactsByCommitment,
   LoadCommitmentContacts,
 } from './commitment-contact.actions'
-import { switchMap, map, catchError, tap } from 'rxjs/operators'
+import { switchMap, map, catchError, tap, concatMap } from 'rxjs/operators'
 
 import { AppNotification, ClearAppNotification } from '../app.actions'
 import { CommitmentContactDataService } from './commitment-contact-data.service'
@@ -26,7 +26,7 @@ export class CommitmentContactEffects {
       map((action: GetContactsByCommitment) => action.payload.commitment),
       // tslint:disable-next-line:no-console
       tap(result => console.log('GetContactsByCommitment =>  ', result)),
-      switchMap((commitment: any) => this.service.getContactsByCommitment(commitment)
+      concatMap((commitment: any) => this.service.getContactsByCommitment(commitment)
         .pipe(
           // tslint:disable-next-line:no-console
           tap(result => console.log('getContactsByCommitment', result)),
