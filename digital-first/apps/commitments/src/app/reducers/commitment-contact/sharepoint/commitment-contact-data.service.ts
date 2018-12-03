@@ -11,10 +11,10 @@ export class CommitmentContactDataSharePointService implements CommitmentContact
     getContactsByCommitment(commitment: any): Observable<DataResult<ContactsResult>> {
         throw new Error('Method not implemented.')
     }
-    addContactToCommitment(variables: { commitment: any; contact: any; }) {
+    addContactToCommitment(variables: { commitment: any; contact: any; }): Observable<DataResult<{ commitment: number }>> {
         throw new Error('Method not implemented.')
     }
-    removeContactFromCommitment(variables: { id: any; }) {
+    removeContactFromCommitment(variables: { id: any; }): Observable<DataResult<{ commitment: number }>> {
         throw new Error('Method not implemented.')
     }
     constructor(private sharepoint: SharepointJsomService) { }

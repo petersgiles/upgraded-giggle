@@ -12,8 +12,8 @@ import { CommitmentContactDataApolloService } from './apollo/commitment-contact-
 })
 export abstract class CommitmentContactDataService {
   abstract getContactsByCommitment(commitment: any): Observable<DataResult<ContactsResult>>
-  abstract addContactToCommitment(variables: { commitment: any, contact: any })
-  abstract removeContactFromCommitment(variables: { id: any })
+  abstract addContactToCommitment(variables: { commitment: any, contact: any }): Observable<DataResult<{ commitment: number }>>
+  abstract removeContactFromCommitment(variables: { id: any }): Observable<DataResult<{ commitment: number }>>
 }
 
 const commitmentContactsDataServiceFactory = (settings: SettingsService, sharepointlib: SharepointJsomService, apollo: Apollo) => {

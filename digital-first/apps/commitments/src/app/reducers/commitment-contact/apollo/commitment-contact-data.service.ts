@@ -16,16 +16,16 @@ export class CommitmentContactDataApolloService implements CommitmentContactData
       , result => ({ data: { contacts: result.data.commitmentContacts } })
     )
 
-  addContactToCommitment = (variables: { commitment: any, contact: any }) =>
+  addContactToCommitment = (variables: { commitment: any, contact: any }): Observable<DataResult<{ commitment: number }>> =>
     callMutate<any>(this.apollo,
       { mutation: STORE_COMMITMENT_CONTACT, variables: { ...variables } },
-      (result: any) => ({ commitment: result.data.storeCommitmentContact })
+      (result: any) => ({ commitment: result.data.storeCommitmentContact.id })
     )
 
-  removeContactFromCommitment = (variables: { id: any }) =>
+  removeContactFromCommitment = (variables: { id: any }): Observable<DataResult<{ commitment: number }>> =>
     callMutate<any>(this.apollo,
       { mutation: REMOVE_COMMITMENT_CONTACT, variables: { ...variables } },
-      (result: any) => ({ commitment: result.data.deleteCommitmentContact })
+      (result: any) => ({ commitment: result.data.deleteCommitmentContact.id })
     )
 
   constructor(private apollo: Apollo) { }
