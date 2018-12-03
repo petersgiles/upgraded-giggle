@@ -10,6 +10,16 @@ import {routes} from "./app-routing.module";
 export class AppFullLayoutService {
   private readonly sidebarRoutes: { caption: string; icon: string; routerLink: string[] }[];
 
+  constructor() {
+
+    this.sidebarRoutes = routes[1].children.filter(r => r.data).map(r => ({
+      caption: r.data.title,
+      icon: r.data.icon,
+      routerLink: [`/${r.path}`]
+    }))
+
+  }
+
   get version(): string {
     return environment.version
   }
@@ -30,26 +40,16 @@ export class AppFullLayoutService {
     return of(null)
   }
 
-
   get drawOpen$(): Observable<boolean> {
     return of(true) //TODO: set up state for these
-  }
-
-  setDrawState(appdrawerOpen: any): any {
-   return of(true) //TODO: set up state for these
   }
 
   get drawerStyle(): 'permanent' | 'dismissible' | 'modal' {
     return 'dismissible'
   }
 
-  constructor() {
-
-    this.sidebarRoutes = routes.filter(r => r.data).map(r => ({
-      caption: r.data.title,
-      icon: r.data.icon,
-      routerLink: [`/${r.path}`]
-    }))
+  setDrawState(appdrawerOpen: any): any {
+    return of(true) //TODO: set up state for these
   }
 
 }

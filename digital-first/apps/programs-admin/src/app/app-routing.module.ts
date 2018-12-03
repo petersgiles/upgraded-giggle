@@ -8,33 +8,27 @@ import {StatisticuploadComponent} from "./containers/statisticupload/statisticup
 export const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {
-    path: 'home',
+    path: '',
     component: FullLayoutComponent,
     canActivate: [AuthGuard],
-    data: {
-      title: 'Home',
-      icon: 'home'
-    },
     children: [
+      {path: '', redirectTo: 'home', pathMatch: 'full'},
       {
-        path: '',
+        path: 'home',
         component: HomeComponent,
-      }
-    ]
-  },
-  {
-    path: 'uploadstatistic',
-    component: FullLayoutComponent,
-    canActivate: [AuthGuard],
-    data: {
-      title: 'Upload statistic',
-      icon: 'file_copy'
-    },
-    children: [
+        data: {
+          title: 'Home',
+          icon: 'home'
+        }
+      },
       {
-        path: '',
+        path: 'statistics/upload',
         component: StatisticuploadComponent,
-      }
+        data: {
+          title: 'Upload statistic',
+          icon: 'file_copy'
+        }
+      },
     ]
   },
   {path: '**', redirectTo: 'home'}
