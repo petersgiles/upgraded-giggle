@@ -1,7 +1,7 @@
 <mdc-top-app-bar class="app-top-app-bar" #appbar fixed prominent='false' [fixedAdjustElement]="mainContent">
     <mdc-top-app-bar-row>
         <mdc-top-app-bar-section align="start" title="{{title}} {{version}}">
-            <mdc-icon mdcAppBarNavIcon (click)="appdrawer.open = !appdrawer.open">menu</mdc-icon>
+            <mdc-icon mdcAppBarNavIcon (click)="drawOpenToggleClicked(!drawOpen)">menu</mdc-icon>
             <mdc-icon mdcAppBarNavIcon [routerLink]="['/']">home</mdc-icon>
         </mdc-top-app-bar-section>
         <mdc-top-app-bar-section align="center" title="{{(notification$ | async)}}">
@@ -22,8 +22,8 @@
 
 <div #mainContent class="app-layout__row--no-wrap">
 
-    <mdc-drawer #appdrawer [drawer]="drawerStyle" fixed>
-        <mdc-drawer-header (click)="appdrawer.open = !appdrawer.open">
+    <mdc-drawer #appdrawer [drawer]="drawerStyle" [open]="drawOpen" fixed>
+        <mdc-drawer-header (click)="drawOpenToggleClicked(!drawOpen)">
             <h3 mdcDrawerTitle>{{title}}</h3>
             <h6 mdcDrawerSubtitle> {{version}}</h6>
         </mdc-drawer-header>
@@ -37,5 +37,7 @@
         </mdc-drawer-content>
 
     </mdc-drawer>
-    <router-outlet></router-outlet>
+    <div mdcDrawerAppContent>
+        <router-outlet></router-outlet>
+    </div>
 </div>

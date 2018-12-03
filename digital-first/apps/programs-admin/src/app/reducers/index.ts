@@ -27,7 +27,7 @@ import { RouterStateUrl } from './router-state-url'
 import * as fromNotification from './notification.reducer'
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
-    return localStorageSync({ keys: [{ 'auth': ['status'] }, 'commitmentOverview', 'commitmentEdit'], rehydrate: true })(reducer)
+    return localStorageSync({ keys: [{ 'auth': ['status'] }], rehydrate: true })(reducer)
 }
 
 // console.log all actions

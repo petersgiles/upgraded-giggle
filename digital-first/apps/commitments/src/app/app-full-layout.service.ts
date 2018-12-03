@@ -29,6 +29,18 @@ export class AppFullLayoutService {
     }])
   }
 
+  get drawerStyle(): 'permanent' | 'dismissible' | 'modal' {
+    return 'dismissible'
+  }
+
+  get drawOpen$(): Observable<boolean> {
+    return this.service.getDrawState()
+  }
+
+  setDrawState(appdrawerOpen: any): any {
+    return this.service.setDrawState(appdrawerOpen)
+  }
+
   get notification$(): Observable<string> {
     return this.service.Notification
   }

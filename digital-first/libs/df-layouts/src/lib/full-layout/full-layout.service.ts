@@ -9,8 +9,7 @@ export interface SideBarItem {
   providedIn: 'root'
 })
 export class FullLayoutService {
-
-  get drawerStyle(): 'permanent' | 'dismissible' | 'modal' {
+   get drawerStyle(): 'permanent' | 'dismissible' | 'modal' {
     return 'modal'
   }
 
@@ -29,6 +28,14 @@ export class FullLayoutService {
       displayType: 'circle',
       size: 35
     })
+  }
+
+  get drawOpen$(): Observable<boolean> {
+    return of(true)
+  }
+
+  setDrawState(appdrawerOpen: any): any {
+    throw new Error('Method not implemented.')
   }
 
   get sidebarItems$(): Observable<SideBarItem[]> {

@@ -36,11 +36,18 @@ import { AddRefiner, RemoveRefiner, ClearAllRefiners, ExpandRefinerGroup, Collap
 import { ChangeTimeFormat, CollapsePanel, ExpandPanel } from '../reducers/commitment-edit/commitment-edit.actions'
 
 import * as fromRoot from '../reducers'
+import { SetLayoutDrawState } from '../reducers/app.actions'
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommitmentDataService {
+  getDrawState(): Observable<boolean> {
+    return this.store.pipe(select(fromRoot.getDrawerOpen))
+  }
+  setDrawState(appdrawerOpen: any): any {
+    this.store.dispatch(new SetLayoutDrawState(appdrawerOpen))
+  }
 
   getBusy(): Observable<boolean> {
     return this.store.pipe(select(fromRoot.getCommitmentLoading))
