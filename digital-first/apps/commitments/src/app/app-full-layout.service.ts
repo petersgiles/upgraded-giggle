@@ -21,6 +21,10 @@ export class AppFullLayoutService {
 
   get sidebarItems$(): Observable<SideBarItem[]> {
     return of([{
+      caption: 'Overview',
+      icon: 'home',
+      routerLink: ['/']
+    }, {
       caption: 'About this App',
       icon: 'info',
       routerLink: ['/about']

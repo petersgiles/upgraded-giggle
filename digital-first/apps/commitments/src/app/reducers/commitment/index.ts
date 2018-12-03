@@ -1,6 +1,5 @@
 import { createSelector } from '@ngrx/store'
 import moment = require('moment')
-import { toTree } from '@digital-first/df-utils'
 
 import * as fromCommitment from './commitment.reducer'
 import { getMapPointEntities } from '../map-point'
@@ -14,6 +13,7 @@ import {
     getWhoAnnouncedTypeEntities,
     getCriticalDateEntities
 } from '../commitment-lookup'
+import { findInLookup } from '../utils'
 export { CommitmentEffects } from './commitment.effects'
 export * from './commitment.model'
 
@@ -81,13 +81,6 @@ export const getCurrentCommitment = createSelector(
         return commitment
     }
 )
-
-const findInLookup = (object, lookupSet) => {
-    if (object && object.id && lookupSet) {
-        return lookupSet[object.id]
-    }
-    return null
-}
 
 export const getCommitmentSaving = createSelector(
     getCommitmentEntitiesState,
