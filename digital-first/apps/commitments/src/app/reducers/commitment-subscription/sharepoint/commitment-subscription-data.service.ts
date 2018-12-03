@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs'
 import { SubscriptionResult, DataResult } from '../../../models'
 import { concatMap, tap, map } from 'rxjs/operators'
 import { byCommitmentIdQuery, byJoinTableQuery } from '../../../services/sharepoint/caml'
-import { mapSubscription, mapSubscriptions } from './maps'
+import { mapCommitmentSubscription, mapSubscriptions } from './maps'
 import { CommitmentSubscriptionDataService } from '../commitment-subscription-data.service'
 import { AppUserProfile } from '@digital-first/df-layouts'
 
@@ -21,9 +21,13 @@ export class CommitmentSubscriptionDataSharePointService implements CommitmentSu
       listName: LISTNAME,
       viewXml: viewXml
     }).pipe(
-      map(result => of(result.count > 0)))
-
+      concatMap((subscription: any) =>
+          of({
+              data: { commitmentSubscription: mapCommitmentSubscription(subscription) },
+              loading: false
+          })))
   }
+
   unsubscribeFromCommitment(payload: any): Observable<any> {
 
     const LISTNAME = 'CommitmentSubscription'

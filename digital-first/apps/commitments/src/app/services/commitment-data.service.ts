@@ -180,7 +180,7 @@ export class CommitmentDataService {
 
   getCurrentUserValue(): any {
     let currentUser: any
-    this.getCurrentUser().subscribe(user => currentUser = user)
+    this.store.pipe(select(fromRoot.getUserCurrentUser)).subscribe(user => currentUser = user)
 
     return currentUser
   }
