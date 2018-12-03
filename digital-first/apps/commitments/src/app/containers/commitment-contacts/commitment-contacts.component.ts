@@ -78,7 +78,10 @@ export class CommitmentContactsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/', 'contact'])
   }
 
-  handleContactsTableDeleteClicked(commitmentContact) {
+  handleContactsTableDeleteClicked(contact) {
+
+    // tslint:disable-next-line:no-console
+    console.log('handleContactsTableDeleteClicked', contact)
 
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
@@ -90,8 +93,8 @@ export class CommitmentContactsComponent implements OnInit, OnDestroy {
         first()
       )
       .subscribe(result => {
-        if (result === ARE_YOU_SURE_ACCEPT && commitmentContact.id) {
-          this.service.removeContactFromCommitment(commitmentContact)
+        if (result === ARE_YOU_SURE_ACCEPT && contact.id) {
+          this.service.removeContactFromCommitment(this.commitment, contact.id)
         }
       })
 

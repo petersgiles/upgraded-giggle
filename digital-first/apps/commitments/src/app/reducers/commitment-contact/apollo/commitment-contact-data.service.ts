@@ -19,13 +19,13 @@ export class CommitmentContactDataApolloService implements CommitmentContactData
   addContactToCommitment = (variables: { commitment: any, contact: any }): Observable<DataResult<{ commitment: number }>> =>
     callMutate<any>(this.apollo,
       { mutation: STORE_COMMITMENT_CONTACT, variables: { ...variables } },
-      (result: any) => ({ commitment: result.data.storeCommitmentContact.id })
+      (result: any) => ({ data: { commitment: result.data.storeCommitmentContact.id } })
     )
 
-  removeContactFromCommitment = (variables: { id: any }): Observable<DataResult<{ commitment: number }>> =>
+  removeContactFromCommitment = (variables: { commitment: any, contact: any }): Observable<DataResult<{ commitment: number }>> =>
     callMutate<any>(this.apollo,
       { mutation: REMOVE_COMMITMENT_CONTACT, variables: { ...variables } },
-      (result: any) => ({ commitment: result.data.deleteCommitmentContact.id })
+      (result: any) => ({ data: { commitment: result.data.deleteCommitmentContact.id } })
     )
 
   constructor(private apollo: Apollo) { }

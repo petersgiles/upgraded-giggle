@@ -212,7 +212,7 @@ type Tag {
       party: ID): Contact,
     deleteContact(id:  ID!): Contact,
     storeCommitmentContact(commitment: ID!, contact: ID!): Commitment,
-    deleteCommitmentContact(id: ID!): Commitment,
+    deleteCommitmentContact(commitment: ID!, contact: ID!): Commitment,
     storeMapPoint(place_id: String!, latitude: Float!, longitude: Float!, address: String!): MapPoint,
     deleteMapPoint(place_id: String!): MapPoint,
     storeCommitmentMapPoint(commitment: ID!, mapPoint: ID!): Commitment,

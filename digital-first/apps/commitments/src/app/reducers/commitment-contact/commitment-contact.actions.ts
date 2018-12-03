@@ -21,12 +21,12 @@ export class ExpandPanel implements Action {
 
 export class AddContactToCommitment implements Action {
   readonly type = CommitmentContactActionTypes.AddContactToCommitment
-  constructor(public payload: any) { }
+  constructor(public payload: { commitment: any, contact: any }) { }
 }
 
 export class RemoveContactFromCommitment implements Action {
   readonly type = CommitmentContactActionTypes.RemoveContactFromCommitment
-  constructor(public payload: any) { }
+  constructor(public payload: { commitment: any, contact: any }) { }
 }
 
 export class CommitmentContactActionFailure implements Action {

@@ -30,7 +30,7 @@ export const getCommitmentContactsTableData = createSelector(
                 }
 
                 return {
-                    id: c.ccid,
+                    id: c.id,
                     cells: [{
                         value: `${fullname.join(' ')}`
                     }, {

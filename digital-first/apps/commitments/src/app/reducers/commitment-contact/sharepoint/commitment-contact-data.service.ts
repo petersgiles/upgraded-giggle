@@ -14,7 +14,7 @@ export class CommitmentContactDataSharePointService implements CommitmentContact
     addContactToCommitment(variables: { commitment: any; contact: any; }): Observable<DataResult<{ commitment: number }>> {
         throw new Error('Method not implemented.')
     }
-    removeContactFromCommitment(variables: { id: any; }): Observable<DataResult<{ commitment: number }>> {
+    removeContactFromCommitment(variables: { commitment: any; contact: any;  }): Observable<DataResult<{ commitment: number }>> {
         throw new Error('Method not implemented.')
     }
     constructor(private sharepoint: SharepointJsomService) { }

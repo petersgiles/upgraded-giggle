@@ -63,7 +63,7 @@ export class CommitmentContactEffects {
       tap(result => console.log('removeContactFromCommitment', result)),
       switchMap((payload: any) => this.service.removeContactFromCommitment(payload)),
       // tslint:disable-next-line:no-console
-      tap(result => console.log('addContactToCommitment', result)),
+      tap(result => console.log('removeContactFromCommitment', result)),
       switchMap((result: any) => [
         new AppNotification({ message: 'Contact Removed' }),
         new GetContactsByCommitment({ commitment: result.data.commitment }),
