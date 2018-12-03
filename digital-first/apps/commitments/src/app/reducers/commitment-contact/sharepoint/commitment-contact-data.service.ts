@@ -18,18 +18,11 @@ export class CommitmentContactDataSharePointService implements CommitmentContact
         }).pipe(
             map(result => result.map(r => idFromLookup(r.Contact))),
             concatMap((contactids: []) => {
-
                 const query = byIdsQuery(contactids)
-
-                // tslint:disable-next-line:no-console
-                console.log(commitment, contactids, query)
-
                 return this.sharepoint.getItems({
                     listName: 'Contact',
                     viewXml: query
                 }).pipe(
-                    // tslint:disable-next-line:no-console
-                    tap(r => console.log(r)),
                     concatMap((result: any) =>
                         of({
                             data: { contacts: mapContacts(result) },

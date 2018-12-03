@@ -28,8 +28,6 @@ export class CommitmentDiscussionComponent implements OnInit, OnDestroy {
   @Input()
   set commitment(val: number) {
     this._commitment = val
-    // tslint:disable-next-line:no-console
-    console.log('commitment', val)
     if (val) {
       this.service.getCommentsByCommitment(val)
     }
@@ -40,9 +38,6 @@ export class CommitmentDiscussionComponent implements OnInit, OnDestroy {
   }
 
   handleChangeExpanded(expanded) {
-    // tslint:disable-next-line:no-console
-    console.log(expanded)
-
     if (expanded) {
       this.service.expandPanel()
     } else {
@@ -52,8 +47,6 @@ export class CommitmentDiscussionComponent implements OnInit, OnDestroy {
   }
 
   handleDeleteComment(comment) {
-    // tslint:disable-next-line:no-console
-    console.log(comment)
     const commentId = comment.id
 
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
@@ -66,9 +59,6 @@ export class CommitmentDiscussionComponent implements OnInit, OnDestroy {
         first()
       )
       .subscribe(result => {
-
-        // tslint:disable-next-line:no-console
-        console.log(result)
         if (result === ARE_YOU_SURE_ACCEPT && commentId) {
           this.service.deleteComment({ id: commentId, commitment: this._commitment })
         }
@@ -76,9 +66,6 @@ export class CommitmentDiscussionComponent implements OnInit, OnDestroy {
   }
 
   handleReplyToComment(comment) {
-    // tslint:disable-next-line:no-console
-    console.log(comment)
-
     const oldActive = this.activeComment
     this.activeComment = null
     if (comment) {
@@ -89,9 +76,6 @@ export class CommitmentDiscussionComponent implements OnInit, OnDestroy {
   }
 
   handleAddComment(newComment) {
-    // tslint:disable-next-line:no-console
-    console.log(newComment)
-
     const parentId = newComment.parent ? newComment.parent.id : null
 
     this.service.createComment({
