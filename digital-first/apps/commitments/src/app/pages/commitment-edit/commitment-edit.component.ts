@@ -232,25 +232,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     window.location.href = mailText
   }
 
-  handleContactsTableDeleteClicked(commitmentContact) {
-
-    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
-      escapeToClose: true,
-      clickOutsideToClose: true
-    })
-
-    dialogRef.afterClosed()
-      .pipe(
-        first()
-      )
-      .subscribe(result => {
-        if (result === ARE_YOU_SURE_ACCEPT && commitmentContact.id) {
-          this.service.removeContactFromCommitment(commitmentContact)
-        }
-      })
-
-  }
-
   handleRelatedCommitmentsRowClicked($event) {
     this.router.navigate(['/', 'commitment', $event.id])
   }
@@ -272,37 +253,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
         }
       })
 
-  }
-
-  handleCreateContact() {
-    this.router.navigate(['/', 'contact'])
-  }
-
-  handleOpenContactDialog() {
-
-    this.service.Contacts.pipe(
-      first()
-    )
-      .subscribe(contacts => {
-        const dialogRef = this.dialog.open(DialogAddContactComponent, {
-          escapeToClose: true,
-          clickOutsideToClose: true,
-          data: {
-            contacts: contacts.sort((leftSide, rightSide) => {
-              if (leftSide.name < rightSide.name) { return -1 }
-              if (leftSide.name > rightSide.name) { return 1 }
-              return 0
-            })
-          }
-        })
-
-        dialogRef.afterClosed().subscribe((result: any) => {
-          if (result && result.id) {
-            this.service.addContactToCommitment(this.commitment.id, result.id)
-          }
-        })
-      }
-      )
   }
 
   handleOpenCommitmenttDialog() {

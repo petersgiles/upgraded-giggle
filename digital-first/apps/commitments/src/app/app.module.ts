@@ -73,6 +73,7 @@ import { ContactEffects } from './reducers/contact/contact.effects'
 import { ContactCreateFormComponent } from './components/contact-create-form/contact-create-form.component'
 import { MapPointEffects } from './reducers/map-point/map-point.effects'
 import { RelatedCommitmentEffects } from './reducers/related-commitment/related-commitment.effects'
+import { CommitmentContactEffects } from './reducers/commitment-contact/commitment-contact.effects'
 
 import { CommitmentDiscussionComponent } from './containers/commitment-discussion/commitment-discussion.component'
 import { CommitmentDeliveryLocationComponent } from './containers/commitment-delivery-location/commitment-delivery-location.component'
@@ -84,6 +85,7 @@ import { ContactCreateComponent } from './pages/contact-create/contact-create.co
 import { CommitmentCreateComponent } from './pages/commitment-create/commitment-create.component'
 import { discussionDataServiceProvider } from './reducers/commitment-discussion/commitment-discussion-data.service'
 import { lookupDataServiceProvider } from './reducers/commitment-lookup/commitment-lookup-data.service'
+import { commitmentContactsDataServiceProvider } from './reducers/commitment-contact/commitment-contact-data.service'
 
 const COMPONENTS = [
   AppComponent,
@@ -204,8 +206,9 @@ export let appDataServiceProvider = {
     EffectsModule.forFeature([
       RouterEffects,
       CommitmentLookupEffects,
-      ContactEffects,
       MapPointEffects,
+      CommitmentContactEffects,
+      ContactEffects,
       RelatedCommitmentEffects,
       CommentDiscussionEffects,
       CommitmentEffects,
@@ -220,6 +223,7 @@ export let appDataServiceProvider = {
       multi: true
     },
     appDataServiceProvider,
+    commitmentContactsDataServiceProvider,
     discussionDataServiceProvider,
     lookupDataServiceProvider,
     { provide: FullLayoutService, useClass: AppFullLayoutService },

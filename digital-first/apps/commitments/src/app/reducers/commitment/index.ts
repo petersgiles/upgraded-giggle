@@ -4,7 +4,7 @@ import { toTree } from '@digital-first/df-utils'
 
 import * as fromCommitment from './commitment.reducer'
 import { getMapPointEntities } from '../map-point'
-import { DataTableConfig } from '@digital-first/df-components'
+
 import {
     getPartyEntities,
     getPortfolioEntities,
@@ -108,55 +108,4 @@ export const getCommitmentActivity = createSelector(
             error: error
         }
     )
-)
-
-export const getCommitmentContactsTableData = createSelector(
-    getCurrentCommitment,
-    (commitment) => {
-
-        const rows = commitment &&
-            commitment.contacts &&
-            commitment.contacts.map(c => {
-
-                const fullname = []
-                if (c.firstName) {
-                    fullname.push(c.firstName)
-                }
-
-                if (c.name) {
-                    fullname.push(c.name)
-                }
-
-                return {
-                    id: c.ccid,
-                    cells: [{
-                        value: `${fullname.join(' ')}`
-                    }, {
-                        value: c.jobTitle
-                    }, {
-                        value: c.phone
-                    }, {
-                        value: c.email
-                    }, {
-                        value: c.portfolio ? c.portfolio.title : ''
-                    }]
-                }
-            })
-
-        const dtc: DataTableConfig = {
-            title: 'contacts',
-            hasDeleteItemButton: true,
-            headings: [
-                { caption: 'Name' },
-                { caption: 'Job Title' },
-                { caption: 'Phone' },
-                { caption: 'Email' },
-                { caption: 'Portfolio' }
-            ],
-            rows: rows
-        }
-
-        return dtc
-
-    }
 )

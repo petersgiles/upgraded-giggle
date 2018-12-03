@@ -1,8 +1,9 @@
 import { CommitmentContactActionTypes, CommitmentContactActions } from './commitment-contact.actions'
+import { Contact } from '../contact/contact.model'
 
 export interface State {
   expanded: boolean
-  contacts: []
+  contacts: Contact[]
   loading: boolean
   error: any
 }
@@ -21,6 +22,9 @@ export function reducer(
   switch (action.type) {
 
     case CommitmentContactActionTypes.ExpandPanel: {
+
+      // tslint:disable-next-line:no-console
+      console.log('CommitmentContactActionTypes ExpandPanel')
       return {
         ...state,
         expanded: true
@@ -28,9 +32,37 @@ export function reducer(
     }
 
     case CommitmentContactActionTypes.CollapsePanel: {
+
+      // tslint:disable-next-line:no-console
+      console.log('CommitmentContactActionTypes CollapsePanel')
+
       return {
         ...state,
         expanded: false
+      }
+    }
+
+    case CommitmentContactActionTypes.LoadCommitmentContacts: {
+
+      const contacts = [...action.payload.contacts]
+
+      // tslint:disable-next-line:no-console
+      console.log('LoadCommitmentContacts', contacts, action.payload.contacts)
+
+      return {
+        ...state,
+        contacts: contacts
+      }
+    }
+
+    case CommitmentContactActionTypes.ClearCommitmentContacts: {
+
+      // tslint:disable-next-line:no-console
+      console.log('ClearCommitmentContacts')
+
+      return {
+        ...state,
+        contacts: []
       }
     }
 
