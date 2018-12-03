@@ -38,4 +38,11 @@
     justify-content: center;
   }
 
+  .mdc-drawer-app-content {
+    width:100%;
+    width: -webkit-fill-available;
+  }
 
+  .mdc-drawer--open {
+    margin-top: 5px;
+  }

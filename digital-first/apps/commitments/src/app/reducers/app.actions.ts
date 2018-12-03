@@ -5,6 +5,7 @@ export enum AppActionTypes {
     FinishAppInitialiser = '[App] Finish App Initialiser',
     AppNotification = '[App] AppNotification',
     ClearAppNotification = '[App] Clear AppNotification',
+    SetLayoutDrawState = '[App] Set Layout Draw State',
 }
 
 export class StartAppInitialiser implements Action {
@@ -25,8 +26,14 @@ export class ClearAppNotification implements Action {
     readonly type = AppActionTypes.ClearAppNotification
 }
 
+export class SetLayoutDrawState implements Action {
+    readonly type = AppActionTypes.SetLayoutDrawState
+    constructor(public state: boolean) { }
+}
+
 export type AppActions =
     StartAppInitialiser
     | FinishAppInitialiser
     | AppNotification
     | ClearAppNotification
+    | SetLayoutDrawState

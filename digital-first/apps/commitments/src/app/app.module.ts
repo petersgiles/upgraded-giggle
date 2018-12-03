@@ -74,6 +74,7 @@ import { ContactCreateFormComponent } from './components/contact-create-form/con
 import { MapPointEffects } from './reducers/map-point/map-point.effects'
 import { RelatedCommitmentEffects } from './reducers/related-commitment/related-commitment.effects'
 import {CommitmentSubscriptionEffects} from './reducers/commitment-subscription/commitment-subscription.effects'
+import { CommitmentContactEffects } from './reducers/commitment-contact/commitment-contact.effects'
 
 import { CommitmentDiscussionComponent } from './containers/commitment-discussion/commitment-discussion.component'
 import { CommitmentDeliveryLocationComponent } from './containers/commitment-delivery-location/commitment-delivery-location.component'
@@ -86,6 +87,7 @@ import { CommitmentCreateComponent } from './pages/commitment-create/commitment-
 import { discussionDataServiceProvider } from './reducers/commitment-discussion/commitment-discussion-data.service'
 import { lookupDataServiceProvider } from './reducers/commitment-lookup/commitment-lookup-data.service'
 import { subscriptionDataServiceProvider} from './reducers/commitment-subscription/commitment-subscription-data.service'
+import { commitmentContactsDataServiceProvider } from './reducers/commitment-contact/commitment-contact-data.service'
 
 const COMPONENTS = [
   AppComponent,
@@ -206,8 +208,9 @@ export let appDataServiceProvider = {
     EffectsModule.forFeature([
       RouterEffects,
       CommitmentLookupEffects,
-      ContactEffects,
       MapPointEffects,
+      CommitmentContactEffects,
+      ContactEffects,
       RelatedCommitmentEffects,
       CommentDiscussionEffects,
       CommitmentEffects,
@@ -223,6 +226,7 @@ export let appDataServiceProvider = {
       multi: true
     },
     appDataServiceProvider,
+    commitmentContactsDataServiceProvider,
     discussionDataServiceProvider,
     lookupDataServiceProvider,
     subscriptionDataServiceProvider,

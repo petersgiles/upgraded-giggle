@@ -125,7 +125,7 @@ export const getRefinerGroups = createSelector(
                 id: groupkey,
                 title: grouptitle,
                 expanded: !!groups.find(r => r === groupkey),
-                children: item
+                children: (item || [])
                     .map(p => ({
                         id: p.id,
                         groupId: groupkey,

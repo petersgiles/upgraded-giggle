@@ -1,0 +1,37 @@
+query allAgencies{
+  agencies{
+    id
+    metadata
+    title
+  }
+}
+
+query allPortfolios{
+  portfolios{
+    id
+    title
+    metadata
+    agencies{
+      id
+      metadata
+      title
+    }
+  }
+}
+
+query allStatistics{
+  statistics{
+    id
+    name
+    agency{
+      id
+      title
+    }
+    statisticReports{
+      id
+      name
+      notes
+    }
+  }
+}
+
