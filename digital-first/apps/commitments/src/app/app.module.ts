@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule, APP_INITIALIZER } from '@angular/core'
 import { NxModule } from '@nrwl/nx'
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule, HttpClient } from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { Apollo, APOLLO_OPTIONS, ApolloModule } from 'apollo-angular'
 import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http'
@@ -9,6 +9,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { NgxWigModule } from 'ngx-wig'
 import { AgmCoreModule } from '@agm/core'
 import { NgSelectModule } from '@ng-select/ng-select'
+import { MarkdownModule, MarkedOptions } from 'ngx-markdown'
 
 import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
@@ -86,6 +87,7 @@ import { CommitmentCreateComponent } from './pages/commitment-create/commitment-
 import { discussionDataServiceProvider } from './reducers/commitment-discussion/commitment-discussion-data.service'
 import { lookupDataServiceProvider } from './reducers/commitment-lookup/commitment-lookup-data.service'
 import { commitmentContactsDataServiceProvider } from './reducers/commitment-contact/commitment-contact-data.service'
+import { AboutComponent } from './pages/about/about.component'
 
 const COMPONENTS = [
   AppComponent,
@@ -101,7 +103,8 @@ const COMPONENTS = [
   DialogAddCommitmentComponent,
   CommitmentDiscussionComponent,
   CommitmentDeliveryLocationComponent,
-  CommitmentContactsComponent
+  CommitmentContactsComponent,
+  AboutComponent
 ]
 
 const ENTRYCOMPONENTS = [
@@ -186,6 +189,21 @@ export let appDataServiceProvider = {
     ApolloModule,
     HttpLinkModule,
     NgxWigModule,
+    MarkdownModule.forRoot({
+      loader: HttpClient, // optional, only if you use [src] attribute
+      markedOptions: {
+        provide: MarkedOptions,
+        useValue: {
+          gfm: true,
+          tables: true,
+          breaks: false,
+          pedantic: false,
+          sanitize: false,
+          smartLists: true,
+          smartypants: false,
+        },
+      },
+    }),
     NxModule.forRoot(),
     DfLoggingModule,
     DfComponentsModule,

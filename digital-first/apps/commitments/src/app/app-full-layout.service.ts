@@ -21,9 +21,9 @@ export class AppFullLayoutService {
 
   get sidebarItems$(): Observable<SideBarItem[]> {
     return of([{
-      caption: 'Settings',
-      icon: 'settings',
-      routerLink: ['/']
+      caption: 'About this App',
+      icon: 'info',
+      routerLink: ['/about']
     }])
   }
 
