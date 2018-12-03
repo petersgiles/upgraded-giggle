@@ -26,8 +26,8 @@ mutation StoreCommitmentContact($commitment: ID!, $contact: ID!) {
 }
 `
 export const REMOVE_COMMITMENT_CONTACT = gql`
-mutation DeleteCommitmentContact($id: ID!, ) {
-  deleteCommitmentContact(id: $id) {
+mutation DeleteCommitmentContact($commitment: ID!, $contact: ID! ) {
+  deleteCommitmentContact(commitment: $commitment, contact: $contact) {
     id
     title
   }

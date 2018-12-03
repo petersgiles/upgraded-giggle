@@ -79,18 +79,6 @@ export class ApolloDataService implements AppDataService {
     return callMutate<any>(this.apollo, { mutation: STORE_CONTACT, variables: variables })
   }
 
-  addContactToCommitment = (variables: { commitment: any, contact: any }) =>
-    callMutate<any>(this.apollo,
-      { mutation: STORE_COMMITMENT_CONTACT, variables: { ...variables } },
-      (result: any) => ({ commitment: result.data.storeCommitmentContact })
-    )
-
-  removeContactFromCommitment = (variables: { id: any }) =>
-    callMutate<any>(this.apollo,
-      { mutation: REMOVE_COMMITMENT_CONTACT, variables: { ...variables } },
-      (result: any) => ({ commitment: result.data.deleteCommitmentContact })
-    )
-
   storeMapPoint = (mapPoint: any) =>
     callMutate<any>(this.apollo,
       { mutation: STORE_MAP_POINT, variables: { ...mapPoint } },

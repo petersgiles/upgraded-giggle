@@ -19,8 +19,8 @@ export class CommitmentContactService {
         this.store.dispatch(new AddContactToCommitment({ commitment, contact }))
     }
 
-    removeContactFromCommitment(commitmentContact: any): any {
-        this.store.dispatch(new RemoveContactFromCommitment({ id: commitmentContact.id }))
+    removeContactFromCommitment(commitment: any, contact: any): any {
+        this.store.dispatch(new RemoveContactFromCommitment({ commitment, contact }))
     }
 
     get CommitmentContactsTableData(): Observable<DataTableConfig> {

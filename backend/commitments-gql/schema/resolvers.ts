@@ -48,6 +48,7 @@ export const resolvers = {
     commitmentMapPoints: (obj: any, args: any, context: any, info: any) => {
 
       let set = db['commitment-commitment-map-points'].find({ commitment: args.commitment })
+      console.log('commitment MapPoints => ', set)
       let found = set
         .map(
           (f: any) => {
@@ -58,6 +59,8 @@ export const resolvers = {
             }
           }
         )
+      console.log('commitment MapPoints found => ', found)
+      // console.log('commitment => ', commitment, 'commitmentMapPoints => ', set, 'found => ', found)
       return found
 
 
@@ -181,9 +184,10 @@ export const resolvers = {
       return c
     },
     deleteCommitmentContact: (_root: any, args: any) => {
-      var cc = db['commitment-commitment-contacts'].findOne({ _id: args.id });
-      var result = db['commitment-commitment-contacts'].remove({ _id: args.id }, false);
+      var cc = db['commitment-commitment-contacts'].findOne({ commitment: args.commitment, contact: args.contact });
+      var result = db['commitment-commitment-contacts'].remove({ _id: cc._id }, false);
       const c = db.commitments.findOne({ id: cc.commitment })
+      console.log('deleteCommitmentContact =>', result, c)
       return c
     },
     storeMapPoint: (_root: any, args: any) => {
@@ -373,11 +377,14 @@ export const resolvers = {
             }
           }
         )
+      console.log('commitment MapPoints found => ', found)
+      // console.log('commitment => ', commitment, 'commitmentMapPoints => ', set, 'found => ', found)
       return found
     },
     tags(commitment: any) {
       var found = db['commitment-tags'].find({ id: commitment.tags })
       if (found.length) {
+        // console.log('tags =>', found) 
       }
       var tags = found.map((c: any) => ({ ...c, id: c._id }))
 
@@ -392,6 +399,7 @@ export const resolvers = {
   Contact: {
     portfolio(contact: any) {
       let found = db['commitment-portfolios'].findOne({ id: contact.portfolio })
+      // console.log('commitment-portfolios', { id: contact.portfolio }, found)
       return found
     }
   }
