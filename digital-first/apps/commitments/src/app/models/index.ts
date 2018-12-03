@@ -31,7 +31,7 @@ export interface CommentsResult {
 }
 
 export interface SubscriptionResult {
-  subscription
+  commitmentSubscription
 }
 export interface CommitmentResult {
   commitment: Commitment

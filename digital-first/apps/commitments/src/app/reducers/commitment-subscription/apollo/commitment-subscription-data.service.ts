@@ -1,6 +1,4 @@
-import { Commitment } from './../../commitment/commitment.model';
 import { Injectable } from '@angular/core'
-import * as moment from 'moment'
 import { Apollo } from 'apollo-angular'
 import { Observable } from 'rxjs'
 import { callQuery, callMutate } from '../../../services/apollo/apollo-helpers'
@@ -13,7 +11,14 @@ import { CommitmentSubscriptionDataService } from '../commitment-subscription-da
 })
 export class CommitmentSubscriptionDataApolloService implements CommitmentSubscriptionDataService {
 
-  unsubscribeFromCommitment = (subscription: { user: any; commitment: any }): Observable<DataResult<{ commitment: number }>> =>{
+  getUserSubscription(subscription: { user: any; commitment: any }): Observable<any> {
+    const variables = { commitment: subscription.commitment, user: subscription.user.userid}
+    return callQuery<SubscriptionResult>(this.apollo,
+      { query: SUBSCRIPTION_BY_COMMITMENT,
+        variables: variables})
+  }
+
+  unsubscribeFromCommitment = (subscription: { user: any; commitment: any }): Observable<DataResult<{ commitment: number }>> => {
 
     const variables = {
       commitment: subscription.commitment,
@@ -35,16 +40,13 @@ export class CommitmentSubscriptionDataApolloService implements CommitmentSubscr
         commitment: subscription.commitment,
         subscriber: subscription.user.userid
         }
-        console.log('subscribe to commitment appollo')
         return callMutate<any>(this.apollo, { mutation: ADD_SUBSCRIPTION, variables: { ...variables } },
-            (result: any) => {
-              console.log(result.data)
-              return ({ data: { commitment: result.data.storeCommitmentSubscription.id } })
-            }
+            (result: any) =>
+              ({ data: { commitment: result.data.storeCommitmentSubscription.id } })
         )
 
     }
-    getSubscriptionsByCommitment = (commitment: any) => callQuery<SubscriptionResult>(this.apollo, { query: SUBSCRIPTION_BY_COMMITMENT, variables: { commitment: commitment } })
+    // getSubscriptionsByCommitment = (commitment: any) => callQuery<SubscriptionResult>(this.apollo, { query: SUBSCRIPTION_BY_COMMITMENT, variables: { commitment: commitment } })
 
     constructor(private apollo: Apollo) { }
 }

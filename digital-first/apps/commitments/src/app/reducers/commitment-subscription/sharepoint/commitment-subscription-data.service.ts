@@ -13,6 +13,17 @@ import { AppUserProfile } from '@digital-first/df-layouts'
 })
 export class CommitmentSubscriptionDataSharePointService implements CommitmentSubscriptionDataService {
 
+  getUserSubscription(payload: any): Observable<any> {
+    const LISTNAME = 'CommitmentSubscription'
+    const viewXml = byJoinTableQuery({ fieldA: { name: 'Commitment', id: payload.commitment }, fieldB: { name: 'Subscriber', id: payload.user.userid } })
+
+    return this.sharepoint.getItems({
+      listName: LISTNAME,
+      viewXml: viewXml
+    }).pipe(
+      map(result => of(result.count > 0)))
+
+  }
   unsubscribeFromCommitment(payload: any): Observable<any> {
 
     const LISTNAME = 'CommitmentSubscription'
@@ -51,10 +62,6 @@ export class CommitmentSubscriptionDataSharePointService implements CommitmentSu
       concatMap(_ =>
         of({ commitment: { id: payload.commitment } }))
     )
-  }
-
-  getCurrentUser(): Observable<AppUserProfile> {
-    return this.sharepoint.getCurrentUser()
   }
 
   constructor(private sharepoint: SharepointJsomService) { }

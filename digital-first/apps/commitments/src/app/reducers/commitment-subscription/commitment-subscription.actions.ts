@@ -10,23 +10,14 @@ export enum CommitmentSubscriptionActionTypes {
   SubscribeToCommitment = '[CommitmentSubscription] Add Subscription',
   UnsubscribeFromCommitment = '[CommitmentSubscription] Remove Subscription',
 }
-
-export class CollapsePanel implements Action {
-  readonly type = CommitmentSubscriptionActionTypes.CollapsePanel
-}
-
-export class ExpandPanel implements Action {
-  readonly type = CommitmentSubscriptionActionTypes.ExpandPanel
-}
-
 export class LoadSubscriptions implements Action {
   readonly type = CommitmentSubscriptionActionTypes.LoadSubscriptions
 
   constructor(public payload: DataResult<SubscriptionResult>) { }
 }
-export class GetSubscriptionsByCommitment implements Action {
+export class GetCommitmentSubscriptionForUser implements Action {
   readonly type = CommitmentSubscriptionActionTypes.GetSubscriptionsByCommitment
-  constructor(public payload: { commitment: number }) { }
+  constructor(public payload: { commitment: string | number, user: any}) { }
 }
 
 export class SubscribeToCommitment implements Action {
@@ -49,7 +40,7 @@ export class SubscriptionActionFailure implements Action {
 
 export type CommitmentSubscriptionActions =
   LoadSubscriptions
-  | GetSubscriptionsByCommitment
+  | GetCommitmentSubscriptionForUser
   | SubscriptionActionFailure
   | SubscribeToCommitment
   | UnsubscribeFromCommitment

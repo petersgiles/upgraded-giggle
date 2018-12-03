@@ -3,15 +3,13 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity'
 import { Subscription } from './subscription.model'
 
 export interface State {
-  expanded: boolean
-  subscriptions: []
+  isSubscribed: boolean
   loading: boolean
   error: any
 }
 
 export const initialState: State = {
-  expanded: false,
-  subscriptions: null,
+  isSubscribed: false,
   loading: false,
   error: null,
 }
@@ -24,12 +22,15 @@ export function reducer(
 
     case CommitmentSubscriptionActionTypes.LoadSubscriptions: {
 
-        // tslint:disable-next-line:no-console
-        console.log('LoadSubscriptions', action.payload)
+        let subscribed = true
+
+        if (action.payload.data.commitmentSubscription == null || action.payload.data.commitmentSubscription.length === 0) {
+          subscribed = false
+        }
 
       return {
           ...state,
-          subscriptions: action.payload.data.subscription,
+          isSubscribed: subscribed,
           loading: action.payload.loading,
           error: action.payload.error
         }
@@ -44,7 +45,6 @@ export function reducer(
   }
 }
 
-export const selectAll = (state: State) => state.subscriptions
-export const getExpanded = (state: State) => state.expanded
+export const getIsSubscribed = (state: State) => state.isSubscribed
 export const getSubscriptionLoading = (state: State) => state.loading
 export const getSubscriptionError = (state: State) => state.error

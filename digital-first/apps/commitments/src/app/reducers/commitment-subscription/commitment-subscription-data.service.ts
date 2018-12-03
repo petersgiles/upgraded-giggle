@@ -17,7 +17,10 @@ export abstract class CommitmentSubscriptionDataService {
     user: any;
     author: any;
   }): Observable<DataResult<{ commitment: number }>>
-  // abstract getSubscriptionsByCommitment(commitment: any): Observable<DataResult<SubscriptionResult>>
+  abstract getUserSubscription(variables: {
+     user: any,
+     commitment: any }
+   ): Observable<DataResult<SubscriptionResult>>
 }
 
 const subscriptionDataServiceFactory = (settings: SettingsService, sharepointlib: SharepointJsomService, apollo: Apollo) => {

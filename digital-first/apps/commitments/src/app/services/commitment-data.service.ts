@@ -16,7 +16,7 @@ import { Contact } from '../reducers/contact/contact.model'
 import { Location } from '../models/location.model'
 import { CommitmentType } from '../models/commitment-type.model'
 import { CriticalDate } from '../models/critical-date.model'
-import { CommitmentSubscriptionActionTypes, UnsubscribeFromCommitment, GetSubscriptionsByCommitment, SubscriptionActionFailure,
+import { CommitmentSubscriptionActionTypes, UnsubscribeFromCommitment, GetCommitmentSubscriptionForUser, SubscriptionActionFailure,
   SubscribeToCommitment, LoadSubscriptions} from './../reducers/commitment-subscription/commitment-subscription.actions'
 
 import {
@@ -133,6 +133,10 @@ export class CommitmentDataService {
     return this.store.pipe(select(fromRoot.getAllOverviewCommitmentDataTables))
   }
 
+  get CommitmentSubscription(): Observable<boolean> {
+    return this.store.pipe(select(fromRoot.getIsSubscribed))
+  }
+
   get CommitmentActivity(): Observable<any> {
     return this.store.pipe(select(fromRoot.getCommitmentActivity))
   }
@@ -160,16 +164,21 @@ export class CommitmentDataService {
   }
 
   subscribeToCommitment(commitment: string | number) {
-    const currentUser = this.getCurrentUserSP()
+    const currentUser = this.getCurrentUserValue()
     return this.store.dispatch(new SubscribeToCommitment({commitment: commitment, user: currentUser}))
   }
 
   unsubscibeFromCommitment(commitment: string | number) {
-    const currentUser = this.getCurrentUserSP()
+    const currentUser = this.getCurrentUserValue()
     return this.store.dispatch(new UnsubscribeFromCommitment({commitment: commitment, user: currentUser}))
   }
 
-  getCurrentUserSP(): any {
+  getUserSubscriptionStatus(commitment: string | number) {
+    const currentUser = this.getCurrentUserValue()
+    this.store.dispatch(new GetCommitmentSubscriptionForUser({commitment: commitment, user: currentUser}))
+  }
+
+  getCurrentUserValue(): any {
     let currentUser: any
     this.getCurrentUser().subscribe(user => currentUser = user)
 

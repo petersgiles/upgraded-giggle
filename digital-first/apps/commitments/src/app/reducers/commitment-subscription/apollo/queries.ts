@@ -1,19 +1,10 @@
 import gql from 'graphql-tag'
 
 export const SUBSCRIPTION_BY_COMMITMENT = gql`
-query Subscription($commitment: ID!) {
-    comments(commitment: $commitment) {
-      id
+query Subscription($commitment: ID!, $user: ID!) {
+    commitmentSubscription (commitment: $commitment, user: $user) {
+      subscriber
       commitment
-      text
-      created
-      parent
-      author {
-        username
-        name
-        email
-        phone
-      }
     }
   }
 `
