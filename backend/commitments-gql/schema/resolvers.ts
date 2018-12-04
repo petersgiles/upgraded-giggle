@@ -21,6 +21,7 @@ db.connect('./diskdb/commitments', [
   'commitment-commitment-electorates',
   'commitment-related-commitments',
   'commitment-subscriptions',
+  'commitment-commitment-actions',
 ]);
 
 const commitmentSubscriptionTable = 'commitment-subscriptions';
@@ -45,6 +46,13 @@ export const resolvers = {
       let found = set.map((f: any) => db['commitment-contacts'].findOne({ _id: f.contact })).map((c: any) => ({ ...c, id: c._id }))
       return found
     },
+    commitmentActions: (obj: any, args: any, context: any, info: any) => {
+      let set = db['commitment-commitment-actions'].find({ commitment: args.commitment })
+      let found = set.map((c: any) => ({ ...c, id: c._id }))
+      console.log('commitmentActions => ', found, args)
+
+      return found
+    },    
     commitmentMapPoints: (obj: any, args: any, context: any, info: any) => {
 
       let set = db['commitment-commitment-map-points'].find({ commitment: args.commitment })
@@ -399,6 +407,13 @@ export const resolvers = {
   Contact: {
     portfolio(contact: any) {
       let found = db['commitment-portfolios'].findOne({ id: contact.portfolio })
+      // console.log('commitment-portfolios', { id: contact.portfolio }, found)
+      return found
+    }
+  },
+  CommitmentAction: {
+    portfolio(action: any) {
+      let found = db['commitment-portfolios'].findOne({ id: action.portfolio })
       // console.log('commitment-portfolios', { id: contact.portfolio }, found)
       return found
     }

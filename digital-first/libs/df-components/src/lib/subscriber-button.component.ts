@@ -5,7 +5,8 @@ import { getContrastYIQ } from '@digital-first/df-utils'
   selector: 'digital-first-subscriber-button',
   template: `
     <button attr.aria-label="{{getTitle() | safeHtml}}" title="{{getTitle() | safeHtml}}" [style.color]="_textColour"
-    (click)="onManageSubscription.emit(!isSubscribed)" mdc-button dense ><mdc-icon [style.color]="_textColour">{{icon}}</mdc-icon><span [innerHtml]="getTitle() | safeHtml"></span></button>
+    (click)="onManageSubscription.emit(!isSubscribed)"
+    mdc-button dense ><mdc-icon [style.color]="_textColour">notifications_{{isSubscribed?'active':'off'}}</mdc-icon><span [innerHtml]="getTitle() | safeHtml"></span></button>
   `,
   styles: [`
   :host {
@@ -20,10 +21,10 @@ export class AddSubscriptionButtonComponent implements OnInit {
   icon = 'add_alert'
 
   @Input()
-  subscribeTitle = 'Notify&nbsp;Me'
+  subscribeTitle = 'Notify&nbsp;OFF'
 
   @Input()
-  unSubscribeTitle = 'Cancel&nbsp;Notification'
+  unSubscribeTitle = 'Notify&nbsp;ON'
 
   @Input()
   isSubscribed = false

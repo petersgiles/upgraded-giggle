@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs'
 import { SubscriptionResult, DataResult } from '../../../models'
 import { concatMap, tap, map } from 'rxjs/operators'
 import { byCommitmentIdQuery, byJoinTableQuery } from '../../../services/sharepoint/caml'
-import { mapCommitmentSubscription, mapSubscriptions } from './maps'
+import { mapCommitmentSubscriptions } from './maps'
 import { CommitmentSubscriptionDataService } from '../commitment-subscription-data.service'
 import { AppUserProfile } from '@digital-first/df-layouts'
 
@@ -15,7 +15,7 @@ export class CommitmentSubscriptionDataSharePointService implements CommitmentSu
 
   getUserSubscription(payload: any): Observable<any> {
     const LISTNAME = 'CommitmentSubscription'
-    const viewXml = byJoinTableQuery({ fieldA: { name: 'Commitment', id: payload.commitment }, fieldB: { name: 'Subscriber', id: payload.user.userid } })
+    const viewXml = byJoinTableQuery({ fieldA: { name: 'Commitment', id: payload.commitment }, fieldB: { name: 'Subscriber', id: payload.user } })
 
     return this.sharepoint.getItems({
       listName: LISTNAME,
@@ -23,7 +23,7 @@ export class CommitmentSubscriptionDataSharePointService implements CommitmentSu
     }).pipe(
       concatMap((subscription: any) =>
           of({
-              data: { commitmentSubscription: mapCommitmentSubscription(subscription) },
+              data: { commitmentSubscription: mapCommitmentSubscriptions(subscription) },
               loading: false
           })))
   }
@@ -32,7 +32,7 @@ export class CommitmentSubscriptionDataSharePointService implements CommitmentSu
 
     const LISTNAME = 'CommitmentSubscription'
 
-    const viewXml = byJoinTableQuery({ fieldA: { name: 'Commitment', id: payload.commitment }, fieldB: { name: 'Subscriber', id: payload.user.userid } })
+    const viewXml = byJoinTableQuery({ fieldA: { name: 'Commitment', id: payload.commitment }, fieldB: { name: 'Subscriber', id: payload.user} })
 
     return this.sharepoint.getItems({
       listName: LISTNAME,
@@ -55,7 +55,7 @@ export class CommitmentSubscriptionDataSharePointService implements CommitmentSu
 
     const subscriptionItem = {
       Title: payload.commitment,
-      Subscriber: payload.user.userid,
+      Subscriber: payload.user,
       Commitment: payload.commitment
     }
 

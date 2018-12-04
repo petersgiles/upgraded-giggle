@@ -27,6 +27,7 @@ import { AppNotification, ClearAppNotification } from '../app.actions'
 import { GetMapPointsByCommitment, ClearMapPoints } from '../map-point/map-point.actions'
 import { ClearRelatedCommitments, GetRelatedCommitmentsByCommitment } from '../related-commitment/related-commitment.actions'
 import { GetContactsByCommitment, ClearCommitmentContacts } from '../commitment-contact/commitment-contact.actions'
+import { ClearCommitmentActions, GetActionsByCommitment } from '../commitment-action/commitment-action.actions'
 
 @Injectable()
 export class CommitmentEffects {
@@ -54,8 +55,10 @@ export class CommitmentEffects {
             new UpsertCommitment(result),
             new ClearMapPoints(),
             new ClearRelatedCommitments(),
+            new ClearCommitmentActions(),
             new ClearCommitmentContacts(),
             new GetMapPointsByCommitment({ commitment: result.data.commitment.id }),
+            new GetActionsByCommitment({ commitment: result.data.commitment.id }),
             new GetContactsByCommitment({ commitment: result.data.commitment.id }),
             new GetRelatedCommitmentsByCommitment({ commitment: result.data.commitment.id })
           ]),

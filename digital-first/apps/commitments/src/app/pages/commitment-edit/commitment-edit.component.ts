@@ -32,6 +32,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   commitmentSubscription$: Subscription
   commitmentEditExpandedPanelsSubscription$: Subscription
   activitySubscription$: Subscription
+  user$: any
 
   currentComments$: Observable<Comment[]>
   selectId$: Subscription
@@ -138,11 +139,15 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.lookup.getAllPartys()
     this.lookup.getAllPortfolios()
 
+    this.user$ = this.service.getCurrentUser()
+
     this.selectId$ = this.route.paramMap
       .pipe(
         map((params: ParamMap) => +params.get('id')),
         map((selectedId) => {
-          this.service.getUserSubscriptionStatus(selectedId)
+          this.user$.subscribe(user => {
+            this.service.getUserSubscriptionStatus(selectedId, user.userid)
+          })
           this.service.setCurrentCommitment(selectedId)
         }),
       )
@@ -182,12 +187,15 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   handleManageSubscription($event) {
     this.isSubscribed$ = of($event)
-    if ($event) {
-    this.service.subscribeToCommitment(this.commitment.id)
-    }
-    else {
-      this.service.unsubscibeFromCommitment(this.commitment.id)
-    }
+    this.user$.subscribe(user => {
+      const userId = user.userid
+      if ($event) {
+        this.service.subscribeToCommitment(this.commitment.id, userId)
+      }
+      else {
+        this.service.unsubscibeFromCommitment(this.commitment.id, userId)
+      }
+    })
   }
 
   handleChangeExpanded($event, panel) {
@@ -313,12 +321,16 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.service.addElectorateToCommitment(this.commitment.id, electorate.id)
   }
 
-  handleAutosaveClicked($event) {
+  handleAutosaveClicked(autosaveState) {
 
     // tslint:disable-next-line:no-console
-    console.log($event)
+    console.log(autosaveState)
 
-    this.service.changeCommitmentEditAutosave($event)
+    this.service.changeCommitmentEditAutosave(autosaveState)
+
+    const message = `AutoSave ${autosaveState ? 'On' : 'Off - Submit at bottom of form'}`
+
+    this.showSnackBar(message)
   }
 
 }

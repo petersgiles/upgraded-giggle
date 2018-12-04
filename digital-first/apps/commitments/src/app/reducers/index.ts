@@ -36,6 +36,7 @@ import * as fromCommitmentEdit from './commitment-edit/commitment-edit.reducer'
 import * as fromCommitmentDiscussion from './commitment-discussion/commitment-discussion.reducer'
 import * as fromCommitmentSubscription from './commitment-subscription/commitment-subscription.reducer'
 import * as fromCommitmentContact from './commitment-contact/commitment-contact.reducer'
+import * as fromCommitmentAction from './commitment-action/commitment-action.reducer'
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
     return localStorageSync({
@@ -45,7 +46,8 @@ export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionRedu
             'commitmentOverview',
             { 'commitmentEdit': ['expandedPanels', 'autosave'] },
             { 'commitmentDiscussion': ['expanded', 'timeFormat'] },
-            { 'commitmentContact': ['expanded'] }
+            { 'commitmentContact': ['expanded'] },
+            { 'commitmentAction': ['expanded'] }
         ], rehydrate: true
     })(reducer)
 }
@@ -66,8 +68,8 @@ export interface State {
     commitmentEdit: fromCommitmentEdit.State
     commitmentDiscussion: fromCommitmentDiscussion.State
     commitmentSubscription: fromCommitmentSubscription.State
-
     commitmentContact: fromCommitmentContact.State
+    commitmentAction: fromCommitmentAction.State
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -83,7 +85,8 @@ export const reducers: ActionReducerMap<State> = {
     commitmentEdit: fromCommitmentEdit.reducer,
     commitmentDiscussion: fromCommitmentDiscussion.reducer,
     commitmentSubscription: fromCommitmentSubscription.reducer,
-    commitmentContact: fromCommitmentContact.reducer
+    commitmentContact: fromCommitmentContact.reducer,
+    commitmentAction: fromCommitmentAction.reducer
 }
 
 export const getNotificationState = state => state.notification
@@ -104,6 +107,7 @@ export * from './commitment-discussion'
 export * from './commitment-contact'
 export * from './commitment'
 export * from './commitment-subscription'
+export * from './commitment-action'
 
 export class CustomSerializer
     implements fromRouter.RouterStateSerializer<RouterStateUrl> {
