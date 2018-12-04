@@ -2,7 +2,7 @@ import { createSelector } from '@ngrx/store'
 import { DataTableConfig } from '@digital-first/df-components'
 import * as fromCommitmentAction from './commitment-action.reducer'
 
-export const getCommitmentActionState = state => state.commitmentContact
+export const getCommitmentActionState = state => state.commitmentAction
 
 export const getAllCommitmentActions = createSelector(
     getCommitmentActionState,

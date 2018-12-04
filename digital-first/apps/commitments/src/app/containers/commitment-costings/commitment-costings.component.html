@@ -1,0 +1,8 @@
+<digital-first-page-title *ngIf="commitment" title="Costings" (onTitleClicked)="handleChangeExpanded(!expanded)">
+   <digital-first-expand-collapse-button [expanded]='expanded' (onChangeExpanded)="handleChangeExpanded(!expanded)"></digital-first-expand-collapse-button>
+</digital-first-page-title>
+
+<div class="commitment-layout__row" *ngIf="expanded">
+  <digital-first-data-table [tableData]="tableData$ | async" (onDeleteItem)="handleTableDeleteClicked($event)"
+    (onCellClicked)="handleRowClicked($event)"></digital-first-data-table>
+</div>

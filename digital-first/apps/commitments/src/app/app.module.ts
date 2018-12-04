@@ -81,6 +81,8 @@ import { CommitmentActionEffects } from './reducers/commitment-action/commitment
 import { CommitmentDiscussionComponent } from './containers/commitment-discussion/commitment-discussion.component'
 import { CommitmentDeliveryLocationComponent } from './containers/commitment-delivery-location/commitment-delivery-location.component'
 import { CommitmentContactsComponent } from './containers/commitment-contacts/commitment-contacts.component'
+import { AboutComponent } from './pages/about/about.component'
+import { CommitmentCostingsComponent } from './containers/commitment-costings/commitment-costings.component'
 
 import { CommitmentOverviewComponent } from './pages/commitment-overview/commitment-overview.component'
 import { CommitmentEditComponent } from './pages/commitment-edit/commitment-edit.component'
@@ -90,7 +92,7 @@ import { discussionDataServiceProvider } from './reducers/commitment-discussion/
 import { lookupDataServiceProvider } from './reducers/commitment-lookup/commitment-lookup-data.service'
 import { subscriptionDataServiceProvider } from './reducers/commitment-subscription/commitment-subscription-data.service'
 import { commitmentContactsDataServiceProvider } from './reducers/commitment-contact/commitment-contact-data.service'
-import { AboutComponent } from './pages/about/about.component'
+import { commitmentActionsDataServiceProvider } from './reducers/commitment-action/commitment-action-data.service'
 
 const COMPONENTS = [
   AppComponent,
@@ -105,6 +107,7 @@ const COMPONENTS = [
   ContactCreateFormComponent,
   DialogAddCommitmentComponent,
   CommitmentDiscussionComponent,
+  CommitmentCostingsComponent,
   CommitmentDeliveryLocationComponent,
   CommitmentContactsComponent,
   AboutComponent
@@ -247,6 +250,7 @@ export let appDataServiceProvider = {
     },
     appDataServiceProvider,
     commitmentContactsDataServiceProvider,
+    commitmentActionsDataServiceProvider,
     discussionDataServiceProvider,
     lookupDataServiceProvider,
     subscriptionDataServiceProvider,
