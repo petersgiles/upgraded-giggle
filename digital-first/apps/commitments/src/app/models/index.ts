@@ -26,9 +26,12 @@ export interface DataResult<T> {
 export interface RelatedCommitmentsResult {
   commitmentRelatedCommitments: RelatedCommitment[]
 }
-
 export interface CommentsResult {
   comments
+}
+
+export interface SubscriptionResult {
+  commitmentSubscription
 }
 export interface CommitmentResult {
   commitment: Commitment

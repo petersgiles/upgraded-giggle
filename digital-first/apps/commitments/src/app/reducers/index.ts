@@ -34,6 +34,7 @@ import * as fromCommitmentLookup from './commitment-lookup/commitment-lookup.red
 import * as fromCommitmentOverview from './commitment-overview/commitment-overview.reducer'
 import * as fromCommitmentEdit from './commitment-edit/commitment-edit.reducer'
 import * as fromCommitmentDiscussion from './commitment-discussion/commitment-discussion.reducer'
+import * as fromCommitmentSubscription from './commitment-subscription/commitment-subscription.reducer'
 import * as fromCommitmentContact from './commitment-contact/commitment-contact.reducer'
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -42,7 +43,7 @@ export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionRedu
             { 'auth': ['status'] },
             { 'user': ['drawerOpen'] },
             'commitmentOverview',
-            { 'commitmentEdit': ['expandedPanels'] },
+            { 'commitmentEdit': ['expandedPanels', 'autosave'] },
             { 'commitmentDiscussion': ['expanded', 'timeFormat'] },
             { 'commitmentContact': ['expanded'] }
         ], rehydrate: true
@@ -64,6 +65,8 @@ export interface State {
     commitmentOverview: fromCommitmentOverview.State
     commitmentEdit: fromCommitmentEdit.State
     commitmentDiscussion: fromCommitmentDiscussion.State
+    commitmentSubscription: fromCommitmentSubscription.State
+
     commitmentContact: fromCommitmentContact.State
 }
 
@@ -79,6 +82,7 @@ export const reducers: ActionReducerMap<State> = {
     commitmentOverview: fromCommitmentOverview.reducer,
     commitmentEdit: fromCommitmentEdit.reducer,
     commitmentDiscussion: fromCommitmentDiscussion.reducer,
+    commitmentSubscription: fromCommitmentSubscription.reducer,
     commitmentContact: fromCommitmentContact.reducer
 }
 
@@ -99,6 +103,7 @@ export * from './commitment-edit'
 export * from './commitment-discussion'
 export * from './commitment-contact'
 export * from './commitment'
+export * from './commitment-subscription'
 
 export class CustomSerializer
     implements fromRouter.RouterStateSerializer<RouterStateUrl> {

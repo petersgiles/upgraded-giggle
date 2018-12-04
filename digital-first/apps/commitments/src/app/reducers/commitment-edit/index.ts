@@ -13,3 +13,8 @@ export const getCommitmentEditDiscussionTimeFormat = createSelector(
     getCommitmentEditState,
     fromCommitmentEdit.getTimeFormat
 )
+
+export const getCommitmentEditAutosave = createSelector(
+    getCommitmentEditState,
+    fromCommitmentEdit.getAutosave
+)

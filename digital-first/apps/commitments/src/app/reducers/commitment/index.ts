@@ -1,6 +1,5 @@
 import { createSelector } from '@ngrx/store'
 import moment = require('moment')
-import { toTree } from '@digital-first/df-utils'
 
 import * as fromCommitment from './commitment.reducer'
 import { getMapPointEntities } from '../map-point'
@@ -14,6 +13,7 @@ import {
     getWhoAnnouncedTypeEntities,
     getCriticalDateEntities
 } from '../commitment-lookup'
+import { findInLookup } from '../utils'
 export { CommitmentEffects } from './commitment.effects'
 export * from './commitment.model'
 
@@ -64,13 +64,13 @@ export const getCurrentCommitment = createSelector(
 
             const mappedCommitment = {
                 ...commitment,
-                portfolio: commitment.portfolio ? lookups.portfolios[commitment.portfolio.id] : null,
-                party: commitment.party ? lookups.partys[commitment.party.id] : null,
-                location: commitment.location ? lookups.locations[commitment.location.id] : null,
-                whoAnnouncedType: commitment.whoAnnouncedType ? lookups.whoAnnouncedTypes[commitment.whoAnnouncedType.id] : null,
-                announcementType: commitment.announcementType ? lookups.announcementTypes[commitment.announcementType.id] : null,
-                criticalDate: commitment.criticalDate ? lookups.criticalDates[commitment.criticalDate.id] : null,
-                commitmentType: commitment.commitmentType ? lookups.commitmentTypes[commitment.commitmentType.id] : null,
+                portfolio: findInLookup(commitment.portfolio, lookups.portfolios),
+                party: findInLookup(commitment.party, lookups.partys),
+                location: findInLookup(commitment.location, lookups.locations),
+                whoAnnouncedType: findInLookup(commitment.whoAnnouncedType, lookups.whoAnnouncedTypes),
+                announcementType: findInLookup(commitment.announcementType, lookups.announcementTypes),
+                criticalDate: findInLookup(commitment.criticalDate, lookups.criticalDates),
+                commitmentType: findInLookup(commitment.commitmentType, lookups.commitmentTypes),
                 mapPoints: commitmentMapPoints,
                 date: moment(commitment.date),
             }

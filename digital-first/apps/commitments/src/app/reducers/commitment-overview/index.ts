@@ -19,6 +19,7 @@ import {
     getWhoAnnouncedTypeEntities,
     getAllPartys
 } from '../commitment-lookup'
+import { findInLookup } from '../utils'
 
 export const getCommitmentOverviewState = state => state.commitmentOverview
 
@@ -178,26 +179,34 @@ export const getFilteredOverviewCommitments = createSelector(
     }
 )
 
-export const getAllOverviewCommitments = createSelector(
-    getFilteredOverviewCommitments,
-    getCriticalDateEntities,
+export const getOverviewLookupEnitites = createSelector(
     getPartyEntities,
     getPortfolioEntities,
     getAnnouncementTypeEntities,
     getCommitmentTypeEntities,
     getWhoAnnouncedTypeEntities,
-    (commitments, criticalDates, partys, portfolios, announcementTypes, commitmentTypes, whoAnnouncedTypes) => {
+    getCriticalDateEntities,
+    (partys, portfolios, announcementTypes, commitmentTypes, whoAnnouncedTypes, criticalDates) =>
+        ({
+            partys, portfolios, announcementTypes, commitmentTypes, whoAnnouncedTypes, criticalDates
+        })
+)
+
+export const getAllOverviewCommitments = createSelector(
+    getFilteredOverviewCommitments,
+    getOverviewLookupEnitites,
+    (commitments, lookups) => {
 
         const result = commitments.map(commitment =>
             ({
                 ...commitment,
                 description: null,
-                portfolio: commitment.portfolio ? portfolios[commitment.portfolio.id] : null,
-                party: commitment.party ? partys[commitment.party.id] : null,
-                criticalDate: commitment.criticalDate ? criticalDates[commitment.criticalDate.id] : null,
-                whoAnnouncedType: commitment.whoAnnouncedType ? whoAnnouncedTypes[commitment.whoAnnouncedType.id] : null,
-                announcementType: commitment.announcementType ? announcementTypes[commitment.announcementType.id] : null,
-                commitmentType: commitment.commitmentType ? commitmentTypes[commitment.commitmentType.id] : null,
+                portfolio: findInLookup(commitment.portfolio, lookups.portfolios),
+                party: findInLookup(commitment.party, lookups.partys),
+                whoAnnouncedType: findInLookup(commitment.whoAnnouncedType, lookups.whoAnnouncedTypes),
+                announcementType: findInLookup(commitment.announcementType, lookups.announcementTypes),
+                criticalDate: findInLookup(commitment.criticalDate, lookups.criticalDates),
+                commitmentType: findInLookup(commitment.commitmentType, lookups.commitmentTypes),
             }))
 
         return result

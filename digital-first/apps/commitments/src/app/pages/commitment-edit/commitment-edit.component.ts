@@ -70,6 +70,8 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   formBusy = false
   isSubscribed$: Observable<boolean>
+  autoSave: boolean
+  autoSaveSubscription$: Subscription
 
   constructor(private router: Router, private route: ActivatedRoute, public dialog: MdcDialog, private snackbar: MdcSnackbar,
     private service: CommitmentDataService,
@@ -87,6 +89,8 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
     this.commitmentContactsTableData$ = this.service.CommitmentContactsTableData
     this.commitmentCommitmentsTableData$ = this.service.RelatedCommitmentsTableData
+
+    this.autoSaveSubscription$ = this.service.CommitmentEditAutosave.subscribe(next => this.autoSave = next)
 
     this.commitmentSubscription$ = this.service.Commitment.subscribe(
       next => {
@@ -123,24 +127,27 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
       }
     )
 
+    this.service.getAllCommitments()
+    this.service.getAllContacts()
+
     this.lookup.getAllWhoAnnouncedTypes()
     this.lookup.getAllAnnouncementTypes()
     this.lookup.getAllCriticalDates()
     this.lookup.getAllCommitmentTypes()
     this.lookup.getAllLocations()
     this.lookup.getAllPartys()
-
     this.lookup.getAllPortfolios()
-
-    this.service.getAllCommitments()
-    this.service.getAllContacts()
 
     this.selectId$ = this.route.paramMap
       .pipe(
         map((params: ParamMap) => +params.get('id')),
-        map(selectedId => this.service.setCurrentCommitment(selectedId))
+        map((selectedId) => {
+          this.service.getUserSubscriptionStatus(selectedId)
+          this.service.setCurrentCommitment(selectedId)
+        }),
       )
       .subscribe()
+    this.isSubscribed$ = this.service.CommitmentSubscription
   }
 
   getTitle(commitment) {
@@ -175,6 +182,12 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   handleManageSubscription($event) {
     this.isSubscribed$ = of($event)
+    if ($event) {
+    this.service.subscribeToCommitment(this.commitment.id)
+    }
+    else {
+      this.service.unsubscibeFromCommitment(this.commitment.id)
+    }
   }
 
   handleChangeExpanded($event, panel) {
@@ -185,6 +198,12 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
       this.service.collapseCommitmentEditPanel(panel)
     }
 
+  }
+
+  handleUpdateCommitmentChange(commitment) {
+    if (this.autoSave) {
+      this.handleUpdateCommitment(commitment)
+    }
   }
 
   handleUpdateCommitment(commitment) {
@@ -292,6 +311,14 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   handleAddElectorateToCommitment(electorate) {
     this.service.addElectorateToCommitment(this.commitment.id, electorate.id)
+  }
+
+  handleAutosaveClicked($event) {
+
+    // tslint:disable-next-line:no-console
+    console.log($event)
+
+    this.service.changeCommitmentEditAutosave($event)
   }
 
 }

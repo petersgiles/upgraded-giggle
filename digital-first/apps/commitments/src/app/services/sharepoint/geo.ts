@@ -24,15 +24,6 @@ export const mapCommitmentElectorate = (commitmentElectorate): any => ({
 })
 export const mapCommitmentElectorates = (commitmentElectorates): any[] => commitmentElectorates.map(mapCommitmentElectorate)
 
-export const mapLocation = (location): Location => ({
-  id: location.ID,
-  title: location.Title,
-  group: location.State
-})
-
-export const mapLocations = (locations): Location[] =>
-  locations.map(mapLocation)
-
 export const mapMapPoint = (location): any => ({
   id: location.ID,
   place_id: location.PlaceId,

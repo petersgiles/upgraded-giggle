@@ -7,6 +7,7 @@ import {
 } from '@digital-first/df-layouts'
 import { ErrorPageNotFoundComponent, ErrorServerComponent } from '@digital-first/df-pages'
 import { CommitmentOverviewComponent, CommitmentEditComponent, CommitmentCreateComponent, ContactCreateComponent } from './pages'
+import { AboutComponent } from './pages/about/about.component'
 
 const routes: Routes = [
   { path: '', redirectTo: 'commitments', pathMatch: 'full' },
@@ -60,6 +61,18 @@ const routes: Routes = [
       {
         path: ':id',
         component: CommitmentEditComponent
+      }
+    ]
+  }, {
+    path: 'about',
+    component: FullLayoutComponent,
+    data: {
+      title: 'About'
+    },
+    children: [
+      {
+        path: '',
+        component: AboutComponent,
       }
     ]
   },

@@ -79,45 +79,11 @@ export class CommitmentEffects {
     )
 
   @Effect()
-  addContactToCommitment$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(CommitmentActionTypes.AddContactToCommitment),
-      map((action: AddContactToCommitment) => action.payload),
-      switchMap((payload: any) => this.service.addContactToCommitment(payload)),
-      switchMap((result: any) => [
-        new AppNotification({ message: 'Contact Added' }),
-        new SetCurrentCommitment({ id: result.commitment.id }),
-        new ClearAppNotification()
-      ]),
-      catchError(error => of(new CommitmentsActionFailure(error)))
-
-    )
-
-  @Effect()
-  removeContactFromCommitment$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(CommitmentActionTypes.RemoveContactFromCommitment),
-      map((action: RemoveContactFromCommitment) => action.payload),
-      switchMap((payload: any) => this.service.removeContactFromCommitment(payload)),
-      switchMap((result: any) => [
-        new AppNotification({ message: 'Contact Removed' }),
-        new SetCurrentCommitment({ id: result.commitment.id }),
-        new ClearAppNotification()
-      ]),
-      catchError(error => of(new CommitmentsActionFailure(error)))
-
-    )
-
-  @Effect()
   addCommitmentToCommitment$: Observable<Action> = this.actions$
     .pipe(
       ofType(CommitmentActionTypes.AddCommitmentToCommitment),
       map((action: AddCommitmentToCommitment) => action.payload),
-      // tslint:disable-next-line:no-console
-      tap(result => console.log('addCommitmentToCommitment', result)),
       switchMap((payload: any) => this.service.addCommitmentToCommitment(payload)),
-      // tslint:disable-next-line:no-console
-      tap(result => console.log('addCommitmentToCommitment', result)),
       switchMap((result: any) => [
         new AppNotification({ message: 'Related Commitment Added' }),
         new SetCurrentCommitment({ id: result.commitment.id }),
@@ -131,11 +97,7 @@ export class CommitmentEffects {
     .pipe(
       ofType(CommitmentActionTypes.RemoveCommitmentFromCommitment),
       map((action: RemoveCommitmentFromCommitment) => action.payload),
-      // tslint:disable-next-line:no-console
-      tap(result => console.log('removeCommitmentFromCommitment', result)),
       switchMap((payload: any) => this.service.removeCommitmentFromCommitment(payload)),
-      // tslint:disable-next-line:no-console
-      tap(result => console.log('removeCommitmentFromCommitment', result)),
       switchMap((result: any) => [
         new AppNotification({ message: 'Related Commitment Removed' }),
         new SetCurrentCommitment({ id: result.commitment.id }),
