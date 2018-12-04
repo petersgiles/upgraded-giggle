@@ -13,11 +13,6 @@ import {
   DataResult,
   CommitmentResult,
   CommitmentsResult,
-  AnnouncementTypesResult,
-  CommentsResult,
-  SubscriptionResult,
-  PortfoliosResult,
-  PartysResult,
   ContactsResult,
   MapPointsResult,
   RelatedCommitmentsResult
@@ -31,6 +26,7 @@ import { mapElectorates, mapCommitmentElectorates, mapMapPoints, mapCommitmentMa
 import { mapCommitment, mapCommitments, mapRelatedCommitments } from './commitment'
 import { AppUserProfile } from '@digital-first/df-layouts'
 import { mapPortfolios } from '../../reducers/commitment-lookup/sharepoint/maps'
+import { Contact } from '../../reducers/contact/contact.model'
 @Injectable({
   providedIn: 'root'
 })
@@ -211,10 +207,11 @@ export class SharepointDataService implements AppDataService {
       )
   }
 
-  storeContact(contact: any): Observable<any> {
+  storeContact(contact: Contact): Observable<any> {
     const spContact = {
       Title: contact.name,
-      FirstName: contact.username,
+      FirstName: contact.firstName,
+      JobTitle: contact.jobTitle,
       Email: contact.email,
       WorkPhone: contact.phone,
       Portfolio: contact.portfolio,
