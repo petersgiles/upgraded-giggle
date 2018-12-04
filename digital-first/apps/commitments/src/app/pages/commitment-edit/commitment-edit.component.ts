@@ -183,7 +183,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   handleManageSubscription($event) {
     this.isSubscribed$ = of($event)
     if ($event) {
-    this.service.subscribeToCommitment(this.commitment.id)
+      this.service.subscribeToCommitment(this.commitment.id)
     }
     else {
       this.service.unsubscibeFromCommitment(this.commitment.id)
@@ -313,12 +313,16 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.service.addElectorateToCommitment(this.commitment.id, electorate.id)
   }
 
-  handleAutosaveClicked($event) {
+  handleAutosaveClicked(autosaveState) {
 
     // tslint:disable-next-line:no-console
-    console.log($event)
+    console.log(autosaveState)
 
-    this.service.changeCommitmentEditAutosave($event)
+    this.service.changeCommitmentEditAutosave(autosaveState)
+
+    const message = `AutoSave ${autosaveState ? 'On' : 'Off - Submit at bottom of form'}`
+
+    this.showSnackBar(message)
   }
 
 }

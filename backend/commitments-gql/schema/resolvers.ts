@@ -21,6 +21,7 @@ db.connect('./diskdb/commitments', [
   'commitment-commitment-electorates',
   'commitment-related-commitments',
   'commitment-subscriptions',
+  'commitment-actions',
 ]);
 
 const commitmentSubscriptionTable = 'commitment-subscriptions';
