@@ -70,6 +70,8 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   formBusy = false
   isSubscribed$: Observable<boolean>
+  autoSave: boolean
+  autoSaveSubscription$: Subscription
 
   constructor(private router: Router, private route: ActivatedRoute, public dialog: MdcDialog, private snackbar: MdcSnackbar,
     private service: CommitmentDataService,
@@ -87,6 +89,8 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
     this.commitmentContactsTableData$ = this.service.CommitmentContactsTableData
     this.commitmentCommitmentsTableData$ = this.service.RelatedCommitmentsTableData
+
+    this.autoSaveSubscription$ = this.service.CommitmentEditAutosave.subscribe(next => this.autoSave = next)
 
     this.commitmentSubscription$ = this.service.Commitment.subscribe(
       next => {
@@ -196,6 +200,12 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   }
 
+  handleUpdateCommitmentChange(commitment) {
+    if (this.autoSave) {
+      this.handleUpdateCommitment(commitment)
+    }
+  }
+
   handleUpdateCommitment(commitment) {
     this.formBusy = true
     this.service.upsertCommitment(commitment)
@@ -301,6 +311,14 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   handleAddElectorateToCommitment(electorate) {
     this.service.addElectorateToCommitment(this.commitment.id, electorate.id)
+  }
+
+  handleAutosaveClicked($event) {
+
+    // tslint:disable-next-line:no-console
+    console.log($event)
+
+    this.service.changeCommitmentEditAutosave($event)
   }
 
 }

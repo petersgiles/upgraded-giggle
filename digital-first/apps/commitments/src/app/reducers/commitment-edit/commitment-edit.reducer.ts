@@ -2,11 +2,13 @@ import { CommitmentEditActionTypes, CommitmentEditActions } from './commitment-e
 
 export interface State {
   expandedPanels: (string | number)[]
+  autosave: boolean
   timeFormat: 'dateFormat' | 'timeAgo' | 'calendar'
 }
 
 export const initialState: State = {
   expandedPanels: [],
+  autosave: true,
   timeFormat: 'timeAgo'
 }
 
@@ -37,6 +39,13 @@ export function reducer(
       }
     }
 
+    case CommitmentEditActionTypes.ChangeAutoSave: {
+      return {
+        ...state,
+        autosave: action.payload
+      }
+    }
+
     default:
       return state
   }
@@ -44,3 +53,4 @@ export function reducer(
 
 export const getExpandedPanels = (state: State) => state.expandedPanels
 export const getTimeFormat = (state: State) => state.timeFormat
+export const getAutosave = (state: State) => state.autosave
