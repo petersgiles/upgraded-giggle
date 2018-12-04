@@ -3,6 +3,8 @@ import { MdcDialog } from '@angular-mdc/web'
 import { CommitmentActionService } from '../../reducers/commitment-action/commitment-action.service'
 import { Subscription, Observable } from 'rxjs'
 import { DataTableConfig } from '@digital-first/df-components'
+import { DialogAreYouSureComponent, ARE_YOU_SURE_ACCEPT } from '@digital-first/df-dialogs'
+import { first } from 'rxjs/operators'
 
 @Component({
   selector: 'digital-first-commitment-costings',
@@ -35,9 +37,22 @@ export class CommitmentCostingsComponent implements OnInit, OnDestroy {
 
   }
 
-  handleTableDeleteClicked($event) {
-    // tslint:disable-next-line:no-console
-    console.log($event)
+  handleTableDeleteClicked(row) {
+    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+      escapeToClose: true,
+      clickOutsideToClose: true
+    })
+
+    dialogRef.afterClosed()
+      .pipe(
+        first()
+      )
+      .subscribe(result => {
+        if (result === ARE_YOU_SURE_ACCEPT && row.id) {
+          this.service.removeActionFromCommitment(this.commitment, row.id)
+        }
+      })
+
   }
 
   handleRowClicked($event) {

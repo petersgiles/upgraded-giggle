@@ -177,6 +177,27 @@ export const resolvers = {
       return { ...c }
 
     },
+    storeCommitmentAction: (_root: any, args: any) => {
+      //(commitment: Int!, contact: Int!): Commitment,
+      const data = { ...args };
+      const ccc = db['commitment-commitment-actions'].findOne({ commitment: args.commitment, _id: args.action })
+      var saved = null
+      if (ccc) {
+        saved = db['commitment-commitment-actions'].update({ _id: ccc._id }, data, { multi: false, upsert: true });
+      } else {
+        saved = db['commitment-commitment-actions'].save([data]);
+      }
+
+      const c = db.commitments.findOne({ id: args.commitment })
+      return c
+    },
+    deleteCommitmentAction: (_root: any, args: any) => {
+      var cc = db['commitment-commitment-actions'].findOne({ commitment: args.commitment, _id: args.action });
+      var result = db['commitment-commitment-actions'].remove({ _id: cc._id }, false);
+      const c = db.commitments.findOne({ id: cc.commitment })
+      console.log('deleteCommitmentAction =>', result, c)
+      return c
+    },
     storeCommitmentContact: (_root: any, args: any) => {
       //(commitment: Int!, contact: Int!): Commitment,
       const data = { ...args };

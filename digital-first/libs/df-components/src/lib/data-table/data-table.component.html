@@ -1,5 +1,5 @@
 <ng-template #tableHeading let-headings>
-  <th *ngFor="let heading of headings" class="df-data-table__cell--non-numeric">{{heading.caption}}</th>
+  <th *ngFor="let heading of headings" class="df-data-table__cell--non-numeric" [innerHtml]="heading.caption | safeHtml"></th>
 </ng-template>
 
 <ng-template #tableHead let-tableData>
@@ -21,7 +21,7 @@
 
 <ng-template #tableBodyRow let-tableData>
   <tr *ngFor="let row of tableData.rows">
-    <td *ngFor="let cell of row.cells" class="df-data-table__cell--non-numeric" (click)="onCellClicked.emit(row, cell)">{{cell.value}}</td>
+    <td *ngFor="let cell of row.cells" class="df-data-table__cell--non-numeric" (click)="onCellClicked.emit(row, cell)" [innerHtml]="cell.value | safeHtml"></td>
     <td *ngIf="tableData.hasDeleteItemButton" class="df-data-table__cell--action">
       <a mdcIcon attr.aria-label="Delete Item" title="Delete Item" (click)="onDeleteItem.emit(row)">delete</a>
     </td>
