@@ -4,6 +4,7 @@ import { callQuery, callMutate } from '../../../services/apollo/apollo-helpers'
 import { DataResult, ContactsResult, CommitmentActionsResult } from '../../../models'
 import { CommitmentActionDataService } from '../commitment-action-data.service'
 import { Observable } from 'rxjs'
+import { GET_COMMITMENT_ACTIONS } from './queries'
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +16,10 @@ export class CommitmentActionDataApolloService implements CommitmentActionDataSe
   addActionToCommitment(payload: any): Observable<DataResult<{ commitment: number; }>> {
     throw new Error('Method not implemented.')
   }
-  getActionsByCommitment(commitment: any): Observable<DataResult<CommitmentActionsResult>> {
-    throw new Error('Method not implemented.')
-  }
+  getActionsByCommitment = (commitment: any): Observable<DataResult<CommitmentActionsResult>> =>
+  callQuery<CommitmentActionsResult>(this.apollo, { query: GET_COMMITMENT_ACTIONS, variables: { commitment: commitment } }
+    , result => ({ data: { commitmentActions: [] } })
+  )
 
   constructor(private apollo: Apollo) { }
 }

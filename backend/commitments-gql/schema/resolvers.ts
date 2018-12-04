@@ -21,7 +21,7 @@ db.connect('./diskdb/commitments', [
   'commitment-commitment-electorates',
   'commitment-related-commitments',
   'commitment-subscriptions',
-  'commitment-actions',
+  'commitment-commitment-actions',
 ]);
 
 const commitmentSubscriptionTable = 'commitment-subscriptions';
@@ -46,6 +46,10 @@ export const resolvers = {
       let found = set.map((f: any) => db['commitment-contacts'].findOne({ _id: f.contact })).map((c: any) => ({ ...c, id: c._id }))
       return found
     },
+    commitmentActions: (obj: any, args: any, context: any, info: any) => {
+      let found = db['commitment-commitment-actions'].find({ commitment: args.commitment })
+      return found
+    },    
     commitmentMapPoints: (obj: any, args: any, context: any, info: any) => {
 
       let set = db['commitment-commitment-map-points'].find({ commitment: args.commitment })

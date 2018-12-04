@@ -1,14 +1,10 @@
 import gql from 'graphql-tag'
 
-export const GET_COMMITMENT_CONTACTS = gql`
+export const GET_COMMITMENT_ACTIONS = gql`
 query CommitmentActions($commitment: ID!) {
-  commitmentContacts(commitment: $commitment) {
+  commitmentActions(commitment: $commitment) {
     id
-    jobTitle
-    firstName
-    username
-    email
-    phone
+    title
     portfolio {
       id
       title
@@ -17,7 +13,7 @@ query CommitmentActions($commitment: ID!) {
 }
 `
 
-export const STORE_COMMITMENT_CONTACT = gql`
+export const STORE_COMMITMENT_ACTION = gql`
 mutation StoreCommitmentAction($commitment: ID!, $contact: ID!) {
   storeCommitmentAction(commitment: $commitment, contact: $contact) {
     id
@@ -25,7 +21,7 @@ mutation StoreCommitmentAction($commitment: ID!, $contact: ID!) {
   }
 }
 `
-export const REMOVE_COMMITMENT_CONTACT = gql`
+export const REMOVE_COMMITMENT_ACTION = gql`
 mutation DeleteCommitmentAction($commitment: ID!, $contact: ID! ) {
   deleteCommitmentAction(commitment: $commitment, contact: $contact) {
     id

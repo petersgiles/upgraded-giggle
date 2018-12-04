@@ -97,6 +97,15 @@ type Tag {
     caption: String
 }
 
+type CommitmentAction {
+  id: ID,
+  commitment: Commitment
+  portfolio: Portfolio
+  title: String
+  description: String
+  actionType: Int
+}
+
   type CommitmentContact {
     commitment: Commitment,
     contact: Contact
@@ -160,6 +169,7 @@ type Tag {
   type Query {
     commitments: [Commitment],
     commitment(id: ID!): Commitment,
+    commitmentActions(commitment: ID!): [CommitmentAction],
     commitmentContacts(commitment: ID!): [Contact],
     commitmentMapPoints(commitment: ID!): [MapPoint],
     commitmentPortfolios(commitment: ID!): [Portfolio],
