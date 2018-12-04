@@ -46,7 +46,8 @@ export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionRedu
             'commitmentOverview',
             { 'commitmentEdit': ['expandedPanels', 'autosave'] },
             { 'commitmentDiscussion': ['expanded', 'timeFormat'] },
-            { 'commitmentContact': ['expanded'] }
+            { 'commitmentContact': ['expanded'] },
+            { 'commitmentAction': ['expanded'] }
         ], rehydrate: true
     })(reducer)
 }

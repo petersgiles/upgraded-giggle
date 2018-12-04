@@ -18,7 +18,7 @@ export class CommitmentActionDataApolloService implements CommitmentActionDataSe
   }
   getActionsByCommitment = (commitment: any): Observable<DataResult<CommitmentActionsResult>> =>
   callQuery<CommitmentActionsResult>(this.apollo, { query: GET_COMMITMENT_ACTIONS, variables: { commitment: commitment } }
-    , result => ({ data: { commitmentActions: [] } })
+    , result => ({ data: { commitmentActions: result.data.commitmentActions } })
   )
 
   constructor(private apollo: Apollo) { }

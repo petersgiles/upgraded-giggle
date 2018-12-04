@@ -24,8 +24,12 @@ export class CommitmentActionEffects {
     .pipe(
       ofType(CommitmentActionActionTypes.GetActionsByCommitment),
       map((action: GetActionsByCommitment) => action.payload.commitment),
+      // tslint:disable-next-line:no-console
+      tap(result => console.log(result)),
       concatMap((commitment: any) => this.service.getActionsByCommitment(commitment)
         .pipe(
+          // tslint:disable-next-line:no-console
+          tap(result => console.log(result)),
           map((result: DataResult<CommitmentActionsResult>) => new LoadCommitmentActions({ actions: result.data.commitmentActions })),
           catchError(error => of(new CommitmentActionActionFailure(error)))
         )

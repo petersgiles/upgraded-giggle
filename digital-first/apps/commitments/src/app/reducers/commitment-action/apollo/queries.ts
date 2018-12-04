@@ -5,6 +5,7 @@ query CommitmentActions($commitment: ID!) {
   commitmentActions(commitment: $commitment) {
     id
     title
+    description
     portfolio {
       id
       title

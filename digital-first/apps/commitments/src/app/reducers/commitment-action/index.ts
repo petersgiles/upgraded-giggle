@@ -19,29 +19,24 @@ export const getCommitmentActionsTableData = createSelector(
     (actions) => {
 
         const rows = (actions || []).map(c => {
-
-                const fullname = []
-                // if (c.firstName) {
-                //     fullname.push(c.firstName)
-                // }
-
-                // if (c.name) {
-                //     fullname.push(c.name)
-                // }
-
-                return {
-                    id: c.id,
-                    cells: [{
-                        value: `${fullname.join(' ')}`
-                    }]
-                }
-            })
+            // tslint:disable-next-line:no-console
+            console.log(c)
+            return {
+                id: c.id,
+                cells: [{
+                    value: `${c.title}`
+                }, {
+                    value: `${c.description}`
+                }]
+            }
+        })
 
         const dtc: DataTableConfig = {
             title: 'contacts',
             hasDeleteItemButton: true,
             headings: [
-                { caption: 'Name' }
+                { caption: 'Title' },
+                { caption: 'Description' }
             ],
             rows: rows
         }
