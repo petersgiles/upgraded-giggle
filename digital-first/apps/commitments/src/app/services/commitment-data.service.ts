@@ -33,7 +33,7 @@ import {
 } from '../reducers/commitment/commitment.actions'
 import { GetAllContacts, StoreContact } from '../reducers/contact/contact.actions'
 import { AddRefiner, RemoveRefiner, ClearAllRefiners, ExpandRefinerGroup, CollapseRefinerGroup, SetTextRefiner } from '../reducers/commitment-overview/commitment-overview.actions'
-import { ChangeTimeFormat, CollapsePanel, ExpandPanel } from '../reducers/commitment-edit/commitment-edit.actions'
+import { ChangeTimeFormat, CollapsePanel, ExpandPanel, ChangeAutoSave } from '../reducers/commitment-edit/commitment-edit.actions'
 
 import * as fromRoot from '../reducers'
 import { SetLayoutDrawState } from '../reducers/app.actions'
@@ -42,6 +42,14 @@ import { SetLayoutDrawState } from '../reducers/app.actions'
   providedIn: 'root'
 })
 export class CommitmentDataService {
+  changeCommitmentEditAutosave(val: boolean): any {
+    this.store.dispatch(new ChangeAutoSave(val))
+  }
+
+  get CommitmentEditAutosave(): Observable<boolean> {
+    return this.store.pipe(select(fromRoot.getCommitmentEditAutosave))
+  }
+
   getDrawState(): Observable<boolean> {
     return this.store.pipe(select(fromRoot.getDrawerOpen))
   }

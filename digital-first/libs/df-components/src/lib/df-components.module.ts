@@ -10,6 +10,7 @@ import { ContactCardComponent } from './contact-card/contact-card.component'
 import { PageTitleComponent } from './page-title.component'
 import { ExpandCollapseButtonComponent } from './expand-collapse-button.component'
 import { DateFormatButtonComponent } from './date-format-button.component'
+import { AutosaveToggleButtonComponent } from './autosave-toggle-button.component'
 import { AddItemButtonComponent } from './add-item-button.component'
 import { ShareButtonComponent } from './share-button.component'
 import { AddNotificationButtonComponent } from './add-notification-button.component'
@@ -36,6 +37,7 @@ const COMPONENTS = [
   NavigateButtonComponent,
   DateFormatButtonComponent,
   AddSubscriptionButtonComponent,
+  AutosaveToggleButtonComponent,
   AddItemButtonComponent,
   ShareButtonComponent,
   AddNotificationButtonComponent,
