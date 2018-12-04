@@ -3,8 +3,8 @@ import { SharepointJsomService, idFromLookup } from '@digital-first/df-sharepoin
 import { CommitmentContactDataService } from '../commitment-contact-data.service'
 import { Observable, of } from 'rxjs'
 import { DataResult, ContactsResult } from '../../../models'
-import { concatMap, map, tap } from 'rxjs/operators'
-import { byIdQuery, byJoinTableQuery, byCommitmentIdQuery, byIdsQuery } from '../../../services/sharepoint/caml'
+import { concatMap, map } from 'rxjs/operators'
+import { byIdQuery, byJoinTableQuery, byCommitmentIdQuery } from '../../../services/sharepoint/caml'
 import { mapCommitmentContacts, mapContacts } from '../../../services/sharepoint/contact'
 
 @Injectable({
@@ -12,23 +12,15 @@ import { mapCommitmentContacts, mapContacts } from '../../../services/sharepoint
 })
 export class CommitmentContactDataSharePointService implements CommitmentContactDataService {
     getContactsByCommitment(commitment: any): Observable<DataResult<ContactsResult>> {
-        return this.sharepoint.getItems({
+          return this.sharepoint.getItems({
             listName: 'CommitmentContact',
             viewXml: byCommitmentIdQuery({ id: commitment })
-        }).pipe(
-            map(result => result.map(r => idFromLookup(r.Contact))),
-            concatMap((contactids: []) => {
-                const query = byIdsQuery(contactids)
-                return this.sharepoint.getItems({
-                    listName: 'Contact',
-                    viewXml: query
-                }).pipe(
-                    concatMap((result: any) =>
-                        of({
-                            data: { contacts: mapContacts(result) },
-                            loading: false
-                        })))
-            })
+          }).pipe(
+            concatMap((result: any) =>
+                of({
+                    data: { contacts: mapCommitmentContacts(result) },
+                    loading: false
+                }))
         )
     }
 
