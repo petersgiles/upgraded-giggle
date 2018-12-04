@@ -123,17 +123,16 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
       }
     )
 
+    this.service.getAllCommitments()
+    this.service.getAllContacts()
+
     this.lookup.getAllWhoAnnouncedTypes()
     this.lookup.getAllAnnouncementTypes()
     this.lookup.getAllCriticalDates()
     this.lookup.getAllCommitmentTypes()
     this.lookup.getAllLocations()
     this.lookup.getAllPartys()
-
     this.lookup.getAllPortfolios()
-
-    this.service.getAllCommitments()
-    this.service.getAllContacts()
 
     this.selectId$ = this.route.paramMap
       .pipe(

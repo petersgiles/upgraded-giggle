@@ -83,11 +83,7 @@ export class CommitmentEffects {
     .pipe(
       ofType(CommitmentActionTypes.AddCommitmentToCommitment),
       map((action: AddCommitmentToCommitment) => action.payload),
-      // tslint:disable-next-line:no-console
-      tap(result => console.log('addCommitmentToCommitment', result)),
       switchMap((payload: any) => this.service.addCommitmentToCommitment(payload)),
-      // tslint:disable-next-line:no-console
-      tap(result => console.log('addCommitmentToCommitment', result)),
       switchMap((result: any) => [
         new AppNotification({ message: 'Related Commitment Added' }),
         new SetCurrentCommitment({ id: result.commitment.id }),
@@ -101,11 +97,7 @@ export class CommitmentEffects {
     .pipe(
       ofType(CommitmentActionTypes.RemoveCommitmentFromCommitment),
       map((action: RemoveCommitmentFromCommitment) => action.payload),
-      // tslint:disable-next-line:no-console
-      tap(result => console.log('removeCommitmentFromCommitment', result)),
       switchMap((payload: any) => this.service.removeCommitmentFromCommitment(payload)),
-      // tslint:disable-next-line:no-console
-      tap(result => console.log('removeCommitmentFromCommitment', result)),
       switchMap((result: any) => [
         new AppNotification({ message: 'Related Commitment Removed' }),
         new SetCurrentCommitment({ id: result.commitment.id }),

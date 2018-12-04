@@ -24,11 +24,6 @@ export class CommitmentContactsComponent implements OnInit, OnDestroy {
   @Input()
   set commitment(val: number) {
     this._commitment = val
-    // tslint:disable-next-line:no-console
-    console.log('commitment', val)
-    if (val) {
-      // this.service.getCommentsByCommitment(val)
-    }
   }
 
   get commitment() {
@@ -36,9 +31,6 @@ export class CommitmentContactsComponent implements OnInit, OnDestroy {
   }
 
   handleChangeExpanded(expanded) {
-    // tslint:disable-next-line:no-console
-    console.log(expanded)
-
     if (expanded) {
       this.service.expandPanel()
     } else {
@@ -79,10 +71,6 @@ export class CommitmentContactsComponent implements OnInit, OnDestroy {
   }
 
   handleContactsTableDeleteClicked(contact) {
-
-    // tslint:disable-next-line:no-console
-    console.log('handleContactsTableDeleteClicked', contact)
-
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
       clickOutsideToClose: true

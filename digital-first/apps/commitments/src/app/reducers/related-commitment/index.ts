@@ -41,10 +41,6 @@ export const getRelatedCommitmentsTableData = createSelector(
             ],
             rows: rows
         }
-
-        // tslint:disable-next-line:no-console
-        console.log('getRelatedCommitmentsTableData', dtc)
-
         return dtc
 
     }

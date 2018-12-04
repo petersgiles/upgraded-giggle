@@ -22,9 +22,6 @@ export function reducer(
   switch (action.type) {
 
     case CommitmentContactActionTypes.ExpandPanel: {
-
-      // tslint:disable-next-line:no-console
-      console.log('CommitmentContactActionTypes ExpandPanel')
       return {
         ...state,
         expanded: true
@@ -32,10 +29,6 @@ export function reducer(
     }
 
     case CommitmentContactActionTypes.CollapsePanel: {
-
-      // tslint:disable-next-line:no-console
-      console.log('CommitmentContactActionTypes CollapsePanel')
-
       return {
         ...state,
         expanded: false
@@ -43,12 +36,7 @@ export function reducer(
     }
 
     case CommitmentContactActionTypes.LoadCommitmentContacts: {
-
       const contacts = [...action.payload.contacts]
-
-      // tslint:disable-next-line:no-console
-      console.log('LoadCommitmentContacts', contacts, action.payload.contacts)
-
       return {
         ...state,
         contacts: contacts
@@ -56,10 +44,6 @@ export function reducer(
     }
 
     case CommitmentContactActionTypes.ClearCommitmentContacts: {
-
-      // tslint:disable-next-line:no-console
-      console.log('ClearCommitmentContacts')
-
       return {
         ...state,
         contacts: []

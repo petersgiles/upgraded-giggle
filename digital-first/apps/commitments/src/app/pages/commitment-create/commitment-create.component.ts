@@ -69,8 +69,6 @@ export class CommitmentCreateComponent implements OnInit, OnDestroy {
         (next: any) => {
           if (next) {
             this.formBusy = false
-            // tslint:disable-next-line:no-console
-            console.log(next)
             this.showSnackBar(next.message)
             if (next.code === 'stored') {
 

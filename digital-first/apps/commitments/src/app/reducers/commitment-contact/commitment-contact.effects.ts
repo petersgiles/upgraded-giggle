@@ -10,7 +10,7 @@ import {
   GetContactsByCommitment,
   LoadCommitmentContacts,
 } from './commitment-contact.actions'
-import { switchMap, map, catchError, tap } from 'rxjs/operators'
+import { switchMap, map, catchError, tap, concatMap } from 'rxjs/operators'
 
 import { AppNotification, ClearAppNotification } from '../app.actions'
 import { CommitmentContactDataService } from './commitment-contact-data.service'
@@ -24,12 +24,8 @@ export class CommitmentContactEffects {
     .pipe(
       ofType(CommitmentContactActionTypes.GetContactsByCommitment),
       map((action: GetContactsByCommitment) => action.payload.commitment),
-      // tslint:disable-next-line:no-console
-      tap(result => console.log('GetContactsByCommitment =>  ', result)),
-      switchMap((commitment: any) => this.service.getContactsByCommitment(commitment)
+      concatMap((commitment: any) => this.service.getContactsByCommitment(commitment)
         .pipe(
-          // tslint:disable-next-line:no-console
-          tap(result => console.log('getContactsByCommitment', result)),
           map((result: DataResult<ContactsResult>) => new LoadCommitmentContacts({ contacts: result.data.contacts })),
           catchError(error => of(new CommitmentContactActionFailure(error)))
         )
@@ -40,11 +36,7 @@ export class CommitmentContactEffects {
     .pipe(
       ofType(CommitmentContactActionTypes.AddContactToCommitment),
       map((action: AddContactToCommitment) => action.payload),
-      // tslint:disable-next-line:no-console
-      tap(result => console.log('addContactToCommitment', result)),
       switchMap((payload: any) => this.service.addContactToCommitment(payload)),
-      // tslint:disable-next-line:no-console
-      tap(result => console.log('addContactToCommitment', result)),
       switchMap((result: any) => [
         new AppNotification({ message: 'Contact Added' }),
         new GetContactsByCommitment({ commitment: result.data.commitment }),
@@ -59,11 +51,7 @@ export class CommitmentContactEffects {
     .pipe(
       ofType(CommitmentContactActionTypes.RemoveContactFromCommitment),
       map((action: RemoveContactFromCommitment) => action.payload),
-      // tslint:disable-next-line:no-console
-      tap(result => console.log('removeContactFromCommitment', result)),
       switchMap((payload: any) => this.service.removeContactFromCommitment(payload)),
-      // tslint:disable-next-line:no-console
-      tap(result => console.log('removeContactFromCommitment', result)),
       switchMap((result: any) => [
         new AppNotification({ message: 'Contact Removed' }),
         new GetContactsByCommitment({ commitment: result.data.commitment }),
