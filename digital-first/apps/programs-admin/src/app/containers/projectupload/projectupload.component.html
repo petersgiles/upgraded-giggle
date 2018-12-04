@@ -1,0 +1,56 @@
+<div class="page_title">
+  <div class="reader-card-article__title page_title_text" mdcHeadline5>Upload Project</div>
+</div>
+<div>
+  <div class="app-page">
+    <div class="mdc-layout-grid">
+      <div class="mdc-layout-grid__inner ">
+        <div class="mdc-layout-grid__cell--span-3"></div>
+        <div class="mdc-layout-grid__cell--span-6 mdc-elevation--z9">
+          <div class="form-content">
+            <form (ngSubmit)="onSubmit()" [formGroup]="projectForm">
+              <!--{{diagnostic}}-->
+              <fieldset>
+                <h3 class="form-content__headline">Upload Project CSV Form</h3>
+                <div class="form-layout__row">
+                  <mdc-select formControlName="programId" id="program" placeholder="Program" [outlined]="true" required
+                              name="program">
+                    <option value=""></option>
+                    <option *ngFor="let program of programs" [value]="program.id">{{program.name}}
+                    </option>
+                  </mdc-select>
+                </div>
+                <div class="form-layout__row">
+                  <mdc-form-field [alignEnd]="true">
+                    <input type="file" accept=".csv" (change)="fileChange($event)" id="fileToUpload"
+                           name="fileToUpload" required>
+                    <label>File to upload</label>
+                  </mdc-form-field>
+                </div>
+
+                <!--TODO:// bring this in to style the input file type button.  will need to render the filename to the screen separately-->
+                <!--<div class="form-layout__row">-->
+                <!--<mdc-form-field [alignEnd]="true">-->
+                <!--<label class="mdc-button ng-mdc-button&#45;&#45;secondary mdc-button&#45;&#45;raised mdc-ripple-upgraded">-->
+                <!--<input class="fileToUpload" type="file" accept=".csv" (change)="fileChange($event)"-->
+                <!--id="fileToUpload"-->
+                <!--name="fileToUpload" required>-->
+                <!--<mdc-icon>attach_file</mdc-icon>-->
+                <!--Attach File</label>-->
+                <!--</mdc-form-field>-->
+                <!--</div>-->
+                <div class="form-layout__row-with-button">
+                  <button id="submit"
+                          class="mdc-button ng-mdc-button--primary mdc-button--raised mdc-ripple-upgraded"
+                          type="submit" [disabled]="projectForm.invalid || projectForm.prestine">Submit
+                  </button>
+                </div>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+        <div class="mdc-layout-grid__cell--span-3"></div>
+      </div>
+    </div>
+  </div>
+</div>

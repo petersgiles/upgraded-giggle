@@ -4,6 +4,7 @@ import {HomeComponent} from './containers/home/home.component'
 import {FullLayoutComponent} from '@digital-first/df-layouts'
 import {AuthGuard} from '@digital-first/df-auth'
 import {StatisticuploadComponent} from "./containers/statisticupload/statisticupload.component";
+import {ProjectuploadComponent} from "./containers/projectupload/projectupload.component";
 
 export const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -29,6 +30,14 @@ export const routes: Routes = [
           icon: 'file_copy'
         }
       },
+      {
+        path: 'project/upload',
+        component: ProjectuploadComponent,
+        data: {
+          title: 'Upload project',
+          icon: 'file_copy'
+        }
+      }
     ]
   },
   {path: '**', redirectTo: 'home'}

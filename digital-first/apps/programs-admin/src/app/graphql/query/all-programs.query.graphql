@@ -35,3 +35,11 @@ query allStatistics{
   }
 }
 
+query allPrograms {
+  programs {
+    id
+    name
+  }
+}
+
+

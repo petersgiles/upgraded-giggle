@@ -363,6 +363,24 @@ export namespace AllStatistics {
   };
 }
 
+export namespace AllPrograms {
+  export type Variables = {};
+
+  export type Query = {
+    __typename?: 'Query';
+
+    programs: (Programs | null)[] | null;
+  };
+
+  export type Programs = {
+    __typename?: 'ProgramGraph';
+
+    id: Guid;
+
+    name: string;
+  };
+}
+
 // ====================================================
 // START: Apollo Angular template
 // ====================================================
@@ -436,6 +454,22 @@ export class AllStatisticsGQL extends Apollo.Query<
           name
           notes
         }
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class AllProgramsGQL extends Apollo.Query<
+  AllPrograms.Query,
+  AllPrograms.Variables
+> {
+  document: any = gql`
+    query allPrograms {
+      programs {
+        id
+        name
       }
     }
   `;
