@@ -6,7 +6,7 @@
     "ng": "ng",
     "start:commitments": "ng serve commitments --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --live-reload true",
     "start:programs-admin": "ng serve programs-admin --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --live-reload true",
-    "graphql": "gql-gen --schema https://localhost:52619/graphql --template graphql-codegen-apollo-angular-template --out digital-first/apps/graphql.ts",
+    "generate-graphql:programs-admin": "gql-gen --config ./apps/programs-admin/codegen.yml",
     "build": "ng build",
     "build:programs-admin": "ng build programs-admin --configuration=dev",
     "test": "ng test",
@@ -57,7 +57,7 @@
     "@angular/platform-browser-dynamic": "^7.1.1",
     "@angular/router": "^7.1.1",
     "@auth0/angular-jwt": "^2.0.0",
-    "@dsuite/programs-manager-messages": "^1.0.22841",
+    "@dsuite/programs-manager-messages": "^1.0.23157",
     "@material/animation": "^0.41.0",
     "@material/base": "^0.41.0",
     "@material/button": "^0.41.0",
@@ -119,8 +119,11 @@
     "@types/node": "~8.9.4",
     "codelyzer": "~4.2.1",
     "cpx": "^1.5.0",
-    "graphql-code-generator": "0.12.0-alpha.576bcbfb",
-    "graphql-codegen-apollo-angular-template": "0.12.0-alpha.576bcbfb",
+    "graphql-code-generator": "^0.14.3",
+    "graphql-codegen-typescript-apollo-angular": "^0.14.3",
+    "graphql-codegen-typescript-client": "^0.14.3",
+    "graphql-codegen-typescript-common": "^0.14.3",
+    "graphql-tag": "^2.10.0",
     "jasmine-core": "~2.99.1",
     "jasmine-marbles": "0.3.1",
     "jasmine-spec-reporter": "~4.2.1",
@@ -134,6 +137,6 @@
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
-    "typescript": "~3.1.3"
+    "typescript": "^3.1.6"
   }
 }

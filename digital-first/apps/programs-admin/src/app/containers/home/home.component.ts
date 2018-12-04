@@ -5,7 +5,7 @@ import {
   AllPortfolios,
   AllPortfoliosGQL, AllStatistics,
   AllStatisticsGQL,
-  MutatePortfolioGQL
+  // MutatePortfolioGQL
 } from "../../generated/graphql"
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
 
   constructor(private allAgenciesGQL: AllAgenciesGQL,
               private allPortfoliosGQL: AllPortfoliosGQL,
-              private mutatePortfolioGQL: MutatePortfolioGQL,
+              // private mutatePortfolioGQL: MutatePortfolioGQL,
               private allStatistics: AllStatisticsGQL) {
   }
 
@@ -48,13 +48,13 @@ export class HomeComponent implements OnInit {
 
   mutate() {
 
-    console.log('test');
-
-    this.mutatePortfolioGQL.mutate({
-      conversationId: UUID.UUID(),
-      messageId: UUID.UUID(),
-      portfolio: {id: "8FB9CD84-B6F0-4836-BB4A-072C4D537398", title: `mutate spike at ${Date.now()}`}
-    }).subscribe(value => console.log(value))
+    // console.log('test');
+    //
+    // this.mutatePortfolioGQL.mutate({
+    //   conversationId: UUID.UUID(),
+    //   messageId: UUID.UUID(),
+    //   portfolio: {id: "8FB9CD84-B6F0-4836-BB4A-072C4D537398", title: `mutate spike at ${Date.now()}`}
+    // }).subscribe(value => console.log(value))
   }
 
 }
