@@ -62,18 +62,19 @@ export class ProjectuploadComponent implements OnInit, OnDestroy {
 
       this.fileToUpload = fileList[0];
 
+      //TODO: revisit this to tidy it up
       const reader = new FileReader();
 
       if (event.target.files && event.target.files.length) {
-        const [file] = event.target.files;
-        reader.readAsDataURL(file);
+
+        reader.readAsDataURL(this.fileToUpload);
 
         reader.onload = () => {
 
           this.projectForm.patchValue(
             {filename: this.fileToUpload.name});
           this.projectForm.patchValue({
-            file: reader.result,
+            file: this.fileToUpload
           });
         };
       }
