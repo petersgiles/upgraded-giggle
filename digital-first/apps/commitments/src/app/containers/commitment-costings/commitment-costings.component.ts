@@ -5,6 +5,7 @@ import { Subscription, Observable } from 'rxjs'
 import { DataTableConfig } from '@digital-first/df-components'
 import { DialogAreYouSureComponent, ARE_YOU_SURE_ACCEPT } from '@digital-first/df-dialogs'
 import { first } from 'rxjs/operators'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'digital-first-commitment-costings',
@@ -17,7 +18,7 @@ export class CommitmentCostingsComponent implements OnInit, OnDestroy {
   expanded: boolean
   expandedSubscription$: Subscription
   tableData$: Observable<DataTableConfig>
-  constructor(public dialog: MdcDialog, private service: CommitmentActionService) { }
+  constructor(private router: Router, public dialog: MdcDialog, private service: CommitmentActionService) { }
 
   @Input()
   set commitment(val: number) {
@@ -53,6 +54,9 @@ export class CommitmentCostingsComponent implements OnInit, OnDestroy {
         }
       })
 
+  }
+  handleCreateCosting() {
+    this.router.navigate(['/', 'commitment', this.commitment, 'costing'])
   }
 
   handleRowClicked($event) {
