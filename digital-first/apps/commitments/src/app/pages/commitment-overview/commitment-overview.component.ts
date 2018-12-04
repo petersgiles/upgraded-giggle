@@ -34,6 +34,7 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
     this.lookup.getAllWhoAnnouncedTypes()
     this.lookup.getAllAnnouncementTypes()
     this.lookup.getAllCommitmentTypes()
+    this.lookup.getAllCriticalDates()
     this.lookup.getAllLocations()
     this.lookup.getAllPartys()
     this.lookup.getAllPortfolios()

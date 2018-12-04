@@ -46,10 +46,6 @@ export function reducer(
     }
 
     case CommitmentDiscussionActionTypes.LoadComments: {
-
-        // tslint:disable-next-line:no-console
-        console.log('LoadComments', action.payload)
-
       return {
           ...state,
           comments: action.payload.data.comments,

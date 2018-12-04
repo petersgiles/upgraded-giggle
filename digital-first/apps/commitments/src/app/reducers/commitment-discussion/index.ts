@@ -37,10 +37,6 @@ export const getCommitmentDiscussionTimeFormat = createSelector(
 export const getCurrentCommitmentDiscussion = createSelector(
     getAllDiscussionComments,
     (comments) => {
-
-        // tslint:disable-next-line:no-console
-        console.log('getCurrentCommitmentDiscussion', comments)
-
         const discussionItems = (comments || []).map(c => ({ ...c })) // creating mutatable list
 
         const discussion = toTree(discussionItems, {

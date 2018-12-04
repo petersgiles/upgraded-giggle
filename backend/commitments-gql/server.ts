@@ -15,13 +15,13 @@ import { logger } from '../shared/logger'
 import { allowCrossDomain } from '../shared/cors';
 
 import { typeDefs, resolvers } from './schema'
-import { HomeController } from './controllers'
+import { HomeController, AboutController } from './controllers'
 
 const port: number = 3001;
 
 const configurations: any = {
   // Note: You may need sudo to run on port 443
-  production: { ssl: true, port: 443, hostname: 'example.com' },
+  production: { ssl: true, port: 443, hostname: 'localhost' },
   development: { ssl: false, port: port, hostname: 'localhost' }
 }
 
@@ -37,6 +37,7 @@ app.use(helmet());
 app.use(morgan('combined'))
 app.use(express.json())
 app.use(express.static(path.join(process.cwd(), 'commitments-gql', 'public')))
+app.use('/about', AboutController)
 app.use('/hello', HomeController)
 
 // app.use(function(req: any, res: any, next: any){

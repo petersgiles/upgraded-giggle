@@ -32,17 +32,9 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
   onSelectionChange(event: { index: any, value: any }) {
 
     if (event.index > -1) {
-      // this.model.statisticId = event.value;
-
-      this.model.statisticReportId = null;
 
       this.statisticReports = this.statistics.filter(value => value.id == event.value)[0].statisticReports;
-
     }
-    else {
-      // this.model.statisticId = null;
-    }
-
   }
 
   ngOnInit() {
@@ -51,8 +43,17 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
 
     this.statisticsSub = this.allStatistics.watch().valueChanges
       .pipe(map(result => result.data.statistics)).subscribe(value => {
-        this.statistics = value;
-      });
+          this.statistics = value.sort((a, b) => {
+            if (a.name < b.name) {
+              return -1;
+            }
+            if (a.name > b.name) {
+              return 1;
+            }
+            return 0;
+          });
+        }
+      );
 
   }
 
@@ -85,7 +86,7 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
     this.passthrough
       .sendMessageOnToBus<UploadElectorateStatisticSpreadsheet>(message, formData)
       .subscribe(value => {
-          this.snackbar.show('File uploaded successfully.', null, {align: 'center'});
+          this.snackbar.show('File sent for processing successfully.', null, {align: 'center'});
         }
         , error => {
           this.snackbar.show(`File uploaded failed. ${error}`, null, {align: 'center'});

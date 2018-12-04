@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 import { AppActionTypes, StartAppInitialiser } from './app.actions'
 import { Observable } from 'rxjs'
-import { switchMap, map } from 'rxjs/operators'
+import { map, concatMap } from 'rxjs/operators'
 import { Action } from '@ngrx/store'
 import { AppDataService } from '../services/app-data.service'
 import { SetCurrentUser } from './user/user.actions'
@@ -15,10 +15,10 @@ export class AppEffects {
     .pipe(
       ofType(AppActionTypes.StartAppInitialiser),
       map((action: StartAppInitialiser) => action.payload.environment),
-      switchMap((environment: any) =>
+      concatMap((environment: any) =>
         this.service.getCurrentUser()
           .pipe(
-            switchMap((user: any) => [new SetCurrentUser(user)]
+            concatMap((user: any) => [new SetCurrentUser(user)]
             )
           )
       )

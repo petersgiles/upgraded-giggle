@@ -15,12 +15,8 @@ export class CommentDiscussionEffects {
     .pipe(
       ofType(CommitmentDiscussionActionTypes.GetCommentsByCommitment),
       map((action: GetCommentsByCommitment) => action.payload.commitment),
-      // tslint:disable-next-line:no-console
-      tap(result => console.log('getCommentByCommitment =>  ', result)),
       switchMap((commitment: any) => this.service.getCommentsByCommitment(commitment)
         .pipe(
-          // tslint:disable-next-line:no-console
-          tap(result => console.log('getCommentByCommitment', result)),
           map((result: DataResult<CommentsResult>) => new LoadComments(result)),
           catchError(error => of(new CommentActionFailure(error)))
         )
@@ -33,8 +29,6 @@ export class CommentDiscussionEffects {
       map((action: StoreComment) => action.payload),
       switchMap((payload: any) => this.service.storeComment(payload)
         .pipe(
-          // tslint:disable-next-line:no-console
-          tap(result => console.log('storeComment', result)),
           map(result => new GetCommentsByCommitment({ commitment: result.data.commitment })),
           catchError(error => of(new CommentActionFailure(error)))
         )
@@ -47,8 +41,6 @@ export class CommentDiscussionEffects {
       map((action: RemoveComment) => action.payload),
       switchMap((payload: any) => this.service.deleteComment(payload)
         .pipe(
-          // tslint:disable-next-line:no-console
-          tap(result => console.log('removeComment', result)),
           switchMap((result) => [
             new ClearComments(),
             new GetCommentsByCommitment({ commitment: result.data.commitment })

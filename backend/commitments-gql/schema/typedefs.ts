@@ -129,6 +129,12 @@ type Tag {
     relatedTo: ID
   }
 
+  type Subscription {
+    Title: String
+    commitment: ID,
+    subscriber: ID
+  }
+
   # This "Commitment" type can be used in other type declarations.
   type Commitment {
     id: ID,
@@ -164,6 +170,7 @@ type Tag {
     criticalDates: [CriticalDate],
     mapPoints: [MapPoint],
     relatedCommitment: [RelatedCommitment],
+    commitmentSubscription(commitment: ID!, user: ID!): [Subscription]
     announcementTypes: [AnnouncementType],
     commitmentTypes: [CommitmentType]
     whoAnnouncedTypes: [WhoAnnouncedType]
@@ -212,7 +219,7 @@ type Tag {
       party: ID): Contact,
     deleteContact(id:  ID!): Contact,
     storeCommitmentContact(commitment: ID!, contact: ID!): Commitment,
-    deleteCommitmentContact(id: ID!): Commitment,
+    deleteCommitmentContact(commitment: ID!, contact: ID!): Commitment,
     storeMapPoint(place_id: String!, latitude: Float!, longitude: Float!, address: String!): MapPoint,
     deleteMapPoint(place_id: String!): MapPoint,
     storeCommitmentMapPoint(commitment: ID!, mapPoint: ID!): Commitment,
@@ -223,6 +230,8 @@ type Tag {
     deleteRelatedCommitment(commitment: ID!, relatedTo: ID!): Commitment,
     storeCommitmentPortfolio(commitment: ID!, portfolio: ID!): Commitment,
     deleteCommitmentPortfolio(id: ID!): Commitment,
+    storeCommitmentSubscription(commitment: ID!, subscriber: ID!): Commitment,
+    deleteCommitmentSubscription(commitment: ID!, subscriber: ID!): Commitment,
     }
 
 `;

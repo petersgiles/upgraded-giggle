@@ -42,3 +42,12 @@ Before running the tests make sure you are serving the app via `ng serve`.
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Some commands for upgrading libraries
+
+npm upgrade
+npm install @material/animation@latest @material/base@latest @material/button@latest @material/card@latest @material/dialog@latest 
+npm install @material/drawer@latest @material/elevation@latest @material/floating-label@latest @material/line-ripple@latest 
+npm install @material/menu@latest @material/menu-surface@latest @material/notched-outline@latest @material/ripple@latest 
+npm install @material/rtl@latest @material/select@latest @material/shape@latest @material/theme@latest @material/typography@latest 
+npm install @angular-mdc/theme@latest@latest @angular-mdc/web@latest

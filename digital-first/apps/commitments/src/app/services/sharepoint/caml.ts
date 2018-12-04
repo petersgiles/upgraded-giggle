@@ -56,7 +56,7 @@ export const byCommitmentIdQuery = (criteria: { id: any }) => `
       </Query>
   </View>`
 
-export const byJoinTableQuery = (criteria: { fieldA: { name: string, id: string }, fieldB: { name: string, id: string } }) => `
+export const byJoinTableQuery = (criteria: { fieldA: { name: string, id: string | number }, fieldB: { name: string, id: string | number} }) => `
   <View>
   <Query>
       <Where>

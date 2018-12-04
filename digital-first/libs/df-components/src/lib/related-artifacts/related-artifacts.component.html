@@ -5,6 +5,6 @@
     <a mdcListItemMeta mdcIcon aria-label="Delete this Item" title="Delete this Item" (click)="onDeleteRelated.emit(link)">delete_forever</a>
   </mdc-list-item>
 </mdc-list>
-<button mdc-button [icon]="true" (click)="onAddRelated.emit()">
+<button mdc-button (click)="onAddRelated.emit()">
   <mdc-icon>add</mdc-icon>Add Related Artifact
 </button>

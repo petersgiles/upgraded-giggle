@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule, APP_INITIALIZER } from '@angular/core'
 import { NxModule } from '@nrwl/nx'
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule, HttpClient } from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { Apollo, APOLLO_OPTIONS, ApolloModule } from 'apollo-angular'
 import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http'
@@ -9,6 +9,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { NgxWigModule } from 'ngx-wig'
 import { AgmCoreModule } from '@agm/core'
 import { NgSelectModule } from '@ng-select/ng-select'
+import { MarkdownModule, MarkedOptions } from 'ngx-markdown'
 
 import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
@@ -73,6 +74,8 @@ import { ContactEffects } from './reducers/contact/contact.effects'
 import { ContactCreateFormComponent } from './components/contact-create-form/contact-create-form.component'
 import { MapPointEffects } from './reducers/map-point/map-point.effects'
 import { RelatedCommitmentEffects } from './reducers/related-commitment/related-commitment.effects'
+import {CommitmentSubscriptionEffects} from './reducers/commitment-subscription/commitment-subscription.effects'
+import { CommitmentContactEffects } from './reducers/commitment-contact/commitment-contact.effects'
 
 import { CommitmentDiscussionComponent } from './containers/commitment-discussion/commitment-discussion.component'
 import { CommitmentDeliveryLocationComponent } from './containers/commitment-delivery-location/commitment-delivery-location.component'
@@ -84,6 +87,9 @@ import { ContactCreateComponent } from './pages/contact-create/contact-create.co
 import { CommitmentCreateComponent } from './pages/commitment-create/commitment-create.component'
 import { discussionDataServiceProvider } from './reducers/commitment-discussion/commitment-discussion-data.service'
 import { lookupDataServiceProvider } from './reducers/commitment-lookup/commitment-lookup-data.service'
+import { subscriptionDataServiceProvider} from './reducers/commitment-subscription/commitment-subscription-data.service'
+import { commitmentContactsDataServiceProvider } from './reducers/commitment-contact/commitment-contact-data.service'
+import { AboutComponent } from './pages/about/about.component'
 
 const COMPONENTS = [
   AppComponent,
@@ -99,7 +105,8 @@ const COMPONENTS = [
   DialogAddCommitmentComponent,
   CommitmentDiscussionComponent,
   CommitmentDeliveryLocationComponent,
-  CommitmentContactsComponent
+  CommitmentContactsComponent,
+  AboutComponent
 ]
 
 const ENTRYCOMPONENTS = [
@@ -184,6 +191,21 @@ export let appDataServiceProvider = {
     ApolloModule,
     HttpLinkModule,
     NgxWigModule,
+    MarkdownModule.forRoot({
+      loader: HttpClient, // optional, only if you use [src] attribute
+      markedOptions: {
+        provide: MarkedOptions,
+        useValue: {
+          gfm: true,
+          tables: true,
+          breaks: false,
+          pedantic: false,
+          sanitize: false,
+          smartLists: true,
+          smartypants: false,
+        },
+      },
+    }),
     NxModule.forRoot(),
     DfLoggingModule,
     DfComponentsModule,
@@ -204,11 +226,13 @@ export let appDataServiceProvider = {
     EffectsModule.forFeature([
       RouterEffects,
       CommitmentLookupEffects,
-      ContactEffects,
       MapPointEffects,
+      CommitmentContactEffects,
+      ContactEffects,
       RelatedCommitmentEffects,
       CommentDiscussionEffects,
       CommitmentEffects,
+      CommitmentSubscriptionEffects
     ]),
   ],
   providers: [
@@ -220,8 +244,10 @@ export let appDataServiceProvider = {
       multi: true
     },
     appDataServiceProvider,
+    commitmentContactsDataServiceProvider,
     discussionDataServiceProvider,
     lookupDataServiceProvider,
+    subscriptionDataServiceProvider,
     { provide: FullLayoutService, useClass: AppFullLayoutService },
     {
       provide: APOLLO_OPTIONS,

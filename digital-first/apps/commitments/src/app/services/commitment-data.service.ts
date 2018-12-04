@@ -16,6 +16,8 @@ import { Contact } from '../reducers/contact/contact.model'
 import { Location } from '../models/location.model'
 import { CommitmentType } from '../models/commitment-type.model'
 import { CriticalDate } from '../models/critical-date.model'
+import { CommitmentSubscriptionActionTypes, UnsubscribeFromCommitment, GetCommitmentSubscriptionForUser, SubscriptionActionFailure,
+  SubscribeToCommitment, LoadSubscriptions} from './../reducers/commitment-subscription/commitment-subscription.actions'
 
 import {
   GetCommitments,
@@ -33,14 +35,29 @@ import {
 } from '../reducers/commitment/commitment.actions'
 import { GetAllContacts, StoreContact } from '../reducers/contact/contact.actions'
 import { AddRefiner, RemoveRefiner, ClearAllRefiners, ExpandRefinerGroup, CollapseRefinerGroup, SetTextRefiner } from '../reducers/commitment-overview/commitment-overview.actions'
-import { ChangeTimeFormat, CollapsePanel, ExpandPanel } from '../reducers/commitment-edit/commitment-edit.actions'
+import { ChangeTimeFormat, CollapsePanel, ExpandPanel, ChangeAutoSave } from '../reducers/commitment-edit/commitment-edit.actions'
 
 import * as fromRoot from '../reducers'
+import { SetLayoutDrawState } from '../reducers/app.actions'
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommitmentDataService {
+  changeCommitmentEditAutosave(val: boolean): any {
+    this.store.dispatch(new ChangeAutoSave(val))
+  }
+
+  get CommitmentEditAutosave(): Observable<boolean> {
+    return this.store.pipe(select(fromRoot.getCommitmentEditAutosave))
+  }
+
+  getDrawState(): Observable<boolean> {
+    return this.store.pipe(select(fromRoot.getDrawerOpen))
+  }
+  setDrawState(appdrawerOpen: any): any {
+    this.store.dispatch(new SetLayoutDrawState(appdrawerOpen))
+  }
 
   getBusy(): Observable<boolean> {
     return this.store.pipe(select(fromRoot.getCommitmentLoading))
@@ -124,6 +141,10 @@ export class CommitmentDataService {
     return this.store.pipe(select(fromRoot.getAllOverviewCommitmentDataTables))
   }
 
+  get CommitmentSubscription(): Observable<boolean> {
+    return this.store.pipe(select(fromRoot.getIsSubscribed))
+  }
+
   get CommitmentActivity(): Observable<any> {
     return this.store.pipe(select(fromRoot.getCommitmentActivity))
   }
@@ -148,6 +169,28 @@ export class CommitmentDataService {
 
   changeCommitmentEditDiscussionTimeFormat(format: 'dateFormat' | 'timeAgo' | 'calendar'): any {
     this.store.dispatch(new ChangeTimeFormat(format))
+  }
+
+  subscribeToCommitment(commitment: string | number) {
+    const currentUser = this.getCurrentUserValue()
+    return this.store.dispatch(new SubscribeToCommitment({commitment: commitment, user: currentUser}))
+  }
+
+  unsubscibeFromCommitment(commitment: string | number) {
+    const currentUser = this.getCurrentUserValue()
+    return this.store.dispatch(new UnsubscribeFromCommitment({commitment: commitment, user: currentUser}))
+  }
+
+  getUserSubscriptionStatus(commitment: string | number) {
+    const currentUser = this.getCurrentUserValue()
+    this.store.dispatch(new GetCommitmentSubscriptionForUser({commitment: commitment, user: currentUser}))
+  }
+
+  getCurrentUserValue(): any {
+    let currentUser: any
+    this.store.pipe(select(fromRoot.getUserCurrentUser)).subscribe(user => currentUser = user)
+
+    return currentUser
   }
 
   // RefinerGroups
