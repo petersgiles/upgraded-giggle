@@ -59,9 +59,8 @@ export class CommitmentCostingsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/', 'commitment', this.commitment, 'costing'])
   }
 
-  handleRowClicked($event) {
-    // tslint:disable-next-line:no-console
-    console.log($event)
+  handleRowClicked(row) {
+    this.router.navigate(['/', 'commitment', this.commitment, 'costing', row.id])
   }
 
   ngOnInit(): void {
