@@ -12,7 +12,7 @@ import { CommitmentSubscriptionDataService } from '../commitment-subscription-da
 export class CommitmentSubscriptionDataApolloService implements CommitmentSubscriptionDataService {
 
   getUserSubscription(subscription: { user: any; commitment: any }): Observable<any> {
-    const variables = { commitment: subscription.commitment, user: subscription.user.userid}
+    const variables = { commitment: subscription.commitment, user: subscription.user}
     return callQuery<SubscriptionResult>(this.apollo,
       { query: SUBSCRIPTION_BY_COMMITMENT,
         variables: variables})
@@ -22,7 +22,7 @@ export class CommitmentSubscriptionDataApolloService implements CommitmentSubscr
 
     const variables = {
       commitment: subscription.commitment,
-      subscriber: subscription.user.userid
+      subscriber: subscription.user
     }
 
    return callMutate<{ commitment: number }>(
@@ -38,7 +38,7 @@ export class CommitmentSubscriptionDataApolloService implements CommitmentSubscr
     }): Observable<DataResult<{ commitment: number }>> => {
       const variables = {
         commitment: subscription.commitment,
-        subscriber: subscription.user.userid
+        subscriber: subscription.user
         }
         return callMutate<any>(this.apollo, { mutation: ADD_SUBSCRIPTION, variables: { ...variables } },
             (result: any) =>
