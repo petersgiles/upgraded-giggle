@@ -29,7 +29,9 @@ export class MapComponent implements OnInit {
   constructor(
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone
-  ) { }
+  ) {
+
+  }
 
   @Input()
   set mapPoints(val: MapPoint[]) {
@@ -38,10 +40,11 @@ export class MapComponent implements OnInit {
     this._mapPointTableData = this.mapMapPointToDataTable(val)
 
     // set centre position
-    if (val) {
+    if (this._mapPoints && this._mapPoints.length) {
       this.zoom = Math.max(12 - (val.length), 2)
+      this.centre = getLatLngCenter(val)
     }
-    this.centre = getLatLngCenter(val)
+
     this.setCurrentPosition(this.centre)
   }
 
@@ -87,11 +90,19 @@ export class MapComponent implements OnInit {
     // set google maps defaults
     this.zoom = 8
 
-    this.latitude = 51.678418
-    this.longitude = 7.809007
+    this.latitude = -33.8688
+    this.longitude = 151.2092
 
     // set centre position
-    this.centre = getLatLngCenter(this._mapPoints)
+    if (this._mapPoints) {
+      this.centre = getLatLngCenter(this._mapPoints)
+    } else {
+      this.centre = {
+        latitude: -33.8688,
+        longitude: 151.2092
+      }
+    }
+
     this.setCurrentPosition(this.centre)
 
     // create search FormControl
@@ -132,7 +143,8 @@ export class MapComponent implements OnInit {
     if (centre) {
       this.latitude = centre.latitude
       this.longitude = centre.longitude
-    } else if ('geolocation' in navigator) {
+    }
+    else if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.latitude = position.coords.latitude
         this.longitude = position.coords.longitude

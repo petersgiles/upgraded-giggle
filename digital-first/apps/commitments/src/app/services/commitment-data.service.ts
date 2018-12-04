@@ -171,26 +171,16 @@ export class CommitmentDataService {
     this.store.dispatch(new ChangeTimeFormat(format))
   }
 
-  subscribeToCommitment(commitment: string | number) {
-    const currentUser = this.getCurrentUserValue()
-    return this.store.dispatch(new SubscribeToCommitment({commitment: commitment, user: currentUser}))
+  subscribeToCommitment(commitment: string | number, user: number) {
+    return this.store.dispatch(new SubscribeToCommitment({commitment: commitment, user: user}))
   }
 
-  unsubscibeFromCommitment(commitment: string | number) {
-    const currentUser = this.getCurrentUserValue()
-    return this.store.dispatch(new UnsubscribeFromCommitment({commitment: commitment, user: currentUser}))
+  unsubscibeFromCommitment(commitment: string | number, user: number) {
+    return this.store.dispatch(new UnsubscribeFromCommitment({commitment: commitment, user: user}))
   }
 
-  getUserSubscriptionStatus(commitment: string | number) {
-    const currentUser = this.getCurrentUserValue()
-    this.store.dispatch(new GetCommitmentSubscriptionForUser({commitment: commitment, user: currentUser}))
-  }
-
-  getCurrentUserValue(): any {
-    let currentUser: any
-    this.store.pipe(select(fromRoot.getUserCurrentUser)).subscribe(user => currentUser = user)
-
-    return currentUser
+  getUserSubscriptionStatus(commitment: string | number, user: number) {
+    this.store.dispatch(new GetCommitmentSubscriptionForUser({commitment: commitment, user: user}))
   }
 
   // RefinerGroups

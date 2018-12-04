@@ -12,7 +12,7 @@
     <digital-first-commitment-edit-form *ngIf="panels.formPanelExpanded" [busy]="formBusy" [showSubmit]="!autoSave" [commitment]="commitment"
       [parties]="parties$ | async" [criticalDates]="criticalDates$ | async" [announcementTypes]="announcementTypes$ | async"
       [whoAnnouncedTypes]="whoAnnouncedTypes$ | async" [commitmentTypes]="commitmentTypes$ | async" [portfolios]="portfolios$ | async"
-      [locations]="locations$ | async" (onSubmitted)="handleUpdateCommitment($event)" (onCancelled)="handleCancelled($event)"
+      (onSubmitted)="handleUpdateCommitment($event)" (onCancelled)="handleCancelled($event)"
       (onChanged)="handleUpdateCommitmentChange($event)">
     </digital-first-commitment-edit-form>
 
@@ -42,6 +42,8 @@
     </div>
 
     <digital-first-commitment-contacts *ngIf="commitment" [commitment]="commitment?.id"></digital-first-commitment-contacts>
+
+    <digital-first-commitment-costings *ngIf="commitment" [commitment]="commitment?.id"></digital-first-commitment-costings>
 
     <digital-first-page-title *ngIf="commitment" title="Related Items" (onTitleClicked)="handleChangeExpanded(!panels.relatedItemsPanelExpanded, 'relatedItemsPanelExpanded')">
       <digital-first-add-item-button icon="person" title="Add&nbsp;commitment" *ngIf="panels.relatedItemsPanelExpanded"
