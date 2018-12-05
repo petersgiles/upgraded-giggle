@@ -9,8 +9,16 @@
         [disableDefaultUI]="false" 
         [zoomControl]="true"
         >
-        <agm-marker *ngFor="let mapPoint of mapPoints$ | async" [latitude]="mapPoint.latitude" [longitude]="mapPoint.longitude"></agm-marker>
+        <agm-marker *ngFor="let mapPoint of mapPoints$ | async" 
+        [latitude]="mapPoint.latitude" 
+        [longitude]="mapPoint.longitude" 
+        [title]="mapPoint.address" 
+        (markerClick)="handleMapPointSelected($event, mapPoint)"></agm-marker>
         </agm-map>
     </div>
+    <div class="commitment-layout__row">
+        <digital-first-data-table [tableData]="commitments$ | async"
+          (onCellClicked)="handleRowClicked($event)"></digital-first-data-table>
+      </div>
   </section>
 </div>

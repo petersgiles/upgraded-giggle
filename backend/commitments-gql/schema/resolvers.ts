@@ -73,6 +73,23 @@ export const resolvers = {
 
 
 
+    },    
+    mapPointCommitments: (obj: any, args: any, context: any, info: any) => {
+
+      let set = db['commitment-commitment-map-points'].find({ mapPoint: args.mapPoint })
+      console.log('commitment MapPoints => ', set)
+      let found = set
+        .map(
+          (f: any) => {
+
+            let cfound = db['commitments'].findOne({ id: f.commitment })
+            return {
+              ...cfound
+            }
+          }
+        )
+      console.log('MapPoint commitments => ', set, 'found => ', found)
+      return found
     },
     commitmentPortfolios: (obj: any, args: any, context: any, info: any) => {
       // (commitment: ID!): [MapPoint]

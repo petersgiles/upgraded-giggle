@@ -2,9 +2,12 @@ import { Injectable } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 import { Observable, of } from 'rxjs'
 import { Action } from '@ngrx/store'
-import { switchMap, map, catchError, tap, concatMap } from 'rxjs/operators'
-import { CommentsResult, DataResult, MapPointsResult } from '../../models'
-import { CommitmentOverviewMapActionTypes, CommentOverviewMapActionFailure, GetCommitmentOverviewMapPoints, LoadCommitmentOverviewMapPoints } from './commitment-overview-map.actions'
+import { map, catchError, tap, concatMap } from 'rxjs/operators'
+import {
+    CommitmentOverviewMapActionTypes, CommentOverviewMapActionFailure,
+    GetCommitmentOverviewMapPoints, LoadCommitmentOverviewMapPoints,
+    GetCommitmentOverviewMapCommitments, LoadCommitmentOverviewMapCommitments
+} from './commitment-overview-map.actions'
 import { CommitmentOverviewMapDataService } from './commitment-overview-map-data.service'
 
 @Injectable()
@@ -22,6 +25,22 @@ export class CommentOverviewMapEffects {
                     // tslint:disable-next-line:no-console
                     tap(r => console.log('getOverviewMapPoints', r)),
                     concatMap((result) => [new LoadCommitmentOverviewMapPoints(result)]),
+                    catchError(error => of(new CommentOverviewMapActionFailure(error)))
+                )
+            ))
+
+    @Effect()
+    getOverviewMapCommitment$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(CommitmentOverviewMapActionTypes.GetCommitmentOverviewMapCommitments),
+            map((action: GetCommitmentOverviewMapCommitments) => action.payload),
+            // tslint:disable-next-line:no-console
+            tap(r => console.log(r)),
+            concatMap((filter: any) => this.service.getCommitmentOverviewMapCommitments(filter)
+                .pipe(
+                    // tslint:disable-next-line:no-console
+                    tap(r => console.log('LoadCommitmentOverviewMapCommitments', r)),
+                    concatMap((result) => [new LoadCommitmentOverviewMapCommitments(result)]),
                     catchError(error => of(new CommentOverviewMapActionFailure(error)))
                 )
             ))
