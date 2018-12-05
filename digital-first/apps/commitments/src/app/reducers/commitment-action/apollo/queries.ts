@@ -15,16 +15,16 @@ query CommitmentActions($commitment: ID!) {
 `
 
 export const STORE_COMMITMENT_ACTION = gql`
-mutation StoreCommitmentAction($commitment: ID!, $contact: ID!) {
-  storeCommitmentAction(commitment: $commitment, contact: $contact) {
+mutation StoreCommitmentAction($commitment: ID!, $action: ID!) {
+  storeCommitmentAction(commitment: $commitment, action: $action) {
     id
     title
   }
 }
 `
 export const REMOVE_COMMITMENT_ACTION = gql`
-mutation DeleteCommitmentAction($commitment: ID!, $contact: ID! ) {
-  deleteCommitmentAction(commitment: $commitment, contact: $contact) {
+mutation DeleteCommitmentAction($commitment: ID!, $action: ID! ) {
+  deleteCommitmentAction(commitment: $commitment, action: $action) {
     id
     title
   }

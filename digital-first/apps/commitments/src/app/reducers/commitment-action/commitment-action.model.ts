@@ -3,4 +3,9 @@ export class CommitmentAction {
     commitment: number
     title: string
     description: string
+    portfolio?: {
+        id: any,
+        title: any
+    }
+
 }

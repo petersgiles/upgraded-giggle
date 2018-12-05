@@ -93,6 +93,7 @@ import { lookupDataServiceProvider } from './reducers/commitment-lookup/commitme
 import { subscriptionDataServiceProvider } from './reducers/commitment-subscription/commitment-subscription-data.service'
 import { commitmentContactsDataServiceProvider } from './reducers/commitment-contact/commitment-contact-data.service'
 import { commitmentActionsDataServiceProvider } from './reducers/commitment-action/commitment-action-data.service'
+import { CommitmentCostingComponent } from './pages/commitment-costing/commitment-costing.component'
 
 const COMPONENTS = [
   AppComponent,
@@ -107,6 +108,7 @@ const COMPONENTS = [
   ContactCreateFormComponent,
   DialogAddCommitmentComponent,
   CommitmentDiscussionComponent,
+  CommitmentCostingComponent,
   CommitmentCostingsComponent,
   CommitmentDeliveryLocationComponent,
   CommitmentContactsComponent,

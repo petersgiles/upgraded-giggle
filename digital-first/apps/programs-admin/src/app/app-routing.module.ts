@@ -26,16 +26,16 @@ export const routes: Routes = [
         path: 'statistics/upload',
         component: StatisticuploadComponent,
         data: {
-          title: 'Upload statistic',
-          icon: 'file_copy'
+          title: 'Upload Statistic',
+          icon: 'format_list_numbered'
         }
       },
       {
         path: 'project/upload',
         component: ProjectuploadComponent,
         data: {
-          title: 'Upload project',
-          icon: 'file_copy'
+          title: 'Upload Project',
+          icon: 'ballot'
         }
       }
     ]

@@ -19,6 +19,8 @@ export const getCommitmentActionsTableData = createSelector(
     (actions) => {
 
         const rows = (actions || []).map(c => {
+
+            const portfolio = c.portfolio ? c.portfolio.title : 'unknown'
             // tslint:disable-next-line:no-console
             console.log(c)
             return {
@@ -27,6 +29,8 @@ export const getCommitmentActionsTableData = createSelector(
                     value: `${c.title}`
                 }, {
                     value: `${c.description}`
+                }, {
+                    value: `${portfolio}`
                 }]
             }
         })
@@ -36,7 +40,8 @@ export const getCommitmentActionsTableData = createSelector(
             hasDeleteItemButton: true,
             headings: [
                 { caption: 'Title' },
-                { caption: 'Description' }
+                { caption: 'Description' },
+                { caption: 'Portfolio' }
             ],
             rows: rows
         }

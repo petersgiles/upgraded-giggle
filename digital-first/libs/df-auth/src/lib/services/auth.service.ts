@@ -7,6 +7,8 @@ import { map, mergeMap } from 'rxjs/operators'
 import { AuthTokenRefresh } from '../+state/auth.actions'
 import { FEDERATEDLOGINAPIPATH } from '@digital-first/df-app-tokens'
 import { LoggerService } from '@digital-first/df-logging'
+import {Store} from "@ngrx/store";
+import * as fromAuthState from "../+state/auth.reducer";
 
 const CLAIM_EMAIL = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'
 const CLAIM_NAME = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
@@ -22,7 +24,8 @@ export class AuthService {
 
   constructor(@Inject(FEDERATEDLOGINAPIPATH) private federatedLoginApiPath: any,
     private http: HttpClient,
-    private logger: LoggerService) {
+    private logger: LoggerService,
+    private store: Store<fromAuthState.AuthState>) {
 
     this.jwtHelper = new JwtHelperService()
   }
@@ -58,12 +61,12 @@ export class AuthService {
   }
 
   public renewToken() {
-    // this.store.dispatch(new AuthTokenRefresh())
+    this.store.dispatch(new AuthTokenRefresh())
   }
 
   public scheduleRenewal() {
     const observableTimer = of(true).pipe(
-      mergeMap(() => timer(3600000)))
+      mergeMap(() => timer(300000)))
 
     // Once the delay time from above is
     // reached, dispatch a request for a token refresh and schedule another renewal
