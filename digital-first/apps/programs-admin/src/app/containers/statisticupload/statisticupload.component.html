@@ -8,22 +8,23 @@
         <div class="mdc-layout-grid__cell--span-3"></div>
         <div class="mdc-layout-grid__cell--span-6 mdc-elevation--z9">
           <div class="form-content">
-            <form (ngSubmit)="onSubmit()" #statisticUpload="ngForm">
+            <form (ngSubmit)="onSubmit()" [formGroup]="statisticForm">
               <!--{{diagnostic}}-->
               <fieldset>
                 <h3 class="form-content__headline">Upload Statistic CSV Form</h3>
                 <div class="form-layout__row">
-                  <mdc-select id="statistic" placeholder="Statistic" [outlined]="true" required
-                              [(ngModel)]="model.statisticId" name="statistic"
+                  <mdc-select formControlName="statisticId" placeholder="Statistic" [outlined]="true" required
+                              name="statistic"
                               (selectionChange)="onSelectionChange($event)">
-                    <option value="" ></option>
+                    <option value="" selected></option>
                     <option *ngFor="let statistic of statistics" [value]="statistic.id">{{statistic.name}}
                     </option>
                   </mdc-select>
                 </div>
                 <div class="form-layout__row">
-                  <mdc-select id="statisticReport" placeholder="Statistic report" [outlined]="true" required
-                              [(ngModel)]="model.statisticReportId" name="statisticReport">
+                  <mdc-select formControlName="statisticReportId" placeholder="Statistic report" [outlined]="true"
+                              required
+                              name="statisticReport">
                     <option value=""></option>
                     <option *ngFor="let statisticReport of statisticReports" [value]="statisticReport.id">
                       {{statisticReport.name}}
@@ -31,21 +32,23 @@
                   </mdc-select>
                 </div>
                 <div class="form-layout__row">
-                  <mdc-text-field type="date" id="dataDate" #outlinedicon [outlined]="true" required
-                                  [(ngModel)]="model.dataDate"
+                  <mdc-text-field formControlName="dataDate" type="date" #outlinedicon [outlined]="true"
+                                  required
                                   label="Data date" name="dataDate">
                     <mdc-icon mdcTextFieldIcon leading #leadingicon>event</mdc-icon>
                   </mdc-text-field>
                 </div>
                 <div class="form-layout__row">
-                  <mdc-textarea name="notes" id="notes" [(ngModel)]="model.notes" cols="8" rows="3" maxlength="250"
+                  <mdc-textarea formControlName="notes" name="notes" id="notes" cols="8"
+                                rows="3" maxlength="250"
                                 label="Notes" spellcheck="true">
                   </mdc-textarea>
                 </div>
 
                 <div class="form-layout__row">
                   <mdc-form-field [alignEnd]="true">
-                    <input type="file" accept=".csv" (change)="fileChange($event)" id="fileToUpload"
+                    <input type="file" accept=".csv" (change)="fileChange($event)"
+                           id="fileToUpload"
                            name="fileToUpload" required>
                     <label>File to upload</label>
                   </mdc-form-field>
@@ -53,20 +56,20 @@
 
                 <!--TODO:// bring this in to style the input file type button.  will need to render the filename to the screen separately-->
                 <!--<div class="form-layout__row">-->
-                  <!--<mdc-form-field [alignEnd]="true">-->
-                    <!--<label class="mdc-button ng-mdc-button&#45;&#45;secondary mdc-button&#45;&#45;raised mdc-ripple-upgraded">-->
-                      <!--<input class="fileToUpload" type="file" accept=".csv" (change)="fileChange($event)"-->
-                             <!--id="fileToUpload"-->
-                             <!--name="fileToUpload" required>-->
-                      <!--<mdc-icon>attach_file</mdc-icon>-->
-                      <!--Attach File</label>-->
-                  <!--</mdc-form-field>-->
+                <!--<mdc-form-field [alignEnd]="true">-->
+                <!--<label class="mdc-button ng-mdc-button&#45;&#45;secondary mdc-button&#45;&#45;raised mdc-ripple-upgraded">-->
+                <!--<input class="fileToUpload" type="file" accept=".csv" (change)="fileChange($event)"-->
+                <!--id="fileToUpload"-->
+                <!--name="fileToUpload" required>-->
+                <!--<mdc-icon>attach_file</mdc-icon>-->
+                <!--Attach File</label>-->
+                <!--</mdc-form-field>-->
                 <!--</div>-->
                 <div class="form-layout__row-with-button">
                   <button id="submit"
                           class="mdc-button ng-mdc-button--primary mdc-button--raised mdc-ripple-upgraded"
                           type="submit"
-                          [disabled]="!statisticUpload.form.valid">Submit
+                          [disabled]="statisticForm.invalid || statisticForm.prestine">Submit
                   </button>
                 </div>
               </fieldset>

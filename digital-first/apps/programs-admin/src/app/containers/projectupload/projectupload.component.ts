@@ -34,7 +34,7 @@ export class ProjectuploadComponent implements OnInit, OnDestroy {
   }
 
   get diagnostic() {
-    return JSON.stringify(this.projectForm.status) + JSON.stringify(this.projectForm.value);
+    return `status: ${JSON.stringify(this.projectForm.status)},  value: ${JSON.stringify(this.projectForm.value)}`;
   }
 
   ngOnInit() {
