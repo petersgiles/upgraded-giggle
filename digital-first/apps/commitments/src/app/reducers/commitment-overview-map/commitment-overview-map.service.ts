@@ -7,7 +7,7 @@ import { Store, select } from '@ngrx/store'
 import * as fromRoot from '..'
 import { MapPoint, DataTableConfig } from '@digital-first/df-components'
 import { GetCommitmentOverviewMapPoints, GetCommitmentOverviewMapCommitments } from './commitment-overview-map.actions'
-import { Commitment } from '../../reducers/commitment/commitment.model'
+
 @Injectable({
     providedIn: 'root'
 })

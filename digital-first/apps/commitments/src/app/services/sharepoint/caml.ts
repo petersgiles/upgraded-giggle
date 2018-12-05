@@ -44,6 +44,18 @@ export const byMapPointPlaceIdQuery = (criteria: { placeId }) =>
         </Query>
     </View>`
 
+export const byMapPointIdQuery = (criteria: { id }) =>
+    `<View>
+        <Query>
+            <Where>
+                <Eq>
+                    <FieldRef Name='MapPoint' LookupId='True'/>
+                    <Value Type='Lookup'>${criteria.id}</Value>
+                </Eq>
+            </Where>
+        </Query>
+    </View>`
+
 export const byCommitmentIdQuery = (criteria: { id: any }) => `
   <View>
       <Query>
