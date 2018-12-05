@@ -9,6 +9,7 @@ import { ErrorPageNotFoundComponent, ErrorServerComponent } from '@digital-first
 import { CommitmentOverviewComponent, CommitmentEditComponent, CommitmentCreateComponent, ContactCreateComponent } from './pages'
 import { AboutComponent } from './pages/about/about.component'
 import { CommitmentCostingComponent } from './pages/commitment-costing/commitment-costing.component'
+import { CommitmentOverviewMapComponent } from './pages/commitment-overview-map/commitment-overview-map.component'
 
 const routes: Routes = [
   { path: '', redirectTo: 'commitments', pathMatch: 'full' },
@@ -34,6 +35,18 @@ const routes: Routes = [
       {
         path: '',
         component: ContactCreateComponent
+      }
+    ]
+  }, {
+    path: 'commitmentmap',
+    component: FullLayoutComponent,
+    data: {
+      title: 'Overview Map'
+    },
+    children: [
+      {
+        path: '',
+        component: CommitmentOverviewMapComponent,
       }
     ]
   }, {
