@@ -8,6 +8,7 @@ import {
 import { ErrorPageNotFoundComponent, ErrorServerComponent } from '@digital-first/df-pages'
 import { CommitmentOverviewComponent, CommitmentEditComponent, CommitmentCreateComponent, ContactCreateComponent } from './pages'
 import { AboutComponent } from './pages/about/about.component'
+import { CommitmentCostingComponent } from './pages/commitment-costing/commitment-costing.component'
 
 const routes: Routes = [
   { path: '', redirectTo: 'commitments', pathMatch: 'full' },
@@ -61,6 +62,14 @@ const routes: Routes = [
       {
         path: ':id',
         component: CommitmentEditComponent
+      },
+      {
+        path: ':id/costing',
+        component: CommitmentCostingComponent
+      },
+      {
+        path: ':id/costing/:costid',
+        component: CommitmentCostingComponent
       }
     ]
   }, {
