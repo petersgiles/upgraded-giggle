@@ -37,6 +37,7 @@ import * as fromCommitmentDiscussion from './commitment-discussion/commitment-di
 import * as fromCommitmentSubscription from './commitment-subscription/commitment-subscription.reducer'
 import * as fromCommitmentContact from './commitment-contact/commitment-contact.reducer'
 import * as fromCommitmentAction from './commitment-action/commitment-action.reducer'
+import * as fromCommitmentOverviewMap from './commitment-overview-map/commitment-overview-map.reducer'
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
     return localStorageSync({
@@ -70,6 +71,7 @@ export interface State {
     commitmentSubscription: fromCommitmentSubscription.State
     commitmentContact: fromCommitmentContact.State
     commitmentAction: fromCommitmentAction.State
+    commitmentOverviewMap: fromCommitmentOverviewMap.State
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -86,7 +88,8 @@ export const reducers: ActionReducerMap<State> = {
     commitmentDiscussion: fromCommitmentDiscussion.reducer,
     commitmentSubscription: fromCommitmentSubscription.reducer,
     commitmentContact: fromCommitmentContact.reducer,
-    commitmentAction: fromCommitmentAction.reducer
+    commitmentAction: fromCommitmentAction.reducer,
+    commitmentOverviewMap: fromCommitmentOverviewMap.reducer
 }
 
 export const getNotificationState = state => state.notification
@@ -102,6 +105,7 @@ export * from './user'
 export * from './map-point'
 export * from './contact'
 export * from './commitment-overview'
+export * from './commitment-overview-map'
 export * from './commitment-edit'
 export * from './commitment-discussion'
 export * from './commitment-contact'

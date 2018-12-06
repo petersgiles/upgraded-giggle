@@ -1,0 +1,15 @@
+:host {
+    width:100%;
+    width: -webkit-fill-available;
+    display: flex;
+    flex-direction: column;
+
+    .app-page {
+        padding-left: 0px;
+      }
+}
+  
+agm-map {
+    height: 60vh;
+}
+    
