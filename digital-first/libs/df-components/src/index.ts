@@ -9,6 +9,7 @@ export { ArchiveButtonComponent } from './lib/archive-button.component'
 export { NavigateButtonComponent } from './lib/navigation-button.component'
 export { AddSubscriptionButtonComponent } from './lib/subscriber-button.component'
 export { AutosaveToggleButtonComponent } from './lib/autosave-toggle-button.component'
+export { PrintPageButtonComponent } from './lib/print-page-button.component'
 
 export { ViewLayoutButtonComponent } from './lib/view-layout-button.component'
 

@@ -4,7 +4,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router'
 import { Observable, Subscription, of } from 'rxjs'
 import { MdcDialog, MdcSnackbar } from '@angular-mdc/web'
 import { map, first } from 'rxjs/operators'
-import { DialogAreYouSureComponent, DialogAddContactComponent, ARE_YOU_SURE_ACCEPT } from '@digital-first/df-dialogs'
+import { DialogAreYouSureComponent, ARE_YOU_SURE_ACCEPT } from '@digital-first/df-dialogs'
 
 import { CommitmentDataService } from '../../services/commitment-data.service'
 import { Commitment } from '../../reducers/commitment/commitment.model'
@@ -20,7 +20,7 @@ import { CriticalDate } from '../../models/critical-date.model'
 import { formatCommitmentTitle } from '../../formatters'
 import { DialogAddCommitmentComponent } from '../../dialogs/dialog-add-commitment.component'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
-
+import * as jsPDF from 'jspdf'
 @Component({
   selector: 'digital-first-commitment-edit',
   templateUrl: './commitment-edit.component.html',
@@ -331,6 +331,23 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     const message = `AutoSave ${autosaveState ? 'On' : 'Off - Submit at bottom of form'}`
 
     this.showSnackBar(message)
+  }
+
+  handlePrintClicked() {
+
+    // tslint:disable-next-line:no-console
+    console.log('handlePrintClicked')
+    const doc = new jsPDF()
+    doc.setFontSize(20)
+    doc.text(this.commitment.title, 15, 15)
+    doc.setFontSize(11)
+    doc.text(this.commitment.portfolio.title, 15, 30)
+    doc.fromHTML(this.commitment.description, 15, 45, {
+      'width': 170
+    })
+    const filename = `${this.commitment.title.split(' ').join('-')}.pdf`
+    // Set the document to automatically print via JS
+    doc.save(filename)
   }
 
 }
