@@ -175,6 +175,7 @@ type CommitmentAction {
     commitmentPortfolios(commitment: ID!): [Portfolio],
     commitmentElectorates(commitment: ID!): [Electorate],
     commitmentRelatedCommitments(commitment: ID!): [Commitment],
+    mapPointCommitments(mapPoint: ID!) : [Commitment],
     parties: [PoliticalParty],
     portfolios: [Portfolio],
     criticalDates: [CriticalDate],

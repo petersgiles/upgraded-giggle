@@ -83,17 +83,20 @@ import { CommitmentDeliveryLocationComponent } from './containers/commitment-del
 import { CommitmentContactsComponent } from './containers/commitment-contacts/commitment-contacts.component'
 import { AboutComponent } from './pages/about/about.component'
 import { CommitmentCostingsComponent } from './containers/commitment-costings/commitment-costings.component'
-
+import { CommitmentCostingComponent } from './pages/commitment-costing/commitment-costing.component'
+import { CommitmentOverviewMapComponent } from './pages/commitment-overview-map/commitment-overview-map.component'
 import { CommitmentOverviewComponent } from './pages/commitment-overview/commitment-overview.component'
 import { CommitmentEditComponent } from './pages/commitment-edit/commitment-edit.component'
 import { ContactCreateComponent } from './pages/contact-create/contact-create.component'
 import { CommitmentCreateComponent } from './pages/commitment-create/commitment-create.component'
+
 import { discussionDataServiceProvider } from './reducers/commitment-discussion/commitment-discussion-data.service'
 import { lookupDataServiceProvider } from './reducers/commitment-lookup/commitment-lookup-data.service'
 import { subscriptionDataServiceProvider } from './reducers/commitment-subscription/commitment-subscription-data.service'
 import { commitmentContactsDataServiceProvider } from './reducers/commitment-contact/commitment-contact-data.service'
 import { commitmentActionsDataServiceProvider } from './reducers/commitment-action/commitment-action-data.service'
-import { CommitmentCostingComponent } from './pages/commitment-costing/commitment-costing.component'
+import { commitmentOverviewMapDataServiceProvider } from './reducers/commitment-overview-map/commitment-overview-map-data.service'
+import { CommentOverviewMapEffects } from './reducers/commitment-overview-map/commitment-overview-map.effects'
 
 const COMPONENTS = [
   AppComponent,
@@ -112,6 +115,7 @@ const COMPONENTS = [
   CommitmentCostingsComponent,
   CommitmentDeliveryLocationComponent,
   CommitmentContactsComponent,
+  CommitmentOverviewMapComponent,
   AboutComponent
 ]
 
@@ -239,7 +243,8 @@ export let appDataServiceProvider = {
       CommentDiscussionEffects,
       CommitmentEffects,
       CommitmentSubscriptionEffects,
-      CommitmentActionEffects
+      CommitmentActionEffects,
+      CommentOverviewMapEffects
     ]),
   ],
   providers: [
@@ -253,6 +258,7 @@ export let appDataServiceProvider = {
     appDataServiceProvider,
     commitmentContactsDataServiceProvider,
     commitmentActionsDataServiceProvider,
+    commitmentOverviewMapDataServiceProvider,
     discussionDataServiceProvider,
     lookupDataServiceProvider,
     subscriptionDataServiceProvider,

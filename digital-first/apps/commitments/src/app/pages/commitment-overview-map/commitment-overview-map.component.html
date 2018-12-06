@@ -1,0 +1,24 @@
+<div class="app-page">
+  <section>
+    <digital-first-page-title title="Delivery locations"></digital-first-page-title>
+    <div class="commitment-layout__row">
+        <agm-map 
+        [latitude]="latitude" 
+        [longitude]="longitude" 
+        [zoom]="zoom"
+        [disableDefaultUI]="false" 
+        [zoomControl]="true"
+        >
+        <agm-marker *ngFor="let mapPoint of mapPoints$ | async" 
+        [latitude]="mapPoint.latitude" 
+        [longitude]="mapPoint.longitude" 
+        [title]="mapPoint.address" 
+        (markerClick)="handleMapPointSelected($event, mapPoint)"></agm-marker>
+        </agm-map>
+    </div>
+    <div class="commitment-layout__row">
+        <digital-first-data-table [tableData]="commitments$ | async"
+          (onCellClicked)="handleRowClicked($event)"></digital-first-data-table>
+      </div>
+  </section>
+</div>

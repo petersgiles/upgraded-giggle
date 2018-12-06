@@ -9,10 +9,10 @@ export const environment = {
   datasource: {
     type: 'local',
     dataServiceUrl: '//programs.cloud9.cabnet/graphql',
-    passthroughUrl: '//programsadmin.cloud9.cabnet/api/sendmessage'
+    passthroughUrl: '//programs.cloud9.cabnet/admin/api/sendmessage'
   },
   federatedLoginApiPath: '#{ApiPath}'
-};
+}
 
 /*
  * In development mode, for easier debugging, you can ignore zone related error

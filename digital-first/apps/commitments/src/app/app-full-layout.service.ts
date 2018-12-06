@@ -25,6 +25,10 @@ export class AppFullLayoutService {
       icon: 'home',
       routerLink: ['/']
     }, {
+      caption: 'Map Overview',
+      icon: 'near_me',
+      routerLink: ['/commitmentmap']
+    }, {
       caption: 'About this App',
       icon: 'info',
       routerLink: ['/about']
