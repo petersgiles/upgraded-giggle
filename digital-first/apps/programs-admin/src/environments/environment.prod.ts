@@ -8,10 +8,10 @@ export const environment = {
   version: require('../../../../package.json').version,
   datasource: {
     type: 'local',
-    dataServiceUrl: '//programs.pmc.gov.au/graphql',
-    passthroughUrl: '//programs.pmc.gov.au/admin/api/sendmessage'
+    dataServiceUrl: '//#{ApiPath}/graphql',
+    passthroughUrl: '//#{ApiPath}/admin/api/sendmessage'
   },
-  federatedLoginApiPath: '#{ApiPath}'
+  federatedLoginApiPath: '#{ApiPath}/admin'
 }
 
 /*
