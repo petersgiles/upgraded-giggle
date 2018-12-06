@@ -1017,6 +1017,8 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
+              "baseHref": "admin",
+              "deployUrl": "/admin/",
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -1035,150 +1037,168 @@
                   "replace": "apps/programs-admin/src/environments/environment.ts",
                   "with": "apps/programs-admin/src/environments/environment.dev.ts"
                 }
+              ],
+              "optimization": false,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": false,
+              "baseHref": "admin",
+              "deployUrl": "/admin/",
+              "aot": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
               ]
             }
           }
+      },
+      "serve": {
+        "builder": "@angular-devkit/build-angular:dev-server",
+        "options": {
+          "port": 4206,
+          "browserTarget": "programs-admin:build"
         },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "port": 4206,
-            "browserTarget": "programs-admin:build"
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "programs-admin:build:production"
-            }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "programs-admin:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "apps/programs-admin/src/test.ts",
-            "polyfills": "apps/programs-admin/src/polyfills.ts",
-            "tsConfig": "apps/programs-admin/tsconfig.spec.json",
-            "karmaConfig": "apps/programs-admin/karma.conf.js",
-            "styles": [
-              "apps/programs-admin/src/styles.scss"
-            ],
-            "scripts": [],
-            "assets": [
-              "apps/programs-admin/src/favicon.ico",
-              "apps/programs-admin/src/assets"
-            ]
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "apps/programs-admin/tsconfig.app.json",
-              "apps/programs-admin/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+        "configurations": {
+          "production": {
+            "browserTarget": "programs-admin:build:production"
           }
         }
-      }
-    },
-    "programs-admin-e2e": {
-      "root": "apps/programs-admin-e2e",
-      "projectType": "application",
-      "prefix": "",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "apps/programs-admin-e2e/protractor.conf.js",
-            "devServerTarget": "programs-admin:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "programs-admin:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "apps/programs-admin-e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
+      },
+      "extract-i18n": {
+        "builder": "@angular-devkit/build-angular:extract-i18n",
+        "options": {
+          "browserTarget": "programs-admin:build"
         }
-      }
-    },
-    "df-auth": {
-      "root": "libs/df-auth",
-      "sourceRoot": "libs/df-auth/src",
-      "projectType": "library",
-      "prefix": "digital-first",
-      "architect": {
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "libs/df-auth/src/test.ts",
-            "tsConfig": "libs/df-auth/tsconfig.spec.json",
-            "karmaConfig": "libs/df-auth/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/df-auth/tsconfig.lib.json",
-              "libs/df-auth/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
+      },
+      "test": {
+        "builder": "@angular-devkit/build-angular:karma",
+        "options": {
+          "main": "apps/programs-admin/src/test.ts",
+          "polyfills": "apps/programs-admin/src/polyfills.ts",
+          "tsConfig": "apps/programs-admin/tsconfig.spec.json",
+          "karmaConfig": "apps/programs-admin/karma.conf.js",
+          "styles": [
+            "apps/programs-admin/src/styles.scss"
+          ],
+          "scripts": [],
+          "assets": [
+            "apps/programs-admin/src/favicon.ico",
+            "apps/programs-admin/src/assets"
+          ]
         }
-      }
-    },
-    "df-app-tokens": {
-      "root": "libs/df-app-tokens",
-      "sourceRoot": "libs/df-app-tokens/src",
-      "projectType": "library",
-      "prefix": "digital-first",
-      "architect": {
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "libs/df-app-tokens/src/test.ts",
-            "tsConfig": "libs/df-app-tokens/tsconfig.spec.json",
-            "karmaConfig": "libs/df-app-tokens/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/df-app-tokens/tsconfig.lib.json",
-              "libs/df-app-tokens/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
+      },
+      "lint": {
+        "builder": "@angular-devkit/build-angular:tslint",
+        "options": {
+          "tsConfig": [
+            "apps/programs-admin/tsconfig.app.json",
+            "apps/programs-admin/tsconfig.spec.json"
+          ],
+          "exclude": [
+            "**/node_modules/**"
+          ]
         }
       }
     }
   },
-  "cli": {
-    "warnings": {
-      "typescriptMismatch": false,
-      "versionMismatch": false
-    },
-    "defaultCollection": "@nrwl/schematics"
+  "programs-admin-e2e": {
+    "root": "apps/programs-admin-e2e",
+    "projectType": "application",
+    "prefix": "",
+    "architect": {
+      "e2e": {
+        "builder": "@angular-devkit/build-angular:protractor",
+        "options": {
+          "protractorConfig": "apps/programs-admin-e2e/protractor.conf.js",
+          "devServerTarget": "programs-admin:serve"
+        },
+        "configurations": {
+          "production": {
+            "devServerTarget": "programs-admin:serve:production"
+          }
+        }
+      },
+      "lint": {
+        "builder": "@angular-devkit/build-angular:tslint",
+        "options": {
+          "tsConfig": "apps/programs-admin-e2e/tsconfig.e2e.json",
+          "exclude": [
+            "**/node_modules/**"
+          ]
+        }
+      }
+    }
   },
-  "defaultProject": "commitments"
+  "df-auth": {
+    "root": "libs/df-auth",
+    "sourceRoot": "libs/df-auth/src",
+    "projectType": "library",
+    "prefix": "digital-first",
+    "architect": {
+      "test": {
+        "builder": "@angular-devkit/build-angular:karma",
+        "options": {
+          "main": "libs/df-auth/src/test.ts",
+          "tsConfig": "libs/df-auth/tsconfig.spec.json",
+          "karmaConfig": "libs/df-auth/karma.conf.js"
+        }
+      },
+      "lint": {
+        "builder": "@angular-devkit/build-angular:tslint",
+        "options": {
+          "tsConfig": [
+            "libs/df-auth/tsconfig.lib.json",
+            "libs/df-auth/tsconfig.spec.json"
+          ],
+          "exclude": [
+            "**/node_modules/**"
+          ]
+        }
+      }
+    }
+  },
+  "df-app-tokens": {
+    "root": "libs/df-app-tokens",
+    "sourceRoot": "libs/df-app-tokens/src",
+    "projectType": "library",
+    "prefix": "digital-first",
+    "architect": {
+      "test": {
+        "builder": "@angular-devkit/build-angular:karma",
+        "options": {
+          "main": "libs/df-app-tokens/src/test.ts",
+          "tsConfig": "libs/df-app-tokens/tsconfig.spec.json",
+          "karmaConfig": "libs/df-app-tokens/karma.conf.js"
+        }
+      },
+      "lint": {
+        "builder": "@angular-devkit/build-angular:tslint",
+        "options": {
+          "tsConfig": [
+            "libs/df-app-tokens/tsconfig.lib.json",
+            "libs/df-app-tokens/tsconfig.spec.json"
+          ],
+          "exclude": [
+            "**/node_modules/**"
+          ]
+        }
+      }
+    }
+  }
+},
+"cli": {
+  "warnings": {
+    "typescriptMismatch": false,
+    "versionMismatch": false
+  },
+  "defaultCollection": "@nrwl/schematics"
+},
+"defaultProject": "commitments"
 }
