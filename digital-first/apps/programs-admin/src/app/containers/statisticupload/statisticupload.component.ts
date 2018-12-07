@@ -1,12 +1,13 @@
+import {map} from "rxjs/operators";
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from "rxjs";
 import {AllStatistics, AllStatisticsGQL} from "../../generated/graphql";
-import {map} from "rxjs/operators";
 import {PassthroughService} from "../../services/passthrough.service";
 import {UploadElectorateStatisticSpreadsheet} from "@dsuite/programs-manager-messages";
 import {MdcSnackbar} from '@angular-mdc/web'
 import {FormBuilder} from '@angular/forms'
 import {Validators} from '@angular/forms';
+import Statistics = AllStatistics.Statistics;
 
 @Component({
   selector: 'digital-first-statisticupload',
@@ -19,7 +20,7 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
   fileToUpload: File;
   statistics: AllStatistics.Statistics[];
   statisticReports: AllStatistics.StatisticReports[];
-  statisticsSub$: Subscription;
+  statisticsSubscription$: Subscription;
 
   statisticForm = this.formBuilder.group({
     statisticId: [undefined, Validators.required],
@@ -40,6 +41,16 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
     return `status: ${JSON.stringify(this.statisticForm.status)},  value: ${JSON.stringify(this.statisticForm.value)}`;
   }
 
+  private static CompareNames(a: Statistics, b: Statistics): number {
+    if (a.name < b.name) {
+      return -1;
+    }
+    if (a.name > b.name) {
+      return 1;
+    }
+    return 0;
+  }
+
   onSelectionChange(event: { index: any, value: any }) {
 
     if (event.index > -1) {
@@ -55,17 +66,9 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.statisticsSub$ = this.allStatistics.watch().valueChanges
+    this.statisticsSubscription$ = this.allStatistics.watch().valueChanges
       .pipe(map(result => result.data.statistics)).subscribe(value => {
-          this.statistics = value.sort((a, b) => {
-            if (a.name < b.name) {
-              return -1;
-            }
-            if (a.name > b.name) {
-              return 1;
-            }
-            return 0;
-          });
+          this.statistics = value.sort(StatisticuploadComponent.CompareNames);
         }
       );
   }
@@ -99,7 +102,6 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
 
   //send message and attachment onto the bus
   onSubmit() {
-
     const formData = new FormData();
 
     const message = new UploadElectorateStatisticSpreadsheet();
@@ -114,16 +116,12 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
 
     this.passthrough
       .sendMessageOnToBus<UploadElectorateStatisticSpreadsheet>(message, formData)
-      .subscribe(value => {
-          this.snackbar.show('File sent for processing successfully.', null, {align: 'center'});
-        }
-        , error => {
-          this.snackbar.show(`File uploaded failed. ${error}`, null, {align: 'center'});
-        });
+      .subscribe(() => {
+        this.snackbar.show('File sent for processing successfully.', null, {align: 'center'});
+      });
   }
 
   ngOnDestroy(): void {
-
-    this.statisticsSub$.unsubscribe();
+    this.statisticsSubscription$.unsubscribe();
   }
 }

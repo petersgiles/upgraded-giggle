@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {Observable, throwError} from "rxjs";
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from "rxjs";
 import {environment} from "../../environments/environment";
 import {UUID} from "@digital-first/df-utils";
-import {catchError} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -23,28 +22,6 @@ export class PassthroughService {
       })
     };
 
-    return this.http.post(environment.datasource.passthroughUrl, formData, httpOptions).pipe(catchError(this.handleError));
-
+    return this.http.post(environment.datasource.passthroughUrl, formData, httpOptions);
   }
-
-  private handleError(error: HttpErrorResponse) {
-
-    let errorMessage: string = "Unable to perform the action.";
-
-    if (error.error instanceof ErrorEvent) {
-
-      errorMessage = `${errorMessage} Error:'${error.error.message}'`;
-
-      console.error(errorMessage);
-
-    } else {
-
-      errorMessage = `${errorMessage} Error:'${error.status}: ${error.message}'.`;
-
-      console.log(errorMessage)
-
-    }
-
-    return throwError(errorMessage);
-  };
 }

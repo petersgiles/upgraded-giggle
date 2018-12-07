@@ -10,7 +10,9 @@ import {
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {UUID} from "@digital-first/df-utils";
-import { FormBuilder, Validators } from '@angular/forms'
+import {FormBuilder, Validators} from '@angular/forms'
+import {HttpClient, HttpClientJsonpModule} from "@angular/common/http";
+import {PassthroughService} from "../../services/passthrough.service";
 
 
 @Component({
@@ -27,7 +29,9 @@ export class HomeComponent implements OnInit {
   constructor(private allAgenciesGQL: AllAgenciesGQL,
               private allPortfoliosGQL: AllPortfoliosGQL,
               // private mutatePortfolioGQL: MutatePortfolioGQL,
-              private allStatistics: AllStatisticsGQL) {
+              private allStatistics: AllStatisticsGQL,
+              private httpClient: HttpClient,
+              private passthrough: PassthroughService) {
   }
 
   ngOnInit() {
@@ -40,13 +44,15 @@ export class HomeComponent implements OnInit {
     //
     // this.agencies.subscribe(value => console.log(value))
 
-    this.statistics = this.allStatistics.watch().valueChanges.pipe(map(result => result.data.statistics));
-
-    this.statistics.subscribe(value => console.log(value));
-  //
+    // this.statistics = this.allStatistics.watch().valueChanges.pipe(map(result => result.data.statistics));
+    //
+    // this.statistics.subscribe(value => console.log(value));
   }
 
   mutate() {
+
+    //cause a client error
+    // this.passthrough = i;
 
     // console.log('test');
     //
@@ -56,5 +62,4 @@ export class HomeComponent implements OnInit {
     //   portfolio: {id: "8FB9CD84-B6F0-4836-BB4A-072C4D537398", title: `mutate spike at ${Date.now()}`}
     // }).subscribe(value => console.log(value))
   }
-
 }
