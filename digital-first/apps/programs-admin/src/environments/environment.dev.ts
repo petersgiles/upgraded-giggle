@@ -8,11 +8,11 @@ export const environment = {
   version: require('../../../../package.json').version,
   datasource: {
     type: 'local',
-    dataServiceUrl: '//programs.cloud9.cabnet/graphql',
-    passthroughUrl: '//programsadmin.cloud9.cabnet/api/sendmessage'
+    dataServiceUrl: '//#{ApiPath}/graphql',
+    passthroughUrl: '//#{ApiPath}/admin/api/sendmessage'
   },
-  federatedLoginApiPath: '#{ApiPath}'
-};
+  federatedLoginApiPath: '#{ApiPath}/admin'
+}
 
 /*
  * In development mode, for easier debugging, you can ignore zone related error
