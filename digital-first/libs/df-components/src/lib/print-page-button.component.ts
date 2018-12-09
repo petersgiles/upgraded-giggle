@@ -10,7 +10,6 @@ import { getContrastYIQ } from '@digital-first/df-utils'
 styles: [`
 :host {
   padding-right:4px;
-  width: 150px;
 }
 `]
 })

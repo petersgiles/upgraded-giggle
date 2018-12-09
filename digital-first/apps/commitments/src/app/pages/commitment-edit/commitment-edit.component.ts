@@ -20,7 +20,8 @@ import { CriticalDate } from '../../models/critical-date.model'
 import { formatCommitmentTitle } from '../../formatters'
 import { DialogAddCommitmentComponent } from '../../dialogs/dialog-add-commitment.component'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
-import * as jsPDF from 'jspdf'
+import { showSnackBar } from '../../dialogs/showSnackBar'
+
 @Component({
   selector: 'digital-first-commitment-edit',
   templateUrl: './commitment-edit.component.html',
@@ -98,7 +99,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
         this.commitment = next
         this.selectedElectorateIds = this.commitment ? arrayToIndex(this.commitment.electorates) : []
       },
-      error => this.showSnackBar(error)
+      error => showSnackBar(this.snackbar, error)
     )
 
     this.activitySubscription$ = this.service.Notification
@@ -106,10 +107,10 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
         (next: any) => {
           if (next) {
             this.formBusy = false
-            this.showSnackBar(next.message)
+            showSnackBar(this.snackbar, next.message)
           }
         },
-        error => this.showSnackBar(error)
+        error => showSnackBar(this.snackbar, error)
       )
 
     this.commitmentEditExpandedPanelsSubscription$ = this.service.CommitmentEditExpandedPanels.subscribe(
@@ -157,24 +158,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   getTitle(commitment) {
     return formatCommitmentTitle(commitment)
-  }
-
-  showSnackBar(message: string, action: string = 'OK'): void {
-
-    // this is to avoid component validation check errors
-    setTimeout(() => {
-      const snackbarRef = this.snackbar.show(message, action, {
-        align: 'center',
-        multiline: false,
-        dismissOnAction: false,
-        focusAction: false,
-        actionOnBottom: false,
-      })
-
-      snackbarRef.afterDismiss().subscribe(() => {
-
-      })
-    })
   }
 
   ngOnDestroy(): void {
@@ -330,24 +313,11 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
     const message = `AutoSave ${autosaveState ? 'On' : 'Off - Submit at bottom of form'}`
 
-    this.showSnackBar(message)
+    showSnackBar(this.snackbar, message)
   }
 
   handlePrintClicked() {
-
-    // tslint:disable-next-line:no-console
-    console.log('handlePrintClicked')
-    const doc = new jsPDF()
-    doc.setFontSize(20)
-    doc.text(this.commitment.title, 15, 15)
-    doc.setFontSize(11)
-    doc.text(this.commitment.portfolio.title, 15, 30)
-    doc.fromHTML(this.commitment.description, 15, 45, {
-      'width': 170
-    })
-    const filename = `${this.commitment.title.split(' ').join('-')}.pdf`
-    // Set the document to automatically print via JS
-    doc.save(filename)
+    this.router.navigate(['/', 'commitment', this.commitment.id, 'print'])
   }
 
 }

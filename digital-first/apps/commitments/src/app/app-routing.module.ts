@@ -10,6 +10,7 @@ import { CommitmentOverviewComponent, CommitmentEditComponent, CommitmentCreateC
 import { AboutComponent } from './pages/about/about.component'
 import { CommitmentCostingComponent } from './pages/commitment-costing/commitment-costing.component'
 import { CommitmentOverviewMapComponent } from './pages/commitment-overview-map/commitment-overview-map.component'
+import { CommitmentPrintComponent } from './pages/commitment-print/commitment-print.component'
 
 const routes: Routes = [
   { path: '', redirectTo: 'commitments', pathMatch: 'full' },
@@ -75,6 +76,10 @@ const routes: Routes = [
       {
         path: ':id',
         component: CommitmentEditComponent
+      },
+      {
+        path: ':id/print',
+        component: CommitmentPrintComponent
       },
       {
         path: ':id/costing',
