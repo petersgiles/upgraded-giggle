@@ -4,9 +4,9 @@
       <digital-first-print-page-button [background]="commitment?.party?.colour" (onPrintClick)="handlePrintClicked()"></digital-first-print-page-button>
       <digital-first-navigation-item-button [background]="commitment?.party?.colour" (onNavigate)="handleGoBack($event)"></digital-first-navigation-item-button>
     </digital-first-page-title>
-    <div #htmlpdfwrapper>
+    <div #htmlpdfwrapper class="app-print-wrapper">
       <h1>{{commitment?.title}} &middot; {{commitment?.party?.title}}</h1>
-      <p>{{commitment?.portfolio?.title}}</p>
+      <p>A {{commitment?.commitmentType?.title}} Commitment required by {{commitment?.criticalDate?.title}}. Announced by {{commitment?.whoAnnouncedType?.title}} on {{commitment?.date | amDateFormat:'LL'}} as a {{commitment?.announcementType?.title}}</p>
       <div [innerHtml]="commitment?.description | safeHtml"></div>
     </div>
   </section>
