@@ -197,7 +197,7 @@ export const resolvers = {
     storeCommitmentAction: (_root: any, args: any) => {
       //(commitment: Int!, contact: Int!): Commitment,
       const data = { ...args };
-      const ccc = db['commitment-commitment-actions'].findOne({ commitment: args.commitment, _id: args.action })
+      const ccc = db['commitment-commitment-actions'].findOne({ commitment: args.commitment, _id: args.id })
       var saved = null
       if (ccc) {
         saved = db['commitment-commitment-actions'].update({ _id: ccc._id }, data, { multi: false, upsert: true });

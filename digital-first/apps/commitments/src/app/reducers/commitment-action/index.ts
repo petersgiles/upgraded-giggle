@@ -26,11 +26,10 @@ export const getCommitmentActionsTableData = createSelector(
             return {
                 id: c.id,
                 cells: [{
-                    value: `${c.title}`
-                }, {
-                    value: `${c.description}`
-                }, {
                     value: `${portfolio}`
+                }, {
+                    truncate: 70,
+                    value: `${c.description}`
                 }]
             }
         })
@@ -39,9 +38,8 @@ export const getCommitmentActionsTableData = createSelector(
             title: 'contacts',
             hasDeleteItemButton: true,
             headings: [
-                { caption: 'Title' },
-                { caption: 'Description' },
-                { caption: 'Portfolio' }
+                { caption: 'Portfolio' },
+                { caption: 'Description' }
             ],
             rows: rows
         }

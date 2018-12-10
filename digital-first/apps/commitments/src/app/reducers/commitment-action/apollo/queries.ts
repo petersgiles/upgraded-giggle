@@ -15,8 +15,13 @@ query CommitmentActions($commitment: ID!) {
 `
 
 export const STORE_COMMITMENT_ACTION = gql`
-mutation StoreCommitmentAction($commitment: ID!, $action: ID!) {
-  storeCommitmentAction(commitment: $commitment, action: $action) {
+mutation StoreCommitmentAction(
+  $id: ID
+  $commitment: ID!
+  $portfolio: ID!
+  $description: String!
+  ) {
+  storeCommitmentAction(id: $id, commitment: $commitment, portfolio: $portfolio, description: $description) {
     id
     title
   }
