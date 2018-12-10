@@ -29,11 +29,11 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
     private service: CommitmentDataService,
     private lookup: CommitmentLookupService, private fb: FormBuilder) { }
 
-    form = this.fb.group({
-      id: [],
-      description: [''],
-      portfolio: [null],
-    })
+  form = this.fb.group({
+    id: [],
+    description: [''],
+    portfolio: [null],
+  })
 
   getTitle(commitment) {
     return `${formatCommitmentTitle(commitment)} Costing`
@@ -70,13 +70,13 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
       )
       .subscribe()
 
-      this.lookup.getAllPortfolios()
+    this.lookup.getAllPortfolios()
 
   }
 
   ngOnDestroy(): void {
     this.paramsSubscription$.unsubscribe()
     this.activitySubscription$.unsubscribe()
-    this.commitmentSubscription$.unsubscribe()
+    // this.commitmentSubscription$.unsubscribe()
   }
 }

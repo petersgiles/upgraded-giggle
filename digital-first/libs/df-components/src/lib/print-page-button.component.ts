@@ -5,7 +5,7 @@ import { getContrastYIQ } from '@digital-first/df-utils'
   selector: 'digital-first-print-page-button',
   template: `
   <button attr.aria-label="{{title}}" title="{{title}}" [style.color]="_textColour"
-  (click)="onPrintClick.emit()" mdc-button dense><mdc-icon [style.color]="_textColour">{{icon}}</mdc-icon>{{title}}</button>
+  (click)="onPrintClick.emit()" mdc-button dense><mdc-icon [style.color]="_textColour">{{icon}}</mdc-icon><span [innerHtml]="title | safeHtml"></span></button>
 `,
 styles: [`
 :host {

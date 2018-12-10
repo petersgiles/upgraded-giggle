@@ -5,7 +5,7 @@ import { getContrastYIQ } from '@digital-first/df-utils'
   selector: 'digital-first-navigation-item-button',
   template: `
   <button attr.aria-label="{{title}}" title="{{title}}" (click)="onNavigate.emit()" mdc-button dense [style.color]="_textColour">
-  <mdc-icon [style.color]="_textColour">{{icon}}</mdc-icon>{{title}}</button>
+  <mdc-icon [style.color]="_textColour">{{icon}}</mdc-icon><span [innerHtml]="title | safeHtml"></span></button>
 `,
 styles: [`
 :host {
