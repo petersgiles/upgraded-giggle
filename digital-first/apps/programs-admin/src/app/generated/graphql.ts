@@ -267,6 +267,15 @@ export type Milliseconds = any;
 /** The `Seconds` scalar type represents a period of time represented as the total number of seconds. */
 export type Seconds = any;
 
+
+export interface ModifyPortfolioGraph {
+  id: Guid;
+
+  title: string;
+
+  metadata?: string | null;
+}
+
 // ====================================================
 // Documents
 // ====================================================
@@ -381,6 +390,27 @@ export namespace AllPrograms {
   };
 }
 
+export namespace MutatePortfolio {
+  export type Variables = {
+    portfolio: ModifyPortfolioGraph;
+    messageId: Guid;
+    conversationId: Guid;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    modifyPortfolio: ModifyPortfolio | null;
+  };
+
+  export type ModifyPortfolio = {
+    __typename?: 'MutationResultGraph';
+
+    id: Guid | null;
+  };
+}
+
+
 // ====================================================
 // START: Apollo Angular template
 // ====================================================
@@ -474,6 +504,31 @@ export class AllProgramsGQL extends Apollo.Query<
     }
   `;
 }
+
+@Injectable({
+  providedIn: 'root'
+})
+export class MutatePortfolioGQL extends Apollo.Mutation<
+  MutatePortfolio.Mutation,
+  MutatePortfolio.Variables
+  > {
+  document: any = gql`
+    mutation mutatePortfolio(
+    $portfolio: ModifyPortfolioGraph!
+    $messageId: Guid!
+    $conversationId: Guid!
+    ) {
+      modifyPortfolio(
+        messageId: $messageId
+        conversationId: $conversationId
+        portfolio: $portfolio
+      ) {
+        id
+      }
+    }
+  `;
+}
+
 
 // ====================================================
 // END: Apollo Angular template

@@ -7,6 +7,8 @@ import {ApolloModule} from 'apollo-angular'
 import {HttpLinkModule} from 'apollo-angular-link-http'
 import {NgxWigModule} from 'ngx-wig'
 
+import { ErrorsModule } from './core/errors';
+
 import {DfAuthModule, AUTH_KEY, StartAutoTokenRefresh} from '@digital-first/df-auth'
 import {DfLayoutsModule, FullLayoutService} from '@digital-first/df-layouts'
 import {DfThemeModule} from '@digital-first/df-theme'
@@ -134,6 +136,7 @@ export function initApplication(store: Store<fromRoot.State>): Function {
     DfPagesModule,
     DfDialogsModule,
     DfPipesModule,
+    ErrorsModule,
     AppRoutingModule,
     GraphQLModule,
     StoreModule.forRoot(reducers, {metaReducers}),

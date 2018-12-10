@@ -1,5 +1,5 @@
 mutation mutatePortfolio($portfolio: ModifyPortfolioGraph!, $messageId: Guid!, $conversationId: Guid!){
-modifyPortfolio(messageId: $messageId, conversationId: $conversationId, portfolio: $portfolio){
+  modifyPortfolio(messageId: $messageId, conversationId: $conversationId, portfolio: $portfolio){
     id
   }
 }

@@ -1,12 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from "rxjs";
 import {AllPrograms, AllProgramsGQL} from "../../generated/graphql";
-import {map} from "rxjs/operators";
 import {PassthroughService} from "../../services/passthrough.service";
 import {UploadProjectElectorateReport} from "@dsuite/programs-manager-messages";
 import {MdcSnackbar} from '@angular-mdc/web'
 import {FormBuilder} from '@angular/forms'
 import {Validators} from '@angular/forms';
+import {map} from "rxjs/operators";
+import Programs = AllPrograms.Programs;
 
 @Component({
   selector: 'digital-first-projectupload',
@@ -19,7 +20,7 @@ export class ProjectuploadComponent implements OnInit, OnDestroy {
   fileToUpload: File;
   programs: AllPrograms.Programs[];
 
-  programsSubscription: Subscription;
+  programsSubscription$: Subscription;
 
   projectForm = this.formBuilder.group({
     programId: [undefined, Validators.required],
@@ -37,19 +38,20 @@ export class ProjectuploadComponent implements OnInit, OnDestroy {
     return `status: ${JSON.stringify(this.projectForm.status)},  value: ${JSON.stringify(this.projectForm.value)}`;
   }
 
-  ngOnInit() {
-    this.programsSubscription = this.allPrograms.watch().valueChanges
-      .pipe(map(result => result.data.programs)).subscribe(value => {
+  private static CompareNames(a: Programs, b: Programs): number {
+    if (a.name < b.name) {
+      return -1;
+    }
+    if (a.name > b.name) {
+      return 1;
+    }
+    return 0;
+  }
 
-          this.programs = value.sort((a, b) => {
-            if (a.name < b.name) {
-              return -1;
-            }
-            if (a.name > b.name) {
-              return 1;
-            }
-            return 0;
-          });
+  ngOnInit() {
+    this.programsSubscription$ = this.allPrograms.watch().valueChanges
+      .pipe(map(result => result.data.programs)).subscribe(value => {
+          this.programs = value.sort(ProjectuploadComponent.CompareNames);
         }
       );
   }
@@ -71,11 +73,8 @@ export class ProjectuploadComponent implements OnInit, OnDestroy {
 
         reader.onload = () => {
 
-          this.projectForm.patchValue(
-            {filename: this.fileToUpload.name});
-          this.projectForm.patchValue({
-            file: this.fileToUpload
-          });
+          this.projectForm.patchValue({filename: this.fileToUpload.name});
+          this.projectForm.patchValue({file: this.fileToUpload});
         };
       }
     }
@@ -84,28 +83,23 @@ export class ProjectuploadComponent implements OnInit, OnDestroy {
   //send message and attachment onto the bus
   onSubmit() {
 
-    const formData = new FormData();
-
     const message = new UploadProjectElectorateReport();
 
     message.programId = this.projectForm.value['programId'];
     message.fileName = this.projectForm.value['filename'];
 
+    const formData = new FormData();
     formData.append('file', this.projectForm.value['file'], message.fileName);
     formData.append('message', JSON.stringify(message));
 
-    this.passthrough
-      .sendMessageOnToBus<UploadProjectElectorateReport>(message, formData)
+    this.passthrough.sendMessageOnToBus<UploadProjectElectorateReport>(message, formData)
       .subscribe(value => {
           this.snackbar.show('File sent for processing successfully.', null, {align: 'center'});
         }
-        , error => {
-          this.snackbar.show(`File uploaded failed. ${error}`, null, {align: 'center'});
-        });
+      );
   }
 
   ngOnDestroy(): void {
-
-    this.programsSubscription.unsubscribe();
+    this.programsSubscription$.unsubscribe();
   }
 }

@@ -9,6 +9,7 @@ export const environment = {
   datasource: {
     type: 'local',
     dataServiceUrl: '//#{ApiPath}/graphql',
+    adminDataServiceUrl: '//#{ApiPath}/admin/graphql',
     passthroughUrl: '//#{ApiPath}/admin/api/sendmessage'
   },
   federatedLoginApiPath: '#{ApiPath}/admin'
