@@ -11,6 +11,7 @@ import { Portfolio } from '../../models'
 import { showSnackBar } from '../../dialogs/showSnackBar'
 import { FormBuilder } from '@angular/forms'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
+import { CommitmentActionService } from '../../reducers/commitment-action/commitment-action.service'
 
 @Component({
   selector: 'digital-first-commitment-costing',
@@ -27,10 +28,13 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router, private location: Location, private route: ActivatedRoute, public dialog: MdcDialog, private snackbar: MdcSnackbar,
     private service: CommitmentDataService,
-    private lookup: CommitmentLookupService, private fb: FormBuilder) { }
+    private lookup: CommitmentLookupService,
+    private actionService: CommitmentActionService,
+    private fb: FormBuilder) { }
 
   form = this.fb.group({
     id: [],
+    commitment: [null],
     description: [''],
     portfolio: [null],
   })
@@ -44,6 +48,13 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    this.commitmentSubscription$ = this.service.Commitment.subscribe(
+      next => {
+        this.commitment = next
+      },
+      error => showSnackBar(this.snackbar, error)
+    )
 
     this.portfolios$ = this.lookup.Portfolios
 
@@ -63,12 +74,20 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
         map((params: ParamMap) => ({
           commitment: +params.get('id'),
           costing: +params.get('costid'),
-        })),
-        map((params) => {
-          this.service.setCurrentCommitment(params.commitment)
-        }),
+        }))
       )
-      .subscribe()
+      .subscribe((params) => {
+        this.service.setCurrentCommitment(params.commitment)
+        this.actionService.setCurrentCommitmentAction(params.commitment, params.costing)
+
+        const patch = {
+          commitment: params.commitment
+        }
+
+        this.form.patchValue(patch)
+
+      }
+      )
 
     this.lookup.getAllPortfolios()
 
@@ -77,6 +96,12 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.paramsSubscription$.unsubscribe()
     this.activitySubscription$.unsubscribe()
-    // this.commitmentSubscription$.unsubscribe()
+    this.commitmentSubscription$.unsubscribe()
+  }
+
+  handleSubmit($event) {
+    // tslint:disable-next-line:no-console
+    console.log(this.form.value)
+    this.actionService.addActionToCommitment(this.commitment.id, this.form.value)
   }
 }
