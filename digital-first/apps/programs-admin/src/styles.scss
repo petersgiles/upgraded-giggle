@@ -1,13 +1,2 @@
-
 /* You can add global styles to this file, and also import other style files */
 @import "../../../libs/df-theme/styles.scss";
-
-
-.mdc-drawer__header {
-  display: none;
-}
-
-//TODO: this is nasty.  check with pete why this icon is for?
-body > digital-first-root > digital-first-full-layout > mdc-top-app-bar > mdc-top-app-bar-row > mdc-top-app-bar-section.mdc-top-app-bar__section.mdc-top-app-bar__section--align-start > mdc-icon:nth-child(2){
-  display:none;
-}
