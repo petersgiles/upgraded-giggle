@@ -82,6 +82,12 @@ export const getCurrentCommitment = createSelector(
     }
 )
 
+export const getCurrentCommitmentPDFDocumentDefinition = createSelector(
+    getCurrentCommitment,
+    (commitment) =>
+        commitment
+)
+
 export const getCommitmentSaving = createSelector(
     getCommitmentEntitiesState,
     state => state.saved

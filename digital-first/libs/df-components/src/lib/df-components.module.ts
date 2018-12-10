@@ -27,6 +27,7 @@ import { NavigateButtonComponent } from './navigation-button.component'
 import { AvatarComponent } from './avatar/avatar.component'
 import { AddSubscriptionButtonComponent } from './subscriber-button.component'
 import { InfoComponent } from './info/info.component'
+import { PrintPageButtonComponent } from './print-page-button.component'
 
 const COMPONENTS = [
   TagsComponent,
@@ -44,6 +45,7 @@ const COMPONENTS = [
   ArchiveButtonComponent,
   RelatedArtifactsComponent,
   MetadataRefinerComponent,
+  PrintPageButtonComponent,
   DataTableComponent,
   BusyComponent,
   MapComponent,

@@ -9,6 +9,7 @@ export enum CommitmentActionActionTypes {
   AddActionToCommitment = '[CommitmentAction] Add Action To Commitment',
   RemoveActionFromCommitment = '[CommitmentAction] Remove Action To Commitment',
   CommitmentActionActionFailure = '[CommitmentAction] Commitment Action Action Failure',
+  SetCurrentCommitmentAction = '[CommitmentAction] Set Current Commitment Action',
 }
 
 export class CollapsePanel implements Action {
@@ -26,6 +27,10 @@ export class AddActionToCommitment implements Action {
 
 export class RemoveActionFromCommitment implements Action {
   readonly type = CommitmentActionActionTypes.RemoveActionFromCommitment
+  constructor(public payload: { commitment: any, action: any }) { }
+}
+export class SetCurrentCommitmentAction implements Action {
+  readonly type = CommitmentActionActionTypes.SetCurrentCommitmentAction
   constructor(public payload: { commitment: any, action: any }) { }
 }
 
@@ -57,3 +62,4 @@ export type CommitmentActionActions =
   | CommitmentActionActionFailure
   | ClearCommitmentActions
   | LoadCommitmentActions
+  | SetCurrentCommitmentAction

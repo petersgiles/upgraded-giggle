@@ -6,18 +6,13 @@ import { Injectable } from '@angular/core'
 import { Store, select } from '@ngrx/store'
 import { RefinerGroup, RefinerType, DataTableConfig, MapPoint } from '@digital-first/df-components'
 
-import { WhoAnnouncedType } from '../models/who-announced-type.model'
-import { AnnouncementType } from '../models/announcement-type.model'
-import { Party } from '../models/party.model'
-import { Portfolio } from '../models/portfolio.model'
 import { Commitment } from '../reducers/commitment/commitment.model'
 
 import { Contact } from '../reducers/contact/contact.model'
-import { Location } from '../models/location.model'
-import { CommitmentType } from '../models/commitment-type.model'
-import { CriticalDate } from '../models/critical-date.model'
-import { CommitmentSubscriptionActionTypes, UnsubscribeFromCommitment, GetCommitmentSubscriptionForUser, SubscriptionActionFailure,
-  SubscribeToCommitment, LoadSubscriptions} from './../reducers/commitment-subscription/commitment-subscription.actions'
+import {
+  UnsubscribeFromCommitment, GetCommitmentSubscriptionForUser, SubscriptionActionFailure,
+  SubscribeToCommitment
+} from './../reducers/commitment-subscription/commitment-subscription.actions'
 
 import {
   GetCommitments,
@@ -44,6 +39,7 @@ import { SetLayoutDrawState } from '../reducers/app.actions'
   providedIn: 'root'
 })
 export class CommitmentDataService {
+
   changeCommitmentEditAutosave(val: boolean): any {
     this.store.dispatch(new ChangeAutoSave(val))
   }
@@ -172,15 +168,15 @@ export class CommitmentDataService {
   }
 
   subscribeToCommitment(commitment: string | number, user: number) {
-    return this.store.dispatch(new SubscribeToCommitment({commitment: commitment, user: user}))
+    return this.store.dispatch(new SubscribeToCommitment({ commitment: commitment, user: user }))
   }
 
   unsubscibeFromCommitment(commitment: string | number, user: number) {
-    return this.store.dispatch(new UnsubscribeFromCommitment({commitment: commitment, user: user}))
+    return this.store.dispatch(new UnsubscribeFromCommitment({ commitment: commitment, user: user }))
   }
 
   getUserSubscriptionStatus(commitment: string | number, user: number) {
-    this.store.dispatch(new GetCommitmentSubscriptionForUser({commitment: commitment, user: user}))
+    this.store.dispatch(new GetCommitmentSubscriptionForUser({ commitment: commitment, user: user }))
   }
 
   // RefinerGroups

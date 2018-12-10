@@ -2,6 +2,10 @@
 // Row
 //
 
+.app-layout-title-version {
+  padding-right: 8px;
+}
+
 .app-layout__row {
     display: flex;
     flex-flow: row wrap;

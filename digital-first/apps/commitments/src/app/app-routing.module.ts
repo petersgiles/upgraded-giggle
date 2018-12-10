@@ -10,95 +10,77 @@ import { CommitmentOverviewComponent, CommitmentEditComponent, CommitmentCreateC
 import { AboutComponent } from './pages/about/about.component'
 import { CommitmentCostingComponent } from './pages/commitment-costing/commitment-costing.component'
 import { CommitmentOverviewMapComponent } from './pages/commitment-overview-map/commitment-overview-map.component'
+import { CommitmentPrintComponent } from './pages/commitment-print/commitment-print.component'
 
 const routes: Routes = [
-  { path: '', redirectTo: 'commitments', pathMatch: 'full' },
   {
-    path: 'home',
+    path: '',
     component: FullLayoutComponent,
-    data: {
-      title: 'Home'
-    },
-    children: [
-      {
-        path: '',
-        component: HomeComponent
+    children: [{ path: '', redirectTo: 'commitment', pathMatch: 'full' },
+    {
+      path: 'contact',
+      component: ContactCreateComponent,
+      data: {
+        title: 'Contact'
       }
-    ]
-  }, {
-    path: 'contact',
-    component: FullLayoutComponent,
-    data: {
-      title: 'Contact'
-    },
-    children: [
-      {
-        path: '',
-        component: ContactCreateComponent
-      }
-    ]
-  }, {
-    path: 'commitmentmap',
-    component: FullLayoutComponent,
-    data: {
-      title: 'Overview Map'
-    },
-    children: [
-      {
-        path: '',
-        component: CommitmentOverviewMapComponent,
-      }
-    ]
-  }, {
-    path: 'commitments',
-    component: FullLayoutComponent,
-    data: {
-      title: 'Home'
-    },
-    children: [
-      {
-        path: '',
-        component: CommitmentOverviewComponent,
-      }
-    ]
-  }, {
-    path: 'commitment',
-    component: FullLayoutComponent,
-    data: {
-      title: 'Commitment'
-    },
-    children: [
-      {
-        path: '',
-        component: CommitmentCreateComponent,
+    }, {
+      path: 'commitment',
+      data: {
+        title: 'Commitment'
       },
-      {
-        path: ':id',
-        component: CommitmentEditComponent
-      },
-      {
-        path: ':id/costing',
-        component: CommitmentCostingComponent
-      },
-      {
-        path: ':id/costing/:costid',
-        component: CommitmentCostingComponent
+      children: [
+        {
+          path: '',
+          component: CommitmentOverviewComponent,
+        }, {
+          path: 'map',
+          component: CommitmentOverviewMapComponent,
+        }, {
+          path: 'create',
+          component: CommitmentCreateComponent,
+        },
+        {
+          path: ':id',
+          component: CommitmentEditComponent
+        },
+        {
+          path: ':id/print',
+          component: CommitmentPrintComponent
+        },
+        {
+          path: ':id/costing',
+          component: CommitmentCostingComponent
+        },
+        {
+          path: ':id/costing/:costid',
+          component: CommitmentCostingComponent
+        }
+      ]
+    }, {
+      path: 'about',
+      component: AboutComponent,
+      data: {
+        title: 'About'
       }
+    }
+
     ]
-  }, {
-    path: 'about',
-    component: FullLayoutComponent,
-    data: {
-      title: 'About'
-    },
-    children: [
-      {
-        path: '',
-        component: AboutComponent,
-      }
-    ]
-  },
-  {
+  }
+  // ,
+  // {
+  //   path: 'home',
+  //   component: FullLayoutComponent,
+  //   data: {
+  //     title: 'Home'
+  //   },
+  //   children: [
+  //     {
+  //       path: '',
+  //       component: HomeComponent
+  //     }
+  //   ]
+  // },
+  , {
     path: 'pages',
     component: SimpleLayoutComponent,
     data: {

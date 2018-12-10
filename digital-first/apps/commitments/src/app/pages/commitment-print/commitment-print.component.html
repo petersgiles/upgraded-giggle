@@ -1,0 +1,12 @@
+<div class="app-page">
+  <section>
+    <digital-first-page-title title="Print Commitment" [background]="commitment?.party?.colour">
+      <digital-first-print-page-button [background]="commitment?.party?.colour" (onPrintClick)="handlePrintClicked()"></digital-first-print-page-button>
+      <digital-first-navigation-item-button [background]="commitment?.party?.colour" (onNavigate)="handleGoBack($event)"></digital-first-navigation-item-button>
+    </digital-first-page-title>
+    <div #htmlpdfwrapper>
+      <h1>{{commitment?.title}} &middot; {{commitment?.party?.title}}</h1>
+      <p>{{commitment?.portfolio?.title}}</p>
+      <div [innerHtml]="commitment?.description | safeHtml"></div>
+    </div>
+  </section>

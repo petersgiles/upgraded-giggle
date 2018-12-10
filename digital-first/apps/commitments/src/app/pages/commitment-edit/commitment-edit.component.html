@@ -3,6 +3,7 @@
     <digital-first-page-title [title]="getTitle(commitment)" (onTitleClicked)="handleChangeExpanded(!panels.formPanelExpanded, 'formPanelExpanded')"
       [background]="commitment?.party?.colour">
       <digital-first-busy [busy]="formBusy"></digital-first-busy>
+      <digital-first-print-page-button *ngIf="panels.formPanelExpanded" [background]="commitment?.party?.colour" (onPrintClick)="handlePrintClicked()"></digital-first-print-page-button>
       <digital-first-autosave-toggle-button *ngIf="panels.formPanelExpanded" [background]="commitment?.party?.colour" [value]="autoSave" (onAutosaveClicked)="handleAutosaveClicked($event)"></digital-first-autosave-toggle-button>
       <digital-first-subscriber-button *ngIf="panels.formPanelExpanded" [background]="commitment?.party?.colour"
         [isSubscribed]="isSubscribed$ | async" (onManageSubscription)="handleManageSubscription($event)"></digital-first-subscriber-button>

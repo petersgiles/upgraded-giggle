@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core'
 import { of, Observable } from 'rxjs'
 export interface SideBarItem {
-  caption: string
-  routerLink: any[] | string
-  icon: string
+  caption?: string
+  routerLink?: any[] | string
+  icon?: string
+  divider?: boolean
 }
 @Injectable({
   providedIn: 'root'

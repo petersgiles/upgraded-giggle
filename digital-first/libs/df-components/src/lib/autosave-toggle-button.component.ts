@@ -5,12 +5,11 @@ import { getContrastYIQ } from '@digital-first/df-utils'
   selector: 'digital-first-autosave-toggle-button',
   template: `
     <button attr.aria-label="{{setTitle()}}" title="{{setTitle()}}" [style.color]="_textColour"
-    (click)="onAutosaveClicked.emit(!value)" mdc-button dense><mdc-icon [style.color]="_textColour">toggle_{{value?'on':'off'}}</mdc-icon>{{setTitle()}}</button>
+    (click)="onAutosaveClicked.emit(!value)" mdc-button dense><mdc-icon [style.color]="_textColour">toggle_{{value?'on':'off'}}</mdc-icon><span [innerHtml]="setTitle() | safeHtml"></span></button>
   `,
   styles: [`
   :host {
     padding-right:4px;
-    width: 250px;
   }
   `]
 })
@@ -23,7 +22,7 @@ export class AutosaveToggleButtonComponent implements OnInit {
   value: boolean
 
   setTitle() {
-    return `${this.title} ${this.value ? 'On' : 'Off'}`
+    return `${this.title}&nbsp;${this.value ? 'On' : 'Off'}`
   }
 
   _textColour: string

@@ -1,7 +1,7 @@
 <mdc-top-app-bar class="app-top-app-bar" #appbar fixed prominent='false' [fixedAdjustElement]="mainContent">
     <mdc-top-app-bar-row>
-        <mdc-top-app-bar-section align="start" title="{{title}} {{version}}">
-            <mdc-icon mdcAppBarNavIcon (click)="drawOpenToggleClicked(!drawOpen)">menu</mdc-icon>            
+        <mdc-top-app-bar-section align="start" title="{{title}}">
+            <mdc-icon mdcAppBarNavIcon (click)="drawOpenToggleClicked(!drawOpen)">menu</mdc-icon>
         </mdc-top-app-bar-section>
         <mdc-top-app-bar-section align="center" title="{{(notification$ | async)}}">
         </mdc-top-app-bar-section>
@@ -11,6 +11,7 @@
               <img src="https://trimox.github.io/angular-mdc-web/assets/github-circle-white-transparent.svg" height="24" />
             </mdc-icon>
           </a>  -->
+            <span class="app-layout-title-version">{{version}}</span>
             <digital-first-avatar [name]="profile?.name" [email]="profile?.email" [displayType]="profile?.displayType"
                 [size]="profile?.size" [background]="profile?.background">
             </digital-first-avatar>
@@ -22,16 +23,12 @@
 <div #mainContent class="app-layout__row--no-wrap">
 
     <mdc-drawer #appdrawer [drawer]="drawerStyle" [open]="drawOpen" fixed>
-        <mdc-drawer-header (click)="drawOpenToggleClicked(!drawOpen)">
-            <h3 mdcDrawerTitle>{{title}}</h3>
-            <h6 mdcDrawerSubtitle> {{version}}</h6>
-        </mdc-drawer-header>
         <mdc-drawer-content>
-            <mdc-list *ngFor="let item of sidebarItems$ | async" useActivatedClass>
-                <a mdc-list-item [routerLink]="item.routerLink">
+            <mdc-list *ngFor="let item of sidebarItems$ | async">
+                <a *ngIf="!item.divider" mdc-list-item [routerLink]="item.routerLink">
                     <mdc-icon mdcListItemGraphic>{{item.icon}}</mdc-icon>{{item.caption}}
                 </a>
-                <mdc-list-divider></mdc-list-divider>
+                <mdc-list-divider *ngIf="item.divider"></mdc-list-divider>
             </mdc-list>
         </mdc-drawer-content>
 

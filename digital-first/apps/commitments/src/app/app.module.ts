@@ -97,6 +97,7 @@ import { commitmentContactsDataServiceProvider } from './reducers/commitment-con
 import { commitmentActionsDataServiceProvider } from './reducers/commitment-action/commitment-action-data.service'
 import { commitmentOverviewMapDataServiceProvider } from './reducers/commitment-overview-map/commitment-overview-map-data.service'
 import { CommentOverviewMapEffects } from './reducers/commitment-overview-map/commitment-overview-map.effects'
+import { CommitmentPrintComponent } from './pages/commitment-print/commitment-print.component'
 
 const COMPONENTS = [
   AppComponent,
@@ -116,6 +117,7 @@ const COMPONENTS = [
   CommitmentDeliveryLocationComponent,
   CommitmentContactsComponent,
   CommitmentOverviewMapComponent,
+  CommitmentPrintComponent,
   AboutComponent
 ]
 
