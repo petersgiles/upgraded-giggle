@@ -6,7 +6,7 @@
     </digital-first-page-title>
     <div #htmlpdfwrapper class="app-print-wrapper">
       <h1>{{commitment?.title}} &middot; {{commitment?.party?.title}}</h1>
-      <p>A {{commitment?.commitmentType?.title}} Commitment required by {{commitment?.criticalDate?.title}}. Announced by {{commitment?.whoAnnouncedType?.title}} on {{commitment?.date | amDateFormat:'LL'}} as a {{commitment?.announcementType?.title}}</p>
+      <p>A {{commitment?.commitmentType?.title}} commitment announced by the {{commitment?.whoAnnouncedType?.title}} as a {{commitment?.announcementType?.title}} on {{commitment?.date | amDateFormat:'LL'}} to be delivered before the {{commitment?.criticalDate?.title}}.</p>
       <div [innerHtml]="commitment?.description | safeHtml"></div>
     </div>
   </section>
