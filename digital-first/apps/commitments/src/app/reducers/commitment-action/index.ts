@@ -1,6 +1,7 @@
 import { createSelector } from '@ngrx/store'
 import { DataTableConfig } from '@digital-first/df-components'
 import * as fromCommitmentAction from './commitment-action.reducer'
+import { arrayToHash } from '@digital-first/df-utils'
 
 export const getCommitmentActionState = state => state.commitmentAction
 
@@ -9,10 +10,26 @@ export const getAllCommitmentActions = createSelector(
     fromCommitmentAction.selectAll
 )
 
+export const getSelectedCommitmentAction = createSelector(
+    getCommitmentActionState,
+    fromCommitmentAction.getSelectedAction
+)
+
 export const getCommitmentActionPanelExpanded = createSelector(
     getCommitmentActionState,
-    state => state.expanded
+    fromCommitmentAction.getExpanded
 )
+
+export const getCurrentCommitmentAction = createSelector(
+    getAllCommitmentActions,
+    getSelectedCommitmentAction,
+    (actions, selected) => {
+        const hash = arrayToHash(actions)
+        const found = hash[selected]
+        // tslint:disable-next-line:no-console
+        console.log('getCurrentCommitmentAction', actions, selected, hash, found)
+        return found
+    })
 
 export const getCommitmentActionsTableData = createSelector(
     getAllCommitmentActions,

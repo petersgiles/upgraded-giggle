@@ -25,6 +25,7 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
   activitySubscription$: Subscription
   formBusy: boolean
   portfolios$: Observable<Portfolio[]>
+  currentActionSubscription$: Subscription
 
   constructor(private router: Router, private location: Location, private route: ActivatedRoute, public dialog: MdcDialog, private snackbar: MdcSnackbar,
     private service: CommitmentDataService,
@@ -48,6 +49,22 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    this.currentActionSubscription$ = this.actionService.CurrentAction.subscribe(
+      next => {
+
+        if (next) {
+          const patch = {
+            id: next.id,
+            title: next.title,
+            description: next.description,
+            portfolio: next.portfolio && next.portfolio.id
+          }
+          this.form.patchValue(patch)
+        }
+      },
+      // error => showSnackBar(this.snackbar, error)
+    )
 
     this.commitmentSubscription$ = this.service.Commitment.subscribe(
       next => {
@@ -73,7 +90,7 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
       .pipe(
         map((params: ParamMap) => ({
           commitment: +params.get('id'),
-          costing: +params.get('costid'),
+          costing: params.get('costid'),
         }))
       )
       .subscribe((params) => {
@@ -97,6 +114,7 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
     this.paramsSubscription$.unsubscribe()
     this.activitySubscription$.unsubscribe()
     this.commitmentSubscription$.unsubscribe()
+    this.currentActionSubscription$.unsubscribe()
   }
 
   handleSubmit($event) {

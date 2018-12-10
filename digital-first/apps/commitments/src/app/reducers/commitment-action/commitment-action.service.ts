@@ -23,12 +23,16 @@ export class CommitmentActionService {
         this.store.dispatch(new RemoveActionFromCommitment({ commitment, action }))
     }
 
-    setCurrentCommitmentAction(commitment: number, action: number): any {
+    setCurrentCommitmentAction(commitment: number, action: any): any {
         this.store.dispatch(new SetCurrentCommitmentAction({ commitment, action }))
       }
 
     get CommitmentActionsTableData(): Observable<DataTableConfig> {
         return this.store.pipe(select(fromRoot.getCommitmentActionsTableData))
+    }
+
+    get CurrentAction(): Observable<CommitmentAction> {
+        return this.store.pipe(select(fromRoot.getCurrentCommitmentAction))
     }
 
     get Actions(): Observable<CommitmentAction[]> {
