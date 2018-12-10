@@ -62,6 +62,14 @@ export function reducer(
       }
     }
 
+    case CommitmentActionActionTypes.ClearCurrentCommitmentAction: {
+
+      return {
+        ...state,
+        selectedAction: null
+      }
+    }
+
     default:
       return state
   }

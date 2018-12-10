@@ -4,7 +4,8 @@ import {
 import { Injectable } from '@angular/core'
 import { Store, select } from '@ngrx/store'
 import * as fromRoot from '..'
-import { ExpandPanel, CollapsePanel, AddActionToCommitment, RemoveActionFromCommitment, SetCurrentCommitmentAction } from './commitment-action.actions'
+import { ExpandPanel, CollapsePanel, AddActionToCommitment,
+    RemoveActionFromCommitment, SetCurrentCommitmentAction, ClearCurrentCommitmentAction } from './commitment-action.actions'
 import { DataTableConfig } from '@digital-first/df-components'
 import { CommitmentAction } from './commitment-action.model'
 
@@ -24,6 +25,7 @@ export class CommitmentActionService {
     }
 
     setCurrentCommitmentAction(commitment: number, action: any): any {
+        this.store.dispatch(new ClearCurrentCommitmentAction())
         this.store.dispatch(new SetCurrentCommitmentAction({ commitment, action }))
       }
 

@@ -10,6 +10,7 @@ export enum CommitmentActionActionTypes {
   RemoveActionFromCommitment = '[CommitmentAction] Remove Action To Commitment',
   CommitmentActionActionFailure = '[CommitmentAction] Commitment Action Action Failure',
   SetCurrentCommitmentAction = '[CommitmentAction] Set Current Commitment Action',
+  ClearCurrentCommitmentAction = '[CommitmentAction] Clear Current Commitment Action',
 }
 
 export class CollapsePanel implements Action {
@@ -53,6 +54,10 @@ export class ClearCommitmentActions implements Action {
   readonly type = CommitmentActionActionTypes.ClearCommitmentActions
 }
 
+export class ClearCurrentCommitmentAction implements Action {
+  readonly type = CommitmentActionActionTypes.ClearCurrentCommitmentAction
+}
+
 export type CommitmentActionActions =
     CollapsePanel
   | ExpandPanel
@@ -63,3 +68,4 @@ export type CommitmentActionActions =
   | ClearCommitmentActions
   | LoadCommitmentActions
   | SetCurrentCommitmentAction
+  | ClearCurrentCommitmentAction

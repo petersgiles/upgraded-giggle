@@ -53,15 +53,22 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
     this.currentActionSubscription$ = this.actionService.CurrentAction.subscribe(
       next => {
 
+        let patch = {
+          id: null,
+          title: null,
+          description: null,
+          portfolio: null,
+        }
+
         if (next) {
-          const patch = {
+          patch = {
             id: next.id,
             title: next.title,
             description: next.description,
             portfolio: next.portfolio && next.portfolio.id
           }
-          this.form.patchValue(patch)
         }
+        this.form.patchValue(patch)
       },
       // error => showSnackBar(this.snackbar, error)
     )
