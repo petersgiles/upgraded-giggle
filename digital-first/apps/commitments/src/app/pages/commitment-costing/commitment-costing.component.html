@@ -6,6 +6,30 @@
       </digital-first-page-title>
   
 
+      <div class="form-content" [ngClass]="{'busy' : busy}">
+        <form [formGroup]="form" (ngSubmit)="handleSubmit($event)" autocomplete="off">
+          <fieldset [attr.disabled]="busy ? '' : null">
+            <input type="hidden" formControlName="id" />
+      
+            <div class="form-layout__row">
+              <ng-select [items]="portfolios$ | async" bindValue="id" bindLabel="title" required placeholder="Responsible Portfolio"
+              formControlName="portfolio">
+              </ng-select>
+            </div>
+
+            <div class="form-layout__row">
+              <ngx-wig formControlName="description"></ngx-wig>
+            </div>
+      
+            <div class="form-layout__row-with-button">
+              <button mdc-button mdcCardAction="button" type="submit" [disabled]="!form.valid">Save Costing</button>
+            </div>
+          </fieldset>
+        </form>
+      
+      </div>
+
+
     </section>
   
   </div>
