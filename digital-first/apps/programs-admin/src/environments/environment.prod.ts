@@ -6,13 +6,13 @@ declare var require: any
 export const environment = {
   production: false,
   version: require('../../../../package.json').version,
-  datasource: {
+ datasource: {
     type: 'local',
     dataServiceUrl: '//#{ApiPath}/graphql',
     adminDataServiceUrl: '//#{ApiPath}/admin/graphql',
     passthroughUrl: '//#{ApiPath}/admin/api/sendmessage'
   },
-  federatedLoginApiPath: '#{ApiPath}/admin',
+  federatedLoginApiPath: '//#{ApiPath}/admin',
   appBasePath: '/admin'
 }
 
