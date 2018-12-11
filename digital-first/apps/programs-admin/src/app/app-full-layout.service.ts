@@ -12,7 +12,7 @@ export class AppFullLayoutService {
 
   constructor() {
 
-    this.sidebarRoutes = routes[1].children.filter(r => r.data).map(r => ({
+    this.sidebarRoutes = routes[1].children.filter(r => r.data && r.data.nav).map(r => ({
       caption: r.data.title,
       icon: r.data.icon,
       routerLink: [`/${r.path}`]

@@ -39,7 +39,38 @@ query allPrograms {
   programs {
     id
     name
+    ,agency{
+      id
+      title
+    }
   }
 }
 
-
+query program ($programId: String!) {
+  programs(ids:[$programId])
+  {
+    id
+    name
+    notes
+    agency{
+      id
+      title
+      metadata
+    }
+    reports{
+      id
+      name
+      notes
+    }
+    projects{
+      id
+      name
+      status
+      notes
+      electorates{
+        id
+        name
+      }
+    }
+  }
+}

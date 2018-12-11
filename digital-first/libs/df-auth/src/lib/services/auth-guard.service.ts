@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core'
-import { CanActivate } from '@angular/router'
+import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'
 import { Observable, of } from 'rxjs'
 import { Store } from '@ngrx/store'
 import { LoginRedirect } from '../+state/auth.actions'
@@ -16,9 +16,10 @@ export class AuthGuard implements CanActivate {
   constructor(
     @Inject(LOCALSTORAGE) private localStorage: any,
     private store: Store<fromAuthState.AuthState>,
-    private logger: LoggerService) { }
+    private logger: LoggerService,
+    private router: Router) { }
 
-  canActivate(): Observable<boolean> {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
 
     const auth: any = JSON.parse(this.localStorage.getItem(AUTH_KEY))
     const idToken = auth && auth.status && auth.status.auth && auth.status.auth.idToken
@@ -26,7 +27,7 @@ export class AuthGuard implements CanActivate {
     this.logger.info('AuthGuard', auth, idToken)
 
     if (!idToken) {
-      this.store.dispatch(new LoginRedirect(''))
+      this.store.dispatch(new LoginRedirect(state.url))
       return of(false)
     }
     return of(true)

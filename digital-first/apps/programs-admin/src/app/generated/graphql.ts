@@ -267,15 +267,6 @@ export type Milliseconds = any;
 /** The `Seconds` scalar type represents a period of time represented as the total number of seconds. */
 export type Seconds = any;
 
-
-export interface ModifyPortfolioGraph {
-  id: Guid;
-
-  title: string;
-
-  metadata?: string | null;
-}
-
 // ====================================================
 // Documents
 // ====================================================
@@ -387,29 +378,88 @@ export namespace AllPrograms {
     id: Guid;
 
     name: string;
+
+    agency: Agency | null;
+  };
+
+  export type Agency = {
+    __typename?: 'AgencyGraph';
+
+    id: Guid;
+
+    title: string;
   };
 }
 
-export namespace MutatePortfolio {
+export namespace Program {
   export type Variables = {
-    portfolio: ModifyPortfolioGraph;
-    messageId: Guid;
-    conversationId: Guid;
+    programId: string;
   };
 
-  export type Mutation = {
-    __typename?: 'Mutation';
+  export type Query = {
+    __typename?: 'Query';
 
-    modifyPortfolio: ModifyPortfolio | null;
+    programs: (Programs | null)[] | null;
   };
 
-  export type ModifyPortfolio = {
-    __typename?: 'MutationResultGraph';
+  export type Programs = {
+    __typename?: 'ProgramGraph';
 
-    id: Guid | null;
+    id: Guid;
+
+    name: string;
+
+    notes: string | null;
+
+    agency: Agency | null;
+
+    reports: (Reports | null)[] | null;
+
+    projects: (Projects | null)[] | null;
+  };
+
+  export type Agency = {
+    __typename?: 'AgencyGraph';
+
+    id: Guid;
+
+    title: string;
+
+    metadata: string | null;
+  };
+
+  export type Reports = {
+    __typename?: 'ReportGraph';
+
+    id: Guid;
+
+    name: string;
+
+    notes: string | null;
+  };
+
+  export type Projects = {
+    __typename?: 'ProjectGraph';
+
+    id: Guid;
+
+    name: string;
+
+    status: string;
+
+    notes: string | null;
+
+    electorates: (Electorates | null)[] | null;
+  };
+
+  export type Electorates = {
+    __typename?: 'ElectorateGraph';
+
+    id: Guid;
+
+    name: string;
   };
 }
-
 
 // ====================================================
 // START: Apollo Angular template
@@ -500,35 +550,48 @@ export class AllProgramsGQL extends Apollo.Query<
       programs {
         id
         name
+        agency {
+          id
+          title
+        }
       }
     }
   `;
 }
-
 @Injectable({
   providedIn: 'root'
 })
-export class MutatePortfolioGQL extends Apollo.Mutation<
-  MutatePortfolio.Mutation,
-  MutatePortfolio.Variables
-  > {
+export class ProgramGQL extends Apollo.Query<Program.Query, Program.Variables> {
   document: any = gql`
-    mutation mutatePortfolio(
-    $portfolio: ModifyPortfolioGraph!
-    $messageId: Guid!
-    $conversationId: Guid!
-    ) {
-      modifyPortfolio(
-        messageId: $messageId
-        conversationId: $conversationId
-        portfolio: $portfolio
-      ) {
+    query program($programId: String!) {
+      programs(ids: [$programId]) {
         id
+        name
+        notes
+        agency {
+          id
+          title
+          metadata
+        }
+        reports {
+          id
+          name
+          notes
+        }
+        projects {
+          id
+          name
+          status
+          notes
+          electorates {
+            id
+            name
+          }
+        }
       }
     }
   `;
 }
-
 
 // ====================================================
 // END: Apollo Angular template
