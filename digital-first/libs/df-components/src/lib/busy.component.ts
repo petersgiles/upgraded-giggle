@@ -3,7 +3,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core'
 @Component({
   selector: 'digital-first-busy',
   template: `
-  <button attr.aria-label="{{title}}" *ngIf="busy" title="{{title}}" mdc-button><mdc-icon class="heartbeat">{{icon}}</mdc-icon>{{title}}</button>
+  <button attr.aria-label="{{title}}" *ngIf="busy" title="{{title}}" mdc-button><mdc-icon class="heartbeat">{{icon}}</mdc-icon><span [innerHtml]="title | safeHtml"></span></button>
 `,
 styles: [`
 :host {

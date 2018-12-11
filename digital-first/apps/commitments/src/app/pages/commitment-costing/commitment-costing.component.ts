@@ -3,12 +3,15 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router'
 import { Location } from '@angular/common'
 import { MdcDialog, MdcSnackbar } from '@angular-mdc/web'
 import { CommitmentDataService } from '../../services/commitment-data.service'
-import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 import { map } from 'rxjs/operators'
 import { Subscription, Observable } from 'rxjs'
 import { formatCommitmentTitle } from '../../formatters'
 import { Commitment } from '../../reducers'
 import { Portfolio } from '../../models'
+import { showSnackBar } from '../../dialogs/showSnackBar'
+import { FormBuilder } from '@angular/forms'
+import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
+import { CommitmentActionService } from '../../reducers/commitment-action/commitment-action.service'
 
 @Component({
   selector: 'digital-first-commitment-costing',
@@ -22,10 +25,20 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
   activitySubscription$: Subscription
   formBusy: boolean
   portfolios$: Observable<Portfolio[]>
+  currentActionSubscription$: Subscription
 
   constructor(private router: Router, private location: Location, private route: ActivatedRoute, public dialog: MdcDialog, private snackbar: MdcSnackbar,
     private service: CommitmentDataService,
-    private lookup: CommitmentLookupService) { }
+    private lookup: CommitmentLookupService,
+    private actionService: CommitmentActionService,
+    private fb: FormBuilder) { }
+
+  form = this.fb.group({
+    id: [],
+    commitment: [null],
+    description: [''],
+    portfolio: [null],
+  })
 
   getTitle(commitment) {
     return `${formatCommitmentTitle(commitment)} Costing`
@@ -37,36 +50,70 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.service.getAllCommitments()
-    this.portfolios$ = this.lookup.Portfolios
-    this.commitmentSubscription$ = this.service.Commitment.subscribe(
-      next => { this.commitment = next },
-      error => this.showSnackBar(error)
+    this.currentActionSubscription$ = this.actionService.CurrentAction.subscribe(
+      next => {
+
+        let patch = {
+          id: null,
+          title: null,
+          description: null,
+          portfolio: null,
+        }
+
+        if (next) {
+          patch = {
+            id: next.id,
+            title: next.title,
+            description: next.description,
+            portfolio: next.portfolio && next.portfolio.id
+          }
+        }
+        this.form.patchValue(patch)
+      },
+      // error => showSnackBar(this.snackbar, error)
     )
+
+    this.commitmentSubscription$ = this.service.Commitment.subscribe(
+      next => {
+        this.commitment = next
+      },
+      error => showSnackBar(this.snackbar, error)
+    )
+
+    this.portfolios$ = this.lookup.Portfolios
 
     this.activitySubscription$ = this.service.Notification
       .subscribe(
         (next: any) => {
           if (next) {
             this.formBusy = false
-            this.showSnackBar(next.message)
+            showSnackBar(this.snackbar, next.message)
           }
         },
-        error => this.showSnackBar(error)
+        error => showSnackBar(this.snackbar, error)
       )
 
     this.paramsSubscription$ = this.route.paramMap
       .pipe(
         map((params: ParamMap) => ({
           commitment: +params.get('id'),
-          costing: +params.get('costid'),
-        })),
-        map((params) => {
-
-          this.service.setCurrentCommitment(params.commitment)
-        }),
+          costing: params.get('costid'),
+        }))
       )
-      .subscribe()
+      .subscribe((params) => {
+        this.service.setCurrentCommitment(params.commitment)
+        this.actionService.setCurrentCommitmentAction(params.commitment, params.costing)
+
+        const patch = {
+          commitment: params.commitment
+        }
+
+        this.form.patchValue(patch)
+
+      }
+      )
+
+    this.lookup.getAllPortfolios()
 
   }
 
@@ -74,24 +121,12 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
     this.paramsSubscription$.unsubscribe()
     this.activitySubscription$.unsubscribe()
     this.commitmentSubscription$.unsubscribe()
+    this.currentActionSubscription$.unsubscribe()
   }
 
-  showSnackBar(message: string, action: string = 'OK'): void {
-
-    // this is to avoid component validation check errors
-    setTimeout(() => {
-      const snackbarRef = this.snackbar.show(message, action, {
-        align: 'center',
-        multiline: false,
-        dismissOnAction: false,
-        focusAction: false,
-        actionOnBottom: false,
-      })
-
-      snackbarRef.afterDismiss().subscribe(() => {
-
-      })
-    })
+  handleSubmit($event) {
+    // tslint:disable-next-line:no-console
+    console.log(this.form.value)
+    this.actionService.addActionToCommitment(this.commitment.id, this.form.value)
   }
-
 }

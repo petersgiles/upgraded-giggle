@@ -378,6 +378,86 @@ export namespace AllPrograms {
     id: Guid;
 
     name: string;
+
+    agency: Agency | null;
+  };
+
+  export type Agency = {
+    __typename?: 'AgencyGraph';
+
+    id: Guid;
+
+    title: string;
+  };
+}
+
+export namespace Program {
+  export type Variables = {
+    programId: string;
+  };
+
+  export type Query = {
+    __typename?: 'Query';
+
+    programs: (Programs | null)[] | null;
+  };
+
+  export type Programs = {
+    __typename?: 'ProgramGraph';
+
+    id: Guid;
+
+    name: string;
+
+    notes: string | null;
+
+    agency: Agency | null;
+
+    reports: (Reports | null)[] | null;
+
+    projects: (Projects | null)[] | null;
+  };
+
+  export type Agency = {
+    __typename?: 'AgencyGraph';
+
+    id: Guid;
+
+    title: string;
+
+    metadata: string | null;
+  };
+
+  export type Reports = {
+    __typename?: 'ReportGraph';
+
+    id: Guid;
+
+    name: string;
+
+    notes: string | null;
+  };
+
+  export type Projects = {
+    __typename?: 'ProjectGraph';
+
+    id: Guid;
+
+    name: string;
+
+    status: string;
+
+    notes: string | null;
+
+    electorates: (Electorates | null)[] | null;
+  };
+
+  export type Electorates = {
+    __typename?: 'ElectorateGraph';
+
+    id: Guid;
+
+    name: string;
   };
 }
 
@@ -470,6 +550,44 @@ export class AllProgramsGQL extends Apollo.Query<
       programs {
         id
         name
+        agency {
+          id
+          title
+        }
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class ProgramGQL extends Apollo.Query<Program.Query, Program.Variables> {
+  document: any = gql`
+    query program($programId: String!) {
+      programs(ids: [$programId]) {
+        id
+        name
+        notes
+        agency {
+          id
+          title
+          metadata
+        }
+        reports {
+          id
+          name
+          notes
+        }
+        projects {
+          id
+          name
+          status
+          notes
+          electorates {
+            id
+            name
+          }
+        }
       }
     }
   `;

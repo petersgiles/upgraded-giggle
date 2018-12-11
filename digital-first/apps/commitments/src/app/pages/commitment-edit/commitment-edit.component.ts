@@ -4,7 +4,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router'
 import { Observable, Subscription, of } from 'rxjs'
 import { MdcDialog, MdcSnackbar } from '@angular-mdc/web'
 import { map, first } from 'rxjs/operators'
-import { DialogAreYouSureComponent, DialogAddContactComponent, ARE_YOU_SURE_ACCEPT } from '@digital-first/df-dialogs'
+import { DialogAreYouSureComponent, ARE_YOU_SURE_ACCEPT } from '@digital-first/df-dialogs'
 
 import { CommitmentDataService } from '../../services/commitment-data.service'
 import { Commitment } from '../../reducers/commitment/commitment.model'
@@ -20,6 +20,7 @@ import { CriticalDate } from '../../models/critical-date.model'
 import { formatCommitmentTitle } from '../../formatters'
 import { DialogAddCommitmentComponent } from '../../dialogs/dialog-add-commitment.component'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
+import { showSnackBar } from '../../dialogs/showSnackBar'
 
 @Component({
   selector: 'digital-first-commitment-edit',
@@ -98,7 +99,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
         this.commitment = next
         this.selectedElectorateIds = this.commitment ? arrayToIndex(this.commitment.electorates) : []
       },
-      error => this.showSnackBar(error)
+      error => showSnackBar(this.snackbar, error)
     )
 
     this.activitySubscription$ = this.service.Notification
@@ -106,10 +107,10 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
         (next: any) => {
           if (next) {
             this.formBusy = false
-            this.showSnackBar(next.message)
+            showSnackBar(this.snackbar, next.message)
           }
         },
-        error => this.showSnackBar(error)
+        error => showSnackBar(this.snackbar, error)
       )
 
     this.commitmentEditExpandedPanelsSubscription$ = this.service.CommitmentEditExpandedPanels.subscribe(
@@ -157,24 +158,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   getTitle(commitment) {
     return formatCommitmentTitle(commitment)
-  }
-
-  showSnackBar(message: string, action: string = 'OK'): void {
-
-    // this is to avoid component validation check errors
-    setTimeout(() => {
-      const snackbarRef = this.snackbar.show(message, action, {
-        align: 'center',
-        multiline: false,
-        dismissOnAction: false,
-        focusAction: false,
-        actionOnBottom: false,
-      })
-
-      snackbarRef.afterDismiss().subscribe(() => {
-
-      })
-    })
   }
 
   ngOnDestroy(): void {
@@ -330,7 +313,11 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
     const message = `AutoSave ${autosaveState ? 'On' : 'Off - Submit at bottom of form'}`
 
-    this.showSnackBar(message)
+    showSnackBar(this.snackbar, message)
+  }
+
+  handlePrintClicked() {
+    this.router.navigate(['/', 'commitment', this.commitment.id, 'print'])
   }
 
 }

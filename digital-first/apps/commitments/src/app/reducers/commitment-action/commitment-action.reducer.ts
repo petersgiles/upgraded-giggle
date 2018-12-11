@@ -3,6 +3,7 @@ import { CommitmentAction } from './commitment-action.model'
 
 export interface State {
   expanded: boolean
+  selectedAction: any
   actions: CommitmentAction[]
   loading: boolean
   error: any
@@ -10,6 +11,7 @@ export interface State {
 
 export const initialState: State = {
   expanded: false,
+  selectedAction: null,
   actions: null,
   loading: false,
   error: null,
@@ -50,12 +52,31 @@ export function reducer(
       }
     }
 
+    case CommitmentActionActionTypes.SetCurrentCommitmentAction: {
+
+      // tslint:disable-next-line:no-console
+      console.log('SetCurrentCommitmentAction', action.payload)
+      return {
+        ...state,
+        selectedAction: action.payload.action
+      }
+    }
+
+    case CommitmentActionActionTypes.ClearCurrentCommitmentAction: {
+
+      return {
+        ...state,
+        selectedAction: null
+      }
+    }
+
     default:
       return state
   }
 }
 
 export const selectAll = (state: State) => state.actions
+export const getSelectedAction = (state: State) => state.selectedAction
 export const getExpanded = (state: State) => state.expanded
 export const getContactLoading = (state: State) => state.loading
 export const getContactError = (state: State) => state.error

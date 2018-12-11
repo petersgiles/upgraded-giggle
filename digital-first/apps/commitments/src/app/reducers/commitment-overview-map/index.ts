@@ -2,6 +2,7 @@ import { createSelector } from '@ngrx/store'
 import { DataTableConfig } from '@digital-first/df-components'
 
 import * as fromCommitmentOverviewMap from './commitment-overview-map.reducer'
+import { formatCommitmentTitle } from '../../formatters'
 
 export const getCommitmentOverviewMapState = state => state.commitmentOverviewMap
 
@@ -23,7 +24,7 @@ export const getCommitmentOverviewMapCommitmentsTableData = createSelector(
                 ({
                     id: c.id,
                     cells: [{
-                        value: `${c.title}`
+                        value: `${formatCommitmentTitle(c)}`
                     }]
                 }))
 

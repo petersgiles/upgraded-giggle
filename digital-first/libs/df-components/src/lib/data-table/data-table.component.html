@@ -21,7 +21,10 @@
 
 <ng-template #tableBodyRow let-tableData>
   <tr *ngFor="let row of tableData.rows">
-    <td *ngFor="let cell of row.cells" class="df-data-table__cell--non-numeric" (click)="onCellClicked.emit(row, cell)" [innerHtml]="cell.value | safeHtml"></td>
+    <td *ngFor="let cell of row.cells" class="df-data-table__cell--non-numeric" (click)="onCellClicked.emit(row, cell)">
+      <span *ngIf="cell.truncate" [innerHtml]="cell.value | truncate:cell.truncate | safeHtml"></span>
+      <span *ngIf="!cell.truncate" [innerHtml]="cell.value | safeHtml"></span>
+    </td>
     <td *ngIf="tableData.hasDeleteItemButton" class="df-data-table__cell--action">
       <a mdcIcon attr.aria-label="Delete Item" title="Delete Item" (click)="onDeleteItem.emit(row)">delete</a>
     </td>

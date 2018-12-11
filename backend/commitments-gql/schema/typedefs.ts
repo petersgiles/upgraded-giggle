@@ -231,7 +231,10 @@ type CommitmentAction {
     deleteContact(id:  ID!): Contact,
     storeCommitmentContact(commitment: ID!, contact: ID!): Commitment,
     deleteCommitmentContact(commitment: ID!, contact: ID!): Commitment,
-    storeCommitmentAction(commitment: ID!, action: ID!): Commitment,
+    storeCommitmentAction(id: ID
+      commitment: ID!,
+      portfolio: ID!
+      description: String!): Commitment,
     deleteCommitmentAction(commitment: ID!, action: ID!): Commitment,
     storeMapPoint(place_id: String!, latitude: Float!, longitude: Float!, address: String!): MapPoint,
     deleteMapPoint(place_id: String!): MapPoint,

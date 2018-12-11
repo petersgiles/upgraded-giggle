@@ -5,7 +5,7 @@ import { getContrastYIQ } from '@digital-first/df-utils'
   selector: 'digital-first-add-notification-button',
   template: `
     <button attr.aria-label="{{title}}" title="{{title}}" [style.color]="_textColour"
-    (click)="onManageNotification.emit()" mdc-button dense><mdc-icon [style.color]="_textColour">{{icon}}</mdc-icon>{{title}}</button>
+    (click)="onManageNotification.emit()" mdc-button dense><mdc-icon [style.color]="_textColour">{{icon}}</mdc-icon><span [innerHtml]="title | safeHtml"></span></button>
   `,
   styles: [`
   :host {

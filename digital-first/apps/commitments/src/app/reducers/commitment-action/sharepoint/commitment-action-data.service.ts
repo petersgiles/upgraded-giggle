@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs'
 import { DataResult, CommitmentActionsResult } from '../../../models'
 import { concatMap, map, tap } from 'rxjs/operators'
 import { byCommitmentIdQuery, byJoinTableQuery } from '../../../services/sharepoint/caml'
-import { mapCommitmentActions } from './maps'
+import { mapCommitmentActions, mapCommitmentAction } from './maps'
 
 @Injectable({
     providedIn: 'root'
@@ -36,7 +36,25 @@ export class CommitmentActionDataSharePointService implements CommitmentActionDa
         )
     }
     addActionToCommitment(payload: any): Observable<DataResult<{ commitment: number; }>> {
-        throw new Error('Method not implemented.')
+        const spComment = {
+            Title: `${payload.commitment} ${payload.action.id}`,
+            Commitment: payload.commitment,
+            Portfolio: payload.action.portfolio,
+            Description: payload.action.description
+        }
+
+        return this.sharepoint.storeItem({
+            listName: 'CommitmentAction',
+            data: spComment,
+            id: payload.action.id
+        }).pipe(
+            map(mapCommitmentAction),
+            concatMap((result: any) =>
+                of({
+                    data: { commitment: result.commitment },
+                    loading: false
+                }))
+        )
     }
     getActionsByCommitment(commitment: any): Observable<DataResult<CommitmentActionsResult>> {
         return this.sharepoint.getItems({

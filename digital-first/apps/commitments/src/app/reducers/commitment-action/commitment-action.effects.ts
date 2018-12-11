@@ -42,7 +42,7 @@ export class CommitmentActionEffects {
       map((action: AddActionToCommitment) => action.payload),
       switchMap((payload: any) => this.service.addActionToCommitment(payload)),
       switchMap((result: any) => [
-        new AppNotification({ message: 'Action Added' }),
+        new AppNotification({ message: 'Action Stored' }),
         new GetActionsByCommitment({ commitment: result.data.commitment }),
         new ClearAppNotification()
       ]),

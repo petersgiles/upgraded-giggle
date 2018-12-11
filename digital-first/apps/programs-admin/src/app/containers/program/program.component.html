@@ -1,0 +1,7 @@
+<div *ngIf="(programs$ | async) as programs; else loading">
+  <div class="page_title">
+    <div class="reader-card-article__title page_title_text" mdcHeadline5>Program - {{programs[0].name}}</div>
+  </div>
+  <p>{{programs[0] | json}}</p>
+</div>
+
