@@ -4,13 +4,12 @@ import {
   AllAgenciesGQL,
   AllPortfolios,
   AllPortfoliosGQL, AllStatistics,
-  AllStatisticsGQL,
+  AllStatisticsGQL, Program, ProgramGQL,
   // MutatePortfolioGQL
 } from "../../generated/graphql"
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {UUID} from "@digital-first/df-utils";
-import {FormBuilder, Validators} from '@angular/forms'
 import {HttpClient, HttpClientJsonpModule} from "@angular/common/http";
 import {PassthroughService} from "../../services/passthrough.service";
 
@@ -26,7 +25,10 @@ export class HomeComponent implements OnInit {
   portfolios: Observable<AllPortfolios.Portfolios[]>;
   statistics: Observable<AllStatistics.Statistics[]>;
 
+  programs: Observable<Program.Programs[]>;
+
   constructor(private allAgenciesGQL: AllAgenciesGQL,
+              private programGQL: ProgramGQL,
               private allPortfoliosGQL: AllPortfoliosGQL,
               // private mutatePortfolioGQL: MutatePortfolioGQL,
               private allStatistics: AllStatisticsGQL,
@@ -51,6 +53,10 @@ export class HomeComponent implements OnInit {
 
   mutate() {
 
+
+   this.programs =   this.programGQL.watch({programId:'89c4dd92-769d-4250-8bd8-0181206728b5'}).valueChanges.pipe(map(value => value.data.programs))
+   //
+    this.programs.subscribe(value => console.log(value[0]));
     //cause a client error
     // this.passthrough = i;
 

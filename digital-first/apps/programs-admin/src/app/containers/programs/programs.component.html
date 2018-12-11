@@ -1,0 +1,18 @@
+<div *ngIf="(programs$ | async) as programs; else loading">
+  <div class="page_title">
+    <div class="reader-card-article__title page_title_text" mdcHeadline5>Programs</div>
+  </div>
+
+  <div mdcHeadline6>temp layout. just getting programs displaying</div>
+  <mdc-list>
+    <mdc-list-item *ngFor="let program of programs">
+      <a [routerLink]="[program.id]">{{program.name}}</a>
+    </mdc-list-item>
+  </mdc-list>
+
+</div>
+
+<ng-template #loading>
+  Loading...
+</ng-template>
+

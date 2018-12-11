@@ -68,6 +68,8 @@ import {FEDERATEDLOGINAPIPATH} from '@digital-first/df-app-tokens'
 import {StatisticuploadComponent} from "./containers/statisticupload/statisticupload.component";
 import {GraphQLModule} from "./graphql.module";
 import { ProjectuploadComponent } from './containers/projectupload/projectupload.component';
+import { ProgramsComponent } from './containers/programs/programs.component';
+import { ProgramComponent } from './containers/program/program.component';
 
 const COMPONENTS = [
   AppComponent,
@@ -116,7 +118,7 @@ export function initApplication(store: Store<fromRoot.State>): Function {
 }
 
 @NgModule({
-  declarations: [...COMPONENTS, StatisticuploadComponent, ProjectuploadComponent],
+  declarations: [...COMPONENTS, StatisticuploadComponent, ProjectuploadComponent, ProgramsComponent, ProgramComponent],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [
     BrowserModule,
