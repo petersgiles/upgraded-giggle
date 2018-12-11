@@ -1044,7 +1044,6 @@
               "extractCss": true,
               "namedChunks": false,
               "baseHref": "admin",
-              "deployUrl": "/admin/",
               "aot": false,
               "extractLicenses": true,
               "vendorChunk": false,
