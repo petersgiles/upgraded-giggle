@@ -39,7 +39,7 @@ import {
 
 import { AppComponent } from './app.component'
 import { AppFullLayoutService } from './app-full-layout.service'
-import { HomeComponent } from './containers/home/home.component'
+import { HomeComponent } from './pages/home/home.component'
 import { AppRoutingModule } from './app-routing.module'
 import { CommitmentCardComponent } from './components/commitment-card/commitment-card.component'
 import { CommitmentEditFormComponent } from './components/commitment-edit-form/commitment-edit-form.component'

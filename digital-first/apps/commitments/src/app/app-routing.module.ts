@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
-import { HomeComponent } from './containers/home/home.component'
+import { HomeComponent } from './pages/home/home.component'
 import {
   FullLayoutComponent,
   SimpleLayoutComponent
@@ -66,20 +66,19 @@ const routes: Routes = [
 
     ]
   }
-  // ,
-  // {
-  //   path: 'home',
-  //   component: FullLayoutComponent,
-  //   data: {
-  //     title: 'Home'
-  //   },
-  //   children: [
-  //     {
-  //       path: '',
-  //       component: HomeComponent
-  //     }
-  //   ]
-  // },
+  , {
+    path: 'home',
+    component: FullLayoutComponent,
+    data: {
+      title: 'Home'
+    },
+    children: [
+      {
+        path: '',
+        component: HomeComponent
+      }
+    ]
+  }
   , {
     path: 'pages',
     component: SimpleLayoutComponent,
