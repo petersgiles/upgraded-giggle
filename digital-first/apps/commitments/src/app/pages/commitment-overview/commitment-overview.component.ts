@@ -83,7 +83,7 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
   }
 
   handleCreate() {
-    this.router.navigate(['/', 'commitment'])
+    this.router.navigate(['/', 'commitment', 'create'])
   }
 
   handleCommitmentsRowClicked(commitment) {
