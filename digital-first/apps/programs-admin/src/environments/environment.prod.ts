@@ -12,7 +12,8 @@ export const environment = {
     adminDataServiceUrl: '//#{ApiPath}/admin/graphql',
     passthroughUrl: '//#{ApiPath}/admin/api/sendmessage'
   },
-  federatedLoginApiPath: '#{ApiPath}/admin'
+  federatedLoginApiPath: '#{ApiPath}/admin',
+  appBasePath: '/admin'
 }
 
 /*
