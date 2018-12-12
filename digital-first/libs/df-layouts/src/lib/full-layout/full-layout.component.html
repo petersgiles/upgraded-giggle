@@ -24,7 +24,7 @@
 <mdc-drawer #appdrawer="mdcDrawer" [open]="drawOpen || !isScreenSmall()" [drawer]="isScreenSmall() ? 'modal' : 'dismissible'" mdcTopAppBarFixedAdjust>
     <mdc-drawer-content>
         <mdc-list *ngFor="let item of sidebarItems$ | async" >
-            <a *ngIf="!item.divider" mdc-list-item [routerLink]="item.routerLink" routerLinkActive>
+            <a *ngIf="!item.divider" mdc-list-item [routerLink]="item.routerLink" routerLinkActive="app-drawer-link-active">
                 <mdc-icon mdcListItemGraphic>{{item.icon}}</mdc-icon>{{item.caption}}
             </a>
             <mdc-list-divider *ngIf="item.divider"></mdc-list-divider>

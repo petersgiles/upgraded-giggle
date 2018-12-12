@@ -24,6 +24,9 @@ const routes: Routes = [
         title: 'Contact'
       }
     }, {
+      path: 'map',
+      component: CommitmentOverviewMapComponent,
+    }, {
       path: 'commitment',
       data: {
         title: 'Commitment'
@@ -32,9 +35,6 @@ const routes: Routes = [
         {
           path: '',
           component: CommitmentOverviewComponent,
-        }, {
-          path: 'map',
-          component: CommitmentOverviewMapComponent,
         }, {
           path: 'create',
           component: CommitmentCreateComponent,
