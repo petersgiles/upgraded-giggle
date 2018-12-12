@@ -1,8 +1,11 @@
-import { Component, OnInit, OnDestroy, NgZone, Input } from '@angular/core'
-import { Subject, Observable, Subscription, BehaviorSubject, interval, of } from 'rxjs'
+import { Component, OnInit, OnDestroy, NgZone, ViewChild } from '@angular/core'
+import { Subject, Observable, Subscription, of } from 'rxjs'
 import { Router, NavigationEnd } from '@angular/router'
-import { takeUntil, filter, delay, tap, throttle, map, concatMap } from 'rxjs/operators'
+import { takeUntil, filter, delay, tap, concatMap } from 'rxjs/operators'
 import { FullLayoutService, AppUserProfile, SideBarItem } from './full-layout.service'
+import { MdcTopAppBar } from '@angular-mdc/web'
+
+const SMALL_WIDTH_BREAKPOINT = 1240
 
 @Component({
   selector: 'digital-first-full-layout',
@@ -17,16 +20,24 @@ export class FullLayoutComponent implements OnInit, OnDestroy {
     return this.service.drawerStyle || 'modal'
   }
 
+  matcher: MediaQueryList
   private _destroy = new Subject<void>()
   _profile: AppUserProfile
   sidebarItems$: Observable<SideBarItem[]>
   notification$: Observable<string>
   open$: Observable<boolean>
 
+  @ViewChild('topAppBar') topAppBar: MdcTopAppBar
+
   constructor(
     private router: Router,
+    private ngZone: NgZone,
     private service: FullLayoutService
   ) { }
+
+  isScreenSmall(): boolean {
+    return this.matcher.matches
+  }
 
   get version(): string {
     return this.service.version
@@ -40,11 +51,15 @@ export class FullLayoutComponent implements OnInit, OnDestroy {
     return this._profile
   }
 
- drawOpenToggleClicked(appdrawerOpen) {
-  this.service.setDrawState(appdrawerOpen)
- }
+  drawOpenToggleClicked(appdrawerOpen) {
+    this.service.setDrawState(appdrawerOpen)
+  }
 
   ngOnInit() {
+
+    this.matcher = matchMedia(`(max-width: ${SMALL_WIDTH_BREAKPOINT}px)`)
+    this.matcher.addListener((event: MediaQueryListEvent) => this.ngZone.run(() => event.matches))
+
     this.router.events
       .pipe(takeUntil(this._destroy),
         filter(event => event instanceof NavigationEnd))

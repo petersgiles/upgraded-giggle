@@ -48,5 +48,10 @@
   }
 
   .mdc-drawer--open {
-    margin-top: 5px;
+    margin-top: 0px;
   }
+
+
+  .app-top-app-bar {
+    z-index: 1000;
+}
