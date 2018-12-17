@@ -4,8 +4,8 @@ import { FEDERATEDLOGINAPIPATH, APPBASEPATH } from '@digital-first/df-app-tokens
 
 @Component({
   selector: 'digital-first-login-page',
-  templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.scss']
+  template: ``,
+  styleUrls: []
 })
 export class LoginPageComponent implements OnInit {
   referrer: any
@@ -25,5 +25,7 @@ export class LoginPageComponent implements OnInit {
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    window.location.href = this.adfsurl
+  }
 }
