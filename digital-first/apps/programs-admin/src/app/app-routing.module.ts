@@ -7,6 +7,8 @@ import {ProjectuploadComponent} from "./containers/projectupload/projectupload.c
 import {ProgramsComponent} from "./containers/programs/programs.component";
 import {ProgramComponent} from "./containers/program/program.component";
 import {AuthGuard} from "./services/auth-guard.service";
+import {ProgramAddComponent} from "./containers/program/program-add/program-add.component";
+import {ProgramEditComponent} from "./containers/program/program-edit/program-edit.component";
 
 export const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -27,6 +29,42 @@ export const routes: Routes = [
         }
       },
       {
+        path: 'programs',
+        component: ProgramsComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'Programs',
+          icon: 'live_tv',
+          nav: true
+        }
+      },
+      {
+        path: 'programs/add',
+        component: ProgramAddComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+      {
+        path: 'programs/edit/:id',
+        component: ProgramEditComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+      {
+        path: 'programs/:id',
+        component: ProgramComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'Program',
+          icon: 'live_tv',
+          nav: false
+        }
+      },
+      {
         path: 'statistics/upload',
         component: StatisticuploadComponent,
         canActivate: [AuthGuard],
@@ -44,26 +82,6 @@ export const routes: Routes = [
           title: 'Upload Project',
           icon: 'ballot',
           nav: true
-        }
-      },
-      {
-        path: 'programs',
-        component: ProgramsComponent,
-        canActivate: [AuthGuard],
-        data: {
-          title: 'Programs',
-          icon: 'live_tv',
-          nav: true
-        }
-      },
-      {
-        path: 'programs/:id',
-        component: ProgramComponent,
-        canActivate: [AuthGuard],
-        data: {
-          title: 'Program',
-          icon: 'live_tv',
-          nav: false
         }
       }
     ]

@@ -1,5 +1,28 @@
-mutation mutatePortfolio($portfolio: ModifyPortfolioGraph!, $messageId: Guid!, $conversationId: Guid!){
-  modifyPortfolio(messageId: $messageId, conversationId: $conversationId, portfolio: $portfolio){
+#mutation modifyReport($modifyReport: ModifyReportGraph){
+#  modifyReport(modifyReport: $modifyReport){
+#    id
+#    name
+#    rowVersion
+#  }
+#}
+#
+#
+#
+#mutation deleteReport($reportId:ModifyReportGraph!){
+#  deleteReport(deleteReportId:$reportId){
+#    id
+#  }
+#}
+
+mutation deleteProgram($data:InputDeleteProgramGraph) {
+  deleteProgram(inputDeleteProgram:$data)
+}
+
+
+mutation createProgram ($data:InputProgramGraph!) {
+  program (inputProgram: $data)
+  {
     id
+    rowVersion
   }
 }

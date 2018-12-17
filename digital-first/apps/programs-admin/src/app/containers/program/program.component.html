@@ -1,7 +1,72 @@
-<div *ngIf="(programs$ | async) as programs; else loading">
+<div *ngIf="(programs$ | async) as program; else loading">
   <div class="page_title">
-    <div class="reader-card-article__title page_title_text" mdcHeadline5>Program - {{programs[0].name}}</div>
+    <div class="reader-card-article__title page_title_text" mdcHeadline5>Program - {{program.name}}</div>
+    <div>
+      <button title="edit program"
+              (click)="edit(program)">Edit
+      </button>
+    </div>
+    <div>
+      <button title="delete program"
+              (click)="deleteProgram(program)">Delete
+      </button>
+    </div>
   </div>
-  <p>{{programs[0] | json}}</p>
+
+  {{program.agency.title}}
+
+
+  <h3>Permissions</h3>
+  <ul>
+    <li *ngFor="let acl of program.accessControlList">
+      <ul>
+        <li *ngFor="let ace of acl.accessControlEntries">
+          {{ace.rights}}
+          <ul>
+            <li *ngFor="let group of ace.group">
+              {{group.title}}
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>Reports</h3>
+
+  <ul>
+    <li *ngFor="let report of program.reports">
+      {{report.name}} {{report.notes}}
+      <ul>
+        <li *ngFor="let acl of report.accessControlList">
+          <ul>
+            <li *ngFor="let ace of acl.accessControlEntries">
+              {{ace.rights}}
+              <ul>
+                <li *ngFor="let group of ace.group">
+                  {{group.title}}
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+
+      </ul>
+    </li>
+  </ul>
+
+  <!--<button  title="add report"-->
+  <!--(click)="add(report)">+</button>-->
+
+  <!--<mdc-list>-->
+  <!--<mdc-list-item *ngFor="let report of program.reports">-->
+  <!--{{report.name}} {{report.notes}}-->
+  <!--<button  title="delete report"-->
+  <!--(click)="delete(report)">x</button>-->
+  <!--</mdc-list-item>-->
+  <!--</mdc-list>-->
+
+
+  <!--<p>{{program | json}}</p>-->
 </div>
 

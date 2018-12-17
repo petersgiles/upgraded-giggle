@@ -28,6 +28,10 @@ export class AppFullLayoutService {
     return 'Programs Admin'
   }
 
+  get open$(): Observable<boolean>  {
+   return of(false)
+  }
+
   get profile(): Observable<AppUserProfile> {
     return of(null)
   }

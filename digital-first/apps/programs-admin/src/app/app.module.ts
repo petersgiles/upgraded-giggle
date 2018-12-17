@@ -70,6 +70,8 @@ import {GraphQLModule} from "./graphql.module";
 import { ProjectuploadComponent } from './containers/projectupload/projectupload.component';
 import { ProgramsComponent } from './containers/programs/programs.component';
 import { ProgramComponent } from './containers/program/program.component';
+import { ProgramAddComponent } from './containers/program/program-add/program-add.component';
+import { ProgramEditComponent } from './containers/program/program-edit/program-edit.component';
 
 const COMPONENTS = [
   AppComponent,
@@ -118,7 +120,7 @@ export function initApplication(store: Store<fromRoot.State>): Function {
 }
 
 @NgModule({
-  declarations: [...COMPONENTS, StatisticuploadComponent, ProjectuploadComponent, ProgramsComponent, ProgramComponent],
+  declarations: [...COMPONENTS, StatisticuploadComponent, ProjectuploadComponent, ProgramsComponent, ProgramComponent, ProgramAddComponent, ProgramEditComponent],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [
     BrowserModule,

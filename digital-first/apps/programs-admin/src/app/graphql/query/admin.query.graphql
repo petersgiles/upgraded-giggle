@@ -52,6 +52,19 @@ query program ($programId: String!) {
     id
     name
     notes
+    externalId
+    rowVersion
+    accessControlList{
+      accessControlEntries{
+        rights
+        group{
+          title
+          members{
+            emailAddress
+          }
+        }
+      }
+    }
     agency{
       id
       title
@@ -61,6 +74,16 @@ query program ($programId: String!) {
       id
       name
       notes
+      accessControlList{
+        accessControlEntries{
+          group{
+            title
+            members{
+              emailAddress
+            }
+          }
+        }
+      }
     }
     projects{
       id

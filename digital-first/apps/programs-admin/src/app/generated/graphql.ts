@@ -14,208 +14,176 @@ export interface WhereExpressionGraph {
   value?: (string | null)[] | null;
 }
 
-export interface CreateElectorateBarchartReportGraph {
-  reportId: Guid;
-
-  notes?: string | null;
-
-  dataDate: DateTimeOffset;
-
-  chartData?: (ElectorateChartDataGraph | null)[] | null;
-}
-
-export interface ElectorateChartDataGraph {
-  electorateId: Guid;
-
-  data?: SeriesChartGraph | null;
-}
-
-export interface SeriesChartGraph {
+export interface CreateAgencyGraph {
   title: string;
 
-  type: string;
+  emailDomain: string;
 
-  xAxisLabel?: string | null;
-
-  data?: (SeriesDataGraph | null)[] | null;
+  portfolioId: Guid;
 }
 
-export interface SeriesDataGraph {
-  name: string;
+export interface CreateDisplayGroupGraph {
+  title: string;
 
-  series?: (SeriesGraph | null)[] | null;
+  sortOrder: UInt32;
+
+  metadata?: string | null;
+
+  parentId?: Guid | null;
 }
 
-export interface SeriesGraph {
-  name: string;
+export interface CreateDisplayGroupProgramGraph {
+  programId: Guid;
 
-  value: number;
+  displayGroupId: Guid;
+
+  sortOrder: UInt32;
+
+  metadata?: string | null;
 }
 
-export interface CreateElectorateMarkdownReportGraph {
-  reportId: Guid;
-
-  notes?: string | null;
-
-  dataDate: DateTimeOffset;
-
-  electorateData?: (ElectorateDataMarkdownGraph | null)[] | null;
-}
-
-export interface ElectorateDataMarkdownGraph {
-  electorateId: Guid;
-
-  data?: MarkdownGraph | null;
-}
-
-export interface MarkdownGraph {
-  text: string;
-}
-
-export interface CreateElectorateTableReportGraph {
-  reportId: Guid;
-
-  schema?: SchemaGraph | null;
-
-  notes?: string | null;
-
-  dataDate: DateTimeOffset;
-
-  electorateData?: (ElectorateDataGraph | null)[] | null;
-}
-
-export interface SchemaGraph {
-  columns?: (ColumnGraph | null)[] | null;
-
-  rows?: (RowGraph | null)[] | null;
-}
-
-export interface ColumnGraph {
-  parentLabel?: string | null;
-
-  format: string;
-
-  label: string;
-}
-
-export interface RowGraph {
-  label: string;
-
-  format?: string | null;
-}
-
-export interface ElectorateDataGraph {
-  data?: (string | null)[][] | null;
-
-  electorateId: Guid;
-}
-
-export interface CreateNationalBarchartReportGraph {
-  reportId: Guid;
-
-  notes?: string | null;
-
-  dataDate: DateTimeOffset;
-
-  chartData?: SeriesChartGraph | null;
-}
-
-export interface CreateNationalMarkdownReportGraph {
-  reportId: Guid;
-
-  notes?: string | null;
-
-  dataDate: DateTimeOffset;
-
-  nationalData?: NationalDataGraph | null;
-}
-
-export interface NationalDataGraph {
-  data?: MarkdownGraph | null;
-}
-
-export interface CreateNationalTableReportGraph {
-  reportId: Guid;
-
-  schema?: SchemaGraph | null;
-
-  notes?: string | null;
-
-  dataDate: DateTimeOffset;
-
-  data?: (string | null)[][] | null;
-}
-
-export interface CreateStateBarchartReportGraph {
-  reportId: Guid;
-
-  notes?: string | null;
-
-  dataDate: DateTimeOffset;
-
-  chartData?: (StateChartDataGraph | null)[] | null;
-}
-
-export interface StateChartDataGraph {
-  stateId: Guid;
-
-  data?: SeriesChartGraph | null;
-}
-
-export interface CreateStateMarkdownReportGraph {
-  reportId: Guid;
-
-  notes?: string | null;
-
-  dataDate: DateTimeOffset;
-
-  stateData?: (StateDataMarkdownGraph | null)[] | null;
-}
-
-export interface StateDataMarkdownGraph {
-  stateId: Guid;
-
-  data?: MarkdownGraph | null;
-}
-
-export interface CreateStateTableReportGraph {
-  reportId: Guid;
-
-  schema?: SchemaGraph | null;
-
-  notes?: string | null;
-
-  dataDate: DateTimeOffset;
-
-  stateData?: (StateDataGraph | null)[] | null;
-}
-
-export interface StateDataGraph {
-  data?: (string | null)[][] | null;
-
-  stateId: Guid;
-}
-
-export interface CreateStatisticElectorateTableReportGraph {
-  statisticReportId: Guid;
-
-  schema?: SchemaGraph | null;
-
-  dataDate: DateTimeOffset;
-
-  electorateData?: (ElectorateDataGraph | null)[] | null;
-}
-
-export interface CreateStatisticReportGraph {
-  name: string;
-
-  notes: string;
-
+export interface CreateDisplayGroupStatisticGraph {
   statisticId: Guid;
+
+  displayGroupId: Guid;
+
+  sortOrder: UInt32;
+
+  metadata?: string | null;
 }
 
-export interface SendTestMessageGraph {
-  content: string;
+export interface CreatePortfolioGraph {
+  title: string;
+
+  metadata?: string | null;
+}
+
+export interface CreateProjectGraph {
+  name: string;
+
+  externalId?: string | null;
+
+  committed?: UInt32 | null;
+
+  programId: Guid;
+
+  notes?: string | null;
+
+  status?: string | null;
+
+  spent?: UInt32 | null;
+
+  default?: (LocationGraph | null)[] | null;
+}
+
+export interface LocationGraph {
+  electorateId: Guid;
+
+  featureCollection: string;
+}
+
+export interface CreateStatisticGraph {
+  name: string;
+
+  agencyId: Guid;
+
+  externalId?: string | null;
+}
+
+export interface DeleteDisplayGroupGraph {
+  id: Guid;
+}
+
+export interface DeleteDisplayGroupProgramGraph {
+  programId: Guid;
+
+  displayGroupId: Guid;
+}
+
+export interface DeleteDisplayGroupStatisticGraph {
+  statisticId: Guid;
+
+  displayGroupId: Guid;
+}
+
+export interface DeletePortfolioGraph {
+  id: Guid;
+}
+
+export interface InputDeleteProgramGraph {
+  id: Guid;
+}
+
+export interface InputDeleteReportGraph {
+  id: Guid;
+}
+
+export interface ModifyDisplayGroupGraph {
+  id: Guid;
+
+  title: string;
+
+  sortOrder: UInt32;
+
+  metadata?: string | null;
+
+  parentId?: Guid | null;
+}
+
+export interface ModifyDisplayGroupProgramGraph {
+  programId: Guid;
+
+  displayGroupId: Guid;
+
+  sortOrder: UInt32;
+
+  metadata?: string | null;
+}
+
+export interface ModifyDisplayGroupStatisticGraph {
+  statisticId: Guid;
+
+  displayGroupId: Guid;
+
+  sortOrder: UInt32;
+
+  metadata?: string | null;
+}
+
+export interface ModifyPortfolioGraph {
+  id: Guid;
+
+  title: string;
+
+  metadata?: string | null;
+}
+
+export interface InputProgramGraph {
+  id?: Guid | null;
+
+  name: string;
+
+  agencyId: Guid;
+
+  externalId?: string | null;
+
+  notes?: string | null;
+
+  commitments?: string | null;
+
+  rowVersion?: string | null;
+}
+
+export interface InputReportGraph {
+  id?: Guid | null;
+
+  name: string;
+
+  programId: Guid;
+
+  notes?: string | null;
+
+  rowVersion?: string | null;
 }
 
 export enum ComparisonGraph {
@@ -244,14 +212,11 @@ export enum StringComparison {
 /** Guid */
 export type Guid = any;
 
-/** UInt32 */
-export type UInt32 = any;
-
 /** The `DateTimeOffset` scalar type represents a date, time and offset from UTC.`DateTimeOffset` expects timestamps to be formatted in accordance with the[ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard. */
 export type DateTimeOffset = any;
 
-/** For passing untyped JSON */
-export type Json = any;
+/** UInt32 */
+export type UInt32 = any;
 
 /** The `Date` scalar type represents a year, month and day in accordance with the[ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard. */
 export type Date = any;
@@ -270,6 +235,38 @@ export type Seconds = any;
 // ====================================================
 // Documents
 // ====================================================
+
+export namespace DeleteProgram {
+  export type Variables = {
+    data?: InputDeleteProgramGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    deleteProgram: boolean | null;
+  };
+}
+
+export namespace CreateProgram {
+  export type Variables = {
+    data: InputProgramGraph;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    program: Program | null;
+  };
+
+  export type Program = {
+    __typename?: 'ProgramGraph';
+
+    id: Guid;
+
+    rowVersion: string;
+  };
+}
 
 export namespace AllAgencies {
   export type Variables = {};
@@ -411,11 +408,45 @@ export namespace Program {
 
     notes: string | null;
 
+    externalId: string | null;
+
+    rowVersion: string;
+
+    accessControlList: (AccessControlList | null)[] | null;
+
     agency: Agency | null;
 
     reports: (Reports | null)[] | null;
 
     projects: (Projects | null)[] | null;
+  };
+
+  export type AccessControlList = {
+    __typename?: 'AccessControlListGraph';
+
+    accessControlEntries: (AccessControlEntries | null)[] | null;
+  };
+
+  export type AccessControlEntries = {
+    __typename?: 'AccessControlEntryGraph';
+
+    rights: string;
+
+    group: (Group | null)[] | null;
+  };
+
+  export type Group = {
+    __typename?: 'AccessControlGroupGraph';
+
+    title: string;
+
+    members: (Members | null)[] | null;
+  };
+
+  export type Members = {
+    __typename?: 'UserGraph';
+
+    emailAddress: string;
   };
 
   export type Agency = {
@@ -436,6 +467,34 @@ export namespace Program {
     name: string;
 
     notes: string | null;
+
+    accessControlList: (_AccessControlList | null)[] | null;
+  };
+
+  export type _AccessControlList = {
+    __typename?: 'AccessControlListGraph';
+
+    accessControlEntries: (_AccessControlEntries | null)[] | null;
+  };
+
+  export type _AccessControlEntries = {
+    __typename?: 'AccessControlEntryGraph';
+
+    group: (_Group | null)[] | null;
+  };
+
+  export type _Group = {
+    __typename?: 'AccessControlGroupGraph';
+
+    title: string;
+
+    members: (_Members | null)[] | null;
+  };
+
+  export type _Members = {
+    __typename?: 'UserGraph';
+
+    emailAddress: string;
   };
 
   export type Projects = {
@@ -474,6 +533,35 @@ import gql from 'graphql-tag';
 // Apollo Services
 // ====================================================
 
+@Injectable({
+  providedIn: 'root'
+})
+export class DeleteProgramGQL extends Apollo.Mutation<
+  DeleteProgram.Mutation,
+  DeleteProgram.Variables
+> {
+  document: any = gql`
+    mutation deleteProgram($data: InputDeleteProgramGraph) {
+      deleteProgram(inputDeleteProgram: $data)
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class CreateProgramGQL extends Apollo.Mutation<
+  CreateProgram.Mutation,
+  CreateProgram.Variables
+> {
+  document: any = gql`
+    mutation createProgram($data: InputProgramGraph!) {
+      program(inputProgram: $data) {
+        id
+        rowVersion
+      }
+    }
+  `;
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -568,6 +656,19 @@ export class ProgramGQL extends Apollo.Query<Program.Query, Program.Variables> {
         id
         name
         notes
+        externalId
+        rowVersion
+        accessControlList {
+          accessControlEntries {
+            rights
+            group {
+              title
+              members {
+                emailAddress
+              }
+            }
+          }
+        }
         agency {
           id
           title
@@ -577,6 +678,16 @@ export class ProgramGQL extends Apollo.Query<Program.Query, Program.Variables> {
           id
           name
           notes
+          accessControlList {
+            accessControlEntries {
+              group {
+                title
+                members {
+                  emailAddress
+                }
+              }
+            }
+          }
         }
         projects {
           id

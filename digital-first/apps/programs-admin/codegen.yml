@@ -1,9 +1,9 @@
 schema:
-  - https://localhost:52619/graphql:
+  - https://localhost:52629/graphql:
       headers:
         ProgramsApiKey: "david.mcgrath@pmc.gov.au"
 documents:
-  - ./apps/programs-admin/src/**/*query.graphql
+  - ./apps/programs-admin/src/**/*.graphql
 overwrite: true
 config:
 generates:
