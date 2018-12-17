@@ -12,7 +12,8 @@ export const environment = {
     adminDataServiceUrl: 'https://localhost:52629/graphql',
     passthroughUrl: 'https://localhost:52629/api/sendmessage'
   },
-  federatedLoginApiPath: '//localhost:52629'
+  federatedLoginApiPath: '//localhost:52629',
+  appBasePath: '/admin'
 };
 
 /*
