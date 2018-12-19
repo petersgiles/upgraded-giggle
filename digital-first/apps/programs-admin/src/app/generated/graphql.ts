@@ -14,6 +14,14 @@ export interface WhereExpressionGraph {
   value?: (string | null)[] | null;
 }
 
+export interface ProgramAccessControlInputGraph {
+  programId: Guid;
+
+  accessControlGroupId: Guid;
+
+  accessRights?: AccessRights | null;
+}
+
 export interface CreateAgencyGraph {
   title: string;
 
@@ -58,6 +66,18 @@ export interface CreatePortfolioGraph {
   metadata?: string | null;
 }
 
+export interface CreateProgramGraph {
+  name: string;
+
+  agencyId: Guid;
+
+  externalId?: string | null;
+
+  notes?: string | null;
+
+  commitments?: string | null;
+}
+
 export interface CreateProjectGraph {
   name: string;
 
@@ -80,6 +100,14 @@ export interface LocationGraph {
   electorateId: Guid;
 
   featureCollection: string;
+}
+
+export interface CreateReportGraph {
+  name: string;
+
+  programId: Guid;
+
+  notes?: string | null;
 }
 
 export interface CreateStatisticGraph {
@@ -174,6 +202,12 @@ export interface InputProgramGraph {
   rowVersion?: string | null;
 }
 
+export interface AccessControlInputGraph {
+  accessControlListId: Guid;
+
+  accessControlGroupId: Guid;
+}
+
 export interface InputReportGraph {
   id?: Guid | null;
 
@@ -193,6 +227,7 @@ export enum ComparisonGraph {
   GreaterThan = 'greaterThan',
   GreaterThanOrEqual = 'greaterThanOrEqual',
   In = 'in',
+  NotIn = 'notIn',
   LessThan = 'lessThan',
   LessThanOrEqual = 'lessThanOrEqual',
   Like = 'like',
@@ -207,6 +242,12 @@ export enum StringComparison {
   InvariantCultureIgnoreCase = 'INVARIANT_CULTURE_IGNORE_CASE',
   Ordinal = 'ORDINAL',
   OrdinalIgnoreCase = 'ORDINAL_IGNORE_CASE'
+}
+
+export enum AccessRights {
+  None = 'NONE',
+  Read = 'READ',
+  Write = 'WRITE'
 }
 
 /** Guid */
@@ -268,6 +309,48 @@ export namespace CreateProgram {
   };
 }
 
+export namespace AssignGroupToProgram {
+  export type Variables = {
+    data?: ProgramAccessControlInputGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    assignGroupToProgram: AssignGroupToProgram | null;
+  };
+
+  export type AssignGroupToProgram = {
+    __typename?: 'AccessControlEntryGraph';
+
+    rights: string;
+
+    group: (Group | null)[] | null;
+
+    rowVersion: string;
+  };
+
+  export type Group = {
+    __typename?: 'AccessControlGroupGraph';
+
+    id: Guid;
+
+    title: string;
+  };
+}
+
+export namespace RemoveGroupFromProgram {
+  export type Variables = {
+    data?: AccessControlInputGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    removeGroupFromProgram: boolean | null;
+  };
+}
+
 export namespace AllAgencies {
   export type Variables = {};
 
@@ -285,6 +368,26 @@ export namespace AllAgencies {
     metadata: string | null;
 
     title: string;
+  };
+}
+
+export namespace AllGroups {
+  export type Variables = {};
+
+  export type Query = {
+    __typename?: 'Query';
+
+    groups: (Groups | null)[] | null;
+  };
+
+  export type Groups = {
+    __typename?: 'AccessControlGroupGraph';
+
+    id: Guid;
+
+    title: string;
+
+    rowVersion: string;
   };
 }
 
@@ -424,6 +527,8 @@ export namespace Program {
   export type AccessControlList = {
     __typename?: 'AccessControlListGraph';
 
+    id: Guid;
+
     accessControlEntries: (AccessControlEntries | null)[] | null;
   };
 
@@ -437,6 +542,8 @@ export namespace Program {
 
   export type Group = {
     __typename?: 'AccessControlGroupGraph';
+
+    id: Guid;
 
     title: string;
 
@@ -565,6 +672,39 @@ export class CreateProgramGQL extends Apollo.Mutation<
 @Injectable({
   providedIn: 'root'
 })
+export class AssignGroupToProgramGQL extends Apollo.Mutation<
+  AssignGroupToProgram.Mutation,
+  AssignGroupToProgram.Variables
+> {
+  document: any = gql`
+    mutation assignGroupToProgram($data: ProgramAccessControlInputGraph) {
+      assignGroupToProgram(programAccessControlInput: $data) {
+        rights
+        group {
+          id
+          title
+        }
+        rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class RemoveGroupFromProgramGQL extends Apollo.Mutation<
+  RemoveGroupFromProgram.Mutation,
+  RemoveGroupFromProgram.Variables
+> {
+  document: any = gql`
+    mutation removeGroupFromProgram($data: AccessControlInputGraph) {
+      removeGroupFromProgram(accessControlInputGraph: $data)
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
 export class AllAgenciesGQL extends Apollo.Query<
   AllAgencies.Query,
   AllAgencies.Variables
@@ -575,6 +715,23 @@ export class AllAgenciesGQL extends Apollo.Query<
         id
         metadata
         title
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class AllGroupsGQL extends Apollo.Query<
+  AllGroups.Query,
+  AllGroups.Variables
+> {
+  document: any = gql`
+    query allGroups {
+      groups {
+        id
+        title
+        rowVersion
       }
     }
   `;
@@ -659,9 +816,11 @@ export class ProgramGQL extends Apollo.Query<Program.Query, Program.Variables> {
         externalId
         rowVersion
         accessControlList {
+          id
           accessControlEntries {
             rights
             group {
+              id
               title
               members {
                 emailAddress

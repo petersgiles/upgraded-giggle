@@ -26,3 +26,18 @@ mutation createProgram ($data:InputProgramGraph!) {
     rowVersion
   }
 }
+
+mutation assignGroupToProgram($data:ProgramAccessControlInputGraph){
+  assignGroupToProgram(programAccessControlInput: $data){
+    rights
+    group{
+      id
+      title
+    }
+    rowVersion
+  }
+}
+
+mutation removeGroupFromProgram($data:AccessControlInputGraph) {
+  removeGroupFromProgram(accessControlInputGraph:$data)
+}

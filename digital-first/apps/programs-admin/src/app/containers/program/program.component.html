@@ -1,20 +1,33 @@
 <div *ngIf="(programs$ | async) as program; else loading">
   <div class="page_title">
     <div class="reader-card-article__title page_title_text" mdcHeadline5>Program - {{program.name}}</div>
+
     <div>
-      <button title="edit program"
-              (click)="edit(program)">Edit
+      <button mdcIconButton title="edit program"
+              (click)="edit(program)">
+        <mdc-icon>edit</mdc-icon>
       </button>
     </div>
     <div>
-      <button title="delete program"
-              (click)="deleteProgram(program)">Delete
+      <button mdcIconButton title="delete program"
+              (click)="deleteProgram(program)">
+        <mdc-icon>delete</mdc-icon>
       </button>
     </div>
   </div>
 
+
   {{program.agency.title}}
 
+  <h3>Notes</h3>
+  <p>
+    {{program.notes}}
+  </p>
+
+  <h3>External Id</h3>
+  <p>
+    {{program.externalId}}
+  </p>
 
   <h3>Permissions</h3>
   <ul>
@@ -25,6 +38,7 @@
           <ul>
             <li *ngFor="let group of ace.group">
               {{group.title}}
+              <button title="remove permission for group" (click)="removeGroup(group, acl)">x</button>
             </li>
           </ul>
         </li>
@@ -67,6 +81,6 @@
   <!--</mdc-list>-->
 
 
-  <!--<p>{{program | json}}</p>-->
+  <p>{{program | json}}</p>
 </div>
 
