@@ -108,33 +108,6 @@
         }
       }
     },
-    "policy-briefs-e2e": {
-      "root": "apps/policy-briefs-e2e/",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "apps/policy-briefs-e2e/protractor.conf.js",
-            "devServerTarget": "policy-briefs:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "policy-briefs:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "apps/policy-briefs-e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
     "df-layouts": {
       "root": "libs/df-layouts",
       "sourceRoot": "libs/df-layouts/src",
@@ -296,33 +269,6 @@
         }
       }
     },
-    "commitments-e2e": {
-      "root": "apps/commitments-e2e/",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "apps/commitments-e2e/protractor.conf.js",
-            "devServerTarget": "commitments:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "commitments:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "apps/commitments-e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
     "brief-admin": {
       "root": "apps/brief-admin/",
       "sourceRoot": "apps/brief-admin/src",
@@ -421,33 +367,6 @@
               "apps/brief-admin/tsconfig.app.json",
               "apps/brief-admin/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
-    "brief-admin-e2e": {
-      "root": "apps/brief-admin-e2e/",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "apps/brief-admin-e2e/protractor.conf.js",
-            "devServerTarget": "brief-admin:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "brief-admin:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "apps/brief-admin-e2e/tsconfig.e2e.json",
             "exclude": [
               "**/node_modules/**"
             ]
@@ -560,33 +479,6 @@
         }
       }
     },
-    "deck-e2e": {
-      "root": "apps/deck-e2e/",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "apps/deck-e2e/protractor.conf.js",
-            "devServerTarget": "deck:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "deck:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "apps/deck-e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
     "todo": {
       "root": "apps/todo/",
       "sourceRoot": "apps/todo/src",
@@ -685,33 +577,6 @@
               "apps/todo/tsconfig.app.json",
               "apps/todo/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
-    "todo-e2e": {
-      "root": "apps/todo-e2e/",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "apps/todo-e2e/protractor.conf.js",
-            "devServerTarget": "todo:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "todo:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "apps/todo-e2e/tsconfig.e2e.json",
             "exclude": [
               "**/node_modules/**"
             ]
@@ -1101,34 +966,6 @@
             "apps/programs-admin/tsconfig.app.json",
             "apps/programs-admin/tsconfig.spec.json"
           ],
-          "exclude": [
-            "**/node_modules/**"
-          ]
-        }
-      }
-    }
-  },
-  "programs-admin-e2e": {
-    "root": "apps/programs-admin-e2e",
-    "projectType": "application",
-    "prefix": "",
-    "architect": {
-      "e2e": {
-        "builder": "@angular-devkit/build-angular:protractor",
-        "options": {
-          "protractorConfig": "apps/programs-admin-e2e/protractor.conf.js",
-          "devServerTarget": "programs-admin:serve"
-        },
-        "configurations": {
-          "production": {
-            "devServerTarget": "programs-admin:serve:production"
-          }
-        }
-      },
-      "lint": {
-        "builder": "@angular-devkit/build-angular:tslint",
-        "options": {
-          "tsConfig": "apps/programs-admin-e2e/tsconfig.e2e.json",
           "exclude": [
             "**/node_modules/**"
           ]
