@@ -1,15 +1,26 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {map} from "rxjs/operators";
-import {Observable} from "rxjs";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { map, first, switchMap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
 import {
   AllGroups,
   AllGroupsGQL,
   DeleteProgramGQL,
   Program,
   ProgramGQL,
-  RemoveGroupFromProgramGQL
-} from "../../generated/graphql";
+  RemoveGroupFromProgramGQL,
+  AllPrograms,
+  AssignGroupToProgramGQL,
+  AccessRights,
+  UpdateGroupPermissionsForProgramGQL
+} from '../../generated/graphql';
+import { DataTableConfig } from '@digital-first/df-components';
+import { MdcDialog } from '@angular-mdc/web';
+import { DialogAssignGroupPermissionComponent } from '../../dialogs/dialog-assign-group-permission.component';
+import {
+  ARE_YOU_SURE_ACCEPT,
+  DialogAreYouSureComponent
+} from '@digital-first/df-dialogs';
 
 @Component({
   selector: 'digital-first-program',
@@ -17,74 +28,277 @@ import {
   styleUrls: ['./program.component.scss']
 })
 export class ProgramComponent implements OnInit, OnDestroy {
-
-  programs$: Observable<Program.Programs>;
+  program: Program.Programs;
   programId: string;
   groups$: Observable<(AllGroups.Groups | null)[]>;
+  permissionTableData: any;
+  programReportTableData: any;
+  programsSubscription$: Subscription;
 
-  constructor(private programGQL: ProgramGQL,
-              private route: ActivatedRoute,
-              private deleteProgramGQL: DeleteProgramGQL,
-              private removeGroupFromProgramGQL: RemoveGroupFromProgramGQL,
-              private allGroupsGQL: AllGroupsGQL,
-              private router: Router) {
-  }
+  constructor(
+    private programGQL: ProgramGQL,
+    private route: ActivatedRoute,
+    private deleteProgramGQL: DeleteProgramGQL,
+    private removeGroupFromProgramGQL: RemoveGroupFromProgramGQL,
+    private assignGroupToProgramGQL: AssignGroupToProgramGQL,
+    private updateGroupPermissionsForProgramGQL: UpdateGroupPermissionsForProgramGQL,
+    private allGroupsGQL: AllGroupsGQL,
+    private router: Router,
+    public dialog: MdcDialog
+  ) {}
 
-  edit(program) {
+  handleEditProgrm(program) {
     return this.router.navigate(['programs/edit', program.id]);
   }
 
-  deleteProgram(program) {
-    this.deleteProgramGQL.mutate({
-      data: {
-        id: program.id
-      }
-    }, {}).subscribe(value => {
-      return this.router.navigate(['programs']);
+  handleDeleteProgram(program) {
+    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+      escapeToClose: true,
+      clickOutsideToClose: true
     });
-  }
 
-  removeGroup(group: Program.Group, acl: Program.AccessControlList) {
-
-    this.removeGroupFromProgramGQL.mutate({
-      data: {
-        accessControlGroupId: group.id,
-        accessControlListId: acl.id
-      }
-    }, {
-      refetchQueries: [{
-        query: this.programGQL.document,
-        variables: {
-          "programId": this.programId
+    dialogRef
+      .afterClosed()
+      .pipe(first())
+      .subscribe(result => {
+        if (result === ARE_YOU_SURE_ACCEPT && this.program) {
+          this.deleteProgramGQL
+            .mutate(
+              {
+                data: {
+                  id: program.id
+                }
+              },
+              {}
+            )
+            .subscribe(value => this.router.navigate(['programs']));
         }
-      }]
-    }).subscribe(value => {
-      console.log('removing ', group, acl);
-    });
-  }
-
-  delete(report: Program.Reports) {
-    console.log('TODO: deleting program', report);
-  }
-
-  add(report: Program.Reports) {
-    console.log('TODO: adding report', report)
+      });
   }
 
   ngOnInit() {
     this.programId = this.route.snapshot.paramMap.get('id');
 
-    this.programs$ = this.programGQL.watch(
-      {programId: this.programId},
-      {fetchPolicy: 'no-cache'})
-      .valueChanges.pipe(map(value => value.data.programs[0]));
+    this.programsSubscription$ = this.programGQL
+      .watch({ programId: this.programId }, { fetchPolicy: 'no-cache' })
+      .valueChanges.pipe(map(value => value.data.programs[0]))
+      .subscribe(program => {
+        this.program = program;
 
-    this.groups$ = this.allGroupsGQL.watch(
-      {},
-      {fetchPolicy: 'no-cache'})
-      .valueChanges.pipe(map(value => value.data.groups));
+        this.permissionTableData = this.createProgramPermissionGroupTableData(
+          program
+        );
+
+        this.programReportTableData = this.createProgramReportTableData(
+          program
+        );
+        // program.reports">
+        // {{report.name}} {{report.notes}}
+      });
+  }
+  private createProgramReportTableData(program: Program.Programs): any {
+    const reports = program.reports.map(report => ({
+      id: report.id,
+      name: report.name,
+      notes: report.notes
+    }));
+
+    const rows = (reports || []).map(r => ({
+      id: r.id,
+      data: r,
+      cells: [
+        {
+          value: `${r.name}`
+        },
+        {
+          value: r.notes
+        }
+      ]
+    }));
+
+    return {
+      title: 'reports',
+      hasDeleteItemButton: true,
+      headings: [{ caption: 'Name' }, { caption: 'Notes' }],
+      rows: rows
+    };
+  }
+
+  private createProgramPermissionGroupTableData(
+    program: Program.Programs
+  ): DataTableConfig {
+    const groups = {};
+    program.accessControlList.forEach(acl => {
+      acl.accessControlEntries.forEach(ace => {
+        ace.group.forEach(grp => {
+          const rights = ace.rights;
+          groups[grp.title] = {
+            id: grp.id,
+            acl: acl.id,
+            title: grp.title,
+            rights: rights
+          };
+        });
+      });
+    });
+    const rows = (Object.keys(groups) || []).map(g => {
+      const group = groups[g];
+      return {
+        id: group.id,
+        data: group,
+        cells: [
+          {
+            value: `${group.title}`,
+            id: 'GROUPCELL'
+          },
+          {
+            value: group.rights.toUpperCase(),
+            type: 'radio',
+            id: 'PERMISSIONCELL',
+            data: [
+              {value: AccessRights.Read, caption: 'Read'},
+              {value: AccessRights.Write, caption: 'Read/Write'}
+            ]
+          }
+        ]
+      };
+    });
+
+    return {
+      title: 'permissions',
+      hasDeleteItemButton: true,
+      headings: [{ caption: 'Name' }, { caption: 'Permission' }],
+      rows: rows
+    };
   }
 
   ngOnDestroy(): void {
+    this.programsSubscription$.unsubscribe();
+  }
+
+  handleGroupPermissionGroupClicked($event) {
+    console.log('handleGroupPermissionGroupClicked', $event);
+  }
+
+  handleGroupPermissionChangeClicked(row) {
+
+    this.updateGroupPermissionsForProgramGQL
+      .mutate(
+        {
+          data: {
+            accessControlGroupId: row.id,
+            programId: this.programId,
+            accessRights: row.cell.value
+          }
+        },
+        {
+          refetchQueries: [
+            {
+              query: this.programGQL.document,
+              variables: {
+                programId: this.programId
+              }
+            }
+          ]
+        }
+      )
+      .pipe(first())
+      .subscribe(value => {});
+  }
+
+  handleGroupPermissionDeleteClicked($event) {
+    this.removeGroupFromProgramGQL
+      .mutate(
+        {
+          data: {
+            accessControlGroupId: $event.id,
+            accessControlListId: $event.data.acl
+          }
+        },
+        {
+          refetchQueries: [
+            {
+              query: this.programGQL.document,
+              variables: {
+                programId: this.programId
+              }
+            }
+          ]
+        }
+      )
+      .pipe(first())
+      .subscribe(value => {
+        console.log('removing ', $event);
+      });
+  }
+
+  handleOpenAddGroupDialog() {
+    this.allGroupsGQL
+      .watch({}, { fetchPolicy: 'no-cache' })
+      .valueChanges.pipe(
+        map(value => value.data.groups),
+        first()
+      )
+      .subscribe(groups => {
+        const dialogRef = this.dialog.open(
+          DialogAssignGroupPermissionComponent,
+          {
+            escapeToClose: true,
+            clickOutsideToClose: true,
+            data: {
+              groups: groups.sort((leftSide, rightSide) => {
+                if (leftSide.title < rightSide.title) {
+                  return -1;
+                }
+                if (leftSide.title > rightSide.title) {
+                  return 1;
+                }
+                return 0;
+              })
+            }
+          }
+        );
+
+        dialogRef.afterClosed().subscribe((result: any) => {
+          if (result && result.id) {
+            this.assignGroupToProgramGQL
+              .mutate(
+                {
+                  data: {
+                    accessControlGroupId: result.id,
+                    programId: this.programId,
+                    accessRights: AccessRights.Read
+                  }
+                },
+                {
+                  refetchQueries: [
+                    {
+                      query: this.programGQL.document,
+                      variables: {
+                        programId: this.programId
+                      }
+                    }
+                  ]
+                }
+              )
+              .pipe(first())
+              .subscribe(value => {
+                console.log('adding ', result);
+              });
+          }
+        });
+      });
+  }
+
+  handleProgramReportDeleteItemClicked($event) {
+    console.log('handleProgramReportDeleteItemClicked ', $event);
+  }
+
+  handleProgramReportAddItemDialog($event) {
+    console.log('handleProgramReportAddItemDialog ', $event);
+  }
+
+  handleReportNavigation($event) {
+    console.log('handleReportNavigation ', $event);
   }
 }

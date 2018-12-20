@@ -4,13 +4,16 @@ export interface DataTableHeader {
 }
 
 export interface DataTableCell {
+  id?: any,
   value: any
-  type?: string
+  type?: string,
+  data?: any
 }
 
 export interface DataTableRow {
   id?: string | number
-  cells: DataTableCell[]
+  cells: DataTableCell[],
+  data?: any
 }
 
 export interface DataTableConfig {

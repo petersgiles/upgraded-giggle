@@ -38,6 +38,17 @@ mutation assignGroupToProgram($data:ProgramAccessControlInputGraph){
   }
 }
 
+mutation updateGroupPermissionsForProgram($data:ProgramAccessControlInputGraph){
+  updateGroupPermissionsForProgram(programAccessControlInput: $data){
+    rights
+    group{
+      id
+      title
+    }
+    rowVersion
+  }
+}
+
 mutation removeGroupFromProgram($data:AccessControlInputGraph) {
   removeGroupFromProgram(accessControlInputGraph:$data)
 }

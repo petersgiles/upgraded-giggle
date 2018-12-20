@@ -13,7 +13,7 @@ export const environment = {
   },
   federatedLoginApiPath: '//localhost:52629',
   appBasePath: '/admin'
-};
+}
 
 /*
  * In development mode, for easier debugging, you can ignore zone related error

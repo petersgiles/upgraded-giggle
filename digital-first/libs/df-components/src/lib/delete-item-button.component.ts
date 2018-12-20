@@ -1,0 +1,31 @@
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core'
+
+@Component({
+  selector: 'digital-first-delete-item-button',
+  template: `
+  <button attr.aria-label="{{title}}" title="{{title}}" (click)="onDeleteItem.emit()" mdc-button dense><mdc-icon>{{icon}}</mdc-icon><span [innerHtml]="title | safeHtml"></span></button>
+`,
+styles: [`
+:host {
+  padding-right:4px;
+  width: 100px;
+}
+`]
+})
+export class DeleteItemButtonComponent implements OnInit {
+
+  @Input()
+  icon = 'delete'
+
+  @Input()
+  title = 'Delete'
+
+  @Output()
+  onDeleteItem: EventEmitter<null> = new EventEmitter()
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}

@@ -1,86 +1,50 @@
-<div *ngIf="(programs$ | async) as program; else loading">
-  <div class="page_title">
-    <div class="reader-card-article__title page_title_text" mdcHeadline5>Program - {{program.name}}</div>
+<div class="app-page" *ngIf="program; else loading">
+  <section>
+    <digital-first-page-title title="Program - {{ program.name }}">
+        <digital-first-edit-item-button
+        (onEditItem)="handleEditProgrm(program)"
+      ></digital-first-edit-item-button>
+      <digital-first-delete-item-button
+        (onDeleteItem)="handleDeleteProgram(program)"
+      ></digital-first-delete-item-button>
+    </digital-first-page-title>
 
-    <div>
-      <button mdcIconButton title="edit program"
-              (click)="edit(program)">
-        <mdc-icon>edit</mdc-icon>
-      </button>
+    <div class="commitment-layout__row">
+      <p>{{ program.agency.title }}</p>
+      <p>{{ program.notes }}</p>
+      <p>{{ program.externalId }}</p>
     </div>
-    <div>
-      <button mdcIconButton title="delete program"
-              (click)="deleteProgram(program)">
-        <mdc-icon>delete</mdc-icon>
-      </button>
-    </div>
-  </div>
 
+    <digital-first-permission
+      [artifactId]="programId"
+      [tableData]="permissionTableData"
+      (onGroupClicked)="handleGroupPermissionGroupClicked($event)"
+      (onPermissionClicked)="handleGroupPermissionChangeClicked($event)"
+      (onDeleteClicked)="handleGroupPermissionDeleteClicked($event)"
+      (onAddGroup)="handleOpenAddGroupDialog($event)"
+    ></digital-first-permission>
 
-  {{program.agency.title}}
+    <digital-first-program-reports
+      [artifactId]="programId"
+      [tableData]="programReportTableData"
+      (onDeleteClicked)="handleProgramReportDeleteItemClicked($event)"
+      (onAddItemClicked)="handleProgramReportAddItemDialog($event)"
+      (onCellClicked)="handleReportNavigation($event)"
+    ></digital-first-program-reports>
 
-  <h3>Notes</h3>
-  <p>
-    {{program.notes}}
-  </p>
+    <!--<button  title="add report"-->
+    <!--(click)="add(report)">+</button>-->
 
-  <h3>External Id</h3>
-  <p>
-    {{program.externalId}}
-  </p>
+    <!--<mdc-list>-->
+    <!--<mdc-list-item *ngFor="let report of program.reports">-->
+    <!--{{report.name}} {{report.notes}}-->
+    <!--<button  title="delete report"-->
+    <!--(click)="delete(report)">x</button>-->
+    <!--</mdc-list-item>-->
+    <!--</mdc-list>-->
 
-  <h3>Permissions</h3>
-  <ul>
-    <li *ngFor="let acl of program.accessControlList">
-      <ul>
-        <li *ngFor="let ace of acl.accessControlEntries">
-          {{ace.rights}}
-          <ul>
-            <li *ngFor="let group of ace.group">
-              {{group.title}}
-              <button title="remove permission for group" (click)="removeGroup(group, acl)">x</button>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
+    <digital-first-page-title title="Debug"></digital-first-page-title>
+    <pre>{{ program | json }}</pre>
 
-  <h3>Reports</h3>
-
-  <ul>
-    <li *ngFor="let report of program.reports">
-      {{report.name}} {{report.notes}}
-      <ul>
-        <li *ngFor="let acl of report.accessControlList">
-          <ul>
-            <li *ngFor="let ace of acl.accessControlEntries">
-              {{ace.rights}}
-              <ul>
-                <li *ngFor="let group of ace.group">
-                  {{group.title}}
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-
-      </ul>
-    </li>
-  </ul>
-
-  <!--<button  title="add report"-->
-  <!--(click)="add(report)">+</button>-->
-
-  <!--<mdc-list>-->
-  <!--<mdc-list-item *ngFor="let report of program.reports">-->
-  <!--{{report.name}} {{report.notes}}-->
-  <!--<button  title="delete report"-->
-  <!--(click)="delete(report)">x</button>-->
-  <!--</mdc-list-item>-->
-  <!--</mdc-list>-->
-
-
-  <p>{{program | json}}</p>
+  </section>
 </div>
-

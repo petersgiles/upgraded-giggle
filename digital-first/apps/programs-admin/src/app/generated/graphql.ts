@@ -339,6 +339,36 @@ export namespace AssignGroupToProgram {
   };
 }
 
+export namespace UpdateGroupPermissionsForProgram {
+  export type Variables = {
+    data?: ProgramAccessControlInputGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    updateGroupPermissionsForProgram: UpdateGroupPermissionsForProgram | null;
+  };
+
+  export type UpdateGroupPermissionsForProgram = {
+    __typename?: 'AccessControlEntryGraph';
+
+    rights: string;
+
+    group: (Group | null)[] | null;
+
+    rowVersion: string;
+  };
+
+  export type Group = {
+    __typename?: 'AccessControlGroupGraph';
+
+    id: Guid;
+
+    title: string;
+  };
+}
+
 export namespace RemoveGroupFromProgram {
   export type Variables = {
     data?: AccessControlInputGraph | null;
@@ -679,6 +709,28 @@ export class AssignGroupToProgramGQL extends Apollo.Mutation<
   document: any = gql`
     mutation assignGroupToProgram($data: ProgramAccessControlInputGraph) {
       assignGroupToProgram(programAccessControlInput: $data) {
+        rights
+        group {
+          id
+          title
+        }
+        rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdateGroupPermissionsForProgramGQL extends Apollo.Mutation<
+  UpdateGroupPermissionsForProgram.Mutation,
+  UpdateGroupPermissionsForProgram.Variables
+> {
+  document: any = gql`
+    mutation updateGroupPermissionsForProgram(
+      $data: ProgramAccessControlInputGraph
+    ) {
+      updateGroupPermissionsForProgram(programAccessControlInput: $data) {
         rights
         group {
           id
