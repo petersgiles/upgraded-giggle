@@ -1,10 +1,7 @@
 <div *ngIf="(programs$ | async) as programs; else loading">
-
   <div class="page_title">
     <div class="reader-card-article__title page_title_text" mdcHeadline5>Programs</div>
-    <!--<a [routerLink]="['add']">add</a>-->
   </div>
-
   <mdc-list>
     <mdc-list-item *ngFor="let program of programs">
       <mdc-list-item-text
@@ -12,11 +9,8 @@
       </mdc-list-item-text>
     </mdc-list-item>
   </mdc-list>
-
-
   <button #demofabposition mdc-fab position='bottomRight' (click)="add()" icon="add"></button>
 </div>
-
 <ng-template #loading>
   Loading...
 </ng-template>

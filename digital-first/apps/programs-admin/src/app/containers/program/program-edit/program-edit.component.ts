@@ -43,20 +43,13 @@ export class ProgramEditComponent implements OnInit, OnDestroy {
               private createProgramGQL: CreateProgramGQL) {
   }
 
-  private static CompareNames(a: Agency, b: Agency): number {
-    if (a.title < b.title) {
-      return -1;
-    }
-    if (a.title > b.title) {
-      return 1;
-    }
-    return 0;
-  }
-
   ngOnInit() {
-    this.agenciesSubscription$ = this.allAgencies.watch({}, {fetchPolicy: 'cache-first'}).valueChanges
-      .pipe(map(result => result.data.agencies)).subscribe(value => {
-          this.agencies = value.sort(ProgramEditComponent.CompareNames);
+    this.agenciesSubscription$ = this.allAgencies.watch(
+      {},
+      {fetchPolicy: 'cache-first'}).valueChanges
+      .pipe(map(result => result.data.agencies))
+      .subscribe(value => {
+          this.agencies = value
         }
       );
 

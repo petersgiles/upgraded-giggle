@@ -763,7 +763,7 @@ export class AllAgenciesGQL extends Apollo.Query<
 > {
   document: any = gql`
     query allAgencies {
-      agencies {
+      agencies(orderBy: { path: "title" }) {
         id
         metadata
         title
@@ -780,7 +780,7 @@ export class AllGroupsGQL extends Apollo.Query<
 > {
   document: any = gql`
     query allGroups {
-      groups {
+      groups(orderBy: { path: "title" }) {
         id
         title
         rowVersion
@@ -797,7 +797,7 @@ export class AllPortfoliosGQL extends Apollo.Query<
 > {
   document: any = gql`
     query allPortfolios {
-      portfolios {
+      portfolios(orderBy: { path: "title" }) {
         id
         title
         metadata
@@ -819,7 +819,7 @@ export class AllStatisticsGQL extends Apollo.Query<
 > {
   document: any = gql`
     query allStatistics {
-      statistics {
+      statistics(orderBy: { path: "name" }) {
         id
         name
         agency {
@@ -844,7 +844,7 @@ export class AllProgramsGQL extends Apollo.Query<
 > {
   document: any = gql`
     query allPrograms {
-      programs {
+      programs(orderBy: { path: "name" }) {
         id
         name
         agency {

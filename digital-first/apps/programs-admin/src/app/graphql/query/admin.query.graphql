@@ -1,5 +1,5 @@
 query allAgencies{
-  agencies{
+  agencies(orderBy: {path: "title"}){
     id
     metadata
     title
@@ -7,7 +7,7 @@ query allAgencies{
 }
 
 query allGroups{
-  groups{
+  groups(orderBy:{path:"title"}){
     id
     title
     rowVersion
@@ -15,7 +15,7 @@ query allGroups{
 }
 
 query allPortfolios{
-  portfolios{
+  portfolios(orderBy:{path:"title"}){
     id
     title
     metadata
@@ -28,7 +28,7 @@ query allPortfolios{
 }
 
 query allStatistics{
-  statistics{
+  statistics(orderBy: {path: "name"}){
     id
     name
     agency{
@@ -44,7 +44,7 @@ query allStatistics{
 }
 
 query allPrograms {
-  programs {
+  programs (orderBy: {path: "name"}){
     id
     name
     ,agency{
