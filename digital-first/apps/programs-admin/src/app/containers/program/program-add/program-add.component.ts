@@ -30,8 +30,9 @@ export class ProgramAddComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.agenciesSubscription$ = this.allAgencies.watch({}, {fetchPolicy: 'cache-first'}).valueChanges
-      .pipe(map(result => result.data.agencies)).subscribe(value => {
+    this.agenciesSubscription$ = this.allAgencies
+      .watch({}, {fetchPolicy: 'cache-first'})
+      .valueChanges.pipe(map(result => result.data.agencies)).subscribe(value => {
           this.agencies = value;
         }
       )
