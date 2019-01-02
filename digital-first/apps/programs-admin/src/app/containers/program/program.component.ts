@@ -78,7 +78,7 @@ export class ProgramComponent implements OnInit, OnDestroy {
     this.programId = this.route.snapshot.paramMap.get('id');
 
     this.programsSubscription$ = this.programGQL
-      .watch({programId: this.programId}, {fetchPolicy: 'no-cache'})
+      .watch({programId: this.programId}, {fetchPolicy: 'network-only'})
       .valueChanges.pipe(map(value => value.data.programs[0]))
       .subscribe(program => {
         this.program = program;
@@ -103,13 +103,18 @@ export class ProgramComponent implements OnInit, OnDestroy {
 
   handleGroupPermissionChangeClicked(row) {
 
+    //TODO: investigate why this mutation is not updating the cache automatically.  It is to do with
+    //not being able to find it because it has no ID in response of the mutation that it can match in the case?
+    //this combined with the refetchquery is causing the odd switching of buttons values.
     this.updateGroupPermissionsForProgramGQL
+
       .mutate(
         {
           data: {
             accessControlGroupId: row.id,
             programId: this.programId,
-            accessRights: row.cell.value
+            accessRights: row.cell.value,
+            rowVersion: row.row.data.rowVersion
           }
         },
         {
@@ -160,7 +165,7 @@ export class ProgramComponent implements OnInit, OnDestroy {
       .valueChanges.pipe(
       map(value => value.data.groups),
       first()
-      )
+    )
       .subscribe(groups => {
         const dialogRef = this.dialog.open(
           DialogAssignGroupPermissionComponent,
@@ -181,7 +186,8 @@ export class ProgramComponent implements OnInit, OnDestroy {
                   data: {
                     accessControlGroupId: result.id,
                     programId: this.programId,
-                    accessRights: AccessRights.Read
+                    accessRights: AccessRights.Read,
+                    rowVersion: '' //TODO: what to do here as row version is not available as it is new record
                   }
                 },
                 {
@@ -254,7 +260,8 @@ export class ProgramComponent implements OnInit, OnDestroy {
             id: grp.id,
             acl: acl.id,
             title: grp.title,
-            rights: rights
+            rights: rights,
+            rowVersion: ace.rowVersion
           };
         });
       });

@@ -66,6 +66,7 @@ query program ($programId: String!) {
       id
       accessControlEntries{
         rights
+        rowVersion
         group{
           id
           title

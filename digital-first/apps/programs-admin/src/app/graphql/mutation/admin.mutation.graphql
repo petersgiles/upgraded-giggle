@@ -23,6 +23,12 @@ mutation createProgram ($data:InputProgramGraph!) {
   program (inputProgram: $data)
   {
     id
+    name
+    agency{
+      id
+    }
+    notes
+    externalId
     rowVersion
   }
 }

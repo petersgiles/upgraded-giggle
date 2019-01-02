@@ -19,6 +19,8 @@ export interface ProgramAccessControlInputGraph {
 
   accessControlGroupId: Guid;
 
+  rowVersion: string;
+
   accessRights?: AccessRights | null;
 }
 
@@ -305,7 +307,21 @@ export namespace CreateProgram {
 
     id: Guid;
 
+    name: string;
+
+    agency: Agency | null;
+
+    notes: string | null;
+
+    externalId: string | null;
+
     rowVersion: string;
+  };
+
+  export type Agency = {
+    __typename?: 'AgencyGraph';
+
+    id: Guid;
   };
 }
 
@@ -567,6 +583,8 @@ export namespace Program {
 
     rights: string;
 
+    rowVersion: string;
+
     group: (Group | null)[] | null;
   };
 
@@ -694,6 +712,12 @@ export class CreateProgramGQL extends Apollo.Mutation<
     mutation createProgram($data: InputProgramGraph!) {
       program(inputProgram: $data) {
         id
+        name
+        agency {
+          id
+        }
+        notes
+        externalId
         rowVersion
       }
     }
@@ -871,6 +895,7 @@ export class ProgramGQL extends Apollo.Query<Program.Query, Program.Variables> {
           id
           accessControlEntries {
             rights
+            rowVersion
             group {
               id
               title

@@ -4,14 +4,13 @@ import {Observable} from "rxjs";
 import {
   AllAgencies,
   AllAgenciesGQL,
-  AllStatistics,
   CreateProgramGQL, Program,
   ProgramGQL
 } from "../../../generated/graphql";
 import {ActivatedRoute, Router} from "@angular/router";
 import {map} from "rxjs/operators";
 import {Subscription} from "rxjs";
-import Agency = AllStatistics.Agency;
+
 
 @Component({
   selector: 'digital-first-program-edit',
@@ -57,7 +56,7 @@ export class ProgramEditComponent implements OnInit, OnDestroy {
 
     this.programs$ = this.programGQL.watch(
       {programId: this.programId},
-      {fetchPolicy: 'cache-first'})
+      {fetchPolicy: 'network-only'})
       .valueChanges.pipe(map(value => value.data.programs[0]));
 
     this.programSubscription$ = this.programs$.subscribe(
