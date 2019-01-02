@@ -1,12 +1,24 @@
 <ng-template #tableHeading let-headings>
-  <th *ngFor="let heading of headings" class="df-data-table__cell--non-numeric" [innerHtml]="heading.caption | safeHtml"></th>
+  <th
+    *ngFor="let heading of headings"
+    class="df-data-table__cell--non-numeric"
+    [innerHtml]="heading.caption | safeHtml"
+  ></th>
 </ng-template>
 
 <ng-template #tableHead let-tableData>
   <thead *ngIf="tableData">
     <tr *ngIf="tableData.headings">
-      <ng-container *ngTemplateOutlet="tableHeading; context:{ $implicit: tableData?.headings }"></ng-container>
-      <th *ngIf="tableData.hasDeleteItemButton" class="df-data-table__cell--non-numeric df-data-table__action-cell">
+      <ng-container
+        *ngTemplateOutlet="
+          tableHeading;
+          context: { $implicit: tableData?.headings }
+        "
+      ></ng-container>
+      <th
+        *ngIf="tableData.hasDeleteItemButton"
+        class="df-data-table__cell--non-numeric df-data-table__action-cell"
+      >
         &nbsp;
       </th>
     </tr>
@@ -15,28 +27,79 @@
 
 <ng-template #tableBody let-tableData>
   <tbody *ngIf="tableData">
-    <ng-container *ngTemplateOutlet="tableBodyRow; context:{ $implicit: tableData }"></ng-container>
+    <ng-container
+      *ngTemplateOutlet="tableBodyRow; context: { $implicit: tableData }"
+    ></ng-container>
   </tbody>
+</ng-template>
+
+<ng-template #rowTextCell let-cellData>
+  <span
+    *ngIf="cellData.truncate"
+    [innerHtml]="cellData.value | truncate: cell.truncate | safeHtml"
+  ></span>
+  <span
+    *ngIf="!cellData.truncate"
+    [innerHtml]="cellData.value | safeHtml"
+  ></span>
+</ng-template>
+
+<ng-template #rowRadioCell let-templateData>
+  	<mdc-radio-group [(ngModel)]="templateData.cell.value" (change)="handleCellClicked(templateData.row, templateData.cell)">
+        <mdc-form-field *ngFor="let option of templateData.cell.data" >
+          <mdc-radio [value]="option.value"></mdc-radio>
+          <label>{{option.caption}}</label>
+        </mdc-form-field>
+      </mdc-radio-group>
 </ng-template>
 
 <ng-template #tableBodyRow let-tableData>
   <tr *ngFor="let row of tableData.rows">
-    <td *ngFor="let cell of row.cells" class="df-data-table__cell--non-numeric" (click)="onCellClicked.emit(row, cell)">
-      <span *ngIf="cell.truncate" [innerHtml]="cell.value | truncate:cell.truncate | safeHtml"></span>
-      <span *ngIf="!cell.truncate" [innerHtml]="cell.value | safeHtml"></span>
+    <td
+      *ngFor="let cell of row.cells"
+      class="df-data-table__cell--non-numeric"
+      (click)="handleCellClicked(row, cell)"
+      [ngSwitch]="cell.type"
+    >
+      <ng-container *ngSwitchCase="'radio'">
+          <ng-container 
+          *ngTemplateOutlet="rowRadioCell; context: { $implicit: {row: row, cell:cell} }"
+        ></ng-container>
+      </ng-container>
+      <ng-container *ngSwitchDefault>
+        <ng-container
+          *ngTemplateOutlet="rowTextCell; context: { $implicit: cell }"
+        ></ng-container>
+      </ng-container>
     </td>
-    <td *ngIf="tableData.hasDeleteItemButton" class="df-data-table__cell--action">
-      <a mdcIcon attr.aria-label="Delete Item" title="Delete Item" (click)="onDeleteItem.emit(row)">delete</a>
+    <td
+      *ngIf="tableData.hasDeleteItemButton"
+      class="df-data-table__cell--action"
+    >
+      <a
+        mdcIcon
+        attr.aria-label="Delete Item"
+        title="Delete Item"
+        (click)="onDeleteItem.emit(row)"
+        >delete</a
+      >
     </td>
   </tr>
 </ng-template>
 
-<table class="df-data-table df-js-data-table df-data-table--selectable df-shadow--2dp" *ngIf="tableData?.rows?.length > 0">
-  <ng-container *ngTemplateOutlet="tableHead; context:{ $implicit: tableData }"></ng-container>
-  <ng-container *ngTemplateOutlet="tableBody; context:{ $implicit: tableData }"></ng-container>
+<table
+  class="df-data-table df-js-data-table df-data-table--selectable df-shadow--2dp"
+  *ngIf="tableData?.rows?.length > 0"
+>
+  <ng-container
+    *ngTemplateOutlet="tableHead; context: { $implicit: tableData }"
+  ></ng-container>
+  <ng-container
+    *ngTemplateOutlet="tableBody; context: { $implicit: tableData }"
+  ></ng-container>
 </table>
 
 <div class="df-no-data-table" *ngIf="!(tableData?.rows?.length > 0)">
-  <div *ngIf="tableData?.noDataMessage">{{tableData?.noDataMessage}}</div>
-  <div *ngIf="!(tableData?.noDataMessage)">No data to display</div>
+  <div *ngIf="tableData?.noDataMessage">{{ tableData?.noDataMessage }}</div>
+  <div *ngIf="!tableData?.noDataMessage">No data to display</div>
 </div>

@@ -8,12 +8,12 @@ export const environment = {
   version: require('../../../../package.json').version,
   datasource: {
     type: 'local',
-    dataServiceUrl: 'https://localhost:52619/graphql',
-    adminDataServiceUrl: 'https://localhost:52629/graphql',
+    dataServiceUrl: 'https://localhost:52629/graphql',
     passthroughUrl: 'https://localhost:52629/api/sendmessage'
   },
-  federatedLoginApiPath: '//localhost:52629'
-};
+  federatedLoginApiPath: '//localhost:52629',
+  appBasePath: '/admin'
+}
 
 /*
  * In development mode, for easier debugging, you can ignore zone related error

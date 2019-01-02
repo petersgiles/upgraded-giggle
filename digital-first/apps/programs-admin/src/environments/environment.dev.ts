@@ -8,8 +8,7 @@ export const environment = {
   version: require('../../../../package.json').version,
  datasource: {
     type: 'local',
-    dataServiceUrl: '//#{ApiPath}/graphql',
-    adminDataServiceUrl: '//#{ApiPath}/admin/graphql',
+    dataServiceUrl: '//#{ApiPath}/admin/graphql',
     passthroughUrl: '//#{ApiPath}/admin/api/sendmessage'
   },
   federatedLoginApiPath: '//#{ApiPath}/admin',

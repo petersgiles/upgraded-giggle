@@ -29,6 +29,8 @@ import { AddSubscriptionButtonComponent } from './subscriber-button.component'
 import { InfoComponent } from './info/info.component'
 import { PrintPageButtonComponent } from './print-page-button.component'
 import { EditorComponent } from './editor/editor.component'
+import { DeleteItemButtonComponent } from './delete-item-button.component'
+import { EditItemButtonComponent } from './edit-item-button.component'
 
 const COMPONENTS = [
   TagsComponent,
@@ -53,7 +55,9 @@ const COMPONENTS = [
   ElectorateSelectorComponent,
   AvatarComponent,
   InfoComponent,
-  EditorComponent
+  EditorComponent,
+  DeleteItemButtonComponent,
+  EditItemButtonComponent
 ]
 
 @NgModule({

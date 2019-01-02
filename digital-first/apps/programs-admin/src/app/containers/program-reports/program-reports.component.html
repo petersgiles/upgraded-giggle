@@ -1,0 +1,10 @@
+<digital-first-page-title title="Program Reports" (onTitleClicked)="handleChangeExpanded(!expanded)">
+  <digital-first-add-item-button icon="note_add" title="Add&nbsp;Report"
+  (onAddItem)="onAddItemClicked.emit()"></digital-first-add-item-button>
+ <digital-first-expand-collapse-button [expanded]='expanded' (onChangeExpanded)="handleChangeExpanded(!expanded)"></digital-first-expand-collapse-button>
+</digital-first-page-title>
+
+<div class="commitment-layout__row" >
+<digital-first-data-table [tableData]="tableData" (onDeleteItem)="handleTableDeleteClicked($event)"
+  (onCellClicked)="onCellClicked.emit($event)"></digital-first-data-table>
+</div>

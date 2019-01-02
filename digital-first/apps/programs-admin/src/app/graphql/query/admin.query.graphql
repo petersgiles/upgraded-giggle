@@ -6,6 +6,14 @@ query allAgencies{
   }
 }
 
+query allGroups{
+  groups{
+    id
+    title
+    rowVersion
+  }
+}
+
 query allPortfolios{
   portfolios{
     id
@@ -52,6 +60,21 @@ query program ($programId: String!) {
     id
     name
     notes
+    externalId
+    rowVersion
+    accessControlList{
+      id
+      accessControlEntries{
+        rights
+        group{
+          id
+          title
+          members{
+            emailAddress
+          }
+        }
+      }
+    }
     agency{
       id
       title
@@ -61,6 +84,16 @@ query program ($programId: String!) {
       id
       name
       notes
+      accessControlList{
+        accessControlEntries{
+          group{
+            title
+            members{
+              emailAddress
+            }
+          }
+        }
+      }
     }
     projects{
       id

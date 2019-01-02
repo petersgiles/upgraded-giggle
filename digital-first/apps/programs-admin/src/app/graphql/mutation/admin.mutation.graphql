@@ -1,5 +1,54 @@
-mutation mutatePortfolio($portfolio: ModifyPortfolioGraph!, $messageId: Guid!, $conversationId: Guid!){
-  modifyPortfolio(messageId: $messageId, conversationId: $conversationId, portfolio: $portfolio){
+#mutation modifyReport($modifyReport: ModifyReportGraph){
+#  modifyReport(modifyReport: $modifyReport){
+#    id
+#    name
+#    rowVersion
+#  }
+#}
+#
+#
+#
+#mutation deleteReport($reportId:ModifyReportGraph!){
+#  deleteReport(deleteReportId:$reportId){
+#    id
+#  }
+#}
+
+mutation deleteProgram($data:InputDeleteProgramGraph) {
+  deleteProgram(inputDeleteProgram:$data)
+}
+
+
+mutation createProgram ($data:InputProgramGraph!) {
+  program (inputProgram: $data)
+  {
     id
+    rowVersion
   }
+}
+
+mutation assignGroupToProgram($data:ProgramAccessControlInputGraph){
+  assignGroupToProgram(programAccessControlInput: $data){
+    rights
+    group{
+      id
+      title
+    }
+    rowVersion
+  }
+}
+
+mutation updateGroupPermissionsForProgram($data:ProgramAccessControlInputGraph){
+  updateGroupPermissionsForProgram(programAccessControlInput: $data){
+    rights
+    group{
+      id
+      title
+    }
+    rowVersion
+  }
+}
+
+mutation removeGroupFromProgram($data:AccessControlInputGraph) {
+  removeGroupFromProgram(accessControlInputGraph:$data)
 }
