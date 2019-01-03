@@ -9,6 +9,7 @@ import {ProgramComponent} from "./containers/program/program.component";
 import {AuthGuard} from "./services/auth-guard.service";
 import {ProgramAddComponent} from "./containers/program/program-add/program-add.component";
 import {ProgramEditComponent} from "./containers/program/program-edit/program-edit.component";
+import {ReportAddComponent} from "./containers/program-reports/report-add/report-add.component";
 
 export const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -61,6 +62,14 @@ export const routes: Routes = [
         data: {
           title: 'Program',
           icon: 'live_tv',
+          nav: false
+        }
+      },
+      {
+        path: 'programs/:id/reports/add',
+        component: ReportAddComponent,
+        canActivate: [AuthGuard],
+        data: {
           nav: false
         }
       },
