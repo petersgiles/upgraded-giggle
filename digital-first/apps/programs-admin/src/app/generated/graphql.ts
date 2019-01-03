@@ -19,6 +19,8 @@ export interface ProgramAccessControlInputGraph {
 
   accessControlGroupId: Guid;
 
+  rowVersion: string;
+
   accessRights?: AccessRights | null;
 }
 
@@ -305,7 +307,21 @@ export namespace CreateProgram {
 
     id: Guid;
 
+    name: string;
+
+    agency: Agency | null;
+
+    notes: string | null;
+
+    externalId: string | null;
+
     rowVersion: string;
+  };
+
+  export type Agency = {
+    __typename?: 'AgencyGraph';
+
+    id: Guid;
   };
 }
 
@@ -355,17 +371,9 @@ export namespace UpdateGroupPermissionsForProgram {
 
     rights: string;
 
-    group: (Group | null)[] | null;
+    id: string;
 
     rowVersion: string;
-  };
-
-  export type Group = {
-    __typename?: 'AccessControlGroupGraph';
-
-    id: Guid;
-
-    title: string;
   };
 }
 
@@ -565,7 +573,11 @@ export namespace Program {
   export type AccessControlEntries = {
     __typename?: 'AccessControlEntryGraph';
 
+    id: string;
+
     rights: string;
+
+    rowVersion: string;
 
     group: (Group | null)[] | null;
   };
@@ -694,6 +706,12 @@ export class CreateProgramGQL extends Apollo.Mutation<
     mutation createProgram($data: InputProgramGraph!) {
       program(inputProgram: $data) {
         id
+        name
+        agency {
+          id
+        }
+        notes
+        externalId
         rowVersion
       }
     }
@@ -732,10 +750,7 @@ export class UpdateGroupPermissionsForProgramGQL extends Apollo.Mutation<
     ) {
       updateGroupPermissionsForProgram(programAccessControlInput: $data) {
         rights
-        group {
-          id
-          title
-        }
+        id
         rowVersion
       }
     }
@@ -763,7 +778,7 @@ export class AllAgenciesGQL extends Apollo.Query<
 > {
   document: any = gql`
     query allAgencies {
-      agencies {
+      agencies(orderBy: { path: "title" }) {
         id
         metadata
         title
@@ -780,7 +795,7 @@ export class AllGroupsGQL extends Apollo.Query<
 > {
   document: any = gql`
     query allGroups {
-      groups {
+      groups(orderBy: { path: "title" }) {
         id
         title
         rowVersion
@@ -797,7 +812,7 @@ export class AllPortfoliosGQL extends Apollo.Query<
 > {
   document: any = gql`
     query allPortfolios {
-      portfolios {
+      portfolios(orderBy: { path: "title" }) {
         id
         title
         metadata
@@ -819,7 +834,7 @@ export class AllStatisticsGQL extends Apollo.Query<
 > {
   document: any = gql`
     query allStatistics {
-      statistics {
+      statistics(orderBy: { path: "name" }) {
         id
         name
         agency {
@@ -844,7 +859,7 @@ export class AllProgramsGQL extends Apollo.Query<
 > {
   document: any = gql`
     query allPrograms {
-      programs {
+      programs(orderBy: { path: "name" }) {
         id
         name
         agency {
@@ -870,7 +885,9 @@ export class ProgramGQL extends Apollo.Query<Program.Query, Program.Variables> {
         accessControlList {
           id
           accessControlEntries {
+            id
             rights
+            rowVersion
             group {
               id
               title

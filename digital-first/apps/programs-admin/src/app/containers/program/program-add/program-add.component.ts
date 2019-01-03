@@ -1,9 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
-import {AllAgencies, AllAgenciesGQL, AllProgramsGQL, AllStatistics, CreateProgramGQL} from "../../../generated/graphql";
+import {AllAgencies, AllAgenciesGQL, AllProgramsGQL, CreateProgramGQL} from "../../../generated/graphql";
 import {Subscription} from "rxjs";
 import {map} from "rxjs/operators";
-import Agency = AllStatistics.Agency;
 import {Router} from "@angular/router";
 
 @Component({
@@ -30,20 +29,11 @@ export class ProgramAddComponent implements OnInit, OnDestroy {
               private createProgramGQL: CreateProgramGQL) {
   }
 
-  private static CompareNames(a: Agency, b: Agency): number {
-    if (a.title < b.title) {
-      return -1;
-    }
-    if (a.title > b.title) {
-      return 1;
-    }
-    return 0;
-  }
-
   ngOnInit() {
-    this.agenciesSubscription$ = this.allAgencies.watch({}, {fetchPolicy: 'cache-first'}).valueChanges
-      .pipe(map(result => result.data.agencies)).subscribe(value => {
-          this.agencies = value.sort(ProgramAddComponent.CompareNames);
+    this.agenciesSubscription$ = this.allAgencies
+      .watch({}, {fetchPolicy: 'cache-first'})
+      .valueChanges.pipe(map(result => result.data.agencies)).subscribe(value => {
+          this.agencies = value;
         }
       )
   }

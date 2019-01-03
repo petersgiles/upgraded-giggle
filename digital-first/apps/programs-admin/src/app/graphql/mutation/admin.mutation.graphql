@@ -23,6 +23,12 @@ mutation createProgram ($data:InputProgramGraph!) {
   program (inputProgram: $data)
   {
     id
+    name
+    agency{
+      id
+    }
+    notes
+    externalId
     rowVersion
   }
 }
@@ -41,10 +47,7 @@ mutation assignGroupToProgram($data:ProgramAccessControlInputGraph){
 mutation updateGroupPermissionsForProgram($data:ProgramAccessControlInputGraph){
   updateGroupPermissionsForProgram(programAccessControlInput: $data){
     rights
-    group{
-      id
-      title
-    }
+    id
     rowVersion
   }
 }

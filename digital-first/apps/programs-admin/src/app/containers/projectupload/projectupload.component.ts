@@ -7,7 +7,6 @@ import {MdcSnackbar} from '@angular-mdc/web'
 import {FormBuilder} from '@angular/forms'
 import {Validators} from '@angular/forms';
 import {map} from "rxjs/operators";
-import Programs = AllPrograms.Programs;
 
 @Component({
   selector: 'digital-first-projectupload',
@@ -38,20 +37,10 @@ export class ProjectuploadComponent implements OnInit, OnDestroy {
     return `status: ${JSON.stringify(this.projectForm.status)},  value: ${JSON.stringify(this.projectForm.value)}`;
   }
 
-  private static CompareNames(a: Programs, b: Programs): number {
-    if (a.name < b.name) {
-      return -1;
-    }
-    if (a.name > b.name) {
-      return 1;
-    }
-    return 0;
-  }
-
   ngOnInit() {
     this.programsSubscription$ = this.allPrograms.watch().valueChanges
       .pipe(map(result => result.data.programs)).subscribe(value => {
-          this.programs = value.sort(ProjectuploadComponent.CompareNames);
+          this.programs = value;
         }
       );
   }

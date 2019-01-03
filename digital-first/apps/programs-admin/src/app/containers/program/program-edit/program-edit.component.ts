@@ -4,14 +4,13 @@ import {Observable} from "rxjs";
 import {
   AllAgencies,
   AllAgenciesGQL,
-  AllStatistics,
   CreateProgramGQL, Program,
   ProgramGQL
 } from "../../../generated/graphql";
 import {ActivatedRoute, Router} from "@angular/router";
 import {map} from "rxjs/operators";
 import {Subscription} from "rxjs";
-import Agency = AllStatistics.Agency;
+
 
 @Component({
   selector: 'digital-first-program-edit',
@@ -43,20 +42,13 @@ export class ProgramEditComponent implements OnInit, OnDestroy {
               private createProgramGQL: CreateProgramGQL) {
   }
 
-  private static CompareNames(a: Agency, b: Agency): number {
-    if (a.title < b.title) {
-      return -1;
-    }
-    if (a.title > b.title) {
-      return 1;
-    }
-    return 0;
-  }
-
   ngOnInit() {
-    this.agenciesSubscription$ = this.allAgencies.watch({}, {fetchPolicy: 'cache-first'}).valueChanges
-      .pipe(map(result => result.data.agencies)).subscribe(value => {
-          this.agencies = value.sort(ProgramEditComponent.CompareNames);
+    this.agenciesSubscription$ = this.allAgencies.watch(
+      {},
+      {fetchPolicy: 'cache-first'}).valueChanges
+      .pipe(map(result => result.data.agencies))
+      .subscribe(value => {
+          this.agencies = value
         }
       );
 
@@ -64,7 +56,7 @@ export class ProgramEditComponent implements OnInit, OnDestroy {
 
     this.programs$ = this.programGQL.watch(
       {programId: this.programId},
-      {fetchPolicy: 'cache-first'})
+      {fetchPolicy: 'network-only'})
       .valueChanges.pipe(map(value => value.data.programs[0]));
 
     this.programSubscription$ = this.programs$.subscribe(

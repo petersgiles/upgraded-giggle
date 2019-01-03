@@ -7,7 +7,6 @@ import {UploadElectorateStatisticSpreadsheet} from "@dsuite/programs-manager-mes
 import {MdcSnackbar} from '@angular-mdc/web'
 import {FormBuilder} from '@angular/forms'
 import {Validators} from '@angular/forms';
-import Statistics = AllStatistics.Statistics;
 
 @Component({
   selector: 'digital-first-statisticupload',
@@ -41,16 +40,6 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
     return `status: ${JSON.stringify(this.statisticForm.status)},  value: ${JSON.stringify(this.statisticForm.value)}`;
   }
 
-  private static CompareNames(a: Statistics, b: Statistics): number {
-    if (a.name < b.name) {
-      return -1;
-    }
-    if (a.name > b.name) {
-      return 1;
-    }
-    return 0;
-  }
-
   onSelectionChange(event: { index: any, value: any }) {
 
     if (event.index > -1) {
@@ -68,7 +57,7 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.statisticsSubscription$ = this.allStatistics.watch().valueChanges
       .pipe(map(result => result.data.statistics)).subscribe(value => {
-          this.statistics = value.sort(StatisticuploadComponent.CompareNames);
+          this.statistics = value;
         }
       );
   }
