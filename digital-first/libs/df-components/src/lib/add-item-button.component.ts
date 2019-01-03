@@ -8,7 +8,6 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core'
 styles: [`
 :host {
   padding-right:4px;
-  width: 150px;
 }
 `]
 })
