@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { DataTableConfig } from './data-table-model';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
+import { DataTableConfig } from './data-table-model'
 
 @Component({
   selector: 'digital-first-data-table',
@@ -11,17 +11,17 @@ export class DataTableComponent implements OnInit {
 
   ngOnInit() {}
 
-  @Input() tableData: DataTableConfig;
+  @Input() tableData: DataTableConfig
 
-  @Output() onDeleteItem: EventEmitter<any> = new EventEmitter();
+  @Output() onDeleteItem: EventEmitter<any> = new EventEmitter()
 
-  @Output() onCellClicked: EventEmitter<any> = new EventEmitter();
+  @Output() onCellClicked: EventEmitter<any> = new EventEmitter()
 
-  @Output() onRowClicked: EventEmitter<any> = new EventEmitter();
+  @Output() onRowClicked: EventEmitter<any> = new EventEmitter()
 
   handleCellClicked(row, cell) {
     // tslint:disable-next-line:no-console
     console.log(row, cell)
-    this.onCellClicked.emit({ id: row.id, row, cell });
+    this.onCellClicked.emit({ id: row.id, row, cell })
   }
 }
