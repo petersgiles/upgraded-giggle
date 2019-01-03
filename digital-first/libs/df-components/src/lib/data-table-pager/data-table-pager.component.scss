@@ -1,0 +1,102 @@
+$df-data-table-pager-height: 56px;
+$df-data-table-pager-padding: 0 8px;
+
+$df-data-table-pager-page-size-margin-right: 8px;
+
+$df-data-table-pager-items-per-page-label-margin: 0 4px;
+$df-data-table-pager-selector-margin: 6px 4px 0 4px;
+$df-data-table-pager-selector-trigger-width: 56px;
+$df-data-table-pager-selector-trigger-outline-width: 64px;
+$df-data-table-pager-selector-trigger-fill-width: 64px;
+
+/** @deprecated Use `$df-data-table-pager-selector-trigger-width` instead. @breaking-change 8.0.0 */
+$df-data-table-pager-selector-trigger-min-width: $df-data-table-pager-selector-trigger-width;
+
+/** @deprecated Unused. To be removed */
+$df-data-table-pager-range-actions-min-height: 48px;
+
+$df-data-table-pager-range-label-margin: 0 32px 0 24px;
+
+$df-data-table-pager-button-margin: 8px;
+$df-data-table-pager-button-icon-height: 8px;
+$df-data-table-pager-button-icon-width: 8px;
+
+$df-data-table-pager-button-increment-icon-margin: 12px;
+$df-data-table-pager-button-decrement-icon-margin: 16px;
+
+$df-data-table-pager-button-first-last-icon-width: 14px;
+
+$df-data-table-pager-button-first-icon-margin: 3px;
+$df-data-table-pager-button-last-icon-margin: 15px;
+
+
+$df-data-table-pager-button-first-decrement-icon-margin: 21px;
+$df-data-table-pager-button-last-increment-icon-margin: 9px;
+
+
+.df-data-table-pager {
+    display: block;
+  }
+  
+  // Note: this wrapper element is only used to get the flexbox vertical centering to work
+  // with the `min-height` on IE11. It can be removed if we drop support for IE.
+  .df-data-table-pager-outer-container {
+    display: flex;
+  }
+  
+  .df-data-table-pager-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-height: $df-data-table-pager-height;
+    padding: $df-data-table-pager-padding;
+    flex-wrap: wrap-reverse;
+    width: 100%;
+  }
+  
+  .df-data-table-pager-page-size {
+    display: flex;
+    align-items: baseline;
+    margin-right: $df-data-table-pager-page-size-margin-right;
+  
+    [dir='rtl'] & {
+      margin-right: 0;
+      margin-left: $df-data-table-pager-page-size-margin-right;
+    }
+  }
+  
+  .df-data-table-pager-page-size-label {
+    margin: $df-data-table-pager-items-per-page-label-margin;
+  }
+  
+  .df-data-table-pager-page-size-select {
+    margin: $df-data-table-pager-selector-margin;
+    width: $df-data-table-pager-selector-trigger-width;
+  
+    &.mat-form-field-appearance-outline {
+      width: $df-data-table-pager-selector-trigger-outline-width;
+    }
+  
+    &.mat-form-field-appearance-fill {
+      width: $df-data-table-pager-selector-trigger-fill-width;
+    }
+  }
+  
+  .df-data-table-pager-range-label {
+    margin: $df-data-table-pager-range-label-margin;
+  }
+  
+  .df-data-table-pager-range-actions {
+    display: flex;
+    align-items: center;
+  }
+  
+  .df-data-table-pager-icon {
+    width: $df-data-table-pager-height / 2;
+    fill: currentColor;
+  
+    [dir='rtl'] & {
+      transform: rotate(180deg);
+    }
+  }
+  
