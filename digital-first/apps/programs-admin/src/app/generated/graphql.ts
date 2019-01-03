@@ -389,6 +389,28 @@ export namespace RemoveGroupFromProgram {
   };
 }
 
+export namespace AddReport {
+  export type Variables = {
+    data?: InputReportGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    report: Report | null;
+  };
+
+  export type Report = {
+    __typename?: 'ReportGraph';
+
+    id: Guid;
+
+    notes: string | null;
+
+    rowVersion: string;
+  };
+}
+
 export namespace AllAgencies {
   export type Variables = {};
 
@@ -766,6 +788,23 @@ export class RemoveGroupFromProgramGQL extends Apollo.Mutation<
   document: any = gql`
     mutation removeGroupFromProgram($data: AccessControlInputGraph) {
       removeGroupFromProgram(accessControlInputGraph: $data)
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class AddReportGQL extends Apollo.Mutation<
+  AddReport.Mutation,
+  AddReport.Variables
+> {
+  document: any = gql`
+    mutation addReport($data: InputReportGraph) {
+      report(inputReport: $data) {
+        id
+        notes
+        rowVersion
+      }
     }
   `;
 }

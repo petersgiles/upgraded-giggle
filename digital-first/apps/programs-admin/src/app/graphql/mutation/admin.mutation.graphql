@@ -55,3 +55,11 @@ mutation updateGroupPermissionsForProgram($data:ProgramAccessControlInputGraph){
 mutation removeGroupFromProgram($data:AccessControlInputGraph) {
   removeGroupFromProgram(accessControlInputGraph:$data)
 }
+
+mutation addReport($data:InputReportGraph){
+  report(inputReport: $data){
+    id
+    notes
+    rowVersion
+  }
+}
