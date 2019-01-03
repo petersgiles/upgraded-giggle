@@ -371,17 +371,9 @@ export namespace UpdateGroupPermissionsForProgram {
 
     rights: string;
 
-    group: (Group | null)[] | null;
+    id: string;
 
     rowVersion: string;
-  };
-
-  export type Group = {
-    __typename?: 'AccessControlGroupGraph';
-
-    id: Guid;
-
-    title: string;
   };
 }
 
@@ -581,6 +573,8 @@ export namespace Program {
   export type AccessControlEntries = {
     __typename?: 'AccessControlEntryGraph';
 
+    id: string;
+
     rights: string;
 
     rowVersion: string;
@@ -756,10 +750,7 @@ export class UpdateGroupPermissionsForProgramGQL extends Apollo.Mutation<
     ) {
       updateGroupPermissionsForProgram(programAccessControlInput: $data) {
         rights
-        group {
-          id
-          title
-        }
+        id
         rowVersion
       }
     }
@@ -894,6 +885,7 @@ export class ProgramGQL extends Apollo.Query<Program.Query, Program.Variables> {
         accessControlList {
           id
           accessControlEntries {
+            id
             rights
             rowVersion
             group {

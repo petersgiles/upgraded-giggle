@@ -103,11 +103,7 @@ export class ProgramComponent implements OnInit, OnDestroy {
 
   handleGroupPermissionChangeClicked(row) {
 
-    //TODO: investigate why this mutation is not updating the cache automatically.  It is to do with
-    //not being able to find it because it has no ID in response of the mutation that it can match in the case?
-    //this combined with the refetchquery is causing the odd switching of buttons values.
     this.updateGroupPermissionsForProgramGQL
-
       .mutate(
         {
           data: {
@@ -117,16 +113,7 @@ export class ProgramComponent implements OnInit, OnDestroy {
             rowVersion: row.row.data.rowVersion
           }
         },
-        {
-          refetchQueries: [
-            {
-              query: this.programGQL.document,
-              variables: {
-                programId: this.programId
-              }
-            }
-          ]
-        }
+        {}
       )
       .pipe(first())
       .subscribe(value => {
