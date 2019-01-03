@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Location} from '@angular/common';
+import {AddReportGQL} from "../../../generated/graphql";
 
 @Component({
   selector: 'digital-first-report-add',
@@ -11,23 +12,38 @@ import {Location} from '@angular/common';
 export class ReportAddComponent implements OnInit {
 
   addReportForm = this.formBuilder.group({
-    programName: [null, Validators.required],
-    notes: [''],
+    reportName: [null, Validators.required],
+    notes: ['']
   });
+
+  private programId: string;
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
-              private location: Location) {
+              private location: Location,
+              private route: ActivatedRoute,
+              private addReportGQL: AddReportGQL) {
   }
 
   onSubmit() {
-    console.log('TODO:  save the report against the program');
+    this.addReportGQL.mutate({
+      data: {
+        programId: this.programId,
+        name: this.addReportForm.value['reportName'],
+        notes: this.addReportForm.value['notes'],
+      }
+    }, {}).subscribe(() => {
+      return this.router.navigate(['programs', this.programId]);
+    }, (error) => {
+      console.log('there was an error sending the query', error);
+    });
   }
 
   cancel() {
-    return this.location.back()
+    return this.location.back();
   }
 
   ngOnInit(): void {
+    this.programId = this.route.snapshot.paramMap.get('id');
   }
 }
