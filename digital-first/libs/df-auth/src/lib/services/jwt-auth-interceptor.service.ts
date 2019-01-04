@@ -7,10 +7,9 @@ import {
 } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { LOCALSTORAGE } from '@digital-first/df-utils'
-import { Store } from '@ngrx/store'
-import * as fromAuthState from '../+state/auth.reducer'
-import { LoginRedirect } from '../+state/auth.actions'
+
 import { AUTH_KEY } from '../constants'
+import { Router } from '@angular/router'
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +18,8 @@ export class JwtAuthInterceptor implements HttpInterceptor {
 
   constructor(
     @Inject(LOCALSTORAGE) private localStorage: any,
-    private store: Store<fromAuthState.AuthState>) { }
+    private router: Router
+    ) { }
 
   intercept(
     req: HttpRequest<any>,
@@ -29,7 +29,7 @@ export class JwtAuthInterceptor implements HttpInterceptor {
     const idToken = auth && auth.status && auth.status.auth && auth.status.auth.idToken
 
     if (!idToken) {
-      this.store.dispatch(new LoginRedirect(req.url))
+       this.router.navigate(['/', 'login'], { queryParams: { o: req.url } })
     }
     const cloned = req.clone({
       headers: req.headers.set('Authorization', 'Bearer ' + idToken)

@@ -1,31 +1,57 @@
 <div class="page_title">
-    <div #discussion class="reader-card-article__title page_title_text" mdcHeadline5>Commitments</div>
-    <digital-first-add-item-button title="New&nbsp;Commitment" (onAddItem)="handleCreate()"></digital-first-add-item-button>
-    <digital-first-view-layout-button [pageFormat]="pageFormat" (onChangePageFormat)="changePageFormat($event)"></digital-first-view-layout-button>
+  <div
+    #discussion
+    class="reader-card-article__title page_title_text"
+    mdcHeadline5
+  >
+    Commitments
+  </div>
+  <digital-first-add-item-button
+    title="New&nbsp;Commitment"
+    (onAddItem)="handleCreate()"
+  ></digital-first-add-item-button>
+  <digital-first-view-layout-button
+    [pageFormat]="pageFormat"
+    (onChangePageFormat)="changePageFormat($event)"
+  ></digital-first-view-layout-button>
 </div>
 <div class="app-page">
-    <section>
-         <div class="app-layout__row--no-wrap">
-            <digital-first-metadata-refiner [refinerGroups]="refinerGroups$ | async" 
-            (onSearchCriteriaChanged)="handleSearchCriteriaChanged($event)"
-            (onClear)="handleSearchCriteriaChanged(null)"
-            (onRefinerGroupSelected)="handleRefinerGroupSelected($event)"
-            (onRefinerSelected)="handleRefinerSelected($event)"></digital-first-metadata-refiner>
+  <section>
+    <div class="app-layout__row--no-wrap">
+      <digital-first-metadata-refiner
+        [refinerGroups]="refinerGroups$ | async"
+        (onSearchCriteriaChanged)="handleSearchCriteriaChanged($event)"
+        (onClear)="handleSearchCriteriaChanged(null)"
+        (onRefinerGroupSelected)="handleRefinerGroupSelected($event)"
+        (onRefinerSelected)="handleRefinerSelected($event)"
+      ></digital-first-metadata-refiner>
+      <div *ngIf="pageFormat == 'table'" class="overview-data-table">
+        <digital-first-data-table-pager [length]="dataTableRows?.length" [pageSize]="pageSize" [pageIndex]="pageIndex" [showFirstLastButtons]="false" (page)="handlePage($event)"></digital-first-data-table-pager>
+        <digital-first-data-table
+          [tableData]="dataTableConfig"
+          [tableRows]="pagedDataTableRows"
+          (onCellClicked)="handleCommitmentsRowClicked($event)"
+        ></digital-first-data-table>
+        <digital-first-data-table-pager [length]="dataTableRows?.length" [pageSize]="pageSize" [pageIndex]="pageIndex" [showFirstLastButtons]="false" (page)="handlePage($event)"></digital-first-data-table-pager>
+      </div>
+      <digital-first-commitment-list
+        *ngIf="pageFormat == 'list'"
+        [commitments]="commitments$ | async"
+        (onEdit)="handleEdit($event)"
+      ></digital-first-commitment-list>
 
-            <digital-first-data-table *ngIf="pageFormat=='table'" [tableData]="commitmentsTableData$ | async" (onCellClicked)="handleCommitmentsRowClicked($event)"></digital-first-data-table>
+      <div *ngIf="pageFormat == 'card'" class="overview-cards">
+        <digital-first-commitment-card
+          *ngFor="let commitment of (commitments$ | async)"
+          [commitment]="commitment"
+          (onEdit)="handleEdit($event)"
+          (onShare)="handleShare($event)"
+        ></digital-first-commitment-card>
+      </div>
+    </div>
+  </section>
 
-            <digital-first-commitment-list *ngIf="pageFormat=='list'" [commitments]="commitments$ | async" (onEdit)="handleEdit($event)"></digital-first-commitment-list>
-
-            <ng-container *ngIf="pageFormat=='card'">
-                <digital-first-commitment-card *ngFor="let commitment of commitments$ | async" [commitment]="commitment"
-                    (onEdit)="handleEdit($event)" (onShare)="handleShare($event)"></digital-first-commitment-card>
-            </ng-container>
-
-        </div>
-    </section>
-
-    <!-- <button mdc-fab extended label="Create Commitment" class="app-fab-extended-fluid" (click)="handleCreate()">
+  <!-- <button mdc-fab extended label="Create Commitment" class="app-fab-extended-fluid" (click)="handleCreate()">
         <mdc-icon>add</mdc-icon>
     </button> -->
-
 </div>

@@ -7,7 +7,7 @@ import {Router, NavigationEnd} from '@angular/router'
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-  title = 'program-admin';
+  title = 'program-admin'
 
   constructor(private router: Router) {
   }

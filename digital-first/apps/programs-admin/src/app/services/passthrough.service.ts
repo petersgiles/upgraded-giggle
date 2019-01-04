@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable} from "rxjs";
-import {environment} from "../../environments/environment";
-import {UUID} from "@digital-first/df-utils";
+import {Injectable} from '@angular/core'
+import {HttpClient, HttpHeaders} from '@angular/common/http'
+import {Observable} from 'rxjs'
+import {environment} from '../../environments/environment'
+import {UUID} from '@digital-first/df-utils'
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +20,8 @@ export class PassthroughService {
         'MessageNamespace': 'ProgramsManager.Messages',
         'MessageId': UUID.UUID()
       })
-    };
+    }
 
-    return this.http.post(environment.datasource.passthroughUrl, formData, httpOptions);
+    return this.http.post(environment.datasource.passthroughUrl, formData, httpOptions)
   }
 }

@@ -1,12 +1,10 @@
 import { Injectable, Inject } from '@angular/core'
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'
 import { Observable, of } from 'rxjs'
-import { Store } from '@ngrx/store'
-import { LoginRedirect } from '../+state/auth.actions'
-import * as fromAuthState from '../+state/auth.reducer'
 import { LOCALSTORAGE } from '@digital-first/df-utils'
 import { LoggerService } from '@digital-first/df-logging'
 import { AUTH_KEY } from '../constants'
+import { JwtHelperService } from '@auth0/angular-jwt'
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +13,9 @@ export class AuthGuard implements CanActivate {
 
   constructor(
     @Inject(LOCALSTORAGE) private localStorage: any,
-    private store: Store<fromAuthState.AuthState>,
     private logger: LoggerService,
-    private router: Router) { }
+    private router: Router,
+    private jwtHelper: JwtHelperService) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
 
@@ -26,9 +24,10 @@ export class AuthGuard implements CanActivate {
 
     this.logger.info('AuthGuard', auth, idToken)
 
-    if (!idToken) {
-      this.store.dispatch(new LoginRedirect(state.url))
-      return of(false)
+    if (!idToken || this.jwtHelper.isTokenExpired(auth.status.auth.idToken)) {
+      // console.log(idToken)
+       this.router.navigate(['/', 'login'], { queryParams: { o: state.url } })
+       return of(false)
     }
     return of(true)
   }

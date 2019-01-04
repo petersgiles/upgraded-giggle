@@ -17,6 +17,7 @@ export { ViewLayoutButtonComponent } from './lib/view-layout-button.component'
 
 export { MetadataRefinerComponent, RefinerGroup, RefinerType } from './lib/metadata-refiner'
 export { DataTableComponent, DataTableConfig, DataTableCell, DataTableHeader, DataTableRow } from './lib/data-table'
+export { DataTablePagerComponent, PageEvent} from './lib/data-table-pager'
 export { MapComponent, MapPoint } from './lib/map'
 export { ElectorateSelectorComponent } from './lib/electorate-selector'
 export { BusyComponent } from './lib/busy.component'

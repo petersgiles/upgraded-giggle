@@ -12,14 +12,13 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core'
  styles: [`
   :host {
     padding-right:4px;
-    width: 200px;
   }
   `]
 })
 export class DateFormatButtonComponent implements OnInit {
 
   @Input()
-  title = 'Time Format'
+  title = 'Time&nbsp;Format'
 
   @Input()
   timeFormat: 'dateFormat' | 'timeAgo' | 'calendar'

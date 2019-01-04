@@ -103,6 +103,7 @@
     "npm": "^6.4.1",
     "pdfmake": "^0.1.39",
     "plantuml-encoder": "^1.2.5",
+    "punycode": "^1.4.1",
     "raphael": "^2.2.7",
     "rxjs": "^6.0.0",
     "squire-rte": "^1.9.0",

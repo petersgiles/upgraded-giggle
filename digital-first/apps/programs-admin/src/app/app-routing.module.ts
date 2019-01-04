@@ -2,14 +2,15 @@ import {NgModule} from '@angular/core'
 import {Routes, RouterModule} from '@angular/router'
 import {HomeComponent} from './containers/home/home.component'
 import {FullLayoutComponent} from '@digital-first/df-layouts'
-import {StatisticuploadComponent} from "./containers/statisticupload/statisticupload.component";
-import {ProjectuploadComponent} from "./containers/projectupload/projectupload.component";
-import {ProgramsComponent} from "./containers/programs/programs.component";
-import {ProgramComponent} from "./containers/program/program.component";
-import {AuthGuard} from "./services/auth-guard.service";
-import {ProgramAddComponent} from "./containers/program/program-add/program-add.component";
-import {ProgramEditComponent} from "./containers/program/program-edit/program-edit.component";
-import {ReportAddComponent} from "./containers/program-reports/report-add/report-add.component";
+import {StatisticuploadComponent} from './containers/statisticupload/statisticupload.component'
+import {ProjectuploadComponent} from './containers/projectupload/projectupload.component'
+import {ProgramsComponent} from './containers/programs/programs.component'
+import {ProgramComponent} from './containers/program/program.component'
+
+import {ProgramAddComponent} from './containers/program/program-add/program-add.component'
+import {ProgramEditComponent} from './containers/program/program-edit/program-edit.component'
+import {ReportAddComponent} from './containers/program-reports/report-add/report-add.component'
+import { AuthGuard } from '@digital-first/df-auth'
 
 export const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -96,7 +97,7 @@ export const routes: Routes = [
     ]
   },
   {path: '**', redirectTo: 'home'}
-];
+]
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {enableTracing: false})],

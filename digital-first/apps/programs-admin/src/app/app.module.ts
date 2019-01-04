@@ -7,12 +7,11 @@ import { ApolloModule } from 'apollo-angular'
 import { HttpLinkModule } from 'apollo-angular-link-http'
 import { NgxWigModule } from 'ngx-wig'
 
-import { ErrorsModule } from './core/errors'
+// import { ErrorsModule } from './core/errors'
 
 import {
   DfAuthModule,
-  AUTH_KEY,
-  StartAutoTokenRefresh
+  AUTH_KEY
 } from '@digital-first/df-auth'
 import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
@@ -57,22 +56,6 @@ import { HomeComponent } from './containers/home/home.component'
 import { AppRoutingModule } from './app-routing.module'
 
 import { environment } from '../environments/environment'
-import { StoreModule, Store } from '@ngrx/store'
-import { EffectsModule } from '@ngrx/effects'
-import { StoreDevtoolsModule } from '@ngrx/store-devtools'
-
-import { CustomSerializer, reducers, metaReducers } from './reducers'
-import {
-  RouterStateSerializer,
-  StoreRouterConnectingModule
-} from '@ngrx/router-store'
-
-import { StartAppInitialiser } from './reducers/app.actions'
-
-import * as fromRoot from './reducers'
-
-import { AppEffects } from './reducers/app.effects'
-import { RouterEffects } from './reducers/router.effects'
 import {
   FEDERATEDLOGINAPIPATH,
   APPBASEPATH
@@ -115,13 +98,13 @@ const ENTRYCOMPONENTS = [
   DataTableComponent
 ]
 
-export function initApplication(store: Store<fromRoot.State>): Function {
+export function initApplication(): Function {
   return () =>
     new Promise(resolve => {
-      store.dispatch(new StartAppInitialiser())
+     // store.dispatch(new StartAppInitialiser())
 
       // tslint:disable-next-line:no-console
-      console.log('app initialise started...', store)
+      console.log('app initialise started...')
 
       const auth: any = JSON.parse(window.localStorage.getItem(AUTH_KEY))
 
@@ -129,7 +112,7 @@ export function initApplication(store: Store<fromRoot.State>): Function {
         // tslint:disable-next-line:no-console
         console.log('user is logged in, start auto token refresh')
 
-        store.dispatch(new StartAutoTokenRefresh())
+        // store.dispatch(new StartAutoTokenRefresh())
       }
       resolve(true)
     })
@@ -168,21 +151,9 @@ export function initApplication(store: Store<fromRoot.State>): Function {
     DfPagesModule,
     DfDialogsModule,
     DfPipesModule,
-    ErrorsModule,
+    // ErrorsModule,
     AppRoutingModule,
-    GraphQLModule,
-    StoreModule.forRoot(reducers, { metaReducers }),
-    StoreRouterConnectingModule.forRoot({
-      /*
-        They stateKey defines the name of the state used by the router-store reducer.
-        This matches the key defined in the map of reducers
-      */
-      stateKey: 'router'
-    }),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
-
-    EffectsModule.forRoot([AppEffects]),
-    EffectsModule.forFeature([RouterEffects])
+    GraphQLModule
   ],
   providers: [
     WINDOW_PROVIDERS,
@@ -194,11 +165,9 @@ export function initApplication(store: Store<fromRoot.State>): Function {
     {
       provide: APP_INITIALIZER,
       useFactory: initApplication,
-      deps: [Store],
       multi: true
     },
     { provide: FullLayoutService, useClass: AppFullLayoutService },
-    { provide: RouterStateSerializer, useClass: CustomSerializer }
   ],
   bootstrap: [AppComponent]
 })

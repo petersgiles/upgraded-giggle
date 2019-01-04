@@ -31,6 +31,7 @@ import { PrintPageButtonComponent } from './print-page-button.component'
 import { EditorComponent } from './editor/editor.component'
 import { DeleteItemButtonComponent } from './delete-item-button.component'
 import { EditItemButtonComponent } from './edit-item-button.component'
+import { DataTablePagerComponent } from './data-table-pager/data-table-pager.component'
 
 const COMPONENTS = [
   TagsComponent,
@@ -50,6 +51,7 @@ const COMPONENTS = [
   MetadataRefinerComponent,
   PrintPageButtonComponent,
   DataTableComponent,
+  DataTablePagerComponent,
   BusyComponent,
   MapComponent,
   ElectorateSelectorComponent,
@@ -73,4 +75,4 @@ const COMPONENTS = [
   declarations: [...COMPONENTS],
   exports: [...COMPONENTS]
 })
-export class DfComponentsModule { }
+export class DfComponentsModule {}
