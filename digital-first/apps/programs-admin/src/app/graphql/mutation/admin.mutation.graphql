@@ -63,3 +63,7 @@ mutation addReport($data:InputReportGraph){
     rowVersion
   }
 }
+
+mutation deleteReport($data:InputDeleteReportGraph) {
+  deleteReport(inputDeleteReport:$data)
+}

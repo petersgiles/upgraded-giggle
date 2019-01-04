@@ -10,7 +10,7 @@ import {
   RemoveGroupFromProgramGQL,
   AssignGroupToProgramGQL,
   AccessRights,
-  UpdateGroupPermissionsForProgramGQL
+  UpdateGroupPermissionsForProgramGQL, DeleteReportGQL
 } from '../../generated/graphql';
 import {DataTableConfig} from '@digital-first/df-components';
 import {MdcDialog} from '@angular-mdc/web';
@@ -36,6 +36,7 @@ export class ProgramComponent implements OnInit, OnDestroy {
     private programGQL: ProgramGQL,
     private route: ActivatedRoute,
     private deleteProgramGQL: DeleteProgramGQL,
+    private deleteReportGQL: DeleteReportGQL,
     private removeGroupFromProgramGQL: RemoveGroupFromProgramGQL,
     private assignGroupToProgramGQL: AssignGroupToProgramGQL,
     private updateGroupPermissionsForProgramGQL: UpdateGroupPermissionsForProgramGQL,
@@ -45,7 +46,7 @@ export class ProgramComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  handleEditProgrm(program) {
+  handleEditProgram(program) {
     return this.router.navigate(['programs/edit', program.id]);
   }
 
@@ -199,6 +200,32 @@ export class ProgramComponent implements OnInit, OnDestroy {
 
   handleProgramReportDeleteItemClicked($event) {
     console.log('handleProgramReportDeleteItemClicked ', $event);
+
+    this.deleteReportGQL
+      .mutate(
+        {
+          data: {
+            id: $event.id,
+          }
+        },
+        {
+          refetchQueries: [
+            {
+              query: this.programGQL.document,
+              variables: {
+                programId: this.programId
+              }
+            }
+          ]
+        }
+      )
+      .pipe(first())
+      .subscribe(value => {
+        console.log('removing ', $event);
+      });
+
+
+
   }
 
   handleProgramReportAddItemDialog($event) {

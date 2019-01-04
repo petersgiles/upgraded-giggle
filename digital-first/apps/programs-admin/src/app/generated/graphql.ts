@@ -411,6 +411,18 @@ export namespace AddReport {
   };
 }
 
+export namespace DeleteReport {
+  export type Variables = {
+    data?: InputDeleteReportGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    deleteReport: boolean | null;
+  };
+}
+
 export namespace AllAgencies {
   export type Variables = {};
 
@@ -805,6 +817,19 @@ export class AddReportGQL extends Apollo.Mutation<
         notes
         rowVersion
       }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class DeleteReportGQL extends Apollo.Mutation<
+  DeleteReport.Mutation,
+  DeleteReport.Variables
+> {
+  document: any = gql`
+    mutation deleteReport($data: InputDeleteReportGraph) {
+      deleteReport(inputDeleteReport: $data)
     }
   `;
 }
