@@ -35,7 +35,8 @@
         </button>
         <button mdc-button type="button"
                 class="df-data-table-pager-navigation-previous"
-                (click)="previousPage()">
+                (click)="previousPage()"
+                [disabled]="!hasPreviousPage()">
           <svg class="df-data-table-pager-icon" viewBox="0 0 24 24" focusable="false">
             <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
           </svg>
@@ -43,7 +44,7 @@
         <button mdc-button type="button"
                 class="df-data-table-pager-navigation-next"
                 (click)="nextPage()"
-                [attr.aria-label]="nextPageLabel">
+                [disabled]="!hasNextPage()">
           <svg class="df-data-table-pager-icon" viewBox="0 0 24 24" focusable="false">
             <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
           </svg>

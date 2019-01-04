@@ -18,16 +18,31 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
   activity$: Observable<any>
   pageFormat: 'card' | 'list' | 'table' = 'table'
   refinerGroups$: Observable<any>
-  commitmentsTableData$: Observable<DataTableConfig>
+  commitmentsTableDataSubscription$: Subscription
+  pageIndex: number
+  dataTableConfig: DataTableConfig
+  dataTableRows: any[] = []
+  pagedDataTableRows: any[] = []
+
   activitySubscription$: Subscription
   formBusy = false
+  pageSize: number
 
   constructor(private snackbar: MdcSnackbar, public dialog: MdcDialog, private router: Router, private service: CommitmentDataService,
     private lookup: CommitmentLookupService) { }
 
   ngOnInit() {
     this.commitments$ = this.service.Commitments
-    this.commitmentsTableData$ = this.service.CommitmentDataTable
+    this.commitmentsTableDataSubscription$ = this.service.CommitmentDataTable
+    .subscribe(config => {
+      this.pageIndex = 0
+      this.pageSize = 10
+      this.dataTableConfig = config
+      this.dataTableRows = config.rows
+      this.pageRows()
+    }
+
+    )
     this.refinerGroups$ = this.service.RefinerGroups
     this.activity$ = this.service.CommitmentActivity
 
@@ -56,6 +71,24 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
       )
   }
 
+  handlePage($event) {
+    // tslint:disable-next-line:no-console
+    console.log($event)
+    this.pageIndex = $event.pageIndex
+    this.pageRows()
+  }
+
+  pageRows() {
+
+    const skip = this.pageIndex * this.pageSize
+    const take =  skip + this.pageSize
+
+    this.pagedDataTableRows = (this.dataTableRows || []).slice(skip, take)
+
+    // tslint:disable-next-line:no-console
+    console.log(skip, take, this.pagedDataTableRows, this.dataTableRows)
+  }
+
   showSnackBar(message: string, action: string = 'OK'): void {
 
     // this is to avoid component validation check errors
@@ -76,6 +109,7 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.activitySubscription$.unsubscribe()
+    this.commitmentsTableDataSubscription$.unsubscribe()
   }
 
   handleEdit(commitment?: Commitment) {

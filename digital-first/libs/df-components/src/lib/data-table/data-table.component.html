@@ -54,7 +54,7 @@
 </ng-template>
 
 <ng-template #tableBodyRow let-tableData>
-  <tr *ngFor="let row of tableData.rows">
+  <tr *ngFor="let row of rows">
     <td
       *ngFor="let cell of row.cells"
       class="df-data-table__cell--non-numeric"

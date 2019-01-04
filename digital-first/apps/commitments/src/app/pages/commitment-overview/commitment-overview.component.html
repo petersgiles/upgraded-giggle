@@ -26,12 +26,13 @@
         (onRefinerSelected)="handleRefinerSelected($event)"
       ></digital-first-metadata-refiner>
       <div *ngIf="pageFormat == 'table'" class="overview-data-table">
-        <digital-first-data-table-pager [length]="(commitmentsTableData$ | async)?.rows?.length" [pageSize]="1000" [pageIndex]="0" [showFirstLastButtons]="false"></digital-first-data-table-pager>
+        <digital-first-data-table-pager [length]="dataTableRows?.length" [pageSize]="pageSize" [pageIndex]="pageIndex" [showFirstLastButtons]="false" (page)="handlePage($event)"></digital-first-data-table-pager>
         <digital-first-data-table
-          [tableData]="commitmentsTableData$ | async"
+          [tableData]="dataTableConfig"
+          [tableRows]="pagedDataTableRows"
           (onCellClicked)="handleCommitmentsRowClicked($event)"
         ></digital-first-data-table>
-        <digital-first-data-table-pager [length]="(commitmentsTableData$ | async)?.rows?.length" [pageSize]="1000" [pageIndex]="0" [showFirstLastButtons]="false"></digital-first-data-table-pager>
+        <digital-first-data-table-pager [length]="dataTableRows?.length" [pageSize]="pageSize" [pageIndex]="pageIndex" [showFirstLastButtons]="false" (page)="handlePage($event)"></digital-first-data-table-pager>
       </div>
       <digital-first-commitment-list
         *ngIf="pageFormat == 'list'"

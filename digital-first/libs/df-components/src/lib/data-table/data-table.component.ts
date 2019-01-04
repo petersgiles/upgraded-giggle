@@ -13,11 +13,17 @@ export class DataTableComponent implements OnInit {
 
   @Input() tableData: DataTableConfig
 
+  @Input() tableRows: any[]
+
   @Output() onDeleteItem: EventEmitter<any> = new EventEmitter()
 
   @Output() onCellClicked: EventEmitter<any> = new EventEmitter()
 
   @Output() onRowClicked: EventEmitter<any> = new EventEmitter()
+
+  get rows(): any[] {
+    return this.tableRows ? this.tableRows : this.tableData.rows
+  }
 
   handleCellClicked(row, cell) {
     // tslint:disable-next-line:no-console

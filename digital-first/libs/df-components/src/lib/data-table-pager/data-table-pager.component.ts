@@ -21,7 +21,7 @@ export class DataTablePagerComponent implements OnInit {
 
   @Input() pageIndex: number
 
-  @Input() pageSize = 1
+  @Input() pageSize = 10
 
   @Input() pageSizeOptions: number[]
 
@@ -36,9 +36,10 @@ export class DataTablePagerComponent implements OnInit {
 
     length = Math.max(length, 0)
     const startIndex = page * pageSize
-    const endIndex = startIndex < length
-    ? Math.min(startIndex + pageSize, length)
-    : startIndex + pageSize
+    const endIndex =
+      startIndex < length
+        ? Math.min(startIndex + pageSize, length)
+        : startIndex + pageSize
     return `${startIndex + 1} - ${endIndex} of ${length}`
   }
 
@@ -75,21 +76,28 @@ export class DataTablePagerComponent implements OnInit {
   }
 
   nextPage() {
-    this.page.emit({
-      pageIndex: this.pageIndex++,
+    const evt = {
+      pageIndex: ++this.pageIndex,
       previousPageIndex: this.pageIndex,
       pageSize: this.pageSize,
       length: this.length
-    })
+    }
+
+    // tslint:disable-next-line:no-console
+    console.log('nextPage', evt)
+    this.page.emit(evt)
   }
 
   previousPage() {
-    this.page.emit({
-      pageIndex: this.pageIndex--,
+    const evt = {
+      pageIndex: --this.pageIndex,
       previousPageIndex: this.pageIndex,
       pageSize: this.pageSize,
       length: this.length
-    })
+    }
+    // tslint:disable-next-line:no-console
+    console.log('nextPage', evt)
+    this.page.emit(evt)
   }
 
   getNumberOfPages(): number {
@@ -97,10 +105,13 @@ export class DataTablePagerComponent implements OnInit {
   }
 
   hasNextPage(): boolean {
-    return true
+    // tslint:disable-next-line:no-console
+    console.log(this.pageIndex, this.pageSize, this.length, Math.max(this.pageIndex * this.pageSize, this.length))
+
+    return (this.length - this.pageSize) > (this.pageIndex * this.pageSize)
   }
 
   hasPreviousPage(): boolean {
-    return true
+    return this.pageIndex > 0
   }
 }
