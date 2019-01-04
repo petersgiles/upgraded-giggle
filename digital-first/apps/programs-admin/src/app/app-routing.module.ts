@@ -10,7 +10,8 @@ import {ProgramComponent} from './containers/program/program.component'
 import {ProgramAddComponent} from './containers/program/program-add/program-add.component'
 import {ProgramEditComponent} from './containers/program/program-edit/program-edit.component'
 import {ReportAddComponent} from './containers/program-reports/report-add/report-add.component'
-import { AuthGuard } from '@digital-first/df-auth'
+import {AuthGuard} from '@digital-first/df-auth'
+import {ProgramReportComponent} from "./containers/program-report/program-report.component";
 
 export const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -69,6 +70,14 @@ export const routes: Routes = [
       {
         path: 'programs/:id/reports/add',
         component: ReportAddComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+      {
+        path: 'programs/:id/reports/:id',
+        component: ProgramReportComponent,
         canActivate: [AuthGuard],
         data: {
           nav: false

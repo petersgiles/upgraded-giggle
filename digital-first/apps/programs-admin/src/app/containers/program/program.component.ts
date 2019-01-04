@@ -233,7 +233,7 @@ export class ProgramComponent implements OnInit, OnDestroy {
   }
 
   handleReportNavigation($event) {
-    console.log('handleReportNavigation ', $event);
+    return this.router.navigate(['reports/', $event.id], { relativeTo: this.route });
   }
 
   private createProgramReportTableData(program: Program.Programs): any {
