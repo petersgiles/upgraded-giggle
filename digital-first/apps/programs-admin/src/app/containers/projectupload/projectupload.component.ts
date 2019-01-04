@@ -38,7 +38,8 @@ export class ProjectuploadComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.programsSubscription$ = this.allPrograms.watch().valueChanges
+    this.programsSubscription$ = this.allPrograms
+      .watch({}, {fetchPolicy: 'network-only'}).valueChanges
       .pipe(map(result => result.data.programs)).subscribe(value => {
           this.programs = value;
         }

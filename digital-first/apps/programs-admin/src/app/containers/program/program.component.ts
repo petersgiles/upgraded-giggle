@@ -223,9 +223,6 @@ export class ProgramComponent implements OnInit, OnDestroy {
       .subscribe(value => {
         console.log('removing ', $event);
       });
-
-
-
   }
 
   handleProgramReportAddItemDialog($event) {
