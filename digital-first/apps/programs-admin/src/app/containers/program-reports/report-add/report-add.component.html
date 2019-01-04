@@ -1,0 +1,44 @@
+<div class="page_title">
+  <div class="reader-card-article__title page_title_text" mdcHeadline5>Add report</div>
+</div>
+<div>
+  <div class="app-page">
+    <div class="mdc-layout-grid">
+      <div class="mdc-layout-grid__inner ">
+        <div class="mdc-layout-grid__cell--span-3"></div>
+        <div class="mdc-layout-grid__cell--span-6 mdc-elevation--z9">
+          <div class="form-content">
+            <form (ngSubmit)="onSubmit()" autocomplete="off" [formGroup]="addReportForm">
+              <!--{{diagnostic}}-->
+              <fieldset>
+                <h3 class="form-content__headline">Add report</h3>
+
+                <div class="form-layout__row">
+                  <mdc-text-field [outlined]="true" formControlName="reportName" label="Name" type="text"
+                                  required></mdc-text-field>
+                </div>
+                <div class="form-layout__row">
+                  <mdc-textarea formControlName="notes" name="notes" id="notes" cols="8"
+                                rows="3" maxlength="250"
+                                label="Notes" spellcheck="true">
+                  </mdc-textarea>
+                </div>
+                <div class="form-layout__row-with-button">
+                  <button id="submit"
+                          class="mdc-button ng-mdc-button--primary mdc-button--raised mdc-ripple-upgraded"
+                          type="submit" [disabled]="addReportForm.invalid || addReportForm.prestine">Save
+                  </button>
+                  <button id="cancel"
+                          class="mdc-button ng-mdc-button--secondary mdc-button--raised mdc-ripple-upgraded"
+                          type="button" (click)="cancel()">Cancel
+                  </button>
+                </div>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+        <div class="mdc-layout-grid__cell--span-3"></div>
+      </div>
+    </div>
+  </div>
+</div>

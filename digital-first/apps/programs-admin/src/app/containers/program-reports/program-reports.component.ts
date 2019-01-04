@@ -5,6 +5,7 @@ import {
   DialogAreYouSureComponent
 } from '@digital-first/df-dialogs';
 import { first } from 'rxjs/operators';
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'digital-first-program-reports',
@@ -18,14 +19,20 @@ export class ProgramReportsComponent implements OnInit {
   @Output() onDeleteClicked: EventEmitter<any> = new EventEmitter();
   @Output() onAddItemClicked: EventEmitter<any> = new EventEmitter();
   @Output() onCellClicked: EventEmitter<any> = new EventEmitter();
-  
+
   expanded: true;
 
-  constructor(public dialog: MdcDialog) {}
+  constructor(public dialog: MdcDialog,
+              private route: ActivatedRoute,
+              private router: Router) {}
 
   ngOnInit() {}
 
   handleChangeExpanded(expanded) {}
+
+  handleAddClicked($event) {
+    return this.router.navigate(['reports/add'], { relativeTo: this.route });
+  }
 
   handleTableDeleteClicked($event) {
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {

@@ -9,6 +9,7 @@ import {ProgramComponent} from './containers/program/program.component'
 
 import {ProgramAddComponent} from './containers/program/program-add/program-add.component'
 import {ProgramEditComponent} from './containers/program/program-edit/program-edit.component'
+import {ReportAddComponent} from './containers/program-reports/report-add/report-add.component'
 import { AuthGuard } from '@digital-first/df-auth'
 
 export const routes: Routes = [
@@ -62,6 +63,14 @@ export const routes: Routes = [
         data: {
           title: 'Program',
           icon: 'live_tv',
+          nav: false
+        }
+      },
+      {
+        path: 'programs/:id/reports/add',
+        component: ReportAddComponent,
+        canActivate: [AuthGuard],
+        data: {
           nav: false
         }
       },
