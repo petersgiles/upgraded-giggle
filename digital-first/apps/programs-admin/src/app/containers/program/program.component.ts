@@ -265,16 +265,13 @@ export class ProgramComponent implements OnInit, OnDestroy {
     const groups = {};
     program.accessControlList.forEach(acl => {
       acl.accessControlEntries.forEach(ace => {
-        ace.group.forEach(grp => {
-          const rights = ace.rights;
-          groups[grp.title] = {
-            id: grp.id,
-            acl: acl.id,
-            title: grp.title,
-            rights: rights,
-            rowVersion: ace.rowVersion
-          };
-        });
+        groups[ace.accessControlGroup.title] = {
+          id: ace.accessControlGroup.id,
+          acl: acl.id,
+          title: ace.accessControlGroup.title,
+          rights: ace.rights,
+          rowVersion: ace.rowVersion
+        };
       });
     });
     const rows = (Object.keys(groups) || []).map(g => {

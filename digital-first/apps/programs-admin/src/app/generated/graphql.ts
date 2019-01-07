@@ -351,12 +351,12 @@ export namespace AssignGroupToProgram {
 
     rights: string;
 
-    group: (Group | null)[] | null;
+    accessControlGroup: AccessControlGroup | null;
 
     rowVersion: string;
   };
 
-  export type Group = {
+  export type AccessControlGroup = {
     __typename?: 'AccessControlGroupGraph';
 
     id: Guid;
@@ -449,12 +449,12 @@ export namespace AssignGroupToReport {
 
     rights: string;
 
-    group: (Group | null)[] | null;
+    accessControlGroup: AccessControlGroup | null;
 
     rowVersion: string;
   };
 
-  export type Group = {
+  export type AccessControlGroup = {
     __typename?: 'AccessControlGroupGraph';
 
     id: Guid;
@@ -653,10 +653,10 @@ export namespace Program {
 
     rowVersion: string;
 
-    group: (Group | null)[] | null;
+    accessControlGroup: AccessControlGroup | null;
   };
 
-  export type Group = {
+  export type AccessControlGroup = {
     __typename?: 'AccessControlGroupGraph';
 
     id: Guid;
@@ -703,10 +703,10 @@ export namespace Program {
   export type _AccessControlEntries = {
     __typename?: 'AccessControlEntryGraph';
 
-    group: (_Group | null)[] | null;
+    accessControlGroup: _AccessControlGroup | null;
   };
 
-  export type _Group = {
+  export type _AccessControlGroup = {
     __typename?: 'AccessControlGroupGraph';
 
     title: string;
@@ -781,14 +781,14 @@ export namespace Report {
 
     id: string;
 
-    group: (Group | null)[] | null;
+    accessControlGroup: AccessControlGroup | null;
 
     rights: string;
 
     rowVersion: string;
   };
 
-  export type Group = {
+  export type AccessControlGroup = {
     __typename?: 'AccessControlGroupGraph';
 
     id: Guid;
@@ -866,7 +866,7 @@ export class AssignGroupToProgramGQL extends Apollo.Mutation<
     mutation assignGroupToProgram($data: ProgramAccessControlInputGraph) {
       assignGroupToProgram(programAccessControlInput: $data) {
         rights
-        group {
+        accessControlGroup {
           id
           title
         }
@@ -948,7 +948,7 @@ export class AssignGroupToReportGQL extends Apollo.Mutation<
     mutation assignGroupToReport($data: ReportAccessControlInputGraph) {
       assignGroupToReport(reportAccessControlInput: $data) {
         rights
-        group {
+        accessControlGroup {
           id
           title
         }
@@ -1072,11 +1072,11 @@ export class ProgramGQL extends Apollo.Query<Program.Query, Program.Variables> {
         rowVersion
         accessControlList {
           id
-          accessControlEntries {
+          accessControlEntries(orderBy: { path: "accessControlGroup.title" }) {
             id
             rights
             rowVersion
-            group {
+            accessControlGroup {
               id
               title
               members {
@@ -1096,7 +1096,7 @@ export class ProgramGQL extends Apollo.Query<Program.Query, Program.Variables> {
           notes
           accessControlList {
             accessControlEntries {
-              group {
+              accessControlGroup {
                 title
                 members {
                   emailAddress
@@ -1132,9 +1132,9 @@ export class ReportGQL extends Apollo.Query<Report.Query, Report.Variables> {
         rowVersion
         accessControlList {
           id
-          accessControlEntries {
+          accessControlEntries(orderBy: { path: "accessControlGroup.title" }) {
             id
-            group {
+            accessControlGroup {
               id
               title
               members {

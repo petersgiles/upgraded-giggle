@@ -64,11 +64,11 @@ query program ($programId: String!) {
     rowVersion
     accessControlList{
       id
-      accessControlEntries{
+      accessControlEntries (orderBy: {path: "accessControlGroup.title"}) {
       id
         rights
         rowVersion
-        group{
+        accessControlGroup  {
           id
           title
           members{
@@ -88,7 +88,7 @@ query program ($programId: String!) {
       notes
       accessControlList{
         accessControlEntries{
-          group{
+          accessControlGroup{
             title
             members{
               emailAddress
@@ -119,9 +119,9 @@ query report ($reportId: String!) {
     rowVersion
     accessControlList{
       id
-      accessControlEntries{
+      accessControlEntries (orderBy: {path: "accessControlGroup.title"}) {
         id
-        group{
+        accessControlGroup{
           id
           title
           members{

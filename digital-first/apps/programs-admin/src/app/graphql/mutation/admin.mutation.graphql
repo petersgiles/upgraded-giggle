@@ -36,7 +36,7 @@ mutation createProgram ($data:InputProgramGraph!) {
 mutation assignGroupToProgram($data:ProgramAccessControlInputGraph){
   assignGroupToProgram(programAccessControlInput: $data){
     rights
-    group{
+    accessControlGroup{
       id
       title
     }
@@ -71,7 +71,7 @@ mutation deleteReport($data:InputDeleteReportGraph) {
 mutation assignGroupToReport($data:ReportAccessControlInputGraph){
   assignGroupToReport(reportAccessControlInput: $data){
     rights
-    group{
+    accessControlGroup{
       id
       title
     }
