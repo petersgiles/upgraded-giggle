@@ -135,3 +135,28 @@ query report ($reportId: String!) {
     }
   }
 }
+
+query users{
+  users  (orderBy: {path: "emailAddress"}){
+    id
+    emailAddress
+    lastLogin
+    rowVersion
+    }
+}
+
+query user ($userId: String!) {
+  users(ids:[$userId])
+  {
+    id
+    emailAddress
+    apiKeys{
+      id
+      key
+      rowVersion
+      disable
+    }
+    lastLogin
+    rowVersion
+    }
+  }

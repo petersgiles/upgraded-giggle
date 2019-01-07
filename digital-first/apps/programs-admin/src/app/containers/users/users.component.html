@@ -1,0 +1,15 @@
+<div *ngIf="(users$ | async) as users; else loading">
+  <div class="page_title">
+    <div class="reader-card-article__title page_title_text" mdcHeadline5>Users</div>
+  </div>
+  <p>TODO:  search/filter</p><!--TODO:  search/filter-->
+  <mdc-list>
+    <mdc-list-item *ngFor="let user of users">
+      <mdc-list-item-text><a [routerLink]="[user.id]">{{user.emailAddress}}</a>
+      </mdc-list-item-text>
+    </mdc-list-item>
+  </mdc-list>
+</div>
+<ng-template #loading>
+  Loading...
+</ng-template>

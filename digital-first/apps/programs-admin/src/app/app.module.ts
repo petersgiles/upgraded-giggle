@@ -72,7 +72,9 @@ import { PermissionComponent } from './containers/permission/permission.componen
 import { DialogAssignGroupPermissionComponent } from './dialogs/dialog-assign-group-permission.component'
 import { ProgramReportsComponent } from './containers/program-reports/program-reports.component';
 import { ReportAddComponent } from './containers/program-reports/report-add/report-add.component';
-import { ProgramReportComponent } from './containers/program-report/program-report.component'
+import { ProgramReportComponent } from './containers/program-report/program-report.component';
+import { UsersComponent } from './containers/users/users.component';
+import { UserComponent } from './containers/user/user.component'
 
 const COMPONENTS = [AppComponent, HomeComponent]
 
@@ -132,7 +134,9 @@ export function initApplication(): Function {
     DialogAssignGroupPermissionComponent,
     ProgramReportsComponent,
     ReportAddComponent,
-    ProgramReportComponent
+    ProgramReportComponent,
+    UsersComponent,
+    UserComponent
   ],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [

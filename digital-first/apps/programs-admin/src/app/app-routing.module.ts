@@ -12,6 +12,8 @@ import {ProgramEditComponent} from './containers/program/program-edit/program-ed
 import {ReportAddComponent} from './containers/program-reports/report-add/report-add.component'
 import {AuthGuard} from '@digital-first/df-auth'
 import {ProgramReportComponent} from "./containers/program-report/program-report.component";
+import {UsersComponent} from "./containers/users/users.component";
+import {UserComponent} from "./containers/user/user.component";
 
 export const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -84,6 +86,24 @@ export const routes: Routes = [
         }
       },
       {
+        path: 'users',
+        component: UsersComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'Users',
+          icon: 'people_outline',
+          nav: true
+        }
+      },
+      {
+        path: 'users/:id',
+        component: UserComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+      {
         path: 'statistics/upload',
         component: StatisticuploadComponent,
         canActivate: [AuthGuard],
@@ -106,7 +126,7 @@ export const routes: Routes = [
     ]
   },
   {path: '**', redirectTo: 'home'}
-]
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {enableTracing: false})],

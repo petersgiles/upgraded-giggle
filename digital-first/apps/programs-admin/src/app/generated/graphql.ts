@@ -807,6 +807,66 @@ export namespace Report {
   };
 }
 
+export namespace Users {
+  export type Variables = {};
+
+  export type Query = {
+    __typename?: 'Query';
+
+    users: (Users | null)[] | null;
+  };
+
+  export type Users = {
+    __typename?: 'UserGraph';
+
+    id: Guid;
+
+    emailAddress: string;
+
+    lastLogin: DateTimeOffset | null;
+
+    rowVersion: string;
+  };
+}
+
+export namespace User {
+  export type Variables = {
+    userId: string;
+  };
+
+  export type Query = {
+    __typename?: 'Query';
+
+    users: (Users | null)[] | null;
+  };
+
+  export type Users = {
+    __typename?: 'UserGraph';
+
+    id: Guid;
+
+    emailAddress: string;
+
+    apiKeys: (ApiKeys | null)[] | null;
+
+    lastLogin: DateTimeOffset | null;
+
+    rowVersion: string;
+  };
+
+  export type ApiKeys = {
+    __typename?: 'ApiKeyGraph';
+
+    id: Guid;
+
+    key: string;
+
+    rowVersion: string;
+
+    disable: boolean;
+  };
+}
+
 // ====================================================
 // START: Apollo Angular template
 // ====================================================
@@ -1146,6 +1206,42 @@ export class ReportGQL extends Apollo.Query<Report.Query, Report.Variables> {
             rowVersion
           }
         }
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UsersGQL extends Apollo.Query<Users.Query, Users.Variables> {
+  document: any = gql`
+    query users {
+      users(orderBy: { path: "emailAddress" }) {
+        id
+        emailAddress
+        lastLogin
+        rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UserGQL extends Apollo.Query<User.Query, User.Variables> {
+  document: any = gql`
+    query user($userId: String!) {
+      users(ids: [$userId]) {
+        id
+        emailAddress
+        apiKeys {
+          id
+          key
+          rowVersion
+          disable
+        }
+        lastLogin
+        rowVersion
       }
     }
   `;
