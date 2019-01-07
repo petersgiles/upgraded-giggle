@@ -67,3 +67,14 @@ mutation addReport($data:InputReportGraph){
 mutation deleteReport($data:InputDeleteReportGraph) {
   deleteReport(inputDeleteReport:$data)
 }
+
+mutation assignGroupToReport($data:ReportAccessControlInputGraph){
+  assignGroupToReport(reportAccessControlInput: $data){
+    rights
+    group{
+      id
+      title
+    }
+    rowVersion
+  }
+}

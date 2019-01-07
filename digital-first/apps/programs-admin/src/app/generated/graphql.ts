@@ -24,6 +24,16 @@ export interface ProgramAccessControlInputGraph {
   accessRights?: AccessRights | null;
 }
 
+export interface ReportAccessControlInputGraph {
+  reportId: Guid;
+
+  accessControlGroupId: Guid;
+
+  rowVersion: string;
+
+  accessRights?: AccessRights | null;
+}
+
 export interface CreateAgencyGraph {
   title: string;
 
@@ -423,6 +433,36 @@ export namespace DeleteReport {
   };
 }
 
+export namespace AssignGroupToReport {
+  export type Variables = {
+    data?: ReportAccessControlInputGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    assignGroupToReport: AssignGroupToReport | null;
+  };
+
+  export type AssignGroupToReport = {
+    __typename?: 'AccessControlEntryGraph';
+
+    rights: string;
+
+    group: (Group | null)[] | null;
+
+    rowVersion: string;
+  };
+
+  export type Group = {
+    __typename?: 'AccessControlGroupGraph';
+
+    id: Guid;
+
+    title: string;
+  };
+}
+
 export namespace AllAgencies {
   export type Variables = {};
 
@@ -703,6 +743,70 @@ export namespace Program {
   };
 }
 
+export namespace Report {
+  export type Variables = {
+    reportId: string;
+  };
+
+  export type Query = {
+    __typename?: 'Query';
+
+    reports: (Reports | null)[] | null;
+  };
+
+  export type Reports = {
+    __typename?: 'ReportGraph';
+
+    id: Guid;
+
+    name: string;
+
+    notes: string | null;
+
+    rowVersion: string;
+
+    accessControlList: (AccessControlList | null)[] | null;
+  };
+
+  export type AccessControlList = {
+    __typename?: 'AccessControlListGraph';
+
+    id: Guid;
+
+    accessControlEntries: (AccessControlEntries | null)[] | null;
+  };
+
+  export type AccessControlEntries = {
+    __typename?: 'AccessControlEntryGraph';
+
+    id: string;
+
+    group: (Group | null)[] | null;
+
+    rights: string;
+
+    rowVersion: string;
+  };
+
+  export type Group = {
+    __typename?: 'AccessControlGroupGraph';
+
+    id: Guid;
+
+    title: string;
+
+    members: (Members | null)[] | null;
+  };
+
+  export type Members = {
+    __typename?: 'UserGraph';
+
+    id: Guid;
+
+    emailAddress: string;
+  };
+}
+
 // ====================================================
 // START: Apollo Angular template
 // ====================================================
@@ -830,6 +934,26 @@ export class DeleteReportGQL extends Apollo.Mutation<
   document: any = gql`
     mutation deleteReport($data: InputDeleteReportGraph) {
       deleteReport(inputDeleteReport: $data)
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class AssignGroupToReportGQL extends Apollo.Mutation<
+  AssignGroupToReport.Mutation,
+  AssignGroupToReport.Variables
+> {
+  document: any = gql`
+    mutation assignGroupToReport($data: ReportAccessControlInputGraph) {
+      assignGroupToReport(reportAccessControlInput: $data) {
+        rights
+        group {
+          id
+          title
+        }
+        rowVersion
+      }
     }
   `;
 }
@@ -989,6 +1113,37 @@ export class ProgramGQL extends Apollo.Query<Program.Query, Program.Variables> {
           electorates {
             id
             name
+          }
+        }
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class ReportGQL extends Apollo.Query<Report.Query, Report.Variables> {
+  document: any = gql`
+    query report($reportId: String!) {
+      reports(ids: [$reportId]) {
+        id
+        name
+        notes
+        rowVersion
+        accessControlList {
+          id
+          accessControlEntries {
+            id
+            group {
+              id
+              title
+              members {
+                id
+                emailAddress
+              }
+            }
+            rights
+            rowVersion
           }
         }
       }

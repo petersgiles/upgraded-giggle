@@ -109,3 +109,29 @@ query program ($programId: String!) {
     }
   }
 }
+
+query report ($reportId: String!) {
+  reports(ids:[$reportId])
+  {
+    id
+    name
+    notes
+    rowVersion
+    accessControlList{
+      id
+      accessControlEntries{
+        id
+        group{
+          id
+          title
+          members{
+            id
+            emailAddress
+          }
+        }
+        rights
+        rowVersion
+      }
+    }
+  }
+}
