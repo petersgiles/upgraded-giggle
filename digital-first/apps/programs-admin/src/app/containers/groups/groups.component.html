@@ -2,6 +2,7 @@
   <div class="page_title">
     <div class="reader-card-article__title page_title_text" mdcHeadline5>Groups</div>
   </div>
+  <div class="app-page">
   <p>TODO:  search/filter</p><!--TODO:  search/filter-->
   <mdc-list>
     <mdc-list-item *ngFor="let group of groups">
@@ -9,7 +10,8 @@
       </mdc-list-item-text>
     </mdc-list-item>
   </mdc-list>
-  <button #demofabposition mdc-fab position='bottomRight' (click)="add()" icon="add"></button>
+  <button mdc-fab position='bottomRight' (click)="add()" icon="add"></button>
+</div>
 </div>
 <ng-template #loading>
   Loading...
