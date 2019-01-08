@@ -72,6 +72,26 @@ export interface CreateDisplayGroupStatisticGraph {
   metadata?: string | null;
 }
 
+export interface CreateAccessControlGroupGraph {
+  title: string;
+}
+
+export interface InputProgramGraph {
+  id?: Guid | null;
+
+  name: string;
+
+  agencyId: Guid;
+
+  externalId?: string | null;
+
+  notes?: string | null;
+
+  commitments?: string | null;
+
+  rowVersion?: string | null;
+}
+
 export interface CreatePortfolioGraph {
   title: string;
 
@@ -198,22 +218,6 @@ export interface ModifyPortfolioGraph {
   metadata?: string | null;
 }
 
-export interface InputProgramGraph {
-  id?: Guid | null;
-
-  name: string;
-
-  agencyId: Guid;
-
-  externalId?: string | null;
-
-  notes?: string | null;
-
-  commitments?: string | null;
-
-  rowVersion?: string | null;
-}
-
 export interface AccessControlInputGraph {
   accessControlListId: Guid;
 
@@ -309,10 +313,44 @@ export namespace CreateProgram {
   export type Mutation = {
     __typename?: 'Mutation';
 
-    program: Program | null;
+    createNewProgram: CreateNewProgram | null;
   };
 
-  export type Program = {
+  export type CreateNewProgram = {
+    __typename?: 'ProgramGraph';
+
+    id: Guid;
+
+    name: string;
+
+    agency: Agency | null;
+
+    notes: string | null;
+
+    externalId: string | null;
+
+    rowVersion: string;
+  };
+
+  export type Agency = {
+    __typename?: 'AgencyGraph';
+
+    id: Guid;
+  };
+}
+
+export namespace UpdateProgram {
+  export type Variables = {
+    data: InputProgramGraph;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    updateProgram: UpdateProgram | null;
+  };
+
+  export type UpdateProgram = {
     __typename?: 'ProgramGraph';
 
     id: Guid;
@@ -460,6 +498,28 @@ export namespace AssignGroupToReport {
     id: Guid;
 
     title: string;
+  };
+}
+
+export namespace CreateGroup {
+  export type Variables = {
+    data?: CreateAccessControlGroupGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    createGroup: CreateGroup | null;
+  };
+
+  export type CreateGroup = {
+    __typename?: 'AccessControlGroupGraph';
+
+    id: Guid;
+
+    title: string;
+
+    rowVersion: string;
   };
 }
 
@@ -938,7 +998,29 @@ export class CreateProgramGQL extends Apollo.Mutation<
 > {
   document: any = gql`
     mutation createProgram($data: InputProgramGraph!) {
-      program(inputProgram: $data) {
+      createNewProgram(inputProgram: $data) {
+        id
+        name
+        agency {
+          id
+        }
+        notes
+        externalId
+        rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdateProgramGQL extends Apollo.Mutation<
+  UpdateProgram.Mutation,
+  UpdateProgram.Variables
+> {
+  document: any = gql`
+    mutation updateProgram($data: InputProgramGraph!) {
+      updateProgram(inputProgram: $data) {
         id
         name
         agency {
@@ -1048,6 +1130,23 @@ export class AssignGroupToReportGQL extends Apollo.Mutation<
           id
           title
         }
+        rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class CreateGroupGQL extends Apollo.Mutation<
+  CreateGroup.Mutation,
+  CreateGroup.Variables
+> {
+  document: any = gql`
+    mutation createGroup($data: CreateAccessControlGroupGraph) {
+      createGroup(inputGroup: $data) {
+        id
+        title
         rowVersion
       }
     }

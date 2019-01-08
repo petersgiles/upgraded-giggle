@@ -20,7 +20,21 @@ mutation deleteProgram($data:InputDeleteProgramGraph) {
 
 
 mutation createProgram ($data:InputProgramGraph!) {
-  program (inputProgram: $data)
+  createNewProgram (inputProgram: $data)
+  {
+    id
+    name
+    agency{
+      id
+    }
+    notes
+    externalId
+    rowVersion
+  }
+}
+
+mutation updateProgram ($data:InputProgramGraph!) {
+  updateProgram (inputProgram: $data)
   {
     id
     name
@@ -75,6 +89,14 @@ mutation assignGroupToReport($data:ReportAccessControlInputGraph){
       id
       title
     }
+    rowVersion
+  }
+}
+
+mutation createGroup($data:CreateAccessControlGroupGraph){
+  createGroup(inputGroup: $data){
+    id
+    title
     rowVersion
   }
 }

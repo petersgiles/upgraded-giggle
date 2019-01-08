@@ -39,7 +39,6 @@ export class ProgramAddComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-
     this.createProgramGQL.mutate({
       data: {
         agencyId: this.addProgramForm.value['agencyId'],
@@ -48,7 +47,7 @@ export class ProgramAddComponent implements OnInit, OnDestroy {
         externalId: this.addProgramForm.value['externalId']
       }
     }, {}).subscribe(({data}) => {
-      return this.router.navigate(['programs', data.program.id]);
+      return this.router.navigate(['programs', data.createNewProgram.id]);
     }, (error) => {
       console.log('there was an error sending the query', error);
     });

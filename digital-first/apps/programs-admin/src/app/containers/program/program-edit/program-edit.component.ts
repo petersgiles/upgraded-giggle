@@ -4,8 +4,8 @@ import {Observable} from "rxjs";
 import {
   AllAgencies,
   AllAgenciesGQL,
-  CreateProgramGQL, Program,
-  ProgramGQL
+  Program,
+  ProgramGQL, UpdateProgramGQL
 } from "../../../generated/graphql";
 import {ActivatedRoute, Router} from "@angular/router";
 import {map} from "rxjs/operators";
@@ -39,7 +39,7 @@ export class ProgramEditComponent implements OnInit, OnDestroy {
               private programGQL: ProgramGQL,
               private router: Router,
               private route: ActivatedRoute,
-              private createProgramGQL: CreateProgramGQL) {
+              private updateProgramGQL: UpdateProgramGQL) {
   }
 
   ngOnInit() {
@@ -75,7 +75,7 @@ export class ProgramEditComponent implements OnInit, OnDestroy {
 
   onSubmit() {
 
-    this.createProgramGQL.mutate({
+    this.updateProgramGQL.mutate({
       data: {
         agencyId: this.addProgramForm.value['agencyId'],
         name: this.addProgramForm.value['programName'],
@@ -85,7 +85,7 @@ export class ProgramEditComponent implements OnInit, OnDestroy {
         id: this.programId
       }
     }, {}).subscribe(({data}) => {
-      return this.router.navigate(['programs', data.program.id]);
+      return this.router.navigate(['programs', data.updateProgram.id]);
     }, (error) => {
       console.log('there was an error sending the query', error);
     });

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AllGroups, AllGroupsGQL} from "../../generated/graphql";
 import {map} from "rxjs/operators";
 import {Observable} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'digital-first-groups',
@@ -11,7 +12,8 @@ import {Observable} from "rxjs";
 export class GroupsComponent implements OnInit {
   private groups$: Observable<(AllGroups.Groups | null)[]>;
 
-  constructor(private allGroupsGQL: AllGroupsGQL) {
+  constructor(private allGroupsGQL: AllGroupsGQL,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -21,7 +23,6 @@ export class GroupsComponent implements OnInit {
   }
 
   add() {
-    //TODO: add group feature
-    alert('TODO:  add group feature')
+    return this.router.navigate(['groups','add']);
   }
 }
