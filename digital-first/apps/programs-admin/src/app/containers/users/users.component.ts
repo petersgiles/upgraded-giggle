@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {Users, UsersGQL} from "../../generated/graphql";
-import {Router} from "@angular/router";
 import {map} from "rxjs/operators";
 import {Observable} from "rxjs";
 

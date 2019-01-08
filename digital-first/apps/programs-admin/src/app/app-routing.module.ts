@@ -14,6 +14,8 @@ import {AuthGuard} from '@digital-first/df-auth'
 import {ProgramReportComponent} from "./containers/program-report/program-report.component";
 import {UsersComponent} from "./containers/users/users.component";
 import {UserComponent} from "./containers/user/user.component";
+import {GroupsComponent} from "./containers/groups/groups.component";
+import {GroupComponent} from "./containers/group/group.component";
 
 export const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -31,6 +33,24 @@ export const routes: Routes = [
           title: 'Home',
           icon: 'home',
           nav: true
+        }
+      },
+      {
+        path: 'groups',
+        component: GroupsComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'Groups',
+          icon: 'group',
+          nav: true
+        }
+      },
+      {
+        path: 'groups/:id',
+        component: GroupComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
         }
       },
       {

@@ -14,6 +14,21 @@ query allGroups{
   }
 }
 
+query group ($groupId: String!) {
+  groups(ids:[$groupId])
+  {
+    id
+    rowVersion
+    title
+    members{
+      id
+      emailAddress
+      lastLogin
+      rowVersion
+    }
+    }
+  }
+
 query allPortfolios{
   portfolios(orderBy:{path:"title"}){
     id

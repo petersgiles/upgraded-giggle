@@ -74,7 +74,9 @@ import { ProgramReportsComponent } from './containers/program-reports/program-re
 import { ReportAddComponent } from './containers/program-reports/report-add/report-add.component';
 import { ProgramReportComponent } from './containers/program-report/program-report.component';
 import { UsersComponent } from './containers/users/users.component';
-import { UserComponent } from './containers/user/user.component'
+import { UserComponent } from './containers/user/user.component';
+import { GroupsComponent } from './containers/groups/groups.component';
+import {GroupComponent} from "./containers/group/group.component";
 
 const COMPONENTS = [AppComponent, HomeComponent]
 
@@ -136,7 +138,9 @@ export function initApplication(): Function {
     ReportAddComponent,
     ProgramReportComponent,
     UsersComponent,
-    UserComponent
+    UserComponent,
+    GroupsComponent,
+    GroupComponent
   ],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [

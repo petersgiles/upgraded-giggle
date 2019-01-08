@@ -503,6 +503,42 @@ export namespace AllGroups {
   };
 }
 
+export namespace Group {
+  export type Variables = {
+    groupId: string;
+  };
+
+  export type Query = {
+    __typename?: 'Query';
+
+    groups: (Groups | null)[] | null;
+  };
+
+  export type Groups = {
+    __typename?: 'AccessControlGroupGraph';
+
+    id: Guid;
+
+    rowVersion: string;
+
+    title: string;
+
+    members: (Members | null)[] | null;
+  };
+
+  export type Members = {
+    __typename?: 'UserGraph';
+
+    id: Guid;
+
+    emailAddress: string;
+
+    lastLogin: DateTimeOffset | null;
+
+    rowVersion: string;
+  };
+}
+
 export namespace AllPortfolios {
   export type Variables = {};
 
@@ -1047,6 +1083,26 @@ export class AllGroupsGQL extends Apollo.Query<
         id
         title
         rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class GroupGQL extends Apollo.Query<Group.Query, Group.Variables> {
+  document: any = gql`
+    query group($groupId: String!) {
+      groups(ids: [$groupId]) {
+        id
+        rowVersion
+        title
+        members {
+          id
+          emailAddress
+          lastLogin
+          rowVersion
+        }
       }
     }
   `;
