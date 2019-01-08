@@ -2,13 +2,13 @@ import {Injectable} from '@angular/core'
 import {environment} from '../environments/environment'
 import {of, Observable} from 'rxjs'
 import {SideBarItem, AppUserProfile} from '@digital-first/df-layouts'
-import {routes} from "./app-routing.module";
+import {routes} from './app-routing.module'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppFullLayoutService {
-  private readonly sidebarRoutes: { caption: string; icon: string; routerLink: string[] }[];
+  private readonly sidebarRoutes: { caption: string; icon: string; routerLink: string[] }[]
 
   constructor() {
 
@@ -45,7 +45,7 @@ export class AppFullLayoutService {
   }
 
   get drawOpen$(): Observable<boolean> {
-    return of(true) //TODO: set up state for these
+    return of(true) // TODO: set up state for these
   }
 
   get drawerStyle(): 'permanent' | 'dismissible' | 'modal' {
@@ -53,7 +53,7 @@ export class AppFullLayoutService {
   }
 
   setDrawState(appdrawerOpen: any): any {
-    return of(true) //TODO: set up state for these
+    return of(true) // TODO: set up state for these
   }
 
 }

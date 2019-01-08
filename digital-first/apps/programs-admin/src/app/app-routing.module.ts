@@ -11,12 +11,12 @@ import {ProgramAddComponent} from './containers/program/program-add/program-add.
 import {ProgramEditComponent} from './containers/program/program-edit/program-edit.component'
 import {ReportAddComponent} from './containers/program-reports/report-add/report-add.component'
 import {AuthGuard} from '@digital-first/df-auth'
-import {ProgramReportComponent} from "./containers/program-report/program-report.component";
-import {UsersComponent} from "./containers/users/users.component";
-import {UserComponent} from "./containers/user/user.component";
-import {GroupsComponent} from "./containers/groups/groups.component";
-import {GroupComponent} from "./containers/group/group.component";
-import {GroupAddComponent} from "./containers/group/group-add/group-add.component";
+import {ProgramReportComponent} from './containers/program-report/program-report.component'
+import {UsersComponent} from './containers/users/users.component'
+import {UserComponent} from './containers/user/user.component'
+import {GroupsComponent} from './containers/groups/groups.component'
+import {GroupComponent} from './containers/group/group.component'
+import {GroupAddComponent} from './containers/group/group-add/group-add.component'
 
 export const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -155,7 +155,7 @@ export const routes: Routes = [
     ]
   },
   {path: '**', redirectTo: 'home'}
-];
+]
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {enableTracing: false})],

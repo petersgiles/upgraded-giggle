@@ -1,11 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AccessRights, AllGroupsGQL, AssignGroupToReportGQL, Report, ReportGQL} from "../../generated/graphql";
-import {ActivatedRoute} from "@angular/router";
-import {first, map} from "rxjs/operators";
-import {Subscription} from "rxjs";
-import {DataTableConfig} from "@digital-first/df-components";
-import {DialogAssignGroupPermissionComponent} from "../../dialogs/dialog-assign-group-permission.component";
-import {MdcDialog} from "@angular-mdc/web";
+import {Component, OnDestroy, OnInit} from '@angular/core'
+import {AccessRights, AllGroupsGQL, AssignGroupToReportGQL, Report, ReportGQL} from '../../generated/graphql'
+import {ActivatedRoute} from '@angular/router'
+import {first, map} from 'rxjs/operators'
+import {Subscription} from 'rxjs'
+import {DataTableConfig} from '@digital-first/df-components'
+import {DialogAssignGroupPermissionComponent} from '../../dialogs/dialog-assign-group-permission.component'
+import {MdcDialog} from '@angular-mdc/web'
 
 @Component({
   selector: 'digital-first-program-report',
@@ -14,11 +14,11 @@ import {MdcDialog} from "@angular-mdc/web";
 })
 export class ProgramReportComponent implements OnInit, OnDestroy {
 
-  report: Report.Reports;
-  permissionTableData: any;
+  report: Report.Reports
+  permissionTableData: any
 
-  private reportId: string;
-  private reportSubscription$: Subscription;
+  private reportId: string
+  private reportSubscription$: Subscription
 
   constructor(private reportGQL: ReportGQL,
               private route: ActivatedRoute,
@@ -28,15 +28,15 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.reportId = this.route.snapshot.paramMap.get('id');
+    this.reportId = this.route.snapshot.paramMap.get('id')
 
     this.reportSubscription$ = this.reportGQL.watch({reportId: this.reportId}, {fetchPolicy: 'network-only'})
       .valueChanges.pipe(map(value => value.data.reports[0]))
       .subscribe(report => {
-        this.report = report;
+        this.report = report
         this.permissionTableData = this.createProgramPermissionGroupTableData(
           report
-        );
+        )
       })
   }
 
@@ -61,7 +61,7 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
               groups: groups
             }
           }
-        );
+        )
 
         dialogRef.afterClosed().subscribe((result: any) => {
           if (result && result.id) {
@@ -72,7 +72,7 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
                     accessControlGroupId: result.id,
                     reportId: this.reportId,
                     accessRights: AccessRights.Read,
-                    rowVersion: '' //TODO: what to do here as row version is not available as it is new record
+                    rowVersion: '' // TODO: what to do here as row version is not available as it is new record
                   }
                 },
                 {
@@ -88,15 +88,15 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
               )
               .pipe(first())
               .subscribe(value => {
-                console.log('adding ', result);
-              });
+                console.log('adding ', result)
+              })
           }
-        });
-      });
+        })
+      })
   }
 
   private createProgramPermissionGroupTableData(report: Report.Reports): DataTableConfig {
-    const groups = {};
+    const groups = {}
     report.accessControlList.forEach(acl => {
       acl.accessControlEntries.forEach(ace => {
         groups[ace.accessControlGroup.title] = {
@@ -105,11 +105,11 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
           title: ace.accessControlGroup.title,
           rights: ace.rights,
           rowVersion: ace.rowVersion
-        };
-      });
-    });
+        }
+      })
+    })
     const rows = (Object.keys(groups) || []).map(g => {
-      const group = groups[g];
+      const group = groups[g]
       return {
         id: group.id,
         data: group,
@@ -128,26 +128,26 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
             ]
           }
         ]
-      };
-    });
+      }
+    })
 
     return {
       title: 'permissions',
       hasDeleteItemButton: true,
       headings: [{caption: 'Name'}, {caption: 'Permission'}],
       rows: rows
-    };
+    }
   }
 
   handleGroupPermissionGroupClicked($event: any) {
-    console.log("TODO update")
+    console.log('TODO update')
   }
 
   handleGroupPermissionChangeClicked($event: any) {
-    console.log("TODO")
+    console.log('TODO')
   }
 
   handleGroupPermissionDeleteClicked($event: any) {
-    console.log("TODO")
+    console.log('TODO')
   }
 }

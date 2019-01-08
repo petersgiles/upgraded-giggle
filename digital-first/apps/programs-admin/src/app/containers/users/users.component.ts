@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {Users, UsersGQL} from "../../generated/graphql";
-import {map} from "rxjs/operators";
-import {Observable} from "rxjs";
+import {Component, OnInit} from '@angular/core'
+import {Users, UsersGQL} from '../../generated/graphql'
+import {map} from 'rxjs/operators'
+import {Observable} from 'rxjs'
 
 @Component({
   selector: 'digital-first-users',
@@ -9,7 +9,7 @@ import {Observable} from "rxjs";
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
-  private users$: Observable<(Users.Users | null)[]>;
+  private users$: Observable<(Users.Users | null)[]>
 
   constructor(private usersGQL: UsersGQL) {
   }
@@ -17,6 +17,6 @@ export class UsersComponent implements OnInit {
   ngOnInit() {
     this.users$ = this.usersGQL.watch({},
       {fetchPolicy: 'no-cache'})
-      .valueChanges.pipe(map(value => value.data.users));
+      .valueChanges.pipe(map(value => value.data.users))
   }
 }

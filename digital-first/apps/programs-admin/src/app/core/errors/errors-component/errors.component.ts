@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
 
 @Component({
   selector: 'display-error',
@@ -7,13 +7,13 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./errors.component.scss']
 })
 export class ErrorsComponent implements OnInit {
-  routeParams;
+  routeParams
 
   constructor(
     private activatedRoute: ActivatedRoute,
   ) { }
 
   ngOnInit() {
-    this.routeParams = this.activatedRoute.snapshot.queryParams;
+    this.routeParams = this.activatedRoute.snapshot.queryParams
   }
 }

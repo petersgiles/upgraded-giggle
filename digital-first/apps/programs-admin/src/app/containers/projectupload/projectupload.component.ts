@@ -1,12 +1,12 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from "rxjs";
-import {AllPrograms, AllProgramsGQL} from "../../generated/graphql";
-import {PassthroughService} from "../../services/passthrough.service";
-import {UploadProjectElectorateReport} from "@dsuite/programs-manager-messages";
+import {Component, OnDestroy, OnInit} from '@angular/core'
+import {Subscription} from 'rxjs'
+import {AllPrograms, AllProgramsGQL} from '../../generated/graphql'
+import {PassthroughService} from '../../services/passthrough.service'
+import {UploadProjectElectorateReport} from '@dsuite/programs-manager-messages'
 import {MdcSnackbar} from '@angular-mdc/web'
 import {FormBuilder} from '@angular/forms'
-import {Validators} from '@angular/forms';
-import {map} from "rxjs/operators";
+import {Validators} from '@angular/forms'
+import {map} from 'rxjs/operators'
 
 @Component({
   selector: 'digital-first-projectupload',
@@ -16,16 +16,16 @@ import {map} from "rxjs/operators";
 
 export class ProjectuploadComponent implements OnInit, OnDestroy {
 
-  fileToUpload: File;
-  programs: AllPrograms.Programs[];
+  fileToUpload: File
+  programs: AllPrograms.Programs[]
 
-  programsSubscription$: Subscription;
+  programsSubscription$: Subscription
 
   projectForm = this.formBuilder.group({
     programId: [undefined, Validators.required],
     file: [null, Validators.required],
     filename: ['']
-  });
+  })
 
   constructor(private allPrograms: AllProgramsGQL,
               private passthrough: PassthroughService,
@@ -34,62 +34,62 @@ export class ProjectuploadComponent implements OnInit, OnDestroy {
   }
 
   get diagnostic() {
-    return `status: ${JSON.stringify(this.projectForm.status)},  value: ${JSON.stringify(this.projectForm.value)}`;
+    return `status: ${JSON.stringify(this.projectForm.status)},  value: ${JSON.stringify(this.projectForm.value)}`
   }
 
   ngOnInit() {
     this.programsSubscription$ = this.allPrograms
       .watch({}, {fetchPolicy: 'network-only'}).valueChanges
       .pipe(map(result => result.data.programs)).subscribe(value => {
-          this.programs = value;
+          this.programs = value
         }
-      );
+      )
   }
 
   fileChange(event) {
 
-    let fileList: FileList = event.target.files;
+    const fileList: FileList = event.target.files
 
-    if (fileList.length == 1) {
+    if (fileList.length === 1) {
 
-      this.fileToUpload = fileList[0];
+      this.fileToUpload = fileList[0]
 
-      //TODO: revisit this to tidy it up
-      const reader = new FileReader();
+      // TODO: revisit this to tidy it up
+      const reader = new FileReader()
 
       if (event.target.files && event.target.files.length) {
 
-        reader.readAsDataURL(this.fileToUpload);
+        reader.readAsDataURL(this.fileToUpload)
 
         reader.onload = () => {
 
-          this.projectForm.patchValue({filename: this.fileToUpload.name});
-          this.projectForm.patchValue({file: this.fileToUpload});
-        };
+          this.projectForm.patchValue({filename: this.fileToUpload.name})
+          this.projectForm.patchValue({file: this.fileToUpload})
+        }
       }
     }
   }
 
-  //send message and attachment onto the bus
+  // send message and attachment onto the bus
   onSubmit() {
 
-    const message = new UploadProjectElectorateReport();
+    const message = new UploadProjectElectorateReport()
 
-    message.programId = this.projectForm.value['programId'];
-    message.fileName = this.projectForm.value['filename'];
+    message.programId = this.projectForm.value['programId']
+    message.fileName = this.projectForm.value['filename']
 
-    const formData = new FormData();
-    formData.append('file', this.projectForm.value['file'], message.fileName);
-    formData.append('message', JSON.stringify(message));
+    const formData = new FormData()
+    formData.append('file', this.projectForm.value['file'], message.fileName)
+    formData.append('message', JSON.stringify(message))
 
     this.passthrough.sendMessageOnToBus<UploadProjectElectorateReport>(message, formData)
       .subscribe(value => {
-          this.snackbar.show('File sent for processing successfully.', null, {align: 'center'});
+          this.snackbar.show('File sent for processing successfully.', null, {align: 'center'})
         }
-      );
+      )
   }
 
   ngOnDestroy(): void {
-    this.programsSubscription$.unsubscribe();
+    this.programsSubscription$.unsubscribe()
   }
 }

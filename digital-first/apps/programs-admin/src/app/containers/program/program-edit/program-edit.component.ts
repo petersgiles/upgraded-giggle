@@ -1,16 +1,15 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, Validators} from "@angular/forms";
-import {Observable} from "rxjs";
+import {Component, OnDestroy, OnInit} from '@angular/core'
+import {FormBuilder, Validators} from '@angular/forms'
+import {Observable} from 'rxjs'
 import {
   AllAgencies,
   AllAgenciesGQL,
   Program,
   ProgramGQL, UpdateProgramGQL
-} from "../../../generated/graphql";
-import {ActivatedRoute, Router} from "@angular/router";
-import {map} from "rxjs/operators";
-import {Subscription} from "rxjs";
-
+} from '../../../generated/graphql'
+import {ActivatedRoute, Router} from '@angular/router'
+import {map} from 'rxjs/operators'
+import {Subscription} from 'rxjs'
 
 @Component({
   selector: 'digital-first-program-edit',
@@ -19,20 +18,20 @@ import {Subscription} from "rxjs";
 })
 export class ProgramEditComponent implements OnInit, OnDestroy {
 
-  agenciesSubscription$: Subscription;
-  programSubscription$: Subscription;
-  agencies: AllAgencies.Agencies[];
-  programs$: Observable<Program.Programs>;
+  agenciesSubscription$: Subscription
+  programSubscription$: Subscription
+  agencies: AllAgencies.Agencies[]
+  programs$: Observable<Program.Programs>
 
-  rowVersion: string;
+  rowVersion: string
 
   addProgramForm = this.formBuilder.group({
     agencyId: [undefined, Validators.required],
     programName: [null, Validators.required],
     externalId: [null],
     notes: [''],
-  });
-  programId: string;
+  })
+  programId: string
 
   constructor(private formBuilder: FormBuilder,
               private allAgencies: AllAgenciesGQL,
@@ -50,26 +49,26 @@ export class ProgramEditComponent implements OnInit, OnDestroy {
       .subscribe(value => {
           this.agencies = value
         }
-      );
+      )
 
-    this.programId = this.route.snapshot.paramMap.get('id');
+    this.programId = this.route.snapshot.paramMap.get('id')
 
     this.programs$ = this.programGQL.watch(
       {programId: this.programId},
       {fetchPolicy: 'network-only'})
-      .valueChanges.pipe(map(value => value.data.programs[0]));
+      .valueChanges.pipe(map(value => value.data.programs[0]))
 
     this.programSubscription$ = this.programs$.subscribe(
       value => {
-        this.rowVersion = value.rowVersion;
+        this.rowVersion = value.rowVersion
         this.addProgramForm.patchValue({
           notes: value.notes,
           programName: value.name,
           externalId: value.externalId,
           agencyId: value.agency.id
-        });
+        })
 
-        console.log(value);
+        console.log(value)
       })
   }
 
@@ -84,19 +83,18 @@ export class ProgramEditComponent implements OnInit, OnDestroy {
         rowVersion: this.rowVersion,
         id: this.programId
       }
-    }, {}).subscribe(({data}) => {
-      return this.router.navigate(['programs', data.updateProgram.id]);
-    }, (error) => {
-      console.log('there was an error sending the query', error);
-    });
+    }, {}).subscribe(({data}) =>
+      this.router.navigate(['programs', data.updateProgram.id]), (error) => {
+      console.log('there was an error sending the query', error)
+    })
   }
 
   cancel() {
-    return this.router.navigate(['programs', this.programId]);
+    return this.router.navigate(['programs', this.programId])
   }
 
   ngOnDestroy(): void {
-    this.agenciesSubscription$.unsubscribe();
-    this.programSubscription$.unsubscribe();
+    this.agenciesSubscription$.unsubscribe()
+    this.programSubscription$.unsubscribe()
   }
 }

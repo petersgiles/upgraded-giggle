@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {AllGroups, AllGroupsGQL} from "../../generated/graphql";
-import {map} from "rxjs/operators";
-import {Observable} from "rxjs";
-import {Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core'
+import {AllGroups, AllGroupsGQL} from '../../generated/graphql'
+import {map} from 'rxjs/operators'
+import {Observable} from 'rxjs'
+import {Router} from '@angular/router'
 
 @Component({
   selector: 'digital-first-groups',
@@ -10,7 +10,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./groups.component.scss']
 })
 export class GroupsComponent implements OnInit {
-  private groups$: Observable<(AllGroups.Groups | null)[]>;
+  private groups$: Observable<(AllGroups.Groups | null)[]>
 
   constructor(private allGroupsGQL: AllGroupsGQL,
               private router: Router) {
@@ -23,6 +23,6 @@ export class GroupsComponent implements OnInit {
   }
 
   add() {
-    return this.router.navigate(['groups','add']);
+    return this.router.navigate(['groups', 'add'])
   }
 }

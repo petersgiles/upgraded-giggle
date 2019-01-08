@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MDC_DIALOG_DATA, MdcDialogRef } from '@angular-mdc/web';
+import { Component, OnInit, Inject } from '@angular/core'
+import { MDC_DIALOG_DATA, MdcDialogRef } from '@angular-mdc/web'
 
 export interface DialogGroupsData {
   groups: { id: any, name: string }[]

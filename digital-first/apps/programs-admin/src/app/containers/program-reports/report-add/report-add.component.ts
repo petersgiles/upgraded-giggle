@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
-import {Location} from '@angular/common';
-import {AddReportGQL} from "../../../generated/graphql";
+import {Component, OnInit} from '@angular/core'
+import {FormBuilder, Validators} from '@angular/forms'
+import {ActivatedRoute, Router} from '@angular/router'
+import {Location} from '@angular/common'
+import {AddReportGQL} from '../../../generated/graphql'
 
 @Component({
   selector: 'digital-first-report-add',
@@ -14,9 +14,9 @@ export class ReportAddComponent implements OnInit {
   addReportForm = this.formBuilder.group({
     reportName: [null, Validators.required],
     notes: ['']
-  });
+  })
 
-  private programId: string;
+  private programId: string
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
@@ -32,18 +32,17 @@ export class ReportAddComponent implements OnInit {
         name: this.addReportForm.value['reportName'],
         notes: this.addReportForm.value['notes'],
       }
-    }, {}).subscribe(() => {
-      return this.router.navigate(['programs', this.programId]);
-    }, (error) => {
-      console.log('there was an error sending the query', error);
-    });
+    }, {}).subscribe(() =>
+      this.router.navigate(['programs', this.programId]), (error) => {
+      console.log('there was an error sending the query', error)
+    })
   }
 
   cancel() {
-    return this.location.back();
+    return this.location.back()
   }
 
   ngOnInit(): void {
-    this.programId = this.route.snapshot.paramMap.get('id');
+    this.programId = this.route.snapshot.paramMap.get('id')
   }
 }
