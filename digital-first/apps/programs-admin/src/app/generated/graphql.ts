@@ -166,6 +166,10 @@ export interface DeleteDisplayGroupStatisticGraph {
   displayGroupId: Guid;
 }
 
+export interface DeleteAccessControlGroupGraph {
+  id: Guid;
+}
+
 export interface DeletePortfolioGraph {
   id: Guid;
 }
@@ -520,6 +524,18 @@ export namespace CreateGroup {
     title: string;
 
     rowVersion: string;
+  };
+}
+
+export namespace DeleteGroup {
+  export type Variables = {
+    data?: DeleteAccessControlGroupGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    deleteGroup: boolean | null;
   };
 }
 
@@ -1149,6 +1165,19 @@ export class CreateGroupGQL extends Apollo.Mutation<
         title
         rowVersion
       }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class DeleteGroupGQL extends Apollo.Mutation<
+  DeleteGroup.Mutation,
+  DeleteGroup.Variables
+> {
+  document: any = gql`
+    mutation deleteGroup($data: DeleteAccessControlGroupGraph) {
+      deleteGroup(inputDeleteGroup: $data)
     }
   `;
 }

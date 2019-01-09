@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core'
-import {ActivatedRoute} from '@angular/router'
-import {Group, GroupGQL} from '../../generated/graphql'
-import {map} from 'rxjs/operators'
+import {ActivatedRoute, Router} from '@angular/router'
+import {DeleteGroupGQL, Group, GroupGQL} from '../../generated/graphql'
+import {first, map} from 'rxjs/operators'
 import {Subscription} from 'rxjs'
+import {ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent} from '@digital-first/df-dialogs'
+import {MdcDialog} from '@angular-mdc/web'
 
 @Component({
   selector: 'digital-first-group',
@@ -15,7 +17,10 @@ export class GroupComponent implements OnInit {
   private group: Group.Groups
 
   constructor(private route: ActivatedRoute,
-              private groupGQL: GroupGQL) {
+              private groupGQL: GroupGQL,
+              private deleteGroupGQL: DeleteGroupGQL,
+              private router: Router,
+              public dialog: MdcDialog) {
   }
 
   ngOnInit() {
@@ -27,6 +32,36 @@ export class GroupComponent implements OnInit {
       .valueChanges.pipe(map(value => value.data.groups[0]))
       .subscribe(group => {
         this.group = group
+      })
+  }
+
+  handleEditGroup(group: Group.Groups) {
+    console.log('edit group clicked', group)
+  }
+
+  handleDeleteGroup(group: Group.Groups) {
+
+    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+      escapeToClose: true,
+      clickOutsideToClose: true
+    })
+
+    dialogRef
+      .afterClosed()
+      .pipe(first())
+      .subscribe(result => {
+        if (result === ARE_YOU_SURE_ACCEPT && this.group) {
+          this.deleteGroupGQL
+            .mutate(
+              {
+                data: {
+                  id: group.id
+                }
+              },
+              {}
+            )
+            .subscribe(value => this.router.navigate(['groups']))
+        }
       })
   }
 }

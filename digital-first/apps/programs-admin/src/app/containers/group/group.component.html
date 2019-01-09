@@ -1,4 +1,12 @@
-<div class="app-page">
+<div class="app-page" *ngIf="group; else loading">
+  <digital-first-page-title title="Group - {{ group.title }}">
+    <digital-first-edit-item-button
+      (onEditItem)="handleEditGroup(group)"
+    ></digital-first-edit-item-button>
+    <digital-first-delete-item-button
+      (onDeleteItem)="handleDeleteGroup(group)"
+    ></digital-first-delete-item-button>
+  </digital-first-page-title>
   <p>
     TODO: display group information and members
   </p>
@@ -6,3 +14,6 @@
   <digital-first-page-title title="Debug"></digital-first-page-title>
   <pre>{{ group | json }}</pre>
 </div>
+  <ng-template #loading>
+    Loading...
+  </ng-template>

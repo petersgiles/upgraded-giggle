@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 
 @Component({
-  selector: 'display-error',
+  selector: 'digital-first-display-error',
   templateUrl: './errors.component.html',
   styleUrls: ['./errors.component.scss']
 })
