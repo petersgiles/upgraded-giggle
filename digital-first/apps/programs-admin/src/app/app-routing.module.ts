@@ -17,6 +17,7 @@ import {UserComponent} from './containers/user/user.component'
 import {GroupsComponent} from './containers/groups/groups.component'
 import {GroupComponent} from './containers/group/group.component'
 import {GroupAddComponent} from './containers/group/group-add/group-add.component'
+import {GroupEditComponent} from './containers/group/group-edit/group-edit.component'
 
 export const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -49,6 +50,14 @@ export const routes: Routes = [
       {
         path: 'groups/add',
         component: GroupAddComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+      {
+        path: 'groups/edit/:id',
+        component: GroupEditComponent,
         canActivate: [AuthGuard],
         data: {
           nav: false

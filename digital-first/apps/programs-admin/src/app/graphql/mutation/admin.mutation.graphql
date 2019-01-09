@@ -101,6 +101,16 @@ mutation createGroup($data:CreateAccessControlGroupGraph){
   }
 }
 
+mutation updateGroup($data:UpdateAccessControlGroupGraph){
+  updateGroup(inputUpdateGroup: $data){
+    id
+    title
+    rowVersion
+  }
+}
+
 mutation deleteGroup($data:DeleteAccessControlGroupGraph) {
   deleteGroup(inputDeleteGroup:$data)
 }
+
+

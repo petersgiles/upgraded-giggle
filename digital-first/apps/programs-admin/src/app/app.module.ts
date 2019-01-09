@@ -68,7 +68,8 @@ import {UsersComponent} from './containers/users/users.component'
 import {UserComponent} from './containers/user/user.component'
 import {GroupsComponent} from './containers/groups/groups.component'
 import {GroupComponent} from './containers/group/group.component'
-import {GroupAddComponent} from './containers/group/group-add/group-add.component'
+import {GroupAddComponent} from './containers/group/group-add/group-add.component';
+import { GroupEditComponent } from './containers/group/group-edit/group-edit.component'
 
 const COMPONENTS = [AppComponent, HomeComponent]
 
@@ -130,7 +131,8 @@ export function initApplication(): Function {
     UserComponent,
     GroupsComponent,
     GroupComponent,
-    GroupAddComponent
+    GroupAddComponent,
+    GroupEditComponent
   ],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [

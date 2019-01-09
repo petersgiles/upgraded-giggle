@@ -240,6 +240,14 @@ export interface InputReportGraph {
   rowVersion?: string | null;
 }
 
+export interface UpdateAccessControlGroupGraph {
+  id: Guid;
+
+  title: string;
+
+  rowVersion: string;
+}
+
 export enum ComparisonGraph {
   Contains = 'contains',
   EndsWith = 'endsWith',
@@ -517,6 +525,28 @@ export namespace CreateGroup {
   };
 
   export type CreateGroup = {
+    __typename?: 'AccessControlGroupGraph';
+
+    id: Guid;
+
+    title: string;
+
+    rowVersion: string;
+  };
+}
+
+export namespace UpdateGroup {
+  export type Variables = {
+    data?: UpdateAccessControlGroupGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    updateGroup: UpdateGroup | null;
+  };
+
+  export type UpdateGroup = {
     __typename?: 'AccessControlGroupGraph';
 
     id: Guid;
@@ -1161,6 +1191,23 @@ export class CreateGroupGQL extends Apollo.Mutation<
   document: any = gql`
     mutation createGroup($data: CreateAccessControlGroupGraph) {
       createGroup(inputGroup: $data) {
+        id
+        title
+        rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdateGroupGQL extends Apollo.Mutation<
+  UpdateGroup.Mutation,
+  UpdateGroup.Variables
+> {
+  document: any = gql`
+    mutation updateGroup($data: UpdateAccessControlGroupGraph) {
+      updateGroup(inputUpdateGroup: $data) {
         id
         title
         rowVersion
