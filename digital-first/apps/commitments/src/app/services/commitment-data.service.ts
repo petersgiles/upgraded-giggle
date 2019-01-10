@@ -26,7 +26,9 @@ import {
   AddMapPointToCommitment,
   RemoveMapPointFromCommitment,
   AddCommitmentToCommitment,
-  RemoveCommitmentFromCommitment
+  RemoveCommitmentFromCommitment,
+  AddLinkToCommitment,
+  RemoveLinkFromCommitment
 } from '../reducers/commitment/commitment.actions'
 import { GetAllContacts, StoreContact } from '../reducers/contact/contact.actions'
 import { AddRefiner, RemoveRefiner, ClearAllRefiners, ExpandRefinerGroup, CollapseRefinerGroup, SetTextRefiner } from '../reducers/commitment-overview/commitment-overview.actions'
@@ -107,6 +109,12 @@ export class CommitmentDataService {
     this.store.dispatch(new RemoveMapPointFromCommitment({ commitment, mapPoint }))
   }
 
+  public addLinkToCommitment(commitment: string | number, relatedTo: string): any {
+    this.store.dispatch(new AddLinkToCommitment({ commitment, relatedTo }))
+  }
+  public removeLinkFromCommitment(commitment: string | number, relatedTo: string): any {
+    this.store.dispatch(new RemoveLinkFromCommitment({ commitment, relatedTo }))
+  }
   public addCommitmentToCommitment(commitment: string | number, relatedTo: string | number): any {
     this.store.dispatch(new AddCommitmentToCommitment({ commitment, relatedTo }))
   }

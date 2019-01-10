@@ -2,7 +2,7 @@ import { Commitment } from '../reducers/commitment'
 
 import { Contact } from '../reducers/contact/contact.model'
 import { MapPoint } from '../reducers/map-point/map-point.model'
-import { RelatedCommitment } from '../reducers/related-commitment/related-commitment.model'
+import { RelatedCommitment, RelatedLink } from '../reducers/related-commitment/related-commitment.model'
 import { CommitmentAction } from '../reducers/commitment-action/commitment-action.model'
 
 export { CommitmentType, CommitmentTypesResult } from './commitment-type.model'
@@ -30,6 +30,10 @@ export interface CommitmentActionsResult {
 export interface RelatedCommitmentsResult {
   commitmentRelatedCommitments: RelatedCommitment[]
 }
+export interface RelatedLinksResult {
+  commitmentRelatedCommitments: RelatedLink[]
+}
+
 export interface CommentsResult {
   comments
 }

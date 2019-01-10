@@ -17,7 +17,9 @@ import {
   AddElectorateToCommitment,
   RemoveElectorateFromCommitment,
   AddCommitmentToCommitment,
-  RemoveCommitmentFromCommitment
+  RemoveCommitmentFromCommitment,
+  AddLinkToCommitment,
+  RemoveLinkFromCommitment
 } from './commitment.actions'
 import { switchMap, map, catchError, tap, switchMapTo, concatMap } from 'rxjs/operators'
 
@@ -80,6 +82,34 @@ export class CommitmentEffects {
       catchError(error => of(new CommitmentsActionFailure(error)))
 
     )
+
+    @Effect()
+    addLinkToCommitment$: Observable<Action> = this.actions$
+      .pipe(
+        ofType(CommitmentActionTypes.AddLinkToCommitment),
+        map((action: AddLinkToCommitment) => action.payload),
+        switchMap((payload: any) => this.service.addLinkToCommitment(payload)),
+        switchMap((result: any) => [
+          new AppNotification({ message: 'Related Link Added' }),
+          new SetCurrentCommitment({ id: result.commitment.id }),
+          new ClearAppNotification()
+        ]),
+        catchError(error => of(new CommitmentsActionFailure(error)))
+      )
+
+    @Effect()
+    removeLinkFromCommitment$: Observable<Action> = this.actions$
+      .pipe(
+        ofType(CommitmentActionTypes.RemoveLinkFromCommitment),
+        map((action: RemoveLinkFromCommitment) => action.payload),
+        switchMap((payload: any) => this.service.removeLinkFromCommitment(payload)),
+        switchMap((result: any) => [
+          new AppNotification({ message: 'Related Link Removed' }),
+          new SetCurrentCommitment({ id: result.commitment.id }),
+          new ClearAppNotification()
+        ]),
+        catchError(error => of(new CommitmentsActionFailure(error)))
+      )
 
   @Effect()
   addCommitmentToCommitment$: Observable<Action> = this.actions$

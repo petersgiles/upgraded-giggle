@@ -98,6 +98,7 @@ import { commitmentActionsDataServiceProvider } from './reducers/commitment-acti
 import { commitmentOverviewMapDataServiceProvider } from './reducers/commitment-overview-map/commitment-overview-map-data.service'
 import { CommentOverviewMapEffects } from './reducers/commitment-overview-map/commitment-overview-map.effects'
 import { CommitmentPrintComponent } from './pages/commitment-print/commitment-print.component'
+import { DialogAddLinkComponent } from './dialogs/dialog-add-link.component'
 
 const COMPONENTS = [
   AppComponent,
@@ -111,6 +112,7 @@ const COMPONENTS = [
   ContactCreateComponent,
   ContactCreateFormComponent,
   DialogAddCommitmentComponent,
+  DialogAddLinkComponent,
   CommitmentDiscussionComponent,
   CommitmentCostingComponent,
   CommitmentCostingsComponent,
@@ -128,6 +130,7 @@ const ENTRYCOMPONENTS = [
   DialogSpinnerOverlayComponent,
   DialogAddContactComponent,
   DialogAddCommitmentComponent,
+  DialogAddLinkComponent,
   DiscussionComponent,
   TagsComponent,
   ViewLayoutButtonComponent,

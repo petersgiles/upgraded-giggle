@@ -21,6 +21,7 @@ import { formatCommitmentTitle } from '../../formatters'
 import { DialogAddCommitmentComponent } from '../../dialogs/dialog-add-commitment.component'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 import { showSnackBar } from '../../dialogs/showSnackBar'
+import { DialogAddLinkComponent, ADD_LINK_CLOSE } from '../../dialogs/dialog-add-link.component'
 
 @Component({
   selector: 'digital-first-commitment-edit',
@@ -265,7 +266,20 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   }
 
-  handleOpenCommitmenttDialog() {
+  handleAddLinkDialog() {
+    const dialogRef = this.dialog.open(DialogAddLinkComponent, {
+      escapeToClose: true,
+      clickOutsideToClose: true
+    })
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result !== ADD_LINK_CLOSE) {
+        this.service.addLinkToCommitment(this.commitment.id, result)
+      }
+    })
+  }
+
+  handleOpenCommitmentDialog() {
 
     this.service.Commitments.pipe(
       first()

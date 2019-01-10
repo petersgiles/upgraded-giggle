@@ -31,6 +31,8 @@ export enum CommitmentActionTypes {
   RemoveElectorateFromCommitment = '[Commitment] Remove Electorate From Commitment',
   AddCommitmentToCommitment = '[Commitment] Add Commitment ToCommitment',
   RemoveCommitmentFromCommitment = '[Commitment] Remove Commitment From Commitment',
+  AddLinkToCommitment = '[Commitment] Add link ToCommitment',
+  RemoveLinkFromCommitment = '[Commitment] Remove link From Commitment',
 }
 
 export class AddMapPointToCommitment implements Action {
@@ -69,10 +71,21 @@ export class RemoveElectorateFromCommitment implements Action {
   constructor(public payload: { commitment: number | string, electorate: string | number }) { }
 }
 
+export class AddLinkToCommitment implements Action {
+  readonly type = CommitmentActionTypes.AddLinkToCommitment
+
+  constructor(public payload: { commitment: number | string, relatedTo: string }) { }
+}
 export class AddCommitmentToCommitment implements Action {
   readonly type = CommitmentActionTypes.AddCommitmentToCommitment
 
   constructor(public payload: { commitment: number | string, relatedTo: string | number }) { }
+}
+
+export class RemoveLinkFromCommitment implements Action {
+  readonly type = CommitmentActionTypes.RemoveLinkFromCommitment
+
+  constructor(public payload: { commitment: number | string, relatedTo: string }) { }
 }
 
 export class RemoveCommitmentFromCommitment implements Action {
@@ -185,3 +198,5 @@ export type CommitmentActions =
   | RemoveMapPointFromCommitment
   | AddElectorateToCommitment
   | RemoveElectorateFromCommitment
+  | AddLinkToCommitment
+  | RemoveLinkFromCommitment
