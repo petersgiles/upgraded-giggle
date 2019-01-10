@@ -804,14 +804,6 @@ export namespace Program {
     id: Guid;
 
     title: string;
-
-    members: (Members | null)[] | null;
-  };
-
-  export type Members = {
-    __typename?: 'UserGraph';
-
-    emailAddress: string;
   };
 
   export type Agency = {
@@ -852,14 +844,6 @@ export namespace Program {
     __typename?: 'AccessControlGroupGraph';
 
     title: string;
-
-    members: (_Members | null)[] | null;
-  };
-
-  export type _Members = {
-    __typename?: 'UserGraph';
-
-    emailAddress: string;
   };
 
   export type Projects = {
@@ -882,6 +866,44 @@ export namespace Program {
     id: Guid;
 
     name: string;
+  };
+}
+
+export namespace EditProgram {
+  export type Variables = {
+    programId: string;
+  };
+
+  export type Query = {
+    __typename?: 'Query';
+
+    programs: (Programs | null)[] | null;
+  };
+
+  export type Programs = {
+    __typename?: 'ProgramGraph';
+
+    id: Guid;
+
+    name: string;
+
+    notes: string | null;
+
+    externalId: string | null;
+
+    rowVersion: string;
+
+    agency: Agency | null;
+  };
+
+  export type Agency = {
+    __typename?: 'AgencyGraph';
+
+    id: Guid;
+
+    title: string;
+
+    metadata: string | null;
   };
 }
 
@@ -1370,9 +1392,6 @@ export class ProgramGQL extends Apollo.Query<Program.Query, Program.Variables> {
             accessControlGroup {
               id
               title
-              members {
-                emailAddress
-              }
             }
           }
         }
@@ -1389,9 +1408,6 @@ export class ProgramGQL extends Apollo.Query<Program.Query, Program.Variables> {
             accessControlEntries {
               accessControlGroup {
                 title
-                members {
-                  emailAddress
-                }
               }
             }
           }
@@ -1405,6 +1421,30 @@ export class ProgramGQL extends Apollo.Query<Program.Query, Program.Variables> {
             id
             name
           }
+        }
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class EditProgramGQL extends Apollo.Query<
+  EditProgram.Query,
+  EditProgram.Variables
+> {
+  document: any = gql`
+    query editProgram($programId: String!) {
+      programs(ids: [$programId]) {
+        id
+        name
+        notes
+        externalId
+        rowVersion
+        agency {
+          id
+          title
+          metadata
         }
       }
     }
