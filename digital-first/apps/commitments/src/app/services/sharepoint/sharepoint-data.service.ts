@@ -31,6 +31,15 @@ import { Contact } from '../../reducers/contact/contact.model'
   providedIn: 'root'
 })
 export class SharepointDataService implements AppDataService {
+  removeLinkFromCommitment(payload: any): Observable<any> {
+    throw new Error('Method not implemented.')
+  }
+  addLinkToCommitment(payload: any): Observable<any> {
+    throw new Error('Method not implemented.')
+  }
+  getRelatedLinksByCommitment(commitment: any): Observable<any> {
+    throw new Error('Method not implemented.')
+  }
 
   getCurrentUser(): Observable<AppUserProfile> {
     return this.sharepoint.getCurrentUser()
