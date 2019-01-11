@@ -185,3 +185,22 @@ query user ($userId: String!) {
     rowVersion
     }
   }
+
+  query statistic ($statisticId: String!) {
+    statistics(ids:[$statisticId])
+    {
+      id
+      agency{
+        id
+        title
+      }
+      name
+      externalId
+      rowVersion
+      statisticReports{
+        id
+        name
+        notes
+      }
+      }
+    }

@@ -92,6 +92,30 @@ export interface InputProgramGraph {
   rowVersion?: string | null;
 }
 
+export interface InputStatisticGraph {
+  id?: Guid | null;
+
+  name: string;
+
+  agencyId: Guid;
+
+  externalId?: string | null;
+
+  rowVersion?: string | null;
+}
+
+export interface InputStatisticReportGraph {
+  id?: Guid | null;
+
+  name: string;
+
+  notes?: string | null;
+
+  statisticId: Guid;
+
+  rowVersion?: string | null;
+}
+
 export interface CreatePortfolioGraph {
   title: string;
 
@@ -569,6 +593,70 @@ export namespace DeleteGroup {
   };
 }
 
+export namespace CreateStatistic {
+  export type Variables = {
+    data: InputStatisticGraph;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    createNewStatistic: CreateNewStatistic | null;
+  };
+
+  export type CreateNewStatistic = {
+    __typename?: 'StatisticGraph';
+
+    id: Guid;
+
+    name: string;
+
+    agency: Agency | null;
+
+    externalId: string | null;
+
+    rowVersion: string;
+  };
+
+  export type Agency = {
+    __typename?: 'AgencyGraph';
+
+    id: Guid;
+  };
+}
+
+export namespace UpdateStatistic {
+  export type Variables = {
+    data: InputStatisticGraph;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    updateStatistic: UpdateStatistic | null;
+  };
+
+  export type UpdateStatistic = {
+    __typename?: 'StatisticGraph';
+
+    id: Guid;
+
+    name: string;
+
+    agency: Agency | null;
+
+    externalId: string | null;
+
+    rowVersion: string;
+  };
+
+  export type Agency = {
+    __typename?: 'AgencyGraph';
+
+    id: Guid;
+  };
+}
+
 export namespace AllAgencies {
   export type Variables = {};
 
@@ -1031,6 +1119,52 @@ export namespace User {
   };
 }
 
+export namespace Statistic {
+  export type Variables = {
+    statisticId: string;
+  };
+
+  export type Query = {
+    __typename?: 'Query';
+
+    statistics: (Statistics | null)[] | null;
+  };
+
+  export type Statistics = {
+    __typename?: 'StatisticGraph';
+
+    id: Guid;
+
+    agency: Agency | null;
+
+    name: string;
+
+    externalId: string | null;
+
+    rowVersion: string;
+
+    statisticReports: (StatisticReports | null)[] | null;
+  };
+
+  export type Agency = {
+    __typename?: 'AgencyGraph';
+
+    id: Guid;
+
+    title: string;
+  };
+
+  export type StatisticReports = {
+    __typename?: 'StatisticReportGraph';
+
+    id: Guid;
+
+    name: string;
+
+    notes: string | null;
+  };
+}
+
 // ====================================================
 // START: Apollo Angular template
 // ====================================================
@@ -1247,6 +1381,48 @@ export class DeleteGroupGQL extends Apollo.Mutation<
   document: any = gql`
     mutation deleteGroup($data: DeleteAccessControlGroupGraph) {
       deleteGroup(inputDeleteGroup: $data)
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class CreateStatisticGQL extends Apollo.Mutation<
+  CreateStatistic.Mutation,
+  CreateStatistic.Variables
+> {
+  document: any = gql`
+    mutation createStatistic($data: InputStatisticGraph!) {
+      createNewStatistic(inputStatistic: $data) {
+        id
+        name
+        agency {
+          id
+        }
+        externalId
+        rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdateStatisticGQL extends Apollo.Mutation<
+  UpdateStatistic.Mutation,
+  UpdateStatistic.Variables
+> {
+  document: any = gql`
+    mutation updateStatistic($data: InputStatisticGraph!) {
+      updateStatistic(inputStatistic: $data) {
+        id
+        name
+        agency {
+          id
+        }
+        externalId
+        rowVersion
+      }
     }
   `;
 }
@@ -1513,6 +1689,33 @@ export class UserGQL extends Apollo.Query<User.Query, User.Variables> {
         }
         lastLogin
         rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class StatisticGQL extends Apollo.Query<
+  Statistic.Query,
+  Statistic.Variables
+> {
+  document: any = gql`
+    query statistic($statisticId: String!) {
+      statistics(ids: [$statisticId]) {
+        id
+        agency {
+          id
+          title
+        }
+        name
+        externalId
+        rowVersion
+        statisticReports {
+          id
+          name
+          notes
+        }
       }
     }
   `;

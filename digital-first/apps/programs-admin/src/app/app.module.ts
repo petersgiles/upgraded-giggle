@@ -69,7 +69,11 @@ import {UserComponent} from './containers/user/user.component'
 import {GroupsComponent} from './containers/groups/groups.component'
 import {GroupComponent} from './containers/group/group.component'
 import {GroupAddComponent} from './containers/group/group-add/group-add.component';
-import { GroupEditComponent } from './containers/group/group-edit/group-edit.component'
+import { GroupEditComponent } from './containers/group/group-edit/group-edit.component';
+import { StatisticsComponent } from './containers/statistics/statistics.component';
+import { StatisticComponent } from './containers/statistic/statistic.component';
+import { StatisticAddComponent } from './containers/statistic/statistic-add/statistic-add.component';
+import { StatisticEditComponent } from './containers/statistic/statistic-edit/statistic-edit.component'
 
 const COMPONENTS = [AppComponent, HomeComponent]
 
@@ -132,7 +136,11 @@ export function initApplication(): Function {
     GroupsComponent,
     GroupComponent,
     GroupAddComponent,
-    GroupEditComponent
+    GroupEditComponent,
+    StatisticsComponent,
+    StatisticComponent,
+    StatisticAddComponent,
+    StatisticEditComponent
   ],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [
