@@ -30,11 +30,8 @@ export class AppFullLayoutService {
       routerLink: ['/map']
     }, {
       divider: true
-    }, {
-      caption: 'About this App',
-      icon: 'info',
-      routerLink: ['/about']
-    }])
+    }
+  ])
   }
 
   get drawerStyle(): 'permanent' | 'dismissible' | 'modal' {

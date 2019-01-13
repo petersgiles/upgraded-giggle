@@ -81,7 +81,6 @@ import { CommitmentActionEffects } from './reducers/commitment-action/commitment
 import { CommitmentDiscussionComponent } from './containers/commitment-discussion/commitment-discussion.component'
 import { CommitmentDeliveryLocationComponent } from './containers/commitment-delivery-location/commitment-delivery-location.component'
 import { CommitmentContactsComponent } from './containers/commitment-contacts/commitment-contacts.component'
-import { AboutComponent } from './pages/about/about.component'
 import { CommitmentCostingsComponent } from './containers/commitment-costings/commitment-costings.component'
 import { CommitmentCostingComponent } from './pages/commitment-costing/commitment-costing.component'
 import { CommitmentOverviewMapComponent } from './pages/commitment-overview-map/commitment-overview-map.component'
@@ -119,8 +118,7 @@ const COMPONENTS = [
   CommitmentDeliveryLocationComponent,
   CommitmentContactsComponent,
   CommitmentOverviewMapComponent,
-  CommitmentPrintComponent,
-  AboutComponent
+  CommitmentPrintComponent
 ]
 
 const ENTRYCOMPONENTS = [

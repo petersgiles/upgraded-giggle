@@ -7,7 +7,6 @@ import {
 } from '@digital-first/df-layouts'
 import { ErrorPageNotFoundComponent, ErrorServerComponent } from '@digital-first/df-pages'
 import { CommitmentOverviewComponent, CommitmentEditComponent, CommitmentCreateComponent, ContactCreateComponent } from './pages'
-import { AboutComponent } from './pages/about/about.component'
 import { CommitmentCostingComponent } from './pages/commitment-costing/commitment-costing.component'
 import { CommitmentOverviewMapComponent } from './pages/commitment-overview-map/commitment-overview-map.component'
 import { CommitmentPrintComponent } from './pages/commitment-print/commitment-print.component'
@@ -56,15 +55,7 @@ const routes: Routes = [
           component: CommitmentCostingComponent
         }
       ]
-    }, {
-      path: 'about',
-      component: AboutComponent,
-      data: {
-        title: 'About'
-      }
-    }
-
-    ]
+    }]
   }
   , {
     path: 'home',

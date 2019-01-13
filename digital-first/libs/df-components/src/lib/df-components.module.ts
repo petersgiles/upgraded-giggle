@@ -28,7 +28,6 @@ import { AvatarComponent } from './avatar/avatar.component'
 import { AddSubscriptionButtonComponent } from './subscriber-button.component'
 import { InfoComponent } from './info/info.component'
 import { PrintPageButtonComponent } from './print-page-button.component'
-import { EditorComponent } from './editor/editor.component'
 import { DeleteItemButtonComponent } from './delete-item-button.component'
 import { EditItemButtonComponent } from './edit-item-button.component'
 import { DataTablePagerComponent } from './data-table-pager/data-table-pager.component'
@@ -57,7 +56,6 @@ const COMPONENTS = [
   ElectorateSelectorComponent,
   AvatarComponent,
   InfoComponent,
-  EditorComponent,
   DeleteItemButtonComponent,
   EditItemButtonComponent
 ]
