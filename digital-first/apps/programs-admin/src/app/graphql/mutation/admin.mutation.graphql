@@ -113,4 +113,29 @@ mutation deleteGroup($data:DeleteAccessControlGroupGraph) {
   deleteGroup(inputDeleteGroup:$data)
 }
 
+mutation createStatistic ($data:InputStatisticGraph!) {
+  createNewStatistic (inputStatistic: $data)
+  {
+    id
+    name
+    agency{
+      id
+    }
+    externalId
+    rowVersion
+  }
+}
+
+mutation updateStatistic ($data:InputStatisticGraph!) {
+  updateStatistic (inputStatistic: $data)
+  {
+    id
+    name
+    agency{
+      id
+    }
+    externalId
+    rowVersion
+  }
+}
 

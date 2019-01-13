@@ -3,14 +3,9 @@ import {ActivatedRoute, Router} from '@angular/router'
 import {map, first} from 'rxjs/operators'
 import {Subscription} from 'rxjs'
 import {
-  AllGroupsGQL,
-  DeleteProgramGQL,
-  Program,
-  ProgramGQL,
-  RemoveGroupFromProgramGQL,
-  AssignGroupToProgramGQL,
-  AccessRights,
-  UpdateGroupPermissionsForProgramGQL, DeleteReportGQL
+  AllGroupsGQL, DeleteProgramGQL, Program,
+  ProgramGQL, RemoveGroupFromProgramGQL, AssignGroupToProgramGQL,
+  AccessRights, UpdateGroupPermissionsForProgramGQL, DeleteReportGQL
 } from '../../generated/graphql'
 import {DataTableConfig} from '@digital-first/df-components'
 import {MdcDialog} from '@angular-mdc/web'
@@ -99,7 +94,7 @@ export class ProgramComponent implements OnInit, OnDestroy {
   }
 
   handleGroupPermissionGroupClicked($event) {
-    console.log('handleGroupPermissionGroupClicked', $event)
+    return this.router.navigate(['groups/', $event.id])
   }
 
   handleGroupPermissionChangeClicked(row) {
@@ -199,13 +194,11 @@ export class ProgramComponent implements OnInit, OnDestroy {
   }
 
   handleProgramReportDeleteItemClicked($event) {
-    console.log('handleProgramReportDeleteItemClicked ', $event)
-
     this.deleteReportGQL
       .mutate(
         {
           data: {
-            id: $event.id,
+            id: $event.id
           }
         },
         {
@@ -225,12 +218,8 @@ export class ProgramComponent implements OnInit, OnDestroy {
       })
   }
 
-  handleProgramReportAddItemDialog($event) {
-    console.log('handleProgramReportAddItemDialog ', $event)
-  }
-
   handleReportNavigation($event) {
-    return this.router.navigate(['reports/', $event.id], { relativeTo: this.route })
+    return this.router.navigate(['reports/', $event.id], {relativeTo: this.route})
   }
 
   private createProgramReportTableData(program: Program.Programs): any {

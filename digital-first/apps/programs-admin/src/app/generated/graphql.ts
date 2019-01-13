@@ -92,6 +92,30 @@ export interface InputProgramGraph {
   rowVersion?: string | null;
 }
 
+export interface InputStatisticGraph {
+  id?: Guid | null;
+
+  name: string;
+
+  agencyId: Guid;
+
+  externalId?: string | null;
+
+  rowVersion?: string | null;
+}
+
+export interface InputStatisticReportGraph {
+  id?: Guid | null;
+
+  name: string;
+
+  notes?: string | null;
+
+  statisticId: Guid;
+
+  rowVersion?: string | null;
+}
+
 export interface CreatePortfolioGraph {
   title: string;
 
@@ -569,6 +593,70 @@ export namespace DeleteGroup {
   };
 }
 
+export namespace CreateStatistic {
+  export type Variables = {
+    data: InputStatisticGraph;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    createNewStatistic: CreateNewStatistic | null;
+  };
+
+  export type CreateNewStatistic = {
+    __typename?: 'StatisticGraph';
+
+    id: Guid;
+
+    name: string;
+
+    agency: Agency | null;
+
+    externalId: string | null;
+
+    rowVersion: string;
+  };
+
+  export type Agency = {
+    __typename?: 'AgencyGraph';
+
+    id: Guid;
+  };
+}
+
+export namespace UpdateStatistic {
+  export type Variables = {
+    data: InputStatisticGraph;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    updateStatistic: UpdateStatistic | null;
+  };
+
+  export type UpdateStatistic = {
+    __typename?: 'StatisticGraph';
+
+    id: Guid;
+
+    name: string;
+
+    agency: Agency | null;
+
+    externalId: string | null;
+
+    rowVersion: string;
+  };
+
+  export type Agency = {
+    __typename?: 'AgencyGraph';
+
+    id: Guid;
+  };
+}
+
 export namespace AllAgencies {
   export type Variables = {};
 
@@ -804,14 +892,6 @@ export namespace Program {
     id: Guid;
 
     title: string;
-
-    members: (Members | null)[] | null;
-  };
-
-  export type Members = {
-    __typename?: 'UserGraph';
-
-    emailAddress: string;
   };
 
   export type Agency = {
@@ -852,14 +932,6 @@ export namespace Program {
     __typename?: 'AccessControlGroupGraph';
 
     title: string;
-
-    members: (_Members | null)[] | null;
-  };
-
-  export type _Members = {
-    __typename?: 'UserGraph';
-
-    emailAddress: string;
   };
 
   export type Projects = {
@@ -882,6 +954,44 @@ export namespace Program {
     id: Guid;
 
     name: string;
+  };
+}
+
+export namespace EditProgram {
+  export type Variables = {
+    programId: string;
+  };
+
+  export type Query = {
+    __typename?: 'Query';
+
+    programs: (Programs | null)[] | null;
+  };
+
+  export type Programs = {
+    __typename?: 'ProgramGraph';
+
+    id: Guid;
+
+    name: string;
+
+    notes: string | null;
+
+    externalId: string | null;
+
+    rowVersion: string;
+
+    agency: Agency | null;
+  };
+
+  export type Agency = {
+    __typename?: 'AgencyGraph';
+
+    id: Guid;
+
+    title: string;
+
+    metadata: string | null;
   };
 }
 
@@ -1006,6 +1116,52 @@ export namespace User {
     rowVersion: string;
 
     disable: boolean;
+  };
+}
+
+export namespace Statistic {
+  export type Variables = {
+    statisticId: string;
+  };
+
+  export type Query = {
+    __typename?: 'Query';
+
+    statistics: (Statistics | null)[] | null;
+  };
+
+  export type Statistics = {
+    __typename?: 'StatisticGraph';
+
+    id: Guid;
+
+    agency: Agency | null;
+
+    name: string;
+
+    externalId: string | null;
+
+    rowVersion: string;
+
+    statisticReports: (StatisticReports | null)[] | null;
+  };
+
+  export type Agency = {
+    __typename?: 'AgencyGraph';
+
+    id: Guid;
+
+    title: string;
+  };
+
+  export type StatisticReports = {
+    __typename?: 'StatisticReportGraph';
+
+    id: Guid;
+
+    name: string;
+
+    notes: string | null;
   };
 }
 
@@ -1231,6 +1387,48 @@ export class DeleteGroupGQL extends Apollo.Mutation<
 @Injectable({
   providedIn: 'root'
 })
+export class CreateStatisticGQL extends Apollo.Mutation<
+  CreateStatistic.Mutation,
+  CreateStatistic.Variables
+> {
+  document: any = gql`
+    mutation createStatistic($data: InputStatisticGraph!) {
+      createNewStatistic(inputStatistic: $data) {
+        id
+        name
+        agency {
+          id
+        }
+        externalId
+        rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdateStatisticGQL extends Apollo.Mutation<
+  UpdateStatistic.Mutation,
+  UpdateStatistic.Variables
+> {
+  document: any = gql`
+    mutation updateStatistic($data: InputStatisticGraph!) {
+      updateStatistic(inputStatistic: $data) {
+        id
+        name
+        agency {
+          id
+        }
+        externalId
+        rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
 export class AllAgenciesGQL extends Apollo.Query<
   AllAgencies.Query,
   AllAgencies.Variables
@@ -1370,9 +1568,6 @@ export class ProgramGQL extends Apollo.Query<Program.Query, Program.Variables> {
             accessControlGroup {
               id
               title
-              members {
-                emailAddress
-              }
             }
           }
         }
@@ -1389,9 +1584,6 @@ export class ProgramGQL extends Apollo.Query<Program.Query, Program.Variables> {
             accessControlEntries {
               accessControlGroup {
                 title
-                members {
-                  emailAddress
-                }
               }
             }
           }
@@ -1405,6 +1597,30 @@ export class ProgramGQL extends Apollo.Query<Program.Query, Program.Variables> {
             id
             name
           }
+        }
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class EditProgramGQL extends Apollo.Query<
+  EditProgram.Query,
+  EditProgram.Variables
+> {
+  document: any = gql`
+    query editProgram($programId: String!) {
+      programs(ids: [$programId]) {
+        id
+        name
+        notes
+        externalId
+        rowVersion
+        agency {
+          id
+          title
+          metadata
         }
       }
     }
@@ -1473,6 +1689,33 @@ export class UserGQL extends Apollo.Query<User.Query, User.Variables> {
         }
         lastLogin
         rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class StatisticGQL extends Apollo.Query<
+  Statistic.Query,
+  Statistic.Variables
+> {
+  document: any = gql`
+    query statistic($statisticId: String!) {
+      statistics(ids: [$statisticId]) {
+        id
+        agency {
+          id
+          title
+        }
+        name
+        externalId
+        rowVersion
+        statisticReports {
+          id
+          name
+          notes
+        }
       }
     }
   `;

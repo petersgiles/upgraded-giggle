@@ -18,6 +18,10 @@ import {GroupsComponent} from './containers/groups/groups.component'
 import {GroupComponent} from './containers/group/group.component'
 import {GroupAddComponent} from './containers/group/group-add/group-add.component'
 import {GroupEditComponent} from './containers/group/group-edit/group-edit.component'
+import {StatisticsComponent} from './containers/statistics/statistics.component'
+import {StatisticComponent} from './containers/statistic/statistic.component'
+import {StatisticAddComponent} from './containers/statistic/statistic-add/statistic-add.component'
+import {StatisticEditComponent} from './containers/statistic/statistic-edit/statistic-edit.component'
 
 export const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -120,6 +124,41 @@ export const routes: Routes = [
         component: ProgramReportComponent,
         canActivate: [AuthGuard],
         data: {
+          nav: false
+        }
+      },
+      {
+        path: 'statistics',
+        component: StatisticsComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'Statistics',
+          icon: 'functions',
+          nav: true
+        }
+      },
+      {
+        path: 'statistics/add',
+        component: StatisticAddComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+      {
+        path: 'statistics/edit/:id',
+        component: StatisticEditComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+      {
+        path: 'statistics/:id',
+        component: StatisticComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'Statistic',
           nav: false
         }
       },

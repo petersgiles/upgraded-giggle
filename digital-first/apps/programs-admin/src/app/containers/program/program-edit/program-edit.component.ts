@@ -2,10 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core'
 import {FormBuilder, Validators} from '@angular/forms'
 import {Observable} from 'rxjs'
 import {
-  AllAgencies,
-  AllAgenciesGQL,
-  Program,
-  ProgramGQL, UpdateProgramGQL
+  AllAgencies, AllAgenciesGQL, EditProgram, EditProgramGQL, UpdateProgramGQL
 } from '../../../generated/graphql'
 import {ActivatedRoute, Router} from '@angular/router'
 import {map} from 'rxjs/operators'
@@ -21,7 +18,7 @@ export class ProgramEditComponent implements OnInit, OnDestroy {
   agenciesSubscription$: Subscription
   programSubscription$: Subscription
   agencies: AllAgencies.Agencies[]
-  programs$: Observable<Program.Programs>
+  programs$: Observable<EditProgram.Programs>
 
   rowVersion: string
 
@@ -29,13 +26,13 @@ export class ProgramEditComponent implements OnInit, OnDestroy {
     agencyId: [undefined, Validators.required],
     programName: [null, Validators.required],
     externalId: [null],
-    notes: [''],
+    notes: ['']
   })
   programId: string
 
   constructor(private formBuilder: FormBuilder,
               private allAgencies: AllAgenciesGQL,
-              private programGQL: ProgramGQL,
+              private editProgramGQL: EditProgramGQL,
               private router: Router,
               private route: ActivatedRoute,
               private updateProgramGQL: UpdateProgramGQL) {
@@ -53,7 +50,7 @@ export class ProgramEditComponent implements OnInit, OnDestroy {
 
     this.programId = this.route.snapshot.paramMap.get('id')
 
-    this.programs$ = this.programGQL.watch(
+    this.programs$ = this.editProgramGQL.watch(
       {programId: this.programId},
       {fetchPolicy: 'network-only'})
       .valueChanges.pipe(map(value => value.data.programs[0]))
@@ -68,7 +65,7 @@ export class ProgramEditComponent implements OnInit, OnDestroy {
           agencyId: value.agency.id
         })
 
-        console.log(value)
+        console.log('program', value)
       })
   }
 

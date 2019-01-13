@@ -86,9 +86,6 @@ query program ($programId: String!) {
         accessControlGroup  {
           id
           title
-          members{
-            emailAddress
-          }
         }
       }
     }
@@ -105,9 +102,6 @@ query program ($programId: String!) {
         accessControlEntries{
           accessControlGroup{
             title
-            members{
-              emailAddress
-            }
           }
         }
       }
@@ -121,6 +115,22 @@ query program ($programId: String!) {
         id
         name
       }
+    }
+  }
+}
+
+query editProgram ($programId: String!) {
+  programs(ids:[$programId])
+  {
+    id
+    name
+    notes
+    externalId
+    rowVersion
+    agency{
+      id
+      title
+      metadata
     }
   }
 }
@@ -175,3 +185,22 @@ query user ($userId: String!) {
     rowVersion
     }
   }
+
+  query statistic ($statisticId: String!) {
+    statistics(ids:[$statisticId])
+    {
+      id
+      agency{
+        id
+        title
+      }
+      name
+      externalId
+      rowVersion
+      statisticReports{
+        id
+        name
+        notes
+      }
+      }
+    }

@@ -1,7 +1,7 @@
 <div class="app-page" *ngIf="program; else loading">
   <section>
     <digital-first-page-title title="Program - {{ program.name }}">
-        <digital-first-edit-item-button
+      <digital-first-edit-item-button
         (onEditItem)="handleEditProgram(program)"
       ></digital-first-edit-item-button>
       <digital-first-delete-item-button
@@ -28,21 +28,8 @@
       [artifactId]="programId"
       [tableData]="programReportTableData"
       (onDeleteClicked)="handleProgramReportDeleteItemClicked($event)"
-      (onAddItemClicked)="handleProgramReportAddItemDialog($event)"
       (onCellClicked)="handleReportNavigation($event)"
     ></digital-first-program-reports>
-
-    <!--<button  title="add report"-->
-    <!--(click)="add(report)">+</button>-->
-
-    <!--<mdc-list>-->
-    <!--<mdc-list-item *ngFor="let report of program.reports">-->
-    <!--{{report.name}} {{report.notes}}-->
-    <!--<button  title="delete report"-->
-    <!--(click)="delete(report)">x</button>-->
-    <!--</mdc-list-item>-->
-    <!--</mdc-list>-->
-
     <digital-first-page-title title="Debug"></digital-first-page-title>
     <pre>{{ program | json }}</pre>
 
