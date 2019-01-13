@@ -84,7 +84,7 @@ export class ProjectuploadComponent implements OnInit, OnDestroy {
 
     this.passthrough.sendMessageOnToBus<UploadProjectElectorateReport>(message, formData)
       .subscribe(value => {
-          this.snackbar.show('File sent for processing successfully.', null, {align: 'center'})
+          this.snackbar.open('File sent for processing successfully.', null)
         }
       )
   }
