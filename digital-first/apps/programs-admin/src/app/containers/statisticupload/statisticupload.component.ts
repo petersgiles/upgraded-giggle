@@ -106,7 +106,7 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
     this.passthrough
       .sendMessageOnToBus<UploadElectorateStatisticSpreadsheet>(message, formData)
       .subscribe(() => {
-        this.snackbar.show('File sent for processing successfully.', null, {align: 'center'})
+        this.snackbar.open('File sent for processing successfully.', null)
       })
   }
 
