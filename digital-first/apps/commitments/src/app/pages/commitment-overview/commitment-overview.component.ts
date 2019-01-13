@@ -6,7 +6,7 @@ import { MdcDialog, MdcSnackbar } from '@angular-mdc/web'
 import { Commitment } from '../../reducers/commitment/commitment.model'
 import { DataTableConfig } from '@digital-first/df-components'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
-
+import { showSnackBar } from '../../dialogs/show-snack-bar'
 @Component({
   selector: 'digital-first-commitment-overview',
   templateUrl: './commitment-overview.component.html',
@@ -64,10 +64,11 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
         (next: any) => {
           if (next) {
             this.formBusy = false
-            this.showSnackBar(next.message)
+            showSnackBar(this.snackbar, next.message)
+
           }
         },
-        error => this.showSnackBar(error)
+        error => showSnackBar(this.snackbar, error)
       )
   }
 
@@ -87,24 +88,6 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
 
     // tslint:disable-next-line:no-console
     console.log(skip, take, this.pagedDataTableRows, this.dataTableRows)
-  }
-
-  showSnackBar(message: string, action: string = 'OK'): void {
-
-    // this is to avoid component validation check errors
-    setTimeout(() => {
-      const snackbarRef = this.snackbar.show(message, action, {
-        align: 'center',
-        multiline: false,
-        dismissOnAction: false,
-        focusAction: false,
-        actionOnBottom: false,
-      })
-
-      snackbarRef.afterDismiss().subscribe(() => {
-
-      })
-    })
   }
 
   ngOnDestroy(): void {

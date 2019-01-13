@@ -14,6 +14,7 @@ import { CommitmentType } from '../../models/commitment-type.model'
 import { WhoAnnouncedType } from '../../models/who-announced-type.model'
 import { CriticalDate } from '../../models/critical-date.model'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
+import { showSnackBar } from '../../dialogs/show-snack-bar'
 
 @Component({
   selector: 'digital-first-commitment-create',
@@ -69,33 +70,14 @@ export class CommitmentCreateComponent implements OnInit, OnDestroy {
         (next: any) => {
           if (next) {
             this.formBusy = false
-            this.showSnackBar(next.message)
+            showSnackBar(this.snackbar, next.message)
             if (next.code === 'stored') {
-
               this.router.navigate(['/', 'commitment', next.data.id])
             }
           }
         },
-        error => this.showSnackBar(error)
+        error => showSnackBar(this.snackbar, error)
       )
-  }
-
-  showSnackBar(message: string, action: string = 'OK'): void {
-
-    // this is to avoid component validation check errors
-    setTimeout(() => {
-      const snackbarRef = this.snackbar.show(message, action, {
-        align: 'center',
-        multiline: false,
-        dismissOnAction: false,
-        focusAction: false,
-        actionOnBottom: false,
-      })
-
-      snackbarRef.afterDismiss().subscribe(() => {
-
-      })
-    })
   }
 
   ngOnDestroy(): void {

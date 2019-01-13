@@ -10,7 +10,7 @@ import { CommitmentDataService } from '../../services/commitment-data.service'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 import { arrayToIndex } from '@digital-first/df-utils'
 import { map } from 'rxjs/operators'
-import { showSnackBar } from '../../dialogs/showSnackBar'
+import { showSnackBar } from '../../dialogs/show-snack-bar'
 import { Location } from '@angular/common'
 
 @Component({

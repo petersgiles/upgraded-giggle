@@ -10,6 +10,7 @@ import { Party } from '../../models/party.model'
 import { Portfolio } from '../../models/portfolio.model'
 import { Contact } from '../../reducers/contact/contact.model'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
+import { showSnackBar } from '../../dialogs/show-snack-bar'
 
 @Component({
   selector: 'digital-first-contact-create',
@@ -43,11 +44,11 @@ export class ContactCreateComponent implements OnInit, OnDestroy {
         (next: any) => {
           if (next) {
             this.formBusy = false
-            this.showSnackBar(next.message)
+            showSnackBar(this.snackbar, next.message)
             this.handleGoBack(null)
           }
         },
-        error => this.showSnackBar(error)
+        error => showSnackBar(this.snackbar, error)
       )
 
   }
@@ -66,24 +67,6 @@ export class ContactCreateComponent implements OnInit, OnDestroy {
 
   handleCancelled($event) {
     this.router.navigate(['/', 'commitments'])
-  }
-
-  showSnackBar(message: string, action: string = 'OK'): void {
-
-    // this is to avoid component validation check errors
-    setTimeout(() => {
-      const snackbarRef = this.snackbar.show(message, action, {
-        align: 'center',
-        multiline: false,
-        dismissOnAction: false,
-        focusAction: false,
-        actionOnBottom: false,
-      })
-
-      snackbarRef.afterDismiss().subscribe(() => {
-
-      })
-    })
   }
 
   ngOnDestroy(): void {

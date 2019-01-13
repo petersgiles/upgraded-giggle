@@ -20,7 +20,7 @@ import { CriticalDate } from '../../models/critical-date.model'
 import { formatCommitmentTitle } from '../../formatters'
 import { DialogAddCommitmentComponent } from '../../dialogs/dialog-add-commitment.component'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
-import { showSnackBar } from '../../dialogs/showSnackBar'
+import { showSnackBar } from '../../dialogs/show-snack-bar'
 import { DialogAddLinkComponent, ADD_LINK_CLOSE } from '../../dialogs/dialog-add-link.component'
 
 @Component({
