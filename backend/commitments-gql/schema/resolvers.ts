@@ -374,6 +374,12 @@ export const resolvers = {
     announcementType(commitment: any) {
       return db['commitment-announcementTypes'].findOne({ id: commitment.announcementType })
     },
+    packageType(commitment: any) {
+      return db['commitment-packageTypes'].findOne({ id: commitment.packageType })
+    },
+    themeType(commitment: any) {
+      return db['commitment-themeTypes'].findOne({ id: commitment.themeType })
+    },
     criticalDate(commitment: any) {
       return db['commitment-critical-dates'].findOne({ id: commitment.criticalDate })
     },
