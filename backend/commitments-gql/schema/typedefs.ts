@@ -54,6 +54,26 @@ type WhoAnnouncedType {
     icon: String,
 }
 
+type ThemeType {
+    id: ID,
+    title: String,
+    description: String,
+    sortorder: String,
+    colour: String,
+    icon: String,
+    party: PoliticalParty,
+}
+
+type PackageType {
+    id: ID,
+    title: String,
+    description: String,
+    sortorder: String,
+    colour: String,
+    icon: String,
+    party: PoliticalParty,
+}
+
 type CommitmentType {
     id: ID,
     title: String,
@@ -157,6 +177,8 @@ type CommitmentAction {
     whoAnnouncedType: WhoAnnouncedType,
     announcementType: AnnouncementType,
     commitmentType: CommitmentType,
+    themeType: ThemeType,
+    packageType: PackageType,
     portfolio: Portfolio,
     electorates: [Electorate],
     comments: [Comment],
@@ -175,11 +197,14 @@ type CommitmentAction {
     commitmentPortfolios(commitment: ID!): [Portfolio],
     commitmentElectorates(commitment: ID!): [Electorate],
     commitmentRelatedCommitments(commitment: ID!): [Commitment],
+    commitmentRelatedLinks(commitment: ID!): [Commitment],
     mapPointCommitments(mapPoint: ID!) : [Commitment],
     parties: [PoliticalParty],
     portfolios: [Portfolio],
     criticalDates: [CriticalDate],
     mapPoints: [MapPoint],
+    themeTypes: [ThemeType],
+    packageTypes: [PackageType],
     relatedCommitment: [RelatedCommitment],
     commitmentSubscription(commitment: ID!, user: ID!): [Subscription]
     announcementTypes: [AnnouncementType],
@@ -244,6 +269,8 @@ type CommitmentAction {
     deleteCommitmentElectorate(commitment: ID!, electorate: ID!): Commitment,
     storeRelatedCommitment(commitment: ID!, relatedTo: ID!): Commitment,
     deleteRelatedCommitment(commitment: ID!, relatedTo: ID!): Commitment,
+    storeRelatedLink(commitment: ID!, url: String!): Commitment,
+    deleteRelatedLink(commitment: ID!, url: String!): Commitment,
     storeCommitmentPortfolio(commitment: ID!, portfolio: ID!): Commitment,
     deleteCommitmentPortfolio(id: ID!): Commitment,
     storeCommitmentSubscription(commitment: ID!, subscriber: ID!): Commitment,

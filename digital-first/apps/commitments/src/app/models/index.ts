@@ -31,7 +31,7 @@ export interface RelatedCommitmentsResult {
   commitmentRelatedCommitments: RelatedCommitment[]
 }
 export interface RelatedLinksResult {
-  commitmentRelatedCommitments: RelatedLink[]
+  commitmentRelatedLinks: RelatedLink[]
 }
 
 export interface CommentsResult {

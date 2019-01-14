@@ -12,6 +12,8 @@ db.connect('./diskdb/commitments', [
   'commitment-commitment-map-points',
   'commitment-portfolios',
   'commitment-whoAnnouncedTypes',
+  'commitment-themeTypes',
+  'commitment-packageTypes',
   'commitment-announcementTypes',
   'commitment-commitmentTypes',
   'commitment-parties',
@@ -20,6 +22,7 @@ db.connect('./diskdb/commitments', [
   'commitment-commitment-portfolios',
   'commitment-commitment-electorates',
   'commitment-related-commitments',
+  'commitment-related-links',
   'commitment-subscriptions',
   'commitment-commitment-actions',
 ]);
@@ -105,6 +108,13 @@ export const resolvers = {
       return found
 
     },
+    commitmentRelatedLinks: (obj: any, args: any, context: any, info: any) => {
+      // (commitment: ID!): [MapPoint]
+      let set = db['commitment-related-links'].find({ commitment: args.commitment })
+      let found = set.map((f: any) => db['commitments'].findOne({ id: f.relatedTo })).map((c: any) => ({ ...c }))
+      return found
+
+    },
     commitmentRelatedCommitments: (obj: any, args: any, context: any, info: any) => {
       // (commitment: ID!): [MapPoint]
       let set = db['commitment-related-commitments'].find({ commitment: args.commitment })
@@ -115,6 +125,8 @@ export const resolvers = {
     parties: () => db['commitment-parties'].find(),
     portfolios: () => db['commitment-portfolios'].find(),
     announcementTypes: () => db['commitment-announcementTypes'].find(),
+    themeTypes: () => db['commitment-themeTypes'].find(),
+    packageTypes: () => db['commitment-packageTypes'].find(),
     criticalDates: () => db['commitment-critical-dates'].find(),
     commitmentTypes: () => db['commitment-commitmentTypes'].find(),
     whoAnnouncedTypes: () => db['commitment-whoAnnouncedTypes'].find(),
