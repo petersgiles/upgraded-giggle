@@ -36,7 +36,7 @@
 <ng-template #rowTextCell let-cellData>
   <span
     *ngIf="cellData.truncate"
-    [innerHtml]="cellData.value | truncate: cell.truncate | safeHtml"
+    [innerHtml]="cellData.value | truncate: cellData.truncate | safeHtml"
   ></span>
   <span
     *ngIf="!cellData.truncate"

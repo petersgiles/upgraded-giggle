@@ -143,7 +143,6 @@ export class ApolloDataService implements AppDataService {
   getCommitment = (criteria: { id: any; }) => callQuery<CommitmentResult>(this.apollo, { query: GET_COMMITMENT, variables: criteria })
 
   filterMapPoints = (filter?: any) => callQuery<MapPointsResult>(this.apollo, { query: GET_MAP_POINTS })
-
   filterCommitments = (filter?: any) => callQuery<CommitmentsResult>(this.apollo, { query: GET_ALL_COMMITMENTS, variables: filter })
   filterContacts = (filter?: any) => callQuery<ContactsResult>(this.apollo, { query: GET_CONTACTS, variables: filter })
    getMapPointsByCommitment = (commitment: any) =>
@@ -151,6 +150,5 @@ export class ApolloDataService implements AppDataService {
       (result: any): any => ({ data: { mapPoints: result.data.commitmentMapPoints } }))
 
   getRelatedCommitmentsByCommitment = (commitment: any) => callQuery<RelatedCommitmentsResult>(this.apollo, { query: RELATED_COMMITMENTS_BY_COMMITMENT, variables: { commitment: commitment } })
-
   getRelatedLinksByCommitment = (commitment: any) => callQuery<RelatedLinksResult>(this.apollo, { query: RELATED_LINKS_BY_COMMITMENT, variables: { commitment: commitment } })
 }

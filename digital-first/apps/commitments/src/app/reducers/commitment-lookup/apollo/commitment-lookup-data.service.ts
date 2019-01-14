@@ -6,7 +6,9 @@ import {
     WhoAnnouncedTypesResult,
     AnnouncementTypesResult, CriticalDatesResult,
     PortfoliosResult, PartysResult, LocationsResult,
-    CommitmentTypesResult
+    CommitmentTypesResult,
+    ThemeTypesResult,
+    PackageTypesResult
 } from '../../../models'
 import { CommitmentLookupDataService } from '../commitment-lookup-data.service'
 import {
@@ -16,14 +18,17 @@ import {
     GET_PORTFOLIOS,
     GET_PARTIES,
     GET_LOCATIONS,
-    GET_COMMITMENT_TYPES
+    GET_COMMITMENT_TYPES,
+    GET_THEME_TYPES,
+    GET_PACKAGE_TYPES
 } from './queries'
 
 @Injectable({
     providedIn: 'root'
 })
 export class CommitmentLookupDataApolloService implements CommitmentLookupDataService {
-
+    filterPackageTypes = (filter?: any) => callQuery<PackageTypesResult>(this.apollo, { query: GET_PACKAGE_TYPES, variables: filter })
+    filterThemeTypes = (filter?: any) => callQuery<ThemeTypesResult >(this.apollo, { query: GET_THEME_TYPES, variables: filter })
     filterWhoAnnouncedTypes = (filter?: any) => callQuery<WhoAnnouncedTypesResult>(this.apollo, { query: GET_WHO_ANNOUNCED_TYPES, variables: filter })
     filterAnnouncementTypes = (filter?: any) => callQuery<AnnouncementTypesResult>(this.apollo, { query: GET_ANNOUNCEMENT_TYPES, variables: filter })
     filterCriticalDates = (filter?: any) => callQuery<CriticalDatesResult>(this.apollo, { query: GET_CRITICAL_DATES, variables: filter })

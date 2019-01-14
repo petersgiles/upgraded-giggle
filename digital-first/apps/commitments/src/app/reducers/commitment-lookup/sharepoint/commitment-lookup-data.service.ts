@@ -11,6 +11,29 @@ import { mapWhoAnnouncedTypes, mapAnnouncementTypes, mapPortfolios, mapCriticalD
     providedIn: 'root'
 })
 export class CommitmentLookupDataSharePointService implements CommitmentLookupDataService {
+
+  filterPackageTypes(filter: any) {
+    return this.sharepoint.getItems({ listName: 'ThemeType' })
+    .pipe(
+      concatMap((result: any) =>
+        of({
+          data: { themeTypes: mapWhoAnnouncedTypes(result) },
+          loading: false,
+          error: null
+        }))
+    )
+}
+  filterThemeTypes(filter: any) {
+    return this.sharepoint.getItems({ listName: 'PackageType' })
+    .pipe(
+      concatMap((result: any) =>
+        of({
+          data: { packageTypes: mapWhoAnnouncedTypes(result) },
+          loading: false,
+          error: null
+        }))
+    )
+}
     filterWhoAnnouncedTypes(filter: any) {
         return this.sharepoint.getItems({ listName: 'WhoAnnouncedType' })
         .pipe(

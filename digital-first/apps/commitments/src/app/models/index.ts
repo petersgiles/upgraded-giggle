@@ -12,6 +12,8 @@ export { CriticalDate, CriticalDatesResult } from './critical-date.model'
 export { Party, PartysResult } from './party.model'
 export { Portfolio, PortfoliosResult } from './portfolio.model'
 export { AnnouncementType, AnnouncementTypesResult } from './announcement-type.model'
+export { PackageType, PackageTypesResult } from './package-type.model'
+export { ThemeType, ThemeTypesResult } from './theme-type.model'
 export interface ServiceData<T> {
   data: { [key: string]: T }
 }

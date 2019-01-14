@@ -22,6 +22,7 @@ import { DialogAddCommitmentComponent } from '../../dialogs/dialog-add-commitmen
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 import { showSnackBar } from '../../dialogs/show-snack-bar'
 import { DialogAddLinkComponent, ADD_LINK_CLOSE } from '../../dialogs/dialog-add-link.component'
+import { PackageType, ThemeType } from '../../models'
 
 @Component({
   selector: 'digital-first-commitment-edit',
@@ -45,6 +46,8 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   commitmentContactsTableData$: Observable<DataTableConfig>
   commitmentCommitmentsTableData$: Observable<DataTableConfig>
 
+  themeTypes$: Observable<ThemeType[]>
+  packageTypes$: Observable<PackageType[]>
   criticalDates$: Observable<CriticalDate[]>
   parties$: Observable<Party[]>
   portfolios$: Observable<Portfolio[]>
@@ -86,6 +89,8 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.announcementTypes$ = this.lookup.AnnouncementTypes
     this.criticalDates$ = this.lookup.CriticalDates
     this.commitmentTypes$ = this.lookup.CommitmentTypes
+    this.themeTypes$ = this.lookup.ThemeTypes
+    this.packageTypes$ = this.lookup.PackageTypes
     this.parties$ = this.lookup.Parties
     this.portfolios$ = this.lookup.Portfolios
     this.electorates$ = this.lookup.Locations
@@ -140,6 +145,8 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.lookup.getAllLocations()
     this.lookup.getAllPartys()
     this.lookup.getAllPortfolios()
+    this.lookup.getAllThemeTypes()
+    this.lookup.getAllPackageTypes()
 
     this.user$ = this.service.getCurrentUser()
 

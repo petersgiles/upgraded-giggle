@@ -82,9 +82,6 @@ export class DataTablePagerComponent implements OnInit {
       pageSize: this.pageSize,
       length: this.length
     }
-
-    // tslint:disable-next-line:no-console
-    console.log('nextPage', evt)
     this.page.emit(evt)
   }
 
@@ -95,8 +92,6 @@ export class DataTablePagerComponent implements OnInit {
       pageSize: this.pageSize,
       length: this.length
     }
-    // tslint:disable-next-line:no-console
-    console.log('nextPage', evt)
     this.page.emit(evt)
   }
 
@@ -105,9 +100,6 @@ export class DataTablePagerComponent implements OnInit {
   }
 
   hasNextPage(): boolean {
-    // tslint:disable-next-line:no-console
-    console.log(this.pageIndex, this.pageSize, this.length, Math.max(this.pageIndex * this.pageSize, this.length))
-
     return (this.length - this.pageSize) > (this.pageIndex * this.pageSize)
   }
 

@@ -1,4 +1,4 @@
-import { WhoAnnouncedType, AnnouncementType, CriticalDate, CommitmentType, Party, Portfolio, Location } from '../../../models'
+import { WhoAnnouncedType, AnnouncementType, CriticalDate, CommitmentType, Party, Portfolio, Location, PackageType, ThemeType } from '../../../models'
 
 export const mapWhoAnnouncedType = (announcementType): any => ({
     id: announcementType.ID,
@@ -8,6 +8,24 @@ export const mapWhoAnnouncedType = (announcementType): any => ({
 })
 
 export const mapWhoAnnouncedTypes = (whoAnnouncedTypes): WhoAnnouncedType[] => whoAnnouncedTypes.map(mapWhoAnnouncedType)
+
+export const themeType = (val): any => ({
+    id: val.ID,
+    title: val.Title,
+    colour: val.Colour,
+    sortOrder: val.SortOrder
+})
+
+export const themeTypes = (vals): ThemeType[] => vals.map(themeType)
+
+export const packageType = (val): any => ({
+    id: val.ID,
+    title: val.Title,
+    colour: val.Colour,
+    sortOrder: val.SortOrder
+})
+
+export const packageTypes = (vals): PackageType[] => vals.map(packageType)
 
 export const mapAnnouncementType = (announcementType): any => ({
     id: announcementType.ID,

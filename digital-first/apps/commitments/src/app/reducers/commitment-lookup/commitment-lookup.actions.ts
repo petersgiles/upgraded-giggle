@@ -1,5 +1,7 @@
 import { Action } from '@ngrx/store'
-import { DataResult, AnnouncementTypesResult, CriticalDatesResult, CommitmentTypesResult, LocationsResult, PartysResult, PortfoliosResult, WhoAnnouncedTypesResult } from '../../models'
+import { DataResult, AnnouncementTypesResult, CriticalDatesResult,
+    CommitmentTypesResult, LocationsResult, PartysResult, PortfoliosResult,
+    WhoAnnouncedTypesResult, PackageTypesResult, ThemeTypesResult } from '../../models'
 
 export enum CommitmentLookupsActionTypes {
     GetAllAnnouncementTypes = '[Lookups] Get All AnnouncementTypes',
@@ -26,6 +28,14 @@ export enum CommitmentLookupsActionTypes {
     LoadPortfolios = '[Lookups] Load Portfolios',
     PortfoliosActionFailure = '[Lookups] Portfolios Action Failure',
 
+    GetAllPackageTypes = '[Lookups] Get All PackageTypes',
+    LoadPackageTypes = '[Lookups] Load PackageTypes',
+    PackageTypesActionFailure = '[Lookups] PackageTypes Action Failure',
+
+    GetAllThemeTypes = '[Lookups] Get All ThemeTypes',
+    LoadThemeTypes = '[Lookups] Load ThemeTypes',
+    ThemeTypesActionFailure = '[Lookups] ThemeTypes Action Failure',
+
     GetAllWhoAnnouncedTypes = '[Lookups] Get All WhoAnnouncedTypes',
     LoadWhoAnnouncedTypes = '[Lookups] Load WhoAnnouncedTypes',
     WhoAnnouncedTypesActionFailure = '[Lookups] WhoAnnouncedTypes Action Failure',
@@ -44,6 +54,40 @@ export class LoadAnnouncementTypes implements Action {
 
 export class AnnouncementTypesActionFailure implements Action {
     readonly type = CommitmentLookupsActionTypes.AnnouncementTypesActionFailure
+    constructor(public payload: any) {
+    }
+}
+
+// PackageTypes
+
+export class GetAllPackageTypes implements Action {
+    readonly type = CommitmentLookupsActionTypes.GetAllPackageTypes
+}
+
+export class LoadPackageTypes implements Action {
+    readonly type = CommitmentLookupsActionTypes.LoadPackageTypes
+    constructor(public payload: DataResult<PackageTypesResult>) { }
+}
+
+export class PackageTypesActionFailure implements Action {
+    readonly type = CommitmentLookupsActionTypes.PackageTypesActionFailure
+    constructor(public payload: any) {
+    }
+}
+
+// ThemeTypes
+
+export class GetAllThemeTypes implements Action {
+    readonly type = CommitmentLookupsActionTypes.GetAllThemeTypes
+}
+
+export class LoadThemeTypes implements Action {
+    readonly type = CommitmentLookupsActionTypes.LoadThemeTypes
+    constructor(public payload: DataResult<ThemeTypesResult>) { }
+}
+
+export class ThemeTypesActionFailure implements Action {
+    readonly type = CommitmentLookupsActionTypes.ThemeTypesActionFailure
     constructor(public payload: any) {
     }
 }
@@ -157,6 +201,12 @@ export type CommitmentLookupsActions =
     | GetAllCommitmentTypes
     | LoadCommitmentTypes
     | CommitmentTypesActionFailure
+    | GetAllThemeTypes
+    | LoadThemeTypes
+    | ThemeTypesActionFailure
+    | GetAllPackageTypes
+    | LoadPackageTypes
+    | PackageTypesActionFailure
     | GetAllCriticalDates
     | LoadCriticalDates
     | CriticalDatesActionFailure
