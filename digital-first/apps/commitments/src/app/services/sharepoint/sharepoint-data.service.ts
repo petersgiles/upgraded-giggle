@@ -50,6 +50,8 @@ export class SharepointDataService implements AppDataService {
     const spCommitment = {
       WhoAnnouncedType: commitment.whoAnnouncedType,
       AnnouncementType: commitment.announcementType,
+      ThemeType: commitment.themeType,
+      PackageType: commitment.packageType,
       CriticalDate: commitment.criticalDate,
       CommitmentType: commitment.commitmentType,
       Contacts: commitment.contacts,
@@ -116,7 +118,12 @@ export class SharepointDataService implements AppDataService {
     ]).pipe(
       concatMap(([spCommitment, spContacts, spCommitmentContacts,
         spElectorates, spCommitmentElectorates, spPortfolios, spCommitmentPortfolios, spMapPoints, spCommitmentMapPoints]) => {
+
         const commitment = mapCommitment(spCommitment[0])
+
+        // tslint:disable-next-line:no-console
+        console.log('Commitment =>', commitment)
+
         const contacts = arrayToHash(mapContacts(spContacts))
         const commitmentContact = mapCommitmentContacts(spCommitmentContacts)
         const electorates = arrayToHash(mapElectorates(spElectorates))

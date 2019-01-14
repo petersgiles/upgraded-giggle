@@ -5,7 +5,8 @@ import { CommentsResult, DataResult } from '../../../models'
 import { concatMap, tap, map } from 'rxjs/operators'
 import { byCommitmentIdQuery } from '../../../services/sharepoint/caml'
 import { CommitmentLookupDataService } from '../commitment-lookup-data.service'
-import { mapWhoAnnouncedTypes, mapAnnouncementTypes, mapPortfolios, mapCriticalDates, mapParties, mapCommitmentTypes, mapLocations } from './maps'
+import { mapWhoAnnouncedTypes, mapAnnouncementTypes, mapPortfolios, mapCriticalDates,
+  mapParties, mapCommitmentTypes, mapLocations, mapPackageTypes, mapThemeTypes } from './maps'
 
 @Injectable({
     providedIn: 'root'
@@ -13,22 +14,22 @@ import { mapWhoAnnouncedTypes, mapAnnouncementTypes, mapPortfolios, mapCriticalD
 export class CommitmentLookupDataSharePointService implements CommitmentLookupDataService {
 
   filterPackageTypes(filter: any) {
-    return this.sharepoint.getItems({ listName: 'ThemeType' })
+    return this.sharepoint.getItems({ listName: 'PackageType' })
     .pipe(
       concatMap((result: any) =>
         of({
-          data: { themeTypes: mapWhoAnnouncedTypes(result) },
+          data: { packageTypes: mapPackageTypes(result) },
           loading: false,
           error: null
         }))
     )
 }
   filterThemeTypes(filter: any) {
-    return this.sharepoint.getItems({ listName: 'PackageType' })
+    return this.sharepoint.getItems({ listName: 'ThemeType' })
     .pipe(
       concatMap((result: any) =>
         of({
-          data: { packageTypes: mapWhoAnnouncedTypes(result) },
+          data: { themeTypes: mapThemeTypes(result) },
           loading: false,
           error: null
         }))

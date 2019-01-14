@@ -9,23 +9,23 @@ export const mapWhoAnnouncedType = (announcementType): any => ({
 
 export const mapWhoAnnouncedTypes = (whoAnnouncedTypes): WhoAnnouncedType[] => whoAnnouncedTypes.map(mapWhoAnnouncedType)
 
-export const themeType = (val): any => ({
+export const mapThemeType = (val): any => ({
     id: val.ID,
     title: val.Title,
     colour: val.Colour,
     sortOrder: val.SortOrder
 })
 
-export const themeTypes = (vals): ThemeType[] => vals.map(themeType)
+export const mapThemeTypes = (vals): ThemeType[] => vals.map(mapThemeType)
 
-export const packageType = (val): any => ({
+export const mapPackageType = (val): any => ({
     id: val.ID,
     title: val.Title,
     colour: val.Colour,
     sortOrder: val.SortOrder
 })
 
-export const packageTypes = (vals): PackageType[] => vals.map(packageType)
+export const mapPackageTypes = (vals): PackageType[] => vals.map(mapPackageType)
 
 export const mapAnnouncementType = (announcementType): any => ({
     id: announcementType.ID,
