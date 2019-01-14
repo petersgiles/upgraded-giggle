@@ -1,2 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../../../libs/df-theme/styles.scss";
+
+.programsadmin-layout__row {
+  margin-top: .3em;
+  margin-bottom: .3em;
+  display: flex;
+  flex-direction: column;
+}

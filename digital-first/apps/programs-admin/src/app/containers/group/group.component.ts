@@ -16,6 +16,8 @@ export class GroupComponent implements OnInit {
   private groupSubscription$: Subscription
   private group: Group.Groups
 
+  userTableData: any
+
   constructor(private route: ActivatedRoute,
               private groupGQL: GroupGQL,
               private deleteGroupGQL: DeleteGroupGQL,
@@ -32,6 +34,7 @@ export class GroupComponent implements OnInit {
       .valueChanges.pipe(map(value => value.data.groups[0]))
       .subscribe(group => {
         this.group = group
+        this.userTableData = this.group.members
       })
   }
 
@@ -63,5 +66,13 @@ export class GroupComponent implements OnInit {
             .subscribe(value => this.router.navigate(['groups']))
         }
       })
+  }
+
+  handleUserDeleteItemClicked($event: any) {
+
+  }
+
+  handleUserNavigation($event: any) {
+    return this.router.navigate(['users/', $event.id])
   }
 }
