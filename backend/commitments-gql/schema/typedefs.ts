@@ -226,6 +226,8 @@ type CommitmentAction {
       cost: String
       location: ID,
       whoAnnouncedType: ID,
+      themeType: ID,
+      packageType: ID,
       announcementType: ID,
       criticalDate: ID,
       commitmentType: ID,

@@ -18,10 +18,20 @@ export const getAllThemeTypes = createSelector(
     state => state.themeTypes
 )
 
+// export const getThemeTypeEntities = createSelector(
+//     getAllThemeTypes,
+//     arrayToHash
+// )
+
 export const getAllPackageTypes = createSelector(
     getCommitmentLookupState,
     state => state.packageTypes
 )
+
+// export const getPackageTypeEntities = createSelector(
+//     getAllPackageTypes,
+//     arrayToHash
+// )
 
 export const getAllCommitmentTypes = createSelector(
     getCommitmentLookupState,

@@ -11,7 +11,9 @@ import {
     getAnnouncementTypeEntities,
     getCommitmentTypeEntities,
     getWhoAnnouncedTypeEntities,
-    getCriticalDateEntities
+    getCriticalDateEntities,
+    // getThemeTypeEntities,
+    // getPackageTypeEntities
 } from '../commitment-lookup'
 import { findInLookup } from '../utils'
 export { CommitmentEffects } from './commitment.effects'
@@ -45,12 +47,22 @@ export const getLookupEnitites = createSelector(
         })
 )
 
+// export const getExtraLookupEnitites = createSelector(
+//     getThemeTypeEntities,
+//     getPackageTypeEntities,
+//     (themeTypes, packageTypes) =>
+//         ({
+//             themeTypes, packageTypes
+//         })
+// )
+
 export const getCurrentCommitment = createSelector(
     getCommitmentEntities,
     getCurrentCommitentId,
     getLookupEnitites,
     getMapPointEntities,
-    (commitments, current, lookups, mapPoints) => {
+    // getExtraLookupEnitites,
+    (commitments, current, lookups, mapPoints, extraLookups) => {
         const commitment = commitments[current]
         if (commitment) {
 
@@ -68,6 +80,8 @@ export const getCurrentCommitment = createSelector(
                 party: findInLookup(commitment.party, lookups.partys),
                 location: findInLookup(commitment.location, lookups.locations),
                 whoAnnouncedType: findInLookup(commitment.whoAnnouncedType, lookups.whoAnnouncedTypes),
+                // themeType: findInLookup(commitment.themeType, extraLookups.themeTypes),
+                // packageType: findInLookup(commitment.packageType, extraLookups.packageTypes),
                 announcementType: findInLookup(commitment.announcementType, lookups.announcementTypes),
                 criticalDate: findInLookup(commitment.criticalDate, lookups.criticalDates),
                 commitmentType: findInLookup(commitment.commitmentType, lookups.commitmentTypes),
