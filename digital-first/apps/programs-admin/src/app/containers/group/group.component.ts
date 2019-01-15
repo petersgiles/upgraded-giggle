@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core'
 import {ActivatedRoute, Router} from '@angular/router'
-import {DeleteGroupGQL, Group, GroupGQL} from '../../generated/graphql'
+import {DeleteGroupGQL, Group, GroupGQL, RemoveUserFromGroupGQL} from '../../generated/graphql'
 import {first, map} from 'rxjs/operators'
 import {Subscription} from 'rxjs'
 import {ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent} from '@digital-first/df-dialogs'
@@ -21,6 +21,7 @@ export class GroupComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private groupGQL: GroupGQL,
               private deleteGroupGQL: DeleteGroupGQL,
+              private removeUserFromGroupGQL: RemoveUserFromGroupGQL,
               private router: Router,
               public dialog: MdcDialog) {
   }
@@ -68,8 +69,30 @@ export class GroupComponent implements OnInit {
       })
   }
 
-  handleUserDeleteItemClicked($event: any) {
-
+  handleUserDeleteItemClicked($event) {
+    this.removeUserFromGroupGQL
+      .mutate(
+        {
+          data: {
+            userId: $event.id,
+            accessControlGroupId: this.groupId
+         }
+        },
+        {
+          refetchQueries: [
+            {
+              query: this.groupGQL.document,
+              variables: {
+                groupId: this.groupId
+              }
+            }
+          ]
+        }
+      )
+      .pipe(first())
+      .subscribe(value => {
+        console.log('removing ', $event)
+      })
   }
 
   handleUserNavigation($event: any) {

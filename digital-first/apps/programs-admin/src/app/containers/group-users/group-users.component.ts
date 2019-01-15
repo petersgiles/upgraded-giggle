@@ -5,6 +5,7 @@ import {DataTableConfig} from '@digital-first/df-components'
 import {first, map} from 'rxjs/operators'
 import {AssignUserToGroupGQL, GroupGQL, UsersGQL} from '../../generated/graphql'
 import {DialogAssignUserToGroupComponent} from '../../dialogs/dialog-assign-user-to-group.component'
+import {ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent} from '@digital-first/df-dialogs'
 
 @Component({
   selector: 'digital-first-group-users',
@@ -105,9 +106,22 @@ export class GroupUsersComponent implements OnInit {
     }
   }
 
-  handleTableDeleteClicked($event: any) {
-    alert('TODO: remove user from group')
+  handleTableDeleteClicked($event) {
+    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+      escapeToClose: true,
+      clickOutsideToClose: true
+    })
+
+    dialogRef
+      .afterClosed()
+      .pipe(first())
+      .subscribe(result => {
+        if (result === ARE_YOU_SURE_ACCEPT && this.artifactId) {
+          this.onDeleteClicked.emit($event)
+        }
+      })
   }
+
 
   ngOnInit(): void {
 

@@ -34,7 +34,7 @@ export interface ReportAccessControlInputGraph {
   accessRights?: AccessRights | null;
 }
 
-export interface InputAssignUserToGroupGraph {
+export interface InputGroupUserGraph {
   accessControlGroupId: Guid;
 
   userId: Guid;
@@ -681,7 +681,7 @@ export namespace DeleteStatistic {
 
 export namespace AssignUserToGroup {
   export type Variables = {
-    data: InputAssignUserToGroupGraph;
+    data: InputGroupUserGraph;
   };
 
   export type Mutation = {
@@ -696,6 +696,18 @@ export namespace AssignUserToGroup {
     accessControlGroupId: Guid;
 
     userId: Guid;
+  };
+}
+
+export namespace RemoveUserFromGroup {
+  export type Variables = {
+    data: InputGroupUserGraph;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    removeUserFromGroup: boolean | null;
   };
 }
 
@@ -1579,11 +1591,24 @@ export class AssignUserToGroupGQL extends Apollo.Mutation<
   AssignUserToGroup.Variables
 > {
   document: any = gql`
-    mutation assignUserToGroup($data: InputAssignUserToGroupGraph!) {
-      assignUserToGroup(inputAssignUserToGroup: $data) {
+    mutation assignUserToGroup($data: InputGroupUserGraph!) {
+      assignUserToGroup(inputGroupUserGraph: $data) {
         accessControlGroupId
         userId
       }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class RemoveUserFromGroupGQL extends Apollo.Mutation<
+  RemoveUserFromGroup.Mutation,
+  RemoveUserFromGroup.Variables
+> {
+  document: any = gql`
+    mutation removeUserFromGroup($data: InputGroupUserGraph!) {
+      removeUserFromGroup(inputGroupUserGraph: $data)
     }
   `;
 }

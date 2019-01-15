@@ -126,10 +126,14 @@ mutation deleteStatistic ($data:InputDeleteGraph!) {
   deleteStatistic (inputDelete: $data)
 }
 
-mutation assignUserToGroup ($data: InputAssignUserToGroupGraph!) {
-   assignUserToGroup (inputAssignUserToGroup: $data)
-   {
-      accessControlGroupId
-      userId
-   }
-}
+mutation assignUserToGroup ($data: InputGroupUserGraph!) {
+  assignUserToGroup (inputGroupUserGraph: $data)
+  {
+    accessControlGroupId
+    userId
+  }
+  }
+
+  mutation removeUserFromGroup ($data: InputGroupUserGraph!) {
+    removeUserFromGroup (inputGroupUserGraph: $data)
+                    }
