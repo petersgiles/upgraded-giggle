@@ -1,7 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
 import {MdcDialog} from '@angular-mdc/web'
 import {ActivatedRoute, Router} from '@angular/router'
 import {DataTableConfig} from '@digital-first/df-components'
+import {first, map} from 'rxjs/operators'
+import {AssignUserToGroupGQL, GroupGQL, UsersGQL} from '../../generated/graphql'
+import {DialogAssignUserToGroupComponent} from '../../dialogs/dialog-assign-user-to-group.component'
 
 @Component({
   selector: 'digital-first-group-users',
@@ -27,10 +30,14 @@ export class GroupUsersComponent implements OnInit {
   @Output() onAddItemClicked: EventEmitter<any> = new EventEmitter()
   @Output() onCellClicked: EventEmitter<any> = new EventEmitter()
   expanded: true
+  groupId: string
 
   constructor(public dialog: MdcDialog,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private usersGQL: UsersGQL,
+              private groupGQL: GroupGQL,
+              private assignUserToGroupGQL: AssignUserToGroupGQL) {
   }
 
   @Input()
@@ -48,7 +55,54 @@ export class GroupUsersComponent implements OnInit {
   }
 
   handleAddClicked($event) {
-    alert('TODO:  add user to group')
+    {
+      this.usersGQL
+        .watch({}, {fetchPolicy: 'no-cache'})
+        .valueChanges.pipe(
+        map(value => value.data.users),
+        first()
+      )
+        .subscribe(users => {
+          const dialogRef = this.dialog.open(
+            DialogAssignUserToGroupComponent,
+            {
+              escapeToClose: true,
+              clickOutsideToClose: true,
+              data: {
+                users: users
+              }
+            }
+          )
+
+          dialogRef.afterClosed().subscribe((result: any) => {
+            if (result && result.id) {
+              this.assignUserToGroupGQL
+                .mutate(
+                  {
+                    data: {
+                      accessControlGroupId: this.groupId,
+                      userId: result.id
+                    }
+                  },
+                  {
+                    refetchQueries: [
+                      {
+                        query: this.groupGQL.document,
+                        variables: {
+                          groupId: this.groupId
+                        }
+                      }
+                    ]
+                  }
+                )
+                .pipe(first())
+                .subscribe(value => {
+                  console.log('adding ', result)
+                })
+            }
+          })
+        })
+    }
   }
 
   handleTableDeleteClicked($event: any) {
@@ -56,5 +110,7 @@ export class GroupUsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.groupId = this.route.snapshot.paramMap.get('id')
   }
 }

@@ -34,6 +34,12 @@ export interface ReportAccessControlInputGraph {
   accessRights?: AccessRights | null;
 }
 
+export interface InputAssignUserToGroupGraph {
+  accessControlGroupId: Guid;
+
+  userId: Guid;
+}
+
 export interface CreateAgencyGraph {
   title: string;
 
@@ -203,6 +209,10 @@ export interface InputDeleteProgramGraph {
 }
 
 export interface InputDeleteReportGraph {
+  id: Guid;
+}
+
+export interface InputDeleteGraph {
   id: Guid;
 }
 
@@ -657,6 +667,38 @@ export namespace UpdateStatistic {
   };
 }
 
+export namespace DeleteStatistic {
+  export type Variables = {
+    data: InputDeleteGraph;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    deleteStatistic: boolean | null;
+  };
+}
+
+export namespace AssignUserToGroup {
+  export type Variables = {
+    data: InputAssignUserToGroupGraph;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    assignUserToGroup: AssignUserToGroup | null;
+  };
+
+  export type AssignUserToGroup = {
+    __typename?: 'AccessControlGroupUserGraph';
+
+    accessControlGroupId: Guid;
+
+    userId: Guid;
+  };
+}
+
 export namespace AllAgencies {
   export type Variables = {};
 
@@ -1059,6 +1101,66 @@ export namespace Report {
   };
 }
 
+export namespace StatisticReport {
+  export type Variables = {
+    reportId: string;
+  };
+
+  export type Query = {
+    __typename?: 'Query';
+
+    statisticReports: (StatisticReports | null)[] | null;
+  };
+
+  export type StatisticReports = {
+    __typename?: 'StatisticReportGraph';
+
+    id: Guid;
+
+    name: string;
+
+    accessControlList: (AccessControlList | null)[] | null;
+  };
+
+  export type AccessControlList = {
+    __typename?: 'AccessControlListGraph';
+
+    id: Guid;
+
+    accessControlEntries: (AccessControlEntries | null)[] | null;
+  };
+
+  export type AccessControlEntries = {
+    __typename?: 'AccessControlEntryGraph';
+
+    id: string;
+
+    accessControlGroup: AccessControlGroup | null;
+
+    rights: string;
+
+    rowVersion: string;
+  };
+
+  export type AccessControlGroup = {
+    __typename?: 'AccessControlGroupGraph';
+
+    id: Guid;
+
+    title: string;
+
+    members: (Members | null)[] | null;
+  };
+
+  export type Members = {
+    __typename?: 'UserGraph';
+
+    id: Guid;
+
+    emailAddress: string;
+  };
+}
+
 export namespace Users {
   export type Variables = {};
 
@@ -1137,6 +1239,8 @@ export namespace Statistic {
 
     agency: Agency | null;
 
+    accessControlList: (AccessControlList | null)[] | null;
+
     name: string;
 
     externalId: string | null;
@@ -1148,6 +1252,34 @@ export namespace Statistic {
 
   export type Agency = {
     __typename?: 'AgencyGraph';
+
+    id: Guid;
+
+    title: string;
+  };
+
+  export type AccessControlList = {
+    __typename?: 'AccessControlListGraph';
+
+    id: Guid;
+
+    accessControlEntries: (AccessControlEntries | null)[] | null;
+  };
+
+  export type AccessControlEntries = {
+    __typename?: 'AccessControlEntryGraph';
+
+    id: string;
+
+    rights: string;
+
+    rowVersion: string;
+
+    accessControlGroup: AccessControlGroup | null;
+  };
+
+  export type AccessControlGroup = {
+    __typename?: 'AccessControlGroupGraph';
 
     id: Guid;
 
@@ -1429,6 +1561,35 @@ export class UpdateStatisticGQL extends Apollo.Mutation<
 @Injectable({
   providedIn: 'root'
 })
+export class DeleteStatisticGQL extends Apollo.Mutation<
+  DeleteStatistic.Mutation,
+  DeleteStatistic.Variables
+> {
+  document: any = gql`
+    mutation deleteStatistic($data: InputDeleteGraph!) {
+      deleteStatistic(inputDelete: $data)
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class AssignUserToGroupGQL extends Apollo.Mutation<
+  AssignUserToGroup.Mutation,
+  AssignUserToGroup.Variables
+> {
+  document: any = gql`
+    mutation assignUserToGroup($data: InputAssignUserToGroupGraph!) {
+      assignUserToGroup(inputAssignUserToGroup: $data) {
+        accessControlGroupId
+        userId
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
 export class AllAgenciesGQL extends Apollo.Query<
   AllAgencies.Query,
   AllAgencies.Variables
@@ -1470,7 +1631,7 @@ export class GroupGQL extends Apollo.Query<Group.Query, Group.Variables> {
         id
         rowVersion
         title
-        members {
+        members(orderBy: { path: "emailAddress" }) {
           id
           emailAddress
           lastLogin
@@ -1660,6 +1821,38 @@ export class ReportGQL extends Apollo.Query<Report.Query, Report.Variables> {
 @Injectable({
   providedIn: 'root'
 })
+export class StatisticReportGQL extends Apollo.Query<
+  StatisticReport.Query,
+  StatisticReport.Variables
+> {
+  document: any = gql`
+    query statisticReport($reportId: String!) {
+      statisticReports(ids: [$reportId]) {
+        id
+        name
+        accessControlList {
+          id
+          accessControlEntries(orderBy: { path: "accessControlGroup.title" }) {
+            id
+            accessControlGroup {
+              id
+              title
+              members {
+                id
+                emailAddress
+              }
+            }
+            rights
+            rowVersion
+          }
+        }
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
 export class UsersGQL extends Apollo.Query<Users.Query, Users.Variables> {
   document: any = gql`
     query users {
@@ -1707,6 +1900,18 @@ export class StatisticGQL extends Apollo.Query<
         agency {
           id
           title
+        }
+        accessControlList {
+          id
+          accessControlEntries(orderBy: { path: "accessControlGroup.title" }) {
+            id
+            rights
+            rowVersion
+            accessControlGroup {
+              id
+              title
+            }
+          }
         }
         name
         externalId

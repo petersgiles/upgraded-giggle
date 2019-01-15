@@ -7,9 +7,28 @@
       (onDeleteItem)="handleDeleteStatistic(statistic)"
     ></digital-first-delete-item-button>
   </digital-first-page-title>
-  <p>
-    TODO: display stuff
-  </p>
+
+  <div class="commitment-layout__row">
+    <p>{{ statistic.agency.title }}</p>
+    <p>{{ statistic.externalId }}</p>
+  </div>
+
+  <digital-first-permission
+    [artifactId]="statisticId"
+    [tableData]="permissionTableData"
+    (onGroupClicked)="handleGroupPermissionGroupClicked($event)"
+    (onPermissionClicked)="handleGroupPermissionChangeClicked($event)"
+    (onDeleteClicked)="handleGroupPermissionDeleteClicked($event)"
+    (onAddGroup)="handleOpenAddGroupDialog($event)"
+  ></digital-first-permission>
+
+  <digital-first-statistic-reports
+    [artifactId]="statisticId"
+    [tableData]="statisticReportTableData"
+    (onDeleteClicked)="handleStatisticReportDeleteItemClicked()"
+    (onCellClicked)="handleReportNavigation($event)"
+  ></digital-first-statistic-reports>
+
   <digital-first-page-title title="Debug"></digital-first-page-title>
   <pre>{{ statistic | json }}</pre>
 </div>
