@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 
 import { Observable, of, forkJoin } from 'rxjs'
-import { concatMap, map } from 'rxjs/operators'
+import { concatMap, map, tap } from 'rxjs/operators'
 import { SharepointJsomService } from '@digital-first/df-sharepoint'
 import { AppDataService } from '../app-data.service'
 
@@ -15,7 +15,8 @@ import {
   CommitmentsResult,
   ContactsResult,
   MapPointsResult,
-  RelatedCommitmentsResult
+  RelatedCommitmentsResult,
+  RelatedLinksResult
 } from '../../models'
 import { Commitment } from '../../reducers/commitment'
 import { arrayToHash } from '@digital-first/df-utils'
@@ -23,7 +24,7 @@ import { MapPoint } from '../../reducers/map-point/map-point.model'
 import { byIdQuery, byCommitmentIdQuery, byMapPointPlaceIdQuery, byJoinTableQuery, byIdsQuery } from './caml'
 import { mapContacts, mapCommitmentContacts } from './contact'
 import { mapElectorates, mapCommitmentElectorates, mapMapPoints, mapCommitmentMapPoints } from './geo'
-import { mapCommitment, mapCommitments, mapRelatedCommitments } from './commitment'
+import { mapCommitment, mapCommitments, mapRelatedCommitments, mapRelatedLinks } from './commitment'
 import { AppUserProfile } from '@digital-first/df-layouts'
 import { mapPortfolios } from '../../reducers/commitment-lookup/sharepoint/maps'
 import { Contact } from '../../reducers/contact/contact.model'
@@ -31,15 +32,6 @@ import { Contact } from '../../reducers/contact/contact.model'
   providedIn: 'root'
 })
 export class SharepointDataService implements AppDataService {
-  removeLinkFromCommitment(payload: any): Observable<any> {
-    throw new Error('Method not implemented.')
-  }
-  addLinkToCommitment(payload: any): Observable<any> {
-    throw new Error('Method not implemented.')
-  }
-  getRelatedLinksByCommitment(commitment: any): Observable<any> {
-    throw new Error('Method not implemented.')
-  }
 
   getCurrentUser(): Observable<AppUserProfile> {
     return this.sharepoint.getCurrentUser()
@@ -379,6 +371,59 @@ export class SharepointDataService implements AppDataService {
     )
   }
 
+  removeLinkFromCommitment(payload: any): Observable<any> {
+    const LISTNAME = 'RelatedLink'
+
+    const viewXml = byIdQuery({ id: payload.id })
+    // tslint:disable-next-line:no-console
+    console.log(viewXml, payload)
+    return this.sharepoint.getItems({
+      listName: LISTNAME,
+      viewXml: viewXml
+    }).pipe(
+      map(mapRelatedLinks),
+      map(result => result[0]),
+      concatMap((result: any) =>
+        this.sharepoint.removeItem({
+          listName: LISTNAME, id: result.id
+        }).pipe(
+          concatMap(_ => of({ commitment: { id: payload.commitment } }))
+        )
+      )
+    )
+  }
+  addLinkToCommitment(payload: any): Observable<any> {
+    const LISTNAME = 'RelatedLink'
+
+    const sp = {
+      Title: `${payload.commitment} ${payload.url}`,
+      Commitment: payload.commitment,
+      Url: payload.url
+    }
+
+    return this.sharepoint.storeItem({
+      listName: LISTNAME,
+      data: sp,
+    }).pipe(
+      concatMap(_ =>
+        of({ commitment: { id: payload.commitment } }))
+    )
+  }
+  getRelatedLinksByCommitment(commitment: any): Observable<DataResult<RelatedLinksResult>> {
+    const viewXml = byCommitmentIdQuery({ id: commitment })
+
+    return this.sharepoint.getItems({
+      listName: 'RelatedLink',
+      viewXml: viewXml
+    }).pipe(
+      concatMap(items =>
+        of({
+          data: { commitmentRelatedLinks: mapRelatedLinks(items) },
+          loading: false
+        }))
+      )
+  }
+
   getRelatedCommitmentsByCommitment(commitment: number): Observable<DataResult<RelatedCommitmentsResult>> {
 
     const viewXml = byCommitmentIdQuery({ id: commitment })
@@ -399,9 +444,7 @@ export class SharepointDataService implements AppDataService {
   removeCommitmentFromCommitment(payload: any): Observable<any> {
     const LISTNAME = 'RelatedCommitment'
 
-    const viewXml = byJoinTableQuery({ fieldA: { name: 'Commitment', id: payload.commitment }, fieldB: { name: 'RelatedTo', id: payload.relatedTo } })
-    // tslint:disable-next-line:no-console
-    console.log('removeCommitmentFromCommitment', viewXml, payload)
+    const viewXml = byIdQuery({ id: payload.relatedTo })
 
     return this.sharepoint.getItems({
       listName: LISTNAME,

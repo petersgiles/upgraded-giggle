@@ -85,7 +85,7 @@ export class AddCommitmentToCommitment implements Action {
 export class RemoveLinkFromCommitment implements Action {
   readonly type = CommitmentActionTypes.RemoveLinkFromCommitment
 
-  constructor(public payload: { id: number | string }) { }
+  constructor(public payload: { commitment: number | string , id: number | string }) { }
 }
 
 export class RemoveCommitmentFromCommitment implements Action {

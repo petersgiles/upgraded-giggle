@@ -278,7 +278,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
       )
       .subscribe(result => {
         if (result === ARE_YOU_SURE_ACCEPT) {
-          this.service.removeLinkFromCommitment($event.id)
+          this.service.removeLinkFromCommitment(this.commitment.id, $event.id)
         }
       })
   }
