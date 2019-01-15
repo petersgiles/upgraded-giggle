@@ -190,7 +190,7 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'statistics/upload',
+        path: 'upload/statistic',
         component: StatisticuploadComponent,
         canActivate: [AuthGuard],
         data: {
@@ -200,7 +200,7 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'project/upload',
+        path: 'upload/project',
         component: ProjectuploadComponent,
         canActivate: [AuthGuard],
         data: {
