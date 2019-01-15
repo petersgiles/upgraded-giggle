@@ -159,6 +159,7 @@ type CommitmentAction {
   }
 
   type RelatedLink {
+    id: ID,
     commitment: ID,
     url: String
   }
