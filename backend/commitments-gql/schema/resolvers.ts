@@ -102,21 +102,16 @@ export const resolvers = {
 
     },
     commitmentElectorates: (obj: any, args: any, context: any, info: any) => {
-      // (commitment: ID!): [MapPoint]
       let set = db['commitment-commitment-electorates'].find({ commitment: args.commitment })
       let found = set.map((f: any) => db['commitment-electorates'].findOne({ id: f.electorate })).map((c: any) => ({ ...c }))
       return found
 
     },
     commitmentRelatedLinks: (obj: any, args: any, context: any, info: any) => {
-      // (commitment: ID!): [MapPoint]
-      let set = db['commitment-related-links'].find({ commitment: args.commitment })
-      let found = set.map((f: any) => db['commitments'].findOne({ id: f.relatedTo })).map((c: any) => ({ ...c }))
+      let found = db['commitment-related-links'].find({ commitment: args.commitment })
       return found
-
     },
     commitmentRelatedCommitments: (obj: any, args: any, context: any, info: any) => {
-      // (commitment: ID!): [MapPoint]
       let set = db['commitment-related-commitments'].find({ commitment: args.commitment })
       let found = set.map((f: any) => db['commitments'].findOne({ id: f.relatedTo })).map((c: any) => ({ ...c }))
       return found
@@ -141,6 +136,7 @@ export const resolvers = {
     },
     mapPoints: () => db['commitment-map-points'].find(),
     relatedCommitment: () => db['commitment-related-commitments'].find(),
+    relatedLinks: () => db['commitment-related-links'].find(),
     locations: () => db['commitment-electorates'].find(),
     tags: () => db['commitment-tags'].find(),
   },

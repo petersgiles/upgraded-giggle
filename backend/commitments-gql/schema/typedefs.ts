@@ -158,6 +158,11 @@ type CommitmentAction {
     relatedTo: ID
   }
 
+  type RelatedLink {
+    commitment: ID,
+    url: String
+  }
+  
   type Subscription {
     Title: String
     commitment: ID,
@@ -197,7 +202,7 @@ type CommitmentAction {
     commitmentPortfolios(commitment: ID!): [Portfolio],
     commitmentElectorates(commitment: ID!): [Electorate],
     commitmentRelatedCommitments(commitment: ID!): [Commitment],
-    commitmentRelatedLinks(commitment: ID!): [Commitment],
+    commitmentRelatedLinks(commitment: ID!): [RelatedLink],
     mapPointCommitments(mapPoint: ID!) : [Commitment],
     parties: [PoliticalParty],
     portfolios: [Portfolio],
@@ -206,6 +211,7 @@ type CommitmentAction {
     themeTypes: [ThemeType],
     packageTypes: [PackageType],
     relatedCommitment: [RelatedCommitment],
+    relatedLinks: [RelatedLink],
     commitmentSubscription(commitment: ID!, user: ID!): [Subscription]
     announcementTypes: [AnnouncementType],
     commitmentTypes: [CommitmentType]

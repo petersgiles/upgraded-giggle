@@ -74,6 +74,7 @@ import { ContactEffects } from './reducers/contact/contact.effects'
 import { ContactCreateFormComponent } from './components/contact-create-form/contact-create-form.component'
 import { MapPointEffects } from './reducers/map-point/map-point.effects'
 import { RelatedCommitmentEffects } from './reducers/related-commitment/related-commitment.effects'
+import { RelatedLinkEffects } from './reducers/related-link/related-link.effects'
 import { CommitmentSubscriptionEffects } from './reducers/commitment-subscription/commitment-subscription.effects'
 import { CommitmentContactEffects } from './reducers/commitment-contact/commitment-contact.effects'
 import { CommitmentActionEffects } from './reducers/commitment-action/commitment-action.effects'
@@ -243,6 +244,7 @@ export let appDataServiceProvider = {
       CommitmentContactEffects,
       ContactEffects,
       RelatedCommitmentEffects,
+      RelatedLinkEffects,
       CommentDiscussionEffects,
       CommitmentEffects,
       CommitmentSubscriptionEffects,
