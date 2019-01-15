@@ -120,12 +120,12 @@ export class ApolloDataService implements AppDataService {
 
   addLinkToCommitment = (variables: { commitment: any, relatedTo: any }) => callMutate<any>(this.apollo,
     { mutation: STORE_RELATED_LINK, variables: { ...variables } },
-    (result: any) => ({ commitment: result.data.storeRelatedCommitment })
+    (result: any) => ({ commitment: result.data.storeRelatedLink })
   )
 
-  removeLinkFromCommitment = (variables: { commitment: any, relatedTo: any }) => callMutate<any>(this.apollo,
+  removeLinkFromCommitment = (variables: { id: any }) => callMutate<any>(this.apollo,
     { mutation: REMOVE_RELATED_LINK, variables: { ...variables } },
-    (result: any) => ({ commitment: result.data.deleteRelatedCommitment })
+    (result: any) => ({ commitment: result.data.deleteRelatedLink })
   )
 
   removeElectorateFromCommitment = (variables: { commitment: any, electorate: any }) =>

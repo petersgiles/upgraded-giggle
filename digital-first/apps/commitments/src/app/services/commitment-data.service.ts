@@ -112,8 +112,8 @@ export class CommitmentDataService {
   public addLinkToCommitment(commitment: string | number, url: string): any {
     this.store.dispatch(new AddLinkToCommitment({ commitment, url }))
   }
-  public removeLinkFromCommitment(linkId: string | number): any {
-    this.store.dispatch(new RemoveLinkFromCommitment({ linkId }))
+  public removeLinkFromCommitment(id: string | number): any {
+    this.store.dispatch(new RemoveLinkFromCommitment({ id }))
   }
   public addCommitmentToCommitment(commitment: string | number, relatedTo: string | number): any {
     this.store.dispatch(new AddCommitmentToCommitment({ commitment, relatedTo }))
