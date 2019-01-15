@@ -20,7 +20,7 @@ query group ($groupId: String!) {
     id
     rowVersion
     title
-    members{
+    members(orderBy: {path: "emailAddress"}){
       id
       emailAddress
       lastLogin
@@ -161,6 +161,30 @@ query report ($reportId: String!) {
   }
 }
 
+query statisticReport ($reportId: String!) {
+  statisticReports(ids:[$reportId])
+  {
+    id
+    name
+    accessControlList{
+      id
+      accessControlEntries (orderBy: {path: "accessControlGroup.title"}) {
+        id
+        accessControlGroup{
+          id
+          title
+          members{
+            id
+            emailAddress
+          }
+        }
+        rights
+        rowVersion
+      }
+    }
+  }
+}
+
 query users{
   users  (orderBy: {path: "emailAddress"}){
     id
@@ -194,6 +218,18 @@ query user ($userId: String!) {
         id
         title
       }
+      accessControlList{
+            id
+            accessControlEntries (orderBy: {path: "accessControlGroup.title"}) {
+            id
+              rights
+              rowVersion
+              accessControlGroup  {
+                id
+                title
+              }
+            }
+          }
       name
       externalId
       rowVersion

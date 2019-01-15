@@ -1,0 +1,10 @@
+<digital-first-page-title title="Users" (onTitleClicked)="handleChangeExpanded(!expanded)">
+  <digital-first-add-item-button icon="people_outline" title="Assign&nbsp;User"
+                                 (onAddItem)="handleAddClicked($event)"></digital-first-add-item-button>
+  <digital-first-expand-collapse-button [expanded]='expanded' (onChangeExpanded)="handleChangeExpanded(!expanded)"></digital-first-expand-collapse-button>
+</digital-first-page-title>
+
+<div class="programsadmin-layout__row" >
+  <digital-first-data-table [tableData]="userTableConfig" [tableRows]="userTableRows" (onDeleteItem)="handleTableDeleteClicked($event)"
+                            (onCellClicked)="onCellClicked.emit($event)"></digital-first-data-table>
+</div>

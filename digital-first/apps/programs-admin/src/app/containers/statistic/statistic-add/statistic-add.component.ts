@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core'
 import {Subscription} from 'rxjs'
 import {
   AllAgencies,
@@ -56,8 +56,7 @@ export class StatisticAddComponent implements OnInit {
     })
   }
 
-
   cancel() {
-
+    return this.router.navigate(['statistics'])
   }
 }

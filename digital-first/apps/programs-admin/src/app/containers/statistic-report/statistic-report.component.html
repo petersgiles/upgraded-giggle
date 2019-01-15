@@ -1,0 +1,25 @@
+<div class="app-page" *ngIf="report; else loading">
+  <section>
+    <digital-first-page-title title="Report - {{ report.name }}">
+    </digital-first-page-title>
+    <div class="commitment-layout__row">
+      <p>Notes:</p>
+      <p *ngIf="report.notes; else elseBlock">{{report.notes}}</p>
+      <ng-template #elseBlock><p>No notes were provided for this report</p></ng-template>
+    </div>
+    <digital-first-permission
+      [artifactId]="reportId"
+      [tableData]="permissionTableData"
+      (onAddGroup)="handleOpenAddGroupDialog($event)"
+      (onGroupClicked)="handleGroupPermissionGroupClicked($event)"
+      (onPermissionClicked)="handleGroupPermissionChangeClicked($event)"
+      (onDeleteClicked)="handleGroupPermissionDeleteClicked($event)"
+    ></digital-first-permission>
+    <digital-first-page-title title="Debug"></digital-first-page-title>
+    <pre>{{ report | json }}</pre>
+  </section>
+</div>
+
+<ng-template #loading>
+  Loading...
+</ng-template>

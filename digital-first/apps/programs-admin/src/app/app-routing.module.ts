@@ -22,6 +22,7 @@ import {StatisticsComponent} from './containers/statistics/statistics.component'
 import {StatisticComponent} from './containers/statistic/statistic.component'
 import {StatisticAddComponent} from './containers/statistic/statistic-add/statistic-add.component'
 import {StatisticEditComponent} from './containers/statistic/statistic-edit/statistic-edit.component'
+import {StatisticReportComponent} from './containers/statistic-report/statistic-report.component'
 
 export const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -163,6 +164,14 @@ export const routes: Routes = [
         }
       },
       {
+        path: 'statistics/:id/reports/:id',
+        component: StatisticReportComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+      {
         path: 'users',
         component: UsersComponent,
         canActivate: [AuthGuard],
@@ -181,7 +190,7 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'statistics/upload',
+        path: 'upload/statistic',
         component: StatisticuploadComponent,
         canActivate: [AuthGuard],
         data: {
@@ -191,7 +200,7 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'project/upload',
+        path: 'upload/project',
         component: ProjectuploadComponent,
         canActivate: [AuthGuard],
         data: {

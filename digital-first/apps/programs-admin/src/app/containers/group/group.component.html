@@ -8,8 +8,14 @@
     ></digital-first-delete-item-button>
   </digital-first-page-title>
   <p>
-    TODO: display group information and members
+    <!--TODO: display group information and members-->
   </p>
+  <digital-first-group-users
+    [artifactId]="groupId"
+    [tableData]="userTableData"
+    (onDeleteClicked)="handleUserDeleteItemClicked($event)"
+    (onCellClicked)="handleUserNavigation($event)"
+  ></digital-first-group-users>
   <!--TODO:  display user information and groups that they belong to-->
   <digital-first-page-title title="Debug"></digital-first-page-title>
   <pre>{{ group | json }}</pre>

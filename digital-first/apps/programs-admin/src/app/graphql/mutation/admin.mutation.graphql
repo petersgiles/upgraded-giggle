@@ -1,23 +1,6 @@
-#mutation modifyReport($modifyReport: ModifyReportGraph){
-#  modifyReport(modifyReport: $modifyReport){
-#    id
-#    name
-#    rowVersion
-#  }
-#}
-#
-#
-#
-#mutation deleteReport($reportId:ModifyReportGraph!){
-#  deleteReport(deleteReportId:$reportId){
-#    id
-#  }
-#}
-
 mutation deleteProgram($data:InputDeleteProgramGraph) {
   deleteProgram(inputDeleteProgram:$data)
 }
-
 
 mutation createProgram ($data:InputProgramGraph!) {
   createNewProgram (inputProgram: $data)
@@ -139,3 +122,18 @@ mutation updateStatistic ($data:InputStatisticGraph!) {
   }
 }
 
+mutation deleteStatistic ($data:InputDeleteGraph!) {
+  deleteStatistic (inputDelete: $data)
+}
+
+mutation assignUserToGroup ($data: InputGroupUserGraph!) {
+  assignUserToGroup (inputGroupUserGraph: $data)
+  {
+    accessControlGroupId
+    userId
+  }
+  }
+
+  mutation removeUserFromGroup ($data: InputGroupUserGraph!) {
+    removeUserFromGroup (inputGroupUserGraph: $data)
+                    }

@@ -68,12 +68,16 @@ import {UsersComponent} from './containers/users/users.component'
 import {UserComponent} from './containers/user/user.component'
 import {GroupsComponent} from './containers/groups/groups.component'
 import {GroupComponent} from './containers/group/group.component'
-import {GroupAddComponent} from './containers/group/group-add/group-add.component';
-import { GroupEditComponent } from './containers/group/group-edit/group-edit.component';
-import { StatisticsComponent } from './containers/statistics/statistics.component';
-import { StatisticComponent } from './containers/statistic/statistic.component';
-import { StatisticAddComponent } from './containers/statistic/statistic-add/statistic-add.component';
+import {GroupAddComponent} from './containers/group/group-add/group-add.component'
+import { GroupEditComponent } from './containers/group/group-edit/group-edit.component'
+import { StatisticsComponent } from './containers/statistics/statistics.component'
+import { StatisticComponent } from './containers/statistic/statistic.component'
+import { StatisticAddComponent } from './containers/statistic/statistic-add/statistic-add.component'
 import { StatisticEditComponent } from './containers/statistic/statistic-edit/statistic-edit.component'
+import { GroupUsersComponent } from './containers/group-users/group-users.component'
+import {DialogAssignUserToGroupComponent} from './dialogs/dialog-assign-user-to-group.component'
+import { StatisticReportsComponent } from './containers/statistic-reports/statistic-reports.component'
+import { StatisticReportComponent } from './containers/statistic-report/statistic-report.component'
 
 const COMPONENTS = [AppComponent, HomeComponent]
 
@@ -84,6 +88,7 @@ const ENTRYCOMPONENTS = [
   DialogSpinnerOverlayComponent,
   DialogAddContactComponent,
   DialogAssignGroupPermissionComponent,
+  DialogAssignUserToGroupComponent,
   DiscussionComponent,
   TagsComponent,
   ViewLayoutButtonComponent,
@@ -128,6 +133,7 @@ export function initApplication(): Function {
     ProgramEditComponent,
     PermissionComponent,
     DialogAssignGroupPermissionComponent,
+    DialogAssignUserToGroupComponent,
     ProgramReportsComponent,
     ReportAddComponent,
     ProgramReportComponent,
@@ -140,7 +146,10 @@ export function initApplication(): Function {
     StatisticsComponent,
     StatisticComponent,
     StatisticAddComponent,
-    StatisticEditComponent
+    StatisticEditComponent,
+    GroupUsersComponent,
+    StatisticReportsComponent,
+    StatisticReportComponent
   ],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [
