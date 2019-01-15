@@ -61,7 +61,7 @@ export interface State {
     user: fromUser.State
     routerReducer: fromRouter.RouterReducerState<RouterStateUrl>
     relatedCommitment: fromRelatedCommitment.State
-    relatedlink: fromRelatedLink.State
+    relatedLink: fromRelatedLink.State
     notification: fromNotification.State
     commitment: fromCommitment.State
     contact: fromContact.State
@@ -80,7 +80,7 @@ export const reducers: ActionReducerMap<State> = {
     user: fromUser.reducer,
     routerReducer: fromRouter.routerReducer,
     relatedCommitment: fromRelatedCommitment.reducer,
-    relatedlink: fromRelatedLink.reducer,
+    relatedLink: fromRelatedLink.reducer,
     notification: fromNotification.reducer,
     commitment: fromCommitment.reducer,
     contact: fromContact.reducer,

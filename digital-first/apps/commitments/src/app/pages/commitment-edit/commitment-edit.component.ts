@@ -45,6 +45,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   commitmentTypes$: Observable<CommitmentType[]>
   commitmentContactsTableData$: Observable<DataTableConfig>
   commitmentCommitmentsTableData$: Observable<DataTableConfig>
+  commitmentRelatedLinksTableData$: Observable<DataTableConfig>
 
   themeTypes$: Observable<ThemeType[]>
   packageTypes$: Observable<PackageType[]>
@@ -79,7 +80,11 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   autoSave: boolean
   autoSaveSubscription$: Subscription
 
-  constructor(private router: Router, private route: ActivatedRoute, public dialog: MdcDialog, private snackbar: MdcSnackbar,
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    public dialog: MdcDialog,
+    private snackbar: MdcSnackbar,
     private service: CommitmentDataService,
     private lookup: CommitmentLookupService) { }
 
@@ -97,6 +102,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
     this.commitmentContactsTableData$ = this.service.CommitmentContactsTableData
     this.commitmentCommitmentsTableData$ = this.service.RelatedCommitmentsTableData
+    this.commitmentRelatedLinksTableData$ = this.service.RelatedLinksTableData
 
     this.autoSaveSubscription$ = this.service.CommitmentEditAutosave.subscribe(next => this.autoSave = next)
 
@@ -127,6 +133,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
         }, {
             commitmentPanelExpanded: false,
             relatedPanelExpanded: false,
+            relatedLinkPanelExpanded: false,
             discussionPanelExpanded: false,
             contactPanelExpanded: false,
             formPanelExpanded: false,
@@ -254,6 +261,28 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.router.navigate(['/', 'commitment', $event.id])
   }
 
+  handleRelatedLinkRowClicked($event) {
+    // tslint:disable-next-line:no-console
+    console.log($event)
+  }
+
+  handleRealatedLinkTableDeleteClicked($event) {
+    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+      escapeToClose: true,
+      clickOutsideToClose: true
+    })
+
+    dialogRef.afterClosed()
+      .pipe(
+        first()
+      )
+      .subscribe(result => {
+        if (result === ARE_YOU_SURE_ACCEPT) {
+          this.service.removeLinkFromCommitment($event.id)
+        }
+      })
+  }
+
   handleCommitmentsTableDeleteClicked(relatedTo) {
 
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
@@ -280,8 +309,8 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     })
 
     dialogRef.afterClosed().subscribe((result: any) => {
-      if (result !== ADD_LINK_CLOSE) {
-        this.service.addLinkToCommitment(this.commitment.id, result)
+      if (result !== ADD_LINK_CLOSE && result) {
+        this.service.addLinkToCommitment(this.commitment.id, result.url)
       }
     })
   }

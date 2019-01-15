@@ -1,7 +1,7 @@
 import * as fromRelatedLink from './related-link.reducer'
 import { createSelector } from '@ngrx/store'
 import { DataTableConfig } from '@digital-first/df-components'
-export const getRelatedLinkEntitiesState = state => state.relatedCommitment
+export const getRelatedLinkEntitiesState = state => state.relatedLink
 
 export const {
     selectIds: getRelatedLinkIds,
@@ -31,7 +31,8 @@ export const getRelatedLinksTableData = createSelector(
                     value: c.url
                 }]
             }))
-
+            // tslint:disable-next-line:no-console
+            console.log('getAllRelatedLinks', links, rows)
         const dtc: DataTableConfig = {
             title: 'related links',
             hasDeleteItemButton: true,

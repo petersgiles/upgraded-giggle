@@ -109,11 +109,11 @@ export class CommitmentDataService {
     this.store.dispatch(new RemoveMapPointFromCommitment({ commitment, mapPoint }))
   }
 
-  public addLinkToCommitment(commitment: string | number, relatedTo: string): any {
-    this.store.dispatch(new AddLinkToCommitment({ commitment, relatedTo }))
+  public addLinkToCommitment(commitment: string | number, url: string): any {
+    this.store.dispatch(new AddLinkToCommitment({ commitment, url }))
   }
-  public removeLinkFromCommitment(commitment: string | number, relatedTo: string): any {
-    this.store.dispatch(new RemoveLinkFromCommitment({ commitment, relatedTo }))
+  public removeLinkFromCommitment(linkId: string | number): any {
+    this.store.dispatch(new RemoveLinkFromCommitment({ linkId }))
   }
   public addCommitmentToCommitment(commitment: string | number, relatedTo: string | number): any {
     this.store.dispatch(new AddCommitmentToCommitment({ commitment, relatedTo }))
@@ -139,6 +139,10 @@ export class CommitmentDataService {
 
   get RelatedCommitmentsTableData(): Observable<DataTableConfig> {
     return this.store.pipe(select(fromRoot.getRelatedCommitmentsTableData))
+  }
+
+  get RelatedLinksTableData(): Observable<DataTableConfig> {
+    return this.store.pipe(select(fromRoot.getRelatedLinksTableData))
   }
 
   get CommitmentDataTable(): Observable<DataTableConfig> {

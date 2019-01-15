@@ -11,19 +11,18 @@ query CommitmentRelatedLinks($commitment: ID!) {
 `
 
 export const STORE_RELATED_LINK = gql`
-mutation StoreRelatedLink($commitment: ID!, $link: string!) {
-  storeRelatedLink(commitment: $commitment, link: $link) {
+mutation StoreRelatedLink($commitment: ID!, $url: String!) {
+  storeRelatedLink(commitment: $commitment, url: $url) {
     id
-    commitment
-    url
+    title
   }
 }
 `
 export const REMOVE_RELATED_LINK = gql`
 mutation DeleteRelatedLink($id: ID!) {
   deleteRelatedLink(id: $id) {
-    commitment
-    url
+    id
+    title
   }
 }
 `

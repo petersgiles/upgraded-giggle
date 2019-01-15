@@ -277,6 +277,23 @@ export const resolvers = {
       const c = db.commitments.findOne({ id: args.commitment })
       return c
     },
+    storeRelatedLink: (_root: any, args: any) => {
+      const data = { ...args };
+      const ccc = db['commitment-related-links'].findOne(data)
+      var saved = null
+      if (!ccc) {
+        saved = db['commitment-related-links'].save([data]);
+      }
+      const c = db.commitments.findOne({ id: args.commitment })
+      console.log(args, ccc, saved)
+      return c
+    },
+    deleteRelatedLink: (_root: any, args: any) => {
+      var cc = db['commitment-related-links'].findOne({ _id: args.id,  });
+      var result = db['commitment-related-links'].remove({ _id: cc._id }, false);
+      const c = db.commitments.findOne({ id: cc.commitment })
+      return c
+    },
     deleteRelatedCommitment: (_root: any, args: any) => {
       var cc = db['commitment-related-commitments'].findOne({ commitment: args.commitment, relatedTo: args.relatedTo });
       var result = db['commitment-related-commitments'].remove({ _id: cc._id }, false);

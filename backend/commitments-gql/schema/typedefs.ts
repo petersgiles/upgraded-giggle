@@ -279,7 +279,7 @@ type CommitmentAction {
     storeRelatedCommitment(commitment: ID!, relatedTo: ID!): Commitment,
     deleteRelatedCommitment(commitment: ID!, relatedTo: ID!): Commitment,
     storeRelatedLink(commitment: ID!, url: String!): Commitment,
-    deleteRelatedLink(commitment: ID!, url: String!): Commitment,
+    deleteRelatedLink(id: ID!): Commitment,
     storeCommitmentPortfolio(commitment: ID!, portfolio: ID!): Commitment,
     deleteCommitmentPortfolio(id: ID!): Commitment,
     storeCommitmentSubscription(commitment: ID!, subscriber: ID!): Commitment,

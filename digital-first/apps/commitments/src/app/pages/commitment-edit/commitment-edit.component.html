@@ -47,9 +47,18 @@
 
     <digital-first-commitment-costings *ngIf="commitment" [commitment]="commitment?.id"></digital-first-commitment-costings>
 
-    <digital-first-page-title *ngIf="commitment" title="Related Items" (onTitleClicked)="handleChangeExpanded(!panels.relatedItemsPanelExpanded, 'relatedItemsPanelExpanded')">
-      <digital-first-add-item-button icon="person" title="Add&nbsp;Link" *ngIf="panels.relatedItemsPanelExpanded"
+    <digital-first-page-title *ngIf="commitment" title="Related Links" (onTitleClicked)="handleChangeExpanded(!panels.relatedLinkPanelExpanded, 'relatedLinkPanelExpanded')">
+      <digital-first-add-item-button icon="person" title="Add&nbsp;Link" *ngIf="panels.relatedLinkPanelExpanded"
       (onAddItem)="handleAddLinkDialog()"></digital-first-add-item-button>
+      <digital-first-expand-collapse-button [expanded]='panels.relatedLinkPanelExpanded' (onChangeExpanded)="handleChangeExpanded($event, 'relatedLinkPanelExpanded')"></digital-first-expand-collapse-button>
+    </digital-first-page-title>
+
+    <div class="commitment-layout__row" *ngIf="panels.relatedLinkPanelExpanded">
+      <digital-first-data-table [tableData]="commitmentRelatedLinksTableData$ | async" (onDeleteItem)="handleRealatedLinkTableDeleteClicked($event)"
+        (onCellClicked)="handleRelatedLinkRowClicked($event)"></digital-first-data-table>
+    </div>
+
+    <digital-first-page-title *ngIf="commitment" title="Related Commitments" (onTitleClicked)="handleChangeExpanded(!panels.relatedItemsPanelExpanded, 'relatedItemsPanelExpanded')">
       <digital-first-add-item-button icon="person" title="Add&nbsp;commitment" *ngIf="panels.relatedItemsPanelExpanded"
         (onAddItem)="handleOpenCommitmentDialog()"></digital-first-add-item-button>
       <digital-first-expand-collapse-button [expanded]='panels.relatedItemsPanelExpanded' (onChangeExpanded)="handleChangeExpanded($event, 'relatedItemsPanelExpanded')"></digital-first-expand-collapse-button>
