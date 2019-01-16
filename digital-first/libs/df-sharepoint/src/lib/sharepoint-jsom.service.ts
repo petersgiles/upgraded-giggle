@@ -73,12 +73,33 @@ export class SharepointJsomService {
       systemUserKey: _spPageContextInfo.systemUserKey
     }
 
+         // tslint:disable-next-line:no-console
+         console.log('cheese')
+
     return executeQueryAsObservable(context)
       .pipe(
-        map(_ => ({
-          ...currentInfo,
-          name: user.get_title()
-        }))
+        concatMap(_userresponse => {
+          const groups = user.get_groups()
+          context.load(groups)
+          return executeQueryAsObservable(context)
+          .pipe(
+            concatMap(_groupresponse => {
+            const groupArray = []
+            const groupEnumerator = groups.getEnumerator()
+              while (groupEnumerator.moveNext()) {
+                  groupArray.push(groupEnumerator.get_current().get_title())
+              }
+              // tslint:disable-next-line:no-console
+              console.log(groupArray)
+
+              return of({
+                ...currentInfo,
+                name: user.get_title(),
+                roles: [...groupArray]
+              })
+          })
+      )}
+      )
       )
   }
 

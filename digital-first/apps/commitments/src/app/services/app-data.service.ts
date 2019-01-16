@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { Commitment } from '../reducers/commitment'
 
+export const ROLE_READ = 'ROLE_READ'
+export const ROLE_WRITE = 'ROLE_WRITE'
+
 @Injectable({
   providedIn: 'root'
 })

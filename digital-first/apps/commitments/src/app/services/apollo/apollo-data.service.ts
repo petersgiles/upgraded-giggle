@@ -32,7 +32,7 @@ import {
 } from '../../models'
 
 import { Apollo } from 'apollo-angular'
-import { AppDataService } from '../app-data.service'
+import { AppDataService, ROLE_READ, ROLE_WRITE } from '../app-data.service'
 import { Commitment } from '../../reducers/commitment'
 import { Injectable } from '@angular/core'
 import { Observable, of } from 'rxjs'
@@ -52,7 +52,8 @@ export class ApolloDataService implements AppDataService {
       login: 'guest',
       isSiteAdmin: true,
       systemUserKey: 'guest',
-      name: 'Guest User'
+      name: 'Guest User',
+      roles: [ROLE_READ, ROLE_WRITE]
     }
 
     return of(
