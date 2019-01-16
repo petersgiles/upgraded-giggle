@@ -1,0 +1,24 @@
+<digital-first-page-title
+  *ngIf="commitment"
+  title="Related Commitments"
+  (onTitleClicked)="handleChangeExpanded(!expanded)"
+>
+  <digital-first-add-item-button
+    icon="person"
+    title="Add&nbsp;Commitments"
+    *ngIf="expanded"
+    (onAddItem)="handleAddItem()"
+  ></digital-first-add-item-button>
+  <digital-first-expand-collapse-button
+    [expanded]="expanded"
+    (onChangeExpanded)="handleChangeExpanded(!expanded)"
+  ></digital-first-expand-collapse-button>
+</digital-first-page-title>
+
+<div class="commitment-layout__row" *ngIf="expanded">
+  <digital-first-data-table
+    [tableData]="tableData$ | async"
+    (onDeleteItem)="handleTableDeleteClicked($event)"
+    (onCellClicked)="handleRowClicked($event)"
+  ></digital-first-data-table>
+</div>

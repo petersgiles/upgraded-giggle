@@ -78,5 +78,5 @@ export function reducer(
 export const selectAll = (state: State) => state.actions
 export const getSelectedAction = (state: State) => state.selectedAction
 export const getExpanded = (state: State) => state.expanded
-export const getContactLoading = (state: State) => state.loading
-export const getContactError = (state: State) => state.error
+export const getLoading = (state: State) => state.loading
+export const getError = (state: State) => state.error

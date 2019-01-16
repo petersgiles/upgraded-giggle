@@ -99,6 +99,10 @@ import { commitmentOverviewMapDataServiceProvider } from './reducers/commitment-
 import { CommentOverviewMapEffects } from './reducers/commitment-overview-map/commitment-overview-map.effects'
 import { CommitmentPrintComponent } from './pages/commitment-print/commitment-print.component'
 import { DialogAddLinkComponent } from './dialogs/dialog-add-link.component'
+import { CommitmentRelatedLinksComponent } from './containers/commitment-related-links/commitment-related-links.component'
+import { CommitmentRelatedCommitmentsComponent } from './containers/commitment-related-commitments/commitment-related-commitments.component'
+import { CommitmentViewGuardComponent } from './containers/commitment-view-guard/commitment-view-guard.component'
+import { CommitmentCommitmentComponent } from './containers/commitment-commitment/commitment-commitment.component'
 
 const COMPONENTS = [
   AppComponent,
@@ -109,6 +113,7 @@ const COMPONENTS = [
   CommitmentOverviewComponent,
   CommitmentListComponent,
   CommitmentCreateComponent,
+  CommitmentViewGuardComponent,
   ContactCreateComponent,
   ContactCreateFormComponent,
   DialogAddCommitmentComponent,
@@ -119,7 +124,9 @@ const COMPONENTS = [
   CommitmentDeliveryLocationComponent,
   CommitmentContactsComponent,
   CommitmentOverviewMapComponent,
-  CommitmentPrintComponent
+  CommitmentPrintComponent,
+  CommitmentRelatedLinksComponent,
+  CommitmentRelatedCommitmentsComponent
 ]
 
 const ENTRYCOMPONENTS = [
@@ -190,7 +197,7 @@ export let appDataServiceProvider = {
 }
 
 @NgModule({
-  declarations: [...COMPONENTS],
+  declarations: [...COMPONENTS, CommitmentCommitmentComponent],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [
     BrowserModule,

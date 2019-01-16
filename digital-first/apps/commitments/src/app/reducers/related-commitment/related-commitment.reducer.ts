@@ -4,6 +4,7 @@ import { RelatedCommitmentActions, RelatedCommitmentActionTypes } from './relate
 
 export interface State extends EntityState<RelatedCommitment> {
   // additional entities state properties
+  expanded: boolean
   loading: boolean
   error: any
 }
@@ -14,6 +15,7 @@ export const adapter: EntityAdapter<RelatedCommitment> = createEntityAdapter<Rel
 
 export const initialState: State = adapter.getInitialState({
   // additional entity state properties
+  expanded: false,
   loading: false,
   error: null
 })
@@ -23,6 +25,21 @@ export function reducer(
   action: RelatedCommitmentActions
 ): State {
   switch (action.type) {
+
+    case RelatedCommitmentActionTypes.ExpandPanel: {
+      return {
+        ...state,
+        expanded: true
+      }
+    }
+
+    case RelatedCommitmentActionTypes.CollapsePanel: {
+      return {
+        ...state,
+        expanded: false
+      }
+    }
+
     case RelatedCommitmentActionTypes.LoadRelatedCommitments: {
       if (action.payload.data.commitmentRelatedCommitments) {
         return adapter.upsertMany(action.payload.data.commitmentRelatedCommitments, {
@@ -67,3 +84,7 @@ export const {
   selectAll,
   selectTotal,
 } = adapter.getSelectors()
+
+export const getExpanded = (state: State) => state.expanded
+export const getLoading = (state: State) => state.loading
+export const getError = (state: State) => state.error

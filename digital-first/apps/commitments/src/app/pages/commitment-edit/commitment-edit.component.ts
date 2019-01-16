@@ -261,90 +261,90 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.router.navigate(['/', 'commitment', $event.id])
   }
 
-  handleRelatedLinkRowClicked($event) {
-    // tslint:disable-next-line:no-console
-    console.log($event)
-  }
+  // handleRelatedLinkRowClicked($event) {
+  //   // tslint:disable-next-line:no-console
+  //   console.log($event)
+  // }
 
-  handleRealatedLinkTableDeleteClicked($event) {
-    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
-      escapeToClose: true,
-      clickOutsideToClose: true
-    })
+  // handleRealatedLinkTableDeleteClicked($event) {
+  //   const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+  //     escapeToClose: true,
+  //     clickOutsideToClose: true
+  //   })
 
-    dialogRef.afterClosed()
-      .pipe(
-        first()
-      )
-      .subscribe(result => {
-        if (result === ARE_YOU_SURE_ACCEPT) {
-          this.service.removeLinkFromCommitment(this.commitment.id, $event.id)
-        }
-      })
-  }
+  //   dialogRef.afterClosed()
+  //     .pipe(
+  //       first()
+  //     )
+  //     .subscribe(result => {
+  //       if (result === ARE_YOU_SURE_ACCEPT) {
+  //         this.service.removeLinkFromCommitment(this.commitment.id, $event.id)
+  //       }
+  //     })
+  // }
 
-  handleCommitmentsTableDeleteClicked(relatedTo) {
+  // handleCommitmentsTableDeleteClicked(relatedTo) {
 
-    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
-      escapeToClose: true,
-      clickOutsideToClose: true
-    })
+  //   const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+  //     escapeToClose: true,
+  //     clickOutsideToClose: true
+  //   })
 
-    dialogRef.afterClosed()
-      .pipe(
-        first()
-      )
-      .subscribe(result => {
-        if (result === ARE_YOU_SURE_ACCEPT && relatedTo.id) {
-          this.service.removeCommitmentFromCommitment(this.commitment.id, relatedTo.id)
-        }
-      })
+  //   dialogRef.afterClosed()
+  //     .pipe(
+  //       first()
+  //     )
+  //     .subscribe(result => {
+  //       if (result === ARE_YOU_SURE_ACCEPT && relatedTo.id) {
+  //         this.service.removeCommitmentFromCommitment(this.commitment.id, relatedTo.id)
+  //       }
+  //     })
 
-  }
+  // }
 
-  handleAddLinkDialog() {
-    const dialogRef = this.dialog.open(DialogAddLinkComponent, {
-      escapeToClose: true,
-      clickOutsideToClose: true
-    })
+  // handleAddLinkDialog() {
+  //   const dialogRef = this.dialog.open(DialogAddLinkComponent, {
+  //     escapeToClose: true,
+  //     clickOutsideToClose: true
+  //   })
 
-    dialogRef.afterClosed().subscribe((result: any) => {
-      if (result !== ADD_LINK_CLOSE && result) {
-        this.service.addLinkToCommitment(this.commitment.id, result.url)
-      }
-    })
-  }
+  //   dialogRef.afterClosed().subscribe((result: any) => {
+  //     if (result !== ADD_LINK_CLOSE && result) {
+  //       this.service.addLinkToCommitment(this.commitment.id, result.url)
+  //     }
+  //   })
+  // }
 
-  handleOpenCommitmentDialog() {
+  // handleOpenCommitmentDialog() {
 
-    this.service.Commitments.pipe(
-      first()
-    )
-      .subscribe(commitments => {
-        const dialogRef = this.dialog.open(DialogAddCommitmentComponent, {
-          escapeToClose: true,
-          clickOutsideToClose: true,
-          data: {
-            commitments: commitments.sort((leftSide, rightSide) => {
+  //   this.service.Commitments.pipe(
+  //     first()
+  //   )
+  //     .subscribe(commitments => {
+  //       const dialogRef = this.dialog.open(DialogAddCommitmentComponent, {
+  //         escapeToClose: true,
+  //         clickOutsideToClose: true,
+  //         data: {
+  //           commitments: commitments.sort((leftSide, rightSide) => {
 
-              const leftTitle = formatCommitmentTitle(leftSide).toLowerCase()
-              const rightTitle = formatCommitmentTitle(rightSide).toLowerCase()
+  //             const leftTitle = formatCommitmentTitle(leftSide).toLowerCase()
+  //             const rightTitle = formatCommitmentTitle(rightSide).toLowerCase()
 
-              if (leftTitle < rightTitle) { return -1 }
-              if (leftTitle > rightTitle) { return 1 }
-              return 0
-            })
-          }
-        })
+  //             if (leftTitle < rightTitle) { return -1 }
+  //             if (leftTitle > rightTitle) { return 1 }
+  //             return 0
+  //           })
+  //         }
+  //       })
 
-        dialogRef.afterClosed().subscribe((result: any) => {
-          if (result && result.id) {
-            this.service.addCommitmentToCommitment(this.commitment.id, result.id)
-          }
-        })
-      }
-      )
-  }
+  //       dialogRef.afterClosed().subscribe((result: any) => {
+  //         if (result && result.id) {
+  //           this.service.addCommitmentToCommitment(this.commitment.id, result.id)
+  //         }
+  //       })
+  //     }
+  //     )
+  // }
 
   handleRemoveElectorateFromCommitment(electorate) {
     this.service.removeElectorateFromCommitment(this.commitment.id, electorate.value.id)

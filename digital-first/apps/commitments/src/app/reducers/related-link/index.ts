@@ -1,6 +1,9 @@
 import * as fromRelatedLink from './related-link.reducer'
 import { createSelector } from '@ngrx/store'
 import { DataTableConfig } from '@digital-first/df-components'
+
+import * as fromCommitmentRelatedLinks from './related-link.reducer'
+
 export const getRelatedLinkEntitiesState = state => state.relatedLink
 
 export const {
@@ -12,12 +15,17 @@ export const {
 
 export const getRelatedLinkLoading = createSelector(
     getRelatedLinkEntitiesState,
-    state => state.loading
+    fromCommitmentRelatedLinks.getLoading
 )
 
 export const getRelatedLinkError = createSelector(
     getRelatedLinkEntitiesState,
-    state => state.error
+    fromCommitmentRelatedLinks.getError
+)
+
+export const getCommitmentRelatedLinksPanelExpanded = createSelector(
+    getRelatedLinkEntitiesState,
+    fromCommitmentRelatedLinks.getExpanded
 )
 
 export const getRelatedLinksTableData = createSelector(

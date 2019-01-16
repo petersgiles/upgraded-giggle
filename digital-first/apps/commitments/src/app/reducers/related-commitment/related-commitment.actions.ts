@@ -15,17 +15,27 @@ export enum RelatedCommitmentActionTypes {
   DeleteRelatedCommitments = '[RelatedCommitment] Delete RelatedCommitments',
   ClearRelatedCommitments = '[RelatedCommitment] Clear RelatedCommitments',
 
+  ExpandPanel = '[RelatedCommitment] Expand Panel',
+  CollapsePanel = '[RelatedCommitment] Collapse Panel',
   SetCurrentRelatedCommitment = '[RelatedCommitment] Set Current RelatedCommitment',
   GetRelatedCommitments = '[RelatedCommitment] Get RelatedCommitments',
   GetAllRelatedCommitments = '[RelatedCommitment] Get All RelatedCommitments',
   GetRelatedCommitmentsByCommitment = '[RelatedCommitment] Get Map Points By Commitment',
   StoreRelatedCommitment = '[RelatedCommitment] Store RelatedCommitment',
   RemoveRelatedCommitment = '[RelatedCommitment] Remove RelatedCommitment',
-  RelatedCommitmentsActionFailure = '[RelatedCommitment] RelatedCommitments Action Failure',
+  RelatedCommitmentsActionFailure = '[RelatedCommitment] RelatedCommitments Action Failure'
 }
 
+export class CollapsePanel implements Action {
+  readonly type = RelatedCommitmentActionTypes.CollapsePanel
+}
+
+export class ExpandPanel implements Action {
+  readonly type = RelatedCommitmentActionTypes.ExpandPanel
+}
 export class GetRelatedCommitmentsByCommitment implements Action {
-  readonly type = RelatedCommitmentActionTypes.GetRelatedCommitmentsByCommitment
+  readonly type =
+    RelatedCommitmentActionTypes.GetRelatedCommitmentsByCommitment
   constructor(public payload: { commitment: number | string }) {}
 }
 
@@ -38,61 +48,61 @@ export class StoreRelatedCommitment implements Action {
 export class RemoveRelatedCommitment implements Action {
   readonly type = RelatedCommitmentActionTypes.RemoveRelatedCommitment
 
-  constructor(public payload: {id: number}) {}
+  constructor(public payload: { id: number }) {}
 }
 
 export class LoadRelatedCommitments implements Action {
   readonly type = RelatedCommitmentActionTypes.LoadRelatedCommitments
 
-  constructor(public payload: DataResult<RelatedCommitmentsResult>) { }
+  constructor(public payload: DataResult<RelatedCommitmentsResult>) {}
 }
 
 export class AddRelatedCommitment implements Action {
   readonly type = RelatedCommitmentActionTypes.AddRelatedCommitment
 
-  constructor(public payload: { location: RelatedCommitment }) { }
+  constructor(public payload: { location: RelatedCommitment }) {}
 }
 
 export class UpsertRelatedCommitment implements Action {
   readonly type = RelatedCommitmentActionTypes.UpsertRelatedCommitment
 
-  constructor(public payload: { location: RelatedCommitment }) { }
+  constructor(public payload: { location: RelatedCommitment }) {}
 }
 
 export class AddRelatedCommitments implements Action {
   readonly type = RelatedCommitmentActionTypes.AddRelatedCommitments
 
-  constructor(public payload: { locations: RelatedCommitment[] }) { }
+  constructor(public payload: { locations: RelatedCommitment[] }) {}
 }
 
 export class UpsertRelatedCommitments implements Action {
   readonly type = RelatedCommitmentActionTypes.UpsertRelatedCommitments
 
-  constructor(public payload: { locations: RelatedCommitment[] }) { }
+  constructor(public payload: { locations: RelatedCommitment[] }) {}
 }
 
 export class UpdateRelatedCommitment implements Action {
   readonly type = RelatedCommitmentActionTypes.UpdateRelatedCommitment
 
-  constructor(public payload: { location: Update<RelatedCommitment> }) { }
+  constructor(public payload: { location: Update<RelatedCommitment> }) {}
 }
 
 export class UpdateRelatedCommitments implements Action {
   readonly type = RelatedCommitmentActionTypes.UpdateRelatedCommitments
 
-  constructor(public payload: { locations: Update<RelatedCommitment>[] }) { }
+  constructor(public payload: { locations: Update<RelatedCommitment>[] }) {}
 }
 
 export class DeleteRelatedCommitment implements Action {
   readonly type = RelatedCommitmentActionTypes.DeleteRelatedCommitment
 
-  constructor(public payload: { id: string }) { }
+  constructor(public payload: { id: string }) {}
 }
 
 export class DeleteRelatedCommitments implements Action {
   readonly type = RelatedCommitmentActionTypes.DeleteRelatedCommitments
 
-  constructor(public payload: { ids: string[] }) { }
+  constructor(public payload: { ids: string[] }) {}
 }
 
 export class ClearRelatedCommitments implements Action {
@@ -101,27 +111,28 @@ export class ClearRelatedCommitments implements Action {
 
 export class SetCurrentRelatedCommitment implements Action {
   readonly type = RelatedCommitmentActionTypes.SetCurrentRelatedCommitment
-  constructor(public payload: { id: number }) { }
+  constructor(public payload: { id: number }) {}
 }
 export class GetRelatedCommitments implements Action {
   readonly type = RelatedCommitmentActionTypes.GetRelatedCommitments
-  constructor(public payload?: { ids?: number[] }) { }
+  constructor(public payload?: { ids?: number[] }) {}
 }
 
 export class GetAllRelatedCommitments implements Action {
   readonly type = RelatedCommitmentActionTypes.GetAllRelatedCommitments
-  constructor(public payload?: { filter?: any }) { }
+  constructor(public payload?: { filter?: any }) {}
 }
 
 export class RelatedCommitmentsActionFailure implements Action {
   readonly type = RelatedCommitmentActionTypes.RelatedCommitmentsActionFailure
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export type RelatedCommitmentActions =
-  LoadRelatedCommitments
+  | CollapsePanel
+  | ExpandPanel
+  | LoadRelatedCommitments
   | AddRelatedCommitment
   | UpsertRelatedCommitment
   | AddRelatedCommitments
