@@ -1,6 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core'
-import {AccessRights, AllGroupsGQL, AssignGroupToReportGQL, Report, ReportGQL} from '../../generated/graphql'
-import {ActivatedRoute} from '@angular/router'
+import {
+  AccessRights,
+  AllGroupsGQL,
+  AssignGroupToReportGQL,
+  RemoveGroupFromReportGQL,
+  Report,
+  ReportGQL
+} from '../../generated/graphql'
+import {ActivatedRoute, Router} from '@angular/router'
 import {first, map} from 'rxjs/operators'
 import {Subscription} from 'rxjs'
 import {DataTableConfig} from '@digital-first/df-components'
@@ -24,6 +31,9 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private allGroupsGQL: AllGroupsGQL,
               private assignGroupToReportGQL: AssignGroupToReportGQL,
+              private removeGroupFromReportGQL: RemoveGroupFromReportGQL,
+              // private updateGroupPermissionsForReportGQL: UpdateGroupPermissionsForReportGQL,
+              private router: Router,
               public dialog: MdcDialog) {
   }
 
@@ -140,14 +150,55 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
   }
 
   handleGroupPermissionGroupClicked($event: any) {
-    console.log('TODO update')
+    return this.router.navigate(['groups/', $event.id])
   }
 
-  handleGroupPermissionChangeClicked($event: any) {
+  handleGroupPermissionChangeClicked(row) {
+    // TODO:  waiting for mutation to be completed
     console.log('TODO')
+
+    // this.updateGroupPermissionsForReportGQL
+    //   .mutate(
+    //     {
+    //       data: {
+    //         accessControlGroupId: row.id,
+    //         reportId: this.reportId,
+    //         accessRights: row.cell.value,
+    //         rowVersion: row.row.data.rowVersion
+    //       }
+    //     },
+    //     {}
+    //   )
+    //   .pipe(first())
+    //   .subscribe(value => {
+    //   })
   }
 
-  handleGroupPermissionDeleteClicked($event: any) {
+  handleGroupPermissionDeleteClicked($event) {
     console.log('TODO')
+
+    this.removeGroupFromReportGQL
+      .mutate(
+        {
+          data: {
+            accessControlGroupId: $event.id,
+            accessControlListId: $event.data.acl
+          }
+        },
+        {
+          refetchQueries: [
+            {
+              query: this.reportGQL.document,
+              variables: {
+                reportId: this.reportId
+              }
+            }
+          ]
+        }
+      )
+      .pipe(first())
+      .subscribe(value => {
+        console.log('removing ', $event)
+      })
   }
 }

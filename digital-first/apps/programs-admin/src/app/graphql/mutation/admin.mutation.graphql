@@ -151,3 +151,7 @@ mutation createStatisticReport ($data:InputStatisticReportGraph!) {
 mutation deleteStatisticReport ($data:InputDeleteGraph!) {
   deleteStatisticReport (inputDelete: $data)
 }
+
+mutation removeGroupFromReport ($data: InputGroupReportGraph!) {
+         removeGroupFromReport (inputGroupReportGraph: $data)
+                  }

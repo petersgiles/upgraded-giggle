@@ -262,6 +262,12 @@ export interface AccessControlInputGraph {
   accessControlGroupId: Guid;
 }
 
+export interface InputGroupReportGraph {
+  accessControlListId: Guid;
+
+  accessControlGroupId: Guid;
+}
+
 export interface InputReportGraph {
   id?: Guid | null;
 
@@ -744,6 +750,18 @@ export namespace DeleteStatisticReport {
     __typename?: 'Mutation';
 
     deleteStatisticReport: boolean | null;
+  };
+}
+
+export namespace RemoveGroupFromReport {
+  export type Variables = {
+    data: InputGroupReportGraph;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    removeGroupFromReport: boolean | null;
   };
 }
 
@@ -1686,6 +1704,19 @@ export class DeleteStatisticReportGQL extends Apollo.Mutation<
   document: any = gql`
     mutation deleteStatisticReport($data: InputDeleteGraph!) {
       deleteStatisticReport(inputDelete: $data)
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class RemoveGroupFromReportGQL extends Apollo.Mutation<
+  RemoveGroupFromReport.Mutation,
+  RemoveGroupFromReport.Variables
+> {
+  document: any = gql`
+    mutation removeGroupFromReport($data: InputGroupReportGraph!) {
+      removeGroupFromReport(inputGroupReportGraph: $data)
     }
   `;
 }
