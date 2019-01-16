@@ -1,6 +1,12 @@
 import {Component, OnInit} from '@angular/core'
 import {ActivatedRoute, Router} from '@angular/router'
-import {AccessRights, DeleteStatisticGQL, Program, Statistic, StatisticGQL} from '../../generated/graphql'
+import {
+  AccessRights,
+  DeleteStatisticGQL,
+  DeleteStatisticReportGQL,
+  Statistic,
+  StatisticGQL
+} from '../../generated/graphql'
 import {MdcDialog} from '@angular-mdc/web'
 import {first, map} from 'rxjs/operators'
 import {Subscription} from 'rxjs'
@@ -22,6 +28,7 @@ export class StatisticComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private statisticGQL: StatisticGQL,
               private deleteStatisticGQL: DeleteStatisticGQL,
+              private deleteStatisticReportGQL: DeleteStatisticReportGQL,
               private router: Router,
               public dialog: MdcDialog) {
   }
@@ -44,50 +51,6 @@ export class StatisticComponent implements OnInit {
           statistic
         )
       })
-  }
-
-  private createStatisticPermissionGroupTableData(statistic: Statistic.Statistics): DataTableConfig {
-    const groups = {}
-    statistic.accessControlList.forEach(acl => {
-      acl.accessControlEntries.forEach(ace => {
-        groups[ace.accessControlGroup.title] = {
-          id: ace.accessControlGroup.id,
-          acl: acl.id,
-          title: ace.accessControlGroup.title,
-          rights: ace.rights,
-          rowVersion: ace.rowVersion
-        }
-      })
-    })
-    const rows = (Object.keys(groups) || []).map(g => {
-      const group = groups[g]
-      return {
-        id: group.id,
-        data: group,
-        cells: [
-          {
-            value: `${group.title}`,
-            id: 'GROUPCELL'
-          },
-          {
-            value: group.rights.toUpperCase(),
-            type: 'radio',
-            id: 'PERMISSIONCELL',
-            data: [
-              {value: AccessRights.Read, caption: 'Read'},
-              {value: AccessRights.Write, caption: 'Read/Write'}
-            ]
-          }
-        ]
-      }
-    })
-
-    return {
-      title: 'permissions',
-      hasDeleteItemButton: true,
-      headings: [{caption: 'Name'}, {caption: 'Permission'}],
-      rows: rows
-    }
   }
 
   handleEditStatistic(statistic: Statistic.Statistics) {
@@ -140,7 +103,72 @@ export class StatisticComponent implements OnInit {
   }
 
   handleStatisticReportDeleteItemClicked($event) {
+    this.deleteStatisticReportGQL
+      .mutate(
+        {
+          data: {
+            id: $event.id
+          }
+        },
+        {
+          refetchQueries: [
+            {
+              query: this.statisticGQL.document,
+              variables: {
+                statisticId: this.statisticId
+              }
+            }
+          ]
+        }
+      )
+      .pipe(first())
+      .subscribe(value => {
+        console.log('removing ', $event)
+      })
+  }
 
+  private createStatisticPermissionGroupTableData(statistic: Statistic.Statistics): DataTableConfig {
+    const groups = {}
+    statistic.accessControlList.forEach(acl => {
+      acl.accessControlEntries.forEach(ace => {
+        groups[ace.accessControlGroup.title] = {
+          id: ace.accessControlGroup.id,
+          acl: acl.id,
+          title: ace.accessControlGroup.title,
+          rights: ace.rights,
+          rowVersion: ace.rowVersion
+        }
+      })
+    })
+    const rows = (Object.keys(groups) || []).map(g => {
+      const group = groups[g]
+      return {
+        id: group.id,
+        data: group,
+        cells: [
+          {
+            value: `${group.title}`,
+            id: 'GROUPCELL'
+          },
+          {
+            value: group.rights.toUpperCase(),
+            type: 'radio',
+            id: 'PERMISSIONCELL',
+            data: [
+              {value: AccessRights.Read, caption: 'Read'},
+              {value: AccessRights.Write, caption: 'Read/Write'}
+            ]
+          }
+        ]
+      }
+    })
+
+    return {
+      title: 'permissions',
+      hasDeleteItemButton: true,
+      headings: [{caption: 'Name'}, {caption: 'Permission'}],
+      rows: rows
+    }
   }
 
   private createStatisticReportTableData(statistic: Statistic.Statistics) {
@@ -170,5 +198,4 @@ export class StatisticComponent implements OnInit {
       rows: rows
     }
   }
-
 }

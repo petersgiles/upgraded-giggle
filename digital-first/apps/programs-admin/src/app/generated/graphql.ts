@@ -711,6 +711,42 @@ export namespace RemoveUserFromGroup {
   };
 }
 
+export namespace CreateStatisticReport {
+  export type Variables = {
+    data: InputStatisticReportGraph;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    createNewStatisticReport: CreateNewStatisticReport | null;
+  };
+
+  export type CreateNewStatisticReport = {
+    __typename?: 'StatisticReportGraph';
+
+    id: Guid;
+
+    name: string;
+
+    notes: string | null;
+
+    statisticId: Guid;
+  };
+}
+
+export namespace DeleteStatisticReport {
+  export type Variables = {
+    data: InputDeleteGraph;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    deleteStatisticReport: boolean | null;
+  };
+}
+
 export namespace AllAgencies {
   export type Variables = {};
 
@@ -1213,11 +1249,21 @@ export namespace User {
 
     emailAddress: string;
 
+    agency: Agency | null;
+
     apiKeys: (ApiKeys | null)[] | null;
 
     lastLogin: DateTimeOffset | null;
 
     rowVersion: string;
+  };
+
+  export type Agency = {
+    __typename?: 'AgencyGraph';
+
+    id: Guid;
+
+    title: string;
   };
 
   export type ApiKeys = {
@@ -1615,6 +1661,37 @@ export class RemoveUserFromGroupGQL extends Apollo.Mutation<
 @Injectable({
   providedIn: 'root'
 })
+export class CreateStatisticReportGQL extends Apollo.Mutation<
+  CreateStatisticReport.Mutation,
+  CreateStatisticReport.Variables
+> {
+  document: any = gql`
+    mutation createStatisticReport($data: InputStatisticReportGraph!) {
+      createNewStatisticReport(inputStatisticReport: $data) {
+        id
+        name
+        notes
+        statisticId
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class DeleteStatisticReportGQL extends Apollo.Mutation<
+  DeleteStatisticReport.Mutation,
+  DeleteStatisticReport.Variables
+> {
+  document: any = gql`
+    mutation deleteStatisticReport($data: InputDeleteGraph!) {
+      deleteStatisticReport(inputDelete: $data)
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
 export class AllAgenciesGQL extends Apollo.Query<
   AllAgencies.Query,
   AllAgencies.Variables
@@ -1899,6 +1976,10 @@ export class UserGQL extends Apollo.Query<User.Query, User.Variables> {
       users(ids: [$userId]) {
         id
         emailAddress
+        agency {
+          id
+          title
+        }
         apiKeys {
           id
           key

@@ -137,3 +137,17 @@ mutation assignUserToGroup ($data: InputGroupUserGraph!) {
   mutation removeUserFromGroup ($data: InputGroupUserGraph!) {
     removeUserFromGroup (inputGroupUserGraph: $data)
                     }
+
+mutation createStatisticReport ($data:InputStatisticReportGraph!) {
+  createNewStatisticReport (inputStatisticReport: $data)
+  {
+    id
+    name
+    notes
+    statisticId
+   }
+}
+
+mutation deleteStatisticReport ($data:InputDeleteGraph!) {
+  deleteStatisticReport (inputDelete: $data)
+}

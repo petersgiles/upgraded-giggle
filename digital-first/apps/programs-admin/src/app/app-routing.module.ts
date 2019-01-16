@@ -23,6 +23,7 @@ import {StatisticComponent} from './containers/statistic/statistic.component'
 import {StatisticAddComponent} from './containers/statistic/statistic-add/statistic-add.component'
 import {StatisticEditComponent} from './containers/statistic/statistic-edit/statistic-edit.component'
 import {StatisticReportComponent} from './containers/statistic-report/statistic-report.component'
+import {StatisticReportAddComponent} from './containers/statistic-reports/statistic-report-add/statistic-report-add.component'
 
 export const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -164,6 +165,14 @@ export const routes: Routes = [
         }
       },
       {
+        path: 'statistics/:id/reports/add',
+        component: StatisticReportAddComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+      {
         path: 'statistics/:id/reports/:id',
         component: StatisticReportComponent,
         canActivate: [AuthGuard],
@@ -190,22 +199,22 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'upload/statistic',
-        component: StatisticuploadComponent,
-        canActivate: [AuthGuard],
-        data: {
-          title: 'Upload Statistic',
-          icon: 'format_list_numbered',
-          nav: true
-        }
-      },
-      {
         path: 'upload/project',
         component: ProjectuploadComponent,
         canActivate: [AuthGuard],
         data: {
           title: 'Upload Project',
           icon: 'ballot',
+          nav: true
+        }
+      },
+      {
+        path: 'upload/statistic',
+        component: StatisticuploadComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'Upload Statistic',
+          icon: 'format_list_numbered',
           nav: true
         }
       }

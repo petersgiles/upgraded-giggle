@@ -1,6 +1,13 @@
-<p>
-  TODO: display user information and groups that they belong to
-</p>
-<!--TODO:  display user information and groups that they belong to-->
-<digital-first-page-title title="Debug"></digital-first-page-title>
-<pre>{{ user | json }}</pre>
+<div class="app-page" *ngIf="user; else loading">
+  <digital-first-page-title title="User - {{ user.emailAddress }}">
+  </digital-first-page-title>
+  <div class="commitment-layout__row">
+    <p>{{ user.agency.title }}</p>
+  </div>
+  <!--TODO:  display user information and groups that they belong to-->
+  <digital-first-page-title title="Debug"></digital-first-page-title>
+  <pre>{{ user | json }}</pre>
+</div>
+<ng-template #loading>
+  Loading...
+</ng-template>

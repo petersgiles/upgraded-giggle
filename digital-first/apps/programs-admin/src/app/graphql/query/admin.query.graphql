@@ -199,6 +199,10 @@ query user ($userId: String!) {
   {
     id
     emailAddress
+    agency{
+          id
+          title
+        }
     apiKeys{
       id
       key

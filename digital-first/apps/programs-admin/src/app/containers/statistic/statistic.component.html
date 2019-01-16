@@ -25,7 +25,7 @@
   <digital-first-statistic-reports
     [artifactId]="statisticId"
     [tableData]="statisticReportTableData"
-    (onDeleteClicked)="handleStatisticReportDeleteItemClicked()"
+    (onDeleteClicked)="handleStatisticReportDeleteItemClicked($event)"
     (onCellClicked)="handleReportNavigation($event)"
   ></digital-first-statistic-reports>
 
