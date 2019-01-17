@@ -47,7 +47,7 @@ export class ProgramAddComponent implements OnInit, OnDestroy {
         externalId: this.addProgramForm.value['externalId']
       }
     }, {}).subscribe(({data}) =>
-      this.router.navigate(['programs', data.createNewProgram.id]), (error) => {
+      this.router.navigate(['programs', data.createProgram.id]), (error) => {
       console.log('there was an error sending the query', error)
     })
   }

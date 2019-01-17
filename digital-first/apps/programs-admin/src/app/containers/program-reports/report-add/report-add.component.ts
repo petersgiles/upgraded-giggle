@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core'
 import {FormBuilder, Validators} from '@angular/forms'
 import {ActivatedRoute, Router} from '@angular/router'
 import {Location} from '@angular/common'
-import {AddReportGQL} from '../../../generated/graphql'
+import {CreateReportGQL} from '../../../generated/graphql'
 
 @Component({
   selector: 'digital-first-report-add',
@@ -22,7 +22,7 @@ export class ReportAddComponent implements OnInit {
               private router: Router,
               private location: Location,
               private route: ActivatedRoute,
-              private addReportGQL: AddReportGQL) {
+              private addReportGQL: CreateReportGQL) {
   }
 
   onSubmit() {

@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core'
 import {FormBuilder, Validators} from '@angular/forms'
-import {Group, GroupGQL, UpdateGroupGQL} from '../../../generated/graphql'
+import {Group, GroupGQL, UpdateAccessControlGroupGQL} from '../../../generated/graphql'
 import {ActivatedRoute, Router} from '@angular/router'
 import {map} from 'rxjs/operators'
 import {Observable, Subscription} from 'rxjs'
@@ -22,7 +22,7 @@ export class GroupEditComponent implements OnInit, OnDestroy {
   groupSubscription$: Subscription
 
   constructor(private formBuilder: FormBuilder,
-              private updateGroupGQL: UpdateGroupGQL,
+              private updateAccessControlGroupGql: UpdateAccessControlGroupGQL,
               private groupGQL: GroupGQL,
               private route: ActivatedRoute,
               private router: Router) {
@@ -46,14 +46,14 @@ export class GroupEditComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.updateGroupGQL.mutate({
+    this.updateAccessControlGroupGql.mutate({
       data: {
         title: this.editGroupForm.value['groupName'],
         rowVersion: this.rowVersion,
         id: this.groupId
       }
     }, {}).subscribe(({data}) =>
-      this.router.navigate(['groups', data.updateGroup.id]), (error) => {
+      this.router.navigate(['groups', data.updateAccessControlGroup.id]), (error) => {
       console.log('there was an error sending the query', error)
     })
   }

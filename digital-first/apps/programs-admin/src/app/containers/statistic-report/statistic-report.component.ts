@@ -1,18 +1,15 @@
 import {Component, OnDestroy, OnInit} from '@angular/core'
 import {
-  AccessRights,
-  AllGroupsGQL, AllStatistics,
-  AssignGroupToReportGQL, Program, StatisticReport,
-
-  StatisticReportGQL
+  AccessRights, AllGroupsGQL, CreateStatisticReportAccessControlGQL, DeleteStatisticReportAccessControlGQL,
+  StatisticReport, StatisticReportGQL, UpdateStatisticReportAccessControlGQL
 } from '../../generated/graphql'
 import {Subscription} from 'rxjs'
-import {ActivatedRoute} from '@angular/router'
+import {ActivatedRoute, Router} from '@angular/router'
 import {MdcDialog} from '@angular-mdc/web'
-import {map} from 'rxjs/operators'
+import {first, map} from 'rxjs/operators'
 import {DataTableConfig} from '@digital-first/df-components'
-import StatisticReports = AllStatistics.StatisticReports
-import Reports = Program.Reports
+
+import {DialogAssignGroupPermissionComponent} from '../../dialogs/dialog-assign-group-permission.component'
 
 @Component({
   selector: 'digital-first-statistic-report',
@@ -24,18 +21,22 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
   report: StatisticReport.StatisticReports
   permissionTableData: any
   reportSubscription$: Subscription
-  private reportId: string
+  private statisticReportId: string
 
   constructor(private route: ActivatedRoute,
-              private reportGQL: StatisticReportGQL,
-              private allGroupsGQL: AllGroupsGQL,
+              private statisticReportGql: StatisticReportGQL,
+              private allGroupsGql: AllGroupsGQL,
+              private createStatisticReportAccessControlGql: CreateStatisticReportAccessControlGQL,
+              private deleteStatisticReportAccessControlGql: DeleteStatisticReportAccessControlGQL,
+              private updateStatisticReportAccessControlGql: UpdateStatisticReportAccessControlGQL,
+              private router: Router,
               public dialog: MdcDialog) {
   }
 
   ngOnInit() {
-    this.reportId = this.route.snapshot.paramMap.get('id')
+    this.statisticReportId = this.route.snapshot.paramMap.get('id')
 
-    this.reportSubscription$ = this.reportGQL.watch({reportId: this.reportId}, {fetchPolicy: 'network-only'})
+    this.reportSubscription$ = this.statisticReportGql.watch({reportId: this.statisticReportId}, {fetchPolicy: 'network-only'})
       .valueChanges.pipe(map(value => value.data.statisticReports[0]))
       .subscribe(report => {
         this.report = report
@@ -50,20 +51,103 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
     this.reportSubscription$.unsubscribe()
   }
 
-  handleOpenAddGroupDialog($event: any) {
-    alert('TODO')
+  handleOpenAddGroupDialog() {
+    this.allGroupsGql
+      .watch({}, {fetchPolicy: 'no-cache'})
+      .valueChanges.pipe(
+      map(value => value.data.groups),
+      first()
+    )
+      .subscribe(groups => {
+        const dialogRef = this.dialog.open(
+          DialogAssignGroupPermissionComponent,
+          {
+            escapeToClose: true,
+            clickOutsideToClose: true,
+            data: {
+              groups: groups
+            }
+          }
+        )
+
+        dialogRef.afterClosed().subscribe((result: any) => {
+          if (result && result.id) {
+            this.createStatisticReportAccessControlGql
+              .mutate(
+                {
+                  data: {
+                    accessControlGroupId: result.id,
+                    statisticReportId: this.statisticReportId,
+                    accessRights: AccessRights.Read
+                  }
+                },
+                {
+                  refetchQueries: [
+                    {
+                      query: this.statisticReportGql.document,
+                      variables: {
+                        reportId: this.statisticReportId
+                      }
+                    }
+                  ]
+                }
+              )
+              .pipe(first())
+              .subscribe(value => {
+                console.log('adding ', result)
+              })
+          }
+        })
+      })
   }
 
   handleGroupPermissionGroupClicked($event: any) {
-    alert('TODO')
+    return this.router.navigate(['groups/', $event.id])
   }
 
-  handleGroupPermissionChangeClicked($event: any) {
-    alert('TODO')
+  handleGroupPermissionChangeClicked(row) {
+    this.updateStatisticReportAccessControlGql
+      .mutate(
+        {
+          data: {
+            accessControlGroupId: row.id,
+            statisticReportId: this.statisticReportId,
+            accessRights: row.cell.value,
+            rowVersion: row.row.data.rowVersion
+          }
+        },
+        {}
+      )
+      .pipe(first())
+      .subscribe(value => {
+      })
   }
 
-  handleGroupPermissionDeleteClicked($event: any) {
-    alert('TODO')
+
+  handleGroupPermissionDeleteClicked($event) {
+    this.deleteStatisticReportAccessControlGql
+      .mutate(
+        {
+          data: {
+            accessControlGroupId: $event.id,
+            statisticReportId: this.statisticReportId
+          }
+        },
+        {
+          refetchQueries: [
+            {
+              query: this.statisticReportGql.document,
+              variables: {
+                reportId: this.statisticReportId
+              }
+            }
+          ]
+        }
+      )
+      .pipe(first())
+      .subscribe(value => {
+        console.log('removing ', $event)
+      })
   }
 
   private createStatisticPermissionGroupTableData(report: StatisticReport.StatisticReports): DataTableConfig {

@@ -149,10 +149,6 @@ query report ($reportId: String!) {
         accessControlGroup{
           id
           title
-          members{
-            id
-            emailAddress
-          }
         }
         rights
         rowVersion
@@ -173,10 +169,6 @@ query statisticReport ($reportId: String!) {
         accessControlGroup{
           id
           title
-          members{
-            id
-            emailAddress
-          }
         }
         rights
         rowVersion

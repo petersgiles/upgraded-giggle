@@ -1,17 +1,18 @@
 import {Component, OnInit} from '@angular/core'
 import {ActivatedRoute, Router} from '@angular/router'
 import {
-  AccessRights,
+  AccessRights, AllGroupsGQL, CreateStatisticAccessControlGQL, DeleteStatisticAccessControlGQL,
   DeleteStatisticGQL,
   DeleteStatisticReportGQL,
   Statistic,
-  StatisticGQL
+  StatisticGQL, UpdateStatisticAccessControlGQL
 } from '../../generated/graphql'
 import {MdcDialog} from '@angular-mdc/web'
 import {first, map} from 'rxjs/operators'
 import {Subscription} from 'rxjs'
 import {ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent} from '@digital-first/df-dialogs'
 import {DataTableConfig} from '@digital-first/df-components'
+import {DialogAssignGroupPermissionComponent} from '../../dialogs/dialog-assign-group-permission.component'
 
 @Component({
   selector: 'digital-first-statistic',
@@ -26,9 +27,13 @@ export class StatisticComponent implements OnInit {
   statistic: Statistic.Statistics
 
   constructor(private route: ActivatedRoute,
-              private statisticGQL: StatisticGQL,
-              private deleteStatisticGQL: DeleteStatisticGQL,
-              private deleteStatisticReportGQL: DeleteStatisticReportGQL,
+              private statisticGql: StatisticGQL,
+              private deleteStatisticGql: DeleteStatisticGQL,
+              private deleteStatisticReportGql: DeleteStatisticReportGQL,
+              private createStatisticAccessControlGql: CreateStatisticAccessControlGQL,
+              private updateStatisticAccessControlGql: UpdateStatisticAccessControlGQL,
+              private deleteStatisticAccessControlGql: DeleteStatisticAccessControlGQL,
+              private allGroupsGql: AllGroupsGQL,
               private router: Router,
               public dialog: MdcDialog) {
   }
@@ -37,7 +42,7 @@ export class StatisticComponent implements OnInit {
 
     this.statisticId = this.route.snapshot.paramMap.get('id')
 
-    this.statisticSubscription$ = this.statisticGQL
+    this.statisticSubscription$ = this.statisticGql
       .watch({statisticId: this.statisticId}, {fetchPolicy: 'network-only'})
       .valueChanges.pipe(map(value => value.data.statistics[0]))
       .subscribe(statistic => {
@@ -68,7 +73,7 @@ export class StatisticComponent implements OnInit {
       .pipe(first())
       .subscribe(result => {
         if (result === ARE_YOU_SURE_ACCEPT && this.statistic) {
-          this.deleteStatisticGQL
+          this.deleteStatisticGql
             .mutate(
               {
                 data: {
@@ -82,20 +87,105 @@ export class StatisticComponent implements OnInit {
       })
   }
 
-  handleOpenAddGroupDialog($event: any) {
-    alert('TODO')
+  handleOpenAddGroupDialog() {
+    this.allGroupsGql
+      .watch({}, {fetchPolicy: 'no-cache'})
+      .valueChanges.pipe(
+      map(value => value.data.groups),
+      first()
+    )
+      .subscribe(groups => {
+        const dialogRef = this.dialog.open(
+          DialogAssignGroupPermissionComponent,
+          {
+            escapeToClose: true,
+            clickOutsideToClose: true,
+            data: {
+              groups: groups
+            }
+          }
+        )
+
+        dialogRef.afterClosed().subscribe((result: any) => {
+          if (result && result.id) {
+            this.createStatisticAccessControlGql
+              .mutate(
+                {
+                  data: {
+                    accessControlGroupId: result.id,
+                    statisticId: this.statisticId,
+                    accessRights: AccessRights.Read
+                  }
+                },
+                {
+                  refetchQueries: [
+                    {
+                      query: this.statisticGql.document,
+                      variables: {
+                        statisticId: this.statisticId
+                      }
+                    }
+                  ]
+                }
+              )
+              .pipe(first())
+              .subscribe(value => {
+                console.log('adding ', result)
+              })
+          }
+        })
+      })
   }
 
-  handleGroupPermissionChangeClicked($event: any) {
-    alert('TODO')
+
+  handleGroupPermissionChangeClicked(row) {
+    this.updateStatisticAccessControlGql
+      .mutate(
+        {
+          data: {
+            accessControlGroupId: row.id,
+            statisticId: this.statisticId,
+            accessRights: row.cell.value,
+            rowVersion: row.row.data.rowVersion
+          }
+        },
+        {}
+      )
+      .pipe(first())
+      .subscribe(value => {
+      })
   }
 
-  handleGroupPermissionDeleteClicked($event: any) {
-    alert('TODO')
+
+  handleGroupPermissionDeleteClicked($event) {
+    this.deleteStatisticAccessControlGql
+      .mutate(
+        {
+          data: {
+            accessControlGroupId: $event.id,
+            accessControlListId: $event.data.acl
+          }
+        },
+        {
+          refetchQueries: [
+            {
+              query: this.statisticGql.document,
+              variables: {
+                statisticId: this.statisticId
+              }
+            }
+          ]
+        }
+      )
+      .pipe(first())
+      .subscribe(value => {
+        console.log('removing ', $event)
+      })
   }
+
 
   handleGroupPermissionGroupClicked($event: any) {
-    alert('TODO')
+    return this.router.navigate(['groups/', $event.id])
   }
 
   handleReportNavigation($event) {
@@ -103,7 +193,7 @@ export class StatisticComponent implements OnInit {
   }
 
   handleStatisticReportDeleteItemClicked($event) {
-    this.deleteStatisticReportGQL
+    this.deleteStatisticReportGql
       .mutate(
         {
           data: {
@@ -113,7 +203,7 @@ export class StatisticComponent implements OnInit {
         {
           refetchQueries: [
             {
-              query: this.statisticGQL.document,
+              query: this.statisticGql.document,
               variables: {
                 statisticId: this.statisticId
               }

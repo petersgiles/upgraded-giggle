@@ -8,7 +8,7 @@
       <ng-template #elseBlock><p>No notes were provided for this report</p></ng-template>
     </div>
     <digital-first-permission
-      [artifactId]="reportId"
+      [artifactId]="statisticReportId"
       [tableData]="permissionTableData"
       (onAddGroup)="handleOpenAddGroupDialog($event)"
       (onGroupClicked)="handleGroupPermissionGroupClicked($event)"
