@@ -191,4 +191,8 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
       rows: rows
     }
   }
+
+  handleEditReport(report: Report.Reports) {
+    alert('TODO')
+  }
 }

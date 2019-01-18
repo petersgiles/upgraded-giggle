@@ -150,6 +150,10 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
       })
   }
 
+  handleEditStatisticReport(report: StatisticReport.StatisticReports) {
+    return this.router.navigate(['../edit', report.id], {relativeTo: this.route})
+  }
+
   private createStatisticPermissionGroupTableData(report: StatisticReport.StatisticReports): DataTableConfig {
     const groups = {}
     report.accessControlList.forEach(acl => {

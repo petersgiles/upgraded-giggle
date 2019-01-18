@@ -210,12 +210,6 @@ export interface DeleteStatisticReportAccessControlInputGraph {
   accessControlGroupId: Guid;
 }
 
-export interface RemoveGroupReportInputGraph {
-  accessControlListId: Guid;
-
-  accessControlGroupId: Guid;
-}
-
 export interface UpdateAccessControlGroupInputGraph {
   id: Guid;
 
@@ -971,6 +965,30 @@ export namespace UpdateStatisticReportAccessControl {
   };
 }
 
+export namespace UpdateStatisticReport {
+  export type Variables = {
+    data?: UpdateStatisticReportInputGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    updateStatisticReport: UpdateStatisticReport | null;
+  };
+
+  export type UpdateStatisticReport = {
+    __typename?: 'StatisticReportGraph';
+
+    id: Guid;
+
+    name: string;
+
+    notes: string | null;
+
+    statisticId: Guid;
+  };
+}
+
 export namespace AllAgencies {
   export type Variables = {};
 
@@ -1380,6 +1398,12 @@ export namespace StatisticReport {
     id: Guid;
 
     name: string;
+
+    notes: string | null;
+
+    rowVersion: string;
+
+    statisticId: Guid;
 
     accessControlList: (AccessControlList | null)[] | null;
   };
@@ -2046,6 +2070,24 @@ export class UpdateStatisticReportAccessControlGQL extends Apollo.Mutation<
 @Injectable({
   providedIn: 'root'
 })
+export class UpdateStatisticReportGQL extends Apollo.Mutation<
+  UpdateStatisticReport.Mutation,
+  UpdateStatisticReport.Variables
+> {
+  document: any = gql`
+    mutation updateStatisticReport($data: UpdateStatisticReportInputGraph) {
+      updateStatisticReport(input: $data) {
+        id
+        name
+        notes
+        statisticId
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
 export class AllAgenciesGQL extends Apollo.Query<
   AllAgencies.Query,
   AllAgencies.Variables
@@ -2282,6 +2324,9 @@ export class StatisticReportGQL extends Apollo.Query<
       statisticReports(ids: [$reportId]) {
         id
         name
+        notes
+        rowVersion
+        statisticId
         accessControlList {
           id
           accessControlEntries(orderBy: { path: "accessControlGroup.title" }) {

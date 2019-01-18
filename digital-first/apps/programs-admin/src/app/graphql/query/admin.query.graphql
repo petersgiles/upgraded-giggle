@@ -162,6 +162,9 @@ query statisticReport ($reportId: String!) {
   {
     id
     name
+    notes
+    rowVersion
+    statisticId
     accessControlList{
       id
       accessControlEntries (orderBy: {path: "accessControlGroup.title"}) {
