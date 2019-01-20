@@ -149,10 +149,6 @@ query report ($reportId: String!) {
         accessControlGroup{
           id
           title
-          members{
-            id
-            emailAddress
-          }
         }
         rights
         rowVersion
@@ -166,6 +162,9 @@ query statisticReport ($reportId: String!) {
   {
     id
     name
+    notes
+    rowVersion
+    statisticId
     accessControlList{
       id
       accessControlEntries (orderBy: {path: "accessControlGroup.title"}) {
@@ -173,10 +172,6 @@ query statisticReport ($reportId: String!) {
         accessControlGroup{
           id
           title
-          members{
-            id
-            emailAddress
-          }
         }
         rights
         rowVersion
@@ -199,6 +194,10 @@ query user ($userId: String!) {
   {
     id
     emailAddress
+    agency{
+          id
+          title
+        }
     apiKeys{
       id
       key

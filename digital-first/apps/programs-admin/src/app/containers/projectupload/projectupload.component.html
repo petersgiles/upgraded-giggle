@@ -24,21 +24,8 @@
                   <mdc-form-field [alignEnd]="true">
                     <input type="file" accept=".csv" (change)="fileChange($event)" id="fileToUpload"
                            name="fileToUpload" required>
-                    <label>File to upload</label>
                   </mdc-form-field>
                 </div>
-
-                <!--TODO:// bring this in to style the input file type button.  will need to render the filename to the screen separately-->
-                <!--<div class="form-layout__row">-->
-                <!--<mdc-form-field [alignEnd]="true">-->
-                <!--<label class="mdc-button ng-mdc-button&#45;&#45;secondary mdc-button&#45;&#45;raised mdc-ripple-upgraded">-->
-                <!--<input class="fileToUpload" type="file" accept=".csv" (change)="fileChange($event)"-->
-                <!--id="fileToUpload"-->
-                <!--name="fileToUpload" required>-->
-                <!--<mdc-icon>attach_file</mdc-icon>-->
-                <!--Attach File</label>-->
-                <!--</mdc-form-field>-->
-                <!--</div>-->
                 <div class="form-layout__row-with-button">
                   <button id="submit"
                           class="mdc-button ng-mdc-button--primary mdc-button--raised mdc-ripple-upgraded"

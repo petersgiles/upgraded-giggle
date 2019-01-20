@@ -55,7 +55,7 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.statisticsSubscription$ = this.allStatistics.watch().valueChanges
+    this.statisticsSubscription$ = this.allStatistics.watch({}, {fetchPolicy: 'network-only'}).valueChanges
       .pipe(map(result => result.data.statistics)).subscribe(value => {
           this.statistics = value
         }

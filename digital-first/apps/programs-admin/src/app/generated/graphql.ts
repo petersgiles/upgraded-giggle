@@ -14,41 +14,25 @@ export interface WhereExpressionGraph {
   value?: (string | null)[] | null;
 }
 
-export interface ProgramAccessControlInputGraph {
-  programId: Guid;
-
-  accessControlGroupId: Guid;
-
-  rowVersion: string;
-
-  accessRights?: AccessRights | null;
+export interface CreateAccessControlGroupInputGraph {
+  title: string;
 }
 
-export interface ReportAccessControlInputGraph {
-  reportId: Guid;
-
-  accessControlGroupId: Guid;
-
-  rowVersion: string;
-
-  accessRights?: AccessRights | null;
-}
-
-export interface InputGroupUserGraph {
+export interface CreateAccessControlGroupUserInputGraph {
   accessControlGroupId: Guid;
 
   userId: Guid;
 }
 
-export interface CreateAgencyGraph {
+export interface CreateAgencyInputGraph {
   title: string;
 
-  emailDomain: string;
+  metadata?: string | null;
 
   portfolioId: Guid;
 }
 
-export interface CreateDisplayGroupGraph {
+export interface CreateDisplayGroupInputGraph {
   title: string;
 
   sortOrder: UInt32;
@@ -58,77 +42,33 @@ export interface CreateDisplayGroupGraph {
   parentId?: Guid | null;
 }
 
-export interface CreateDisplayGroupProgramGraph {
+export interface CreateDisplayGroupProgramInputGraph {
+  sortOrder: UInt32;
+
+  metadata: string;
+
   programId: Guid;
 
   displayGroupId: Guid;
-
-  sortOrder: UInt32;
-
-  metadata?: string | null;
 }
 
-export interface CreateDisplayGroupStatisticGraph {
+export interface CreateDisplayGroupStatisticInputGraph {
+  sortOrder: UInt32;
+
+  metadata: string;
+
   statisticId: Guid;
 
   displayGroupId: Guid;
-
-  sortOrder: UInt32;
-
-  metadata?: string | null;
 }
 
-export interface CreateAccessControlGroupGraph {
-  title: string;
-}
-
-export interface InputProgramGraph {
-  id?: Guid | null;
-
-  name: string;
-
-  agencyId: Guid;
-
-  externalId?: string | null;
-
-  notes?: string | null;
-
-  commitments?: string | null;
-
-  rowVersion?: string | null;
-}
-
-export interface InputStatisticGraph {
-  id?: Guid | null;
-
-  name: string;
-
-  agencyId: Guid;
-
-  externalId?: string | null;
-
-  rowVersion?: string | null;
-}
-
-export interface InputStatisticReportGraph {
-  id?: Guid | null;
-
-  name: string;
-
-  notes?: string | null;
-
-  statisticId: Guid;
-
-  rowVersion?: string | null;
-}
-
-export interface CreatePortfolioGraph {
+export interface CreatePortfolioInputGraph {
   title: string;
 
   metadata?: string | null;
 }
 
-export interface CreateProgramGraph {
+export interface CreateProgramInputGraph {
   name: string;
 
   agencyId: Guid;
@@ -140,31 +80,15 @@ export interface CreateProgramGraph {
   commitments?: string | null;
 }
 
-export interface CreateProjectGraph {
-  name: string;
-
-  externalId?: string | null;
-
-  committed?: UInt32 | null;
-
+export interface CreateProgramAccessControlInputGraph {
   programId: Guid;
 
-  notes?: string | null;
+  accessControlGroupId: Guid;
 
-  status?: string | null;
-
-  spent?: UInt32 | null;
-
-  default?: (LocationGraph | null)[] | null;
+  accessRights?: AccessRights | null;
 }
 
-export interface LocationGraph {
-  electorateId: Guid;
-
-  featureCollection: string;
-}
-
-export interface CreateReportGraph {
+export interface CreateReportInputGraph {
   name: string;
 
   programId: Guid;
@@ -172,7 +96,15 @@ export interface CreateReportGraph {
   notes?: string | null;
 }
 
-export interface CreateStatisticGraph {
+export interface CreateReportAccessControlInputGraph {
+  reportId: Guid;
+
+  accessControlGroupId: Guid;
+
+  accessRights?: AccessRights | null;
+}
+
+export interface CreateStatisticInputGraph {
   name: string;
 
   agencyId: Guid;
@@ -180,90 +112,200 @@ export interface CreateStatisticGraph {
   externalId?: string | null;
 }
 
-export interface DeleteDisplayGroupGraph {
+export interface CreateStatisticAccessControlInputGraph {
+  statisticId: Guid;
+
+  accessControlGroupId: Guid;
+
+  accessRights?: AccessRights | null;
+}
+
+export interface CreateStatisticReportInputGraph {
+  name: string;
+
+  notes?: string | null;
+
+  statisticId: Guid;
+}
+
+export interface CreateStatisticReportAccessControlInputGraph {
+  statisticReportId: Guid;
+
+  accessControlGroupId: Guid;
+
+  accessRights?: AccessRights | null;
+}
+
+export interface DeleteAccessControlGroupInputGraph {
   id: Guid;
 }
 
-export interface DeleteDisplayGroupProgramGraph {
+export interface DeleteAccessControlGroupUserInputGraph {
+  accessControlGroupId: Guid;
+
+  userId: Guid;
+}
+
+export interface DeleteAgencyInputGraph {
+  id: Guid;
+}
+
+export interface DeleteDisplayGroupInputGraph {
+  id: Guid;
+}
+
+export interface DeleteDisplayGroupProgramInputGraph {
   programId: Guid;
 
   displayGroupId: Guid;
 }
 
-export interface DeleteDisplayGroupStatisticGraph {
+export interface DeleteDisplayGroupStatisticInputGraph {
   statisticId: Guid;
 
   displayGroupId: Guid;
 }
 
-export interface DeleteAccessControlGroupGraph {
+export interface DeletePortfolioInputGraph {
   id: Guid;
 }
 
-export interface DeletePortfolioGraph {
+export interface DeleteProgramInputGraph {
   id: Guid;
 }
 
-export interface InputDeleteProgramGraph {
-  id: Guid;
-}
-
-export interface InputDeleteReportGraph {
-  id: Guid;
-}
-
-export interface InputDeleteGraph {
-  id: Guid;
-}
-
-export interface ModifyDisplayGroupGraph {
-  id: Guid;
-
-  title: string;
-
-  sortOrder: UInt32;
-
-  metadata?: string | null;
-
-  parentId?: Guid | null;
-}
-
-export interface ModifyDisplayGroupProgramGraph {
-  programId: Guid;
-
-  displayGroupId: Guid;
-
-  sortOrder: UInt32;
-
-  metadata?: string | null;
-}
-
-export interface ModifyDisplayGroupStatisticGraph {
-  statisticId: Guid;
-
-  displayGroupId: Guid;
-
-  sortOrder: UInt32;
-
-  metadata?: string | null;
-}
-
-export interface ModifyPortfolioGraph {
-  id: Guid;
-
-  title: string;
-
-  metadata?: string | null;
-}
-
-export interface AccessControlInputGraph {
+export interface DeleteProgramAccessControlInputGraph {
   accessControlListId: Guid;
 
   accessControlGroupId: Guid;
 }
 
-export interface InputReportGraph {
+export interface DeleteReportInputGraph {
+  id: Guid;
+}
+
+export interface DeleteReportAccessControlInputGraph {
+  reportId: Guid;
+
+  accessControlGroupId: Guid;
+}
+
+export interface DeleteStatisticInputGraph {
+  id: Guid;
+}
+
+export interface DeleteStatisticAccessControlInputGraph {
+  accessControlListId: Guid;
+
+  accessControlGroupId: Guid;
+}
+
+export interface DeleteStatisticReportInputGraph {
+  id: Guid;
+}
+
+export interface DeleteStatisticReportAccessControlInputGraph {
+  statisticReportId: Guid;
+
+  accessControlGroupId: Guid;
+}
+
+export interface UpdateAccessControlGroupInputGraph {
+  id: Guid;
+
+  title: string;
+
+  rowVersion: string;
+}
+
+export interface UpdateAgencyInputGraph {
+  id: Guid;
+
+  title: string;
+
+  metadata?: string | null;
+
+  rowVersion: string;
+
+  portfolioId: Guid;
+}
+
+export interface UpdateDisplayGroupInputGraph {
+  id: Guid;
+
+  title: string;
+
+  sortOrder: UInt32;
+
+  metadata?: string | null;
+
+  parentId?: Guid | null;
+
+  rowVersion: string;
+}
+
+export interface UpdateDisplayGroupProgramInputGraph {
+  programId: Guid;
+
+  displayGroupId: Guid;
+
+  sortOrder: UInt32;
+
+  metaData?: string | null;
+
+  rowVersion: string;
+}
+
+export interface UpdateDisplayGroupStatisticInputGraph {
+  statisticId: Guid;
+
+  displayGroupId: Guid;
+
+  sortOrder: UInt32;
+
+  metaData?: string | null;
+
+  rowVersion: string;
+}
+
+export interface UpdatePortfolioInputGraph {
+  id: Guid;
+
+  title: string;
+
+  metadata?: string | null;
+
+  rowVersion: string;
+}
+
+export interface UpdateProgramInputGraph {
   id?: Guid | null;
+
+  name: string;
+
+  agencyId: Guid;
+
+  externalId?: string | null;
+
+  notes?: string | null;
+
+  commitments?: string | null;
+
+  rowVersion?: string | null;
+}
+
+export interface UpdateProgramAccessControlInputGraph {
+  programId: Guid;
+
+  accessControlGroupId: Guid;
+
+  rowVersion: string;
+
+  accessRights?: AccessRights | null;
+}
+
+export interface UpdateReportInputGraph {
+  id: Guid;
 
   name: string;
 
@@ -271,13 +313,59 @@ export interface InputReportGraph {
 
   notes?: string | null;
 
-  rowVersion?: string | null;
+  rowVersion: string;
 }
 
-export interface UpdateAccessControlGroupGraph {
+export interface UpdateReportAccessControlInputGraph {
+  reportId: Guid;
+
+  accessControlGroupId: Guid;
+
+  accessRights?: AccessRights | null;
+
+  rowVersion: string;
+}
+
+export interface UpdateStatisticInputGraph {
   id: Guid;
 
-  title: string;
+  name: string;
+
+  agencyId: Guid;
+
+  externalId?: string | null;
+
+  rowVersion: string;
+}
+
+export interface UpdateStatisticAccessControlInputGraph {
+  statisticId: Guid;
+
+  accessControlGroupId: Guid;
+
+  rowVersion: string;
+
+  accessRights?: AccessRights | null;
+}
+
+export interface UpdateStatisticReportInputGraph {
+  id: Guid;
+
+  name: string;
+
+  notes?: string | null;
+
+  statisticId: Guid;
+
+  rowVersion: string;
+}
+
+export interface UpdateStatisticReportAccessControlInputGraph {
+  statisticReportId: Guid;
+
+  accessControlGroupId: Guid;
+
+  accessRights?: AccessRights | null;
 
   rowVersion: string;
 }
@@ -339,30 +427,18 @@ export type Seconds = any;
 // Documents
 // ====================================================
 
-export namespace DeleteProgram {
-  export type Variables = {
-    data?: InputDeleteProgramGraph | null;
-  };
-
-  export type Mutation = {
-    __typename?: 'Mutation';
-
-    deleteProgram: boolean | null;
-  };
-}
-
 export namespace CreateProgram {
   export type Variables = {
-    data: InputProgramGraph;
+    data: CreateProgramInputGraph;
   };
 
   export type Mutation = {
     __typename?: 'Mutation';
 
-    createNewProgram: CreateNewProgram | null;
+    createProgram: CreateProgram | null;
   };
 
-  export type CreateNewProgram = {
+  export type CreateProgram = {
     __typename?: 'ProgramGraph';
 
     id: Guid;
@@ -387,7 +463,7 @@ export namespace CreateProgram {
 
 export namespace UpdateProgram {
   export type Variables = {
-    data: InputProgramGraph;
+    data: UpdateProgramInputGraph;
   };
 
   export type Mutation = {
@@ -419,82 +495,30 @@ export namespace UpdateProgram {
   };
 }
 
-export namespace AssignGroupToProgram {
+export namespace DeleteProgram {
   export type Variables = {
-    data?: ProgramAccessControlInputGraph | null;
+    data?: DeleteProgramInputGraph | null;
   };
 
   export type Mutation = {
     __typename?: 'Mutation';
 
-    assignGroupToProgram: AssignGroupToProgram | null;
-  };
-
-  export type AssignGroupToProgram = {
-    __typename?: 'AccessControlEntryGraph';
-
-    rights: string;
-
-    accessControlGroup: AccessControlGroup | null;
-
-    rowVersion: string;
-  };
-
-  export type AccessControlGroup = {
-    __typename?: 'AccessControlGroupGraph';
-
-    id: Guid;
-
-    title: string;
+    deleteProgram: boolean | null;
   };
 }
 
-export namespace UpdateGroupPermissionsForProgram {
+export namespace CreateReport {
   export type Variables = {
-    data?: ProgramAccessControlInputGraph | null;
+    data?: CreateReportInputGraph | null;
   };
 
   export type Mutation = {
     __typename?: 'Mutation';
 
-    updateGroupPermissionsForProgram: UpdateGroupPermissionsForProgram | null;
+    createReport: CreateReport | null;
   };
 
-  export type UpdateGroupPermissionsForProgram = {
-    __typename?: 'AccessControlEntryGraph';
-
-    rights: string;
-
-    id: string;
-
-    rowVersion: string;
-  };
-}
-
-export namespace RemoveGroupFromProgram {
-  export type Variables = {
-    data?: AccessControlInputGraph | null;
-  };
-
-  export type Mutation = {
-    __typename?: 'Mutation';
-
-    removeGroupFromProgram: boolean | null;
-  };
-}
-
-export namespace AddReport {
-  export type Variables = {
-    data?: InputReportGraph | null;
-  };
-
-  export type Mutation = {
-    __typename?: 'Mutation';
-
-    report: Report | null;
-  };
-
-  export type Report = {
+  export type CreateReport = {
     __typename?: 'ReportGraph';
 
     id: Guid;
@@ -507,7 +531,7 @@ export namespace AddReport {
 
 export namespace DeleteReport {
   export type Variables = {
-    data?: InputDeleteReportGraph | null;
+    data?: DeleteReportInputGraph | null;
   };
 
   export type Mutation = {
@@ -517,104 +541,18 @@ export namespace DeleteReport {
   };
 }
 
-export namespace AssignGroupToReport {
-  export type Variables = {
-    data?: ReportAccessControlInputGraph | null;
-  };
-
-  export type Mutation = {
-    __typename?: 'Mutation';
-
-    assignGroupToReport: AssignGroupToReport | null;
-  };
-
-  export type AssignGroupToReport = {
-    __typename?: 'AccessControlEntryGraph';
-
-    rights: string;
-
-    accessControlGroup: AccessControlGroup | null;
-
-    rowVersion: string;
-  };
-
-  export type AccessControlGroup = {
-    __typename?: 'AccessControlGroupGraph';
-
-    id: Guid;
-
-    title: string;
-  };
-}
-
-export namespace CreateGroup {
-  export type Variables = {
-    data?: CreateAccessControlGroupGraph | null;
-  };
-
-  export type Mutation = {
-    __typename?: 'Mutation';
-
-    createGroup: CreateGroup | null;
-  };
-
-  export type CreateGroup = {
-    __typename?: 'AccessControlGroupGraph';
-
-    id: Guid;
-
-    title: string;
-
-    rowVersion: string;
-  };
-}
-
-export namespace UpdateGroup {
-  export type Variables = {
-    data?: UpdateAccessControlGroupGraph | null;
-  };
-
-  export type Mutation = {
-    __typename?: 'Mutation';
-
-    updateGroup: UpdateGroup | null;
-  };
-
-  export type UpdateGroup = {
-    __typename?: 'AccessControlGroupGraph';
-
-    id: Guid;
-
-    title: string;
-
-    rowVersion: string;
-  };
-}
-
-export namespace DeleteGroup {
-  export type Variables = {
-    data?: DeleteAccessControlGroupGraph | null;
-  };
-
-  export type Mutation = {
-    __typename?: 'Mutation';
-
-    deleteGroup: boolean | null;
-  };
-}
-
 export namespace CreateStatistic {
   export type Variables = {
-    data: InputStatisticGraph;
+    data: CreateStatisticInputGraph;
   };
 
   export type Mutation = {
     __typename?: 'Mutation';
 
-    createNewStatistic: CreateNewStatistic | null;
+    createStatistic: CreateStatistic | null;
   };
 
-  export type CreateNewStatistic = {
+  export type CreateStatistic = {
     __typename?: 'StatisticGraph';
 
     id: Guid;
@@ -637,7 +575,7 @@ export namespace CreateStatistic {
 
 export namespace UpdateStatistic {
   export type Variables = {
-    data: InputStatisticGraph;
+    data: UpdateStatisticInputGraph;
   };
 
   export type Mutation = {
@@ -669,7 +607,7 @@ export namespace UpdateStatistic {
 
 export namespace DeleteStatistic {
   export type Variables = {
-    data: InputDeleteGraph;
+    data: DeleteStatisticInputGraph;
   };
 
   export type Mutation = {
@@ -679,18 +617,110 @@ export namespace DeleteStatistic {
   };
 }
 
-export namespace AssignUserToGroup {
+export namespace CreateStatisticReport {
   export type Variables = {
-    data: InputGroupUserGraph;
+    data: CreateStatisticReportInputGraph;
   };
 
   export type Mutation = {
     __typename?: 'Mutation';
 
-    assignUserToGroup: AssignUserToGroup | null;
+    createStatisticReport: CreateStatisticReport | null;
   };
 
-  export type AssignUserToGroup = {
+  export type CreateStatisticReport = {
+    __typename?: 'StatisticReportGraph';
+
+    id: Guid;
+
+    name: string;
+
+    notes: string | null;
+
+    statisticId: Guid;
+  };
+}
+
+export namespace DeleteStatisticReport {
+  export type Variables = {
+    data: DeleteStatisticReportInputGraph;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    deleteStatisticReport: boolean | null;
+  };
+}
+
+export namespace DeleteReportAccessControl {
+  export type Variables = {
+    data?: DeleteReportAccessControlInputGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    deleteReportAccessControl: boolean | null;
+  };
+}
+
+export namespace CreateAccessControlGroup {
+  export type Variables = {
+    data?: CreateAccessControlGroupInputGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    createAccessControlGroup: CreateAccessControlGroup | null;
+  };
+
+  export type CreateAccessControlGroup = {
+    __typename?: 'AccessControlGroupGraph';
+
+    id: Guid;
+
+    title: string;
+
+    rowVersion: string;
+  };
+}
+
+export namespace UpdateAccessControlGroup {
+  export type Variables = {
+    data?: UpdateAccessControlGroupInputGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    updateAccessControlGroup: UpdateAccessControlGroup | null;
+  };
+
+  export type UpdateAccessControlGroup = {
+    __typename?: 'AccessControlGroupGraph';
+
+    id: Guid;
+
+    title: string;
+
+    rowVersion: string;
+  };
+}
+
+export namespace CreateAccessControlGroupUser {
+  export type Variables = {
+    data: CreateAccessControlGroupUserInputGraph;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    createAccessControlGroupUser: CreateAccessControlGroupUser | null;
+  };
+
+  export type CreateAccessControlGroupUser = {
     __typename?: 'AccessControlGroupUserGraph';
 
     accessControlGroupId: Guid;
@@ -699,15 +729,263 @@ export namespace AssignUserToGroup {
   };
 }
 
-export namespace RemoveUserFromGroup {
+export namespace DeleteAccessControlGroupUser {
   export type Variables = {
-    data: InputGroupUserGraph;
+    data: DeleteAccessControlGroupUserInputGraph;
   };
 
   export type Mutation = {
     __typename?: 'Mutation';
 
-    removeUserFromGroup: boolean | null;
+    deleteAccessControlGroupUser: boolean | null;
+  };
+}
+
+export namespace DeleteAccessControlGroup {
+  export type Variables = {
+    data?: DeleteAccessControlGroupInputGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    deleteAccessControlGroup: boolean | null;
+  };
+}
+
+export namespace UpdateProgramAccessControl {
+  export type Variables = {
+    data?: UpdateProgramAccessControlInputGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    updateProgramAccessControl: UpdateProgramAccessControl | null;
+  };
+
+  export type UpdateProgramAccessControl = {
+    __typename?: 'AccessControlEntryGraph';
+
+    rights: string;
+
+    id: string;
+
+    rowVersion: string;
+  };
+}
+
+export namespace CreateProgramAccessControl {
+  export type Variables = {
+    data?: CreateProgramAccessControlInputGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    createProgramAccessControl: CreateProgramAccessControl | null;
+  };
+
+  export type CreateProgramAccessControl = {
+    __typename?: 'AccessControlEntryGraph';
+
+    id: string;
+
+    rights: string;
+
+    rowVersion: string;
+  };
+}
+
+export namespace DeleteProgramAccessControl {
+  export type Variables = {
+    data?: DeleteProgramAccessControlInputGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    deleteProgramAccessControl: boolean | null;
+  };
+}
+
+export namespace CreateReportAccessControl {
+  export type Variables = {
+    data?: CreateReportAccessControlInputGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    createReportAccessControl: CreateReportAccessControl | null;
+  };
+
+  export type CreateReportAccessControl = {
+    __typename?: 'AccessControlEntryGraph';
+
+    id: string;
+
+    rights: string;
+
+    rowVersion: string;
+  };
+}
+
+export namespace UpdateReportAccessControl {
+  export type Variables = {
+    data?: UpdateReportAccessControlInputGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    updateReportAccessControl: UpdateReportAccessControl | null;
+  };
+
+  export type UpdateReportAccessControl = {
+    __typename?: 'AccessControlEntryGraph';
+
+    id: string;
+
+    rights: string;
+
+    rowVersion: string;
+  };
+}
+
+export namespace CreateStatisticAccessControl {
+  export type Variables = {
+    data?: CreateStatisticAccessControlInputGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    createStatisticAccessControl: CreateStatisticAccessControl | null;
+  };
+
+  export type CreateStatisticAccessControl = {
+    __typename?: 'AccessControlEntryGraph';
+
+    id: string;
+
+    rights: string;
+
+    rowVersion: string;
+  };
+}
+
+export namespace DeleteStatisticAccessControl {
+  export type Variables = {
+    data?: DeleteStatisticAccessControlInputGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    deleteStatisticAccessControl: boolean | null;
+  };
+}
+
+export namespace UpdateStatisticAccessControl {
+  export type Variables = {
+    data?: UpdateStatisticAccessControlInputGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    updateStatisticAccessControl: UpdateStatisticAccessControl | null;
+  };
+
+  export type UpdateStatisticAccessControl = {
+    __typename?: 'AccessControlEntryGraph';
+
+    id: string;
+
+    rights: string;
+
+    rowVersion: string;
+  };
+}
+
+export namespace CreateStatisticReportAccessControl {
+  export type Variables = {
+    data?: CreateStatisticReportAccessControlInputGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    createStatisticReportAccessControl: CreateStatisticReportAccessControl | null;
+  };
+
+  export type CreateStatisticReportAccessControl = {
+    __typename?: 'AccessControlEntryGraph';
+
+    id: string;
+
+    rights: string;
+
+    rowVersion: string;
+  };
+}
+
+export namespace DeleteStatisticReportAccessControl {
+  export type Variables = {
+    data?: DeleteStatisticReportAccessControlInputGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    deleteStatisticReportAccessControl: boolean | null;
+  };
+}
+
+export namespace UpdateStatisticReportAccessControl {
+  export type Variables = {
+    data?: UpdateStatisticReportAccessControlInputGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    updateStatisticReportAccessControl: UpdateStatisticReportAccessControl | null;
+  };
+
+  export type UpdateStatisticReportAccessControl = {
+    __typename?: 'AccessControlEntryGraph';
+
+    id: string;
+
+    rights: string;
+
+    rowVersion: string;
+  };
+}
+
+export namespace UpdateStatisticReport {
+  export type Variables = {
+    data?: UpdateStatisticReportInputGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    updateStatisticReport: UpdateStatisticReport | null;
+  };
+
+  export type UpdateStatisticReport = {
+    __typename?: 'StatisticReportGraph';
+
+    id: Guid;
+
+    name: string;
+
+    notes: string | null;
+
+    statisticId: Guid;
   };
 }
 
@@ -1100,16 +1378,6 @@ export namespace Report {
     id: Guid;
 
     title: string;
-
-    members: (Members | null)[] | null;
-  };
-
-  export type Members = {
-    __typename?: 'UserGraph';
-
-    id: Guid;
-
-    emailAddress: string;
   };
 }
 
@@ -1130,6 +1398,12 @@ export namespace StatisticReport {
     id: Guid;
 
     name: string;
+
+    notes: string | null;
+
+    rowVersion: string;
+
+    statisticId: Guid;
 
     accessControlList: (AccessControlList | null)[] | null;
   };
@@ -1160,16 +1434,6 @@ export namespace StatisticReport {
     id: Guid;
 
     title: string;
-
-    members: (Members | null)[] | null;
-  };
-
-  export type Members = {
-    __typename?: 'UserGraph';
-
-    id: Guid;
-
-    emailAddress: string;
   };
 }
 
@@ -1213,11 +1477,21 @@ export namespace User {
 
     emailAddress: string;
 
+    agency: Agency | null;
+
     apiKeys: (ApiKeys | null)[] | null;
 
     lastLogin: DateTimeOffset | null;
 
     rowVersion: string;
+  };
+
+  export type Agency = {
+    __typename?: 'AgencyGraph';
+
+    id: Guid;
+
+    title: string;
   };
 
   export type ApiKeys = {
@@ -1325,26 +1599,13 @@ import gql from 'graphql-tag';
 @Injectable({
   providedIn: 'root'
 })
-export class DeleteProgramGQL extends Apollo.Mutation<
-  DeleteProgram.Mutation,
-  DeleteProgram.Variables
-> {
-  document: any = gql`
-    mutation deleteProgram($data: InputDeleteProgramGraph) {
-      deleteProgram(inputDeleteProgram: $data)
-    }
-  `;
-}
-@Injectable({
-  providedIn: 'root'
-})
 export class CreateProgramGQL extends Apollo.Mutation<
   CreateProgram.Mutation,
   CreateProgram.Variables
 > {
   document: any = gql`
-    mutation createProgram($data: InputProgramGraph!) {
-      createNewProgram(inputProgram: $data) {
+    mutation createProgram($data: CreateProgramInputGraph!) {
+      createProgram(input: $data) {
         id
         name
         agency {
@@ -1365,8 +1626,8 @@ export class UpdateProgramGQL extends Apollo.Mutation<
   UpdateProgram.Variables
 > {
   document: any = gql`
-    mutation updateProgram($data: InputProgramGraph!) {
-      updateProgram(inputProgram: $data) {
+    mutation updateProgram($data: UpdateProgramInputGraph!) {
+      updateProgram(input: $data) {
         id
         name
         agency {
@@ -1382,65 +1643,26 @@ export class UpdateProgramGQL extends Apollo.Mutation<
 @Injectable({
   providedIn: 'root'
 })
-export class AssignGroupToProgramGQL extends Apollo.Mutation<
-  AssignGroupToProgram.Mutation,
-  AssignGroupToProgram.Variables
+export class DeleteProgramGQL extends Apollo.Mutation<
+  DeleteProgram.Mutation,
+  DeleteProgram.Variables
 > {
   document: any = gql`
-    mutation assignGroupToProgram($data: ProgramAccessControlInputGraph) {
-      assignGroupToProgram(programAccessControlInput: $data) {
-        rights
-        accessControlGroup {
-          id
-          title
-        }
-        rowVersion
-      }
+    mutation deleteProgram($data: DeleteProgramInputGraph) {
+      deleteProgram(input: $data)
     }
   `;
 }
 @Injectable({
   providedIn: 'root'
 })
-export class UpdateGroupPermissionsForProgramGQL extends Apollo.Mutation<
-  UpdateGroupPermissionsForProgram.Mutation,
-  UpdateGroupPermissionsForProgram.Variables
+export class CreateReportGQL extends Apollo.Mutation<
+  CreateReport.Mutation,
+  CreateReport.Variables
 > {
   document: any = gql`
-    mutation updateGroupPermissionsForProgram(
-      $data: ProgramAccessControlInputGraph
-    ) {
-      updateGroupPermissionsForProgram(programAccessControlInput: $data) {
-        rights
-        id
-        rowVersion
-      }
-    }
-  `;
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class RemoveGroupFromProgramGQL extends Apollo.Mutation<
-  RemoveGroupFromProgram.Mutation,
-  RemoveGroupFromProgram.Variables
-> {
-  document: any = gql`
-    mutation removeGroupFromProgram($data: AccessControlInputGraph) {
-      removeGroupFromProgram(accessControlInputGraph: $data)
-    }
-  `;
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class AddReportGQL extends Apollo.Mutation<
-  AddReport.Mutation,
-  AddReport.Variables
-> {
-  document: any = gql`
-    mutation addReport($data: InputReportGraph) {
-      report(inputReport: $data) {
+    mutation createReport($data: CreateReportInputGraph) {
+      createReport(input: $data) {
         id
         notes
         rowVersion
@@ -1456,75 +1678,8 @@ export class DeleteReportGQL extends Apollo.Mutation<
   DeleteReport.Variables
 > {
   document: any = gql`
-    mutation deleteReport($data: InputDeleteReportGraph) {
-      deleteReport(inputDeleteReport: $data)
-    }
-  `;
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class AssignGroupToReportGQL extends Apollo.Mutation<
-  AssignGroupToReport.Mutation,
-  AssignGroupToReport.Variables
-> {
-  document: any = gql`
-    mutation assignGroupToReport($data: ReportAccessControlInputGraph) {
-      assignGroupToReport(reportAccessControlInput: $data) {
-        rights
-        accessControlGroup {
-          id
-          title
-        }
-        rowVersion
-      }
-    }
-  `;
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class CreateGroupGQL extends Apollo.Mutation<
-  CreateGroup.Mutation,
-  CreateGroup.Variables
-> {
-  document: any = gql`
-    mutation createGroup($data: CreateAccessControlGroupGraph) {
-      createGroup(inputGroup: $data) {
-        id
-        title
-        rowVersion
-      }
-    }
-  `;
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class UpdateGroupGQL extends Apollo.Mutation<
-  UpdateGroup.Mutation,
-  UpdateGroup.Variables
-> {
-  document: any = gql`
-    mutation updateGroup($data: UpdateAccessControlGroupGraph) {
-      updateGroup(inputUpdateGroup: $data) {
-        id
-        title
-        rowVersion
-      }
-    }
-  `;
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class DeleteGroupGQL extends Apollo.Mutation<
-  DeleteGroup.Mutation,
-  DeleteGroup.Variables
-> {
-  document: any = gql`
-    mutation deleteGroup($data: DeleteAccessControlGroupGraph) {
-      deleteGroup(inputDeleteGroup: $data)
+    mutation deleteReport($data: DeleteReportInputGraph) {
+      deleteReport(input: $data)
     }
   `;
 }
@@ -1536,8 +1691,8 @@ export class CreateStatisticGQL extends Apollo.Mutation<
   CreateStatistic.Variables
 > {
   document: any = gql`
-    mutation createStatistic($data: InputStatisticGraph!) {
-      createNewStatistic(inputStatistic: $data) {
+    mutation createStatistic($data: CreateStatisticInputGraph!) {
+      createStatistic(input: $data) {
         id
         name
         agency {
@@ -1557,8 +1712,8 @@ export class UpdateStatisticGQL extends Apollo.Mutation<
   UpdateStatistic.Variables
 > {
   document: any = gql`
-    mutation updateStatistic($data: InputStatisticGraph!) {
-      updateStatistic(inputStatistic: $data) {
+    mutation updateStatistic($data: UpdateStatisticInputGraph!) {
+      updateStatistic(input: $data) {
         id
         name
         agency {
@@ -1578,21 +1733,107 @@ export class DeleteStatisticGQL extends Apollo.Mutation<
   DeleteStatistic.Variables
 > {
   document: any = gql`
-    mutation deleteStatistic($data: InputDeleteGraph!) {
-      deleteStatistic(inputDelete: $data)
+    mutation deleteStatistic($data: DeleteStatisticInputGraph!) {
+      deleteStatistic(input: $data)
     }
   `;
 }
 @Injectable({
   providedIn: 'root'
 })
-export class AssignUserToGroupGQL extends Apollo.Mutation<
-  AssignUserToGroup.Mutation,
-  AssignUserToGroup.Variables
+export class CreateStatisticReportGQL extends Apollo.Mutation<
+  CreateStatisticReport.Mutation,
+  CreateStatisticReport.Variables
 > {
   document: any = gql`
-    mutation assignUserToGroup($data: InputGroupUserGraph!) {
-      assignUserToGroup(inputGroupUserGraph: $data) {
+    mutation createStatisticReport($data: CreateStatisticReportInputGraph!) {
+      createStatisticReport(input: $data) {
+        id
+        name
+        notes
+        statisticId
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class DeleteStatisticReportGQL extends Apollo.Mutation<
+  DeleteStatisticReport.Mutation,
+  DeleteStatisticReport.Variables
+> {
+  document: any = gql`
+    mutation deleteStatisticReport($data: DeleteStatisticReportInputGraph!) {
+      deleteStatisticReport(input: $data)
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class DeleteReportAccessControlGQL extends Apollo.Mutation<
+  DeleteReportAccessControl.Mutation,
+  DeleteReportAccessControl.Variables
+> {
+  document: any = gql`
+    mutation deleteReportAccessControl(
+      $data: DeleteReportAccessControlInputGraph
+    ) {
+      deleteReportAccessControl(input: $data)
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class CreateAccessControlGroupGQL extends Apollo.Mutation<
+  CreateAccessControlGroup.Mutation,
+  CreateAccessControlGroup.Variables
+> {
+  document: any = gql`
+    mutation createAccessControlGroup(
+      $data: CreateAccessControlGroupInputGraph
+    ) {
+      createAccessControlGroup(input: $data) {
+        id
+        title
+        rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdateAccessControlGroupGQL extends Apollo.Mutation<
+  UpdateAccessControlGroup.Mutation,
+  UpdateAccessControlGroup.Variables
+> {
+  document: any = gql`
+    mutation updateAccessControlGroup(
+      $data: UpdateAccessControlGroupInputGraph
+    ) {
+      updateAccessControlGroup(input: $data) {
+        id
+        title
+        rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class CreateAccessControlGroupUserGQL extends Apollo.Mutation<
+  CreateAccessControlGroupUser.Mutation,
+  CreateAccessControlGroupUser.Variables
+> {
+  document: any = gql`
+    mutation createAccessControlGroupUser(
+      $data: CreateAccessControlGroupUserInputGraph!
+    ) {
+      createAccessControlGroupUser(input: $data) {
         accessControlGroupId
         userId
       }
@@ -1602,13 +1843,245 @@ export class AssignUserToGroupGQL extends Apollo.Mutation<
 @Injectable({
   providedIn: 'root'
 })
-export class RemoveUserFromGroupGQL extends Apollo.Mutation<
-  RemoveUserFromGroup.Mutation,
-  RemoveUserFromGroup.Variables
+export class DeleteAccessControlGroupUserGQL extends Apollo.Mutation<
+  DeleteAccessControlGroupUser.Mutation,
+  DeleteAccessControlGroupUser.Variables
 > {
   document: any = gql`
-    mutation removeUserFromGroup($data: InputGroupUserGraph!) {
-      removeUserFromGroup(inputGroupUserGraph: $data)
+    mutation deleteAccessControlGroupUser(
+      $data: DeleteAccessControlGroupUserInputGraph!
+    ) {
+      deleteAccessControlGroupUser(input: $data)
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class DeleteAccessControlGroupGQL extends Apollo.Mutation<
+  DeleteAccessControlGroup.Mutation,
+  DeleteAccessControlGroup.Variables
+> {
+  document: any = gql`
+    mutation deleteAccessControlGroup(
+      $data: DeleteAccessControlGroupInputGraph
+    ) {
+      deleteAccessControlGroup(input: $data)
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdateProgramAccessControlGQL extends Apollo.Mutation<
+  UpdateProgramAccessControl.Mutation,
+  UpdateProgramAccessControl.Variables
+> {
+  document: any = gql`
+    mutation updateProgramAccessControl(
+      $data: UpdateProgramAccessControlInputGraph
+    ) {
+      updateProgramAccessControl(input: $data) {
+        rights
+        id
+        rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class CreateProgramAccessControlGQL extends Apollo.Mutation<
+  CreateProgramAccessControl.Mutation,
+  CreateProgramAccessControl.Variables
+> {
+  document: any = gql`
+    mutation createProgramAccessControl(
+      $data: CreateProgramAccessControlInputGraph
+    ) {
+      createProgramAccessControl(input: $data) {
+        id
+        rights
+        rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class DeleteProgramAccessControlGQL extends Apollo.Mutation<
+  DeleteProgramAccessControl.Mutation,
+  DeleteProgramAccessControl.Variables
+> {
+  document: any = gql`
+    mutation deleteProgramAccessControl(
+      $data: DeleteProgramAccessControlInputGraph
+    ) {
+      deleteProgramAccessControl(input: $data)
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class CreateReportAccessControlGQL extends Apollo.Mutation<
+  CreateReportAccessControl.Mutation,
+  CreateReportAccessControl.Variables
+> {
+  document: any = gql`
+    mutation createReportAccessControl(
+      $data: CreateReportAccessControlInputGraph
+    ) {
+      createReportAccessControl(input: $data) {
+        id
+        rights
+        rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdateReportAccessControlGQL extends Apollo.Mutation<
+  UpdateReportAccessControl.Mutation,
+  UpdateReportAccessControl.Variables
+> {
+  document: any = gql`
+    mutation updateReportAccessControl(
+      $data: UpdateReportAccessControlInputGraph
+    ) {
+      updateReportAccessControl(input: $data) {
+        id
+        rights
+        rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class CreateStatisticAccessControlGQL extends Apollo.Mutation<
+  CreateStatisticAccessControl.Mutation,
+  CreateStatisticAccessControl.Variables
+> {
+  document: any = gql`
+    mutation createStatisticAccessControl(
+      $data: CreateStatisticAccessControlInputGraph
+    ) {
+      createStatisticAccessControl(input: $data) {
+        id
+        rights
+        rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class DeleteStatisticAccessControlGQL extends Apollo.Mutation<
+  DeleteStatisticAccessControl.Mutation,
+  DeleteStatisticAccessControl.Variables
+> {
+  document: any = gql`
+    mutation deleteStatisticAccessControl(
+      $data: DeleteStatisticAccessControlInputGraph
+    ) {
+      deleteStatisticAccessControl(input: $data)
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdateStatisticAccessControlGQL extends Apollo.Mutation<
+  UpdateStatisticAccessControl.Mutation,
+  UpdateStatisticAccessControl.Variables
+> {
+  document: any = gql`
+    mutation updateStatisticAccessControl(
+      $data: UpdateStatisticAccessControlInputGraph
+    ) {
+      updateStatisticAccessControl(input: $data) {
+        id
+        rights
+        rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class CreateStatisticReportAccessControlGQL extends Apollo.Mutation<
+  CreateStatisticReportAccessControl.Mutation,
+  CreateStatisticReportAccessControl.Variables
+> {
+  document: any = gql`
+    mutation createStatisticReportAccessControl(
+      $data: CreateStatisticReportAccessControlInputGraph
+    ) {
+      createStatisticReportAccessControl(input: $data) {
+        id
+        rights
+        rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class DeleteStatisticReportAccessControlGQL extends Apollo.Mutation<
+  DeleteStatisticReportAccessControl.Mutation,
+  DeleteStatisticReportAccessControl.Variables
+> {
+  document: any = gql`
+    mutation deleteStatisticReportAccessControl(
+      $data: DeleteStatisticReportAccessControlInputGraph
+    ) {
+      deleteStatisticReportAccessControl(input: $data)
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdateStatisticReportAccessControlGQL extends Apollo.Mutation<
+  UpdateStatisticReportAccessControl.Mutation,
+  UpdateStatisticReportAccessControl.Variables
+> {
+  document: any = gql`
+    mutation updateStatisticReportAccessControl(
+      $data: UpdateStatisticReportAccessControlInputGraph
+    ) {
+      updateStatisticReportAccessControl(input: $data) {
+        id
+        rights
+        rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdateStatisticReportGQL extends Apollo.Mutation<
+  UpdateStatisticReport.Mutation,
+  UpdateStatisticReport.Variables
+> {
+  document: any = gql`
+    mutation updateStatisticReport($data: UpdateStatisticReportInputGraph) {
+      updateStatisticReport(input: $data) {
+        id
+        name
+        notes
+        statisticId
+      }
     }
   `;
 }
@@ -1830,10 +2303,6 @@ export class ReportGQL extends Apollo.Query<Report.Query, Report.Variables> {
             accessControlGroup {
               id
               title
-              members {
-                id
-                emailAddress
-              }
             }
             rights
             rowVersion
@@ -1855,6 +2324,9 @@ export class StatisticReportGQL extends Apollo.Query<
       statisticReports(ids: [$reportId]) {
         id
         name
+        notes
+        rowVersion
+        statisticId
         accessControlList {
           id
           accessControlEntries(orderBy: { path: "accessControlGroup.title" }) {
@@ -1862,10 +2334,6 @@ export class StatisticReportGQL extends Apollo.Query<
             accessControlGroup {
               id
               title
-              members {
-                id
-                emailAddress
-              }
             }
             rights
             rowVersion
@@ -1899,6 +2367,10 @@ export class UserGQL extends Apollo.Query<User.Query, User.Variables> {
       users(ids: [$userId]) {
         id
         emailAddress
+        agency {
+          id
+          title
+        }
         apiKeys {
           id
           key

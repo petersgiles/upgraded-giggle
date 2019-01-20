@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core'
 import {FormBuilder, Validators} from '@angular/forms'
-import {CreateGroupGQL} from '../../../generated/graphql'
+import {CreateAccessControlGroupGQL} from '../../../generated/graphql'
 import {Router} from '@angular/router'
 
 @Component({
@@ -15,18 +15,18 @@ export class GroupAddComponent implements OnInit {
   })
 
   constructor(private formBuilder: FormBuilder,
-              private createGroupGQL: CreateGroupGQL,
+              private createAccessControlGroupGql: CreateAccessControlGroupGQL,
               private router: Router) {
   }
 
   onSubmit() {
 
-    this.createGroupGQL.mutate({
+    this.createAccessControlGroupGql.mutate({
       data: {
         title: this.addGroupForm.value['groupName']
       }
     }, {}).subscribe(({data}) =>
-      this.router.navigate(['groups', data.createGroup.id]), (error) => {
+      this.router.navigate(['groups', data.createAccessControlGroup.id]), (error) => {
       console.log('there was an error sending the query', error)
     })
   }

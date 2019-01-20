@@ -1,6 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core'
-import {AccessRights, AllGroupsGQL, AssignGroupToReportGQL, Report, ReportGQL} from '../../generated/graphql'
-import {ActivatedRoute} from '@angular/router'
+import {
+  AccessRights, AllGroupsGQL, CreateReportAccessControlGQL, DeleteReportAccessControlGQL,
+  Report, ReportGQL, UpdateReportAccessControlGQL
+} from '../../generated/graphql'
+import {ActivatedRoute, Router} from '@angular/router'
 import {first, map} from 'rxjs/operators'
 import {Subscription} from 'rxjs'
 import {DataTableConfig} from '@digital-first/df-components'
@@ -20,17 +23,20 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
   private reportId: string
   private reportSubscription$: Subscription
 
-  constructor(private reportGQL: ReportGQL,
+  constructor(private reportGql: ReportGQL,
               private route: ActivatedRoute,
-              private allGroupsGQL: AllGroupsGQL,
-              private assignGroupToReportGQL: AssignGroupToReportGQL,
+              private allGroupsGql: AllGroupsGQL,
+              private createReportAccessControlGql: CreateReportAccessControlGQL,
+              private deleteReportAccessControlGql: DeleteReportAccessControlGQL,
+              private updateReportAccessControlGql: UpdateReportAccessControlGQL,
+              private router: Router,
               public dialog: MdcDialog) {
   }
 
   ngOnInit() {
     this.reportId = this.route.snapshot.paramMap.get('id')
 
-    this.reportSubscription$ = this.reportGQL.watch({reportId: this.reportId}, {fetchPolicy: 'network-only'})
+    this.reportSubscription$ = this.reportGql.watch({reportId: this.reportId}, {fetchPolicy: 'network-only'})
       .valueChanges.pipe(map(value => value.data.reports[0]))
       .subscribe(report => {
         this.report = report
@@ -45,7 +51,7 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
   }
 
   handleOpenAddGroupDialog() {
-    this.allGroupsGQL
+    this.allGroupsGql
       .watch({}, {fetchPolicy: 'no-cache'})
       .valueChanges.pipe(
       map(value => value.data.groups),
@@ -65,20 +71,19 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
 
         dialogRef.afterClosed().subscribe((result: any) => {
           if (result && result.id) {
-            this.assignGroupToReportGQL
+            this.createReportAccessControlGql
               .mutate(
                 {
                   data: {
                     accessControlGroupId: result.id,
                     reportId: this.reportId,
-                    accessRights: AccessRights.Read,
-                    rowVersion: '' // TODO: what to do here as row version is not available as it is new record
+                    accessRights: AccessRights.Read
                   }
                 },
                 {
                   refetchQueries: [
                     {
-                      query: this.reportGQL.document,
+                      query: this.reportGql.document,
                       variables: {
                         reportId: this.reportId
                       }
@@ -92,6 +97,54 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
               })
           }
         })
+      })
+  }
+
+  handleGroupPermissionGroupClicked($event: any) {
+    return this.router.navigate(['groups/', $event.id])
+  }
+
+  handleGroupPermissionChangeClicked(row) {
+    this.updateReportAccessControlGql
+      .mutate(
+        {
+          data: {
+            accessControlGroupId: row.id,
+            reportId: this.reportId,
+            accessRights: row.cell.value,
+            rowVersion: row.row.data.rowVersion
+          }
+        },
+        {}
+      )
+      .pipe(first())
+      .subscribe(value => {
+      })
+  }
+
+  handleGroupPermissionDeleteClicked($event) {
+    this.deleteReportAccessControlGql
+      .mutate(
+        {
+          data: {
+            accessControlGroupId: $event.id,
+            reportId: this.reportId
+          }
+        },
+        {
+          refetchQueries: [
+            {
+              query: this.reportGql.document,
+              variables: {
+                reportId: this.reportId
+              }
+            }
+          ]
+        }
+      )
+      .pipe(first())
+      .subscribe(value => {
+        console.log('removing ', $event)
       })
   }
 
@@ -139,15 +192,7 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
     }
   }
 
-  handleGroupPermissionGroupClicked($event: any) {
-    console.log('TODO update')
-  }
-
-  handleGroupPermissionChangeClicked($event: any) {
-    console.log('TODO')
-  }
-
-  handleGroupPermissionDeleteClicked($event: any) {
-    console.log('TODO')
+  handleEditReport(report: Report.Reports) {
+    alert('TODO')
   }
 }

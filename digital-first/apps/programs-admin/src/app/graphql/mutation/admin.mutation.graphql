@@ -1,9 +1,5 @@
-mutation deleteProgram($data:InputDeleteProgramGraph) {
-  deleteProgram(inputDeleteProgram:$data)
-}
-
-mutation createProgram ($data:InputProgramGraph!) {
-  createNewProgram (inputProgram: $data)
+mutation createProgram ($data: CreateProgramInputGraph!) {
+  createProgram (input: $data)
   {
     id
     name
@@ -16,8 +12,8 @@ mutation createProgram ($data:InputProgramGraph!) {
   }
 }
 
-mutation updateProgram ($data:InputProgramGraph!) {
-  updateProgram (inputProgram: $data)
+mutation updateProgram ($data:UpdateProgramInputGraph!) {
+  updateProgram (input: $data)
   {
     id
     name
@@ -30,110 +26,195 @@ mutation updateProgram ($data:InputProgramGraph!) {
   }
 }
 
-mutation assignGroupToProgram($data:ProgramAccessControlInputGraph){
-  assignGroupToProgram(programAccessControlInput: $data){
-    rights
-    accessControlGroup{
-      id
-      title
-    }
-    rowVersion
-  }
+mutation deleteProgram($data: DeleteProgramInputGraph) {
+  deleteProgram(input:$data)
 }
 
-mutation updateGroupPermissionsForProgram($data:ProgramAccessControlInputGraph){
-  updateGroupPermissionsForProgram(programAccessControlInput: $data){
-    rights
-    id
-    rowVersion
-  }
-}
 
-mutation removeGroupFromProgram($data:AccessControlInputGraph) {
-  removeGroupFromProgram(accessControlInputGraph:$data)
-}
-
-mutation addReport($data:InputReportGraph){
-  report(inputReport: $data){
+mutation createReport($data:CreateReportInputGraph){
+  createReport(input: $data){
     id
     notes
     rowVersion
   }
 }
 
-mutation deleteReport($data:InputDeleteReportGraph) {
-  deleteReport(inputDeleteReport:$data)
+mutation deleteReport($data:DeleteReportInputGraph) {
+  deleteReport(input:$data)
 }
 
-mutation assignGroupToReport($data:ReportAccessControlInputGraph){
-  assignGroupToReport(reportAccessControlInput: $data){
-    rights
-    accessControlGroup{
+mutation createStatistic ($data: CreateStatisticInputGraph!) {
+  createStatistic (input: $data)
+  {
+    id
+    name
+    agency{
       id
-      title
     }
+    externalId
     rowVersion
   }
 }
 
-mutation createGroup($data:CreateAccessControlGroupGraph){
-  createGroup(inputGroup: $data){
+mutation updateStatistic ($data: UpdateStatisticInputGraph!) {
+  updateStatistic (input: $data)
+  {
+    id
+    name
+    agency{
+      id
+    }
+    externalId
+    rowVersion
+  }
+}
+
+mutation deleteStatistic ($data: DeleteStatisticInputGraph!) {
+  deleteStatistic (input: $data)
+}
+
+
+
+
+mutation createStatisticReport ($data:CreateStatisticReportInputGraph!) {
+  createStatisticReport (input: $data)
+  {
+    id
+    name
+    notes
+    statisticId
+   }
+}
+
+mutation deleteStatisticReport ($data: DeleteStatisticReportInputGraph!) {
+  deleteStatisticReport (input: $data)
+}
+
+
+
+mutation deleteReportAccessControl($data:DeleteReportAccessControlInputGraph){
+  deleteReportAccessControl(input: $data)
+  }
+
+mutation createAccessControlGroup($data:CreateAccessControlGroupInputGraph){
+  createAccessControlGroup(input: $data){
     id
     title
     rowVersion
   }
 }
 
-mutation updateGroup($data:UpdateAccessControlGroupGraph){
-  updateGroup(inputUpdateGroup: $data){
+mutation updateAccessControlGroup($data: UpdateAccessControlGroupInputGraph){
+  updateAccessControlGroup(input: $data){
     id
     title
     rowVersion
   }
 }
 
-mutation deleteGroup($data:DeleteAccessControlGroupGraph) {
-  deleteGroup(inputDeleteGroup:$data)
-}
-
-mutation createStatistic ($data:InputStatisticGraph!) {
-  createNewStatistic (inputStatistic: $data)
-  {
-    id
-    name
-    agency{
-      id
-    }
-    externalId
-    rowVersion
-  }
-}
-
-mutation updateStatistic ($data:InputStatisticGraph!) {
-  updateStatistic (inputStatistic: $data)
-  {
-    id
-    name
-    agency{
-      id
-    }
-    externalId
-    rowVersion
-  }
-}
-
-mutation deleteStatistic ($data:InputDeleteGraph!) {
-  deleteStatistic (inputDelete: $data)
-}
-
-mutation assignUserToGroup ($data: InputGroupUserGraph!) {
-  assignUserToGroup (inputGroupUserGraph: $data)
+	mutation createAccessControlGroupUser ($data: CreateAccessControlGroupUserInputGraph!) {
+  createAccessControlGroupUser (input: $data)
   {
     accessControlGroupId
     userId
   }
   }
 
-  mutation removeUserFromGroup ($data: InputGroupUserGraph!) {
-    removeUserFromGroup (inputGroupUserGraph: $data)
+
+mutation deleteAccessControlGroupUser ($data: DeleteAccessControlGroupUserInputGraph!) {
+    deleteAccessControlGroupUser (input: $data)
                     }
+
+
+
+  mutation deleteAccessControlGroup($data: DeleteAccessControlGroupInputGraph) {
+  deleteAccessControlGroup(input:$data)
+}
+
+
+
+
+mutation updateProgramAccessControl($data: UpdateProgramAccessControlInputGraph){
+  updateProgramAccessControl(input: $data){
+    rights
+    id
+    rowVersion
+  }
+}
+
+mutation createProgramAccessControl($data:CreateProgramAccessControlInputGraph){
+  createProgramAccessControl(input: $data){
+    id
+    rights
+    rowVersion
+  }
+}
+
+mutation deleteProgramAccessControl($data:DeleteProgramAccessControlInputGraph) {
+  deleteProgramAccessControl(input:$data)
+}
+
+mutation createReportAccessControl($data:CreateReportAccessControlInputGraph){
+  createReportAccessControl(input: $data){
+    id
+    rights
+    rowVersion
+  }
+}
+
+mutation updateReportAccessControl($data:UpdateReportAccessControlInputGraph){
+  updateReportAccessControl(input: $data){
+    id
+    rights
+    rowVersion
+  }
+}
+
+mutation createStatisticAccessControl($data:CreateStatisticAccessControlInputGraph){
+  createStatisticAccessControl(input: $data){
+    id
+    rights
+    rowVersion
+  }
+}
+
+mutation deleteStatisticAccessControl($data:DeleteStatisticAccessControlInputGraph) {
+  deleteStatisticAccessControl(input:$data)
+}
+
+mutation updateStatisticAccessControl($data:UpdateStatisticAccessControlInputGraph){
+  updateStatisticAccessControl(input: $data){
+    id
+    rights
+    rowVersion
+  }
+}
+
+mutation createStatisticReportAccessControl($data:CreateStatisticReportAccessControlInputGraph){
+  createStatisticReportAccessControl(input: $data){
+    id
+    rights
+    rowVersion
+  }
+}
+
+mutation deleteStatisticReportAccessControl($data:DeleteStatisticReportAccessControlInputGraph) {
+  deleteStatisticReportAccessControl(input:$data)
+}
+
+mutation updateStatisticReportAccessControl($data:UpdateStatisticReportAccessControlInputGraph){
+  updateStatisticReportAccessControl(input: $data){
+    id
+    rights
+    rowVersion
+  }
+}
+
+mutation updateStatisticReport ($data: UpdateStatisticReportInputGraph) {
+  updateStatisticReport (input: $data)  {
+    id
+    name
+    notes
+    statisticId
+   }
+}

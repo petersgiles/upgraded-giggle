@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core'
 import {ActivatedRoute, Router} from '@angular/router'
-import {DeleteGroupGQL, Group, GroupGQL, RemoveUserFromGroupGQL} from '../../generated/graphql'
+import {DeleteAccessControlGroupGQL, Group, GroupGQL, DeleteAccessControlGroupUserGQL} from '../../generated/graphql'
 import {first, map} from 'rxjs/operators'
 import {Subscription} from 'rxjs'
 import {ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent} from '@digital-first/df-dialogs'
@@ -20,8 +20,8 @@ export class GroupComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private groupGQL: GroupGQL,
-              private deleteGroupGQL: DeleteGroupGQL,
-              private removeUserFromGroupGQL: RemoveUserFromGroupGQL,
+              private deleteAccessControlGroupGql: DeleteAccessControlGroupGQL,
+              private deleteAccessControlGroupUserGql: DeleteAccessControlGroupUserGQL,
               private router: Router,
               public dialog: MdcDialog) {
   }
@@ -55,7 +55,7 @@ export class GroupComponent implements OnInit {
       .pipe(first())
       .subscribe(result => {
         if (result === ARE_YOU_SURE_ACCEPT && this.group) {
-          this.deleteGroupGQL
+          this.deleteAccessControlGroupGql
             .mutate(
               {
                 data: {
@@ -70,7 +70,7 @@ export class GroupComponent implements OnInit {
   }
 
   handleUserDeleteItemClicked($event) {
-    this.removeUserFromGroupGQL
+    this.deleteAccessControlGroupUserGql
       .mutate(
         {
           data: {

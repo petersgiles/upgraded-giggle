@@ -3,7 +3,7 @@ import {MdcDialog} from '@angular-mdc/web'
 import {ActivatedRoute, Router} from '@angular/router'
 import {DataTableConfig} from '@digital-first/df-components'
 import {first, map} from 'rxjs/operators'
-import {AssignUserToGroupGQL, GroupGQL, UsersGQL} from '../../generated/graphql'
+import {CreateAccessControlGroupUserGQL, GroupGQL, UsersGQL} from '../../generated/graphql'
 import {DialogAssignUserToGroupComponent} from '../../dialogs/dialog-assign-user-to-group.component'
 import {ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent} from '@digital-first/df-dialogs'
 
@@ -38,7 +38,7 @@ export class GroupUsersComponent implements OnInit {
               private router: Router,
               private usersGQL: UsersGQL,
               private groupGQL: GroupGQL,
-              private assignUserToGroupGQL: AssignUserToGroupGQL) {
+              private createAccessControlGroupUserGql: CreateAccessControlGroupUserGQL) {
   }
 
   @Input()
@@ -77,7 +77,7 @@ export class GroupUsersComponent implements OnInit {
 
           dialogRef.afterClosed().subscribe((result: any) => {
             if (result && result.id) {
-              this.assignUserToGroupGQL
+              this.createAccessControlGroupUserGql
                 .mutate(
                   {
                     data: {
@@ -121,7 +121,6 @@ export class GroupUsersComponent implements OnInit {
         }
       })
   }
-
 
   ngOnInit(): void {
 

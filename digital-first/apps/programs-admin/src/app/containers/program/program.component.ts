@@ -4,8 +4,8 @@ import {map, first} from 'rxjs/operators'
 import {Subscription} from 'rxjs'
 import {
   AllGroupsGQL, DeleteProgramGQL, Program,
-  ProgramGQL, RemoveGroupFromProgramGQL, AssignGroupToProgramGQL,
-  AccessRights, UpdateGroupPermissionsForProgramGQL, DeleteReportGQL
+  ProgramGQL, DeleteProgramAccessControlGQL, CreateProgramAccessControlGQL,
+  AccessRights, UpdateProgramAccessControlGQL, DeleteReportGQL
 } from '../../generated/graphql'
 import {DataTableConfig} from '@digital-first/df-components'
 import {MdcDialog} from '@angular-mdc/web'
@@ -32,9 +32,9 @@ export class ProgramComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private deleteProgramGQL: DeleteProgramGQL,
     private deleteReportGQL: DeleteReportGQL,
-    private removeGroupFromProgramGQL: RemoveGroupFromProgramGQL,
-    private assignGroupToProgramGQL: AssignGroupToProgramGQL,
-    private updateGroupPermissionsForProgramGQL: UpdateGroupPermissionsForProgramGQL,
+    private removeGroupFromProgramGQL: DeleteProgramAccessControlGQL,
+    private assignGroupToProgramGQL: CreateProgramAccessControlGQL,
+    private updateGroupPermissionsForProgramGQL: UpdateProgramAccessControlGQL,
     private allGroupsGQL: AllGroupsGQL,
     private router: Router,
     public dialog: MdcDialog
@@ -169,8 +169,7 @@ export class ProgramComponent implements OnInit, OnDestroy {
                   data: {
                     accessControlGroupId: result.id,
                     programId: this.programId,
-                    accessRights: AccessRights.Read,
-                    rowVersion: '' // TODO: what to do here as row version is not available as it is new record
+                    accessRights: AccessRights.Read
                   }
                 },
                 {

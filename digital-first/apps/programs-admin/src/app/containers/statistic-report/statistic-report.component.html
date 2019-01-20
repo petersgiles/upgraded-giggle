@@ -1,6 +1,9 @@
 <div class="app-page" *ngIf="report; else loading">
   <section>
     <digital-first-page-title title="Report - {{ report.name }}">
+      <digital-first-edit-item-button
+        (onEditItem)="handleEditStatisticReport(report)"
+      ></digital-first-edit-item-button>
     </digital-first-page-title>
     <div class="commitment-layout__row">
       <p>Notes:</p>
@@ -8,7 +11,7 @@
       <ng-template #elseBlock><p>No notes were provided for this report</p></ng-template>
     </div>
     <digital-first-permission
-      [artifactId]="reportId"
+      [artifactId]="statisticReportId"
       [tableData]="permissionTableData"
       (onAddGroup)="handleOpenAddGroupDialog($event)"
       (onGroupClicked)="handleGroupPermissionGroupClicked($event)"
