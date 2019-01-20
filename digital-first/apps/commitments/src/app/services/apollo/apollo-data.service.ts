@@ -11,12 +11,6 @@ import {
   STORE_MAP_POINT,
   REMOVE_MAP_POINT,
   MAP_POINTS_BY_COMMITMENT,
-  RELATED_LINKS_BY_COMMITMENT,
-  STORE_RELATED_LINK,
-  REMOVE_RELATED_LINK,
-  RELATED_COMMITMENTS_BY_COMMITMENT,
-  STORE_RELATED_COMMITMENT,
-  REMOVE_RELATED_COMMITMENT,
   REMOVE_COMMITMENT_ELECTORATE,
   STORE_COMMITMENT_ELECTORATE
 } from './apollo-queries'
@@ -109,26 +103,6 @@ export class ApolloDataService implements AppDataService {
       (result: any) => ({ commitment: result.data.deleteCommitmentMapPoint })
     )
 
-  addCommitmentToCommitment = (variables: { commitment: any, relatedTo: any }) => callMutate<any>(this.apollo,
-    { mutation: STORE_RELATED_COMMITMENT, variables: { ...variables } },
-    (result: any) => ({ commitment: result.data.storeRelatedCommitment })
-  )
-
-  removeCommitmentFromCommitment = (variables: { commitment: any, relatedTo: any }) => callMutate<any>(this.apollo,
-    { mutation: REMOVE_RELATED_COMMITMENT, variables: { ...variables } },
-    (result: any) => ({ commitment: result.data.deleteRelatedCommitment })
-  )
-
-  addLinkToCommitment = (variables: { commitment: any, relatedTo: any }) => callMutate<any>(this.apollo,
-    { mutation: STORE_RELATED_LINK, variables: { ...variables } },
-    (result: any) => ({ commitment: result.data.storeRelatedLink })
-  )
-
-  removeLinkFromCommitment = (variables: { id: any }) => callMutate<any>(this.apollo,
-    { mutation: REMOVE_RELATED_LINK, variables: { ...variables } },
-    (result: any) => ({ commitment: result.data.deleteRelatedLink })
-  )
-
   removeElectorateFromCommitment = (variables: { commitment: any, electorate: any }) =>
     callMutate<any>(this.apollo,
       { mutation: REMOVE_COMMITMENT_ELECTORATE, variables: { ...variables } },
@@ -150,6 +124,4 @@ export class ApolloDataService implements AppDataService {
     callQuery<MapPointsResult>(this.apollo, { query: MAP_POINTS_BY_COMMITMENT, variables: { commitment: commitment } },
       (result: any): any => ({ data: { mapPoints: result.data.commitmentMapPoints } }))
 
-  getRelatedCommitmentsByCommitment = (commitment: any) => callQuery<RelatedCommitmentsResult>(this.apollo, { query: RELATED_COMMITMENTS_BY_COMMITMENT, variables: { commitment: commitment } })
-  getRelatedLinksByCommitment = (commitment: any) => callQuery<RelatedLinksResult>(this.apollo, { query: RELATED_LINKS_BY_COMMITMENT, variables: { commitment: commitment } })
 }

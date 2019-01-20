@@ -6,16 +6,14 @@ import * as fromCommitmentRelatedLinks from './related-link.reducer'
 
 export const getRelatedLinkEntitiesState = state => state.relatedLink
 
-export const {
-    selectIds: getRelatedLinkIds,
-    selectEntities: getRelatedLinkEntities,
-    selectAll: getAllRelatedLinks,
-    selectTotal: getTotalRelatedLinks,
-} = fromRelatedLink.adapter.getSelectors(getRelatedLinkEntitiesState)
-
 export const getRelatedLinkLoading = createSelector(
     getRelatedLinkEntitiesState,
     fromCommitmentRelatedLinks.getLoading
+)
+
+export const getAllRelatedLinks = createSelector(
+    getRelatedLinkEntitiesState,
+    fromCommitmentRelatedLinks.selectAll
 )
 
 export const getRelatedLinkError = createSelector(
@@ -30,17 +28,16 @@ export const getCommitmentRelatedLinksPanelExpanded = createSelector(
 
 export const getRelatedLinksTableData = createSelector(
     getAllRelatedLinks,
-    (links) => {
-
-        const rows = links &&
-        links.map(c => ({
+    (data) => {
+        const rows = data &&
+        data.map(c => ({
                 id: c.id,
                 cells: [{
                     value: c.url
                 }]
             }))
-            // tslint:disable-next-line:no-console
-            console.log('getAllRelatedLinks', links, rows)
+        // tslint:disable-next-line:no-console
+        console.log('getAllRelatedLinks', data, rows)
         const dtc: DataTableConfig = {
             title: 'related links',
             hasDeleteItemButton: true,

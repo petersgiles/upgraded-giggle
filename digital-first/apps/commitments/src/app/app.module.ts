@@ -103,6 +103,8 @@ import { CommitmentRelatedLinksComponent } from './containers/commitment-related
 import { CommitmentRelatedCommitmentsComponent } from './containers/commitment-related-commitments/commitment-related-commitments.component'
 import { CommitmentViewGuardComponent } from './containers/commitment-view-guard/commitment-view-guard.component'
 import { CommitmentCommitmentComponent } from './containers/commitment-commitment/commitment-commitment.component'
+import { relatedLinksDataServiceProvider } from './reducers/related-link/related-link-data.service'
+import { relatedCommitmentsDataServiceProvider } from './reducers/related-commitment/related-commitment-data.service'
 
 const COMPONENTS = [
   AppComponent,
@@ -271,6 +273,8 @@ export let appDataServiceProvider = {
     commitmentContactsDataServiceProvider,
     commitmentActionsDataServiceProvider,
     commitmentOverviewMapDataServiceProvider,
+    relatedLinksDataServiceProvider,
+    relatedCommitmentsDataServiceProvider,
     discussionDataServiceProvider,
     lookupDataServiceProvider,
     subscriptionDataServiceProvider,

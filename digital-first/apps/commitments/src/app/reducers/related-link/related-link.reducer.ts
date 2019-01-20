@@ -1,24 +1,19 @@
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity'
 import { RelatedLink } from './related-link.model'
 import { RelatedLinkActions, RelatedLinkActionTypes } from './related-link.actions'
 
-export interface State extends EntityState<RelatedLink> {
-  // additional entities state properties
+export interface State {
+  entities: RelatedLink[]
   expanded: boolean
   loading: boolean
   error: any
 }
 
-export const adapter: EntityAdapter<RelatedLink> = createEntityAdapter<RelatedLink>({
-  selectId: entitiy => entitiy.id
-})
-
-export const initialState: State = adapter.getInitialState({
-  // additional entity state properties
+export const initialState: State = {
+  entities: [],
   expanded: false,
   loading: false,
   error: null
-})
+}
 
 export function reducer(
   state = initialState,
@@ -41,12 +36,17 @@ export function reducer(
     }
 
     case RelatedLinkActionTypes.LoadRelatedLinks: {
+
+        // tslint:disable-next-line:no-console
+        console.log('LoadRelatedLinks', action.payload)
+
       if (action.payload.data.commitmentRelatedLinks) {
-        return adapter.upsertMany(action.payload.data.commitmentRelatedLinks, {
+        return {
           ...state,
+          entities: [...action.payload.data.commitmentRelatedLinks],
           loading: action.payload.loading,
           error: action.payload.error
-        })
+        }
       }
 
       return {
@@ -57,7 +57,10 @@ export function reducer(
     }
 
     case RelatedLinkActionTypes.ClearRelatedLinks: {
-      return adapter.removeAll(state)
+      return {
+        ...state,
+        entities: []
+      }
     }
 
     case RelatedLinkActionTypes.GetRelatedLinks: {
@@ -78,13 +81,7 @@ export function reducer(
   }
 }
 
-export const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal,
-} = adapter.getSelectors()
-
+export const selectAll = (state: State) => state.entities
 export const getExpanded = (state: State) => state.expanded
 export const getLoading = (state: State) => state.loading
 export const getError = (state: State) => state.error

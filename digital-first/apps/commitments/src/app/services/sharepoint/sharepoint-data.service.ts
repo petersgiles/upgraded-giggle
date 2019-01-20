@@ -15,8 +15,6 @@ import {
   CommitmentsResult,
   ContactsResult,
   MapPointsResult,
-  RelatedCommitmentsResult,
-  RelatedLinksResult
 } from '../../models'
 import { Commitment } from '../../reducers/commitment'
 import { arrayToHash } from '@digital-first/df-utils'
@@ -24,7 +22,7 @@ import { MapPoint } from '../../reducers/map-point/map-point.model'
 import { byIdQuery, byCommitmentIdQuery, byMapPointPlaceIdQuery, byJoinTableQuery, byIdsQuery } from './caml'
 import { mapContacts, mapCommitmentContacts } from './contact'
 import { mapElectorates, mapCommitmentElectorates, mapMapPoints, mapCommitmentMapPoints } from './geo'
-import { mapCommitment, mapCommitments, mapRelatedCommitments, mapRelatedLinks } from './commitment'
+import { mapCommitment, mapCommitments } from './commitment'
 import { AppUserProfile } from '@digital-first/df-layouts'
 import { mapPortfolios } from '../../reducers/commitment-lookup/sharepoint/maps'
 import { Contact } from '../../reducers/contact/contact.model'
@@ -176,19 +174,6 @@ export class SharepointDataService implements AppDataService {
           }))
       )
   }
-
-  // filterWhoAnnouncedTypes(payload?: any): Observable<DataResult<WhoAnnouncedTypesResult>> {
-  //   return this.sharepoint.getItems({ listName: 'WhoAnnouncedType' })
-  //     .pipe(
-  //       concatMap((result: any) =>
-  //         of({
-  //           data: { whoAnnouncedTypes: mapWhoAnnouncedTypes(result) },
-  //           loading: false,
-  //           error: null
-  //         }))
-  //     )
-
-  // }
 
   filterMapPoints(payload?: any): Observable<DataResult<MapPointsResult>> {
     return this.sharepoint.getItems({ listName: 'MapPoint' })
@@ -365,116 +350,6 @@ export class SharepointDataService implements AppDataService {
     return this.sharepoint.storeItem({
       listName: 'CommitmentElectorate',
       data: spMapPoint,
-    }).pipe(
-      concatMap(_ =>
-        of({ commitment: { id: payload.commitment } }))
-    )
-  }
-
-  removeLinkFromCommitment(payload: any): Observable<any> {
-    const LISTNAME = 'RelatedLink'
-
-    const viewXml = byIdQuery({ id: payload.id })
-    // tslint:disable-next-line:no-console
-    console.log(viewXml, payload)
-    return this.sharepoint.getItems({
-      listName: LISTNAME,
-      viewXml: viewXml
-    }).pipe(
-      map(mapRelatedLinks),
-      map(result => result[0]),
-      concatMap((result: any) =>
-        this.sharepoint.removeItem({
-          listName: LISTNAME, id: result.id
-        }).pipe(
-          concatMap(_ => of({ commitment: { id: payload.commitment } }))
-        )
-      )
-    )
-  }
-  addLinkToCommitment(payload: any): Observable<any> {
-    const LISTNAME = 'RelatedLink'
-
-    const sp = {
-      Title: `${payload.commitment} ${payload.url}`,
-      Commitment: payload.commitment,
-      Url: payload.url
-    }
-
-    return this.sharepoint.storeItem({
-      listName: LISTNAME,
-      data: sp,
-    }).pipe(
-      concatMap(_ =>
-        of({ commitment: { id: payload.commitment } }))
-    )
-  }
-  getRelatedLinksByCommitment(commitment: any): Observable<DataResult<RelatedLinksResult>> {
-    const viewXml = byCommitmentIdQuery({ id: commitment })
-
-    return this.sharepoint.getItems({
-      listName: 'RelatedLink',
-      viewXml: viewXml
-    }).pipe(
-      concatMap(items =>
-        of({
-          data: { commitmentRelatedLinks: mapRelatedLinks(items) },
-          loading: false
-        }))
-      )
-  }
-
-  getRelatedCommitmentsByCommitment(commitment: number): Observable<DataResult<RelatedCommitmentsResult>> {
-
-    const viewXml = byCommitmentIdQuery({ id: commitment })
-
-    return this.sharepoint.getItems({
-      listName: 'RelatedCommitment',
-      viewXml: viewXml
-    }).pipe(
-      concatMap(items =>
-        of({
-          data: { commitmentRelatedCommitments: mapRelatedCommitments(items) },
-          loading: false
-        }))
-      )
-
-  }
-
-  removeCommitmentFromCommitment(payload: any): Observable<any> {
-    const LISTNAME = 'RelatedCommitment'
-
-    const viewXml = byIdQuery({ id: payload.relatedTo })
-
-    return this.sharepoint.getItems({
-      listName: LISTNAME,
-      viewXml: viewXml
-    }).pipe(
-      map(mapRelatedCommitments),
-      map(result => result[0]),
-      concatMap((result: any) =>
-        this.sharepoint.removeItem({
-          listName: LISTNAME, id: result.id
-        }).pipe(
-          concatMap(_ => of({ commitment: { id: payload.commitment } }))
-        )
-      )
-    )
-  }
-
-  addCommitmentToCommitment(payload: any): Observable<any> {
-
-    const LISTNAME = 'RelatedCommitment'
-
-    const sp = {
-      Title: `${payload.commitment} ${payload.relatedTo}`,
-      Commitment: payload.commitment,
-      RelatedTo: payload.relatedTo
-    }
-
-    return this.sharepoint.storeItem({
-      listName: LISTNAME,
-      data: sp,
     }).pipe(
       concatMap(_ =>
         of({ commitment: { id: payload.commitment } }))

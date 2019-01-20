@@ -10,16 +10,10 @@ import {
   SetCurrentCommitment,
   UpsertCommitment,
   StoreCommitment,
-  AddContactToCommitment,
-  RemoveContactFromCommitment,
   AddMapPointToCommitment,
   RemoveMapPointFromCommitment,
   AddElectorateToCommitment,
-  RemoveElectorateFromCommitment,
-  AddCommitmentToCommitment,
-  RemoveCommitmentFromCommitment,
-  AddLinkToCommitment,
-  RemoveLinkFromCommitment
+  RemoveElectorateFromCommitment
 } from './commitment.actions'
 import { switchMap, map, catchError, tap, switchMapTo, concatMap } from 'rxjs/operators'
 
@@ -80,63 +74,6 @@ export class CommitmentEffects {
       switchMap((result: DataResult<CommitmentResult>) => [
         new AppNotification({ message: 'Commitment Saved', code: 'stored', data: result.data.commitment }),
         new SetCurrentCommitment({ id: result.data.commitment.id }),
-        new ClearAppNotification()
-      ]),
-      catchError(error => of(new CommitmentsActionFailure(error)))
-
-    )
-
-    @Effect()
-    addLinkToCommitment$: Observable<Action> = this.actions$
-      .pipe(
-        ofType(CommitmentActionTypes.AddLinkToCommitment),
-        map((action: AddLinkToCommitment) => action.payload),
-        switchMap((payload: any) => this.service.addLinkToCommitment(payload)),
-        switchMap((result: any) => [
-          new AppNotification({ message: 'Related Link Added' }),
-          new SetCurrentCommitment({ id: result.commitment.id }),
-          new ClearAppNotification()
-        ]),
-        catchError(error => of(new CommitmentsActionFailure(error)))
-      )
-
-    @Effect()
-    removeLinkFromCommitment$: Observable<Action> = this.actions$
-      .pipe(
-        ofType(CommitmentActionTypes.RemoveLinkFromCommitment),
-        map((action: RemoveLinkFromCommitment) => action.payload),
-        switchMap((payload: any) => this.service.removeLinkFromCommitment(payload)),
-        switchMap((result: any) => [
-          new AppNotification({ message: 'Related Link Removed' }),
-          new SetCurrentCommitment({ id: result.commitment.id }),
-          new ClearAppNotification()
-        ]),
-        catchError(error => of(new CommitmentsActionFailure(error)))
-      )
-
-  @Effect()
-  addCommitmentToCommitment$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(CommitmentActionTypes.AddCommitmentToCommitment),
-      map((action: AddCommitmentToCommitment) => action.payload),
-      switchMap((payload: any) => this.service.addCommitmentToCommitment(payload)),
-      switchMap((result: any) => [
-        new AppNotification({ message: 'Related Commitment Added' }),
-        new SetCurrentCommitment({ id: result.commitment.id }),
-        new ClearAppNotification()
-      ]),
-      catchError(error => of(new CommitmentsActionFailure(error)))
-    )
-
-  @Effect()
-  removeCommitmentFromCommitment$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(CommitmentActionTypes.RemoveCommitmentFromCommitment),
-      map((action: RemoveCommitmentFromCommitment) => action.payload),
-      switchMap((payload: any) => this.service.removeCommitmentFromCommitment(payload)),
-      switchMap((result: any) => [
-        new AppNotification({ message: 'Related Commitment Removed' }),
-        new SetCurrentCommitment({ id: result.commitment.id }),
         new ClearAppNotification()
       ]),
       catchError(error => of(new CommitmentsActionFailure(error)))

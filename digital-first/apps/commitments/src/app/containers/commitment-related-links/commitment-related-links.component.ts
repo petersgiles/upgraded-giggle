@@ -19,7 +19,9 @@ export class CommitmentRelatedLinksComponent implements OnInit, OnDestroy {
   expanded: boolean
   expandedSubscription$: Subscription
   tableData$: Observable<DataTableConfig>
-  constructor(private router: Router, public dialog: MdcDialog, private service: RelatedLinkService) { }
+  constructor(private router: Router, public dialog: MdcDialog, private service: RelatedLinkService) {
+    this.tableData$ = this.service.TableData
+   }
 
   @Input()
   set commitment(val: number) {
@@ -38,7 +40,7 @@ export class CommitmentRelatedLinksComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result !== ADD_LINK_CLOSE && result) {
-        this.service.addItemToCommitment(this.commitment, result.url)
+        this.service.addItemToCommitment({commitment: this.commitment, url: result.url})
       }
     })
   }
@@ -64,17 +66,20 @@ export class CommitmentRelatedLinksComponent implements OnInit, OnDestroy {
       )
       .subscribe(result => {
         if (result === ARE_YOU_SURE_ACCEPT) {
-          this.service.removeItemFromCommitment(this.commitment, $event.id)
+          this.service.removeItemFromCommitment({commitment: this.commitment, id: $event.id})
         }
       })
 
   }
 
-  handleRowClicked($event) {}
+  handleRowClicked($event) {
+    // tslint:disable-next-line:no-console
+    console.log($event)
+    window.open($event.cell.value, '_blank')
+  }
 
   ngOnInit(): void {
     this.expandedSubscription$ = this.service.Expanded.subscribe(p => this.expanded = p)
-    this.tableData$ = this.service.TableData
   }
 
   ngOnDestroy(): void {

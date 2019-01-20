@@ -24,11 +24,7 @@ import {
   AddElectorateToCommitment,
   RemoveElectorateFromCommitment,
   AddMapPointToCommitment,
-  RemoveMapPointFromCommitment,
-  AddCommitmentToCommitment,
-  RemoveCommitmentFromCommitment,
-  AddLinkToCommitment,
-  RemoveLinkFromCommitment
+  RemoveMapPointFromCommitment
 } from '../reducers/commitment/commitment.actions'
 import { GetAllContacts, StoreContact } from '../reducers/contact/contact.actions'
 import { AddRefiner, RemoveRefiner, ClearAllRefiners, ExpandRefinerGroup, CollapseRefinerGroup, SetTextRefiner } from '../reducers/commitment-overview/commitment-overview.actions'
@@ -109,19 +105,6 @@ export class CommitmentDataService {
     this.store.dispatch(new RemoveMapPointFromCommitment({ commitment, mapPoint }))
   }
 
-  public addLinkToCommitment(commitment: string | number, url: string): any {
-    this.store.dispatch(new AddLinkToCommitment({ commitment, url }))
-  }
-  public removeLinkFromCommitment(commitment: string | number, id: string | number): any {
-    this.store.dispatch(new RemoveLinkFromCommitment({ commitment, id }))
-  }
-  public addCommitmentToCommitment(commitment: string | number, relatedTo: string | number): any {
-    this.store.dispatch(new AddCommitmentToCommitment({ commitment, relatedTo }))
-  }
-  public removeCommitmentFromCommitment(commitment: string | number, relatedTo: string | number): any {
-    this.store.dispatch(new RemoveCommitmentFromCommitment({ commitment, relatedTo }))
-  }
-
   get Commitment(): Observable<Commitment> {
     return this.store.pipe(select(fromRoot.getCurrentCommitment))
   }
@@ -139,10 +122,6 @@ export class CommitmentDataService {
 
   get RelatedCommitmentsTableData(): Observable<DataTableConfig> {
     return this.store.pipe(select(fromRoot.getRelatedCommitmentsTableData))
-  }
-
-  get RelatedLinksTableData(): Observable<DataTableConfig> {
-    return this.store.pipe(select(fromRoot.getRelatedLinksTableData))
   }
 
   get CommitmentDataTable(): Observable<DataTableConfig> {

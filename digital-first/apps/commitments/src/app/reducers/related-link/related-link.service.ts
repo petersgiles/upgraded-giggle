@@ -4,7 +4,7 @@ import {
 import { Injectable } from '@angular/core'
 import { Store, select } from '@ngrx/store'
 import * as fromRoot from '..'
-import { ExpandPanel, CollapsePanel, StoreRelatedLink, RemoveRelatedLink } from './related-link.actions'
+import { ExpandPanel, CollapsePanel, AddLinkToCommitment, RemoveLinkFromCommitment } from './related-link.actions'
 import { DataTableConfig } from '@digital-first/df-components'
 
 @Injectable({
@@ -14,12 +14,12 @@ export class RelatedLinkService {
 
     constructor(private store: Store<fromRoot.State>) { }
 
-    addItemToCommitment(commitment: string | number, relatedTo: any): any {
-        this.store.dispatch(new StoreRelatedLink(null))
+    addItemToCommitment(payload: {commitment: string | number, url: any}): any {
+        this.store.dispatch(new AddLinkToCommitment(payload))
     }
 
-    removeItemFromCommitment(commitment: string | number, id: number): any {
-        this.store.dispatch(new RemoveRelatedLink({ id }))
+    removeItemFromCommitment(payload: {commitment: string | number, id: number}): any {
+        this.store.dispatch(new RemoveLinkFromCommitment(payload))
     }
 
     get TableData(): Observable<DataTableConfig> {

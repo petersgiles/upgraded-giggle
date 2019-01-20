@@ -8,6 +8,7 @@ import { Router } from '@angular/router'
 import { DialogAddCommitmentComponent } from '../../dialogs/dialog-add-commitment.component'
 import { formatCommitmentTitle } from '../../formatters'
 import { RelatedCommitmentService } from '../../reducers/related-commitment/related-commitment.service'
+import { RelatedCommitment } from '../../reducers/related-commitment/related-commitment.model'
 
 @Component({
   selector: 'digital-first-commitment-related-commitments',
@@ -54,7 +55,11 @@ export class CommitmentRelatedCommitmentsComponent implements OnInit, OnDestroy 
 
         dialogRef.afterClosed().subscribe((result: any) => {
           if (result && result.id) {
-            this.service.addItemToCommitment(this.commitment, result.id)
+            const related = {
+              commitment: this.commitment,
+              relatedTo: result.id
+            }
+            this.service.addItemToCommitment(related)
           }
         })
       }
@@ -82,7 +87,7 @@ export class CommitmentRelatedCommitmentsComponent implements OnInit, OnDestroy 
       )
       .subscribe(result => {
         if (result === ARE_YOU_SURE_ACCEPT && $event.id) {
-          this.service.removeItemFromCommitment(this.commitment, $event.id)
+          this.service.removeItemFromCommitment({commitment: this.commitment, relatedTo: $event.id})
         }
       })
 
@@ -91,6 +96,8 @@ export class CommitmentRelatedCommitmentsComponent implements OnInit, OnDestroy 
   handleRowClicked($event) {
     // tslint:disable-next-line:no-console
     console.log($event)
+
+    this.router.navigate(['/', 'commitment', $event.id])
   }
 
   ngOnInit(): void {

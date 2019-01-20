@@ -45,7 +45,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   commitmentTypes$: Observable<CommitmentType[]>
   commitmentContactsTableData$: Observable<DataTableConfig>
   commitmentCommitmentsTableData$: Observable<DataTableConfig>
-  commitmentRelatedLinksTableData$: Observable<DataTableConfig>
 
   themeTypes$: Observable<ThemeType[]>
   packageTypes$: Observable<PackageType[]>
@@ -100,10 +99,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.portfolios$ = this.lookup.Portfolios
     this.electorates$ = this.lookup.Locations
 
-    this.commitmentContactsTableData$ = this.service.CommitmentContactsTableData
-    this.commitmentCommitmentsTableData$ = this.service.RelatedCommitmentsTableData
-    this.commitmentRelatedLinksTableData$ = this.service.RelatedLinksTableData
-
     this.autoSaveSubscription$ = this.service.CommitmentEditAutosave.subscribe(next => this.autoSave = next)
 
     this.commitmentSubscription$ = this.service.Commitment.subscribe(
@@ -132,8 +127,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
           return a
         }, {
             commitmentPanelExpanded: false,
-            relatedPanelExpanded: false,
-            relatedLinkPanelExpanded: false,
             discussionPanelExpanded: false,
             contactPanelExpanded: false,
             formPanelExpanded: false,
@@ -257,95 +250,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     window.location.href = mailText
   }
 
-  handleRelatedCommitmentsRowClicked($event) {
-    this.router.navigate(['/', 'commitment', $event.id])
-  }
-
-  // handleRelatedLinkRowClicked($event) {
-  //   // tslint:disable-next-line:no-console
-  //   console.log($event)
-  // }
-
-  // handleRealatedLinkTableDeleteClicked($event) {
-  //   const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
-  //     escapeToClose: true,
-  //     clickOutsideToClose: true
-  //   })
-
-  //   dialogRef.afterClosed()
-  //     .pipe(
-  //       first()
-  //     )
-  //     .subscribe(result => {
-  //       if (result === ARE_YOU_SURE_ACCEPT) {
-  //         this.service.removeLinkFromCommitment(this.commitment.id, $event.id)
-  //       }
-  //     })
-  // }
-
-  // handleCommitmentsTableDeleteClicked(relatedTo) {
-
-  //   const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
-  //     escapeToClose: true,
-  //     clickOutsideToClose: true
-  //   })
-
-  //   dialogRef.afterClosed()
-  //     .pipe(
-  //       first()
-  //     )
-  //     .subscribe(result => {
-  //       if (result === ARE_YOU_SURE_ACCEPT && relatedTo.id) {
-  //         this.service.removeCommitmentFromCommitment(this.commitment.id, relatedTo.id)
-  //       }
-  //     })
-
-  // }
-
-  // handleAddLinkDialog() {
-  //   const dialogRef = this.dialog.open(DialogAddLinkComponent, {
-  //     escapeToClose: true,
-  //     clickOutsideToClose: true
-  //   })
-
-  //   dialogRef.afterClosed().subscribe((result: any) => {
-  //     if (result !== ADD_LINK_CLOSE && result) {
-  //       this.service.addLinkToCommitment(this.commitment.id, result.url)
-  //     }
-  //   })
-  // }
-
-  // handleOpenCommitmentDialog() {
-
-  //   this.service.Commitments.pipe(
-  //     first()
-  //   )
-  //     .subscribe(commitments => {
-  //       const dialogRef = this.dialog.open(DialogAddCommitmentComponent, {
-  //         escapeToClose: true,
-  //         clickOutsideToClose: true,
-  //         data: {
-  //           commitments: commitments.sort((leftSide, rightSide) => {
-
-  //             const leftTitle = formatCommitmentTitle(leftSide).toLowerCase()
-  //             const rightTitle = formatCommitmentTitle(rightSide).toLowerCase()
-
-  //             if (leftTitle < rightTitle) { return -1 }
-  //             if (leftTitle > rightTitle) { return 1 }
-  //             return 0
-  //           })
-  //         }
-  //       })
-
-  //       dialogRef.afterClosed().subscribe((result: any) => {
-  //         if (result && result.id) {
-  //           this.service.addCommitmentToCommitment(this.commitment.id, result.id)
-  //         }
-  //       })
-  //     }
-  //     )
-  // }
-
   handleRemoveElectorateFromCommitment(electorate) {
     this.service.removeElectorateFromCommitment(this.commitment.id, electorate.value.id)
   }
@@ -355,9 +259,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   }
 
   handleAutosaveClicked(autosaveState) {
-
-    // tslint:disable-next-line:no-console
-    console.log(autosaveState)
 
     this.service.changeCommitmentEditAutosave(autosaveState)
 

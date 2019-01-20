@@ -34,28 +34,3 @@ export const mapCommitment = (commitment): Commitment => {
 
 export const mapCommitments = (commitments): Commitment[] =>
   commitments.map(mapCommitment)
-
-export const mapRelatedCommitment = (item): any => {
-  const relatedTo = fromLookup(item.RelatedTo)
-  // tslint:disable-next-line:no-console
-  console.log(relatedTo)
-  return {
-    id: item.ID,
-    title: relatedTo.title,
-    commitment: fromLookup(item.Commitment),
-    relatedTo: relatedTo
-  }
-}
-
-export const mapRelatedCommitments = (commitments): RelatedCommitment[] =>
-  commitments.map(mapRelatedCommitment)
-
-export const mapRelatedLink = (item): any => ({
-  id: item.ID,
-  title: item.Url,
-  commitment: fromLookup(item.Commitment),
-  url: item.Url
-})
-
-export const mapRelatedLinks = (commitments): RelatedLink[] =>
-  commitments.map(mapRelatedLink)

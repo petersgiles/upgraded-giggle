@@ -5,25 +5,18 @@ import { DataResult, RelatedLinksResult } from '../../models'
 
 export enum RelatedLinkActionTypes {
   LoadRelatedLinks = '[RelatedLink] Load RelatedLinks',
-  AddRelatedLink = '[RelatedLink] Add RelatedLink',
-  UpsertRelatedLink = '[RelatedLink] Upsert RelatedLink',
-  AddRelatedLinks = '[RelatedLink] Add RelatedLinks',
-  UpsertRelatedLinks = '[RelatedLink] Upsert RelatedLinks',
-  UpdateRelatedLink = '[RelatedLink] Update RelatedLink',
-  UpdateRelatedLinks = '[RelatedLink] Update RelatedLinks',
-  DeleteRelatedLink = '[RelatedLink] Delete RelatedLink',
-  DeleteRelatedLinks = '[RelatedLink] Delete RelatedLinks',
   ClearRelatedLinks = '[RelatedLink] Clear RelatedLinks',
 
   ExpandPanel = '[RelatedLink] Expand Panel',
   CollapsePanel = '[RelatedLink] Collapse Panel',
-  SetCurrentRelatedLink = '[RelatedLink] Set Current RelatedLink',
+
   GetRelatedLinks = '[RelatedLink] Get RelatedLinks',
   GetAllRelatedLinks = '[RelatedLink] Get All RelatedLinks',
-  GetRelatedLinksByCommitment = '[RelatedLink] Get Map Points By Commitment',
-  StoreRelatedLink = '[RelatedLink] Store RelatedLink',
-  RemoveRelatedLink = '[RelatedLink] Remove RelatedLink',
-  RelatedLinksActionFailure = '[RelatedLink] RelatedLinks Action Failure'
+  GetRelatedLinksByCommitment = '[RelatedLink] Get Related Links By Commitment',
+
+  RelatedLinksActionFailure = '[RelatedLink] RelatedLinks Action Failure',
+  AddLinkToCommitment = '[RelatedLink] Add link ToCommitment',
+  RemoveLinkFromCommitment = '[RelatedLink] Remove link From Commitment',
 }
 
 export class CollapsePanel implements Action {
@@ -38,80 +31,16 @@ export class GetRelatedLinksByCommitment implements Action {
   constructor(public payload: { commitment: number | string }) {}
 }
 
-export class StoreRelatedLink implements Action {
-  readonly type = RelatedLinkActionTypes.StoreRelatedLink
-
-  constructor(public payload: RelatedLink) {}
-}
-
-export class RemoveRelatedLink implements Action {
-  readonly type = RelatedLinkActionTypes.RemoveRelatedLink
-
-  constructor(public payload: { id: number }) {}
-}
-
 export class LoadRelatedLinks implements Action {
   readonly type = RelatedLinkActionTypes.LoadRelatedLinks
 
   constructor(public payload: DataResult<RelatedLinksResult>) {}
 }
 
-export class AddRelatedLink implements Action {
-  readonly type = RelatedLinkActionTypes.AddRelatedLink
-
-  constructor(public payload: { location: RelatedLink }) {}
-}
-
-export class UpsertRelatedLink implements Action {
-  readonly type = RelatedLinkActionTypes.UpsertRelatedLink
-
-  constructor(public payload: { location: RelatedLink }) {}
-}
-
-export class AddRelatedLinks implements Action {
-  readonly type = RelatedLinkActionTypes.AddRelatedLinks
-
-  constructor(public payload: { locations: RelatedLink[] }) {}
-}
-
-export class UpsertRelatedLinks implements Action {
-  readonly type = RelatedLinkActionTypes.UpsertRelatedLinks
-
-  constructor(public payload: { locations: RelatedLink[] }) {}
-}
-
-export class UpdateRelatedLink implements Action {
-  readonly type = RelatedLinkActionTypes.UpdateRelatedLink
-
-  constructor(public payload: { location: Update<RelatedLink> }) {}
-}
-
-export class UpdateRelatedLinks implements Action {
-  readonly type = RelatedLinkActionTypes.UpdateRelatedLinks
-
-  constructor(public payload: { locations: Update<RelatedLink>[] }) {}
-}
-
-export class DeleteRelatedLink implements Action {
-  readonly type = RelatedLinkActionTypes.DeleteRelatedLink
-
-  constructor(public payload: { id: string }) {}
-}
-
-export class DeleteRelatedLinks implements Action {
-  readonly type = RelatedLinkActionTypes.DeleteRelatedLinks
-
-  constructor(public payload: { ids: string[] }) {}
-}
-
 export class ClearRelatedLinks implements Action {
   readonly type = RelatedLinkActionTypes.ClearRelatedLinks
 }
 
-export class SetCurrentRelatedLink implements Action {
-  readonly type = RelatedLinkActionTypes.SetCurrentRelatedLink
-  constructor(public payload: { id: number }) {}
-}
 export class GetRelatedLinks implements Action {
   readonly type = RelatedLinkActionTypes.GetRelatedLinks
   constructor(public payload?: { ids?: number[] }) {}
@@ -128,23 +57,26 @@ export class RelatedLinksActionFailure implements Action {
   constructor(public payload: any) {}
 }
 
+export class AddLinkToCommitment implements Action {
+  readonly type = RelatedLinkActionTypes.AddLinkToCommitment
+
+  constructor(public payload: { commitment: number | string, url: string }) { }
+}
+
+export class RemoveLinkFromCommitment implements Action {
+  readonly type = RelatedLinkActionTypes.RemoveLinkFromCommitment
+
+  constructor(public payload: { commitment: number | string , id: number | string }) { }
+}
+
 export type RelatedLinkActions =
   | CollapsePanel
   | ExpandPanel
   | LoadRelatedLinks
-  | AddRelatedLink
-  | UpsertRelatedLink
-  | AddRelatedLinks
-  | UpsertRelatedLinks
-  | UpdateRelatedLink
-  | UpdateRelatedLinks
-  | DeleteRelatedLink
-  | DeleteRelatedLinks
   | ClearRelatedLinks
-  | SetCurrentRelatedLink
   | GetAllRelatedLinks
   | GetRelatedLinks
   | GetRelatedLinksByCommitment
-  | StoreRelatedLink
-  | RemoveRelatedLink
   | RelatedLinksActionFailure
+  | AddLinkToCommitment
+  | RemoveLinkFromCommitment
