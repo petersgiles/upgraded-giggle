@@ -1,6 +1,4 @@
 import { Action } from '@ngrx/store'
-import { Update } from '@ngrx/entity'
-import { RelatedCommitment } from './related-commitment.model'
 import { DataResult, RelatedCommitmentsResult } from '../../models'
 
 export enum RelatedCommitmentActionTypes {

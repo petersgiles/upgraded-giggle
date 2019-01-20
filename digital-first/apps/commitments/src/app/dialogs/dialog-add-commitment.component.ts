@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core'
 import { MdcDialogRef, MDC_DIALOG_DATA } from '@angular-mdc/web'
 import { formatCommitmentTitle } from '../formatters'
 
+export const ADD_COMMITMENT_TO_COMMITMENT_CLOSE = 'close'
 export interface DialogCommitmentsData {
   commitments: { id: any, name: string }[]
 }

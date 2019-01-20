@@ -10,7 +10,7 @@ import {
   RemoveCommitmentFromCommitment,
   AddCommitmentToCommitment,
 } from './related-commitment.actions'
-import { switchMap, map, catchError } from 'rxjs/operators'
+import { switchMap, map, catchError, tap } from 'rxjs/operators'
 
 import { DataResult, RelatedCommitmentsResult } from '../../models'
 import { AppNotification, ClearAppNotification } from '../app.actions'
@@ -37,32 +37,46 @@ export class RelatedCommitmentEffects {
   )
 
   @Effect()
-  addCommitmentToCommitment$: Observable<Action> = this.actions$.pipe(
-    ofType(RelatedCommitmentActionTypes.AddCommitmentToCommitment),
-    map((action: AddCommitmentToCommitment) => action.payload),
+  removeCommitmentFromCommitment$: Observable<Action> = this.actions$.pipe(
+    ofType(RelatedCommitmentActionTypes.RemoveCommitmentFromCommitment),
+     // tslint:disable-next-line:no-console
+    tap(action => console.log(action)),
+    map((action: RemoveCommitmentFromCommitment) => action.payload),
     switchMap((payload: any) =>
-      this.service.addItemToCommitment(payload)
+      this.service.removeItemFromCommitment(payload)
+      .pipe(
+        // tslint:disable-next-line:no-console
+        tap(result => console.log(result)),
+        switchMap((result: any) => [
+          new AppNotification({ message: 'Related Commitment Removed' }),
+          new SetCurrentCommitment({ id: result.commitment.id }),
+          new ClearAppNotification()
+        ])
+      )
     ),
-    switchMap((result: any) => [
-      new AppNotification({ message: 'Related Commitment Added' }),
-      new SetCurrentCommitment({ id: result.commitment.id }),
-      new ClearAppNotification()
-    ]),
     catchError(error => of(new RelatedCommitmentsActionFailure(error)))
   )
 
   @Effect()
-  removeCommitmentFromCommitment$: Observable<Action> = this.actions$.pipe(
-    ofType(RelatedCommitmentActionTypes.RemoveCommitmentFromCommitment),
-    map((action: RemoveCommitmentFromCommitment) => action.payload),
+  addCommitmentToCommitment$: Observable<Action> = this.actions$.pipe(
+    ofType(RelatedCommitmentActionTypes.AddCommitmentToCommitment),
+    // tslint:disable-next-line:no-console
+    tap(action => console.log(action)),
+    map((action: AddCommitmentToCommitment) => action.payload),
+    // tslint:disable-next-line:no-console
+    tap(action => console.log(action)),
     switchMap((payload: any) =>
-      this.service.removeItemFromCommitment(payload)
+      this.service.addItemToCommitment(payload)
+      .pipe(
+        // tslint:disable-next-line:no-console
+        tap(result => console.log(result)),
+        switchMap((result: any) => [
+          new AppNotification({ message: 'Related Commitment Added' }),
+          new SetCurrentCommitment({ id: result.commitment.id }),
+          new ClearAppNotification()
+        ])
+      )
     ),
-    switchMap((result: any) => [
-      new AppNotification({ message: 'Related Commitment Removed' }),
-      new SetCurrentCommitment({ id: result.commitment.id }),
-      new ClearAppNotification()
-    ]),
     catchError(error => of(new RelatedCommitmentsActionFailure(error)))
   )
 

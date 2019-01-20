@@ -5,10 +5,9 @@ import { DataTableConfig } from '@digital-first/df-components'
 import { DialogAreYouSureComponent, ARE_YOU_SURE_ACCEPT } from '@digital-first/df-dialogs'
 import { first } from 'rxjs/operators'
 import { Router } from '@angular/router'
-import { DialogAddCommitmentComponent } from '../../dialogs/dialog-add-commitment.component'
+import { DialogAddCommitmentComponent, ADD_COMMITMENT_TO_COMMITMENT_CLOSE } from '../../dialogs/dialog-add-commitment.component'
 import { formatCommitmentTitle } from '../../formatters'
 import { RelatedCommitmentService } from '../../reducers/related-commitment/related-commitment.service'
-import { RelatedCommitment } from '../../reducers/related-commitment/related-commitment.model'
 
 @Component({
   selector: 'digital-first-commitment-related-commitments',
@@ -33,6 +32,9 @@ export class CommitmentRelatedCommitmentsComponent implements OnInit, OnDestroy 
   }
 
   handleAddItem() {
+
+              // tslint:disable-next-line:no-console
+              console.log('handleAddItem')
     this.service.Commitments.pipe(
       first()
     )
@@ -54,7 +56,10 @@ export class CommitmentRelatedCommitmentsComponent implements OnInit, OnDestroy 
         })
 
         dialogRef.afterClosed().subscribe((result: any) => {
-          if (result && result.id) {
+
+          // tslint:disable-next-line:no-console
+          console.log(result)
+          if (result !== ADD_COMMITMENT_TO_COMMITMENT_CLOSE && result) {
             const related = {
               commitment: this.commitment,
               relatedTo: result.id

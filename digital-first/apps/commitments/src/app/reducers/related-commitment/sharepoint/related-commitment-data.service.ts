@@ -4,7 +4,7 @@ import { RelatedCommitmentDataService } from '../related-commitment-data.service
 import { Observable, of } from 'rxjs'
 import { DataResult, RelatedCommitmentsResult } from '../../../models'
 import { concatMap, map, tap } from 'rxjs/operators'
-import { byCommitmentIdQuery, byJoinTableQuery, byIdQuery } from '../../../services/sharepoint/caml'
+import { byCommitmentIdQuery, byIdQuery } from '../../../services/sharepoint/caml'
 import { mapRelatedCommitments } from './maps'
 
 @Injectable({
@@ -16,6 +16,9 @@ export class RelatedCommitmentDataSharePointService implements RelatedCommitment
         const LISTNAME = 'RelatedCommitment'
 
         const viewXml = byIdQuery({ id: payload.relatedTo })
+
+        // tslint:disable-next-line:no-console
+        console.log(LISTNAME, payload, viewXml)
 
         return this.sharepoint.getItems({
           listName: LISTNAME,
@@ -36,10 +39,13 @@ export class RelatedCommitmentDataSharePointService implements RelatedCommitment
         const LISTNAME = 'RelatedCommitment'
 
         const sp = {
-          Title: `${payload.commitment} ${payload.url}`,
+          Title: `${payload.commitment} ${payload.relatedTo}`,
           Commitment: payload.commitment,
-          Url: payload.url
+          RelatedTo: payload.relatedTo
         }
+
+        // tslint:disable-next-line:no-console
+        console.log(LISTNAME, sp)
 
         return this.sharepoint.storeItem({
           listName: LISTNAME,
