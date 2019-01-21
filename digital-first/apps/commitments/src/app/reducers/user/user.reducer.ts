@@ -3,12 +3,22 @@ import { AppActionTypes, AppActions } from '../app.actions'
 
 export interface State {
   currentUser,
-  drawerOpen
+  drawerOpen,
+  operations
 }
 
 export const initialState: State = {
   currentUser: null,
-  drawerOpen: false
+  drawerOpen: false,
+  operations: {
+    'commitment': 'read',
+    'location': 'read',
+    'contacts': 'read',
+    'costing': 'read',
+    'relatedLinks': 'read',
+    'relatedCommitments': 'read',
+    'discussion': 'read',
+  }
 }
 
 export function reducer(
@@ -31,10 +41,17 @@ export function reducer(
       }
     }
 
+    case UserActionTypes.SetUserOperations : {
+      return {
+        ...state,
+        operations: {...action.payload}
+      }
+    }
+
     default:
       return state
   }
 }
-
+export const getCurrentUserOperations = (state: State) => state.operations
 export const getCurrentUser = (state: State) => state.currentUser
 export const getDrawerOpen = (state: State) => state.drawerOpen

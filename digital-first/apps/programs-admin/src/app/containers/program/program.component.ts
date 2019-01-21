@@ -243,7 +243,6 @@ export class ProgramComponent implements OnInit, OnDestroy {
 
     return {
       title: 'reports',
-      hasDeleteItemButton: true,
       headings: [{caption: 'Name'}, {caption: 'Notes'}],
       rows: rows
     }
@@ -287,7 +286,6 @@ export class ProgramComponent implements OnInit, OnDestroy {
 
     return {
       title: 'permissions',
-      hasDeleteItemButton: true,
       headings: [{caption: 'Name'}, {caption: 'Permission'}],
       rows: rows
     }

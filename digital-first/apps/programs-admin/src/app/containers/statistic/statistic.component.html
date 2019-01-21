@@ -4,7 +4,7 @@
       (onEditItem)="handleEditStatistic(statistic)"
     ></digital-first-edit-item-button>
     <digital-first-delete-item-button
-      (onDeleteItem)="handleDeleteStatistic(statistic)"
+      [hasDeleteItemButton]="true" (onDeleteItem)="handleDeleteStatistic(statistic)"
     ></digital-first-delete-item-button>
   </digital-first-page-title>
 

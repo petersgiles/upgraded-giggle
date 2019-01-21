@@ -5,6 +5,6 @@
 </digital-first-page-title>
 
 <div class="commitment-layout__row" >
-<digital-first-data-table [tableData]="tableData" (onDeleteItem)="handleTableDeleteClicked($event)"
+<digital-first-data-table [tableData]="tableData" [hasDeleteItemButton]="true" (onDeleteItem)="handleTableDeleteClicked($event)"
   (onCellClicked)="onCellClicked.emit($event)"></digital-first-data-table>
 </div>

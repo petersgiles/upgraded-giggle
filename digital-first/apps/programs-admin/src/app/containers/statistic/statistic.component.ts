@@ -255,7 +255,6 @@ export class StatisticComponent implements OnInit {
 
     return {
       title: 'permissions',
-      hasDeleteItemButton: true,
       headings: [{caption: 'Name'}, {caption: 'Permission'}],
       rows: rows
     }
@@ -283,7 +282,6 @@ export class StatisticComponent implements OnInit {
 
     return {
       title: 'reports',
-      hasDeleteItemButton: true,
       headings: [{caption: 'Name'}, {caption: 'Notes'}],
       rows: rows
     }

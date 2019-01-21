@@ -20,6 +20,7 @@ export class CommitmentRelatedCommitmentsComponent implements OnInit, OnDestroy 
   expanded: boolean
   expandedSubscription$: Subscription
   tableData$: Observable<DataTableConfig>
+  userOperation$: Observable<any>
   constructor(private router: Router, public dialog: MdcDialog, private service: RelatedCommitmentService) { }
 
   @Input()
@@ -33,8 +34,8 @@ export class CommitmentRelatedCommitmentsComponent implements OnInit, OnDestroy 
 
   handleAddItem() {
 
-              // tslint:disable-next-line:no-console
-              console.log('handleAddItem')
+    // tslint:disable-next-line:no-console
+    console.log('handleAddItem')
     this.service.Commitments.pipe(
       first()
     )
@@ -108,6 +109,7 @@ export class CommitmentRelatedCommitmentsComponent implements OnInit, OnDestroy 
   ngOnInit(): void {
     this.expandedSubscription$ = this.service.Expanded.subscribe(p => this.expanded = p)
     this.tableData$ = this.service.TableData
+    this.userOperation$ = this.service.UserOperation
   }
 
   ngOnDestroy(): void {

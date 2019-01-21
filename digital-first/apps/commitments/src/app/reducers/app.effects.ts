@@ -5,7 +5,7 @@ import { Observable } from 'rxjs'
 import { map, concatMap } from 'rxjs/operators'
 import { Action } from '@ngrx/store'
 import { AppDataService } from '../services/app-data.service'
-import { SetCurrentUser } from './user/user.actions'
+import { SetCurrentUser, GetUserOperations, UserActionTypes, SetUserOperations } from './user/user.actions'
 
 @Injectable()
 export class AppEffects {
@@ -18,7 +18,26 @@ export class AppEffects {
       concatMap((environment: any) =>
         this.service.getCurrentUser()
           .pipe(
-            concatMap((user: any) => [new SetCurrentUser(user)]
+            concatMap((user: any) => [
+                new SetCurrentUser(user),
+                new GetUserOperations(user.roles)
+              ]
+            )
+          )
+      )
+    )
+
+    @Effect()
+    getUserOperations$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(UserActionTypes.GetUserOperations),
+      map((action: GetUserOperations) => action.payload),
+      concatMap((roles: any) =>
+        this.service.getCurrentUserOperations(roles)
+          .pipe(
+            concatMap((result: any) => [
+                new SetUserOperations(result)
+              ]
             )
           )
       )

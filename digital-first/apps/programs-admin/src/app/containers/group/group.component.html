@@ -4,7 +4,7 @@
       (onEditItem)="handleEditGroup(group)"
     ></digital-first-edit-item-button>
     <digital-first-delete-item-button
-      (onDeleteItem)="handleDeleteGroup(group)"
+      [hasDeleteItemButton]="true" (onDeleteItem)="handleDeleteGroup(group)"
     ></digital-first-delete-item-button>
   </digital-first-page-title>
   <p>

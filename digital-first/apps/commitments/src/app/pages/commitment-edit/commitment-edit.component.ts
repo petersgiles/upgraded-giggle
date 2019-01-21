@@ -78,6 +78,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   isSubscribed$: Observable<boolean>
   autoSave: boolean
   autoSaveSubscription$: Subscription
+  userOperation$: Observable<any>
 
   constructor(
     private router: Router,
@@ -88,6 +89,8 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     private lookup: CommitmentLookupService) { }
 
   ngOnInit(): void {
+
+    this.userOperation$ = this.service.UserOperation
 
     this.whoAnnouncedTypes$ = this.lookup.WhoAnnouncedTypes
     this.announcementTypes$ = this.lookup.AnnouncementTypes

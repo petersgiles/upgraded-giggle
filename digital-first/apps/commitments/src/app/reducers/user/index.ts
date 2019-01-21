@@ -14,6 +14,11 @@ export const getDrawerOpen = createSelector(
     fromUser.getDrawerOpen
 )
 
+export const getCurrentUserOperations = createSelector(
+    getUserState,
+    fromUser.getCurrentUserOperations
+)
+
 export const getCurrentUserProfile = createSelector(
     getUserCurrentUser,
     (user) => {

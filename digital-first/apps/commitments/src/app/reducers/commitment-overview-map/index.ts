@@ -30,7 +30,6 @@ export const getCommitmentOverviewMapCommitmentsTableData = createSelector(
 
         const dtc: DataTableConfig = {
             title: 'commitments',
-            hasDeleteItemButton: false,
             headings: [
                 { caption: 'Title' }
             ],

@@ -53,7 +53,6 @@ export const getCommitmentActionsTableData = createSelector(
 
         const dtc: DataTableConfig = {
             title: 'contacts',
-            hasDeleteItemButton: true,
             headings: [
                 { caption: 'Portfolio' },
                 { caption: 'Description' }

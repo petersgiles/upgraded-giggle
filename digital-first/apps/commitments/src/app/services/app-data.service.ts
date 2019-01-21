@@ -11,6 +11,7 @@ export const ROLE_WRITE = 'ROLE_WRITE'
 export abstract class AppDataService {
 
   abstract getCurrentUser(): Observable<any>
+  abstract getCurrentUserOperations(roles: any): Observable<any>
 
   abstract removeElectorateFromCommitment(payload: any): Observable<any>
   abstract addElectorateToCommitment(payload: any): Observable<any>

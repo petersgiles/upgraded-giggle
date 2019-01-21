@@ -5,6 +5,6 @@
 </digital-first-page-title>
 
 <div class="commitment-layout__row" *ngIf="expanded">
-  <digital-first-data-table [tableData]="tableData$ | async" (onDeleteItem)="handleTableDeleteClicked($event)"
+  <digital-first-data-table [tableData]="tableData$ | async" [hasDeleteItemButton]="true" (onDeleteItem)="handleTableDeleteClicked($event)"
     (onCellClicked)="handleRowClicked($event)"></digital-first-data-table>
 </div>

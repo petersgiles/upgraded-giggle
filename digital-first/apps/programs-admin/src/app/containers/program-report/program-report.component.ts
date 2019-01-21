@@ -186,7 +186,6 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
 
     return {
       title: 'permissions',
-      hasDeleteItemButton: true,
       headings: [{caption: 'Name'}, {caption: 'Permission'}],
       rows: rows
     }

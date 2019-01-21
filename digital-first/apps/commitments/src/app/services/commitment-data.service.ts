@@ -32,11 +32,20 @@ import { ChangeTimeFormat, CollapsePanel, ExpandPanel, ChangeAutoSave } from '..
 
 import * as fromRoot from '../reducers'
 import { SetLayoutDrawState } from '../reducers/app.actions'
+import { tap } from 'rxjs/operators'
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommitmentDataService {
+
+ get UserOperation(): Observable<any> {
+    return this.store.pipe(
+        select(fromRoot.getCurrentUserOperations),
+        // tslint:disable-next-line:no-console
+        tap(result => console.log(result))
+    )
+}
 
   changeCommitmentEditAutosave(val: boolean): any {
     this.store.dispatch(new ChangeAutoSave(val))

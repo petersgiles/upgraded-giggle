@@ -40,7 +40,7 @@ export const getRelatedCommitmentsTableData = createSelector(
 
         const dtc: DataTableConfig = {
             title: 'related commitments',
-            hasDeleteItemButton: true,
+
             headings: [
                 { caption: 'Commitment' }
             ],

@@ -62,7 +62,6 @@ export class MapComponent implements OnInit {
 
     const dtc: DataTableConfig = {
       title: 'map points',
-      hasDeleteItemButton: true,
       headings: [
         { caption: 'Address' }
       ],

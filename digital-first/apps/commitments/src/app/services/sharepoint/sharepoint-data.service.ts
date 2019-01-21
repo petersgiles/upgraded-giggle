@@ -35,6 +35,19 @@ export class SharepointDataService implements AppDataService {
     return this.sharepoint.getCurrentUser()
   }
 
+  getCurrentUserOperations(roles: any): Observable<any> {
+
+    return of({
+      'commitment': 'write',
+      'location': 'write',
+      'contacts': 'write',
+      'costing': 'write',
+      'relatedLinks': 'write',
+      'relatedCommitments': 'write',
+      'discussion': 'write',
+    })
+  }
+
   storeCommitment = (commitment: Commitment): Observable<DataResult<CommitmentResult>> => {
 
     const spCommitment = {
