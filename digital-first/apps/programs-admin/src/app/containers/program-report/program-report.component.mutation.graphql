@@ -1,0 +1,20 @@
+mutation deleteReportAccessControl($data:DeleteReportAccessControlInputGraph){
+  deleteReportAccessControl(input: $data)
+}
+
+
+mutation createReportAccessControl($data:CreateReportAccessControlInputGraph){
+  createReportAccessControl(input: $data){
+    id
+    rights
+    rowVersion
+  }
+}
+
+mutation updateReportAccessControl($data:UpdateReportAccessControlInputGraph){
+  updateReportAccessControl(input: $data){
+    id
+    rights
+    rowVersion
+  }
+}

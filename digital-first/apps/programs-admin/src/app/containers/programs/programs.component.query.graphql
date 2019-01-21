@@ -1,0 +1,10 @@
+query allPrograms {
+  programs (orderBy: {path: "name"}){
+    id
+    name
+    ,agency{
+      id
+      title
+    }
+  }
+}

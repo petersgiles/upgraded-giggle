@@ -79,7 +79,8 @@ import {DialogAssignUserToGroupComponent} from './dialogs/dialog-assign-user-to-
 import { StatisticReportsComponent } from './containers/statistic-reports/statistic-reports.component'
 import { StatisticReportComponent } from './containers/statistic-report/statistic-report.component';
 import { StatisticReportAddComponent } from './containers/statistic-reports/statistic-report-add/statistic-report-add.component';
-import { StatisticReportEditComponent } from './containers/statistic-reports/statistic-report-edit/statistic-report-edit.component'
+import { StatisticReportEditComponent } from './containers/statistic-reports/statistic-report-edit/statistic-report-edit.component';
+import { ReportEditComponent } from './containers/program-reports/report-edit/report-edit.component'
 
 const COMPONENTS = [AppComponent, HomeComponent]
 
@@ -153,7 +154,8 @@ export function initApplication(): Function {
     StatisticReportsComponent,
     StatisticReportComponent,
     StatisticReportAddComponent,
-    StatisticReportEditComponent
+    StatisticReportEditComponent,
+    ReportEditComponent
   ],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [

@@ -1,0 +1,7 @@
+query allGroups{
+  groups(orderBy:{path:"title"}){
+    id
+    title
+    rowVersion
+  }
+}

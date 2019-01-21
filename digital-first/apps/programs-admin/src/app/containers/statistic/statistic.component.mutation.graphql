@@ -1,0 +1,27 @@
+mutation deleteStatisticReport ($data: DeleteStatisticReportInputGraph!) {
+  deleteStatisticReport (input: $data)
+}
+
+mutation deleteStatistic ($data: DeleteStatisticInputGraph!) {
+  deleteStatistic (input: $data)
+}
+
+mutation createStatisticAccessControl($data:CreateStatisticAccessControlInputGraph){
+  createStatisticAccessControl(input: $data){
+    id
+    rights
+    rowVersion
+  }
+}
+
+mutation deleteStatisticAccessControl($data:DeleteStatisticAccessControlInputGraph) {
+  deleteStatisticAccessControl(input:$data)
+}
+
+mutation updateStatisticAccessControl($data:UpdateStatisticAccessControlInputGraph){
+  updateStatisticAccessControl(input: $data){
+    id
+    rights
+    rowVersion
+  }
+}

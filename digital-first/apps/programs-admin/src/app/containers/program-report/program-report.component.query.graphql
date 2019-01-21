@@ -1,0 +1,22 @@
+query report ($reportId: String!) {
+  reports(ids:[$reportId])
+  {
+    id
+    name
+    notes
+    programId
+    rowVersion
+    accessControlList{
+      id
+      accessControlEntries (orderBy: {path: "accessControlGroup.title"}) {
+        id
+        accessControlGroup{
+          id
+          title
+        }
+        rights
+        rowVersion
+      }
+    }
+  }
+}
