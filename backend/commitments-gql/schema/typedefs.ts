@@ -163,6 +163,13 @@ type CommitmentAction {
     commitment: ID,
     url: String
   }
+
+  type GroupPermission {
+    id: ID,
+    group: String,
+    component: String,
+    rights: String
+  }
   
   type Subscription {
     Title: String
@@ -220,7 +227,8 @@ type CommitmentAction {
     contacts: [Contact],
     comments(commitment: ID!): [Comment],
     locations: [Electorate],
-    tags:[Tag]
+    tags:[Tag],
+    groupPermissions: [GroupPermission],
   }
 
   # The mutation root type, used to define all mutations.

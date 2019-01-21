@@ -25,6 +25,7 @@ db.connect('./diskdb/commitments', [
   'commitment-related-links',
   'commitment-subscriptions',
   'commitment-commitment-actions',
+  'commitment-group-permissions'
 ]);
 
 const commitmentSubscriptionTable = 'commitment-subscriptions';
@@ -36,7 +37,9 @@ export const resolvers = {
       let found = db["commitment-subscriptions"].find(criteria)
       return found
     },
-
+    groupPermissions: () => {
+      return db["commitment-group-permissions"].find().map((f: any) => ({ id: f._id, ...f }))
+    },
     commitments: () => {
       return db.commitments.find()
     },

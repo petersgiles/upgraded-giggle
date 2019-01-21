@@ -10,15 +10,7 @@ export interface State {
 export const initialState: State = {
   currentUser: null,
   drawerOpen: false,
-  operations: {
-    'commitment': 'read',
-    'location': 'read',
-    'contacts': 'read',
-    'costing': 'read',
-    'relatedLinks': 'read',
-    'relatedCommitments': 'read',
-    'discussion': 'read',
-  }
+  operations: {}
 }
 
 export function reducer(
@@ -42,9 +34,23 @@ export function reducer(
     }
 
     case UserActionTypes.SetUserOperations : {
+// tslint:disable-next-line:no-console
+console.log('SetUserOperations', action.payload)
+      const ops = action.payload.data.groupPermissions.reduce((acc: any, item: any) => {
+
+        const components = item.component.split(',')
+        acc[item.group] = {
+          ...(components || []).reduce((obj, c) =>  (obj[c] = item.rights , obj), {})
+        }
+        return acc
+      }, {})
+
+// tslint:disable-next-line:no-console
+console.log('SetUserOperations', action.payload, ops)
+
       return {
         ...state,
-        operations: {...action.payload}
+        operations: {...ops}
       }
     }
 
@@ -52,6 +58,6 @@ export function reducer(
       return state
   }
 }
-export const getCurrentUserOperations = (state: State) => state.operations
+export const getOperations = (state: State) => state.operations
 export const getCurrentUser = (state: State) => state.currentUser
 export const getDrawerOpen = (state: State) => state.drawerOpen

@@ -21,17 +21,17 @@ import {
   ContactsResult,
   DataResult,
   MapPointsResult,
-  RelatedCommitmentsResult,
-  RelatedLinksResult
+  GroupPermissionsResult,
 } from '../../models'
 
 import { Apollo } from 'apollo-angular'
-import { AppDataService, ROLE_READ, ROLE_WRITE } from '../app-data.service'
+import { AppDataService, ROLE_VISITORS, ROLE_MEMBERS } from '../app-data.service'
 import { Commitment } from '../../reducers/commitment'
 import { Injectable } from '@angular/core'
 import { Observable, of } from 'rxjs'
 import { AppUserProfile } from '@digital-first/df-layouts'
 import { callQuery, callMutate } from './apollo-helpers'
+import { GET_GROUP_PERMISSIONS } from './group-permissions'
 
 @Injectable({
   providedIn: 'root'
@@ -46,7 +46,7 @@ export class ApolloDataService implements AppDataService {
       isSiteAdmin: true,
       systemUserKey: 'guest',
       name: 'Guest User',
-      roles: [ROLE_READ, ROLE_WRITE]
+      roles: [ROLE_VISITORS, ROLE_MEMBERS]
     }
 
     return of(
@@ -54,13 +54,7 @@ export class ApolloDataService implements AppDataService {
     )
   }
 
-  getCurrentUserOperations(roles: any): Observable<any> {
-
-    return of({
-      'commitment': 'write',
-      'relatedCommitments': 'write',
-    })
-  }
+  getCurrentUserOperations = (filter?: any) => callQuery<GroupPermissionsResult>(this.apollo, { query: GET_GROUP_PERMISSIONS })
 
   constructor(private apollo: Apollo) { }
 
