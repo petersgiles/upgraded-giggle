@@ -1,0 +1,7 @@
+mutation createReport($data:CreateReportInputGraph){
+  createReport(input: $data){
+    id
+    notes
+    rowVersion
+  }
+}

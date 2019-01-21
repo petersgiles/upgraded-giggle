@@ -1,0 +1,24 @@
+query statisticReport ($reportId: String!) {
+  statisticReports(ids:[$reportId])
+  {
+    id
+    name
+    notes
+    rowVersion
+    statisticId
+    accessControlList{
+      id
+      accessControlEntries (orderBy: {path: "accessControlGroup.title"}) {
+        id
+        accessControlGroup{
+          id
+          title
+        }
+        rights
+        rowVersion
+      }
+    }
+  }
+}
+
+

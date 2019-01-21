@@ -1,0 +1,14 @@
+query group ($groupId: String!) {
+  groups(ids:[$groupId])
+  {
+    id
+    rowVersion
+    title
+    members(orderBy: {path: "emailAddress"}){
+      id
+      emailAddress
+      lastLogin
+      rowVersion
+    }
+    }
+  }
