@@ -25,6 +25,7 @@ import {StatisticEditComponent} from './containers/statistic/statistic-edit/stat
 import {StatisticReportComponent} from './containers/statistic-report/statistic-report.component'
 import {StatisticReportAddComponent} from './containers/statistic-reports/statistic-report-add/statistic-report-add.component'
 import {StatisticReportEditComponent} from './containers/statistic-reports/statistic-report-edit/statistic-report-edit.component'
+import {ReportEditComponent} from './containers/program-reports/report-edit/report-edit.component'
 
 export const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -117,6 +118,14 @@ export const routes: Routes = [
       {
         path: 'programs/:id/reports/add',
         component: ReportAddComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+      {
+        path: 'programs/:id/reports/edit/:id',
+        component: ReportEditComponent,
         canActivate: [AuthGuard],
         data: {
           nav: false

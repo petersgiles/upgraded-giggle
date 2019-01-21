@@ -218,3 +218,11 @@ mutation updateStatisticReport ($data: UpdateStatisticReportInputGraph) {
     statisticId
    }
 }
+
+mutation updateReport($data: UpdateReportInputGraph) {
+      updateReport(input: $data) {
+        id
+        name
+        notes
+      }
+    }

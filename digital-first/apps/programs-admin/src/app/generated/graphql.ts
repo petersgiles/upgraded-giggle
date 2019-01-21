@@ -989,6 +989,28 @@ export namespace UpdateStatisticReport {
   };
 }
 
+export namespace UpdateReport {
+  export type Variables = {
+    data?: UpdateReportInputGraph | null;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    updateReport: UpdateReport | null;
+  };
+
+  export type UpdateReport = {
+    __typename?: 'ReportGraph';
+
+    id: Guid;
+
+    name: string;
+
+    notes: string | null;
+  };
+}
+
 export namespace AllAgencies {
   export type Variables = {};
 
@@ -1346,6 +1368,8 @@ export namespace Report {
     name: string;
 
     notes: string | null;
+
+    programId: Guid;
 
     rowVersion: string;
 
@@ -2088,6 +2112,23 @@ export class UpdateStatisticReportGQL extends Apollo.Mutation<
 @Injectable({
   providedIn: 'root'
 })
+export class UpdateReportGQL extends Apollo.Mutation<
+  UpdateReport.Mutation,
+  UpdateReport.Variables
+> {
+  document: any = gql`
+    mutation updateReport($data: UpdateReportInputGraph) {
+      updateReport(input: $data) {
+        id
+        name
+        notes
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
 export class AllAgenciesGQL extends Apollo.Query<
   AllAgencies.Query,
   AllAgencies.Variables
@@ -2295,6 +2336,7 @@ export class ReportGQL extends Apollo.Query<Report.Query, Report.Variables> {
         id
         name
         notes
+        programId
         rowVersion
         accessControlList {
           id
