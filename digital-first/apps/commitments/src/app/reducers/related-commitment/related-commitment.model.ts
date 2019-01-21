@@ -4,9 +4,3 @@ export interface RelatedCommitment {
   commitment: number | string
   relatedTo: number | string
 }
-
-export interface RelatedLink {
-  id: string
-  title: string
-  commitment: number | string
-}

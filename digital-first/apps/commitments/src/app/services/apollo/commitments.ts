@@ -78,6 +78,18 @@ export const GET_COMMITMENT = gql`
       icon
       colour
     }
+    themeType {
+      id
+      title
+      icon
+      colour
+    }
+    packageType {
+      id
+      title
+      icon
+      colour
+    }
     mapPoints {
       place_id
       latitude
@@ -113,6 +125,8 @@ mutation Commitment(
   $criticalDate: ID
   $whoAnnouncedType: ID
   $commitmentType: ID
+  $themeType: ID
+  $packageType: ID
   $date: String
   $announcedby: String
   $portfolio: ID
@@ -129,6 +143,8 @@ mutation Commitment(
     criticalDate: $criticalDate
     whoAnnouncedType: $whoAnnouncedType
     commitmentType: $commitmentType
+    themeType: $themeType
+    packageType: $packageType
     date: $date
     announcedby: $announcedby
     portfolio: $portfolio
@@ -188,6 +204,18 @@ mutation Commitment(
       icon
       colour
     }
+    themeType {
+      id
+      title
+      icon
+      colour
+    }
+    packageType {
+      id
+      title
+      icon
+      colour
+    }
     portfolio {
         id
         title
@@ -215,39 +243,45 @@ mutation Commitment(
 }
 `
 export const GET_ALL_COMMITMENTS = gql`
-  {
-    commitments {
+{
+  commitments {
+    id
+    title
+    electorates {
       id
-      title
-      electorates {
-        id
-      }
-      date
-      announcedby
-      party {
-        id
-      }
-      commitmentType {
-        id
-      }
-      criticalDate {
-        id
-      }
-      announcementType {
-        id
-      }
-      portfolio {
-        id
-      }
-      whoAnnouncedType {
-        id
-      }
-      contacts {
-          id
-      }
-      mapPoints {
-        place_id
-      }
+    }
+    date
+    announcedby
+    party {
+      id
+    }
+    commitmentType {
+      id
+    }
+    criticalDate {
+      id
+    }
+    announcementType {
+      id
+    }
+    packageType {
+      id
+    }
+    themeType {
+      id
+    }
+    portfolio {
+      id
+    }
+    whoAnnouncedType {
+      id
+    }
+    contacts {
+      id
+    }
+    mapPoints {
+      place_id
     }
   }
+}
 `

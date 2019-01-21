@@ -8,6 +8,8 @@ import { WhoAnnouncedType } from '../../models/who-announced-type.model'
 import { Contact } from '../contact/contact.model'
 import { MapPoint } from '../map-point/map-point.model'
 import { CriticalDate } from '../../models/critical-date.model'
+import { PackageType } from '../../models/package-type.model'
+import { ThemeType } from '../../models/theme-type.model'
 
 export interface Commitment {
   id: number
@@ -24,6 +26,8 @@ export interface Commitment {
   announcedby: string,
   portfolio: Portfolio,
   criticalDate: CriticalDate,
+  packageType: PackageType,
+  themeType: ThemeType,
   portfolios: Portfolio[],
   mapPoints: MapPoint[],
   contacts: Contact[],

@@ -51,8 +51,6 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
     this.lookup.getAllCommitmentTypes()
     this.lookup.getAllCriticalDates()
     this.lookup.getAllLocations()
-    this.lookup.getAllPartys()
-    this.lookup.getAllPortfolios()
 
     this.service.getAllCommitments()
 
@@ -73,8 +71,6 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
   }
 
   handlePage($event) {
-    // tslint:disable-next-line:no-console
-    console.log($event)
     this.pageIndex = $event.pageIndex
     this.pageRows()
   }
@@ -86,8 +82,6 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
 
     this.pagedDataTableRows = (this.dataTableRows || []).slice(skip, take)
 
-    // tslint:disable-next-line:no-console
-    console.log(skip, take, this.pagedDataTableRows, this.dataTableRows)
   }
 
   ngOnDestroy(): void {

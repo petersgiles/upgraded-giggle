@@ -36,6 +36,14 @@
         <ng-select [items]="announcementTypes" bindValue="id" bindLabel="title" required placeholder="Type of Announcement"
           formControlName="announcementType">
         </ng-select>
+
+        <ng-select [items]="themeTypes" bindValue="id" bindLabel="title" required placeholder="Theme"
+        formControlName="themeType">
+      </ng-select>
+
+      <ng-select [items]="packageTypes" bindValue="id" bindLabel="title" required placeholder="Package"
+        formControlName="packageType">
+      </ng-select>
       </div>
 
 

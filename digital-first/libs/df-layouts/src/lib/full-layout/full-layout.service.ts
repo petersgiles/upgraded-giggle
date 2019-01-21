@@ -53,6 +53,7 @@ export class FullLayoutService {
 
 export interface AppUserProfile {
   name: string
+  roles?: any,
   email?: string
   background?: string
   displayType?: string

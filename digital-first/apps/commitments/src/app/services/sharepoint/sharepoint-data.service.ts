@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 
 import { Observable, of, forkJoin } from 'rxjs'
-import { concatMap, map } from 'rxjs/operators'
+import { concatMap, map, tap } from 'rxjs/operators'
 import { SharepointJsomService } from '@digital-first/df-sharepoint'
 import { AppDataService } from '../app-data.service'
 
@@ -15,7 +15,6 @@ import {
   CommitmentsResult,
   ContactsResult,
   MapPointsResult,
-  RelatedCommitmentsResult
 } from '../../models'
 import { Commitment } from '../../reducers/commitment'
 import { arrayToHash } from '@digital-first/df-utils'
@@ -23,7 +22,7 @@ import { MapPoint } from '../../reducers/map-point/map-point.model'
 import { byIdQuery, byCommitmentIdQuery, byMapPointPlaceIdQuery, byJoinTableQuery, byIdsQuery } from './caml'
 import { mapContacts, mapCommitmentContacts } from './contact'
 import { mapElectorates, mapCommitmentElectorates, mapMapPoints, mapCommitmentMapPoints } from './geo'
-import { mapCommitment, mapCommitments, mapRelatedCommitments } from './commitment'
+import { mapCommitment, mapCommitments } from './commitment'
 import { AppUserProfile } from '@digital-first/df-layouts'
 import { mapPortfolios } from '../../reducers/commitment-lookup/sharepoint/maps'
 import { Contact } from '../../reducers/contact/contact.model'
@@ -31,15 +30,6 @@ import { Contact } from '../../reducers/contact/contact.model'
   providedIn: 'root'
 })
 export class SharepointDataService implements AppDataService {
-  removeLinkFromCommitment(payload: any): Observable<any> {
-    throw new Error('Method not implemented.')
-  }
-  addLinkToCommitment(payload: any): Observable<any> {
-    throw new Error('Method not implemented.')
-  }
-  getRelatedLinksByCommitment(commitment: any): Observable<any> {
-    throw new Error('Method not implemented.')
-  }
 
   getCurrentUser(): Observable<AppUserProfile> {
     return this.sharepoint.getCurrentUser()
@@ -50,6 +40,8 @@ export class SharepointDataService implements AppDataService {
     const spCommitment = {
       WhoAnnouncedType: commitment.whoAnnouncedType,
       AnnouncementType: commitment.announcementType,
+      ThemeType: commitment.themeType,
+      PackageType: commitment.packageType,
       CriticalDate: commitment.criticalDate,
       CommitmentType: commitment.commitmentType,
       Contacts: commitment.contacts,
@@ -116,7 +108,12 @@ export class SharepointDataService implements AppDataService {
     ]).pipe(
       concatMap(([spCommitment, spContacts, spCommitmentContacts,
         spElectorates, spCommitmentElectorates, spPortfolios, spCommitmentPortfolios, spMapPoints, spCommitmentMapPoints]) => {
+
         const commitment = mapCommitment(spCommitment[0])
+
+        // tslint:disable-next-line:no-console
+        console.log('Commitment =>', commitment)
+
         const contacts = arrayToHash(mapContacts(spContacts))
         const commitmentContact = mapCommitmentContacts(spCommitmentContacts)
         const electorates = arrayToHash(mapElectorates(spElectorates))
@@ -177,19 +174,6 @@ export class SharepointDataService implements AppDataService {
           }))
       )
   }
-
-  // filterWhoAnnouncedTypes(payload?: any): Observable<DataResult<WhoAnnouncedTypesResult>> {
-  //   return this.sharepoint.getItems({ listName: 'WhoAnnouncedType' })
-  //     .pipe(
-  //       concatMap((result: any) =>
-  //         of({
-  //           data: { whoAnnouncedTypes: mapWhoAnnouncedTypes(result) },
-  //           loading: false,
-  //           error: null
-  //         }))
-  //     )
-
-  // }
 
   filterMapPoints(payload?: any): Observable<DataResult<MapPointsResult>> {
     return this.sharepoint.getItems({ listName: 'MapPoint' })
@@ -366,65 +350,6 @@ export class SharepointDataService implements AppDataService {
     return this.sharepoint.storeItem({
       listName: 'CommitmentElectorate',
       data: spMapPoint,
-    }).pipe(
-      concatMap(_ =>
-        of({ commitment: { id: payload.commitment } }))
-    )
-  }
-
-  getRelatedCommitmentsByCommitment(commitment: number): Observable<DataResult<RelatedCommitmentsResult>> {
-
-    const viewXml = byCommitmentIdQuery({ id: commitment })
-
-    return this.sharepoint.getItems({
-      listName: 'RelatedCommitment',
-      viewXml: viewXml
-    }).pipe(
-      concatMap(items =>
-        of({
-          data: { commitmentRelatedCommitments: mapRelatedCommitments(items) },
-          loading: false
-        }))
-      )
-
-  }
-
-  removeCommitmentFromCommitment(payload: any): Observable<any> {
-    const LISTNAME = 'RelatedCommitment'
-
-    const viewXml = byJoinTableQuery({ fieldA: { name: 'Commitment', id: payload.commitment }, fieldB: { name: 'RelatedTo', id: payload.relatedTo } })
-    // tslint:disable-next-line:no-console
-    console.log('removeCommitmentFromCommitment', viewXml, payload)
-
-    return this.sharepoint.getItems({
-      listName: LISTNAME,
-      viewXml: viewXml
-    }).pipe(
-      map(mapRelatedCommitments),
-      map(result => result[0]),
-      concatMap((result: any) =>
-        this.sharepoint.removeItem({
-          listName: LISTNAME, id: result.id
-        }).pipe(
-          concatMap(_ => of({ commitment: { id: payload.commitment } }))
-        )
-      )
-    )
-  }
-
-  addCommitmentToCommitment(payload: any): Observable<any> {
-
-    const LISTNAME = 'RelatedCommitment'
-
-    const sp = {
-      Title: `${payload.commitment} ${payload.relatedTo}`,
-      Commitment: payload.commitment,
-      RelatedTo: payload.relatedTo
-    }
-
-    return this.sharepoint.storeItem({
-      listName: LISTNAME,
-      data: sp,
     }).pipe(
       concatMap(_ =>
         of({ commitment: { id: payload.commitment } }))

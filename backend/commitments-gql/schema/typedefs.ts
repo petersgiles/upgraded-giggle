@@ -54,6 +54,26 @@ type WhoAnnouncedType {
     icon: String,
 }
 
+type ThemeType {
+    id: ID,
+    title: String,
+    description: String,
+    sortorder: String,
+    colour: String,
+    icon: String,
+    party: PoliticalParty,
+}
+
+type PackageType {
+    id: ID,
+    title: String,
+    description: String,
+    sortorder: String,
+    colour: String,
+    icon: String,
+    party: PoliticalParty,
+}
+
 type CommitmentType {
     id: ID,
     title: String,
@@ -138,6 +158,12 @@ type CommitmentAction {
     relatedTo: ID
   }
 
+  type RelatedLink {
+    id: ID,
+    commitment: ID,
+    url: String
+  }
+  
   type Subscription {
     Title: String
     commitment: ID,
@@ -157,6 +183,8 @@ type CommitmentAction {
     whoAnnouncedType: WhoAnnouncedType,
     announcementType: AnnouncementType,
     commitmentType: CommitmentType,
+    themeType: ThemeType,
+    packageType: PackageType,
     portfolio: Portfolio,
     electorates: [Electorate],
     comments: [Comment],
@@ -175,12 +203,16 @@ type CommitmentAction {
     commitmentPortfolios(commitment: ID!): [Portfolio],
     commitmentElectorates(commitment: ID!): [Electorate],
     commitmentRelatedCommitments(commitment: ID!): [Commitment],
+    commitmentRelatedLinks(commitment: ID!): [RelatedLink],
     mapPointCommitments(mapPoint: ID!) : [Commitment],
     parties: [PoliticalParty],
     portfolios: [Portfolio],
     criticalDates: [CriticalDate],
     mapPoints: [MapPoint],
+    themeTypes: [ThemeType],
+    packageTypes: [PackageType],
     relatedCommitment: [RelatedCommitment],
+    relatedLinks: [RelatedLink],
     commitmentSubscription(commitment: ID!, user: ID!): [Subscription]
     announcementTypes: [AnnouncementType],
     commitmentTypes: [CommitmentType]
@@ -201,6 +233,8 @@ type CommitmentAction {
       cost: String
       location: ID,
       whoAnnouncedType: ID,
+      themeType: ID,
+      packageType: ID,
       announcementType: ID,
       criticalDate: ID,
       commitmentType: ID,
@@ -244,6 +278,8 @@ type CommitmentAction {
     deleteCommitmentElectorate(commitment: ID!, electorate: ID!): Commitment,
     storeRelatedCommitment(commitment: ID!, relatedTo: ID!): Commitment,
     deleteRelatedCommitment(commitment: ID!, relatedTo: ID!): Commitment,
+    storeRelatedLink(commitment: ID!, url: String!): Commitment,
+    deleteRelatedLink(id: ID!): Commitment,
     storeCommitmentPortfolio(commitment: ID!, portfolio: ID!): Commitment,
     deleteCommitmentPortfolio(id: ID!): Commitment,
     storeCommitmentSubscription(commitment: ID!, subscriber: ID!): Commitment,

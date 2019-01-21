@@ -13,6 +13,26 @@ export const getAnnouncementTypeEntities = createSelector(
     arrayToHash
 )
 
+export const getAllThemeTypes = createSelector(
+    getCommitmentLookupState,
+    state => state.themeTypes
+)
+
+export const getThemeTypeEntities = createSelector(
+    getAllThemeTypes,
+    arrayToHash
+)
+
+export const getAllPackageTypes = createSelector(
+    getCommitmentLookupState,
+    state => state.packageTypes
+)
+
+export const getPackageTypeEntities = createSelector(
+    getAllPackageTypes,
+    arrayToHash
+)
+
 export const getAllCommitmentTypes = createSelector(
     getCommitmentLookupState,
     state => state.commitmentTypes

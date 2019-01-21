@@ -30,6 +30,7 @@ import * as fromUser from './user/user.reducer'
 import * as fromContact from './contact/contact.reducer'
 import * as fromMapPoint from './map-point/map-point.reducer'
 import * as fromRelatedCommitment from './related-commitment/related-commitment.reducer'
+import * as fromRelatedLink from './related-link/related-link.reducer'
 import * as fromCommitmentLookup from './commitment-lookup/commitment-lookup.reducer'
 import * as fromCommitmentOverview from './commitment-overview/commitment-overview.reducer'
 import * as fromCommitmentEdit from './commitment-edit/commitment-edit.reducer'
@@ -48,7 +49,9 @@ export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionRedu
             { 'commitmentEdit': ['expandedPanels', 'autosave'] },
             { 'commitmentDiscussion': ['expanded', 'timeFormat'] },
             { 'commitmentContact': ['expanded'] },
-            { 'commitmentAction': ['expanded'] }
+            { 'commitmentAction': ['expanded'] },
+            { 'relatedLink': ['expanded'] },
+            { 'relatedCommitment': ['expanded'] }
         ], rehydrate: true
     })(reducer)
 }
@@ -60,6 +63,7 @@ export interface State {
     user: fromUser.State
     routerReducer: fromRouter.RouterReducerState<RouterStateUrl>
     relatedCommitment: fromRelatedCommitment.State
+    relatedLink: fromRelatedLink.State
     notification: fromNotification.State
     commitment: fromCommitment.State
     contact: fromContact.State
@@ -78,6 +82,7 @@ export const reducers: ActionReducerMap<State> = {
     user: fromUser.reducer,
     routerReducer: fromRouter.routerReducer,
     relatedCommitment: fromRelatedCommitment.reducer,
+    relatedLink: fromRelatedLink.reducer,
     notification: fromNotification.reducer,
     commitment: fromCommitment.reducer,
     contact: fromContact.reducer,
@@ -101,6 +106,7 @@ export const getNotification = createSelector(
 
 export * from './commitment-lookup'
 export * from './related-commitment'
+export * from './related-link'
 export * from './user'
 export * from './map-point'
 export * from './contact'

@@ -13,6 +13,7 @@
     <digital-first-commitment-edit-form *ngIf="panels.formPanelExpanded" [busy]="formBusy" [showSubmit]="!autoSave" [commitment]="commitment"
       [parties]="parties$ | async" [criticalDates]="criticalDates$ | async" [announcementTypes]="announcementTypes$ | async"
       [whoAnnouncedTypes]="whoAnnouncedTypes$ | async" [commitmentTypes]="commitmentTypes$ | async" [portfolios]="portfolios$ | async"
+      [packageTypes]="packageTypes$ | async" [themeTypes]="themeTypes$ | async"
       (onSubmitted)="handleUpdateCommitment($event)" (onCancelled)="handleCancelled($event)"
       (onChanged)="handleUpdateCommitmentChange($event)">
     </digital-first-commitment-edit-form>
@@ -46,22 +47,9 @@
 
     <digital-first-commitment-costings *ngIf="commitment" [commitment]="commitment?.id"></digital-first-commitment-costings>
 
-    <digital-first-page-title *ngIf="commitment" title="Related Items" (onTitleClicked)="handleChangeExpanded(!panels.relatedItemsPanelExpanded, 'relatedItemsPanelExpanded')">
-      <digital-first-add-item-button icon="person" title="Add&nbsp;Link" *ngIf="panels.relatedItemsPanelExpanded"
-      (onAddItem)="handleAddLinkDialog()"></digital-first-add-item-button>
-      <digital-first-add-item-button icon="person" title="Add&nbsp;commitment" *ngIf="panels.relatedItemsPanelExpanded"
-        (onAddItem)="handleOpenCommitmentDialog()"></digital-first-add-item-button>
-      <digital-first-expand-collapse-button [expanded]='panels.relatedItemsPanelExpanded' (onChangeExpanded)="handleChangeExpanded($event, 'relatedItemsPanelExpanded')"></digital-first-expand-collapse-button>
-    </digital-first-page-title>
+    <digital-first-commitment-related-links *ngIf="commitment" [commitment]="commitment?.id"></digital-first-commitment-related-links>
 
-    <div class="commitment-layout__row" *ngIf="panels.relatedItemsPanelExpanded">
-      <digital-first-data-table [tableData]="commitmentCommitmentsTableData$ | async" (onDeleteItem)="handleCommitmentsTableDeleteClicked($event)"
-        (onCellClicked)="handleRelatedCommitmentsRowClicked($event)"></digital-first-data-table>
-    </div>
-
-    <!-- <div class="commitment-layout__row">
-      <digital-first-related-artifacts></digital-first-related-artifacts>
-    </div> -->
+    <digital-first-commitment-related-commitments *ngIf="commitment" [commitment]="commitment?.id"></digital-first-commitment-related-commitments>
 
     <digital-first-commitment-discussion *ngIf="commitment" [commitment]="commitment?.id"></digital-first-commitment-discussion>
 

@@ -2,8 +2,9 @@ import { Commitment } from '../reducers/commitment'
 
 import { Contact } from '../reducers/contact/contact.model'
 import { MapPoint } from '../reducers/map-point/map-point.model'
-import { RelatedCommitment, RelatedLink } from '../reducers/related-commitment/related-commitment.model'
+import { RelatedCommitment } from '../reducers/related-commitment/related-commitment.model'
 import { CommitmentAction } from '../reducers/commitment-action/commitment-action.model'
+import { RelatedLink } from '../reducers/related-link/related-link.model'
 
 export { CommitmentType, CommitmentTypesResult } from './commitment-type.model'
 export { Location, LocationsResult } from './location.model'
@@ -12,6 +13,8 @@ export { CriticalDate, CriticalDatesResult } from './critical-date.model'
 export { Party, PartysResult } from './party.model'
 export { Portfolio, PortfoliosResult } from './portfolio.model'
 export { AnnouncementType, AnnouncementTypesResult } from './announcement-type.model'
+export { PackageType, PackageTypesResult } from './package-type.model'
+export { ThemeType, ThemeTypesResult } from './theme-type.model'
 export interface ServiceData<T> {
   data: { [key: string]: T }
 }
@@ -31,7 +34,7 @@ export interface RelatedCommitmentsResult {
   commitmentRelatedCommitments: RelatedCommitment[]
 }
 export interface RelatedLinksResult {
-  commitmentRelatedCommitments: RelatedLink[]
+  commitmentRelatedLinks: RelatedLink[]
 }
 
 export interface CommentsResult {

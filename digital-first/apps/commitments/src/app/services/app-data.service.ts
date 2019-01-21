@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { Commitment } from '../reducers/commitment'
 
+export const ROLE_READ = 'ROLE_READ'
+export const ROLE_WRITE = 'ROLE_WRITE'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -11,14 +14,6 @@ export abstract class AppDataService {
 
   abstract removeElectorateFromCommitment(payload: any): Observable<any>
   abstract addElectorateToCommitment(payload: any): Observable<any>
-
-  abstract removeCommitmentFromCommitment(payload: any): Observable<any>
-  abstract addCommitmentToCommitment(payload: any): Observable<any>
-  abstract getRelatedCommitmentsByCommitment(commitment: any): Observable<any>
-
-  abstract removeLinkFromCommitment(payload: any): Observable<any>
-  abstract addLinkToCommitment(payload: any): Observable<any>
-  abstract getRelatedLinksByCommitment(commitment: any): Observable<any>
 
   abstract storeMapPoint(mapPoint: any): Observable<any>
   abstract removeMapPoint(placeId: any): Observable<any>

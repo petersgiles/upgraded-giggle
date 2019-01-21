@@ -12,6 +12,8 @@ db.connect('./diskdb/commitments', [
   'commitment-commitment-map-points',
   'commitment-portfolios',
   'commitment-whoAnnouncedTypes',
+  'commitment-themeTypes',
+  'commitment-packageTypes',
   'commitment-announcementTypes',
   'commitment-commitmentTypes',
   'commitment-parties',
@@ -20,6 +22,7 @@ db.connect('./diskdb/commitments', [
   'commitment-commitment-portfolios',
   'commitment-commitment-electorates',
   'commitment-related-commitments',
+  'commitment-related-links',
   'commitment-subscriptions',
   'commitment-commitment-actions',
 ]);
@@ -99,14 +102,16 @@ export const resolvers = {
 
     },
     commitmentElectorates: (obj: any, args: any, context: any, info: any) => {
-      // (commitment: ID!): [MapPoint]
       let set = db['commitment-commitment-electorates'].find({ commitment: args.commitment })
       let found = set.map((f: any) => db['commitment-electorates'].findOne({ id: f.electorate })).map((c: any) => ({ ...c }))
       return found
 
     },
+    commitmentRelatedLinks: (obj: any, args: any, context: any, info: any) => {
+      let found = db['commitment-related-links'].find({ commitment: args.commitment }).map((c: any) => ({ ...c, id: c._id }))
+      return found
+    },
     commitmentRelatedCommitments: (obj: any, args: any, context: any, info: any) => {
-      // (commitment: ID!): [MapPoint]
       let set = db['commitment-related-commitments'].find({ commitment: args.commitment })
       let found = set.map((f: any) => db['commitments'].findOne({ id: f.relatedTo })).map((c: any) => ({ ...c }))
       return found
@@ -115,6 +120,8 @@ export const resolvers = {
     parties: () => db['commitment-parties'].find(),
     portfolios: () => db['commitment-portfolios'].find(),
     announcementTypes: () => db['commitment-announcementTypes'].find(),
+    themeTypes: () => db['commitment-themeTypes'].find(),
+    packageTypes: () => db['commitment-packageTypes'].find(),
     criticalDates: () => db['commitment-critical-dates'].find(),
     commitmentTypes: () => db['commitment-commitmentTypes'].find(),
     whoAnnouncedTypes: () => db['commitment-whoAnnouncedTypes'].find(),
@@ -129,6 +136,10 @@ export const resolvers = {
     },
     mapPoints: () => db['commitment-map-points'].find(),
     relatedCommitment: () => db['commitment-related-commitments'].find(),
+    relatedLinks: () => {
+      var found = db['commitment-related-links'].find().map((c: any) => ({ ...c, id: c._id }))
+      return found
+    },
     locations: () => db['commitment-electorates'].find(),
     tags: () => db['commitment-tags'].find(),
   },
@@ -266,6 +277,23 @@ export const resolvers = {
       const c = db.commitments.findOne({ id: args.commitment })
       return c
     },
+    storeRelatedLink: (_root: any, args: any) => {
+      const data = { ...args };
+      const ccc = db['commitment-related-links'].findOne(data)
+      var saved = null
+      if (!ccc) {
+        saved = db['commitment-related-links'].save([data]);
+      }
+      const c = db.commitments.findOne({ id: args.commitment })
+      console.log(args, ccc, saved)
+      return c
+    },
+    deleteRelatedLink: (_root: any, args: any) => {
+      var cc = db['commitment-related-links'].findOne({ _id: args.id,  });
+      var result = db['commitment-related-links'].remove({ _id: cc._id }, false);
+      const c = db.commitments.findOne({ id: cc.commitment })
+      return c
+    },
     deleteRelatedCommitment: (_root: any, args: any) => {
       var cc = db['commitment-related-commitments'].findOne({ commitment: args.commitment, relatedTo: args.relatedTo });
       var result = db['commitment-related-commitments'].remove({ _id: cc._id }, false);
@@ -361,6 +389,12 @@ export const resolvers = {
     },
     announcementType(commitment: any) {
       return db['commitment-announcementTypes'].findOne({ id: commitment.announcementType })
+    },
+    packageType(commitment: any) {
+      return db['commitment-packageTypes'].findOne({ id: commitment.packageType })
+    },
+    themeType(commitment: any) {
+      return db['commitment-themeTypes'].findOne({ id: commitment.themeType })
     },
     criticalDate(commitment: any) {
       return db['commitment-critical-dates'].findOne({ id: commitment.criticalDate })

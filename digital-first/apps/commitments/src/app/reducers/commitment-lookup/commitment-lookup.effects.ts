@@ -5,7 +5,16 @@ import { Action } from '@ngrx/store'
 import { switchMap, map, catchError } from 'rxjs/operators'
 
 import {
-    DataResult, AnnouncementTypesResult, CommitmentTypesResult, CriticalDatesResult, LocationsResult, PartysResult, PortfoliosResult, WhoAnnouncedTypesResult,
+    DataResult,
+    AnnouncementTypesResult,
+    CommitmentTypesResult,
+    CriticalDatesResult,
+    LocationsResult,
+    PartysResult,
+    PortfoliosResult,
+    WhoAnnouncedTypesResult,
+    ThemeTypesResult,
+    PackageTypesResult
 } from '../../models'
 
 import {
@@ -15,7 +24,10 @@ import {
     LoadCriticalDates, CriticalDatesActionFailure,
     LoadLocations, LocationsActionFailure,
     LoadPartys, PartysActionFailure,
-    LoadWhoAnnouncedTypes, WhoAnnouncedTypesActionFailure, LoadPortfolios, PortfoliosActionFailure,
+    LoadWhoAnnouncedTypes, WhoAnnouncedTypesActionFailure,
+    LoadPortfolios, PortfoliosActionFailure,
+    LoadThemeTypes, ThemeTypesActionFailure,
+    LoadPackageTypes, PackageTypesActionFailure,
   } from './commitment-lookup.actions'
 import { CommitmentLookupDataService } from './commitment-lookup-data.service'
 
@@ -30,6 +42,27 @@ export class CommitmentLookupEffects {
                 .pipe(
                     map((result: DataResult<AnnouncementTypesResult>) => new LoadAnnouncementTypes(result)),
                     catchError(error => of(new AnnouncementTypesActionFailure(error)))
+                )
+            ))
+
+    @Effect()
+    getAllThemeTypes$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(CommitmentLookupsActionTypes.GetAllThemeTypes),
+            switchMap((filter: any) => this.service.filterThemeTypes(filter)
+                .pipe(
+                    map((result: DataResult<ThemeTypesResult>) => new LoadThemeTypes(result)),
+                    catchError(error => of(new ThemeTypesActionFailure(error)))
+                )
+            ))
+    @Effect()
+    getAllPackageTypes$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(CommitmentLookupsActionTypes.GetAllPackageTypes),
+            switchMap((filter: any) => this.service.filterPackageTypes(filter)
+                .pipe(
+                    map((result: DataResult<PackageTypesResult>) => new LoadPackageTypes(result)),
+                    catchError(error => of(new PackageTypesActionFailure(error)))
                 )
             ))
 

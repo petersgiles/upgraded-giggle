@@ -12,7 +12,14 @@ import { Location } from '../../models/location.model'
 import { Party } from '../../models/party.model'
 import { Portfolio } from '../../models/portfolio.model'
 import { WhoAnnouncedType } from '../../models/who-announced-type.model'
-import { GetAllCriticalDates, GetAllAnnouncementTypes, GetAllWhoAnnouncedTypes, GetAllCommitmentTypes, GetAllLocations, GetAllPartys, GetAllPortfolios } from './commitment-lookup.actions'
+import {
+    GetAllCriticalDates, GetAllAnnouncementTypes,
+    GetAllWhoAnnouncedTypes, GetAllCommitmentTypes,
+    GetAllLocations, GetAllPartys, GetAllPortfolios,
+    GetAllThemeTypes, GetAllPackageTypes } from './commitment-lookup.actions'
+
+import { ThemeType } from '../../models/theme-type.model'
+import { PackageType } from '../../models/package-type.model'
 
 @Injectable({
     providedIn: 'root'
@@ -35,6 +42,22 @@ export class CommitmentLookupService {
 
     get CommitmentTypes(): Observable<CommitmentType[]> {
         return this.store.pipe(select(fromRoot.getAllCommitmentTypes))
+    }
+
+    public getAllThemeTypes(filter?: any) {
+        this.store.dispatch(new GetAllThemeTypes())
+    }
+
+    get ThemeTypes(): Observable<ThemeType[]> {
+        return this.store.pipe(select(fromRoot.getAllThemeTypes))
+    }
+
+    public getAllPackageTypes(filter?: any) {
+        this.store.dispatch(new GetAllPackageTypes())
+    }
+
+    get PackageTypes(): Observable<PackageType[]> {
+        return this.store.pipe(select(fromRoot.getAllPackageTypes))
     }
 
     getAllCriticalDates(filter?: any) {

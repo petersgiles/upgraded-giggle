@@ -11,6 +11,8 @@ import { WhoAnnouncedType } from '../../models/who-announced-type.model'
 import { Subscription } from 'rxjs'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { CriticalDate } from '../../models/critical-date.model'
+import { ThemeType } from '../../models/theme-type.model'
+import { PackageType } from '../../models/package-type.model'
 
 @Component({
   selector: 'digital-first-commitment-edit-form',
@@ -24,6 +26,8 @@ export class CommitmentEditFormComponent implements OnDestroy {
   @Input() parties: Party[]
   @Input() portfolios: Portfolio[]
   @Input() announcementTypes: AnnouncementType[]
+  @Input() themeTypes: ThemeType[]
+  @Input() packageTypes: PackageType[]
   @Input() whoAnnouncedTypes: WhoAnnouncedType[]
   @Input() commitmentTypes: CommitmentType[]
   @Input() criticalDates: CriticalDate[]
@@ -44,6 +48,8 @@ export class CommitmentEditFormComponent implements OnDestroy {
     announcedby: [null],
     party: [null],
     announcementType: [null],
+    themeType:  [null],
+    packageType: [null],
     whoAnnouncedType: [null],
     commitmentType: [null],
     portfolio: [null],
@@ -68,6 +74,8 @@ export class CommitmentEditFormComponent implements OnDestroy {
         whoAnnouncedType: val.whoAnnouncedType && val.whoAnnouncedType.id,
         announcementType: val.announcementType && val.announcementType.id,
         commitmentType: val.commitmentType && val.commitmentType.id,
+        themeType: val.themeType && val.themeType.id,
+        packageType: val.packageType && val.packageType.id,
         portfolio: val.portfolio && val.portfolio.id,
         criticalDate: val.criticalDate && val.criticalDate.id,
         cost: val.cost,
