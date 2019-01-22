@@ -19,12 +19,7 @@ export class GroupsComponent implements OnInit {
   ngOnInit() {
     this.groups$ = this.allGroupsGQL.fetch({},
       {fetchPolicy: 'no-cache'})
-      .pipe(map(value => {
-        console.log(value)
-        return         value.data.groups
-
-        }
-      ))
+      .pipe(map(value => value.data.groups))
   }
 
   add() {

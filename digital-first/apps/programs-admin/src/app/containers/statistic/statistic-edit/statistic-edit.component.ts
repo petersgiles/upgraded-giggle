@@ -79,9 +79,7 @@ export class StatisticEditComponent implements OnInit, OnDestroy {
         id: this.statisticId
       }
     }, {}).subscribe(({data}) =>
-      this.router.navigate(['statistics', data.updateStatistic.id]), (error) => {
-      console.log('there was an error sending the query', error)
-    })
+      this.router.navigate(['statistics', data.updateStatistic.id]))
   }
 
   cancel() {

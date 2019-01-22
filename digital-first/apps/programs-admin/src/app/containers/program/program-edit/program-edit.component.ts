@@ -81,9 +81,7 @@ export class ProgramEditComponent implements OnInit, OnDestroy {
         id: this.programId
       }
     }, {}).subscribe(({data}) =>
-      this.router.navigate(['programs', data.updateProgram.id]), (error) => {
-      console.log('there was an error sending the query', error)
-    })
+      this.router.navigate(['programs', data.updateProgram.id]))
   }
 
   cancel() {

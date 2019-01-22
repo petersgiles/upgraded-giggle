@@ -5,6 +5,7 @@ declare var require: any
 
 export const environment = {
   production: false,
+  redirectErrors: true,
   version: require('../../../../package.json').version,
  datasource: {
     type: 'local',

@@ -52,10 +52,8 @@ export class GroupEditComponent implements OnInit, OnDestroy {
         rowVersion: this.rowVersion,
         id: this.groupId
       }
-    }, {}).subscribe(({data}) =>
-      this.router.navigate(['groups', data.updateAccessControlGroup.id]), (error) => {
-      console.log('there was an error sending the query', error)
-    })
+    }, {})
+      .subscribe(({data}) => this.router.navigate(['groups', data.updateAccessControlGroup.id]))
   }
 
   cancel() {

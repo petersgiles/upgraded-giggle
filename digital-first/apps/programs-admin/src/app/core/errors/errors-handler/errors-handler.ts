@@ -1,41 +1,45 @@
-import { ErrorHandler, Injectable, Injector, NgZone } from '@angular/core'
-import { HttpErrorResponse } from '@angular/common/http'
-import { Router } from '@angular/router'
-import { environment } from '../../../../environments/environment'
+import {ErrorHandler, Injectable, Injector, NgZone} from '@angular/core'
+import {HttpErrorResponse} from '@angular/common/http'
+import {Router} from '@angular/router'
+import {environment} from '../../../../environments/environment'
 
 @Injectable()
 export class ErrorsHandler implements ErrorHandler {
-  constructor(private injector: Injector) {}
+  constructor(private injector: Injector) {
+  }
 
+  // TODO: log to SEQ server
   handleError(error: Error | HttpErrorResponse) {
-    // TODO:  do we inject a notification service in here like a toaster or something
     const router = this.injector.get(Router)
     const ngZone = this.injector.get(NgZone)
 
-    if (environment.production) {
+    function formatErrorMessage(errorToFormat: HttpErrorResponse) {
+
+      if (errorToFormat.error) {
+        return errorToFormat.error.errors.map(errorToJoin =>
+          errorToJoin.extensions && errorToJoin.extensions.code === 'DB_UPDATE_CONCURRENCY' ?
+            `"The record was updated prior to your change.  Please refresh the record and try again."` : `"${errorToJoin.message}"`).join(', ')
+      }
+      return errorToFormat.message
+    }
+
+    if (environment.redirectErrors) {
       if (error instanceof HttpErrorResponse) {
-        // TODO: check with angular for if this zone issue has been fixed.  couldn't call router.navigate without wrapping
-        // in ngZone.run
-
-        // TODO: do we notify via a service or just redirect like this?
-
-        // This may loop if the token expires?  may have to do a different redirect here?
+        const errorMessage = formatErrorMessage(error)
 
         ngZone
           .run(() =>
             router.navigate(['/error'], {
-              queryParams: { error: error.message }
+              queryParams: {error: errorMessage}
             })
           )
           .then()
       } else {
-        // TODO: can we log to SEQ here so that we know about client errors?
-
         // Client Error Happened
         ngZone
           .run(() =>
             router.navigate(['/error'], {
-              queryParams: { error: error.message }
+              queryParams: {error: error.message}
             })
           )
           .then()
