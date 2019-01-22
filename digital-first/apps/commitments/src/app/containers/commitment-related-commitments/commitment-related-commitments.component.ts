@@ -8,6 +8,7 @@ import { Router } from '@angular/router'
 import { DialogAddCommitmentComponent, ADD_COMMITMENT_TO_COMMITMENT_CLOSE } from '../../dialogs/dialog-add-commitment.component'
 import { formatCommitmentTitle } from '../../formatters'
 import { RelatedCommitmentService } from '../../reducers/related-commitment/related-commitment.service'
+import { OPERATION_RELATEDCOMMITMENTS, OPERATION_RIGHT_WRITE, OPERATION_RIGHT_READ, OPERATION_RIGHT_HIDE } from '../../services/app-data.service'
 
 @Component({
   selector: 'digital-first-commitment-related-commitments',
@@ -116,4 +117,7 @@ export class CommitmentRelatedCommitmentsComponent implements OnInit, OnDestroy 
     this.expandedSubscription$.unsubscribe()
   }
 
+  getRight(operations: any) {
+    return operations[OPERATION_RELATEDCOMMITMENTS]
+  }
 }

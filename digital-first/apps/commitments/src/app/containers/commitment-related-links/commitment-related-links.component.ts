@@ -7,6 +7,7 @@ import { first } from 'rxjs/operators'
 import { Router } from '@angular/router'
 import { DialogAddLinkComponent, ADD_LINK_CLOSE } from '../../dialogs/dialog-add-link.component'
 import { RelatedLinkService } from '../../reducers/related-link/related-link.service'
+import { OPERATION_RELATEDLINKS } from '../../services/app-data.service'
 
 @Component({
   selector: 'digital-first-commitment-related-links',
@@ -19,6 +20,7 @@ export class CommitmentRelatedLinksComponent implements OnInit, OnDestroy {
   expanded: boolean
   expandedSubscription$: Subscription
   tableData$: Observable<DataTableConfig>
+  userOperation$: Observable<any>
   constructor(private router: Router, public dialog: MdcDialog, private service: RelatedLinkService) {
     this.tableData$ = this.service.TableData
    }
@@ -79,11 +81,16 @@ export class CommitmentRelatedLinksComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.userOperation$ = this.service.UserOperation
     this.expandedSubscription$ = this.service.Expanded.subscribe(p => this.expanded = p)
   }
 
   ngOnDestroy(): void {
     this.expandedSubscription$.unsubscribe()
+  }
+
+  getRight(operations: any) {
+    return operations[OPERATION_RELATEDLINKS]
   }
 
 }

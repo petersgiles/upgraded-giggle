@@ -1,10 +1,39 @@
-<digital-first-page-title *ngIf="commitment" title="Additional Costings" (onTitleClicked)="handleChangeExpanded(!expanded)">
-    <digital-first-add-item-button icon="attach_money" title="New&nbsp;Costing" *ngIf="expanded"
-    (onAddItem)="handleCreateCosting()"></digital-first-add-item-button>
-   <digital-first-expand-collapse-button [expanded]='expanded' (onChangeExpanded)="handleChangeExpanded(!expanded)"></digital-first-expand-collapse-button>
-</digital-first-page-title>
 
-<div class="commitment-layout__row" *ngIf="expanded">
-  <digital-first-data-table [tableData]="tableData$ | async" [hasDeleteItemButton]="true" (onDeleteItem)="handleTableDeleteClicked($event)"
-    (onCellClicked)="handleRowClicked($event)"></digital-first-data-table>
-</div>
+
+<digital-first-commitment-view-guard
+  [operation]="getRight(userOperation$ | async)"
+>
+  <ng-container operation-type="read">
+      <digital-first-page-title *ngIf="commitment" title="Additional Costings" (onTitleClicked)="handleChangeExpanded(!expanded)">
+         <digital-first-expand-collapse-button [expanded]='expanded' (onChangeExpanded)="handleChangeExpanded(!expanded)"></digital-first-expand-collapse-button>
+      </digital-first-page-title>
+      
+      <div class="commitment-layout__row" *ngIf="expanded">
+        <digital-first-data-table [tableData]="tableData$ | async" [hasDeleteItemButton]="false" (onDeleteItem)="handleTableDeleteClicked($event)"
+          (onCellClicked)="handleRowClicked($event)"></digital-first-data-table>
+      </div>
+      
+  </ng-container>
+
+  <ng-container operation-type="write">
+      <digital-first-page-title *ngIf="commitment" title="Additional Costings" (onTitleClicked)="handleChangeExpanded(!expanded)">
+          <digital-first-add-item-button icon="attach_money" title="New&nbsp;Costing" *ngIf="expanded"
+          (onAddItem)="handleCreateCosting()"></digital-first-add-item-button>
+         <digital-first-expand-collapse-button [expanded]='expanded' (onChangeExpanded)="handleChangeExpanded(!expanded)"></digital-first-expand-collapse-button>
+      </digital-first-page-title>
+      
+      <div class="commitment-layout__row" *ngIf="expanded">
+        <digital-first-data-table [tableData]="tableData$ | async" [hasDeleteItemButton]="true" (onDeleteItem)="handleTableDeleteClicked($event)"
+          (onCellClicked)="handleRowClicked($event)"></digital-first-data-table>
+      </div>
+      
+  </ng-container>
+</digital-first-commitment-view-guard>
+
+
+
+
+
+
+
+

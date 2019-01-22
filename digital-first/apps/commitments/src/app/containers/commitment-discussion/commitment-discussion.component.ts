@@ -5,6 +5,7 @@ import { Comment } from '../../reducers/commitment-discussion/comment.model'
 import { first } from 'rxjs/operators'
 import { DialogAreYouSureComponent, ARE_YOU_SURE_ACCEPT } from '@digital-first/df-dialogs'
 import { MdcDialog } from '@angular-mdc/web'
+import { OPERATION_DISCUSSION } from '../../services/app-data.service'
 
 @Component({
   selector: 'digital-first-commitment-discussion',
@@ -14,7 +15,7 @@ import { MdcDialog } from '@angular-mdc/web'
 export class CommitmentDiscussionComponent implements OnInit, OnDestroy {
 
   _commitment: number
-
+  userOperation$: Observable<any>
   expanded: boolean
   timeFormat: 'dateFormat' | 'timeAgo' | 'calendar'
   discussion: Comment[]
@@ -93,6 +94,7 @@ export class CommitmentDiscussionComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.discussion$ = this.service.Comments
+    this.userOperation$ = this.service.UserOperation
     this.expandedSubscription$ = this.service.Expanded.subscribe(p => this.expanded = p)
     this.timeFormatSubscription$ = this.service.TimeFormat.subscribe(p => this.timeFormat = p)
   }
@@ -100,5 +102,9 @@ export class CommitmentDiscussionComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.expandedSubscription$.unsubscribe()
     this.timeFormatSubscription$.unsubscribe()
+  }
+
+  getRight(operations: any) {
+    return operations[OPERATION_DISCUSSION]
   }
 }

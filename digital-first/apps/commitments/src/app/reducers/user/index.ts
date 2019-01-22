@@ -50,7 +50,7 @@ export const getCurrentUserOperations = createSelector(
         return acc
     }, {})
 
-    const lastRights = Object.keys(rights).reduce((a, i) => {
+    const finalRights = Object.keys(rights).reduce((a, i) => {
         if (rights[i]) {
             a[i] =  rights[i]
         }
@@ -59,7 +59,7 @@ export const getCurrentUserOperations = createSelector(
 
     return {
       ...OPERATION_DEFAULTS,
-      ...lastRights
+      ...finalRights
     }
   }
 )

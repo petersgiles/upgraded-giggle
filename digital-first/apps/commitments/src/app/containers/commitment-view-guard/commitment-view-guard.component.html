@@ -1,3 +1,13 @@
-<p>
-  commitment-view-guard works!
-</p>
+<div [ngSwitch]="operation">
+    <div *ngSwitchCase="READ">
+        <ng-content select="[operation-type=read]"></ng-content>
+    </div>
+    <div *ngSwitchCase="WRITE">
+        <ng-content select="[operation-type=write]"></ng-content>
+    </div>
+    <div *ngSwitchCase="HIDE">
+        <ng-content select="[operation-type=hide]"></ng-content>
+    </div>
+    <div *ngSwitchDefault></div>
+</div>
+  

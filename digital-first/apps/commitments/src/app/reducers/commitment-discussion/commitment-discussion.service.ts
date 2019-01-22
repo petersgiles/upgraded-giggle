@@ -12,6 +12,11 @@ import { ExpandPanel, CollapsePanel, GetCommentsByCommitment, StoreComment, Remo
   providedIn: 'root'
 })
 export class CommitmentDiscussionService {
+  get UserOperation(): Observable<any> {
+    return this.store.pipe(
+        select(fromRoot.getCurrentUserOperations),
+    )
+}
 
   constructor(private store: Store<fromRoot.State>) { }
 

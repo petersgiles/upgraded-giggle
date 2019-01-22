@@ -14,6 +14,13 @@ import { GetCommitmentOverviewMapPoints, GetCommitmentOverviewMapCommitments } f
 export class CommitmentOverviewMapService {
 
     constructor(private store: Store<fromRoot.State>) { }
+
+    get UserOperation(): Observable<any> {
+        return this.store.pipe(
+            select(fromRoot.getCurrentUserOperations),
+        )
+    }
+
     get Commitments(): Observable<DataTableConfig> {
         return this.store.pipe(select(fromRoot.getCommitmentOverviewMapCommitmentsTableData))
     }

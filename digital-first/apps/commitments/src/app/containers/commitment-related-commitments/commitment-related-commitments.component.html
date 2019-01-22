@@ -1,5 +1,7 @@
-<div [ngSwitch]="(userOperation$ | async)?.relatedCommitments">
-  <div *ngSwitchCase="'read'">
+<digital-first-commitment-view-guard
+  [operation]="getRight(userOperation$ | async)"
+>
+  <ng-container operation-type="read">
     <digital-first-page-title
       *ngIf="commitment"
       title="Related Commitments"
@@ -17,8 +19,9 @@
         (onCellClicked)="handleRowClicked($event)"
       ></digital-first-data-table>
     </div>
-  </div>
-  <div *ngSwitchCase="'write'">
+  </ng-container>
+
+  <ng-container operation-type="write">
     <digital-first-page-title
       *ngIf="commitment"
       title="Related Commitments"
@@ -40,12 +43,10 @@
     <div class="commitment-layout__row" *ngIf="expanded">
       <digital-first-data-table
         [tableData]="tableData$ | async"
-        [hasDeleteItemButton]="true" (onDeleteItem)="handleTableDeleteClicked($event)"
+        [hasDeleteItemButton]="true"
+        (onDeleteItem)="handleTableDeleteClicked($event)"
         (onCellClicked)="handleRowClicked($event)"
       ></digital-first-data-table>
     </div>
-  </div>
-
-  <div *ngSwitchCase="'hide'"></div>
-  <div *ngSwitchDefault></div>
-</div>
+  </ng-container>
+</digital-first-commitment-view-guard>

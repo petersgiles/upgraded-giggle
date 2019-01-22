@@ -15,6 +15,12 @@ export class CommitmentContactService {
 
     constructor(private store: Store<fromRoot.State>) { }
 
+    get UserOperation(): Observable<any> {
+        return this.store.pipe(
+            select(fromRoot.getCurrentUserOperations),
+        )
+    }
+
     addContactToCommitment(commitment: any, contact: any): any {
         this.store.dispatch(new AddContactToCommitment({ commitment, contact }))
     }
