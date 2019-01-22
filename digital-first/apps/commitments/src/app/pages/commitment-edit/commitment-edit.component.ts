@@ -23,6 +23,7 @@ import { CommitmentLookupService } from '../../reducers/commitment-lookup/commit
 import { showSnackBar } from '../../dialogs/show-snack-bar'
 import { DialogAddLinkComponent, ADD_LINK_CLOSE } from '../../dialogs/dialog-add-link.component'
 import { PackageType, ThemeType } from '../../models'
+import { OPERATION_COMMITMENT } from '../../services/app-data.service'
 
 @Component({
   selector: 'digital-first-commitment-edit',
@@ -165,6 +166,10 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
       )
       .subscribe()
     this.isSubscribed$ = this.service.CommitmentSubscription
+  }
+
+  getRight(operations: any) {
+    return operations[OPERATION_COMMITMENT]
   }
 
   getTitle(commitment) {

@@ -113,11 +113,12 @@ export class CommitmentRelatedCommitmentsComponent implements OnInit, OnDestroy 
     this.userOperation$ = this.service.UserOperation
   }
 
+  getRight(operations: any) {
+    return operations[OPERATION_RELATEDCOMMITMENTS]
+  }
+
   ngOnDestroy(): void {
     this.expandedSubscription$.unsubscribe()
   }
 
-  getRight(operations: any) {
-    return operations[OPERATION_RELATEDCOMMITMENTS]
-  }
 }
