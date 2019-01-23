@@ -6,10 +6,10 @@ import { Location } from '../../models/location.model'
 import { CommitmentType } from '../../models/commitment-type.model'
 import { WhoAnnouncedType } from '../../models/who-announced-type.model'
 import { Contact } from '../contact/contact.model'
-import { MapPoint } from '../map-point/map-point.model'
 import { CriticalDate } from '../../models/critical-date.model'
 import { PackageType } from '../../models/package-type.model'
 import { ThemeType } from '../../models/theme-type.model'
+import { MapPoint } from '@digital-first/df-components'
 
 export interface Commitment {
   id: number

@@ -20,11 +20,7 @@ import {
   SetCurrentCommitment,
   StoreCommitment,
   AddContactToCommitment,
-  RemoveContactFromCommitment,
-  AddElectorateToCommitment,
-  RemoveElectorateFromCommitment,
-  AddMapPointToCommitment,
-  RemoveMapPointFromCommitment
+  RemoveContactFromCommitment
 } from '../reducers/commitment/commitment.actions'
 import { GetAllContacts, StoreContact } from '../reducers/contact/contact.actions'
 import { AddRefiner, RemoveRefiner, ClearAllRefiners, ExpandRefinerGroup, CollapseRefinerGroup, SetTextRefiner } from '../reducers/commitment-overview/commitment-overview.actions'
@@ -98,20 +94,6 @@ export class CommitmentDataService {
 
   public removeContactFromCommitment(commitmentContact: any): any {
     this.store.dispatch(new RemoveContactFromCommitment({ id: commitmentContact.id }))
-  }
-
-  public addElectorateToCommitment(commitment: string | number, electorate: string | number): any {
-    this.store.dispatch(new AddElectorateToCommitment({ commitment, electorate }))
-  }
-  public removeElectorateFromCommitment(commitment: string | number, electorate: string | number): any {
-    this.store.dispatch(new RemoveElectorateFromCommitment({ commitment, electorate }))
-  }
-
-  public addMapPointToCommitment(commitment: string | number, mapPoint: MapPoint): any {
-    this.store.dispatch(new AddMapPointToCommitment({ commitment, mapPoint }))
-  }
-  public removeMapPointFromCommitment(commitment: string | number, mapPoint: MapPoint): any {
-    this.store.dispatch(new RemoveMapPointFromCommitment({ commitment, mapPoint }))
   }
 
   get Commitment(): Observable<Commitment> {

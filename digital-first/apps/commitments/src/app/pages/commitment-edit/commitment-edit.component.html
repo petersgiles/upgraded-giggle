@@ -1,10 +1,10 @@
 <div class="app-page">
   <section>
-
-
-    <digital-first-commitment-view-guard [operation]="getRight(userOperation$ | async)" >
+    <digital-first-commitment-view-guard
+      [operation]="getRight(userOperation$ | async)"
+    >
       <ng-container operation-type="read">
-          <digital-first-page-title
+        <digital-first-page-title
           [title]="getTitle(commitment)"
           (onTitleClicked)="
             handleChangeExpanded(!panels.formPanelExpanded, 'formPanelExpanded')
@@ -31,9 +31,9 @@
           ></digital-first-commitment-card>
         </div>
       </ng-container>
-    
+
       <ng-container operation-type="write">
-          <digital-first-page-title
+        <digital-first-page-title
           [title]="getTitle(commitment)"
           (onTitleClicked)="
             handleChangeExpanded(!panels.formPanelExpanded, 'formPanelExpanded')
@@ -87,55 +87,11 @@
       </ng-container>
     </digital-first-commitment-view-guard>
 
-    <digital-first-page-title
+    <digital-first-commitment-delivery-location
       *ngIf="commitment"
-      title="Delivery location"
-      (onTitleClicked)="
-        handleChangeExpanded(!panels.mapPanelExpanded, 'mapPanelExpanded')
-      "
+      [commitment]="commitment?.id"
     >
-      <digital-first-expand-collapse-button
-        [expanded]="panels.mapPanelExpanded"
-        (onChangeExpanded)="handleChangeExpanded($event, 'mapPanelExpanded')"
-      ></digital-first-expand-collapse-button>
-    </digital-first-page-title>
-
-    <div
-      class="commitment-layout__row"
-      *ngIf="commitment && panels.mapPanelExpanded"
-    >
-      <div class="form-content">
-        <div class="form-layout__row--no-wrap">
-          <ng-select
-            [items]="electorates$ | async"
-            bindValue="id"
-            bindLabel="title"
-            groupBy="group"
-            placeholder="Select Location"
-            maxSelectedItems="8"
-            (add)="handleAddElectorateToCommitment($event)"
-            (remove)="handleRemoveElectorateFromCommitment($event)"
-            [ngModel]="selectedElectorateIds"
-            [multiple]="true"
-            [clearable]="false"
-            [hideSelected]="true"
-          >
-          </ng-select>
-        </div>
-        <div class="form-layout__row--no-wrap">
-          <digital-first-info>
-            You can select multiple locations by using the drop down selector or
-            by clicking in the Select Location field and typing
-          </digital-first-info>
-        </div>
-      </div>
-
-      <digital-first-map
-        [mapPoints]="commitment.mapPoints"
-        (onAddMapPoint)="handleAddMapPoint($event)"
-        (onDeleteMapPoint)="handleDeleteMapPoint($event)"
-      ></digital-first-map>
-    </div>
+    </digital-first-commitment-delivery-location>
 
     <digital-first-commitment-contacts
       *ngIf="commitment"

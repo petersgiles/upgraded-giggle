@@ -2,7 +2,6 @@ import { createSelector } from '@ngrx/store'
 import moment = require('moment')
 
 import * as fromCommitment from './commitment.reducer'
-import { getMapPointEntities } from '../map-point'
 
 import {
     getPartyEntities,
@@ -16,6 +15,7 @@ import {
     getPackageTypeEntities
 } from '../commitment-lookup'
 import { findInLookup } from '../utils'
+import { getCommitmentMapPointEntities } from '../commitment-delivery-location'
 export { CommitmentEffects } from './commitment.effects'
 export * from './commitment.model'
 
@@ -60,7 +60,7 @@ export const getCurrentCommitment = createSelector(
     getCommitmentEntities,
     getCurrentCommitentId,
     getLookupEnitites,
-    getMapPointEntities,
+    getCommitmentMapPointEntities,
     getExtraLookupEnitites,
     (commitments, current, lookups, mapPoints, extraLookups) => {
         const commitment = commitments[current]

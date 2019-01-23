@@ -2,7 +2,6 @@ import { Action } from '@ngrx/store'
 import { Update } from '@ngrx/entity'
 import { Commitment } from './commitment.model'
 import { DataResult, CommitmentsResult, CommitmentResult } from '../../models'
-import { MapPoint } from '../map-point/map-point.model'
 
 export enum CommitmentActionTypes {
   LoadCommitments = '[Commitment] Load Commitments',
@@ -25,22 +24,7 @@ export enum CommitmentActionTypes {
   StoreCommitmentFailure = '[Commitment] Store Commitment Failure',
   AddContactToCommitment = '[Commitment] Add Contact To Commitment',
   RemoveContactFromCommitment = '[Commitment] Remove Contact From Commitment',
-  AddMapPointToCommitment = '[Commitment] Add MapPoint To Commitment',
-  RemoveMapPointFromCommitment = '[Commitment] Remove MapPoint From Commitment',
-  AddElectorateToCommitment = '[Commitment] Add Electorate ToCommitment',
-  RemoveElectorateFromCommitment = '[Commitment] Remove Electorate From Commitment',
-}
 
-export class AddMapPointToCommitment implements Action {
-  readonly type = CommitmentActionTypes.AddMapPointToCommitment
-
-  constructor(public payload: { commitment: number | string, mapPoint: MapPoint }) { }
-}
-
-export class RemoveMapPointFromCommitment implements Action {
-  readonly type = CommitmentActionTypes.RemoveMapPointFromCommitment
-
-  constructor(public payload: { commitment: string | number, mapPoint: MapPoint }) { }
 }
 
 export class AddContactToCommitment implements Action {
@@ -53,18 +37,6 @@ export class RemoveContactFromCommitment implements Action {
   readonly type = CommitmentActionTypes.RemoveContactFromCommitment
 
   constructor(public payload: { id: number | string }) { }
-}
-
-export class AddElectorateToCommitment implements Action {
-  readonly type = CommitmentActionTypes.AddElectorateToCommitment
-
-  constructor(public payload: { commitment: number | string, electorate: string | number }) { }
-}
-
-export class RemoveElectorateFromCommitment implements Action {
-  readonly type = CommitmentActionTypes.RemoveElectorateFromCommitment
-
-  constructor(public payload: { commitment: number | string, electorate: string | number }) { }
 }
 
 export class LoadCommitments implements Action {
@@ -167,7 +139,3 @@ export type CommitmentActions =
   | StoreCommitment
   | AddContactToCommitment
   | RemoveContactFromCommitment
-  | AddMapPointToCommitment
-  | RemoveMapPointFromCommitment
-  | AddElectorateToCommitment
-  | RemoveElectorateFromCommitment

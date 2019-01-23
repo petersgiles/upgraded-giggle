@@ -72,7 +72,6 @@ import { CommitmentEffects } from './reducers/commitment'
 import { CommentDiscussionEffects } from './reducers/commitment-discussion/commitment-discussion.effects'
 import { ContactEffects } from './reducers/contact/contact.effects'
 import { ContactCreateFormComponent } from './components/contact-create-form/contact-create-form.component'
-import { MapPointEffects } from './reducers/map-point/map-point.effects'
 import { RelatedCommitmentEffects } from './reducers/related-commitment/related-commitment.effects'
 import { RelatedLinkEffects } from './reducers/related-link/related-link.effects'
 import { CommitmentSubscriptionEffects } from './reducers/commitment-subscription/commitment-subscription.effects'
@@ -105,6 +104,8 @@ import { CommitmentViewGuardComponent } from './containers/commitment-view-guard
 import { CommitmentCommitmentComponent } from './containers/commitment-commitment/commitment-commitment.component'
 import { relatedLinksDataServiceProvider } from './reducers/related-link/related-link-data.service'
 import { relatedCommitmentsDataServiceProvider } from './reducers/related-commitment/related-commitment-data.service'
+import { deliveryLocationsDataServiceProvider } from './reducers/commitment-delivery-location/commitment-delivery-location-data.service'
+import { DeliveryLocationEffects } from './reducers/commitment-delivery-location/commitment-delivery-location.effects'
 
 const COMPONENTS = [
   AppComponent,
@@ -249,7 +250,6 @@ export let appDataServiceProvider = {
     EffectsModule.forFeature([
       RouterEffects,
       CommitmentLookupEffects,
-      MapPointEffects,
       CommitmentContactEffects,
       ContactEffects,
       RelatedCommitmentEffects,
@@ -258,7 +258,8 @@ export let appDataServiceProvider = {
       CommitmentEffects,
       CommitmentSubscriptionEffects,
       CommitmentActionEffects,
-      CommentOverviewMapEffects
+      CommentOverviewMapEffects,
+      DeliveryLocationEffects
     ]),
   ],
   providers: [
@@ -274,6 +275,7 @@ export let appDataServiceProvider = {
     commitmentActionsDataServiceProvider,
     commitmentOverviewMapDataServiceProvider,
     relatedLinksDataServiceProvider,
+    deliveryLocationsDataServiceProvider,
     relatedCommitmentsDataServiceProvider,
     discussionDataServiceProvider,
     lookupDataServiceProvider,

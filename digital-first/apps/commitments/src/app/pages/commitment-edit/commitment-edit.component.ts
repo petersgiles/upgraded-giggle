@@ -4,13 +4,11 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router'
 import { Observable, Subscription, of } from 'rxjs'
 import { MdcDialog, MdcSnackbar } from '@angular-mdc/web'
 import { map, first } from 'rxjs/operators'
-import { DialogAreYouSureComponent, ARE_YOU_SURE_ACCEPT } from '@digital-first/df-dialogs'
-
 import { CommitmentDataService } from '../../services/commitment-data.service'
 import { Commitment } from '../../reducers/commitment/commitment.model'
 import { Party } from '../../models/party.model'
 import { Portfolio } from '../../models/portfolio.model'
-import { Location } from '../../models/location.model'
+
 import { AnnouncementType } from '../../models/announcement-type.model'
 import { CommitmentType } from '../../models/commitment-type.model'
 import { WhoAnnouncedType } from '../../models/who-announced-type.model'
@@ -52,27 +50,14 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   criticalDates$: Observable<CriticalDate[]>
   parties$: Observable<Party[]>
   portfolios$: Observable<Portfolio[]>
-  electorates$: Observable<Location[]>
   selectedElectorateIds: Location[] = []
   activeComment: any
   timeFormat: 'timeAgo' | 'dateFormat' | 'calendar'
 
   panels: {
     commitmentPanelExpanded?: boolean
-    relatedPanelExpanded?: boolean
-    discussionPanelExpanded?: boolean
-    contactPanelExpanded?: boolean
-    formPanelExpanded?: boolean
-    mapPanelExpanded?: boolean
-    relatedItemsPanelExpanded?: boolean
   } = {
       commitmentPanelExpanded: true,
-      relatedPanelExpanded: false,
-      discussionPanelExpanded: false,
-      contactPanelExpanded: false,
-      formPanelExpanded: false,
-      mapPanelExpanded: false,
-      relatedItemsPanelExpanded: false,
     }
 
   formBusy = false
@@ -101,7 +86,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.packageTypes$ = this.lookup.PackageTypes
     this.parties$ = this.lookup.Parties
     this.portfolios$ = this.lookup.Portfolios
-    this.electorates$ = this.lookup.Locations
 
     this.autoSaveSubscription$ = this.service.CommitmentEditAutosave.subscribe(next => this.autoSave = next)
 
@@ -222,28 +206,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.router.navigate(['/', 'commitments'])
   }
 
-  handleAddMapPoint(mapPoint) {
-    this.service.addMapPointToCommitment(this.commitment.id, mapPoint)
-  }
-
-  handleDeleteMapPoint(mapPoint) {
-
-    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
-      escapeToClose: true,
-      clickOutsideToClose: true
-    })
-
-    dialogRef.afterClosed()
-      .pipe(
-        first()
-      )
-      .subscribe(result => {
-        if (result === ARE_YOU_SURE_ACCEPT) {
-          this.service.removeMapPointFromCommitment(this.commitment.id, mapPoint.id)
-        }
-      })
-  }
-
   changeDateFormat(format) {
     this.service.changeCommitmentEditDiscussionTimeFormat(format)
   }
@@ -256,14 +218,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   handleMailClicked(contact) {
     const mailText = `mailto:${contact}?subject=${this.commitment.title}&body=`
     window.location.href = mailText
-  }
-
-  handleRemoveElectorateFromCommitment(electorate) {
-    this.service.removeElectorateFromCommitment(this.commitment.id, electorate.value.id)
-  }
-
-  handleAddElectorateToCommitment(electorate) {
-    this.service.addElectorateToCommitment(this.commitment.id, electorate.id)
   }
 
   handleAutosaveClicked(autosaveState) {

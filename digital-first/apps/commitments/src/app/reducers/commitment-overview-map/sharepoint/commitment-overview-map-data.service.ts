@@ -4,9 +4,10 @@ import { Observable, of } from 'rxjs'
 import { DataResult, MapPointsResult, CommitmentsResult } from '../../../models'
 import { concatMap, tap, map } from 'rxjs/operators'
 import { CommitmentOverviewMapDataService } from '../commitment-overview-map-data.service'
-import { mapMapPoints, mapCommitmentMapPoints, mapMapPoint } from '../../../services/sharepoint/geo'
+
 import { mapCommitments } from '../../../services/sharepoint/commitment'
-import { byMapPointPlaceIdQuery, byIdsQuery, byIdQuery, byMapPointIdQuery } from '../../../services/sharepoint/caml'
+import { byMapPointPlaceIdQuery, byIdsQuery, byMapPointIdQuery } from '../../../services/sharepoint/caml'
+import { mapMapPoints, mapMapPoint, mapCommitmentMapPoints } from '../../commitment-delivery-location/sharepoint/maps'
 
 @Injectable({
     providedIn: 'root'
