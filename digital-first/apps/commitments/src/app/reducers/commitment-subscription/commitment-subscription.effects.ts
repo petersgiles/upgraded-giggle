@@ -8,6 +8,7 @@ import { CommitmentSubscriptionActionTypes, UnsubscribeFromCommitment, GetCommit
   SubscribeToCommitment, LoadSubscriptions} from './commitment-subscription.actions'
 import { AppNotification, ClearAppNotification } from '../app.actions'
 import { SubscriptionResult, DataResult } from '../../models'
+import { LoggerService } from '@digital-first/df-logging'
 
 @Injectable()
 export class CommitmentSubscriptionEffects {
@@ -17,12 +18,10 @@ export class CommitmentSubscriptionEffects {
     .pipe(
       ofType(CommitmentSubscriptionActionTypes.GetSubscriptionsByCommitment),
       map((action: GetCommitmentSubscriptionForUser) => action.payload),
-      // tslint:disable-next-line:no-console
-      tap(result => console.log('getSubscriptionByCommitment =>  ', result)),
+      this.logger.info(result => this.logger.info('getSubscriptionByCommitment =>  ', result)),
       switchMap((subscription: any) => this.service.getUserSubscription(subscription)
         .pipe(
-          // tslint:disable-next-line:no-console
-          tap(result => console.log('getSubscriptionByCommitment', result)),
+          this.logger.info(result => this.logger.info('getSubscriptionByCommitment', result)),
           map((result: DataResult<SubscriptionResult>) => new LoadSubscriptions(result)),
           catchError(error => of(new SubscriptionActionFailure(error)))
         )
@@ -52,8 +51,7 @@ export class CommitmentSubscriptionEffects {
       map((action: UnsubscribeFromCommitment) => action.payload),
       switchMap((payload: any) => this.service.unsubscribeFromCommitment(payload)
         .pipe(
-          // tslint:disable-next-line:no-console
-          tap(result => console.log('removeSubscription', result)),
+          tap(result => this.logger.info('removeSubscription', result)),
           switchMap((result) => [
             new AppNotification({ message: 'Unsubscribed to commitment' }),
             new GetCommitmentSubscriptionForUser({ commitment: result.data.commitment, user: payload.user}),
@@ -63,5 +61,5 @@ export class CommitmentSubscriptionEffects {
         )
       ))
 
-  constructor(private actions$: Actions, private service: CommitmentSubscriptionDataService) { }
+  constructor(private actions$: Actions, private service: CommitmentSubscriptionDataService, private logger: LoggerService) { }
 }

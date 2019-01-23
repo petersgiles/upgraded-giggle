@@ -1,3 +1,4 @@
+import { LoggerService } from '@digital-first/df-logging'
 import { Injectable } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 import { Observable, of } from 'rxjs'
@@ -25,8 +26,7 @@ export class RelatedLinkEffects {
     map((action: AddLinkToCommitment) => action.payload),
     switchMap((payload: any) =>
       this.service.addItemToCommitment(payload).pipe(
-        // tslint:disable-next-line:no-console
-        tap(result => console.log(result)),
+        tap(result => this.logger.info(result)),
         switchMap((result: any) => [
           new AppNotification({ message: 'Related Link Added' }),
           new SetCurrentCommitment({ id: result.commitment.id }),
@@ -44,8 +44,7 @@ export class RelatedLinkEffects {
     switchMap((payload: any) =>
       this.service.removeItemFromCommitment(payload)
       .pipe(
-        // tslint:disable-next-line:no-console
-        tap(result => console.log(result)),
+        tap(result => this.logger.info(result)),
         switchMap((result: any) => [
           new AppNotification({ message: 'Related Link Removed' }),
           new SetCurrentCommitment({ id: result.commitment.id }),
@@ -73,6 +72,7 @@ export class RelatedLinkEffects {
 
   constructor(
     private actions$: Actions,
-    private service: RelatedLinkDataService
+    private service: RelatedLinkDataService,
+    private logger: LoggerService
   ) {}
 }

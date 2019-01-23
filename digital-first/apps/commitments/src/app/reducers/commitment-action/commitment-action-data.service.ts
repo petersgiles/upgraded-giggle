@@ -1,3 +1,4 @@
+import { LoggerService } from '@digital-first/df-logging'
 import { Injectable } from '@angular/core'
 import { SharepointJsomService } from '@digital-first/df-sharepoint'
 import { Apollo } from 'apollo-angular'
@@ -16,7 +17,7 @@ export abstract class CommitmentActionDataService {
   abstract getActionsByCommitment(commitment: any): Observable<DataResult<CommitmentActionsResult>>
 }
 
-const commitmentActionsDataServiceFactory = (settings: SettingsService, sharepointlib: SharepointJsomService, apollo: Apollo) => {
+const commitmentActionsDataServiceFactory = (settings: SettingsService, sharepointlib: SharepointJsomService, apollo: Apollo, logger: LoggerService) => {
 
   let source = null
   if (settings.datasource) {
@@ -25,9 +26,9 @@ const commitmentActionsDataServiceFactory = (settings: SettingsService, sharepoi
 
   switch (source) {
     case 'sharepoint':
-      return new CommitmentActionDataSharePointService(sharepointlib)
+      return new CommitmentActionDataSharePointService(sharepointlib, logger)
     default:
-      return new CommitmentActionDataApolloService(apollo)
+      return new CommitmentActionDataApolloService(apollo, logger)
   }
 
 }
@@ -35,5 +36,5 @@ const commitmentActionsDataServiceFactory = (settings: SettingsService, sharepoi
 export let commitmentActionsDataServiceProvider = {
   provide: CommitmentActionDataService,
   useFactory: commitmentActionsDataServiceFactory,
-  deps: [SettingsService, SharepointJsomService, Apollo]
+  deps: [SettingsService, SharepointJsomService, Apollo, LoggerService]
 }

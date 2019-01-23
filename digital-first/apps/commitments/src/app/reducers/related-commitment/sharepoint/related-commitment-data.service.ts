@@ -1,3 +1,4 @@
+import { LoggerService } from '@digital-first/df-logging'
 import { Injectable } from '@angular/core'
 import { SharepointJsomService, idFromLookup } from '@digital-first/df-sharepoint'
 import { RelatedCommitmentDataService } from '../related-commitment-data.service'
@@ -16,9 +17,7 @@ export class RelatedCommitmentDataSharePointService implements RelatedCommitment
         const LISTNAME = 'RelatedCommitment'
 
         const viewXml = byIdQuery({ id: payload.relatedTo })
-
-        // tslint:disable-next-line:no-console
-        console.log(LISTNAME, payload, viewXml)
+        this.logger.info(LISTNAME, payload, viewXml)
 
         return this.sharepoint.getItems({
           listName: LISTNAME,
@@ -44,8 +43,7 @@ export class RelatedCommitmentDataSharePointService implements RelatedCommitment
           RelatedTo: payload.relatedTo
         }
 
-        // tslint:disable-next-line:no-console
-        console.log(LISTNAME, sp)
+        this.logger.info(LISTNAME, sp)
 
         return this.sharepoint.storeItem({
           listName: LISTNAME,
@@ -123,5 +121,5 @@ export class RelatedCommitmentDataSharePointService implements RelatedCommitment
       //   )
       // }
 
-    constructor(private sharepoint: SharepointJsomService) { }
+    constructor(private sharepoint: SharepointJsomService, private logger: LoggerService) { }
 }

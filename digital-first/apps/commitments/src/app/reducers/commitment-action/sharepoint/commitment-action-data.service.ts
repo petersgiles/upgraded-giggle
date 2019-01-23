@@ -6,6 +6,7 @@ import { DataResult, CommitmentActionsResult } from '../../../models'
 import { concatMap, map, tap } from 'rxjs/operators'
 import { byCommitmentIdQuery, byJoinTableQuery } from '../../../services/sharepoint/caml'
 import { mapCommitmentActions, mapCommitmentAction } from './maps'
+import { LoggerService } from '@digital-first/df-logging'
 
 @Injectable({
     providedIn: 'root'
@@ -61,8 +62,7 @@ export class CommitmentActionDataSharePointService implements CommitmentActionDa
             listName: 'CommitmentAction',
             viewXml: byCommitmentIdQuery({ id: commitment })
         }).pipe(
-            // tslint:disable-next-line:no-console
-            tap(r => console.log(r)),
+            tap(r => this.logger.info(r)),
             concatMap((result: any) =>
                 of({
                     data: { commitmentActions: mapCommitmentActions(result) },
@@ -71,5 +71,5 @@ export class CommitmentActionDataSharePointService implements CommitmentActionDa
         )
     }
 
-    constructor(private sharepoint: SharepointJsomService) { }
+    constructor(private sharepoint: SharepointJsomService, private logger: LoggerService) { }
 }
