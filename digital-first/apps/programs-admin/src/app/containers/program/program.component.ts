@@ -2,18 +2,15 @@ import {Component, OnDestroy, OnInit} from '@angular/core'
 import {ActivatedRoute, Router} from '@angular/router'
 import {map, first} from 'rxjs/operators'
 import {Subscription} from 'rxjs'
+import {DataTableConfig} from '@digital-first/df-components'
+import {MdcDialog} from '@angular-mdc/web'
+import {DialogAssignGroupPermissionComponent} from '../../dialogs/dialog-assign-group-permission.component'
+import {ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent} from '@digital-first/df-dialogs'
 import {
   AllGroupsGQL, DeleteProgramGQL, Program,
   ProgramGQL, DeleteProgramAccessControlGQL, CreateProgramAccessControlGQL,
   AccessRights, UpdateProgramAccessControlGQL, DeleteReportGQL
 } from '../../generated/graphql'
-import {DataTableConfig} from '@digital-first/df-components'
-import {MdcDialog} from '@angular-mdc/web'
-import {DialogAssignGroupPermissionComponent} from '../../dialogs/dialog-assign-group-permission.component'
-import {
-  ARE_YOU_SURE_ACCEPT,
-  DialogAreYouSureComponent
-} from '@digital-first/df-dialogs'
 
 @Component({
   selector: 'digital-first-program',

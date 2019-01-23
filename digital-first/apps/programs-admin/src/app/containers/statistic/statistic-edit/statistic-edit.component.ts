@@ -1,11 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core'
 import {Observable, Subscription} from 'rxjs'
-import {
-  AllAgencies, AllAgenciesGQL, Statistic, StatisticGQL, UpdateStatisticGQL
-} from '../../../generated/graphql'
 import {FormBuilder, Validators} from '@angular/forms'
 import {ActivatedRoute, Router} from '@angular/router'
 import {map} from 'rxjs/operators'
+import {AllAgencies, AllAgenciesGQL, Statistic, StatisticGQL, UpdateStatisticGQL} from '../../../generated/graphql'
 
 @Component({
   selector: 'digital-first-statistic-edit',

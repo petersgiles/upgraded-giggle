@@ -1,10 +1,21 @@
-<digital-first-page-title title="Permission" (onTitleClicked)="handleChangeExpanded(!expanded)">
-  <digital-first-add-item-button icon="group_add" title="Assign&nbsp;Group"
-  (onAddItem)="onAddGroup.emit()"></digital-first-add-item-button>
- <digital-first-expand-collapse-button [expanded]='expanded' (onChangeExpanded)="handleChangeExpanded(!expanded)"></digital-first-expand-collapse-button>
+<digital-first-page-title
+  title="Permission"
+  (onTitleClicked)="handleChangeExpanded(!expanded)">
+  <digital-first-add-item-button
+    icon="group_add"
+    title="Assign&nbsp;Group"
+    (onAddItem)="onAddGroup.emit()">
+  </digital-first-add-item-button>
+  <digital-first-expand-collapse-button
+    [expanded]='expanded'
+    (onChangeExpanded)="handleChangeExpanded(!expanded)">
+  </digital-first-expand-collapse-button>
 </digital-first-page-title>
 
-<div class="commitment-layout__row" >
-<digital-first-data-table [tableData]="tableData" (onDeleteItem)="handleTableDeleteClicked($event)"
-  (onCellClicked)="handleCellClicked($event)"></digital-first-data-table>
+<div class="commitment-layout__row">
+  <digital-first-data-table
+    [tableData]="tableData"
+    (onDeleteItem)="handleTableDeleteClicked($event)"
+    (onCellClicked)="handleCellClicked($event)">
+  </digital-first-data-table>
 </div>

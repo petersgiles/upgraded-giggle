@@ -9,22 +9,28 @@
         <div class="mdc-layout-grid__cell--span-6 mdc-elevation--z9">
           <div class="form-content">
             <form (ngSubmit)="onSubmit()" [formGroup]="statisticForm">
-              <!--{{diagnostic}}-->
               <fieldset>
                 <h3 class="form-content__headline">Upload Statistic CSV Form</h3>
                 <div class="form-layout__row">
-                  <mdc-select formControlName="statisticId" placeholder="Statistic" [outlined]="true" required
-                              name="statistic"
-                              (selectionChange)="onSelectionChange($event)">
+                  <mdc-select
+                    formControlName="statisticId"
+                    placeholder="Statistic"
+                    [outlined]="true"
+                    required
+                    name="statistic"
+                    (selectionChange)="onSelectionChange($event)">
                     <option value="" selected></option>
                     <option *ngFor="let statistic of statistics" [value]="statistic.id">{{statistic.name}}
                     </option>
                   </mdc-select>
                 </div>
                 <div class="form-layout__row">
-                  <mdc-select formControlName="statisticReportId" placeholder="Statistic report" [outlined]="true"
-                              required
-                              name="statisticReport">
+                  <mdc-select
+                    formControlName="statisticReportId"
+                    placeholder="Statistic report"
+                    [outlined]="true"
+                    required
+                    name="statisticReport">
                     <option value=""></option>
                     <option *ngFor="let statisticReport of statisticReports" [value]="statisticReport.id">
                       {{statisticReport.name}}
@@ -32,16 +38,25 @@
                   </mdc-select>
                 </div>
                 <div class="form-layout__row">
-                  <mdc-text-field formControlName="dataDate" type="date" #outlinedicon [outlined]="true"
-                                  required
-                                  label="Data date" name="dataDate">
+                  <mdc-text-field
+                    formControlName="dataDate"
+                    type="date" #outlinedicon
+                    [outlined]="true"
+                    required
+                    label="Data date" name="dataDate">
                     <mdc-icon mdcTextFieldIcon leading #leadingicon>event</mdc-icon>
                   </mdc-text-field>
                 </div>
                 <div class="form-layout__row">
-                  <mdc-textarea formControlName="notes" name="notes" id="notes" cols="8"
-                                rows="3" maxlength="250"
-                                label="Notes" spellcheck="true">
+                  <mdc-textarea
+                    formControlName="notes"
+                    name="notes"
+                    id="notes"
+                    cols="8"
+                    rows="3"
+                    maxlength="250"
+                    label="Notes"
+                    spellcheck="true">
                   </mdc-textarea>
                 </div>
                 <div class="form-layout__row">

@@ -1,18 +1,15 @@
 import {Component, OnInit} from '@angular/core'
 import {ActivatedRoute, Router} from '@angular/router'
-import {
-  AccessRights, AllGroupsGQL, CreateStatisticAccessControlGQL, DeleteStatisticAccessControlGQL,
-  DeleteStatisticGQL,
-  DeleteStatisticReportGQL,
-  Statistic,
-  StatisticGQL, UpdateStatisticAccessControlGQL
-} from '../../generated/graphql'
 import {MdcDialog} from '@angular-mdc/web'
 import {first, map} from 'rxjs/operators'
 import {Subscription} from 'rxjs'
 import {ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent} from '@digital-first/df-dialogs'
 import {DataTableConfig} from '@digital-first/df-components'
 import {DialogAssignGroupPermissionComponent} from '../../dialogs/dialog-assign-group-permission.component'
+import {
+  AccessRights, AllGroupsGQL, CreateStatisticAccessControlGQL, DeleteStatisticAccessControlGQL,
+  DeleteStatisticGQL, DeleteStatisticReportGQL, Statistic, StatisticGQL, UpdateStatisticAccessControlGQL
+} from '../../generated/graphql'
 
 @Component({
   selector: 'digital-first-statistic',
@@ -137,7 +134,6 @@ export class StatisticComponent implements OnInit {
       })
   }
 
-
   handleGroupPermissionChangeClicked(row) {
     this.updateStatisticAccessControlGql
       .mutate(
@@ -155,7 +151,6 @@ export class StatisticComponent implements OnInit {
       .subscribe(value => {
       })
   }
-
 
   handleGroupPermissionDeleteClicked($event) {
     this.deleteStatisticAccessControlGql
@@ -182,7 +177,6 @@ export class StatisticComponent implements OnInit {
         console.log('removing ', $event)
       })
   }
-
 
   handleGroupPermissionGroupClicked($event: any) {
     return this.router.navigate(['groups/', $event.id])

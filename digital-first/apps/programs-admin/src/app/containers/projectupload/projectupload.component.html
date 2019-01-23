@@ -9,12 +9,16 @@
         <div class="mdc-layout-grid__cell--span-6 mdc-elevation--z9">
           <div class="form-content">
             <form (ngSubmit)="onSubmit()" [formGroup]="projectForm">
-              <!--{{diagnostic}}-->
               <fieldset>
                 <h3 class="form-content__headline">Upload Project CSV Form</h3>
                 <div class="form-layout__row">
-                  <mdc-select formControlName="programId" id="program" placeholder="Program" [outlined]="true" required
-                              name="program">
+                  <mdc-select
+                    formControlName="programId"
+                    id="program"
+                    placeholder="Program"
+                    [outlined]="true"
+                    required
+                    name="program">
                     <option value=""></option>
                     <option *ngFor="let program of programs" [value]="program.id">{{program.name}}
                     </option>
@@ -22,8 +26,12 @@
                 </div>
                 <div class="form-layout__row">
                   <mdc-form-field [alignEnd]="true">
-                    <input type="file" accept=".csv" (change)="fileChange($event)" id="fileToUpload"
-                           name="fileToUpload" required>
+                    <input type="file"
+                           accept=".csv"
+                           (change)="fileChange($event)"
+                           id="fileToUpload"
+                           name="fileToUpload"
+                           required>
                   </mdc-form-field>
                 </div>
                 <div class="form-layout__row-with-button">

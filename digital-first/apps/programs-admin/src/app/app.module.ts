@@ -7,7 +7,7 @@ import {ApolloModule} from 'apollo-angular'
 import {HttpLinkModule} from 'apollo-angular-link-http'
 import {NgxWigModule} from 'ngx-wig'
 
-import { ErrorsModule } from './core/errors'
+import {ErrorsModule} from './core/errors'
 
 import {DfAuthModule, AUTH_KEY} from '@digital-first/df-auth'
 import {DfLayoutsModule, FullLayoutService} from '@digital-first/df-layouts'
@@ -69,18 +69,18 @@ import {UserComponent} from './containers/user/user.component'
 import {GroupsComponent} from './containers/groups/groups.component'
 import {GroupComponent} from './containers/group/group.component'
 import {GroupAddComponent} from './containers/group/group-add/group-add.component'
-import { GroupEditComponent } from './containers/group/group-edit/group-edit.component'
-import { StatisticsComponent } from './containers/statistics/statistics.component'
-import { StatisticComponent } from './containers/statistic/statistic.component'
-import { StatisticAddComponent } from './containers/statistic/statistic-add/statistic-add.component'
-import { StatisticEditComponent } from './containers/statistic/statistic-edit/statistic-edit.component'
-import { GroupUsersComponent } from './containers/group-users/group-users.component'
+import {GroupEditComponent} from './containers/group/group-edit/group-edit.component'
+import {StatisticsComponent} from './containers/statistics/statistics.component'
+import {StatisticComponent} from './containers/statistic/statistic.component'
+import {StatisticAddComponent} from './containers/statistic/statistic-add/statistic-add.component'
+import {StatisticEditComponent} from './containers/statistic/statistic-edit/statistic-edit.component'
+import {GroupUsersComponent} from './containers/group-users/group-users.component'
 import {DialogAssignUserToGroupComponent} from './dialogs/dialog-assign-user-to-group.component'
-import { StatisticReportsComponent } from './containers/statistic-reports/statistic-reports.component'
-import { StatisticReportComponent } from './containers/statistic-report/statistic-report.component';
-import { StatisticReportAddComponent } from './containers/statistic-reports/statistic-report-add/statistic-report-add.component';
-import { StatisticReportEditComponent } from './containers/statistic-reports/statistic-report-edit/statistic-report-edit.component';
-import { ReportEditComponent } from './containers/program-reports/report-edit/report-edit.component'
+import {StatisticReportsComponent} from './containers/statistic-reports/statistic-reports.component'
+import {StatisticReportComponent} from './containers/statistic-report/statistic-report.component';
+import {StatisticReportAddComponent} from './containers/statistic-reports/statistic-report-add/statistic-report-add.component';
+import {StatisticReportEditComponent} from './containers/statistic-reports/statistic-report-edit/statistic-report-edit.component';
+import {ReportEditComponent} from './containers/program-reports/report-edit/report-edit.component'
 
 const COMPONENTS = [AppComponent, HomeComponent]
 

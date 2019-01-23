@@ -1,6 +1,7 @@
-<div class="app-page" *ngIf="program; else loading">
+<div *ngIf="program; else loading" class="app-page">
   <section>
-    <digital-first-page-title title="Program - {{ program.name }}">
+    <digital-first-page-title
+      title="Program - {{ program.name }}">
       <digital-first-edit-item-button
         (onEditItem)="handleEditProgram(program)"
       ></digital-first-edit-item-button>
@@ -9,30 +10,27 @@
       ></digital-first-delete-item-button>
     </digital-first-page-title>
 
-    <div class="commitment-layout__row">
+    <div class="programsadmin-layout__row">
       <p>{{ program.agency.title }}</p>
       <p>{{ program.notes }}</p>
       <p>{{ program.externalId }}</p>
     </div>
 
     <digital-first-permission
-      [artifactId]="programId"
-      [tableData]="permissionTableData"
+      (onAddGroup)="handleOpenAddGroupDialog($event)"
+      (onDeleteClicked)="handleGroupPermissionDeleteClicked($event)"
       (onGroupClicked)="handleGroupPermissionGroupClicked($event)"
       (onPermissionClicked)="handleGroupPermissionChangeClicked($event)"
-      (onDeleteClicked)="handleGroupPermissionDeleteClicked($event)"
-      (onAddGroup)="handleOpenAddGroupDialog($event)"
+      [artifactId]="programId"
+      [tableData]="permissionTableData"
     ></digital-first-permission>
 
     <digital-first-program-reports
+      (onCellClicked)="handleReportNavigation($event)"
+      (onDeleteClicked)="handleProgramReportDeleteItemClicked($event)"
       [artifactId]="programId"
       [tableData]="programReportTableData"
-      (onDeleteClicked)="handleProgramReportDeleteItemClicked($event)"
-      (onCellClicked)="handleReportNavigation($event)"
     ></digital-first-program-reports>
-    <digital-first-page-title title="Debug"></digital-first-page-title>
-    <pre>{{ program | json }}</pre>
-
   </section>
 </div>
 <ng-template #loading>

@@ -9,25 +9,37 @@
         <div class="mdc-layout-grid__cell--span-6 mdc-elevation--z9">
           <div class="form-content">
             <form (ngSubmit)="onSubmit()" autocomplete="off" [formGroup]="addStatisticForm">
-              <!--{{diagnostic}}-->
               <fieldset>
                 <h3 class="form-content__headline">Add statistic</h3>
-
                 <div class="form-layout__row">
-                  <mdc-text-field [outlined]="true" formControlName="statisticName" label="Name" type="text"
-                                  required></mdc-text-field>
+                  <mdc-text-field
+                    [outlined]="true"
+                    formControlName="statisticName"
+                    label="Name"
+                    type="text"
+                    required>
+
+                  </mdc-text-field>
                 </div>
                 <div class="form-layout__row">
-                  <mdc-select formControlName="agencyId" id="agency" placeholder="Agency" [outlined]="true" required
-                              name="program">
+                  <mdc-select
+                    formControlName="agencyId"
+                    id="agency"
+                    placeholder="Agency"
+                    [outlined]="true"
+                    required
+                    name="program">
                     <option value=""></option>
                     <option *ngFor="let agency of agencies" [value]="agency.id">{{agency.title}}
                     </option>
                   </mdc-select>
                 </div>
                 <div class="form-layout__row">
-                  <mdc-text-field [outlined]="true" formControlName="externalId" label="External id"
-                                  type="text"></mdc-text-field>
+                  <mdc-text-field [outlined]="true"
+                                  formControlName="externalId"
+                                  label="External id"
+                                  type="text">
+                  </mdc-text-field>
                 </div>
                 <div class="form-layout__row-with-button">
                   <button id="submit"
