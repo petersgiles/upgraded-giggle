@@ -1,13 +1,13 @@
-export interface Location {
+export interface Electorate {
   id: number
   title: string
   group?: string
 }
 
 export interface LocationsResult {
-  locations: Location[]
+  locations: Electorate[]
 }
 
 export interface ElectoratesResult {
-  electorates: Location[]
+  electorates: Electorate[]
 }

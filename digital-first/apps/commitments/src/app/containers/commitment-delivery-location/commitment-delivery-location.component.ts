@@ -8,7 +8,7 @@ import { DialogAreYouSureComponent, ARE_YOU_SURE_ACCEPT } from '@digital-first/d
 import { first } from 'rxjs/operators'
 import { DeliveryLocationService } from '../../reducers/commitment-delivery-location/commitment-delivery-location.service'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
-import { Location } from '../../models/location.model'
+import { Electorate } from '../../models/location.model'
 @Component({
   selector: 'digital-first-commitment-delivery-location',
   templateUrl: './commitment-delivery-location.component.html',
@@ -21,8 +21,8 @@ export class CommitmentDeliveryLocationComponent implements OnInit, OnDestroy {
   expandedSubscription$: Subscription
   userOperation$: Observable<any>
   tableData$: any
-  electorates$: Observable<Location[]>
-  selectedElectorateIds: Location[] = []
+  electorates$: Observable<Electorate[]>
+  selectedElectorateIds: Electorate[] = []
 
   constructor(private router: Router, public dialog: MdcDialog, private service: DeliveryLocationService, private lookup: CommitmentLookupService) {
     this.electorates$ = this.lookup.Locations

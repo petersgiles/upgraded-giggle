@@ -1,8 +1,8 @@
-import { DeliveryLocation } from './commitment-delivery-location.model'
 import { DeliveryLocationActions, DeliveryLocationActionTypes } from './commitment-delivery-location.actions'
+import { MapPoint } from '@digital-first/df-components'
 
 export interface State {
-  mapPoints: DeliveryLocation[]
+  mapPoints: MapPoint[]
   electorates: any[]
   expanded: boolean
   loading: boolean

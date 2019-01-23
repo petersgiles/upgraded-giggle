@@ -8,7 +8,6 @@ import * as fromRoot from '..'
 import { AnnouncementType } from '../../models/announcement-type.model'
 import { CommitmentType } from '../../models/commitment-type.model'
 import { CriticalDate } from '../../models/critical-date.model'
-import { Location } from '../../models/location.model'
 import { Party } from '../../models/party.model'
 import { Portfolio } from '../../models/portfolio.model'
 import { WhoAnnouncedType } from '../../models/who-announced-type.model'
@@ -20,6 +19,7 @@ import {
 
 import { ThemeType } from '../../models/theme-type.model'
 import { PackageType } from '../../models/package-type.model'
+import { Electorate } from '../../models'
 
 @Injectable({
     providedIn: 'root'
@@ -72,7 +72,7 @@ export class CommitmentLookupService {
         this.store.dispatch(new GetAllLocations())
     }
 
-    get Locations(): Observable<Location[]> {
+    get Locations(): Observable<Electorate[]> {
         return this.store.pipe(select(fromRoot.getAllLocations))
     }
 

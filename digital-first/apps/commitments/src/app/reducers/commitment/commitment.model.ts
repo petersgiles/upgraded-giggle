@@ -2,7 +2,7 @@ import { Party } from '../../models/party.model'
 import { AnnouncementType } from '../../models/announcement-type.model'
 import { Portfolio } from '../../models/portfolio.model'
 import { Comment } from '../commitment-discussion/comment.model'
-import { Location } from '../../models/location.model'
+import { Electorate } from '../../models/location.model'
 import { CommitmentType } from '../../models/commitment-type.model'
 import { WhoAnnouncedType } from '../../models/who-announced-type.model'
 import { Contact } from '../contact/contact.model'
@@ -17,8 +17,8 @@ export interface Commitment {
   party: Party,
   description: string,
   cost: string,
-  location: Location,
-  electorates: Location[],
+  location: Electorate,
+  electorates: Electorate[],
   whoAnnouncedType: WhoAnnouncedType
   announcementType: AnnouncementType,
   commitmentType: CommitmentType,
