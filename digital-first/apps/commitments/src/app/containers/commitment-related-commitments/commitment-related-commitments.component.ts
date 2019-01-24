@@ -37,8 +37,6 @@ export class CommitmentRelatedCommitmentsComponent implements OnInit, OnDestroy 
   }
 
   handleAddItem() {
-
-    
     this.service.Commitments.pipe(
       first()
     )
@@ -60,7 +58,6 @@ export class CommitmentRelatedCommitmentsComponent implements OnInit, OnDestroy 
         })
 
         dialogRef.afterClosed().subscribe((result: any) => {
-          
           if (result !== ADD_COMMITMENT_TO_COMMITMENT_CLOSE && result) {
             const related = {
               commitment: this.commitment,
@@ -101,7 +98,6 @@ export class CommitmentRelatedCommitmentsComponent implements OnInit, OnDestroy 
   }
 
   handleRowClicked($event) {
-    
     this.router.navigate(['/', 'commitment', $event.id])
   }
 

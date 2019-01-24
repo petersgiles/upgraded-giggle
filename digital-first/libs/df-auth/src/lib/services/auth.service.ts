@@ -41,8 +41,6 @@ export class AuthService {
       email: email
     }
 
-    
-
     return of(user)
   }
 

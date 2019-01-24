@@ -22,8 +22,6 @@ export class AuthGuard implements CanActivate {
     const auth: any = JSON.parse(this.localStorage.getItem(AUTH_KEY))
     const idToken = auth && auth.status && auth.status.auth && auth.status.auth.idToken
 
-    
-
     if (!idToken || this.jwtHelper.isTokenExpired(auth.status.auth.idToken)) {
       // console.log(idToken)
        this.router.navigate(['/', 'login'], { queryParams: { o: state.url } })
