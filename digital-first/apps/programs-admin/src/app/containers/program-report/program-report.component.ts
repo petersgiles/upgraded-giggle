@@ -1,14 +1,14 @@
 import {Component, OnDestroy, OnInit} from '@angular/core'
-import {
-  AccessRights, AllGroupsGQL, CreateReportAccessControlGQL, DeleteReportAccessControlGQL,
-  Report, ReportGQL, StatisticReport, UpdateReportAccessControlGQL
-} from '../../generated/graphql'
 import {ActivatedRoute, Router} from '@angular/router'
 import {first, map} from 'rxjs/operators'
 import {Subscription} from 'rxjs'
 import {DataTableConfig} from '@digital-first/df-components'
 import {DialogAssignGroupPermissionComponent} from '../../dialogs/dialog-assign-group-permission.component'
 import {MdcDialog} from '@angular-mdc/web'
+import {
+  AccessRights, AllGroupsGQL, CreateReportAccessControlGQL, DeleteReportAccessControlGQL,
+  Report, ReportGQL, StatisticReport, UpdateReportAccessControlGQL
+} from '../../generated/graphql'
 
 @Component({
   selector: 'digital-first-program-report',
@@ -36,7 +36,8 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.reportId = this.route.snapshot.paramMap.get('id')
 
-    this.reportSubscription$ = this.reportGql.watch({reportId: this.reportId}, {fetchPolicy: 'network-only'})
+    this.reportSubscription$ = this.reportGql
+      .watch({reportId: this.reportId}, {fetchPolicy: 'network-only'})
       .valueChanges.pipe(map(value => value.data.reports[0]))
       .subscribe(report => {
         this.report = report
@@ -148,6 +149,10 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
       })
   }
 
+  handleEditReport(report: Report.Reports) {
+    return this.router.navigate(['../edit', report.id], {relativeTo: this.route})
+  }
+
   private createProgramPermissionGroupTableData(report: Report.Reports): DataTableConfig {
     const groups = {}
     report.accessControlList.forEach(acl => {
@@ -189,9 +194,5 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
       headings: [{caption: 'Name'}, {caption: 'Permission'}],
       rows: rows
     }
-  }
-
-  handleEditReport(report: Report.Reports) {
-    return this.router.navigate(['../edit', report.id], {relativeTo: this.route})
   }
 }

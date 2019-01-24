@@ -1,9 +1,9 @@
-<div class="app-page" *ngIf="report; else loading">
+<div *ngIf="report; else loading" class="app-page">
   <section>
     <digital-first-page-title title="Report - {{ report.name }}">
       <digital-first-edit-item-button
-        (onEditItem)="handleEditStatisticReport(report)"
-      ></digital-first-edit-item-button>
+        (onEditItem)="handleEditStatisticReport(report)">
+      </digital-first-edit-item-button>
     </digital-first-page-title>
     <div class="commitment-layout__row">
       <p>Notes:</p>
@@ -11,18 +11,15 @@
       <ng-template #elseBlock><p>No notes were provided for this report</p></ng-template>
     </div>
     <digital-first-permission
-      [artifactId]="statisticReportId"
-      [tableData]="permissionTableData"
       (onAddGroup)="handleOpenAddGroupDialog($event)"
+      (onDeleteClicked)="handleGroupPermissionDeleteClicked($event)"
       (onGroupClicked)="handleGroupPermissionGroupClicked($event)"
       (onPermissionClicked)="handleGroupPermissionChangeClicked($event)"
-      (onDeleteClicked)="handleGroupPermissionDeleteClicked($event)"
-    ></digital-first-permission>
-    <digital-first-page-title title="Debug"></digital-first-page-title>
-    <pre>{{ report | json }}</pre>
+      [artifactId]="statisticReportId"
+      [tableData]="permissionTableData">
+    </digital-first-permission>
   </section>
 </div>
-
 <ng-template #loading>
   Loading...
 </ng-template>

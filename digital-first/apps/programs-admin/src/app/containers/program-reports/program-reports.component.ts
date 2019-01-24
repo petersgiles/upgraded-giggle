@@ -49,5 +49,4 @@ export class ProgramReportsComponent implements OnInit {
         }
       })
   }
-
 }

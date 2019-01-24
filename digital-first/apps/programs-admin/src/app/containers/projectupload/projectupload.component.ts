@@ -54,7 +54,6 @@ export class ProjectuploadComponent implements OnInit, OnDestroy {
 
       this.fileToUpload = fileList[0]
 
-      // TODO: revisit this to tidy it up
       const reader = new FileReader()
 
       if (event.target.files && event.target.files.length) {

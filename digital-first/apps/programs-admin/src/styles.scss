@@ -7,3 +7,43 @@
   display: flex;
   flex-direction: column;
 }
+
+.app-page {
+  padding-left: 0px;
+}
+
+.app-print-wrapper {
+  padding: 15px;
+}
+
+p {
+  margin: 12px 10px;
+}
+
+.form-layout__row {
+  margin-top: 1.0em;
+  margin-bottom: 1.0em;
+  display: flex;
+  flex-flow: row wrap;
+
+  .mdc-text-field,
+  .mdc-select {
+    flex-grow: 1;
+    margin-left: .3em;
+    margin-right: .3em;
+  }
+}
+
+.form-content {
+  margin: 15px;
+  border: none;
+}
+
+.fileToUpload {
+  display: none;
+}
+
+.form-content {
+  margin: 15px;
+  border: none;
+}

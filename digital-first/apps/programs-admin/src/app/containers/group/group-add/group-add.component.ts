@@ -22,13 +22,9 @@ export class GroupAddComponent implements OnInit {
   onSubmit() {
 
     this.createAccessControlGroupGql.mutate({
-      data: {
-        title: this.addGroupForm.value['groupName']
-      }
+      data: {title: this.addGroupForm.value['groupName']}
     }, {}).subscribe(({data}) =>
-      this.router.navigate(['groups', data.createAccessControlGroup.id]), (error) => {
-      console.log('there was an error sending the query', error)
-    })
+      this.router.navigate(['groups', data.createAccessControlGroup.id]))
   }
 
   ngOnInit(): void {

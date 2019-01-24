@@ -54,9 +54,7 @@ export class ReportEditComponent implements OnInit, OnDestroy {
         programId: this.report.programId
       }
     }, {}).subscribe(({data}) =>
-      this.router.navigate(['../../', this.reportId], {relativeTo: this.route}), (error) => {
-      console.log('there was an error sending the query', error)
-    })
+      this.router.navigate(['../../', this.reportId], {relativeTo: this.route}))
   }
 
   ngOnDestroy(): void {

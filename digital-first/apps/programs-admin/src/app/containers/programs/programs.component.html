@@ -5,11 +5,14 @@
   <mdc-list>
     <mdc-list-item *ngFor="let program of programs">
       <mdc-list-item-text
-        secondaryText={{program.agency.title}}><a [routerLink]="[program.id]">{{program.name}}</a>
+        secondaryText={{program.agency.title}}>
+        <a [routerLink]="[program.id]">
+          {{program.name}}
+        </a>
       </mdc-list-item-text>
     </mdc-list-item>
   </mdc-list>
-  <button mdc-fab position='bottomRight' (click)="add()" icon="add"></button>
+  <button (click)="add()" icon="add" mdc-fab position='bottomRight'></button>
 </div>
 <ng-template #loading>
   Loading...

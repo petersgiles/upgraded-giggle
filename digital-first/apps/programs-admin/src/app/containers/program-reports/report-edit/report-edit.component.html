@@ -9,18 +9,26 @@
         <div class="mdc-layout-grid__cell--span-6 mdc-elevation--z9">
           <div class="form-content">
             <form (ngSubmit)="onSubmit()" autocomplete="off" [formGroup]="editReportForm">
-              <!--{{diagnostic}}-->
               <fieldset>
                 <h3 class="form-content__headline">Edit report</h3>
 
                 <div class="form-layout__row">
-                  <mdc-text-field [outlined]="true" formControlName="reportName" label="Name" type="text"
-                                  required></mdc-text-field>
+                  <mdc-text-field [outlined]="true"
+                                  formControlName="reportName"
+                                  label="Name"
+                                  type="text"
+                                  required>
+                  </mdc-text-field>
                 </div>
                 <div class="form-layout__row">
-                  <mdc-textarea formControlName="notes" name="notes" id="notes" cols="8"
-                                rows="3" maxlength="250"
-                                label="Notes" spellcheck="true">
+                  <mdc-textarea formControlName="notes"
+                                name="notes"
+                                id="notes"
+                                cols="8"
+                                rows="3"
+                                maxlength="250"
+                                label="Notes"
+                                spellcheck="true">
                   </mdc-textarea>
                 </div>
                 <div class="form-layout__row-with-button">

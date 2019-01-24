@@ -3,15 +3,16 @@
     <div class="reader-card-article__title page_title_text" mdcHeadline5>Groups</div>
   </div>
   <div class="app-page">
-  <p>TODO:  search/filter</p><!--TODO:  search/filter-->
-  <mdc-list>
-    <mdc-list-item *ngFor="let group of groups">
-      <mdc-list-item-text><a [routerLink]="[group.id]">{{group.title}}</a>
-      </mdc-list-item-text>
-    </mdc-list-item>
-  </mdc-list>
-  <button mdc-fab position='bottomRight' (click)="add()" icon="add"></button>
-</div>
+    <p>TODO: search/filter</p><!--TODO:  search/filter-->
+    <mdc-list>
+      <mdc-list-item *ngFor="let group of groups">
+        <mdc-list-item-text>
+          <a [routerLink]="[group.id]">{{group.title}}</a>
+        </mdc-list-item-text>
+      </mdc-list-item>
+    </mdc-list>
+    <button mdc-fab position='bottomRight' (click)="add()" icon="add"></button>
+  </div>
 </div>
 <ng-template #loading>
   Loading...

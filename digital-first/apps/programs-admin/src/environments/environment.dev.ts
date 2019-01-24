@@ -5,8 +5,9 @@ declare var require: any
 
 export const environment = {
   production: false,
+  redirectErrors: true,
   version: require('../../../../package.json').version,
- datasource: {
+  datasource: {
     type: 'local',
     dataServiceUrl: '//#{ApiPath}/admin/graphql',
     passthroughUrl: '//#{ApiPath}/admin/api/sendmessage'

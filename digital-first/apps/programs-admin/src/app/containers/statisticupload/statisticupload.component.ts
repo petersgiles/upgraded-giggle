@@ -21,14 +21,15 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
   statisticReports: AllStatistics.StatisticReports[]
   statisticsSubscription$: Subscription
 
-  statisticForm = this.formBuilder.group({
-    statisticId: [undefined, Validators.required],
-    statisticReportId: [undefined, Validators.required],
-    notes: [''],
-    dataDate: ['', Validators.required],
-    filename: [''],
-    file: [null, Validators.required],
-  })
+  statisticForm = this.formBuilder
+    .group({
+      statisticId: [undefined, Validators.required],
+      statisticReportId: [undefined, Validators.required],
+      notes: [''],
+      dataDate: ['', Validators.required],
+      filename: [''],
+      file: [null, Validators.required]
+    })
 
   constructor(private allStatistics: AllStatisticsGQL,
               private passthrough: PassthroughService,
@@ -46,8 +47,7 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
 
       if (event.index === 0) {
         this.statisticReports = null
-      }
-      else {
+      } else {
         this.statisticReports = this.statistics.filter(value => value.id === event.value)[0].statisticReports
       }
       this.statisticForm.patchValue({'statisticReportId': undefined})
@@ -69,8 +69,6 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
     if (fileList.length === 1) {
 
       this.fileToUpload = fileList[0]
-
-      // TODO: revisit this to tidy it up
       const reader = new FileReader()
 
       if (event.target.files && event.target.files.length) {
@@ -89,7 +87,6 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
     }
   }
 
-  // send message and attachment onto the bus
   onSubmit() {
     const formData = new FormData()
 

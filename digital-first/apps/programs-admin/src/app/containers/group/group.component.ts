@@ -12,11 +12,10 @@ import {MdcDialog} from '@angular-mdc/web'
   styleUrls: ['./group.component.scss']
 })
 export class GroupComponent implements OnInit {
+  userTableData: any
   private groupId: string
   private groupSubscription$: Subscription
   private group: Group.Groups
-
-  userTableData: any
 
   constructor(private route: ActivatedRoute,
               private groupGQL: GroupGQL,
@@ -44,7 +43,6 @@ export class GroupComponent implements OnInit {
   }
 
   handleDeleteGroup(group: Group.Groups) {
-
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
       clickOutsideToClose: true
@@ -76,7 +74,7 @@ export class GroupComponent implements OnInit {
           data: {
             userId: $event.id,
             accessControlGroupId: this.groupId
-         }
+          }
         },
         {
           refetchQueries: [

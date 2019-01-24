@@ -51,9 +51,7 @@ export class StatisticAddComponent implements OnInit {
         externalId: this.addStatisticForm.value['externalId']
       }
     }, {}).subscribe(({data}) =>
-      this.router.navigate(['statistics', data.createStatistic.id]), (error) => {
-      console.log('there was an error sending the query', error)
-    })
+      this.router.navigate(['statistics', data.createStatistic.id]))
   }
 
   cancel() {

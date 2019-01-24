@@ -1,6 +1,4 @@
 <div *ngIf="(statistics$ | async) as statistics; else loading">
-
-
   <div class="page_title">
     <div class="reader-card-article__title page_title_text" mdcHeadline5>Edit statistic</div>
   </div>
@@ -11,35 +9,46 @@
           <div class="mdc-layout-grid__cell--span-3"></div>
           <div class="mdc-layout-grid__cell--span-6 mdc-elevation--z9">
             <div class="form-content">
-              <form (ngSubmit)="onSubmit()" autocomplete="off" [formGroup]="editStatisticForm">
-                <!--{{diagnostic}}-->
+              <form (ngSubmit)="onSubmit()" [formGroup]="editStatisticForm" autocomplete="off">
                 <fieldset>
                   <h3 class="form-content__headline">Edit statistic</h3>
 
                   <div class="form-layout__row">
-                    <mdc-text-field [outlined]="true" formControlName="statisticName" label="Name" type="text"
-                                    required></mdc-text-field>
+                    <mdc-text-field [outlined]="true"
+                                    formControlName="statisticName"
+                                    label="Name"
+                                    required
+                                    type="text">
+                    </mdc-text-field>
                   </div>
                   <div class="form-layout__row">
-                    <mdc-select formControlName="agencyId" id="agency" placeholder="Agency" [outlined]="true" required
-                                name="program">
+                    <mdc-select
+                      [outlined]="true"
+                      formControlName="agencyId"
+                      id="agency"
+                      name="program"
+                      placeholder="Agency"
+                      required>
                       <option value=""></option>
                       <option *ngFor="let agency of agencies" [value]="agency.id">{{agency.title}}
                       </option>
                     </mdc-select>
                   </div>
                   <div class="form-layout__row">
-                    <mdc-text-field [outlined]="true" formControlName="externalId" label="External id"
-                                    type="text"></mdc-text-field>
+                    <mdc-text-field [outlined]="true"
+                                    formControlName="externalId"
+                                    label="External id"
+                                    type="text">
+                    </mdc-text-field>
                   </div>
                   <div class="form-layout__row-with-button">
-                    <button id="submit"
+                    <button [disabled]="editStatisticForm.invalid || editStatisticForm.prestine"
                             class="mdc-button ng-mdc-button--primary mdc-button--raised mdc-ripple-upgraded"
-                            type="submit" [disabled]="editStatisticForm.invalid || editStatisticForm.prestine">Save
+                            id="submit" type="submit">Save
                     </button>
-                    <button id="cancel"
+                    <button (click)="cancel()"
                             class="mdc-button ng-mdc-button--secondary mdc-button--raised mdc-ripple-upgraded"
-                            type="button" (click)="cancel()">Cancel
+                            id="cancel" type="button">Cancel
                     </button>
                   </div>
                 </fieldset>

@@ -41,8 +41,6 @@ export class StatisticReportAddComponent implements OnInit {
         notes: this.addStatisticReportForm.value['notes']
       }
     }, {}).subscribe(() =>
-      this.router.navigate(['statistics', this.statisticId]), (error) => {
-      console.log('there was an error sending the query', error)
-    })
+      this.router.navigate(['statistics', this.statisticId]))
   }
 }

@@ -30,12 +30,10 @@ export class ReportAddComponent implements OnInit {
       data: {
         programId: this.programId,
         name: this.addReportForm.value['reportName'],
-        notes: this.addReportForm.value['notes'],
+        notes: this.addReportForm.value['notes']
       }
     }, {}).subscribe(() =>
-      this.router.navigate(['programs', this.programId]), (error) => {
-      console.log('there was an error sending the query', error)
-    })
+      this.router.navigate(['programs', this.programId]))
   }
 
   cancel() {

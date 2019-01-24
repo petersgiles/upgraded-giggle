@@ -19,7 +19,7 @@ export class ProgramAddComponent implements OnInit, OnDestroy {
     agencyId: [undefined, Validators.required],
     programName: [null, Validators.required],
     externalId: [null],
-    notes: [''],
+    notes: ['']
   })
 
   constructor(private formBuilder: FormBuilder,
@@ -47,9 +47,7 @@ export class ProgramAddComponent implements OnInit, OnDestroy {
         externalId: this.addProgramForm.value['externalId']
       }
     }, {}).subscribe(({data}) =>
-      this.router.navigate(['programs', data.createProgram.id]), (error) => {
-      console.log('there was an error sending the query', error)
-    })
+      this.router.navigate(['programs', data.createProgram.id]))
   }
 
   cancel() {

@@ -1,10 +1,20 @@
-<digital-first-page-title title="Statistic Reports" (onTitleClicked)="handleChangeExpanded(!expanded)">
-  <digital-first-add-item-button icon="note_add" title="Add&nbsp;Report"
-                                 (onAddItem)="handleAddClicked($event)"></digital-first-add-item-button>
-  <digital-first-expand-collapse-button [expanded]='expanded' (onChangeExpanded)="handleChangeExpanded(!expanded)"></digital-first-expand-collapse-button>
+<digital-first-page-title
+  (onTitleClicked)="handleChangeExpanded(!expanded)"
+  title="Statistic Reports">
+  <digital-first-add-item-button
+    (onAddItem)="handleAddClicked($event)"
+    icon="note_add"
+    title="Add&nbsp;Report">
+  </digital-first-add-item-button>
+  <digital-first-expand-collapse-button
+    (onChangeExpanded)="handleChangeExpanded(!expanded)"
+    [expanded]='expanded'>
+  </digital-first-expand-collapse-button>
 </digital-first-page-title>
-
-<div class="commitment-layout__row" >
-  <digital-first-data-table [tableData]="tableData" [hasDeleteItemButton]="true" (onDeleteItem)="handleTableDeleteClicked($event)"
-                            (onCellClicked)="onCellClicked.emit($event)"></digital-first-data-table>
+<div class="commitment-layout__row">
+  <digital-first-data-table
+    [tableData]="tableData"
+    (onDeleteItem)="handleTableDeleteClicked($event)"
+    (onCellClicked)="onCellClicked.emit($event)">
+  </digital-first-data-table>
 </div>
