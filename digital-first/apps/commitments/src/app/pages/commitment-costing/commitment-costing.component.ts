@@ -28,18 +28,24 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
   portfolios$: Observable<Portfolio[]>
   currentActionSubscription$: Subscription
 
-  constructor(private router: Router, private location: Location, private route: ActivatedRoute, public dialog: MdcDialog, private snackbar: MdcSnackbar,
+  constructor(
+    private router: Router,
+    private location: Location,
+    private route: ActivatedRoute,
+    public dialog: MdcDialog,
+    private snackbar: MdcSnackbar,
     private service: CommitmentDataService,
     private lookup: CommitmentLookupService,
     private actionService: CommitmentActionService,
     private fb: FormBuilder,
-    private logger: LoggerService) { }
+    private logger: LoggerService
+  ) {}
 
   form = this.fb.group({
     id: [],
     commitment: [null],
     description: [''],
-    portfolio: [null],
+    portfolio: [null]
   })
 
   getTitle(commitment) {
@@ -51,15 +57,13 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
     this.currentActionSubscription$ = this.actionService.CurrentAction.subscribe(
       next => {
-
         let patch = {
           id: null,
           title: null,
           description: null,
-          portfolio: null,
+          portfolio: null
         }
 
         if (next) {
@@ -71,7 +75,7 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
           }
         }
         this.form.patchValue(patch)
-      },
+      }
       // error => showSnackBar(this.snackbar, error)
     )
 
@@ -84,39 +88,38 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
 
     this.portfolios$ = this.lookup.Portfolios
 
-    this.activitySubscription$ = this.service.Notification
-      .subscribe(
-        (next: any) => {
-          if (next) {
-            this.formBusy = false
-            showSnackBar(this.snackbar, next.message)
-          }
-        },
-        error => showSnackBar(this.snackbar, error)
-      )
+    this.activitySubscription$ = this.service.Notification.subscribe(
+      (next: any) => {
+        if (next) {
+          this.formBusy = false
+          showSnackBar(this.snackbar, next.message)
+        }
+      },
+      error => showSnackBar(this.snackbar, error)
+    )
 
     this.paramsSubscription$ = this.route.paramMap
       .pipe(
         map((params: ParamMap) => ({
           commitment: +params.get('id'),
-          costing: params.get('costid'),
+          costing: params.get('costid')
         }))
       )
-      .subscribe((params) => {
+      .subscribe(params => {
         this.service.setCurrentCommitment(params.commitment)
-        this.actionService.setCurrentCommitmentAction(params.commitment, params.costing)
+        this.actionService.setCurrentCommitmentAction(
+          params.commitment,
+          params.costing
+        )
 
         const patch = {
           commitment: params.commitment
         }
 
         this.form.patchValue(patch)
-
-      }
-      )
+      })
 
     this.lookup.getAllPortfolios()
-
   }
 
   ngOnDestroy(): void {
@@ -127,7 +130,9 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
   }
 
   handleSubmit($event) {
-    this.logger.info(this.form.value)
-    this.actionService.addActionToCommitment(this.commitment.id, this.form.value)
+    this.actionService.addActionToCommitment(
+      this.commitment.id,
+      this.form.value
+    )
   }
 }

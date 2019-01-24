@@ -40,12 +40,12 @@ export class RelatedCommitmentEffects {
   @Effect()
   removeCommitmentFromCommitment$: Observable<Action> = this.actions$.pipe(
     ofType(RelatedCommitmentActionTypes.RemoveCommitmentFromCommitment),
-    tap(action => this.logger.info(action)),
+    
     map((action: RemoveCommitmentFromCommitment) => action.payload),
     switchMap((payload: any) =>
       this.service.removeItemFromCommitment(payload)
       .pipe(
-        tap(result => this.logger.info(result)),
+        
         switchMap((result: any) => [
           new AppNotification({ message: 'Related Commitment Removed' }),
           new SetCurrentCommitment({ id: result.commitment.id }),
@@ -59,13 +59,13 @@ export class RelatedCommitmentEffects {
   @Effect()
   addCommitmentToCommitment$: Observable<Action> = this.actions$.pipe(
     ofType(RelatedCommitmentActionTypes.AddCommitmentToCommitment),
-    tap(action => this.logger.info(action)),
+    
     map((action: AddCommitmentToCommitment) => action.payload),
-    tap(action => this.logger.info(action)),
+    
     switchMap((payload: any) =>
       this.service.addItemToCommitment(payload)
       .pipe(
-        tap(result => this.logger.info(result)),
+        
         switchMap((result: any) => [
           new AppNotification({ message: 'Related Commitment Added' }),
           new SetCurrentCommitment({ id: result.commitment.id }),

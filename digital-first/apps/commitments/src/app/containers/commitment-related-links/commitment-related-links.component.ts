@@ -77,7 +77,7 @@ export class CommitmentRelatedLinksComponent implements OnInit, OnDestroy {
   }
 
   handleRowClicked($event) {
-    this.logger.info($event)
+    
     window.open($event.cell.value, '_blank')
   }
 

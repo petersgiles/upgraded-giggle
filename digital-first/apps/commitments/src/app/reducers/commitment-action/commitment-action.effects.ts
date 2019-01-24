@@ -25,10 +25,10 @@ export class CommitmentActionEffects {
     .pipe(
       ofType(CommitmentActionActionTypes.GetActionsByCommitment),
       map((action: GetActionsByCommitment) => action.payload.commitment),
-      tap(result => this.logger.info(result)),
+      
       concatMap((commitment: any) => this.service.getActionsByCommitment(commitment)
         .pipe(
-          tap(result => this.logger.info(result)),
+          
           map((result: DataResult<CommitmentActionsResult>) => new LoadCommitmentActions({ actions: result.data.commitmentActions })),
           catchError(error => of(new CommitmentActionActionFailure(error)))
         )

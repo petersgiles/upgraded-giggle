@@ -41,7 +41,7 @@ export class AuthService {
       email: email
     }
 
-    this.logger.info('claims', user)
+    
 
     return of(user)
   }

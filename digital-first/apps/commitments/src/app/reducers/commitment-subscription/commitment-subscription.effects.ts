@@ -18,10 +18,8 @@ export class CommitmentSubscriptionEffects {
     .pipe(
       ofType(CommitmentSubscriptionActionTypes.GetSubscriptionsByCommitment),
       map((action: GetCommitmentSubscriptionForUser) => action.payload),
-      this.logger.info(result => this.logger.info('getSubscriptionByCommitment =>  ', result)),
       switchMap((subscription: any) => this.service.getUserSubscription(subscription)
         .pipe(
-          this.logger.info(result => this.logger.info('getSubscriptionByCommitment', result)),
           map((result: DataResult<SubscriptionResult>) => new LoadSubscriptions(result)),
           catchError(error => of(new SubscriptionActionFailure(error)))
         )

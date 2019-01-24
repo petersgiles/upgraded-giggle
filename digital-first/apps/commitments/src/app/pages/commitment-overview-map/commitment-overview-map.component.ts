@@ -11,7 +11,6 @@ import { Router } from '@angular/router'
   styleUrls: ['./commitment-overview-map.component.scss']
 })
 export class CommitmentOverviewMapComponent implements OnInit {
-
   public latitude: number
   public longitude: number
 
@@ -19,7 +18,11 @@ export class CommitmentOverviewMapComponent implements OnInit {
   mapPoints$: Observable<MapPoint[]>
   commitments$: Observable<DataTableConfig>
 
-  constructor(private router: Router, private service: CommitmentOverviewMapService, private logger: LoggerService) { }
+  constructor(
+    private router: Router,
+    private service: CommitmentOverviewMapService,
+    private logger: LoggerService
+  ) {}
 
   ngOnInit() {
     this.latitude = -27.698
@@ -34,14 +37,9 @@ export class CommitmentOverviewMapComponent implements OnInit {
 
   handleRowClicked(row) {
     this.router.navigate(['/', 'commitment', row.id])
-
   }
 
   handleMapPointSelected(_, mapPoint) {
-    this.logger.info(mapPoint)
-
     this.service.getOverviewMapCommitment(mapPoint.place_id)
-
   }
-
 }

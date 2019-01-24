@@ -25,14 +25,15 @@ export class RelatedLinkEffects {
     ofType(RelatedLinkActionTypes.AddLinkToCommitment),
     map((action: AddLinkToCommitment) => action.payload),
     switchMap((payload: any) =>
-      this.service.addItemToCommitment(payload).pipe(
-        tap(result => this.logger.info(result)),
-        switchMap((result: any) => [
-          new AppNotification({ message: 'Related Link Added' }),
-          new SetCurrentCommitment({ id: result.commitment.id }),
-          new ClearAppNotification()
-        ])
-      )
+      this.service
+        .addItemToCommitment(payload)
+        .pipe(
+          switchMap((result: any) => [
+            new AppNotification({ message: 'Related Link Added' }),
+            new SetCurrentCommitment({ id: result.commitment.id }),
+            new ClearAppNotification()
+          ])
+        )
     ),
     catchError(error => of(new RelatedLinksActionFailure(error)))
   )
@@ -42,15 +43,15 @@ export class RelatedLinkEffects {
     ofType(RelatedLinkActionTypes.RemoveLinkFromCommitment),
     map((action: RemoveLinkFromCommitment) => action.payload),
     switchMap((payload: any) =>
-      this.service.removeItemFromCommitment(payload)
-      .pipe(
-        tap(result => this.logger.info(result)),
-        switchMap((result: any) => [
-          new AppNotification({ message: 'Related Link Removed' }),
-          new SetCurrentCommitment({ id: result.commitment.id }),
-          new ClearAppNotification()
-        ])
-      )
+      this.service
+        .removeItemFromCommitment(payload)
+        .pipe(
+          switchMap((result: any) => [
+            new AppNotification({ message: 'Related Link Removed' }),
+            new SetCurrentCommitment({ id: result.commitment.id }),
+            new ClearAppNotification()
+          ])
+        )
     ),
     catchError(error => of(new RelatedLinksActionFailure(error)))
   )
