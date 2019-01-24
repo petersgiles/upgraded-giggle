@@ -1,6 +1,6 @@
 export interface GroupPermission {
     id: string
     rights: string
-    component: string
+    component: string[]
     group: string
   }
