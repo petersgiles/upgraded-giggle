@@ -158,7 +158,7 @@ export class StatisticComponent implements OnInit {
         {
           data: {
             accessControlGroupId: $event.id,
-            accessControlListId: $event.data.acl
+            statisticId: this.statisticId
           }
         },
         {

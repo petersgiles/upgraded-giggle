@@ -7,7 +7,7 @@ export interface OrderByGraph {
 export interface WhereExpressionGraph {
   path: string;
 
-  comparison: ComparisonGraph;
+  comparison?: ComparisonGraph | null;
 
   case?: StringComparison | null;
 
@@ -30,6 +30,14 @@ export interface CreateAgencyInputGraph {
   metadata?: string | null;
 
   portfolioId: Guid;
+}
+
+export interface CreateAgencyMappingInputGraph {
+  agencyId: Guid;
+
+  emailDomain: string;
+
+  accessControlGroupId: Guid;
 }
 
 export interface CreateDisplayGroupInputGraph {
@@ -150,6 +158,10 @@ export interface DeleteAgencyInputGraph {
   id: Guid;
 }
 
+export interface DeleteAgencyMappingInputGraph {
+  id: Guid;
+}
+
 export interface DeleteDisplayGroupInputGraph {
   id: Guid;
 }
@@ -195,7 +207,7 @@ export interface DeleteStatisticInputGraph {
 }
 
 export interface DeleteStatisticAccessControlInputGraph {
-  accessControlListId: Guid;
+  statisticId: Guid;
 
   accessControlGroupId: Guid;
 }
@@ -228,6 +240,18 @@ export interface UpdateAgencyInputGraph {
   rowVersion: string;
 
   portfolioId: Guid;
+}
+
+export interface UpdateAgencyMappingInputGraph {
+  id: Guid;
+
+  agencyId: Guid;
+
+  emailDomain: string;
+
+  accessControlGroupId: Guid;
+
+  rowVersion: string;
 }
 
 export interface UpdateDisplayGroupInputGraph {
@@ -291,7 +315,7 @@ export interface UpdateProgramInputGraph {
 
   commitments?: string | null;
 
-  rowVersion?: string | null;
+  rowVersion: string;
 }
 
 export interface UpdateProgramAccessControlInputGraph {
@@ -1005,7 +1029,7 @@ export namespace Program {
 
     name: string;
 
-    status: string;
+    status: string | null;
 
     notes: string | null;
 
