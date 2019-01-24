@@ -15,6 +15,7 @@
 <div class="programsadmin-layout__row">
   <digital-first-data-table
     [tableData]="tableData"
+    [hasDeleteItemButton]="true"
     (onDeleteItem)="handleTableDeleteClicked($event)"
     (onCellClicked)="handleCellClicked($event)">
   </digital-first-data-table>
