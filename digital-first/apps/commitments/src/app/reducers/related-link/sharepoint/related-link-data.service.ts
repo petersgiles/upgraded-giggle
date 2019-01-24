@@ -6,6 +6,7 @@ import { DataResult, RelatedLinksResult } from '../../../models'
 import { concatMap, map, tap } from 'rxjs/operators'
 import { byCommitmentIdQuery, byJoinTableQuery, byIdQuery } from '../../../services/sharepoint/caml'
 import { mapRelatedLinks } from './maps'
+import { LoggerService } from '@digital-first/df-logging'
 
 @Injectable({
     providedIn: 'root'
@@ -16,8 +17,7 @@ export class RelatedLinkDataSharePointService implements RelatedLinkDataService 
         const LISTNAME = 'RelatedLink'
 
         const viewXml = byIdQuery({ id: payload.id })
-        // tslint:disable-next-line:no-console
-        console.log(viewXml, payload)
+        this.logger.info(viewXml, payload)
         return this.sharepoint.getItems({
           listName: LISTNAME,
           viewXml: viewXml
@@ -65,5 +65,5 @@ export class RelatedLinkDataSharePointService implements RelatedLinkDataService 
           )
       }
 
-    constructor(private sharepoint: SharepointJsomService) { }
+    constructor(private sharepoint: SharepointJsomService, private logger: LoggerService) { }
 }

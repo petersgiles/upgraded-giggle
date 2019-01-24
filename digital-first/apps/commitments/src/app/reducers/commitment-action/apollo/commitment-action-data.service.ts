@@ -5,6 +5,7 @@ import { DataResult, ContactsResult, CommitmentActionsResult } from '../../../mo
 import { CommitmentActionDataService } from '../commitment-action-data.service'
 import { Observable } from 'rxjs'
 import { GET_COMMITMENT_ACTIONS, REMOVE_COMMITMENT_ACTION, STORE_COMMITMENT_ACTION } from './queries'
+import { LoggerService } from '@digital-first/df-logging'
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +19,7 @@ export class CommitmentActionDataApolloService implements CommitmentActionDataSe
     )
 
   addActionToCommitment = (payload: any): Observable<DataResult<{ commitment: number; }>> => {
-    // tslint:disable-next-line:no-console
-    console.log(payload)
+    this.logger.info(payload)
 
     return callMutate<any>(this.apollo,
       { mutation: STORE_COMMITMENT_ACTION, variables: { ...payload.action } },
@@ -32,5 +32,5 @@ export class CommitmentActionDataApolloService implements CommitmentActionDataSe
       , result => ({ data: { commitmentActions: result.data.commitmentActions } })
     )
 
-  constructor(private apollo: Apollo) { }
+  constructor(private apollo: Apollo, private logger: LoggerService) { }
 }

@@ -1,0 +1,12 @@
+mutation createStatistic ($data: CreateStatisticInputGraph!) {
+  createStatistic (input: $data)
+  {
+    id
+    name
+    agency{
+      id
+    }
+    externalId
+    rowVersion
+  }
+}

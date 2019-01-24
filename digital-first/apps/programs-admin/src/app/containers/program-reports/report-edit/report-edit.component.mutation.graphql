@@ -1,0 +1,7 @@
+mutation updateReport($data: UpdateReportInputGraph) {
+  updateReport(input: $data) {
+    id
+    name
+    notes
+  }
+}

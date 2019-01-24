@@ -1,3 +1,4 @@
+import { LoggerService } from '@digital-first/df-logging'
 import { Injectable } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 import { Observable, of } from 'rxjs'
@@ -18,12 +19,10 @@ export class CommentOverviewMapEffects {
         .pipe(
             ofType(CommitmentOverviewMapActionTypes.GetCommitmentOverviewMapPoints),
             map((action: GetCommitmentOverviewMapPoints) => action.payload),
-            // tslint:disable-next-line:no-console
-            tap(r => console.log(r)),
+            tap(r => this.logger.info(r)),
             concatMap((filter: any) => this.service.getMapPoints(filter)
                 .pipe(
-                    // tslint:disable-next-line:no-console
-                    tap(r => console.log('getOverviewMapPoints', r)),
+                    tap(r => this.logger.info('getOverviewMapPoints', r)),
                     concatMap((result) => [new LoadCommitmentOverviewMapPoints(result)]),
                     catchError(error => of(new CommentOverviewMapActionFailure(error)))
                 )
@@ -34,16 +33,14 @@ export class CommentOverviewMapEffects {
         .pipe(
             ofType(CommitmentOverviewMapActionTypes.GetCommitmentOverviewMapCommitments),
             map((action: GetCommitmentOverviewMapCommitments) => action.payload),
-            // tslint:disable-next-line:no-console
-            tap(r => console.log(r)),
+            tap(r => this.logger.info(r)),
             concatMap((filter: any) => this.service.getCommitmentOverviewMapCommitments(filter)
                 .pipe(
-                    // tslint:disable-next-line:no-console
-                    tap(r => console.log('LoadCommitmentOverviewMapCommitments', r)),
+                    tap(r => this.logger.info('LoadCommitmentOverviewMapCommitments', r)),
                     concatMap((result) => [new LoadCommitmentOverviewMapCommitments(result)]),
                     catchError(error => of(new CommentOverviewMapActionFailure(error)))
                 )
             ))
 
-    constructor(private actions$: Actions, private service: CommitmentOverviewMapDataService) { }
+    constructor(private actions$: Actions, private service: CommitmentOverviewMapDataService, private logger: LoggerService) { }
 }

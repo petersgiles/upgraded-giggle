@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core'
 import {
   AccessRights, AllGroupsGQL, CreateReportAccessControlGQL, DeleteReportAccessControlGQL,
-  Report, ReportGQL, UpdateReportAccessControlGQL
+  Report, ReportGQL, StatisticReport, UpdateReportAccessControlGQL
 } from '../../generated/graphql'
 import {ActivatedRoute, Router} from '@angular/router'
 import {first, map} from 'rxjs/operators'
@@ -192,6 +192,6 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
   }
 
   handleEditReport(report: Report.Reports) {
-    alert('TODO')
+    return this.router.navigate(['../edit', report.id], {relativeTo: this.route})
   }
 }

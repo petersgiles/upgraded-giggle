@@ -1,0 +1,7 @@
+mutation createAccessControlGroupUser ($data: CreateAccessControlGroupUserInputGraph!) {
+  createAccessControlGroupUser (input: $data)
+  {
+    accessControlGroupId
+    userId
+  }
+}

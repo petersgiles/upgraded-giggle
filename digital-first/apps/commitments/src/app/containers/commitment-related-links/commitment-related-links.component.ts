@@ -8,6 +8,7 @@ import { Router } from '@angular/router'
 import { DialogAddLinkComponent, ADD_LINK_CLOSE } from '../../dialogs/dialog-add-link.component'
 import { RelatedLinkService } from '../../reducers/related-link/related-link.service'
 import { OPERATION_RELATEDLINKS } from '../../services/app-data.service'
+import { LoggerService } from '@digital-first/df-logging'
 
 @Component({
   selector: 'digital-first-commitment-related-links',
@@ -21,7 +22,8 @@ export class CommitmentRelatedLinksComponent implements OnInit, OnDestroy {
   expandedSubscription$: Subscription
   tableData$: Observable<DataTableConfig>
   userOperation$: Observable<any>
-  constructor(private router: Router, public dialog: MdcDialog, private service: RelatedLinkService) {
+
+  constructor(private router: Router, public dialog: MdcDialog, private service: RelatedLinkService, private logger: LoggerService) {
     this.tableData$ = this.service.TableData
    }
 
@@ -75,8 +77,7 @@ export class CommitmentRelatedLinksComponent implements OnInit, OnDestroy {
   }
 
   handleRowClicked($event) {
-    // tslint:disable-next-line:no-console
-    console.log($event)
+    this.logger.info($event)
     window.open($event.cell.value, '_blank')
   }
 

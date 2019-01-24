@@ -1,3 +1,4 @@
+import { LoggerService } from '@digital-first/df-logging'
 import { Component, OnInit } from '@angular/core'
 import { CommitmentOverviewMapService } from '../../reducers/commitment-overview-map/commitment-overview-map.service'
 import { Observable } from 'rxjs'
@@ -18,7 +19,7 @@ export class CommitmentOverviewMapComponent implements OnInit {
   mapPoints$: Observable<MapPoint[]>
   commitments$: Observable<DataTableConfig>
 
-  constructor(private router: Router, private service: CommitmentOverviewMapService) { }
+  constructor(private router: Router, private service: CommitmentOverviewMapService, private logger: LoggerService) { }
 
   ngOnInit() {
     this.latitude = -27.698
@@ -37,8 +38,7 @@ export class CommitmentOverviewMapComponent implements OnInit {
   }
 
   handleMapPointSelected(_, mapPoint) {
-    // tslint:disable-next-line:no-console
-    console.log(mapPoint)
+    this.logger.info(mapPoint)
 
     this.service.getOverviewMapCommitment(mapPoint.place_id)
 

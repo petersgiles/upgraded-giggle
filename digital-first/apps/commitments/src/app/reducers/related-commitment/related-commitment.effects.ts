@@ -1,3 +1,4 @@
+import { LoggerService } from '@digital-first/df-logging'
 import { Injectable } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 import { Observable, of } from 'rxjs'
@@ -39,14 +40,12 @@ export class RelatedCommitmentEffects {
   @Effect()
   removeCommitmentFromCommitment$: Observable<Action> = this.actions$.pipe(
     ofType(RelatedCommitmentActionTypes.RemoveCommitmentFromCommitment),
-     // tslint:disable-next-line:no-console
-    tap(action => console.log(action)),
+    tap(action => this.logger.info(action)),
     map((action: RemoveCommitmentFromCommitment) => action.payload),
     switchMap((payload: any) =>
       this.service.removeItemFromCommitment(payload)
       .pipe(
-        // tslint:disable-next-line:no-console
-        tap(result => console.log(result)),
+        tap(result => this.logger.info(result)),
         switchMap((result: any) => [
           new AppNotification({ message: 'Related Commitment Removed' }),
           new SetCurrentCommitment({ id: result.commitment.id }),
@@ -60,16 +59,13 @@ export class RelatedCommitmentEffects {
   @Effect()
   addCommitmentToCommitment$: Observable<Action> = this.actions$.pipe(
     ofType(RelatedCommitmentActionTypes.AddCommitmentToCommitment),
-    // tslint:disable-next-line:no-console
-    tap(action => console.log(action)),
+    tap(action => this.logger.info(action)),
     map((action: AddCommitmentToCommitment) => action.payload),
-    // tslint:disable-next-line:no-console
-    tap(action => console.log(action)),
+    tap(action => this.logger.info(action)),
     switchMap((payload: any) =>
       this.service.addItemToCommitment(payload)
       .pipe(
-        // tslint:disable-next-line:no-console
-        tap(result => console.log(result)),
+        tap(result => this.logger.info(result)),
         switchMap((result: any) => [
           new AppNotification({ message: 'Related Commitment Added' }),
           new SetCurrentCommitment({ id: result.commitment.id }),
@@ -82,6 +78,7 @@ export class RelatedCommitmentEffects {
 
   constructor(
     private actions$: Actions,
-    private service: RelatedCommitmentDataService
+    private service: RelatedCommitmentDataService,
+    private logger: LoggerService
   ) {}
 }

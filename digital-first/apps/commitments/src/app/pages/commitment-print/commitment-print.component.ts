@@ -12,6 +12,7 @@ import { arrayToIndex } from '@digital-first/df-utils'
 import { map } from 'rxjs/operators'
 import { showSnackBar } from '../../dialogs/show-snack-bar'
 import { Location } from '@angular/common'
+import { LoggerService } from '@digital-first/df-logging'
 
 @Component({
   selector: 'digital-first-commitment-print',
@@ -44,7 +45,8 @@ export class CommitmentPrintComponent implements OnInit {
 
 constructor(private router: Router, private location: Location, private route: ActivatedRoute, public dialog: MdcDialog, private snackbar: MdcSnackbar,
     private service: CommitmentDataService,
-    private lookup: CommitmentLookupService) { }
+    private lookup: CommitmentLookupService,
+    private logger: LoggerService) { }
 
     @ViewChild('htmlpdfwrapper')
     public htmlpdfwrapperElementRef: ElementRef
@@ -97,8 +99,7 @@ constructor(private router: Router, private location: Location, private route: A
 
   handlePrintClicked() {
 
-    // tslint:disable-next-line:no-console
-    console.log('handlePrintClicked')
+    this.logger.info('handlePrintClicked')
     const doc = new jsPDF()
 const html = this.htmlpdfwrapperElementRef.nativeElement
     doc.fromHTML(html, 15, 15, {

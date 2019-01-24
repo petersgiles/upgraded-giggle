@@ -9,6 +9,8 @@ import { mapCommitments } from '../../../services/sharepoint/commitment'
 import { byMapPointPlaceIdQuery, byIdsQuery, byMapPointIdQuery } from '../../../services/sharepoint/caml'
 import { mapMapPoints, mapMapPoint, mapCommitmentMapPoints } from '../../commitment-delivery-location/sharepoint/maps'
 
+import { LoggerService } from '@digital-first/df-logging'
+
 @Injectable({
     providedIn: 'root'
 })
@@ -18,8 +20,7 @@ export class CommitmentOverviewMapDataSharePointService implements CommitmentOve
         this.sharepoint.getItems({
             listName: 'MapPoint'
         }).pipe(
-            // tslint:disable-next-line:no-console
-            tap(r => console.log(r)),
+            tap(r => this.logger.info(r)),
             concatMap((result: any) =>
                 of({
                     data: { mapPoints: mapMapPoints(result) },
@@ -31,29 +32,25 @@ export class CommitmentOverviewMapDataSharePointService implements CommitmentOve
 
         const mapPointViewXml = byMapPointPlaceIdQuery({ placeId: mapPoint.filter })
 
-        // tslint:disable-next-line:no-console
-        console.log('getCommitmentOverviewMapCommitments', mapPointViewXml, mapPoint)
+        this.logger.info('getCommitmentOverviewMapCommitments', mapPointViewXml, mapPoint)
 
         return this.sharepoint.getItems({
             listName: 'MapPoint',
             viewXml: mapPointViewXml
         }).pipe(
-            // tslint:disable-next-line:no-console
-            tap(r => console.log(r)),
+            this.logger.info(r => this.logger.info(r)),
             map(mapPointResult => mapPointResult[0]),
             map(mapMapPoint),
             concatMap((mapPointResult: any) => {
 
                 const viewXml = byMapPointIdQuery(mapPointResult)
-                // tslint:disable-next-line:no-console
-                console.log('getCommitmentOverviewMapCommitments', viewXml, mapPointResult)
+                this.logger.info('getCommitmentOverviewMapCommitments', viewXml, mapPointResult)
                 return this.sharepoint.getItems({
                     listName: 'CommitmentMapPoint',
                     viewXml: viewXml
                 }).pipe(
                     map(mapCommitmentMapPoints),
-                    // tslint:disable-next-line:no-console
-                    tap(r => console.log(r)),
+                    this.logger.info(r => this.logger.info(r)),
                     concatMap((result: any) => {
 
                         const ids = result.map(p => p.commitment)
@@ -63,8 +60,7 @@ export class CommitmentOverviewMapDataSharePointService implements CommitmentOve
                             listName: 'Commitment',
                             viewXml: cViewXml
                         }).pipe(
-                            // tslint:disable-next-line:no-console
-                            tap(r => console.log(r)),
+                            this.logger.info(r => this.logger.info(r)),
                             concatMap(commitments =>
                                 of({
                                     data: { commitments: mapCommitments(commitments) },
@@ -78,5 +74,5 @@ export class CommitmentOverviewMapDataSharePointService implements CommitmentOve
 
     }
 
-    constructor(private sharepoint: SharepointJsomService) { }
+    constructor(private sharepoint: SharepointJsomService, private logger: LoggerService) { }
 }

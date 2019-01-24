@@ -1,0 +1,19 @@
+query user ($userId: String!) {
+  users(ids:[$userId])
+  {
+    id
+    emailAddress
+    agency{
+      id
+      title
+    }
+    apiKeys{
+      id
+      key
+      rowVersion
+      disable
+    }
+    lastLogin
+    rowVersion
+  }
+}

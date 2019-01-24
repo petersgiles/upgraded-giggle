@@ -1,0 +1,9 @@
+mutation createStatisticReport ($data:CreateStatisticReportInputGraph!) {
+  createStatisticReport (input: $data)
+  {
+    id
+    name
+    notes
+    statisticId
+  }
+}

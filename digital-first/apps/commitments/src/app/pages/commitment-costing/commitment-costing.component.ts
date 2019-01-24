@@ -1,3 +1,4 @@
+import { LoggerService } from '@digital-first/df-logging'
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { Router, ActivatedRoute, ParamMap } from '@angular/router'
 import { Location } from '@angular/common'
@@ -31,7 +32,8 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
     private service: CommitmentDataService,
     private lookup: CommitmentLookupService,
     private actionService: CommitmentActionService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    private logger: LoggerService) { }
 
   form = this.fb.group({
     id: [],
@@ -125,8 +127,7 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
   }
 
   handleSubmit($event) {
-    // tslint:disable-next-line:no-console
-    console.log(this.form.value)
+    this.logger.info(this.form.value)
     this.actionService.addActionToCommitment(this.commitment.id, this.form.value)
   }
 }

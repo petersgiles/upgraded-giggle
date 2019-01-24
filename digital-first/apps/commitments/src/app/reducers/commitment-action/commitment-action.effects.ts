@@ -15,6 +15,7 @@ import { switchMap, map, catchError, tap, concatMap } from 'rxjs/operators'
 import { AppNotification, ClearAppNotification } from '../app.actions'
 import { CommitmentActionDataService } from './commitment-action-data.service'
 import { DataResult, CommitmentActionsResult } from '../../models'
+import { LoggerService } from '@digital-first/df-logging'
 
 @Injectable()
 export class CommitmentActionEffects {
@@ -24,12 +25,10 @@ export class CommitmentActionEffects {
     .pipe(
       ofType(CommitmentActionActionTypes.GetActionsByCommitment),
       map((action: GetActionsByCommitment) => action.payload.commitment),
-      // tslint:disable-next-line:no-console
-      tap(result => console.log(result)),
+      tap(result => this.logger.info(result)),
       concatMap((commitment: any) => this.service.getActionsByCommitment(commitment)
         .pipe(
-          // tslint:disable-next-line:no-console
-          tap(result => console.log(result)),
+          tap(result => this.logger.info(result)),
           map((result: DataResult<CommitmentActionsResult>) => new LoadCommitmentActions({ actions: result.data.commitmentActions })),
           catchError(error => of(new CommitmentActionActionFailure(error)))
         )
@@ -65,5 +64,5 @@ export class CommitmentActionEffects {
 
     )
 
-  constructor(private actions$: Actions, private service: CommitmentActionDataService) { }
+  constructor(private actions$: Actions, private service: CommitmentActionDataService, private logger: LoggerService) { }
 }
