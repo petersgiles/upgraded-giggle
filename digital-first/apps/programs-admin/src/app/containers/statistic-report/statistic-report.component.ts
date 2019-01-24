@@ -192,7 +192,7 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
 
     return {
       title: 'permissions',
-      hasDeleteItemButton: true,
+
       headings: [{caption: 'Name'}, {caption: 'Permission'}],
       rows: rows,
       noDataMessage: 'This report inherits permissions from the statistic. Adding groups here will break inheritance.'

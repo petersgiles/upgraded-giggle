@@ -16,7 +16,7 @@ export class GroupUsersComponent implements OnInit {
 
   userTableConfig: DataTableConfig = {
     title: 'Users',
-    hasDeleteItemButton: true,
+
     headings: [
       {caption: 'Email address'},
       {caption: 'Last login'}

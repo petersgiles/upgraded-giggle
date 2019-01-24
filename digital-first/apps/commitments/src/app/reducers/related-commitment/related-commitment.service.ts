@@ -1,6 +1,7 @@
 import {
     Observable, of,
 } from 'rxjs'
+import { concatMap, tap } from 'rxjs/operators'
 import { Injectable } from '@angular/core'
 import { Store, select } from '@ngrx/store'
 import * as fromRoot from '..'
@@ -13,6 +14,14 @@ import { AddCommitmentToCommitment, RemoveCommitmentFromCommitment } from '../re
     providedIn: 'root'
 })
 export class RelatedCommitmentService {
+
+    get UserOperation(): Observable<any> {
+        return this.store.pipe(
+            select(fromRoot.getCurrentUserOperations),
+            // tslint:disable-next-line:no-console
+            tap(result => console.log(result))
+        )
+    }
 
     get Commitments(): Observable<Commitment[]> {
         return this.store.pipe(select(fromRoot.getAllCommitments))

@@ -1,3 +1,4 @@
+import { LoggerService } from '@digital-first/df-logging'
 import { Injectable } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 import { Observable, of } from 'rxjs'
@@ -24,15 +25,15 @@ export class RelatedLinkEffects {
     ofType(RelatedLinkActionTypes.AddLinkToCommitment),
     map((action: AddLinkToCommitment) => action.payload),
     switchMap((payload: any) =>
-      this.service.addItemToCommitment(payload).pipe(
-        // tslint:disable-next-line:no-console
-        tap(result => console.log(result)),
-        switchMap((result: any) => [
-          new AppNotification({ message: 'Related Link Added' }),
-          new SetCurrentCommitment({ id: result.commitment.id }),
-          new ClearAppNotification()
-        ])
-      )
+      this.service
+        .addItemToCommitment(payload)
+        .pipe(
+          switchMap((result: any) => [
+            new AppNotification({ message: 'Related Link Added' }),
+            new SetCurrentCommitment({ id: result.commitment.id }),
+            new ClearAppNotification()
+          ])
+        )
     ),
     catchError(error => of(new RelatedLinksActionFailure(error)))
   )
@@ -42,16 +43,15 @@ export class RelatedLinkEffects {
     ofType(RelatedLinkActionTypes.RemoveLinkFromCommitment),
     map((action: RemoveLinkFromCommitment) => action.payload),
     switchMap((payload: any) =>
-      this.service.removeItemFromCommitment(payload)
-      .pipe(
-        // tslint:disable-next-line:no-console
-        tap(result => console.log(result)),
-        switchMap((result: any) => [
-          new AppNotification({ message: 'Related Link Removed' }),
-          new SetCurrentCommitment({ id: result.commitment.id }),
-          new ClearAppNotification()
-        ])
-      )
+      this.service
+        .removeItemFromCommitment(payload)
+        .pipe(
+          switchMap((result: any) => [
+            new AppNotification({ message: 'Related Link Removed' }),
+            new SetCurrentCommitment({ id: result.commitment.id }),
+            new ClearAppNotification()
+          ])
+        )
     ),
     catchError(error => of(new RelatedLinksActionFailure(error)))
   )
@@ -73,6 +73,7 @@ export class RelatedLinkEffects {
 
   constructor(
     private actions$: Actions,
-    private service: RelatedLinkDataService
+    private service: RelatedLinkDataService,
+    private logger: LoggerService
   ) {}
 }

@@ -2,7 +2,14 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core'
 import * as jsPDF from 'jspdf'
 import { Commitment } from '../../reducers'
 import { Subscription, Observable } from 'rxjs'
-import { WhoAnnouncedType, AnnouncementType, CommitmentType, CriticalDate, Party, Portfolio } from '../../models'
+import {
+  WhoAnnouncedType,
+  AnnouncementType,
+  CommitmentType,
+  CriticalDate,
+  Party,
+  Portfolio
+} from '../../models'
 import { DataTableConfig } from '@digital-first/df-components'
 import { Router, ActivatedRoute, ParamMap } from '@angular/router'
 import { MdcDialog, MdcSnackbar } from '@angular-mdc/web'
@@ -12,6 +19,7 @@ import { arrayToIndex } from '@digital-first/df-utils'
 import { map } from 'rxjs/operators'
 import { showSnackBar } from '../../dialogs/show-snack-bar'
 import { Location } from '@angular/common'
+import { LoggerService } from '@digital-first/df-logging'
 
 @Component({
   selector: 'digital-first-commitment-print',
@@ -42,67 +50,70 @@ export class CommitmentPrintComponent implements OnInit {
   activeComment: any
   timeFormat: 'timeAgo' | 'dateFormat' | 'calendar'
 
-constructor(private router: Router, private location: Location, private route: ActivatedRoute, public dialog: MdcDialog, private snackbar: MdcSnackbar,
+  constructor(
+    private router: Router,
+    private location: Location,
+    private route: ActivatedRoute,
+    public dialog: MdcDialog,
+    private snackbar: MdcSnackbar,
     private service: CommitmentDataService,
-    private lookup: CommitmentLookupService) { }
+    private lookup: CommitmentLookupService,
+    private logger: LoggerService
+  ) {}
 
-    @ViewChild('htmlpdfwrapper')
-    public htmlpdfwrapperElementRef: ElementRef
+  @ViewChild('htmlpdfwrapper') public htmlpdfwrapperElementRef: ElementRef
 
-    ngOnInit(): void {
+  ngOnInit(): void {
+    this.commitmentContactsTableData$ = this.service.CommitmentContactsTableData
+    this.commitmentCommitmentsTableData$ = this.service.RelatedCommitmentsTableData
 
-      this.commitmentContactsTableData$ = this.service.CommitmentContactsTableData
-      this.commitmentCommitmentsTableData$ = this.service.RelatedCommitmentsTableData
+    this.commitmentSubscription$ = this.service.Commitment.subscribe(
+      next => {
+        this.commitment = next
+        this.selectedElectorateIds = this.commitment
+          ? arrayToIndex(this.commitment.electorates)
+          : []
+      },
+      error => showSnackBar(this.snackbar, error)
+    )
 
-      this.commitmentSubscription$ = this.service.Commitment.subscribe(
-        next => {
-          this.commitment = next
-          this.selectedElectorateIds = this.commitment ? arrayToIndex(this.commitment.electorates) : []
-        },
-        error => showSnackBar(this.snackbar, error)
+    this.activitySubscription$ = this.service.Notification.subscribe(
+      (next: any) => {
+        if (next) {
+          showSnackBar(this.snackbar, next.message)
+        }
+      },
+      error => showSnackBar(this.snackbar, error)
+    )
+
+    this.service.getAllCommitments()
+    this.service.getAllContacts()
+
+    this.lookup.getAllWhoAnnouncedTypes()
+    this.lookup.getAllAnnouncementTypes()
+    this.lookup.getAllCriticalDates()
+    this.lookup.getAllCommitmentTypes()
+    this.lookup.getAllLocations()
+    this.lookup.getAllPartys()
+    this.lookup.getAllPortfolios()
+
+    this.user$ = this.service.getCurrentUser()
+
+    this.selectId$ = this.route.paramMap
+      .pipe(
+        map((params: ParamMap) => +params.get('id')),
+        map(selectedId => {
+          this.service.setCurrentCommitment(selectedId)
+        })
       )
-
-      this.activitySubscription$ = this.service.Notification
-        .subscribe(
-          (next: any) => {
-            if (next) {
-              showSnackBar(this.snackbar, next.message)
-            }
-          },
-          error => showSnackBar(this.snackbar, error)
-        )
-
-      this.service.getAllCommitments()
-      this.service.getAllContacts()
-
-      this.lookup.getAllWhoAnnouncedTypes()
-      this.lookup.getAllAnnouncementTypes()
-      this.lookup.getAllCriticalDates()
-      this.lookup.getAllCommitmentTypes()
-      this.lookup.getAllLocations()
-      this.lookup.getAllPartys()
-      this.lookup.getAllPortfolios()
-
-      this.user$ = this.service.getCurrentUser()
-
-      this.selectId$ = this.route.paramMap
-        .pipe(
-          map((params: ParamMap) => +params.get('id')),
-          map((selectedId) => {
-            this.service.setCurrentCommitment(selectedId)
-          }),
-        )
-        .subscribe()
-    }
+      .subscribe()
+  }
 
   handlePrintClicked() {
-
-    // tslint:disable-next-line:no-console
-    console.log('handlePrintClicked')
     const doc = new jsPDF()
-const html = this.htmlpdfwrapperElementRef.nativeElement
+    const html = this.htmlpdfwrapperElementRef.nativeElement
     doc.fromHTML(html, 15, 15, {
-      'width': 170
+      width: 170
     })
     const filename = `${this.commitment.title.split(' ').join('-')}.pdf`
     // Set the document to automatically print via JS

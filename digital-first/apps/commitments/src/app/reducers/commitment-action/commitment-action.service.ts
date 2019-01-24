@@ -16,6 +16,12 @@ export class CommitmentActionService {
 
     constructor(private store: Store<fromRoot.State>) { }
 
+    get UserOperation(): Observable<any> {
+        return this.store.pipe(
+            select(fromRoot.getCurrentUserOperations),
+        )
+    }
+
     addActionToCommitment(commitment: any, action: any): any {
         this.store.dispatch(new AddActionToCommitment({ commitment, action }))
     }

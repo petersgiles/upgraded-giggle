@@ -8,7 +8,7 @@ import { CommitmentDataService } from '../../services/commitment-data.service'
 import { Commitment } from '../../reducers/commitment/commitment.model'
 import { Party } from '../../models/party.model'
 import { Portfolio } from '../../models/portfolio.model'
-import { Location } from '../../models/location.model'
+import { Electorate } from '../../models/location.model'
 import { AnnouncementType } from '../../models/announcement-type.model'
 import { CommitmentType } from '../../models/commitment-type.model'
 import { WhoAnnouncedType } from '../../models/who-announced-type.model'
@@ -34,7 +34,7 @@ export class CommitmentCreateComponent implements OnInit, OnDestroy {
   activitySubscription$: Subscription
   parties$: Observable<Party[]>
   portfolios$: Observable<Portfolio[]>
-  locations$: Observable<Location[]>
+  locations$: Observable<Electorate[]>
   activeComment: any
   timeFormat: 'timeAgo' | 'dateFormat' | 'calendar'
   formBusy = false

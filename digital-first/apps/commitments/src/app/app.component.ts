@@ -12,7 +12,6 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private router: Router, private logger: LoggerService) {}
 
   ngOnInit() {
-    this.logger.info('Logging from app component')
     this.router.events.subscribe(evt => {
       if (!(evt instanceof NavigationEnd)) {
         return

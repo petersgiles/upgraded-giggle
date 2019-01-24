@@ -1,6 +1,6 @@
-import { MapPoint } from '../../reducers/map-point/map-point.model'
-import { Location } from '../../models/location.model'
 import { idFromLookup } from '@digital-first/df-sharepoint'
+import { MapPoint } from '@digital-first/df-components'
+import { Electorate } from '../../../models'
 
 export const mapCommitmentMapPoint = (commitmentMapPoint): any => ({
   id: commitmentMapPoint.ID,
@@ -9,13 +9,13 @@ export const mapCommitmentMapPoint = (commitmentMapPoint): any => ({
 })
 export const mapCommitmentMapPoints = (commitmentMapPoints): any[] => commitmentMapPoints.map(mapCommitmentMapPoint)
 
-export const mapElectorate = (electorate): Location => ({
+export const mapElectorate = (electorate): Electorate => ({
   id: electorate.ID,
   title: electorate.Title,
   group: electorate.State
 })
 
-export const mapElectorates = (electorates): Location[] => electorates.map(mapElectorate)
+export const mapElectorates = (electorates): Electorate[] => electorates.map(mapElectorate)
 
 export const mapCommitmentElectorate = (commitmentElectorate): any => ({
   id: commitmentElectorate.ID,

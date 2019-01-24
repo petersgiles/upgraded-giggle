@@ -1,13 +1,14 @@
 import { Commitment } from '../reducers/commitment'
 
 import { Contact } from '../reducers/contact/contact.model'
-import { MapPoint } from '../reducers/map-point/map-point.model'
 import { RelatedCommitment } from '../reducers/related-commitment/related-commitment.model'
 import { CommitmentAction } from '../reducers/commitment-action/commitment-action.model'
 import { RelatedLink } from '../reducers/related-link/related-link.model'
+import { GroupPermission } from '../reducers/user/user.model'
+import { MapPoint } from '@digital-first/df-components'
 
 export { CommitmentType, CommitmentTypesResult } from './commitment-type.model'
-export { Location, LocationsResult } from './location.model'
+export { Electorate, LocationsResult } from './location.model'
 export { WhoAnnouncedType, WhoAnnouncedTypesResult } from './who-announced-type.model'
 export { CriticalDate, CriticalDatesResult } from './critical-date.model'
 export { Party, PartysResult } from './party.model'
@@ -35,6 +36,10 @@ export interface RelatedCommitmentsResult {
 }
 export interface RelatedLinksResult {
   commitmentRelatedLinks: RelatedLink[]
+}
+
+export interface GroupPermissionsResult {
+  groupPermissions: GroupPermission[]
 }
 
 export interface CommentsResult {

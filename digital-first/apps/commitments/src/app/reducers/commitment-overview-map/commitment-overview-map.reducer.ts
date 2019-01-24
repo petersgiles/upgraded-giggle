@@ -19,10 +19,6 @@ export function reducer(
   switch (action.type) {
 
     case CommitmentOverviewMapActionTypes.LoadCommitmentOverviewMapPoints: {
-
-      // tslint:disable-next-line:no-console
-      console.log('LoadMapPoints', action.payload)
-
       return {
         ...state,
         mapPoints: action.payload.data.mapPoints

@@ -14,6 +14,12 @@ export class RelatedLinkService {
 
     constructor(private store: Store<fromRoot.State>) { }
 
+    get UserOperation(): Observable<any> {
+        return this.store.pipe(
+            select(fromRoot.getCurrentUserOperations),
+        )
+    }
+
     addItemToCommitment(payload: {commitment: string | number, url: any}): any {
         this.store.dispatch(new AddLinkToCommitment(payload))
     }

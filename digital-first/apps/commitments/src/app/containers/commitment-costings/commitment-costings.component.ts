@@ -6,6 +6,7 @@ import { DataTableConfig } from '@digital-first/df-components'
 import { DialogAreYouSureComponent, ARE_YOU_SURE_ACCEPT } from '@digital-first/df-dialogs'
 import { first } from 'rxjs/operators'
 import { Router } from '@angular/router'
+import { OPERATION_COSTING } from '../../services/app-data.service'
 
 @Component({
   selector: 'digital-first-commitment-costings',
@@ -18,6 +19,7 @@ export class CommitmentCostingsComponent implements OnInit, OnDestroy {
   expanded: boolean
   expandedSubscription$: Subscription
   tableData$: Observable<DataTableConfig>
+  userOperation$: Observable<any>
   constructor(private router: Router, public dialog: MdcDialog, private service: CommitmentActionService) { }
 
   @Input()
@@ -64,6 +66,7 @@ export class CommitmentCostingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.userOperation$ = this.service.UserOperation
     this.expandedSubscription$ = this.service.Expanded.subscribe(p => this.expanded = p)
     this.tableData$ = this.service.CommitmentActionsTableData
   }
@@ -71,4 +74,9 @@ export class CommitmentCostingsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.expandedSubscription$.unsubscribe()
   }
+
+  getRight(operations: any) {
+    return operations[OPERATION_COSTING]
+  }
+
 }

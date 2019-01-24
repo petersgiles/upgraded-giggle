@@ -5,7 +5,7 @@ import { Party } from '../../models/party.model'
 import { Portfolio } from '../../models/portfolio.model'
 import { AnnouncementType } from '../../models/announcement-type.model'
 import { Commitment } from '../../reducers/commitment/commitment.model'
-import { Location } from '../../models/location.model'
+import { Electorate } from '../../models/location.model'
 import { CommitmentType } from '../../models/commitment-type.model'
 import { WhoAnnouncedType } from '../../models/who-announced-type.model'
 import { Subscription } from 'rxjs'
@@ -31,7 +31,7 @@ export class CommitmentEditFormComponent implements OnDestroy {
   @Input() whoAnnouncedTypes: WhoAnnouncedType[]
   @Input() commitmentTypes: CommitmentType[]
   @Input() criticalDates: CriticalDate[]
-  @Input() locations: Location[]
+  @Input() locations: Electorate[]
   @Input() busy: boolean
 
   formValueChangeSubscription: Subscription

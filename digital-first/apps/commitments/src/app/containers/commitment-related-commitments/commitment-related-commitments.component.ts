@@ -8,6 +8,8 @@ import { Router } from '@angular/router'
 import { DialogAddCommitmentComponent, ADD_COMMITMENT_TO_COMMITMENT_CLOSE } from '../../dialogs/dialog-add-commitment.component'
 import { formatCommitmentTitle } from '../../formatters'
 import { RelatedCommitmentService } from '../../reducers/related-commitment/related-commitment.service'
+import { OPERATION_RELATEDCOMMITMENTS, OPERATION_RIGHT_WRITE, OPERATION_RIGHT_READ, OPERATION_RIGHT_HIDE } from '../../services/app-data.service'
+import { LoggerService, Logger} from '@digital-first/df-logging'
 
 @Component({
   selector: 'digital-first-commitment-related-commitments',
@@ -20,7 +22,10 @@ export class CommitmentRelatedCommitmentsComponent implements OnInit, OnDestroy 
   expanded: boolean
   expandedSubscription$: Subscription
   tableData$: Observable<DataTableConfig>
-  constructor(private router: Router, public dialog: MdcDialog, private service: RelatedCommitmentService) { }
+  userOperation$: Observable<any>
+
+  constructor(private router: Router, public dialog: MdcDialog, private service: RelatedCommitmentService,
+    private logger: LoggerService) { }
 
   @Input()
   set commitment(val: number) {
@@ -32,9 +37,6 @@ export class CommitmentRelatedCommitmentsComponent implements OnInit, OnDestroy 
   }
 
   handleAddItem() {
-
-              // tslint:disable-next-line:no-console
-              console.log('handleAddItem')
     this.service.Commitments.pipe(
       first()
     )
@@ -56,9 +58,6 @@ export class CommitmentRelatedCommitmentsComponent implements OnInit, OnDestroy 
         })
 
         dialogRef.afterClosed().subscribe((result: any) => {
-
-          // tslint:disable-next-line:no-console
-          console.log(result)
           if (result !== ADD_COMMITMENT_TO_COMMITMENT_CLOSE && result) {
             const related = {
               commitment: this.commitment,
@@ -99,19 +98,20 @@ export class CommitmentRelatedCommitmentsComponent implements OnInit, OnDestroy 
   }
 
   handleRowClicked($event) {
-    // tslint:disable-next-line:no-console
-    console.log($event)
-
     this.router.navigate(['/', 'commitment', $event.id])
   }
 
   ngOnInit(): void {
     this.expandedSubscription$ = this.service.Expanded.subscribe(p => this.expanded = p)
     this.tableData$ = this.service.TableData
+    this.userOperation$ = this.service.UserOperation
+  }
+
+  getRight(operations: any) {
+    return operations[OPERATION_RELATEDCOMMITMENTS]
   }
 
   ngOnDestroy(): void {
     this.expandedSubscription$.unsubscribe()
   }
-
 }

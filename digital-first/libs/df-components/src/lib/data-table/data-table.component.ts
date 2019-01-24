@@ -7,13 +7,17 @@ import { DataTableConfig } from './data-table-model'
   styleUrls: ['./data-table.component.scss']
 })
 export class DataTableComponent implements OnInit {
+
   constructor() {}
 
   ngOnInit() {}
 
-  @Input() tableData: DataTableConfig
+  @Input()
+  tableData: DataTableConfig
 
   @Input() tableRows: any[]
+
+  @Input() hasDeleteItemButton = false
 
   @Output() onDeleteItem: EventEmitter<any> = new EventEmitter()
 

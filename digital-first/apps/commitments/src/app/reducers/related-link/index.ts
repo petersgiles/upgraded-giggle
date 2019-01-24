@@ -40,7 +40,6 @@ export const getRelatedLinksTableData = createSelector(
         console.log('getAllRelatedLinks', data, rows)
         const dtc: DataTableConfig = {
             title: 'related links',
-            hasDeleteItemButton: true,
             headings: [
                 { caption: 'Link' }
             ],

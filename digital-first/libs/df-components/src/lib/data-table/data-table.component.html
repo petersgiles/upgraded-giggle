@@ -16,7 +16,7 @@
         "
       ></ng-container>
       <th
-        *ngIf="tableData.hasDeleteItemButton"
+        *ngIf="hasDeleteItemButton"
         class="df-data-table__cell--non-numeric df-data-table__action-cell"
       >
         &nbsp;
@@ -73,7 +73,7 @@
       </ng-container>
     </td>
     <td
-      *ngIf="tableData.hasDeleteItemButton"
+      *ngIf="hasDeleteItemButton"
       class="df-data-table__cell--action"
     >
       <a

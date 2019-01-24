@@ -1,4 +1,4 @@
-import { WhoAnnouncedType, AnnouncementType, CriticalDate, CommitmentType, Party, Portfolio, Location, PackageType, ThemeType } from '../../../models'
+import { WhoAnnouncedType, AnnouncementType, CriticalDate, CommitmentType, Party, Portfolio, PackageType, ThemeType, Electorate } from '../../../models'
 
 export const mapWhoAnnouncedType = (announcementType): any => ({
     id: announcementType.ID,
@@ -72,11 +72,11 @@ export const mapPortfolio = (portfolio): any => ({
 
 export const mapPortfolios = (portfolios): Portfolio[] => portfolios.map(mapPortfolio)
 
-export const mapLocation = (location): Location => ({
+export const mapLocation = (location): Electorate => ({
     id: location.ID,
     title: location.Title,
     group: location.State
 })
 
-export const mapLocations = (locations): Location[] =>
+export const mapLocations = (locations): Electorate[] =>
     locations.map(mapLocation)

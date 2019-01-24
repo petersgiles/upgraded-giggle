@@ -28,7 +28,6 @@ import * as fromNotification from './notification.reducer'
 import * as fromCommitment from './commitment/commitment.reducer'
 import * as fromUser from './user/user.reducer'
 import * as fromContact from './contact/contact.reducer'
-import * as fromMapPoint from './map-point/map-point.reducer'
 import * as fromRelatedCommitment from './related-commitment/related-commitment.reducer'
 import * as fromRelatedLink from './related-link/related-link.reducer'
 import * as fromCommitmentLookup from './commitment-lookup/commitment-lookup.reducer'
@@ -39,6 +38,7 @@ import * as fromCommitmentSubscription from './commitment-subscription/commitmen
 import * as fromCommitmentContact from './commitment-contact/commitment-contact.reducer'
 import * as fromCommitmentAction from './commitment-action/commitment-action.reducer'
 import * as fromCommitmentOverviewMap from './commitment-overview-map/commitment-overview-map.reducer'
+import * as fromCommitmentDeliveryLocations from './commitment-delivery-location/commitment-delivery-location.reducer'
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
     return localStorageSync({
@@ -51,7 +51,8 @@ export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionRedu
             { 'commitmentContact': ['expanded'] },
             { 'commitmentAction': ['expanded'] },
             { 'relatedLink': ['expanded'] },
-            { 'relatedCommitment': ['expanded'] }
+            { 'relatedCommitment': ['expanded'] },
+            { 'deliveryLocation': ['expanded'] }
         ], rehydrate: true
     })(reducer)
 }
@@ -67,7 +68,6 @@ export interface State {
     notification: fromNotification.State
     commitment: fromCommitment.State
     contact: fromContact.State
-    mapPoint: fromMapPoint.State
     commitmentLookup: fromCommitmentLookup.State
     commitmentOverview: fromCommitmentOverview.State
     commitmentEdit: fromCommitmentEdit.State
@@ -76,6 +76,7 @@ export interface State {
     commitmentContact: fromCommitmentContact.State
     commitmentAction: fromCommitmentAction.State
     commitmentOverviewMap: fromCommitmentOverviewMap.State
+    deliveryLocation: fromCommitmentDeliveryLocations.State
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -86,7 +87,6 @@ export const reducers: ActionReducerMap<State> = {
     notification: fromNotification.reducer,
     commitment: fromCommitment.reducer,
     contact: fromContact.reducer,
-    mapPoint: fromMapPoint.reducer,
     commitmentLookup: fromCommitmentLookup.reducer,
     commitmentOverview: fromCommitmentOverview.reducer,
     commitmentEdit: fromCommitmentEdit.reducer,
@@ -94,7 +94,8 @@ export const reducers: ActionReducerMap<State> = {
     commitmentSubscription: fromCommitmentSubscription.reducer,
     commitmentContact: fromCommitmentContact.reducer,
     commitmentAction: fromCommitmentAction.reducer,
-    commitmentOverviewMap: fromCommitmentOverviewMap.reducer
+    commitmentOverviewMap: fromCommitmentOverviewMap.reducer,
+    deliveryLocation: fromCommitmentDeliveryLocations.reducer
 }
 
 export const getNotificationState = state => state.notification
@@ -108,7 +109,6 @@ export * from './commitment-lookup'
 export * from './related-commitment'
 export * from './related-link'
 export * from './user'
-export * from './map-point'
 export * from './contact'
 export * from './commitment-overview'
 export * from './commitment-overview-map'
@@ -118,6 +118,7 @@ export * from './commitment-contact'
 export * from './commitment'
 export * from './commitment-subscription'
 export * from './commitment-action'
+export * from './commitment-delivery-location'
 
 export class CustomSerializer
     implements fromRouter.RouterStateSerializer<RouterStateUrl> {

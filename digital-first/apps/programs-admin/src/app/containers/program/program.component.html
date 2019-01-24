@@ -6,7 +6,7 @@
         (onEditItem)="handleEditProgram(program)"
       ></digital-first-edit-item-button>
       <digital-first-delete-item-button
-        (onDeleteItem)="handleDeleteProgram(program)"
+        [hasDeleteItemButton]="true" (onDeleteItem)="handleDeleteProgram(program)"
       ></digital-first-delete-item-button>
     </digital-first-page-title>
 
