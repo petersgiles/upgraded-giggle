@@ -40,7 +40,7 @@
       </div>
 
       <digital-first-map
-        [mapPoints]="commitment.mapPoints"
+        [mapPoints]="mapPoint$ | async"
         (onAddMapPoint)="handleAddMapPoint($event)"
         (onDeleteMapPoint)="handleDeleteMapPoint($event)"
       ></digital-first-map>

@@ -104,7 +104,7 @@ export class DeliveryLocationDataApolloService
         variables: { commitment: commitment }
       },
       (result: any): any => ({
-        data: { mapPoints: result.data.commitmentElectorates }
+        data: { electorates: result.data.commitmentElectorates }
       })
     )
 

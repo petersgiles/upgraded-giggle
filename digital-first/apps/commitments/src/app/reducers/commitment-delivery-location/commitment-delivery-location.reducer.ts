@@ -1,9 +1,13 @@
-import { DeliveryLocationActions, DeliveryLocationActionTypes } from './commitment-delivery-location.actions'
+import {
+  DeliveryLocationActions,
+  DeliveryLocationActionTypes
+} from './commitment-delivery-location.actions'
 import { MapPoint } from '@digital-first/df-components'
+import { Electorate } from '../../models'
 
 export interface State {
   mapPoints: MapPoint[]
-  electorates: any[]
+  electorates: Electorate[]
   expanded: boolean
   loading: boolean
   error: any
@@ -22,7 +26,6 @@ export function reducer(
   action: DeliveryLocationActions
 ): State {
   switch (action.type) {
-
     case DeliveryLocationActionTypes.ExpandPanel: {
       return {
         ...state,
@@ -37,40 +40,31 @@ export function reducer(
       }
     }
 
-    // case DeliveryLocationActionTypes.LoadDeliveryLocations: {
+    case DeliveryLocationActionTypes.LoadMapPoints: {
+      return {
+        ...state,
+        mapPoints: [...action.payload.data.mapPoints],
+        loading: action.payload.loading,
+        error: action.payload.error
+      }
+    }
 
-    //     // tslint:disable-next-line:no-console
-    //     console.log('LoadDeliveryLocations', action.payload)
+    case DeliveryLocationActionTypes.LoadElectorates: {
+      return {
+        ...state,
+        electorates: [...action.payload.data.electorates],
+        loading: action.payload.loading,
+        error: action.payload.error
+      }
+    }
 
-    //   if (action.payload.data.commitmentDeliveryLocations) {
-    //     return {
-    //       ...state,
-    //       entities: [...action.payload.data.commitmentDeliveryLocations],
-    //       loading: action.payload.loading,
-    //       error: action.payload.error
-    //     }
-    //   }
-
+    // if (action.payload.data.mapPoints) {
     //   return {
     //     ...state,
+    //     mapPoints: [...action.payload.data.mapPoints],
     //     loading: action.payload.loading,
     //     error: action.payload.error
     //   }
-    // }
-
-    // case DeliveryLocationActionTypes.ClearDeliveryLocations: {
-    //   return {
-    //     ...state,
-    //     entities: []
-    //   }
-    // }
-
-    // case DeliveryLocationActionTypes.GetDeliveryLocations: {
-    //   return { ...state, loading: true, error: null }
-    // }
-
-    // case DeliveryLocationActionTypes.GetAllDeliveryLocations: {
-    //   return { ...state, loading: true, error: null }
     // }
 
     case DeliveryLocationActionTypes.DeliveryLocationsActionFailure: {
@@ -82,7 +76,7 @@ export function reducer(
     }
   }
 }
-export const selectAllMapPoints = (state: State) => state.electorates
+export const selectAllMapPoints = (state: State) => state.mapPoints
 export const selectAllElectorates = (state: State) => state.electorates
 export const getExpanded = (state: State) => state.expanded
 export const getLoading = (state: State) => state.loading

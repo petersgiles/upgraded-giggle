@@ -12,6 +12,7 @@ import {
   GetMapPointsByCommitment,
   LoadMapPoints,
   GetElectoratesByCommitment,
+  LoadElectorates,
 } from './commitment-delivery-location.actions'
 import { switchMap, map, catchError, tap, concatMap } from 'rxjs/operators'
 import { AppNotification, ClearAppNotification } from '../app.actions'
@@ -107,11 +108,11 @@ export class DeliveryLocationEffects {
         @Effect()
         getElectoratesByCommitment$: Observable<Action> = this.actions$
           .pipe(
-            ofType(DeliveryLocationActionTypes.GetMapPointsByCommitment),
+            ofType(DeliveryLocationActionTypes.GetElectoratesByCommitment),
             map((action: GetElectoratesByCommitment) => action.payload),
             switchMap((payload: any) => this.service.getElectoratesByCommitment(payload.commitment)
               .pipe(
-                map((result: DataResult<ElectoratesResult>) => new LoadMapPoints(result)),
+                map((result: DataResult<ElectoratesResult>) => new LoadElectorates(result)),
                 catchError(error => of(new DeliveryLocationsActionFailure(error)))
               )
             ))

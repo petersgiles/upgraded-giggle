@@ -9,6 +9,7 @@ import { first } from 'rxjs/operators'
 import { DeliveryLocationService } from '../../reducers/commitment-delivery-location/commitment-delivery-location.service'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 import { Electorate } from '../../models/location.model'
+import { MapPoint } from '@digital-first/df-components'
 @Component({
   selector: 'digital-first-commitment-delivery-location',
   templateUrl: './commitment-delivery-location.component.html',
@@ -22,7 +23,9 @@ export class CommitmentDeliveryLocationComponent implements OnInit, OnDestroy {
   userOperation$: Observable<any>
   tableData$: any
   electorates$: Observable<Electorate[]>
-  selectedElectorateIds: Electorate[] = []
+  selectedElectorateIds: number[] = []
+  mapPoint$: Observable<MapPoint[]>
+  selectedElectoratesSubscription$: Subscription
 
   constructor(private router: Router, public dialog: MdcDialog, private service: DeliveryLocationService, private lookup: CommitmentLookupService) {
     this.electorates$ = this.lookup.Locations
@@ -78,7 +81,10 @@ export class CommitmentDeliveryLocationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.expandedSubscription$ = this.service.Expanded.subscribe(p => this.expanded = p)
-    this.tableData$ = this.service.TableData
+    this.mapPoint$ = this.service.MapPoints
+    this.selectedElectoratesSubscription$ = this.service.Electorates.subscribe((p: any[]) => {
+      this.selectedElectorateIds = p ? p.map(e => e.id) : []
+    })
     this.userOperation$ = this.service.UserOperation
   }
 
@@ -88,6 +94,7 @@ export class CommitmentDeliveryLocationComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.expandedSubscription$.unsubscribe()
+    this.selectedElectoratesSubscription$.unsubscribe()
   }
 
 }

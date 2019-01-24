@@ -21,7 +21,7 @@ import { ClearRelatedCommitments, GetRelatedCommitmentsByCommitment } from '../r
 import { GetContactsByCommitment, ClearCommitmentContacts } from '../commitment-contact/commitment-contact.actions'
 import { ClearCommitmentActions, GetActionsByCommitment } from '../commitment-action/commitment-action.actions'
 import { ClearRelatedLinks, GetRelatedLinksByCommitment } from '../related-link/related-link.actions'
-import { GetMapPointsByCommitment, ClearMapPoints } from '../commitment-delivery-location/commitment-delivery-location.actions'
+import { GetMapPointsByCommitment, ClearMapPoints, GetElectoratesByCommitment, ClearElectorates } from '../commitment-delivery-location/commitment-delivery-location.actions'
 
 @Injectable()
 export class CommitmentEffects {
@@ -48,11 +48,13 @@ export class CommitmentEffects {
           concatMap((result: DataResult<CommitmentResult>) => [
             new UpsertCommitment(result),
             new ClearMapPoints(),
+            new ClearElectorates(),
             new ClearRelatedCommitments(),
             new ClearRelatedLinks(),
             new ClearCommitmentActions(),
             new ClearCommitmentContacts(),
             new GetMapPointsByCommitment({ commitment: result.data.commitment.id }),
+            new GetElectoratesByCommitment({ commitment: result.data.commitment.id }),
             new GetActionsByCommitment({ commitment: result.data.commitment.id }),
             new GetContactsByCommitment({ commitment: result.data.commitment.id }),
             new GetRelatedCommitmentsByCommitment({ commitment: result.data.commitment.id }),
