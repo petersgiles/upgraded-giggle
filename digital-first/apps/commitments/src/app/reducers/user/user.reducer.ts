@@ -2,8 +2,8 @@ import { UserActionTypes, UserActions } from './user.actions'
 import { AppActionTypes, AppActions } from '../app.actions'
 
 export interface State {
-  currentUser,
-  drawerOpen,
+  currentUser
+  drawerOpen
   operations
 }
 
@@ -18,7 +18,6 @@ export function reducer(
   action: UserActions | AppActions
 ): State {
   switch (action.type) {
-
     case UserActionTypes.SetCurrentUser: {
       return {
         ...state,
@@ -33,24 +32,35 @@ export function reducer(
       }
     }
 
-    case UserActionTypes.SetUserOperations : {
-// tslint:disable-next-line:no-console
-console.log('SetUserOperations', action.payload)
-      const ops = action.payload.data.groupPermissions.reduce((acc: any, item: any) => {
+    case UserActionTypes.SetUserOperations: {
+      // tslint:disable-next-line:no-console
+      console.log('SetUserOperations', action.payload)
 
-        const components = item.component.split(',')
-        acc[item.group] = {
-          ...(components || []).reduce((obj, c) =>  (obj[c] = item.rights , obj), {})
-        }
-        return acc
-      }, {})
+      let ops = {}
+      if (action.payload.data && action.payload.data.groupPermissions) {
+        ops = action.payload.data.groupPermissions.reduce(
+          (acc: any, item: any) => {
+            // tslint:disable-next-line:no-console
+            console.log('SetUserOperations', acc, item)
+            const components = item.component
+            acc[item.group] = {
+              ...(components || []).reduce(
+                (obj: any, c: any) => ((obj[c] = item.rights), obj),
+                {}
+              )
+            }
+            return acc
+          },
+          {}
+        )
+      }
 
-// tslint:disable-next-line:no-console
-console.log('SetUserOperations', action.payload, ops)
+      // tslint:disable-next-line:no-console
+      console.log('SetUserOperations', action.payload, ops)
 
       return {
         ...state,
-        operations: {...ops}
+        operations: { ...ops }
       }
     }
 

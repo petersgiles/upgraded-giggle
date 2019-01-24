@@ -167,7 +167,7 @@ type CommitmentAction {
   type GroupPermission {
     id: ID,
     group: String,
-    component: String,
+    component: [String],
     rights: String
   }
   

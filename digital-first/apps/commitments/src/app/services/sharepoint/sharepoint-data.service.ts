@@ -6,7 +6,7 @@ import { SharepointJsomService } from '@digital-first/df-sharepoint'
 import { AppDataService } from '../app-data.service'
 
 import {
-  mapCommitmentPortfolios,
+  mapCommitmentPortfolios, mapGroupPermissions,
 } from './sharepoint-data-maps'
 
 import {
@@ -14,7 +14,7 @@ import {
   CommitmentResult,
   CommitmentsResult,
   ContactsResult,
-  MapPointsResult,
+  GroupPermissionsResult,
 } from '../../models'
 import { Commitment } from '../../reducers/commitment'
 import { arrayToHash } from '@digital-first/df-utils'
@@ -33,17 +33,16 @@ export class SharepointDataService implements AppDataService {
     return this.sharepoint.getCurrentUser()
   }
 
-  getCurrentUserOperations(roles: any): Observable<any> {
-
-    return of({
-      'commitment': 'write',
-      'location': 'write',
-      'contacts': 'write',
-      'costing': 'write',
-      'relatedLinks': 'write',
-      'relatedCommitments': 'write',
-      'discussion': 'write',
-    })
+  getCurrentUserOperations(roles: any): Observable<DataResult<GroupPermissionsResult>> {
+    return this.sharepoint.getItems({ listName: 'GroupPermission' })
+      .pipe(
+        concatMap((result: any) =>
+          of({
+            data: { groupPermissions: mapGroupPermissions(result) },
+            loading: false,
+            error: null
+          }))
+      )
   }
 
   storeCommitment = (commitment: Commitment): Observable<DataResult<CommitmentResult>> => {
@@ -96,48 +95,22 @@ export class SharepointDataService implements AppDataService {
         viewXml: byCommitmentIdQuery(criteria)
       }),
       this.sharepoint.getItems({
-        listName: 'Electorate'
-      }),
-      this.sharepoint.getItems({
-        listName: 'CommitmentElectorate',
-        viewXml: byCommitmentIdQuery(criteria)
-      }),
-      this.sharepoint.getItems({
         listName: 'Portfolio'
       }),
       this.sharepoint.getItems({
         listName: 'CommitmentPortfolio',
         viewXml: byCommitmentIdQuery(criteria)
-      }),
-      this.sharepoint.getItems({
-        listName: 'MapPoint'
-      }),
-      this.sharepoint.getItems({
-        listName: 'CommitmentMapPoint',
-        viewXml: byCommitmentIdQuery(criteria)
       })
     ]).pipe(
-      concatMap(([spCommitment, spContacts, spCommitmentContacts,
-        spElectorates, spCommitmentElectorates, spPortfolios, spCommitmentPortfolios, spMapPoints, spCommitmentMapPoints]) => {
+      concatMap(([spCommitment, spContacts, spCommitmentContacts, spPortfolios, spCommitmentPortfolios]) => {
 
         const commitment = mapCommitment(spCommitment[0])
-
-        // tslint:disable-next-line:no-console
-        console.log('Commitment =>', commitment)
-
         const contacts = arrayToHash(mapContacts(spContacts))
         const commitmentContact = mapCommitmentContacts(spCommitmentContacts)
-        // const electorates = arrayToHash(mapElectorates(spElectorates))
-        // const commitmentElectorate = mapCommitmentElectorates(spCommitmentElectorates)
         const portfolios = arrayToHash(mapPortfolios(spPortfolios))
         const commitmentPortfolio = mapCommitmentPortfolios(spCommitmentPortfolios)
-        // const mapPoints = arrayToHash(mapMapPoints(spMapPoints))
-        // const commitmentMapPoints = mapCommitmentMapPoints(spCommitmentMapPoints)
-
         commitment.contacts = commitmentContact.map(c => ({ ...contacts[c.contact], ccid: c.id }))
-        // commitment.electorates = commitmentElectorate.map(c => ({ ...electorates[c.electorate] }))
         commitment.portfolios = commitmentPortfolio.map(c => ({ ...portfolios[c.portfolio] }))
-        // commitment.mapPoints = commitmentMapPoints.map(c => ({ ...mapPoints[c.mapPoint] }))
 
         return of({
           data: { commitment: commitment },

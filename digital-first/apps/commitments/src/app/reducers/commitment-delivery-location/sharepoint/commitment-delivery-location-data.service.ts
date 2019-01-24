@@ -21,6 +21,7 @@ import {
   mapCommitmentElectorates
 } from './maps'
 import { MapPoint } from '@digital-first/df-components'
+import { ElectoratesResult } from '../../../models/location.model'
 
 @Injectable({
   providedIn: 'root'
@@ -28,8 +29,18 @@ import { MapPoint } from '@digital-first/df-components'
 export class DeliveryLocationDataSharePointService
   implements DeliveryLocationDataService {
 
-  getElectoratesByCommitment(commitment: any): Observable<any> {
-    throw new Error('Method not implemented.')
+  getElectoratesByCommitment(commitment: any): Observable<DataResult<ElectoratesResult>> {
+      return this.sharepoint.getItems({
+        listName: 'CommitmentElectorate',
+        viewXml: byCommitmentIdQuery({ id: commitment })
+      }).pipe(
+        concatMap(result =>
+          of({
+            data: { electorates: mapCommitmentElectorates(result) },
+            loading: false
+          })
+        )
+      )
   }
 
   getMapPointsByCommitment(
