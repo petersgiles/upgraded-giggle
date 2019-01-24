@@ -1,47 +1,44 @@
 <digital-first-page-title
-      *ngIf="commitment"
-      title="Delivery location"
-      (onTitleClicked)="handleChangeExpanded(!expanded)"
-    >
-      <digital-first-expand-collapse-button
-        [expanded]="expanded"
-        (onChangeExpanded)="handleChangeExpanded(!expanded)"
-      ></digital-first-expand-collapse-button>
-    </digital-first-page-title>
+  *ngIf="commitment"
+  title="Delivery location"
+  (onTitleClicked)="handleChangeExpanded(!expanded)"
+>
+  <digital-first-expand-collapse-button
+    [expanded]="expanded"
+    (onChangeExpanded)="handleChangeExpanded(!expanded)"
+  ></digital-first-expand-collapse-button>
+</digital-first-page-title>
 
-    <div
-      class="commitment-layout__row"
-      *ngIf="commitment && expanded"
-    >
-      <div class="form-content">
-        <div class="form-layout__row--no-wrap">
-          <ng-select
-            [items]="electorates$ | async"
-            bindValue="id"
-            bindLabel="title"
-            groupBy="group"
-            placeholder="Select Location"
-            maxSelectedItems="8"
-            (add)="handleAddElectorateToCommitment($event)"
-            (remove)="handleRemoveElectorateFromCommitment($event)"
-            [ngModel]="selectedElectorateIds"
-            [multiple]="true"
-            [clearable]="false"
-            [hideSelected]="true"
-          >
-          </ng-select>
-        </div>
-        <div class="form-layout__row--no-wrap">
-          <digital-first-info>
-            You can select multiple locations by using the drop down selector or
-            by clicking in the Select Location field and typing
-          </digital-first-info>
-        </div>
-      </div>
-
-      <digital-first-map
-        [mapPoints]="mapPoint$ | async"
-        (onAddMapPoint)="handleAddMapPoint($event)"
-        (onDeleteMapPoint)="handleDeleteMapPoint($event)"
-      ></digital-first-map>
+<div class="commitment-layout__row" *ngIf="commitment && expanded">
+  <div class="form-content">
+    <div class="form-layout__row--no-wrap">
+      <ng-select
+        [items]="electorates$ | async"
+        bindValue="id"
+        bindLabel="title"
+        groupBy="group"
+        placeholder="Select Location"
+        maxSelectedItems="8"
+        (add)="handleAddElectorateToCommitment($event)"
+        (remove)="handleRemoveElectorateFromCommitment($event)"
+        [ngModel]="selectedElectorateIds"
+        [multiple]="true"
+        [clearable]="false"
+        [hideSelected]="true"
+      >
+      </ng-select>
     </div>
+    <div class="form-layout__row--no-wrap">
+      <digital-first-info>
+        You can select multiple locations by using the drop down selector or by
+        clicking in the Select Location field and typing
+      </digital-first-info>
+    </div>
+  </div>
+
+  <digital-first-map
+    [mapPoints]="mapPoint$ | async"
+    (onAddMapPoint)="handleAddMapPoint($event)"
+    (onDeleteMapPoint)="handleDeleteMapPoint($event)"
+  ></digital-first-map>
+</div>
