@@ -25,10 +25,10 @@ export class CommitmentActionEffects {
     .pipe(
       ofType(CommitmentActionActionTypes.GetActionsByCommitment),
       map((action: GetActionsByCommitment) => action.payload.commitment),
-      
+
       concatMap((commitment: any) => this.service.getActionsByCommitment(commitment)
         .pipe(
-          
+
           map((result: DataResult<CommitmentActionsResult>) => new LoadCommitmentActions({ actions: result.data.commitmentActions })),
           catchError(error => of(new CommitmentActionActionFailure(error)))
         )
