@@ -20,7 +20,7 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
   report: Report.Reports
   permissionTableData: any
 
-  private reportId: string
+  reportId: string
   private reportSubscription$: Subscription
 
   constructor(private reportGql: ReportGQL,
@@ -193,7 +193,8 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
       title: 'permissions',
       hasDeleteItemButton: true,
       headings: [{caption: 'Name'}, {caption: 'Permission'}],
-      rows: rows
+      rows: rows,
+      noDataMessage: 'This report inherits its permissions from the program. Adding groups here will break inheritance.'
     }
   }
 }
