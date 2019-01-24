@@ -27,7 +27,7 @@
       </mdc-list>
   </ng-template>
   <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: comments }"></ng-container>
-  <ng-container *ngIf="!activeComment">
+  <ng-container *ngIf="!activeComment && !readOnly">
       <ng-container *ngTemplateOutlet="discussionForm; context:{ $implicit: null }"></ng-container>
   </ng-container>
 </mdc-list-group>

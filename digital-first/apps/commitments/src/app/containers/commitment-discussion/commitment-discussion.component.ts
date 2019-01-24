@@ -6,6 +6,7 @@ import { first } from 'rxjs/operators'
 import { DialogAreYouSureComponent, ARE_YOU_SURE_ACCEPT } from '@digital-first/df-dialogs'
 import { MdcDialog } from '@angular-mdc/web'
 import { OPERATION_DISCUSSION } from '../../services/app-data.service'
+import { LoggerService } from '@digital-first/df-logging';
 
 @Component({
   selector: 'digital-first-commitment-discussion',
@@ -24,7 +25,7 @@ export class CommitmentDiscussionComponent implements OnInit, OnDestroy {
   timeFormatSubscription$: Subscription
   expandedSubscription$: Subscription
 
-  constructor(public dialog: MdcDialog, private service: CommitmentDiscussionService) { }
+  constructor(public dialog: MdcDialog, private service: CommitmentDiscussionService, private logger: LoggerService) { }
 
   @Input()
   set commitment(val: number) {
@@ -105,6 +106,7 @@ export class CommitmentDiscussionComponent implements OnInit, OnDestroy {
   }
 
   getRight(operations: any) {
+    this.logger.info(operations)
     return operations[OPERATION_DISCUSSION]
   }
 }

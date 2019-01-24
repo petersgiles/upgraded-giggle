@@ -21,6 +21,9 @@ export class DiscussionComponent implements OnInit {
   @Input()
   timeFormat
 
+  @Input()
+  readOnly:boolean = false
+
   @Output() onDeleteComment: EventEmitter<any> = new EventEmitter()
   @Output() onReplyToComment: EventEmitter<any> = new EventEmitter()
   @Output() onAddComment: EventEmitter<any> = new EventEmitter()
