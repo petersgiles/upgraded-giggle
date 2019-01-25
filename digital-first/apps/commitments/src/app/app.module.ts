@@ -10,6 +10,7 @@ import { NgxWigModule } from 'ngx-wig'
 import { AgmCoreModule } from '@agm/core'
 import { NgSelectModule } from '@ng-select/ng-select'
 import { MarkdownModule, MarkedOptions } from 'ngx-markdown'
+import { MdcChipsModule } from '@angular-mdc/web';
 
 import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
@@ -206,6 +207,7 @@ export let appDataServiceProvider = {
     BrowserModule,
     HttpClientModule,
     NgSelectModule,
+    MdcChipsModule,
     FormsModule,
     ReactiveFormsModule,
     AgmCoreModule.forRoot({
