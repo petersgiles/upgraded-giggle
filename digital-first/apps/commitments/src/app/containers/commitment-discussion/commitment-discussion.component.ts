@@ -106,7 +106,6 @@ export class CommitmentDiscussionComponent implements OnInit, OnDestroy {
   }
 
   getRight(operations: any) {
-    this.logger.info(operations)
     return operations[OPERATION_DISCUSSION]
   }
 }
