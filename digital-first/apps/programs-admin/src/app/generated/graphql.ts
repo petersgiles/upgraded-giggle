@@ -7,7 +7,7 @@ export interface OrderByGraph {
 export interface WhereExpressionGraph {
   path: string;
 
-  comparison: ComparisonGraph;
+  comparison?: ComparisonGraph | null;
 
   case?: StringComparison | null;
 
@@ -1005,7 +1005,7 @@ export namespace Program {
 
     name: string;
 
-    status: string;
+    status: string | null;
 
     notes: string | null;
 
@@ -1116,6 +1116,34 @@ export namespace AllPrograms {
     id: Guid;
 
     title: string;
+  };
+}
+
+export namespace AllProgramReports {
+  export type Variables = {};
+
+  export type Query = {
+    __typename?: 'Query';
+
+    programs: (Programs | null)[] | null;
+  };
+
+  export type Programs = {
+    __typename?: 'ProgramGraph';
+
+    id: Guid;
+
+    name: string;
+
+    reports: (Reports | null)[] | null;
+  };
+
+  export type Reports = {
+    __typename?: 'ReportGraph';
+
+    id: Guid;
+
+    name: string;
   };
 }
 
@@ -2112,6 +2140,26 @@ export class AllProgramsGQL extends Apollo.Query<
         agency {
           id
           title
+        }
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class AllProgramReportsGQL extends Apollo.Query<
+  AllProgramReports.Query,
+  AllProgramReports.Variables
+> {
+  document: any = gql`
+    query allProgramReports {
+      programs(orderBy: { path: "name" }) {
+        id
+        name
+        reports {
+          id
+          name
         }
       }
     }

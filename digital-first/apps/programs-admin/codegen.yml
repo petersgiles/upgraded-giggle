@@ -1,7 +1,7 @@
 schema:
   - https://localhost:52629/graphql:
       headers:
-        ProgramsApiKey: "david.mcgrath@pmc.gov.au"
+        ProgramsApiKey: "jason.kitson@pmc.gov.au"
 documents:
   - ./apps/programs-admin/src/**/*.graphql
 overwrite: true
