@@ -33,20 +33,18 @@ export function reducer(
     }
 
     case UserActionTypes.SetUserOperations: {
-      // tslint:disable-next-line:no-console
-      console.log('SetUserOperations', action.payload)
-
       let ops = {}
       if (action.payload.data && action.payload.data.groupPermissions) {
         ops = action.payload.data.groupPermissions.reduce(
           (acc: any, item: any) => {
-            // tslint:disable-next-line:no-console
-            console.log('SetUserOperations', acc, item)
             const components = item.component
             acc[item.group] = {
               ...(components || []).reduce(
-                (obj: any, c: any) => ((obj[c] = item.rights), obj),
-                {}
+                (componentRights: any, component: any) => {
+                  componentRights[component] = item.rights
+                   return componentRights
+                },
+                acc[item.group] || {}
               )
             }
             return acc
@@ -54,7 +52,6 @@ export function reducer(
           {}
         )
       }
-
       // tslint:disable-next-line:no-console
       console.log('SetUserOperations', action.payload, ops)
 
