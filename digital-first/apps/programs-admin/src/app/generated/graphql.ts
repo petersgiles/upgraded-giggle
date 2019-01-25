@@ -2157,10 +2157,12 @@ export class AllProgramReportsGQL extends Apollo.Query<
       programs(orderBy: { path: "name" }) {
         id
         name
-        reports {
+        reports(orderBy: { path: "name" }) {
           id
           name
+          __typename
         }
+        __typename
       }
     }
   `;
