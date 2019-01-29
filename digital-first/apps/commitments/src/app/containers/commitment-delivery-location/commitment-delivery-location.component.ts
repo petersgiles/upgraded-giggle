@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core'
-import { OPERATION_DISCUSSION } from '../../services/app-data.service'
+import { OPERATION_LOCATION } from '../../services/app-data.service'
 import { Subscription, Observable } from 'rxjs'
 import { Router } from '@angular/router'
 import { MdcDialog } from '@angular-mdc/web'
@@ -26,6 +26,7 @@ export class CommitmentDeliveryLocationComponent implements OnInit, OnDestroy {
   selectedElectorateIds: number[] = []
   mapPoint$: Observable<MapPoint[]>
   selectedElectoratesSubscription$: Subscription
+  selectedElectorateNames: string[] = [];
 
   constructor(private router: Router, public dialog: MdcDialog, private service: DeliveryLocationService, private lookup: CommitmentLookupService) {
     this.electorates$ = this.lookup.Locations
@@ -82,14 +83,21 @@ export class CommitmentDeliveryLocationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.expandedSubscription$ = this.service.Expanded.subscribe(p => this.expanded = p)
     this.mapPoint$ = this.service.MapPoints
-    this.selectedElectoratesSubscription$ = this.service.Electorates.subscribe((p: any[]) => {
-      this.selectedElectorateIds = p ? p.map(e => e.id) : []
+
+    // TODO: Below hack just to get it working needs to be fixed.
+    this.electorates$.subscribe((electorates) => {
+      this.selectedElectoratesSubscription$ = this.service.Electorates.subscribe((p: any[]) => {
+        this.selectedElectorateIds = p ? p.map(e => e.id) : []
+        if(electorates != null)
+          this.selectedElectorateNames = p ? p.map(e => electorates.filter(el => e.id == el.id)[0].title) : []
+      })
     })
+
     this.userOperation$ = this.service.UserOperation
   }
 
   getRight(operations: any) {
-    return operations[OPERATION_DISCUSSION]
+    return operations[OPERATION_LOCATION]
   }
 
   ngOnDestroy(): void {

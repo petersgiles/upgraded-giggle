@@ -10,6 +10,7 @@ import { NgxWigModule } from 'ngx-wig'
 import { AgmCoreModule } from '@agm/core'
 import { NgSelectModule } from '@ng-select/ng-select'
 import { MarkdownModule, MarkedOptions } from 'ngx-markdown'
+import { MdcChipsModule } from '@angular-mdc/web';
 
 import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
@@ -129,7 +130,8 @@ const COMPONENTS = [
   CommitmentOverviewMapComponent,
   CommitmentPrintComponent,
   CommitmentRelatedLinksComponent,
-  CommitmentRelatedCommitmentsComponent
+  CommitmentRelatedCommitmentsComponent,
+  CommitmentCommitmentComponent
 ]
 
 const ENTRYCOMPONENTS = [
@@ -200,12 +202,13 @@ export let appDataServiceProvider = {
 }
 
 @NgModule({
-  declarations: [...COMPONENTS, CommitmentCommitmentComponent],
+  declarations: [...COMPONENTS],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [
     BrowserModule,
     HttpClientModule,
     NgSelectModule,
+    MdcChipsModule,
     FormsModule,
     ReactiveFormsModule,
     AgmCoreModule.forRoot({

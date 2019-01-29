@@ -1,0 +1,12 @@
+<div class="app-page">
+  <section>
+    <digital-first-page-title [title]="'Deck'">
+      <digital-first-add-item-button
+        icon="library_add"
+        title="Add&nbsp;Item"
+        (onAddItem)="handleAddItemDialog()"
+      ></digital-first-add-item-button>
+      <digital-first-busy [busy]="formBusy"></digital-first-busy>
+    </digital-first-page-title>
+  </section>
+</div>

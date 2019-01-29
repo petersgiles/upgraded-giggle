@@ -33,7 +33,7 @@ export class AutosaveToggleButtonComponent implements OnInit {
   }
 
   @Output()
-  onAutosaveClicked: EventEmitter<null> = new EventEmitter()
+  onAutosaveClicked: EventEmitter<boolean> = new EventEmitter()
 
   constructor() { }
 

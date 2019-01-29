@@ -1,4 +1,4 @@
-<mdc-top-app-bar class="app-top-app-bar" #topAppBar fixed prominent='false' [fixedAdjustElement]="mainContent">
+<mdc-top-app-bar class="app-top-app-bar" #topAppBar fixed prominent='false'>
     <mdc-top-app-bar-row>
         <mdc-top-app-bar-section align="start" title="{{title}}" >
             <mdc-icon mdcAppBarNavIcon *ngIf="isScreenSmall()" (click)="drawOpenToggleClicked(!drawOpen)">menu</mdc-icon>

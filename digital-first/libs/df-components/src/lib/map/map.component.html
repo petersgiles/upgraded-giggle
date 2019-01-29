@@ -1,22 +1,22 @@
 <div class="form-content">
-  <div class="form-layout__row--no-wrap form-layout__row-with-button">
-    <input placeholder="search for location" 
-    autocorrect="off" autocapitalize="off" 
+  <div *ngIf="!readOnly" class="form-layout__row--no-wrap form-layout__row-with-button">
+    <input  placeholder="search for location"
+    autocorrect="off" autocapitalize="off"
     spellcheck="off" type="text" class="mdc-text-field__input"
       #search [formControl]="searchControl">
       <digital-first-add-item-button *ngIf="mapPoint" icon="person" title="Add&nbsp;Map&nbsp;Point"
       (onAddItem)="handleAddItem($event)"></digital-first-add-item-button>
   </div>
-  <agm-map 
-  [latitude]="latitude" 
-  [longitude]="longitude" 
+  <agm-map
+  [latitude]="latitude"
+  [longitude]="longitude"
   [zoom]="zoom"
-  [disableDefaultUI]="false" 
+  [disableDefaultUI]="false"
   [zoomControl]="true"
   >
   <agm-marker *ngFor="let mapPoint of mapPoints" [latitude]="mapPoint.latitude" [longitude]="mapPoint.longitude"></agm-marker>
   </agm-map>
 
 </div>
-<digital-first-data-table [tableData]="_mapPointTableData" [hasDeleteItemButton]="true" (onDeleteItem)="handleMapPointTableDeleteClicked($event)"></digital-first-data-table>
-   
+<digital-first-data-table [tableData]="_mapPointTableData" [hasDeleteItemButton]="!readOnly" (onDeleteItem)="handleMapPointTableDeleteClicked($event)"></digital-first-data-table>
+
