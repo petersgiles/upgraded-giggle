@@ -1,15 +1,27 @@
-import { gql } from 'apollo-server';
-
-export const typeDefs = gql`
-
   interface MutationResponse {
     code: String!
     success: Boolean!
     message: String!
   }
 
+  type UserProfileRole {
+    id: ID!
+    name: String!
+  }
+
+  type UserProfile {
+    id: ID!
+    name: String!
+    email: String!
+    roles: [UserProfileRole],
+  }
+
   type DeckCardPresentation {
     id: ID!
+    description: String!
+  }
+
+  input DeckCardPresentationInput {
     description: String!
   }
 
@@ -23,16 +35,31 @@ export const typeDefs = gql`
     action: String!
   }
 
+  input DeckCardActionInput { 
+    description: String!
+    action: String!
+  }
+
   type DeckCardActionButton {
     id: ID!
     text: String!
     action: DeckCardAction
   }
 
+  input DeckCardActionButtonInput {
+    text: String!
+    action: DeckCardActionInput
+  }
+
   type DeckCardActionIcon {
     id: ID!
     text: String!
     action: DeckCardAction
+  }
+
+  input DeckCardActionIconInput {
+    text: String!
+    action: DeckCardActionInput
   }
 
   type DeckCard {
@@ -56,9 +83,9 @@ export const typeDefs = gql`
     supportingText: String
     parentId: ID
     order: Int!
-    # presentation: DeckCardPresentation
-    # buttons: [DeckCardActionButton]
-    # icons: [DeckCardActionIcon]
+    presentation: DeckCardPresentationInput
+    buttons: [DeckCardActionButtonInput]
+    icons: [DeckCardActionIconInput]
   }
 
   type StoreDeckCardMutationResponse implements MutationResponse {
@@ -76,6 +103,7 @@ export const typeDefs = gql`
 
   # The "Query" type is the root of all GraphQL queries.
   type Query {
+    userProfile(id: ID): UserProfile
     cards(parentId: ID): [DeckCard]
   }
 
@@ -88,4 +116,3 @@ export const typeDefs = gql`
       id: ID!
     ): RemoveDeckCardMutationResponse
   }
-`;

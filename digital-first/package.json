@@ -6,6 +6,7 @@
     "ng": "ng",
     "start:commitments": "ng serve commitments --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --live-reload true",
     "start:programs-admin": "ng serve programs-admin --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --live-reload true",
+    "generate-graphql:deck": "gql-gen --config ./apps/deck/codegen.yml",
     "generate-graphql:programs-admin": "gql-gen --config ./apps/programs-admin/codegen.yml",
     "build": "ng build",
     "build:all": "run-p build:programs-admin sharepoint:build:commitments",

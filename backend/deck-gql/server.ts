@@ -11,7 +11,10 @@ import * as express from 'express'
 import * as morgan from 'morgan'
 import { logger } from '../shared/logger'
 
-import { typeDefs, resolvers } from './schema'
+import { resolvers } from './schema'
+import { importSchema } from 'graphql-import'
+const typeDefs = importSchema('./deck-gql/schema/schema.graphql')
+
 import { HomeController } from './controllers'
 import { allowCrossDomain } from '../shared/cors';
 

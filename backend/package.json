@@ -10,7 +10,7 @@
     "serve:deck": "node dist/deck-gql/server.js",
     "serve:policy-briefs": "node dist/policy-briefs-gql/server.js",
     "serve:todos": "node dist/todos-gql/server.js",
-    "start": "run-p serve:*",    
+    "start": "run-p serve:*",
     "start:commitments": "run-s tsc serve:commitments",
     "start:deck": "run-s tsc serve:deck",
     "start-serve": "run-s tsc start"
@@ -34,6 +34,7 @@
     "express-graphql": "^0.6.12",
     "faker": "^4.1.0",
     "graphql": "^14.0.2",
+    "graphql-import": "^0.7.1",
     "helmet": "^3.14.0",
     "method-override": "^3.0.0",
     "moment": "^2.22.2",

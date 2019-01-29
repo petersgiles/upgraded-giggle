@@ -1,5 +1,6 @@
 var db = require('diskdb');
 
+var DB_DECK_USER = 'deck-user'
 var DB_DECK_CARD = 'deck-card'
 
 db.connect('./diskdb/deck', [DB_DECK_CARD]);
@@ -19,6 +20,10 @@ var mapIds = (items :any[]) => {
 // A map of functions which return data for the schema.
 export const resolvers = {
   Query: {
+    userProfile: (obj: any, args: any, context: any, info: any) => {
+      const found = db[DB_DECK_USER].findOne({ id: args.id })
+      return mapId(found)   
+    },
     cards: (obj: any, args: any, context: any, info: any) => {
       let found = null
       if(args.parentId) {
