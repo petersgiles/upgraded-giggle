@@ -89,7 +89,6 @@ export class GroupComponent implements OnInit {
       )
       .pipe(first())
       .subscribe(value => {
-        console.log('removing ', $event)
       })
   }
 

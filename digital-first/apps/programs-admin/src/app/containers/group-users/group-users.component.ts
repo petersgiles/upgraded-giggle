@@ -98,7 +98,6 @@ export class GroupUsersComponent implements OnInit {
                 )
                 .pipe(first())
                 .subscribe(value => {
-                  console.log('adding ', result)
                 })
             }
           })

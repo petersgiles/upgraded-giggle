@@ -64,8 +64,6 @@ export class ProgramEditComponent implements OnInit, OnDestroy {
           externalId: value.externalId,
           agencyId: value.agency.id
         })
-
-        console.log('program', value)
       })
   }
 

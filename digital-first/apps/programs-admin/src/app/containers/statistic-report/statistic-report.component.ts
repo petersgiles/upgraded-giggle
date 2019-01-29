@@ -94,7 +94,6 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
               )
               .pipe(first())
               .subscribe(value => {
-                console.log('adding ', result)
               })
           }
         })
@@ -123,7 +122,6 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
       })
   }
 
-
   handleGroupPermissionDeleteClicked($event) {
     this.deleteStatisticReportAccessControlGql
       .mutate(
@@ -146,7 +144,6 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
       )
       .pipe(first())
       .subscribe(value => {
-        console.log('removing ', $event)
       })
   }
 

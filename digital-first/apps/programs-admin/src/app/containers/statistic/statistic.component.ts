@@ -127,7 +127,6 @@ export class StatisticComponent implements OnInit {
               )
               .pipe(first())
               .subscribe(value => {
-                console.log('adding ', result)
               })
           }
         })
@@ -174,7 +173,6 @@ export class StatisticComponent implements OnInit {
       )
       .pipe(first())
       .subscribe(value => {
-        console.log('removing ', $event)
       })
   }
 
@@ -207,7 +205,6 @@ export class StatisticComponent implements OnInit {
       )
       .pipe(first())
       .subscribe(value => {
-        console.log('removing ', $event)
       })
   }
 

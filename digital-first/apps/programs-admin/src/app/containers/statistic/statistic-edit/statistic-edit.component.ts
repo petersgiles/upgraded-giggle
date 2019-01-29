@@ -61,8 +61,6 @@ export class StatisticEditComponent implements OnInit, OnDestroy {
           externalId: value.externalId,
           agencyId: value.agency.id
         })
-
-        console.log('statistic', value)
       })
   }
 

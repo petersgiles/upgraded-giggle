@@ -135,7 +135,6 @@ export class ProgramComponent implements OnInit, OnDestroy {
       )
       .pipe(first())
       .subscribe(value => {
-        console.log('removing ', $event)
       })
   }
 
@@ -182,7 +181,6 @@ export class ProgramComponent implements OnInit, OnDestroy {
               )
               .pipe(first())
               .subscribe(value => {
-                console.log('adding ', result)
               })
           }
         })
@@ -210,7 +208,6 @@ export class ProgramComponent implements OnInit, OnDestroy {
       )
       .pipe(first())
       .subscribe(value => {
-        console.log('removing ', $event)
       })
   }
 
