@@ -6,6 +6,7 @@ import { Router } from '@angular/router'
 import { DialogAddContactComponent, DialogAreYouSureComponent, ARE_YOU_SURE_ACCEPT } from '@digital-first/df-dialogs'
 import { first } from 'rxjs/operators'
 import { DataTableConfig } from '@digital-first/df-components'
+import { OPERATION_CONTACTS } from '../../services/app-data.service';
 
 @Component({
   selector: 'digital-first-commitment-contacts',
@@ -17,6 +18,7 @@ export class CommitmentContactsComponent implements OnInit, OnDestroy {
 
   expanded: boolean
   expandedSubscription$: Subscription
+  userOperation$: Observable<any>
   commitmentContactsTableData$: Observable<DataTableConfig>
 
   constructor(private router: Router, public dialog: MdcDialog, private service: CommitmentContactService) { }
@@ -38,6 +40,11 @@ export class CommitmentContactsComponent implements OnInit, OnDestroy {
     }
 
   }
+
+  getRight(operations: any) {
+    return operations[OPERATION_CONTACTS]
+  }
+
 
   handleOpenContactDialog() {
 
@@ -92,6 +99,7 @@ export class CommitmentContactsComponent implements OnInit, OnDestroy {
     this.expandedSubscription$ = this.service.Expanded.subscribe(p => this.expanded = p)
 
     this.commitmentContactsTableData$ = this.service.CommitmentContactsTableData
+    this.userOperation$ = this.service.UserOperation
   }
 
   ngOnDestroy(): void {

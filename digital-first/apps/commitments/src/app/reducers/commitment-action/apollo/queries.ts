@@ -6,6 +6,7 @@ query CommitmentActions($commitment: ID!) {
     id
     title
     description
+    costing
     portfolio {
       id
       title
@@ -19,9 +20,10 @@ mutation StoreCommitmentAction(
   $id: ID
   $commitment: ID!
   $portfolio: ID!
+  $costing: String!
   $description: String!
   ) {
-  storeCommitmentAction(id: $id, commitment: $commitment, portfolio: $portfolio, description: $description) {
+  storeCommitmentAction(id: $id, commitment: $commitment, portfolio: $portfolio, costing: $costing, description: $description) {
     id
     title
   }

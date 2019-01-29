@@ -61,6 +61,7 @@ export class CommitmentActionDataSharePointService
       Title: `${payload.commitment} ${payload.action.id}`,
       Commitment: payload.commitment,
       Portfolio: payload.action.portfolio,
+      Costing: payload.action.costing,
       Description: payload.action.description
     }
 

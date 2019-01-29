@@ -15,8 +15,8 @@
               <mdc-icon *ngIf="!hasChildren(comment)" mdcListItemGraphic>message</mdc-icon> -->
               <digital-first-avatar [name]="comment?.author?.name" displayType="circle" size="35"></digital-first-avatar>
               <mdc-list-item-text [secondaryText]="getSecondaryText(comment)">{{comment.text}}</mdc-list-item-text>
-              <a mdcListItemMeta mdcIcon aria-label="Delete this comment" title="Delete this comment" *ngIf="!hasChildren(comment)" (click)="handleDeleteComment(comment)">delete</a>
-              <a mdcListItemMeta mdcIcon aria-label="Reply to this comment" title="Reply to this comment" (click)="onReplyToComment.emit(comment)">reply</a>
+              <a mdcListItemMeta mdcIcon aria-label="Delete this comment" title="Delete this comment" *ngIf="!hasChildren(comment) && !readOnly" (click)="handleDeleteComment(comment)">delete</a>
+              <a mdcListItemMeta mdcIcon aria-label="Reply to this comment" title="Reply to this comment" *ngIf="!readOnly"  (click)="onReplyToComment.emit(comment)">reply</a>
           </mdc-list-item>
           <ng-container *ngIf="activeComment === comment.id">
               <ng-container *ngTemplateOutlet="discussionForm; context:{ $implicit: comment }"></ng-container>
@@ -27,7 +27,7 @@
       </mdc-list>
   </ng-template>
   <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: comments }"></ng-container>
-  <ng-container *ngIf="!activeComment">
+  <ng-container *ngIf="!activeComment && !readOnly">
       <ng-container *ngTemplateOutlet="discussionForm; context:{ $implicit: null }"></ng-container>
   </ng-container>
 </mdc-list-group>

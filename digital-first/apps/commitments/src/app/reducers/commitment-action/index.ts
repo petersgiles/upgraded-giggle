@@ -46,6 +46,9 @@ export const getCommitmentActionsTableData = createSelector(
                     value: `${portfolio}`
                 }, {
                     truncate: 70,
+                    value: `${c.costing}`
+                }, {
+                    truncate: 70,
                     value: `${c.description}`
                 }]
             }
@@ -55,6 +58,7 @@ export const getCommitmentActionsTableData = createSelector(
             title: 'contacts',
             headings: [
                 { caption: 'Portfolio' },
+                { caption: 'Costing' },
                 { caption: 'Description' }
             ],
             rows: rows
