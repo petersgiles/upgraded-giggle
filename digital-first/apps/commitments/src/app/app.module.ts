@@ -129,7 +129,8 @@ const COMPONENTS = [
   CommitmentOverviewMapComponent,
   CommitmentPrintComponent,
   CommitmentRelatedLinksComponent,
-  CommitmentRelatedCommitmentsComponent
+  CommitmentRelatedCommitmentsComponent,
+  CommitmentCommitmentComponent
 ]
 
 const ENTRYCOMPONENTS = [
@@ -200,7 +201,7 @@ export let appDataServiceProvider = {
 }
 
 @NgModule({
-  declarations: [...COMPONENTS, CommitmentCommitmentComponent],
+  declarations: [...COMPONENTS],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [
     BrowserModule,
