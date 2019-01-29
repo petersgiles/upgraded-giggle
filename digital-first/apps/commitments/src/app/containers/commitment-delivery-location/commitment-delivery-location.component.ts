@@ -83,10 +83,16 @@ export class CommitmentDeliveryLocationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.expandedSubscription$ = this.service.Expanded.subscribe(p => this.expanded = p)
     this.mapPoint$ = this.service.MapPoints
-    this.selectedElectoratesSubscription$ = this.service.Electorates.subscribe((p: any[]) => {
-      this.selectedElectorateIds = p ? p.map(e => e.id) : []
-      this.selectedElectorateNames = p ? p.map(e => e.title) : []
+
+    // TODO: Below hack just to get it working needs to be fixed.
+    this.electorates$.subscribe((electorates) => {
+      this.selectedElectoratesSubscription$ = this.service.Electorates.subscribe((p: any[]) => {
+        this.selectedElectorateIds = p ? p.map(e => e.id) : []
+        if(electorates != null)
+          this.selectedElectorateNames = p ? p.map(e => electorates.filter(el => e.id == el.id)[0].title) : []
+      })
     })
+
     this.userOperation$ = this.service.UserOperation
   }
 
