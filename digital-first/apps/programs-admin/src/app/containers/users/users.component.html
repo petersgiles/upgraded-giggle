@@ -1,17 +1,26 @@
-<div *ngIf="(users$ | async) as users; else loading">
-  <div class="page_title">
-    <div class="reader-card-article__title page_title_text" mdcHeadline5>Users</div>
-  </div>
-  <div class="app-page">
-    <p>TODO: search/filter</p><!--TODO:  search/filter-->
-    <mdc-list>
-      <mdc-list-item *ngFor="let user of users">
-        <mdc-list-item-text><a [routerLink]="[user.id]">{{user.emailAddress}}</a>
-        </mdc-list-item-text>
-      </mdc-list-item>
-    </mdc-list>
+<div class="page_title">
+  <div class="reader-card-article__title page_title_text" mdcHeadline5>Users
   </div>
 </div>
-<ng-template #loading>
-  Loading...
-</ng-template>
+<div class="form-content">
+  <fieldset>
+    <div class="form-layout__row">
+      <mdc-text-field [outlined]="true"
+                      [(ngModel)]="searchText"
+                      (ngModelChange)="doSearch()"
+                      placeholder="search users..."
+                      autocomplete="off"
+                      type="text">
+        <mdc-icon mdcTextFieldIcon leading>search</mdc-icon>
+      </mdc-text-field>
+    </div>
+  </fieldset>
+  <mdc-list>
+    <mdc-list-item *ngFor="let user of users">
+      <mdc-list-item-text>
+        <a [routerLink]="[user.id]">{{user.emailAddress}}</a>
+      </mdc-list-item-text>
+    </mdc-list-item>
+  </mdc-list>
+</div>
+<button (click)="add()" icon="add" mdc-fab position='bottomRight'></button>

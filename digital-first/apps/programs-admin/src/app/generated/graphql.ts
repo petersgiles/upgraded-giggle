@@ -1657,6 +1657,36 @@ export namespace AllAgencies {
   };
 }
 
+export namespace AllStatisticsSearch {
+  export type Variables = {
+    name?: string | null;
+  };
+
+  export type Query = {
+    __typename?: 'Query';
+
+    statistics: (Statistics | null)[] | null;
+  };
+
+  export type Statistics = {
+    __typename?: 'StatisticGraph';
+
+    id: Guid;
+
+    name: string;
+
+    agency: Agency | null;
+  };
+
+  export type Agency = {
+    __typename?: 'AgencyGraph';
+
+    id: Guid;
+
+    title: string;
+  };
+}
+
 export namespace User {
   export type Variables = {
     userId: string;
@@ -1702,6 +1732,30 @@ export namespace User {
     rowVersion: string;
 
     disable: boolean;
+  };
+}
+
+export namespace AllUsersSearch {
+  export type Variables = {
+    emailAddress?: string | null;
+  };
+
+  export type Query = {
+    __typename?: 'Query';
+
+    users: (Users | null)[] | null;
+  };
+
+  export type Users = {
+    __typename?: 'UserGraph';
+
+    id: Guid;
+
+    emailAddress: string;
+
+    lastLogin: DateTimeOffset | null;
+
+    rowVersion: string;
   };
 }
 
@@ -2583,6 +2637,29 @@ export class AllAgenciesGQL extends Apollo.Query<
 @Injectable({
   providedIn: 'root'
 })
+export class AllStatisticsSearchGQL extends Apollo.Query<
+  AllStatisticsSearch.Query,
+  AllStatisticsSearch.Variables
+> {
+  document: any = gql`
+    query allStatisticsSearch($name: String) {
+      statistics(
+        where: { path: "name", comparison: contains, value: [$name] }
+        orderBy: { path: "name" }
+      ) {
+        id
+        name
+        agency {
+          id
+          title
+        }
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
 export class UserGQL extends Apollo.Query<User.Query, User.Variables> {
   document: any = gql`
     query user($userId: String!) {
@@ -2599,6 +2676,31 @@ export class UserGQL extends Apollo.Query<User.Query, User.Variables> {
           rowVersion
           disable
         }
+        lastLogin
+        rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class AllUsersSearchGQL extends Apollo.Query<
+  AllUsersSearch.Query,
+  AllUsersSearch.Variables
+> {
+  document: any = gql`
+    query allUsersSearch($emailAddress: String) {
+      users(
+        where: {
+          path: "emailAddress"
+          comparison: contains
+          value: [$emailAddress]
+        }
+        orderBy: { path: "emailAddress" }
+      ) {
+        id
+        emailAddress
         lastLogin
         rowVersion
       }
