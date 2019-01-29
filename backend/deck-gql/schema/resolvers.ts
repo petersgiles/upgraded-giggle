@@ -1,28 +1,76 @@
 var db = require('diskdb');
 
-var DB_DECK_ARTIFACT = 'deck-artifact'
+var DB_DECK_CARD = 'deck-card'
 
-db.connect('./diskdb/deck', [DB_DECK_ARTIFACT]);
+db.connect('./diskdb/deck', [DB_DECK_CARD]);
+
+var mapId = (item :any) => {
+  if(item) {
+    return ({ id: item._id, ...item})
+  }
+}
+
+var mapIds = (items :any[]) => {
+  if(items) {
+    return items.map(mapId)
+  }
+}
 
 // A map of functions which return data for the schema.
 export const resolvers = {
   Query: {
-    artifacts: () => db[DB_DECK_ARTIFACT].find(),
+    cards: (obj: any, args: any, context: any, info: any) => {
+      let found = null
+      if(args.parentId) {
+        found = db[DB_DECK_CARD].find({ parentId: args.parentId })
+      } else {
+        found = db[DB_DECK_CARD].find({ parentId: "" })
+      }
+      
+      return mapIds(found)
+    }
   },
   Mutation: {
-    storeArtifact: (_root: any, args: any) => {
-      const data = { ...args };
-      db[DB_DECK_ARTIFACT].save([data]);
-      return db[DB_DECK_ARTIFACT].find()
-    },
-    removeArtifact: (_root: any, args: any) => {
+    storeCard: (_root: any, args: any) => {
+      let { id, ...data } = args.card ;
+      data = { parentId: "", ...data}
 
-      var query = {
+      const found = db[DB_DECK_CARD].findOne({ _id: id })
+      let result = null
+      let results = null
+      if (found) {
+        result = db[DB_DECK_CARD].update({ _id: found._id }, data, { multi: false, upsert: true });
+        const updated = db[DB_DECK_CARD].findOne({ _id: id })
+        results = mapId(updated)
+      } else {
+        result = db[DB_DECK_CARD].save([data]);
+        results = mapId(result[0])
+      }
+
+      const response = {
+        code: '1',
+        success: true,
+        message: 'OK',
+        card: results
+      }
+      return response
+    },
+    removeCard: (_root: any, args: any) => {
+      const query = {
         _id: args.id
       };
-      db[DB_DECK_ARTIFACT].remove(query, false);
 
-      return db[DB_DECK_ARTIFACT].find()
+      const result = db[DB_DECK_CARD].remove(query, false);
+
+      console.log(result)
+
+      const response = {
+        code: '',
+        success: true,
+        message: 'OK'
+      }
+
+      return response
     },
   }
 };
