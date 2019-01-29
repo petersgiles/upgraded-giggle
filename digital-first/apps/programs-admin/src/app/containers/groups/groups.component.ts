@@ -10,7 +10,8 @@ import {Router} from '@angular/router'
   styleUrls: ['./groups.component.scss']
 })
 export class GroupsComponent implements OnInit {
-  private groups$: Observable<(AllGroups.Groups | null)[]>
+
+  groups$: Observable<(AllGroups.Groups | null)[]>
 
   constructor(private allGroupsGQL: AllGroupsGQL,
               private router: Router) {

@@ -10,9 +10,9 @@ import {Subscription} from 'rxjs'
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit, OnDestroy {
-  private userId: string
-  private userSubscription$: Subscription
-  private user: User.Users
+  userId: string
+  userSubscription$: Subscription
+  user: User.Users
 
   constructor(private route: ActivatedRoute,
               private userGQL: UserGQL) {

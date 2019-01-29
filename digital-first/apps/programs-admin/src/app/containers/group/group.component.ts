@@ -15,7 +15,7 @@ export class GroupComponent implements OnInit {
   userTableData: any
   private groupId: string
   private groupSubscription$: Subscription
-  private group: Group.Groups
+  group: Group.Groups
 
   constructor(private route: ActivatedRoute,
               private groupGQL: GroupGQL,
