@@ -34,6 +34,9 @@ export class MapComponent implements OnInit {
   }
 
   @Input()
+  readOnly: boolean = false
+
+  @Input()
   set mapPoints(val: MapPoint[]) {
     this._mapPoints = val
 
