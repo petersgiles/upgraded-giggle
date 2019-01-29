@@ -10,7 +10,7 @@ import { formatCommitmentTitle } from '../../formatters'
 import { Commitment } from '../../reducers'
 import { Portfolio } from '../../models'
 import { showSnackBar } from '../../dialogs/show-snack-bar'
-import { FormBuilder } from '@angular/forms'
+import { FormBuilder, Validators } from '@angular/forms'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 import { CommitmentActionService } from '../../reducers/commitment-action/commitment-action.service'
 
@@ -43,9 +43,10 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
 
   form = this.fb.group({
     id: [],
-    commitment: [null],
-    description: [''],
-    portfolio: [null]
+    commitment: [null, Validators.required],
+    description: ['', Validators.required],
+    costing: [null, [Validators.required, Validators.min(0)]],
+    portfolio: [null, Validators.required]
   })
 
   getTitle(commitment) {
@@ -63,6 +64,7 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
           id: null,
           title: null,
           description: null,
+          costing: null,
           portfolio: null
         }
 
@@ -71,6 +73,7 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
             id: next.id,
             title: next.title,
             description: next.description,
+            costing: next.costing,
             portfolio: next.portfolio && next.portfolio.id
           }
         }

@@ -3,7 +3,6 @@ import { Apollo } from 'apollo-angular'
 import { callQuery, callMutate } from '../../../services/apollo/apollo-helpers'
 import {
   DataResult,
-  ContactsResult,
   CommitmentActionsResult
 } from '../../../models'
 import { CommitmentActionDataService } from '../commitment-action-data.service'
