@@ -94,7 +94,6 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
               )
               .pipe(first())
               .subscribe(value => {
-                console.log('adding ', result)
               })
           }
         })
@@ -145,7 +144,6 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
       )
       .pipe(first())
       .subscribe(value => {
-        console.log('removing ', $event)
       })
   }
 

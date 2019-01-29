@@ -77,9 +77,9 @@ import {StatisticEditComponent} from './containers/statistic/statistic-edit/stat
 import {GroupUsersComponent} from './containers/group-users/group-users.component'
 import {DialogAssignUserToGroupComponent} from './dialogs/dialog-assign-user-to-group.component'
 import {StatisticReportsComponent} from './containers/statistic-reports/statistic-reports.component'
-import {StatisticReportComponent} from './containers/statistic-report/statistic-report.component';
-import {StatisticReportAddComponent} from './containers/statistic-reports/statistic-report-add/statistic-report-add.component';
-import {StatisticReportEditComponent} from './containers/statistic-reports/statistic-report-edit/statistic-report-edit.component';
+import {StatisticReportComponent} from './containers/statistic-report/statistic-report.component'
+import {StatisticReportAddComponent} from './containers/statistic-reports/statistic-report-add/statistic-report-add.component'
+import {StatisticReportEditComponent} from './containers/statistic-reports/statistic-report-edit/statistic-report-edit.component'
 import {ReportEditComponent} from './containers/program-reports/report-edit/report-edit.component'
 
 const COMPONENTS = [AppComponent, HomeComponent]
@@ -111,16 +111,8 @@ const ENTRYCOMPONENTS = [
 export function initApplication(): Function {
   return () =>
     new Promise(resolve => {
-
-      // tslint:disable-next-line:no-console
-      console.log('app initialise started...')
-
       const auth: any = JSON.parse(window.localStorage.getItem(AUTH_KEY))
 
-      if (auth) {
-        // tslint:disable-next-line:no-console
-        console.log('user is logged in, start auto token refresh')
-      }
       resolve(true)
     })
 }

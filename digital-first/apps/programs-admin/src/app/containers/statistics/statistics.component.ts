@@ -10,7 +10,8 @@ import {Observable} from 'rxjs'
   styleUrls: ['./statistics.component.scss']
 })
 export class StatisticsComponent implements OnInit {
-  private statistics$: Observable<(AllStatistics.Statistics | null)[]>
+
+  statistics$: Observable<(AllStatistics.Statistics | null)[]>
 
   constructor(private allStatisticsGQL: AllStatisticsGQL,
               private router: Router) {

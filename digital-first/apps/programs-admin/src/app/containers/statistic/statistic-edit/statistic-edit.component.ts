@@ -26,7 +26,8 @@ export class StatisticEditComponent implements OnInit, OnDestroy {
   })
 
   statisticId: string
-  private statistics$: Observable<Statistic.Statistics | null>
+
+  statistics$: Observable<Statistic.Statistics | null>
 
   constructor(private formBuilder: FormBuilder,
               private allAgencies: AllAgenciesGQL,
@@ -61,8 +62,6 @@ export class StatisticEditComponent implements OnInit, OnDestroy {
           externalId: value.externalId,
           agencyId: value.agency.id
         })
-
-        console.log('statistic', value)
       })
   }
 

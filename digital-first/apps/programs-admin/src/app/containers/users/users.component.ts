@@ -9,7 +9,7 @@ import {Observable} from 'rxjs'
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
-  private users$: Observable<(Users.Users | null)[]>
+  users$: Observable<(Users.Users | null)[]>
 
   constructor(private usersGQL: UsersGQL) {
   }
