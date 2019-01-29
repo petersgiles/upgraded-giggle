@@ -1,7 +1,6 @@
-import {Component, OnInit} from '@angular/core'
-import {AllPrograms, AllProgramsGQL} from '../../generated/graphql'
-import {map} from 'rxjs/operators'
-import {Observable} from 'rxjs'
+import {Component, OnDestroy} from '@angular/core'
+import {AllProgramsSearch, AllProgramsSearchGQL} from '../../generated/graphql'
+import {Subscription} from 'rxjs'
 import {Router} from '@angular/router'
 
 @Component({
@@ -9,11 +8,13 @@ import {Router} from '@angular/router'
   templateUrl: './programs.component.html',
   styleUrls: ['./programs.component.scss']
 })
-export class ProgramsComponent implements OnInit {
+export class ProgramsComponent implements OnDestroy {
 
-  programs$: Observable<AllPrograms.Programs[]>
+  programs:  AllProgramsSearch.Programs[]
+  subscriptions$: Subscription[] = []
+  searchText = ''
 
-  constructor(private allProgramsGQL: AllProgramsGQL,
+  constructor(private searchProgramsGQL: AllProgramsSearchGQL,
               private router: Router) {
   }
 
@@ -21,9 +22,25 @@ export class ProgramsComponent implements OnInit {
     return this.router.navigate(['programs', 'add'])
   }
 
-  ngOnInit() {
-    this.programs$ = this.allProgramsGQL.watch({},
-      {fetchPolicy: 'no-cache'})
-      .valueChanges.pipe(map(value => value.data.programs))
+  doSearch() {
+    if (!this.searchText) {
+      return
+    }
+
+    const searchSubscription$ = this.searchProgramsGQL
+      .watch({name: this.searchText}, {fetchPolicy: 'no-cache'})
+      .valueChanges.subscribe(value => {
+        this.programs = value.data.programs
+      })
+
+    this.subscriptions$ = [...this.subscriptions$, searchSubscription$]
+  }
+
+  ngOnDestroy(): void {
+    for (const subscription of this.subscriptions$) {
+      if (subscription && subscription.unsubscribe) {
+        subscription.unsubscribe()
+      }
+    }
   }
 }

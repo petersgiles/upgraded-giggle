@@ -1,7 +1,6 @@
-import {Component, OnInit} from '@angular/core'
-import {AllGroups, AllGroupsGQL} from '../../generated/graphql'
-import {map} from 'rxjs/operators'
-import {Observable} from 'rxjs'
+import {Component, OnDestroy} from '@angular/core'
+import {AllGroupsSearch, AllGroupsSearchGQL} from '../../generated/graphql'
+import {Subscription} from 'rxjs'
 import {Router} from '@angular/router'
 
 @Component({
@@ -9,21 +8,39 @@ import {Router} from '@angular/router'
   templateUrl: './groups.component.html',
   styleUrls: ['./groups.component.scss']
 })
-export class GroupsComponent implements OnInit {
+export class GroupsComponent implements OnDestroy {
 
-  groups$: Observable<(AllGroups.Groups | null)[]>
+  groups: AllGroupsSearch.Groups[]
+  subscriptions$: Subscription[] = []
+  searchText = ''
 
-  constructor(private allGroupsGQL: AllGroupsGQL,
+  constructor(private searchGroupsGQL: AllGroupsSearchGQL,
               private router: Router) {
-  }
-
-  ngOnInit() {
-    this.groups$ = this.allGroupsGQL.fetch({},
-      {fetchPolicy: 'no-cache'})
-      .pipe(map(value => value.data.groups))
   }
 
   add() {
     return this.router.navigate(['groups', 'add'])
+  }
+
+  doSearch() {
+    if (!this.searchText) {
+      return
+    }
+
+    const searchSubscription$ = this.searchGroupsGQL
+      .watch({title: this.searchText}, {fetchPolicy: 'no-cache'})
+      .valueChanges.subscribe(value => {
+        this.groups = value.data.groups
+      })
+
+    this.subscriptions$ = [...this.subscriptions$, searchSubscription$]
+  }
+
+  ngOnDestroy(): void {
+    for (const subscription of this.subscriptions$) {
+      if (subscription && subscription.unsubscribe) {
+        subscription.unsubscribe()
+      }
+    }
   }
 }
