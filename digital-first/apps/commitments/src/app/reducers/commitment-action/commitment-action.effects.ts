@@ -36,8 +36,6 @@ export class CommitmentActionEffects {
   addActionToCommitment$: Observable<Action> = this.actions$
     .pipe(
       ofType(CommitmentActionActionTypes.AddActionToCommitment),
-      // tslint:disable-next-line:no-console
-      tap((action: AddActionToCommitment) => console.log(action.payload)),
       map((action: AddActionToCommitment) => action.payload),
       switchMap((payload: any) => this.service.addActionToCommitment(payload)),
       switchMap((result: any) => [

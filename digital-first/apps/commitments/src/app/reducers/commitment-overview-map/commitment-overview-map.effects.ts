@@ -19,10 +19,10 @@ export class CommentOverviewMapEffects {
         .pipe(
             ofType(CommitmentOverviewMapActionTypes.GetCommitmentOverviewMapPoints),
             map((action: GetCommitmentOverviewMapPoints) => action.payload),
-            
+
             concatMap((filter: any) => this.service.getMapPoints(filter)
                 .pipe(
-                    
+
                     concatMap((result) => [new LoadCommitmentOverviewMapPoints(result)]),
                     catchError(error => of(new CommentOverviewMapActionFailure(error)))
                 )
@@ -33,10 +33,10 @@ export class CommentOverviewMapEffects {
         .pipe(
             ofType(CommitmentOverviewMapActionTypes.GetCommitmentOverviewMapCommitments),
             map((action: GetCommitmentOverviewMapCommitments) => action.payload),
-            
+
             concatMap((filter: any) => this.service.getCommitmentOverviewMapCommitments(filter)
                 .pipe(
-                    
+
                     concatMap((result) => [new LoadCommitmentOverviewMapCommitments(result)]),
                     catchError(error => of(new CommentOverviewMapActionFailure(error)))
                 )

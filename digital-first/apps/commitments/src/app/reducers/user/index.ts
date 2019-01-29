@@ -19,10 +19,12 @@ export const getOperations = createSelector(
   fromUser.getOperations
 )
 
+
 export const getDrawerOpen = createSelector(
   getUserState,
   fromUser.getDrawerOpen
 )
+
 
 export const getCurrentUserOperations = createSelector(
   getUserCurrentUser,
@@ -38,7 +40,7 @@ export const getCurrentUserOperations = createSelector(
 
         const operationsRights = user.roles.reduce((rightsAcc: any, group: any) => {
             const groupComponents = operations[group]
-            if (OPERATION_DEFAULTS[componentName] && groupComponents[componentName]) {
+            if (groupComponents && groupComponents[componentName]) {
                 rightsAcc.push(groupComponents[componentName])
             }
             return rightsAcc
