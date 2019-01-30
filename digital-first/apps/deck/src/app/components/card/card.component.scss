@@ -1,0 +1,23 @@
+.deck-card {
+  margin: 28px;
+}
+
+.deck-card__primary {
+  padding: 1rem;
+}
+
+.deck-card__title {
+  margin: 0;
+}
+
+.deck-card__subtitle {
+  margin: 0;
+}
+
+.deck-card__secondary {
+  padding: 0 1rem 8px 1rem;
+}
+
+.deck-card__media--16-9 {
+  background-image: url(https://material-components-web.appspot.com/images/16-9.jpg);
+}
