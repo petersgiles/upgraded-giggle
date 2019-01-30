@@ -1,4 +1,4 @@
-import {Component, OnDestroy} from '@angular/core'
+import {Component, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy} from '@angular/core'
 import {AllStatisticsSearch, AllStatisticsSearchGQL} from '../../generated/graphql'
 import {Router} from '@angular/router'
 import {Subscription} from 'rxjs'
@@ -6,7 +6,8 @@ import {Subscription} from 'rxjs'
 @Component({
   selector: 'digital-first-statistics',
   templateUrl: './statistics.component.html',
-  styleUrls: ['./statistics.component.scss']
+  styleUrls: ['./statistics.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StatisticsComponent implements OnDestroy {
 
@@ -15,6 +16,7 @@ export class StatisticsComponent implements OnDestroy {
   searchText = ''
 
   constructor(private searchStatisticsGQL: AllStatisticsSearchGQL,
+              private changeDetector: ChangeDetectorRef,
               private router: Router) {
   }
 
@@ -27,6 +29,7 @@ export class StatisticsComponent implements OnDestroy {
       .watch({name: this.searchText}, {fetchPolicy: 'no-cache'})
       .valueChanges.subscribe(value => {
         this.statistics = value.data.statistics
+        this.changeDetector.detectChanges()
       })
 
     this.subscriptions$ = [...this.subscriptions$, searchSubscription$]

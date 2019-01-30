@@ -1,11 +1,12 @@
-import {Component, OnDestroy} from '@angular/core'
+import {Component, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy} from '@angular/core'
 import {AllProjectsSearch, AllProjectsSearchGQL} from '../../generated/graphql'
 import {Subscription} from 'rxjs'
 import {Router} from '@angular/router'
 @Component({
   selector: 'digital-first-projects',
   templateUrl: './projects.component.html',
-  styleUrls: ['./projects.component.scss']
+  styleUrls: ['./projects.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class ProjectsComponent implements OnDestroy {
@@ -15,6 +16,7 @@ export class ProjectsComponent implements OnDestroy {
   searchText = ''
 
   constructor(private searchProjectsGQL: AllProjectsSearchGQL,
+              private changeDetector: ChangeDetectorRef,
               private router: Router) {
   }
 
@@ -31,6 +33,7 @@ export class ProjectsComponent implements OnDestroy {
       .watch({name: this.searchText}, {fetchPolicy: 'no-cache'})
       .valueChanges.subscribe(value => {
         this.projects = value.data.projects
+        this.changeDetector.detectChanges()
       })
 
     this.subscriptions$ = [...this.subscriptions$, searchSubscription$]

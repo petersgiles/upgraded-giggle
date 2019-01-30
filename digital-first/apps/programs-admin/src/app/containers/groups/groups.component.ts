@@ -1,4 +1,4 @@
-import {Component, OnDestroy} from '@angular/core'
+import {Component, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy} from '@angular/core'
 import {AllGroupsSearch, AllGroupsSearchGQL} from '../../generated/graphql'
 import {Subscription} from 'rxjs'
 import {Router} from '@angular/router'
@@ -6,7 +6,8 @@ import {Router} from '@angular/router'
 @Component({
   selector: 'digital-first-groups',
   templateUrl: './groups.component.html',
-  styleUrls: ['./groups.component.scss']
+  styleUrls: ['./groups.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GroupsComponent implements OnDestroy {
 
@@ -15,6 +16,7 @@ export class GroupsComponent implements OnDestroy {
   searchText = ''
 
   constructor(private searchGroupsGQL: AllGroupsSearchGQL,
+              private changeDetector: ChangeDetectorRef,
               private router: Router) {
   }
 
@@ -31,6 +33,7 @@ export class GroupsComponent implements OnDestroy {
       .watch({title: this.searchText}, {fetchPolicy: 'no-cache'})
       .valueChanges.subscribe(value => {
         this.groups = value.data.groups
+        this.changeDetector.detectChanges()
       })
 
     this.subscriptions$ = [...this.subscriptions$, searchSubscription$]
