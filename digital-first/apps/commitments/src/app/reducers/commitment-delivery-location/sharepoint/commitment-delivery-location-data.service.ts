@@ -18,7 +18,8 @@ import {
 import {
   mapCommitmentMapPoints,
   mapMapPoints,
-  mapCommitmentElectorates
+  mapCommitmentElectorates,
+  mapElectorates
 } from './maps'
 import { MapPoint } from '@digital-first/df-components'
 import { ElectoratesResult } from '../../../models/location.model'
@@ -34,12 +35,35 @@ export class DeliveryLocationDataSharePointService
         listName: 'CommitmentElectorate',
         viewXml: byCommitmentIdQuery({ id: commitment })
       }).pipe(
-        concatMap(result =>
-          of({
-            data: { electorates: mapCommitmentElectorates(result) },
-            loading: false
-          })
-        )
+        map(mapCommitmentElectorates),
+        // tslint:disable-next-line:no-console
+        tap(commitmentElectorates => console.log(commitmentElectorates)),
+        concatMap((commitmentElectorates: any) => {
+          const ids = commitmentElectorates.map(ce => ce.electorate)
+
+          if (!ids.length) {
+            return of({
+              data: { electorates: [] },
+              loading: false
+            })
+          }
+
+          const viewXml = byIdsQuery(ids)
+
+          return this.sharepoint
+            .getItems({
+              listName: 'Electorate',
+              viewXml: viewXml
+            })
+            .pipe(
+              concatMap(electorates =>
+                of({
+                  data: { electorates: mapElectorates(electorates) },
+                  loading: false
+                })
+              )
+            )
+        })
       )
   }
 
@@ -55,8 +79,18 @@ export class DeliveryLocationDataSharePointService
       })
       .pipe(
         map(mapCommitmentMapPoints),
+        // tslint:disable-next-line:no-console
+        tap(commitmentMapPoints => console.log(commitmentMapPoints)),
         concatMap((commitmentMapPoints: any) => {
           const mpIds = commitmentMapPoints.map(mp => mp.mapPoint)
+
+          if (!mpIds.length) {
+            return of({
+              data: { mapPoints: [] },
+              loading: false
+            })
+          }
+
           const mapPointViewXml = byIdsQuery(mpIds)
 
           return this.sharepoint

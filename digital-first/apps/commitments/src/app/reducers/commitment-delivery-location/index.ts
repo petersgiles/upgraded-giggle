@@ -38,7 +38,7 @@ export const getCommitmentElectorates = createSelector(
 
 export const getCommitmentElectorateEntities = createSelector(
     getCommitmentElectorates,
-    arrayToHash
+    (electorates) => arrayToHash(electorates, 'electorate')
 )
 
 // export const getDeliveryLocationsTableData = createSelector(

@@ -1,0 +1,23 @@
+mutation StoreCard($card: DeckCardInput) {
+  storeCard(card: $card) {
+    code
+    success
+    message
+    card {
+      id
+      title
+      order
+      presentation {
+        description
+      }
+    }
+  }
+}
+
+mutation RemoveCard($id: ID!) {
+  removeCard(id: $id) {
+    code
+    success
+    message
+  }
+}

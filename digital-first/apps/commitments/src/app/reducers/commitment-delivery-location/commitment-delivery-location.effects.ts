@@ -99,6 +99,8 @@ export class DeliveryLocationEffects {
     map((action: GetMapPointsByCommitment) => action.payload),
     switchMap((payload: any) =>
       this.service.getMapPointsByCommitment(payload.commitment).pipe(
+        // tslint:disable-next-line:no-console
+        tap(result => console.log(result)),
         map((result: DataResult<MapPointsResult>) => new LoadMapPoints(result)),
         catchError(error => of(new DeliveryLocationsActionFailure(error)))
       )

@@ -1,0 +1,11 @@
+query GetCard($id: ID) {
+  cards(parentId: $id) {
+    id
+    title
+    parentId
+    order
+    presentation {
+      description
+    }
+  }
+}

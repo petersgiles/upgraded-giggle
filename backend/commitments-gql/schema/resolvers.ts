@@ -106,7 +106,7 @@ export const resolvers = {
     },
     commitmentElectorates: (obj: any, args: any, context: any, info: any) => {
       let set = db['commitment-commitment-electorates'].find({ commitment: args.commitment })
-      let found = set.map((f: any) => db['commitment-electorates'].findOne({ id: f.electorate })).map((c: any) => ({ ...c }))
+      let found = set.map((f: any) => db['commitment-electorates'].findOne({ id: f.electorate })).map((c: any) => ({ ...c  }))
       return found
 
     },
