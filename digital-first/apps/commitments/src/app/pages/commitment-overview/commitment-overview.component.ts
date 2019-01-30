@@ -141,7 +141,16 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
   }
 
   handleExport() {
-    this.excelService.exportAsExcelFile(this.filteredCommitments, 'commitments')
+
+    const exportCommitments = this.filteredCommitments.map(fc => ({
+      'Title': fc.title,
+      'Party': fc.party ? fc.party.title : '',
+      'Responsible Portfolio': fc.portfolio ? fc.portfolio.title : '',
+      'Type of Commitment': fc.commitmentType ? fc.commitmentType.title : '',
+      'Critical Date': fc.date
+    }))
+
+    this.excelService.exportAsExcelFile(exportCommitments, 'commitments')
   }
 
   changePageFormat(format) {
