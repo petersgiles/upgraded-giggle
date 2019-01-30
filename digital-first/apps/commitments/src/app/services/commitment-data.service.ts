@@ -188,6 +188,8 @@ export class CommitmentDataService {
   }
 
   clearAllRefiners() {
+    // tslint:disable-next-line:no-console
+    console.log('clearAllRefiners')
     this.store.dispatch(new ClearAllRefiners())
   }
 

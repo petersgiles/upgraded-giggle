@@ -93,6 +93,12 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
     this.router.navigate(['/', 'commitment', commitment.id])
   }
 
+  handleClearAllFilters() {
+    // tslint:disable-next-line:no-console
+    console.log('handleClearAllFilters')
+    this.service.clearAllRefiners()
+  }
+
   handleCreate() {
     this.router.navigate(['/', 'commitment', 'create'])
   }
