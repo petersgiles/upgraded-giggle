@@ -19,8 +19,10 @@ import { DfPagesModule } from '@digital-first/df-pages'
 import { DfDialogsModule, DialogAreYouSureComponent, DialogShowErrorComponent, DialogFileLockedComponent, DialogSpinnerOverlayComponent, DialogAddContactComponent } from '@digital-first/df-dialogs'
 import { DfSharepointModule, SharepointJsomService } from '@digital-first/df-sharepoint'
 import { DfPipesModule } from '@digital-first/df-pipes'
-import { DfMomentModule } from '@digital-first/df-moment'
+import { DfMomentModule, DateFormatPipe } from '@digital-first/df-moment'
 import { WINDOW_PROVIDERS } from '@digital-first/df-utils'
+
+
 import {
   DfComponentsModule,
   TagsComponent,
@@ -268,6 +270,7 @@ export let appDataServiceProvider = {
   ],
   providers: [
     ExcelService,
+    DateFormatPipe,
     WINDOW_PROVIDERS,
     {
       provide: APP_INITIALIZER,
