@@ -10,7 +10,7 @@ import { NgxWigModule } from 'ngx-wig'
 import { AgmCoreModule } from '@agm/core'
 import { NgSelectModule } from '@ng-select/ng-select'
 import { MarkdownModule, MarkedOptions } from 'ngx-markdown'
-import { MdcChipsModule } from '@angular-mdc/web';
+import { MdcChipsModule } from '@angular-mdc/web'
 
 import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
@@ -107,6 +107,7 @@ import { relatedLinksDataServiceProvider } from './reducers/related-link/related
 import { relatedCommitmentsDataServiceProvider } from './reducers/related-commitment/related-commitment-data.service'
 import { deliveryLocationsDataServiceProvider } from './reducers/commitment-delivery-location/commitment-delivery-location-data.service'
 import { DeliveryLocationEffects } from './reducers/commitment-delivery-location/commitment-delivery-location.effects'
+import { ExcelService } from './services/excel.service'
 
 const COMPONENTS = [
   AppComponent,
@@ -266,6 +267,7 @@ export let appDataServiceProvider = {
     ]),
   ],
   providers: [
+    ExcelService,
     WINDOW_PROVIDERS,
     {
       provide: APP_INITIALIZER,
