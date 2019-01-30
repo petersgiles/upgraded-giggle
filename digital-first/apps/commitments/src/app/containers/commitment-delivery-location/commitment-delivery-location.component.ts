@@ -4,19 +4,22 @@ import { Subscription, Observable } from 'rxjs'
 import { Router } from '@angular/router'
 import { MdcDialog } from '@angular-mdc/web'
 
-import { DialogAreYouSureComponent, ARE_YOU_SURE_ACCEPT } from '@digital-first/df-dialogs'
+import {
+  DialogAreYouSureComponent,
+  ARE_YOU_SURE_ACCEPT
+} from '@digital-first/df-dialogs'
 import { first } from 'rxjs/operators'
 import { DeliveryLocationService } from '../../reducers/commitment-delivery-location/commitment-delivery-location.service'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 import { Electorate } from '../../models/location.model'
 import { MapPoint } from '@digital-first/df-components'
+import { returnStatement } from 'babel-types'
 @Component({
   selector: 'digital-first-commitment-delivery-location',
   templateUrl: './commitment-delivery-location.component.html',
   styles: [``]
 })
 export class CommitmentDeliveryLocationComponent implements OnInit, OnDestroy {
-
   _commitment: number
   expanded: boolean
   expandedSubscription$: Subscription
@@ -28,9 +31,14 @@ export class CommitmentDeliveryLocationComponent implements OnInit, OnDestroy {
   selectedElectoratesSubscription$: Subscription
   selectedElectorateNames: string[] = []
 
-  constructor(private router: Router, public dialog: MdcDialog, private service: DeliveryLocationService, private lookup: CommitmentLookupService) {
+  constructor(
+    private router: Router,
+    public dialog: MdcDialog,
+    private service: DeliveryLocationService,
+    private lookup: CommitmentLookupService
+  ) {
     this.electorates$ = this.lookup.Locations
-   }
+  }
 
   @Input()
   set commitment(val: number) {
@@ -42,7 +50,10 @@ export class CommitmentDeliveryLocationComponent implements OnInit, OnDestroy {
   }
 
   handleRemoveElectorateFromCommitment(electorate) {
-    this.service.removeElectorateFromCommitment(this.commitment, electorate.value.id)
+    this.service.removeElectorateFromCommitment(
+      this.commitment,
+      electorate.value.id
+    )
   }
 
   handleAddElectorateToCommitment(electorate) {
@@ -54,19 +65,20 @@ export class CommitmentDeliveryLocationComponent implements OnInit, OnDestroy {
   }
 
   handleDeleteMapPoint(mapPoint) {
-
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
       clickOutsideToClose: true
     })
 
-    dialogRef.afterClosed()
-      .pipe(
-        first()
-      )
+    dialogRef
+      .afterClosed()
+      .pipe(first())
       .subscribe(result => {
         if (result === ARE_YOU_SURE_ACCEPT) {
-          this.service.removeMapPointFromCommitment(this.commitment, mapPoint.id)
+          this.service.removeMapPointFromCommitment(
+            this.commitment,
+            mapPoint.id
+          )
         }
       })
   }
@@ -77,22 +89,42 @@ export class CommitmentDeliveryLocationComponent implements OnInit, OnDestroy {
     } else {
       this.service.collapsePanel()
     }
-
   }
 
   ngOnInit(): void {
-    this.expandedSubscription$ = this.service.Expanded.subscribe(p => this.expanded = p)
+    this.expandedSubscription$ = this.service.Expanded.subscribe(
+      p => (this.expanded = p)
+    )
     this.mapPoint$ = this.service.MapPoints
 
-    // TODO: Below hack just to get it working needs to be fixed.
-    this.electorates$.subscribe((electorates) => {
-      if (!electorates) { return }
+    this.electorates$.subscribe(electorates => {
+      if (!electorates) {
+        return
+      }
       this.selectedElectoratesSubscription$ = this.service.Electorates.subscribe(
         (selectedElectorates: any[]) => {
-        this.selectedElectorateIds = selectedElectorates ? selectedElectorates.map(selectedElectorate => selectedElectorate.electorate) : []
-        this.selectedElectorateNames = selectedElectorates ? selectedElectorates.map(selectedElectorate =>
-          electorates.filter(electorate => selectedElectorate.electorate === electorate.id)[0].title) : []
-      })
+          if (!selectedElectorates) {
+            return
+          }
+          const result = selectedElectorates.reduce(
+            (acc: any, item: any) => {
+              acc.selectedElectorateIds.push(item.id)
+              const found = electorates.find(
+                electorate => item.id === electorate.id
+              )
+              acc.selectedElectorateNames.push(found ? found.title : '')
+              return acc
+            },
+            {
+              selectedElectorateIds: [],
+              selectedElectorateNames: []
+            }
+          )
+
+          this.selectedElectorateIds = result.selectedElectorateIds
+          this.selectedElectorateNames = result.selectedElectorateNames
+        }
+      )
     })
 
     this.userOperation$ = this.service.UserOperation
@@ -106,5 +138,4 @@ export class CommitmentDeliveryLocationComponent implements OnInit, OnDestroy {
     this.expandedSubscription$.unsubscribe()
     this.selectedElectoratesSubscription$.unsubscribe()
   }
-
 }
