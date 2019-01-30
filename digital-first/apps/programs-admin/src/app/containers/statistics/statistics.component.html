@@ -1,19 +1,30 @@
-<div *ngIf="(statistics$ | async) as statistics; else loading">
-  <div class="page_title">
-    <div class="reader-card-article__title page_title_text" mdcHeadline5>Statistics</div>
-  </div>
-  <div class="app-page">
-    <p>TODO: search/filter</p><!--TODO:  search/filter-->
-    <mdc-list>
-      <mdc-list-item *ngFor="let statistic of statistics">
-        <mdc-list-item-text>
-          <a [routerLink]="[statistic.id]">{{statistic.name}}</a>
-        </mdc-list-item-text>
-      </mdc-list-item>
-    </mdc-list>
-    <button (click)="add()" icon="add" mdc-fab position='bottomRight'></button>
+<div class="page_title">
+  <div class="reader-card-article__title page_title_text" mdcHeadline5>Statistics
   </div>
 </div>
-<ng-template #loading>
-  Loading...
-</ng-template>
+
+<div class="form-content">
+  <fieldset>
+    <div class="form-layout__row">
+      <mdc-text-field [outlined]="true"
+                      [(ngModel)]="searchText"
+                      (ngModelChange)="doSearch()"
+                      placeholder="search statistics..."
+                      autocomplete="off"
+                      type="text">
+        <mdc-icon mdcTextFieldIcon leading>search</mdc-icon>
+      </mdc-text-field>
+    </div>
+  </fieldset>
+  <mdc-list>
+    <mdc-list-item *ngFor="let statistic of statistics">
+      <mdc-list-item-text
+        secondaryText={{statistic.agency.title}}>
+        <a [routerLink]="[statistic.id]">{{statistic.name}}</a>
+      </mdc-list-item-text>
+    </mdc-list-item>
+  </mdc-list>
+</div>
+
+<button (click)="add()" icon="add" mdc-fab position='bottomRight'></button>
+

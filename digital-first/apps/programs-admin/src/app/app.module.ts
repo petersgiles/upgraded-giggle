@@ -53,6 +53,8 @@ import {environment} from '../environments/environment'
 import {FEDERATEDLOGINAPIPATH, APPBASEPATH} from '@digital-first/df-app-tokens'
 
 import {StatisticuploadComponent} from './containers/statisticupload/statisticupload.component'
+
+import {ReportuploadComponent} from './containers/reportupload/reportupload.component'
 import {GraphQLModule} from './graphql.module'
 import {ProjectuploadComponent} from './containers/projectupload/projectupload.component'
 import {ProgramsComponent} from './containers/programs/programs.component'
@@ -121,6 +123,7 @@ export function initApplication(): Function {
   declarations: [
     ...COMPONENTS,
     StatisticuploadComponent,
+    ReportuploadComponent,
     ProjectuploadComponent,
     ProgramsComponent,
     ProgramComponent,

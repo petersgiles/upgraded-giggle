@@ -1,22 +1,41 @@
-import {Component, OnInit} from '@angular/core'
-import {Users, UsersGQL} from '../../generated/graphql'
-import {map} from 'rxjs/operators'
-import {Observable} from 'rxjs'
+import {Component, OnDestroy, OnInit} from '@angular/core'
+import {AllUsersSearch, AllUsersSearchGQL} from '../../generated/graphql'
+import {Subscription} from 'rxjs'
 
 @Component({
   selector: 'digital-first-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements OnInit {
-  users$: Observable<(Users.Users | null)[]>
+export class UsersComponent implements OnDestroy {
 
-  constructor(private usersGQL: UsersGQL) {
+  users: AllUsersSearch.Users[]
+  subscriptions$: Subscription[] = []
+  searchText = ''
+
+  constructor(private allUsersSearchGQL: AllUsersSearchGQL) {
+
   }
 
-  ngOnInit() {
-    this.users$ = this.usersGQL.watch({},
-      {fetchPolicy: 'no-cache'})
-      .valueChanges.pipe(map(value => value.data.users))
+  doSearch() {
+    if (!this.searchText) {
+      return
+    }
+
+    const searchSubscription$ = this.allUsersSearchGQL
+      .watch({emailAddress: this.searchText}, {fetchPolicy: 'no-cache'})
+      .valueChanges.subscribe(value => {
+        this.users = value.data.users
+      })
+
+    this.subscriptions$ = [...this.subscriptions$, searchSubscription$]
   }
-}
+
+  ngOnDestroy(): void {
+    for (const subscription of this.subscriptions$) {
+      if (subscription && subscription.unsubscribe) {
+        subscription.unsubscribe()
+      }
+    }
+
+  }}

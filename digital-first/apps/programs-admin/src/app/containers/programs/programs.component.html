@@ -1,19 +1,29 @@
-<div *ngIf="(programs$ | async) as programs; else loading">
-  <div class="page_title">
-    <div class="reader-card-article__title page_title_text" mdcHeadline5>Programs</div>
+<div class="page_title">
+  <div class="reader-card-article__title page_title_text" mdcHeadline5>Programs
   </div>
+</div>
+
+<div class="form-content">
+  <fieldset>
+    <div class="form-layout__row">
+      <mdc-text-field [outlined]="true"
+                      [(ngModel)]="searchText"
+                      (ngModelChange)="doSearch()"
+                      placeholder="search programs..."
+                      autocomplete="off"
+                      type="text">
+        <mdc-icon mdcTextFieldIcon leading>search</mdc-icon>
+      </mdc-text-field>
+    </div>
+  </fieldset>
   <mdc-list>
     <mdc-list-item *ngFor="let program of programs">
       <mdc-list-item-text
         secondaryText={{program.agency.title}}>
-        <a [routerLink]="[program.id]">
-          {{program.name}}
-        </a>
+        <a [routerLink]="[program.id]">{{program.name}}</a>
       </mdc-list-item-text>
     </mdc-list-item>
   </mdc-list>
-  <button (click)="add()" icon="add" mdc-fab position='bottomRight'></button>
 </div>
-<ng-template #loading>
-  Loading...
-</ng-template>
+
+<button (click)="add()" icon="add" mdc-fab position='bottomRight'></button>

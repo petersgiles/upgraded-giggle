@@ -1,0 +1,8 @@
+query allUsersSearch($emailAddress : String) {
+  users(where: {path: "emailAddress", comparison: contains, value: [$emailAddress]},orderBy: {path: "emailAddress"}) {
+    id
+    emailAddress
+    lastLogin
+    rowVersion
+  }
+}

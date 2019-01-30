@@ -96,6 +96,22 @@ export interface CreateProgramAccessControlInputGraph {
   accessRights?: AccessRights | null;
 }
 
+export interface CreateProjectInputGraph {
+  name: string;
+
+  externalId?: string | null;
+
+  programId: Guid;
+
+  geoJson?: string | null;
+
+  notes?: string | null;
+
+  status?: string | null;
+
+  endDate?: Date | null;
+}
+
 export interface CreateReportInputGraph {
   name: string;
 
@@ -190,6 +206,10 @@ export interface DeleteProgramAccessControlInputGraph {
   accessControlListId: Guid;
 
   accessControlGroupId: Guid;
+}
+
+export interface DeleteProjectInputGraph {
+  id: Guid;
 }
 
 export interface DeleteReportInputGraph {
@@ -328,6 +348,26 @@ export interface UpdateProgramAccessControlInputGraph {
   accessRights?: AccessRights | null;
 }
 
+export interface UpdateProjectInputGraph {
+  externalId?: string | null;
+
+  endDate?: Date | null;
+
+  geoJson?: string | null;
+
+  id: Guid;
+
+  name: string;
+
+  notes?: string | null;
+
+  programId: Guid;
+
+  rowVersion: string;
+
+  status?: string | null;
+}
+
 export interface UpdateReportInputGraph {
   id: Guid;
 
@@ -433,7 +473,7 @@ export type DateTimeOffset = any;
 /** UInt32 */
 export type UInt32 = any;
 
-/** The `Date` scalar type represents a year, month and day in accordance with the[ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard. */
+/** The `Date` scalar type represents a year, month and day in accordance with the[ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard (yyyy-MM-dd). */
 export type Date = any;
 
 /** The `DateTime` scalar type represents a date and time. `DateTime` expectstimestamps to be formatted in accordance with the[ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard. */
@@ -599,6 +639,28 @@ export namespace Group {
 
 export namespace AllGroups {
   export type Variables = {};
+
+  export type Query = {
+    __typename?: 'Query';
+
+    groups: (Groups | null)[] | null;
+  };
+
+  export type Groups = {
+    __typename?: 'AccessControlGroupGraph';
+
+    id: Guid;
+
+    title: string;
+
+    rowVersion: string;
+  };
+}
+
+export namespace AllGroupsSearch {
+  export type Variables = {
+    title?: string | null;
+  };
 
   export type Query = {
     __typename?: 'Query';
@@ -1143,6 +1205,64 @@ export namespace AllPrograms {
   };
 }
 
+export namespace AllProgramsSearch {
+  export type Variables = {
+    name?: string | null;
+  };
+
+  export type Query = {
+    __typename?: 'Query';
+
+    programs: (Programs | null)[] | null;
+  };
+
+  export type Programs = {
+    __typename?: 'ProgramGraph';
+
+    id: Guid;
+
+    name: string;
+
+    agency: Agency | null;
+  };
+
+  export type Agency = {
+    __typename?: 'AgencyGraph';
+
+    id: Guid;
+
+    title: string;
+  };
+}
+
+export namespace AllProgramReports {
+  export type Variables = {};
+
+  export type Query = {
+    __typename?: 'Query';
+
+    programs: (Programs | null)[] | null;
+  };
+
+  export type Programs = {
+    __typename?: 'ProgramGraph';
+
+    id: Guid;
+
+    name: string;
+
+    reports: (Reports | null)[] | null;
+  };
+
+  export type Reports = {
+    __typename?: 'ReportGraph';
+
+    id: Guid;
+
+    name: string;
+  };
+}
+
 export namespace CreateStatisticReportAccessControl {
   export type Variables = {
     data?: CreateStatisticReportAccessControlInputGraph | null;
@@ -1583,6 +1703,36 @@ export namespace AllAgencies {
   };
 }
 
+export namespace AllStatisticsSearch {
+  export type Variables = {
+    name?: string | null;
+  };
+
+  export type Query = {
+    __typename?: 'Query';
+
+    statistics: (Statistics | null)[] | null;
+  };
+
+  export type Statistics = {
+    __typename?: 'StatisticGraph';
+
+    id: Guid;
+
+    name: string;
+
+    agency: Agency | null;
+  };
+
+  export type Agency = {
+    __typename?: 'AgencyGraph';
+
+    id: Guid;
+
+    title: string;
+  };
+}
+
 export namespace User {
   export type Variables = {
     userId: string;
@@ -1628,6 +1778,30 @@ export namespace User {
     rowVersion: string;
 
     disable: boolean;
+  };
+}
+
+export namespace AllUsersSearch {
+  export type Variables = {
+    emailAddress?: string | null;
+  };
+
+  export type Query = {
+    __typename?: 'Query';
+
+    users: (Users | null)[] | null;
+  };
+
+  export type Users = {
+    __typename?: 'UserGraph';
+
+    id: Guid;
+
+    emailAddress: string;
+
+    lastLogin: DateTimeOffset | null;
+
+    rowVersion: string;
   };
 }
 
@@ -1775,6 +1949,26 @@ export class AllGroupsGQL extends Apollo.Query<
   document: any = gql`
     query allGroups {
       groups(orderBy: { path: "title" }) {
+        id
+        title
+        rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class AllGroupsSearchGQL extends Apollo.Query<
+  AllGroupsSearch.Query,
+  AllGroupsSearch.Variables
+> {
+  document: any = gql`
+    query allGroupsSearch($title: String) {
+      groups(
+        where: { path: "title", comparison: contains, value: [$title] }
+        orderBy: { path: "title" }
+      ) {
         id
         title
         rowVersion
@@ -2144,6 +2338,51 @@ export class AllProgramsGQL extends Apollo.Query<
 @Injectable({
   providedIn: 'root'
 })
+export class AllProgramsSearchGQL extends Apollo.Query<
+  AllProgramsSearch.Query,
+  AllProgramsSearch.Variables
+> {
+  document: any = gql`
+    query allProgramsSearch($name: String) {
+      programs(
+        where: { path: "name", comparison: contains, value: [$name] }
+        orderBy: { path: "name" }
+      ) {
+        id
+        name
+        agency {
+          id
+          title
+        }
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class AllProgramReportsGQL extends Apollo.Query<
+  AllProgramReports.Query,
+  AllProgramReports.Variables
+> {
+  document: any = gql`
+    query allProgramReports {
+      programs(orderBy: { path: "name" }) {
+        id
+        name
+        reports(orderBy: { path: "name" }) {
+          id
+          name
+          __typename
+        }
+        __typename
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
 export class CreateStatisticReportAccessControlGQL extends Apollo.Mutation<
   CreateStatisticReportAccessControl.Mutation,
   CreateStatisticReportAccessControl.Variables
@@ -2466,6 +2705,29 @@ export class AllAgenciesGQL extends Apollo.Query<
 @Injectable({
   providedIn: 'root'
 })
+export class AllStatisticsSearchGQL extends Apollo.Query<
+  AllStatisticsSearch.Query,
+  AllStatisticsSearch.Variables
+> {
+  document: any = gql`
+    query allStatisticsSearch($name: String) {
+      statistics(
+        where: { path: "name", comparison: contains, value: [$name] }
+        orderBy: { path: "name" }
+      ) {
+        id
+        name
+        agency {
+          id
+          title
+        }
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
 export class UserGQL extends Apollo.Query<User.Query, User.Variables> {
   document: any = gql`
     query user($userId: String!) {
@@ -2482,6 +2744,31 @@ export class UserGQL extends Apollo.Query<User.Query, User.Variables> {
           rowVersion
           disable
         }
+        lastLogin
+        rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class AllUsersSearchGQL extends Apollo.Query<
+  AllUsersSearch.Query,
+  AllUsersSearch.Variables
+> {
+  document: any = gql`
+    query allUsersSearch($emailAddress: String) {
+      users(
+        where: {
+          path: "emailAddress"
+          comparison: contains
+          value: [$emailAddress]
+        }
+        orderBy: { path: "emailAddress" }
+      ) {
+        id
+        emailAddress
         lastLogin
         rowVersion
       }
