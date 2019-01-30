@@ -32,10 +32,12 @@ import { DeleteItemButtonComponent } from './delete-item-button.component'
 import { EditItemButtonComponent } from './edit-item-button.component'
 import { DataTablePagerComponent } from './data-table-pager/data-table-pager.component'
 import { ClearButtonComponent } from './clear-button.component'
+import { ExportButtonComponent } from './export-button.component'
 
 const COMPONENTS = [
   TagsComponent,
   ClearButtonComponent,
+  ExportButtonComponent,
   ViewLayoutButtonComponent,
   ContactCardComponent,
   PageTitleComponent,

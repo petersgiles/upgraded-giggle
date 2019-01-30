@@ -226,13 +226,11 @@ export const getAllOverviewCommitmentDataTables = createSelector(
             }, {
                 value: c.party && c.party.title
             }, {
-                value: c.criticalDate && c.criticalDate.title
-            }, {
                 value: c.portfolio && c.portfolio.title
             }, {
-                value: c.announcementType && c.announcementType.title
-            }, {
                 value: c.commitmentType && c.commitmentType.title
+            }, {
+                value: c.criticalDate && c.criticalDate.title
             }]
         }))
 
@@ -241,10 +239,10 @@ export const getAllOverviewCommitmentDataTables = createSelector(
             headings: [
                 { caption: 'Title' },
                 { caption: 'Party' },
-                { caption: 'Critical Date' },
                 { caption: 'Responsible Portfolio' },
-                { caption: 'Announcement' },
-                { caption: 'Commitment' }],
+                { caption: 'Type of Commitment' },
+                { caption: 'Critical Date' }
+            ],
             rows: rows
         }
 

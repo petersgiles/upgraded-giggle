@@ -119,6 +119,10 @@ export class CommitmentDataService {
     return this.store.pipe(select(fromRoot.getAllOverviewCommitmentDataTables))
   }
 
+  get CommitmentFiltered(): Observable<any> {
+    return this.store.pipe(select(fromRoot.getAllOverviewCommitments))
+  }
+
   get CommitmentSubscription(): Observable<boolean> {
     return this.store.pipe(select(fromRoot.getIsSubscribed))
   }
