@@ -119,6 +119,10 @@ export class CommitmentDataService {
     return this.store.pipe(select(fromRoot.getAllOverviewCommitmentDataTables))
   }
 
+  get CommitmentFiltered(): Observable<any> {
+    return this.store.pipe(select(fromRoot.getAllOverviewCommitments))
+  }
+
   get CommitmentSubscription(): Observable<boolean> {
     return this.store.pipe(select(fromRoot.getIsSubscribed))
   }
@@ -188,6 +192,8 @@ export class CommitmentDataService {
   }
 
   clearAllRefiners() {
+    // tslint:disable-next-line:no-console
+    console.log('clearAllRefiners')
     this.store.dispatch(new ClearAllRefiners())
   }
 

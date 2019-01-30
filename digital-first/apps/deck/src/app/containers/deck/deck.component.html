@@ -1,5 +1,5 @@
 <div class="container">
-  <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="todo"
+  <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="deck"
       [cdkDropListConnectedTo]="doneList" (cdkDropListDropped)="drop($event)">
     <digital-first-card *ngFor="let card of deck" cdkDrag [card]="card"></digital-first-card>
   </div>

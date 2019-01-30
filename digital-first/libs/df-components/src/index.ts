@@ -12,8 +12,9 @@ export { AutosaveToggleButtonComponent } from './lib/autosave-toggle-button.comp
 export { PrintPageButtonComponent } from './lib/print-page-button.component'
 export { DeleteItemButtonComponent } from './lib/delete-item-button.component'
 export { EditItemButtonComponent } from './lib/edit-item-button.component'
-
+export { ClearButtonComponent } from './lib/clear-button.component'
 export { ViewLayoutButtonComponent } from './lib/view-layout-button.component'
+export { ExportButtonComponent } from './lib/export-button.component'
 
 export { MetadataRefinerComponent, RefinerGroup, RefinerType } from './lib/metadata-refiner'
 export { DataTableComponent, DataTableConfig, DataTableCell, DataTableHeader, DataTableRow } from './lib/data-table'
