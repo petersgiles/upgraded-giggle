@@ -3,10 +3,10 @@ import {Routes, RouterModule} from '@angular/router'
 import {HomeComponent} from './containers/home/home.component'
 import {FullLayoutComponent} from '@digital-first/df-layouts'
 import {StatisticuploadComponent} from './containers/statisticupload/statisticupload.component'
+import {ReportuploadComponent} from './containers/reportupload/reportupload.component'
 import {ProjectuploadComponent} from './containers/projectupload/projectupload.component'
 import {ProgramsComponent} from './containers/programs/programs.component'
 import {ProgramComponent} from './containers/program/program.component'
-
 import {ProgramAddComponent} from './containers/program/program-add/program-add.component'
 import {ProgramEditComponent} from './containers/program/program-edit/program-edit.component'
 import {ReportAddComponent} from './containers/program-reports/report-add/report-add.component'
@@ -232,6 +232,16 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
           title: 'Upload Statistic',
+          icon: 'format_list_numbered',
+          nav: true
+        }
+      },
+      {
+        path: 'upload/report',
+        component: ReportuploadComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'Upload Report',
           icon: 'format_list_numbered',
           nav: true
         }

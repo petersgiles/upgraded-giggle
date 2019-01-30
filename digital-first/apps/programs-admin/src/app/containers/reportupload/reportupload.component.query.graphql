@@ -1,0 +1,12 @@
+query allProgramReports {
+  programs(orderBy: {path: "name"}) {
+    id
+    name
+    reports(orderBy: {path: "name"}) {
+      id
+      name
+      __typename
+    }
+    __typename
+  }
+}

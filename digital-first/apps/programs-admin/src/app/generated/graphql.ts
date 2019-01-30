@@ -101,8 +101,6 @@ export interface CreateProjectInputGraph {
 
   externalId?: string | null;
 
-  committed?: string | null;
-
   programId: Guid;
 
   geoJson?: string | null;
@@ -348,6 +346,26 @@ export interface UpdateProgramAccessControlInputGraph {
   rowVersion: string;
 
   accessRights?: AccessRights | null;
+}
+
+export interface UpdateProjectInputGraph {
+  externalId?: string | null;
+
+  endDate?: Date | null;
+
+  geoJson?: string | null;
+
+  id: Guid;
+
+  name: string;
+
+  notes?: string | null;
+
+  programId: Guid;
+
+  rowVersion: string;
+
+  status?: string | null;
 }
 
 export interface UpdateReportInputGraph {
@@ -1214,6 +1232,34 @@ export namespace AllProgramsSearch {
     id: Guid;
 
     title: string;
+  };
+}
+
+export namespace AllProgramReports {
+  export type Variables = {};
+
+  export type Query = {
+    __typename?: 'Query';
+
+    programs: (Programs | null)[] | null;
+  };
+
+  export type Programs = {
+    __typename?: 'ProgramGraph';
+
+    id: Guid;
+
+    name: string;
+
+    reports: (Reports | null)[] | null;
+  };
+
+  export type Reports = {
+    __typename?: 'ReportGraph';
+
+    id: Guid;
+
+    name: string;
   };
 }
 
@@ -2308,6 +2354,28 @@ export class AllProgramsSearchGQL extends Apollo.Query<
           id
           title
         }
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class AllProgramReportsGQL extends Apollo.Query<
+  AllProgramReports.Query,
+  AllProgramReports.Variables
+> {
+  document: any = gql`
+    query allProgramReports {
+      programs(orderBy: { path: "name" }) {
+        id
+        name
+        reports(orderBy: { path: "name" }) {
+          id
+          name
+          __typename
+        }
+        __typename
       }
     }
   `;
