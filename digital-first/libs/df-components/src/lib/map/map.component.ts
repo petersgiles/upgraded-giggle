@@ -38,6 +38,12 @@ export class MapComponent implements OnInit {
   @Input() readOnly = false
 
   @Input()
+  centreDefault = {
+    latitude: -33.8688,
+    longitude: 151.2092
+  }
+
+  @Input()
   set mapPoints(val: MapPoint[]) {
     this._mapPoints = val
 
@@ -94,17 +100,14 @@ export class MapComponent implements OnInit {
     // set google maps defaults
     this.zoom = 8
 
-    this.latitude = -33.8688
-    this.longitude = 151.2092
+    this.latitude = this.centreDefault.latitude
+    this.longitude = this.centreDefault.longitude
 
     // set centre position
-    if (this._mapPoints) {
-      this.centre = getLatLngCenter(this._mapPoints)
+    if (!this._mapPoints || this._mapPoints.length === 0) {
+      this.centre = this.centreDefault
     } else {
-      this.centre = {
-        latitude: -33.8688,
-        longitude: 151.2092
-      }
+      this.centre = getLatLngCenter(this._mapPoints)
     }
 
     this.setCurrentPosition(this.centre)
