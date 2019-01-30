@@ -1,40 +1,40 @@
-import {NgModule} from '@angular/core'
-import {Routes, RouterModule} from '@angular/router'
-import {HomeComponent} from './containers/home/home.component'
-import {FullLayoutComponent} from '@digital-first/df-layouts'
-import {StatisticuploadComponent} from './containers/statisticupload/statisticupload.component'
-import {ReportuploadComponent} from './containers/reportupload/reportupload.component'
-import {ProjectuploadComponent} from './containers/projectupload/projectupload.component'
-import {ProgramsComponent} from './containers/programs/programs.component'
-import {ProgramComponent} from './containers/program/program.component'
-import {ProgramAddComponent} from './containers/program/program-add/program-add.component'
-import {ProgramEditComponent} from './containers/program/program-edit/program-edit.component'
-import {ReportAddComponent} from './containers/program-reports/report-add/report-add.component'
-import {AuthGuard} from '@digital-first/df-auth'
-import {ProgramReportComponent} from './containers/program-report/program-report.component'
-import {UsersComponent} from './containers/users/users.component'
-import {UserComponent} from './containers/user/user.component'
-import {GroupsComponent} from './containers/groups/groups.component'
-import {GroupComponent} from './containers/group/group.component'
-import {GroupAddComponent} from './containers/group/group-add/group-add.component'
-import {GroupEditComponent} from './containers/group/group-edit/group-edit.component'
-import {StatisticsComponent} from './containers/statistics/statistics.component'
-import {StatisticComponent} from './containers/statistic/statistic.component'
-import {StatisticAddComponent} from './containers/statistic/statistic-add/statistic-add.component'
-import {StatisticEditComponent} from './containers/statistic/statistic-edit/statistic-edit.component'
-import {StatisticReportComponent} from './containers/statistic-report/statistic-report.component'
-import {StatisticReportAddComponent} from './containers/statistic-reports/statistic-report-add/statistic-report-add.component'
-import {StatisticReportEditComponent} from './containers/statistic-reports/statistic-report-edit/statistic-report-edit.component'
-import {ReportEditComponent} from './containers/program-reports/report-edit/report-edit.component'
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
+import { HomeComponent } from './containers/home/home.component'
+import { FullLayoutComponent } from '@digital-first/df-layouts'
+import { StatisticuploadComponent } from './containers/statisticupload/statisticupload.component'
+import { ReportuploadComponent } from './containers/reportupload/reportupload.component'
+import { ProjectuploadComponent } from './containers/projectupload/projectupload.component'
+import { ProgramsComponent } from './containers/programs/programs.component'
+import { ProgramComponent } from './containers/program/program.component'
+import { ProgramAddComponent } from './containers/program/program-add/program-add.component'
+import { ProgramEditComponent } from './containers/program/program-edit/program-edit.component'
+import { ReportAddComponent } from './containers/program-reports/report-add/report-add.component'
+import { AuthGuard } from '@digital-first/df-auth'
+import { ProgramReportComponent } from './containers/program-report/program-report.component'
+import { UsersComponent } from './containers/users/users.component'
+import { UserComponent } from './containers/user/user.component'
+import { GroupsComponent } from './containers/groups/groups.component'
+import { GroupComponent } from './containers/group/group.component'
+import { GroupAddComponent } from './containers/group/group-add/group-add.component'
+import { GroupEditComponent } from './containers/group/group-edit/group-edit.component'
+import { StatisticsComponent } from './containers/statistics/statistics.component'
+import { StatisticComponent } from './containers/statistic/statistic.component'
+import { StatisticAddComponent } from './containers/statistic/statistic-add/statistic-add.component'
+import { StatisticEditComponent } from './containers/statistic/statistic-edit/statistic-edit.component'
+import { StatisticReportComponent } from './containers/statistic-report/statistic-report.component'
+import { StatisticReportAddComponent } from './containers/statistic-reports/statistic-report-add/statistic-report-add.component'
+import { StatisticReportEditComponent } from './containers/statistic-reports/statistic-report-edit/statistic-report-edit.component'
+import { ReportEditComponent } from './containers/program-reports/report-edit/report-edit.component'
 
 export const routes: Routes = [
-  {path: '', redirectTo: 'home', pathMatch: 'full'},
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
     path: '',
     component: FullLayoutComponent,
     canActivate: [AuthGuard],
     children: [
-      {path: '', redirectTo: 'home', pathMatch: 'full'},
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
         path: 'home',
         component: HomeComponent,
@@ -227,6 +227,16 @@ export const routes: Routes = [
         }
       },
       {
+        path: 'upload/report',
+        component: ReportuploadComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'Upload Report',
+          icon: 'description',
+          nav: true
+        }
+      },
+      {
         path: 'upload/statistic',
         component: StatisticuploadComponent,
         canActivate: [AuthGuard],
@@ -235,24 +245,15 @@ export const routes: Routes = [
           icon: 'format_list_numbered',
           nav: true
         }
-      },
-      {
-        path: 'upload/report',
-        component: ReportuploadComponent,
-        canActivate: [AuthGuard],
-        data: {
-          title: 'Upload Report',
-          icon: 'format_list_numbered',
-          nav: true
-        }
       }
+
     ]
   },
-  {path: '**', redirectTo: 'home'}
+  { path: '**', redirectTo: 'home' }
 ]
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {enableTracing: false})],
+  imports: [RouterModule.forRoot(routes, { enableTracing: false })],
   exports: [RouterModule]
 })
 export class AppRoutingModule {
