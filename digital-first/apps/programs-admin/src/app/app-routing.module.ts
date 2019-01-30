@@ -91,16 +91,6 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'projects',
-        component: ProjectsComponent,
-        canActivate: [AuthGuard],
-        data: {
-          title: 'Projects',
-          icon: 'group_work',
-          nav: true
-        }
-      },
-      {
         path: 'programs/add',
         component: ProgramAddComponent,
         canActivate: [AuthGuard],
@@ -148,6 +138,16 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
           nav: false
+        }
+      },
+      {
+        path: 'projects',
+        component: ProjectsComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'Projects',
+          icon: 'group_work',
+          nav: true
         }
       },
       {
