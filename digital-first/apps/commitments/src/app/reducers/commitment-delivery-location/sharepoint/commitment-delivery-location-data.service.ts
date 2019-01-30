@@ -55,8 +55,18 @@ export class DeliveryLocationDataSharePointService
       })
       .pipe(
         map(mapCommitmentMapPoints),
+        // tslint:disable-next-line:no-console
+        tap(result => console.log(result)),
         concatMap((commitmentMapPoints: any) => {
           const mpIds = commitmentMapPoints.map(mp => mp.mapPoint)
+
+          if (!mpIds.length) {
+            return of({
+              data: { mapPoints: [] },
+              loading: false
+            })
+          }
+
           const mapPointViewXml = byIdsQuery(mpIds)
 
           return this.sharepoint

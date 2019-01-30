@@ -11,7 +11,9 @@ export const byIdQuery = (criteria: { id }) =>
       </Query>
   </View>`
 
-export const byIdsQuery = (criteria: []) => {
+export const byIdsQuery = (criteria: []): string => {
+
+    if (criteria.length === 0) { return null}
 
     const set = criteria.map(id => `<Eq><FieldRef Name='ID' /><Value Type='Number'>${id}</Value></Eq>`)
 

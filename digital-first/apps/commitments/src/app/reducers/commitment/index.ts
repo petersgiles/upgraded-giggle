@@ -78,7 +78,7 @@ export const getCurrentCommitment = createSelector(
                 ...commitment,
                 portfolio: findInLookup(commitment.portfolio, lookups.portfolios),
                 party: findInLookup(commitment.party, lookups.partys),
-                location: findInLookup(commitment.location, lookups.locations),
+               // location: findInLookup(commitment.location, lookups.locations),
                 whoAnnouncedType: findInLookup(commitment.whoAnnouncedType, lookups.whoAnnouncedTypes),
                 themeType: findInLookup(commitment.themeType, extraLookups.themeTypes),
                 packageType: findInLookup(commitment.packageType, extraLookups.packageTypes),

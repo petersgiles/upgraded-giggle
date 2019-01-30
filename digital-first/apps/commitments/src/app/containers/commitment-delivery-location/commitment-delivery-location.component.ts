@@ -26,7 +26,7 @@ export class CommitmentDeliveryLocationComponent implements OnInit, OnDestroy {
   selectedElectorateIds: number[] = []
   mapPoint$: Observable<MapPoint[]>
   selectedElectoratesSubscription$: Subscription
-  selectedElectorateNames: string[] = [];
+  selectedElectorateNames: string[] = []
 
   constructor(private router: Router, public dialog: MdcDialog, private service: DeliveryLocationService, private lookup: CommitmentLookupService) {
     this.electorates$ = this.lookup.Locations
@@ -86,10 +86,12 @@ export class CommitmentDeliveryLocationComponent implements OnInit, OnDestroy {
 
     // TODO: Below hack just to get it working needs to be fixed.
     this.electorates$.subscribe((electorates) => {
-      this.selectedElectoratesSubscription$ = this.service.Electorates.subscribe((p: any[]) => {
-        this.selectedElectorateIds = p ? p.map(e => e.id) : []
-        if(electorates != null)
-          this.selectedElectorateNames = p ? p.map(e => electorates.filter(el => e.id == el.id)[0].title) : []
+      if (!electorates) { return }
+      this.selectedElectoratesSubscription$ = this.service.Electorates.subscribe(
+        (selectedElectorates: any[]) => {
+        this.selectedElectorateIds = selectedElectorates ? selectedElectorates.map(selectedElectorate => selectedElectorate.electorate) : []
+        this.selectedElectorateNames = selectedElectorates ? selectedElectorates.map(selectedElectorate =>
+          electorates.filter(electorate => selectedElectorate.electorate === electorate.id)[0].title) : []
       })
     })
 
