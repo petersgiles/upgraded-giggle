@@ -7,6 +7,7 @@ import { ReportuploadComponent } from './containers/reportupload/reportupload.co
 import { ProjectuploadComponent } from './containers/projectupload/projectupload.component'
 import { ProgramsComponent } from './containers/programs/programs.component'
 import { ProgramComponent } from './containers/program/program.component'
+import { ProjectsComponent } from './containers/projects/projects.component'
 import { ProgramAddComponent } from './containers/program/program-add/program-add.component'
 import { ProgramEditComponent } from './containers/program/program-edit/program-edit.component'
 import { ReportAddComponent } from './containers/program-reports/report-add/report-add.component'
@@ -86,6 +87,16 @@ export const routes: Routes = [
         data: {
           title: 'Programs',
           icon: 'live_tv',
+          nav: true
+        }
+      },
+      {
+        path: 'projects',
+        component: ProjectsComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'Projects',
+          icon: 'group_work',
           nav: true
         }
       },
