@@ -8,6 +8,7 @@ import { DataTableConfig } from '@digital-first/df-components'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 import { showSnackBar } from '../../dialogs/show-snack-bar'
 import { ExcelService } from '../../services/excel.service'
+import { DateFormatPipe } from '@digital-first/df-moment'
 @Component({
   selector: 'digital-first-commitment-overview',
   templateUrl: './commitment-overview.component.html',
@@ -32,7 +33,8 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
   filteredCommitments: any
 
   constructor(private snackbar: MdcSnackbar, public dialog: MdcDialog, private router: Router, private service: CommitmentDataService,
-    private lookup: CommitmentLookupService, private excelService: ExcelService) { }
+    private lookup: CommitmentLookupService, private excelService: ExcelService,
+    private dateFormat:DateFormatPipe ) { }
 
   ngOnInit() {
     this.commitments$ = this.service.Commitments
@@ -103,8 +105,6 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
   }
 
   handleClearAllFilters() {
-    // tslint:disable-next-line:no-console
-    console.log('handleClearAllFilters')
     this.service.clearAllRefiners()
   }
 
@@ -147,7 +147,7 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
       'Party': fc.party ? fc.party.title : '',
       'Responsible Portfolio': fc.portfolio ? fc.portfolio.title : '',
       'Type of Commitment': fc.commitmentType ? fc.commitmentType.title : '',
-      'Critical Date': fc.date
+      'Critical Date': this.dateFormat.transform(fc.date, 'LL')
     }))
 
     this.excelService.exportAsExcelFile(exportCommitments, 'commitments')
