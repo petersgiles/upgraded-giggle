@@ -1235,6 +1235,60 @@ export namespace AllProgramsSearch {
   };
 }
 
+export namespace AllProjects {
+  export type Variables = {};
+
+  export type Query = {
+    __typename?: 'Query';
+
+    projects: (Projects | null)[] | null;
+  };
+
+  export type Projects = {
+    __typename?: 'ProjectGraph';
+
+    id: Guid;
+
+    name: string;
+
+    program: Program | null;
+  };
+
+  export type Program = {
+    __typename?: 'ProgramGraph';
+
+    name: string;
+  };
+}
+
+export namespace AllProjectsSearch {
+  export type Variables = {
+    name?: string | null;
+  };
+
+  export type Query = {
+    __typename?: 'Query';
+
+    projects: (Projects | null)[] | null;
+  };
+
+  export type Projects = {
+    __typename?: 'ProjectGraph';
+
+    id: Guid;
+
+    name: string;
+
+    program: Program | null;
+  };
+
+  export type Program = {
+    __typename?: 'ProgramGraph';
+
+    name: string;
+  };
+}
+
 export namespace AllProgramReports {
   export type Variables = {};
 
@@ -2353,6 +2407,47 @@ export class AllProgramsSearchGQL extends Apollo.Query<
         agency {
           id
           title
+        }
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class AllProjectsGQL extends Apollo.Query<
+  AllProjects.Query,
+  AllProjects.Variables
+> {
+  document: any = gql`
+    query allProjects {
+      projects(orderBy: { path: "name" }) {
+        id
+        name
+        program {
+          name
+        }
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class AllProjectsSearchGQL extends Apollo.Query<
+  AllProjectsSearch.Query,
+  AllProjectsSearch.Variables
+> {
+  document: any = gql`
+    query allProjectsSearch($name: String) {
+      projects(
+        where: { path: "name", comparison: contains, value: [$name] }
+        orderBy: { path: "name" }
+      ) {
+        id
+        name
+        program {
+          name
         }
       }
     }

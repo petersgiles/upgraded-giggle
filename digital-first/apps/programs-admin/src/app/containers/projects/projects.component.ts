@@ -1,27 +1,27 @@
 import {Component, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy} from '@angular/core'
-import {AllGroupsSearch, AllGroupsSearchGQL} from '../../generated/graphql'
+import {AllProjectsSearch, AllProjectsSearchGQL} from '../../generated/graphql'
 import {Subscription} from 'rxjs'
 import {Router} from '@angular/router'
-
 @Component({
-  selector: 'digital-first-groups',
-  templateUrl: './groups.component.html',
-  styleUrls: ['./groups.component.scss'],
+  selector: 'digital-first-projects',
+  templateUrl: './projects.component.html',
+  styleUrls: ['./projects.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GroupsComponent implements OnDestroy {
 
-  groups: AllGroupsSearch.Groups[]
+export class ProjectsComponent implements OnDestroy {
+
+  projects:  AllProjectsSearch.Projects[]
   subscriptions$: Subscription[] = []
   searchText = ''
 
-  constructor(private searchGroupsGQL: AllGroupsSearchGQL,
+  constructor(private searchProjectsGQL: AllProjectsSearchGQL,
               private changeDetector: ChangeDetectorRef,
               private router: Router) {
   }
 
   add() {
-    return this.router.navigate(['groups', 'add'])
+    return this.router.navigate(['Projects', 'add'])
   }
 
   doSearch() {
@@ -29,10 +29,10 @@ export class GroupsComponent implements OnDestroy {
       return
     }
 
-    const searchSubscription$ = this.searchGroupsGQL
-      .watch({title: this.searchText}, {fetchPolicy: 'no-cache'})
+    const searchSubscription$ = this.searchProjectsGQL
+      .watch({name: this.searchText}, {fetchPolicy: 'no-cache'})
       .valueChanges.subscribe(value => {
-        this.groups = value.data.groups
+        this.projects = value.data.projects
         this.changeDetector.detectChanges()
       })
 

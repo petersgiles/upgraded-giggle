@@ -1,0 +1,19 @@
+query allProjects {
+  projects (orderBy: {path: "name"}){
+    id
+    name
+    program{
+      name
+    }
+  }
+}
+
+query allProjectsSearch($name: String) {
+  projects(where: {path: "name", comparison: contains, value: [$name]}, orderBy:{path:"name"}) {
+    id
+    name
+    program {
+        name
+    }
+  }
+}
