@@ -1,6 +1,6 @@
 import * as fromRelatedLink from './related-link.reducer'
 import { createSelector } from '@ngrx/store'
-import { DataTableConfig } from '@digital-first/df-components'
+import { DataTableConfig } from '@digital-first/df-datatable'
 
 import * as fromCommitmentRelatedLinks from './related-link.reducer'
 

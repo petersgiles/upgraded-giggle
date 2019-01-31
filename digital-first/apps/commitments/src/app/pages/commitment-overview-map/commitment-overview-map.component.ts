@@ -2,8 +2,9 @@ import { LoggerService } from '@digital-first/df-logging'
 import { Component, OnInit } from '@angular/core'
 import { CommitmentOverviewMapService } from '../../reducers/commitment-overview-map/commitment-overview-map.service'
 import { Observable } from 'rxjs'
-import { MapPoint, DataTableConfig } from '@digital-first/df-components'
+import { MapPoint } from '@digital-first/df-map'
 import { Router } from '@angular/router'
+import { DataTableConfig } from '@digital-first/df-datatable'
 
 @Component({
   selector: 'digital-first-commitment-overview-map',

@@ -12,8 +12,8 @@ import {
 import { MapsAPILoader } from '@agm/core'
 import { FormControl } from '@angular/forms'
 import { MapPoint } from './map-point-model'
-import { DataTableConfig } from '../data-table/data-table-model'
 import { getLatLngCenter } from '@digital-first/df-utils'
+import { DataTableConfig } from '@digital-first/df-datatable'
 
 @Component({
   selector: 'digital-first-map',

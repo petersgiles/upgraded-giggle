@@ -6,7 +6,7 @@ import { Observable } from 'rxjs'
 import { DataResult } from '../../models'
 import { DeliveryLocationDataSharePointService } from './sharepoint/commitment-delivery-location-data.service'
 import { DeliveryLocationDataApolloService } from './apollo/commitment-delivery-location-data.service'
-import { MapPoint } from '@digital-first/df-components'
+import { MapPoint } from '@digital-first/df-map'
 
 @Injectable({
   providedIn: 'root'

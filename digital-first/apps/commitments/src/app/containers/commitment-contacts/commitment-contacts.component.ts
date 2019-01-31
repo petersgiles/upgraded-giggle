@@ -5,8 +5,8 @@ import { Subscription, Observable } from 'rxjs'
 import { Router } from '@angular/router'
 import { DialogAddContactComponent, DialogAreYouSureComponent, ARE_YOU_SURE_ACCEPT } from '@digital-first/df-dialogs'
 import { first } from 'rxjs/operators'
-import { DataTableConfig } from '@digital-first/df-components'
-import { OPERATION_CONTACTS } from '../../services/app-data.service';
+import { DataTableConfig } from '@digital-first/df-datatable'
+import { OPERATION_CONTACTS } from '../../services/app-data.service'
 
 @Component({
   selector: 'digital-first-commitment-contacts',
@@ -44,7 +44,6 @@ export class CommitmentContactsComponent implements OnInit, OnDestroy {
   getRight(operations: any) {
     return operations[OPERATION_CONTACTS]
   }
-
 
   handleOpenContactDialog() {
 

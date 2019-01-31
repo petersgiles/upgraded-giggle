@@ -10,7 +10,7 @@ import {
   AddMapPointToCommitment,
   RemoveMapPointFromCommitment
 } from './commitment-delivery-location.actions'
-import { MapPoint } from '@digital-first/df-components'
+import { MapPoint } from '@digital-first/df-map'
 import { Electorate } from '../../models'
 
 @Injectable({

@@ -10,7 +10,6 @@ import { NgxWigModule } from 'ngx-wig'
 import { AgmCoreModule } from '@agm/core'
 import { NgSelectModule } from '@ng-select/ng-select'
 import { MarkdownModule, MarkedOptions } from 'ngx-markdown'
-import { MdcChipsModule } from '@angular-mdc/web'
 
 import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
@@ -22,22 +21,12 @@ import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfMomentModule, DateFormatPipe } from '@digital-first/df-moment'
 import { WINDOW_PROVIDERS } from '@digital-first/df-utils'
 
-
 import {
   DfComponentsModule,
-  TagsComponent,
-  ViewLayoutButtonComponent,
   ContactCardComponent,
   PageTitleComponent,
-  ExpandCollapseButtonComponent,
-  DateFormatButtonComponent,
-  AddItemButtonComponent,
-  ShareButtonComponent,
-  AddNotificationButtonComponent,
-  ArchiveButtonComponent,
   RelatedArtifactsComponent,
   MetadataRefinerComponent,
-  DataTableComponent
 } from '@digital-first/df-components'
 
 import { AppComponent } from './app.component'
@@ -110,6 +99,9 @@ import { relatedCommitmentsDataServiceProvider } from './reducers/related-commit
 import { deliveryLocationsDataServiceProvider } from './reducers/commitment-delivery-location/commitment-delivery-location-data.service'
 import { DeliveryLocationEffects } from './reducers/commitment-delivery-location/commitment-delivery-location.effects'
 import { ExcelService } from './services/excel.service'
+import { DfButtonsModule } from '@digital-first/df-buttons'
+import { DfMapModule } from '@digital-first/df-map'
+import { DfDatatableModule } from '@digital-first/df-datatable'
 
 const COMPONENTS = [
   AppComponent,
@@ -146,19 +138,10 @@ const ENTRYCOMPONENTS = [
   DialogAddCommitmentComponent,
   DialogAddLinkComponent,
   DiscussionComponent,
-  TagsComponent,
-  ViewLayoutButtonComponent,
   ContactCardComponent,
   PageTitleComponent,
-  ExpandCollapseButtonComponent,
-  DateFormatButtonComponent,
-  AddItemButtonComponent,
-  ShareButtonComponent,
-  AddNotificationButtonComponent,
-  ArchiveButtonComponent,
   RelatedArtifactsComponent,
-  MetadataRefinerComponent,
-  DataTableComponent
+  MetadataRefinerComponent
 ]
 
 export function initApplication(store: Store<fromRoot.State>): Function {
@@ -211,7 +194,6 @@ export let appDataServiceProvider = {
     BrowserModule,
     HttpClientModule,
     NgSelectModule,
-    MdcChipsModule,
     FormsModule,
     ReactiveFormsModule,
     AgmCoreModule.forRoot({
@@ -239,6 +221,9 @@ export let appDataServiceProvider = {
     NxModule.forRoot(),
     DfLoggingModule,
     DfComponentsModule,
+    DfDatatableModule,
+    DfButtonsModule,
+    DfMapModule,
     DfMomentModule,
     DfLayoutsModule,
     DfThemeModule,

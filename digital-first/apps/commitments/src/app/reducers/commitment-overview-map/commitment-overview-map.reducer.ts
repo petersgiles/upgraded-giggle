@@ -1,5 +1,5 @@
 import { CommitmentOverviewMapActions, CommitmentOverviewMapActionTypes } from './commitment-overview-map.actions'
-import { MapPoint } from '@digital-first/df-components'
+import { MapPoint } from '@digital-first/df-map'
 import { Commitment } from '../commitment/commitment.model'
 
 export interface State {

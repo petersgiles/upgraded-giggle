@@ -5,7 +5,7 @@ import { RelatedCommitment } from '../reducers/related-commitment/related-commit
 import { CommitmentAction } from '../reducers/commitment-action/commitment-action.model'
 import { RelatedLink } from '../reducers/related-link/related-link.model'
 import { GroupPermission } from '../reducers/user/user.model'
-import { MapPoint } from '@digital-first/df-components'
+import { MapPoint } from '@digital-first/df-map'
 
 export { CommitmentType, CommitmentTypesResult } from './commitment-type.model'
 export { Electorate, LocationsResult } from './location.model'

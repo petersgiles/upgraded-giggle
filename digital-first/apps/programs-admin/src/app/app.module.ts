@@ -29,19 +29,10 @@ import {DfMomentModule} from '@digital-first/df-moment'
 import {WINDOW_PROVIDERS} from '@digital-first/df-utils'
 import {
   DfComponentsModule,
-  TagsComponent,
-  ViewLayoutButtonComponent,
   ContactCardComponent,
   PageTitleComponent,
-  ExpandCollapseButtonComponent,
-  DateFormatButtonComponent,
-  AddItemButtonComponent,
-  ShareButtonComponent,
-  AddNotificationButtonComponent,
-  ArchiveButtonComponent,
   RelatedArtifactsComponent,
-  MetadataRefinerComponent,
-  DataTableComponent
+  MetadataRefinerComponent
 } from '@digital-first/df-components'
 
 import {AppComponent} from './app.component'
@@ -82,8 +73,9 @@ import {StatisticReportsComponent} from './containers/statistic-reports/statisti
 import {StatisticReportComponent} from './containers/statistic-report/statistic-report.component'
 import {StatisticReportAddComponent} from './containers/statistic-reports/statistic-report-add/statistic-report-add.component'
 import {StatisticReportEditComponent} from './containers/statistic-reports/statistic-report-edit/statistic-report-edit.component'
-import {ReportEditComponent} from './containers/program-reports/report-edit/report-edit.component';
+import {ReportEditComponent} from './containers/program-reports/report-edit/report-edit.component'
 import { ProjectsComponent } from './containers/projects/projects.component'
+import { DataTableComponent } from '@digital-first/df-datatable'
 
 const COMPONENTS = [AppComponent, HomeComponent]
 
@@ -96,16 +88,8 @@ const ENTRYCOMPONENTS = [
   DialogAssignGroupPermissionComponent,
   DialogAssignUserToGroupComponent,
   DiscussionComponent,
-  TagsComponent,
-  ViewLayoutButtonComponent,
   ContactCardComponent,
   PageTitleComponent,
-  ExpandCollapseButtonComponent,
-  DateFormatButtonComponent,
-  AddItemButtonComponent,
-  ShareButtonComponent,
-  AddNotificationButtonComponent,
-  ArchiveButtonComponent,
   RelatedArtifactsComponent,
   MetadataRefinerComponent,
   DataTableComponent

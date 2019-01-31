@@ -1,5 +1,5 @@
 import { idFromLookup } from '@digital-first/df-sharepoint'
-import { MapPoint } from '@digital-first/df-components'
+import { MapPoint } from '@digital-first/df-map'
 import { Electorate } from '../../../models'
 
 export const mapCommitmentMapPoint = (commitmentMapPoint): any => ({

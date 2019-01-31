@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store'
-import { RefinerGroup, DataTableConfig } from '@digital-first/df-components'
+import { RefinerGroup } from '@digital-first/df-components'
 
 import * as fromCommitmentOverview from './commitment-overview.reducer'
 
@@ -20,6 +20,7 @@ import {
     getAllPartys
 } from '../commitment-lookup'
 import { findInLookup } from '../utils'
+import { DataTableConfig } from '@digital-first/df-datatable'
 
 export const getCommitmentOverviewState = state => state.commitmentOverview
 

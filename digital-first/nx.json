@@ -64,6 +64,21 @@
     },
     "df-app-tokens": {
       "tags": []
+    },
+    "df-tag": {
+      "tags": []
+    },
+    "df-datatable": {
+      "tags": []
+    },
+    "df-buttons": {
+      "tags": []
+    },
+    "df-map": {
+      "tags": []
+    },
+    "df-refiner": {
+      "tags": []
     }
   }
 }

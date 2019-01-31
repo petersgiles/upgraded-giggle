@@ -1,6 +1,6 @@
 import * as fromRelatedCommitment from './related-commitment.reducer'
 import { createSelector } from '@ngrx/store'
-import { DataTableConfig } from '@digital-first/df-components'
+import { DataTableConfig } from '@digital-first/df-datatable'
 import { formatCommitmentTitle } from '../../formatters'
 
 import * as fromCommitmentRelatedCommitments from './related-commitment.reducer'

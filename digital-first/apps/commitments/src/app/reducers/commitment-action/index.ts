@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store'
-import { DataTableConfig } from '@digital-first/df-components'
+import { DataTableConfig } from '@digital-first/df-datatable'
 import * as fromCommitmentAction from './commitment-action.reducer'
 import { arrayToHash } from '@digital-first/df-utils'
 
