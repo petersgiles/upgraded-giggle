@@ -4,7 +4,7 @@ import {MdcDialog} from '@angular-mdc/web'
 import {first, map} from 'rxjs/operators'
 import {Subscription} from 'rxjs'
 import {ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent} from '@digital-first/df-dialogs'
-import {DataTableConfig} from '@digital-first/df-components'
+import {DataTableConfig} from '@digital-first/df-datatable'
 import {DialogAssignGroupPermissionComponent} from '../../dialogs/dialog-assign-group-permission.component'
 import {
   AccessRights, AllGroupsGQL, CreateStatisticAccessControlGQL, DeleteStatisticAccessControlGQL,

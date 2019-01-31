@@ -75,7 +75,8 @@ import {StatisticReportAddComponent} from './containers/statistic-reports/statis
 import {StatisticReportEditComponent} from './containers/statistic-reports/statistic-report-edit/statistic-report-edit.component'
 import {ReportEditComponent} from './containers/program-reports/report-edit/report-edit.component'
 import { ProjectsComponent } from './containers/projects/projects.component'
-import { DataTableComponent } from '@digital-first/df-datatable'
+import { DataTableComponent, DfDatatableModule } from '@digital-first/df-datatable'
+import { DfButtonsModule } from '@digital-first/df-buttons'
 
 const COMPONENTS = [AppComponent, HomeComponent]
 
@@ -150,12 +151,15 @@ export function initApplication(): Function {
     NxModule.forRoot(),
     DfAuthModule,
     DfComponentsModule,
+    DfDatatableModule,
+    DfButtonsModule,
     DfMomentModule,
     DfLayoutsModule,
     DfThemeModule,
     DfDiscussionModule,
     DfPagesModule,
     DfDialogsModule,
+
     DfPipesModule,
     ErrorsModule,
     AppRoutingModule,

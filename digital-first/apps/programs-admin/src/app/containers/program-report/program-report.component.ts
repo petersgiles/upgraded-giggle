@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core'
 import {ActivatedRoute, Router} from '@angular/router'
 import {first, map} from 'rxjs/operators'
 import {Subscription} from 'rxjs'
-import {DataTableConfig} from '@digital-first/df-components'
+import {DataTableConfig} from '@digital-first/df-datatable'
 import {DialogAssignGroupPermissionComponent} from '../../dialogs/dialog-assign-group-permission.component'
 import {MdcDialog} from '@angular-mdc/web'
 import {
