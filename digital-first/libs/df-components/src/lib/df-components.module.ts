@@ -9,7 +9,6 @@ import { ContactCardComponent } from './contact-card/contact-card.component'
 import { PageTitleComponent } from './page-title.component'
 import { RelatedArtifactsComponent } from './related-artifacts/related-artifacts.component'
 
-import { MetadataRefinerComponent } from './metadata-refiner/metadata-refiner.component'
 import { BusyComponent } from './busy.component'
 import { ElectorateSelectorComponent } from './electorate-selector/electorate-selector.component'
 import { AvatarComponent } from './avatar/avatar.component'
@@ -19,13 +18,11 @@ const COMPONENTS = [
   ContactCardComponent,
   PageTitleComponent,
   RelatedArtifactsComponent,
-  MetadataRefinerComponent,
   BusyComponent,
   ElectorateSelectorComponent,
   AvatarComponent,
   InfoComponent,
 ]
-
 @NgModule({
   imports: [
     CommonModule,

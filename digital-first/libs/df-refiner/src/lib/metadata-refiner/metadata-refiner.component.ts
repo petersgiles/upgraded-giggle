@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, NgZone } from '@angular/core'
-import { RefinerGroup, RefinerType } from './refiner-model'
+import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
 import { FormControl } from '@angular/forms'
 import { debounceTime, distinctUntilChanged, flatMap } from 'rxjs/operators'
 

@@ -30,8 +30,7 @@ import {
   DfComponentsModule,
   ContactCardComponent,
   PageTitleComponent,
-  RelatedArtifactsComponent,
-  MetadataRefinerComponent
+  RelatedArtifactsComponent
 } from '@digital-first/df-components'
 
 import { AppComponent } from './app.component'
@@ -78,7 +77,6 @@ const ENTRYCOMPONENTS = [
   ContactCardComponent,
   PageTitleComponent,
   RelatedArtifactsComponent,
-  MetadataRefinerComponent,
   DataTableComponent
 ]
 

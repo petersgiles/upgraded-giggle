@@ -1,6 +1,5 @@
 export * from './lib/df-components.module'
 
-export { MetadataRefinerComponent, RefinerGroup, RefinerType } from './lib/metadata-refiner'
 export { ElectorateSelectorComponent } from './lib/electorate-selector'
 export { BusyComponent } from './lib/busy.component'
 export { RelatedArtifactsComponent } from './lib/related-artifacts/related-artifacts.component'

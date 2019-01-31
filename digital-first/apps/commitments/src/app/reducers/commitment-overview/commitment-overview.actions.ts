@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store'
-import { RefinerType, RefinerGroup } from '@digital-first/df-components'
+import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
 
 export enum CommitmentOverviewActionTypes {
   ExpandRefinerGroup = '[CommitmentOverview] Expand Refiner Group',
