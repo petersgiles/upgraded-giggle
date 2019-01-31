@@ -1,0 +1,24 @@
+<div *ngIf="project; else loading" class="app-page">
+  <section>
+    <digital-first-page-title
+      title="Project - {{ project.name }}">
+      <digital-first-edit-item-button
+        (onEditItem)="handleEditProject(project)"
+      ></digital-first-edit-item-button>
+      <digital-first-delete-item-button
+        (onDeleteItem)="handleDeleteProject(project)"
+      ></digital-first-delete-item-button>
+    </digital-first-page-title>
+
+    <div class="programsadmin-layout__row">
+      <p>{{ project.name }}</p>
+      <p>{{ project.notes }}</p>
+      <p>{{ project.externalId }}</p>
+      <p>{{ project.status }}</p>
+    </div>
+
+  </section>
+</div>
+<ng-template #loading>
+  Loading...
+</ng-template>

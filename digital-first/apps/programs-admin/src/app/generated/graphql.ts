@@ -1235,6 +1235,32 @@ export namespace AllProgramsSearch {
   };
 }
 
+export namespace Project {
+  export type Variables = {
+    projectId: string;
+  };
+
+  export type Query = {
+    __typename?: 'Query';
+
+    project: Project | null;
+  };
+
+  export type Project = {
+    __typename?: 'ProjectGraph';
+
+    id: Guid;
+
+    name: string;
+
+    notes: string | null;
+
+    externalId: string | null;
+
+    status: string | null;
+  };
+}
+
 export namespace AllProjects {
   export type Variables = {};
 
@@ -2408,6 +2434,22 @@ export class AllProgramsSearchGQL extends Apollo.Query<
           id
           title
         }
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class ProjectGQL extends Apollo.Query<Project.Query, Project.Variables> {
+  document: any = gql`
+    query project($projectId: String!) {
+      project(projectId: $projectId) {
+        id
+        name
+        notes
+        externalId
+        status
       }
     }
   `;

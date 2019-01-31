@@ -8,6 +8,7 @@ import { ProjectuploadComponent } from './containers/projectupload/projectupload
 import { ProgramsComponent } from './containers/programs/programs.component'
 import { ProgramComponent } from './containers/program/program.component'
 import { ProjectsComponent } from './containers/projects/projects.component'
+import { ProjectComponent } from './containers/project/project.component'
 import { ProgramAddComponent } from './containers/program/program-add/program-add.component'
 import { ProgramEditComponent } from './containers/program/program-edit/program-edit.component'
 import { ReportAddComponent } from './containers/program-reports/report-add/report-add.component'
@@ -148,6 +149,16 @@ export const routes: Routes = [
           title: 'Projects',
           icon: 'group_work',
           nav: true
+        }
+      },
+      {
+        path: 'projects/:id',
+        component: ProjectComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'Project',
+          icon: 'group_work',
+          nav: false
         }
       },
       {
