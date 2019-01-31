@@ -22,7 +22,7 @@ import {
     getAllPackageTypes
 } from '../commitment-lookup'
 import { findInLookup } from '../utils'
-import { DataTableConfig } from '@digital-first/df-datatable'
+import { DataTableConfig, DATA_TABLE_SORT_DIRECTION_ASC } from '@digital-first/df-datatable'
 
 export const getCommitmentOverviewState = state => state.commitmentOverview
 
@@ -258,11 +258,11 @@ export const getAllOverviewCommitmentDataTables = createSelector(
         const dtc: DataTableConfig = {
             title: 'commitments',
             headings: [
-                { caption: 'Title' },
-                { caption: 'Party' },
-                { caption: 'Responsible Portfolio' },
-                { caption: 'Type of Commitment' },
-                { caption: 'Critical Date' }
+                { id: 'title', caption: 'Title', sort: DATA_TABLE_SORT_DIRECTION_ASC},
+                { id: 'party', caption: 'Party', sort: null },
+                { id: 'portfolio', caption: 'Responsible Portfolio', sort: null },
+                { id: 'commitment', caption: 'Type of Commitment', sort: null },
+                { id: 'date', caption: 'Critical Date', sort: null }
             ],
             rows: rows
         }

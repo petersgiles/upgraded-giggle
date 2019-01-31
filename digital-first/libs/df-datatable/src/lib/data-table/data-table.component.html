@@ -2,8 +2,10 @@
   <th
     *ngFor="let heading of headings"
     class="df-data-table__cell--non-numeric"
+    [ngClass]="{'df-data-table__header--sorted-ascending': heading.sort=='ASC', 'df-data-table__header--sorted-descending': heading.sort=='DESC'}"
     [innerHtml]="heading.caption | safeHtml"
-  ></th>
+    (click)="handleCellHeadingClicked(heading)">
+</th>
 </ng-template>
 
 <ng-template #tableHead let-tableData>
