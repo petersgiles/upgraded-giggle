@@ -4,7 +4,7 @@ import {
 import { Injectable } from '@angular/core'
 
 import { Store, select } from '@ngrx/store'
-import { RefinerGroup, RefinerType } from '@digital-first/df-components'
+import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
 
 import { Commitment } from '../reducers/commitment/commitment.model'
 

@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store'
-import { RefinerGroup } from '@digital-first/df-components'
+import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
 
 import * as fromCommitmentOverview from './commitment-overview.reducer'
 

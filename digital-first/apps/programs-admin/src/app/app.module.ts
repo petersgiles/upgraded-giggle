@@ -32,7 +32,6 @@ import {
   ContactCardComponent,
   PageTitleComponent,
   RelatedArtifactsComponent,
-  MetadataRefinerComponent
 } from '@digital-first/df-components'
 
 import {AppComponent} from './app.component'
@@ -77,6 +76,7 @@ import {ReportEditComponent} from './containers/program-reports/report-edit/repo
 import { ProjectsComponent } from './containers/projects/projects.component'
 import { DataTableComponent, DfDatatableModule } from '@digital-first/df-datatable'
 import { DfButtonsModule } from '@digital-first/df-buttons'
+import { DfRefinerModule } from '@digital-first/df-refiner'
 
 const COMPONENTS = [AppComponent, HomeComponent]
 
@@ -92,7 +92,6 @@ const ENTRYCOMPONENTS = [
   ContactCardComponent,
   PageTitleComponent,
   RelatedArtifactsComponent,
-  MetadataRefinerComponent,
   DataTableComponent
 ]
 
@@ -159,7 +158,7 @@ export function initApplication(): Function {
     DfDiscussionModule,
     DfPagesModule,
     DfDialogsModule,
-
+    DfRefinerModule,
     DfPipesModule,
     ErrorsModule,
     AppRoutingModule,

@@ -25,8 +25,7 @@ import {
   DfComponentsModule,
   ContactCardComponent,
   PageTitleComponent,
-  RelatedArtifactsComponent,
-  MetadataRefinerComponent,
+  RelatedArtifactsComponent
 } from '@digital-first/df-components'
 
 import { AppComponent } from './app.component'
@@ -102,6 +101,7 @@ import { ExcelService } from './services/excel.service'
 import { DfButtonsModule } from '@digital-first/df-buttons'
 import { DfMapModule } from '@digital-first/df-map'
 import { DfDatatableModule } from '@digital-first/df-datatable'
+import { DfRefinerModule, MetadataRefinerComponent } from '@digital-first/df-refiner'
 
 const COMPONENTS = [
   AppComponent,
@@ -223,6 +223,7 @@ export let appDataServiceProvider = {
     DfComponentsModule,
     DfDatatableModule,
     DfButtonsModule,
+    DfRefinerModule,
     DfMapModule,
     DfMomentModule,
     DfLayoutsModule,
