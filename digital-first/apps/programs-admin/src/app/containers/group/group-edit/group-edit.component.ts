@@ -17,7 +17,7 @@ export class GroupEditComponent implements OnInit, OnDestroy {
   })
 
   groupId: string
-  group$: Observable<Group.Groups | null>
+  group$: Observable<Group.Group | null>
   rowVersion: string
   groupSubscription$: Subscription
 
@@ -34,7 +34,7 @@ export class GroupEditComponent implements OnInit, OnDestroy {
     this.group$ = this.groupGQL.watch(
       {groupId: this.groupId},
       {fetchPolicy: 'network-only'})
-      .valueChanges.pipe(map(value => value.data.groups[0]))
+      .valueChanges.pipe(map(value => value.data.group))
 
     this.groupSubscription$ = this.group$.subscribe(
       value => {

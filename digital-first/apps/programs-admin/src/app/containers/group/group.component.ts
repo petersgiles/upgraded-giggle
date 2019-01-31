@@ -15,7 +15,7 @@ export class GroupComponent implements OnInit {
   userTableData: any
   private groupId: string
   private groupSubscription$: Subscription
-  group: Group.Groups
+  group: Group.Group
 
   constructor(private route: ActivatedRoute,
               private groupGQL: GroupGQL,
@@ -31,18 +31,18 @@ export class GroupComponent implements OnInit {
 
     this.groupSubscription$ = this.groupGQL
       .watch({groupId: this.groupId}, {fetchPolicy: 'network-only'})
-      .valueChanges.pipe(map(value => value.data.groups[0]))
+      .valueChanges.pipe(map(value => value.data.group))
       .subscribe(group => {
         this.group = group
         this.userTableData = this.group.members
       })
   }
 
-  handleEditGroup(group: Group.Groups) {
+  handleEditGroup(group: Group.Group) {
     return this.router.navigate(['groups/edit', group.id])
   }
 
-  handleDeleteGroup(group: Group.Groups) {
+  handleDeleteGroup(group: Group.Group) {
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
       clickOutsideToClose: true

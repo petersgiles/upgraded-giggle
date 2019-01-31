@@ -27,7 +27,7 @@ export class StatisticEditComponent implements OnInit, OnDestroy {
 
   statisticId: string
 
-  statistics$: Observable<Statistic.Statistics | null>
+  statistics$: Observable<Statistic.Statistic | null>
 
   constructor(private formBuilder: FormBuilder,
               private allAgencies: AllAgenciesGQL,
@@ -52,7 +52,7 @@ export class StatisticEditComponent implements OnInit, OnDestroy {
     this.statistics$ = this.statisticGQL.watch(
       {statisticId: this.statisticId},
       {fetchPolicy: 'network-only'})
-      .valueChanges.pipe(map(value => value.data.statistics[0]))
+      .valueChanges.pipe(map(value => value.data.statistic))
 
     this.statisticSubscription$ = this.statistics$.subscribe(
       value => {

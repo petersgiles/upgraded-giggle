@@ -18,7 +18,7 @@ export class ProgramEditComponent implements OnInit, OnDestroy {
   agenciesSubscription$: Subscription
   programSubscription$: Subscription
   agencies: AllAgencies.Agencies[]
-  programs$: Observable<EditProgram.Programs>
+  programs$: Observable<EditProgram.Program>
 
   rowVersion: string
 
@@ -53,7 +53,7 @@ export class ProgramEditComponent implements OnInit, OnDestroy {
     this.programs$ = this.editProgramGQL.watch(
       {programId: this.programId},
       {fetchPolicy: 'network-only'})
-      .valueChanges.pipe(map(value => value.data.programs[0]))
+      .valueChanges.pipe(map(value => value.data.program))
 
     this.programSubscription$ = this.programs$.subscribe(
       value => {

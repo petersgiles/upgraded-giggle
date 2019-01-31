@@ -12,7 +12,7 @@ import {Subscription} from 'rxjs'
 export class UserComponent implements OnInit, OnDestroy {
   userId: string
   userSubscription$: Subscription
-  user: User.Users
+  user: User.User
 
   constructor(private route: ActivatedRoute,
               private userGQL: UserGQL) {
@@ -24,7 +24,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
     this.userSubscription$ = this.userGQL
       .watch({userId: this.userId}, {fetchPolicy: 'network-only'})
-      .valueChanges.pipe(map(value => value.data.users[0]))
+      .valueChanges.pipe(map(value => value.data.user))
       .subscribe(user => {
         this.user = user
       })

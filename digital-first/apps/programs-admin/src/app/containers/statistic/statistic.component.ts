@@ -21,7 +21,7 @@ export class StatisticComponent implements OnInit {
   statisticSubscription$: Subscription
   permissionTableData: any
   statisticReportTableData: any
-  statistic: Statistic.Statistics
+  statistic: Statistic.Statistic
 
   constructor(private route: ActivatedRoute,
               private statisticGql: StatisticGQL,
@@ -41,7 +41,7 @@ export class StatisticComponent implements OnInit {
 
     this.statisticSubscription$ = this.statisticGql
       .watch({statisticId: this.statisticId}, {fetchPolicy: 'network-only'})
-      .valueChanges.pipe(map(value => value.data.statistics[0]))
+      .valueChanges.pipe(map(value => value.data.statistic))
       .subscribe(statistic => {
         this.statistic = statistic
 
@@ -55,11 +55,11 @@ export class StatisticComponent implements OnInit {
       })
   }
 
-  handleEditStatistic(statistic: Statistic.Statistics) {
+  handleEditStatistic(statistic: Statistic.Statistic) {
     return this.router.navigate(['statistics/edit', statistic.id])
   }
 
-  handleDeleteStatistic(statistic: Statistic.Statistics) {
+  handleDeleteStatistic(statistic: Statistic.Statistic) {
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
       clickOutsideToClose: true
@@ -208,7 +208,7 @@ export class StatisticComponent implements OnInit {
       })
   }
 
-  private createStatisticPermissionGroupTableData(statistic: Statistic.Statistics): DataTableConfig {
+  private createStatisticPermissionGroupTableData(statistic: Statistic.Statistic): DataTableConfig {
     const groups = {}
     statistic.accessControlList.forEach(acl => {
       acl.accessControlEntries.forEach(ace => {
@@ -251,7 +251,7 @@ export class StatisticComponent implements OnInit {
     }
   }
 
-  private createStatisticReportTableData(statistic: Statistic.Statistics) {
+  private createStatisticReportTableData(statistic: Statistic.Statistic) {
     const reports = statistic.statisticReports.map(report => ({
       id: report.id,
       name: report.name,
