@@ -7,6 +7,7 @@ import { Commitment } from '../../reducers/commitment/commitment.model'
 import { DataTableConfig } from '@digital-first/df-components'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 import { showSnackBar } from '../../dialogs/show-snack-bar'
+import { ExcelService } from '../../services/excel.service'
 @Component({
   selector: 'digital-first-commitment-overview',
   templateUrl: './commitment-overview.component.html',
@@ -27,12 +28,16 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
   activitySubscription$: Subscription
   formBusy = false
   pageSize: number
+  commitmentsFilteredSubscription$: Subscription
+  filteredCommitments: any
 
   constructor(private snackbar: MdcSnackbar, public dialog: MdcDialog, private router: Router, private service: CommitmentDataService,
-    private lookup: CommitmentLookupService) { }
+    private lookup: CommitmentLookupService, private excelService: ExcelService) { }
 
   ngOnInit() {
     this.commitments$ = this.service.Commitments
+
+    this.commitmentsFilteredSubscription$ = this.service.CommitmentFiltered.subscribe(fc => this.filteredCommitments = fc)
     this.commitmentsTableDataSubscription$ = this.service.CommitmentDataTable
     .subscribe(config => {
       this.pageIndex = 0
@@ -51,6 +56,10 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
     this.lookup.getAllCommitmentTypes()
     this.lookup.getAllCriticalDates()
     this.lookup.getAllLocations()
+    this.lookup.getAllPartys()
+    this.lookup.getAllPortfolios()
+    this.lookup.getAllThemeTypes()
+    this.lookup.getAllPackageTypes()
 
     this.service.getAllCommitments()
 
@@ -93,6 +102,12 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
     this.router.navigate(['/', 'commitment', commitment.id])
   }
 
+  handleClearAllFilters() {
+    // tslint:disable-next-line:no-console
+    console.log('handleClearAllFilters')
+    this.service.clearAllRefiners()
+  }
+
   handleCreate() {
     this.router.navigate(['/', 'commitment', 'create'])
   }
@@ -123,6 +138,19 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
 
   handleSearchCriteriaChanged(text) {
     this.service.setTextRefiner(text)
+  }
+
+  handleExport() {
+
+    const exportCommitments = this.filteredCommitments.map(fc => ({
+      'Title': fc.title,
+      'Party': fc.party ? fc.party.title : '',
+      'Responsible Portfolio': fc.portfolio ? fc.portfolio.title : '',
+      'Type of Commitment': fc.commitmentType ? fc.commitmentType.title : '',
+      'Critical Date': fc.date
+    }))
+
+    this.excelService.exportAsExcelFile(exportCommitments, 'commitments')
   }
 
   changePageFormat(format) {

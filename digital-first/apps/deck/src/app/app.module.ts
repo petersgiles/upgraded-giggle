@@ -20,6 +20,10 @@ import { HomeComponent } from './pages/home/home.component'
 import { AppFullLayoutService } from './app-full-layout.service'
 import { AppRoutingModule } from './app-routing.module'
 import { DeckDataService } from './services/deck-data.service'
+import { GraphQLModule } from './graphql.module'
+import { DeckComponent } from './containers/deck/deck.component'
+import { DragDropModule } from '@angular/cdk/drag-drop'
+import { CardComponent } from './components/card/card.component'
 
 export function initApplication(): Function {
   return () => new Promise(resolve => {
@@ -30,10 +34,11 @@ export function initApplication(): Function {
 }
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent],
+  declarations: [AppComponent, HomeComponent, DeckComponent, CardComponent],
   imports: [
     BrowserModule,
     NxModule.forRoot(),
+    GraphQLModule,
     DfLoggingModule,
     DfComponentsModule,
     DfMomentModule,
@@ -44,7 +49,8 @@ export function initApplication(): Function {
     DfDialogsModule,
     DfSharepointModule,
     DfPipesModule,
-    AppRoutingModule
+    AppRoutingModule,
+    DragDropModule
   ],
   providers: [
     WINDOW_PROVIDERS,
