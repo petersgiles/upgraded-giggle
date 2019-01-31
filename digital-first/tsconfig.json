@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "resolveJsonModule": true,
     "importHelpers": true,
     "sourceMap": true,
     "declaration": false,
