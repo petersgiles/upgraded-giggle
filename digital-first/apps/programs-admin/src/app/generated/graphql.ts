@@ -609,10 +609,10 @@ export namespace Group {
   export type Query = {
     __typename?: 'Query';
 
-    groups: (Groups | null)[] | null;
+    group: Group | null;
   };
 
-  export type Groups = {
+  export type Group = {
     __typename?: 'AccessControlGroupGraph';
 
     id: Guid;
@@ -991,10 +991,10 @@ export namespace Program {
   export type Query = {
     __typename?: 'Query';
 
-    programs: (Programs | null)[] | null;
+    program: Program | null;
   };
 
-  export type Programs = {
+  export type Program = {
     __typename?: 'ProgramGraph';
 
     id: Guid;
@@ -1115,10 +1115,10 @@ export namespace EditProgram {
   export type Query = {
     __typename?: 'Query';
 
-    programs: (Programs | null)[] | null;
+    program: Program | null;
   };
 
-  export type Programs = {
+  export type Program = {
     __typename?: 'ProgramGraph';
 
     id: Guid;
@@ -1669,10 +1669,10 @@ export namespace Statistic {
   export type Query = {
     __typename?: 'Query';
 
-    statistics: (Statistics | null)[] | null;
+    statistic: Statistic | null;
   };
 
-  export type Statistics = {
+  export type Statistic = {
     __typename?: 'StatisticGraph';
 
     id: Guid;
@@ -1795,10 +1795,10 @@ export namespace User {
   export type Query = {
     __typename?: 'Query';
 
-    users: (Users | null)[] | null;
+    user: User | null;
   };
 
-  export type Users = {
+  export type User = {
     __typename?: 'UserGraph';
 
     id: Guid;
@@ -1979,7 +1979,7 @@ export class DeleteAccessControlGroupUserGQL extends Apollo.Mutation<
 export class GroupGQL extends Apollo.Query<Group.Query, Group.Variables> {
   document: any = gql`
     query group($groupId: String!) {
-      groups(ids: [$groupId]) {
+      group(id: $groupId) {
         id
         rowVersion
         title
@@ -2274,7 +2274,7 @@ export class DeleteProgramAccessControlGQL extends Apollo.Mutation<
 export class ProgramGQL extends Apollo.Query<Program.Query, Program.Variables> {
   document: any = gql`
     query program($programId: String!) {
-      programs(ids: [$programId]) {
+      program(id: $programId) {
         id
         name
         notes
@@ -2332,7 +2332,7 @@ export class EditProgramGQL extends Apollo.Query<
 > {
   document: any = gql`
     query editProgram($programId: String!) {
-      programs(ids: [$programId]) {
+      program(id: $programId) {
         id
         name
         notes
@@ -2750,7 +2750,7 @@ export class StatisticGQL extends Apollo.Query<
 > {
   document: any = gql`
     query statistic($statisticId: String!) {
-      statistics(ids: [$statisticId]) {
+      statistic(id: $statisticId) {
         id
         agency {
           id
@@ -2826,7 +2826,7 @@ export class AllStatisticsSearchGQL extends Apollo.Query<
 export class UserGQL extends Apollo.Query<User.Query, User.Variables> {
   document: any = gql`
     query user($userId: String!) {
-      users(ids: [$userId]) {
+      user(id: $userId) {
         id
         emailAddress
         agency {

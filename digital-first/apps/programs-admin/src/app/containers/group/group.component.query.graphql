@@ -1,5 +1,5 @@
 query group ($groupId: String!) {
-  groups(ids:[$groupId])
+  group(id:$groupId)
   {
     id
     rowVersion
