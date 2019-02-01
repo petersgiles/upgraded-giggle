@@ -31,7 +31,7 @@ import {
   DfComponentsModule,
   ContactCardComponent,
   PageTitleComponent,
-  RelatedArtifactsComponent,
+  RelatedArtifactsComponent
 } from '@digital-first/df-components'
 
 import {AppComponent} from './app.component'
@@ -72,16 +72,14 @@ import {StatisticReportsComponent} from './containers/statistic-reports/statisti
 import {StatisticReportComponent} from './containers/statistic-report/statistic-report.component'
 import {StatisticReportAddComponent} from './containers/statistic-reports/statistic-report-add/statistic-report-add.component'
 import {StatisticReportEditComponent} from './containers/statistic-reports/statistic-report-edit/statistic-report-edit.component'
-import {ReportEditComponent} from './containers/program-reports/report-edit/report-edit.component';
-import { ProjectsComponent } from './containers/projects/projects.component';
-import { ProjectComponent } from './containers/project/project.component'
-import { ProjectAddComponent } from './containers/project/project-add/project-add.component'
-import { ProjectEditComponent } from './containers/project/project-edit/project-edit.component'
+import {ProjectComponent} from './containers/project/project.component'
+import {ProjectAddComponent} from './containers/project/project-add/project-add.component'
+import {ProjectEditComponent} from './containers/project/project-edit/project-edit.component'
 import {ReportEditComponent} from './containers/program-reports/report-edit/report-edit.component'
-import { ProjectsComponent } from './containers/projects/projects.component'
-import { DataTableComponent, DfDatatableModule } from '@digital-first/df-datatable'
-import { DfButtonsModule } from '@digital-first/df-buttons'
-import { DfRefinerModule } from '@digital-first/df-refiner'
+import {ProjectsComponent} from './containers/projects/projects.component'
+import {DataTableComponent, DfDatatableModule} from '@digital-first/df-datatable'
+import {DfButtonsModule} from '@digital-first/df-buttons'
+import {DfRefinerModule} from '@digital-first/df-refiner'
 
 const COMPONENTS = [AppComponent, HomeComponent]
 
@@ -143,7 +141,7 @@ export function initApplication(): Function {
     ReportEditComponent,
     ProjectsComponent,
     ProjectComponent,
-    ProjectAddComponent, 
+    ProjectAddComponent,
     ProjectEditComponent
   ],
   entryComponents: [...ENTRYCOMPONENTS],
