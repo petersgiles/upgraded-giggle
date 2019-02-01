@@ -1,14 +1,24 @@
-import {Component, OnInit} from '@angular/core'
-import {ActivatedRoute, Router} from '@angular/router'
-import {MdcDialog} from '@angular-mdc/web'
-import {first, map} from 'rxjs/operators'
-import {Subscription} from 'rxjs'
-import {ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent} from '@digital-first/df-dialogs'
-import {DataTableConfig} from '@digital-first/df-datatable'
-import {DialogAssignGroupPermissionComponent} from '../../dialogs/dialog-assign-group-permission.component'
+import { Component, OnInit } from '@angular/core'
+import { ActivatedRoute, Router } from '@angular/router'
+import { MdcDialog } from '@angular-mdc/web'
+import { first, map } from 'rxjs/operators'
+import { Subscription } from 'rxjs'
 import {
-  AccessRights, AllGroupsGQL, CreateStatisticAccessControlGQL, DeleteStatisticAccessControlGQL,
-  DeleteStatisticGQL, DeleteStatisticReportGQL, Statistic, StatisticGQL, UpdateStatisticAccessControlGQL
+  ARE_YOU_SURE_ACCEPT,
+  DialogAreYouSureComponent
+} from '@digital-first/df-dialogs'
+import { DataTableConfig } from '@digital-first/df-datatable'
+import { DialogAssignGroupPermissionComponent } from '../../dialogs/dialog-assign-group-permission.component'
+import {
+  AccessRights,
+  AllGroupsGQL,
+  CreateStatisticAccessControlGQL,
+  DeleteStatisticAccessControlGQL,
+  DeleteStatisticGQL,
+  DeleteStatisticReportGQL,
+  Statistic,
+  StatisticGQL,
+  UpdateStatisticAccessControlGQL
 } from '../../generated/graphql'
 
 @Component({
@@ -23,24 +33,24 @@ export class StatisticComponent implements OnInit {
   statisticReportTableData: any
   statistic: Statistic.Statistic
 
-  constructor(private route: ActivatedRoute,
-              private statisticGql: StatisticGQL,
-              private deleteStatisticGql: DeleteStatisticGQL,
-              private deleteStatisticReportGql: DeleteStatisticReportGQL,
-              private createStatisticAccessControlGql: CreateStatisticAccessControlGQL,
-              private updateStatisticAccessControlGql: UpdateStatisticAccessControlGQL,
-              private deleteStatisticAccessControlGql: DeleteStatisticAccessControlGQL,
-              private allGroupsGql: AllGroupsGQL,
-              private router: Router,
-              public dialog: MdcDialog) {
-  }
+  constructor(
+    private route: ActivatedRoute,
+    private statisticGql: StatisticGQL,
+    private deleteStatisticGql: DeleteStatisticGQL,
+    private deleteStatisticReportGql: DeleteStatisticReportGQL,
+    private createStatisticAccessControlGql: CreateStatisticAccessControlGQL,
+    private updateStatisticAccessControlGql: UpdateStatisticAccessControlGQL,
+    private deleteStatisticAccessControlGql: DeleteStatisticAccessControlGQL,
+    private allGroupsGql: AllGroupsGQL,
+    private router: Router,
+    public dialog: MdcDialog
+  ) {}
 
   ngOnInit() {
-
     this.statisticId = this.route.snapshot.paramMap.get('id')
 
     this.statisticSubscription$ = this.statisticGql
-      .watch({statisticId: this.statisticId}, {fetchPolicy: 'network-only'})
+      .watch({ statisticId: this.statisticId }, { fetchPolicy: 'network-only' })
       .valueChanges.pipe(map(value => value.data.statistic))
       .subscribe(statistic => {
         this.statistic = statistic
@@ -86,11 +96,11 @@ export class StatisticComponent implements OnInit {
 
   handleOpenAddGroupDialog() {
     this.allGroupsGql
-      .watch({}, {fetchPolicy: 'no-cache'})
+      .watch({}, { fetchPolicy: 'no-cache' })
       .valueChanges.pipe(
-      map(value => value.data.groups),
-      first()
-    )
+        map(value => value.data.groups),
+        first()
+      )
       .subscribe(groups => {
         const dialogRef = this.dialog.open(
           DialogAssignGroupPermissionComponent,
@@ -126,8 +136,7 @@ export class StatisticComponent implements OnInit {
                 }
               )
               .pipe(first())
-              .subscribe(value => {
-              })
+              .subscribe(value => {})
           }
         })
       })
@@ -147,8 +156,7 @@ export class StatisticComponent implements OnInit {
         {}
       )
       .pipe(first())
-      .subscribe(value => {
-      })
+      .subscribe(value => {})
   }
 
   handleGroupPermissionDeleteClicked($event) {
@@ -172,8 +180,7 @@ export class StatisticComponent implements OnInit {
         }
       )
       .pipe(first())
-      .subscribe(value => {
-      })
+      .subscribe(value => {})
   }
 
   handleGroupPermissionGroupClicked($event: any) {
@@ -181,7 +188,9 @@ export class StatisticComponent implements OnInit {
   }
 
   handleReportNavigation($event) {
-    return this.router.navigate(['reports/', $event.id], {relativeTo: this.route})
+    return this.router.navigate(['reports/', $event.id], {
+      relativeTo: this.route
+    })
   }
 
   handleStatisticReportDeleteItemClicked($event) {
@@ -204,11 +213,12 @@ export class StatisticComponent implements OnInit {
         }
       )
       .pipe(first())
-      .subscribe(value => {
-      })
+      .subscribe(value => {})
   }
 
-  private createStatisticPermissionGroupTableData(statistic: Statistic.Statistic): DataTableConfig {
+  private createStatisticPermissionGroupTableData(
+    statistic: Statistic.Statistic
+  ): DataTableConfig {
     const groups = {}
     statistic.accessControlList.forEach(acl => {
       acl.accessControlEntries.forEach(ace => {
@@ -236,8 +246,8 @@ export class StatisticComponent implements OnInit {
             type: 'radio',
             id: 'PERMISSIONCELL',
             data: [
-              {value: AccessRights.Read, caption: 'Read'},
-              {value: AccessRights.Write, caption: 'Read/Write'}
+              { value: AccessRights.Read, caption: 'Read' },
+              { value: AccessRights.Write, caption: 'Read/Write' }
             ]
           }
         ]
@@ -246,8 +256,10 @@ export class StatisticComponent implements OnInit {
 
     return {
       title: 'permissions',
-      headings: [{caption: 'Name'}, {caption: 'Permission'}],
-      rows: rows
+      headings: [{ caption: 'Name' }, { caption: 'Permission' }],
+      rows: rows,
+      noDataMessage:
+        'Any authenticated user can view this statistic and subsequent statistic reports unless they have their own permission specified.'
     }
   }
 
@@ -273,8 +285,10 @@ export class StatisticComponent implements OnInit {
 
     return {
       title: 'reports',
-      headings: [{caption: 'Name'}, {caption: 'Notes'}],
-      rows: rows
+      headings: [{ caption: 'Name' }, { caption: 'Notes' }],
+      rows: rows,
+      noDataMessage:
+        'This report inherits permissions from the statistic. Adding groups here will break inheritance.'
     }
   }
 }

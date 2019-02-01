@@ -1,15 +1,20 @@
-import {Component, OnDestroy, OnInit} from '@angular/core'
+import { Component, OnDestroy, OnInit } from '@angular/core'
 import {
-  AccessRights, AllGroupsGQL, CreateStatisticReportAccessControlGQL, DeleteStatisticReportAccessControlGQL,
-  StatisticReport, StatisticReportGQL, UpdateStatisticReportAccessControlGQL
+  AccessRights,
+  AllGroupsGQL,
+  CreateStatisticReportAccessControlGQL,
+  DeleteStatisticReportAccessControlGQL,
+  StatisticReport,
+  StatisticReportGQL,
+  UpdateStatisticReportAccessControlGQL
 } from '../../generated/graphql'
-import {Subscription} from 'rxjs'
-import {ActivatedRoute, Router} from '@angular/router'
-import {MdcDialog} from '@angular-mdc/web'
-import {first, map} from 'rxjs/operators'
-import {DataTableConfig} from '@digital-first/df-datatable'
+import { Subscription } from 'rxjs'
+import { ActivatedRoute, Router } from '@angular/router'
+import { MdcDialog } from '@angular-mdc/web'
+import { first, map } from 'rxjs/operators'
+import { DataTableConfig } from '@digital-first/df-datatable'
 
-import {DialogAssignGroupPermissionComponent} from '../../dialogs/dialog-assign-group-permission.component'
+import { DialogAssignGroupPermissionComponent } from '../../dialogs/dialog-assign-group-permission.component'
 
 @Component({
   selector: 'digital-first-statistic-report',
@@ -17,26 +22,30 @@ import {DialogAssignGroupPermissionComponent} from '../../dialogs/dialog-assign-
   styleUrls: ['./statistic-report.component.scss']
 })
 export class StatisticReportComponent implements OnInit, OnDestroy {
-
   report: StatisticReport.StatisticReports
   permissionTableData: any
   reportSubscription$: Subscription
   private statisticReportId: string
 
-  constructor(private route: ActivatedRoute,
-              private statisticReportGql: StatisticReportGQL,
-              private allGroupsGql: AllGroupsGQL,
-              private createStatisticReportAccessControlGql: CreateStatisticReportAccessControlGQL,
-              private deleteStatisticReportAccessControlGql: DeleteStatisticReportAccessControlGQL,
-              private updateStatisticReportAccessControlGql: UpdateStatisticReportAccessControlGQL,
-              private router: Router,
-              public dialog: MdcDialog) {
-  }
+  constructor(
+    private route: ActivatedRoute,
+    private statisticReportGql: StatisticReportGQL,
+    private allGroupsGql: AllGroupsGQL,
+    private createStatisticReportAccessControlGql: CreateStatisticReportAccessControlGQL,
+    private deleteStatisticReportAccessControlGql: DeleteStatisticReportAccessControlGQL,
+    private updateStatisticReportAccessControlGql: UpdateStatisticReportAccessControlGQL,
+    private router: Router,
+    public dialog: MdcDialog
+  ) {}
 
   ngOnInit() {
     this.statisticReportId = this.route.snapshot.paramMap.get('id')
 
-    this.reportSubscription$ = this.statisticReportGql.watch({reportId: this.statisticReportId}, {fetchPolicy: 'network-only'})
+    this.reportSubscription$ = this.statisticReportGql
+      .watch(
+        { reportId: this.statisticReportId },
+        { fetchPolicy: 'network-only' }
+      )
       .valueChanges.pipe(map(value => value.data.statisticReports[0]))
       .subscribe(report => {
         this.report = report
@@ -44,7 +53,6 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
           report
         )
       })
-
   }
 
   ngOnDestroy(): void {
@@ -53,11 +61,11 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
 
   handleOpenAddGroupDialog() {
     this.allGroupsGql
-      .watch({}, {fetchPolicy: 'no-cache'})
+      .watch({}, { fetchPolicy: 'no-cache' })
       .valueChanges.pipe(
-      map(value => value.data.groups),
-      first()
-    )
+        map(value => value.data.groups),
+        first()
+      )
       .subscribe(groups => {
         const dialogRef = this.dialog.open(
           DialogAssignGroupPermissionComponent,
@@ -93,8 +101,7 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
                 }
               )
               .pipe(first())
-              .subscribe(value => {
-              })
+              .subscribe(value => {})
           }
         })
       })
@@ -118,8 +125,7 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
         {}
       )
       .pipe(first())
-      .subscribe(value => {
-      })
+      .subscribe(value => {})
   }
 
   handleGroupPermissionDeleteClicked($event) {
@@ -143,15 +149,18 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
         }
       )
       .pipe(first())
-      .subscribe(value => {
-      })
+      .subscribe(value => {})
   }
 
   handleEditStatisticReport(report: StatisticReport.StatisticReports) {
-    return this.router.navigate(['../edit', report.id], {relativeTo: this.route})
+    return this.router.navigate(['../edit', report.id], {
+      relativeTo: this.route
+    })
   }
 
-  private createStatisticPermissionGroupTableData(report: StatisticReport.StatisticReports): DataTableConfig {
+  private createStatisticPermissionGroupTableData(
+    report: StatisticReport.StatisticReports
+  ): DataTableConfig {
     const groups = {}
     report.accessControlList.forEach(acl => {
       acl.accessControlEntries.forEach(ace => {
@@ -179,8 +188,8 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
             type: 'radio',
             id: 'PERMISSIONCELL',
             data: [
-              {value: AccessRights.Read, caption: 'Read'},
-              {value: AccessRights.Write, caption: 'Read/Write'}
+              { value: AccessRights.Read, caption: 'Read' },
+              { value: AccessRights.Write, caption: 'Read/Write' }
             ]
           }
         ]
@@ -189,10 +198,10 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
 
     return {
       title: 'permissions',
-
-      headings: [{caption: 'Name'}, {caption: 'Permission'}],
+      headings: [{ caption: 'Name' }, { caption: 'Permission' }],
       rows: rows,
-      noDataMessage: 'This report inherits permissions from the statistic. Adding groups here will break inheritance.'
+      noDataMessage:
+        'This report inherits its permissions from the statistic. Adding groups here will break inheritance.'
     }
   }
 }
