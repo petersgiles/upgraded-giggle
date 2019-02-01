@@ -1,6 +1,6 @@
 {
   "linterOptions": {
-    "exclude": ["**/*.graphql.ts", "**/webpack.config.ts"]
+    "exclude": ["**/*.graphql.ts"]
   },
   "rulesDirectory": [
     "node_modules/codelyzer",
