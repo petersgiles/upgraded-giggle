@@ -29,8 +29,7 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('ProjectAddComponent')
-    this.programsSubscription$ = this.allProgramsGQL
+     this.programsSubscription$ = this.allProgramsGQL
       .watch({}, {fetchPolicy: 'cache-first'})
       .valueChanges.pipe(map(result => result.data.programs)).subscribe(value => {
           this.programs = value
