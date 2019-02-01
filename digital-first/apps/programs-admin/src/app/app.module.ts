@@ -85,6 +85,8 @@ import {StatisticReportEditComponent} from './containers/statistic-reports/stati
 import {ReportEditComponent} from './containers/program-reports/report-edit/report-edit.component';
 import { ProjectsComponent } from './containers/projects/projects.component';
 import { ProjectComponent } from './containers/project/project.component'
+import { ProjectAddComponent } from './containers/project/project-add/project-add.component'
+import { ProjectEditComponent } from './containers/project/project-edit/project-edit.component'
 
 const COMPONENTS = [AppComponent, HomeComponent]
 
@@ -154,7 +156,9 @@ export function initApplication(): Function {
     StatisticReportEditComponent,
     ReportEditComponent,
     ProjectsComponent,
-    ProjectComponent
+    ProjectComponent,
+    ProjectAddComponent, 
+    ProjectEditComponent
   ],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [

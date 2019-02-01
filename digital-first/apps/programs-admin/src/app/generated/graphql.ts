@@ -1235,9 +1235,77 @@ export namespace AllProgramsSearch {
   };
 }
 
+export namespace CreateProject {
+  export type Variables = {
+    data: CreateProjectInputGraph;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    createProject: CreateProject | null;
+  };
+
+  export type CreateProject = {
+    __typename?: 'ProjectGraph';
+
+    id: Guid;
+
+    name: string;
+
+    geoJson: string | null;
+
+    notes: string | null;
+
+    externalId: string | null;
+
+    rowVersion: string;
+  };
+}
+
+export namespace UpdateProject {
+  export type Variables = {
+    data: UpdateProjectInputGraph;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    updateProject: UpdateProject | null;
+  };
+
+  export type UpdateProject = {
+    __typename?: 'ProjectGraph';
+
+    id: Guid;
+
+    name: string;
+
+    geoJson: string | null;
+
+    notes: string | null;
+
+    externalId: string | null;
+
+    rowVersion: string;
+  };
+}
+
+export namespace DeleteProject {
+  export type Variables = {
+    data: DeleteProjectInputGraph;
+  };
+
+  export type Mutation = {
+    __typename?: 'Mutation';
+
+    deleteProject: boolean | null;
+  };
+}
+
 export namespace Project {
   export type Variables = {
-    projectId: string;
+    id: string;
   };
 
   export type Query = {
@@ -1258,6 +1326,16 @@ export namespace Project {
     externalId: string | null;
 
     status: string | null;
+
+    rowVersion: string;
+
+    program: Program | null;
+  };
+
+  export type Program = {
+    __typename?: 'ProgramGraph';
+
+    id: Guid;
   };
 }
 
@@ -2441,15 +2519,72 @@ export class AllProgramsSearchGQL extends Apollo.Query<
 @Injectable({
   providedIn: 'root'
 })
+export class CreateProjectGQL extends Apollo.Mutation<
+  CreateProject.Mutation,
+  CreateProject.Variables
+> {
+  document: any = gql`
+    mutation createProject($data: CreateProjectInputGraph!) {
+      createProject(input: $data) {
+        id
+        name
+        geoJson
+        notes
+        externalId
+        rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdateProjectGQL extends Apollo.Mutation<
+  UpdateProject.Mutation,
+  UpdateProject.Variables
+> {
+  document: any = gql`
+    mutation updateProject($data: UpdateProjectInputGraph!) {
+      updateProject(input: $data) {
+        id
+        name
+        geoJson
+        notes
+        externalId
+        rowVersion
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class DeleteProjectGQL extends Apollo.Mutation<
+  DeleteProject.Mutation,
+  DeleteProject.Variables
+> {
+  document: any = gql`
+    mutation deleteProject($data: DeleteProjectInputGraph!) {
+      deleteProject(input: $data)
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
 export class ProjectGQL extends Apollo.Query<Project.Query, Project.Variables> {
   document: any = gql`
-    query project($projectId: String!) {
-      project(projectId: $projectId) {
+    query project($id: String!) {
+      project(id: $id) {
         id
         name
         notes
         externalId
         status
+        rowVersion
+        program {
+          id
+        }
       }
     }
   `;

@@ -9,6 +9,8 @@ import { ProgramsComponent } from './containers/programs/programs.component'
 import { ProgramComponent } from './containers/program/program.component'
 import { ProjectsComponent } from './containers/projects/projects.component'
 import { ProjectComponent } from './containers/project/project.component'
+import { ProjectAddComponent } from './containers/project/project-add/project-add.component'
+import { ProjectEditComponent } from './containers/project/project-edit/project-edit.component'
 import { ProgramAddComponent } from './containers/program/program-add/program-add.component'
 import { ProgramEditComponent } from './containers/program/program-edit/program-edit.component'
 import { ReportAddComponent } from './containers/program-reports/report-add/report-add.component'
@@ -149,6 +151,22 @@ export const routes: Routes = [
           title: 'Projects',
           icon: 'group_work',
           nav: true
+        }
+      },
+      {
+        path: 'projects/add',
+        component: ProjectAddComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },      
+      {
+        path: 'projects/edit/:id',
+        component: ProjectEditComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
         }
       },
       {

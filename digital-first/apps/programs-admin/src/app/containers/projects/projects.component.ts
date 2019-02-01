@@ -21,7 +21,7 @@ export class ProjectsComponent implements OnDestroy {
   }
 
   add() {
-    return this.router.navigate(['Projects', 'add'])
+    return this.router.navigate(['projects', 'add'])
   }
 
   doSearch() {

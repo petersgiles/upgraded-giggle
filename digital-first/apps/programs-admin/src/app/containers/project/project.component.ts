@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { variable } from '@angular/compiler/src/output/output_ast';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router'
-import { ProjectGQL, Project } from '../../generated/graphql'
-import {map } from 'rxjs/operators'
+import { ProjectGQL, Project, DeleteProjectGQL } from '../../generated/graphql'
+import {map, first } from 'rxjs/operators'
 import {Subscription} from 'rxjs'
+import {ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent} from '@digital-first/df-dialogs'
+import {MdcDialog} from '@angular-mdc/web'
 @Component({
   selector: 'digital-first-project',
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.scss']
 })
-export class ProjectComponent implements OnInit {
+export class ProjectComponent implements OnInit, OnDestroy {
 
-  constructor(private route: ActivatedRoute, private projectGQL: ProjectGQL){}
+  constructor(private route: ActivatedRoute, private projectGQL: ProjectGQL, private deleteProjectGQL: DeleteProjectGQL,  public dialog: MdcDialog, private router: Router){}
     projectId: string
     project: Project.Project
     projectSubscription$: Subscription
@@ -19,9 +20,9 @@ export class ProjectComponent implements OnInit {
   ngOnInit() {
 
   this.projectId = this.route.snapshot.paramMap.get('id')
-  console.log(this.projectId)
+
     this.projectSubscription$ = this.projectGQL
-      .watch({projectId: this.projectId}, {fetchPolicy: 'network-only'})
+      .watch({id: this.projectId}, {fetchPolicy: 'network-only'})
       .valueChanges.pipe(map(value => value.data.project))
       .subscribe(project => {
         this.project = project
@@ -29,20 +30,40 @@ export class ProjectComponent implements OnInit {
   
     }
 
-
-
-  
-
-
-handleEditProject(item: any)
+handleEditProject(project : Project.Project)
 {
-  console.log(item)
+  return this.router.navigate(['projects/edit', project.id])
 }
 
 
-handleDeleteProject(item: any)
-{
-  console.log(item)
+handleDeleteProject(project : Project.Project) {
+  const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+    escapeToClose: true,
+    clickOutsideToClose: true
+  })
+
+  dialogRef
+    .afterClosed()
+    .pipe(first())
+    .subscribe(result => {
+      if (result === ARE_YOU_SURE_ACCEPT && this.project) {
+        this.deleteProjectGQL
+          .mutate(
+            {
+              data: {
+                id: project.id
+              }
+            },
+            {}
+          )
+          .subscribe(value => this.router.navigate(['projects']))
+      }
+    })
+}
+
+
+ngOnDestroy(): void {
+  this.projectSubscription$.unsubscribe()
 }
 
 }

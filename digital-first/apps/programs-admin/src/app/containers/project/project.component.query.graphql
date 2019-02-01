@@ -1,10 +1,14 @@
-query project ($projectId: String!) {
-  project(projectId: $projectId)
+query project ($id: String!) {
+  project(id: $id)
   {
     id
     name
     notes
     externalId
     status
+    rowVersion
+    program {
+      id
+    }
    }
 }
