@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core'
 import { Store, select } from '@ngrx/store'
 import * as fromRoot from '..'
 import { ExpandPanel, CollapsePanel, AddContactToCommitment, RemoveContactFromCommitment } from './commitment-contact.actions'
-import { DataTableConfig } from '@digital-first/df-components'
+import { DataTableConfig } from '@digital-first/df-datatable'
 import { Contact } from '../contact/contact.model'
 
 @Injectable({

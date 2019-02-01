@@ -4,7 +4,7 @@ import {
 import { Injectable } from '@angular/core'
 
 import { Store, select } from '@ngrx/store'
-import { RefinerGroup, RefinerType, DataTableConfig, MapPoint } from '@digital-first/df-components'
+import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
 
 import { Commitment } from '../reducers/commitment/commitment.model'
 
@@ -29,6 +29,7 @@ import { ChangeTimeFormat, CollapsePanel, ExpandPanel, ChangeAutoSave } from '..
 import * as fromRoot from '../reducers'
 import { SetLayoutDrawState } from '../reducers/app.actions'
 import { tap } from 'rxjs/operators'
+import { DataTableConfig } from '@digital-first/df-datatable'
 
 @Injectable({
   providedIn: 'root'

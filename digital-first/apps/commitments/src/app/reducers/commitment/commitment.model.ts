@@ -9,7 +9,7 @@ import { Contact } from '../contact/contact.model'
 import { CriticalDate } from '../../models/critical-date.model'
 import { PackageType } from '../../models/package-type.model'
 import { ThemeType } from '../../models/theme-type.model'
-import { MapPoint } from '@digital-first/df-components'
+import { MapPoint } from '@digital-first/df-map'
 
 export interface Commitment {
   id: number

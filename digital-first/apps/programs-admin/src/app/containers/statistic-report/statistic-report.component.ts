@@ -7,7 +7,7 @@ import {Subscription} from 'rxjs'
 import {ActivatedRoute, Router} from '@angular/router'
 import {MdcDialog} from '@angular-mdc/web'
 import {first, map} from 'rxjs/operators'
-import {DataTableConfig} from '@digital-first/df-components'
+import {DataTableConfig} from '@digital-first/df-datatable'
 
 import {DialogAssignGroupPermissionComponent} from '../../dialogs/dialog-assign-group-permission.component'
 

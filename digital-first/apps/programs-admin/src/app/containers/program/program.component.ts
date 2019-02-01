@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core'
 import {ActivatedRoute, Router} from '@angular/router'
 import {map, first} from 'rxjs/operators'
 import {Subscription} from 'rxjs'
-import {DataTableConfig} from '@digital-first/df-components'
+import {DataTableConfig} from '@digital-first/df-datatable'
 import {MdcDialog} from '@angular-mdc/web'
 import {DialogAssignGroupPermissionComponent} from '../../dialogs/dialog-assign-group-permission.component'
 import {ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent} from '@digital-first/df-dialogs'
@@ -18,7 +18,7 @@ import {
   styleUrls: ['./program.component.scss']
 })
 export class ProgramComponent implements OnInit, OnDestroy {
-  program: Program.Programs
+  program: Program.Program
   programId: string
   permissionTableData: any
   programReportTableData: any
@@ -72,7 +72,7 @@ export class ProgramComponent implements OnInit, OnDestroy {
 
     this.programsSubscription$ = this.programGQL
       .watch({programId: this.programId}, {fetchPolicy: 'network-only'})
-      .valueChanges.pipe(map(value => value.data.programs[0]))
+      .valueChanges.pipe(map(value => value.data.program))
       .subscribe(program => {
         this.program = program
 
@@ -215,7 +215,7 @@ export class ProgramComponent implements OnInit, OnDestroy {
     return this.router.navigate(['reports/', $event.id], {relativeTo: this.route})
   }
 
-  private createProgramReportTableData(program: Program.Programs): any {
+  private createProgramReportTableData(program: Program.Program): any {
     const reports = program.reports.map(report => ({
       id: report.id,
       name: report.name,
@@ -242,7 +242,7 @@ export class ProgramComponent implements OnInit, OnDestroy {
     }
   }
 
-  private createProgramPermissionGroupTableData(program: Program.Programs): DataTableConfig {
+  private createProgramPermissionGroupTableData(program: Program.Program): DataTableConfig {
     const groups = {}
     program.accessControlList.forEach(acl => {
       acl.accessControlEntries.forEach(ace => {

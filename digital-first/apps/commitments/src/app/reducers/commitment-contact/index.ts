@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store'
-import { DataTableConfig } from '@digital-first/df-components'
+import { DataTableConfig } from '@digital-first/df-datatable'
 import * as fromCommitmentContact from './commitment-contact.reducer'
 
 export const getCommitmentContactState = state => state.commitmentContact

@@ -1,5 +1,5 @@
 query user ($userId: String!) {
-  users(ids:[$userId])
+  user(id:$userId)
   {
     id
     emailAddress

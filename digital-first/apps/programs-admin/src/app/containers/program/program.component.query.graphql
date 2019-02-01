@@ -1,5 +1,5 @@
 query program ($programId: String!) {
-  programs(ids:[$programId])
+  program(id:$programId)
   {
     id
     name
@@ -49,7 +49,7 @@ query program ($programId: String!) {
 }
 
 query editProgram ($programId: String!) {
-  programs(ids:[$programId])
+  program(id:$programId)
   {
     id
     name

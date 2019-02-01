@@ -24,6 +24,9 @@ import { GraphQLModule } from './graphql.module'
 import { DeckComponent } from './containers/deck/deck.component'
 import { DragDropModule } from '@angular/cdk/drag-drop'
 import { CardComponent } from './components/card/card.component'
+import { DfDatatableModule } from '@digital-first/df-datatable'
+import { DfButtonsModule } from '@digital-first/df-buttons'
+import { DfMapModule } from '@digital-first/df-map'
 
 export function initApplication(): Function {
   return () => new Promise(resolve => {
@@ -41,6 +44,9 @@ export function initApplication(): Function {
     GraphQLModule,
     DfLoggingModule,
     DfComponentsModule,
+    DfDatatableModule,
+    DfButtonsModule,
+    DfMapModule,
     DfMomentModule,
     DfLayoutsModule,
     DfThemeModule,

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
 import {MdcDialog} from '@angular-mdc/web'
 import {ActivatedRoute, Router} from '@angular/router'
-import {DataTableConfig} from '@digital-first/df-components'
+import {DataTableConfig} from '@digital-first/df-datatable'
 import {first, map} from 'rxjs/operators'
 import {CreateAccessControlGroupUserGQL, GroupGQL, UsersGQL} from '../../generated/graphql'
 import {DialogAssignUserToGroupComponent} from '../../dialogs/dialog-assign-user-to-group.component'

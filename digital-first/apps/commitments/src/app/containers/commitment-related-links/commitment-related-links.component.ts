@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core'
 import { MdcDialog } from '@angular-mdc/web'
 import { Subscription, Observable } from 'rxjs'
-import { DataTableConfig } from '@digital-first/df-components'
+import { DataTableConfig } from '@digital-first/df-datatable'
 import { DialogAreYouSureComponent, ARE_YOU_SURE_ACCEPT } from '@digital-first/df-dialogs'
 import { first } from 'rxjs/operators'
 import { Router } from '@angular/router'

@@ -15,7 +15,7 @@ query allStatistics{
 }
 
 query statistic ($statisticId: String!) {
-  statistics(ids:[$statisticId])
+  statistic(id:$statisticId)
   {
     id
     agency{

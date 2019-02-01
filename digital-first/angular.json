@@ -26,17 +26,17 @@
               "apps/policy-briefs/src/favicon.ico",
               "apps/policy-briefs/src/assets"
             ],
-            "styles": [
-              "apps/policy-briefs/src/styles.scss"
-            ],
+            "styles": ["apps/policy-briefs/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "apps/policy-briefs/src/environments/environment.ts",
-                  "with": "apps/policy-briefs/src/environments/environment.prod.ts"
+                  "replace":
+                    "apps/policy-briefs/src/environments/environment.ts",
+                  "with":
+                    "apps/policy-briefs/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -52,8 +52,10 @@
             "sharepoint": {
               "fileReplacements": [
                 {
-                  "replace": "apps/policy-briefs/src/environments/environment.ts",
-                  "with": "apps/policy-briefs/src/environments/environment.sharepoint.ts"
+                  "replace":
+                    "apps/policy-briefs/src/environments/environment.ts",
+                  "with":
+                    "apps/policy-briefs/src/environments/environment.sharepoint.ts"
                 }
               ]
             }
@@ -84,9 +86,7 @@
             "polyfills": "apps/policy-briefs/src/polyfills.ts",
             "tsConfig": "apps/policy-briefs/tsconfig.spec.json",
             "karmaConfig": "apps/policy-briefs/karma.conf.js",
-            "styles": [
-              "apps/policy-briefs/src/styles.scss"
-            ],
+            "styles": ["apps/policy-briefs/src/styles.scss"],
             "scripts": [],
             "assets": [
               "apps/policy-briefs/src/favicon.ico",
@@ -101,9 +101,7 @@
               "apps/policy-briefs/tsconfig.app.json",
               "apps/policy-briefs/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -129,9 +127,7 @@
               "libs/df-layouts/tsconfig.lib.json",
               "libs/df-layouts/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -157,9 +153,7 @@
               "libs/df-theme/tsconfig.lib.json",
               "libs/df-theme/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -187,9 +181,7 @@
               "apps/commitments/src/favicon.ico",
               "apps/commitments/src/assets"
             ],
-            "styles": [
-              "apps/commitments/src/styles.scss"
-            ],
+            "styles": ["apps/commitments/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -197,7 +189,8 @@
               "fileReplacements": [
                 {
                   "replace": "apps/commitments/src/environments/environment.ts",
-                  "with": "apps/commitments/src/environments/environment.prod.ts"
+                  "with":
+                    "apps/commitments/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -214,7 +207,8 @@
               "fileReplacements": [
                 {
                   "replace": "apps/commitments/src/environments/environment.ts",
-                  "with": "apps/commitments/src/environments/environment.sharepoint.ts"
+                  "with":
+                    "apps/commitments/src/environments/environment.sharepoint.ts"
                 }
               ]
             }
@@ -245,9 +239,7 @@
             "polyfills": "apps/commitments/src/polyfills.ts",
             "tsConfig": "apps/commitments/tsconfig.spec.json",
             "karmaConfig": "apps/commitments/karma.conf.js",
-            "styles": [
-              "apps/commitments/src/styles.scss"
-            ],
+            "styles": ["apps/commitments/src/styles.scss"],
             "scripts": [],
             "assets": [
               "apps/commitments/src/favicon.ico",
@@ -262,9 +254,7 @@
               "apps/commitments/tsconfig.app.json",
               "apps/commitments/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -292,9 +282,7 @@
               "apps/brief-admin/src/favicon.ico",
               "apps/brief-admin/src/assets"
             ],
-            "styles": [
-              "apps/brief-admin/src/styles.scss"
-            ],
+            "styles": ["apps/brief-admin/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -302,7 +290,8 @@
               "fileReplacements": [
                 {
                   "replace": "apps/brief-admin/src/environments/environment.ts",
-                  "with": "apps/brief-admin/src/environments/environment.prod.ts"
+                  "with":
+                    "apps/brief-admin/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -319,7 +308,8 @@
               "fileReplacements": [
                 {
                   "replace": "apps/brief-admin/src/environments/environment.ts",
-                  "with": "apps/brief-admin/src/environments/environment.sharepoint.ts"
+                  "with":
+                    "apps/brief-admin/src/environments/environment.sharepoint.ts"
                 }
               ]
             }
@@ -350,9 +340,7 @@
             "polyfills": "apps/brief-admin/src/polyfills.ts",
             "tsConfig": "apps/brief-admin/tsconfig.spec.json",
             "karmaConfig": "apps/brief-admin/karma.conf.js",
-            "styles": [
-              "apps/brief-admin/src/styles.scss"
-            ],
+            "styles": ["apps/brief-admin/src/styles.scss"],
             "scripts": [],
             "assets": [
               "apps/brief-admin/src/favicon.ico",
@@ -367,9 +355,7 @@
               "apps/brief-admin/tsconfig.app.json",
               "apps/brief-admin/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -393,13 +379,8 @@
             "main": "apps/deck/src/main.ts",
             "polyfills": "apps/deck/src/polyfills.ts",
             "tsConfig": "apps/deck/tsconfig.app.json",
-            "assets": [
-              "apps/deck/src/favicon.ico",
-              "apps/deck/src/assets"
-            ],
-            "styles": [
-              "apps/deck/src/styles.scss"
-            ],
+            "assets": ["apps/deck/src/favicon.ico", "apps/deck/src/assets"],
+            "styles": ["apps/deck/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -455,14 +436,9 @@
             "polyfills": "apps/deck/src/polyfills.ts",
             "tsConfig": "apps/deck/tsconfig.spec.json",
             "karmaConfig": "apps/deck/karma.conf.js",
-            "styles": [
-              "apps/deck/src/styles.scss"
-            ],
+            "styles": ["apps/deck/src/styles.scss"],
             "scripts": [],
-            "assets": [
-              "apps/deck/src/favicon.ico",
-              "apps/deck/src/assets"
-            ]
+            "assets": ["apps/deck/src/favicon.ico", "apps/deck/src/assets"]
           }
         },
         "lint": {
@@ -472,9 +448,7 @@
               "apps/deck/tsconfig.app.json",
               "apps/deck/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -498,13 +472,8 @@
             "main": "apps/todo/src/main.ts",
             "polyfills": "apps/todo/src/polyfills.ts",
             "tsConfig": "apps/todo/tsconfig.app.json",
-            "assets": [
-              "apps/todo/src/favicon.ico",
-              "apps/todo/src/assets"
-            ],
-            "styles": [
-              "apps/todo/src/styles.scss"
-            ],
+            "assets": ["apps/todo/src/favicon.ico", "apps/todo/src/assets"],
+            "styles": ["apps/todo/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -560,14 +529,9 @@
             "polyfills": "apps/todo/src/polyfills.ts",
             "tsConfig": "apps/todo/tsconfig.spec.json",
             "karmaConfig": "apps/todo/karma.conf.js",
-            "styles": [
-              "apps/todo/src/styles.scss"
-            ],
+            "styles": ["apps/todo/src/styles.scss"],
             "scripts": [],
-            "assets": [
-              "apps/todo/src/favicon.ico",
-              "apps/todo/src/assets"
-            ]
+            "assets": ["apps/todo/src/favicon.ico", "apps/todo/src/assets"]
           }
         },
         "lint": {
@@ -577,9 +541,7 @@
               "apps/todo/tsconfig.app.json",
               "apps/todo/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -605,9 +567,7 @@
               "libs/df-discussion/tsconfig.lib.json",
               "libs/df-discussion/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -633,9 +593,7 @@
               "libs/df-sharepoint/tsconfig.lib.json",
               "libs/df-sharepoint/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -661,9 +619,7 @@
               "libs/df-moment/tsconfig.lib.json",
               "libs/df-moment/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -689,9 +645,7 @@
               "libs/df-pipes/tsconfig.lib.json",
               "libs/df-pipes/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -717,9 +671,7 @@
               "libs/df-utils/tsconfig.lib.json",
               "libs/df-utils/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -745,9 +697,7 @@
               "libs/df-pages/tsconfig.lib.json",
               "libs/df-pages/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -773,9 +723,7 @@
               "libs/df-dialogs/tsconfig.lib.json",
               "libs/df-dialogs/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -806,9 +754,7 @@
               "libs/df-components/tsconfig.lib.json",
               "libs/df-components/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -834,9 +780,7 @@
               "libs/df-logging/tsconfig.lib.json",
               "libs/df-logging/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -864,17 +808,17 @@
               "apps/programs-admin/src/favicon.ico",
               "apps/programs-admin/src/assets"
             ],
-            "styles": [
-              "apps/programs-admin/src/styles.scss"
-            ],
+            "styles": ["apps/programs-admin/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "apps/programs-admin/src/environments/environment.ts",
-                  "with": "apps/programs-admin/src/environments/environment.prod.ts"
+                  "replace":
+                    "apps/programs-admin/src/environments/environment.ts",
+                  "with":
+                    "apps/programs-admin/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -899,8 +843,10 @@
             "dev": {
               "fileReplacements": [
                 {
-                  "replace": "apps/programs-admin/src/environments/environment.ts",
-                  "with": "apps/programs-admin/src/environments/environment.dev.ts"
+                  "replace":
+                    "apps/programs-admin/src/environments/environment.ts",
+                  "with":
+                    "apps/programs-admin/src/environments/environment.dev.ts"
                 }
               ],
               "optimization": false,
@@ -923,119 +869,266 @@
               ]
             }
           }
-      },
-      "serve": {
-        "builder": "@angular-devkit/build-angular:dev-server",
-        "options": {
-          "port": 4206,
-          "browserTarget": "programs-admin:build"
         },
-        "configurations": {
-          "production": {
-            "browserTarget": "programs-admin:build:production"
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "port": 4206,
+            "browserTarget": "programs-admin:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "programs-admin:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "programs-admin:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/programs-admin/src/test.ts",
+            "polyfills": "apps/programs-admin/src/polyfills.ts",
+            "tsConfig": "apps/programs-admin/tsconfig.spec.json",
+            "karmaConfig": "apps/programs-admin/karma.conf.js",
+            "styles": ["apps/programs-admin/src/styles.scss"],
+            "scripts": [],
+            "assets": [
+              "apps/programs-admin/src/favicon.ico",
+              "apps/programs-admin/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/programs-admin/tsconfig.app.json",
+              "apps/programs-admin/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "df-auth": {
+      "root": "libs/df-auth",
+      "sourceRoot": "libs/df-auth/src",
+      "projectType": "library",
+      "prefix": "digital-first",
+      "architect": {
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/df-auth/src/test.ts",
+            "tsConfig": "libs/df-auth/tsconfig.spec.json",
+            "karmaConfig": "libs/df-auth/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-auth/tsconfig.lib.json",
+              "libs/df-auth/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "df-app-tokens": {
+      "root": "libs/df-app-tokens",
+      "sourceRoot": "libs/df-app-tokens/src",
+      "projectType": "library",
+      "prefix": "digital-first",
+      "architect": {
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/df-app-tokens/src/test.ts",
+            "tsConfig": "libs/df-app-tokens/tsconfig.spec.json",
+            "karmaConfig": "libs/df-app-tokens/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-app-tokens/tsconfig.lib.json",
+              "libs/df-app-tokens/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "df-tag": {
+      "root": "libs/df-tag",
+      "sourceRoot": "libs/df-tag/src",
+      "projectType": "library",
+      "prefix": "digital-first",
+      "architect": {
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/df-tag/src/test.ts",
+            "tsConfig": "libs/df-tag/tsconfig.spec.json",
+            "karmaConfig": "libs/df-tag/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-tag/tsconfig.lib.json",
+              "libs/df-tag/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
           }
         }
       },
-      "extract-i18n": {
-        "builder": "@angular-devkit/build-angular:extract-i18n",
-        "options": {
-          "browserTarget": "programs-admin:build"
+      "schematics": {
+        "@nrwl/schematics:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "df-datatable": {
+      "root": "libs/df-datatable",
+      "sourceRoot": "libs/df-datatable/src",
+      "projectType": "library",
+      "prefix": "digital-first",
+      "architect": {
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/df-datatable/src/test.ts",
+            "tsConfig": "libs/df-datatable/tsconfig.spec.json",
+            "karmaConfig": "libs/df-datatable/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-datatable/tsconfig.lib.json",
+              "libs/df-datatable/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
         }
       },
-      "test": {
-        "builder": "@angular-devkit/build-angular:karma",
-        "options": {
-          "main": "apps/programs-admin/src/test.ts",
-          "polyfills": "apps/programs-admin/src/polyfills.ts",
-          "tsConfig": "apps/programs-admin/tsconfig.spec.json",
-          "karmaConfig": "apps/programs-admin/karma.conf.js",
-          "styles": [
-            "apps/programs-admin/src/styles.scss"
-          ],
-          "scripts": [],
-          "assets": [
-            "apps/programs-admin/src/favicon.ico",
-            "apps/programs-admin/src/assets"
-          ]
+      "schematics": {
+        "@nrwl/schematics:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "df-buttons": {
+      "root": "libs/df-buttons",
+      "sourceRoot": "libs/df-buttons/src",
+      "projectType": "library",
+      "prefix": "digital-first",
+      "architect": {
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/df-buttons/src/test.ts",
+            "tsConfig": "libs/df-buttons/tsconfig.spec.json",
+            "karmaConfig": "libs/df-buttons/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-buttons/tsconfig.lib.json",
+              "libs/df-buttons/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
         }
       },
-      "lint": {
-        "builder": "@angular-devkit/build-angular:tslint",
-        "options": {
-          "tsConfig": [
-            "apps/programs-admin/tsconfig.app.json",
-            "apps/programs-admin/tsconfig.spec.json"
-          ],
-          "exclude": [
-            "**/node_modules/**"
-          ]
+      "schematics": {
+        "@nrwl/schematics:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "df-map": {
+      "root": "libs/df-map",
+      "sourceRoot": "libs/df-map/src",
+      "projectType": "library",
+      "prefix": "digital-first",
+      "architect": {
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/df-map/src/test.ts",
+            "tsConfig": "libs/df-map/tsconfig.spec.json",
+            "karmaConfig": "libs/df-map/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-map/tsconfig.lib.json",
+              "libs/df-map/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/schematics:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "df-refiner": {
+      "root": "libs/df-refiner",
+      "sourceRoot": "libs/df-refiner/src",
+      "projectType": "library",
+      "prefix": "digital-first",
+      "architect": {
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/df-refiner/src/test.ts",
+            "tsConfig": "libs/df-refiner/tsconfig.spec.json",
+            "karmaConfig": "libs/df-refiner/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-refiner/tsconfig.lib.json",
+              "libs/df-refiner/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/schematics:component": {
+          "styleext": "scss"
         }
       }
     }
   },
-  "df-auth": {
-    "root": "libs/df-auth",
-    "sourceRoot": "libs/df-auth/src",
-    "projectType": "library",
-    "prefix": "digital-first",
-    "architect": {
-      "test": {
-        "builder": "@angular-devkit/build-angular:karma",
-        "options": {
-          "main": "libs/df-auth/src/test.ts",
-          "tsConfig": "libs/df-auth/tsconfig.spec.json",
-          "karmaConfig": "libs/df-auth/karma.conf.js"
-        }
-      },
-      "lint": {
-        "builder": "@angular-devkit/build-angular:tslint",
-        "options": {
-          "tsConfig": [
-            "libs/df-auth/tsconfig.lib.json",
-            "libs/df-auth/tsconfig.spec.json"
-          ],
-          "exclude": [
-            "**/node_modules/**"
-          ]
-        }
-      }
-    }
+  "cli": {
+    "warnings": {
+      "typescriptMismatch": false,
+      "versionMismatch": false
+    },
+    "defaultCollection": "@nrwl/schematics"
   },
-  "df-app-tokens": {
-    "root": "libs/df-app-tokens",
-    "sourceRoot": "libs/df-app-tokens/src",
-    "projectType": "library",
-    "prefix": "digital-first",
-    "architect": {
-      "test": {
-        "builder": "@angular-devkit/build-angular:karma",
-        "options": {
-          "main": "libs/df-app-tokens/src/test.ts",
-          "tsConfig": "libs/df-app-tokens/tsconfig.spec.json",
-          "karmaConfig": "libs/df-app-tokens/karma.conf.js"
-        }
-      },
-      "lint": {
-        "builder": "@angular-devkit/build-angular:tslint",
-        "options": {
-          "tsConfig": [
-            "libs/df-app-tokens/tsconfig.lib.json",
-            "libs/df-app-tokens/tsconfig.spec.json"
-          ],
-          "exclude": [
-            "**/node_modules/**"
-          ]
-        }
-      }
-    }
-  }
-},
-"cli": {
-  "warnings": {
-    "typescriptMismatch": false,
-    "versionMismatch": false
-  },
-  "defaultCollection": "@nrwl/schematics"
-},
-"defaultProject": "commitments"
+  "defaultProject": "commitments"
 }

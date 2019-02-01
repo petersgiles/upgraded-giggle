@@ -29,19 +29,9 @@ import {DfMomentModule} from '@digital-first/df-moment'
 import {WINDOW_PROVIDERS} from '@digital-first/df-utils'
 import {
   DfComponentsModule,
-  TagsComponent,
-  ViewLayoutButtonComponent,
   ContactCardComponent,
   PageTitleComponent,
-  ExpandCollapseButtonComponent,
-  DateFormatButtonComponent,
-  AddItemButtonComponent,
-  ShareButtonComponent,
-  AddNotificationButtonComponent,
-  ArchiveButtonComponent,
   RelatedArtifactsComponent,
-  MetadataRefinerComponent,
-  DataTableComponent
 } from '@digital-first/df-components'
 
 import {AppComponent} from './app.component'
@@ -87,6 +77,11 @@ import { ProjectsComponent } from './containers/projects/projects.component';
 import { ProjectComponent } from './containers/project/project.component'
 import { ProjectAddComponent } from './containers/project/project-add/project-add.component'
 import { ProjectEditComponent } from './containers/project/project-edit/project-edit.component'
+import {ReportEditComponent} from './containers/program-reports/report-edit/report-edit.component'
+import { ProjectsComponent } from './containers/projects/projects.component'
+import { DataTableComponent, DfDatatableModule } from '@digital-first/df-datatable'
+import { DfButtonsModule } from '@digital-first/df-buttons'
+import { DfRefinerModule } from '@digital-first/df-refiner'
 
 const COMPONENTS = [AppComponent, HomeComponent]
 
@@ -99,18 +94,9 @@ const ENTRYCOMPONENTS = [
   DialogAssignGroupPermissionComponent,
   DialogAssignUserToGroupComponent,
   DiscussionComponent,
-  TagsComponent,
-  ViewLayoutButtonComponent,
   ContactCardComponent,
   PageTitleComponent,
-  ExpandCollapseButtonComponent,
-  DateFormatButtonComponent,
-  AddItemButtonComponent,
-  ShareButtonComponent,
-  AddNotificationButtonComponent,
-  ArchiveButtonComponent,
   RelatedArtifactsComponent,
-  MetadataRefinerComponent,
   DataTableComponent
 ]
 
@@ -172,12 +158,15 @@ export function initApplication(): Function {
     NxModule.forRoot(),
     DfAuthModule,
     DfComponentsModule,
+    DfDatatableModule,
+    DfButtonsModule,
     DfMomentModule,
     DfLayoutsModule,
     DfThemeModule,
     DfDiscussionModule,
     DfPagesModule,
     DfDialogsModule,
+    DfRefinerModule,
     DfPipesModule,
     ErrorsModule,
     AppRoutingModule,

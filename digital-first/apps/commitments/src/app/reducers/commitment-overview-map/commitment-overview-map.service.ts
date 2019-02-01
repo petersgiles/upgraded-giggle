@@ -5,8 +5,9 @@ import { Injectable } from '@angular/core'
 import { Store, select } from '@ngrx/store'
 
 import * as fromRoot from '..'
-import { MapPoint, DataTableConfig } from '@digital-first/df-components'
+import { MapPoint } from '@digital-first/df-map'
 import { GetCommitmentOverviewMapPoints, GetCommitmentOverviewMapCommitments } from './commitment-overview-map.actions'
+import { DataTableConfig } from '@digital-first/df-datatable'
 
 @Injectable({
     providedIn: 'root'

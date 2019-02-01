@@ -10,7 +10,7 @@ import {
   Party,
   Portfolio
 } from '../../models'
-import { DataTableConfig } from '@digital-first/df-components'
+import { DataTableConfig } from '@digital-first/df-datatable'
 import { Router, ActivatedRoute, ParamMap } from '@angular/router'
 import { MdcDialog, MdcSnackbar } from '@angular-mdc/web'
 import { CommitmentDataService } from '../../services/commitment-data.service'

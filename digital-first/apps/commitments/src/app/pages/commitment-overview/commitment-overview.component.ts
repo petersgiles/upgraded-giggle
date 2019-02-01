@@ -4,17 +4,17 @@ import { Observable, Subscription } from 'rxjs'
 import { Router } from '@angular/router'
 import { MdcDialog, MdcSnackbar } from '@angular-mdc/web'
 import { Commitment } from '../../reducers/commitment/commitment.model'
-import { DataTableConfig } from '@digital-first/df-components'
+import { DataTableConfig } from '@digital-first/df-datatable'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 import { showSnackBar } from '../../dialogs/show-snack-bar'
 import { ExcelService } from '../../services/excel.service'
+import { DateFormatPipe } from '@digital-first/df-moment'
 @Component({
   selector: 'digital-first-commitment-overview',
   templateUrl: './commitment-overview.component.html',
   styleUrls: ['./commitment-overview.component.scss']
 })
 export class CommitmentOverviewComponent implements OnInit, OnDestroy {
-
   commitments$: Observable<Commitment[]>
   activity$: Observable<any>
   pageFormat: 'card' | 'list' | 'table' = 'table'
@@ -31,22 +31,30 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
   commitmentsFilteredSubscription$: Subscription
   filteredCommitments: any
 
-  constructor(private snackbar: MdcSnackbar, public dialog: MdcDialog, private router: Router, private service: CommitmentDataService,
-    private lookup: CommitmentLookupService, private excelService: ExcelService) { }
+  constructor(
+    private snackbar: MdcSnackbar,
+    public dialog: MdcDialog,
+    private router: Router,
+    private service: CommitmentDataService,
+    private lookup: CommitmentLookupService,
+    private excelService: ExcelService,
+    private dateFormat: DateFormatPipe
+  ) {}
 
   ngOnInit() {
     this.commitments$ = this.service.Commitments
 
-    this.commitmentsFilteredSubscription$ = this.service.CommitmentFiltered.subscribe(fc => this.filteredCommitments = fc)
-    this.commitmentsTableDataSubscription$ = this.service.CommitmentDataTable
-    .subscribe(config => {
-      this.pageIndex = 0
-      this.pageSize = 10
-      this.dataTableConfig = config
-      this.dataTableRows = config.rows
-      this.pageRows()
-    }
-
+    this.commitmentsFilteredSubscription$ = this.service.CommitmentFiltered.subscribe(
+      fc => (this.filteredCommitments = fc)
+    )
+    this.commitmentsTableDataSubscription$ = this.service.CommitmentDataTable.subscribe(
+      config => {
+        this.pageIndex = 0
+        this.pageSize = 10
+        this.dataTableConfig = config
+        this.dataTableRows = config.rows
+        this.pageRows()
+      }
     )
     this.refinerGroups$ = this.service.RefinerGroups
     this.activity$ = this.service.CommitmentActivity
@@ -72,7 +80,6 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
           if (next) {
             this.formBusy = false
             showSnackBar(this.snackbar, next.message)
-
           }
         },
         error => showSnackBar(this.snackbar, error)
@@ -85,12 +92,10 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
   }
 
   pageRows() {
-
     const skip = this.pageIndex * this.pageSize
-    const take =  skip + this.pageSize
+    const take = skip + this.pageSize
 
     this.pagedDataTableRows = (this.dataTableRows || []).slice(skip, take)
-
   }
 
   ngOnDestroy(): void {
@@ -103,8 +108,6 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
   }
 
   handleClearAllFilters() {
-    // tslint:disable-next-line:no-console
-    console.log('handleClearAllFilters')
     this.service.clearAllRefiners()
   }
 
@@ -141,13 +144,12 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
   }
 
   handleExport() {
-
     const exportCommitments = this.filteredCommitments.map(fc => ({
-      'Title': fc.title,
-      'Party': fc.party ? fc.party.title : '',
+      Title: fc.title,
+      Party: fc.party ? fc.party.title : '',
       'Responsible Portfolio': fc.portfolio ? fc.portfolio.title : '',
       'Type of Commitment': fc.commitmentType ? fc.commitmentType.title : '',
-      'Critical Date': fc.date
+      'Critical Date': this.dateFormat.transform(fc.date, 'LL')
     }))
 
     this.excelService.exportAsExcelFile(exportCommitments, 'commitments')

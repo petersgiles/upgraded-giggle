@@ -2,7 +2,7 @@ import {
   DeliveryLocationActions,
   DeliveryLocationActionTypes
 } from './commitment-delivery-location.actions'
-import { MapPoint } from '@digital-first/df-components'
+import { MapPoint } from '@digital-first/df-map'
 import { Electorate } from '../../models'
 
 export interface State {

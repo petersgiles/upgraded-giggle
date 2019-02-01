@@ -28,19 +28,9 @@ import { DfMomentModule } from '@digital-first/df-moment'
 import { WINDOW_PROVIDERS } from '@digital-first/df-utils'
 import {
   DfComponentsModule,
-  TagsComponent,
-  ViewLayoutButtonComponent,
   ContactCardComponent,
   PageTitleComponent,
-  ExpandCollapseButtonComponent,
-  DateFormatButtonComponent,
-  AddItemButtonComponent,
-  ShareButtonComponent,
-  AddNotificationButtonComponent,
-  ArchiveButtonComponent,
-  RelatedArtifactsComponent,
-  MetadataRefinerComponent,
-  DataTableComponent
+  RelatedArtifactsComponent
 } from '@digital-first/df-components'
 
 import { AppComponent } from './app.component'
@@ -70,6 +60,7 @@ import { AppEffects } from './reducers/app.effects'
 import { RouterEffects } from './reducers/router.effects'
 import { CommentEffects } from './reducers/comment/comment.effects'
 import { ContactEffects } from './reducers/contact/contact.effects'
+import { DataTableComponent } from '@digital-first/df-datatable'
 
 const COMPONENTS = [
   AppComponent,
@@ -83,18 +74,9 @@ const ENTRYCOMPONENTS = [
   DialogSpinnerOverlayComponent,
   DialogAddContactComponent,
   DiscussionComponent,
-  TagsComponent,
-  ViewLayoutButtonComponent,
   ContactCardComponent,
   PageTitleComponent,
-  ExpandCollapseButtonComponent,
-  DateFormatButtonComponent,
-  AddItemButtonComponent,
-  ShareButtonComponent,
-  AddNotificationButtonComponent,
-  ArchiveButtonComponent,
   RelatedArtifactsComponent,
-  MetadataRefinerComponent,
   DataTableComponent
 ]
 

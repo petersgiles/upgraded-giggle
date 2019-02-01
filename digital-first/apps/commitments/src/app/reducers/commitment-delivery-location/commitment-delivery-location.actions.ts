@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store'
-import { MapPoint } from '@digital-first/df-components'
+import { MapPoint } from '@digital-first/df-map'
 
 export enum DeliveryLocationActionTypes {
 

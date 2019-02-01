@@ -21,7 +21,7 @@ import {
   mapCommitmentElectorates,
   mapElectorates
 } from './maps'
-import { MapPoint } from '@digital-first/df-components'
+import { MapPoint } from '@digital-first/df-map'
 import { ElectoratesResult } from '../../../models/location.model'
 
 @Injectable({

@@ -12,8 +12,8 @@ import { first } from 'rxjs/operators'
 import { DeliveryLocationService } from '../../reducers/commitment-delivery-location/commitment-delivery-location.service'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 import { Electorate } from '../../models/location.model'
-import { MapPoint } from '@digital-first/df-components'
-import { returnStatement } from 'babel-types'
+import { MapPoint } from '@digital-first/df-map'
+
 @Component({
   selector: 'digital-first-commitment-delivery-location',
   templateUrl: './commitment-delivery-location.component.html',
