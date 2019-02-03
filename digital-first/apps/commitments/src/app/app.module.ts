@@ -241,8 +241,8 @@ export let appDataServiceProvider = {
     EffectsModule.forRoot([AppEffects]),
     EffectsModule.forFeature([
       RouterEffects,
-      CommitmentLookupEffects,
       CommitmentContactEffects,
+      CommitmentLookupEffects,
       ContactEffects,
       RelatedCommitmentEffects,
       RelatedLinkEffects,
