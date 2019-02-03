@@ -79,7 +79,8 @@ import {ReportEditComponent} from './containers/program-reports/report-edit/repo
 import {ProjectsComponent} from './containers/projects/projects.component'
 import {DataTableComponent, DfDatatableModule} from '@digital-first/df-datatable'
 import {DfButtonsModule} from '@digital-first/df-buttons'
-import {DfRefinerModule} from '@digital-first/df-refiner'
+import {DfRefinerModule} from '@digital-first/df-refiner';
+import { AgenciesComponent } from './containers/agencies/agencies.component'
 
 const COMPONENTS = [AppComponent, HomeComponent]
 
@@ -142,7 +143,8 @@ export function initApplication(): Function {
     ProjectsComponent,
     ProjectComponent,
     ProjectAddComponent,
-    ProjectEditComponent
+    ProjectEditComponent,
+    AgenciesComponent
   ],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [

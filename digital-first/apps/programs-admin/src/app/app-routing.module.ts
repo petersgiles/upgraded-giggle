@@ -30,6 +30,7 @@ import { StatisticReportComponent } from './containers/statistic-report/statisti
 import { StatisticReportAddComponent } from './containers/statistic-reports/statistic-report-add/statistic-report-add.component'
 import { StatisticReportEditComponent } from './containers/statistic-reports/statistic-report-edit/statistic-report-edit.component'
 import { ReportEditComponent } from './containers/program-reports/report-edit/report-edit.component'
+import { AgenciesComponent } from './containers/agencies/agencies.component'
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -46,6 +47,16 @@ export const routes: Routes = [
         data: {
           title: 'Home',
           icon: 'home',
+          nav: true
+        }
+      },
+      {
+        path: 'agencies',
+        component: AgenciesComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'Agencies',
+          icon: 'text_rotation_none',
           nav: true
         }
       },
@@ -160,7 +171,7 @@ export const routes: Routes = [
         data: {
           nav: false
         }
-      },      
+      },
       {
         path: 'projects/edit/:id',
         component: ProjectEditComponent,
@@ -286,7 +297,6 @@ export const routes: Routes = [
           nav: true
         }
       }
-
     ]
   },
   { path: '**', redirectTo: 'home' }
@@ -296,5 +306,4 @@ export const routes: Routes = [
   imports: [RouterModule.forRoot(routes, { enableTracing: false })],
   exports: [RouterModule]
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}

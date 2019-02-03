@@ -1,437 +1,437 @@
 export interface OrderByGraph {
-  path: string;
+  path: string
 
-  descending?: boolean | null;
+  descending?: boolean | null
 }
 
 export interface WhereExpressionGraph {
-  path: string;
+  path: string
 
-  comparison?: ComparisonGraph | null;
+  comparison?: ComparisonGraph | null
 
-  case?: StringComparison | null;
+  case?: StringComparison | null
 
-  value?: (string | null)[] | null;
+  value?: (string | null)[] | null
 }
 
 export interface CreateAccessControlGroupInputGraph {
-  title: string;
+  title: string
 }
 
 export interface CreateAccessControlGroupUserInputGraph {
-  accessControlGroupId: Guid;
+  accessControlGroupId: Guid
 
-  userId: Guid;
+  userId: Guid
 }
 
 export interface CreateAgencyInputGraph {
-  title: string;
+  title: string
 
-  metadata?: string | null;
+  metadata?: string | null
 
-  portfolioId: Guid;
+  portfolioId: Guid
 }
 
 export interface CreateAgencyMappingInputGraph {
-  agencyId: Guid;
+  agencyId: Guid
 
-  emailDomain: string;
+  emailDomain: string
 
-  accessControlGroupId: Guid;
+  accessControlGroupId: Guid
 }
 
 export interface CreateDisplayGroupInputGraph {
-  title: string;
+  title: string
 
-  sortOrder: UInt32;
+  sortOrder: UInt32
 
-  metadata?: string | null;
+  metadata?: string | null
 
-  parentId?: Guid | null;
+  parentId?: Guid | null
 }
 
 export interface CreateDisplayGroupProgramInputGraph {
-  sortOrder: UInt32;
+  sortOrder: UInt32
 
-  metadata: string;
+  metadata: string
 
-  programId: Guid;
+  programId: Guid
 
-  displayGroupId: Guid;
+  displayGroupId: Guid
 }
 
 export interface CreateDisplayGroupStatisticInputGraph {
-  sortOrder: UInt32;
+  sortOrder: UInt32
 
-  metadata: string;
+  metadata: string
 
-  statisticId: Guid;
+  statisticId: Guid
 
-  displayGroupId: Guid;
+  displayGroupId: Guid
 }
 
 export interface CreatePortfolioInputGraph {
-  title: string;
+  title: string
 
-  metadata?: string | null;
+  metadata?: string | null
 }
 
 export interface CreateProgramInputGraph {
-  name: string;
+  name: string
 
-  agencyId: Guid;
+  agencyId: Guid
 
-  externalId?: string | null;
+  externalId?: string | null
 
-  notes?: string | null;
+  notes?: string | null
 
-  commitments?: string | null;
+  commitments?: string | null
 }
 
 export interface CreateProgramAccessControlInputGraph {
-  programId: Guid;
+  programId: Guid
 
-  accessControlGroupId: Guid;
+  accessControlGroupId: Guid
 
-  accessRights?: AccessRights | null;
+  accessRights?: AccessRights | null
 }
 
 export interface CreateProjectInputGraph {
-  name: string;
+  name: string
 
-  externalId?: string | null;
+  externalId?: string | null
 
-  programId: Guid;
+  programId: Guid
 
-  geoJson?: string | null;
+  geoJson?: string | null
 
-  notes?: string | null;
+  notes?: string | null
 
-  status?: string | null;
+  status?: string | null
 
-  endDate?: Date | null;
+  endDate?: Date | null
 }
 
 export interface CreateReportInputGraph {
-  name: string;
+  name: string
 
-  programId: Guid;
+  programId: Guid
 
-  notes?: string | null;
+  notes?: string | null
 }
 
 export interface CreateReportAccessControlInputGraph {
-  reportId: Guid;
+  reportId: Guid
 
-  accessControlGroupId: Guid;
+  accessControlGroupId: Guid
 
-  accessRights?: AccessRights | null;
+  accessRights?: AccessRights | null
 }
 
 export interface CreateStatisticInputGraph {
-  name: string;
+  name: string
 
-  agencyId: Guid;
+  agencyId: Guid
 
-  externalId?: string | null;
+  externalId?: string | null
 }
 
 export interface CreateStatisticAccessControlInputGraph {
-  statisticId: Guid;
+  statisticId: Guid
 
-  accessControlGroupId: Guid;
+  accessControlGroupId: Guid
 
-  accessRights?: AccessRights | null;
+  accessRights?: AccessRights | null
 }
 
 export interface CreateStatisticReportInputGraph {
-  name: string;
+  name: string
 
-  notes?: string | null;
+  notes?: string | null
 
-  statisticId: Guid;
+  statisticId: Guid
 }
 
 export interface CreateStatisticReportAccessControlInputGraph {
-  statisticReportId: Guid;
+  statisticReportId: Guid
 
-  accessControlGroupId: Guid;
+  accessControlGroupId: Guid
 
-  accessRights?: AccessRights | null;
+  accessRights?: AccessRights | null
 }
 
 export interface DeleteAccessControlGroupInputGraph {
-  id: Guid;
+  id: Guid
 }
 
 export interface DeleteAccessControlGroupUserInputGraph {
-  accessControlGroupId: Guid;
+  accessControlGroupId: Guid
 
-  userId: Guid;
+  userId: Guid
 }
 
 export interface DeleteAgencyInputGraph {
-  id: Guid;
+  id: Guid
 }
 
 export interface DeleteAgencyMappingInputGraph {
-  id: Guid;
+  id: Guid
 }
 
 export interface DeleteDisplayGroupInputGraph {
-  id: Guid;
+  id: Guid
 }
 
 export interface DeleteDisplayGroupProgramInputGraph {
-  programId: Guid;
+  programId: Guid
 
-  displayGroupId: Guid;
+  displayGroupId: Guid
 }
 
 export interface DeleteDisplayGroupStatisticInputGraph {
-  statisticId: Guid;
+  statisticId: Guid
 
-  displayGroupId: Guid;
+  displayGroupId: Guid
 }
 
 export interface DeletePortfolioInputGraph {
-  id: Guid;
+  id: Guid
 }
 
 export interface DeleteProgramInputGraph {
-  id: Guid;
+  id: Guid
 }
 
 export interface DeleteProgramAccessControlInputGraph {
-  accessControlListId: Guid;
+  accessControlListId: Guid
 
-  accessControlGroupId: Guid;
+  accessControlGroupId: Guid
 }
 
 export interface DeleteProjectInputGraph {
-  id: Guid;
+  id: Guid
 }
 
 export interface DeleteReportInputGraph {
-  id: Guid;
+  id: Guid
 }
 
 export interface DeleteReportAccessControlInputGraph {
-  reportId: Guid;
+  reportId: Guid
 
-  accessControlGroupId: Guid;
+  accessControlGroupId: Guid
 }
 
 export interface DeleteStatisticInputGraph {
-  id: Guid;
+  id: Guid
 }
 
 export interface DeleteStatisticAccessControlInputGraph {
-  statisticId: Guid;
+  statisticId: Guid
 
-  accessControlGroupId: Guid;
+  accessControlGroupId: Guid
 }
 
 export interface DeleteStatisticReportInputGraph {
-  id: Guid;
+  id: Guid
 }
 
 export interface DeleteStatisticReportAccessControlInputGraph {
-  statisticReportId: Guid;
+  statisticReportId: Guid
 
-  accessControlGroupId: Guid;
+  accessControlGroupId: Guid
 }
 
 export interface UpdateAccessControlGroupInputGraph {
-  id: Guid;
+  id: Guid
 
-  title: string;
+  title: string
 
-  rowVersion: string;
+  rowVersion: string
 }
 
 export interface UpdateAgencyInputGraph {
-  id: Guid;
+  id: Guid
 
-  title: string;
+  title: string
 
-  metadata?: string | null;
+  metadata?: string | null
 
-  rowVersion: string;
+  rowVersion: string
 
-  portfolioId: Guid;
+  portfolioId: Guid
 }
 
 export interface UpdateAgencyMappingInputGraph {
-  id: Guid;
+  id: Guid
 
-  agencyId: Guid;
+  agencyId: Guid
 
-  emailDomain: string;
+  emailDomain: string
 
-  accessControlGroupId: Guid;
+  accessControlGroupId: Guid
 
-  rowVersion: string;
+  rowVersion: string
 }
 
 export interface UpdateDisplayGroupInputGraph {
-  id: Guid;
+  id: Guid
 
-  title: string;
+  title: string
 
-  sortOrder: UInt32;
+  sortOrder: UInt32
 
-  metadata?: string | null;
+  metadata?: string | null
 
-  parentId?: Guid | null;
+  parentId?: Guid | null
 
-  rowVersion: string;
+  rowVersion: string
 }
 
 export interface UpdateDisplayGroupProgramInputGraph {
-  programId: Guid;
+  programId: Guid
 
-  displayGroupId: Guid;
+  displayGroupId: Guid
 
-  sortOrder: UInt32;
+  sortOrder: UInt32
 
-  metaData?: string | null;
+  metaData?: string | null
 
-  rowVersion: string;
+  rowVersion: string
 }
 
 export interface UpdateDisplayGroupStatisticInputGraph {
-  statisticId: Guid;
+  statisticId: Guid
 
-  displayGroupId: Guid;
+  displayGroupId: Guid
 
-  sortOrder: UInt32;
+  sortOrder: UInt32
 
-  metaData?: string | null;
+  metaData?: string | null
 
-  rowVersion: string;
+  rowVersion: string
 }
 
 export interface UpdatePortfolioInputGraph {
-  id: Guid;
+  id: Guid
 
-  title: string;
+  title: string
 
-  metadata?: string | null;
+  metadata?: string | null
 
-  rowVersion: string;
+  rowVersion: string
 }
 
 export interface UpdateProgramInputGraph {
-  id?: Guid | null;
+  id?: Guid | null
 
-  name: string;
+  name: string
 
-  agencyId: Guid;
+  agencyId: Guid
 
-  externalId?: string | null;
+  externalId?: string | null
 
-  notes?: string | null;
+  notes?: string | null
 
-  commitments?: string | null;
+  commitments?: string | null
 
-  rowVersion: string;
+  rowVersion: string
 }
 
 export interface UpdateProgramAccessControlInputGraph {
-  programId: Guid;
+  programId: Guid
 
-  accessControlGroupId: Guid;
+  accessControlGroupId: Guid
 
-  rowVersion: string;
+  rowVersion: string
 
-  accessRights?: AccessRights | null;
+  accessRights?: AccessRights | null
 }
 
 export interface UpdateProjectInputGraph {
-  externalId?: string | null;
+  externalId?: string | null
 
-  endDate?: Date | null;
+  endDate?: Date | null
 
-  geoJson?: string | null;
+  geoJson?: string | null
 
-  id: Guid;
+  id: Guid
 
-  name: string;
+  name: string
 
-  notes?: string | null;
+  notes?: string | null
 
-  programId: Guid;
+  programId: Guid
 
-  rowVersion: string;
+  rowVersion: string
 
-  status?: string | null;
+  status?: string | null
 }
 
 export interface UpdateReportInputGraph {
-  id: Guid;
+  id: Guid
 
-  name: string;
+  name: string
 
-  programId: Guid;
+  programId: Guid
 
-  notes?: string | null;
+  notes?: string | null
 
-  rowVersion: string;
+  rowVersion: string
 }
 
 export interface UpdateReportAccessControlInputGraph {
-  reportId: Guid;
+  reportId: Guid
 
-  accessControlGroupId: Guid;
+  accessControlGroupId: Guid
 
-  accessRights?: AccessRights | null;
+  accessRights?: AccessRights | null
 
-  rowVersion: string;
+  rowVersion: string
 }
 
 export interface UpdateStatisticInputGraph {
-  id: Guid;
+  id: Guid
 
-  name: string;
+  name: string
 
-  agencyId: Guid;
+  agencyId: Guid
 
-  externalId?: string | null;
+  externalId?: string | null
 
-  rowVersion: string;
+  rowVersion: string
 }
 
 export interface UpdateStatisticAccessControlInputGraph {
-  statisticId: Guid;
+  statisticId: Guid
 
-  accessControlGroupId: Guid;
+  accessControlGroupId: Guid
 
-  rowVersion: string;
+  rowVersion: string
 
-  accessRights?: AccessRights | null;
+  accessRights?: AccessRights | null
 }
 
 export interface UpdateStatisticReportInputGraph {
-  id: Guid;
+  id: Guid
 
-  name: string;
+  name: string
 
-  notes?: string | null;
+  notes?: string | null
 
-  statisticId: Guid;
+  statisticId: Guid
 
-  rowVersion: string;
+  rowVersion: string
 }
 
 export interface UpdateStatisticReportAccessControlInputGraph {
-  statisticReportId: Guid;
+  statisticReportId: Guid
 
-  accessControlGroupId: Guid;
+  accessControlGroupId: Guid
 
-  accessRights?: AccessRights | null;
+  accessRights?: AccessRights | null
 
-  rowVersion: string;
+  rowVersion: string
 }
 
 export enum ComparisonGraph {
@@ -465,1517 +465,1559 @@ export enum AccessRights {
 }
 
 /** Guid */
-export type Guid = any;
+export type Guid = any
 
 /** The `DateTimeOffset` scalar type represents a date, time and offset from UTC.`DateTimeOffset` expects timestamps to be formatted in accordance with the[ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard. */
-export type DateTimeOffset = any;
+export type DateTimeOffset = any
 
 /** UInt32 */
-export type UInt32 = any;
+export type UInt32 = any
 
 /** The `Date` scalar type represents a year, month and day in accordance with the[ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard (yyyy-MM-dd). */
-export type Date = any;
+export type Date = any
 
 /** The `DateTime` scalar type represents a date and time. `DateTime` expectstimestamps to be formatted in accordance with the[ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard. */
-export type DateTime = any;
+export type DateTime = any
 
-export type Decimal = any;
+export type Decimal = any
 
 /** The `Milliseconds` scalar type represents a period of time represented as the total number of milliseconds. */
-export type Milliseconds = any;
+export type Milliseconds = any
 
 /** The `Seconds` scalar type represents a period of time represented as the total number of seconds. */
-export type Seconds = any;
+export type Seconds = any
 
 // ====================================================
 // Documents
 // ====================================================
 
+export namespace AllAgenciesSearch {
+  export type Variables = {
+    title?: string | null
+  }
+
+  export type Query = {
+    __typename?: 'Query'
+
+    agencies: (Agencies | null)[] | null
+  }
+
+  export type Agencies = {
+    __typename?: 'AgencyGraph'
+
+    id: Guid
+
+    title: string
+
+    rowVersion: string
+  }
+}
+
 export namespace CreateAccessControlGroupUser {
   export type Variables = {
-    data: CreateAccessControlGroupUserInputGraph;
-  };
+    data: CreateAccessControlGroupUserInputGraph
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    createAccessControlGroupUser: CreateAccessControlGroupUser | null;
-  };
+    createAccessControlGroupUser: CreateAccessControlGroupUser | null
+  }
 
   export type CreateAccessControlGroupUser = {
-    __typename?: 'AccessControlGroupUserGraph';
+    __typename?: 'AccessControlGroupUserGraph'
 
-    accessControlGroupId: Guid;
+    accessControlGroupId: Guid
 
-    userId: Guid;
-  };
+    userId: Guid
+  }
 }
 
 export namespace Users {
-  export type Variables = {};
+  export type Variables = {}
 
   export type Query = {
-    __typename?: 'Query';
+    __typename?: 'Query'
 
-    users: (Users | null)[] | null;
-  };
+    users: (Users | null)[] | null
+  }
 
   export type Users = {
-    __typename?: 'UserGraph';
+    __typename?: 'UserGraph'
 
-    id: Guid;
+    id: Guid
 
-    emailAddress: string;
+    emailAddress: string
 
-    lastLogin: DateTimeOffset | null;
+    lastLogin: DateTimeOffset | null
 
-    rowVersion: string;
-  };
+    rowVersion: string
+  }
 }
 
 export namespace CreateAccessControlGroup {
   export type Variables = {
-    data?: CreateAccessControlGroupInputGraph | null;
-  };
+    data?: CreateAccessControlGroupInputGraph | null
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    createAccessControlGroup: CreateAccessControlGroup | null;
-  };
+    createAccessControlGroup: CreateAccessControlGroup | null
+  }
 
   export type CreateAccessControlGroup = {
-    __typename?: 'AccessControlGroupGraph';
+    __typename?: 'AccessControlGroupGraph'
 
-    id: Guid;
+    id: Guid
 
-    title: string;
+    title: string
 
-    rowVersion: string;
-  };
+    rowVersion: string
+  }
 }
 
 export namespace UpdateAccessControlGroup {
   export type Variables = {
-    data?: UpdateAccessControlGroupInputGraph | null;
-  };
+    data?: UpdateAccessControlGroupInputGraph | null
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    updateAccessControlGroup: UpdateAccessControlGroup | null;
-  };
+    updateAccessControlGroup: UpdateAccessControlGroup | null
+  }
 
   export type UpdateAccessControlGroup = {
-    __typename?: 'AccessControlGroupGraph';
+    __typename?: 'AccessControlGroupGraph'
 
-    id: Guid;
+    id: Guid
 
-    title: string;
+    title: string
 
-    rowVersion: string;
-  };
+    rowVersion: string
+  }
 }
 
 export namespace DeleteAccessControlGroup {
   export type Variables = {
-    data?: DeleteAccessControlGroupInputGraph | null;
-  };
+    data?: DeleteAccessControlGroupInputGraph | null
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    deleteAccessControlGroup: boolean | null;
-  };
+    deleteAccessControlGroup: boolean | null
+  }
 }
 
 export namespace DeleteAccessControlGroupUser {
   export type Variables = {
-    data: DeleteAccessControlGroupUserInputGraph;
-  };
+    data: DeleteAccessControlGroupUserInputGraph
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    deleteAccessControlGroupUser: boolean | null;
-  };
+    deleteAccessControlGroupUser: boolean | null
+  }
 }
 
 export namespace Group {
   export type Variables = {
-    groupId: string;
-  };
+    groupId: string
+  }
 
   export type Query = {
-    __typename?: 'Query';
+    __typename?: 'Query'
 
-    group: Group | null;
-  };
+    group: Group | null
+  }
 
   export type Group = {
-    __typename?: 'AccessControlGroupGraph';
+    __typename?: 'AccessControlGroupGraph'
 
-    id: Guid;
+    id: Guid
 
-    rowVersion: string;
+    rowVersion: string
 
-    title: string;
+    title: string
 
-    members: (Members | null)[] | null;
-  };
+    members: (Members | null)[] | null
+  }
 
   export type Members = {
-    __typename?: 'UserGraph';
+    __typename?: 'UserGraph'
 
-    id: Guid;
+    id: Guid
 
-    emailAddress: string;
+    emailAddress: string
 
-    lastLogin: DateTimeOffset | null;
+    lastLogin: DateTimeOffset | null
 
-    rowVersion: string;
-  };
+    rowVersion: string
+  }
 }
 
 export namespace AllGroups {
-  export type Variables = {};
+  export type Variables = {}
 
   export type Query = {
-    __typename?: 'Query';
+    __typename?: 'Query'
 
-    groups: (Groups | null)[] | null;
-  };
+    groups: (Groups | null)[] | null
+  }
 
   export type Groups = {
-    __typename?: 'AccessControlGroupGraph';
+    __typename?: 'AccessControlGroupGraph'
 
-    id: Guid;
+    id: Guid
 
-    title: string;
+    title: string
 
-    rowVersion: string;
-  };
+    rowVersion: string
+  }
 }
 
 export namespace AllGroupsSearch {
   export type Variables = {
-    title?: string | null;
-  };
+    title?: string | null
+  }
 
   export type Query = {
-    __typename?: 'Query';
+    __typename?: 'Query'
 
-    groups: (Groups | null)[] | null;
-  };
+    groups: (Groups | null)[] | null
+  }
 
   export type Groups = {
-    __typename?: 'AccessControlGroupGraph';
+    __typename?: 'AccessControlGroupGraph'
 
-    id: Guid;
+    id: Guid
 
-    title: string;
+    title: string
 
-    rowVersion: string;
-  };
+    rowVersion: string
+  }
 }
 
 export namespace DeleteReportAccessControl {
   export type Variables = {
-    data?: DeleteReportAccessControlInputGraph | null;
-  };
+    data?: DeleteReportAccessControlInputGraph | null
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    deleteReportAccessControl: boolean | null;
-  };
+    deleteReportAccessControl: boolean | null
+  }
 }
 
 export namespace CreateReportAccessControl {
   export type Variables = {
-    data?: CreateReportAccessControlInputGraph | null;
-  };
+    data?: CreateReportAccessControlInputGraph | null
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    createReportAccessControl: CreateReportAccessControl | null;
-  };
+    createReportAccessControl: CreateReportAccessControl | null
+  }
 
   export type CreateReportAccessControl = {
-    __typename?: 'AccessControlEntryGraph';
+    __typename?: 'AccessControlEntryGraph'
 
-    id: string;
+    id: string
 
-    rights: string;
+    rights: string
 
-    rowVersion: string;
-  };
+    rowVersion: string
+  }
 }
 
 export namespace UpdateReportAccessControl {
   export type Variables = {
-    data?: UpdateReportAccessControlInputGraph | null;
-  };
+    data?: UpdateReportAccessControlInputGraph | null
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    updateReportAccessControl: UpdateReportAccessControl | null;
-  };
+    updateReportAccessControl: UpdateReportAccessControl | null
+  }
 
   export type UpdateReportAccessControl = {
-    __typename?: 'AccessControlEntryGraph';
+    __typename?: 'AccessControlEntryGraph'
 
-    id: string;
+    id: string
 
-    rights: string;
+    rights: string
 
-    rowVersion: string;
-  };
+    rowVersion: string
+  }
 }
 
 export namespace Report {
   export type Variables = {
-    reportId: string;
-  };
+    reportId: string
+  }
 
   export type Query = {
-    __typename?: 'Query';
+    __typename?: 'Query'
 
-    reports: (Reports | null)[] | null;
-  };
+    reports: (Reports | null)[] | null
+  }
 
   export type Reports = {
-    __typename?: 'ReportGraph';
+    __typename?: 'ReportGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
+    name: string
 
-    notes: string | null;
+    notes: string | null
 
-    programId: Guid;
+    programId: Guid
 
-    rowVersion: string;
+    rowVersion: string
 
-    accessControlList: (AccessControlList | null)[] | null;
-  };
+    accessControlList: (AccessControlList | null)[] | null
+  }
 
   export type AccessControlList = {
-    __typename?: 'AccessControlListGraph';
+    __typename?: 'AccessControlListGraph'
 
-    id: Guid;
+    id: Guid
 
-    accessControlEntries: (AccessControlEntries | null)[] | null;
-  };
+    accessControlEntries: (AccessControlEntries | null)[] | null
+  }
 
   export type AccessControlEntries = {
-    __typename?: 'AccessControlEntryGraph';
+    __typename?: 'AccessControlEntryGraph'
 
-    id: string;
+    id: string
 
-    accessControlGroup: AccessControlGroup | null;
+    accessControlGroup: AccessControlGroup | null
 
-    rights: string;
+    rights: string
 
-    rowVersion: string;
-  };
+    rowVersion: string
+  }
 
   export type AccessControlGroup = {
-    __typename?: 'AccessControlGroupGraph';
+    __typename?: 'AccessControlGroupGraph'
 
-    id: Guid;
+    id: Guid
 
-    title: string;
-  };
+    title: string
+  }
 }
 
 export namespace CreateReport {
   export type Variables = {
-    data?: CreateReportInputGraph | null;
-  };
+    data?: CreateReportInputGraph | null
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    createReport: CreateReport | null;
-  };
+    createReport: CreateReport | null
+  }
 
   export type CreateReport = {
-    __typename?: 'ReportGraph';
+    __typename?: 'ReportGraph'
 
-    id: Guid;
+    id: Guid
 
-    notes: string | null;
+    notes: string | null
 
-    rowVersion: string;
-  };
+    rowVersion: string
+  }
 }
 
 export namespace UpdateReport {
   export type Variables = {
-    data?: UpdateReportInputGraph | null;
-  };
+    data?: UpdateReportInputGraph | null
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    updateReport: UpdateReport | null;
-  };
+    updateReport: UpdateReport | null
+  }
 
   export type UpdateReport = {
-    __typename?: 'ReportGraph';
+    __typename?: 'ReportGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
+    name: string
 
-    notes: string | null;
-  };
+    notes: string | null
+  }
 }
 
 export namespace CreateProgram {
   export type Variables = {
-    data: CreateProgramInputGraph;
-  };
+    data: CreateProgramInputGraph
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    createProgram: CreateProgram | null;
-  };
+    createProgram: CreateProgram | null
+  }
 
   export type CreateProgram = {
-    __typename?: 'ProgramGraph';
+    __typename?: 'ProgramGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
+    name: string
 
-    agency: Agency | null;
+    agency: Agency | null
 
-    notes: string | null;
+    notes: string | null
 
-    externalId: string | null;
+    externalId: string | null
 
-    rowVersion: string;
-  };
+    rowVersion: string
+  }
 
   export type Agency = {
-    __typename?: 'AgencyGraph';
+    __typename?: 'AgencyGraph'
 
-    id: Guid;
-  };
+    id: Guid
+  }
 }
 
 export namespace UpdateProgram {
   export type Variables = {
-    data: UpdateProgramInputGraph;
-  };
+    data: UpdateProgramInputGraph
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    updateProgram: UpdateProgram | null;
-  };
+    updateProgram: UpdateProgram | null
+  }
 
   export type UpdateProgram = {
-    __typename?: 'ProgramGraph';
+    __typename?: 'ProgramGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
+    name: string
 
-    agency: Agency | null;
+    agency: Agency | null
 
-    notes: string | null;
+    notes: string | null
 
-    externalId: string | null;
+    externalId: string | null
 
-    rowVersion: string;
-  };
+    rowVersion: string
+  }
 
   export type Agency = {
-    __typename?: 'AgencyGraph';
+    __typename?: 'AgencyGraph'
 
-    id: Guid;
-  };
+    id: Guid
+  }
 }
 
 export namespace DeleteProgram {
   export type Variables = {
-    data?: DeleteProgramInputGraph | null;
-  };
+    data?: DeleteProgramInputGraph | null
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    deleteProgram: boolean | null;
-  };
+    deleteProgram: boolean | null
+  }
 }
 
 export namespace DeleteReport {
   export type Variables = {
-    data?: DeleteReportInputGraph | null;
-  };
+    data?: DeleteReportInputGraph | null
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    deleteReport: boolean | null;
-  };
+    deleteReport: boolean | null
+  }
 }
 
 export namespace UpdateProgramAccessControl {
   export type Variables = {
-    data?: UpdateProgramAccessControlInputGraph | null;
-  };
+    data?: UpdateProgramAccessControlInputGraph | null
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    updateProgramAccessControl: UpdateProgramAccessControl | null;
-  };
+    updateProgramAccessControl: UpdateProgramAccessControl | null
+  }
 
   export type UpdateProgramAccessControl = {
-    __typename?: 'AccessControlEntryGraph';
+    __typename?: 'AccessControlEntryGraph'
 
-    rights: string;
+    rights: string
 
-    id: string;
+    id: string
 
-    rowVersion: string;
-  };
+    rowVersion: string
+  }
 }
 
 export namespace CreateProgramAccessControl {
   export type Variables = {
-    data?: CreateProgramAccessControlInputGraph | null;
-  };
+    data?: CreateProgramAccessControlInputGraph | null
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    createProgramAccessControl: CreateProgramAccessControl | null;
-  };
+    createProgramAccessControl: CreateProgramAccessControl | null
+  }
 
   export type CreateProgramAccessControl = {
-    __typename?: 'AccessControlEntryGraph';
+    __typename?: 'AccessControlEntryGraph'
 
-    id: string;
+    id: string
 
-    rights: string;
+    rights: string
 
-    rowVersion: string;
-  };
+    rowVersion: string
+  }
 }
 
 export namespace DeleteProgramAccessControl {
   export type Variables = {
-    data?: DeleteProgramAccessControlInputGraph | null;
-  };
+    data?: DeleteProgramAccessControlInputGraph | null
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    deleteProgramAccessControl: boolean | null;
-  };
+    deleteProgramAccessControl: boolean | null
+  }
 }
 
 export namespace Program {
   export type Variables = {
-    programId: string;
-  };
+    programId: string
+  }
 
   export type Query = {
-    __typename?: 'Query';
+    __typename?: 'Query'
 
-    program: Program | null;
-  };
+    program: Program | null
+  }
 
   export type Program = {
-    __typename?: 'ProgramGraph';
+    __typename?: 'ProgramGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
+    name: string
 
-    notes: string | null;
+    notes: string | null
 
-    externalId: string | null;
+    externalId: string | null
 
-    rowVersion: string;
+    rowVersion: string
 
-    accessControlList: (AccessControlList | null)[] | null;
+    accessControlList: (AccessControlList | null)[] | null
 
-    agency: Agency | null;
+    agency: Agency | null
 
-    reports: (Reports | null)[] | null;
+    reports: (Reports | null)[] | null
 
-    projects: (Projects | null)[] | null;
-  };
+    projects: (Projects | null)[] | null
+  }
 
   export type AccessControlList = {
-    __typename?: 'AccessControlListGraph';
+    __typename?: 'AccessControlListGraph'
 
-    id: Guid;
+    id: Guid
 
-    accessControlEntries: (AccessControlEntries | null)[] | null;
-  };
+    accessControlEntries: (AccessControlEntries | null)[] | null
+  }
 
   export type AccessControlEntries = {
-    __typename?: 'AccessControlEntryGraph';
+    __typename?: 'AccessControlEntryGraph'
 
-    id: string;
+    id: string
 
-    rights: string;
+    rights: string
 
-    rowVersion: string;
+    rowVersion: string
 
-    accessControlGroup: AccessControlGroup | null;
-  };
+    accessControlGroup: AccessControlGroup | null
+  }
 
   export type AccessControlGroup = {
-    __typename?: 'AccessControlGroupGraph';
+    __typename?: 'AccessControlGroupGraph'
 
-    id: Guid;
+    id: Guid
 
-    title: string;
-  };
+    title: string
+  }
 
   export type Agency = {
-    __typename?: 'AgencyGraph';
+    __typename?: 'AgencyGraph'
 
-    id: Guid;
+    id: Guid
 
-    title: string;
+    title: string
 
-    metadata: string | null;
-  };
+    metadata: string | null
+  }
 
   export type Reports = {
-    __typename?: 'ReportGraph';
+    __typename?: 'ReportGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
+    name: string
 
-    notes: string | null;
+    notes: string | null
 
-    accessControlList: (_AccessControlList | null)[] | null;
-  };
+    accessControlList: (_AccessControlList | null)[] | null
+  }
 
   export type _AccessControlList = {
-    __typename?: 'AccessControlListGraph';
+    __typename?: 'AccessControlListGraph'
 
-    accessControlEntries: (_AccessControlEntries | null)[] | null;
-  };
+    accessControlEntries: (_AccessControlEntries | null)[] | null
+  }
 
   export type _AccessControlEntries = {
-    __typename?: 'AccessControlEntryGraph';
+    __typename?: 'AccessControlEntryGraph'
 
-    accessControlGroup: _AccessControlGroup | null;
-  };
+    accessControlGroup: _AccessControlGroup | null
+  }
 
   export type _AccessControlGroup = {
-    __typename?: 'AccessControlGroupGraph';
+    __typename?: 'AccessControlGroupGraph'
 
-    title: string;
-  };
+    title: string
+  }
 
   export type Projects = {
-    __typename?: 'ProjectGraph';
+    __typename?: 'ProjectGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
+    name: string
 
-    status: string | null;
+    status: string | null
 
-    notes: string | null;
+    notes: string | null
 
-    electorates: (Electorates | null)[] | null;
-  };
+    electorates: (Electorates | null)[] | null
+  }
 
   export type Electorates = {
-    __typename?: 'ElectorateGraph';
+    __typename?: 'ElectorateGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
-  };
+    name: string
+  }
 }
 
 export namespace EditProgram {
   export type Variables = {
-    programId: string;
-  };
+    programId: string
+  }
 
   export type Query = {
-    __typename?: 'Query';
+    __typename?: 'Query'
 
-    program: Program | null;
-  };
+    program: Program | null
+  }
 
   export type Program = {
-    __typename?: 'ProgramGraph';
+    __typename?: 'ProgramGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
+    name: string
 
-    notes: string | null;
+    notes: string | null
 
-    externalId: string | null;
+    externalId: string | null
 
-    rowVersion: string;
+    rowVersion: string
 
-    agency: Agency | null;
-  };
+    agency: Agency | null
+  }
 
   export type Agency = {
-    __typename?: 'AgencyGraph';
+    __typename?: 'AgencyGraph'
 
-    id: Guid;
+    id: Guid
 
-    title: string;
+    title: string
 
-    metadata: string | null;
-  };
+    metadata: string | null
+  }
 }
 
 export namespace AllPortfolios {
-  export type Variables = {};
+  export type Variables = {}
 
   export type Query = {
-    __typename?: 'Query';
+    __typename?: 'Query'
 
-    portfolios: (Portfolios | null)[] | null;
-  };
+    portfolios: (Portfolios | null)[] | null
+  }
 
   export type Portfolios = {
-    __typename?: 'PortfolioGraph';
+    __typename?: 'PortfolioGraph'
 
-    id: Guid;
+    id: Guid
 
-    title: string;
+    title: string
 
-    metadata: string | null;
+    metadata: string | null
 
-    agencies: (Agencies | null)[] | null;
-  };
+    agencies: (Agencies | null)[] | null
+  }
 
   export type Agencies = {
-    __typename?: 'AgencyGraph';
+    __typename?: 'AgencyGraph'
 
-    id: Guid;
+    id: Guid
 
-    metadata: string | null;
+    metadata: string | null
 
-    title: string;
-  };
+    title: string
+  }
 }
 
 export namespace AllPrograms {
-  export type Variables = {};
+  export type Variables = {}
 
   export type Query = {
-    __typename?: 'Query';
+    __typename?: 'Query'
 
-    programs: (Programs | null)[] | null;
-  };
+    programs: (Programs | null)[] | null
+  }
 
   export type Programs = {
-    __typename?: 'ProgramGraph';
+    __typename?: 'ProgramGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
+    name: string
 
-    agency: Agency | null;
-  };
+    agency: Agency | null
+  }
 
   export type Agency = {
-    __typename?: 'AgencyGraph';
+    __typename?: 'AgencyGraph'
 
-    id: Guid;
+    id: Guid
 
-    title: string;
-  };
+    title: string
+  }
 }
 
 export namespace AllProgramsSearch {
   export type Variables = {
-    name?: string | null;
-  };
+    name?: string | null
+  }
 
   export type Query = {
-    __typename?: 'Query';
+    __typename?: 'Query'
 
-    programs: (Programs | null)[] | null;
-  };
+    programs: (Programs | null)[] | null
+  }
 
   export type Programs = {
-    __typename?: 'ProgramGraph';
+    __typename?: 'ProgramGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
+    name: string
 
-    agency: Agency | null;
-  };
+    agency: Agency | null
+  }
 
   export type Agency = {
-    __typename?: 'AgencyGraph';
+    __typename?: 'AgencyGraph'
 
-    id: Guid;
+    id: Guid
 
-    title: string;
-  };
+    title: string
+  }
 }
 
 export namespace CreateProject {
   export type Variables = {
-    data: CreateProjectInputGraph;
-  };
+    data: CreateProjectInputGraph
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    createProject: CreateProject | null;
-  };
+    createProject: CreateProject | null
+  }
 
   export type CreateProject = {
-    __typename?: 'ProjectGraph';
+    __typename?: 'ProjectGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
+    name: string
 
-    geoJson: string | null;
+    geoJson: string | null
 
-    notes: string | null;
+    notes: string | null
 
-    externalId: string | null;
+    externalId: string | null
 
-    rowVersion: string;
-  };
+    rowVersion: string
+  }
 }
 
 export namespace UpdateProject {
   export type Variables = {
-    data: UpdateProjectInputGraph;
-  };
+    data: UpdateProjectInputGraph
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    updateProject: UpdateProject | null;
-  };
+    updateProject: UpdateProject | null
+  }
 
   export type UpdateProject = {
-    __typename?: 'ProjectGraph';
+    __typename?: 'ProjectGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
+    name: string
 
-    geoJson: string | null;
+    geoJson: string | null
 
-    notes: string | null;
+    notes: string | null
 
-    externalId: string | null;
+    externalId: string | null
 
-    rowVersion: string;
-  };
+    rowVersion: string
+  }
 }
 
 export namespace DeleteProject {
   export type Variables = {
-    data: DeleteProjectInputGraph;
-  };
+    data: DeleteProjectInputGraph
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    deleteProject: boolean | null;
-  };
+    deleteProject: boolean | null
+  }
 }
 
 export namespace Project {
   export type Variables = {
-    id: string;
-  };
+    id: string
+  }
 
   export type Query = {
-    __typename?: 'Query';
+    __typename?: 'Query'
 
-    project: Project | null;
-  };
+    project: Project | null
+  }
 
   export type Project = {
-    __typename?: 'ProjectGraph';
+    __typename?: 'ProjectGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
+    name: string
 
-    notes: string | null;
+    notes: string | null
 
-    externalId: string | null;
+    externalId: string | null
 
-    status: string | null;
+    status: string | null
 
-    rowVersion: string;
+    rowVersion: string
 
-    program: Program | null;
-  };
+    program: Program | null
+  }
 
   export type Program = {
-    __typename?: 'ProgramGraph';
+    __typename?: 'ProgramGraph'
 
-    id: Guid;
-  };
+    id: Guid
+  }
 }
 
 export namespace AllProjects {
-  export type Variables = {};
+  export type Variables = {}
 
   export type Query = {
-    __typename?: 'Query';
+    __typename?: 'Query'
 
-    projects: (Projects | null)[] | null;
-  };
+    projects: (Projects | null)[] | null
+  }
 
   export type Projects = {
-    __typename?: 'ProjectGraph';
+    __typename?: 'ProjectGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
+    name: string
 
-    program: Program | null;
-  };
+    program: Program | null
+  }
 
   export type Program = {
-    __typename?: 'ProgramGraph';
+    __typename?: 'ProgramGraph'
 
-    name: string;
-  };
+    name: string
+  }
 }
 
 export namespace AllProjectsSearch {
   export type Variables = {
-    name?: string | null;
-  };
+    name?: string | null
+  }
 
   export type Query = {
-    __typename?: 'Query';
+    __typename?: 'Query'
 
-    projects: (Projects | null)[] | null;
-  };
+    projects: (Projects | null)[] | null
+  }
 
   export type Projects = {
-    __typename?: 'ProjectGraph';
+    __typename?: 'ProjectGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
+    name: string
 
-    program: Program | null;
-  };
+    program: Program | null
+  }
 
   export type Program = {
-    __typename?: 'ProgramGraph';
+    __typename?: 'ProgramGraph'
 
-    name: string;
-  };
+    name: string
+  }
 }
 
 export namespace AllProgramReports {
-  export type Variables = {};
+  export type Variables = {}
 
   export type Query = {
-    __typename?: 'Query';
+    __typename?: 'Query'
 
-    programs: (Programs | null)[] | null;
-  };
+    programs: (Programs | null)[] | null
+  }
 
   export type Programs = {
-    __typename?: 'ProgramGraph';
+    __typename?: 'ProgramGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
+    name: string
 
-    reports: (Reports | null)[] | null;
-  };
+    reports: (Reports | null)[] | null
+  }
 
   export type Reports = {
-    __typename?: 'ReportGraph';
+    __typename?: 'ReportGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
-  };
+    name: string
+  }
 }
 
 export namespace CreateStatisticReportAccessControl {
   export type Variables = {
-    data?: CreateStatisticReportAccessControlInputGraph | null;
-  };
+    data?: CreateStatisticReportAccessControlInputGraph | null
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    createStatisticReportAccessControl: CreateStatisticReportAccessControl | null;
-  };
+    createStatisticReportAccessControl: CreateStatisticReportAccessControl | null
+  }
 
   export type CreateStatisticReportAccessControl = {
-    __typename?: 'AccessControlEntryGraph';
+    __typename?: 'AccessControlEntryGraph'
 
-    id: string;
+    id: string
 
-    rights: string;
+    rights: string
 
-    rowVersion: string;
-  };
+    rowVersion: string
+  }
 }
 
 export namespace UpdateStatisticReportAccessControl {
   export type Variables = {
-    data?: UpdateStatisticReportAccessControlInputGraph | null;
-  };
+    data?: UpdateStatisticReportAccessControlInputGraph | null
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    updateStatisticReportAccessControl: UpdateStatisticReportAccessControl | null;
-  };
+    updateStatisticReportAccessControl: UpdateStatisticReportAccessControl | null
+  }
 
   export type UpdateStatisticReportAccessControl = {
-    __typename?: 'AccessControlEntryGraph';
+    __typename?: 'AccessControlEntryGraph'
 
-    id: string;
+    id: string
 
-    rights: string;
+    rights: string
 
-    rowVersion: string;
-  };
+    rowVersion: string
+  }
 }
 
 export namespace DeleteStatisticReportAccessControl {
   export type Variables = {
-    data?: DeleteStatisticReportAccessControlInputGraph | null;
-  };
+    data?: DeleteStatisticReportAccessControlInputGraph | null
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    deleteStatisticReportAccessControl: boolean | null;
-  };
+    deleteStatisticReportAccessControl: boolean | null
+  }
 }
 
 export namespace StatisticReport {
   export type Variables = {
-    reportId: string;
-  };
+    reportId: string
+  }
 
   export type Query = {
-    __typename?: 'Query';
+    __typename?: 'Query'
 
-    statisticReports: (StatisticReports | null)[] | null;
-  };
+    statisticReports: (StatisticReports | null)[] | null
+  }
 
   export type StatisticReports = {
-    __typename?: 'StatisticReportGraph';
+    __typename?: 'StatisticReportGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
+    name: string
 
-    notes: string | null;
+    notes: string | null
 
-    rowVersion: string;
+    rowVersion: string
 
-    statisticId: Guid;
+    statisticId: Guid
 
-    accessControlList: (AccessControlList | null)[] | null;
-  };
+    accessControlList: (AccessControlList | null)[] | null
+  }
 
   export type AccessControlList = {
-    __typename?: 'AccessControlListGraph';
+    __typename?: 'AccessControlListGraph'
 
-    id: Guid;
+    id: Guid
 
-    accessControlEntries: (AccessControlEntries | null)[] | null;
-  };
+    accessControlEntries: (AccessControlEntries | null)[] | null
+  }
 
   export type AccessControlEntries = {
-    __typename?: 'AccessControlEntryGraph';
+    __typename?: 'AccessControlEntryGraph'
 
-    id: string;
+    id: string
 
-    accessControlGroup: AccessControlGroup | null;
+    accessControlGroup: AccessControlGroup | null
 
-    rights: string;
+    rights: string
 
-    rowVersion: string;
-  };
+    rowVersion: string
+  }
 
   export type AccessControlGroup = {
-    __typename?: 'AccessControlGroupGraph';
+    __typename?: 'AccessControlGroupGraph'
 
-    id: Guid;
+    id: Guid
 
-    title: string;
-  };
+    title: string
+  }
 }
 
 export namespace CreateStatisticReport {
   export type Variables = {
-    data: CreateStatisticReportInputGraph;
-  };
+    data: CreateStatisticReportInputGraph
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    createStatisticReport: CreateStatisticReport | null;
-  };
+    createStatisticReport: CreateStatisticReport | null
+  }
 
   export type CreateStatisticReport = {
-    __typename?: 'StatisticReportGraph';
+    __typename?: 'StatisticReportGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
+    name: string
 
-    notes: string | null;
+    notes: string | null
 
-    statisticId: Guid;
-  };
+    statisticId: Guid
+  }
 }
 
 export namespace UpdateStatisticReport {
   export type Variables = {
-    data?: UpdateStatisticReportInputGraph | null;
-  };
+    data?: UpdateStatisticReportInputGraph | null
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    updateStatisticReport: UpdateStatisticReport | null;
-  };
+    updateStatisticReport: UpdateStatisticReport | null
+  }
 
   export type UpdateStatisticReport = {
-    __typename?: 'StatisticReportGraph';
+    __typename?: 'StatisticReportGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
+    name: string
 
-    notes: string | null;
+    notes: string | null
 
-    statisticId: Guid;
-  };
+    statisticId: Guid
+  }
 }
 
 export namespace CreateStatistic {
   export type Variables = {
-    data: CreateStatisticInputGraph;
-  };
+    data: CreateStatisticInputGraph
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    createStatistic: CreateStatistic | null;
-  };
+    createStatistic: CreateStatistic | null
+  }
 
   export type CreateStatistic = {
-    __typename?: 'StatisticGraph';
+    __typename?: 'StatisticGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
+    name: string
 
-    agency: Agency | null;
+    agency: Agency | null
 
-    externalId: string | null;
+    externalId: string | null
 
-    rowVersion: string;
-  };
+    rowVersion: string
+  }
 
   export type Agency = {
-    __typename?: 'AgencyGraph';
+    __typename?: 'AgencyGraph'
 
-    id: Guid;
-  };
+    id: Guid
+  }
 }
 
 export namespace UpdateStatistic {
   export type Variables = {
-    data: UpdateStatisticInputGraph;
-  };
+    data: UpdateStatisticInputGraph
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    updateStatistic: UpdateStatistic | null;
-  };
+    updateStatistic: UpdateStatistic | null
+  }
 
   export type UpdateStatistic = {
-    __typename?: 'StatisticGraph';
+    __typename?: 'StatisticGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
+    name: string
 
-    agency: Agency | null;
+    agency: Agency | null
 
-    externalId: string | null;
+    externalId: string | null
 
-    rowVersion: string;
-  };
+    rowVersion: string
+  }
 
   export type Agency = {
-    __typename?: 'AgencyGraph';
+    __typename?: 'AgencyGraph'
 
-    id: Guid;
-  };
+    id: Guid
+  }
 }
 
 export namespace DeleteStatisticReport {
   export type Variables = {
-    data: DeleteStatisticReportInputGraph;
-  };
+    data: DeleteStatisticReportInputGraph
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    deleteStatisticReport: boolean | null;
-  };
+    deleteStatisticReport: boolean | null
+  }
 }
 
 export namespace DeleteStatistic {
   export type Variables = {
-    data: DeleteStatisticInputGraph;
-  };
+    data: DeleteStatisticInputGraph
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    deleteStatistic: boolean | null;
-  };
+    deleteStatistic: boolean | null
+  }
 }
 
 export namespace CreateStatisticAccessControl {
   export type Variables = {
-    data?: CreateStatisticAccessControlInputGraph | null;
-  };
+    data?: CreateStatisticAccessControlInputGraph | null
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    createStatisticAccessControl: CreateStatisticAccessControl | null;
-  };
+    createStatisticAccessControl: CreateStatisticAccessControl | null
+  }
 
   export type CreateStatisticAccessControl = {
-    __typename?: 'AccessControlEntryGraph';
+    __typename?: 'AccessControlEntryGraph'
 
-    id: string;
+    id: string
 
-    rights: string;
+    rights: string
 
-    rowVersion: string;
-  };
+    rowVersion: string
+  }
 }
 
 export namespace DeleteStatisticAccessControl {
   export type Variables = {
-    data?: DeleteStatisticAccessControlInputGraph | null;
-  };
+    data?: DeleteStatisticAccessControlInputGraph | null
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    deleteStatisticAccessControl: boolean | null;
-  };
+    deleteStatisticAccessControl: boolean | null
+  }
 }
 
 export namespace UpdateStatisticAccessControl {
   export type Variables = {
-    data?: UpdateStatisticAccessControlInputGraph | null;
-  };
+    data?: UpdateStatisticAccessControlInputGraph | null
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    updateStatisticAccessControl: UpdateStatisticAccessControl | null;
-  };
+    updateStatisticAccessControl: UpdateStatisticAccessControl | null
+  }
 
   export type UpdateStatisticAccessControl = {
-    __typename?: 'AccessControlEntryGraph';
+    __typename?: 'AccessControlEntryGraph'
 
-    id: string;
+    id: string
 
-    rights: string;
+    rights: string
 
-    rowVersion: string;
-  };
+    rowVersion: string
+  }
 }
 
 export namespace AllStatistics {
-  export type Variables = {};
+  export type Variables = {}
 
   export type Query = {
-    __typename?: 'Query';
+    __typename?: 'Query'
 
-    statistics: (Statistics | null)[] | null;
-  };
+    statistics: (Statistics | null)[] | null
+  }
 
   export type Statistics = {
-    __typename?: 'StatisticGraph';
+    __typename?: 'StatisticGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
+    name: string
 
-    agency: Agency | null;
+    agency: Agency | null
 
-    statisticReports: (StatisticReports | null)[] | null;
-  };
+    statisticReports: (StatisticReports | null)[] | null
+  }
 
   export type Agency = {
-    __typename?: 'AgencyGraph';
+    __typename?: 'AgencyGraph'
 
-    id: Guid;
+    id: Guid
 
-    title: string;
-  };
+    title: string
+  }
 
   export type StatisticReports = {
-    __typename?: 'StatisticReportGraph';
+    __typename?: 'StatisticReportGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
+    name: string
 
-    notes: string | null;
-  };
+    notes: string | null
+  }
 }
 
 export namespace Statistic {
   export type Variables = {
-    statisticId: string;
-  };
+    statisticId: string
+  }
 
   export type Query = {
-    __typename?: 'Query';
+    __typename?: 'Query'
 
-    statistic: Statistic | null;
-  };
+    statistic: Statistic | null
+  }
 
   export type Statistic = {
-    __typename?: 'StatisticGraph';
+    __typename?: 'StatisticGraph'
 
-    id: Guid;
+    id: Guid
 
-    agency: Agency | null;
+    agency: Agency | null
 
-    accessControlList: (AccessControlList | null)[] | null;
+    accessControlList: (AccessControlList | null)[] | null
 
-    name: string;
+    name: string
 
-    externalId: string | null;
+    externalId: string | null
 
-    rowVersion: string;
+    rowVersion: string
 
-    statisticReports: (StatisticReports | null)[] | null;
-  };
+    statisticReports: (StatisticReports | null)[] | null
+  }
 
   export type Agency = {
-    __typename?: 'AgencyGraph';
+    __typename?: 'AgencyGraph'
 
-    id: Guid;
+    id: Guid
 
-    title: string;
-  };
+    title: string
+  }
 
   export type AccessControlList = {
-    __typename?: 'AccessControlListGraph';
+    __typename?: 'AccessControlListGraph'
 
-    id: Guid;
+    id: Guid
 
-    accessControlEntries: (AccessControlEntries | null)[] | null;
-  };
+    accessControlEntries: (AccessControlEntries | null)[] | null
+  }
 
   export type AccessControlEntries = {
-    __typename?: 'AccessControlEntryGraph';
+    __typename?: 'AccessControlEntryGraph'
 
-    id: string;
+    id: string
 
-    rights: string;
+    rights: string
 
-    rowVersion: string;
+    rowVersion: string
 
-    accessControlGroup: AccessControlGroup | null;
-  };
+    accessControlGroup: AccessControlGroup | null
+  }
 
   export type AccessControlGroup = {
-    __typename?: 'AccessControlGroupGraph';
+    __typename?: 'AccessControlGroupGraph'
 
-    id: Guid;
+    id: Guid
 
-    title: string;
-  };
+    title: string
+  }
 
   export type StatisticReports = {
-    __typename?: 'StatisticReportGraph';
+    __typename?: 'StatisticReportGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
+    name: string
 
-    notes: string | null;
-  };
+    notes: string | null
+  }
 }
 
 export namespace AllAgencies {
-  export type Variables = {};
+  export type Variables = {}
 
   export type Query = {
-    __typename?: 'Query';
+    __typename?: 'Query'
 
-    agencies: (Agencies | null)[] | null;
-  };
+    agencies: (Agencies | null)[] | null
+  }
 
   export type Agencies = {
-    __typename?: 'AgencyGraph';
+    __typename?: 'AgencyGraph'
 
-    id: Guid;
+    id: Guid
 
-    metadata: string | null;
+    metadata: string | null
 
-    title: string;
-  };
+    title: string
+  }
 }
 
 export namespace AllStatisticsSearch {
   export type Variables = {
-    name?: string | null;
-  };
+    name?: string | null
+  }
 
   export type Query = {
-    __typename?: 'Query';
+    __typename?: 'Query'
 
-    statistics: (Statistics | null)[] | null;
-  };
+    statistics: (Statistics | null)[] | null
+  }
 
   export type Statistics = {
-    __typename?: 'StatisticGraph';
+    __typename?: 'StatisticGraph'
 
-    id: Guid;
+    id: Guid
 
-    name: string;
+    name: string
 
-    agency: Agency | null;
-  };
+    agency: Agency | null
+  }
 
   export type Agency = {
-    __typename?: 'AgencyGraph';
+    __typename?: 'AgencyGraph'
 
-    id: Guid;
+    id: Guid
 
-    title: string;
-  };
+    title: string
+  }
 }
 
 export namespace User {
   export type Variables = {
-    userId: string;
-  };
+    userId: string
+  }
 
   export type Query = {
-    __typename?: 'Query';
+    __typename?: 'Query'
 
-    user: User | null;
-  };
+    user: User | null
+  }
 
   export type User = {
-    __typename?: 'UserGraph';
+    __typename?: 'UserGraph'
 
-    id: Guid;
+    id: Guid
 
-    emailAddress: string;
+    emailAddress: string
 
-    agency: Agency | null;
+    agency: Agency | null
 
-    apiKeys: (ApiKeys | null)[] | null;
+    apiKeys: (ApiKeys | null)[] | null
 
-    lastLogin: DateTimeOffset | null;
+    lastLogin: DateTimeOffset | null
 
-    rowVersion: string;
-  };
+    rowVersion: string
+  }
 
   export type Agency = {
-    __typename?: 'AgencyGraph';
+    __typename?: 'AgencyGraph'
 
-    id: Guid;
+    id: Guid
 
-    title: string;
-  };
+    title: string
+  }
 
   export type ApiKeys = {
-    __typename?: 'ApiKeyGraph';
+    __typename?: 'ApiKeyGraph'
 
-    id: Guid;
+    id: Guid
 
-    key: string;
+    key: string
 
-    rowVersion: string;
+    rowVersion: string
 
-    disable: boolean;
-  };
+    disable: boolean
+  }
 }
 
 export namespace AllUsersSearch {
   export type Variables = {
-    emailAddress?: string | null;
-  };
+    emailAddress?: string | null
+  }
 
   export type Query = {
-    __typename?: 'Query';
+    __typename?: 'Query'
 
-    users: (Users | null)[] | null;
-  };
+    users: (Users | null)[] | null
+  }
 
   export type Users = {
-    __typename?: 'UserGraph';
+    __typename?: 'UserGraph'
 
-    id: Guid;
+    id: Guid
 
-    emailAddress: string;
+    emailAddress: string
 
-    lastLogin: DateTimeOffset | null;
+    lastLogin: DateTimeOffset | null
 
-    rowVersion: string;
-  };
+    rowVersion: string
+  }
 }
 
 // ====================================================
 // START: Apollo Angular template
 // ====================================================
 
-import { Injectable } from '@angular/core';
-import * as Apollo from 'apollo-angular';
+import { Injectable } from '@angular/core'
+import * as Apollo from 'apollo-angular'
 
-import gql from 'graphql-tag';
+import gql from 'graphql-tag'
 
 // ====================================================
 // Apollo Services
 // ====================================================
 
+@Injectable({
+  providedIn: 'root'
+})
+export class AllAgenciesSearchGQL extends Apollo.Query<
+  AllAgenciesSearch.Query,
+  AllAgenciesSearch.Variables
+> {
+  document: any = gql`
+    query allAgenciesSearch($title: String) {
+      agencies(
+        where: { path: "title", comparison: contains, value: [$title] }
+        orderBy: { path: "title" }
+      ) {
+        id
+        title
+        rowVersion
+      }
+    }
+  `
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -1992,7 +2034,7 @@ export class CreateAccessControlGroupUserGQL extends Apollo.Mutation<
         userId
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2007,7 +2049,7 @@ export class UsersGQL extends Apollo.Query<Users.Query, Users.Variables> {
         rowVersion
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2026,7 +2068,7 @@ export class CreateAccessControlGroupGQL extends Apollo.Mutation<
         rowVersion
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2045,7 +2087,7 @@ export class UpdateAccessControlGroupGQL extends Apollo.Mutation<
         rowVersion
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2060,7 +2102,7 @@ export class DeleteAccessControlGroupGQL extends Apollo.Mutation<
     ) {
       deleteAccessControlGroup(input: $data)
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2075,7 +2117,7 @@ export class DeleteAccessControlGroupUserGQL extends Apollo.Mutation<
     ) {
       deleteAccessControlGroupUser(input: $data)
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2095,7 +2137,7 @@ export class GroupGQL extends Apollo.Query<Group.Query, Group.Variables> {
         }
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2112,7 +2154,7 @@ export class AllGroupsGQL extends Apollo.Query<
         rowVersion
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2132,7 +2174,7 @@ export class AllGroupsSearchGQL extends Apollo.Query<
         rowVersion
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2147,7 +2189,7 @@ export class DeleteReportAccessControlGQL extends Apollo.Mutation<
     ) {
       deleteReportAccessControl(input: $data)
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2166,7 +2208,7 @@ export class CreateReportAccessControlGQL extends Apollo.Mutation<
         rowVersion
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2185,7 +2227,7 @@ export class UpdateReportAccessControlGQL extends Apollo.Mutation<
         rowVersion
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2213,7 +2255,7 @@ export class ReportGQL extends Apollo.Query<Report.Query, Report.Variables> {
         }
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2230,7 +2272,7 @@ export class CreateReportGQL extends Apollo.Mutation<
         rowVersion
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2247,7 +2289,7 @@ export class UpdateReportGQL extends Apollo.Mutation<
         notes
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2269,7 +2311,7 @@ export class CreateProgramGQL extends Apollo.Mutation<
         rowVersion
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2291,7 +2333,7 @@ export class UpdateProgramGQL extends Apollo.Mutation<
         rowVersion
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2304,7 +2346,7 @@ export class DeleteProgramGQL extends Apollo.Mutation<
     mutation deleteProgram($data: DeleteProgramInputGraph) {
       deleteProgram(input: $data)
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2317,7 +2359,7 @@ export class DeleteReportGQL extends Apollo.Mutation<
     mutation deleteReport($data: DeleteReportInputGraph) {
       deleteReport(input: $data)
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2336,7 +2378,7 @@ export class UpdateProgramAccessControlGQL extends Apollo.Mutation<
         rowVersion
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2355,7 +2397,7 @@ export class CreateProgramAccessControlGQL extends Apollo.Mutation<
         rowVersion
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2370,7 +2412,7 @@ export class DeleteProgramAccessControlGQL extends Apollo.Mutation<
     ) {
       deleteProgramAccessControl(input: $data)
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2425,7 +2467,7 @@ export class ProgramGQL extends Apollo.Query<Program.Query, Program.Variables> {
         }
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2449,7 +2491,7 @@ export class EditProgramGQL extends Apollo.Query<
         }
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2471,7 +2513,7 @@ export class AllPortfoliosGQL extends Apollo.Query<
         }
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2491,7 +2533,7 @@ export class AllProgramsGQL extends Apollo.Query<
         }
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2514,7 +2556,7 @@ export class AllProgramsSearchGQL extends Apollo.Query<
         }
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2534,7 +2576,7 @@ export class CreateProjectGQL extends Apollo.Mutation<
         rowVersion
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2554,7 +2596,7 @@ export class UpdateProjectGQL extends Apollo.Mutation<
         rowVersion
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2567,7 +2609,7 @@ export class DeleteProjectGQL extends Apollo.Mutation<
     mutation deleteProject($data: DeleteProjectInputGraph!) {
       deleteProject(input: $data)
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2587,7 +2629,7 @@ export class ProjectGQL extends Apollo.Query<Project.Query, Project.Variables> {
         }
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2606,7 +2648,7 @@ export class AllProjectsGQL extends Apollo.Query<
         }
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2628,7 +2670,7 @@ export class AllProjectsSearchGQL extends Apollo.Query<
         }
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2650,7 +2692,7 @@ export class AllProgramReportsGQL extends Apollo.Query<
         __typename
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2669,7 +2711,7 @@ export class CreateStatisticReportAccessControlGQL extends Apollo.Mutation<
         rowVersion
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2688,7 +2730,7 @@ export class UpdateStatisticReportAccessControlGQL extends Apollo.Mutation<
         rowVersion
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2703,7 +2745,7 @@ export class DeleteStatisticReportAccessControlGQL extends Apollo.Mutation<
     ) {
       deleteStatisticReportAccessControl(input: $data)
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2734,7 +2776,7 @@ export class StatisticReportGQL extends Apollo.Query<
         }
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2752,7 +2794,7 @@ export class CreateStatisticReportGQL extends Apollo.Mutation<
         statisticId
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2770,7 +2812,7 @@ export class UpdateStatisticReportGQL extends Apollo.Mutation<
         statisticId
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2791,7 +2833,7 @@ export class CreateStatisticGQL extends Apollo.Mutation<
         rowVersion
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2812,7 +2854,7 @@ export class UpdateStatisticGQL extends Apollo.Mutation<
         rowVersion
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2825,7 +2867,7 @@ export class DeleteStatisticReportGQL extends Apollo.Mutation<
     mutation deleteStatisticReport($data: DeleteStatisticReportInputGraph!) {
       deleteStatisticReport(input: $data)
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2838,7 +2880,7 @@ export class DeleteStatisticGQL extends Apollo.Mutation<
     mutation deleteStatistic($data: DeleteStatisticInputGraph!) {
       deleteStatistic(input: $data)
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2857,7 +2899,7 @@ export class CreateStatisticAccessControlGQL extends Apollo.Mutation<
         rowVersion
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2872,7 +2914,7 @@ export class DeleteStatisticAccessControlGQL extends Apollo.Mutation<
     ) {
       deleteStatisticAccessControl(input: $data)
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2891,7 +2933,7 @@ export class UpdateStatisticAccessControlGQL extends Apollo.Mutation<
         rowVersion
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2916,7 +2958,7 @@ export class AllStatisticsGQL extends Apollo.Query<
         }
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2955,7 +2997,7 @@ export class StatisticGQL extends Apollo.Query<
         }
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2972,7 +3014,7 @@ export class AllAgenciesGQL extends Apollo.Query<
         title
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -2995,7 +3037,7 @@ export class AllStatisticsSearchGQL extends Apollo.Query<
         }
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -3020,7 +3062,7 @@ export class UserGQL extends Apollo.Query<User.Query, User.Variables> {
         rowVersion
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
@@ -3045,7 +3087,7 @@ export class AllUsersSearchGQL extends Apollo.Query<
         rowVersion
       }
     }
-  `;
+  `
 }
 
 // ====================================================
