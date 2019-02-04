@@ -31,7 +31,7 @@ export class CommitmentEffects {
     .pipe(
       ofType(CommitmentActionTypes.GetAllCommitments),
       map((action: GetAllCommitments) => action.payload ? action.payload.filter : null),
-      switchMap((filter: any) => this.service.filterCommitments(filter)
+      switchMap((filter: any): Observable<Action> => this.service.filterCommitments(filter)
         .pipe(
           map((result: DataResult<CommitmentsResult>) => new LoadCommitments(result)),
           catchError(error => of(new CommitmentsActionFailure(error)))
