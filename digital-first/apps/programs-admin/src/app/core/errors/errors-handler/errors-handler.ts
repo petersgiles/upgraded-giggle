@@ -1,36 +1,51 @@
-import {ErrorHandler, Injectable, Injector, NgZone} from '@angular/core'
-import {HttpErrorResponse} from '@angular/common/http'
-import {Router} from '@angular/router'
-import {environment} from '../../../../environments/environment'
+import { ErrorHandler, Injectable, Injector, NgZone } from '@angular/core'
+import { HttpClient, HttpErrorResponse } from '@angular/common/http'
+import { Router } from '@angular/router'
+import { environment } from '../../../../environments/environment'
+import { catchError } from 'rxjs/operators'
+import { of } from 'rxjs'
+
+function logSuppressedError(reason) {
+  // tslint:disable-next-line:no-console
+  if (typeof console !== 'undefined' && console.warn) {
+    // tslint:disable-next-line:no-console
+    console.warn('Suppressed error when logging to Seq: ' + reason)
+  }
+  return of(true)
+}
 
 @Injectable()
 export class ErrorsHandler implements ErrorHandler {
-  constructor(private injector: Injector) {
-  }
+  constructor(private httpClient: HttpClient, private injector: Injector) {}
 
-  // TODO: log to SEQ server
+  formatErrorMessage(errorToFormat: HttpErrorResponse): string {
+    if (errorToFormat.error) {
+      return errorToFormat.error.errors
+        .map(
+          errorToJoin =>
+            errorToJoin.extensions &&
+            errorToJoin.extensions.code === 'DB_UPDATE_CONCURRENCY'
+              ? `"The record was updated prior to your change.  Please refresh the record and try again."`
+              : `"${errorToJoin.message}"`
+        )
+        .join(', ')
+    }
+    return errorToFormat.message
+  }
   handleError(error: Error | HttpErrorResponse) {
     const router = this.injector.get(Router)
     const ngZone = this.injector.get(NgZone)
 
-    function formatErrorMessage(errorToFormat: HttpErrorResponse) {
-
-      if (errorToFormat.error) {
-        return errorToFormat.error.errors.map(errorToJoin =>
-          errorToJoin.extensions && errorToJoin.extensions.code === 'DB_UPDATE_CONCURRENCY' ?
-            `"The record was updated prior to your change.  Please refresh the record and try again."` : `"${errorToJoin.message}"`).join(', ')
-      }
-      return errorToFormat.message
-    }
+    this.sendToSeq(error)
 
     if (environment.redirectErrors) {
       if (error instanceof HttpErrorResponse) {
-        const errorMessage = formatErrorMessage(error)
+        const errorMessage = this.formatErrorMessage(error)
 
         ngZone
           .run(() =>
             router.navigate(['/error'], {
-              queryParams: {error: errorMessage}
+              queryParams: { error: errorMessage }
             })
           )
           .then()
@@ -39,7 +54,7 @@ export class ErrorsHandler implements ErrorHandler {
         ngZone
           .run(() =>
             router.navigate(['/error'], {
-              queryParams: {error: error.message}
+              queryParams: { error: error.message }
             })
           )
           .then()
@@ -48,5 +63,38 @@ export class ErrorsHandler implements ErrorHandler {
     // Log the error
     // tslint:disable-next-line:no-console
     console.error(error)
+  }
+
+  // TODO:  refactor this out to a service
+  private sendToSeq(error: Error | HttpErrorResponse) {
+    const event = this.createEvent(error)
+
+    this.httpClient
+      .post(
+        `${environment.datasource.adminApiUrl}/events/raw`,
+        JSON.stringify({ Events: [event] })
+      )
+      .pipe(catchError(logSuppressedError))
+      .subscribe()
+  }
+
+  private createEvent(error: Error | HttpErrorResponse) {
+    const mappedEvent = {
+      Level: 'Error',
+      MessageTemplate: 'Programs admin client application error: {message}',
+      Properties: {},
+      Timestamp: new Date().toISOString(),
+      Exception: ''
+    }
+
+    if (error instanceof HttpErrorResponse) {
+      mappedEvent.Properties = { message: this.formatErrorMessage(error) }
+    }
+
+    if (error instanceof Error && error.stack) {
+      mappedEvent.Exception = error.stack
+      mappedEvent.Properties = { message: error.message }
+    }
+    return mappedEvent
   }
 }
