@@ -1,27 +1,33 @@
-import {Injectable} from '@angular/core'
-import {HttpClient, HttpHeaders} from '@angular/common/http'
-import {Observable} from 'rxjs'
-import {environment} from '../../environments/environment'
-import {UUID} from '@digital-first/df-utils'
+import { Injectable } from '@angular/core'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { Observable } from 'rxjs'
+import { environment } from '../../environments/environment'
+import { UUID } from '@digital-first/df-utils'
 
 @Injectable({
   providedIn: 'root'
 })
 export class PassthroughService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) {
-  }
-
-  sendMessageOnToBus<T>(message: T, formData: FormData): Observable<any> {
-
+  sendMessageOnToBus(
+    message,
+    messageTypeName: string,
+    formData: FormData
+  ): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({
-        'MessageType': message.constructor.name,
-        'MessageNamespace': 'ProgramsManager.Messages',
-        'MessageId': UUID.UUID()
+        // Notes: couldn't use message.constructor.name because of the AOT build, had to pass the name as a sting
+        MessageType: messageTypeName,
+        MessageNamespace: 'ProgramsManager.Messages',
+        MessageId: UUID.UUID()
       })
     }
 
-    return this.http.post(environment.datasource.passthroughUrl, formData, httpOptions)
+    return this.http.post(
+      environment.datasource.passthroughUrl,
+      formData,
+      httpOptions
+    )
   }
 }
