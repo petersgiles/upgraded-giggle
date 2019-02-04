@@ -119,6 +119,13 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
     this.router.navigate(['/', 'commitment', commitment.id])
   }
 
+  handleCommitmentsCellHeadingClicked($event) {
+    // call a service to throws action
+
+    // tslint:disable-next-line:no-console
+    console.log('handleCommitmentsCellHeadingClicked', $event)
+  }
+
   handleShare(commitment?: Commitment) {
     this.router.navigate(['/', 'commitment', commitment.id])
   }

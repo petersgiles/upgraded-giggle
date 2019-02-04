@@ -17,10 +17,12 @@ import {
     getAnnouncementTypeEntities,
     getCommitmentTypeEntities,
     getWhoAnnouncedTypeEntities,
-    getAllPartys
+    getAllPartys,
+    getAllThemeTypes,
+    getAllPackageTypes
 } from '../commitment-lookup'
 import { findInLookup } from '../utils'
-import { DataTableConfig } from '@digital-first/df-datatable'
+import { DataTableConfig, DATA_TABLE_SORT_DIRECTION_ASC } from '@digital-first/df-datatable'
 
 export const getCommitmentOverviewState = state => state.commitmentOverview
 
@@ -78,38 +80,54 @@ const REFINER_GROUP_WHO_ANNOUNCED_TYPE = {
     key: 'whoAnnouncedType', // key needs to match property on artifact
     title: 'Who Announced'
 }
-
-export const getRefinerGroups = createSelector(
+const REFINER_GROUP_THEME_TYPE = {
+    key: 'themeType', // key needs to match property on artifact
+    title: 'Theme'
+}
+const REFINER_GROUP_PACKAGE_TYPE = {
+    key: 'packageType', // key needs to match property on artifact
+    title: 'Package'
+}
+export const getRefinerUx = createSelector(
     getCommitmentOverviewSelectedRefiners,
     getCommitmentOverviewExpandedRefinerGroups,
+    (selected, groups) => ({ selected, groups }))
+
+export const getRefinerPartyPortfolio = createSelector(
     getAllPartys,
     getAllPortfolios,
     // getAllLocations,
+    (partys, portfolios,
+        // locations
+        ) => ({ partys, portfolios }))
+
+export const getRefinerLookups = createSelector(
     getAllAnnouncementTypes,
     getAllCommitmentTypes,
     getAllWhoAnnouncedTypes,
-    (selected, groups, partys, portfolios,
-        // locations,
-        announcementTypes, commitmentTypes, whoAnnouncedTypes) => {
+    getAllThemeTypes,
+    getAllPackageTypes,
+    (announcementTypes, commitmentTypes, whoAnnouncedTypes, themes, packages
+        ) => ({ announcementTypes, commitmentTypes, whoAnnouncedTypes, themes, packages }))
+
+export const getRefinerGroups = createSelector(
+    getRefinerUx,
+    getRefinerPartyPortfolio,
+    getRefinerLookups,
+    (uxState, pp, lookups) => {
 
         const refinerGroups: RefinerGroup[] = []
 
-        // const userDefinedRefiners: RefinerGroup = {
-        //     id: REFINER_GROUP_FAVOURITES.key,
-        //     title: REFINER_GROUP_FAVOURITES.title,
-        //     expanded: true,
-        //     custom: true,
-        //     children: []
-        // }
-        // refinerGroups.push(userDefinedRefiners)
-
         const refiners = [
-            partys,
-            portfolios,
+            pp.partys,
+            pp.portfolios,
             // locations,
-            announcementTypes,
-            commitmentTypes,
-            whoAnnouncedTypes]
+            lookups.announcementTypes,
+            lookups.commitmentTypes,
+            lookups.whoAnnouncedTypes,
+            lookups.themes,
+            lookups.packages
+        ]
 
         const refinerGroupTitles = [
             REFINER_GROUP_PARTY,
@@ -117,7 +135,9 @@ export const getRefinerGroups = createSelector(
             // REFINER_GROUP_LOCATION,
             REFINER_GROUP_ANNOUNCEMENT_TYPE,
             REFINER_GROUP_COMMITMENT_TYPE,
-            REFINER_GROUP_WHO_ANNOUNCED_TYPE
+            REFINER_GROUP_WHO_ANNOUNCED_TYPE,
+            REFINER_GROUP_THEME_TYPE,
+            REFINER_GROUP_PACKAGE_TYPE
         ]
         refiners.reduce((acc: RefinerGroup[], item: any[], index: number) => {
 
@@ -126,13 +146,13 @@ export const getRefinerGroups = createSelector(
             const rg: RefinerGroup = {
                 id: groupkey,
                 title: grouptitle,
-                expanded: !!groups.find(r => r === groupkey),
+                expanded: !!uxState.groups.find(r => r === groupkey),
                 children: (item || [])
                     .map(p => ({
                         id: p.id,
                         groupId: groupkey,
                         title: p.title,
-                        selected: !!selected.find(r => r.groupId === groupkey && r.id === p.id),
+                        selected: !!uxState.selected.find(r => r.groupId === groupkey && r.id === p.id),
                     }))
             }
             acc.push(rg)
@@ -238,11 +258,11 @@ export const getAllOverviewCommitmentDataTables = createSelector(
         const dtc: DataTableConfig = {
             title: 'commitments',
             headings: [
-                { caption: 'Title' },
-                { caption: 'Party' },
-                { caption: 'Responsible Portfolio' },
-                { caption: 'Type of Commitment' },
-                { caption: 'Critical Date' }
+                { id: 'title', caption: 'Title', sort: DATA_TABLE_SORT_DIRECTION_ASC},
+                { id: 'party', caption: 'Party', sort: null },
+                { id: 'portfolio', caption: 'Responsible Portfolio', sort: null },
+                { id: 'commitment', caption: 'Type of Commitment', sort: null },
+                { id: 'date', caption: 'Critical Date', sort: null }
             ],
             rows: rows
         }
