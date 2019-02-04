@@ -1,9 +1,15 @@
-import {Component, OnDestroy, OnInit} from '@angular/core'
-import {Observable, Subscription} from 'rxjs'
-import {FormBuilder, Validators} from '@angular/forms'
-import {ActivatedRoute, Router} from '@angular/router'
-import {map} from 'rxjs/operators'
-import {AllAgencies, AllAgenciesGQL, Statistic, StatisticGQL, UpdateStatisticGQL} from '../../../generated/graphql'
+import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Observable, Subscription } from 'rxjs'
+import { FormBuilder, Validators } from '@angular/forms'
+import { ActivatedRoute, Router } from '@angular/router'
+import { map } from 'rxjs/operators'
+import {
+  AllAgencies,
+  AllAgenciesGQL,
+  Statistic,
+  StatisticGQL,
+  UpdateStatisticGQL
+} from '../../../generated/graphql'
 
 @Component({
   selector: 'digital-first-statistic-edit',
@@ -11,10 +17,7 @@ import {AllAgencies, AllAgenciesGQL, Statistic, StatisticGQL, UpdateStatisticGQL
   styleUrls: ['./statistic-edit.component.scss']
 })
 export class StatisticEditComponent implements OnInit, OnDestroy {
-
-  agenciesSubscription$: Subscription
   statisticSubscription$: Subscription
-  agencies: AllAgencies.Agencies[]
 
   rowVersion: string
 
@@ -28,55 +31,55 @@ export class StatisticEditComponent implements OnInit, OnDestroy {
   statisticId: string
 
   statistics$: Observable<Statistic.Statistic | null>
+  agencies$: Observable<(AllAgencies.Agencies | null)[]>
 
-  constructor(private formBuilder: FormBuilder,
-              private allAgencies: AllAgenciesGQL,
-              private statisticGQL: StatisticGQL,
-              private router: Router,
-              private route: ActivatedRoute,
-              private updateStatisticGQL: UpdateStatisticGQL) {
-  }
+  constructor(
+    private formBuilder: FormBuilder,
+    private allAgencies: AllAgenciesGQL,
+    private statisticGQL: StatisticGQL,
+    private router: Router,
+    private route: ActivatedRoute,
+    private updateStatisticGQL: UpdateStatisticGQL
+  ) {}
 
   ngOnInit() {
-    this.agenciesSubscription$ = this.allAgencies.watch(
-      {},
-      {fetchPolicy: 'cache-first'}).valueChanges
+    this.agencies$ = this.allAgencies
+      .fetch({}, { fetchPolicy: 'network-only' })
       .pipe(map(result => result.data.agencies))
-      .subscribe(value => {
-          this.agencies = value
-        }
-      )
 
     this.statisticId = this.route.snapshot.paramMap.get('id')
 
-    this.statistics$ = this.statisticGQL.watch(
-      {statisticId: this.statisticId},
-      {fetchPolicy: 'network-only'})
-      .valueChanges.pipe(map(value => value.data.statistic))
+    this.statistics$ = this.statisticGQL
+      .fetch({ statisticId: this.statisticId }, { fetchPolicy: 'network-only' })
+      .pipe(map(value => value.data.statistic))
 
-    this.statisticSubscription$ = this.statistics$.subscribe(
-      value => {
-        this.rowVersion = value.rowVersion
-        this.editStatisticForm.patchValue({
-          statisticName: value.name,
-          externalId: value.externalId,
-          agencyId: value.agency.id
-        })
+    this.statisticSubscription$ = this.statistics$.subscribe(value => {
+      this.rowVersion = value.rowVersion
+      this.editStatisticForm.patchValue({
+        statisticName: value.name,
+        externalId: value.externalId,
+        agencyId: value.agency.id
       })
+    })
   }
 
   onSubmit() {
-
-    this.updateStatisticGQL.mutate({
-      data: {
-        agencyId: this.editStatisticForm.value['agencyId'],
-        name: this.editStatisticForm.value['statisticName'],
-        externalId: this.editStatisticForm.value['externalId'],
-        rowVersion: this.rowVersion,
-        id: this.statisticId
-      }
-    }, {}).subscribe(({data}) =>
-      this.router.navigate(['statistics', data.updateStatistic.id]))
+    this.updateStatisticGQL
+      .mutate(
+        {
+          data: {
+            agencyId: this.editStatisticForm.value['agencyId'],
+            name: this.editStatisticForm.value['statisticName'],
+            externalId: this.editStatisticForm.value['externalId'],
+            rowVersion: this.rowVersion,
+            id: this.statisticId
+          }
+        },
+        {}
+      )
+      .subscribe(({ data }) =>
+        this.router.navigate(['statistics', data.updateStatistic.id])
+      )
   }
 
   cancel() {
@@ -84,7 +87,6 @@ export class StatisticEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.agenciesSubscription$.unsubscribe()
     this.statisticSubscription$.unsubscribe()
   }
 }
