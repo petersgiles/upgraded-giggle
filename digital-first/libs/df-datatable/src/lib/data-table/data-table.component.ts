@@ -21,12 +21,20 @@ export class DataTableComponent implements OnInit {
 
   @Output() onDeleteItem: EventEmitter<any> = new EventEmitter()
 
+  @Output() onCellHeadingClicked: EventEmitter<any> = new EventEmitter()
+
   @Output() onCellClicked: EventEmitter<any> = new EventEmitter()
 
   @Output() onRowClicked: EventEmitter<any> = new EventEmitter()
 
   get rows(): any[] {
     return this.tableRows ? this.tableRows : this.tableData.rows
+  }
+
+  handleCellHeadingClicked(heading) {
+    // tslint:disable-next-line:no-console
+    console.log(heading)
+    this.onCellHeadingClicked.emit({ ...heading })
   }
 
   handleCellClicked(row, cell) {

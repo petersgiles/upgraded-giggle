@@ -34,6 +34,7 @@
           [tableData]="dataTableConfig"
           [tableRows]="pagedDataTableRows"
           (onCellClicked)="handleCommitmentsRowClicked($event)"
+          (onCellHeadingClicked)="handleCommitmentsCellHeadingClicked($event)"
         ></digital-first-data-table>
         <digital-first-data-table-pager [length]="dataTableRows?.length" [pageSize]="pageSize" [pageIndex]="pageIndex" [showFirstLastButtons]="false" (page)="handlePage($event)"></digital-first-data-table-pager>
       </div>

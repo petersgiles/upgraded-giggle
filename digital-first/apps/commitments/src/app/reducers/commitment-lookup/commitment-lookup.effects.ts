@@ -38,7 +38,7 @@ export class CommitmentLookupEffects {
     getAllAnnouncementTypes$: Observable<Action> = this.actions$
         .pipe(
             ofType(CommitmentLookupsActionTypes.GetAllAnnouncementTypes),
-            switchMap((filter: any) => this.service.filterAnnouncementTypes(filter)
+            switchMap((filter: any): Observable<Action> => this.service.filterAnnouncementTypes(filter)
                 .pipe(
                     map((result: DataResult<AnnouncementTypesResult>) => new LoadAnnouncementTypes(result)),
                     catchError(error => of(new AnnouncementTypesActionFailure(error)))
@@ -49,7 +49,7 @@ export class CommitmentLookupEffects {
     getAllThemeTypes$: Observable<Action> = this.actions$
         .pipe(
             ofType(CommitmentLookupsActionTypes.GetAllThemeTypes),
-            switchMap((filter: any) => this.service.filterThemeTypes(filter)
+            switchMap((filter: any): Observable<Action> => this.service.filterThemeTypes(filter)
                 .pipe(
                     map((result: DataResult<ThemeTypesResult>) => new LoadThemeTypes(result)),
                     catchError(error => of(new ThemeTypesActionFailure(error)))
@@ -59,7 +59,7 @@ export class CommitmentLookupEffects {
     getAllPackageTypes$: Observable<Action> = this.actions$
         .pipe(
             ofType(CommitmentLookupsActionTypes.GetAllPackageTypes),
-            switchMap((filter: any) => this.service.filterPackageTypes(filter)
+            switchMap((filter: any): Observable<Action> => this.service.filterPackageTypes(filter)
                 .pipe(
                     map((result: DataResult<PackageTypesResult>) => new LoadPackageTypes(result)),
                     catchError(error => of(new PackageTypesActionFailure(error)))
@@ -70,7 +70,7 @@ export class CommitmentLookupEffects {
     getAllCommitmentTypes$: Observable<Action> = this.actions$
         .pipe(
             ofType(CommitmentLookupsActionTypes.GetAllCommitmentTypes),
-            switchMap((filter: any) => this.service.filterCommitmentTypes(filter)
+            switchMap((filter: any): Observable<Action> => this.service.filterCommitmentTypes(filter)
                 .pipe(
                     map((result: DataResult<CommitmentTypesResult>) => new LoadCommitmentTypes(result)),
                     catchError(error => of(new CommitmentTypesActionFailure(error)))
@@ -81,7 +81,7 @@ export class CommitmentLookupEffects {
     getAllCriticalDates$: Observable<Action> = this.actions$
         .pipe(
             ofType(CommitmentLookupsActionTypes.GetAllCriticalDates),
-            switchMap((filter: any) => this.service.filterCriticalDates(filter)
+            switchMap((filter: any): Observable<Action> => this.service.filterCriticalDates(filter)
                 .pipe(
                     map((result: DataResult<CriticalDatesResult>) => new LoadCriticalDates(result)),
                     catchError(error => of(new CriticalDatesActionFailure(error)))
@@ -92,7 +92,7 @@ export class CommitmentLookupEffects {
     getAllLocations$: Observable<Action> = this.actions$
         .pipe(
             ofType(CommitmentLookupsActionTypes.GetAllLocations),
-            switchMap((filter: any) => this.service.filterLocations(filter)
+            switchMap((filter: any): Observable<Action> => this.service.filterLocations(filter)
                 .pipe(
                     map((result: DataResult<LocationsResult>) => new LoadLocations(result)),
                     catchError(error => of(new LocationsActionFailure(error)))
@@ -103,7 +103,7 @@ export class CommitmentLookupEffects {
     getAllPartys$: Observable<Action> = this.actions$
         .pipe(
             ofType(CommitmentLookupsActionTypes.GetAllPartys),
-            switchMap((filter: any) => this.service.filterPartys(filter)
+            switchMap((filter: any): Observable<Action> => this.service.filterPartys(filter)
                 .pipe(
                     map((result: DataResult<PartysResult>) => new LoadPartys(result)),
                     catchError(error => of(new PartysActionFailure(error)))
@@ -114,7 +114,7 @@ export class CommitmentLookupEffects {
     getAllPortfolios$: Observable<Action> = this.actions$
         .pipe(
             ofType(CommitmentLookupsActionTypes.GetAllPortfolios),
-            switchMap((filter: any) => this.service.filterPortfolios(filter)
+            switchMap((filter: any): Observable<Action> => this.service.filterPortfolios(filter)
                 .pipe(
                     map((result: DataResult<PortfoliosResult>) => new LoadPortfolios(result)),
                     catchError(error => of(new PortfoliosActionFailure(error)))
@@ -125,7 +125,7 @@ export class CommitmentLookupEffects {
     getAllWhoAnnouncedTypes$: Observable<Action> = this.actions$
         .pipe(
             ofType(CommitmentLookupsActionTypes.GetAllWhoAnnouncedTypes),
-            switchMap((filter: any) => this.service.filterWhoAnnouncedTypes(filter)
+            switchMap((filter: any): Observable<Action> => this.service.filterWhoAnnouncedTypes(filter)
                 .pipe(
                     map((result: DataResult<WhoAnnouncedTypesResult>) => new LoadWhoAnnouncedTypes(result)),
                     catchError(error => of(new WhoAnnouncedTypesActionFailure(error)))
