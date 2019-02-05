@@ -21,12 +21,11 @@ export class ErrorsHandler implements ErrorHandler {
   formatErrorMessage(errorToFormat: HttpErrorResponse): string {
     if (errorToFormat.error) {
       return errorToFormat.error.errors
-        .map(
-          errorToJoin =>
-            errorToJoin.extensions &&
-            errorToJoin.extensions.code === 'DB_UPDATE_CONCURRENCY'
-              ? `"The record was updated prior to your change.  Please refresh the record and try again."`
-              : `"${errorToJoin.message}"`
+        .map(errorToJoin =>
+          errorToJoin.extensions &&
+          errorToJoin.extensions.code === 'DB_UPDATE_CONCURRENCY'
+            ? `"The record was updated prior to your change.  Please refresh the record and try again."`
+            : `"${errorToJoin.message}"`
         )
         .join(', ')
     }
@@ -81,19 +80,28 @@ export class ErrorsHandler implements ErrorHandler {
   private createEvent(error: Error | HttpErrorResponse) {
     const mappedEvent = {
       Level: 'Error',
-      MessageTemplate: 'Programs admin client application error: {message}',
-      Properties: {},
+      MessageTemplate: 'Programs admin client application error: {message}.',
+      Properties: { clientVersion: environment.version },
       Timestamp: new Date().toISOString(),
       Exception: ''
     }
 
     if (error instanceof HttpErrorResponse) {
-      mappedEvent.Properties = { message: this.formatErrorMessage(error) }
+      const props = {
+        ...mappedEvent.Properties,
+        message: this.formatErrorMessage(error)
+      }
+      mappedEvent.Properties = props
     }
 
     if (error instanceof Error && error.stack) {
       mappedEvent.Exception = error.stack
-      mappedEvent.Properties = { message: error.message }
+
+      const props = {
+        ...mappedEvent.Properties,
+        message: error.message
+      }
+      mappedEvent.Properties = props
     }
     return mappedEvent
   }
