@@ -27,7 +27,6 @@ export class ReportuploadComponent implements OnInit, OnDestroy {
     reportId: [undefined, Validators.required],
     notes: [''],
     dataDate: ['', Validators.required],
-    filename: [''],
     file: [null, Validators.required]
   })
 

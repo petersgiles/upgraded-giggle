@@ -21,8 +21,7 @@ export class ProjectuploadComponent implements OnInit, OnDestroy {
 
   projectForm = this.formBuilder.group({
     programId: [undefined, Validators.required],
-    file: [null, Validators.required],
-    filename: ['']
+    file: [null, Validators.required]
   })
 
   constructor(

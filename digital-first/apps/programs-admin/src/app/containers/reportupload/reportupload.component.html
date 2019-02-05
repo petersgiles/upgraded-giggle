@@ -1,5 +1,7 @@
 <div class="page_title">
-  <div class="reader-card-article__title page_title_text" mdcHeadline5>Upload Report</div>
+  <div class="reader-card-article__title page_title_text" mdcHeadline5>
+    Upload Report
+  </div>
 </div>
 <div>
   <div class="app-page">
@@ -16,11 +18,14 @@
                     formControlName="programId"
                     placeholder="Program"
                     [outlined]="true"
-                    required
                     name="program"
-                    (selectionChange)="onSelectionChange($event)">
+                    (selectionChange)="onSelectionChange($event)"
+                  >
                     <option value="" selected></option>
-                    <option *ngFor="let program of programs" [value]="program.id">{{program.name}}
+                    <option
+                      *ngFor="let program of programs"
+                      [value]="program.id"
+                      >{{ program.name }}
                     </option>
                   </mdc-select>
                 </div>
@@ -29,22 +34,27 @@
                     formControlName="reportId"
                     placeholder="Report"
                     [outlined]="true"
-                    required
-                    name="report">
+                    name="report"
+                  >
                     <option value=""></option>
                     <option *ngFor="let report of reports" [value]="report.id">
-                      {{report.name}}
+                      {{ report.name }}
                     </option>
                   </mdc-select>
                 </div>
                 <div class="form-layout__row">
                   <mdc-text-field
                     formControlName="dataDate"
-                    type="date" #outlinedicon
+                    type="date"
+                    #outlinedicon
                     [outlined]="true"
                     required
-                    label="Data date" name="dataDate">
-                    <mdc-icon mdcTextFieldIcon leading #leadingicon>event</mdc-icon>
+                    label="Data date"
+                    name="dataDate"
+                  >
+                    <mdc-icon mdcTextFieldIcon leading #leadingicon
+                      >event</mdc-icon
+                    >
                   </mdc-text-field>
                 </div>
                 <div class="form-layout__row">
@@ -55,21 +65,30 @@
                     cols="8"
                     rows="3"
                     label="Notes"
-                    spellcheck="true">
+                    spellcheck="true"
+                  >
                   </mdc-textarea>
                 </div>
                 <div class="form-layout__row">
                   <mdc-form-field [alignEnd]="true">
-                    <input type="file" accept=".csv" (change)="fileChange($event)"
-                           id="fileToUpload"
-                           name="fileToUpload" required>
+                    <input
+                      type="file"
+                      accept=".csv"
+                      (change)="fileChange($event)"
+                      id="fileToUpload"
+                      name="fileToUpload"
+                      required
+                    />
                   </mdc-form-field>
                 </div>
                 <div class="form-layout__row-with-button">
-                  <button id="submit"
-                          class="mdc-button ng-mdc-button--primary mdc-button--raised mdc-ripple-upgraded"
-                          type="submit"
-                          [disabled]="reportForm.invalid || reportForm.pristine">Submit
+                  <button
+                    id="submit"
+                    class="mdc-button ng-mdc-button--primary mdc-button--raised mdc-ripple-upgraded"
+                    type="submit"
+                    [disabled]="reportForm.invalid || reportForm.pristine"
+                  >
+                    Submit
                   </button>
                 </div>
               </fieldset>

@@ -24,7 +24,6 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
     statisticReportId: [undefined, Validators.required],
     notes: [''],
     dataDate: ['', Validators.required],
-    filename: [''],
     file: [null, Validators.required]
   })
 
