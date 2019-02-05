@@ -17,7 +17,7 @@ export class ProgramAddComponent implements OnInit, OnDestroy {
 
   addProgramForm = this.formBuilder.group({
     agencyId: [undefined, Validators.required],
-    programName: [null, Validators.required],
+    programName: [null, [Validators.required, Validators.maxLength(450)]],
     externalId: [null],
     notes: ['']
   })

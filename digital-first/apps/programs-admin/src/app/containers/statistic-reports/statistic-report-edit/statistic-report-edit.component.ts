@@ -14,7 +14,7 @@ import {Subscription} from 'rxjs'
 export class StatisticReportEditComponent implements OnInit, OnDestroy {
 
   editStatisticReportForm = this.formBuilder.group({
-    reportName: [null, Validators.required],
+    reportName: [null, [Validators.required, Validators.maxLength(450)]],
     notes: ['']
   })
 

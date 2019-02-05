@@ -17,7 +17,7 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
 
   addProjectForm = this.formBuilder.group({
     programId: [undefined, Validators.required],
-    projectName: [null, Validators.required],
+    projectName: [null, [Validators.required, Validators.maxLength(450)]],
     externalId: [null],
     notes: ['']
   })

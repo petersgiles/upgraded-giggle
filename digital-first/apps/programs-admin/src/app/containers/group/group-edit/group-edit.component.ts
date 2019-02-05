@@ -13,7 +13,7 @@ import {Observable, Subscription} from 'rxjs'
 export class GroupEditComponent implements OnInit, OnDestroy {
 
   editGroupForm = this.formBuilder.group({
-    groupName: [null, Validators.required]
+    groupName: [null, [Validators.required, Validators.maxLength(450)]]
   })
 
   groupId: string
