@@ -1,18 +1,54 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Programs Admin</title>
-  <base href="/">
+  <head>
+    <meta charset="utf-8" />
+    <title>Programs Admin</title>
+    <base href="/" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-	<link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons" type="text/css">
-	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500" type="text/css">
-  <link rel="stylesheet" href="//cdn.materialdesignicons.com/2.1.19/css/materialdesignicons.min.css" type="text/css" />
-  
-</head>
-<body class="mdc-typography">
-  <digital-first-root></digital-first-root>
-</body>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link
+      rel="stylesheet"
+      href="//fonts.googleapis.com/icon?family=Material+Icons"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="//fonts.googleapis.com/css?family=Roboto:300,400,500"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="//cdn.materialdesignicons.com/2.1.19/css/materialdesignicons.min.css"
+      type="text/css"
+    />
+  </head>
+  <body class="mdc-typography">
+    <div id="ieMessage"></div>
+    <digital-first-root id="divToRemoveIfIe"></digital-first-root>
+    <script>
+      if (
+        navigator.appName === 'Microsoft Internet Explorer' ||
+        !!(
+          navigator.userAgent.match(/Trident/) ||
+          navigator.userAgent.match(/rv:11/)
+        ) ||
+        (typeof $.browser !== 'undefined' && $.browser.msie == 1) ||
+        (!!window.MSInputMethodContext && !!document.documentMode)
+      ) {
+        var insertContentHere = document.getElementById('ieMessage')
+
+        var divToRemove = document.getElementById('divToRemoveIfIe')
+        divToRemove.style.display = 'none'
+
+        insertContentHere.innerHTML =
+          'Sorry Internet Explorer is not supported at this time.  Please use Chrome.'
+        insertContentHere.setAttribute(
+          'style',
+          'background-color:  rgb(136, 176, 75); font-size: large;  color: white ; overflow: hidden;  left: 0; position: fixed;' +
+            'text-align: center;  text-transform: uppercase;  top: 0; padding-top: 100px; width: 100%; height: 100%; display: table-cell; vertical-align: middle'
+        )
+      }
+    </script>
+  </body>
 </html>
