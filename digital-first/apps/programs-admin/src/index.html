@@ -33,7 +33,6 @@
           navigator.userAgent.match(/Trident/) ||
           navigator.userAgent.match(/rv:11/)
         ) ||
-        (typeof $.browser !== 'undefined' && $.browser.msie == 1) ||
         (!!window.MSInputMethodContext && !!document.documentMode)
       ) {
         var insertContentHere = document.getElementById('ieMessage')
