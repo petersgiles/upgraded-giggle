@@ -23,7 +23,7 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
   projectSubscription$: Subscription
   project: Project.Project
   editProjectForm = this.formBuilder.group({
-    projectName: [null, Validators.required],
+    projectName: [null, [Validators.required, , Validators.maxLength(450)]],
     externalId: [null],
     notes: [''],
     programId: [null, Validators.required]

@@ -23,7 +23,7 @@ export class StatisticEditComponent implements OnInit, OnDestroy {
 
   editStatisticForm = this.formBuilder.group({
     agencyId: [undefined, Validators.required],
-    statisticName: [null, Validators.required],
+    statisticName: [null, [Validators.required, Validators.maxLength(450)]],
     externalId: [null],
     notes: ['']
   })

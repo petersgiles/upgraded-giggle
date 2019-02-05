@@ -11,10 +11,12 @@ import {Router} from '@angular/router'
 export class GroupAddComponent implements OnInit {
 
   addGroupForm = this.formBuilder.group({
-    groupName: [null, Validators.required]
+    groupName: [null, [Validators.required, Validators.maxLength(450)]
+               ]
   })
 
-  constructor(private formBuilder: FormBuilder,
+
+ constructor(private formBuilder: FormBuilder,
               private createAccessControlGroupGql: CreateAccessControlGroupGQL,
               private router: Router) {
   }
