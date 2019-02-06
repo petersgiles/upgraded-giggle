@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
 import { HomeComponent } from './containers/home/home.component'
-import { FullLayoutComponent } from '@digital-first/df-layouts'
+import {
+  FullLayoutComponent,
+  SimpleLayoutComponent
+} from '@digital-first/df-layouts'
 import { StatisticuploadComponent } from './containers/statisticupload/statisticupload.component'
 import { ReportuploadComponent } from './containers/reportupload/reportupload.component'
 import { ProjectuploadComponent } from './containers/projectupload/projectupload.component'
@@ -31,9 +34,12 @@ import { StatisticReportAddComponent } from './containers/statistic-reports/stat
 import { StatisticReportEditComponent } from './containers/statistic-reports/statistic-report-edit/statistic-report-edit.component'
 import { ReportEditComponent } from './containers/program-reports/report-edit/report-edit.component'
 import { AgenciesComponent } from './containers/agencies/agencies.component'
+import {
+  ErrorPageNotFoundComponent,
+  ErrorServerComponent
+} from '@digital-first/df-pages'
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
     path: '',
     component: FullLayoutComponent,
@@ -299,7 +305,24 @@ export const routes: Routes = [
       }
     ]
   },
-  { path: '**', redirectTo: 'home' }
+  {
+    path: 'pages',
+    component: SimpleLayoutComponent,
+    data: {
+      title: 'Pages'
+    },
+    children: [
+      {
+        path: '404',
+        component: ErrorPageNotFoundComponent
+      },
+      {
+        path: '500',
+        component: ErrorServerComponent
+      }
+    ]
+  },
+  { path: '**', redirectTo: 'pages/404' }
 ]
 
 @NgModule({

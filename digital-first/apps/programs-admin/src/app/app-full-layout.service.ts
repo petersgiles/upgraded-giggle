@@ -1,23 +1,27 @@
-import {Injectable} from '@angular/core'
-import {environment} from '../environments/environment'
-import {of, Observable} from 'rxjs'
-import {SideBarItem, AppUserProfile} from '@digital-first/df-layouts'
-import {routes} from './app-routing.module'
+import { Injectable } from '@angular/core'
+import { environment } from '../environments/environment'
+import { of, Observable } from 'rxjs'
+import { SideBarItem, AppUserProfile } from '@digital-first/df-layouts'
+import { routes } from './app-routing.module'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppFullLayoutService {
-  private readonly sidebarRoutes: { caption: string; icon: string; routerLink: string[] }[]
+  private readonly sidebarRoutes: {
+    caption: string
+    icon: string
+    routerLink: string[]
+  }[]
 
   constructor() {
-
-    this.sidebarRoutes = routes[1].children.filter(r => r.data && r.data.nav).map(r => ({
-      caption: r.data.title,
-      icon: r.data.icon,
-      routerLink: [`/${r.path}`]
-    }))
-
+    this.sidebarRoutes = routes[0].children
+      .filter(r => r.data && r.data.nav)
+      .map(r => ({
+        caption: r.data.title,
+        icon: r.data.icon,
+        routerLink: [`/${r.path}`]
+      }))
   }
 
   get version(): string {
@@ -55,5 +59,4 @@ export class AppFullLayoutService {
   setDrawState(appdrawerOpen: any): any {
     return of(true) // TODO: set up state for these
   }
-
 }
