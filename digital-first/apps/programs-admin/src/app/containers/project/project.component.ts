@@ -27,7 +27,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
       .subscribe(project => {
         this.project = project
       })
-    }
+   }
 
 handleEditProject(project: Project.Project) {
   return this.router.navigate(['projects/edit', project.id])

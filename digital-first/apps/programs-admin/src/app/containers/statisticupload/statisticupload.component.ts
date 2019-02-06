@@ -24,7 +24,6 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
     statisticReportId: [undefined, Validators.required],
     notes: [''],
     dataDate: ['', Validators.required],
-    filename: [''],
     file: [null, Validators.required]
   })
 
@@ -89,11 +88,10 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
     const message = new UploadElectorateStatisticSpreadsheet()
 
     message.statisticReportId = this.statisticForm.value['statisticReportId']
-    message.fileName = this.statisticForm.value['filename']
     message.dataDate = new Date(this.statisticForm.value['dataDate'])
     message.notes = this.statisticForm.value['notes']
 
-    formData.append('file', this.statisticForm.value['file'], message.fileName)
+    formData.append('file', this.statisticForm.value['file'])
     formData.append('message', JSON.stringify(message))
 
     this.passthrough

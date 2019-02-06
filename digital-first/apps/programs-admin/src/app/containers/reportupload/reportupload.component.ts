@@ -27,7 +27,6 @@ export class ReportuploadComponent implements OnInit, OnDestroy {
     reportId: [undefined, Validators.required],
     notes: [''],
     dataDate: ['', Validators.required],
-    filename: [''],
     file: [null, Validators.required]
   })
 
@@ -92,11 +91,10 @@ export class ReportuploadComponent implements OnInit, OnDestroy {
     const message = new UploadElectorateReportSpreadsheet()
 
     message.reportId = this.reportForm.value['reportId']
-    message.fileName = this.reportForm.value['filename']
     message.dataDate = new Date(this.reportForm.value['dataDate'])
     message.notes = this.reportForm.value['notes']
 
-    formData.append('file', this.reportForm.value['file'], message.fileName)
+    formData.append('file', this.reportForm.value['file'])
     formData.append('message', JSON.stringify(message))
 
     this.passthrough

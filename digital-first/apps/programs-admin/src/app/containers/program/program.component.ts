@@ -1,15 +1,24 @@
-import {Component, OnDestroy, OnInit} from '@angular/core'
-import {ActivatedRoute, Router} from '@angular/router'
-import {map, first} from 'rxjs/operators'
-import {Subscription} from 'rxjs'
-import {DataTableConfig} from '@digital-first/df-datatable'
-import {MdcDialog} from '@angular-mdc/web'
-import {DialogAssignGroupPermissionComponent} from '../../dialogs/dialog-assign-group-permission.component'
-import {ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent} from '@digital-first/df-dialogs'
+import { Component, OnDestroy, OnInit } from '@angular/core'
+import { ActivatedRoute, Router } from '@angular/router'
+import { map, first } from 'rxjs/operators'
+import { Subscription } from 'rxjs'
+import { DataTableConfig } from '@digital-first/df-datatable'
+import { MdcDialog } from '@angular-mdc/web'
+import { DialogAssignGroupPermissionComponent } from '../../dialogs/dialog-assign-group-permission.component'
 import {
-  AllGroupsGQL, DeleteProgramGQL, Program,
-  ProgramGQL, DeleteProgramAccessControlGQL, CreateProgramAccessControlGQL,
-  AccessRights, UpdateProgramAccessControlGQL, DeleteReportGQL
+  ARE_YOU_SURE_ACCEPT,
+  DialogAreYouSureComponent
+} from '@digital-first/df-dialogs'
+import {
+  AllGroupsGQL,
+  DeleteProgramGQL,
+  Program,
+  ProgramGQL,
+  DeleteProgramAccessControlGQL,
+  CreateProgramAccessControlGQL,
+  AccessRights,
+  UpdateProgramAccessControlGQL,
+  DeleteReportGQL
 } from '../../generated/graphql'
 
 @Component({
@@ -35,8 +44,7 @@ export class ProgramComponent implements OnInit, OnDestroy {
     private allGroupsGQL: AllGroupsGQL,
     private router: Router,
     public dialog: MdcDialog
-  ) {
-  }
+  ) {}
 
   handleEditProgram(program) {
     return this.router.navigate(['programs/edit', program.id])
@@ -71,7 +79,7 @@ export class ProgramComponent implements OnInit, OnDestroy {
     this.programId = this.route.snapshot.paramMap.get('id')
 
     this.programsSubscription$ = this.programGQL
-      .watch({programId: this.programId}, {fetchPolicy: 'network-only'})
+      .watch({ programId: this.programId }, { fetchPolicy: 'network-only' })
       .valueChanges.pipe(map(value => value.data.program))
       .subscribe(program => {
         this.program = program
@@ -80,9 +88,7 @@ export class ProgramComponent implements OnInit, OnDestroy {
           program
         )
 
-        this.programReportTableData = this.createProgramReportTableData(
-          program
-        )
+        this.programReportTableData = this.createProgramReportTableData(program)
       })
   }
 
@@ -95,7 +101,6 @@ export class ProgramComponent implements OnInit, OnDestroy {
   }
 
   handleGroupPermissionChangeClicked(row) {
-
     this.updateGroupPermissionsForProgramGQL
       .mutate(
         {
@@ -109,8 +114,7 @@ export class ProgramComponent implements OnInit, OnDestroy {
         {}
       )
       .pipe(first())
-      .subscribe(value => {
-      })
+      .subscribe(value => {})
   }
 
   handleGroupPermissionDeleteClicked($event) {
@@ -134,17 +138,16 @@ export class ProgramComponent implements OnInit, OnDestroy {
         }
       )
       .pipe(first())
-      .subscribe(value => {
-      })
+      .subscribe(value => {})
   }
 
   handleOpenAddGroupDialog() {
     this.allGroupsGQL
-      .watch({}, {fetchPolicy: 'no-cache'})
+      .watch({}, { fetchPolicy: 'no-cache' })
       .valueChanges.pipe(
-      map(value => value.data.groups),
-      first()
-    )
+        map(value => value.data.groups),
+        first()
+      )
       .subscribe(groups => {
         const dialogRef = this.dialog.open(
           DialogAssignGroupPermissionComponent,
@@ -180,8 +183,7 @@ export class ProgramComponent implements OnInit, OnDestroy {
                 }
               )
               .pipe(first())
-              .subscribe(value => {
-              })
+              .subscribe(value => {})
           }
         })
       })
@@ -207,12 +209,13 @@ export class ProgramComponent implements OnInit, OnDestroy {
         }
       )
       .pipe(first())
-      .subscribe(value => {
-      })
+      .subscribe(value => {})
   }
 
   handleReportNavigation($event) {
-    return this.router.navigate(['reports/', $event.id], {relativeTo: this.route})
+    return this.router.navigate(['reports/', $event.id], {
+      relativeTo: this.route
+    })
   }
 
   private createProgramReportTableData(program: Program.Program): any {
@@ -237,12 +240,15 @@ export class ProgramComponent implements OnInit, OnDestroy {
 
     return {
       title: 'reports',
-      headings: [{caption: 'Name'}, {caption: 'Notes'}],
-      rows: rows
+      headings: [{ caption: 'Name' }, { caption: 'Notes' }],
+      rows: rows,
+      noDataMessage: 'No reports have been added to this program yet.'
     }
   }
 
-  private createProgramPermissionGroupTableData(program: Program.Program): DataTableConfig {
+  private createProgramPermissionGroupTableData(
+    program: Program.Program
+  ): DataTableConfig {
     const groups = {}
     program.accessControlList.forEach(acl => {
       acl.accessControlEntries.forEach(ace => {
@@ -270,8 +276,8 @@ export class ProgramComponent implements OnInit, OnDestroy {
             type: 'radio',
             id: 'PERMISSIONCELL',
             data: [
-              {value: AccessRights.Read, caption: 'Read'},
-              {value: AccessRights.Write, caption: 'Read/Write'}
+              { value: AccessRights.Read, caption: 'Read' },
+              { value: AccessRights.Write, caption: 'Read/Write' }
             ]
           }
         ]
@@ -280,8 +286,10 @@ export class ProgramComponent implements OnInit, OnDestroy {
 
     return {
       title: 'permissions',
-      headings: [{caption: 'Name'}, {caption: 'Permission'}],
-      rows: rows
+      headings: [{ caption: 'Name' }, { caption: 'Permission' }],
+      rows: rows,
+      noDataMessage:
+        'No groups will be able to view this program. Please assign at least one group.'
     }
   }
 }

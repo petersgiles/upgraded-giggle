@@ -21,8 +21,7 @@ export class ProjectuploadComponent implements OnInit, OnDestroy {
 
   projectForm = this.formBuilder.group({
     programId: [undefined, Validators.required],
-    file: [null, Validators.required],
-    filename: ['']
+    file: [null, Validators.required]
   })
 
   constructor(
@@ -71,10 +70,9 @@ export class ProjectuploadComponent implements OnInit, OnDestroy {
     const message = new UploadProjectElectorateReport()
 
     message.programId = this.projectForm.value['programId']
-    message.fileName = this.projectForm.value['filename']
 
     const formData = new FormData()
-    formData.append('file', this.projectForm.value['file'], message.fileName)
+    formData.append('file', this.projectForm.value['file'])
     formData.append('message', JSON.stringify(message))
 
     this.passthrough
