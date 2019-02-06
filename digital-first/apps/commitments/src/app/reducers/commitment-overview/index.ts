@@ -31,17 +31,17 @@ export const getSortState = createSelector(
   getCommitmentOverviewState,
   (state) => {
     let index = 0
-    const stateArray:  DATA_TABLE_SORT_DIRECTION[] = new Array()
+    const sortState:  DATA_TABLE_SORT_DIRECTION[] = new Array()
     const titleArray: string[] = ['title', 'party', 'portfolio', 'commitmentType', 'criticalDate']
     titleArray.forEach(column => {
-      stateArray[index] = null
+      sortState[column] = null
       if (column === state.sortColumn) {
-        stateArray[index] = state.sortDirection
+        sortState[column] = state.sortDirection
       }
       index++
     })
 
-    return stateArray
+    return sortState
 
   }
 )
@@ -321,11 +321,11 @@ export const getAllOverviewCommitmentDataTables = createSelector(
         const dtc: DataTableConfig = {
             title: 'commitments',
             headings: [
-                { id: 'title', caption: 'Title', sort: sortState[0]},
-                { id: 'party', caption: 'Party', sort: sortState[1] },
-                { id: 'portfolio', caption: 'Responsible Portfolio', sort: sortState[2] },
-                { id: 'commitmentType', caption: 'Type of Commitment', sort: sortState[3] },
-                { id: 'criticalDate', caption: 'Critical Date', sort: sortState[4] }
+                { id: 'title', caption: 'Title', sort: sortState['title']},
+                { id: 'party', caption: 'Party', sort: sortState['party'] },
+                { id: 'portfolio', caption: 'Responsible Portfolio', sort: sortState['portfolio'] },
+                { id: 'commitmentType', caption: 'Type of Commitment', sort: sortState['commitmentType'] },
+                { id: 'criticalDate', caption: 'Critical Date', sort: sortState['criticalDate'] }
             ],
             rows: rows
         }
