@@ -27,7 +27,7 @@ export const OPERATION_DEFAULTS = {
   'costing': OPERATION_RIGHT_READ,
   'relatedLinks': OPERATION_RIGHT_READ,
   'relatedCommitments': OPERATION_RIGHT_READ,
-  'discussion': OPERATION_RIGHT_READ,
+  'discussion': OPERATION_RIGHT_WRITE, // Temporary Default
 }
 @Injectable({
   providedIn: 'root'
