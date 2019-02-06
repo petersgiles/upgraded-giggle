@@ -6,7 +6,7 @@ import { first } from 'rxjs/operators'
 import { DialogAreYouSureComponent, ARE_YOU_SURE_ACCEPT } from '@digital-first/df-dialogs'
 import { MdcDialog } from '@angular-mdc/web'
 import { OPERATION_DISCUSSION } from '../../services/app-data.service'
-import { LoggerService } from '@digital-first/df-logging';
+import { LoggerService } from '@digital-first/df-logging'
 
 @Component({
   selector: 'digital-first-commitment-discussion',

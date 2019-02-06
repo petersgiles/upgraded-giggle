@@ -23,7 +23,7 @@ import {
   RemoveContactFromCommitment
 } from '../reducers/commitment/commitment.actions'
 import { GetAllContacts, StoreContact } from '../reducers/contact/contact.actions'
-import { AddRefiner, RemoveRefiner, ClearAllRefiners, ExpandRefinerGroup, CollapseRefinerGroup, SetTextRefiner } from '../reducers/commitment-overview/commitment-overview.actions'
+import { AddRefiner, RemoveRefiner, ClearAllRefiners, ExpandRefinerGroup, CollapseRefinerGroup, SetTextRefiner, SortByColumn } from '../reducers/commitment-overview/commitment-overview.actions'
 import { ChangeTimeFormat, CollapsePanel, ExpandPanel, ChangeAutoSave } from '../reducers/commitment-edit/commitment-edit.actions'
 
 import * as fromRoot from '../reducers'
@@ -35,6 +35,9 @@ import { DataTableConfig } from '@digital-first/df-datatable'
   providedIn: 'root'
 })
 export class CommitmentDataService {
+  sortByColumn($event: any): any {
+  this.store.dispatch(new SortByColumn($event))
+  }
 
  get UserOperation(): Observable<any> {
     return this.store.pipe(
