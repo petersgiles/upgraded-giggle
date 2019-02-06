@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ProjectGQL, Project, DeleteProjectGQL } from '../../generated/graphql'
 import {map, first } from 'rxjs/operators'
@@ -12,7 +12,7 @@ import {MdcDialog} from '@angular-mdc/web'
 })
 export class ProjectComponent implements OnInit, OnDestroy {
 
-  constructor(private route: ActivatedRoute, private projectGQL: ProjectGQL, private deleteProjectGQL: DeleteProjectGQL,  public dialog: MdcDialog, private router: Router){}
+  constructor(private route: ActivatedRoute, private projectGQL: ProjectGQL, private deleteProjectGQL: DeleteProjectGQL,  public dialog: MdcDialog, private router: Router) {}
     projectId: string
     project: Project.Project
     projectSubscription$: Subscription
@@ -27,16 +27,13 @@ export class ProjectComponent implements OnInit, OnDestroy {
       .subscribe(project => {
         this.project = project
       })
-  
     }
 
-handleEditProject(project : Project.Project)
-{
+handleEditProject(project: Project.Project) {
   return this.router.navigate(['projects/edit', project.id])
 }
 
-
-handleDeleteProject(project : Project.Project) {
+handleDeleteProject(project: Project.Project) {
   const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
     escapeToClose: true,
     clickOutsideToClose: true
@@ -60,7 +57,6 @@ handleDeleteProject(project : Project.Project) {
       }
     })
 }
-
 
 ngOnDestroy(): void {
   this.projectSubscription$.unsubscribe()

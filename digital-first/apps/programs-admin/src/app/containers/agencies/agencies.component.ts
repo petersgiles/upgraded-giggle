@@ -9,7 +9,7 @@ import {
   AllAgenciesSearch
 } from '../../generated/graphql'
 import { Subscription } from 'rxjs'
-
+import { ActivatedRoute, Router } from '@angular/router'
 @Component({
   selector: 'digital-first-agencies',
   templateUrl: './agencies.component.html',
@@ -19,7 +19,9 @@ import { Subscription } from 'rxjs'
 export class AgenciesComponent implements OnDestroy {
   constructor(
     private allAgenciesSearchGql: AllAgenciesSearchGQL,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   agencies: AllAgenciesSearch.Agencies[]
@@ -27,7 +29,7 @@ export class AgenciesComponent implements OnDestroy {
   searchText = ''
 
   add() {
-    alert('TODO')
+    return this.router.navigate(['agencies', 'add'])
   }
 
   doSearch() {

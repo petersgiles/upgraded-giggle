@@ -4,6 +4,7 @@ import {FormBuilder, Validators} from '@angular/forms'
 import {map} from 'rxjs/operators'
 import {StatisticReport, StatisticReportGQL, UpdateStatisticReportGQL} from '../../../generated/graphql'
 import {Subscription} from 'rxjs'
+import {formConstants} from '../../../form-constants'
 
 @Component({
   selector: 'digital-first-statistic-report-edit',
@@ -14,7 +15,7 @@ import {Subscription} from 'rxjs'
 export class StatisticReportEditComponent implements OnInit, OnDestroy {
 
   editStatisticReportForm = this.formBuilder.group({
-    reportName: [null, [Validators.required, Validators.maxLength(450)]],
+    reportName: [null, [Validators.required, Validators.maxLength(formConstants.nameMaxLength)]],
     notes: ['']
   })
 

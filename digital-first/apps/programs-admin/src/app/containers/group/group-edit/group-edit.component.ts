@@ -4,6 +4,7 @@ import {Group, GroupGQL, UpdateAccessControlGroupGQL} from '../../../generated/g
 import {ActivatedRoute, Router} from '@angular/router'
 import {map} from 'rxjs/operators'
 import {Observable, Subscription} from 'rxjs'
+import {formConstants} from '../../../form-constants'
 
 @Component({
   selector: 'digital-first-group-edit',
@@ -13,7 +14,7 @@ import {Observable, Subscription} from 'rxjs'
 export class GroupEditComponent implements OnInit, OnDestroy {
 
   editGroupForm = this.formBuilder.group({
-    groupName: [null, [Validators.required, Validators.maxLength(450)]]
+    groupName: [null, [Validators.required, Validators.maxLength(formConstants.nameMaxLength)]]
   })
 
   groupId: string

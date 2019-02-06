@@ -8,6 +8,7 @@ import {
 import {FormBuilder, Validators} from '@angular/forms'
 import {Router} from '@angular/router'
 import {map} from 'rxjs/operators'
+import {formConstants} from '../../../form-constants'
 
 @Component({
   selector: 'digital-first-statistic-add',
@@ -21,7 +22,7 @@ export class StatisticAddComponent implements OnInit {
 
   addStatisticForm = this.formBuilder.group({
     agencyId: [undefined, Validators.required],
-    statisticName: [null, [Validators.required, Validators.maxLength(450)]],
+    statisticName: [null, [Validators.required, Validators.maxLength(formConstants.nameMaxLength)]],
     externalId: [null],
     notes: ['']
   })

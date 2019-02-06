@@ -513,6 +513,122 @@ export namespace AllAgenciesSearch {
   }
 }
 
+export namespace CreateAgency {
+  export type Variables = {
+    data: CreateAgencyInputGraph
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    createAgency: CreateAgency | null
+  }
+
+  export type CreateAgency = {
+    __typename?: 'AgencyGraph'
+
+    id: Guid
+  }
+}
+
+export namespace UpdateAgency {
+  export type Variables = {
+    data: UpdateAgencyInputGraph
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    updateAgency: UpdateAgency | null
+  }
+
+  export type UpdateAgency = {
+    __typename?: 'AgencyGraph'
+
+    id: Guid
+
+    title: string
+
+    metadata: string | null
+
+    portfolio: Portfolio | null
+
+    rowVersion: string
+  }
+
+  export type Portfolio = {
+    __typename?: 'PortfolioGraph'
+
+    id: Guid
+
+    title: string
+  }
+}
+
+export namespace DeleteAgency {
+  export type Variables = {
+    data: DeleteAgencyInputGraph
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    deleteAgency: boolean | null
+  }
+}
+
+export namespace Agency {
+  export type Variables = {
+    id: string
+  }
+
+  export type Query = {
+    __typename?: 'Query'
+
+    agency: Agency | null
+  }
+
+  export type Agency = {
+    __typename?: 'AgencyGraph'
+
+    id: Guid
+
+    title: string
+
+    metadata: string | null
+
+    portfolio: Portfolio | null
+
+    rowVersion: string
+  }
+
+  export type Portfolio = {
+    __typename?: 'PortfolioGraph'
+
+    id: Guid
+
+    title: string
+  }
+}
+
+export namespace Portfolios {
+  export type Variables = {}
+
+  export type Query = {
+    __typename?: 'Query'
+
+    portfolios: (Portfolios | null)[] | null
+  }
+
+  export type Portfolios = {
+    __typename?: 'PortfolioGraph'
+
+    id: Guid
+
+    title: string
+  }
+}
+
 export namespace CreateAccessControlGroupUser {
   export type Variables = {
     data: CreateAccessControlGroupUserInputGraph
@@ -2014,6 +2130,91 @@ export class AllAgenciesSearchGQL extends Apollo.Query<
         id
         title
         rowVersion
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class CreateAgencyGQL extends Apollo.Mutation<
+  CreateAgency.Mutation,
+  CreateAgency.Variables
+> {
+  document: any = gql`
+    mutation createAgency($data: CreateAgencyInputGraph!) {
+      createAgency(input: $data) {
+        id
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdateAgencyGQL extends Apollo.Mutation<
+  UpdateAgency.Mutation,
+  UpdateAgency.Variables
+> {
+  document: any = gql`
+    mutation updateAgency($data: UpdateAgencyInputGraph!) {
+      updateAgency(input: $data) {
+        id
+        title
+        metadata
+        portfolio {
+          id
+          title
+        }
+        rowVersion
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class DeleteAgencyGQL extends Apollo.Mutation<
+  DeleteAgency.Mutation,
+  DeleteAgency.Variables
+> {
+  document: any = gql`
+    mutation deleteAgency($data: DeleteAgencyInputGraph!) {
+      deleteAgency(input: $data)
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class AgencyGQL extends Apollo.Query<Agency.Query, Agency.Variables> {
+  document: any = gql`
+    query agency($id: String!) {
+      agency(id: $id) {
+        id
+        title
+        metadata
+        portfolio {
+          id
+          title
+        }
+        rowVersion
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class PortfoliosGQL extends Apollo.Query<
+  Portfolios.Query,
+  Portfolios.Variables
+> {
+  document: any = gql`
+    query portfolios {
+      portfolios {
+        id
+        title
       }
     }
   `

@@ -1,0 +1,25 @@
+<div *ngIf="agency; else loading" class="app-page">
+    <section>
+      <digital-first-page-title
+        title="Agency - {{ agency.name }}">
+        <digital-first-edit-item-button
+          (onEditItem)="handleEditAgency(agency)"
+        ></digital-first-edit-item-button>
+        <digital-first-delete-item-button
+          (onDeleteItem)="handleDeleteAgency(agency)"
+        ></digital-first-delete-item-button>
+      </digital-first-page-title>
+  
+      <div class="programsadmin-layout__row">
+        <p>{{ agency.title }}</p>
+        <p>{{ agency.metadata }}</p>
+        <p>{{ agency.portfolio.title }}</p>
+        <p>{{ agency.portfolio.metadata  }}</p>
+      </div>
+  
+    </section>
+  </div>
+  <ng-template #loading>
+    Loading...
+  </ng-template>
+  

@@ -1,0 +1,24 @@
+mutation createAgency ($data: CreateAgencyInputGraph!) {
+  createAgency (input: $data)
+  {
+    id 
+   }
+}
+
+mutation updateAgency ($data:UpdateAgencyInputGraph!) {
+  updateAgency (input: $data)
+  {
+    id 
+    title
+    metadata
+    portfolio {
+        id
+        title
+    }
+    rowVersion
+  }
+}
+
+mutation deleteAgency($data: DeleteAgencyInputGraph!) {
+  deleteAgency(input:$data)
+}

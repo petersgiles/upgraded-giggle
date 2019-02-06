@@ -16,7 +16,7 @@ export class ReportEditComponent implements OnInit, OnDestroy {
   private reportId: string
 
   editReportForm = this.formBuilder.group({
-    reportName: [null, [Validators.required, Validators.maxLength(450)]],
+    reportName: [null, [Validators.required, Validators.maxLength(formConstants.nameMaxLength)]],
     notes: ['']
   })
   private report: Report.Reports

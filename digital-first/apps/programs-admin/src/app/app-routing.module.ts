@@ -31,6 +31,9 @@ import { StatisticReportAddComponent } from './containers/statistic-reports/stat
 import { StatisticReportEditComponent } from './containers/statistic-reports/statistic-report-edit/statistic-report-edit.component'
 import { ReportEditComponent } from './containers/program-reports/report-edit/report-edit.component'
 import { AgenciesComponent } from './containers/agencies/agencies.component'
+import { AgencyComponent } from './containers/agency/agency.component'
+import { AgencyEditComponent } from './containers/agency/agency-edit/agency-edit.component'
+import { AgencyAddComponent } from './containers/agency/agency-add/agency-add.component'
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -60,6 +63,31 @@ export const routes: Routes = [
           nav: true
         }
       },
+      {
+        path: 'agencies/add',
+        component: AgencyAddComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+      {
+        path: 'agencies/:id',
+        component: AgencyComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+      {
+        path: 'agencies/edit/:id',
+        component: AgencyEditComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+
       {
         path: 'groups',
         component: GroupsComponent,

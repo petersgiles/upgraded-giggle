@@ -4,6 +4,7 @@ import {AllAgencies, AllAgenciesGQL, AllProgramsGQL, CreateProgramGQL} from '../
 import {Subscription} from 'rxjs'
 import {map} from 'rxjs/operators'
 import {Router} from '@angular/router'
+import {formConstants} from '../../../form-constants'
 
 @Component({
   selector: 'digital-first-program-add',
@@ -17,7 +18,7 @@ export class ProgramAddComponent implements OnInit, OnDestroy {
 
   addProgramForm = this.formBuilder.group({
     agencyId: [undefined, Validators.required],
-    programName: [null, [Validators.required, Validators.maxLength(450)]],
+    programName: [null, [Validators.required, Validators.maxLength(formConstants.nameMaxLength)]],
     externalId: [null],
     notes: ['']
   })
