@@ -3,7 +3,6 @@ import {Subscription} from 'rxjs'
 import {
   AllAgencies,
   AllAgenciesGQL,
-  AllStatisticsGQL,
   CreateStatisticGQL
 } from '../../../generated/graphql'
 import {FormBuilder, Validators} from '@angular/forms'
@@ -22,14 +21,13 @@ export class StatisticAddComponent implements OnInit {
 
   addStatisticForm = this.formBuilder.group({
     agencyId: [undefined, Validators.required],
-    statisticName: [null, Validators.required],
+    statisticName: [null, [Validators.required, Validators.maxLength(450)]],
     externalId: [null],
     notes: ['']
   })
 
   constructor(private formBuilder: FormBuilder,
               private allAgencies: AllAgenciesGQL,
-              private allStatisticsGQL: AllStatisticsGQL,
               private router: Router,
               private createStatisticGQL: CreateStatisticGQL) {
   }

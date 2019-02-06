@@ -1,4 +1,4 @@
-<div *ngIf="(statistics$ | async) as statistics; else loading">
+<div *ngIf="(agencies$ | async) as agencies; else loading">
   <div class="page_title">
     <div class="reader-card-article__title page_title_text" mdcHeadline5>Edit statistic</div>
   </div>
@@ -17,7 +17,6 @@
                     <mdc-text-field [outlined]="true"
                                     formControlName="statisticName"
                                     label="Name"
-                                    required
                                     type="text">
                     </mdc-text-field>
                   </div>
@@ -28,7 +27,7 @@
                       id="agency"
                       name="program"
                       placeholder="Agency"
-                      required>
+                      >
                       <option value=""></option>
                       <option *ngFor="let agency of agencies" [value]="agency.id">{{agency.title}}
                       </option>

@@ -12,7 +12,7 @@ import {CreateStatisticReportGQL} from '../../../generated/graphql'
 export class StatisticReportAddComponent implements OnInit {
 
   addStatisticReportForm = this.formBuilder.group({
-    reportName: [null, Validators.required],
+    reportName: [null, [Validators.required, Validators.maxLength(450)]],
     notes: ['']
   })
 

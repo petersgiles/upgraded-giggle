@@ -17,8 +17,7 @@
                     formControlName="programName"
                     label="Name"
                     type="text"
-                    required>
-
+                    >
                   </mdc-text-field>
                 </div>
                 <div class="form-layout__row">
@@ -27,7 +26,6 @@
                     id="agency"
                     placeholder="Agency"
                     [outlined]="true"
-                    required
                     name="program">
                     <option value=""></option>
                     <option *ngFor="let agency of agencies" [value]="agency.id">{{agency.title}}
@@ -50,7 +48,6 @@
                     id="notes"
                     cols="8"
                     rows="3"
-                    maxlength="250"
                     label="Notes"
                     spellcheck="true">
                   </mdc-textarea>

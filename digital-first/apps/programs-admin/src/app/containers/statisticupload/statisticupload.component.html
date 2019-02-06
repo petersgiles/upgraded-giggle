@@ -1,5 +1,7 @@
 <div class="page_title">
-  <div class="reader-card-article__title page_title_text" mdcHeadline5>Upload Statistic</div>
+  <div class="reader-card-article__title page_title_text" mdcHeadline5>
+    Upload Statistic
+  </div>
 </div>
 <div>
   <div class="app-page">
@@ -10,7 +12,9 @@
           <div class="form-content">
             <form (ngSubmit)="onSubmit()" [formGroup]="statisticForm">
               <fieldset>
-                <h3 class="form-content__headline">Upload Statistic CSV Form</h3>
+                <h3 class="form-content__headline">
+                  Upload Statistic CSV Form
+                </h3>
                 <div class="form-layout__row">
                   <mdc-select
                     formControlName="statisticId"
@@ -18,9 +22,13 @@
                     [outlined]="true"
                     required
                     name="statistic"
-                    (selectionChange)="onSelectionChange($event)">
+                    (selectionChange)="onSelectionChange($event)"
+                  >
                     <option value="" selected></option>
-                    <option *ngFor="let statistic of statistics" [value]="statistic.id">{{statistic.name}}
+                    <option
+                      *ngFor="let statistic of statistics"
+                      [value]="statistic.id"
+                      >{{ statistic.name }}
                     </option>
                   </mdc-select>
                 </div>
@@ -29,22 +37,29 @@
                     formControlName="statisticReportId"
                     placeholder="Statistic report"
                     [outlined]="true"
-                    required
-                    name="statisticReport">
+                    name="statisticReport"
+                  >
                     <option value=""></option>
-                    <option *ngFor="let statisticReport of statisticReports" [value]="statisticReport.id">
-                      {{statisticReport.name}}
+                    <option
+                      *ngFor="let statisticReport of statisticReports"
+                      [value]="statisticReport.id"
+                    >
+                      {{ statisticReport.name }}
                     </option>
                   </mdc-select>
                 </div>
                 <div class="form-layout__row">
                   <mdc-text-field
                     formControlName="dataDate"
-                    type="date" #outlinedicon
+                    type="date"
+                    #outlinedicon
                     [outlined]="true"
-                    required
-                    label="Data date" name="dataDate">
-                    <mdc-icon mdcTextFieldIcon leading #leadingicon>event</mdc-icon>
+                    label="Data date"
+                    name="dataDate"
+                  >
+                    <mdc-icon mdcTextFieldIcon leading #leadingicon
+                      >event</mdc-icon
+                    >
                   </mdc-text-field>
                 </div>
                 <div class="form-layout__row">
@@ -54,23 +69,31 @@
                     id="notes"
                     cols="8"
                     rows="3"
-                    maxlength="250"
                     label="Notes"
-                    spellcheck="true">
+                    spellcheck="true"
+                  >
                   </mdc-textarea>
                 </div>
                 <div class="form-layout__row">
                   <mdc-form-field [alignEnd]="true">
-                    <input type="file" accept=".csv" (change)="fileChange($event)"
-                           id="fileToUpload"
-                           name="fileToUpload" required>
+                    <input
+                      type="file"
+                      accept=".csv"
+                      (change)="fileChange($event)"
+                      id="fileToUpload"
+                      name="fileToUpload"
+                      required
+                    />
                   </mdc-form-field>
                 </div>
                 <div class="form-layout__row-with-button">
-                  <button id="submit"
-                          class="mdc-button ng-mdc-button--primary mdc-button--raised mdc-ripple-upgraded"
-                          type="submit"
-                          [disabled]="statisticForm.invalid || statisticForm.pristine">Submit
+                  <button
+                    id="submit"
+                    class="mdc-button ng-mdc-button--primary mdc-button--raised mdc-ripple-upgraded"
+                    type="submit"
+                    [disabled]="statisticForm.invalid || statisticForm.pristine"
+                  >
+                    Submit
                   </button>
                 </div>
               </fieldset>

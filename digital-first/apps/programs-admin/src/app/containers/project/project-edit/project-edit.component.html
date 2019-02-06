@@ -1,3 +1,4 @@
+<div *ngIf="(programs$ | async) as programs; else loading">
 <div class="page_title">
   <div class="reader-card-article__title page_title_text" mdcHeadline5>Add project</div>
 </div>
@@ -16,9 +17,7 @@
                     [outlined]="true"
                     formControlName="projectName"
                     label="Name"
-                    type="text"
-                    required>
-
+                    type="text">
                   </mdc-text-field>
                 </div>
                 <div class="form-layout__row">
@@ -27,7 +26,6 @@
                     id="program"
                     placeholder="Program"
                     [outlined]="true"
-                    required
                     name="program">
                     <option value=""></option>
                     <option *ngFor="let program of programs" [value]="program.id">{{program.name}}
@@ -40,7 +38,6 @@
                     formControlName="externalId"
                     label="External id"
                     type="text">
-
                   </mdc-text-field>
                 </div>
                 <div class="form-layout__row">
@@ -50,7 +47,6 @@
                     id="notes"
                     cols="8"
                     rows="3"
-                    maxlength="250"
                     label="Notes"
                     spellcheck="true">
                   </mdc-textarea>
@@ -75,3 +71,7 @@
     </div>
   </div>
 </div>
+</div>
+<ng-template #loading>
+    Loading...
+</ng-template>
