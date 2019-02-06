@@ -22,7 +22,7 @@ export class DiscussionComponent implements OnInit {
   timeFormat
 
   @Input()
-  readOnly:boolean = false
+  readOnly = false
 
   @Output() onDeleteComment: EventEmitter<any> = new EventEmitter()
   @Output() onReplyToComment: EventEmitter<any> = new EventEmitter()
