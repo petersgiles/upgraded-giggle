@@ -59,7 +59,7 @@
     "@angular/platform-browser-dynamic": "^7.2.3",
     "@angular/router": "^7.2.3",
     "@auth0/angular-jwt": "^2.1.0",
-    "@dsuite/programs-manager-messages": "^1.0.25739",
+    "@dsuite/programs-manager-messages": "^1.0.26438",
     "@material/animation": "^0.41.0",
     "@material/base": "^0.41.0",
     "@material/button": "^0.43.0",
