@@ -3,7 +3,8 @@
         <div class="commitment-card__detail-row">
             <div class="commitment-card__detail-info">
                 <!-- <div class="commitment-card__detail-title" mdcHeadline5>Commitment</div> -->
-                <div mdcHeadline6>{{commitment.title}}</div>
+                <div mdcHeadline5>{{commitment.title}}</div>
+                <div mdcBody2>Responsible Portfolio <strong>{{commitment.portfolio?.title}}</strong></div>
                 <div mdcBody2>Announced by <strong>{{commitment.announcedby}}</strong> on <strong>{{commitment.date | amDateFormat:'LL' }}</strong> for <strong>{{commitment.party?.title}}</strong> as a <strong>{{commitment.announcementType?.title}}</strong> by <strong>{{commitment.whoAnnouncedType?.title}}</strong> to be delivered in <strong>{{commitment.criticalDate?.title}}</strong> </div>
             </div>
         </div>
@@ -15,14 +16,6 @@
                 <div mdcBody2 *ngIf="commitment.themeType">Theme: {{commitment.themeType?.title}}</div>
                 <div mdcBody2 *ngIf="commitment.packageType">Pacakage: {{commitment.packageType?.title}}</div>
                 
-            </div>
-        </div>
-    </mdc-card-primary-action>
-    <mdc-card-primary-action>
-        <div class="commitment-card__detail-row">
-            <div class="commitment-card__detail-info">
-                <div class="commitment-card__detail-title" mdcHeadline6>Responsibility</div>
-                <div mdcBody2><strong>{{commitment.portfolio?.title}}</strong></div>
             </div>
         </div>
     </mdc-card-primary-action>

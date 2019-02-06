@@ -39,7 +39,7 @@ export class ApolloDataService implements AppDataService {
       isSiteAdmin: true,
       systemUserKey: 'guest',
       name: 'Guest User',
-      roles: [ROLE_VISITORS, ROLE_MEMBERS]
+      roles: [ROLE_VISITORS]
     }
 
     return of(
