@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import {
   AllPortfoliosGQL,
@@ -7,7 +7,7 @@ import {
 } from '../../../generated/graphql'
 import { Router } from '@angular/router'
 import { map } from 'rxjs/operators'
-import { Observable, Subscription } from 'rxjs'
+import { Observable } from 'rxjs'
 import {formConstants} from '../../../form-constants'
 
 @Component({
