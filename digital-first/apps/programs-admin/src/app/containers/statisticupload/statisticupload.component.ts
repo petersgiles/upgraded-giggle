@@ -74,9 +74,7 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
         reader.readAsDataURL(this.fileToUpload)
 
         reader.onload = () => {
-          // TODO: swap commented out code when attachment library is patched to handle 'default' correctly
           this.statisticForm.patchValue({ file: this.fileToUpload })
-          // this.statisticForm.patchValue({ file: reader.result })
         }
       }
     }
@@ -92,7 +90,7 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
     message.notes = this.statisticForm.value['notes']
     message.fileName = this.statisticForm.value['filename']
 
-    formData.append('file', this.statisticForm.value['file'])
+    formData.append('file', this.statisticForm.value['file'], 'default')
     formData.append('message', JSON.stringify(message))
 
     this.passthrough
