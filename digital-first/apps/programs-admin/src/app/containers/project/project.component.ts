@@ -27,8 +27,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
       .subscribe(project => {
         this.project = project
       })
-  
-    }
+   }
 
 handleEditProject(project : Project.Project)
 {
@@ -60,7 +59,6 @@ handleDeleteProject(project : Project.Project) {
       }
     })
 }
-
 
 ngOnDestroy(): void {
   this.projectSubscription$.unsubscribe()
