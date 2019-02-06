@@ -9,6 +9,7 @@ import { CommitmentLookupService } from '../../reducers/commitment-lookup/commit
 import { showSnackBar } from '../../dialogs/show-snack-bar'
 import { ExcelService } from '../../services/excel.service'
 import { DateFormatPipe } from '@digital-first/df-moment'
+import { LoggerService } from '@digital-first/df-logging'
 @Component({
   selector: 'digital-first-commitment-overview',
   templateUrl: './commitment-overview.component.html',
@@ -38,7 +39,8 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
     private service: CommitmentDataService,
     private lookup: CommitmentLookupService,
     private excelService: ExcelService,
-    private dateFormat: DateFormatPipe
+    private dateFormat: DateFormatPipe,
+    private logger: LoggerService
   ) {}
 
   ngOnInit() {
@@ -120,10 +122,8 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
   }
 
   handleCommitmentsCellHeadingClicked($event) {
-    // call a service to throws action
-
-    // tslint:disable-next-line:no-console
-    console.log('handleCommitmentsCellHeadingClicked', $event)
+    this.logger.info('handleCommitmentCellHeadingClicked')
+    this.service.sortByColumn($event)
   }
 
   handleShare(commitment?: Commitment) {

@@ -8,6 +8,7 @@ export enum CommitmentOverviewActionTypes {
   RemoveRefiner = '[CommitmentOverview] Remove Refiner',
   ClearAllRefiners = '[CommitmentOverview] Clear All Refiners',
   SetTextRefiner = '[CommitmentOverview] Set Text Refiner',
+  SortByColumn = '[CommitmentOverview] SortByColumn'
 }
 export class CollapseRefinerGroup implements Action {
   readonly type = CommitmentOverviewActionTypes.CollapseRefinerGroup
@@ -43,6 +44,12 @@ export class ClearAllRefiners implements Action {
   readonly type = CommitmentOverviewActionTypes.ClearAllRefiners
 }
 
+export class SortByColumn implements Action {
+  readonly type = CommitmentOverviewActionTypes.SortByColumn
+
+  constructor(public payload?: any) {}
+}
+
 export type CommitmentOverviewActions =
   CollapseRefinerGroup
   | ExpandRefinerGroup
@@ -50,3 +57,4 @@ export type CommitmentOverviewActions =
   | RemoveRefiner
   | ClearAllRefiners
   | SetTextRefiner
+  | SortByColumn
