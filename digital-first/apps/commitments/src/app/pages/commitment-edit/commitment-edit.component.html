@@ -6,9 +6,7 @@
       <ng-container operation-type="read">
         <digital-first-page-title
           [title]="getTitle(commitment)"
-          (onTitleClicked)="
-            handleChangeExpanded(!panels.formPanelExpanded, 'formPanelExpanded')
-          "
+          (onTitleClicked)="handleChangeExpanded(!panels.formPanelExpanded, 'formPanelExpanded')"
           [background]="commitment?.party?.colour"
         >
           <digital-first-busy [busy]="formBusy"></digital-first-busy>
