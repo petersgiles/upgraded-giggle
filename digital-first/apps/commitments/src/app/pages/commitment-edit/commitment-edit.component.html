@@ -6,12 +6,15 @@
       <ng-container operation-type="read">
         <digital-first-page-title
           [title]="getTitle(commitment)"
-          (onTitleClicked)="
-            handleChangeExpanded(!panels.formPanelExpanded, 'formPanelExpanded')
-          "
+          (onTitleClicked)="handleChangeExpanded(!panels.formPanelExpanded, 'formPanelExpanded')"
           [background]="commitment?.party?.colour"
         >
           <digital-first-busy [busy]="formBusy"></digital-first-busy>
+          <digital-first-print-page-button
+            *ngIf="panels.formPanelExpanded"
+            [background]="commitment?.party?.colour"
+            (onPrintClick)="handlePrintClicked()"
+          ></digital-first-print-page-button>
           <digital-first-subscriber-button
             *ngIf="panels.formPanelExpanded"
             [background]="commitment?.party?.colour"
@@ -103,12 +106,12 @@
       [commitment]="commitment?.id"
     ></digital-first-commitment-costings>
 
-   <digital-first-commitment-related-links
+    <digital-first-commitment-related-links
       *ngIf="commitment"
       [commitment]="commitment?.id"
     ></digital-first-commitment-related-links>
-    
-  <!--
+
+    <!--
     <digital-first-commitment-related-commitments
       *ngIf="commitment"
       [commitment]="commitment?.id"

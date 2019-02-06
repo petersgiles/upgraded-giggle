@@ -19,12 +19,10 @@ export const getOperations = createSelector(
   fromUser.getOperations
 )
 
-
 export const getDrawerOpen = createSelector(
   getUserState,
   fromUser.getDrawerOpen
 )
-
 
 export const getCurrentUserOperations = createSelector(
   getUserCurrentUser,

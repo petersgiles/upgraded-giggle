@@ -1,4 +1,4 @@
-import { createSelector } from '@ngrx/store'
+import { createSelector} from '@ngrx/store'
 import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
 
 import * as fromCommitmentOverview from './commitment-overview.reducer'
@@ -22,9 +22,29 @@ import {
     getAllPackageTypes
 } from '../commitment-lookup'
 import { findInLookup } from '../utils'
-import { DataTableConfig, DATA_TABLE_SORT_DIRECTION_ASC } from '@digital-first/df-datatable'
+import { DataTableConfig, DATA_TABLE_SORT_DIRECTION, DATA_TABLE_SORT_DIRECTION_DESC, DATA_TABLE_SORT_DIRECTION_ASC } from '@digital-first/df-datatable'
+import { stat } from 'fs'
 
 export const getCommitmentOverviewState = state => state.commitmentOverview
+
+export const getSortState = createSelector(
+  getCommitmentOverviewState,
+  (state) => {
+    let index = 0
+    const stateArray:  DATA_TABLE_SORT_DIRECTION[] = new Array()
+    const titleArray: string[] = ['title', 'party', 'portfolio', 'commitmentType', 'criticalDate']
+    titleArray.forEach(column => {
+      stateArray[index] = null
+      if (column === state.sortColumn) {
+        stateArray[index] = state.sortDirection
+      }
+      index++
+    })
+
+    return stateArray
+
+  }
+)
 
 export const getCommitmentOverviewExpandedRefinerGroups = createSelector(
     getCommitmentOverviewState,
@@ -174,9 +194,10 @@ export const getFilteredOverviewCommitments = createSelector(
     getAllCommitments,
     getRefinersAsFilter,
     getCommitmentOverviewTextRefiner,
-    (arr: Commitment[], filters: any, filterText) => {
+    getCommitmentOverviewState,
+    (arr: Commitment[], filters: any, filterText, state: any) => {
         const filterKeys = Object.keys(filters)
-        const refined = arr.filter(eachObj =>
+        let refined = arr.filter(eachObj =>
             filterKeys.every(eachKey => {
                 if (!filters[eachKey].length) {
                     return true // passing an empty filter means that filter is ignored.
@@ -185,18 +206,17 @@ export const getFilteredOverviewCommitments = createSelector(
                 return filteredProperty // filters[eachKey].includes(eachObj[eachKey])
             }))
 
-        if (!filterText) {
-
-            return refined
-        }
-        return refined.filter(o => Object.keys(o).some(k => {
-
-            if (typeof o[k] === 'string') {
-                return o[k].toLowerCase().includes(filterText.toLowerCase())
+        if (filterText) {
+                refined  = refined.filter(o => Object.keys(o).some(k => {
+                    if (typeof o[k] === 'string') {
+                        return o[k].toLowerCase().includes(filterText.toLowerCase())
+                    }
+                    return false
             }
-            return false
+          ))
         }
-        ))
+
+        return refined
     }
 )
 
@@ -213,10 +233,47 @@ export const getOverviewLookupEnitites = createSelector(
         })
 )
 
+const getFieldValue = (columnName: string, commitment: Commitment) => {
+
+  if (!commitment[columnName]) {
+    return ''
+  }
+
+  if (commitment[columnName].hasOwnProperty('title')) {
+    return commitment[columnName].title
+  } else {
+    return commitment[columnName]
+  }
+}
+
+const sortByField = (column: string, sortDirection: DATA_TABLE_SORT_DIRECTION, a: Commitment, b: Commitment) => {
+  let first: Commitment
+  let second: Commitment
+  switch (sortDirection) {
+    case DATA_TABLE_SORT_DIRECTION_ASC:
+      first = a
+      second = b
+      break
+
+    case DATA_TABLE_SORT_DIRECTION_DESC:
+      first = b
+      second = a
+      break
+
+    default:
+      break
+  }
+
+  const firstValue = getFieldValue(column, first)
+  const secondValue = getFieldValue(column, second)
+  return firstValue.localeCompare(secondValue)
+}
+
 export const getAllOverviewCommitments = createSelector(
     getFilteredOverviewCommitments,
     getOverviewLookupEnitites,
-    (commitments, lookups) => {
+    getCommitmentOverviewState,
+    (commitments, lookups, state) => {
 
         const result = commitments.map(commitment =>
             ({
@@ -230,6 +287,11 @@ export const getAllOverviewCommitments = createSelector(
                 commitmentType: findInLookup(commitment.commitmentType, lookups.commitmentTypes),
             }))
 
+      if (state.sortDirection) {
+        result.sort((a: Commitment, b: Commitment) =>
+          sortByField(state.sortColumn, state.sortDirection, a, b))
+      }
+
         return result
 
     }
@@ -238,7 +300,8 @@ export const getAllOverviewCommitments = createSelector(
 
 export const getAllOverviewCommitmentDataTables = createSelector(
     getAllOverviewCommitments,
-    (commitments) => {
+    getSortState,
+    (commitments, sortState) => {
 
         const rows = commitments.map(c => ({
             id: c.id,
@@ -258,11 +321,11 @@ export const getAllOverviewCommitmentDataTables = createSelector(
         const dtc: DataTableConfig = {
             title: 'commitments',
             headings: [
-                { id: 'title', caption: 'Title', sort: DATA_TABLE_SORT_DIRECTION_ASC},
-                { id: 'party', caption: 'Party', sort: null },
-                { id: 'portfolio', caption: 'Responsible Portfolio', sort: null },
-                { id: 'commitment', caption: 'Type of Commitment', sort: null },
-                { id: 'date', caption: 'Critical Date', sort: null }
+                { id: 'title', caption: 'Title', sort: sortState[0]},
+                { id: 'party', caption: 'Party', sort: sortState[1] },
+                { id: 'portfolio', caption: 'Responsible Portfolio', sort: sortState[2] },
+                { id: 'commitmentType', caption: 'Type of Commitment', sort: sortState[3] },
+                { id: 'criticalDate', caption: 'Critical Date', sort: sortState[4] }
             ],
             rows: rows
         }

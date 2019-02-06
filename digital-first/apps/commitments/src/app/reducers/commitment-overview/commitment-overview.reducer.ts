@@ -4,13 +4,18 @@ import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
 export interface State {
   expandedRefinerGroups: (string | number)[]
   selectedRefiners: RefinerType[]
-  textRefiner: string
+  textRefiner: string,
+  sortColumn: string,
+  sortDirection: string
 }
+const sortArray: string[] = [null, 'ASC', 'DESC']
 
 export const initialState: State = {
   expandedRefinerGroups: [],
   selectedRefiners: [],
-  textRefiner: null
+  textRefiner: null,
+  sortColumn: null,
+  sortDirection: null
 }
 
 export function reducer(
@@ -82,6 +87,20 @@ export function reducer(
       return {
         ...state,
         selectedRefiners: []
+      }
+    }
+
+    case CommitmentOverviewActionTypes.SortByColumn: {
+      let sortIndex = 1
+      if (action.payload.id === state.sortColumn) {
+        sortIndex = sortArray.indexOf(state.sortDirection)
+        sortIndex = (sortIndex + 1) % sortArray.length
+      }
+
+      return {
+        ...state,
+        sortDirection: sortArray[sortIndex],
+        sortColumn:  action.payload.id
       }
     }
 
