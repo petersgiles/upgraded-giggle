@@ -39,7 +39,7 @@ export class GroupsComponent implements OnDestroy {
         { title: this.searchText },
         {
           fetchPolicy: 'no-cache',
-          context: { debounceKey: 'groups', debounceTimeout: 300 }
+          context: { debounceKey: 'groups', debounceTimeout: 400 }
         }
       )
       .valueChanges.subscribe(value => {

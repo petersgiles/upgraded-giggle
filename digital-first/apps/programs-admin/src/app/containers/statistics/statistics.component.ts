@@ -38,7 +38,7 @@ export class StatisticsComponent implements OnDestroy {
         { name: this.searchText },
         {
           fetchPolicy: 'no-cache',
-          context: { debounceKey: 'statistics', debounceTimeout: 300 }
+          context: { debounceKey: 'statistics', debounceTimeout: 400 }
         }
       )
       .valueChanges.subscribe(value => {

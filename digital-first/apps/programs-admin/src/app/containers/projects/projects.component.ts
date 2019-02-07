@@ -41,7 +41,7 @@ export class ProjectsComponent implements OnDestroy {
         { name: this.searchText },
         {
           fetchPolicy: 'no-cache',
-          context: { debounceKey: 'projects', debounceTimeout: 300 }
+          context: { debounceKey: 'projects', debounceTimeout: 400 }
         }
       )
       .valueChanges.subscribe(value => {

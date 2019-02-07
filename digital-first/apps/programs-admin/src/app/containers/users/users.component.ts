@@ -24,7 +24,7 @@ export class UsersComponent implements OnDestroy {
         { emailAddress: this.searchText },
         {
           fetchPolicy: 'no-cache',
-          context: { debounceKey: 'users', debounceTimeout: 300 }
+          context: { debounceKey: 'users', debounceTimeout: 400 }
         }
       )
       .valueChanges.subscribe(value => {
