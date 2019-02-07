@@ -36,7 +36,13 @@ export class AgenciesComponent implements OnDestroy {
     }
 
     const searchSubscription$ = this.allAgenciesSearchGql
-      .watch({ title: this.searchText }, { fetchPolicy: 'no-cache' })
+      .watch(
+        { title: this.searchText },
+        {
+          fetchPolicy: 'no-cache',
+          context: { debounceKey: 'agencies', debounceTimeout: 400 }
+        }
+      )
       .valueChanges.subscribe(value => {
         this.agencies = value.data.agencies
         this.changeDetector.detectChanges()

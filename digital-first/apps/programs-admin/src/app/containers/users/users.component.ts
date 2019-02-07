@@ -1,6 +1,6 @@
-import {Component, OnDestroy, OnInit} from '@angular/core'
-import {AllUsersSearch, AllUsersSearchGQL} from '../../generated/graphql'
-import {Subscription} from 'rxjs'
+import { Component, OnDestroy, OnInit } from '@angular/core'
+import { AllUsersSearch, AllUsersSearchGQL } from '../../generated/graphql'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'digital-first-users',
@@ -8,14 +8,11 @@ import {Subscription} from 'rxjs'
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnDestroy {
-
   users: AllUsersSearch.Users[]
   subscriptions$: Subscription[] = []
   searchText = ''
 
-  constructor(private allUsersSearchGQL: AllUsersSearchGQL) {
-
-  }
+  constructor(private allUsersSearchGQL: AllUsersSearchGQL) {}
 
   doSearch() {
     if (!this.searchText) {
@@ -23,7 +20,13 @@ export class UsersComponent implements OnDestroy {
     }
 
     const searchSubscription$ = this.allUsersSearchGQL
-      .watch({emailAddress: this.searchText}, {fetchPolicy: 'no-cache'})
+      .watch(
+        { emailAddress: this.searchText },
+        {
+          fetchPolicy: 'no-cache',
+          context: { debounceKey: 'users', debounceTimeout: 300 }
+        }
+      )
       .valueChanges.subscribe(value => {
         this.users = value.data.users
       })
@@ -37,5 +40,5 @@ export class UsersComponent implements OnDestroy {
         subscription.unsubscribe()
       }
     }
-
-  }}
+  }
+}

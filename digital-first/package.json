@@ -90,6 +90,7 @@
     "apollo-angular-link-http": "^1.4.0",
     "apollo-cache-inmemory": "^1.4.2",
     "apollo-client": "^2.4.12",
+    "apollo-link-debounce": "^2.1.0",
     "apollo-link-error": "^1.1.5",
     "classlist.js": "^1.1.20150312",
     "codemirror": "^5.43.0",
