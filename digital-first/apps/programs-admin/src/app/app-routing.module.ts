@@ -34,6 +34,8 @@ import { AgenciesComponent } from './containers/agencies/agencies.component'
 import { AgencyComponent } from './containers/agency/agency.component'
 import { AgencyEditComponent } from './containers/agency/agency-edit/agency-edit.component'
 import { AgencyAddComponent } from './containers/agency/agency-add/agency-add.component'
+import { AgencyMappingAddComponent } from './containers/agency/agency-mapping-add/agency-mapping-add.component'
+import { AgencyMappingEditComponent } from './containers/agency/agency-mapping-edit/agency-mapping-edit.component'
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -87,7 +89,22 @@ export const routes: Routes = [
           nav: false
         }
       },
-
+      {
+        path: 'agencymapping/add/:agencyId',
+        component: AgencyMappingAddComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+      {
+        path: 'agencymapping/edit/:agencyMappingId',
+        component: AgencyMappingEditComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
       {
         path: 'groups',
         component: GroupsComponent,
@@ -331,7 +348,7 @@ export const routes: Routes = [
 ]
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { enableTracing: false })],
+  imports: [RouterModule.forRoot(routes, { enableTracing: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule {}

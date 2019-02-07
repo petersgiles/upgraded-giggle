@@ -1,17 +1,19 @@
+export type Maybe<T> = T | null
+
 export interface OrderByGraph {
   path: string
 
-  descending?: boolean | null
+  descending?: Maybe<boolean>
 }
 
 export interface WhereExpressionGraph {
   path: string
 
-  comparison?: ComparisonGraph | null
+  comparison?: Maybe<ComparisonGraph>
 
-  case?: StringComparison | null
+  case?: Maybe<StringComparison>
 
-  value?: (string | null)[] | null
+  value?: Maybe<(Maybe<string>)[]>
 }
 
 export interface CreateAccessControlGroupInputGraph {
@@ -27,7 +29,7 @@ export interface CreateAccessControlGroupUserInputGraph {
 export interface CreateAgencyInputGraph {
   title: string
 
-  metadata?: string | null
+  metadata?: Maybe<string>
 
   portfolioId: Guid
 }
@@ -45,9 +47,9 @@ export interface CreateDisplayGroupInputGraph {
 
   sortOrder: UInt32
 
-  metadata?: string | null
+  metadata?: Maybe<string>
 
-  parentId?: Guid | null
+  parentId?: Maybe<Guid>
 }
 
 export interface CreateDisplayGroupProgramInputGraph {
@@ -73,7 +75,7 @@ export interface CreateDisplayGroupStatisticInputGraph {
 export interface CreatePortfolioInputGraph {
   title: string
 
-  metadata?: string | null
+  metadata?: Maybe<string>
 }
 
 export interface CreateProgramInputGraph {
@@ -81,11 +83,11 @@ export interface CreateProgramInputGraph {
 
   agencyId: Guid
 
-  externalId?: string | null
+  externalId?: Maybe<string>
 
-  notes?: string | null
+  notes?: Maybe<string>
 
-  commitments?: string | null
+  commitments?: Maybe<string>
 }
 
 export interface CreateProgramAccessControlInputGraph {
@@ -93,23 +95,23 @@ export interface CreateProgramAccessControlInputGraph {
 
   accessControlGroupId: Guid
 
-  accessRights?: AccessRights | null
+  accessRights?: Maybe<AccessRights>
 }
 
 export interface CreateProjectInputGraph {
   name: string
 
-  externalId?: string | null
+  externalId?: Maybe<string>
 
   programId: Guid
 
-  geoJson?: string | null
+  geoJson?: Maybe<string>
 
-  notes?: string | null
+  notes?: Maybe<string>
 
-  status?: string | null
+  status?: Maybe<string>
 
-  endDate?: Date | null
+  endDate?: Maybe<Date>
 }
 
 export interface CreateReportInputGraph {
@@ -117,7 +119,7 @@ export interface CreateReportInputGraph {
 
   programId: Guid
 
-  notes?: string | null
+  notes?: Maybe<string>
 }
 
 export interface CreateReportAccessControlInputGraph {
@@ -125,7 +127,7 @@ export interface CreateReportAccessControlInputGraph {
 
   accessControlGroupId: Guid
 
-  accessRights?: AccessRights | null
+  accessRights?: Maybe<AccessRights>
 }
 
 export interface CreateStatisticInputGraph {
@@ -133,7 +135,7 @@ export interface CreateStatisticInputGraph {
 
   agencyId: Guid
 
-  externalId?: string | null
+  externalId?: Maybe<string>
 }
 
 export interface CreateStatisticAccessControlInputGraph {
@@ -141,13 +143,13 @@ export interface CreateStatisticAccessControlInputGraph {
 
   accessControlGroupId: Guid
 
-  accessRights?: AccessRights | null
+  accessRights?: Maybe<AccessRights>
 }
 
 export interface CreateStatisticReportInputGraph {
   name: string
 
-  notes?: string | null
+  notes?: Maybe<string>
 
   statisticId: Guid
 }
@@ -157,7 +159,7 @@ export interface CreateStatisticReportAccessControlInputGraph {
 
   accessControlGroupId: Guid
 
-  accessRights?: AccessRights | null
+  accessRights?: Maybe<AccessRights>
 }
 
 export interface DeleteAccessControlGroupInputGraph {
@@ -255,7 +257,7 @@ export interface UpdateAgencyInputGraph {
 
   title: string
 
-  metadata?: string | null
+  metadata?: Maybe<string>
 
   rowVersion: string
 
@@ -281,9 +283,9 @@ export interface UpdateDisplayGroupInputGraph {
 
   sortOrder: UInt32
 
-  metadata?: string | null
+  metadata?: Maybe<string>
 
-  parentId?: Guid | null
+  parentId?: Maybe<Guid>
 
   rowVersion: string
 }
@@ -295,7 +297,7 @@ export interface UpdateDisplayGroupProgramInputGraph {
 
   sortOrder: UInt32
 
-  metaData?: string | null
+  metaData?: Maybe<string>
 
   rowVersion: string
 }
@@ -307,7 +309,7 @@ export interface UpdateDisplayGroupStatisticInputGraph {
 
   sortOrder: UInt32
 
-  metaData?: string | null
+  metaData?: Maybe<string>
 
   rowVersion: string
 }
@@ -317,23 +319,23 @@ export interface UpdatePortfolioInputGraph {
 
   title: string
 
-  metadata?: string | null
+  metadata?: Maybe<string>
 
   rowVersion: string
 }
 
 export interface UpdateProgramInputGraph {
-  id?: Guid | null
+  id?: Maybe<Guid>
 
   name: string
 
   agencyId: Guid
 
-  externalId?: string | null
+  externalId?: Maybe<string>
 
-  notes?: string | null
+  notes?: Maybe<string>
 
-  commitments?: string | null
+  commitments?: Maybe<string>
 
   rowVersion: string
 }
@@ -345,27 +347,27 @@ export interface UpdateProgramAccessControlInputGraph {
 
   rowVersion: string
 
-  accessRights?: AccessRights | null
+  accessRights?: Maybe<AccessRights>
 }
 
 export interface UpdateProjectInputGraph {
-  externalId?: string | null
+  externalId?: Maybe<string>
 
-  endDate?: Date | null
+  endDate?: Maybe<Date>
 
-  geoJson?: string | null
+  geoJson?: Maybe<string>
 
   id: Guid
 
   name: string
 
-  notes?: string | null
+  notes?: Maybe<string>
 
   programId: Guid
 
   rowVersion: string
 
-  status?: string | null
+  status?: Maybe<string>
 }
 
 export interface UpdateReportInputGraph {
@@ -375,7 +377,7 @@ export interface UpdateReportInputGraph {
 
   programId: Guid
 
-  notes?: string | null
+  notes?: Maybe<string>
 
   rowVersion: string
 }
@@ -385,7 +387,7 @@ export interface UpdateReportAccessControlInputGraph {
 
   accessControlGroupId: Guid
 
-  accessRights?: AccessRights | null
+  accessRights?: Maybe<AccessRights>
 
   rowVersion: string
 }
@@ -397,7 +399,7 @@ export interface UpdateStatisticInputGraph {
 
   agencyId: Guid
 
-  externalId?: string | null
+  externalId?: Maybe<string>
 
   rowVersion: string
 }
@@ -409,7 +411,7 @@ export interface UpdateStatisticAccessControlInputGraph {
 
   rowVersion: string
 
-  accessRights?: AccessRights | null
+  accessRights?: Maybe<AccessRights>
 }
 
 export interface UpdateStatisticReportInputGraph {
@@ -417,7 +419,7 @@ export interface UpdateStatisticReportInputGraph {
 
   name: string
 
-  notes?: string | null
+  notes?: Maybe<string>
 
   statisticId: Guid
 
@@ -429,7 +431,7 @@ export interface UpdateStatisticReportAccessControlInputGraph {
 
   accessControlGroupId: Guid
 
-  accessRights?: AccessRights | null
+  accessRights?: Maybe<AccessRights>
 
   rowVersion: string
 }
@@ -467,16 +469,16 @@ export enum AccessRights {
 /** Guid */
 export type Guid = any
 
-/** The `DateTimeOffset` scalar type represents a date, time and offset from UTC.`DateTimeOffset` expects timestamps to be formatted in accordance with the[ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard. */
+/** The `DateTimeOffset` scalar type represents a date, time and offset from UTC. `DateTimeOffset` expects timestamps to be formatted in accordance with the [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard. */
 export type DateTimeOffset = any
 
 /** UInt32 */
 export type UInt32 = any
 
-/** The `Date` scalar type represents a year, month and day in accordance with the[ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard (yyyy-MM-dd). */
+/** The `Date` scalar type represents a year, month and day in accordance with the [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard (yyyy-MM-dd). */
 export type Date = any
 
-/** The `DateTime` scalar type represents a date and time. `DateTime` expectstimestamps to be formatted in accordance with the[ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard. */
+/** The `DateTime` scalar type represents a date and time. `DateTime` expects timestamps to be formatted in accordance with the [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard. */
 export type DateTime = any
 
 export type Decimal = any
@@ -493,13 +495,13 @@ export type Seconds = any
 
 export namespace AllAgenciesSearch {
   export type Variables = {
-    title?: string | null
+    title?: Maybe<string>
   }
 
   export type Query = {
     __typename?: 'Query'
 
-    agencies: (Agencies | null)[] | null
+    agencies: Maybe<(Maybe<Agencies>)[]>
   }
 
   export type Agencies = {
@@ -521,7 +523,7 @@ export namespace CreateAgency {
   export type Mutation = {
     __typename?: 'Mutation'
 
-    createAgency: CreateAgency | null
+    createAgency: Maybe<CreateAgency>
   }
 
   export type CreateAgency = {
@@ -539,7 +541,7 @@ export namespace UpdateAgency {
   export type Mutation = {
     __typename?: 'Mutation'
 
-    updateAgency: UpdateAgency | null
+    updateAgency: Maybe<UpdateAgency>
   }
 
   export type UpdateAgency = {
@@ -549,9 +551,9 @@ export namespace UpdateAgency {
 
     title: string
 
-    metadata: string | null
+    metadata: Maybe<string>
 
-    portfolio: Portfolio | null
+    portfolio: Maybe<Portfolio>
 
     rowVersion: string
   }
@@ -573,7 +575,55 @@ export namespace DeleteAgency {
   export type Mutation = {
     __typename?: 'Mutation'
 
-    deleteAgency: boolean | null
+    deleteAgency: Maybe<boolean>
+  }
+}
+
+export namespace DeleteAgencyMapping {
+  export type Variables = {
+    data: DeleteAgencyMappingInputGraph
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    deleteAgencyMapping: Maybe<boolean>
+  }
+}
+
+export namespace UpdateAgencyMapping {
+  export type Variables = {
+    data: UpdateAgencyMappingInputGraph
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    updateAgencyMapping: Maybe<UpdateAgencyMapping>
+  }
+
+  export type UpdateAgencyMapping = {
+    __typename?: 'AgencyMappingGraph'
+
+    id: Guid
+  }
+}
+
+export namespace CreateAgencyMapping {
+  export type Variables = {
+    data: CreateAgencyMappingInputGraph
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    createAgencyMapping: Maybe<CreateAgencyMapping>
+  }
+
+  export type CreateAgencyMapping = {
+    __typename?: 'AgencyMappingGraph'
+
+    id: Guid
   }
 }
 
@@ -585,7 +635,7 @@ export namespace Agency {
   export type Query = {
     __typename?: 'Query'
 
-    agency: Agency | null
+    agency: Maybe<Agency>
   }
 
   export type Agency = {
@@ -595,15 +645,77 @@ export namespace Agency {
 
     title: string
 
-    metadata: string | null
-
-    portfolio: Portfolio | null
+    metadata: Maybe<string>
 
     rowVersion: string
+
+    portfolio: Maybe<Portfolio>
+
+    agencyMapping: Maybe<(Maybe<AgencyMapping>)[]>
   }
 
   export type Portfolio = {
     __typename?: 'PortfolioGraph'
+
+    id: Guid
+
+    title: string
+  }
+
+  export type AgencyMapping = {
+    __typename?: 'AgencyMappingGraph'
+
+    id: Guid
+
+    emailDomain: string
+
+    rowVersion: string
+
+    accessControlGroup: Maybe<AccessControlGroup>
+  }
+
+  export type AccessControlGroup = {
+    __typename?: 'AccessControlGroupGraph'
+
+    id: Guid
+
+    title: string
+  }
+}
+
+export namespace GetAgencyMapping {
+  export type Variables = {
+    id: string
+  }
+
+  export type Query = {
+    __typename?: 'Query'
+
+    agencyMapping: Maybe<AgencyMapping>
+  }
+
+  export type AgencyMapping = {
+    __typename?: 'AgencyMappingGraph'
+
+    id: Guid
+
+    emailDomain: string
+
+    rowVersion: string
+
+    agency: Maybe<Agency>
+
+    accessControlGroup: Maybe<AccessControlGroup>
+  }
+
+  export type Agency = {
+    __typename?: 'AgencyGraph'
+
+    id: Guid
+  }
+
+  export type AccessControlGroup = {
+    __typename?: 'AccessControlGroupGraph'
 
     id: Guid
 
@@ -617,7 +729,7 @@ export namespace Portfolios {
   export type Query = {
     __typename?: 'Query'
 
-    portfolios: (Portfolios | null)[] | null
+    portfolios: Maybe<(Maybe<Portfolios>)[]>
   }
 
   export type Portfolios = {
@@ -637,7 +749,7 @@ export namespace CreateAccessControlGroupUser {
   export type Mutation = {
     __typename?: 'Mutation'
 
-    createAccessControlGroupUser: CreateAccessControlGroupUser | null
+    createAccessControlGroupUser: Maybe<CreateAccessControlGroupUser>
   }
 
   export type CreateAccessControlGroupUser = {
@@ -655,7 +767,7 @@ export namespace Users {
   export type Query = {
     __typename?: 'Query'
 
-    users: (Users | null)[] | null
+    users: Maybe<(Maybe<Users>)[]>
   }
 
   export type Users = {
@@ -665,7 +777,7 @@ export namespace Users {
 
     emailAddress: string
 
-    lastLogin: DateTimeOffset | null
+    lastLogin: Maybe<DateTimeOffset>
 
     rowVersion: string
   }
@@ -673,13 +785,13 @@ export namespace Users {
 
 export namespace CreateAccessControlGroup {
   export type Variables = {
-    data?: CreateAccessControlGroupInputGraph | null
+    data?: Maybe<CreateAccessControlGroupInputGraph>
   }
 
   export type Mutation = {
     __typename?: 'Mutation'
 
-    createAccessControlGroup: CreateAccessControlGroup | null
+    createAccessControlGroup: Maybe<CreateAccessControlGroup>
   }
 
   export type CreateAccessControlGroup = {
@@ -695,13 +807,13 @@ export namespace CreateAccessControlGroup {
 
 export namespace UpdateAccessControlGroup {
   export type Variables = {
-    data?: UpdateAccessControlGroupInputGraph | null
+    data?: Maybe<UpdateAccessControlGroupInputGraph>
   }
 
   export type Mutation = {
     __typename?: 'Mutation'
 
-    updateAccessControlGroup: UpdateAccessControlGroup | null
+    updateAccessControlGroup: Maybe<UpdateAccessControlGroup>
   }
 
   export type UpdateAccessControlGroup = {
@@ -717,13 +829,13 @@ export namespace UpdateAccessControlGroup {
 
 export namespace DeleteAccessControlGroup {
   export type Variables = {
-    data?: DeleteAccessControlGroupInputGraph | null
+    data?: Maybe<DeleteAccessControlGroupInputGraph>
   }
 
   export type Mutation = {
     __typename?: 'Mutation'
 
-    deleteAccessControlGroup: boolean | null
+    deleteAccessControlGroup: Maybe<boolean>
   }
 }
 
@@ -735,7 +847,7 @@ export namespace DeleteAccessControlGroupUser {
   export type Mutation = {
     __typename?: 'Mutation'
 
-    deleteAccessControlGroupUser: boolean | null
+    deleteAccessControlGroupUser: Maybe<boolean>
   }
 }
 
@@ -747,7 +859,7 @@ export namespace Group {
   export type Query = {
     __typename?: 'Query'
 
-    group: Group | null
+    group: Maybe<Group>
   }
 
   export type Group = {
@@ -759,7 +871,7 @@ export namespace Group {
 
     title: string
 
-    members: (Members | null)[] | null
+    members: Maybe<(Maybe<Members>)[]>
   }
 
   export type Members = {
@@ -769,7 +881,7 @@ export namespace Group {
 
     emailAddress: string
 
-    lastLogin: DateTimeOffset | null
+    lastLogin: Maybe<DateTimeOffset>
 
     rowVersion: string
   }
@@ -781,7 +893,7 @@ export namespace AllGroups {
   export type Query = {
     __typename?: 'Query'
 
-    groups: (Groups | null)[] | null
+    groups: Maybe<(Maybe<Groups>)[]>
   }
 
   export type Groups = {
@@ -797,13 +909,13 @@ export namespace AllGroups {
 
 export namespace AllGroupsSearch {
   export type Variables = {
-    title?: string | null
+    title?: Maybe<string>
   }
 
   export type Query = {
     __typename?: 'Query'
 
-    groups: (Groups | null)[] | null
+    groups: Maybe<(Maybe<Groups>)[]>
   }
 
   export type Groups = {
@@ -819,25 +931,25 @@ export namespace AllGroupsSearch {
 
 export namespace DeleteReportAccessControl {
   export type Variables = {
-    data?: DeleteReportAccessControlInputGraph | null
+    data?: Maybe<DeleteReportAccessControlInputGraph>
   }
 
   export type Mutation = {
     __typename?: 'Mutation'
 
-    deleteReportAccessControl: boolean | null
+    deleteReportAccessControl: Maybe<boolean>
   }
 }
 
 export namespace CreateReportAccessControl {
   export type Variables = {
-    data?: CreateReportAccessControlInputGraph | null
+    data?: Maybe<CreateReportAccessControlInputGraph>
   }
 
   export type Mutation = {
     __typename?: 'Mutation'
 
-    createReportAccessControl: CreateReportAccessControl | null
+    createReportAccessControl: Maybe<CreateReportAccessControl>
   }
 
   export type CreateReportAccessControl = {
@@ -853,13 +965,13 @@ export namespace CreateReportAccessControl {
 
 export namespace UpdateReportAccessControl {
   export type Variables = {
-    data?: UpdateReportAccessControlInputGraph | null
+    data?: Maybe<UpdateReportAccessControlInputGraph>
   }
 
   export type Mutation = {
     __typename?: 'Mutation'
 
-    updateReportAccessControl: UpdateReportAccessControl | null
+    updateReportAccessControl: Maybe<UpdateReportAccessControl>
   }
 
   export type UpdateReportAccessControl = {
@@ -881,7 +993,7 @@ export namespace Report {
   export type Query = {
     __typename?: 'Query'
 
-    reports: (Reports | null)[] | null
+    reports: Maybe<(Maybe<Reports>)[]>
   }
 
   export type Reports = {
@@ -891,13 +1003,13 @@ export namespace Report {
 
     name: string
 
-    notes: string | null
+    notes: Maybe<string>
 
     programId: Guid
 
     rowVersion: string
 
-    accessControlList: (AccessControlList | null)[] | null
+    accessControlList: Maybe<(Maybe<AccessControlList>)[]>
   }
 
   export type AccessControlList = {
@@ -905,7 +1017,7 @@ export namespace Report {
 
     id: Guid
 
-    accessControlEntries: (AccessControlEntries | null)[] | null
+    accessControlEntries: Maybe<(Maybe<AccessControlEntries>)[]>
   }
 
   export type AccessControlEntries = {
@@ -913,7 +1025,7 @@ export namespace Report {
 
     id: string
 
-    accessControlGroup: AccessControlGroup | null
+    accessControlGroup: Maybe<AccessControlGroup>
 
     rights: string
 
@@ -931,13 +1043,13 @@ export namespace Report {
 
 export namespace CreateReport {
   export type Variables = {
-    data?: CreateReportInputGraph | null
+    data?: Maybe<CreateReportInputGraph>
   }
 
   export type Mutation = {
     __typename?: 'Mutation'
 
-    createReport: CreateReport | null
+    createReport: Maybe<CreateReport>
   }
 
   export type CreateReport = {
@@ -945,7 +1057,7 @@ export namespace CreateReport {
 
     id: Guid
 
-    notes: string | null
+    notes: Maybe<string>
 
     rowVersion: string
   }
@@ -953,13 +1065,13 @@ export namespace CreateReport {
 
 export namespace UpdateReport {
   export type Variables = {
-    data?: UpdateReportInputGraph | null
+    data?: Maybe<UpdateReportInputGraph>
   }
 
   export type Mutation = {
     __typename?: 'Mutation'
 
-    updateReport: UpdateReport | null
+    updateReport: Maybe<UpdateReport>
   }
 
   export type UpdateReport = {
@@ -969,7 +1081,7 @@ export namespace UpdateReport {
 
     name: string
 
-    notes: string | null
+    notes: Maybe<string>
   }
 }
 
@@ -981,7 +1093,7 @@ export namespace CreateProgram {
   export type Mutation = {
     __typename?: 'Mutation'
 
-    createProgram: CreateProgram | null
+    createProgram: Maybe<CreateProgram>
   }
 
   export type CreateProgram = {
@@ -991,11 +1103,11 @@ export namespace CreateProgram {
 
     name: string
 
-    agency: Agency | null
+    agency: Maybe<Agency>
 
-    notes: string | null
+    notes: Maybe<string>
 
-    externalId: string | null
+    externalId: Maybe<string>
 
     rowVersion: string
   }
@@ -1015,7 +1127,7 @@ export namespace UpdateProgram {
   export type Mutation = {
     __typename?: 'Mutation'
 
-    updateProgram: UpdateProgram | null
+    updateProgram: Maybe<UpdateProgram>
   }
 
   export type UpdateProgram = {
@@ -1025,11 +1137,11 @@ export namespace UpdateProgram {
 
     name: string
 
-    agency: Agency | null
+    agency: Maybe<Agency>
 
-    notes: string | null
+    notes: Maybe<string>
 
-    externalId: string | null
+    externalId: Maybe<string>
 
     rowVersion: string
   }
@@ -1043,37 +1155,37 @@ export namespace UpdateProgram {
 
 export namespace DeleteProgram {
   export type Variables = {
-    data?: DeleteProgramInputGraph | null
+    data?: Maybe<DeleteProgramInputGraph>
   }
 
   export type Mutation = {
     __typename?: 'Mutation'
 
-    deleteProgram: boolean | null
+    deleteProgram: Maybe<boolean>
   }
 }
 
 export namespace DeleteReport {
   export type Variables = {
-    data?: DeleteReportInputGraph | null
+    data?: Maybe<DeleteReportInputGraph>
   }
 
   export type Mutation = {
     __typename?: 'Mutation'
 
-    deleteReport: boolean | null
+    deleteReport: Maybe<boolean>
   }
 }
 
 export namespace UpdateProgramAccessControl {
   export type Variables = {
-    data?: UpdateProgramAccessControlInputGraph | null
+    data?: Maybe<UpdateProgramAccessControlInputGraph>
   }
 
   export type Mutation = {
     __typename?: 'Mutation'
 
-    updateProgramAccessControl: UpdateProgramAccessControl | null
+    updateProgramAccessControl: Maybe<UpdateProgramAccessControl>
   }
 
   export type UpdateProgramAccessControl = {
@@ -1089,13 +1201,13 @@ export namespace UpdateProgramAccessControl {
 
 export namespace CreateProgramAccessControl {
   export type Variables = {
-    data?: CreateProgramAccessControlInputGraph | null
+    data?: Maybe<CreateProgramAccessControlInputGraph>
   }
 
   export type Mutation = {
     __typename?: 'Mutation'
 
-    createProgramAccessControl: CreateProgramAccessControl | null
+    createProgramAccessControl: Maybe<CreateProgramAccessControl>
   }
 
   export type CreateProgramAccessControl = {
@@ -1111,13 +1223,13 @@ export namespace CreateProgramAccessControl {
 
 export namespace DeleteProgramAccessControl {
   export type Variables = {
-    data?: DeleteProgramAccessControlInputGraph | null
+    data?: Maybe<DeleteProgramAccessControlInputGraph>
   }
 
   export type Mutation = {
     __typename?: 'Mutation'
 
-    deleteProgramAccessControl: boolean | null
+    deleteProgramAccessControl: Maybe<boolean>
   }
 }
 
@@ -1129,7 +1241,7 @@ export namespace Program {
   export type Query = {
     __typename?: 'Query'
 
-    program: Program | null
+    program: Maybe<Program>
   }
 
   export type Program = {
@@ -1139,19 +1251,19 @@ export namespace Program {
 
     name: string
 
-    notes: string | null
+    notes: Maybe<string>
 
-    externalId: string | null
+    externalId: Maybe<string>
 
     rowVersion: string
 
-    accessControlList: (AccessControlList | null)[] | null
+    accessControlList: Maybe<(Maybe<AccessControlList>)[]>
 
-    agency: Agency | null
+    agency: Maybe<Agency>
 
-    reports: (Reports | null)[] | null
+    reports: Maybe<(Maybe<Reports>)[]>
 
-    projects: (Projects | null)[] | null
+    projects: Maybe<(Maybe<Projects>)[]>
   }
 
   export type AccessControlList = {
@@ -1159,7 +1271,7 @@ export namespace Program {
 
     id: Guid
 
-    accessControlEntries: (AccessControlEntries | null)[] | null
+    accessControlEntries: Maybe<(Maybe<AccessControlEntries>)[]>
   }
 
   export type AccessControlEntries = {
@@ -1171,7 +1283,7 @@ export namespace Program {
 
     rowVersion: string
 
-    accessControlGroup: AccessControlGroup | null
+    accessControlGroup: Maybe<AccessControlGroup>
   }
 
   export type AccessControlGroup = {
@@ -1189,7 +1301,7 @@ export namespace Program {
 
     title: string
 
-    metadata: string | null
+    metadata: Maybe<string>
   }
 
   export type Reports = {
@@ -1199,21 +1311,21 @@ export namespace Program {
 
     name: string
 
-    notes: string | null
+    notes: Maybe<string>
 
-    accessControlList: (_AccessControlList | null)[] | null
+    accessControlList: Maybe<(Maybe<_AccessControlList>)[]>
   }
 
   export type _AccessControlList = {
     __typename?: 'AccessControlListGraph'
 
-    accessControlEntries: (_AccessControlEntries | null)[] | null
+    accessControlEntries: Maybe<(Maybe<_AccessControlEntries>)[]>
   }
 
   export type _AccessControlEntries = {
     __typename?: 'AccessControlEntryGraph'
 
-    accessControlGroup: _AccessControlGroup | null
+    accessControlGroup: Maybe<_AccessControlGroup>
   }
 
   export type _AccessControlGroup = {
@@ -1229,11 +1341,11 @@ export namespace Program {
 
     name: string
 
-    status: string | null
+    status: Maybe<string>
 
-    notes: string | null
+    notes: Maybe<string>
 
-    electorates: (Electorates | null)[] | null
+    electorates: Maybe<(Maybe<Electorates>)[]>
   }
 
   export type Electorates = {
@@ -1253,7 +1365,7 @@ export namespace EditProgram {
   export type Query = {
     __typename?: 'Query'
 
-    program: Program | null
+    program: Maybe<Program>
   }
 
   export type Program = {
@@ -1263,13 +1375,13 @@ export namespace EditProgram {
 
     name: string
 
-    notes: string | null
+    notes: Maybe<string>
 
-    externalId: string | null
+    externalId: Maybe<string>
 
     rowVersion: string
 
-    agency: Agency | null
+    agency: Maybe<Agency>
   }
 
   export type Agency = {
@@ -1279,7 +1391,7 @@ export namespace EditProgram {
 
     title: string
 
-    metadata: string | null
+    metadata: Maybe<string>
   }
 }
 
@@ -1289,7 +1401,7 @@ export namespace AllPortfolios {
   export type Query = {
     __typename?: 'Query'
 
-    portfolios: (Portfolios | null)[] | null
+    portfolios: Maybe<(Maybe<Portfolios>)[]>
   }
 
   export type Portfolios = {
@@ -1299,9 +1411,9 @@ export namespace AllPortfolios {
 
     title: string
 
-    metadata: string | null
+    metadata: Maybe<string>
 
-    agencies: (Agencies | null)[] | null
+    agencies: Maybe<(Maybe<Agencies>)[]>
   }
 
   export type Agencies = {
@@ -1309,7 +1421,7 @@ export namespace AllPortfolios {
 
     id: Guid
 
-    metadata: string | null
+    metadata: Maybe<string>
 
     title: string
   }
@@ -1321,7 +1433,7 @@ export namespace AllPrograms {
   export type Query = {
     __typename?: 'Query'
 
-    programs: (Programs | null)[] | null
+    programs: Maybe<(Maybe<Programs>)[]>
   }
 
   export type Programs = {
@@ -1331,7 +1443,7 @@ export namespace AllPrograms {
 
     name: string
 
-    agency: Agency | null
+    agency: Maybe<Agency>
   }
 
   export type Agency = {
@@ -1345,13 +1457,13 @@ export namespace AllPrograms {
 
 export namespace AllProgramsSearch {
   export type Variables = {
-    name?: string | null
+    name?: Maybe<string>
   }
 
   export type Query = {
     __typename?: 'Query'
 
-    programs: (Programs | null)[] | null
+    programs: Maybe<(Maybe<Programs>)[]>
   }
 
   export type Programs = {
@@ -1361,7 +1473,7 @@ export namespace AllProgramsSearch {
 
     name: string
 
-    agency: Agency | null
+    agency: Maybe<Agency>
   }
 
   export type Agency = {
@@ -1381,7 +1493,7 @@ export namespace CreateProject {
   export type Mutation = {
     __typename?: 'Mutation'
 
-    createProject: CreateProject | null
+    createProject: Maybe<CreateProject>
   }
 
   export type CreateProject = {
@@ -1391,11 +1503,11 @@ export namespace CreateProject {
 
     name: string
 
-    geoJson: string | null
+    geoJson: Maybe<string>
 
-    notes: string | null
+    notes: Maybe<string>
 
-    externalId: string | null
+    externalId: Maybe<string>
 
     rowVersion: string
   }
@@ -1409,7 +1521,7 @@ export namespace UpdateProject {
   export type Mutation = {
     __typename?: 'Mutation'
 
-    updateProject: UpdateProject | null
+    updateProject: Maybe<UpdateProject>
   }
 
   export type UpdateProject = {
@@ -1419,11 +1531,11 @@ export namespace UpdateProject {
 
     name: string
 
-    geoJson: string | null
+    geoJson: Maybe<string>
 
-    notes: string | null
+    notes: Maybe<string>
 
-    externalId: string | null
+    externalId: Maybe<string>
 
     rowVersion: string
   }
@@ -1437,7 +1549,7 @@ export namespace DeleteProject {
   export type Mutation = {
     __typename?: 'Mutation'
 
-    deleteProject: boolean | null
+    deleteProject: Maybe<boolean>
   }
 }
 
@@ -1449,7 +1561,7 @@ export namespace Project {
   export type Query = {
     __typename?: 'Query'
 
-    project: Project | null
+    project: Maybe<Project>
   }
 
   export type Project = {
@@ -1459,15 +1571,15 @@ export namespace Project {
 
     name: string
 
-    notes: string | null
+    notes: Maybe<string>
 
-    externalId: string | null
+    externalId: Maybe<string>
 
-    status: string | null
+    status: Maybe<string>
 
     rowVersion: string
 
-    program: Program | null
+    program: Maybe<Program>
   }
 
   export type Program = {
@@ -1483,7 +1595,7 @@ export namespace AllProjects {
   export type Query = {
     __typename?: 'Query'
 
-    projects: (Projects | null)[] | null
+    projects: Maybe<(Maybe<Projects>)[]>
   }
 
   export type Projects = {
@@ -1493,7 +1605,7 @@ export namespace AllProjects {
 
     name: string
 
-    program: Program | null
+    program: Maybe<Program>
   }
 
   export type Program = {
@@ -1505,13 +1617,13 @@ export namespace AllProjects {
 
 export namespace AllProjectsSearch {
   export type Variables = {
-    name?: string | null
+    name?: Maybe<string>
   }
 
   export type Query = {
     __typename?: 'Query'
 
-    projects: (Projects | null)[] | null
+    projects: Maybe<(Maybe<Projects>)[]>
   }
 
   export type Projects = {
@@ -1521,7 +1633,7 @@ export namespace AllProjectsSearch {
 
     name: string
 
-    program: Program | null
+    program: Maybe<Program>
   }
 
   export type Program = {
@@ -1537,21 +1649,21 @@ export namespace AllProgramReports {
   export type Query = {
     __typename?: 'Query'
 
-    programs: (Programs | null)[] | null
+    programs: Maybe<(Maybe<Programs>)[]>
   }
 
   export type Programs = {
-    __typename?: 'ProgramGraph'
+    __typename: 'ProgramGraph'
 
     id: Guid
 
     name: string
 
-    reports: (Reports | null)[] | null
+    reports: Maybe<(Maybe<Reports>)[]>
   }
 
   export type Reports = {
-    __typename?: 'ReportGraph'
+    __typename: 'ReportGraph'
 
     id: Guid
 
@@ -1561,13 +1673,15 @@ export namespace AllProgramReports {
 
 export namespace CreateStatisticReportAccessControl {
   export type Variables = {
-    data?: CreateStatisticReportAccessControlInputGraph | null
+    data?: Maybe<CreateStatisticReportAccessControlInputGraph>
   }
 
   export type Mutation = {
     __typename?: 'Mutation'
 
-    createStatisticReportAccessControl: CreateStatisticReportAccessControl | null
+    createStatisticReportAccessControl: Maybe<
+      CreateStatisticReportAccessControl
+    >
   }
 
   export type CreateStatisticReportAccessControl = {
@@ -1583,13 +1697,15 @@ export namespace CreateStatisticReportAccessControl {
 
 export namespace UpdateStatisticReportAccessControl {
   export type Variables = {
-    data?: UpdateStatisticReportAccessControlInputGraph | null
+    data?: Maybe<UpdateStatisticReportAccessControlInputGraph>
   }
 
   export type Mutation = {
     __typename?: 'Mutation'
 
-    updateStatisticReportAccessControl: UpdateStatisticReportAccessControl | null
+    updateStatisticReportAccessControl: Maybe<
+      UpdateStatisticReportAccessControl
+    >
   }
 
   export type UpdateStatisticReportAccessControl = {
@@ -1605,13 +1721,13 @@ export namespace UpdateStatisticReportAccessControl {
 
 export namespace DeleteStatisticReportAccessControl {
   export type Variables = {
-    data?: DeleteStatisticReportAccessControlInputGraph | null
+    data?: Maybe<DeleteStatisticReportAccessControlInputGraph>
   }
 
   export type Mutation = {
     __typename?: 'Mutation'
 
-    deleteStatisticReportAccessControl: boolean | null
+    deleteStatisticReportAccessControl: Maybe<boolean>
   }
 }
 
@@ -1623,7 +1739,7 @@ export namespace StatisticReport {
   export type Query = {
     __typename?: 'Query'
 
-    statisticReports: (StatisticReports | null)[] | null
+    statisticReports: Maybe<(Maybe<StatisticReports>)[]>
   }
 
   export type StatisticReports = {
@@ -1633,13 +1749,13 @@ export namespace StatisticReport {
 
     name: string
 
-    notes: string | null
+    notes: Maybe<string>
 
     rowVersion: string
 
     statisticId: Guid
 
-    accessControlList: (AccessControlList | null)[] | null
+    accessControlList: Maybe<(Maybe<AccessControlList>)[]>
   }
 
   export type AccessControlList = {
@@ -1647,7 +1763,7 @@ export namespace StatisticReport {
 
     id: Guid
 
-    accessControlEntries: (AccessControlEntries | null)[] | null
+    accessControlEntries: Maybe<(Maybe<AccessControlEntries>)[]>
   }
 
   export type AccessControlEntries = {
@@ -1655,7 +1771,7 @@ export namespace StatisticReport {
 
     id: string
 
-    accessControlGroup: AccessControlGroup | null
+    accessControlGroup: Maybe<AccessControlGroup>
 
     rights: string
 
@@ -1679,7 +1795,7 @@ export namespace CreateStatisticReport {
   export type Mutation = {
     __typename?: 'Mutation'
 
-    createStatisticReport: CreateStatisticReport | null
+    createStatisticReport: Maybe<CreateStatisticReport>
   }
 
   export type CreateStatisticReport = {
@@ -1689,7 +1805,7 @@ export namespace CreateStatisticReport {
 
     name: string
 
-    notes: string | null
+    notes: Maybe<string>
 
     statisticId: Guid
   }
@@ -1697,13 +1813,13 @@ export namespace CreateStatisticReport {
 
 export namespace UpdateStatisticReport {
   export type Variables = {
-    data?: UpdateStatisticReportInputGraph | null
+    data?: Maybe<UpdateStatisticReportInputGraph>
   }
 
   export type Mutation = {
     __typename?: 'Mutation'
 
-    updateStatisticReport: UpdateStatisticReport | null
+    updateStatisticReport: Maybe<UpdateStatisticReport>
   }
 
   export type UpdateStatisticReport = {
@@ -1713,7 +1829,7 @@ export namespace UpdateStatisticReport {
 
     name: string
 
-    notes: string | null
+    notes: Maybe<string>
 
     statisticId: Guid
   }
@@ -1727,7 +1843,7 @@ export namespace CreateStatistic {
   export type Mutation = {
     __typename?: 'Mutation'
 
-    createStatistic: CreateStatistic | null
+    createStatistic: Maybe<CreateStatistic>
   }
 
   export type CreateStatistic = {
@@ -1737,9 +1853,9 @@ export namespace CreateStatistic {
 
     name: string
 
-    agency: Agency | null
+    agency: Maybe<Agency>
 
-    externalId: string | null
+    externalId: Maybe<string>
 
     rowVersion: string
   }
@@ -1759,7 +1875,7 @@ export namespace UpdateStatistic {
   export type Mutation = {
     __typename?: 'Mutation'
 
-    updateStatistic: UpdateStatistic | null
+    updateStatistic: Maybe<UpdateStatistic>
   }
 
   export type UpdateStatistic = {
@@ -1769,9 +1885,9 @@ export namespace UpdateStatistic {
 
     name: string
 
-    agency: Agency | null
+    agency: Maybe<Agency>
 
-    externalId: string | null
+    externalId: Maybe<string>
 
     rowVersion: string
   }
@@ -1791,7 +1907,7 @@ export namespace DeleteStatisticReport {
   export type Mutation = {
     __typename?: 'Mutation'
 
-    deleteStatisticReport: boolean | null
+    deleteStatisticReport: Maybe<boolean>
   }
 }
 
@@ -1803,19 +1919,19 @@ export namespace DeleteStatistic {
   export type Mutation = {
     __typename?: 'Mutation'
 
-    deleteStatistic: boolean | null
+    deleteStatistic: Maybe<boolean>
   }
 }
 
 export namespace CreateStatisticAccessControl {
   export type Variables = {
-    data?: CreateStatisticAccessControlInputGraph | null
+    data?: Maybe<CreateStatisticAccessControlInputGraph>
   }
 
   export type Mutation = {
     __typename?: 'Mutation'
 
-    createStatisticAccessControl: CreateStatisticAccessControl | null
+    createStatisticAccessControl: Maybe<CreateStatisticAccessControl>
   }
 
   export type CreateStatisticAccessControl = {
@@ -1831,25 +1947,25 @@ export namespace CreateStatisticAccessControl {
 
 export namespace DeleteStatisticAccessControl {
   export type Variables = {
-    data?: DeleteStatisticAccessControlInputGraph | null
+    data?: Maybe<DeleteStatisticAccessControlInputGraph>
   }
 
   export type Mutation = {
     __typename?: 'Mutation'
 
-    deleteStatisticAccessControl: boolean | null
+    deleteStatisticAccessControl: Maybe<boolean>
   }
 }
 
 export namespace UpdateStatisticAccessControl {
   export type Variables = {
-    data?: UpdateStatisticAccessControlInputGraph | null
+    data?: Maybe<UpdateStatisticAccessControlInputGraph>
   }
 
   export type Mutation = {
     __typename?: 'Mutation'
 
-    updateStatisticAccessControl: UpdateStatisticAccessControl | null
+    updateStatisticAccessControl: Maybe<UpdateStatisticAccessControl>
   }
 
   export type UpdateStatisticAccessControl = {
@@ -1869,7 +1985,7 @@ export namespace AllStatistics {
   export type Query = {
     __typename?: 'Query'
 
-    statistics: (Statistics | null)[] | null
+    statistics: Maybe<(Maybe<Statistics>)[]>
   }
 
   export type Statistics = {
@@ -1879,9 +1995,9 @@ export namespace AllStatistics {
 
     name: string
 
-    agency: Agency | null
+    agency: Maybe<Agency>
 
-    statisticReports: (StatisticReports | null)[] | null
+    statisticReports: Maybe<(Maybe<StatisticReports>)[]>
   }
 
   export type Agency = {
@@ -1899,7 +2015,7 @@ export namespace AllStatistics {
 
     name: string
 
-    notes: string | null
+    notes: Maybe<string>
   }
 }
 
@@ -1911,7 +2027,7 @@ export namespace Statistic {
   export type Query = {
     __typename?: 'Query'
 
-    statistic: Statistic | null
+    statistic: Maybe<Statistic>
   }
 
   export type Statistic = {
@@ -1919,17 +2035,17 @@ export namespace Statistic {
 
     id: Guid
 
-    agency: Agency | null
+    agency: Maybe<Agency>
 
-    accessControlList: (AccessControlList | null)[] | null
+    accessControlList: Maybe<(Maybe<AccessControlList>)[]>
 
     name: string
 
-    externalId: string | null
+    externalId: Maybe<string>
 
     rowVersion: string
 
-    statisticReports: (StatisticReports | null)[] | null
+    statisticReports: Maybe<(Maybe<StatisticReports>)[]>
   }
 
   export type Agency = {
@@ -1945,7 +2061,7 @@ export namespace Statistic {
 
     id: Guid
 
-    accessControlEntries: (AccessControlEntries | null)[] | null
+    accessControlEntries: Maybe<(Maybe<AccessControlEntries>)[]>
   }
 
   export type AccessControlEntries = {
@@ -1957,7 +2073,7 @@ export namespace Statistic {
 
     rowVersion: string
 
-    accessControlGroup: AccessControlGroup | null
+    accessControlGroup: Maybe<AccessControlGroup>
   }
 
   export type AccessControlGroup = {
@@ -1975,7 +2091,7 @@ export namespace Statistic {
 
     name: string
 
-    notes: string | null
+    notes: Maybe<string>
   }
 }
 
@@ -1985,7 +2101,7 @@ export namespace AllAgencies {
   export type Query = {
     __typename?: 'Query'
 
-    agencies: (Agencies | null)[] | null
+    agencies: Maybe<(Maybe<Agencies>)[]>
   }
 
   export type Agencies = {
@@ -1993,7 +2109,7 @@ export namespace AllAgencies {
 
     id: Guid
 
-    metadata: string | null
+    metadata: Maybe<string>
 
     title: string
   }
@@ -2001,13 +2117,13 @@ export namespace AllAgencies {
 
 export namespace AllStatisticsSearch {
   export type Variables = {
-    name?: string | null
+    name?: Maybe<string>
   }
 
   export type Query = {
     __typename?: 'Query'
 
-    statistics: (Statistics | null)[] | null
+    statistics: Maybe<(Maybe<Statistics>)[]>
   }
 
   export type Statistics = {
@@ -2017,7 +2133,7 @@ export namespace AllStatisticsSearch {
 
     name: string
 
-    agency: Agency | null
+    agency: Maybe<Agency>
   }
 
   export type Agency = {
@@ -2037,7 +2153,7 @@ export namespace User {
   export type Query = {
     __typename?: 'Query'
 
-    user: User | null
+    user: Maybe<User>
   }
 
   export type User = {
@@ -2047,11 +2163,11 @@ export namespace User {
 
     emailAddress: string
 
-    agency: Agency | null
+    agency: Maybe<Agency>
 
-    apiKeys: (ApiKeys | null)[] | null
+    apiKeys: Maybe<(Maybe<ApiKeys>)[]>
 
-    lastLogin: DateTimeOffset | null
+    lastLogin: Maybe<DateTimeOffset>
 
     rowVersion: string
   }
@@ -2079,13 +2195,13 @@ export namespace User {
 
 export namespace AllUsersSearch {
   export type Variables = {
-    emailAddress?: string | null
+    emailAddress?: Maybe<string>
   }
 
   export type Query = {
     __typename?: 'Query'
 
-    users: (Users | null)[] | null
+    users: Maybe<(Maybe<Users>)[]>
   }
 
   export type Users = {
@@ -2095,7 +2211,7 @@ export namespace AllUsersSearch {
 
     emailAddress: string
 
-    lastLogin: DateTimeOffset | null
+    lastLogin: Maybe<DateTimeOffset>
 
     rowVersion: string
   }
@@ -2187,6 +2303,49 @@ export class DeleteAgencyGQL extends Apollo.Mutation<
 @Injectable({
   providedIn: 'root'
 })
+export class DeleteAgencyMappingGQL extends Apollo.Mutation<
+  DeleteAgencyMapping.Mutation,
+  DeleteAgencyMapping.Variables
+> {
+  document: any = gql`
+    mutation deleteAgencyMapping($data: DeleteAgencyMappingInputGraph!) {
+      deleteAgencyMapping(input: $data)
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdateAgencyMappingGQL extends Apollo.Mutation<
+  UpdateAgencyMapping.Mutation,
+  UpdateAgencyMapping.Variables
+> {
+  document: any = gql`
+    mutation updateAgencyMapping($data: UpdateAgencyMappingInputGraph!) {
+      updateAgencyMapping(input: $data) {
+        id
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class CreateAgencyMappingGQL extends Apollo.Mutation<
+  CreateAgencyMapping.Mutation,
+  CreateAgencyMapping.Variables
+> {
+  document: any = gql`
+    mutation createAgencyMapping($data: CreateAgencyMappingInputGraph!) {
+      createAgencyMapping(input: $data) {
+        id
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
 export class AgencyGQL extends Apollo.Query<Agency.Query, Agency.Variables> {
   document: any = gql`
     query agency($id: String!) {
@@ -2194,11 +2353,44 @@ export class AgencyGQL extends Apollo.Query<Agency.Query, Agency.Variables> {
         id
         title
         metadata
+        rowVersion
         portfolio {
           id
           title
         }
+        agencyMapping {
+          id
+          emailDomain
+          rowVersion
+          accessControlGroup {
+            id
+            title
+          }
+        }
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class GetAgencyMappingGQL extends Apollo.Query<
+  GetAgencyMapping.Query,
+  GetAgencyMapping.Variables
+> {
+  document: any = gql`
+    query GetAgencyMapping($id: String!) {
+      agencyMapping(id: $id) {
+        id
+        emailDomain
         rowVersion
+        agency {
+          id
+        }
+        accessControlGroup {
+          id
+          title
+        }
       }
     }
   `

@@ -22,3 +22,23 @@ mutation updateAgency ($data:UpdateAgencyInputGraph!) {
 mutation deleteAgency($data: DeleteAgencyInputGraph!) {
   deleteAgency(input:$data)
 }
+
+mutation deleteAgencyMapping($data: DeleteAgencyMappingInputGraph!) {
+  deleteAgencyMapping(input:$data)
+}
+
+mutation updateAgencyMapping($data: UpdateAgencyMappingInputGraph!) {
+  updateAgencyMapping(input:$data)
+  {
+    id
+  }
+}
+
+
+mutation createAgencyMapping ($data: CreateAgencyMappingInputGraph!)
+{
+      createAgencyMapping(input: $data)
+      { 
+        id        
+      }
+}

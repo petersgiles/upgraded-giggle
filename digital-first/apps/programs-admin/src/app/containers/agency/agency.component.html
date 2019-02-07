@@ -1,7 +1,7 @@
 <div *ngIf="agency; else loading" class="app-page">
     <section>
       <digital-first-page-title
-        title="Agency - {{ agency.name }}">
+        title="Agency - {{ agency.title }}">
         <digital-first-edit-item-button
           (onEditItem)="handleEditAgency(agency)"
         ></digital-first-edit-item-button>
@@ -11,13 +11,37 @@
       </digital-first-page-title>
   
       <div class="programsadmin-layout__row">
-        <p>{{ agency.title }}</p>
-        <p>{{ agency.metadata }}</p>
-        <p>{{ agency.portfolio.title }}</p>
-        <p>{{ agency.portfolio.metadata  }}</p>
+        <p>Title: {{ agency.title }}</p>
+        <p>Metadata{{ agency.metadata }}</p>
+        <p>Portfolio: {{ agency.portfolio.title }}</p>
       </div>
   
     </section>
+
+    <section>
+        <digital-first-page-title
+        title="Group mapping">
+        <digital-first-add-item-button
+          (onAddItem)="handleAddAgencyMapping(agency)"
+        ></digital-first-add-item-button>
+
+      </digital-first-page-title>
+  
+      <div *ngIf="agency.agencyMapping;"  class="programsadmin-layout__row">
+        <div *ngFor="let agencyMapping of agency.agencyMapping">
+          <p>{{agencyMapping.emailDomain}}</p>
+          <p>{{agencyMapping.accessControlGroup.title}}</p>
+       <digital-first-edit-item-button
+        (onEditItem)="handleEditAgencyMapping(agencyMapping.id)"
+      ></digital-first-edit-item-button><digital-first-delete-item-button
+      (onDeleteItem)="handleDeleteAgencyMapping(agencyMapping.id)"
+    ></digital-first-delete-item-button>
+        </div>
+      </div>
+  
+    </section>
+
+
   </div>
   <ng-template #loading>
     Loading...

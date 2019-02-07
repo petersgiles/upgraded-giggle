@@ -84,6 +84,8 @@ import { AgenciesComponent } from './containers/agencies/agencies.component'
 import { AgencyComponent } from './containers/agency/agency.component'
 import { AgencyAddComponent } from './containers/agency/agency-add/agency-add.component'
 import { AgencyEditComponent } from './containers/agency/agency-edit/agency-edit.component'
+import { AgencyMappingAddComponent } from './containers/agency/agency-mapping-add/agency-mapping-add.component'
+import { AgencyMappingEditComponent } from './containers/agency/agency-mapping-edit/agency-mapping-edit.component'
 
 const COMPONENTS = [AppComponent, HomeComponent]
 
@@ -150,7 +152,9 @@ export function initApplication(): Function {
     AgenciesComponent,
     AgencyComponent,
     AgencyAddComponent,
-    AgencyEditComponent
+    AgencyEditComponent,
+    AgencyMappingAddComponent,
+    AgencyMappingEditComponent
   ],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [
