@@ -42,6 +42,12 @@ export interface CreateAgencyMappingInputGraph {
   accessControlGroupId: Guid
 }
 
+export interface CreateApiKeyInputGraph {
+  userId: Guid
+
+  apiKey?: Maybe<string>
+}
+
 export interface CreateDisplayGroupInputGraph {
   title: string
 
@@ -180,6 +186,10 @@ export interface DeleteAgencyMappingInputGraph {
   id: Guid
 }
 
+export interface DeleteApiKeyInputGraph {
+  id: Guid
+}
+
 export interface DeleteDisplayGroupInputGraph {
   id: Guid
 }
@@ -272,6 +282,14 @@ export interface UpdateAgencyMappingInputGraph {
   emailDomain: string
 
   accessControlGroupId: Guid
+
+  rowVersion: string
+}
+
+export interface UpdateApiKeyInputGraph {
+  id: Guid
+
+  disable: boolean
 
   rowVersion: string
 }
@@ -567,27 +585,55 @@ export namespace UpdateAgency {
   }
 }
 
-export namespace DeleteAgency {
+export namespace GetAgency {
   export type Variables = {
-    data: DeleteAgencyInputGraph
+    id: string
   }
 
-  export type Mutation = {
-    __typename?: 'Mutation'
+  export type Query = {
+    __typename?: 'Query'
 
-    deleteAgency: Maybe<boolean>
+    agency: Maybe<Agency>
+  }
+
+  export type Agency = {
+    __typename?: 'AgencyGraph'
+
+    id: Guid
+
+    title: string
+
+    metadata: Maybe<string>
+
+    rowVersion: string
+
+    portfolio: Maybe<Portfolio>
+  }
+
+  export type Portfolio = {
+    __typename?: 'PortfolioGraph'
+
+    id: Guid
+
+    title: string
   }
 }
 
-export namespace DeleteAgencyMapping {
+export namespace CreateAgencyMapping {
   export type Variables = {
-    data: DeleteAgencyMappingInputGraph
+    data: CreateAgencyMappingInputGraph
   }
 
   export type Mutation = {
     __typename?: 'Mutation'
 
-    deleteAgencyMapping: Maybe<boolean>
+    createAgencyMapping: Maybe<CreateAgencyMapping>
+  }
+
+  export type CreateAgencyMapping = {
+    __typename?: 'AgencyMappingGraph'
+
+    id: Guid
   }
 }
 
@@ -609,21 +655,67 @@ export namespace UpdateAgencyMapping {
   }
 }
 
-export namespace CreateAgencyMapping {
+export namespace GetAgencyMapping {
   export type Variables = {
-    data: CreateAgencyMappingInputGraph
+    id: string
+  }
+
+  export type Query = {
+    __typename?: 'Query'
+
+    agencyMapping: Maybe<AgencyMapping>
+  }
+
+  export type AgencyMapping = {
+    __typename?: 'AgencyMappingGraph'
+
+    id: Guid
+
+    emailDomain: string
+
+    rowVersion: string
+
+    agency: Maybe<Agency>
+
+    accessControlGroup: Maybe<AccessControlGroup>
+  }
+
+  export type Agency = {
+    __typename?: 'AgencyGraph'
+
+    id: Guid
+  }
+
+  export type AccessControlGroup = {
+    __typename?: 'AccessControlGroupGraph'
+
+    id: Guid
+
+    title: string
+  }
+}
+
+export namespace DeleteAgency {
+  export type Variables = {
+    data: DeleteAgencyInputGraph
   }
 
   export type Mutation = {
     __typename?: 'Mutation'
 
-    createAgencyMapping: Maybe<CreateAgencyMapping>
+    deleteAgency: Maybe<boolean>
+  }
+}
+
+export namespace DeleteAgencyMapping {
+  export type Variables = {
+    data: DeleteAgencyMappingInputGraph
   }
 
-  export type CreateAgencyMapping = {
-    __typename?: 'AgencyMappingGraph'
+  export type Mutation = {
+    __typename?: 'Mutation'
 
-    id: Guid
+    deleteAgencyMapping: Maybe<boolean>
   }
 }
 
@@ -672,46 +764,6 @@ export namespace Agency {
     rowVersion: string
 
     accessControlGroup: Maybe<AccessControlGroup>
-  }
-
-  export type AccessControlGroup = {
-    __typename?: 'AccessControlGroupGraph'
-
-    id: Guid
-
-    title: string
-  }
-}
-
-export namespace GetAgencyMapping {
-  export type Variables = {
-    id: string
-  }
-
-  export type Query = {
-    __typename?: 'Query'
-
-    agencyMapping: Maybe<AgencyMapping>
-  }
-
-  export type AgencyMapping = {
-    __typename?: 'AgencyMappingGraph'
-
-    id: Guid
-
-    emailDomain: string
-
-    rowVersion: string
-
-    agency: Maybe<Agency>
-
-    accessControlGroup: Maybe<AccessControlGroup>
-  }
-
-  export type Agency = {
-    __typename?: 'AgencyGraph'
-
-    id: Guid
   }
 
   export type AccessControlGroup = {
@@ -2290,6 +2342,82 @@ export class UpdateAgencyGQL extends Apollo.Mutation<
 @Injectable({
   providedIn: 'root'
 })
+export class GetAgencyGQL extends Apollo.Query<
+  GetAgency.Query,
+  GetAgency.Variables
+> {
+  document: any = gql`
+    query GetAgency($id: String!) {
+      agency(id: $id) {
+        id
+        title
+        metadata
+        rowVersion
+        portfolio {
+          id
+          title
+        }
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class CreateAgencyMappingGQL extends Apollo.Mutation<
+  CreateAgencyMapping.Mutation,
+  CreateAgencyMapping.Variables
+> {
+  document: any = gql`
+    mutation createAgencyMapping($data: CreateAgencyMappingInputGraph!) {
+      createAgencyMapping(input: $data) {
+        id
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdateAgencyMappingGQL extends Apollo.Mutation<
+  UpdateAgencyMapping.Mutation,
+  UpdateAgencyMapping.Variables
+> {
+  document: any = gql`
+    mutation updateAgencyMapping($data: UpdateAgencyMappingInputGraph!) {
+      updateAgencyMapping(input: $data) {
+        id
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class GetAgencyMappingGQL extends Apollo.Query<
+  GetAgencyMapping.Query,
+  GetAgencyMapping.Variables
+> {
+  document: any = gql`
+    query GetAgencyMapping($id: String!) {
+      agencyMapping(id: $id) {
+        id
+        emailDomain
+        rowVersion
+        agency {
+          id
+        }
+        accessControlGroup {
+          id
+          title
+        }
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
 export class DeleteAgencyGQL extends Apollo.Mutation<
   DeleteAgency.Mutation,
   DeleteAgency.Variables
@@ -2316,36 +2444,6 @@ export class DeleteAgencyMappingGQL extends Apollo.Mutation<
 @Injectable({
   providedIn: 'root'
 })
-export class UpdateAgencyMappingGQL extends Apollo.Mutation<
-  UpdateAgencyMapping.Mutation,
-  UpdateAgencyMapping.Variables
-> {
-  document: any = gql`
-    mutation updateAgencyMapping($data: UpdateAgencyMappingInputGraph!) {
-      updateAgencyMapping(input: $data) {
-        id
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class CreateAgencyMappingGQL extends Apollo.Mutation<
-  CreateAgencyMapping.Mutation,
-  CreateAgencyMapping.Variables
-> {
-  document: any = gql`
-    mutation createAgencyMapping($data: CreateAgencyMappingInputGraph!) {
-      createAgencyMapping(input: $data) {
-        id
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
 export class AgencyGQL extends Apollo.Query<Agency.Query, Agency.Variables> {
   document: any = gql`
     query agency($id: String!) {
@@ -2366,30 +2464,6 @@ export class AgencyGQL extends Apollo.Query<Agency.Query, Agency.Variables> {
             id
             title
           }
-        }
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class GetAgencyMappingGQL extends Apollo.Query<
-  GetAgencyMapping.Query,
-  GetAgencyMapping.Variables
-> {
-  document: any = gql`
-    query GetAgencyMapping($id: String!) {
-      agencyMapping(id: $id) {
-        id
-        emailDomain
-        rowVersion
-        agency {
-          id
-        }
-        accessControlGroup {
-          id
-          title
         }
       }
     }

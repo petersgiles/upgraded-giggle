@@ -12,7 +12,7 @@
   
       <div class="programsadmin-layout__row">
         <p>Title: {{ agency.title }}</p>
-        <p>Metadata{{ agency.metadata }}</p>
+        <p>Metadata: {{ agency.metadata }}</p>
         <p>Portfolio: {{ agency.portfolio.title }}</p>
       </div>
   
@@ -29,8 +29,8 @@
   
       <div *ngIf="agency.agencyMapping;"  class="programsadmin-layout__row">
         <div *ngFor="let agencyMapping of agency.agencyMapping">
-          <p>{{agencyMapping.emailDomain}}</p>
-          <p>{{agencyMapping.accessControlGroup.title}}</p>
+          <p>Email domain: {{agencyMapping.emailDomain}}</p>
+          <p>Group: {{agencyMapping.accessControlGroup.title}}</p>
        <digital-first-edit-item-button
         (onEditItem)="handleEditAgencyMapping(agencyMapping.id)"
       ></digital-first-edit-item-button><digital-first-delete-item-button

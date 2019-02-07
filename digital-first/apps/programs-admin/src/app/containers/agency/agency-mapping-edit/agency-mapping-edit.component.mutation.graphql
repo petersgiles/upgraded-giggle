@@ -1,0 +1,7 @@
+mutation updateAgencyMapping($data: UpdateAgencyMappingInputGraph!) {
+  updateAgencyMapping(input:$data)
+  {
+    id
+  }
+}
+

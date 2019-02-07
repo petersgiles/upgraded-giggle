@@ -24,24 +24,6 @@ query agency ($id: String!) {
    }
 }
 
-query GetAgencyMapping ($id: String!)
-{
-    agencyMapping(id: $id)
-    {
-        id, 
-        emailDomain, 
-        rowVersion, 
-        agency 
-        {
-            id
-        }
-        accessControlGroup {
-            id 
-            title
-        }            
-    }
-}
-
 query portfolios
 {
   portfolios{

@@ -1,0 +1,15 @@
+query GetAgency ($id: String!) {
+  agency(id: $id)
+  {
+    id
+    title
+    metadata
+    rowVersion
+    
+    portfolio {
+        id
+        title
+    }
+    
+  }
+}

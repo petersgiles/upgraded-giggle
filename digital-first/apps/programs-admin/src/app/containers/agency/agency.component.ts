@@ -32,7 +32,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
 
 loadAgency(): void {
   this.agencySubscription$ = this.agencyGQL
-  .watch({id: this.agencyId}, {fetchPolicy: 'no-cache'})
+  .watch({id: this.agencyId}, {fetchPolicy: 'network-only'})
   .valueChanges.pipe(map(value => value.data.agency))
   .subscribe(agency => {
     this.agency = agency

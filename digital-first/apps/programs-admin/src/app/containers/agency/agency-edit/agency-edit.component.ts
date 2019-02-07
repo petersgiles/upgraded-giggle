@@ -4,7 +4,7 @@ import {
   AllPortfoliosGQL,
   UpdateAgencyGQL,
   Agency,
-  AgencyGQL,
+  GetAgencyGQL,
   AllPortfolios
 } from '../../../generated/graphql'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -31,7 +31,7 @@ export class AgencyEditComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private allPortfoliosGQL: AllPortfoliosGQL,
-    private agencyGQL: AgencyGQL,
+    private agencyGQL: GetAgencyGQL,
     private updateAgencyGQL: UpdateAgencyGQL,
     private router: Router,
     private route: ActivatedRoute
