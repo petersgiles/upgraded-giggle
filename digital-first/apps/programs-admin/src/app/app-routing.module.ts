@@ -38,6 +38,11 @@ import {
   ErrorPageNotFoundComponent,
   ErrorServerComponent
 } from '@digital-first/df-pages'
+import { AgencyComponent } from './containers/agency/agency.component'
+import { AgencyEditComponent } from './containers/agency/agency-edit/agency-edit.component'
+import { AgencyAddComponent } from './containers/agency/agency-add/agency-add.component'
+import { AgencyMappingAddComponent } from './containers/agency/agency-mapping-add/agency-mapping-add.component'
+import { AgencyMappingEditComponent } from './containers/agency/agency-mapping-edit/agency-mapping-edit.component'
 
 export const routes: Routes = [
   {
@@ -64,6 +69,46 @@ export const routes: Routes = [
           title: 'Agencies',
           icon: 'text_rotation_none',
           nav: true
+        }
+      },
+      {
+        path: 'agencies/add',
+        component: AgencyAddComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+      {
+        path: 'agencies/:id',
+        component: AgencyComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+      {
+        path: 'agencies/edit/:id',
+        component: AgencyEditComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+      {
+        path: 'agencymapping/add/:agencyId',
+        component: AgencyMappingAddComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+      {
+        path: 'agencymapping/edit/:agencyMappingId',
+        component: AgencyMappingEditComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
         }
       },
       {

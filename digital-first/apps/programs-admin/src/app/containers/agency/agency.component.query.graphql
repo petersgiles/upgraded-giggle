@@ -1,0 +1,33 @@
+query agency ($id: String!) {
+  agency(id: $id)
+  {
+    id
+    title
+    metadata
+    rowVersion
+    
+    portfolio {
+        id
+        title
+    }
+    
+    agencyMapping {
+        id
+        emailDomain
+        rowVersion
+        accessControlGroup{
+                id 
+                title
+        }
+    }
+
+   }
+}
+
+query portfolios
+{
+  portfolios{
+      id 
+      title
+  }
+}

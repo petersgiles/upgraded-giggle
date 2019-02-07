@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core'
 import {FormBuilder, Validators} from '@angular/forms'
 import {CreateAccessControlGroupGQL} from '../../../generated/graphql'
 import {Router} from '@angular/router'
+import {formConstants} from '../../../form-constants'
 
 @Component({
   selector: 'digital-first-group-add',
@@ -11,10 +12,9 @@ import {Router} from '@angular/router'
 export class GroupAddComponent implements OnInit {
 
   addGroupForm = this.formBuilder.group({
-    groupName: [null, [Validators.required, Validators.maxLength(450)]
+    groupName: [null, [Validators.required, Validators.maxLength(formConstants.nameMaxLength)]
                ]
   })
-
 
  constructor(private formBuilder: FormBuilder,
               private createAccessControlGroupGql: CreateAccessControlGroupGQL,

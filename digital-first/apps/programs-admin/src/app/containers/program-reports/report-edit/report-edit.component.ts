@@ -2,9 +2,9 @@ import {Component, OnDestroy, OnInit} from '@angular/core'
 import {FormBuilder, Validators} from '@angular/forms'
 import {ActivatedRoute, Router} from '@angular/router'
 import {Subscription} from 'rxjs'
-import {Report, ReportGQL, UpdateReportGQL, UpdateStatisticReportGQL} from '../../../generated/graphql'
+import {Report, ReportGQL, UpdateReportGQL} from '../../../generated/graphql'
 import {map} from 'rxjs/operators'
-
+import {formConstants} from '../../../form-constants'
 @Component({
   selector: 'digital-first-report-edit',
   templateUrl: './report-edit.component.html',
@@ -16,7 +16,7 @@ export class ReportEditComponent implements OnInit, OnDestroy {
   private reportId: string
 
   editReportForm = this.formBuilder.group({
-    reportName: [null, [Validators.required, Validators.maxLength(450)]],
+    reportName: [null, [Validators.required, Validators.maxLength(formConstants.nameMaxLength)]],
     notes: ['']
   })
   private report: Report.Reports

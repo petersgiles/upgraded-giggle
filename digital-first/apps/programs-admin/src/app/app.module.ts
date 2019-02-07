@@ -79,8 +79,13 @@ import {ReportEditComponent} from './containers/program-reports/report-edit/repo
 import {ProjectsComponent} from './containers/projects/projects.component'
 import {DataTableComponent, DfDatatableModule} from '@digital-first/df-datatable'
 import {DfButtonsModule} from '@digital-first/df-buttons'
-import {DfRefinerModule} from '@digital-first/df-refiner';
+import {DfRefinerModule} from '@digital-first/df-refiner'
 import { AgenciesComponent } from './containers/agencies/agencies.component'
+import { AgencyComponent } from './containers/agency/agency.component'
+import { AgencyAddComponent } from './containers/agency/agency-add/agency-add.component'
+import { AgencyEditComponent } from './containers/agency/agency-edit/agency-edit.component'
+import { AgencyMappingAddComponent } from './containers/agency/agency-mapping-add/agency-mapping-add.component'
+import { AgencyMappingEditComponent } from './containers/agency/agency-mapping-edit/agency-mapping-edit.component'
 
 const COMPONENTS = [AppComponent, HomeComponent]
 
@@ -144,7 +149,12 @@ export function initApplication(): Function {
     ProjectComponent,
     ProjectAddComponent,
     ProjectEditComponent,
-    AgenciesComponent
+    AgenciesComponent,
+    AgencyComponent,
+    AgencyAddComponent,
+    AgencyEditComponent,
+    AgencyMappingAddComponent,
+    AgencyMappingEditComponent
   ],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [
@@ -186,7 +196,8 @@ export function initApplication(): Function {
     },
     {provide: FullLayoutService, useClass: AppFullLayoutService}
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: [AgencyComponent, AgencyAddComponent]
 })
 export class AppModule {
 }
