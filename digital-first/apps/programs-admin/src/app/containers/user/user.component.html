@@ -4,8 +4,21 @@
   <div class="programsadmin-layout__row">
     <p>{{ user.agency.title }}</p>
   </div>
-  <!--TODO:  display user information and groups that they belong to-->
+
+  <digital-first-user-program-access
+    [artifactId]="userId"
+    [tableData]="programAccessRows"
+  >
+  </digital-first-user-program-access>
+
+  <digital-first-user-report-access
+    [artifactId]="userId"
+    [tableData]="reportAccessRows"
+  >
+  </digital-first-user-report-access>
+
   <digital-first-page-title title="Debug"></digital-first-page-title>
+
   <pre>{{ user | json }}</pre>
 </div>
 <ng-template #loading>

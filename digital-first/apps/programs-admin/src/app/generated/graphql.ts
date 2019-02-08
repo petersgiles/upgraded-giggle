@@ -2271,6 +2271,10 @@ export namespace User {
 
     groupName: Maybe<string>
 
+    name: string
+
+    parentName: Maybe<string>
+
     hasAccessToParent: Maybe<boolean>
   }
 
@@ -3590,6 +3594,8 @@ export class UserGQL extends Apollo.Query<User.Query, User.Variables> {
         reportAccess {
           id
           groupName
+          name
+          parentName
           hasAccessToParent
         }
         statisticAccess {
