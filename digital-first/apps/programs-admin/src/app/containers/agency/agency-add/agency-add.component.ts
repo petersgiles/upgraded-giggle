@@ -45,5 +45,7 @@ export class AgencyAddComponent implements OnInit {
       }, {}).subscribe(({data}) =>
         this.router.navigate(['agencies', data.createAgency.id]))
     }
-
+    cancel() {
+      return this.router.navigate(['agencies'])
+    }
 }
