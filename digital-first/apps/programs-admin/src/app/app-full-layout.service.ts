@@ -27,7 +27,7 @@ export class AppFullLayoutService {
   }
 
   get version(): string {
-    return environment.version
+    return `V ${environment.version} - '${environment.commitHash}'`
   }
 
   get title(): string {
