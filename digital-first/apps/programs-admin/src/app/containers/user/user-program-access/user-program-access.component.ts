@@ -8,7 +8,7 @@ import { Maybe, User } from '../../../generated/graphql'
   styleUrls: ['./user-program-access.component.scss']
 })
 export class UserProgramAccessComponent implements OnInit {
-  private programAccessRows: Maybe<Maybe<User.ProgramAccess>[]>
+  programAccessRows: Maybe<Maybe<User.ProgramAccess>[]>
 
   programAccessConfig: DataTableConfig = {
     title: 'Users',

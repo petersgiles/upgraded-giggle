@@ -19,7 +19,7 @@ export class UserReportAccessComponent implements OnInit {
     rows: [{ id: '', cells: [] }]
   }
 
-  private reportAccessRows: Maybe<Maybe<User.ReportAccess>[]>
+  reportAccessRows: Maybe<Maybe<User.ReportAccess>[]>
 
   @Input() artifactId: string
 
