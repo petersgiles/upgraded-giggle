@@ -1,1 +1,7 @@
-query Agencies()
+query SelectAgencies
+    {
+        agencies{
+            id
+            title
+        }
+    }
