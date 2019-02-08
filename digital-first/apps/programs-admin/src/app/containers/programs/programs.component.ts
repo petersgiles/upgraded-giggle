@@ -1,7 +1,15 @@
-import {Component, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy} from '@angular/core'
-import {AllProgramsSearch, AllProgramsSearchGQL} from '../../generated/graphql'
-import {Subscription} from 'rxjs'
-import {Router} from '@angular/router'
+import {
+  Component,
+  OnDestroy,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy
+} from '@angular/core'
+import {
+  AllProgramsSearch,
+  AllProgramsSearchGQL
+} from '../../generated/graphql'
+import { Subscription } from 'rxjs'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'digital-first-programs',
@@ -10,15 +18,15 @@ import {Router} from '@angular/router'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProgramsComponent implements OnDestroy {
-
-  programs:  AllProgramsSearch.Programs[]
+  programs: AllProgramsSearch.Programs[]
   subscriptions$: Subscription[] = []
   searchText = ''
 
-  constructor(private searchProgramsGQL: AllProgramsSearchGQL,
-              private changeDetector: ChangeDetectorRef,
-              private router: Router) {
-  }
+  constructor(
+    private searchProgramsGQL: AllProgramsSearchGQL,
+    private changeDetector: ChangeDetectorRef,
+    private router: Router
+  ) {}
 
   add() {
     return this.router.navigate(['programs', 'add'])
@@ -30,7 +38,13 @@ export class ProgramsComponent implements OnDestroy {
     }
 
     const searchSubscription$ = this.searchProgramsGQL
-      .watch({name: this.searchText}, {fetchPolicy: 'no-cache'})
+      .watch(
+        { name: this.searchText },
+        {
+          fetchPolicy: 'no-cache',
+          context: { debounceKey: 'programs', debounceTimeout: 400 }
+        }
+      )
       .valueChanges.subscribe(value => {
         this.programs = value.data.programs
         this.changeDetector.detectChanges()

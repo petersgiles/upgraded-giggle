@@ -1,9 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
-@import "../../../libs/df-theme/styles.scss";
+@import '../../../libs/df-theme/styles.scss';
 
 .programsadmin-layout__row {
-  margin-top: .3em;
-  margin-bottom: .3em;
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
   display: flex;
   flex-direction: column;
 }
@@ -21,16 +21,16 @@ p {
 }
 
 .form-layout__row {
-  margin-top: 1.0em;
-  margin-bottom: 1.0em;
+  margin-top: 1em;
+  margin-bottom: 1em;
   display: flex;
   flex-flow: row wrap;
 
   .mdc-text-field,
   .mdc-select {
     flex-grow: 1;
-    margin-left: .3em;
-    margin-right: .3em;
+    margin-left: 0.3em;
+    margin-right: 0.3em;
   }
 }
 
@@ -46,4 +46,21 @@ p {
 .form-content {
   margin: 15px;
   border: none;
+}
+
+.field-name {
+  width: 75px;
+  margin: 25px;
+  font-weight: 200;
+  color: #fff;
+  background-color: #515459;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  text-align: right;
+  // margin-right: 20px
+}
+
+.app-layout-title-version {
+  padding-right: 8px;
+  font-size: smaller;
 }

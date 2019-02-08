@@ -76,10 +76,7 @@ export class ReportuploadComponent implements OnInit, OnDestroy {
         reader.readAsDataURL(this.fileToUpload)
 
         reader.onload = () => {
-          this.reportForm.patchValue({ filename: this.fileToUpload.name })
-          this.reportForm.patchValue({
-            file: this.fileToUpload
-          })
+          this.reportForm.patchValue({ file: this.fileToUpload })
         }
       }
     }
@@ -93,8 +90,9 @@ export class ReportuploadComponent implements OnInit, OnDestroy {
     message.reportId = this.reportForm.value['reportId']
     message.dataDate = new Date(this.reportForm.value['dataDate'])
     message.notes = this.reportForm.value['notes']
+    message.fileName = this.fileToUpload.name
 
-    formData.append('file', this.reportForm.value['file'])
+    formData.append('file', this.reportForm.value['file'], 'default')
     formData.append('message', JSON.stringify(message))
 
     this.passthrough

@@ -1,27 +1,33 @@
-import {Injectable} from '@angular/core'
-import {environment} from '../environments/environment'
-import {of, Observable} from 'rxjs'
-import {SideBarItem, AppUserProfile} from '@digital-first/df-layouts'
-import {routes} from './app-routing.module'
+import { Injectable } from '@angular/core'
+import { environment } from '../environments/environment'
+import { of, Observable, BehaviorSubject } from 'rxjs'
+import { SideBarItem, AppUserProfile } from '@digital-first/df-layouts'
+import { routes } from './app-routing.module'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppFullLayoutService {
-  private readonly sidebarRoutes: { caption: string; icon: string; routerLink: string[] }[]
+  private readonly sidebarRoutes: {
+    caption: string
+    icon: string
+    routerLink: string[]
+  }[]
+
+  appdrawerOpen: BehaviorSubject<boolean> = new BehaviorSubject(true)
 
   constructor() {
-
-    this.sidebarRoutes = routes[1].children.filter(r => r.data && r.data.nav).map(r => ({
-      caption: r.data.title,
-      icon: r.data.icon,
-      routerLink: [`/${r.path}`]
-    }))
-
+    this.sidebarRoutes = routes[0].children
+      .filter(r => r.data && r.data.nav)
+      .map(r => ({
+        caption: r.data.title,
+        icon: r.data.icon,
+        routerLink: [`/${r.path}`]
+      }))
   }
 
   get version(): string {
-    return environment.version
+    return `V ${environment.version} - '${environment.commitHash}'`
   }
 
   get title(): string {
@@ -45,15 +51,14 @@ export class AppFullLayoutService {
   }
 
   get drawOpen$(): Observable<boolean> {
-    return of(true) // TODO: set up state for these
+    return this.appdrawerOpen.asObservable()
   }
 
   get drawerStyle(): 'permanent' | 'dismissible' | 'modal' {
-    return 'dismissible'
+    return 'permanent'
   }
 
   setDrawState(appdrawerOpen: any): any {
-    return of(true) // TODO: set up state for these
+    this.appdrawerOpen.next(appdrawerOpen)
   }
-
 }

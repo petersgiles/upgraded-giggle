@@ -3,6 +3,7 @@ import {FormBuilder, Validators} from '@angular/forms'
 import {ActivatedRoute, Router} from '@angular/router'
 import {Location} from '@angular/common'
 import {CreateReportGQL} from '../../../generated/graphql'
+import {formConstants} from '../../../form-constants'
 
 @Component({
   selector: 'digital-first-report-add',
@@ -12,7 +13,7 @@ import {CreateReportGQL} from '../../../generated/graphql'
 export class ReportAddComponent implements OnInit {
 
   addReportForm = this.formBuilder.group({
-    reportName: [null, [Validators.required, Validators.maxLength(450)]],
+    reportName: [null, [Validators.required, Validators.maxLength(formConstants.nameMaxLength)]],
     notes: ['']
   })
 

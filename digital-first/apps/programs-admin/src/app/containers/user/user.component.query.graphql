@@ -1,19 +1,43 @@
-query user ($userId: String!) {
-  user(id:$userId)
-  {
+query user($userId: String!) {
+  user(id: $userId) {
     id
     emailAddress
-    agency{
+    lastLogin
+    agency {
       id
       title
     }
-    apiKeys{
+    apiKeys {
       id
       key
       rowVersion
       disable
     }
-    lastLogin
-    rowVersion
+    programAccess {
+      id
+      name
+      groupId
+      groupName
+      accessRights
+    }
+    reportAccess {
+      id
+      groupName
+      name
+      parentName
+      hasAccessToParent
+    }
+    statisticAccess {
+      id
+      groupName
+      hasAccessToParent
+    }
+    statisticReportAccess {
+      name
+      parentName
+      hasAccessToParent
+      groupName
+      accessRights
+    }
   }
 }

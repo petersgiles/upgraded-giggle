@@ -58,7 +58,6 @@ export class ProjectuploadComponent implements OnInit, OnDestroy {
         reader.readAsDataURL(this.fileToUpload)
 
         reader.onload = () => {
-          this.projectForm.patchValue({ filename: this.fileToUpload.name })
           this.projectForm.patchValue({ file: this.fileToUpload })
         }
       }
@@ -70,9 +69,11 @@ export class ProjectuploadComponent implements OnInit, OnDestroy {
     const message = new UploadProjectElectorateReport()
 
     message.programId = this.projectForm.value['programId']
+    message.fileName = this.fileToUpload.name
 
     const formData = new FormData()
-    formData.append('file', this.projectForm.value['file'])
+    formData.append('file', this.projectForm.value['file'], 'default')
+
     formData.append('message', JSON.stringify(message))
 
     this.passthrough

@@ -24,7 +24,8 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
     statisticReportId: [undefined, Validators.required],
     notes: [''],
     dataDate: ['', Validators.required],
-    file: [null, Validators.required]
+    file: [null, Validators.required],
+    filename: ['']
   })
 
   constructor(
@@ -73,10 +74,7 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
         reader.readAsDataURL(this.fileToUpload)
 
         reader.onload = () => {
-          this.statisticForm.patchValue({ filename: this.fileToUpload.name })
-          this.statisticForm.patchValue({
-            file: this.fileToUpload
-          })
+          this.statisticForm.patchValue({ file: this.fileToUpload })
         }
       }
     }
@@ -90,8 +88,9 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
     message.statisticReportId = this.statisticForm.value['statisticReportId']
     message.dataDate = new Date(this.statisticForm.value['dataDate'])
     message.notes = this.statisticForm.value['notes']
+    message.fileName = this.statisticForm.value['filename']
 
-    formData.append('file', this.statisticForm.value['file'])
+    formData.append('file', this.statisticForm.value['file'], 'default')
     formData.append('message', JSON.stringify(message))
 
     this.passthrough

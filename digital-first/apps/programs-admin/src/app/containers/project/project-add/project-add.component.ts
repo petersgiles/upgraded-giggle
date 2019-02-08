@@ -4,6 +4,7 @@ import {AllProgramsGQL, CreateProjectGQL, AllPrograms} from '../../../generated/
 import {Subscription} from 'rxjs'
 import {map} from 'rxjs/operators'
 import {Router} from '@angular/router'
+import {formConstants} from '../../../form-constants'
 
 @Component({
   selector: 'digital-first-project-add',
@@ -12,12 +13,12 @@ import {Router} from '@angular/router'
 })
 export class ProjectAddComponent implements OnInit, OnDestroy {
 
-  programsSubscription$ : Subscription
-  programs : AllPrograms.Programs[]
+  programsSubscription$: Subscription
+  programs: AllPrograms.Programs[]
 
   addProjectForm = this.formBuilder.group({
     programId: [undefined, Validators.required],
-    projectName: [null, [Validators.required, Validators.maxLength(450)]],
+    projectName: [null, [Validators.required, Validators.maxLength(formConstants.nameMaxLength)]],
     externalId: [null],
     notes: ['']
   })
