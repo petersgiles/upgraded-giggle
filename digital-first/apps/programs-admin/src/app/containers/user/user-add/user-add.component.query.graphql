@@ -1,0 +1,41 @@
+query user($userId: String!) {
+  user(id: $userId) {
+    id
+    emailAddress
+    lastLogin
+    agency {
+      id
+      title
+    }
+    apiKeys {
+      id
+      key
+      rowVersion
+      disable
+    }
+    programAccess {
+      id
+      name
+      groupId
+      groupName
+      accessRights
+    }
+    reportAccess {
+      id
+      groupName
+      hasAccessToParent
+    }
+    statisticAccess {
+      id
+      groupName
+      hasAccessToParent
+    }
+    statisticReportAccess {
+      name
+      parentName
+      hasAccessToParent
+      groupName
+      accessRights
+    }
+  }
+}
