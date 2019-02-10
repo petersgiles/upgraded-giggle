@@ -11,8 +11,8 @@
   </p>
   <p>
     This <strong>{{ commitment.commitmentType?.title }}</strong> commitment was
-    announced through a <strong>{{ commitment.announcementType?.title }}</strong
-    >.
+    announced through a <strong>{{ commitment.announcementType?.title }}</strong>
+    <ng-container *ngIf="commitment?.cost"> with a party funding commitment of <strong>{{commitment.cost}} million</strong> dollars</ng-container>.
   </p>
   <p>
     Critical date: <strong> {{ commitment.criticalDate?.title }}</strong>

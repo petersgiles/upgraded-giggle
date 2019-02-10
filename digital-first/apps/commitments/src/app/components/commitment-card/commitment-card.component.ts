@@ -19,26 +19,6 @@ export class CommitmentCardComponent implements OnInit {
   ngOnInit() {
   }
 
-  getCommitmentSummary(cc: Commitment) :string {
-    return "Announced " +
-      (cc.announcedby ? ` by <strong>${cc.announcedby}</strong>`: '') +
-      (cc.date ? ` on <strong>${this.dateTime.transform(cc.date, 'LL')}</strong> `: '') +
-      " for " +
-      (cc.party ? `<strong>${cc.party.title}</strong>` : '') +
-      " as a " +
-      (cc.announcementType ? `<strong>${cc.announcementType.title}</strong>` : '') +
-      (cc.whoAnnouncedType ? ` by <strong>${cc.whoAnnouncedType.title}</strong>` : '') +
-     ( cc.criticalDate ? ` to be delivered by <strong>${cc.criticalDate.title}</strong>` : '')
-
-  }
-
-  getCommitmentCostSummary(cc: Commitment): string {
-    return  'This is a ' +
-    (cc.commitmentType ? `<strong>${cc.commitmentType.title}</strong> ` : '') +
-    ' commitment ' +
-    (cc.cost ? `with a party funding commitment of <strong> ${cc.cost} million</strong> dollars` : '')
-  }
-
   getPartyStyle(item) {
     const style = {}
 
