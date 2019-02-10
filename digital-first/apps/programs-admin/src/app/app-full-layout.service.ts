@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { environment } from '../environments/environment'
-import { of, Observable } from 'rxjs'
+import { of, Observable, BehaviorSubject } from 'rxjs'
 import { SideBarItem, AppUserProfile } from '@digital-first/df-layouts'
 import { routes } from './app-routing.module'
 
@@ -14,6 +14,8 @@ export class AppFullLayoutService {
     routerLink: string[]
   }[]
 
+  appdrawerOpen: BehaviorSubject<boolean> = new BehaviorSubject(true)
+
   constructor() {
     this.sidebarRoutes = routes[0].children
       .filter(r => r.data && r.data.nav)
@@ -25,7 +27,7 @@ export class AppFullLayoutService {
   }
 
   get version(): string {
-    return environment.version
+    return `V ${environment.version} - '${environment.commitHash}'`
   }
 
   get title(): string {
@@ -49,14 +51,14 @@ export class AppFullLayoutService {
   }
 
   get drawOpen$(): Observable<boolean> {
-    return of(true) // TODO: set up state for these
+    return this.appdrawerOpen.asObservable()
   }
 
   get drawerStyle(): 'permanent' | 'dismissible' | 'modal' {
-    return 'dismissible'
+    return 'permanent'
   }
 
   setDrawState(appdrawerOpen: any): any {
-    return of(true) // TODO: set up state for these
+    this.appdrawerOpen.next(appdrawerOpen)
   }
 }

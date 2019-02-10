@@ -1,7 +1,15 @@
-import {Component, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy} from '@angular/core'
-import {AllStatisticsSearch, AllStatisticsSearchGQL} from '../../generated/graphql'
-import {Router} from '@angular/router'
-import {Subscription} from 'rxjs'
+import {
+  Component,
+  OnDestroy,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy
+} from '@angular/core'
+import {
+  AllStatisticsSearch,
+  AllStatisticsSearchGQL
+} from '../../generated/graphql'
+import { Router } from '@angular/router'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'digital-first-statistics',
@@ -10,15 +18,15 @@ import {Subscription} from 'rxjs'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StatisticsComponent implements OnDestroy {
-
   statistics: AllStatisticsSearch.Statistics[]
   subscriptions$: Subscription[] = []
   searchText = ''
 
-  constructor(private searchStatisticsGQL: AllStatisticsSearchGQL,
-              private changeDetector: ChangeDetectorRef,
-              private router: Router) {
-  }
+  constructor(
+    private searchStatisticsGQL: AllStatisticsSearchGQL,
+    private changeDetector: ChangeDetectorRef,
+    private router: Router
+  ) {}
 
   doSearch() {
     if (!this.searchText) {
@@ -26,7 +34,13 @@ export class StatisticsComponent implements OnDestroy {
     }
 
     const searchSubscription$ = this.searchStatisticsGQL
-      .watch({name: this.searchText}, {fetchPolicy: 'no-cache'})
+      .watch(
+        { name: this.searchText },
+        {
+          fetchPolicy: 'no-cache',
+          context: { debounceKey: 'statistics', debounceTimeout: 400 }
+        }
+      )
       .valueChanges.subscribe(value => {
         this.statistics = value.data.statistics
         this.changeDetector.detectChanges()

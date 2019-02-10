@@ -23,6 +23,8 @@ query user($userId: String!) {
     reportAccess {
       id
       groupName
+      name
+      parentName
       hasAccessToParent
     }
     statisticAccess {

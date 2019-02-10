@@ -7,6 +7,7 @@ export const environment = {
   production: false,
   redirectErrors: false,
   version: packageJson.version,
+  commitHash: packageJson['commit-hash'],
   datasource: {
     type: 'local',
     dataServiceUrl: 'https://localhost:52629/graphql',

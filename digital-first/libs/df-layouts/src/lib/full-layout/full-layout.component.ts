@@ -2,7 +2,11 @@ import { Component, OnInit, OnDestroy, NgZone, ViewChild } from '@angular/core'
 import { Subject, Observable, Subscription, of } from 'rxjs'
 import { Router, NavigationEnd } from '@angular/router'
 import { takeUntil, filter, delay, tap, concatMap } from 'rxjs/operators'
-import { FullLayoutService, AppUserProfile, SideBarItem } from './full-layout.service'
+import {
+  FullLayoutService,
+  AppUserProfile,
+  SideBarItem
+} from './full-layout.service'
 import { MdcTopAppBar } from '@angular-mdc/web'
 
 const SMALL_WIDTH_BREAKPOINT = 1240
@@ -33,7 +37,7 @@ export class FullLayoutComponent implements OnInit, OnDestroy {
     private router: Router,
     private ngZone: NgZone,
     private service: FullLayoutService
-  ) { }
+  ) {}
 
   isScreenSmall(): boolean {
     return this.matcher.matches
@@ -55,28 +59,42 @@ export class FullLayoutComponent implements OnInit, OnDestroy {
     this.service.setDrawState(appdrawerOpen)
   }
 
-  ngOnInit() {
+  handleOpened($event: void) {
+    this.service.setDrawState(true)
+  }
 
+  handleClosed($event: void) {
+    this.service.setDrawState(false)
+  }
+
+  ngOnInit() {
     this.matcher = matchMedia(`(max-width: ${SMALL_WIDTH_BREAKPOINT}px)`)
-    this.matcher.addListener((event: MediaQueryListEvent) => this.ngZone.run(() => event.matches))
+    this.matcher.addListener((event: MediaQueryListEvent) =>
+      this.ngZone.run(() => event.matches)
+    )
 
     this.router.events
-      .pipe(takeUntil(this._destroy),
-        filter(event => event instanceof NavigationEnd))
-      .subscribe(_ => { })
+      .pipe(
+        takeUntil(this._destroy),
+        filter(event => event instanceof NavigationEnd)
+      )
+      .subscribe(_ => {})
 
     this.service.profile.subscribe(p => {
       this._profile = p
     })
 
-    this.drawOpenSubscription$ = this.service.drawOpen$.subscribe(p => this.drawOpen = p)
+    this.drawOpenSubscription$ = this.service.drawOpen$.subscribe(
+      p => (this.drawOpen = p)
+    )
     this.sidebarItems$ = this.service.sidebarItems$
-    this.notification$ = this.service.notification$
-      .pipe(
-        concatMap(result => result ? of(result.message) : of(null).pipe(delay(2750))),
-        // tslint:disable-next-line:no-console
-        tap(result => console.log(result)),
-      )
+    this.notification$ = this.service.notification$.pipe(
+      concatMap(result =>
+        result ? of(result.message) : of(null).pipe(delay(2750))
+      ),
+      // tslint:disable-next-line:no-console
+      tap(result => console.log(result))
+    )
 
     this.open$ = this.service.open$
   }

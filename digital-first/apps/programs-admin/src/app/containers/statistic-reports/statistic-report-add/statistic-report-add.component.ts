@@ -3,6 +3,7 @@ import {FormBuilder, Validators} from '@angular/forms'
 import {ActivatedRoute, Router} from '@angular/router'
 import {Location} from '@angular/common'
 import {CreateStatisticReportGQL} from '../../../generated/graphql'
+import {formConstants} from '../../../form-constants'
 
 @Component({
   selector: 'digital-first-statistic-report-add',
@@ -12,7 +13,7 @@ import {CreateStatisticReportGQL} from '../../../generated/graphql'
 export class StatisticReportAddComponent implements OnInit {
 
   addStatisticReportForm = this.formBuilder.group({
-    reportName: [null, [Validators.required, Validators.maxLength(450)]],
+    reportName: [null, [Validators.required, Validators.maxLength(formConstants.nameMaxLength)]],
     notes: ['']
   })
 

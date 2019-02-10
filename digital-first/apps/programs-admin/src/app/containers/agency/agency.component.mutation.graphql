@@ -1,0 +1,9 @@
+
+mutation deleteAgency($data: DeleteAgencyInputGraph!) {
+  deleteAgency(input:$data)
+}
+
+mutation deleteAgencyMapping($data: DeleteAgencyMappingInputGraph!) {
+  deleteAgencyMapping(input:$data)
+}
+
