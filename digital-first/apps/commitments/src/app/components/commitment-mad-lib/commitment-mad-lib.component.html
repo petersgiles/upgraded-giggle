@@ -9,17 +9,32 @@
     <strong>{{ commitment.party?.title }}</strong> on
     <strong>{{ commitment.date | amDateFormat: 'LL' }}</strong>
   </p>
+
   <p>
-    This <strong>{{ commitment.commitmentType?.title }}</strong> commitment was
-    announced through a <strong>{{ commitment.announcementType?.title }}</strong>
-    <ng-container *ngIf="commitment?.cost"> with a party funding commitment of <strong>{{commitment.cost}} million</strong> dollars</ng-container>.
+    This is a(n)
+    <strong>{{ commitment.commitmentType?.title }}</strong> commitment
+    <ng-container *ngIf="!commitment?.cost">
+      has <strong>no</strong> committed party funding</ng-container
+    >
+    <ng-container *ngIf="commitment.cost && commitment.cost > 0">
+      with party funding of
+      <strong>{{ commitment.cost }} million</strong> dollars</ng-container
+    >
+    <ng-container *ngIf="commitment.cost && commitment.cost == 0"
+      >that the party has announced requires
+      <strong>no</strong> funding</ng-container
+    >. It was announced via a
+    <strong>{{ commitment.announcementType?.title }}</strong
+    >.
   </p>
+
   <p>
     Critical date: <strong> {{ commitment.criticalDate?.title }}</strong>
   </p>
-  <p *ngIf="commitment.themeType">Theme: {{ commitment.themeType?.title }}</p>
+
+  <p *ngIf="commitment.themeType">Theme: <strong>{{ commitment.themeType?.title }}</strong></p>
   <p *ngIf="commitment.packageType">
-    Package: {{ commitment.packageType?.title }}
+    Package: <strong>{{ commitment.packageType?.title }}</strong>
   </p>
 
   <div

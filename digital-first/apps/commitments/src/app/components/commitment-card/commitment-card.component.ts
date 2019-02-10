@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { Commitment } from '../../reducers/commitment/commitment.model'
-import { DateFormatPipe } from '@digital-first/df-moment';
+import { DateFormatPipe } from '@digital-first/df-moment'
 
 @Component({
   selector: 'digital-first-commitment-card',
