@@ -1,0 +1,73 @@
+<digital-first-commitment-view-guard
+  [operation]="getRight(userOperation$ | async)"
+>
+  <ng-container operation-type="read">
+    <digital-first-page-title
+      *ngIf="commitment"
+      [title]="title"
+      (onTitleClicked)="handleChangeExpanded(!expanded)"
+    >
+      <digital-first-date-format-button
+        *ngIf="expanded"
+        [timeFormat]="timeFormat"
+        (onChangeDateFormat)="handleChangeDateFormat($event)"
+      ></digital-first-date-format-button>
+      <digital-first-expand-collapse-button
+        [expanded]="expanded"
+        (onChangeExpanded)="handleChangeExpanded(!expanded)"
+      ></digital-first-expand-collapse-button>
+    </digital-first-page-title>
+  </ng-container>
+
+  <ng-container operation-type="write">
+    <digital-first-page-title
+      *ngIf="commitment"
+      [title]="title"
+      (onTitleClicked)="handleChangeExpanded(!expanded)"
+    >
+      <digital-first-date-format-button
+        *ngIf="expanded"
+        [timeFormat]="timeFormat"
+        (onChangeDateFormat)="handleChangeDateFormat($event)"
+      ></digital-first-date-format-button>
+      <digital-first-expand-collapse-button
+        [expanded]="expanded"
+        (onChangeExpanded)="handleChangeExpanded(!expanded)"
+      ></digital-first-expand-collapse-button>
+    </digital-first-page-title>
+
+    <div class="container">
+      <div
+        cdkDropList
+        #sourceList="cdkDropList"
+        [cdkDropListData]="portfolios"
+        [cdkDropListConnectedTo]="destList"
+        class="list"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <div
+          class="list-item"
+          *ngFor="let item of portfolios"
+          cdkDrag
+        >
+          {{ item }}
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div
+        cdkDropList
+        #destList="cdkDropList"
+        [cdkDropListData]="done"
+        [cdkDropListConnectedTo]="sourceList"
+        class="list"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <div class="list-item" *ngFor="let item of done" cdkDrag>
+          {{ item }}
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</digital-first-commitment-view-guard>

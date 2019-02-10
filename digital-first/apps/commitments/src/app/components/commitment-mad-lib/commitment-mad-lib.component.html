@@ -1,0 +1,29 @@
+<ng-container *ngIf="commitment">
+  <h1>{{ commitment?.title }}</h1>
+
+  <p>
+    Responsible Portfolio/s: <strong>{{ commitment.portfolio?.title }}</strong>
+  </p>
+  <p>
+    Announced by <strong>{{ commitment.announcedby }}</strong> of
+    <strong>{{ commitment.party?.title }}</strong> on
+    <strong>{{ commitment.date | amDateFormat: 'LL' }}</strong>
+  </p>
+  <p>
+    This <strong>{{ commitment.commitmentType?.title }}</strong> commitment was
+    announced through a <strong>{{ commitment.announcementType?.title }}</strong
+    >.
+  </p>
+  <p>
+    Critical date: <strong> {{ commitment.criticalDate?.title }}</strong>
+  </p>
+  <p *ngIf="commitment.themeType">Theme: {{ commitment.themeType?.title }}</p>
+  <p *ngIf="commitment.packageType">
+    Package: {{ commitment.packageType?.title }}
+  </p>
+
+  <div
+    *ngIf="commitment.description"
+    [innerHtml]="commitment?.description | safeHtml"
+  ></div>
+</ng-container>
