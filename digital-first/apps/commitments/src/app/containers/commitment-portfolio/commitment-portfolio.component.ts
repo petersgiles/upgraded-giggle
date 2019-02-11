@@ -22,9 +22,7 @@ export class CommitmentPortfolioComponent implements OnInit, OnDestroy {
   userOperation$: Observable<any>
   portfoliosSubscription$: Subscription
   portfolios: Portfolio[]
-  commitmentPortfolios$: Observable<
-    import('c:/Users/apgiles/Code/DF-Client/digital-first/apps/commitments/src/app/models/portfolio.model').Portfolio[]
-  >
+  commitmentPortfolios$: Observable<Portfolio[]>
   expandedSubscription$: Subscription
   expanded: boolean
   commitmentPortfoliosSubscription$: Subscription
