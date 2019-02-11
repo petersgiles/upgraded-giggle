@@ -81,6 +81,7 @@ import { RelatedLinkEffects } from './reducers/related-link/related-link.effects
 import { CommitmentSubscriptionEffects } from './reducers/commitment-subscription/commitment-subscription.effects'
 import { CommitmentContactEffects } from './reducers/commitment-contact/commitment-contact.effects'
 import { CommitmentActionEffects } from './reducers/commitment-action/commitment-action.effects'
+import { CommitmentPortfolioEffects } from './reducers/commitment-portfolio/commitment-portfolio.effects'
 
 import { CommitmentDiscussionComponent } from './containers/commitment-discussion/commitment-discussion.component'
 import { CommitmentDeliveryLocationComponent } from './containers/commitment-delivery-location/commitment-delivery-location.component'
@@ -109,6 +110,8 @@ import { CommitmentCommitmentComponent } from './containers/commitment-commitmen
 import { relatedLinksDataServiceProvider } from './reducers/related-link/related-link-data.service'
 import { relatedCommitmentsDataServiceProvider } from './reducers/related-commitment/related-commitment-data.service'
 import { deliveryLocationsDataServiceProvider } from './reducers/commitment-delivery-location/commitment-delivery-location-data.service'
+import { commitmentPortfoliosDataServiceProvider } from './reducers/commitment-portfolio/commitment-portfolio-data.service'
+
 import { DeliveryLocationEffects } from './reducers/commitment-delivery-location/commitment-delivery-location.effects'
 import { ExcelService } from './services/excel.service'
 import { DfButtonsModule } from '@digital-first/df-buttons'
@@ -274,6 +277,7 @@ export let appDataServiceProvider = {
       CommitmentEffects,
       CommitmentSubscriptionEffects,
       CommitmentActionEffects,
+      CommitmentPortfolioEffects,
       CommentOverviewMapEffects,
       DeliveryLocationEffects
     ]),
@@ -299,6 +303,7 @@ export let appDataServiceProvider = {
     discussionDataServiceProvider,
     lookupDataServiceProvider,
     subscriptionDataServiceProvider,
+    commitmentPortfoliosDataServiceProvider,
     { provide: FullLayoutService, useClass: AppFullLayoutService },
     {
       provide: APOLLO_OPTIONS,
