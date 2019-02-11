@@ -26,7 +26,7 @@ export class UserProgramAccessComponent implements OnInit {
   @Input()
   set tableData(val) {
     this.programAccessRows = val.map(i => ({
-      id: i.id,
+      id: i.groupId,
       cells: [
         { value: i.name },
         { value: i.groupName },
