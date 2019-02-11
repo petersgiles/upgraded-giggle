@@ -1,32 +1,13 @@
-.container {
-  width: 400px;
-  max-width: 100%;
-  margin: 0 20px;
-  display: inline-block;
-  vertical-align: top;
+.related-content {
+  padding: 15px;
 }
 
-.list {
-  border: solid 1px #ccc;
-  min-height: 60px;
-  background: white;
+.drop-target {
+  width: 100%;
+  text-align: center;
+  line-height: 170px;
   border-radius: 4px;
-  display: block;
-  overflow: hidden;
-}
-
-.list-item {
-  padding: 20px 10px;
-  border-bottom: solid 1px #ccc;
-  box-sizing: border-box;
-  cursor: move;
-  background: white;
-  color: black;
-  font-size: 14px;
-}
-
-.list-item:last-child {
-  border: none;
+  border: dashed 1px silver;
 }
 
 /* Highlight the list item that is being dragged. */

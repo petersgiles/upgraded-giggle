@@ -14,12 +14,9 @@ export class CommitmentMadLibComponent implements OnInit {
   ngOnInit() {}
 
   public getIndefiniteArticle(term) {
-    return indef(term)
-  }
-
-  public getMBT(val: number) {
-    // val is entered in millions so X 1000
-    const m = val * 1000
-    return m
+    if (term) {
+      return indef(term)
+    }
+    return term
   }
 }
