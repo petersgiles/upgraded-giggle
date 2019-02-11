@@ -2,32 +2,11 @@
     <mdc-card-primary-action>
         <div class="commitment-card__detail-row">
             <div class="commitment-card__detail-info">
-                <!-- <div class="commitment-card__detail-title" mdcHeadline5>Commitment</div> -->
-                <div mdcHeadline5>{{commitment.title}}</div>
-                <div mdcBody2>Responsible Portfolio <strong>{{commitment.portfolio?.title}}</strong></div>
-                <div mdcBody2 [innerHtml] = getCommitmentSummary(commitment)></div>
-                <div mdcBody2 [innerHtml] = getCommitmentCostSummary(commitment)></div>
 
+                <digital-first-commitment-mad-lib [commitment]="commitment"></digital-first-commitment-mad-lib>
+                
             </div>
         </div>
     </mdc-card-primary-action>
-    <mdc-card-primary-action>
-        <div class="commitment-card__detail-row">
-            <div class="commitment-card__detail-info">
-                <!-- <div class="commitment-card__detail-title" mdcHeadline5>Announcement</div> -->
-                <div mdcBody2 *ngIf="commitment.themeType">Theme: {{commitment.themeType?.title}}</div>
-                <div mdcBody2 *ngIf="commitment.packageType">Package: {{commitment.packageType?.title}}</div>
-
-            </div>
-        </div>
-    </mdc-card-primary-action>
-    <mdc-card-primary-action *ngIf="commitment.description">
-        <div class="commitment-card__detail-row">
-            <div class="commitment-card__detail-info">
-                <div class="commitment-card__detail-title" mdcHeadline6>Description</div>
-                <p mdcBody2 [innerHtml]="commitment.description | safeHtml"></p>
-            </div>
-        </div>
-    </mdc-card-primary-action>
-
 </mdc-card>
+

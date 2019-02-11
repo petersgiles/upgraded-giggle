@@ -13,10 +13,23 @@ import { MarkdownModule, MarkedOptions } from 'ngx-markdown'
 
 import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
-import { DfDiscussionModule, DiscussionComponent } from '@digital-first/df-discussion'
+import {
+  DfDiscussionModule,
+  DiscussionComponent
+} from '@digital-first/df-discussion'
 import { DfPagesModule } from '@digital-first/df-pages'
-import { DfDialogsModule, DialogAreYouSureComponent, DialogShowErrorComponent, DialogFileLockedComponent, DialogSpinnerOverlayComponent, DialogAddContactComponent } from '@digital-first/df-dialogs'
-import { DfSharepointModule, SharepointJsomService } from '@digital-first/df-sharepoint'
+import {
+  DfDialogsModule,
+  DialogAreYouSureComponent,
+  DialogShowErrorComponent,
+  DialogFileLockedComponent,
+  DialogSpinnerOverlayComponent,
+  DialogAddContactComponent
+} from '@digital-first/df-dialogs'
+import {
+  DfSharepointModule,
+  SharepointJsomService
+} from '@digital-first/df-sharepoint'
 import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfMomentModule, DateFormatPipe } from '@digital-first/df-moment'
 import { WINDOW_PROVIDERS } from '@digital-first/df-utils'
@@ -101,7 +114,13 @@ import { ExcelService } from './services/excel.service'
 import { DfButtonsModule } from '@digital-first/df-buttons'
 import { DfMapModule } from '@digital-first/df-map'
 import { DfDatatableModule } from '@digital-first/df-datatable'
-import { DfRefinerModule, MetadataRefinerComponent } from '@digital-first/df-refiner'
+import {
+  DfRefinerModule,
+  MetadataRefinerComponent
+} from '@digital-first/df-refiner'
+import { CommitmentPortfolioComponent } from './containers/commitment-portfolio/commitment-portfolio.component'
+import { DragDropModule } from '@angular/cdk/drag-drop'
+import { CommitmentMadLibComponent } from './components/commitment-mad-lib/commitment-mad-lib.component'
 
 const COMPONENTS = [
   AppComponent,
@@ -126,7 +145,9 @@ const COMPONENTS = [
   CommitmentPrintComponent,
   CommitmentRelatedLinksComponent,
   CommitmentRelatedCommitmentsComponent,
-  CommitmentCommitmentComponent
+  CommitmentCommitmentComponent,
+  CommitmentPortfolioComponent,
+  CommitmentMadLibComponent
 ]
 
 const ENTRYCOMPONENTS = [
@@ -145,28 +166,32 @@ const ENTRYCOMPONENTS = [
 ]
 
 export function initApplication(store: Store<fromRoot.State>): Function {
-  return () => new Promise(resolve => {
-    store.dispatch(new StartAppInitialiser({ environment: environment }))
+  return () =>
+    new Promise(resolve => {
+      store.dispatch(new StartAppInitialiser({ environment: environment }))
 
-    // tslint:disable-next-line:no-console
-    console.log('app initialise started...', store)
+      // tslint:disable-next-line:no-console
+      console.log('app initialise started...', store)
 
-    // store.pipe(select(fromRoot.getLoggedIn)).subscribe(isLoggedIn => {
-    //   if (isLoggedIn) {
+      // store.pipe(select(fromRoot.getLoggedIn)).subscribe(isLoggedIn => {
+      //   if (isLoggedIn) {
 
-    //     // tslint:disable-next-line:no-console
-    //     console.log('user is logged in, start auto token refresh')
+      //     // tslint:disable-next-line:no-console
+      //     console.log('user is logged in, start auto token refresh')
 
-    //     store.dispatch(new StartAutoTokenRefresh())
-    //   }
-    // })
+      //     store.dispatch(new StartAutoTokenRefresh())
+      //   }
+      // })
 
-    resolve(true)
-  })
+      resolve(true)
+    })
 }
 
-const appDataServiceFactory = (settings: SettingsService, sharepointlib: SharepointJsomService, apollo: Apollo) => {
-
+const appDataServiceFactory = (
+  settings: SettingsService,
+  sharepointlib: SharepointJsomService,
+  apollo: Apollo
+) => {
   let source = null
   if (settings.datasource) {
     source = settings.datasource.type
@@ -178,7 +203,6 @@ const appDataServiceFactory = (settings: SettingsService, sharepointlib: Sharepo
     default:
       return new ApolloDataService(apollo)
   }
-
 }
 
 export let appDataServiceProvider = {
@@ -214,9 +238,9 @@ export let appDataServiceProvider = {
           pedantic: false,
           sanitize: false,
           smartLists: true,
-          smartypants: false,
-        },
-      },
+          smartypants: false
+        }
+      }
     }),
     NxModule.forRoot(),
     DfLoggingModule,
@@ -253,6 +277,7 @@ export let appDataServiceProvider = {
       CommentOverviewMapEffects,
       DeliveryLocationEffects
     ]),
+    DragDropModule
   ],
   providers: [
     ExcelService,
@@ -278,16 +303,15 @@ export let appDataServiceProvider = {
     {
       provide: APOLLO_OPTIONS,
       useFactory(httpLink: HttpLink) {
-
         const defaultOptions = {
           watchQuery: {
             fetchPolicy: 'network-only',
-            errorPolicy: 'ignore',
+            errorPolicy: 'ignore'
           },
           query: {
             fetchPolicy: 'network-only',
-            errorPolicy: 'all',
-          },
+            errorPolicy: 'all'
+          }
         }
 
         return {
@@ -301,12 +325,12 @@ export let appDataServiceProvider = {
       deps: [HttpLink]
     },
     /**
-    * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.
-    * A custom RouterStateSerializer is used to parse the `RouterStateSnapshot` provided
-    * by `@ngrx/router-store` to include only the desired pieces of the snapshot.
-    */
+     * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.
+     * A custom RouterStateSerializer is used to parse the `RouterStateSnapshot` provided
+     * by `@ngrx/router-store` to include only the desired pieces of the snapshot.
+     */
     { provide: RouterStateSerializer, useClass: CustomSerializer }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
