@@ -36,6 +36,7 @@ import * as fromCommitmentEdit from './commitment-edit/commitment-edit.reducer'
 import * as fromCommitmentDiscussion from './commitment-discussion/commitment-discussion.reducer'
 import * as fromCommitmentSubscription from './commitment-subscription/commitment-subscription.reducer'
 import * as fromCommitmentContact from './commitment-contact/commitment-contact.reducer'
+import * as fromCommitmentPortfolio from './commitment-portfolio/commitment-portfolio.reducer'
 import * as fromCommitmentAction from './commitment-action/commitment-action.reducer'
 import * as fromCommitmentOverviewMap from './commitment-overview-map/commitment-overview-map.reducer'
 import * as fromCommitmentDeliveryLocations from './commitment-delivery-location/commitment-delivery-location.reducer'
@@ -52,7 +53,8 @@ export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionRedu
             { 'commitmentAction': ['expanded'] },
             { 'relatedLink': ['expanded'] },
             { 'relatedCommitment': ['expanded'] },
-            { 'deliveryLocation': ['expanded'] }
+            { 'deliveryLocation': ['expanded'] },
+            { 'commitmentPortfolio': ['expanded'] }
         ], rehydrate: true
     })(reducer)
 }
@@ -75,7 +77,8 @@ export interface State {
     commitmentSubscription: fromCommitmentSubscription.State
     commitmentContact: fromCommitmentContact.State
     commitmentAction: fromCommitmentAction.State
-    commitmentOverviewMap: fromCommitmentOverviewMap.State
+    commitmentOverviewMap: fromCommitmentOverviewMap.State,
+    commitmentPortfolio: fromCommitmentPortfolio.State,
     deliveryLocation: fromCommitmentDeliveryLocations.State
 }
 
@@ -95,6 +98,7 @@ export const reducers: ActionReducerMap<State> = {
     commitmentContact: fromCommitmentContact.reducer,
     commitmentAction: fromCommitmentAction.reducer,
     commitmentOverviewMap: fromCommitmentOverviewMap.reducer,
+    commitmentPortfolio: fromCommitmentPortfolio.reducer,
     deliveryLocation: fromCommitmentDeliveryLocations.reducer
 }
 
@@ -118,6 +122,7 @@ export * from './commitment-contact'
 export * from './commitment'
 export * from './commitment-subscription'
 export * from './commitment-action'
+export * from './commitment-portfolio'
 export * from './commitment-delivery-location'
 
 export class CustomSerializer

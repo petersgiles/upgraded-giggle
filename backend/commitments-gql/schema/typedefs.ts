@@ -132,7 +132,7 @@ type CommitmentAction {
     contact: Contact
   }
 
-   type MapPoint {
+  type MapPoint {
     place_id: String
     address: String
     latitude: Float
@@ -290,8 +290,8 @@ type CommitmentAction {
     deleteRelatedCommitment(commitment: ID!, relatedTo: ID!): Commitment,
     storeRelatedLink(commitment: ID!, url: String!): Commitment,
     deleteRelatedLink(id: ID!): Commitment,
-    storeCommitmentPortfolio(commitment: ID!, portfolio: ID!): Commitment,
-    deleteCommitmentPortfolio(id: ID!): Commitment,
+    storeCommitmentPortfolio(commitment: ID!, portfolio: ID!, primary: Boolean): Commitment,
+    deleteCommitmentPortfolio(commitment: ID!, portfolio: ID!): Commitment,
     storeCommitmentSubscription(commitment: ID!, subscriber: ID!): Commitment,
     deleteCommitmentSubscription(commitment: ID!, subscriber: ID!): Commitment,
     }

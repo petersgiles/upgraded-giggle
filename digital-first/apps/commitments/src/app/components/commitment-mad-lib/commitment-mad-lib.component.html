@@ -15,11 +15,11 @@
   <p>
     This is <strong>{{ getIndefiniteArticle(commitment.commitmentType?.title) }}</strong> commitment
     <ng-container *ngIf="!commitment?.cost">
-      with <strong>no</strong> committed party funding</ng-container
+      with <strong>no</strong> specified party funding</ng-container
     >
     <ng-container *ngIf="commitment.cost && commitment.cost > 0">
       with party funding of
-      <strong>$AUD {{ getMBT(commitment.cost)  | number: '2.' }}</strong></ng-container
+      <strong>{{commitment.cost}}</strong></ng-container
     >
     <ng-container *ngIf="commitment.cost && commitment.cost == 0"
       >that the party announced requires
@@ -33,9 +33,7 @@
     Critical date: <strong> {{ commitment.criticalDate?.title }}</strong
     >.
   </p>
-  <p *ngIf="commitment.themeType">
-    Theme: <strong>{{ commitment.themeType?.title }}</strong>
-  </p>
+
   <p *ngIf="commitment.packageType">
     Package: <strong>{{ commitment.packageType?.title }}</strong>
   </p>
