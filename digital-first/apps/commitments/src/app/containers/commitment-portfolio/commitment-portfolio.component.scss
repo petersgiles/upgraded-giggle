@@ -2,6 +2,14 @@
   padding: 15px;
 }
 
+.drop-target {
+  width: 100%;
+  text-align: center;
+  line-height: 170px;
+  border-radius: 4px;
+  border: dashed 1px silver;
+}
+
 /* Highlight the list item that is being dragged. */
 .cdk-drag-preview {
   border-radius: 4px;

@@ -37,7 +37,7 @@
     </digital-first-page-title>
     <div *ngIf="expanded" class="related-content">
       <h3>Related</h3>
-      <mdc-chip-set
+      <mdc-chip-set 
         cdkDropList
         #relatedList="cdkDropList"
         [cdkDropListData]="related"
@@ -47,6 +47,9 @@
         <mdc-chip *ngFor="let item of related" cdkDrag>
           <mdc-chip-text>{{ item.title }}</mdc-chip-text>
         </mdc-chip>
+        <div *ngIf="related?.length == 0" class="drop-target">
+          drop related commitments here
+        </div>
       </mdc-chip-set>
 
       <h3>Portfolios</h3>
