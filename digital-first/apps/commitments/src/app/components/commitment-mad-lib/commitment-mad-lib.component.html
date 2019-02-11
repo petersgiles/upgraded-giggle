@@ -13,20 +13,19 @@
   </p>
 
   <p>
-    This is a(n)
-    <strong>{{ commitment.commitmentType?.title }}</strong> commitment
+    This is <strong>{{ getIndefiniteArticle(commitment.commitmentType?.title) }}</strong> commitment
     <ng-container *ngIf="!commitment?.cost">
       has <strong>no</strong> committed party funding</ng-container
     >
     <ng-container *ngIf="commitment.cost && commitment.cost > 0">
       with party funding of
-      <strong>{{ commitment.cost }} million</strong> dollars</ng-container
+      <strong>$AUD {{ getMBT(commitment.cost)  | number: '2.' }}</strong></ng-container
     >
     <ng-container *ngIf="commitment.cost && commitment.cost == 0"
       >that the party has announced requires
       <strong>no</strong> funding</ng-container
-    >. It was announced via a
-    <strong>{{ commitment.announcementType?.title }}</strong
+    >. It was announced via
+    <strong>{{ getIndefiniteArticle(commitment.announcementType?.title) }}</strong
     >.
   </p>
 
