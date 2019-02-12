@@ -13,7 +13,7 @@
       *ngFor="let rp of commitment?.relatedPortfolios; index as index; last as last; first as first">
       <ng-container *ngIf="!first">
         <span *ngIf="last"> and </span>
-        <span *ngIf="!last">,  </span>
+        <span *ngIf="!last">, </span>
       </ng-container><strong>{{ rp?.title }}</strong>
       
     </ng-container
