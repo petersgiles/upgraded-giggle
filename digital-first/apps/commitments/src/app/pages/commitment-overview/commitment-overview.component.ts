@@ -20,7 +20,6 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
   activity$: Observable<any>
   pageFormat: 'card' | 'list' | 'table' = 'table'
   refinerGroups$: Observable<any>
-  commitmentsTableDataSubscription$: Subscription
   pageIndex: number
   dataTableConfig: DataTableConfig
   dataTableRows: any[] = []
@@ -31,6 +30,8 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
   pageSize: number
   commitmentsFilteredSubscription$: Subscription
   filteredCommitments: any
+  columns: { prop: string; name: string; }[]
+  commitmentsTableData$: Observable<any>
 
   constructor(
     private snackbar: MdcSnackbar,
@@ -49,15 +50,16 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
     this.commitmentsFilteredSubscription$ = this.service.CommitmentFiltered.subscribe(
       fc => (this.filteredCommitments = fc)
     )
-    this.commitmentsTableDataSubscription$ = this.service.CommitmentDataTable.subscribe(
-      config => {
-        this.pageIndex = 0
-        this.pageSize = 10
-        this.dataTableConfig = config
-        this.dataTableRows = config.rows
-        this.pageRows()
-      }
-    )
+
+    this.columns = [
+      { prop: 'title', name: 'Title' },
+      { prop: 'party', name: 'Party' },
+      { prop: 'portfolio',  name: 'Responsible Portfolio' },
+      { prop: 'commitmentType',  name: 'Type of Commitment' },
+      { prop: 'criticalDate',  name: 'Critical Date' }
+    ]
+
+    this.commitmentsTableData$ = this.service.CommitmentDataTable
     this.refinerGroups$ = this.service.RefinerGroups
     this.activity$ = this.service.CommitmentActivity
 
@@ -88,14 +90,6 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
       )
   }
 
-  columns: [
-    { prop: 'title', name: 'Title' },
-    { prop: 'party', name: 'Party' },
-    { prop: 'portfolio',  name: 'Responsible Portfolio' },
-    { prop: 'commitmentType',  name: 'Type of Commitment' },
-    { prop: 'criticalDate',  name: 'Critical Date' }
-  ]
-
   handlePage($event) {
     this.pageIndex = $event.pageIndex
     this.pageRows()
@@ -118,7 +112,6 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.activitySubscription$.unsubscribe()
-    this.commitmentsTableDataSubscription$.unsubscribe()
   }
 
   handleEdit(commitment?: Commitment) {
@@ -134,6 +127,8 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
   }
 
   handleCommitmentsRowClicked(commitment) {
+    // tslint:disable-next-line:no-console
+    console.log(commitment)
     this.router.navigate(['/', 'commitment', commitment.id])
   }
 

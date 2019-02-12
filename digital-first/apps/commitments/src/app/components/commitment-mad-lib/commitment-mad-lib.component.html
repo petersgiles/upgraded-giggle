@@ -5,7 +5,7 @@
     Responsible Portfolio: <strong>{{ commitment.portfolio?.title }}</strong
     >.
   </p>
-  <p *ngIf="commitment?.relatedPortfolios">
+  <p *ngIf="commitment?.relatedPortfolios?.length > 0">
     Related Portfolio<span *ngIf="commitment?.relatedPortfolios?.length > 1"
       >s</span
     >:
