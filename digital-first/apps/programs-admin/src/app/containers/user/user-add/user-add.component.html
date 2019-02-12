@@ -1,4 +1,4 @@
-<div  *ngIf="(agencies$ | async) as agencie; else loading">
+<div  *ngIf="(agencies$ | async) as agencies; else loading">
   <div class="page_title">
     <div class="reader-card-article__title page_title_text" mdcHeadline5>Add user</div>
   </div>
@@ -11,7 +11,7 @@
             <div class="form-content">
               <form (ngSubmit)="onSubmit()" autocomplete="off" [formGroup]="addUserForm">
                 <fieldset>
-                  <h3 class="form-content__headline">Add agency</h3>
+                  <h3 class="form-content__headline">Add user</h3>
                   <div class="form-layout__row">
                     <mdc-text-field
                       [outlined]="true"
@@ -28,7 +28,7 @@
                       [outlined]="true"
                       name="agency">
                       <option value=""></option>
-                      <option *ngFor="let agency of agencie" [value]="agency.id">{{agency.title}}
+                      <option *ngFor="let agency of agencies" [value]="agency.id">{{agency.title}}
                       </option>
                     </mdc-select>
                   </div>

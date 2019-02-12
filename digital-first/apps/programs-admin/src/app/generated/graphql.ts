@@ -2235,6 +2235,66 @@ export namespace CreateUser {
   }
 }
 
+export namespace UpdateUser {
+  export type Variables = {
+    data: UpdateUserInputGraph
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    updateUser: Maybe<UpdateUser>
+  }
+
+  export type UpdateUser = {
+    __typename?: 'UserGraph'
+
+    id: Guid
+
+    emailAddress: string
+  }
+}
+
+export namespace GetUser {
+  export type Variables = {
+    id: string
+  }
+
+  export type Query = {
+    __typename?: 'Query'
+
+    user: Maybe<User>
+  }
+
+  export type User = {
+    __typename?: 'UserGraph'
+
+    emailAddress: string
+
+    agency: Maybe<Agency>
+
+    rowVersion: string
+  }
+
+  export type Agency = {
+    __typename?: 'AgencyGraph'
+
+    id: Guid
+  }
+}
+
+export namespace DeleteUser {
+  export type Variables = {
+    data: DeleteUserInputGraph
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    deleteUser: Maybe<boolean>
+  }
+}
+
 export namespace User {
   export type Variables = {
     userId: string
@@ -2467,7 +2527,7 @@ export class GetAgencyGQL extends Apollo.Query<
   GetAgency.Variables
 > {
   document: any = gql`
-    query GetAgency($id: String!) {
+    query getAgency($id: String!) {
       agency(id: $id) {
         id
         title
@@ -2519,7 +2579,7 @@ export class GetAgencyMappingGQL extends Apollo.Query<
   GetAgencyMapping.Variables
 > {
   document: any = gql`
-    query GetAgencyMapping($id: String!) {
+    query getAgencyMapping($id: String!) {
       agencyMapping(id: $id) {
         id
         emailDomain
@@ -3644,6 +3704,51 @@ export class CreateUserGQL extends Apollo.Mutation<
 @Injectable({
   providedIn: 'root'
 })
+export class UpdateUserGQL extends Apollo.Mutation<
+  UpdateUser.Mutation,
+  UpdateUser.Variables
+> {
+  document: any = gql`
+    mutation updateUser($data: UpdateUserInputGraph!) {
+      updateUser(input: $data) {
+        id
+        emailAddress
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class GetUserGQL extends Apollo.Query<GetUser.Query, GetUser.Variables> {
+  document: any = gql`
+    query getUser($id: String!) {
+      user(id: $id) {
+        emailAddress
+        agency {
+          id
+        }
+        rowVersion
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class DeleteUserGQL extends Apollo.Mutation<
+  DeleteUser.Mutation,
+  DeleteUser.Variables
+> {
+  document: any = gql`
+    mutation deleteUser($data: DeleteUserInputGraph!) {
+      deleteUser(input: $data)
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
 export class UserGQL extends Apollo.Query<User.Query, User.Variables> {
   document: any = gql`
     query user($userId: String!) {
@@ -3703,7 +3808,7 @@ export class SelectAgenciesGQL extends Apollo.Query<
 > {
   document: any = gql`
     query selectAgencies {
-      agencies {
+      agencies(orderBy: { path: "title" }) {
         id
         title
       }

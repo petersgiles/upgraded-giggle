@@ -1,8 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
-import { Maybe, User, UserGQL } from '../../generated/graphql'
-import { map } from 'rxjs/operators'
+import { Maybe, User, UserGQL, DeleteUserGQL } from '../../generated/graphql'
+import { map, first } from 'rxjs/operators'
 import { Subscription } from 'rxjs'
+import { Router } from '@angular/router'
+import {ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent} from '@digital-first/df-dialogs'
+import {MdcDialog} from '@angular-mdc/web'
 
 @Component({
   selector: 'digital-first-user',
@@ -17,7 +20,11 @@ export class UserComponent implements OnInit, OnDestroy {
   reportAccessRows: Maybe<Maybe<User.ReportAccess>[]>
   statisticReportAccessRows: Maybe<Maybe<User.StatisticReportAccess>[]>
   statisticAccessRows: Maybe<Maybe<User.StatisticAccess>[]>
-  constructor(private route: ActivatedRoute, private userGQL: UserGQL) {}
+  constructor(private route: ActivatedRoute,
+              private userGQL: UserGQL,
+              private router: Router,
+              public dialog: MdcDialog,
+              private deleteUserGQL: DeleteUserGQL) { }
 
   ngOnInit() {
     this.userId = this.route.snapshot.paramMap.get('id')
@@ -34,7 +41,36 @@ export class UserComponent implements OnInit, OnDestroy {
       })
   }
 
-  ngOnDestroy(): void {
-    this.userSubscription$.unsubscribe()
+  handleEditUser(user: User.User) {
+    return this.router.navigate(['users/edit', user.id])
   }
-}
+
+  handleDeleteUser(user: User.User) {
+    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+      escapeToClose: true,
+      clickOutsideToClose: true
+    })
+
+     dialogRef
+    .afterClosed()
+    .pipe(first())
+    .subscribe(result => {
+      if (result === ARE_YOU_SURE_ACCEPT && this.user) {
+        this.deleteUserGQL
+          .mutate(
+            {
+              data: {
+                id: user.id
+              }
+            },
+            {}
+          )
+          .subscribe(value => this.router.navigate(['users']))
+      }
+    })
+  }
+
+    ngOnDestroy(): void {
+      this.userSubscription$.unsubscribe()
+    }
+  }

@@ -1,5 +1,5 @@
 
-query GetAgencyMapping ($id: String!)
+query getAgencyMapping ($id: String!)
 {
     agencyMapping(id: $id)
     {

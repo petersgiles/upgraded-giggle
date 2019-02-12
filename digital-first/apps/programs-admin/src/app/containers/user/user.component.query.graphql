@@ -46,7 +46,7 @@ query user($userId: String!) {
 }
 
 query selectAgencies{
-  agencies
+  agencies(orderBy:{path:"title"})
   {
     id
     title

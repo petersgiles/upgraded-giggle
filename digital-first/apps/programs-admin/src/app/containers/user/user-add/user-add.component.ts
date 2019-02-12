@@ -20,7 +20,7 @@ export class UserAddComponent implements OnInit {
 
   agencies$: Observable<SelectAgencies.Agencies[]>
   addUserForm = this.formBuilder.group({
-    emailAddress: [null, Validators.required],
+    emailAddress: [null, [Validators.required, Validators.email]],
     agencyId: [null, Validators.required]
   })
   ngOnInit() {
