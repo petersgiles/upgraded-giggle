@@ -2,18 +2,33 @@
   <h1>{{ commitment?.title }}</h1>
 
   <p>
-    Responsible Portfolio/s: <strong>{{ commitment.portfolio?.title }}</strong
+    Responsible Portfolio: <strong>{{ commitment.portfolio?.title }}</strong
+    >.
+  </p>
+  <p *ngIf="commitment?.relatedPortfolios">
+    Related Portfolio<span *ngIf="commitment?.relatedPortfolios?.length > 1"
+      >s</span
+    >:
+    <ng-container
+      *ngFor="let rp of commitment?.relatedPortfolios; let last = last"
+      ><strong>{{ rp?.title }}</strong
+      ><span *ngIf="!last">, </span></ng-container
     >.
   </p>
   <p>
-    Announced by the <strong>{{ commitment.whoAnnouncedType?.title }}</strong> of
+    Announced by the
+    <strong>{{ commitment.whoAnnouncedType?.title }}</strong> of
     <strong>{{ commitment.party?.title }}</strong> on
     <strong>{{ commitment.date | amDateFormat: 'LL' }}</strong
     >.
   </p>
 
   <p>
-    This is <strong>{{ getIndefiniteArticle(commitment.commitmentType?.title) }}</strong> commitment
+    This is
+    <strong>{{
+      getIndefiniteArticle(commitment.commitmentType?.title)
+    }}</strong>
+    commitment
     <ng-container *ngIf="!commitment?.cost">
       with <strong>no</strong> specified party funding</ng-container
     >
@@ -25,7 +40,9 @@
       >that the party announced requires
       <strong>no</strong> funding</ng-container
     >. It was announced via
-    <strong>{{ getIndefiniteArticle(commitment.announcementType?.title) }}</strong
+    <strong>{{
+      getIndefiniteArticle(commitment.announcementType?.title)
+    }}</strong
     >.
   </p>
 
