@@ -28,10 +28,8 @@
             "
           ></digital-first-expand-collapse-button>
         </digital-first-page-title>
-        <div *ngIf="panels.formPanelExpanded">
-          <digital-first-commitment-card
-            [commitment]="commitment"
-          ></digital-first-commitment-card>
+        <div *ngIf="panels.formPanelExpanded" class="mad-lib">
+            <digital-first-commitment-mad-lib [commitment]="commitment"></digital-first-commitment-mad-lib>
         </div>
       </ng-container>
 
@@ -111,6 +109,11 @@
       [commitment]="commitment?.id"
     ></digital-first-commitment-related-links>
 
+    <digital-first-commitment-portfolio
+    *ngIf="commitment"
+    [commitment]="commitment?.id"
+    >
+    </digital-first-commitment-portfolio>
     <!--
     <digital-first-commitment-related-commitments
       *ngIf="commitment"

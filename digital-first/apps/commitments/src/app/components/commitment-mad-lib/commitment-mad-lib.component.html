@@ -1,0 +1,45 @@
+<ng-container *ngIf="commitment">
+  <h1>{{ commitment?.title }}</h1>
+
+  <p>
+    Responsible Portfolio/s: <strong>{{ commitment.portfolio?.title }}</strong
+    >.
+  </p>
+  <p>
+    Announced by <strong>{{ commitment.announcedby }}</strong> of
+    <strong>{{ commitment.party?.title }}</strong> on
+    <strong>{{ commitment.date | amDateFormat: 'LL' }}</strong
+    >.
+  </p>
+
+  <p>
+    This is <strong>{{ getIndefiniteArticle(commitment.commitmentType?.title) }}</strong> commitment
+    <ng-container *ngIf="!commitment?.cost">
+      with <strong>no</strong> specified party funding</ng-container
+    >
+    <ng-container *ngIf="commitment.cost && commitment.cost > 0">
+      with party funding of
+      <strong>{{commitment.cost}}</strong></ng-container
+    >
+    <ng-container *ngIf="commitment.cost && commitment.cost == 0"
+      >that the party announced requires
+      <strong>no</strong> funding</ng-container
+    >. It was announced via
+    <strong>{{ getIndefiniteArticle(commitment.announcementType?.title) }}</strong
+    >.
+  </p>
+
+  <p>
+    Critical date: <strong> {{ commitment.criticalDate?.title }}</strong
+    >.
+  </p>
+
+  <p *ngIf="commitment.packageType">
+    Package: <strong>{{ commitment.packageType?.title }}</strong>
+  </p>
+
+  <ng-container *ngIf="commitment.description">
+    <hr />
+    <div [innerHtml]="commitment?.description | safeHtml"></div
+  ></ng-container>
+</ng-container>

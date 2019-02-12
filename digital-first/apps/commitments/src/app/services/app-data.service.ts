@@ -13,6 +13,7 @@ export const OPERATION_COSTING = 'costing'
 export const OPERATION_RELATEDLINKS = 'relatedLinks'
 export const OPERATION_RELATEDCOMMITMENTS = 'relatedCommitments'
 export const OPERATION_DISCUSSION = 'discussion'
+export const OPERATION_COMMITMENT_PORTFOLIO = 'relatedPortfolios'
 
 export const OPERATION_RIGHT_READ = 'read'
 export const OPERATION_RIGHT_WRITE = 'write'
@@ -27,6 +28,7 @@ export const OPERATION_DEFAULTS = {
   'costing': OPERATION_RIGHT_READ,
   'relatedLinks': OPERATION_RIGHT_READ,
   'relatedCommitments': OPERATION_RIGHT_READ,
+  'relatedPortfolios': OPERATION_RIGHT_WRITE,
   'discussion': OPERATION_RIGHT_WRITE, // Temporary Default
 }
 @Injectable({

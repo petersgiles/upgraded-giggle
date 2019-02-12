@@ -8,3 +8,7 @@ export interface Portfolio {
 export interface PortfoliosResult {
   portfolios: Portfolio[]
 }
+
+export interface CommitmentPortfoliosResult {
+  commitmentPortfolios: Portfolio[]
+}
