@@ -162,6 +162,7 @@ type CommitmentAction {
   type RelatedLink {
     id: ID,
     commitment: ID,
+    title: String,
     url: String
   }
 
@@ -288,7 +289,7 @@ type CommitmentAction {
     deleteCommitmentElectorate(commitment: ID!, electorate: ID!): Commitment,
     storeRelatedCommitment(commitment: ID!, relatedTo: ID!): Commitment,
     deleteRelatedCommitment(commitment: ID!, relatedTo: ID!): Commitment,
-    storeRelatedLink(commitment: ID!, url: String!): Commitment,
+    storeRelatedLink(commitment: ID!, url: String!, title: String!): Commitment,
     deleteRelatedLink(id: ID!): Commitment,
     storeCommitmentPortfolio(commitment: ID!, portfolio: ID!, primary: Boolean): Commitment,
     deleteCommitmentPortfolio(commitment: ID!, portfolio: ID!): Commitment,

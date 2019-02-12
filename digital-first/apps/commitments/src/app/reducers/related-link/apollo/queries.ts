@@ -5,14 +5,15 @@ query CommitmentRelatedLinks($commitment: ID!) {
   commitmentRelatedLinks(commitment: $commitment) {
     id
     commitment
+    title
     url
   }
 }
 `
 
 export const STORE_RELATED_LINK = gql`
-mutation StoreRelatedLink($commitment: ID!, $url: String!) {
-  storeRelatedLink(commitment: $commitment, url: $url) {
+mutation StoreRelatedLink($commitment: ID!, $url: String!, $title: String!) {
+  storeRelatedLink(commitment: $commitment, url: $url, title: $title) {
     id
     title
   }

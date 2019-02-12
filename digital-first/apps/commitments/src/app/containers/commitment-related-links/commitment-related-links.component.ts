@@ -44,7 +44,7 @@ export class CommitmentRelatedLinksComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result !== ADD_LINK_CLOSE && result) {
-        this.service.addItemToCommitment({commitment: this.commitment, url: result.url})
+        this.service.addItemToCommitment({commitment: this.commitment, url: result.url, title: result.title})
       }
     })
   }
@@ -77,7 +77,7 @@ export class CommitmentRelatedLinksComponent implements OnInit, OnDestroy {
   }
 
   handleRowClicked($event) {
-    window.open($event.cell.value, '_blank')
+    window.open($event.cell.data, '_blank')
   }
 
   ngOnInit(): void {

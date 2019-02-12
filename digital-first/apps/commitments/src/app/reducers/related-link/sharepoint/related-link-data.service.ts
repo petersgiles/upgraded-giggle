@@ -48,7 +48,7 @@ export class RelatedLinkDataSharePointService
     const LISTNAME = 'RelatedLink'
 
     const sp = {
-      Title: `${payload.commitment} ${payload.url}`,
+      Title: `${payload.commitment} ${payload.title}`,
       Commitment: payload.commitment,
       Url: payload.url
     }
