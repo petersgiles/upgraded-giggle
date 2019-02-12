@@ -26,7 +26,7 @@ const relatedLinksDataServiceFactory = (settings: SettingsService, sharepointlib
 
   switch (source) {
     case 'sharepoint':
-      return new RelatedLinkDataSharePointService(sharepointlib, logger)
+      return new RelatedLinkDataSharePointService(sharepointlib)
     default:
       return new RelatedLinkDataApolloService(apollo, logger)
   }

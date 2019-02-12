@@ -12,7 +12,7 @@ import { STORE_RELATED_LINK, REMOVE_RELATED_LINK, RELATED_LINKS_BY_COMMITMENT } 
 })
 export class RelatedLinkDataApolloService implements RelatedLinkDataService {
 
-  addItemToCommitment = (variables: { commitment: any, relatedTo: any }) => callMutate<any>(this.apollo,
+  addItemToCommitment = (variables: { commitment: any, url: string; title: string }) => callMutate<any>(this.apollo,
     { mutation: STORE_RELATED_LINK, variables: { ...variables } },
     (result: any) => ({ commitment: result.data.storeRelatedLink })
   )

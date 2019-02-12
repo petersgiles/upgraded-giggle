@@ -1,9 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../../../libs/df-theme/styles.scss";
 @import "./scss/cards";
+@import "~@swimlane/ngx-datatable/release/index.css";
+@import "~@swimlane/ngx-datatable/release/themes/material.css";
 
 ngx-wig {
     flex-grow: 1;
     margin-left: .3em;
     margin-right: .3em;
+}
+
+.ngx-datatable {
+  text-align: left;
+  margin: 0 0;
+}
+
+.ngx-datatable.scroll-vertical {
+  height: 70vh;
 }

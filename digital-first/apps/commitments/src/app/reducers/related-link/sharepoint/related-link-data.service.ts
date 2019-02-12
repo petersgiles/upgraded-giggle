@@ -12,7 +12,6 @@ import {
   byIdQuery
 } from '../../../services/sharepoint/caml'
 import { mapRelatedLinks } from './maps'
-import { LoggerService } from '@digital-first/df-logging'
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +47,7 @@ export class RelatedLinkDataSharePointService
     const LISTNAME = 'RelatedLink'
 
     const sp = {
-      Title: `${payload.commitment} ${payload.url}`,
+      Title: payload.title,
       Commitment: payload.commitment,
       Url: payload.url
     }
@@ -81,7 +80,6 @@ export class RelatedLinkDataSharePointService
   }
 
   constructor(
-    private sharepoint: SharepointJsomService,
-    private logger: LoggerService
+    private sharepoint: SharepointJsomService
   ) {}
 }

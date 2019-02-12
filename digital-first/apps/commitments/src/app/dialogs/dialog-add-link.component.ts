@@ -5,6 +5,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms'
 export const ADD_LINK_CLOSE = 'close'
 
 interface DialogData {
+  title: string
   url: string
 }
 
@@ -17,6 +18,7 @@ interface DialogData {
       <mdc-dialog-title>Enter a Link (URL)</mdc-dialog-title>
       <mdc-dialog-content>
       <form [formGroup]="dialogForm" id="dialogForm" (ngSubmit)="submit()" autocomplete="off">
+        <mdc-text-field label="Enter a title" fullwidth type="text" formControlName="title"></mdc-text-field>
         <mdc-text-field label="Enter a link" fullwidth type="url" formControlName="url"></mdc-text-field>
         <p>This is the web address found at the top of your browser in the address bar when you visit a website</p>
         </form>
@@ -46,6 +48,7 @@ export class DialogAddLinkComponent implements OnInit {
   }
 
   dialogForm = new FormGroup({
+    title: new FormControl('', Validators.required),
     url: new FormControl('', Validators.required),
   })
 

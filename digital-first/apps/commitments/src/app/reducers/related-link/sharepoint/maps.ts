@@ -3,7 +3,7 @@ import { RelatedLink } from '../related-link.model'
 
 export const mapRelatedLink = (item): any => ({
     id: item.ID,
-    title: item.Url,
+    title: item.Title,
     commitment: fromLookup(item.Commitment),
     url: item.Url
   })

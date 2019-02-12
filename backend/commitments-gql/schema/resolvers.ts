@@ -282,6 +282,8 @@ export const resolvers = {
     },
     storeRelatedLink: (_root: any, args: any) => {
       const data = { ...args };
+
+      console.log('storeRelatedLink', data)
       const ccc = db['commitment-related-links'].findOne(data)
       var saved = null
       if (!ccc) {

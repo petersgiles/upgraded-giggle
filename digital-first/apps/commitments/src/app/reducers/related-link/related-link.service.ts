@@ -20,7 +20,7 @@ export class RelatedLinkService {
         )
     }
 
-    addItemToCommitment(payload: {commitment: string | number, url: any}): any {
+    addItemToCommitment(payload: {commitment: string | number, url: string, title: string}): any {
         this.store.dispatch(new AddLinkToCommitment(payload))
     }
 

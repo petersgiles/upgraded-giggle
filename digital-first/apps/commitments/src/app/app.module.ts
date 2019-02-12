@@ -125,6 +125,8 @@ import { CommitmentPortfolioComponent } from './containers/commitment-portfolio/
 import { DragDropModule } from '@angular/cdk/drag-drop'
 import { CommitmentMadLibComponent } from './components/commitment-mad-lib/commitment-mad-lib.component'
 
+import { AvatarModule, DataTableModule } from '@df/components'
+
 const COMPONENTS = [
   AppComponent,
   HomeComponent,
@@ -248,6 +250,8 @@ export let appDataServiceProvider = {
     NxModule.forRoot(),
     DfLoggingModule,
     DfComponentsModule,
+    DataTableModule,
+    AvatarModule,
     DfDatatableModule,
     DfButtonsModule,
     DfRefinerModule,

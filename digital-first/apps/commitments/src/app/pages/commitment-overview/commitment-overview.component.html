@@ -13,10 +13,10 @@
     title="New&nbsp;Commitment"
     (onAddItem)="handleCreate()"
   ></digital-first-add-item-button>
-  <digital-first-view-layout-button
+  <!-- <digital-first-view-layout-button
     [pageFormat]="pageFormat"
     (onChangePageFormat)="changePageFormat($event)"
-  ></digital-first-view-layout-button>
+  ></digital-first-view-layout-button> -->
 </div>
 <div class="app-page">
   <section>
@@ -28,7 +28,21 @@
         (onRefinerGroupSelected)="handleRefinerGroupSelected($event)"
         (onRefinerSelected)="handleRefinerSelected($event)"
       ></digital-first-metadata-refiner>
-      <div *ngIf="pageFormat == 'table'" class="overview-data-table">
+
+ 
+
+      <div class="overview-data-table">
+
+        <!-- <df-data-table
+          [rows]="commitments$ | async"
+          [columns]="columns"
+          [count]="count"
+          (onPage)="handlePage($event)"
+          (onSelect)="handleCommitmentsRowClicked($event)"
+          (onFilter)="handleFilter($event)"
+          >
+        </df-data-table> -->
+
         <digital-first-data-table-pager [length]="dataTableRows?.length" [pageSize]="pageSize" [pageIndex]="pageIndex" [showFirstLastButtons]="false" (page)="handlePage($event)"></digital-first-data-table-pager>
         <digital-first-data-table
           [tableData]="dataTableConfig"
@@ -38,7 +52,7 @@
         ></digital-first-data-table>
         <digital-first-data-table-pager [length]="dataTableRows?.length" [pageSize]="pageSize" [pageIndex]="pageIndex" [showFirstLastButtons]="false" (page)="handlePage($event)"></digital-first-data-table-pager>
       </div>
-      <digital-first-commitment-list
+      <!-- <digital-first-commitment-list
         *ngIf="pageFormat == 'list'"
         [commitments]="commitments$ | async"
         (onEdit)="handleEdit($event)"
@@ -50,8 +64,8 @@
           [commitment]="commitment"
           (onEdit)="handleEdit($event)"
           (onShare)="handleShare($event)"
-        ></digital-first-commitment-card>
-      </div>
+        ></digital-first-commitment-card> -->
+   
     </div>
   </section>
 
