@@ -33,7 +33,9 @@ export const getRelatedLinksTableData = createSelector(
         data.map(c => ({
                 id: c.id,
                 cells: [{
-                    value: c.url
+                    value: c.title,
+                    type: 'url',
+                    data: c.url
                 }]
             }))
         // tslint:disable-next-line:no-console
