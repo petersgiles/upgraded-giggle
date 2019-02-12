@@ -10,9 +10,13 @@
       >s</span
     >:
     <ng-container
-      *ngFor="let rp of commitment?.relatedPortfolios; let last = last"
-      ><strong>{{ rp?.title }}</strong
-      ><span *ngIf="!last">, </span></ng-container
+      *ngFor="let rp of commitment?.relatedPortfolios; index as index; last as last; first as first">
+      <ng-container *ngIf="!first">
+        <span *ngIf="last"> and </span>
+        <span *ngIf="!last">,  </span>
+      </ng-container><strong>{{ rp?.title }}</strong>
+      
+    </ng-container
     >.
   </p>
   <p>
