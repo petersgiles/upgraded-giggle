@@ -36,8 +36,8 @@
       with <strong>no</strong> specified party funding</ng-container
     >
     <ng-container *ngIf="commitment.cost"
-      >that the party announced requires
-      <strong>no</strong> funding</ng-container
+      >that the party announced requires funding of 
+      <strong>{{commitment.cost}}</strong></ng-container
     >. It was announced via
     <strong>{{
       getIndefiniteArticle(commitment.announcementType?.title)
