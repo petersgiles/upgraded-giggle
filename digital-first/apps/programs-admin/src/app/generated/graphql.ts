@@ -168,6 +168,12 @@ export interface CreateStatisticReportAccessControlInputGraph {
   accessRights?: Maybe<AccessRights>
 }
 
+export interface CreateUserInputGraph {
+  emailAddress: string
+
+  agencyId: Guid
+}
+
 export interface DeleteAccessControlGroupInputGraph {
   id: Guid
 }
@@ -252,6 +258,10 @@ export interface DeleteStatisticReportAccessControlInputGraph {
   statisticReportId: Guid
 
   accessControlGroupId: Guid
+}
+
+export interface DeleteUserInputGraph {
+  id: Guid
 }
 
 export interface UpdateAccessControlGroupInputGraph {
@@ -450,6 +460,16 @@ export interface UpdateStatisticReportAccessControlInputGraph {
   accessControlGroupId: Guid
 
   accessRights?: Maybe<AccessRights>
+
+  rowVersion: string
+}
+
+export interface UpdateUserInputGraph {
+  id: Guid
+
+  emailAddress: string
+
+  agencyId: Guid
 
   rowVersion: string
 }
@@ -2197,6 +2217,24 @@ export namespace AllStatisticsSearch {
   }
 }
 
+export namespace CreateUser {
+  export type Variables = {
+    data?: Maybe<CreateUserInputGraph>
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    createUser: Maybe<CreateUser>
+  }
+
+  export type CreateUser = {
+    __typename?: 'UserGraph'
+
+    id: Guid
+  }
+}
+
 export namespace User {
   export type Variables = {
     userId: string
@@ -2296,6 +2334,24 @@ export namespace User {
     groupName: Maybe<string>
 
     accessRights: string
+  }
+}
+
+export namespace SelectAgencies {
+  export type Variables = {}
+
+  export type Query = {
+    __typename?: 'Query'
+
+    agencies: Maybe<(Maybe<Agencies>)[]>
+  }
+
+  export type Agencies = {
+    __typename?: 'AgencyGraph'
+
+    id: Guid
+
+    title: string
   }
 }
 
@@ -3563,6 +3619,21 @@ export class AllStatisticsSearchGQL extends Apollo.Query<
 @Injectable({
   providedIn: 'root'
 })
+export class CreateUserGQL extends Apollo.Mutation<
+  CreateUser.Mutation,
+  CreateUser.Variables
+> {
+  document: any = gql`
+    mutation createUser($data: CreateUserInputGraph) {
+      createUser(input: $data) {
+        id
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
 export class UserGQL extends Apollo.Query<User.Query, User.Variables> {
   document: any = gql`
     query user($userId: String!) {
@@ -3604,6 +3675,22 @@ export class UserGQL extends Apollo.Query<User.Query, User.Variables> {
           groupName
           accessRights
         }
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class SelectAgenciesGQL extends Apollo.Query<
+  SelectAgencies.Query,
+  SelectAgencies.Variables
+> {
+  document: any = gql`
+    query selectAgencies {
+      agencies {
+        id
+        title
       }
     }
   `

@@ -39,3 +39,11 @@ query user($userId: String!) {
     }
   }
 }
+
+query selectAgencies{
+  agencies
+  {
+    id
+    title
+  }
+}

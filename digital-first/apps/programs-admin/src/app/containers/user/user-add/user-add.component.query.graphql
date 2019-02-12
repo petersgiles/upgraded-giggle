@@ -1,7 +1,0 @@
-query SelectAgencies
-    {
-        agencies{
-            id
-            title
-        }
-    }

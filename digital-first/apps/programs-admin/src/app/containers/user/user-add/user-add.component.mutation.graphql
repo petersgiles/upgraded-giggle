@@ -1,1 +1,6 @@
-mutation CreateUser($in)
+mutation createUser($data:CreateUserInputGraph){
+  createUser(input: $data){
+         id
+  }
+}
+
