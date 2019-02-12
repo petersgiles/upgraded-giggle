@@ -14,25 +14,28 @@ query user($userId: String!) {
       disable
     }
     programAccess {
-      id
+      entityId
       name
       groupId
       groupName
       accessRights
     }
     reportAccess {
-      id
+      entityId
       groupName
       name
       parentName
       hasAccessToParent
     }
     statisticAccess {
-      id
+      entityId
+      name
       groupName
       hasAccessToParent
+      parentName
     }
     statisticReportAccess {
+      entityId
       name
       parentName
       hasAccessToParent

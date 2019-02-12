@@ -1,20 +1,20 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { DataTableConfig } from '@digital-first/df-datatable'
 import { Maybe, User } from '../../../generated/graphql'
+import { DataTableConfig } from '@digital-first/df-datatable'
 
 @Component({
-  selector: 'digital-first-user-program-access',
-  templateUrl: './user-program-access.component.html',
-  styleUrls: ['./user-program-access.component.scss']
+  selector: 'digital-first-user-statistic-access',
+  templateUrl: './user-statistic-access.component.html',
+  styleUrls: ['./user-statistic-access.component.scss']
 })
-export class UserProgramAccessComponent implements OnInit {
-  programAccessRows: Maybe<Maybe<User.ProgramAccess>[]>
+export class UserStatisticAccessComponent implements OnInit {
+  statisticAccessRows: Maybe<Maybe<User.StatisticAccess>[]>
 
-  programAccessConfig: DataTableConfig = {
+  statisticAccessConfig: DataTableConfig = {
     title: 'Users',
 
     headings: [
-      { caption: 'Program name' },
+      { caption: 'Statistic name' },
       { caption: 'Group Name' },
       { caption: 'Rights' }
     ],
@@ -25,7 +25,7 @@ export class UserProgramAccessComponent implements OnInit {
 
   @Input()
   set tableData(val) {
-    this.programAccessRows = val.map(i => ({
+    this.statisticAccessRows = val.map(i => ({
       id: `${i.entityId}-${i.groupId}`,
       cells: [
         { value: i.name },

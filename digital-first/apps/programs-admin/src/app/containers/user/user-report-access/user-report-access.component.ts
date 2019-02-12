@@ -26,7 +26,7 @@ export class UserReportAccessComponent implements OnInit {
   @Input()
   set tableData(val) {
     this.reportAccessRows = val.map(i => ({
-      id: i.id,
+      id: `${i.entityId}-${i.groupId}`,
       cells: [
         { value: i.name },
         { value: i.groupName },

@@ -2253,7 +2253,7 @@ export namespace User {
   export type ProgramAccess = {
     __typename?: 'ResultantAccessGraph'
 
-    id: Guid
+    entityId: Guid
 
     name: string
 
@@ -2267,7 +2267,7 @@ export namespace User {
   export type ReportAccess = {
     __typename?: 'ResultantAccessGraph'
 
-    id: Guid
+    entityId: Guid
 
     groupName: Maybe<string>
 
@@ -2281,15 +2281,21 @@ export namespace User {
   export type StatisticAccess = {
     __typename?: 'ResultantAccessGraph'
 
-    id: Guid
+    entityId: Guid
+
+    name: string
 
     groupName: Maybe<string>
 
     hasAccessToParent: Maybe<boolean>
+
+    parentName: Maybe<string>
   }
 
   export type StatisticReportAccess = {
     __typename?: 'ResultantAccessGraph'
+
+    entityId: Guid
 
     name: string
 
@@ -3585,25 +3591,28 @@ export class UserGQL extends Apollo.Query<User.Query, User.Variables> {
           disable
         }
         programAccess {
-          id
+          entityId
           name
           groupId
           groupName
           accessRights
         }
         reportAccess {
-          id
+          entityId
           groupName
           name
           parentName
           hasAccessToParent
         }
         statisticAccess {
-          id
+          entityId
+          name
           groupName
           hasAccessToParent
+          parentName
         }
         statisticReportAccess {
+          entityId
           name
           parentName
           hasAccessToParent

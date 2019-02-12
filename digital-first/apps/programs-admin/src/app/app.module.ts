@@ -96,7 +96,9 @@ import { AgencyEditComponent } from './containers/agency/agency-edit/agency-edit
 import { AgencyMappingAddComponent } from './containers/agency/agency-mapping-add/agency-mapping-add.component'
 import { AgencyMappingEditComponent } from './containers/agency/agency-mapping-edit/agency-mapping-edit.component'
 import { UserProgramAccessComponent } from './containers/user/user-program-access/user-program-access.component'
-import { UserReportAccessComponent } from './containers/user/user-report-access/user-report-access.component'
+import { UserReportAccessComponent } from './containers/user/user-report-access/user-report-access.component';
+import { UserStatisticAccessComponent } from './containers/user/user-statistic-access/user-statistic-access.component';
+import { UserStatisticReportAccessComponent } from './containers/user/user-statistic-report-access/user-statistic-report-access.component'
 
 const COMPONENTS = [AppComponent, HomeComponent]
 
@@ -167,7 +169,9 @@ export function initApplication(): Function {
     AgencyMappingAddComponent,
     AgencyMappingEditComponent,
     UserProgramAccessComponent,
-    UserReportAccessComponent
+    UserReportAccessComponent,
+    UserStatisticAccessComponent,
+    UserStatisticReportAccessComponent
   ],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [

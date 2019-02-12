@@ -17,9 +17,21 @@
   >
   </digital-first-user-report-access>
 
-  <digital-first-page-title title="Debug"></digital-first-page-title>
+  <digital-first-user-statistic-access
+    [artifactId]="userId"
+    [tableData]="statisticAccessRows"
+  >
+  </digital-first-user-statistic-access>
 
-  <pre>{{ user | json }}</pre>
+  <digital-first-user-statistic-report-access
+    [artifactId]="userId"
+    [tableData]="statisticReportAccessRows"
+  >
+  </digital-first-user-statistic-report-access>
+
+  <!--<digital-first-page-title title="Debug"></digital-first-page-title>-->
+
+  <!--<pre>{{ user | json }}</pre>-->
 </div>
 <ng-template #loading>
   Loading...
