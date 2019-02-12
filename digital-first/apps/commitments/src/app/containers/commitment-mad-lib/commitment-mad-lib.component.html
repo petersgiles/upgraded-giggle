@@ -46,7 +46,7 @@
   </p>
 
   <p *ngIf="(electorate$ | async)?.length > 0">
-      Delivery location<span *ngIf="(electorate$ | async)?.length > 1">s</span>: 
+      Delivery Location<span *ngIf="(electorate$ | async)?.length > 1">s</span>: 
       <ng-container
       *ngFor="let location of electorate$ | async; index as index; last as last; first as first">
       <ng-container *ngIf="!first">
