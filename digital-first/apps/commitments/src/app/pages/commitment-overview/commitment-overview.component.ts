@@ -88,6 +88,14 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
       )
   }
 
+  columns: [
+    { prop: 'title', name: 'Title' },
+    { prop: 'party', name: 'Party' },
+    { prop: 'portfolio',  name: 'Responsible Portfolio' },
+    { prop: 'commitmentType',  name: 'Type of Commitment' },
+    { prop: 'criticalDate',  name: 'Critical Date' }
+  ]
+
   handlePage($event) {
     this.pageIndex = $event.pageIndex
     this.pageRows()
@@ -98,6 +106,14 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
     const take = skip + this.pageSize
 
     this.pagedDataTableRows = (this.dataTableRows || []).slice(skip, take)
+  }
+
+  handleFilter ($event: any) {
+    const val = $event.target.value.toLowerCase()
+    // tslint:disable-next-line:no-console
+    console.log('handleFilter', val)
+    // filterFruits(val)
+
   }
 
   ngOnDestroy(): void {

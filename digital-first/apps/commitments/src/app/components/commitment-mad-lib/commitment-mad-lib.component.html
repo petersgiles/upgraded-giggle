@@ -6,7 +6,7 @@
     >.
   </p>
   <p>
-    Announced by <strong>{{ commitment.announcedby }}</strong> of
+    Announced by the <strong>{{ commitment.whoAnnouncedType?.title }}</strong> of
     <strong>{{ commitment.party?.title }}</strong> on
     <strong>{{ commitment.date | amDateFormat: 'LL' }}</strong
     >.
@@ -17,11 +17,11 @@
     <ng-container *ngIf="!commitment?.cost">
       with <strong>no</strong> specified party funding</ng-container
     >
-    <ng-container *ngIf="commitment.cost && commitment.cost > 0">
+    <!-- <ng-container *ngIf="commitment.cost && commitment.cost !== 0">
       with party funding of
       <strong>{{commitment.cost}}</strong></ng-container
-    >
-    <ng-container *ngIf="commitment.cost && commitment.cost == 0"
+    > -->
+    <ng-container *ngIf="commitment.cost"
       >that the party announced requires
       <strong>no</strong> funding</ng-container
     >. It was announced via
