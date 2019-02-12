@@ -6,6 +6,7 @@ import { Store, select } from '@ngrx/store'
 import * as fromRoot from '..'
 import { ExpandPanel, CollapsePanel, AddLinkToCommitment, RemoveLinkFromCommitment } from './related-link.actions'
 import { DataTableConfig } from '@digital-first/df-datatable'
+import { RelatedLink } from './related-link.model'
 
 @Injectable({
     providedIn: 'root'
@@ -30,6 +31,10 @@ export class RelatedLinkService {
 
     get TableData(): Observable<DataTableConfig> {
         return this.store.pipe(select(fromRoot.getRelatedLinksTableData))
+    }
+
+    get RelatedLinks(): Observable<RelatedLink[]> {
+        return this.store.pipe(select(fromRoot.getAllRelatedLinks))
     }
 
     get Expanded(): Observable<boolean> {

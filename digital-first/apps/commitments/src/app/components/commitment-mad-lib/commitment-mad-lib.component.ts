@@ -6,6 +6,7 @@ import * as indef from 'indefinite'
   styleUrls: ['./commitment-mad-lib.component.scss']
 })
 export class CommitmentMadLibComponent implements OnInit {
+
   @Input()
   commitment
 

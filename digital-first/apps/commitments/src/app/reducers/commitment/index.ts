@@ -16,6 +16,7 @@ import {
 } from '../commitment-lookup'
 import { findInLookup } from '../utils'
 import { getCommitmentMapPointEntities } from '../commitment-delivery-location'
+import { getAllCommitmentPortfolios } from '../commitment-portfolio'
 export { CommitmentEffects } from './commitment.effects'
 export * from './commitment.model'
 
@@ -62,7 +63,8 @@ export const getCurrentCommitment = createSelector(
     getLookupEnitites,
     getCommitmentMapPointEntities,
     getExtraLookupEnitites,
-    (commitments, current, lookups, mapPoints, extraLookups) => {
+    getAllCommitmentPortfolios,
+    (commitments, current, lookups, mapPoints, extraLookups, commitmentPortfolios) => {
         const commitment = commitments[current]
         if (commitment) {
 
@@ -86,6 +88,7 @@ export const getCurrentCommitment = createSelector(
                 criticalDate: findInLookup(commitment.criticalDate, lookups.criticalDates),
                 commitmentType: findInLookup(commitment.commitmentType, lookups.commitmentTypes),
                 mapPoints: commitmentMapPoints,
+                relatedPortfolios: commitmentPortfolios,
                 date: moment(commitment.date),
             }
 
