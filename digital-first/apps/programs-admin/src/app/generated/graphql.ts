@@ -325,7 +325,7 @@ export interface UpdateDisplayGroupProgramInputGraph {
 
   sortOrder: UInt32
 
-  metaData?: Maybe<string>
+  metadata?: Maybe<string>
 
   rowVersion: string
 }
@@ -337,7 +337,7 @@ export interface UpdateDisplayGroupStatisticInputGraph {
 
   sortOrder: UInt32
 
-  metaData?: Maybe<string>
+  metadata?: Maybe<string>
 
   rowVersion: string
 }
@@ -353,7 +353,7 @@ export interface UpdatePortfolioInputGraph {
 }
 
 export interface UpdateProgramInputGraph {
-  id?: Maybe<Guid>
+  id: Guid
 
   name: string
 
