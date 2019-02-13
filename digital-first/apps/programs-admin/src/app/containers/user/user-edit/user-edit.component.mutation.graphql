@@ -1,0 +1,10 @@
+mutation updateUser ($data:UpdateUserInputGraph!)
+{
+    updateUser (input: $data)
+    {
+        id
+        emailAddress
+    }
+}
+
+

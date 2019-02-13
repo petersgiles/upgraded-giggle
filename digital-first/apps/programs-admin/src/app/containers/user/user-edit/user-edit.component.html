@@ -1,0 +1,59 @@
+<div  *ngIf="(agencies$ | async) as agencies; else loading">
+  <div class="page_title">
+    <div class="reader-card-article__title page_title_text" mdcHeadline5>Edit user</div>
+  </div>
+  <div>
+    <div class="app-page">
+      <div class="mdc-layout-grid">
+        <div class="mdc-layout-grid__inner ">
+          <div class="mdc-layout-grid__cell--span-3"></div>
+          <div class="mdc-layout-grid__cell--span-6 mdc-elevation--z9">
+            <div class="form-content">
+              <form (ngSubmit)="onSubmit()" autocomplete="off" [formGroup]="editUserForm">
+                <fieldset>
+                  <h3 class="form-content__headline">Edit use</h3>
+                  <div class="form-layout__row">
+                    <mdc-text-field
+                      [outlined]="true"
+                      formControlName="emailAddress"
+                      label="email"
+                      type="text">
+                    </mdc-text-field>
+                  </div>
+                  <div class="form-layout__row">
+                    <mdc-select
+                      formControlName="agencyId"
+                      id="agency"
+                      placeholder="Agency"
+                      [outlined]="true"
+                      name="agency">
+                      <option value=""></option>
+                      <option *ngFor="let agency of agencies" [value]="agency.id">{{agency.title}}
+                      </option>
+                    </mdc-select>
+                  </div>
+                  <div class="form-layout__row-with-button">
+                    <button id="submit"
+                            class="mdc-button ng-mdc-button--primary mdc-button--raised mdc-ripple-upgraded"
+                            type="submit"
+                            [disabled]="editUserForm.invalid || editUserForm.pristine">Save
+                    </button>
+                    <button id="cancel"
+                            class="mdc-button ng-mdc-button--secondary mdc-button--raised mdc-ripple-upgraded"
+                            type="button" (click)="cancel()">Cancel
+                    </button>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
+          </div>
+          <div class="mdc-layout-grid__cell--span-3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <ng-template #loading>
+      Loading...
+  </ng-template>
+  

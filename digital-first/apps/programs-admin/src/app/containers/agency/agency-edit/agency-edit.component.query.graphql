@@ -1,4 +1,4 @@
-query GetAgency ($id: String!) {
+query getAgency ($id: String!) {
   agency(id: $id)
   {
     id

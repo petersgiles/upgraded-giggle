@@ -1,0 +1,6 @@
+mutation createUser($data:CreateUserInputGraph){
+  createUser(input: $data){
+         id
+  }
+}
+
