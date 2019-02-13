@@ -119,7 +119,7 @@ export class CommitmentDataService {
     return this.store.pipe(select(fromRoot.getRelatedCommitmentsTableData))
   }
 
-  get CommitmentDataTable(): Observable<DataTableConfig> {
+  get CommitmentDataTable(): Observable<any> {
     return this.store.pipe(select(fromRoot.getAllOverviewCommitmentDataTables))
   }
 

@@ -123,7 +123,7 @@ import {
 } from '@digital-first/df-refiner'
 import { CommitmentPortfolioComponent } from './containers/commitment-portfolio/commitment-portfolio.component'
 import { DragDropModule } from '@angular/cdk/drag-drop'
-import { CommitmentMadLibComponent } from './components/commitment-mad-lib/commitment-mad-lib.component'
+import { CommitmentMadLibComponent } from './containers/commitment-mad-lib/commitment-mad-lib.component'
 
 import { AvatarModule, DataTableModule } from '@df/components'
 

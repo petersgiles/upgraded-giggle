@@ -63,8 +63,7 @@ export const getCurrentCommitment = createSelector(
     getLookupEnitites,
     getCommitmentMapPointEntities,
     getExtraLookupEnitites,
-    getAllCommitmentPortfolios,
-    (commitments, current, lookups, mapPoints, extraLookups, commitmentPortfolios) => {
+    (commitments, current, lookups, mapPoints, extraLookups) => {
         const commitment = commitments[current]
         if (commitment) {
 
@@ -88,7 +87,6 @@ export const getCurrentCommitment = createSelector(
                 criticalDate: findInLookup(commitment.criticalDate, lookups.criticalDates),
                 commitmentType: findInLookup(commitment.commitmentType, lookups.commitmentTypes),
                 mapPoints: commitmentMapPoints,
-                relatedPortfolios: commitmentPortfolios,
                 date: moment(commitment.date),
             }
 

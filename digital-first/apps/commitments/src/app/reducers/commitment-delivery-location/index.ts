@@ -40,27 +40,3 @@ export const getCommitmentElectorateEntities = createSelector(
     getCommitmentElectorates,
     (electorates) => arrayToHash(electorates, 'electorate')
 )
-
-// export const getDeliveryLocationsTableData = createSelector(
-//     getAllDeliveryLocations,
-//     (data) => {
-//         const rows = data &&
-//         data.map(c => ({
-//                 id: c.id,
-//                 cells: [{
-//                     value: c.url
-//                 }]
-//             }))
-//         // tslint:disable-next-line:no-console
-//         console.log('getAllDeliveryLocations', data, rows)
-//         const dtc: DataTableConfig = {
-//             title: 'related links',
-//             headings: [
-//                 { caption: 'Link' }
-//             ],
-//             rows: rows
-//         }
-//         return dtc
-
-//     }
-// )

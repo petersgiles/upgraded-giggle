@@ -6,9 +6,13 @@
   >
     Commitments
   </div>
-  <digital-first-clear-button title="Clear&nbsp;Filters"
-  (onClear)="handleClearAllFilters()"></digital-first-clear-button>
-  <digital-first-export-button (onExport)="handleExport()"></digital-first-export-button>
+  <digital-first-clear-button
+    title="Clear&nbsp;Filters"
+    (onClear)="handleClearAllFilters()"
+  ></digital-first-clear-button>
+  <digital-first-export-button
+    (onExport)="handleExport()"
+  ></digital-first-export-button>
   <digital-first-add-item-button
     title="New&nbsp;Commitment"
     (onAddItem)="handleCreate()"
@@ -29,47 +33,15 @@
         (onRefinerSelected)="handleRefinerSelected($event)"
       ></digital-first-metadata-refiner>
 
- 
-
       <div class="overview-data-table">
-
-        <!-- <df-data-table
-          [rows]="commitments$ | async"
+        <df-data-table
+          [rows]="commitmentsTableData$ | async"
           [columns]="columns"
           [count]="count"
-          (onPage)="handlePage($event)"
           (onSelect)="handleCommitmentsRowClicked($event)"
-          (onFilter)="handleFilter($event)"
-          >
-        </df-data-table> -->
-
-        <digital-first-data-table-pager [length]="dataTableRows?.length" [pageSize]="pageSize" [pageIndex]="pageIndex" [showFirstLastButtons]="false" (page)="handlePage($event)"></digital-first-data-table-pager>
-        <digital-first-data-table
-          [tableData]="dataTableConfig"
-          [tableRows]="pagedDataTableRows"
-          (onCellClicked)="handleCommitmentsRowClicked($event)"
-          (onCellHeadingClicked)="handleCommitmentsCellHeadingClicked($event)"
-        ></digital-first-data-table>
-        <digital-first-data-table-pager [length]="dataTableRows?.length" [pageSize]="pageSize" [pageIndex]="pageIndex" [showFirstLastButtons]="false" (page)="handlePage($event)"></digital-first-data-table-pager>
+        >
+        </df-data-table>
       </div>
-      <!-- <digital-first-commitment-list
-        *ngIf="pageFormat == 'list'"
-        [commitments]="commitments$ | async"
-        (onEdit)="handleEdit($event)"
-      ></digital-first-commitment-list>
-
-      <div *ngIf="pageFormat == 'card'" class="overview-cards">
-        <digital-first-commitment-card
-          *ngFor="let commitment of (commitments$ | async)"
-          [commitment]="commitment"
-          (onEdit)="handleEdit($event)"
-          (onShare)="handleShare($event)"
-        ></digital-first-commitment-card> -->
-   
     </div>
   </section>
-
-  <!-- <button mdc-fab extended label="Create Commitment" class="app-fab-extended-fluid" (click)="handleCreate()">
-        <mdc-icon>add</mdc-icon>
-    </button> -->
 </div>

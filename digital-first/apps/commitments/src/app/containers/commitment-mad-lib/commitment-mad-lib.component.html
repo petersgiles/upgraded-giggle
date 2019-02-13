@@ -5,19 +5,18 @@
     Responsible Portfolio: <strong>{{ commitment.portfolio?.title }}</strong
     >.
   </p>
-  <p *ngIf="commitment?.relatedPortfolios">
-    Related Portfolio<span *ngIf="commitment?.relatedPortfolios?.length > 1"
+  <p *ngIf="relatedPortfolios?.length > 0">
+    Related Portfolio<span *ngIf="relatedPortfolios?.length > 1"
       >s</span
     >:
     <ng-container
-      *ngFor="let rp of commitment?.relatedPortfolios; index as index; last as last; first as first">
+      *ngFor="let rp of relatedPortfolios; index as index; last as last; first as first">
       <ng-container *ngIf="!first">
         <span *ngIf="last"> and </span>
         <span *ngIf="!last">, </span>
       </ng-container><strong>{{ rp?.title }}</strong>
       
-    </ng-container
-    >.
+    </ng-container>.
   </p>
   <p>
     Announced by the
@@ -36,18 +35,36 @@
     <ng-container *ngIf="!commitment?.cost">
       with <strong>no</strong> specified party funding</ng-container
     >
-    <!-- <ng-container *ngIf="commitment.cost && commitment.cost !== 0">
-      with party funding of
-      <strong>{{commitment.cost}}</strong></ng-container
-    > -->
     <ng-container *ngIf="commitment.cost"
-      >that the party announced requires
-      <strong>no</strong> funding</ng-container
+      >that the party announced requires funding of 
+      <strong>{{commitment.cost}}</strong></ng-container
     >. It was announced via
     <strong>{{
       getIndefiniteArticle(commitment.announcementType?.title)
     }}</strong
     >.
+  </p>
+
+  <p *ngIf="(electorate$ | async)?.length > 0">
+      Delivery Location<span *ngIf="(electorate$ | async)?.length > 1">s</span>: 
+      <ng-container
+      *ngFor="let location of electorate$ | async; index as index; last as last; first as first">
+      <ng-container *ngIf="!first">
+        <span *ngIf="last"> and </span>
+        <span *ngIf="!last">, </span>
+      </ng-container><strong>{{ location?.title }}</strong>
+    </ng-container>.
+  </p>
+
+  <p *ngIf="(mapPoint$ | async)?.length > 0">
+      Delivery Address<span *ngIf="(mapPoint$ | async)?.length > 1">es</span>: 
+      <ng-container
+      *ngFor="let mapPoint of mapPoint$ | async; index as index; last as last; first as first">
+      <ng-container *ngIf="!first">
+        <span *ngIf="last"> and </span>
+        <span *ngIf="!last">, </span>
+      </ng-container><strong>{{ mapPoint?.address }}</strong>
+    </ng-container>.
   </p>
 
   <p>
