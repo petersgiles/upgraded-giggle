@@ -7,9 +7,10 @@ query user($userId: String!) {
       id
       title
     }
-    apiKeys {
+    apiKeys(orderBy:{path:"created"}) {
       id
       key
+      created
       rowVersion
       disable
     }
@@ -52,3 +53,4 @@ query selectAgencies{
     title
   }
 }
+
