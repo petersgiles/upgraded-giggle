@@ -59,6 +59,6 @@ export class UserEditComponent implements OnInit {
       this.router.navigate(['users', this.userId]))
   }
   cancel() {
-    return this.router.navigate(['users'])
+    return this.router.navigate(['users', this.userId])
   }
 }
