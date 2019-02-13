@@ -2271,6 +2271,36 @@ export namespace DeleteUser {
   }
 }
 
+export namespace CreateApiKey {
+  export type Variables = {
+    data: CreateApiKeyInputGraph
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    createApiKey: Maybe<CreateApiKey>
+  }
+
+  export type CreateApiKey = {
+    __typename?: 'ApiKeyGraph'
+
+    id: Guid
+  }
+}
+
+export namespace DeleteApiKey {
+  export type Variables = {
+    data: DeleteApiKeyInputGraph
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    deleteApiKey: Maybe<boolean>
+  }
+}
+
 export namespace User {
   export type Variables = {
     userId: string
@@ -2318,6 +2348,8 @@ export namespace User {
     id: Guid
 
     key: string
+
+    created: DateTimeOffset
 
     rowVersion: string
 
@@ -3715,6 +3747,34 @@ export class DeleteUserGQL extends Apollo.Mutation<
 @Injectable({
   providedIn: 'root'
 })
+export class CreateApiKeyGQL extends Apollo.Mutation<
+  CreateApiKey.Mutation,
+  CreateApiKey.Variables
+> {
+  document: any = gql`
+    mutation createApiKey($data: CreateApiKeyInputGraph!) {
+      createApiKey(input: $data) {
+        id
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class DeleteApiKeyGQL extends Apollo.Mutation<
+  DeleteApiKey.Mutation,
+  DeleteApiKey.Variables
+> {
+  document: any = gql`
+    mutation deleteApiKey($data: DeleteApiKeyInputGraph!) {
+      deleteApiKey(input: $data)
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
 export class UserGQL extends Apollo.Query<User.Query, User.Variables> {
   document: any = gql`
     query user($userId: String!) {
@@ -3726,9 +3786,10 @@ export class UserGQL extends Apollo.Query<User.Query, User.Variables> {
           id
           title
         }
-        apiKeys {
+        apiKeys(orderBy: { path: "created" }) {
           id
           key
+          created
           rowVersion
           disable
         }
