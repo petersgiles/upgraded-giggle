@@ -4,7 +4,7 @@
 import * as packageJson from '../../../../package.json'
 
 export const environment = {
-  production: false,
+  production: true,
   redirectErrors: true,
   version: packageJson.version,
   commitHash: packageJson['commit-hash'],
