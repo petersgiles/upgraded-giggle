@@ -1334,8 +1334,6 @@ export namespace Program {
     agency: Maybe<Agency>
 
     reports: Maybe<(Maybe<Reports>)[]>
-
-    projects: Maybe<(Maybe<Projects>)[]>
   }
 
   export type AccessControlList = {
@@ -1404,28 +1402,6 @@ export namespace Program {
     __typename?: 'AccessControlGroupGraph'
 
     title: string
-  }
-
-  export type Projects = {
-    __typename?: 'ProjectGraph'
-
-    id: Guid
-
-    name: string
-
-    status: Maybe<string>
-
-    notes: Maybe<string>
-
-    electorates: Maybe<(Maybe<Electorates>)[]>
-  }
-
-  export type Electorates = {
-    __typename?: 'ElectorateGraph'
-
-    id: Guid
-
-    name: string
   }
 }
 
@@ -3100,16 +3076,6 @@ export class ProgramGQL extends Apollo.Query<Program.Query, Program.Variables> {
                 title
               }
             }
-          }
-        }
-        projects {
-          id
-          name
-          status
-          notes
-          electorates {
-            id
-            name
           }
         }
       }

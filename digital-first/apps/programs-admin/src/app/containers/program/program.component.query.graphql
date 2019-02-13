@@ -1,62 +1,50 @@
-query program ($programId: String!) {
-  program(id:$programId)
-  {
+query program($programId: String!) {
+  program(id: $programId) {
     id
     name
     notes
     externalId
     rowVersion
-    accessControlList{
+    accessControlList {
       id
-      accessControlEntries (orderBy: {path: "accessControlGroup.title"}) {
+      accessControlEntries(orderBy: { path: "accessControlGroup.title" }) {
         id
         rights
         rowVersion
-        accessControlGroup  {
+        accessControlGroup {
           id
           title
         }
       }
     }
-    agency{
+    agency {
       id
       title
       metadata
     }
-    reports{
+    reports {
       id
       name
       notes
-      accessControlList{
-        accessControlEntries{
-          accessControlGroup{
+      accessControlList {
+        accessControlEntries {
+          accessControlGroup {
             title
           }
         }
       }
     }
-    projects{
-      id
-      name
-      status
-      notes
-      electorates{
-        id
-        name
-      }
-    }
   }
 }
 
-query editProgram ($programId: String!) {
-  program(id:$programId)
-  {
+query editProgram($programId: String!) {
+  program(id: $programId) {
     id
     name
     notes
     externalId
     rowVersion
-    agency{
+    agency {
       id
       title
       metadata
@@ -64,13 +52,12 @@ query editProgram ($programId: String!) {
   }
 }
 
-
-query allPortfolios{
-  portfolios(orderBy:{path:"title"}){
+query allPortfolios {
+  portfolios(orderBy: { path: "title" }) {
     id
     title
     metadata
-    agencies{
+    agencies {
       id
       metadata
       title
