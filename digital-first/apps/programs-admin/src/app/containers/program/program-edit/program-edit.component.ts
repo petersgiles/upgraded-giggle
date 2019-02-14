@@ -11,7 +11,8 @@ import {
 import { ActivatedRoute, Router } from '@angular/router'
 import { map } from 'rxjs/operators'
 import { Subscription } from 'rxjs'
-import {formConstants} from '../../../form-constants'
+import { formConstants } from '../../../form-constants'
+import { trimStringOrReturnNull } from '../../../core/graphqlhelper'
 
 @Component({
   selector: 'digital-first-program-edit',
@@ -27,8 +28,11 @@ export class ProgramEditComponent implements OnInit, OnDestroy {
 
   addProgramForm = this.formBuilder.group({
     agencyId: [undefined, Validators.required],
-    programName: [null, [Validators.required, Validators.maxLength(formConstants.nameMaxLength)]],
-    externalId: [null],
+    programName: [
+      null,
+      [Validators.required, Validators.maxLength(formConstants.nameMaxLength)]
+    ],
+    externalId: [''],
     notes: ['']
   })
   programId: string
@@ -71,8 +75,10 @@ export class ProgramEditComponent implements OnInit, OnDestroy {
           data: {
             agencyId: this.addProgramForm.value['agencyId'],
             name: this.addProgramForm.value['programName'],
-            notes: this.addProgramForm.value['notes'],
-            externalId: this.addProgramForm.value['externalId'],
+            notes: trimStringOrReturnNull(this.addProgramForm.value['notes']),
+            externalId: trimStringOrReturnNull(
+              this.addProgramForm.value['externalId']
+            ),
             rowVersion: this.rowVersion,
             id: this.programId
           }
