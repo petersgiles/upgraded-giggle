@@ -35,9 +35,26 @@
   >
   </digital-first-user-statistic-report-access>
 
-  <!--<digital-first-page-title title="Debug"></digital-first-page-title>-->
 
-  <!--<pre>{{ user | json }}</pre>-->
+  <section>
+    <digital-first-page-title
+    title="API Keys">
+    <digital-first-add-item-button
+      (onAddItem)="handleAddApiKey()"
+    ></digital-first-add-item-button>
+
+  </digital-first-page-title>
+
+  <div  class="programsadmin-layout__row">
+      <digital-first-data-table
+      [tableData]="apiKeysTableData"
+      [hasDeleteItemButton]="true"
+      (onDeleteItem)="handleDeleteApiKey($event)">
+      </digital-first-data-table>
+  </div>
+
+</section>
+
 </div>
 <ng-template #loading>
   Loading...

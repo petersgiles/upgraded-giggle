@@ -1,3 +1,13 @@
 mutation deleteUser($data: DeleteUserInputGraph!) {
   deleteUser(input:$data)
 }
+
+mutation createApiKey($data: CreateApiKeyInputGraph!) {
+    createApiKey(input:$data){
+      id
+    }
+}
+
+mutation deleteApiKey($data: DeleteApiKeyInputGraph!) {
+    deleteApiKey(input:$data)
+}
