@@ -88,8 +88,7 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
     message.statisticReportId = this.statisticForm.value['statisticReportId']
     message.dataDate = new Date(this.statisticForm.value['dataDate'])
     message.notes = this.statisticForm.value['notes']
-    message.fileName = this.statisticForm.value['filename']
-
+    message.fileName = this.statisticForm.value.file.name
     formData.append('file', this.statisticForm.value['file'], 'default')
     formData.append('message', JSON.stringify(message))
 
