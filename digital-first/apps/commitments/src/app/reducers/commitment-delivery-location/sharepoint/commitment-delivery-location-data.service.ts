@@ -204,6 +204,7 @@ export class DeliveryLocationDataSharePointService
 
   removeMapPointFromCommitment(payload: { commitment: any; mapPoint: any }) {
     const LISTNAME = 'CommitmentMapPoint'
+    const MAPOINT_LISTNAME = 'MapPoint'
 
     const mapPointViewXml = byMapPointPlaceIdQuery({
       placeId: payload.mapPoint
@@ -211,7 +212,7 @@ export class DeliveryLocationDataSharePointService
 
     return this.sharepoint
       .getItems({
-        listName: 'MapPoint',
+        listName: MAPOINT_LISTNAME,
         viewXml: mapPointViewXml
       })
       .pipe(
