@@ -81,7 +81,9 @@ export class ErrorsHandler implements ErrorHandler {
     const mappedEvent = {
       Level: 'Error',
       MessageTemplate: 'Programs admin client application error: {message}.',
-      Properties: { clientVersion: environment.version },
+      Properties: {
+        clientVersion: `${environment.version} (#${environment.commitHash})`
+      },
       Timestamp: new Date().toISOString(),
       Exception: ''
     }
