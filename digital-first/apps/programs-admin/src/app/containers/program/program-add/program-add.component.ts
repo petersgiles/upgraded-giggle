@@ -1,10 +1,16 @@
-import {Component, OnDestroy, OnInit} from '@angular/core'
-import {FormBuilder, Validators} from '@angular/forms'
-import {AllAgencies, AllAgenciesGQL, AllProgramsGQL, CreateProgramGQL} from '../../../generated/graphql'
-import {Subscription} from 'rxjs'
-import {map} from 'rxjs/operators'
-import {Router} from '@angular/router'
-import {formConstants} from '../../../form-constants'
+import { Component, OnDestroy, OnInit } from '@angular/core'
+import { FormBuilder, Validators } from '@angular/forms'
+import {
+  AllAgencies,
+  AllAgenciesGQL,
+  AllProgramsGQL,
+  CreateProgramGQL
+} from '../../../generated/graphql'
+import { Subscription } from 'rxjs'
+import { map } from 'rxjs/operators'
+import { Router } from '@angular/router'
+import { formConstants } from '../../../form-constants'
+import { trimStringOrReturnNull } from '../../../core/graphqlhelper'
 
 @Component({
   selector: 'digital-first-program-add',
@@ -12,43 +18,54 @@ import {formConstants} from '../../../form-constants'
   styleUrls: ['./program-add.component.scss']
 })
 export class ProgramAddComponent implements OnInit, OnDestroy {
-
   agenciesSubscription$: Subscription
   agencies: AllAgencies.Agencies[]
 
   addProgramForm = this.formBuilder.group({
     agencyId: [undefined, Validators.required],
-    programName: [null, [Validators.required, Validators.maxLength(formConstants.nameMaxLength)]],
-    externalId: [null],
+    programName: [
+      null,
+      [Validators.required, Validators.maxLength(formConstants.nameMaxLength)]
+    ],
+    externalId: [''],
     notes: ['']
   })
 
-  constructor(private formBuilder: FormBuilder,
-              private allAgencies: AllAgenciesGQL,
-              private allProgramsGQL: AllProgramsGQL,
-              private router: Router,
-              private createProgramGQL: CreateProgramGQL) {
-  }
+  constructor(
+    private formBuilder: FormBuilder,
+    private allAgencies: AllAgenciesGQL,
+    private allProgramsGQL: AllProgramsGQL,
+    private router: Router,
+    private createProgramGQL: CreateProgramGQL
+  ) {}
 
   ngOnInit() {
     this.agenciesSubscription$ = this.allAgencies
-      .watch({}, {fetchPolicy: 'cache-first'})
-      .valueChanges.pipe(map(result => result.data.agencies)).subscribe(value => {
-          this.agencies = value
-        }
-      )
+      .watch({}, { fetchPolicy: 'cache-first' })
+      .valueChanges.pipe(map(result => result.data.agencies))
+      .subscribe(value => {
+        this.agencies = value
+      })
   }
 
   onSubmit() {
-    this.createProgramGQL.mutate({
-      data: {
-        agencyId: this.addProgramForm.value['agencyId'],
-        name: this.addProgramForm.value['programName'],
-        notes: this.addProgramForm.value['notes'],
-        externalId: this.addProgramForm.value['externalId']
-      }
-    }, {}).subscribe(({data}) =>
-      this.router.navigate(['programs', data.createProgram.id]))
+    this.createProgramGQL
+      .mutate(
+        {
+          data: {
+            agencyId: this.addProgramForm.value['agencyId'],
+            name: this.addProgramForm.value['programName'],
+            notes: trimStringOrReturnNull(this.addProgramForm.value['notes']),
+            externalId: trimStringOrReturnNull(
+              this.addProgramForm.value['externalId']
+            )
+          }
+        },
+        {}
+      )
+      .subscribe(({ data }) =>
+        this.router.navigate(['programs', data.createProgram.id])
+      )
   }
 
   cancel() {
