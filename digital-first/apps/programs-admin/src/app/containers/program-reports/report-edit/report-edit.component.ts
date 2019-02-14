@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs'
 import { Report, ReportGQL, UpdateReportGQL } from '../../../generated/graphql'
 import { map } from 'rxjs/operators'
 import { formConstants } from '../../../form-constants'
+import { trimStringOrReturnNull } from '../../../core/graphqlhelper'
 @Component({
   selector: 'digital-first-report-edit',
   templateUrl: './report-edit.component.html',
@@ -17,11 +18,7 @@ export class ReportEditComponent implements OnInit, OnDestroy {
   editReportForm = this.formBuilder.group({
     reportName: [
       null,
-      [
-        Validators.required,
-        Validators.pattern(formConstants.emptyStringPattern),
-        Validators.maxLength(formConstants.nameMaxLength)
-      ]
+      [Validators.required, Validators.maxLength(formConstants.nameMaxLength)]
     ],
     notes: ['']
   })
@@ -56,7 +53,7 @@ export class ReportEditComponent implements OnInit, OnDestroy {
         {
           data: {
             name: this.editReportForm.value['reportName'],
-            notes: this.editReportForm.value['notes'],
+            notes: trimStringOrReturnNull(this.editReportForm.value['notes']),
             rowVersion: this.report.rowVersion,
             id: this.report.id,
             programId: this.report.programId

@@ -9,6 +9,7 @@ import { Router } from '@angular/router'
 import { map } from 'rxjs/operators'
 import { Observable } from 'rxjs'
 import { formConstants } from '../../../form-constants'
+import { trimStringOrReturnNull } from '../../../core/graphqlhelper'
 
 @Component({
   selector: 'digital-first-agency-add',
@@ -48,7 +49,9 @@ export class AgencyAddComponent implements OnInit {
         {
           data: {
             title: this.addAgencyForm.value['agencyName'],
-            metadata: this.addAgencyForm.value['metadata'],
+            metadata: trimStringOrReturnNull(
+              this.addAgencyForm.value['metadata']
+            ),
             portfolioId: this.addAgencyForm.value['portfolioId']
           }
         },

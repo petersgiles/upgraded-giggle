@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { map } from 'rxjs/operators'
 import { Observable, Subscription } from 'rxjs'
 import { formConstants } from '../../../form-constants'
+import { trimStringOrReturnNull } from '../../../core/graphqlhelper'
 @Component({
   selector: 'digital-first-agency-edit',
   templateUrl: './agency-edit.component.html',
@@ -71,7 +72,9 @@ export class AgencyEditComponent implements OnInit, OnDestroy {
           data: {
             portfolioId: this.editAgencyForm.value['portfolioId'],
             title: this.editAgencyForm.value['agencyName'],
-            metadata: this.editAgencyForm.value['metadata'],
+            metadata: trimStringOrReturnNull(
+              this.editAgencyForm.value['metadata']
+            ),
             rowVersion: this.rowVersion,
             id: this.agencyId
           }

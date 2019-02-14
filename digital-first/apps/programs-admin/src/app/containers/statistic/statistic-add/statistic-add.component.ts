@@ -9,6 +9,7 @@ import { FormBuilder, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
 import { map } from 'rxjs/operators'
 import { formConstants } from '../../../form-constants'
+import { trimStringOrReturnNull } from '../../../core/graphqlhelper'
 
 @Component({
   selector: 'digital-first-statistic-add',
@@ -23,11 +24,7 @@ export class StatisticAddComponent implements OnInit {
     agencyId: [undefined, Validators.required],
     statisticName: [
       null,
-      [
-        Validators.required,
-        Validators.pattern(formConstants.emptyStringPattern),
-        Validators.maxLength(formConstants.nameMaxLength)
-      ]
+      [Validators.required, Validators.maxLength(formConstants.nameMaxLength)]
     ],
     externalId: [null],
     notes: ['']
@@ -56,7 +53,9 @@ export class StatisticAddComponent implements OnInit {
           data: {
             agencyId: this.addStatisticForm.value['agencyId'],
             name: this.addStatisticForm.value['statisticName'],
-            externalId: this.addStatisticForm.value['externalId']
+            externalId: trimStringOrReturnNull(
+              this.addStatisticForm.value['externalId']
+            )
           }
         },
         {}

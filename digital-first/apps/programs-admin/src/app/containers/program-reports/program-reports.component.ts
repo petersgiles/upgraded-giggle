@@ -1,8 +1,11 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core'
-import {MdcDialog} from '@angular-mdc/web'
-import {ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent} from '@digital-first/df-dialogs'
-import {first} from 'rxjs/operators'
-import {ActivatedRoute, Router} from '@angular/router'
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
+import { MdcDialog } from '@angular-mdc/web'
+import {
+  ARE_YOU_SURE_ACCEPT,
+  DialogAreYouSureComponent
+} from '@digital-first/df-dialogs'
+import { first } from 'rxjs/operators'
+import { ActivatedRoute, Router } from '@angular/router'
 
 @Component({
   selector: 'digital-first-program-reports',
@@ -19,19 +22,18 @@ export class ProgramReportsComponent implements OnInit {
 
   expanded: true
 
-  constructor(public dialog: MdcDialog,
-              private route: ActivatedRoute,
-              private router: Router) {
-  }
+  constructor(
+    public dialog: MdcDialog,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  handleChangeExpanded(expanded) {
-  }
+  handleChangeExpanded(expanded) {}
 
   handleAddClicked($event) {
-    return this.router.navigate(['reports/add'], {relativeTo: this.route})
+    return this.router.navigate(['reports/add'], { relativeTo: this.route })
   }
 
   handleTableDeleteClicked($event) {
