@@ -10,7 +10,8 @@ import {
 import { ActivatedRoute, Router } from '@angular/router'
 import { map } from 'rxjs/operators'
 import { Observable, Subscription } from 'rxjs'
-import {formConstants} from '../../../form-constants'
+import { formConstants } from '../../../form-constants'
+import { trimStringOrReturnNull } from '../../../core/graphqlhelper'
 @Component({
   selector: 'digital-first-project-edit',
   templateUrl: './project-edit.component.html',
@@ -23,7 +24,10 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
   projectSubscription$: Subscription
   project: Project.Project
   editProjectForm = this.formBuilder.group({
-    projectName: [null, [Validators.required, , Validators.maxLength(formConstants.nameMaxLength)]],
+    projectName: [
+      null,
+      [Validators.required, , Validators.maxLength(formConstants.nameMaxLength)]
+    ],
     externalId: [null],
     notes: [''],
     programId: [null, Validators.required]
@@ -66,8 +70,10 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
           data: {
             programId: this.editProjectForm.value['programId'],
             name: this.editProjectForm.value['projectName'],
-            notes: this.editProjectForm.value['notes'],
-            externalId: this.editProjectForm.value['externalId'],
+            notes: trimStringOrReturnNull(this.editProjectForm.value['notes']),
+            externalId: trimStringOrReturnNull(
+              this.editProjectForm.value['externalId']
+            ),
             rowVersion: this.rowVersion,
             id: this.projectId
           }
