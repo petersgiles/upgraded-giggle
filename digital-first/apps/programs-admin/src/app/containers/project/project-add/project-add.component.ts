@@ -9,10 +9,7 @@ import { Subscription } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { Router } from '@angular/router'
 import { formConstants } from '../../../form-constants'
-<<<<<<< HEAD
-=======
 import { trimStringOrReturnNull } from '../../../core/graphqlhelper'
->>>>>>> nonMandatoryNull
 
 @Component({
   selector: 'digital-first-project-add',
@@ -27,15 +24,7 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
     programId: [undefined, Validators.required],
     projectName: [
       null,
-<<<<<<< HEAD
-      [
-        Validators.required,
-        Validators.pattern(formConstants.emptyStringPattern),
-        Validators.maxLength(formConstants.nameMaxLength)
-      ]
-=======
       [Validators.required, Validators.maxLength(formConstants.nameMaxLength)]
->>>>>>> nonMandatoryNull
     ],
     externalId: [null],
     notes: ['']
@@ -63,15 +52,10 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
         {
           data: {
             name: this.addProjectForm.value['projectName'],
-<<<<<<< HEAD
-            notes: this.addProjectForm.value['notes'],
-            externalId: this.addProjectForm.value['externalId'],
-=======
             notes: trimStringOrReturnNull(this.addProjectForm.value['notes']),
             externalId: trimStringOrReturnNull(
               this.addProjectForm.value['externalId']
             ),
->>>>>>> nonMandatoryNull
             programId: this.addProjectForm.value['programId']
           }
         },

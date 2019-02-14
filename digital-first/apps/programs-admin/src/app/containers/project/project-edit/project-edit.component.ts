@@ -11,10 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { map } from 'rxjs/operators'
 import { Observable, Subscription } from 'rxjs'
 import { formConstants } from '../../../form-constants'
-<<<<<<< HEAD
-=======
 import { trimStringOrReturnNull } from '../../../core/graphqlhelper'
->>>>>>> nonMandatoryNull
 @Component({
   selector: 'digital-first-project-edit',
   templateUrl: './project-edit.component.html',
@@ -29,15 +26,7 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
   editProjectForm = this.formBuilder.group({
     projectName: [
       null,
-<<<<<<< HEAD
-      [
-        Validators.required,
-        Validators.pattern(formConstants.emptyStringPattern),
-        Validators.maxLength(formConstants.nameMaxLength)
-      ]
-=======
       [Validators.required, , Validators.maxLength(formConstants.nameMaxLength)]
->>>>>>> nonMandatoryNull
     ],
     externalId: [null],
     notes: [''],
