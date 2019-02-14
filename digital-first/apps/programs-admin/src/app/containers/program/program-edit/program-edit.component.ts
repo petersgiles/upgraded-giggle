@@ -30,7 +30,11 @@ export class ProgramEditComponent implements OnInit, OnDestroy {
     agencyId: [undefined, Validators.required],
     programName: [
       null,
-      [Validators.required, Validators.maxLength(formConstants.nameMaxLength)]
+      [
+        Validators.required,
+        Validators.pattern(formConstants.emptyStringPattern),
+        Validators.maxLength(formConstants.nameMaxLength)
+      ]
     ],
     externalId: [''],
     notes: ['']

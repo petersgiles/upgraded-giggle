@@ -1,21 +1,30 @@
-import {Component, OnDestroy, OnInit} from '@angular/core'
-import {ActivatedRoute, Router} from '@angular/router'
-import {FormBuilder, Validators} from '@angular/forms'
-import {map} from 'rxjs/operators'
-import {StatisticReport, StatisticReportGQL, UpdateStatisticReportGQL} from '../../../generated/graphql'
-import {Subscription} from 'rxjs'
-import {formConstants} from '../../../form-constants'
+import { Component, OnDestroy, OnInit } from '@angular/core'
+import { ActivatedRoute, Router } from '@angular/router'
+import { FormBuilder, Validators } from '@angular/forms'
+import { map } from 'rxjs/operators'
+import {
+  StatisticReport,
+  StatisticReportGQL,
+  UpdateStatisticReportGQL
+} from '../../../generated/graphql'
+import { Subscription } from 'rxjs'
+import { formConstants } from '../../../form-constants'
 
 @Component({
   selector: 'digital-first-statistic-report-edit',
   templateUrl: './statistic-report-edit.component.html',
   styleUrls: ['./statistic-report-edit.component.scss']
 })
-
 export class StatisticReportEditComponent implements OnInit, OnDestroy {
-
   editStatisticReportForm = this.formBuilder.group({
-    reportName: [null, [Validators.required, Validators.maxLength(formConstants.nameMaxLength)]],
+    reportName: [
+      null,
+      [
+        Validators.required,
+        Validators.pattern(formConstants.emptyStringPattern),
+        Validators.maxLength(formConstants.nameMaxLength)
+      ]
+    ],
     notes: ['']
   })
 
@@ -28,14 +37,17 @@ export class StatisticReportEditComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private statisticReportGql: StatisticReportGQL,
-    private updateStatisticReportGQL: UpdateStatisticReportGQL) {
-  }
+    private updateStatisticReportGQL: UpdateStatisticReportGQL
+  ) {}
 
   ngOnInit() {
-
     this.statisticReportId = this.route.snapshot.paramMap.get('id')
 
-    this.reportSubscription$ = this.statisticReportGql.watch({reportId: this.statisticReportId}, {fetchPolicy: 'network-only'})
+    this.reportSubscription$ = this.statisticReportGql
+      .watch(
+        { reportId: this.statisticReportId },
+        { fetchPolicy: 'network-only' }
+      )
       .valueChanges.pipe(map(value => value.data.statisticReports[0]))
       .subscribe(report => {
         this.report = report
@@ -47,20 +59,30 @@ export class StatisticReportEditComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.updateStatisticReportGQL.mutate({
-      data: {
-        name: this.editStatisticReportForm.value['reportName'],
-        notes: this.editStatisticReportForm.value['notes'],
-        rowVersion: this.report.rowVersion,
-        id: this.report.id,
-        statisticId: this.report.statisticId
-      }
-    }, {}).subscribe(({data}) =>
-      this.router.navigate(['../../', this.statisticReportId], {relativeTo: this.route}))
+    this.updateStatisticReportGQL
+      .mutate(
+        {
+          data: {
+            name: this.editStatisticReportForm.value['reportName'],
+            notes: this.editStatisticReportForm.value['notes'],
+            rowVersion: this.report.rowVersion,
+            id: this.report.id,
+            statisticId: this.report.statisticId
+          }
+        },
+        {}
+      )
+      .subscribe(({ data }) =>
+        this.router.navigate(['../../', this.statisticReportId], {
+          relativeTo: this.route
+        })
+      )
   }
 
   cancel() {
-    return this.router.navigate(['../../', this.statisticReportId], {relativeTo: this.route})
+    return this.router.navigate(['../../', this.statisticReportId], {
+      relativeTo: this.route
+    })
   }
 
   ngOnDestroy(): void {

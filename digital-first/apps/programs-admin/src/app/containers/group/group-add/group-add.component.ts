@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core'
-import {FormBuilder, Validators} from '@angular/forms'
-import {CreateAccessControlGroupGQL} from '../../../generated/graphql'
-import {Router} from '@angular/router'
-import {formConstants} from '../../../form-constants'
+import { Component, OnInit } from '@angular/core'
+import { FormBuilder, Validators } from '@angular/forms'
+import { CreateAccessControlGroupGQL } from '../../../generated/graphql'
+import { Router } from '@angular/router'
+import { formConstants } from '../../../form-constants'
 
 @Component({
   selector: 'digital-first-group-add',
@@ -10,27 +10,37 @@ import {formConstants} from '../../../form-constants'
   styleUrls: ['./group-add.component.scss']
 })
 export class GroupAddComponent implements OnInit {
-
   addGroupForm = this.formBuilder.group({
-    groupName: [null, [Validators.required, Validators.maxLength(formConstants.nameMaxLength)]
-               ]
+    groupName: [
+      null,
+      [
+        Validators.required,
+        Validators.pattern(formConstants.emptyStringPattern),
+        Validators.maxLength(formConstants.nameMaxLength)
+      ]
+    ]
   })
 
- constructor(private formBuilder: FormBuilder,
-              private createAccessControlGroupGql: CreateAccessControlGroupGQL,
-              private router: Router) {
-  }
+  constructor(
+    private formBuilder: FormBuilder,
+    private createAccessControlGroupGql: CreateAccessControlGroupGQL,
+    private router: Router
+  ) {}
 
   onSubmit() {
-
-    this.createAccessControlGroupGql.mutate({
-      data: {title: this.addGroupForm.value['groupName']}
-    }, {}).subscribe(({data}) =>
-      this.router.navigate(['groups', data.createAccessControlGroup.id]))
+    this.createAccessControlGroupGql
+      .mutate(
+        {
+          data: { title: this.addGroupForm.value['groupName'] }
+        },
+        {}
+      )
+      .subscribe(({ data }) =>
+        this.router.navigate(['groups', data.createAccessControlGroup.id])
+      )
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   cancel() {
     return this.router.navigate(['groups'])
