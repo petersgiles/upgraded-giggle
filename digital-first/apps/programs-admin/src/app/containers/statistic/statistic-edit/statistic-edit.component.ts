@@ -11,7 +11,6 @@ import {
   UpdateStatisticGQL
 } from '../../../generated/graphql'
 import { formConstants } from '../../../form-constants'
-import { trimStringOrReturnNull } from '../../../core/graphqlhelper'
 
 @Component({
   selector: 'digital-first-statistic-edit',
@@ -75,9 +74,7 @@ export class StatisticEditComponent implements OnInit, OnDestroy {
           data: {
             agencyId: this.editStatisticForm.value['agencyId'],
             name: this.editStatisticForm.value['statisticName'],
-            externalId: trimStringOrReturnNull(
-              this.editStatisticForm.value['externalId']
-            ),
+            externalId: this.editStatisticForm.value['externalId'],
             rowVersion: this.rowVersion,
             id: this.statisticId
           }

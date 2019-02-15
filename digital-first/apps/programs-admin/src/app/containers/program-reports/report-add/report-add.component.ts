@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { Location } from '@angular/common'
 import { CreateReportGQL } from '../../../generated/graphql'
 import { formConstants } from '../../../form-constants'
-import { trimStringOrReturnNull } from '../../../core/graphqlhelper'
+
 @Component({
   selector: 'digital-first-report-add',
   templateUrl: './report-add.component.html',
@@ -36,7 +36,7 @@ export class ReportAddComponent implements OnInit {
           data: {
             programId: this.programId,
             name: this.addReportForm.value['reportName'],
-            notes: trimStringOrReturnNull(this.addReportForm.value['notes'])
+            notes: this.addReportForm.value['notes']
           }
         },
         {}

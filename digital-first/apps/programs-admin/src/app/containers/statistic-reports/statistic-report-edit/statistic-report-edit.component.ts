@@ -9,7 +9,7 @@ import {
 } from '../../../generated/graphql'
 import { Subscription } from 'rxjs'
 import { formConstants } from '../../../form-constants'
-import { trimStringOrReturnNull } from '../../../core/graphqlhelper'
+
 @Component({
   selector: 'digital-first-statistic-report-edit',
   templateUrl: './statistic-report-edit.component.html',
@@ -60,9 +60,7 @@ export class StatisticReportEditComponent implements OnInit, OnDestroy {
         {
           data: {
             name: this.editStatisticReportForm.value['reportName'],
-            notes: trimStringOrReturnNull(
-              this.editStatisticReportForm.value['notes']
-            ),
+            notes: this.editStatisticReportForm.value['notes'],
             rowVersion: this.report.rowVersion,
             id: this.report.id,
             statisticId: this.report.statisticId

@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { Location } from '@angular/common'
 import { CreateStatisticReportGQL } from '../../../generated/graphql'
 import { formConstants } from '../../../form-constants'
-import { trimStringOrReturnNull } from '../../../core/graphqlhelper'
 
 @Component({
   selector: 'digital-first-statistic-report-add',
@@ -45,9 +44,7 @@ export class StatisticReportAddComponent implements OnInit {
           data: {
             statisticId: this.statisticId,
             name: this.addStatisticReportForm.value['reportName'],
-            notes: trimStringOrReturnNull(
-              this.addStatisticReportForm.value['notes']
-            )
+            notes: this.addStatisticReportForm.value['notes']
           }
         },
         {}

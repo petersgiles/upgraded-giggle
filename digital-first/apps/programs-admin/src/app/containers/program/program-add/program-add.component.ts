@@ -10,7 +10,6 @@ import { Subscription } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { Router } from '@angular/router'
 import { formConstants } from '../../../form-constants'
-import { trimStringOrReturnNull } from '../../../core/graphqlhelper'
 
 @Component({
   selector: 'digital-first-program-add',
@@ -59,10 +58,8 @@ export class ProgramAddComponent implements OnInit, OnDestroy {
           data: {
             agencyId: this.addProgramForm.value['agencyId'],
             name: this.addProgramForm.value['programName'],
-            notes: trimStringOrReturnNull(this.addProgramForm.value['notes']),
-            externalId: trimStringOrReturnNull(
-              this.addProgramForm.value['externalId']
-            )
+            notes: this.addProgramForm.value['notes'],
+            externalId: this.addProgramForm.value['externalId']
           }
         },
         {}
