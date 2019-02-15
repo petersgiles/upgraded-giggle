@@ -1,13 +1,19 @@
-import {Component, OnDestroy, OnInit} from '@angular/core'
-import {ActivatedRoute, Router} from '@angular/router'
-import {first, map} from 'rxjs/operators'
-import {Subscription} from 'rxjs'
-import {DataTableConfig} from '@digital-first/df-datatable'
-import {DialogAssignGroupPermissionComponent} from '../../dialogs/dialog-assign-group-permission.component'
-import {MdcDialog} from '@angular-mdc/web'
+import { Component, OnDestroy, OnInit } from '@angular/core'
+import { ActivatedRoute, Router } from '@angular/router'
+import { first, map } from 'rxjs/operators'
+import { Subscription } from 'rxjs'
+import { DataTableConfig } from '@digital-first/df-datatable'
+import { DialogAssignGroupPermissionComponent } from '../../dialogs/dialog-assign-group-permission.component'
+import { MdcDialog } from '@angular-mdc/web'
 import {
-  AccessRights, AllGroupsGQL, CreateReportAccessControlGQL, DeleteReportAccessControlGQL,
-  Report, ReportGQL, StatisticReport, UpdateReportAccessControlGQL
+  AccessRights,
+  AllGroupsGQL,
+  CreateReportAccessControlGQL,
+  DeleteReportAccessControlGQL,
+  Report,
+  ReportGQL,
+  StatisticReport,
+  UpdateReportAccessControlGQL
 } from '../../generated/graphql'
 
 @Component({
@@ -16,28 +22,28 @@ import {
   styleUrls: ['./program-report.component.scss']
 })
 export class ProgramReportComponent implements OnInit, OnDestroy {
-
   report: Report.Reports
   permissionTableData: any
 
   reportId: string
   private reportSubscription$: Subscription
 
-  constructor(private reportGql: ReportGQL,
-              private route: ActivatedRoute,
-              private allGroupsGql: AllGroupsGQL,
-              private createReportAccessControlGql: CreateReportAccessControlGQL,
-              private deleteReportAccessControlGql: DeleteReportAccessControlGQL,
-              private updateReportAccessControlGql: UpdateReportAccessControlGQL,
-              private router: Router,
-              public dialog: MdcDialog) {
-  }
+  constructor(
+    private reportGql: ReportGQL,
+    private route: ActivatedRoute,
+    private allGroupsGql: AllGroupsGQL,
+    private createReportAccessControlGql: CreateReportAccessControlGQL,
+    private deleteReportAccessControlGql: DeleteReportAccessControlGQL,
+    private updateReportAccessControlGql: UpdateReportAccessControlGQL,
+    private router: Router,
+    public dialog: MdcDialog
+  ) {}
 
   ngOnInit() {
     this.reportId = this.route.snapshot.paramMap.get('id')
 
     this.reportSubscription$ = this.reportGql
-      .watch({reportId: this.reportId}, {fetchPolicy: 'network-only'})
+      .watch({ reportId: this.reportId }, { fetchPolicy: 'network-only' })
       .valueChanges.pipe(map(value => value.data.reports[0]))
       .subscribe(report => {
         this.report = report
@@ -53,11 +59,11 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
 
   handleOpenAddGroupDialog() {
     this.allGroupsGql
-      .watch({}, {fetchPolicy: 'no-cache'})
+      .watch({}, { fetchPolicy: 'no-cache' })
       .valueChanges.pipe(
-      map(value => value.data.groups),
-      first()
-    )
+        map(value => value.data.groups),
+        first()
+      )
       .subscribe(groups => {
         const dialogRef = this.dialog.open(
           DialogAssignGroupPermissionComponent,
@@ -65,7 +71,18 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
             escapeToClose: true,
             clickOutsideToClose: true,
             data: {
-              groups: groups
+              groups: groups.filter(group => {
+                if (
+                  this.report.accessControlList &&
+                  this.report.accessControlList[0]
+                ) {
+                  return !this.report.accessControlList[0].accessControlEntries
+                    .map(value => value.accessControlGroup.id)
+                    .includes(group.id)
+                } else {
+                  return group
+                }
+              })
             }
           }
         )
@@ -93,8 +110,7 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
                 }
               )
               .pipe(first())
-              .subscribe(value => {
-              })
+              .subscribe(value => {})
           }
         })
       })
@@ -118,8 +134,7 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
         {}
       )
       .pipe(first())
-      .subscribe(value => {
-      })
+      .subscribe(value => {})
   }
 
   handleGroupPermissionDeleteClicked($event) {
@@ -143,15 +158,18 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
         }
       )
       .pipe(first())
-      .subscribe(value => {
-      })
+      .subscribe(value => {})
   }
 
   handleEditReport(report: Report.Reports) {
-    return this.router.navigate(['../edit', report.id], {relativeTo: this.route})
+    return this.router.navigate(['../edit', report.id], {
+      relativeTo: this.route
+    })
   }
 
-  private createProgramPermissionGroupTableData(report: Report.Reports): DataTableConfig {
+  private createProgramPermissionGroupTableData(
+    report: Report.Reports
+  ): DataTableConfig {
     const groups = {}
     report.accessControlList.forEach(acl => {
       acl.accessControlEntries.forEach(ace => {
@@ -179,8 +197,8 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
             type: 'radio',
             id: 'PERMISSIONCELL',
             data: [
-              {value: AccessRights.Read, caption: 'Read'},
-              {value: AccessRights.Write, caption: 'Read/Write'}
+              { value: AccessRights.Read, caption: 'Read' },
+              { value: AccessRights.Write, caption: 'Read/Write' }
             ]
           }
         ]
@@ -189,9 +207,10 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
 
     return {
       title: 'permissions',
-      headings: [{caption: 'Name'}, {caption: 'Permission'}],
+      headings: [{ caption: 'Name' }, { caption: 'Permission' }],
       rows: rows,
-      noDataMessage: 'This report inherits its permissions from the program. Adding groups here will break inheritance.'
+      noDataMessage:
+        'This report inherits its permissions from the program. Adding groups here will break inheritance.'
     }
   }
 }

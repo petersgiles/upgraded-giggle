@@ -155,7 +155,12 @@ export class ProgramComponent implements OnInit, OnDestroy {
             escapeToClose: true,
             clickOutsideToClose: true,
             data: {
-              groups: groups
+              groups: groups.filter(
+                group =>
+                  !this.program.accessControlList[0].accessControlEntries
+                    .map(value => value.accessControlGroup.id)
+                    .includes(group.id)
+              )
             }
           }
         )
