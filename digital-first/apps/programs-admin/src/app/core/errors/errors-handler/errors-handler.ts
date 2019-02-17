@@ -19,6 +19,10 @@ export class ErrorsHandler implements ErrorHandler {
   constructor(private httpClient: HttpClient, private injector: Injector) {}
 
   formatErrorMessage(errorToFormat: HttpErrorResponse): string {
+    if (errorToFormat.status && errorToFormat.status === 403) {
+      return 'You are not authorised to perform this action.'
+    }
+
     if (errorToFormat.error) {
       return errorToFormat.error.errors
         .map(errorToJoin =>
