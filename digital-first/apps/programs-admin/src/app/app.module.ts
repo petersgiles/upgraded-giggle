@@ -12,10 +12,6 @@ import { ErrorsModule } from './core/errors'
 import { DfAuthModule, AUTH_KEY } from '@digital-first/df-auth'
 import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
-import {
-  DfDiscussionModule,
-  DiscussionComponent
-} from '@digital-first/df-discussion'
 import { DfPagesModule } from '@digital-first/df-pages'
 
 import {
@@ -112,7 +108,6 @@ const ENTRYCOMPONENTS = [
   DialogAddContactComponent,
   DialogAssignGroupPermissionComponent,
   DialogAssignUserToGroupComponent,
-  DiscussionComponent,
   ContactCardComponent,
   PageTitleComponent,
   RelatedArtifactsComponent,
@@ -194,7 +189,6 @@ export function initApplication(): Function {
     DfMomentModule,
     DfLayoutsModule,
     DfThemeModule,
-    DfDiscussionModule,
     DfPagesModule,
     DfDialogsModule,
     DfRefinerModule,
