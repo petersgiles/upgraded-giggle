@@ -19,6 +19,7 @@ const SMALL_WIDTH_BREAKPOINT = 1240
 export class FullLayoutComponent implements OnInit, OnDestroy {
   drawOpen: boolean
   drawOpenSubscription$: Subscription
+  protectiveMarking$: Observable<any>
 
   get drawerStyle(): 'permanent' | 'dismissible' | 'modal' {
     return this.service.drawerStyle || 'modal'
@@ -95,6 +96,8 @@ export class FullLayoutComponent implements OnInit, OnDestroy {
       // tslint:disable-next-line:no-console
       tap(result => console.log(result))
     )
+
+    this.protectiveMarking$ = this.service.protectiveMarking$
 
     this.open$ = this.service.open$
   }
