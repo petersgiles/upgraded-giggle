@@ -50,6 +50,8 @@ export class AppFullLayoutService {
     return this.service.Notification
   }
 
+  get protectiveMarking$(): Observable<any> { return of('UNCLASSIFIED') }
+
   get open$(): Observable<boolean>  {
     return this.service.getBusy()
   }

@@ -47,6 +47,8 @@ export class FullLayoutService {
 
   get open$(): Observable<boolean> { return of(null) }
 
+  get protectiveMarking$(): Observable<any> { return of(null) }
+
   constructor() { }
 
 }
