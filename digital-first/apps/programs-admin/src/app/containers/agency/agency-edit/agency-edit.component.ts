@@ -10,7 +10,8 @@ import {
 import { ActivatedRoute, Router } from '@angular/router'
 import { map } from 'rxjs/operators'
 import { Observable, Subscription } from 'rxjs'
-import {formConstants} from '../../../form-constants'
+import { formConstants } from '../../../form-constants'
+
 @Component({
   selector: 'digital-first-agency-edit',
   templateUrl: './agency-edit.component.html',
@@ -23,7 +24,14 @@ export class AgencyEditComponent implements OnInit, OnDestroy {
   agencySubscription$: Subscription
   agency: Agency.Agency
   editAgencyForm = this.formBuilder.group({
-    agencyName: [null, [Validators.required, , Validators.maxLength(formConstants.nameMaxLength)]],
+    agencyName: [
+      null,
+      [
+        Validators.required,
+        Validators.pattern(formConstants.emptyStringPattern),
+        Validators.maxLength(formConstants.nameMaxLength)
+      ]
+    ],
     metadata: [null],
     portfolioId: [null, Validators.required]
   })

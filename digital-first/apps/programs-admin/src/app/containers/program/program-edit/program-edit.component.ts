@@ -11,7 +11,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router'
 import { map } from 'rxjs/operators'
 import { Subscription } from 'rxjs'
-import {formConstants} from '../../../form-constants'
+import { formConstants } from '../../../form-constants'
 
 @Component({
   selector: 'digital-first-program-edit',
@@ -27,8 +27,15 @@ export class ProgramEditComponent implements OnInit, OnDestroy {
 
   addProgramForm = this.formBuilder.group({
     agencyId: [undefined, Validators.required],
-    programName: [null, [Validators.required, Validators.maxLength(formConstants.nameMaxLength)]],
-    externalId: [null],
+    programName: [
+      null,
+      [
+        Validators.required,
+        Validators.pattern(formConstants.emptyStringPattern),
+        Validators.maxLength(formConstants.nameMaxLength)
+      ]
+    ],
+    externalId: [''],
     notes: ['']
   })
   programId: string

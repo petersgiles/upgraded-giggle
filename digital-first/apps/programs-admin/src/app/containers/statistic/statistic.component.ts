@@ -108,7 +108,18 @@ export class StatisticComponent implements OnInit {
             escapeToClose: true,
             clickOutsideToClose: true,
             data: {
-              groups: groups
+              groups: groups.filter(group => {
+                if (
+                  this.statistic.accessControlList &&
+                  this.statistic.accessControlList[0]
+                ) {
+                  return !this.statistic.accessControlList[0].accessControlEntries
+                    .map(value => value.accessControlGroup.id)
+                    .includes(group.id)
+                } else {
+                  return group
+                }
+              })
             }
           }
         )

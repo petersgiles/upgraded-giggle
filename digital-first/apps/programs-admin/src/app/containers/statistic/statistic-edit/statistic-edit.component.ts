@@ -10,7 +10,7 @@ import {
   StatisticGQL,
   UpdateStatisticGQL
 } from '../../../generated/graphql'
-import {formConstants} from '../../../form-constants'
+import { formConstants } from '../../../form-constants'
 
 @Component({
   selector: 'digital-first-statistic-edit',
@@ -24,7 +24,10 @@ export class StatisticEditComponent implements OnInit, OnDestroy {
 
   editStatisticForm = this.formBuilder.group({
     agencyId: [undefined, Validators.required],
-    statisticName: [null, [Validators.required, Validators.maxLength(formConstants.nameMaxLength)]],
+    statisticName: [
+      null,
+      [Validators.required, Validators.maxLength(formConstants.nameMaxLength)]
+    ],
     externalId: [null],
     notes: ['']
   })

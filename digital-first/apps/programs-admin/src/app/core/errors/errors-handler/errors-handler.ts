@@ -19,6 +19,10 @@ export class ErrorsHandler implements ErrorHandler {
   constructor(private httpClient: HttpClient, private injector: Injector) {}
 
   formatErrorMessage(errorToFormat: HttpErrorResponse): string {
+    if (errorToFormat.status && errorToFormat.status === 403) {
+      return 'You are not authorised to perform this action.'
+    }
+
     if (errorToFormat.error) {
       return errorToFormat.error.errors
         .map(errorToJoin =>
@@ -81,7 +85,9 @@ export class ErrorsHandler implements ErrorHandler {
     const mappedEvent = {
       Level: 'Error',
       MessageTemplate: 'Programs admin client application error: {message}.',
-      Properties: { clientVersion: environment.version },
+      Properties: {
+        clientVersion: `${environment.version} (#${environment.commitHash})`
+      },
       Timestamp: new Date().toISOString(),
       Exception: ''
     }

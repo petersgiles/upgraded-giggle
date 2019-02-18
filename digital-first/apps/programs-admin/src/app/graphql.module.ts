@@ -7,6 +7,8 @@ import { environment } from '../environments/environment'
 import { onError } from 'apollo-link-error'
 import { ApolloLink } from 'apollo-link'
 import DebounceLink from 'apollo-link-debounce'
+import { trimWhiteSpaceAndReplaceEmptyStringsWithNull } from './core/graphqlhelper'
+import { getOperationDefinition } from 'apollo-utilities'
 
 const uri = environment.datasource.dataServiceUrl
 
@@ -35,6 +37,7 @@ export class GraphQLModule {
 
     apollo.create({
       link: ApolloLink.from([
+        trimWhitespaceOrNullLink,
         errorLink,
         new DebounceLink(this.DEFAULT_DEBOUNCE_TIMEOUT),
         httpLink
@@ -43,3 +46,21 @@ export class GraphQLModule {
     })
   }
 }
+
+// an apollo link that will trim any white spaces from mutation variables and
+// if an empty string is encountered replace with a null as the PM&C graphql
+// endpoint validators consider empty string as invalid
+const trimWhitespaceOrNullLink = new ApolloLink((operation, forward) => {
+  const operationDefinition = getOperationDefinition(operation.query)
+
+  if (
+    operationDefinition.kind === 'OperationDefinition' &&
+    operationDefinition.operation === 'mutation'
+  ) {
+    operation.variables = trimWhiteSpaceAndReplaceEmptyStringsWithNull(
+      operation.variables
+    )
+  }
+
+  return forward(operation).map(data => data)
+})

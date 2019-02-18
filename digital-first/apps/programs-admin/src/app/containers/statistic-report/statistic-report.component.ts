@@ -73,7 +73,18 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
             escapeToClose: true,
             clickOutsideToClose: true,
             data: {
-              groups: groups
+              groups: groups.filter(group => {
+                if (
+                  this.report.accessControlList &&
+                  this.report.accessControlList[0]
+                ) {
+                  return !this.report.accessControlList[0].accessControlEntries
+                    .map(value => value.accessControlGroup.id)
+                    .includes(group.id)
+                } else {
+                  return group
+                }
+              })
             }
           }
         )

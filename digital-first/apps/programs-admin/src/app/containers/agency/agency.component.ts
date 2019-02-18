@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core'
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, Output, EventEmitter } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import {ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent} from '@digital-first/df-dialogs'
 import {map, first } from 'rxjs/operators'
@@ -16,6 +16,10 @@ export class AgencyComponent implements OnInit, OnDestroy {
   agencyId: any
   agency: Agency.Agency
   agencySubscription$: Subscription
+  agencyMappingTableData: any
+
+  @Output() onDeleteClicked: EventEmitter<any> = new EventEmitter()
+  @Output() onCellClicked: EventEmitter<any> = new EventEmitter()
 
   constructor(private route: ActivatedRoute,
               private agencyGQL: AgencyGQL,
@@ -30,24 +34,49 @@ export class AgencyComponent implements OnInit, OnDestroy {
     this.loadAgency()
   }
 
-loadAgency(): void {
+private loadAgency(): void {
   this.agencySubscription$ = this.agencyGQL
   .watch({id: this.agencyId}, {fetchPolicy: 'network-only'})
   .valueChanges.pipe(map(value => value.data.agency))
   .subscribe(agency => {
     this.agency = agency
+    this.agencyMappingTableData = this.createAgencyMappingTableData(agency)
   })
 }
 
-  handleEditAgency(agency: Agency.Agency) {
+private createAgencyMappingTableData(agency: Agency.Agency) {
+  const agencyMapped = agency.agencyMapping.map(data => ({
+    id: data.id,
+    emailDomain: data.emailDomain,
+    group: data.accessControlGroup.title
+  }))
+
+  const rows = (agencyMapped || []).map(d => ({
+    id: d.id,
+    data: d,
+    cells: [
+      {
+        value: `${d.emailDomain}`
+      },
+      {
+        value: d.group
+      }
+    ]
+  }))
+
+  return {
+    title: 'Group Mapping',
+    headings: [{ caption: 'Email Domain' }, { caption: 'Group' }],
+    rows: rows,
+    noDataMessage:
+      'No groups assigned to agency.'
+  }
+}
+  private handleEditAgency(agency: Agency.Agency) {
     return this.router.navigate(['agencies/edit', agency.id])
   }
 
-  handleEditAgencyMapping(agencyMappingId: any) {
-    return this.router.navigate(['agencymapping/edit/', agencyMappingId])
-  }
-
-  handleDeleteAgency(agency: Agency.Agency) {
+  private handleDeleteAgency(agency: Agency.Agency) {
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
       clickOutsideToClose: true
@@ -72,7 +101,11 @@ loadAgency(): void {
       })
   }
 
-  handleDeleteAgencyMapping(agencyMappingId: any) {
+  private handleEditAgencyMapping($event) {
+    return this.router.navigate(['agencymapping/edit/', $event.id])
+  }
+
+  private handleDeleteAgencyMapping($event) {
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
       clickOutsideToClose: true
@@ -87,7 +120,7 @@ loadAgency(): void {
             .mutate(
               {
                 data: {
-                  id: agencyMappingId
+                  id: $event.id
                 }
               },
               {}
@@ -100,7 +133,7 @@ loadAgency(): void {
       })
   }
 
-  handleAddAgencyMapping(agency: Agency.Agency) {
+  private handleAddAgencyMapping(agency: Agency.Agency) {
     return this.router.navigate(['agencymapping/add/', agency.id])
   }
 

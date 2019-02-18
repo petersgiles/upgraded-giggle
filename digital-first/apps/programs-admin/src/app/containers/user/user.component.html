@@ -1,6 +1,12 @@
 <div class="app-page" *ngIf="user; else loading">
   <digital-first-page-title title="User - {{ user.emailAddress }}">
-  </digital-first-page-title>
+   <digital-first-edit-item-button
+    (onEditItem)="handleEditUser(user)"
+  ></digital-first-edit-item-button>
+  <digital-first-delete-item-button
+    (onDeleteItem)="handleDeleteUser(user)"
+  ></digital-first-delete-item-button>
+   </digital-first-page-title>
   <div class="programsadmin-layout__row">
     <p>{{ user.agency.title }}</p>
   </div>
@@ -29,9 +35,26 @@
   >
   </digital-first-user-statistic-report-access>
 
-  <!--<digital-first-page-title title="Debug"></digital-first-page-title>-->
 
-  <!--<pre>{{ user | json }}</pre>-->
+  <section>
+    <digital-first-page-title
+    title="API Keys">
+    <digital-first-add-item-button
+      (onAddItem)="handleAddApiKey()"
+    ></digital-first-add-item-button>
+
+  </digital-first-page-title>
+
+  <div  class="programsadmin-layout__row">
+      <digital-first-data-table
+      [tableData]="apiKeysTableData"
+      [hasDeleteItemButton]="true"
+      (onDeleteItem)="handleDeleteApiKey($event)">
+      </digital-first-data-table>
+  </div>
+
+</section>
+
 </div>
 <ng-template #loading>
   Loading...

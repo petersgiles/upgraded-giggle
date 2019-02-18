@@ -12,10 +12,6 @@ import { ErrorsModule } from './core/errors'
 import { DfAuthModule, AUTH_KEY } from '@digital-first/df-auth'
 import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
-import {
-  DfDiscussionModule,
-  DiscussionComponent
-} from '@digital-first/df-discussion'
 import { DfPagesModule } from '@digital-first/df-pages'
 
 import {
@@ -94,10 +90,12 @@ import { AgencyComponent } from './containers/agency/agency.component'
 import { AgencyAddComponent } from './containers/agency/agency-add/agency-add.component'
 import { AgencyEditComponent } from './containers/agency/agency-edit/agency-edit.component'
 import { AgencyMappingAddComponent } from './containers/agency/agency-mapping-add/agency-mapping-add.component'
+import { UserEditComponent } from './containers/user/user-edit/user-edit.component'
+import { UserAddComponent } from './containers/user/user-add/user-add.component'
 import { AgencyMappingEditComponent } from './containers/agency/agency-mapping-edit/agency-mapping-edit.component'
 import { UserProgramAccessComponent } from './containers/user/user-program-access/user-program-access.component'
-import { UserReportAccessComponent } from './containers/user/user-report-access/user-report-access.component';
-import { UserStatisticAccessComponent } from './containers/user/user-statistic-access/user-statistic-access.component';
+import { UserReportAccessComponent } from './containers/user/user-report-access/user-report-access.component'
+import { UserStatisticAccessComponent } from './containers/user/user-statistic-access/user-statistic-access.component'
 import { UserStatisticReportAccessComponent } from './containers/user/user-statistic-report-access/user-statistic-report-access.component'
 
 const COMPONENTS = [AppComponent, HomeComponent]
@@ -110,7 +108,6 @@ const ENTRYCOMPONENTS = [
   DialogAddContactComponent,
   DialogAssignGroupPermissionComponent,
   DialogAssignUserToGroupComponent,
-  DiscussionComponent,
   ContactCardComponent,
   PageTitleComponent,
   RelatedArtifactsComponent,
@@ -168,6 +165,8 @@ export function initApplication(): Function {
     AgencyEditComponent,
     AgencyMappingAddComponent,
     AgencyMappingEditComponent,
+    UserEditComponent,
+    UserAddComponent,
     UserProgramAccessComponent,
     UserReportAccessComponent,
     UserStatisticAccessComponent,
@@ -190,7 +189,6 @@ export function initApplication(): Function {
     DfMomentModule,
     DfLayoutsModule,
     DfThemeModule,
-    DfDiscussionModule,
     DfPagesModule,
     DfDialogsModule,
     DfRefinerModule,

@@ -798,7 +798,8 @@
             "tsConfig": "apps/programs-admin/tsconfig.app.json",
             "assets": [
               "apps/programs-admin/src/favicon.ico",
-              "apps/programs-admin/src/assets"
+              "apps/programs-admin/src/assets",
+              "apps/programs-admin/src/unauthorised.html"
             ],
             "styles": ["apps/programs-admin/src/styles.scss"],
             "scripts": []

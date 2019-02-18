@@ -107,7 +107,6 @@
     "jspdf": "^1.5.3",
     "markdown-it": "^8.4.2",
     "marked": "^0.6.0",
-    "material-design-icons": "^3.0.1",
     "moment": "^2.24.0",
     "ngrx-store-localstorage": "^7.0.0",
     "ngx-markdown": "^7.1.3",

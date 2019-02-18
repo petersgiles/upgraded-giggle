@@ -1,59 +1,77 @@
-<div  *ngIf="(groups$ | async) as groups; else loading">
-    <div class="page_title">
-      <div class="reader-card-article__title page_title_text" mdcHeadline5>Add agencyMapping</div>
+<div *ngIf="(groups$ | async) as groups; else loading">
+  <div class="page_title">
+    <div class="reader-card-article__title page_title_text" mdcHeadline5>
+      Add agencyMapping
     </div>
-    <div>
-      <div class="app-page">
-        <div class="mdc-layout-grid">
-          <div class="mdc-layout-grid__inner ">
-            <div class="mdc-layout-grid__cell--span-3"></div>
-            <div class="mdc-layout-grid__cell--span-6 mdc-elevation--z9">
-              <div class="form-content">
-                <form (ngSubmit)="onSubmit()" autocomplete="off" [formGroup]="addAgencyMappingForm">
-                  <fieldset>
-                    <h3 class="form-content__headline">Add agency mapping</h3>
-                    <div class="form-layout__row">
-                      <mdc-text-field
-                        [outlined]="true"
-                        formControlName="emailDomain"
-                        label="emailDomain"
-                        type="text">
-                      </mdc-text-field>
-                    </div>
-                    <div class="form-layout__row">
-                      <mdc-select
-                        formControlName="groupId"
-                        id="group"
-                        placeholder="Group"
-                        [outlined]="true"
-                        name="Group">
-                        <option value=""></option>
-                        <option *ngFor="let group of groups" [value]="group.id">{{group.title}}
-                        </option>
-                      </mdc-select>
-                    </div>
-                      <div class="form-layout__row-with-button">
-                      <button id="submit"
-                              class="mdc-button ng-mdc-button--primary mdc-button--raised mdc-ripple-upgraded"
-                              type="submit"
-                              [disabled]="addAgencyMappingForm.invalid || addAgencyMappingForm.pristine">Save
-                      </button>
-                      <button id="cancel"
-                              class="mdc-button ng-mdc-button--secondary mdc-button--raised mdc-ripple-upgraded"
-                              type="button" (click)="cancel()">Cancel
-                      </button>
-                    </div>
-                  </fieldset>
-                </form>
-              </div>
+  </div>
+  <div>
+    <div class="app-page">
+      <div class="mdc-layout-grid">
+        <div class="mdc-layout-grid__inner ">
+          <div class="mdc-layout-grid__cell--span-3"></div>
+          <div class="mdc-layout-grid__cell--span-6 mdc-elevation--z9">
+            <div class="form-content">
+              <form
+                (ngSubmit)="onSubmit()"
+                autocomplete="off"
+                [formGroup]="addAgencyMappingForm"
+              >
+                <fieldset>
+                  <h3 class="form-content__headline">Add agency mapping</h3>
+                  <div class="form-layout__row">
+                    <mdc-text-field
+                      [outlined]="true"
+                      formControlName="emailDomain"
+                      label="emailDomain"
+                      type="text"
+                    >
+                    </mdc-text-field>
+                  </div>
+                  <div class="form-layout__row">
+                    <mdc-select
+                      formControlName="groupId"
+                      id="group"
+                      placeholder="Group"
+                      [outlined]="true"
+                      name="Group"
+                    >
+                      <option value=""></option>
+                      <option *ngFor="let group of groups" [value]="group.id"
+                        >{{ group.title }}
+                      </option>
+                    </mdc-select>
+                  </div>
+                  <div class="form-layout__row-with-button">
+                    <button
+                      id="submit"
+                      class="mdc-button ng-mdc-button--primary mdc-button--raised mdc-ripple-upgraded"
+                      type="submit"
+                      [disabled]="
+                        addAgencyMappingForm.invalid ||
+                        addAgencyMappingForm.pristine
+                      "
+                    >
+                      Save
+                    </button>
+                    <button
+                      id="cancel"
+                      class="mdc-button ng-mdc-button--secondary mdc-button--raised mdc-ripple-upgraded"
+                      type="button"
+                      (click)="cancel()"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </fieldset>
+              </form>
             </div>
-            <div class="mdc-layout-grid__cell--span-3"></div>
           </div>
+          <div class="mdc-layout-grid__cell--span-3"></div>
         </div>
       </div>
     </div>
-    </div>
-    <ng-template #loading>
-        Loading...
-    </ng-template>
-    
+  </div>
+</div>
+<ng-template #loading>
+  Loading...
+</ng-template>

@@ -11,9 +11,9 @@
       </digital-first-page-title>
   
       <div class="programsadmin-layout__row">
-        <p>Title: {{ agency.title }}</p>
-        <p>Metadata: {{ agency.metadata }}</p>
+        <p>Title: {{ agency.title }}</p>    
         <p>Portfolio: {{ agency.portfolio.title }}</p>
+        <p *ngIf="agency.metadata">Metadata: {{ agency.metadata }}</p>
       </div>
   
     </section>
@@ -27,18 +27,13 @@
 
       </digital-first-page-title>
   
-      <div *ngIf="agency.agencyMapping;"  class="programsadmin-layout__row">
-        <div *ngFor="let agencyMapping of agency.agencyMapping">
-          <p>Email domain: {{agencyMapping.emailDomain}}</p>
-          <p>Group: {{agencyMapping.accessControlGroup.title}}</p>
-       <digital-first-edit-item-button
-        (onEditItem)="handleEditAgencyMapping(agencyMapping.id)"
-      ></digital-first-edit-item-button><digital-first-delete-item-button
-      (onDeleteItem)="handleDeleteAgencyMapping(agencyMapping.id)"
-    ></digital-first-delete-item-button>
-    <div class="separator"></div>
-        </div>
-      
+      <div  class="programsadmin-layout__row">
+          <digital-first-data-table
+          [tableData]="agencyMappingTableData"
+          [hasDeleteItemButton]="true"
+          (onDeleteItem)="handleDeleteAgencyMapping($event)"
+          (onCellClicked)="handleEditAgencyMapping($event)">
+          </digital-first-data-table>
       </div>
   
     </section>

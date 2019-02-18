@@ -1,11 +1,18 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
-import {MdcDialog} from '@angular-mdc/web'
-import {ActivatedRoute, Router} from '@angular/router'
-import {DataTableConfig} from '@digital-first/df-datatable'
-import {first, map} from 'rxjs/operators'
-import {CreateAccessControlGroupUserGQL, GroupGQL, UsersGQL} from '../../generated/graphql'
-import {DialogAssignUserToGroupComponent} from '../../dialogs/dialog-assign-user-to-group.component'
-import {ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent} from '@digital-first/df-dialogs'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { MdcDialog } from '@angular-mdc/web'
+import { ActivatedRoute, Router } from '@angular/router'
+import { DataTableConfig } from '@digital-first/df-datatable'
+import { first, map } from 'rxjs/operators'
+import {
+  CreateAccessControlGroupUserGQL,
+  GroupGQL,
+  UsersGQL
+} from '../../generated/graphql'
+import { DialogAssignUserToGroupComponent } from '../../dialogs/dialog-assign-user-to-group.component'
+import {
+  ARE_YOU_SURE_ACCEPT,
+  DialogAreYouSureComponent
+} from '@digital-first/df-dialogs'
 
 @Component({
   selector: 'digital-first-group-users',
@@ -13,18 +20,14 @@ import {ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent} from '@digital-first/df-
   styleUrls: ['./group-users.component.scss']
 })
 export class GroupUsersComponent implements OnInit {
-
   userTableConfig: DataTableConfig = {
     title: 'Users',
 
-    headings: [
-      {caption: 'Email address'},
-      {caption: 'Last login'}
-    ],
-    rows: [{id: '', cells: []}]
+    headings: [{ caption: 'Email address' }, { caption: 'Last login' }],
+    rows: [{ id: '', cells: [] }]
   }
 
-  userTableRows: null
+  userTableRows: UserRow[]
 
   @Input() artifactId: string
   @Output() onDeleteClicked: EventEmitter<any> = new EventEmitter()
@@ -33,47 +36,44 @@ export class GroupUsersComponent implements OnInit {
   expanded: true
   groupId: string
 
-  constructor(public dialog: MdcDialog,
-              private route: ActivatedRoute,
-              private router: Router,
-              private usersGQL: UsersGQL,
-              private groupGQL: GroupGQL,
-              private createAccessControlGroupUserGql: CreateAccessControlGroupUserGQL) {
-  }
+  constructor(
+    public dialog: MdcDialog,
+    private route: ActivatedRoute,
+    private router: Router,
+    private usersGQL: UsersGQL,
+    private groupGQL: GroupGQL,
+    private createAccessControlGroupUserGql: CreateAccessControlGroupUserGQL
+  ) {}
 
   @Input()
   set tableData(val) {
-
     this.userTableRows = val.map(i => ({
       id: i.id,
-      cells: [{value: i.emailAddress}, {value: i.lastLogin}]
+      cells: [{ value: i.emailAddress }, { value: i.lastLogin }]
     }))
-
   }
 
-  handleChangeExpanded(b: boolean) {
-
-  }
+  handleChangeExpanded(b: boolean) {}
 
   handleAddClicked($event) {
     {
       this.usersGQL
-        .watch({}, {fetchPolicy: 'no-cache'})
+        .watch({}, { fetchPolicy: 'no-cache' })
         .valueChanges.pipe(
-        map(value => value.data.users),
-        first()
-      )
+          map(value => value.data.users),
+          first()
+        )
         .subscribe(users => {
-          const dialogRef = this.dialog.open(
-            DialogAssignUserToGroupComponent,
-            {
-              escapeToClose: true,
-              clickOutsideToClose: true,
-              data: {
-                users: users
-              }
+          const dialogRef = this.dialog.open(DialogAssignUserToGroupComponent, {
+            escapeToClose: true,
+            clickOutsideToClose: true,
+            data: {
+              users: users.filter(
+                user =>
+                  !this.userTableRows.map(rows => rows.id).includes(user.id)
+              )
             }
-          )
+          })
 
           dialogRef.afterClosed().subscribe((result: any) => {
             if (result && result.id) {
@@ -97,8 +97,7 @@ export class GroupUsersComponent implements OnInit {
                   }
                 )
                 .pipe(first())
-                .subscribe(value => {
-                })
+                .subscribe(value => {})
             }
           })
         })
@@ -122,7 +121,16 @@ export class GroupUsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.groupId = this.route.snapshot.paramMap.get('id')
   }
+}
+
+export interface UserRow {
+  id: string
+  cells: [
+    {
+      emailAddress: string
+      lastLogin: string
+    }
+  ]
 }
