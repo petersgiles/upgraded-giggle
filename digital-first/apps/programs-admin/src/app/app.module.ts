@@ -97,6 +97,7 @@ import { UserProgramAccessComponent } from './containers/user/user-program-acces
 import { UserReportAccessComponent } from './containers/user/user-report-access/user-report-access.component'
 import { UserStatisticAccessComponent } from './containers/user/user-statistic-access/user-statistic-access.component'
 import { UserStatisticReportAccessComponent } from './containers/user/user-statistic-report-access/user-statistic-report-access.component'
+import { DataTableModule } from '@df/components'
 
 const COMPONENTS = [AppComponent, HomeComponent]
 
@@ -195,7 +196,8 @@ export function initApplication(): Function {
     DfPipesModule,
     ErrorsModule,
     AppRoutingModule,
-    GraphQLModule
+    GraphQLModule,
+    DataTableModule
   ],
   providers: [
     WINDOW_PROVIDERS,

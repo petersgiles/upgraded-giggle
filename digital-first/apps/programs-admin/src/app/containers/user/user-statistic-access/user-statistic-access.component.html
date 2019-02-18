@@ -1,9 +1,9 @@
 <digital-first-page-title title="Statistic Access"> </digital-first-page-title>
 <div class="programsadmin-layout__row">
-  <digital-first-data-table
-    [hasDeleteItemButton]="false"
-    [tableData]="statisticAccessConfig"
-    [tableRows]="statisticAccessRows"
-  >
-  </digital-first-data-table>
+  <df-data-table
+    [rows]="statisticAccessRows"
+    [columns]="columns"
+    [count]="statisticAccessRows.length"
+    [limit]="defaultPageLength"
+  ></df-data-table>
 </div>

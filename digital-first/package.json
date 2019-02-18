@@ -60,7 +60,7 @@
     "@angular/platform-browser-dynamic": "^7.2.4",
     "@angular/router": "^7.2.4",
     "@auth0/angular-jwt": "^2.1.0",
-    "@df/components": "^0.2.26968",
+    "@df/components": "^0.2.27383",
     "@dsuite/programs-manager-messages": "^1.0.26852",
     "@material/animation": "^0.41.0",
     "@material/base": "^0.41.0",

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { DataTableConfig } from '@digital-first/df-datatable'
 import { Maybe, User } from '../../../generated/graphql'
+import { formConstants } from '../../../form-constants'
 
 @Component({
   selector: 'digital-first-user-report-access',
@@ -8,32 +8,17 @@ import { Maybe, User } from '../../../generated/graphql'
   styleUrls: ['./user-report-access.component.scss']
 })
 export class UserReportAccessComponent implements OnInit {
-  reportAccessConfig: DataTableConfig = {
-    title: 'Users',
-
-    headings: [
-      { caption: 'Report Name' },
-      { caption: 'Group Name' },
-      { caption: 'Access to Parent' }
-    ],
-    rows: [{ id: '', cells: [] }]
-  }
-
+  @Input()
   reportAccessRows: Maybe<Maybe<User.ReportAccess>[]>
 
-  @Input() artifactId: string
+  columns = [
+    { prop: 'name', name: 'Program Name' },
+    { prop: 'groupName', name: 'Group Name' },
+    { prop: 'parentName', name: 'Parent' },
+    { prop: 'hasAccessToParent', name: 'Access to Parent' }
+  ]
 
-  @Input()
-  set tableData(val) {
-    this.reportAccessRows = val.map(i => ({
-      id: `${i.entityId}-${i.groupId}`,
-      cells: [
-        { value: i.name },
-        { value: i.groupName },
-        { value: i.hasAccessToParent }
-      ]
-    }))
-  }
+  defaultPageLength: number = formConstants.defaultPageLength
 
   constructor() {}
 

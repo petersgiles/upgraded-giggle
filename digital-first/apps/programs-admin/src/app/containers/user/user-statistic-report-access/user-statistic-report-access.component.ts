@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { Maybe, User } from '../../../generated/graphql'
-import { DataTableConfig } from '@digital-first/df-datatable'
+import { formConstants } from '../../../form-constants'
 
 @Component({
   selector: 'digital-first-user-statistic-report-access',
@@ -8,36 +8,18 @@ import { DataTableConfig } from '@digital-first/df-datatable'
   styleUrls: ['./user-statistic-report-access.component.scss']
 })
 export class UserStatisticReportAccessComponent implements OnInit {
+  @Input()
   statisticReportAccessRows: Maybe<Maybe<User.StatisticReportAccess>[]>
 
-  statisticReportAccessConfig: DataTableConfig = {
-    title: 'Users',
+  columns = [
+    { prop: 'name', name: 'Statistic Name' },
+    { prop: 'parentName', name: 'Parent Name' },
+    { prop: 'groupName', name: 'Group Name' },
+    { prop: 'hasAccessToParent', name: 'Has Access to Parent' },
+    { prop: 'rights ', name: 'Rights' }
+  ]
 
-    headings: [
-      { caption: 'Statistic name' },
-      { caption: 'Group Name' },
-      { caption: 'Parent Name' },
-      { caption: 'Has Access to Parent' },
-      { caption: 'Rights' }
-    ],
-    rows: [{ id: '', cells: [] }]
-  }
-
-  @Input() artifactId: string
-
-  @Input()
-  set tableData(val) {
-    this.statisticReportAccessRows = val.map(i => ({
-      id: `${i.entityId}-${i.groupId}`,
-      cells: [
-        { value: i.name },
-        { value: i.groupName },
-        { value: i.parentName },
-        { value: i.hasAccessToParent },
-        { value: i.accessRights }
-      ]
-    }))
-  }
+  defaultPageLength: number = formConstants.defaultPageLength
 
   constructor() {}
 
