@@ -1,22 +1,19 @@
-<digital-first-page-title
-  title="Permission"
-  (onTitleClicked)="handleChangeExpanded(!expanded)">
-  <digital-first-add-item-button
-    icon="group_add"
-    title="Assign&nbsp;Group"
-    (onAddItem)="onAddGroup.emit()">
-  </digital-first-add-item-button>
-  <digital-first-expand-collapse-button
-    [expanded]='expanded'
-    (onChangeExpanded)="handleChangeExpanded(!expanded)">
-  </digital-first-expand-collapse-button>
-</digital-first-page-title>
+<df-expander-panel title="Permission" [expanded]="true" [expandable]="false">
+  <ng-container panel-buttons>
+    <df-button
+      icon="group_add"
+      title="Assign&nbsp;Group"
+      (onClick)="handleChangeExpanded(!expanded)"
+    ></df-button>
+  </ng-container>
+</df-expander-panel>
 
 <div class="programsadmin-layout__row">
   <digital-first-data-table
     [tableData]="tableData"
     [hasDeleteItemButton]="true"
     (onDeleteItem)="handleTableDeleteClicked($event)"
-    (onCellClicked)="handleCellClicked($event)">
+    (onCellClicked)="handleCellClicked($event)"
+  >
   </digital-first-data-table>
 </div>
