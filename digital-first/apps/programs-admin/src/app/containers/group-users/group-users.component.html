@@ -1,19 +1,44 @@
-<digital-first-page-title title="Users" (onTitleClicked)="handleChangeExpanded(!expanded)">
+<digital-first-page-title
+  title="Users"
+  (onTitleClicked)="handleChangeExpanded(!expanded)"
+>
   <digital-first-add-item-button
-    icon="people_outline" title="Assign&nbsp;User"
-    (onAddItem)="handleAddClicked($event)">
+    icon="people_outline"
+    title="Assign&nbsp;User"
+    (onAddItem)="handleAddClicked($event)"
+  >
   </digital-first-add-item-button>
   <digital-first-expand-collapse-button
-    [expanded]='expanded'
-    (onChangeExpanded)="handleChangeExpanded(!expanded)">
+    [expanded]="expanded"
+    (onChangeExpanded)="handleChangeExpanded(!expanded)"
+  >
   </digital-first-expand-collapse-button>
 </digital-first-page-title>
+
+<df-expander-panel title="User - {{ user.emailAddress }}" [expanded]="true">
+  <ng-container panel-buttons>
+    <df-button
+      icon="edit"
+      title="Edit"
+      (onClick)="handleEditUser(user)"
+    ></df-button>
+    <df-button
+      icon="delete"
+      title="Delete"
+      (onClick)="handleDeleteUser(user)"
+    ></df-button>
+  </ng-container>
+  Buttons can be added to the title bar by including them in a container with
+  the 'panel-buttons' attribute
+</df-expander-panel>
 
 <div class="programsadmin-layout__row">
   <digital-first-data-table
     [hasDeleteItemButton]="true"
-    [tableData]="userTableConfig" [tableRows]="userTableRows"
+    [tableData]="userTableConfig"
+    [tableRows]="userTableRows"
     (onDeleteItem)="handleTableDeleteClicked($event)"
-    (onCellClicked)="onCellClicked.emit($event)">
+    (onCellClicked)="onCellClicked.emit($event)"
+  >
   </digital-first-data-table>
 </div>

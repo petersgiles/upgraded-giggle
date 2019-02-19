@@ -12,9 +12,9 @@ export class UserReportAccessComponent implements OnInit {
   reportAccessRows: Maybe<Maybe<User.ReportAccess>[]>
 
   columns = [
-    { prop: 'name', name: 'Program Name' },
+    { prop: 'name', name: 'Report Name' },
+    { prop: 'parentName', name: 'Parent Program' },
     { prop: 'groupName', name: 'Group Name' },
-    { prop: 'parentName', name: 'Parent' },
     { prop: 'hasAccessToParent', name: 'Access to Parent' }
   ]
 

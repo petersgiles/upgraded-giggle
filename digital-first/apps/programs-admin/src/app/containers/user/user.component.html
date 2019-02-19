@@ -1,12 +1,22 @@
 <div class="app-page" *ngIf="user; else loading">
-  <digital-first-page-title title="User - {{ user.emailAddress }}">
-    <digital-first-edit-item-button
-      (onEditItem)="handleEditUser(user)"
-    ></digital-first-edit-item-button>
-    <digital-first-delete-item-button
-      (onDeleteItem)="handleDeleteUser(user)"
-    ></digital-first-delete-item-button>
-  </digital-first-page-title>
+  <df-expander-panel
+    title="User - {{ user.emailAddress }}"
+    [expanded]="true"
+    [expandable]="false"
+  >
+    <ng-container panel-buttons>
+      <df-button
+        icon="edit"
+        title="Edit"
+        (onClick)="handleEditUser(user)"
+      ></df-button>
+      <df-button
+        icon="delete"
+        title="Delete"
+        (onClick)="handleDeleteUser(user)"
+      ></df-button>
+    </ng-container>
+  </df-expander-panel>
   <div class="programsadmin-layout__row">
     <p>{{ user.agency.title }}</p>
   </div>
@@ -28,19 +38,26 @@
   </digital-first-user-statistic-report-access>
 
   <section>
-    <digital-first-page-title title="API Keys">
-      <digital-first-add-item-button
-        (onAddItem)="handleAddApiKey()"
-      ></digital-first-add-item-button>
-    </digital-first-page-title>
+    <df-expander-panel title="API Keys" [expandable]="false">
+      <ng-container panel-buttons>
+        <df-button
+          icon="add"
+          title="Add"
+          (onClick)="handleAddApiKey()"
+        ></df-button>
+      </ng-container>
+    </df-expander-panel>
 
     <div class="programsadmin-layout__row">
-      <digital-first-data-table
-        [tableData]="apiKeysTableData"
-        [hasDeleteItemButton]="true"
-        (onDeleteItem)="handleDeleteApiKey($event)"
+      <df-data-table
+        [rows]="apiKeysRows"
+        [columns]="apiKeysColumns"
+        [count]="apiKeysRows.length"
+        [hasDelete]="true"
+        [limit]="defaultPageLength"
+        (onDelete)="handleDeleteApiKey($event)"
       >
-      </digital-first-data-table>
+      </df-data-table>
     </div>
   </section>
 </div>

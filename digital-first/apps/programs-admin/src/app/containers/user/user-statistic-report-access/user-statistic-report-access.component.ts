@@ -12,7 +12,7 @@ export class UserStatisticReportAccessComponent implements OnInit {
   statisticReportAccessRows: Maybe<Maybe<User.StatisticReportAccess>[]>
 
   columns = [
-    { prop: 'name', name: 'Statistic Name' },
+    { prop: 'name', name: 'Statistic Report Name' },
     { prop: 'parentName', name: 'Parent Name' },
     { prop: 'groupName', name: 'Group Name' },
     { prop: 'hasAccessToParent', name: 'Has Access to Parent' },
