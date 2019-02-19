@@ -1,12 +1,23 @@
 <div class="app-page" *ngIf="group; else loading">
-  <digital-first-page-title title="Group - {{ group.title }}">
-    <digital-first-edit-item-button
-      (onEditItem)="handleEditGroup(group)"
-    ></digital-first-edit-item-button>
-    <digital-first-delete-item-button
-       (onDeleteItem)="handleDeleteGroup(group)"
-    ></digital-first-delete-item-button>
-  </digital-first-page-title>
+  <df-expander-panel
+    title="Group - {{ group.title }}"
+    [expanded]="true"
+    [expandable]="false"
+  >
+    <ng-container panel-buttons>
+      <df-button
+        icon="edit"
+        title="Edit"
+        (onClick)="handleEditGroup(group)"
+      ></df-button>
+      <df-button
+        icon="delete"
+        title="Delete"
+        (onClick)="handleDeleteGroup(group)"
+      ></df-button>
+    </ng-container>
+  </df-expander-panel>
+
   <digital-first-group-users
     [artifactId]="groupId"
     [tableData]="userTableData"

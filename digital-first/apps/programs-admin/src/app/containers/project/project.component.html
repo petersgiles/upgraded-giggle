@@ -1,14 +1,23 @@
 <div *ngIf="project; else loading" class="app-page">
   <section>
-    <digital-first-page-title
-      title="Project - {{ project.name }}">
-      <digital-first-edit-item-button
-        (onEditItem)="handleEditProject(project)"
-      ></digital-first-edit-item-button>
-      <digital-first-delete-item-button
-        (onDeleteItem)="handleDeleteProject(project)"
-      ></digital-first-delete-item-button>
-    </digital-first-page-title>
+    <df-expander-panel
+      title="Project - {{ project.name }}"
+      [expanded]="true"
+      [expandable]="false"
+    >
+      <ng-container panel-buttons>
+        <df-button
+          icon="edit"
+          title="Edit"
+          (onClick)="handleEditProject(project)"
+        ></df-button>
+        <df-button
+          icon="delete"
+          title="Delete"
+          (onClick)="handleDeleteProject(project)"
+        ></df-button>
+      </ng-container>
+    </df-expander-panel>
 
     <div class="programsadmin-layout__row">
       <p>{{ project.name }}</p>
@@ -16,7 +25,6 @@
       <p>{{ project.externalId }}</p>
       <p>{{ project.status }}</p>
     </div>
-
   </section>
 </div>
 <ng-template #loading>
