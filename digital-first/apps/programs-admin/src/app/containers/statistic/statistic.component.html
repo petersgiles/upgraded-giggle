@@ -34,10 +34,8 @@
   </digital-first-permission>
 
   <digital-first-statistic-reports
-    (onCellClicked)="handleReportNavigation($event)"
+    [statisticreportsTableData]="statisticReportTableData"
     (onDeleteClicked)="handleStatisticReportDeleteItemClicked($event)"
-    [artifactId]="statisticId"
-    [tableData]="statisticReportTableData"
   >
   </digital-first-statistic-reports>
 </div>

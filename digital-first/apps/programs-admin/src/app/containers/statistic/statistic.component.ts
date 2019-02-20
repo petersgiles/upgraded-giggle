@@ -16,6 +16,7 @@ import {
   DeleteStatisticAccessControlGQL,
   DeleteStatisticGQL,
   DeleteStatisticReportGQL,
+  Maybe,
   Statistic,
   StatisticGQL,
   UpdateStatisticAccessControlGQL
@@ -30,9 +31,11 @@ export class StatisticComponent implements OnInit {
   statisticId: string
   statisticSubscription$: Subscription
   permissionTableData: any
-  statisticReportTableData: any
+  statisticReportTableData: Maybe<Maybe<Statistic.StatisticReports>[]>
   statistic: Statistic.Statistic
 
+  //TODO:  add this empty message in when Pete has exposed it on the datatable
+  //TODO:  empty message should read 'This report inherits permissions from the statistic. Adding groups here will break inheritance.'
   constructor(
     private route: ActivatedRoute,
     private statisticGql: StatisticGQL,
@@ -59,9 +62,7 @@ export class StatisticComponent implements OnInit {
           statistic
         )
 
-        this.statisticReportTableData = this.createStatisticReportTableData(
-          statistic
-        )
+        this.statisticReportTableData = statistic.statisticReports
       })
   }
 
@@ -198,12 +199,6 @@ export class StatisticComponent implements OnInit {
     return this.router.navigate(['groups/', $event.id])
   }
 
-  handleReportNavigation($event) {
-    return this.router.navigate(['reports/', $event.id], {
-      relativeTo: this.route
-    })
-  }
-
   handleStatisticReportDeleteItemClicked($event) {
     this.deleteStatisticReportGql
       .mutate(
@@ -271,35 +266,6 @@ export class StatisticComponent implements OnInit {
       rows: rows,
       noDataMessage:
         'Any authenticated user can view this statistic and subsequent statistic reports unless they have their own permission specified.'
-    }
-  }
-
-  private createStatisticReportTableData(statistic: Statistic.Statistic) {
-    const reports = statistic.statisticReports.map(report => ({
-      id: report.id,
-      name: report.name,
-      notes: report.notes
-    }))
-
-    const rows = (reports || []).map(r => ({
-      id: r.id,
-      data: r,
-      cells: [
-        {
-          value: `${r.name}`
-        },
-        {
-          value: r.notes
-        }
-      ]
-    }))
-
-    return {
-      title: 'reports',
-      headings: [{ caption: 'Name' }, { caption: 'Notes' }],
-      rows: rows,
-      noDataMessage:
-        'This report inherits permissions from the statistic. Adding groups here will break inheritance.'
     }
   }
 }

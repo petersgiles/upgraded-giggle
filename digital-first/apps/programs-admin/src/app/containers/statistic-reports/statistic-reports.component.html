@@ -13,11 +13,13 @@
 </df-expander-panel>
 
 <div class="programsadmin-layout__row">
-  <digital-first-data-table
-    [tableData]="tableData"
-    [hasDeleteItemButton]="true"
-    (onDeleteItem)="handleTableDeleteClicked($event)"
-    (onCellClicked)="onCellClicked.emit($event)"
-  >
-  </digital-first-data-table>
+  <df-data-table
+    [rows]="statisticreportsTableData"
+    [columns]="columns"
+    [count]="statisticreportsTableData.length"
+    [limit]="defaultPageLength"
+    (onSelect)="handleReportNavigation($event)"
+    [hasDelete]="true"
+    (onDelete)="handleTableDeleteClicked($event)"
+  ></df-data-table>
 </div>
