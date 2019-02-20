@@ -23,7 +23,7 @@ export class ProgramReportsComponent {
   expanded: true
 
   columns = [
-    { prop: 'name', name: 'Statistic Report Name' },
+    { prop: 'name', name: 'Report Name' },
     { prop: 'notes', name: 'Notes' }
   ]
 
