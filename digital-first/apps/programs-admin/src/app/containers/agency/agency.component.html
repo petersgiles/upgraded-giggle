@@ -42,13 +42,16 @@
     </df-expander-panel>
 
     <div class="programsadmin-layout__row">
-      <digital-first-data-table
-        [tableData]="agencyMappingTableData"
-        [hasDeleteItemButton]="true"
-        (onDeleteItem)="handleDeleteAgencyMapping($event)"
-        (onCellClicked)="handleEditAgencyMapping($event)"
+      <df-data-table
+        [rows]="agencyAndGroupMappings"
+        [columns]="columns"
+        [count]="agencyAndGroupMappings.length"
+        [hasDelete]="true"
+        [limit]="defaultPageLength"
+        (onSelect)="handleEditAgencyMapping($event)"
+        (onDelete)="handleDeleteAgencyMapping($event)"
       >
-      </digital-first-data-table>
+      </df-data-table>
     </div>
   </section>
 </div>
