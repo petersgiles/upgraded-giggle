@@ -19,10 +19,9 @@
   </df-expander-panel>
 
   <digital-first-group-users
-    [artifactId]="groupId"
-    [tableData]="userTableData"
+    [members]="members"
+    [groupId]="groupId"
     (onDeleteClicked)="handleUserDeleteItemClicked($event)"
-    (onCellClicked)="handleUserNavigation($event)"
   ></digital-first-group-users>
 </div>
 <ng-template #loading>

@@ -9,12 +9,14 @@
 </df-expander-panel>
 
 <div class="programsadmin-layout__row">
-  <digital-first-data-table
-    [hasDeleteItemButton]="true"
-    [tableData]="userTableConfig"
-    [tableRows]="userTableRows"
-    (onDeleteItem)="handleTableDeleteClicked($event)"
-    (onCellClicked)="onCellClicked.emit($event)"
+  <df-data-table
+    [rows]="members"
+    [columns]="columns"
+    [count]="members.length"
+    [hasDelete]="true"
+    [limit]="defaultPageLength"
+    (onSelect)="handleUserNavigation($event)"
+    (onDelete)="handleTableDeleteClicked($event)"
   >
-  </digital-first-data-table>
+  </df-data-table>
 </div>
