@@ -25,7 +25,7 @@ export class StatisticAddComponent implements OnInit {
       null,
       [Validators.required, Validators.maxLength(formConstants.nameMaxLength)]
     ],
-    externalId: [null],
+    externalId: [''],
     notes: ['']
   })
 

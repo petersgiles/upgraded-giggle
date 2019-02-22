@@ -28,7 +28,7 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
       null,
       [Validators.required, , Validators.maxLength(formConstants.nameMaxLength)]
     ],
-    externalId: [null],
+    externalId: [''],
     notes: [''],
     programId: [null, Validators.required]
   })
