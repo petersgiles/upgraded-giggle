@@ -6,6 +6,10 @@ export function trimWhiteSpaceAndReplaceEmptyStringsWithNull(objectToTrim) {
   }
   return Object.keys(objectToTrim).reduce(
     (acc, key) => {
+      if (objectToTrim[key] === null) {
+        acc[key] = objectToTrim[key]
+        return acc
+      }
       acc[key] =
         typeof objectToTrim[key] === 'string'
           ? objectToTrim[key] && objectToTrim[key].trim().length > 0
