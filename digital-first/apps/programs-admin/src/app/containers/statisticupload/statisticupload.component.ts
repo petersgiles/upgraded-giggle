@@ -18,6 +18,7 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
   statistics: AllStatistics.Statistics[]
   statisticReports: AllStatistics.StatisticReports[]
   statisticsSubscription$: Subscription
+  notes: string
 
   statisticForm = this.formBuilder.group({
     statisticId: [undefined, Validators.required],
@@ -50,7 +51,23 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
           value => value.id === event.value
         )[0].statisticReports
       }
-      this.statisticForm.patchValue({ statisticReportId: undefined })
+      this.statisticForm.patchValue({ statisticReportId: undefined, notes: '' })
+    }
+  }
+
+  onReportSelectionChange(event: { index: any; value: any }) {
+    let notes = ''
+    if (event.index > 0) {
+      const latestVersion = this.statistics.filter(
+        value => value.statisticReports[0].id === event.value
+      )[0].statisticReports[0].latestVersion
+
+      if (latestVersion) {
+        notes = latestVersion.notes
+      }
+      this.statisticForm.patchValue({
+        notes: notes
+      })
     }
   }
 

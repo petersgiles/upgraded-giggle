@@ -38,6 +38,7 @@
                     placeholder="Statistic report"
                     [outlined]="true"
                     name="statisticReport"
+                    (selectionChange)="onReportSelectionChange($event)"
                   >
                     <option value=""></option>
                     <option
@@ -72,6 +73,7 @@
                     label="Notes"
                     spellcheck="true"
                   >
+                    {{ notes }}
                   </mdc-textarea>
                 </div>
                 <div class="form-layout__row">
