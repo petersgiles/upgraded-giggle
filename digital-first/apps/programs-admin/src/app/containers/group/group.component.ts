@@ -1,10 +1,20 @@
-import {Component, OnInit} from '@angular/core'
-import {ActivatedRoute, Router} from '@angular/router'
-import {DeleteAccessControlGroupGQL, Group, GroupGQL, DeleteAccessControlGroupUserGQL} from '../../generated/graphql'
-import {first, map} from 'rxjs/operators'
-import {Subscription} from 'rxjs'
-import {ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent} from '@digital-first/df-dialogs'
-import {MdcDialog} from '@angular-mdc/web'
+import { Component, OnInit } from '@angular/core'
+import { ActivatedRoute, Router } from '@angular/router'
+import {
+  DeleteAccessControlGroupGQL,
+  Group,
+  GroupGQL,
+  DeleteAccessControlGroupUserGQL,
+  Maybe
+} from '../../generated/graphql'
+import { first, map } from 'rxjs/operators'
+import { Subscription } from 'rxjs'
+import {
+  ARE_YOU_SURE_ACCEPT,
+  DialogAreYouSureComponent
+} from '@digital-first/df-dialogs'
+import { MdcDialog } from '@angular-mdc/web'
+import Members = Group.Members
 
 @Component({
   selector: 'digital-first-group',
@@ -12,29 +22,29 @@ import {MdcDialog} from '@angular-mdc/web'
   styleUrls: ['./group.component.scss']
 })
 export class GroupComponent implements OnInit {
-  userTableData: any
   private groupId: string
   private groupSubscription$: Subscription
   group: Group.Group
+  members: Maybe<Maybe<Group.Members>[]>
 
-  constructor(private route: ActivatedRoute,
-              private groupGQL: GroupGQL,
-              private deleteAccessControlGroupGql: DeleteAccessControlGroupGQL,
-              private deleteAccessControlGroupUserGql: DeleteAccessControlGroupUserGQL,
-              private router: Router,
-              public dialog: MdcDialog) {
-  }
+  constructor(
+    private route: ActivatedRoute,
+    private groupGQL: GroupGQL,
+    private deleteAccessControlGroupGql: DeleteAccessControlGroupGQL,
+    private deleteAccessControlGroupUserGql: DeleteAccessControlGroupUserGQL,
+    private router: Router,
+    public dialog: MdcDialog
+  ) {}
 
   ngOnInit() {
-
     this.groupId = this.route.snapshot.paramMap.get('id')
 
     this.groupSubscription$ = this.groupGQL
-      .watch({groupId: this.groupId}, {fetchPolicy: 'network-only'})
+      .watch({ groupId: this.groupId }, { fetchPolicy: 'network-only' })
       .valueChanges.pipe(map(value => value.data.group))
       .subscribe(group => {
         this.group = group
-        this.userTableData = this.group.members
+        this.members = this.group.members
       })
   }
 
@@ -67,12 +77,12 @@ export class GroupComponent implements OnInit {
       })
   }
 
-  handleUserDeleteItemClicked($event) {
+  handleUserDeleteItemClicked(member: Members) {
     this.deleteAccessControlGroupUserGql
       .mutate(
         {
           data: {
-            userId: $event.id,
+            userId: member.id,
             accessControlGroupId: this.groupId
           }
         },
@@ -88,11 +98,6 @@ export class GroupComponent implements OnInit {
         }
       )
       .pipe(first())
-      .subscribe(value => {
-      })
-  }
-
-  handleUserNavigation($event: any) {
-    return this.router.navigate(['users/', $event.id])
+      .subscribe(value => {})
   }
 }

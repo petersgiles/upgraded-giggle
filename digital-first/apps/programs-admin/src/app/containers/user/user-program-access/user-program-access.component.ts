@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { DataTableConfig } from '@digital-first/df-datatable'
 import { Maybe, User } from '../../../generated/graphql'
+import { formConstants } from '../../../form-constants'
 
 @Component({
   selector: 'digital-first-user-program-access',
@@ -8,32 +8,16 @@ import { Maybe, User } from '../../../generated/graphql'
   styleUrls: ['./user-program-access.component.scss']
 })
 export class UserProgramAccessComponent implements OnInit {
-  programAccessRows: Maybe<Maybe<User.ProgramAccess>[]>
-
-  programAccessConfig: DataTableConfig = {
-    title: 'Users',
-
-    headings: [
-      { caption: 'Program name' },
-      { caption: 'Group Name' },
-      { caption: 'Rights' }
-    ],
-    rows: [{ id: '', cells: [] }]
-  }
-
-  @Input() artifactId: string
+  defaultPageLength: number = formConstants.defaultPageLength
 
   @Input()
-  set tableData(val) {
-    this.programAccessRows = val.map(i => ({
-      id: `${i.entityId}-${i.groupId}`,
-      cells: [
-        { value: i.name },
-        { value: i.groupName },
-        { value: i.accessRights }
-      ]
-    }))
-  }
+  programAccessRows: Maybe<Maybe<User.ProgramAccess>[]>
+
+  columns = [
+    { prop: 'name', name: 'Program Name' },
+    { prop: 'groupName', name: 'Group Name' },
+    { prop: 'accessRights', name: 'Rights' }
+  ]
 
   constructor() {}
 

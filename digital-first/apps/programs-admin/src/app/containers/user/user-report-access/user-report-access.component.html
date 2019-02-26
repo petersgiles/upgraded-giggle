@@ -1,9 +1,10 @@
-<digital-first-page-title title="Report Access"> </digital-first-page-title>
+<df-expander-panel title="Report Access" [expandable]="false">
+</df-expander-panel>
 <div class="programsadmin-layout__row">
-  <digital-first-data-table
-    [hasDeleteItemButton]="false"
-    [tableData]="reportAccessConfig"
-    [tableRows]="reportAccessRows"
-  >
-  </digital-first-data-table>
+  <df-data-table
+    [rows]="reportAccessRows"
+    [columns]="columns"
+    [count]="reportAccessRows.length"
+    [limit]="defaultPageLength"
+  ></df-data-table>
 </div>

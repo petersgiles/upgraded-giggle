@@ -1,14 +1,16 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core'
-import {MdcDialog} from '@angular-mdc/web'
-import {ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent} from '@digital-first/df-dialogs'
-import {first} from 'rxjs/operators'
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
+import { MdcDialog } from '@angular-mdc/web'
+import {
+  ARE_YOU_SURE_ACCEPT,
+  DialogAreYouSureComponent
+} from '@digital-first/df-dialogs'
+import { first } from 'rxjs/operators'
 
 @Component({
   selector: 'digital-first-permission',
   templateUrl: './permission.component.html',
   styleUrls: ['./permission.component.scss']
 })
-
 export class PermissionComponent implements OnInit {
   @Input() artifactId: string
 
@@ -22,16 +24,9 @@ export class PermissionComponent implements OnInit {
 
   @Output() onAddGroup: EventEmitter<any> = new EventEmitter()
 
-  expanded: true
+  constructor(public dialog: MdcDialog) {}
 
-  constructor(public dialog: MdcDialog) {
-  }
-
-  ngOnInit() {
-  }
-
-  handleChangeExpanded(expanded) {
-  }
+  ngOnInit() {}
 
   handleTableDeleteClicked($event) {
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {

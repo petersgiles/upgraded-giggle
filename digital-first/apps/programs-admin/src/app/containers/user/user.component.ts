@@ -17,6 +17,7 @@ import {
   DialogAreYouSureComponent
 } from '@digital-first/df-dialogs'
 import { MdcDialog } from '@angular-mdc/web'
+import { formConstants } from '../../form-constants'
 
 @Component({
   selector: 'digital-first-user',
@@ -31,7 +32,7 @@ export class UserComponent implements OnInit, OnDestroy {
   reportAccessRows: Maybe<Maybe<User.ReportAccess>[]>
   statisticReportAccessRows: Maybe<Maybe<User.StatisticReportAccess>[]>
   statisticAccessRows: Maybe<Maybe<User.StatisticAccess>[]>
-  apiKeysTableData: any
+  apiKeysRows: Maybe<Maybe<User.ApiKeys>[]>
   constructor(
     private route: ActivatedRoute,
     private userGQL: UserGQL,
@@ -57,44 +58,21 @@ export class UserComponent implements OnInit, OnDestroy {
         this.reportAccessRows = user.reportAccess
         this.statisticReportAccessRows = user.statisticReportAccess
         this.statisticAccessRows = user.statisticAccess
-        this.apiKeysTableData = this.createApiKeyTableData(user)
+        this.apiKeysRows = user.apiKeys.map(value =>
+          Object.assign({}, value, {
+            created: `${formatDate(value.created, 'medium', 'en-AU')}`
+          })
+        )
       })
   }
 
-  private createApiKeyTableData(user: User.User) {
-    const apiKeys = user.apiKeys.map(data => ({
-      id: data.id,
-      key: data.key,
-      created: data.created,
-      disable: data.disable
-    }))
-    const rows = (apiKeys || []).map(d => ({
-      id: d.id,
-      data: d,
-      cells: [
-        {
-          value: `${d.key}`
-        },
-        {
-          value: `${formatDate(d.created, 'medium', 'en-AU')}`
-        },
-        {
-          value: `${d.disable}`
-        }
-      ]
-    }))
+  apiKeysColumns = [
+    { prop: 'key', name: 'Key' },
+    { prop: 'created', name: 'Created' },
+    { prop: 'disable', name: 'Disabled' }
+  ]
+  defaultPageLength: number = formConstants.defaultPageLength
 
-    return {
-      title: 'Api Key',
-      headings: [
-        { caption: 'Key' },
-        { caption: 'Created' },
-        { caption: 'Disabled' }
-      ],
-      rows: rows,
-      noDataMessage: 'This user has no API keys assigned.'
-    }
-  }
   handleEditUser(user: User.User) {
     return this.router.navigate(['users/edit', user.id])
   }

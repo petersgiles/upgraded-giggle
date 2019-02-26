@@ -18,8 +18,11 @@ import {
   CreateProgramAccessControlGQL,
   AccessRights,
   UpdateProgramAccessControlGQL,
-  DeleteReportGQL
+  DeleteReportGQL,
+  Maybe,
+  Report
 } from '../../generated/graphql'
+import Reports = Report.Reports
 
 @Component({
   selector: 'digital-first-program',
@@ -30,8 +33,8 @@ export class ProgramComponent implements OnInit, OnDestroy {
   program: Program.Program
   programId: string
   permissionTableData: any
-  programReportTableData: any
   programsSubscription$: Subscription
+  reportsTableData: Maybe<Maybe<Program.Reports>[]>
 
   constructor(
     private programGQL: ProgramGQL,
@@ -88,7 +91,7 @@ export class ProgramComponent implements OnInit, OnDestroy {
           program
         )
 
-        this.programReportTableData = this.createProgramReportTableData(program)
+        this.reportsTableData = this.program.reports
       })
   }
 
@@ -194,12 +197,12 @@ export class ProgramComponent implements OnInit, OnDestroy {
       })
   }
 
-  handleProgramReportDeleteItemClicked($event) {
+  handleProgramReportDeleteItemClicked(report: Reports) {
     this.deleteReportGQL
       .mutate(
         {
           data: {
-            id: $event.id
+            id: report.id
           }
         },
         {
@@ -215,40 +218,6 @@ export class ProgramComponent implements OnInit, OnDestroy {
       )
       .pipe(first())
       .subscribe(value => {})
-  }
-
-  handleReportNavigation($event) {
-    return this.router.navigate(['reports/', $event.id], {
-      relativeTo: this.route
-    })
-  }
-
-  private createProgramReportTableData(program: Program.Program): any {
-    const reports = program.reports.map(report => ({
-      id: report.id,
-      name: report.name,
-      notes: report.notes
-    }))
-
-    const rows = (reports || []).map(r => ({
-      id: r.id,
-      data: r,
-      cells: [
-        {
-          value: `${r.name}`
-        },
-        {
-          value: r.notes
-        }
-      ]
-    }))
-
-    return {
-      title: 'reports',
-      headings: [{ caption: 'Name' }, { caption: 'Notes' }],
-      rows: rows,
-      noDataMessage: 'No reports have been added to this program yet.'
-    }
   }
 
   private createProgramPermissionGroupTableData(

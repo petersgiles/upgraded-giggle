@@ -1,9 +1,10 @@
-<digital-first-page-title title="Program Access"> </digital-first-page-title>
+<df-expander-panel title="Program Access" [expandable]="false">
+</df-expander-panel>
 <div class="programsadmin-layout__row">
-  <digital-first-data-table
-    [hasDeleteItemButton]="false"
-    [tableData]="programAccessConfig"
-    [tableRows]="programAccessRows"
-  >
-  </digital-first-data-table>
+  <df-data-table
+    [rows]="programAccessRows"
+    [columns]="columns"
+    [count]="programAccessRows.length"
+    [limit]="defaultPageLength"
+  ></df-data-table>
 </div>

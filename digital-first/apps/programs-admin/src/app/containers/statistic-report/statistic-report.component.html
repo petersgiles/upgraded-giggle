@@ -1,14 +1,25 @@
 <div *ngIf="report; else loading" class="app-page">
   <section>
-    <digital-first-page-title title="Statistic Report - {{ report.name }}">
-      <digital-first-edit-item-button
-        (onEditItem)="handleEditStatisticReport(report)">
-      </digital-first-edit-item-button>
-    </digital-first-page-title>
+    <df-expander-panel
+      title="Statistic Report - {{ report.name }}"
+      [expanded]="true"
+      [expandable]="false"
+    >
+      <ng-container panel-buttons>
+        <df-button
+          icon="edit"
+          title="Edit"
+          (onClick)="handleEditStatisticReport(report)"
+        ></df-button>
+      </ng-container>
+    </df-expander-panel>
+
     <div class="programsadmin-layout__row">
       <p>Notes:</p>
-      <p *ngIf="report.notes; else elseBlock">{{report.notes}}</p>
-      <ng-template #elseBlock><p>No notes were provided for this report</p></ng-template>
+      <p *ngIf="report.notes; else elseBlock">{{ report.notes }}</p>
+      <ng-template #elseBlock
+        ><p>No notes were provided for this report</p></ng-template
+      >
     </div>
     <digital-first-permission
       (onAddGroup)="handleOpenAddGroupDialog($event)"
@@ -16,7 +27,8 @@
       (onGroupClicked)="handleGroupPermissionGroupClicked($event)"
       (onPermissionClicked)="handleGroupPermissionChangeClicked($event)"
       [artifactId]="statisticReportId"
-      [tableData]="permissionTableData">
+      [tableData]="permissionTableData"
+    >
     </digital-first-permission>
   </section>
 </div>
