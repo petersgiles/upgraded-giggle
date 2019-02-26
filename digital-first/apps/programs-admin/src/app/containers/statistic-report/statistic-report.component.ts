@@ -25,7 +25,11 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
   report: StatisticReport.StatisticReports
   permissionTableData: any
   reportSubscription$: Subscription
-  private statisticReportId: string
+  statisticReportId: string
+
+  noDataMessage =
+    'This report inherits its permissions from the statistic. Adding groups here will break inheritance.'
+  permissionRows: any
 
   constructor(
     private route: ActivatedRoute,
@@ -49,9 +53,24 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
       .valueChanges.pipe(map(value => value.data.statisticReports[0]))
       .subscribe(report => {
         this.report = report
-        this.permissionTableData = this.createStatisticPermissionGroupTableData(
-          report
-        )
+
+        if (this.report.accessControlList.length === 1) {
+          this.permissionRows = this.report.accessControlList[0].accessControlEntries.map(
+            value => ({
+              id: value.accessControlGroup.id,
+              acl: this.report.accessControlList[0].id,
+              title: value.accessControlGroup.title,
+              rights: value.rights,
+              rowVersion: value.rowVersion
+            })
+          )
+        } else {
+          this.permissionRows = []
+        }
+
+        // this.permissionTableData = this.createStatisticPermissionGroupTableData(
+        //   report
+        // )
       })
   }
 
@@ -122,15 +141,15 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
     return this.router.navigate(['groups/', $event.id])
   }
 
-  handleGroupPermissionChangeClicked(row) {
+  handleGroupPermissionChangeClicked(permissionChanged) {
     this.updateStatisticReportAccessControlGql
       .mutate(
         {
           data: {
-            accessControlGroupId: row.id,
+            accessControlGroupId: permissionChanged.row.id,
             statisticReportId: this.statisticReportId,
-            accessRights: row.cell.value,
-            rowVersion: row.row.data.rowVersion
+            accessRights: permissionChanged.event.value.toUpperCase(),
+            rowVersion: permissionChanged.row.rowVersion
           }
         },
         {}
@@ -169,50 +188,50 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
     })
   }
 
-  private createStatisticPermissionGroupTableData(
-    report: StatisticReport.StatisticReports
-  ): DataTableConfig {
-    const groups = {}
-    report.accessControlList.forEach(acl => {
-      acl.accessControlEntries.forEach(ace => {
-        groups[ace.accessControlGroup.title] = {
-          id: ace.accessControlGroup.id,
-          acl: acl.id,
-          title: ace.accessControlGroup.title,
-          rights: ace.rights,
-          rowVersion: ace.rowVersion
-        }
-      })
-    })
-    const rows = (Object.keys(groups) || []).map(g => {
-      const group = groups[g]
-      return {
-        id: group.id,
-        data: group,
-        cells: [
-          {
-            value: `${group.title}`,
-            id: 'GROUPCELL'
-          },
-          {
-            value: group.rights.toUpperCase(),
-            type: 'radio',
-            id: 'PERMISSIONCELL',
-            data: [
-              { value: AccessRights.Read, caption: 'Read' },
-              { value: AccessRights.Write, caption: 'Read/Write' }
-            ]
-          }
-        ]
-      }
-    })
-
-    return {
-      title: 'permissions',
-      headings: [{ caption: 'Name' }, { caption: 'Permission' }],
-      rows: rows,
-      noDataMessage:
-        'This report inherits its permissions from the statistic. Adding groups here will break inheritance.'
-    }
-  }
+  // private createStatisticPermissionGroupTableData(
+  //   report: StatisticReport.StatisticReports
+  // ): DataTableConfig {
+  //   const groups = {}
+  //   report.accessControlList.forEach(acl => {
+  //     acl.accessControlEntries.forEach(ace => {
+  //       groups[ace.accessControlGroup.title] = {
+  //         id: ace.accessControlGroup.id,
+  //         acl: acl.id,
+  //         title: ace.accessControlGroup.title,
+  //         rights: ace.rights,
+  //         rowVersion: ace.rowVersion
+  //       }
+  //     })
+  //   })
+  //   const rows = (Object.keys(groups) || []).map(g => {
+  //     const group = groups[g]
+  //     return {
+  //       id: group.id,
+  //       data: group,
+  //       cells: [
+  //         {
+  //           value: `${group.title}`,
+  //           id: 'GROUPCELL'
+  //         },
+  //         {
+  //           value: group.rights.toUpperCase(),
+  //           type: 'radio',
+  //           id: 'PERMISSIONCELL',
+  //           data: [
+  //             { value: AccessRights.Read, caption: 'Read' },
+  //             { value: AccessRights.Write, caption: 'Read/Write' }
+  //           ]
+  //         }
+  //       ]
+  //     }
+  //   })
+  //
+  //   return {
+  //     title: 'permissions',
+  //     headings: [{ caption: 'Name' }, { caption: 'Permission' }],
+  //     rows: rows,
+  //     noDataMessage:
+  //       'This report inherits its permissions from the statistic. Adding groups here will break inheritance.'
+  //   }
+  // }
 }

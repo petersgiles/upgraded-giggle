@@ -12,7 +12,6 @@ import {
   DeleteReportAccessControlGQL,
   Report,
   ReportGQL,
-  StatisticReport,
   UpdateReportAccessControlGQL
 } from '../../generated/graphql'
 
@@ -23,10 +22,12 @@ import {
 })
 export class ProgramReportComponent implements OnInit, OnDestroy {
   report: Report.Reports
-  permissionTableData: any
 
   reportId: string
-  private reportSubscription$: Subscription
+  reportSubscription$: Subscription
+  permissionRows: any
+  noDataMessage =
+    'This report inherits its permissions from the program. Adding groups here will break inheritance.'
 
   constructor(
     private reportGql: ReportGQL,
@@ -47,9 +48,20 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
       .valueChanges.pipe(map(value => value.data.reports[0]))
       .subscribe(report => {
         this.report = report
-        this.permissionTableData = this.createProgramPermissionGroupTableData(
-          report
-        )
+
+        if (this.report.accessControlList.length === 1) {
+          this.permissionRows = this.report.accessControlList[0].accessControlEntries.map(
+            value => ({
+              id: value.accessControlGroup.id,
+              acl: this.report.accessControlList[0].id,
+              title: value.accessControlGroup.title,
+              rights: value.rights,
+              rowVersion: value.rowVersion
+            })
+          )
+        } else {
+          this.permissionRows = []
+        }
       })
   }
 
@@ -120,15 +132,15 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
     return this.router.navigate(['groups/', $event.id])
   }
 
-  handleGroupPermissionChangeClicked(row) {
+  handleGroupPermissionChangeClicked(permissionChanged) {
     this.updateReportAccessControlGql
       .mutate(
         {
           data: {
-            accessControlGroupId: row.id,
+            accessControlGroupId: permissionChanged.row.id,
             reportId: this.reportId,
-            accessRights: row.cell.value,
-            rowVersion: row.row.data.rowVersion
+            accessRights: permissionChanged.event.value.toUpperCase(),
+            rowVersion: permissionChanged.row.rowVersion
           }
         },
         {}

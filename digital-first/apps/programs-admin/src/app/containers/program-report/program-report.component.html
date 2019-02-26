@@ -21,13 +21,15 @@
         <p>No notes were provided for this report</p>
       </ng-template>
     </div>
+
     <digital-first-permission
       (onAddGroup)="handleOpenAddGroupDialog($event)"
       (onDeleteClicked)="handleGroupPermissionDeleteClicked($event)"
       (onGroupClicked)="handleGroupPermissionGroupClicked($event)"
       (onPermissionClicked)="handleGroupPermissionChangeClicked($event)"
       [artifactId]="reportId"
-      [tableData]="permissionTableData"
+      [rows]="permissionRows"
+      [noDataMessage]="noDataMessage"
     ></digital-first-permission>
   </section>
 </div>

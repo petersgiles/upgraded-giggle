@@ -29,9 +29,9 @@
     (onGroupClicked)="handleGroupPermissionGroupClicked($event)"
     (onPermissionClicked)="handleGroupPermissionChangeClicked($event)"
     [artifactId]="statisticId"
-    [tableData]="permissionTableData"
-  >
-  </digital-first-permission>
+    [rows]="permissionRows"
+    [noDataMessage]="noDataMessage"
+  ></digital-first-permission>
 
   <digital-first-statistic-reports
     [statisticreportsTableData]="statisticReportTableData"

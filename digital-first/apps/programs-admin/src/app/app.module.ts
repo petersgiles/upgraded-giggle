@@ -99,6 +99,8 @@ import { UserStatisticAccessComponent } from './containers/user/user-statistic-a
 import { UserStatisticReportAccessComponent } from './containers/user/user-statistic-report-access/user-statistic-report-access.component'
 import { DataTableModule, PanelModule, ButtonModule } from '@df/components'
 
+import { NgxDatatableModule } from '@swimlane/ngx-datatable'
+
 const COMPONENTS = [AppComponent, HomeComponent]
 
 const ENTRYCOMPONENTS = [
@@ -199,7 +201,8 @@ export function initApplication(): Function {
     GraphQLModule,
     DataTableModule,
     PanelModule,
-    ButtonModule
+    ButtonModule,
+    NgxDatatableModule
   ],
   providers: [
     WINDOW_PROVIDERS,
