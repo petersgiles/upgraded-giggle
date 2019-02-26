@@ -43,23 +43,27 @@ export const getCommitmentActionsTableData = createSelector(
             return {
                 id: c.id,
                 cells: [{
+                    truncate: 70,
+                    value: `${c.id}`
+                }, {
                     value: `${portfolio}`
                 }, {
                     truncate: 70,
-                    value: `${c.costing}`
+                    value: `${c.description}`
                 }, {
                     truncate: 70,
-                    value: `${c.description}`
+                    value: `${c.costing}`
                 }]
             }
         })
 
         const dtc: DataTableConfig = {
-            title: 'contacts',
+            title: 'Costing',
             headings: [
-                { caption: 'Portfolio' },
-                { caption: 'Costing' },
-                { caption: 'Description' }
+                { caption: 'Costing Id' },
+                { caption: 'Costing By' },
+                { caption: 'Costing Detail' },
+                { caption: 'Additional Costing' }
             ],
             rows: rows
         }
