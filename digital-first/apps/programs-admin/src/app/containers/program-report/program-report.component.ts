@@ -14,6 +14,10 @@ import {
   ReportGQL,
   UpdateReportAccessControlGQL
 } from '../../generated/graphql'
+import {
+  PermissionChangedEvent,
+  PermissionRow
+} from '../permission/permission.component'
 
 @Component({
   selector: 'digital-first-program-report',
@@ -25,7 +29,7 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
 
   reportId: string
   reportSubscription$: Subscription
-  permissionRows: any
+  permissionRows: PermissionRow[]
   noDataMessage =
     'This report inherits its permissions from the program. Adding groups here will break inheritance.'
 
@@ -132,7 +136,9 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
     return this.router.navigate(['groups/', $event.id])
   }
 
-  handleGroupPermissionChangeClicked(permissionChanged) {
+  handleGroupPermissionChangeClicked(
+    permissionChanged: PermissionChangedEvent
+  ) {
     this.updateReportAccessControlGql
       .mutate(
         {

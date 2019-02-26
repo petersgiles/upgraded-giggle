@@ -28,6 +28,10 @@ import {
   UpdateProgramAccessControlGQL
 } from '../../generated/graphql'
 import Reports = Report.Reports
+import {
+  PermissionChangedEvent,
+  PermissionRow
+} from '../permission/permission.component'
 
 @Component({
   selector: 'digital-first-program',
@@ -39,9 +43,9 @@ export class ProgramComponent implements OnInit, OnDestroy, AfterViewInit {
   programId: string
   programsSubscription$: Subscription
   reportsTableData: Maybe<Maybe<Program.Reports>[]>
-  permissionRows: any
   noDataMessage =
     'No groups will be able to view this program. Please assign at least one group.'
+  permissionRows: PermissionRow[]
 
   constructor(
     private programGQL: ProgramGQL,
@@ -121,7 +125,9 @@ export class ProgramComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.router.navigate(['groups/', $event.id])
   }
 
-  handleGroupPermissionChangeClicked(permissionChanged) {
+  handleGroupPermissionChangeClicked(
+    permissionChanged: PermissionChangedEvent
+  ) {
     this.updateGroupPermissionsForProgramGQL
       .mutate(
         {

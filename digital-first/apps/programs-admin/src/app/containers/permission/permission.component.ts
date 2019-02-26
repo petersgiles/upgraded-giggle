@@ -14,6 +14,7 @@ import {
 } from '@digital-first/df-dialogs'
 import { first } from 'rxjs/operators'
 import { formConstants } from '../../form-constants'
+import { Guid } from '../../generated/graphql'
 
 @Component({
   selector: 'digital-first-permission',
@@ -27,13 +28,13 @@ export class PermissionComponent implements OnInit {
 
   @Input() noDataMessage: string
 
-  @Input() tableData: any
-
-  @Input() rows: any
+  @Input() rows: PermissionRow[]
 
   @Output() onDeleteClicked: EventEmitter<any> = new EventEmitter()
 
-  @Output() onPermissionClicked: EventEmitter<any> = new EventEmitter()
+  @Output() onPermissionClicked: EventEmitter<
+    PermissionChangedEvent
+  > = new EventEmitter()
 
   @Output() onGroupClicked: EventEmitter<any> = new EventEmitter()
 
@@ -46,8 +47,6 @@ export class PermissionComponent implements OnInit {
   constructor(public dialog: MdcDialog) {}
 
   columns = []
-
-  groups = []
 
   ngOnInit() {
     this.columns = [
@@ -85,4 +84,17 @@ export class PermissionComponent implements OnInit {
   handleReportNavigation($event: any) {
     this.onGroupClicked.emit($event)
   }
+}
+
+export interface PermissionRow {
+  rowVersion: string
+  rights: string
+  id: Guid
+  acl: Guid
+  title: string
+}
+
+export interface PermissionChangedEvent {
+  event: any
+  row: PermissionRow
 }

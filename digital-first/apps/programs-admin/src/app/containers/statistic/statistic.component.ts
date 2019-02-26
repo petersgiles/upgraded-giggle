@@ -20,6 +20,10 @@ import {
   StatisticGQL,
   UpdateStatisticAccessControlGQL
 } from '../../generated/graphql'
+import {
+  PermissionChangedEvent,
+  PermissionRow
+} from '../permission/permission.component'
 
 @Component({
   selector: 'digital-first-statistic',
@@ -34,7 +38,7 @@ export class StatisticComponent implements OnInit {
 
   noDataMessage =
     'This report inherits permissions from the statistic. Adding groups here will break inheritance.'
-  permissionRows: any
+  permissionRows: PermissionRow[]
 
   constructor(
     private route: ActivatedRoute,
@@ -164,7 +168,9 @@ export class StatisticComponent implements OnInit {
       })
   }
 
-  handleGroupPermissionChangeClicked(permissionChanged) {
+  handleGroupPermissionChangeClicked(
+    permissionChanged: PermissionChangedEvent
+  ) {
     this.updateStatisticAccessControlGql
       .mutate(
         {
