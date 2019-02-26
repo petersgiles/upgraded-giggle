@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ApolloModule } from 'apollo-angular'
 import { HttpLinkModule } from 'apollo-angular-link-http'
-import { NgxWigModule } from 'ngx-wig'
 
 import { ErrorsModule } from './core/errors'
 
@@ -79,10 +78,6 @@ import { ProjectAddComponent } from './containers/project/project-add/project-ad
 import { ProjectEditComponent } from './containers/project/project-edit/project-edit.component'
 import { ReportEditComponent } from './containers/program-reports/report-edit/report-edit.component'
 import { ProjectsComponent } from './containers/projects/projects.component'
-import {
-  DataTableComponent,
-  DfDatatableModule
-} from '@digital-first/df-datatable'
 import { DfButtonsModule } from '@digital-first/df-buttons'
 import { DfRefinerModule } from '@digital-first/df-refiner'
 import { AgenciesComponent } from './containers/agencies/agencies.component'
@@ -113,8 +108,7 @@ const ENTRYCOMPONENTS = [
   DialogAssignUserToGroupComponent,
   ContactCardComponent,
   PageTitleComponent,
-  RelatedArtifactsComponent,
-  DataTableComponent
+  RelatedArtifactsComponent
 ]
 
 export function initApplication(): Function {
@@ -183,11 +177,9 @@ export function initApplication(): Function {
     ReactiveFormsModule,
     ApolloModule,
     HttpLinkModule,
-    NgxWigModule,
     NxModule.forRoot(),
     DfAuthModule,
     DfComponentsModule,
-    DfDatatableModule,
     DfButtonsModule,
     DfMomentModule,
     DfLayoutsModule,
