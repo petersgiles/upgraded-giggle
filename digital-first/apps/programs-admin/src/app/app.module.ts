@@ -12,15 +12,7 @@ import { DfAuthModule, AUTH_KEY } from '@digital-first/df-auth'
 import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
 import { DfPagesModule } from '@digital-first/df-pages'
-
-import {
-  DfDialogsModule,
-  DialogAreYouSureComponent,
-  DialogShowErrorComponent,
-  DialogFileLockedComponent,
-  DialogSpinnerOverlayComponent,
-  DialogAddContactComponent
-} from '@digital-first/df-dialogs'
+import { DialogAreYouSureComponent, DialogsModule } from '@df/components'
 
 import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfMomentModule } from '@digital-first/df-moment'
@@ -100,10 +92,6 @@ const COMPONENTS = [AppComponent, HomeComponent]
 
 const ENTRYCOMPONENTS = [
   DialogAreYouSureComponent,
-  DialogShowErrorComponent,
-  DialogFileLockedComponent,
-  DialogSpinnerOverlayComponent,
-  DialogAddContactComponent,
   DialogAssignGroupPermissionComponent,
   DialogAssignUserToGroupComponent,
   ContactCardComponent,
@@ -185,7 +173,7 @@ export function initApplication(): Function {
     DfLayoutsModule,
     DfThemeModule,
     DfPagesModule,
-    DfDialogsModule,
+    DialogsModule,
     DfRefinerModule,
     DfPipesModule,
     ErrorsModule,

@@ -11,10 +11,6 @@ import { Subscription } from 'rxjs'
 import { MdcDialog } from '@angular-mdc/web'
 import { DialogAssignGroupPermissionComponent } from '../../dialogs/dialog-assign-group-permission.component'
 import {
-  ARE_YOU_SURE_ACCEPT,
-  DialogAreYouSureComponent
-} from '@digital-first/df-dialogs'
-import {
   AccessRights,
   AllGroupsGQL,
   CreateProgramAccessControlGQL,
@@ -32,6 +28,7 @@ import {
   PermissionChangedEvent,
   PermissionRow
 } from '../permission/permission.component'
+import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
 
 @Component({
   selector: 'digital-first-program',

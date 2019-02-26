@@ -8,13 +8,12 @@ import {
   ViewChild
 } from '@angular/core'
 import { MdcDialog } from '@angular-mdc/web'
-import {
-  ARE_YOU_SURE_ACCEPT,
-  DialogAreYouSureComponent
-} from '@digital-first/df-dialogs'
+
 import { first } from 'rxjs/operators'
 import { formConstants } from '../../form-constants'
 import { Guid } from '../../generated/graphql'
+import { DialogAreYouSureComponent } from '@df/components'
+import { ARE_YOU_SURE_ACCEPT } from '@digital-first/df-dialogs'
 
 @Component({
   selector: 'digital-first-permission',

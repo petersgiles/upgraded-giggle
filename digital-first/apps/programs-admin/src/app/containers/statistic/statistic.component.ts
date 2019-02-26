@@ -3,10 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { MdcDialog } from '@angular-mdc/web'
 import { first, map } from 'rxjs/operators'
 import { Subscription } from 'rxjs'
-import {
-  ARE_YOU_SURE_ACCEPT,
-  DialogAreYouSureComponent
-} from '@digital-first/df-dialogs'
 import { DialogAssignGroupPermissionComponent } from '../../dialogs/dialog-assign-group-permission.component'
 import {
   AccessRights,
@@ -24,6 +20,7 @@ import {
   PermissionChangedEvent,
   PermissionRow
 } from '../permission/permission.component'
+import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
 
 @Component({
   selector: 'digital-first-statistic',

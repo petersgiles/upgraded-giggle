@@ -7,10 +7,6 @@ import {
   Output
 } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import {
-  ARE_YOU_SURE_ACCEPT,
-  DialogAreYouSureComponent
-} from '@digital-first/df-dialogs'
 import { first, map } from 'rxjs/operators'
 import { Subscription } from 'rxjs'
 import {
@@ -21,6 +17,7 @@ import {
 } from '../../generated/graphql'
 import { MdcDialog } from '@angular-mdc/web'
 import { formConstants } from '../../form-constants'
+import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
 
 @Component({
   selector: 'digital-first-agency',
