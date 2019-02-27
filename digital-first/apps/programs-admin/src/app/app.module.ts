@@ -8,21 +8,21 @@ import { HttpLinkModule } from 'apollo-angular-link-http'
 
 import { ErrorsModule } from './core/errors'
 
+import {
+  DataTableModule,
+  PanelModule,
+  ButtonModule,
+  DialogAreYouSureComponent,
+  DialogsModule
+} from '@df/components'
+
 import { DfAuthModule, AUTH_KEY } from '@digital-first/df-auth'
 import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
 import { DfPagesModule } from '@digital-first/df-pages'
-import { DialogAreYouSureComponent, DialogsModule } from '@df/components'
 
-import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfMomentModule } from '@digital-first/df-moment'
 import { WINDOW_PROVIDERS } from '@digital-first/df-utils'
-import {
-  DfComponentsModule,
-  ContactCardComponent,
-  PageTitleComponent,
-  RelatedArtifactsComponent
-} from '@digital-first/df-components'
 
 import { AppComponent } from './app.component'
 import { AppFullLayoutService } from './app-full-layout.service'
@@ -70,8 +70,6 @@ import { ProjectAddComponent } from './containers/project/project-add/project-ad
 import { ProjectEditComponent } from './containers/project/project-edit/project-edit.component'
 import { ReportEditComponent } from './containers/program-reports/report-edit/report-edit.component'
 import { ProjectsComponent } from './containers/projects/projects.component'
-import { DfButtonsModule } from '@digital-first/df-buttons'
-import { DfRefinerModule } from '@digital-first/df-refiner'
 import { AgenciesComponent } from './containers/agencies/agencies.component'
 import { AgencyComponent } from './containers/agency/agency.component'
 import { AgencyAddComponent } from './containers/agency/agency-add/agency-add.component'
@@ -84,7 +82,6 @@ import { UserProgramAccessComponent } from './containers/user/user-program-acces
 import { UserReportAccessComponent } from './containers/user/user-report-access/user-report-access.component'
 import { UserStatisticAccessComponent } from './containers/user/user-statistic-access/user-statistic-access.component'
 import { UserStatisticReportAccessComponent } from './containers/user/user-statistic-report-access/user-statistic-report-access.component'
-import { DataTableModule, PanelModule, ButtonModule } from '@df/components'
 import { NgxDatatableModule } from '@swimlane/ngx-datatable'
 import { EditStatisticReportVersionComponent } from './containers/statistic-report/edit-statistic-report-version/edit-statistic-report-version.component'
 
@@ -93,10 +90,7 @@ const COMPONENTS = [AppComponent, HomeComponent]
 const ENTRYCOMPONENTS = [
   DialogAreYouSureComponent,
   DialogAssignGroupPermissionComponent,
-  DialogAssignUserToGroupComponent,
-  ContactCardComponent,
-  PageTitleComponent,
-  RelatedArtifactsComponent
+  DialogAssignUserToGroupComponent
 ]
 
 export function initApplication(): Function {
@@ -168,15 +162,11 @@ export function initApplication(): Function {
     HttpLinkModule,
     NxModule.forRoot(),
     DfAuthModule,
-    DfComponentsModule,
-    DfButtonsModule,
     DfMomentModule,
     DfLayoutsModule,
     DfThemeModule,
     DfPagesModule,
     DialogsModule,
-    DfRefinerModule,
-    DfPipesModule,
     ErrorsModule,
     AppRoutingModule,
     GraphQLModule,
