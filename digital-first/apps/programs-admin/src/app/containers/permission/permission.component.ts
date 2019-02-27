@@ -41,7 +41,7 @@ export class PermissionComponent implements OnInit {
 
   @ViewChild('permissionsTemplate') permissionsTemplate: TemplateRef<any>
 
-  emptyTableMessage: { emptyMessage: string }
+  emptyTableMessage: { emptyMessage: string; totalMessage: string }
 
   constructor(public dialog: MdcDialog) {}
 
@@ -57,7 +57,10 @@ export class PermissionComponent implements OnInit {
       }
     ]
 
-    this.emptyTableMessage = { emptyMessage: this.noDataMessage }
+    this.emptyTableMessage = {
+      emptyMessage: this.noDataMessage,
+      totalMessage: 'total'
+    }
   }
 
   handleTableDeleteClicked($event) {
