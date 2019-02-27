@@ -2144,14 +2144,6 @@ export namespace AllStatistics {
     name: string
 
     notes: Maybe<string>
-
-    latestVersion: Maybe<LatestVersion>
-  }
-
-  export type LatestVersion = {
-    __typename?: 'StatisticReportVersionGraph'
-
-    notes: Maybe<string>
   }
 }
 
@@ -3742,9 +3734,6 @@ export class AllStatisticsGQL extends Apollo.Query<
           id
           name
           notes
-          latestVersion {
-            notes
-          }
         }
       }
     }

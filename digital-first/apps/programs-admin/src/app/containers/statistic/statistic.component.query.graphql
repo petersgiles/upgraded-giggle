@@ -9,10 +9,7 @@ query allStatistics{
     statisticReports{
       id
       name
-      notes
-        latestVersion {
-            notes
-        }
+      notes       
     }
   }
 }
