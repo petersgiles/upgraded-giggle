@@ -90,6 +90,7 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.reportSubscription$.unsubscribe()
+    this.latestVersionSubscription$.unsubscribe()
   }
 
   handleOpenAddGroupDialog() {
