@@ -1862,8 +1862,6 @@ export namespace StatisticReport {
     statisticId: Guid
 
     accessControlList: Maybe<(Maybe<AccessControlList>)[]>
-
-    version: Maybe<Version>
   }
 
   export type AccessControlList = {
@@ -1893,8 +1891,20 @@ export namespace StatisticReport {
 
     title: string
   }
+}
 
-  export type Version = {
+export namespace GetLatestVersion {
+  export type Variables = {
+    statisticReportId: string
+  }
+
+  export type Query = {
+    __typename?: 'Query'
+
+    latestVersion: Maybe<LatestVersion>
+  }
+
+  export type LatestVersion = {
     __typename?: 'StatisticReportVersionGraph'
 
     id: Guid
@@ -3534,11 +3544,23 @@ export class StatisticReportGQL extends Apollo.Query<
             rowVersion
           }
         }
-        version: latestVersion {
-          id
-          dataDate
-          notes
-        }
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class GetLatestVersionGQL extends Apollo.Query<
+  GetLatestVersion.Query,
+  GetLatestVersion.Variables
+> {
+  document: any = gql`
+    query getLatestVersion($statisticReportId: String!) {
+      latestVersion(statisticReportId: $statisticReportId) {
+        id
+        dataDate
+        notes
       }
     }
   `

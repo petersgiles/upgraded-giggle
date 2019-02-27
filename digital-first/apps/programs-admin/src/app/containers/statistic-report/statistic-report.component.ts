@@ -6,7 +6,9 @@ import {
   DeleteStatisticReportAccessControlGQL,
   StatisticReport,
   StatisticReportGQL,
-  UpdateStatisticReportAccessControlGQL
+  UpdateStatisticReportAccessControlGQL,
+  GetLatestVersionGQL,
+  GetLatestVersion
 } from '../../generated/graphql'
 import { Subscription } from 'rxjs'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -27,6 +29,8 @@ import {
 export class StatisticReportComponent implements OnInit, OnDestroy {
   report: StatisticReport.StatisticReports
   reportSubscription$: Subscription
+  latestVersionSubscription$: Subscription
+  latestVersion: GetLatestVersion.LatestVersion
   statisticId: string
   statisticReportId: string
 
@@ -41,6 +45,7 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
     private createStatisticReportAccessControlGql: CreateStatisticReportAccessControlGQL,
     private deleteStatisticReportAccessControlGql: DeleteStatisticReportAccessControlGQL,
     private updateStatisticReportAccessControlGql: UpdateStatisticReportAccessControlGQL,
+    private getLatestVersionGQL: GetLatestVersionGQL,
     private router: Router,
     public dialog: MdcDialog
   ) {}
@@ -70,6 +75,16 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
         } else {
           this.permissionRows = []
         }
+      })
+
+    this.latestVersionSubscription$ = this.getLatestVersionGQL
+      .watch(
+        { statisticReportId: this.statisticReportId },
+        { fetchPolicy: 'network-only' }
+      )
+      .valueChanges.pipe(map(result => result.data.latestVersion))
+      .subscribe(item => {
+        this.latestVersion = item
       })
   }
 

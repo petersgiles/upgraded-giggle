@@ -18,12 +18,17 @@ query statisticReport ($reportId: String!) {
         rowVersion
       }
     }
-    version: latestVersion {
-      id
-      dataDate
-      notes
-    }
+   
   }
 }
 
 
+query getLatestVersion($statisticReportId: String!)
+{
+  latestVersion(statisticReportId: $statisticReportId)
+  {
+      id
+      dataDate
+      notes
+  }
+}
