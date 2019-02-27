@@ -85,8 +85,8 @@ import { UserReportAccessComponent } from './containers/user/user-report-access/
 import { UserStatisticAccessComponent } from './containers/user/user-statistic-access/user-statistic-access.component'
 import { UserStatisticReportAccessComponent } from './containers/user/user-statistic-report-access/user-statistic-report-access.component'
 import { DataTableModule, PanelModule, ButtonModule } from '@df/components'
-
 import { NgxDatatableModule } from '@swimlane/ngx-datatable'
+import { EditStatisticReportVersionComponent } from './containers/statistic-report/edit-statistic-report-version/edit-statistic-report-version.component'
 
 const COMPONENTS = [AppComponent, HomeComponent]
 
@@ -155,7 +155,8 @@ export function initApplication(): Function {
     UserProgramAccessComponent,
     UserReportAccessComponent,
     UserStatisticAccessComponent,
-    UserStatisticReportAccessComponent
+    UserStatisticReportAccessComponent,
+    EditStatisticReportVersionComponent
   ],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [

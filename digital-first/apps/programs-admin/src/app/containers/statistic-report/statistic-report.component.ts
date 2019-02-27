@@ -27,6 +27,7 @@ import {
 export class StatisticReportComponent implements OnInit, OnDestroy {
   report: StatisticReport.StatisticReports
   reportSubscription$: Subscription
+  statisticId: string
   statisticReportId: string
 
   noDataMessage =
@@ -46,7 +47,7 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.statisticReportId = this.route.snapshot.paramMap.get('id')
-
+    this.statisticId = this.route.snapshot.paramMap.get('statisticId')
     this.reportSubscription$ = this.statisticReportGql
       .watch(
         { reportId: this.statisticReportId },
@@ -186,5 +187,13 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
     return this.router.navigate(['../edit', report.id], {
       relativeTo: this.route
     })
+  }
+
+  handleEditReportVersion(reportVersionId: string) {
+    return this.router.navigate([
+      `edit-statistic-report-version/${reportVersionId}/${this.report.id}/${
+        this.statisticId
+      }`
+    ])
   }
 }

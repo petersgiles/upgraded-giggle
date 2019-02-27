@@ -18,6 +18,11 @@ query statisticReport ($reportId: String!) {
         rowVersion
       }
     }
+    version: latestVersion {
+      id
+      dataDate
+      notes
+    }
   }
 }
 

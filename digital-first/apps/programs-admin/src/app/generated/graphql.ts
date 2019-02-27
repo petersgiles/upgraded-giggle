@@ -464,6 +464,16 @@ export interface UpdateStatisticReportAccessControlInputGraph {
   rowVersion: string
 }
 
+export interface UpdateStatisticReportVersionInputGraph {
+  id: Guid
+
+  dataDate: DateTimeOffset
+
+  notes?: Maybe<string>
+
+  rowVersion: string
+}
+
 export interface UpdateUserInputGraph {
   id: Guid
 
@@ -1719,6 +1729,54 @@ export namespace AllProgramReports {
   }
 }
 
+export namespace UpdateStatisticReportVersion {
+  export type Variables = {
+    data?: Maybe<UpdateStatisticReportVersionInputGraph>
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    updateStatisticReportVersion: Maybe<UpdateStatisticReportVersion>
+  }
+
+  export type UpdateStatisticReportVersion = {
+    __typename?: 'StatisticReportVersionGraph'
+
+    id: Guid
+  }
+}
+
+export namespace StatisticReportVersion {
+  export type Variables = {
+    reportId: string
+  }
+
+  export type Query = {
+    __typename?: 'Query'
+
+    statisticReport: Maybe<StatisticReport>
+  }
+
+  export type StatisticReport = {
+    __typename?: 'StatisticReportGraph'
+
+    version: Maybe<Version>
+  }
+
+  export type Version = {
+    __typename?: 'StatisticReportVersionGraph'
+
+    id: Guid
+
+    dataDate: Maybe<Date>
+
+    notes: Maybe<string>
+
+    rowVersion: string
+  }
+}
+
 export namespace CreateStatisticReportAccessControl {
   export type Variables = {
     data?: Maybe<CreateStatisticReportAccessControlInputGraph>
@@ -1804,6 +1862,8 @@ export namespace StatisticReport {
     statisticId: Guid
 
     accessControlList: Maybe<(Maybe<AccessControlList>)[]>
+
+    version: Maybe<Version>
   }
 
   export type AccessControlList = {
@@ -1832,6 +1892,16 @@ export namespace StatisticReport {
     id: Guid
 
     title: string
+  }
+
+  export type Version = {
+    __typename?: 'StatisticReportVersionGraph'
+
+    id: Guid
+
+    dataDate: Maybe<Date>
+
+    notes: Maybe<string>
   }
 }
 
@@ -2071,7 +2141,7 @@ export namespace AllStatistics {
   export type LatestVersion = {
     __typename?: 'StatisticReportVersionGraph'
 
-    notes: string
+    notes: Maybe<string>
   }
 }
 
@@ -3350,6 +3420,43 @@ export class AllProgramReportsGQL extends Apollo.Query<
 @Injectable({
   providedIn: 'root'
 })
+export class UpdateStatisticReportVersionGQL extends Apollo.Mutation<
+  UpdateStatisticReportVersion.Mutation,
+  UpdateStatisticReportVersion.Variables
+> {
+  document: any = gql`
+    mutation updateStatisticReportVersion(
+      $data: UpdateStatisticReportVersionInputGraph
+    ) {
+      updateStatisticReportVersion(input: $data) {
+        id
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class StatisticReportVersionGQL extends Apollo.Query<
+  StatisticReportVersion.Query,
+  StatisticReportVersion.Variables
+> {
+  document: any = gql`
+    query statisticReportVersion($reportId: String!) {
+      statisticReport(id: $reportId) {
+        version: latestVersion {
+          id
+          dataDate
+          notes
+          rowVersion
+        }
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
 export class CreateStatisticReportAccessControlGQL extends Apollo.Mutation<
   CreateStatisticReportAccessControl.Mutation,
   CreateStatisticReportAccessControl.Variables
@@ -3426,6 +3533,11 @@ export class StatisticReportGQL extends Apollo.Query<
             rights
             rowVersion
           }
+        }
+        version: latestVersion {
+          id
+          dataDate
+          notes
         }
       }
     }
