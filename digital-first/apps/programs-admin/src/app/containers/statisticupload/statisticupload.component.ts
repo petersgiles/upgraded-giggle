@@ -76,7 +76,7 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
   }
 
   loadNotesFromLastReportVersion(statisticReportId: string) {
-    const latestVersionSubscriptionPerStatistic$ = this.getLatestVersionGQL
+    const latestVersionPerStatisticSubscription$ = this.getLatestVersionGQL
       .watch(
         { statisticReportId: statisticReportId },
         { fetchPolicy: 'network-only' }
@@ -92,7 +92,7 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
 
     this.latestVersionSubscription$ = [
       ...this.latestVersionSubscription$,
-      latestVersionSubscriptionPerStatistic$
+      latestVersionPerStatisticSubscription$
     ]
   }
 
