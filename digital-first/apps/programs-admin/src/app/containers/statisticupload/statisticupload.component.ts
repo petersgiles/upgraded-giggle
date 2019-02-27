@@ -84,9 +84,11 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
       )
       .valueChanges.pipe(map(result => result.data.latestVersion))
       .subscribe(item => {
-        this.statisticForm.patchValue({
-          notes: item.notes
-        })
+        if (item) {
+          this.statisticForm.patchValue({
+            notes: item.notes
+          })
+        }
       })
   }
 
