@@ -22,8 +22,7 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
   statistics: AllStatistics.Statistics[]
   statisticReports: AllStatistics.StatisticReports[]
   statisticsSubscription$: Subscription
-  latestVersionSubscription$: Subscription
-  notes: string
+  latestVersionSubscription$: Subscription[] = []
 
   statisticForm = this.formBuilder.group({
     statisticId: [undefined, Validators.required],
@@ -77,19 +76,24 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
   }
 
   loadNotesFromLastReportVersion(statisticReportId: string) {
-    this.latestVersionSubscription$ = this.getLatestVersionGQL
+    const latestVersionSubscriptionPerStatistic$ = this.getLatestVersionGQL
       .watch(
         { statisticReportId: statisticReportId },
         { fetchPolicy: 'network-only' }
       )
       .valueChanges.pipe(map(result => result.data.latestVersion))
-      .subscribe(item => {
-        if (item) {
+      .subscribe(latestReportVersion => {
+        if (latestReportVersion) {
           this.statisticForm.patchValue({
-            notes: item.notes
+            notes: latestReportVersion.notes
           })
         }
       })
+
+    this.latestVersionSubscription$ = [
+      ...this.latestVersionSubscription$,
+      latestVersionSubscriptionPerStatistic$
+    ]
   }
 
   fileChange(event) {
@@ -134,8 +138,11 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.statisticsSubscription$.unsubscribe()
-    try {
-      this.latestVersionSubscription$.unsubscribe()
-    } catch (err) {}
+
+    for (const subscription of this.latestVersionSubscription$) {
+      if (subscription && subscription.unsubscribe) {
+        subscription.unsubscribe()
+      }
+    }
   }
 }
