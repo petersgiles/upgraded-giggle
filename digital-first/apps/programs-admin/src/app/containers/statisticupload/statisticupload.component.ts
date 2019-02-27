@@ -132,6 +132,8 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.statisticsSubscription$.unsubscribe()
-    this.latestVersionSubscription$.unsubscribe()
+    try {
+      this.latestVersionSubscription$.unsubscribe()
+    } catch (err) {}
   }
 }
