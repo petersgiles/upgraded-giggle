@@ -1893,7 +1893,7 @@ export namespace StatisticReport {
   }
 }
 
-export namespace GetLatestVersion {
+export namespace GetLatestVersionDetail {
   export type Variables = {
     statisticReportId: string
   }
@@ -3589,12 +3589,12 @@ export class StatisticReportGQL extends Apollo.Query<
 @Injectable({
   providedIn: 'root'
 })
-export class GetLatestVersionGQL extends Apollo.Query<
-  GetLatestVersion.Query,
-  GetLatestVersion.Variables
+export class GetLatestVersionDetailGQL extends Apollo.Query<
+  GetLatestVersionDetail.Query,
+  GetLatestVersionDetail.Variables
 > {
   document: any = gql`
-    query getLatestVersion($statisticReportId: String!) {
+    query getLatestVersionDetail($statisticReportId: String!) {
       latestVersion(statisticReportId: $statisticReportId) {
         id
         dataDate

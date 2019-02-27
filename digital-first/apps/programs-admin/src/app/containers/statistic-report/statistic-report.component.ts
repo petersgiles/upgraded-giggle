@@ -7,8 +7,8 @@ import {
   StatisticReport,
   StatisticReportGQL,
   UpdateStatisticReportAccessControlGQL,
-  GetLatestVersionGQL,
-  GetLatestVersion
+  GetLatestVersionDetailGQL,
+  GetLatestVersionDetail
 } from '../../generated/graphql'
 import { Subscription } from 'rxjs'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -30,7 +30,7 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
   report: StatisticReport.StatisticReports
   reportSubscription$: Subscription
   latestVersionSubscription$: Subscription
-  latestVersion: GetLatestVersion.LatestVersion
+  latestVersion: GetLatestVersionDetail.LatestVersion
   statisticId: string
   statisticReportId: string
 
@@ -45,7 +45,7 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
     private createStatisticReportAccessControlGql: CreateStatisticReportAccessControlGQL,
     private deleteStatisticReportAccessControlGql: DeleteStatisticReportAccessControlGQL,
     private updateStatisticReportAccessControlGql: UpdateStatisticReportAccessControlGQL,
-    private getLatestVersionGQL: GetLatestVersionGQL,
+    private getLatestVersionGQL: GetLatestVersionDetailGQL,
     private router: Router,
     public dialog: MdcDialog
   ) {}
