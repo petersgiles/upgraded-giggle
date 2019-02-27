@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   EventEmitter,
   OnDestroy,
@@ -29,6 +28,11 @@ export class AgencyComponent implements OnInit, OnDestroy {
   agency: Agency.Agency
   agencySubscription$: Subscription
 
+  emptyTableMessage = {
+    emptyMessage: 'No groups assigned to agency.',
+    totalMessage: 'total'
+  }
+
   @Output() onDeleteClicked: EventEmitter<any> = new EventEmitter()
   @Output() onCellClicked: EventEmitter<any> = new EventEmitter()
 
@@ -45,8 +49,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
     private deleteAgencyGQL: DeleteAgencyGQL,
     private deleteAgencyMappingGQL: DeleteAgencyMappingGQL,
     public dialog: MdcDialog,
-    private router: Router,
-    private cd: ChangeDetectorRef
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -68,9 +71,6 @@ export class AgencyComponent implements OnInit, OnDestroy {
         }))
       })
   }
-
-  // TODO:  need to set the no data message on the data table when pete has exposed it
-  // TODO:  set it to 'No groups assigned to agency.'
 
   private handleEditAgency(agency: Agency.Agency) {
     return this.router.navigate(['agencies/edit', agency.id])
@@ -96,7 +96,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
               },
               {}
             )
-            .subscribe(value => this.router.navigate(['agencies']))
+            .subscribe(() => this.router.navigate(['agencies']))
         }
       })
   }
