@@ -2,9 +2,9 @@ import { map } from 'rxjs/operators'
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { Subscription } from 'rxjs'
 import {
-  AllStatistics,
-  AllStatisticsGQL,
-  GetLatestVersionGQL
+  StatisticAndStatisticReports,
+  StatisticAndStatisticReportsGQL,
+  GetLatestVersionNotesGQL
 } from '../../generated/graphql'
 import { PassthroughService } from '../../services/passthrough.service'
 import { UploadElectorateStatisticSpreadsheet } from '@dsuite/programs-manager-messages'
@@ -19,8 +19,8 @@ import { Validators } from '@angular/forms'
 })
 export class StatisticuploadComponent implements OnInit, OnDestroy {
   fileToUpload: File
-  statistics: AllStatistics.Statistics[]
-  statisticReports: AllStatistics.StatisticReports[]
+  statistics: StatisticAndStatisticReports.Statistics[]
+  statisticReports: StatisticAndStatisticReports.StatisticReports[]
   statisticsSubscription$: Subscription
   latestVersionSubscription$: Subscription[] = []
 
@@ -34,11 +34,11 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
   })
 
   constructor(
-    private allStatistics: AllStatisticsGQL,
+    private allStatistics: StatisticAndStatisticReportsGQL,
     private passthrough: PassthroughService,
     private formBuilder: FormBuilder,
     private snackbar: MdcSnackbar,
-    private getLatestVersionGQL: GetLatestVersionGQL
+    private getLatestVersionGQL: GetLatestVersionNotesGQL
   ) {}
 
   get diagnostic() {

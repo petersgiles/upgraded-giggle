@@ -2273,6 +2273,52 @@ export namespace AllStatisticsSearch {
   }
 }
 
+export namespace StatisticAndStatisticReports {
+  export type Variables = {}
+
+  export type Query = {
+    __typename?: 'Query'
+
+    statistics: Maybe<(Maybe<Statistics>)[]>
+  }
+
+  export type Statistics = {
+    __typename?: 'StatisticGraph'
+
+    id: Guid
+
+    name: string
+
+    statisticReports: Maybe<(Maybe<StatisticReports>)[]>
+  }
+
+  export type StatisticReports = {
+    __typename?: 'StatisticReportGraph'
+
+    id: Guid
+
+    name: string
+  }
+}
+
+export namespace GetLatestVersionNotes {
+  export type Variables = {
+    statisticReportId: string
+  }
+
+  export type Query = {
+    __typename?: 'Query'
+
+    latestVersion: Maybe<LatestVersion>
+  }
+
+  export type LatestVersion = {
+    __typename?: 'StatisticReportVersionGraph'
+
+    notes: Maybe<string>
+  }
+}
+
 export namespace CreateUser {
   export type Variables = {
     data?: Maybe<CreateUserInputGraph>
@@ -3814,6 +3860,41 @@ export class AllStatisticsSearchGQL extends Apollo.Query<
           id
           title
         }
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class StatisticAndStatisticReportsGQL extends Apollo.Query<
+  StatisticAndStatisticReports.Query,
+  StatisticAndStatisticReports.Variables
+> {
+  document: any = gql`
+    query statisticAndStatisticReports {
+      statistics(orderBy: { path: "name" }) {
+        id
+        name
+        statisticReports {
+          id
+          name
+        }
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class GetLatestVersionNotesGQL extends Apollo.Query<
+  GetLatestVersionNotes.Query,
+  GetLatestVersionNotes.Variables
+> {
+  document: any = gql`
+    query getLatestVersionNotes($statisticReportId: String!) {
+      latestVersion(statisticReportId: $statisticReportId) {
+        notes
       }
     }
   `

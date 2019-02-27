@@ -23,7 +23,7 @@ query statisticReport ($reportId: String!) {
 }
 
 
-query getLatestVersion($statisticReportId: String!)
+query getLatestVersionDetail($statisticReportId: String!)
 {
   latestVersion(statisticReportId: $statisticReportId)
   {
