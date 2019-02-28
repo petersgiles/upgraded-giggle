@@ -11,6 +11,7 @@ query CommitmentActions($commitment: ID!) {
       id
       title
     }
+    revenueType
   }
 }
 `
@@ -22,8 +23,9 @@ mutation StoreCommitmentAction(
   $portfolio: ID!
   $costing: String!
   $description: String!
+  $revenueType: String!
   ) {
-  storeCommitmentAction(id: $id, commitment: $commitment, portfolio: $portfolio, costing: $costing, description: $description) {
+  storeCommitmentAction(id: $id, commitment: $commitment, portfolio: $portfolio, costing: $costing, description: $description, revenueType: $revenueType) {
     id
     title
   }

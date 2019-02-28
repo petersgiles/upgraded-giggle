@@ -62,7 +62,8 @@ export class CommitmentActionDataSharePointService
       Commitment: payload.commitment,
       Portfolio: payload.action.portfolio,
       Costing: payload.action.costing,
-      Description: payload.action.description
+      Description: payload.action.description,
+      RevenueType: payload.action.revenueType
     }
 
     return this.sharepoint

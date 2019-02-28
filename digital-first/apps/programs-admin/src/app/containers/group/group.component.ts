@@ -9,12 +9,9 @@ import {
 } from '../../generated/graphql'
 import { first, map } from 'rxjs/operators'
 import { Subscription } from 'rxjs'
-import {
-  ARE_YOU_SURE_ACCEPT,
-  DialogAreYouSureComponent
-} from '@digital-first/df-dialogs'
 import { MdcDialog } from '@angular-mdc/web'
 import Members = Group.Members
+import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
 
 @Component({
   selector: 'digital-first-group',

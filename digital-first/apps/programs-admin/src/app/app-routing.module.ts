@@ -45,6 +45,7 @@ import { AgencyMappingAddComponent } from './containers/agency/agency-mapping-ad
 import { AgencyMappingEditComponent } from './containers/agency/agency-mapping-edit/agency-mapping-edit.component'
 import { UserEditComponent } from './containers/user/user-edit/user-edit.component'
 import { UserAddComponent } from './containers/user/user-add/user-add.component'
+import { EditStatisticReportVersionComponent } from './containers/statistic-report/edit-statistic-report-version/edit-statistic-report-version.component'
 
 export const routes: Routes = [
   {
@@ -289,6 +290,15 @@ export const routes: Routes = [
       {
         path: 'statistics/:id/reports/edit/:id',
         component: StatisticReportEditComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+      {
+        path:
+          'edit-statistic-report-version/:reportVersionId/:reportId/:statisticId',
+        component: EditStatisticReportVersionComponent,
         canActivate: [AuthGuard],
         data: {
           nav: false

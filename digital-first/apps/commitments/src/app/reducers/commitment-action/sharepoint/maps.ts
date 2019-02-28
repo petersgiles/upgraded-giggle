@@ -8,6 +8,7 @@ export const mapCommitmentAction = (item): CommitmentAction => ({
     costing: item.Costing,
     commitment: idFromLookup(item.Commitment),
     portfolio: fromLookup(item.Portfolio),
+    revenueType: item.RevenueType,
 })
 
 export const mapCommitmentActions = (list) => list.map(mapCommitmentAction)

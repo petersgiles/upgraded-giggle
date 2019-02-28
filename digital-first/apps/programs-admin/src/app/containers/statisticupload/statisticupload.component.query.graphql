@@ -1,0 +1,20 @@
+query statisticAndStatisticReports{
+  statistics(orderBy: {path: "name"}){
+    id
+    name
+    statisticReports{
+      id
+      name       
+    }
+  }
+}
+
+query getLatestVersionNotes($statisticReportId: String!)
+{
+  latestVersion(statisticReportId: $statisticReportId)
+  {
+      notes
+  }
+}
+
+

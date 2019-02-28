@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   EventEmitter,
   OnDestroy,
@@ -7,10 +6,6 @@ import {
   Output
 } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import {
-  ARE_YOU_SURE_ACCEPT,
-  DialogAreYouSureComponent
-} from '@digital-first/df-dialogs'
 import { first, map } from 'rxjs/operators'
 import { Subscription } from 'rxjs'
 import {
@@ -21,6 +16,7 @@ import {
 } from '../../generated/graphql'
 import { MdcDialog } from '@angular-mdc/web'
 import { formConstants } from '../../form-constants'
+import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
 
 @Component({
   selector: 'digital-first-agency',
@@ -31,6 +27,11 @@ export class AgencyComponent implements OnInit, OnDestroy {
   agencyId: string
   agency: Agency.Agency
   agencySubscription$: Subscription
+
+  emptyTableMessage = {
+    emptyMessage: 'No groups assigned to agency.',
+    totalMessage: 'total'
+  }
 
   @Output() onDeleteClicked: EventEmitter<any> = new EventEmitter()
   @Output() onCellClicked: EventEmitter<any> = new EventEmitter()
@@ -48,8 +49,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
     private deleteAgencyGQL: DeleteAgencyGQL,
     private deleteAgencyMappingGQL: DeleteAgencyMappingGQL,
     public dialog: MdcDialog,
-    private router: Router,
-    private cd: ChangeDetectorRef
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -71,9 +71,6 @@ export class AgencyComponent implements OnInit, OnDestroy {
         }))
       })
   }
-
-  // TODO:  need to set the no data message on the data table when pete has exposed it
-  // TODO:  set it to 'No groups assigned to agency.'
 
   private handleEditAgency(agency: Agency.Agency) {
     return this.router.navigate(['agencies/edit', agency.id])
@@ -99,7 +96,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
               },
               {}
             )
-            .subscribe(value => this.router.navigate(['agencies']))
+            .subscribe(() => this.router.navigate(['agencies']))
         }
       })
   }

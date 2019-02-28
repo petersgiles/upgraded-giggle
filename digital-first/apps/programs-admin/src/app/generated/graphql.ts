@@ -464,6 +464,16 @@ export interface UpdateStatisticReportAccessControlInputGraph {
   rowVersion: string
 }
 
+export interface UpdateStatisticReportVersionInputGraph {
+  id: Guid
+
+  dataDate: DateTimeOffset
+
+  notes?: Maybe<string>
+
+  rowVersion: string
+}
+
 export interface UpdateUserInputGraph {
   id: Guid
 
@@ -1719,6 +1729,54 @@ export namespace AllProgramReports {
   }
 }
 
+export namespace UpdateStatisticReportVersion {
+  export type Variables = {
+    data?: Maybe<UpdateStatisticReportVersionInputGraph>
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    updateStatisticReportVersion: Maybe<UpdateStatisticReportVersion>
+  }
+
+  export type UpdateStatisticReportVersion = {
+    __typename?: 'StatisticReportVersionGraph'
+
+    id: Guid
+  }
+}
+
+export namespace StatisticReportVersion {
+  export type Variables = {
+    reportId: string
+  }
+
+  export type Query = {
+    __typename?: 'Query'
+
+    statisticReport: Maybe<StatisticReport>
+  }
+
+  export type StatisticReport = {
+    __typename?: 'StatisticReportGraph'
+
+    version: Maybe<Version>
+  }
+
+  export type Version = {
+    __typename?: 'StatisticReportVersionGraph'
+
+    id: Guid
+
+    dataDate: Maybe<Date>
+
+    notes: Maybe<string>
+
+    rowVersion: string
+  }
+}
+
 export namespace CreateStatisticReportAccessControl {
   export type Variables = {
     data?: Maybe<CreateStatisticReportAccessControlInputGraph>
@@ -1832,6 +1890,28 @@ export namespace StatisticReport {
     id: Guid
 
     title: string
+  }
+}
+
+export namespace GetLatestVersionDetail {
+  export type Variables = {
+    statisticReportId: string
+  }
+
+  export type Query = {
+    __typename?: 'Query'
+
+    latestVersion: Maybe<LatestVersion>
+  }
+
+  export type LatestVersion = {
+    __typename?: 'StatisticReportVersionGraph'
+
+    id: Guid
+
+    dataDate: Maybe<Date>
+
+    notes: Maybe<string>
   }
 }
 
@@ -2190,6 +2270,52 @@ export namespace AllStatisticsSearch {
     id: Guid
 
     title: string
+  }
+}
+
+export namespace StatisticAndStatisticReports {
+  export type Variables = {}
+
+  export type Query = {
+    __typename?: 'Query'
+
+    statistics: Maybe<(Maybe<Statistics>)[]>
+  }
+
+  export type Statistics = {
+    __typename?: 'StatisticGraph'
+
+    id: Guid
+
+    name: string
+
+    statisticReports: Maybe<(Maybe<StatisticReports>)[]>
+  }
+
+  export type StatisticReports = {
+    __typename?: 'StatisticReportGraph'
+
+    id: Guid
+
+    name: string
+  }
+}
+
+export namespace GetLatestVersionNotes {
+  export type Variables = {
+    statisticReportId: string
+  }
+
+  export type Query = {
+    __typename?: 'Query'
+
+    latestVersion: Maybe<LatestVersion>
+  }
+
+  export type LatestVersion = {
+    __typename?: 'StatisticReportVersionGraph'
+
+    notes: Maybe<string>
   }
 }
 
@@ -3342,6 +3468,43 @@ export class AllProgramReportsGQL extends Apollo.Query<
 @Injectable({
   providedIn: 'root'
 })
+export class UpdateStatisticReportVersionGQL extends Apollo.Mutation<
+  UpdateStatisticReportVersion.Mutation,
+  UpdateStatisticReportVersion.Variables
+> {
+  document: any = gql`
+    mutation updateStatisticReportVersion(
+      $data: UpdateStatisticReportVersionInputGraph
+    ) {
+      updateStatisticReportVersion(input: $data) {
+        id
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class StatisticReportVersionGQL extends Apollo.Query<
+  StatisticReportVersion.Query,
+  StatisticReportVersion.Variables
+> {
+  document: any = gql`
+    query statisticReportVersion($reportId: String!) {
+      statisticReport(id: $reportId) {
+        version: latestVersion {
+          id
+          dataDate
+          notes
+          rowVersion
+        }
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
 export class CreateStatisticReportAccessControlGQL extends Apollo.Mutation<
   CreateStatisticReportAccessControl.Mutation,
   CreateStatisticReportAccessControl.Variables
@@ -3419,6 +3582,23 @@ export class StatisticReportGQL extends Apollo.Query<
             rowVersion
           }
         }
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class GetLatestVersionDetailGQL extends Apollo.Query<
+  GetLatestVersionDetail.Query,
+  GetLatestVersionDetail.Variables
+> {
+  document: any = gql`
+    query getLatestVersionDetail($statisticReportId: String!) {
+      latestVersion(statisticReportId: $statisticReportId) {
+        id
+        dataDate
+        notes
       }
     }
   `
@@ -3680,6 +3860,41 @@ export class AllStatisticsSearchGQL extends Apollo.Query<
           id
           title
         }
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class StatisticAndStatisticReportsGQL extends Apollo.Query<
+  StatisticAndStatisticReports.Query,
+  StatisticAndStatisticReports.Variables
+> {
+  document: any = gql`
+    query statisticAndStatisticReports {
+      statistics(orderBy: { path: "name" }) {
+        id
+        name
+        statisticReports {
+          id
+          name
+        }
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class GetLatestVersionNotesGQL extends Apollo.Query<
+  GetLatestVersionNotes.Query,
+  GetLatestVersionNotes.Variables
+> {
+  document: any = gql`
+    query getLatestVersionNotes($statisticReportId: String!) {
+      latestVersion(statisticReportId: $statisticReportId) {
+        notes
       }
     }
   `

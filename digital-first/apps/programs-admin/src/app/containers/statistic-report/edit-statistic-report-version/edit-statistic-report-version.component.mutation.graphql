@@ -1,0 +1,5 @@
+mutation updateStatisticReportVersion($data:UpdateStatisticReportVersionInputGraph){
+  updateStatisticReportVersion(input: $data){
+    id
+  }
+}

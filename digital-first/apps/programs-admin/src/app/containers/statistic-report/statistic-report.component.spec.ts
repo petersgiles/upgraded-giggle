@@ -1,25 +1,24 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { StatisticReportComponent } from './statistic-report.component';
+import { StatisticReportComponent } from './statistic-report.component'
 
 describe('StatisticReportComponent', () => {
-  let component: StatisticReportComponent;
-  let fixture: ComponentFixture<StatisticReportComponent>;
+  let component: StatisticReportComponent
+  let fixture: ComponentFixture<StatisticReportComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StatisticReportComponent ]
-    })
-    .compileComponents();
-  }));
+      declarations: [StatisticReportComponent]
+    }).compileComponents()
+  }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StatisticReportComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(StatisticReportComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

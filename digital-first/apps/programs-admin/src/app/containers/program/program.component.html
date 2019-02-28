@@ -31,7 +31,8 @@
       (onGroupClicked)="handleGroupPermissionGroupClicked($event)"
       (onPermissionClicked)="handleGroupPermissionChangeClicked($event)"
       [artifactId]="programId"
-      [tableData]="permissionTableData"
+      [rows]="permissionRows"
+      [noDataMessage]="noDataMessage"
     ></digital-first-permission>
 
     <digital-first-program-reports

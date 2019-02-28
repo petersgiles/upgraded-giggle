@@ -10,12 +10,9 @@ import {
   UsersGQL
 } from '../../generated/graphql'
 import { DialogAssignUserToGroupComponent } from '../../dialogs/dialog-assign-user-to-group.component'
-import {
-  ARE_YOU_SURE_ACCEPT,
-  DialogAreYouSureComponent
-} from '@digital-first/df-dialogs'
 import { formConstants } from '../../form-constants'
 import Members = Group.Members
+import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
 
 @Component({
   selector: 'digital-first-group-users',

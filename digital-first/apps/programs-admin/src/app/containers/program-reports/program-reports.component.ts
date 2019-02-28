@@ -1,14 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { MdcDialog } from '@angular-mdc/web'
-import {
-  ARE_YOU_SURE_ACCEPT,
-  DialogAreYouSureComponent
-} from '@digital-first/df-dialogs'
 import { first } from 'rxjs/operators'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Maybe, Program, Report } from '../../generated/graphql'
 import { formConstants } from '../../form-constants'
 import Reports = Report.Reports
+import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
 
 @Component({
   selector: 'digital-first-program-reports',

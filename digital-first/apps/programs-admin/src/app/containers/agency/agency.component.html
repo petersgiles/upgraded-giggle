@@ -48,6 +48,7 @@
         [count]="agencyAndGroupMappings.length"
         [hasDelete]="true"
         [limit]="defaultPageLength"
+        [messages]="emptyTableMessage"
         (onSelect)="handleEditAgencyMapping($event)"
         (onDelete)="handleDeleteAgencyMapping($event)"
       >
