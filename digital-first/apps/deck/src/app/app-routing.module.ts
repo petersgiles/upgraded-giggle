@@ -18,6 +18,9 @@ const routes: Routes = [
       {
         path: '',
         component: HomeComponent
+      },  {
+        path: ':parent',
+        component: HomeComponent
       }
     ]
   },

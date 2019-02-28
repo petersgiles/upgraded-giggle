@@ -1,9 +1,7 @@
-var db = require('diskdb');
+const sqlite3 = require('sqlite3').verbose();
 
 var DB_DECK_USER = 'deck-user'
 var DB_DECK_CARD = 'deck-card'
-
-db.connect('./diskdb/deck', [DB_DECK_CARD]);
 
 var mapId = (item :any) => {
   if(item) {
@@ -21,53 +19,53 @@ var mapIds = (items :any[]) => {
 export const resolvers = {
   Query: {
     userProfile: (obj: any, args: any, context: any, info: any) => {
-      const found = db[DB_DECK_USER].findOne({ id: args.id })
-      return mapId(found)   
+      // const found = db[DB_DECK_USER].findOne({ id: args.id })
+      // return mapId(found)   
     },
     cards: (obj: any, args: any, context: any, info: any) => {
       let found = null
-      if(args.parentId) {
-        found = db[DB_DECK_CARD].find({ parentId: args.parentId })
-      } else {
-        found = db[DB_DECK_CARD].find({ parentId: "" })
-      }
+      // if(args.parent) {
+      //   found = db[DB_DECK_CARD].find({ parent: args.parent })
+      // } else {
+      //   found = db[DB_DECK_CARD].find({ parent: null })
+      // }
       
       return mapIds(found)
     }
   },
   Mutation: {
     storeCard: (_root: any, args: any) => {
-      let { id, ...data } = args.card ;
-      data = { parentId: "", ...data}
+      // let { id, ...data } = args.card ;
+      // data = { parentId: "", ...data}
 
-      const found = db[DB_DECK_CARD].findOne({ _id: id })
-      let result = null
-      let results = null
-      if (found) {
-        result = db[DB_DECK_CARD].update({ _id: found._id }, data, { multi: false, upsert: true });
-        const updated = db[DB_DECK_CARD].findOne({ _id: id })
-        results = mapId(updated)
-      } else {
-        result = db[DB_DECK_CARD].save([data]);
-        results = mapId(result[0])
-      }
+      // const found = db[DB_DECK_CARD].findOne({ _id: id })
+      // let result = null
+      // let results = null
+      // if (found) {
+      //   result = db[DB_DECK_CARD].update({ _id: found._id }, data, { multi: false, upsert: true });
+      //   const updated = db[DB_DECK_CARD].findOne({ _id: id })
+      //   results = mapId(updated)
+      // } else {
+      //   result = db[DB_DECK_CARD].save([data]);
+      //   results = mapId(result[0])
+      // }
 
       const response = {
         code: '1',
         success: true,
         message: 'OK',
-        card: results
+        card: {}
       }
       return response
     },
     removeCard: (_root: any, args: any) => {
-      const query = {
-        _id: args.id
-      };
+      // const query = {
+      //   _id: args.id
+      // };
 
-      const result = db[DB_DECK_CARD].remove(query, false);
+      // const result = db[DB_DECK_CARD].remove(query, false);
 
-      console.log(result)
+      // console.log(result)
 
       const response = {
         code: '',

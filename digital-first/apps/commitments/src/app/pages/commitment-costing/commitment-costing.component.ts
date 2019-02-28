@@ -46,7 +46,9 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
     commitment: [null, Validators.required],
     description: ['', Validators.required],
     costing: [null, [Validators.required, Validators.min(0)]],
-    portfolio: [null, Validators.required]
+    portfolio: [null, Validators.required],
+    revenueType: [null, Validators.required]
+
   })
 
   getTitle(commitment) {
@@ -65,7 +67,8 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
           title: null,
           description: null,
           costing: null,
-          portfolio: null
+          portfolio: null,
+          revenueType: null
         }
 
         if (next) {
@@ -74,7 +77,8 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
             title: next.title,
             description: next.description,
             costing: next.costing,
-            portfolio: next.portfolio && next.portfolio.id
+            portfolio: next.portfolio && next.portfolio.id,
+            revenueType: next.revenueType,
           }
         }
         this.form.patchValue(patch)

@@ -15,7 +15,7 @@ import { WhoAnnouncedType } from '../../models/who-announced-type.model'
 import { DataTableConfig } from '@digital-first/df-datatable'
 import { arrayToIndex } from '@digital-first/df-utils'
 import { CriticalDate } from '../../models/critical-date.model'
-import { formatCommitmentTitle } from '../../formatters'
+import { formatCommitmentTitle, formatCommitmentId } from '../../formatters'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 import { showSnackBar } from '../../dialogs/show-snack-bar'
 import { PackageType, ThemeType } from '../../models'
@@ -155,7 +155,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   }
 
   getTitle(commitment) {
-    return formatCommitmentTitle(commitment)
+    return `${formatCommitmentId(commitment)} - ${formatCommitmentTitle(commitment)}`
   }
 
   ngOnDestroy(): void {

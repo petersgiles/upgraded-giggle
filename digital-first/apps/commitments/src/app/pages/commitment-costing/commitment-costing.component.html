@@ -15,6 +15,10 @@
               <ng-select [items]="portfolios$ | async" bindValue="id" bindLabel="title" required placeholder="Responsible Portfolio"
               formControlName="portfolio">
               </ng-select>
+
+              <ng-select [items]="['Tax Revenue', 'Expense', 'Non-tax revenue']" required placeholder="Type of Revenue"
+              formControlName="revenueType">
+            </ng-select>
             </div>
 
             <div class="form-layout__row">

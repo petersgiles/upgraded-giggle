@@ -8,6 +8,8 @@
       ></digital-first-add-item-button>
       <digital-first-busy [busy]="formBusy"></digital-first-busy>
     </digital-first-page-title>
+    <df-deck [cards]="cards" (onAction)="handleAction($event)"></df-deck>
+
     <digital-first-deck></digital-first-deck>
   </section>
 </div>
