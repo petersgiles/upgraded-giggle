@@ -1,4 +1,5 @@
 export const formConstants = {
   nameMaxLength: 150,
-  emptyStringPattern: '.*\\S+.*'
+  emptyStringPattern: '.*\\S+.*',
+  defaultPageLength: 10
 }

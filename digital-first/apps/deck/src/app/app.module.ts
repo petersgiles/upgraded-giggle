@@ -3,7 +3,7 @@ import { NgModule, APP_INITIALIZER } from '@angular/core'
 
 import { AppComponent } from './app.component'
 import { NxModule } from '@nrwl/nx'
-
+import { DeckModule } from '@df/components'
 import { WINDOW_PROVIDERS } from '@digital-first/df-utils'
 import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
@@ -42,6 +42,7 @@ export function initApplication(): Function {
     BrowserModule,
     NxModule.forRoot(),
     GraphQLModule,
+    DeckModule,
     DfLoggingModule,
     DfComponentsModule,
     DfDatatableModule,

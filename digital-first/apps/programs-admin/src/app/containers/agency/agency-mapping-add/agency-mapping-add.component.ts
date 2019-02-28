@@ -53,7 +53,7 @@ export class AgencyMappingAddComponent implements OnInit {
       .subscribe(() => this.router.navigate(['agencies', this.agencyId]))
   }
 
-  cancel(): void {
-    this.router.navigate(['agencies'])
+  cancel() {
+    return this.router.navigate(['agencies', this.agencyId])
   }
 }

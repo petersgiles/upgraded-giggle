@@ -5,7 +5,7 @@ import * as fromCommitmentOverview from './commitment-overview.reducer'
 
 import { getAllCommitments } from '../commitment'
 import { Commitment } from '../commitment/commitment.model'
-import { formatCommitmentTitle } from '../../formatters'
+import { formatCommitmentTitle, formatCommitmentId } from '../../formatters'
 import {
   getAllPortfolios,
   getAllAnnouncementTypes,
@@ -320,6 +320,7 @@ export const getAllOverviewCommitments = createSelector(
   (commitments, lookups, state) => {
     const result = commitments.map(commitment => ({
       ...commitment,
+      commitmentId: formatCommitmentId(commitment),
       description: null,
       portfolio: findInLookup(commitment.portfolio, lookups.portfolios),
       party: findInLookup(commitment.party, lookups.partys),
@@ -357,6 +358,7 @@ export const getAllOverviewCommitmentDataTables = createSelector(
   (commitments, sortState) => {
     const rows = commitments.map(c => ({
       id: c.id,
+      commitmentId: formatCommitmentId(c),
       title: formatCommitmentTitle(c),
       party: c.party && c.party.title,
       portfolio: c.portfolio && c.portfolio.title,

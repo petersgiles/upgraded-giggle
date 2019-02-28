@@ -4,7 +4,7 @@
   </div>
 </div>
 <div>
-  <div class="app-page">
+  <div *ngIf="programs; else loading" class="app-page">
     <div class="mdc-layout-grid">
       <div class="mdc-layout-grid__inner ">
         <div class="mdc-layout-grid__cell--span-3"></div>
@@ -99,4 +99,7 @@
       </div>
     </div>
   </div>
+  <ng-template #loading>
+    Loading...
+  </ng-template>
 </div>

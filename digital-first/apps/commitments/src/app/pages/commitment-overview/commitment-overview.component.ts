@@ -52,6 +52,7 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
     )
 
     this.columns = [
+      { prop: 'commitmentId', name: 'Id'},
       { prop: 'title', name: 'Title' },
       { prop: 'party', name: 'Party' },
       { prop: 'portfolio',  name: 'Responsible Portfolio' },
@@ -163,11 +164,12 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
 
   handleExport() {
     const exportCommitments = this.filteredCommitments.map(fc => ({
+      'Id': fc.commitmentId,
       Title: fc.title,
       Party: fc.party ? fc.party.title : '',
       'Responsible Portfolio': fc.portfolio ? fc.portfolio.title : '',
       'Type of Commitment': fc.commitmentType ? fc.commitmentType.title : '',
-      'Critical Date': this.dateFormat.transform(fc.date, 'LL')
+      'Critical Date': fc.criticalDate
     }))
 
     this.excelService.exportAsExcelFile(exportCommitments, 'commitments')

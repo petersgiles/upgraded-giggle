@@ -1,22 +1,38 @@
-<digital-first-page-title
-  title="Permission"
-  (onTitleClicked)="handleChangeExpanded(!expanded)">
-  <digital-first-add-item-button
-    icon="group_add"
-    title="Assign&nbsp;Group"
-    (onAddItem)="onAddGroup.emit()">
-  </digital-first-add-item-button>
-  <digital-first-expand-collapse-button
-    [expanded]='expanded'
-    (onChangeExpanded)="handleChangeExpanded(!expanded)">
-  </digital-first-expand-collapse-button>
-</digital-first-page-title>
+<df-expander-panel title="Permission" [expanded]="true" [expandable]="false">
+  <ng-container panel-buttons>
+    <df-button
+      icon="group_add"
+      title="Assign&nbsp;Group"
+      (onClick)="onAddGroup.emit()"
+    ></df-button>
+  </ng-container>
+</df-expander-panel>
 
 <div class="programsadmin-layout__row">
-  <digital-first-data-table
-    [tableData]="tableData"
-    [hasDeleteItemButton]="true"
-    (onDeleteItem)="handleTableDeleteClicked($event)"
-    (onCellClicked)="handleCellClicked($event)">
-  </digital-first-data-table>
+  <df-data-table
+    [rows]="rows"
+    [columns]="columns"
+    [count]="rows.length"
+    [limit]="defaultPageLength"
+    (onSelect)="handleReportNavigation($event)"
+    [hasDelete]="true"
+    (onDelete)="handleTableDeleteClicked($event)"
+    [messages]="emptyTableMessage"
+  ></df-data-table>
 </div>
+
+<ng-template #permissionsTemplate let-row="row" let-value="value">
+  <mdc-radio-group
+    (change)="handlePermissionChanged($event, row)"
+    [ngModel]="value"
+  >
+    <mdc-form-field>
+      <mdc-radio value="Read"></mdc-radio>
+      <label>Read</label>
+    </mdc-form-field>
+    <mdc-form-field>
+      <mdc-radio value="Write"></mdc-radio>
+      <label>Read/Write</label>
+    </mdc-form-field>
+  </mdc-radio-group>
+</ng-template>

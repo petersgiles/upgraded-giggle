@@ -3,11 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { MdcDialog } from '@angular-mdc/web'
 import { first, map } from 'rxjs/operators'
 import { Subscription } from 'rxjs'
-import {
-  ARE_YOU_SURE_ACCEPT,
-  DialogAreYouSureComponent
-} from '@digital-first/df-dialogs'
-import { DataTableConfig } from '@digital-first/df-datatable'
 import { DialogAssignGroupPermissionComponent } from '../../dialogs/dialog-assign-group-permission.component'
 import {
   AccessRights,
@@ -16,10 +11,16 @@ import {
   DeleteStatisticAccessControlGQL,
   DeleteStatisticGQL,
   DeleteStatisticReportGQL,
+  Maybe,
   Statistic,
   StatisticGQL,
   UpdateStatisticAccessControlGQL
 } from '../../generated/graphql'
+import {
+  PermissionChangedEvent,
+  PermissionRow
+} from '../permission/permission.component'
+import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
 
 @Component({
   selector: 'digital-first-statistic',
@@ -29,9 +30,12 @@ import {
 export class StatisticComponent implements OnInit {
   statisticId: string
   statisticSubscription$: Subscription
-  permissionTableData: any
-  statisticReportTableData: any
+  statisticReportTableData: Maybe<Maybe<Statistic.StatisticReports>[]>
   statistic: Statistic.Statistic
+
+  noDataMessage =
+    'This report inherits permissions from the statistic. Adding groups here will break inheritance.'
+  permissionRows: PermissionRow[]
 
   constructor(
     private route: ActivatedRoute,
@@ -55,13 +59,21 @@ export class StatisticComponent implements OnInit {
       .subscribe(statistic => {
         this.statistic = statistic
 
-        this.permissionTableData = this.createStatisticPermissionGroupTableData(
-          statistic
-        )
+        if (this.statistic.accessControlList.length === 1) {
+          this.permissionRows = this.statistic.accessControlList[0].accessControlEntries.map(
+            value => ({
+              id: value.accessControlGroup.id,
+              acl: this.statistic.accessControlList[0].id,
+              title: value.accessControlGroup.title,
+              rights: value.rights,
+              rowVersion: value.rowVersion
+            })
+          )
+        } else {
+          this.permissionRows = []
+        }
 
-        this.statisticReportTableData = this.createStatisticReportTableData(
-          statistic
-        )
+        this.statisticReportTableData = statistic.statisticReports
       })
   }
 
@@ -153,15 +165,17 @@ export class StatisticComponent implements OnInit {
       })
   }
 
-  handleGroupPermissionChangeClicked(row) {
+  handleGroupPermissionChangeClicked(
+    permissionChanged: PermissionChangedEvent
+  ) {
     this.updateStatisticAccessControlGql
       .mutate(
         {
           data: {
-            accessControlGroupId: row.id,
+            accessControlGroupId: permissionChanged.row.id,
             statisticId: this.statisticId,
-            accessRights: row.cell.value,
-            rowVersion: row.row.data.rowVersion
+            accessRights: permissionChanged.event.value.toUpperCase(),
+            rowVersion: permissionChanged.row.rowVersion
           }
         },
         {}
@@ -198,12 +212,6 @@ export class StatisticComponent implements OnInit {
     return this.router.navigate(['groups/', $event.id])
   }
 
-  handleReportNavigation($event) {
-    return this.router.navigate(['reports/', $event.id], {
-      relativeTo: this.route
-    })
-  }
-
   handleStatisticReportDeleteItemClicked($event) {
     this.deleteStatisticReportGql
       .mutate(
@@ -225,81 +233,5 @@ export class StatisticComponent implements OnInit {
       )
       .pipe(first())
       .subscribe(value => {})
-  }
-
-  private createStatisticPermissionGroupTableData(
-    statistic: Statistic.Statistic
-  ): DataTableConfig {
-    const groups = {}
-    statistic.accessControlList.forEach(acl => {
-      acl.accessControlEntries.forEach(ace => {
-        groups[ace.accessControlGroup.title] = {
-          id: ace.accessControlGroup.id,
-          acl: acl.id,
-          title: ace.accessControlGroup.title,
-          rights: ace.rights,
-          rowVersion: ace.rowVersion
-        }
-      })
-    })
-    const rows = (Object.keys(groups) || []).map(g => {
-      const group = groups[g]
-      return {
-        id: group.id,
-        data: group,
-        cells: [
-          {
-            value: `${group.title}`,
-            id: 'GROUPCELL'
-          },
-          {
-            value: group.rights.toUpperCase(),
-            type: 'radio',
-            id: 'PERMISSIONCELL',
-            data: [
-              { value: AccessRights.Read, caption: 'Read' },
-              { value: AccessRights.Write, caption: 'Read/Write' }
-            ]
-          }
-        ]
-      }
-    })
-
-    return {
-      title: 'permissions',
-      headings: [{ caption: 'Name' }, { caption: 'Permission' }],
-      rows: rows,
-      noDataMessage:
-        'Any authenticated user can view this statistic and subsequent statistic reports unless they have their own permission specified.'
-    }
-  }
-
-  private createStatisticReportTableData(statistic: Statistic.Statistic) {
-    const reports = statistic.statisticReports.map(report => ({
-      id: report.id,
-      name: report.name,
-      notes: report.notes
-    }))
-
-    const rows = (reports || []).map(r => ({
-      id: r.id,
-      data: r,
-      cells: [
-        {
-          value: `${r.name}`
-        },
-        {
-          value: r.notes
-        }
-      ]
-    }))
-
-    return {
-      title: 'reports',
-      headings: [{ caption: 'Name' }, { caption: 'Notes' }],
-      rows: rows,
-      noDataMessage:
-        'This report inherits permissions from the statistic. Adding groups here will break inheritance.'
-    }
   }
 }

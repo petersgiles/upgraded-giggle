@@ -124,7 +124,8 @@ type CommitmentAction {
   title: String
   description: String
   costing: String
-  actionType: Int
+  actionType: Int,
+  revenueType: String
 }
 
   type CommitmentContact {
@@ -279,7 +280,8 @@ type CommitmentAction {
       commitment: ID!,
       portfolio: ID!
       costing: String!
-      description: String!): Commitment,
+      description: String!
+      revenueType: String!): Commitment,
     deleteCommitmentAction(commitment: ID!, action: ID!): Commitment,
     storeMapPoint(place_id: String!, latitude: Float!, longitude: Float!, address: String!): MapPoint,
     deleteMapPoint(place_id: String!): MapPoint,

@@ -1,26 +1,30 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { MdcDialog } from '@angular-mdc/web'
-import {
-  ARE_YOU_SURE_ACCEPT,
-  DialogAreYouSureComponent
-} from '@digital-first/df-dialogs'
 import { first } from 'rxjs/operators'
 import { ActivatedRoute, Router } from '@angular/router'
+import { Maybe, Program, Report } from '../../generated/graphql'
+import { formConstants } from '../../form-constants'
+import Reports = Report.Reports
+import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
 
 @Component({
   selector: 'digital-first-program-reports',
   templateUrl: './program-reports.component.html',
   styleUrls: ['./program-reports.component.scss']
 })
-export class ProgramReportsComponent implements OnInit {
-  @Input() artifactId: string
-  @Input() tableData: any
+export class ProgramReportsComponent {
+  @Input() reportsTableData: Maybe<Maybe<Program.Reports>[]>
 
-  @Output() onDeleteClicked: EventEmitter<any> = new EventEmitter()
-  @Output() onAddItemClicked: EventEmitter<any> = new EventEmitter()
-  @Output() onCellClicked: EventEmitter<any> = new EventEmitter()
+  @Output() onDeleteClicked: EventEmitter<Reports> = new EventEmitter()
 
   expanded: true
+
+  columns = [
+    { prop: 'name', name: 'Report Name' },
+    { prop: 'notes', name: 'Notes' }
+  ]
+
+  defaultPageLength: number = formConstants.defaultPageLength
 
   constructor(
     public dialog: MdcDialog,
@@ -28,15 +32,17 @@ export class ProgramReportsComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {}
-
-  handleChangeExpanded(expanded) {}
-
   handleAddClicked($event) {
     return this.router.navigate(['reports/add'], { relativeTo: this.route })
   }
 
-  handleTableDeleteClicked($event) {
+  handleReportNavigation(report: Reports) {
+    return this.router.navigate(['reports/', report.id], {
+      relativeTo: this.route
+    })
+  }
+
+  handleTableDeleteClicked(reportToDelete: Reports) {
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
       clickOutsideToClose: true
@@ -46,8 +52,8 @@ export class ProgramReportsComponent implements OnInit {
       .afterClosed()
       .pipe(first())
       .subscribe(result => {
-        if (result === ARE_YOU_SURE_ACCEPT && this.artifactId) {
-          this.onDeleteClicked.emit($event)
+        if (result === ARE_YOU_SURE_ACCEPT && reportToDelete.id) {
+          this.onDeleteClicked.emit(reportToDelete)
         }
       })
   }

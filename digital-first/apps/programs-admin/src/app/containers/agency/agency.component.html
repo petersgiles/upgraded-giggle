@@ -1,46 +1,61 @@
 <div *ngIf="agency; else loading" class="app-page">
-    <section>
-      <digital-first-page-title
-        title="Agency - {{ agency.title }}">
-        <digital-first-edit-item-button
-          (onEditItem)="handleEditAgency(agency)"
-        ></digital-first-edit-item-button>
-        <digital-first-delete-item-button
-          (onDeleteItem)="handleDeleteAgency(agency)"
-        ></digital-first-delete-item-button>
-      </digital-first-page-title>
-  
-      <div class="programsadmin-layout__row">
-        <p>Title: {{ agency.title }}</p>    
-        <p>Portfolio: {{ agency.portfolio.title }}</p>
-        <p *ngIf="agency.metadata">Metadata: {{ agency.metadata }}</p>
-      </div>
-  
-    </section>
+  <section>
+    <df-expander-panel
+      title="Agency - {{ agency.title }}"
+      [expanded]="true"
+      [expandable]="false"
+    >
+      <ng-container panel-buttons>
+        <df-button
+          icon="edit"
+          title="Edit"
+          (onClick)="handleEditAgency(agency)"
+        ></df-button>
+        <df-button
+          icon="delete"
+          title="Delete"
+          (onClick)="handleDeleteAgency(agency)"
+        ></df-button>
+      </ng-container>
+    </df-expander-panel>
 
-    <section>
-        <digital-first-page-title
-        title="Group mapping">
-        <digital-first-add-item-button
-          (onAddItem)="handleAddAgencyMapping(agency)"
-        ></digital-first-add-item-button>
+    <div class="programsadmin-layout__row">
+      <p>Title: {{ agency.title }}</p>
+      <p>Portfolio: {{ agency.portfolio.title }}</p>
+      <p *ngIf="agency.metadata">Metadata: {{ agency.metadata }}</p>
+    </div>
+  </section>
 
-      </digital-first-page-title>
-  
-      <div  class="programsadmin-layout__row">
-          <digital-first-data-table
-          [tableData]="agencyMappingTableData"
-          [hasDeleteItemButton]="true"
-          (onDeleteItem)="handleDeleteAgencyMapping($event)"
-          (onCellClicked)="handleEditAgencyMapping($event)">
-          </digital-first-data-table>
-      </div>
-  
-    </section>
+  <section>
+    <df-expander-panel
+      title="Agency/Group mapping"
+      [expanded]="true"
+      [expandable]="false"
+    >
+      <ng-container panel-buttons>
+        <df-button
+          icon="add"
+          title="Add"
+          (onClick)="handleAddAgencyMapping(agency)"
+        ></df-button>
+      </ng-container>
+    </df-expander-panel>
 
-
-  </div>
-  <ng-template #loading>
-    Loading...
-  </ng-template>
-  
+    <div class="programsadmin-layout__row">
+      <df-data-table
+        [rows]="agencyAndGroupMappings"
+        [columns]="columns"
+        [count]="agencyAndGroupMappings.length"
+        [hasDelete]="true"
+        [limit]="defaultPageLength"
+        [messages]="emptyTableMessage"
+        (onSelect)="handleEditAgencyMapping($event)"
+        (onDelete)="handleDeleteAgencyMapping($event)"
+      >
+      </df-data-table>
+    </div>
+  </section>
+</div>
+<ng-template #loading>
+  Loading...
+</ng-template>

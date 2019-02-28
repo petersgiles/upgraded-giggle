@@ -1,10 +1,10 @@
-<digital-first-page-title title="Statistic Report Access">
-</digital-first-page-title>
+<df-expander-panel title="Statistic Report Access" [expandable]="false">
+</df-expander-panel>
 <div class="programsadmin-layout__row">
-  <digital-first-data-table
-    [hasDeleteItemButton]="false"
-    [tableData]="statisticReportAccessConfig"
-    [tableRows]="statisticReportAccessRows"
-  >
-  </digital-first-data-table>
+  <df-data-table
+    [rows]="statisticReportAccessRows"
+    [columns]="columns"
+    [count]="statisticReportAccessRows.length"
+    [limit]="defaultPageLength"
+  ></df-data-table>
 </div>

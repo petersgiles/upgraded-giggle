@@ -1,7 +1,7 @@
 schema:
   - https://localhost:52629/graphql:
       headers:
-        ProgramsApiKey: "jason.kitson@pmc.gov.au"
+        Authorization: 'Bearer <developers add your token here>'
 documents:
   - ./apps/programs-admin/src/**/*.graphql
 overwrite: true
@@ -10,7 +10,7 @@ generates:
   ./apps/programs-admin/src/app/generated/graphql.ts:
     config: {}
     plugins:
-      - "typescript-common"
-      - "typescript-client"
-      - "typescript-apollo-angular"
+      - 'typescript-common'
+      - 'typescript-client'
+      - 'typescript-apollo-angular'
 require: []

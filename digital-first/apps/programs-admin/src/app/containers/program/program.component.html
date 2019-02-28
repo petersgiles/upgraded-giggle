@@ -1,14 +1,23 @@
 <div *ngIf="program; else loading" class="app-page">
   <section>
-    <digital-first-page-title
-      title="Program - {{ program.name }}">
-      <digital-first-edit-item-button
-        (onEditItem)="handleEditProgram(program)"
-      ></digital-first-edit-item-button>
-      <digital-first-delete-item-button
-        (onDeleteItem)="handleDeleteProgram(program)"
-      ></digital-first-delete-item-button>
-    </digital-first-page-title>
+    <df-expander-panel
+      title="Program - {{ program.name }}"
+      [expanded]="true"
+      [expandable]="false"
+    >
+      <ng-container panel-buttons>
+        <df-button
+          icon="edit"
+          title="Edit"
+          (onClick)="handleEditProgram(program)"
+        ></df-button>
+        <df-button
+          icon="delete"
+          title="Delete"
+          (onClick)="handleDeleteProgram(program)"
+        ></df-button>
+      </ng-container>
+    </df-expander-panel>
 
     <div class="programsadmin-layout__row">
       <p>{{ program.agency.title }}</p>
@@ -22,14 +31,14 @@
       (onGroupClicked)="handleGroupPermissionGroupClicked($event)"
       (onPermissionClicked)="handleGroupPermissionChangeClicked($event)"
       [artifactId]="programId"
-      [tableData]="permissionTableData"
+      [rows]="permissionRows"
+      [noDataMessage]="noDataMessage"
     ></digital-first-permission>
 
     <digital-first-program-reports
       (onCellClicked)="handleReportNavigation($event)"
       (onDeleteClicked)="handleProgramReportDeleteItemClicked($event)"
-      [artifactId]="programId"
-      [tableData]="programReportTableData"
+      [reportsTableData]="reportsTableData"
     ></digital-first-program-reports>
   </section>
 </div>

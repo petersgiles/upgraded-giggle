@@ -1,5 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import '../../../libs/df-theme/styles.scss';
+@import '~@swimlane/ngx-datatable/release/index.css';
+@import '~@swimlane/ngx-datatable/release/themes/material.css';
+@import '~@swimlane/ngx-datatable/release/assets/icons.css';
 
 .programsadmin-layout__row {
   margin-top: 0.3em;
@@ -63,4 +66,8 @@ p {
 .app-layout-title-version {
   padding-right: 8px;
   font-size: smaller;
+}
+
+.ngx-datatable.material .empty-row {
+  text-align: center;
 }

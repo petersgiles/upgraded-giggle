@@ -1,39 +1,41 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { MdcDialog } from '@angular-mdc/web'
 import { ActivatedRoute, Router } from '@angular/router'
-import { DataTableConfig } from '@digital-first/df-datatable'
 import { first, map } from 'rxjs/operators'
 import {
   CreateAccessControlGroupUserGQL,
+  Group,
   GroupGQL,
+  Maybe,
   UsersGQL
 } from '../../generated/graphql'
 import { DialogAssignUserToGroupComponent } from '../../dialogs/dialog-assign-user-to-group.component'
-import {
-  ARE_YOU_SURE_ACCEPT,
-  DialogAreYouSureComponent
-} from '@digital-first/df-dialogs'
+import { formConstants } from '../../form-constants'
+import Members = Group.Members
+import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
 
 @Component({
   selector: 'digital-first-group-users',
   templateUrl: './group-users.component.html',
   styleUrls: ['./group-users.component.scss']
 })
-export class GroupUsersComponent implements OnInit {
-  userTableConfig: DataTableConfig = {
-    title: 'Users',
+export class GroupUsersComponent {
+  defaultPageLength: number = formConstants.defaultPageLength
 
-    headings: [{ caption: 'Email address' }, { caption: 'Last login' }],
-    rows: [{ id: '', cells: [] }]
-  }
+  columns = [
+    { prop: 'emailAddress', name: 'Email address' },
+    { prop: 'lastLogin', name: 'Last login' }
+  ]
 
-  userTableRows: UserRow[]
-
-  @Input() artifactId: string
   @Output() onDeleteClicked: EventEmitter<any> = new EventEmitter()
   @Output() onAddItemClicked: EventEmitter<any> = new EventEmitter()
-  @Output() onCellClicked: EventEmitter<any> = new EventEmitter()
+
   expanded: true
+
+  @Input()
+  members: Maybe<Maybe<Group.Members>[]>
+
+  @Input()
   groupId: string
 
   constructor(
@@ -44,16 +46,6 @@ export class GroupUsersComponent implements OnInit {
     private groupGQL: GroupGQL,
     private createAccessControlGroupUserGql: CreateAccessControlGroupUserGQL
   ) {}
-
-  @Input()
-  set tableData(val) {
-    this.userTableRows = val.map(i => ({
-      id: i.id,
-      cells: [{ value: i.emailAddress }, { value: i.lastLogin }]
-    }))
-  }
-
-  handleChangeExpanded(b: boolean) {}
 
   handleAddClicked($event) {
     {
@@ -69,8 +61,7 @@ export class GroupUsersComponent implements OnInit {
             clickOutsideToClose: true,
             data: {
               users: users.filter(
-                user =>
-                  !this.userTableRows.map(rows => rows.id).includes(user.id)
+                user => !this.members.map(member => member.id).includes(user.id)
               )
             }
           })
@@ -104,7 +95,7 @@ export class GroupUsersComponent implements OnInit {
     }
   }
 
-  handleTableDeleteClicked($event) {
+  handleTableDeleteClicked(member: Members) {
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
       clickOutsideToClose: true
@@ -114,23 +105,13 @@ export class GroupUsersComponent implements OnInit {
       .afterClosed()
       .pipe(first())
       .subscribe(result => {
-        if (result === ARE_YOU_SURE_ACCEPT && this.artifactId) {
-          this.onDeleteClicked.emit($event)
+        if (result === ARE_YOU_SURE_ACCEPT && member.id) {
+          this.onDeleteClicked.emit(member)
         }
       })
   }
 
-  ngOnInit(): void {
-    this.groupId = this.route.snapshot.paramMap.get('id')
+  handleUserNavigation($event: any) {
+    return this.router.navigate(['users/', $event.id])
   }
-}
-
-export interface UserRow {
-  id: string
-  cells: [
-    {
-      emailAddress: string
-      lastLogin: string
-    }
-  ]
 }

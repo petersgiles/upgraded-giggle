@@ -1,13 +1,22 @@
 <div *ngIf="statistic; else loading" class="app-page">
-  <digital-first-page-title
-    title="Statistic - {{ statistic.name }}">
-    <digital-first-edit-item-button
-      (onEditItem)="handleEditStatistic(statistic)">
-    </digital-first-edit-item-button>
-    <digital-first-delete-item-button
-      (onDeleteItem)="handleDeleteStatistic(statistic)">
-    </digital-first-delete-item-button>
-  </digital-first-page-title>
+  <df-expander-panel
+    title="Statistic - {{ statistic.name }}"
+    [expanded]="true"
+    [expandable]="false"
+  >
+    <ng-container panel-buttons>
+      <df-button
+        icon="edit"
+        title="Edit"
+        (onClick)="handleEditStatistic(statistic)"
+      ></df-button>
+      <df-button
+        icon="delete"
+        title="Delete"
+        (onClick)="handleDeleteStatistic(statistic)"
+      ></df-button>
+    </ng-container>
+  </df-expander-panel>
 
   <div class="programsadmin-layout__row">
     <p>{{ statistic.agency.title }}</p>
@@ -20,14 +29,14 @@
     (onGroupClicked)="handleGroupPermissionGroupClicked($event)"
     (onPermissionClicked)="handleGroupPermissionChangeClicked($event)"
     [artifactId]="statisticId"
-    [tableData]="permissionTableData">
-  </digital-first-permission>
+    [rows]="permissionRows"
+    [noDataMessage]="noDataMessage"
+  ></digital-first-permission>
 
   <digital-first-statistic-reports
-    (onCellClicked)="handleReportNavigation($event)"
+    [statisticreportsTableData]="statisticReportTableData"
     (onDeleteClicked)="handleStatisticReportDeleteItemClicked($event)"
-    [artifactId]="statisticId"
-    [tableData]="statisticReportTableData">
+  >
   </digital-first-statistic-reports>
 </div>
 <ng-template #loading>

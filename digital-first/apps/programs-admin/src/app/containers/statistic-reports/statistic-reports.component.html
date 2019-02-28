@@ -1,21 +1,25 @@
-<digital-first-page-title
-  (onTitleClicked)="handleChangeExpanded(!expanded)"
-  title="Statistic Reports">
-  <digital-first-add-item-button
-    (onAddItem)="handleAddClicked($event)"
-    icon="note_add"
-    title="Add&nbsp;Report">
-  </digital-first-add-item-button>
-  <digital-first-expand-collapse-button
-    (onChangeExpanded)="handleChangeExpanded(!expanded)"
-    [expanded]='expanded'>
-  </digital-first-expand-collapse-button>
-</digital-first-page-title>
+<df-expander-panel
+  title="Statistic Reports"
+  [expanded]="true"
+  [expandable]="false"
+>
+  <ng-container panel-buttons>
+    <df-button
+      icon="note_add"
+      title="Add&nbsp;Report"
+      (onClick)="handleAddClicked($event)"
+    ></df-button>
+  </ng-container>
+</df-expander-panel>
+
 <div class="programsadmin-layout__row">
-  <digital-first-data-table
-    [tableData]="tableData"
-    [hasDeleteItemButton]="true"
-    (onDeleteItem)="handleTableDeleteClicked($event)"
-    (onCellClicked)="onCellClicked.emit($event)">
-  </digital-first-data-table>
+  <df-data-table
+    [rows]="statisticreportsTableData"
+    [columns]="columns"
+    [count]="statisticreportsTableData.length"
+    [limit]="defaultPageLength"
+    (onSelect)="handleReportNavigation($event)"
+    [hasDelete]="true"
+    (onDelete)="handleTableDeleteClicked($event)"
+  ></df-data-table>
 </div>
