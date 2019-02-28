@@ -878,18 +878,11 @@
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular-builders/jest:run",
           "options": {
-            "main": "apps/programs-admin/src/test.ts",
-            "polyfills": "apps/programs-admin/src/polyfills.ts",
-            "tsConfig": "apps/programs-admin/tsconfig.spec.json",
-            "karmaConfig": "apps/programs-admin/karma.conf.js",
-            "styles": ["apps/programs-admin/src/styles.scss"],
-            "scripts": [],
-            "assets": [
-              "apps/programs-admin/src/favicon.ico",
-              "apps/programs-admin/src/assets"
-            ]
+            "bail": true,
+            "testPathPattern": ["./apps/programs-admin"],
+            "testMatch": ["**/?(*.)+(spec|test).[jt]s?(x)"]
           }
         },
         "lint": {
