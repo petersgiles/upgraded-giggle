@@ -52,7 +52,9 @@
         <p>{{ latestVersion.dataDate }}</p>
 
         <p>Notes:</p>
-        <p *ngIf="report.notes; else elseBlock">{{ latestVersion.notes }}</p>
+        <p *ngIf="latestVersion.notes; else elseBlock">
+          {{ latestVersion.notes }}
+        </p>
         <ng-template #elseBlock>
           <p>No notes were provided for this report</p>
         </ng-template>

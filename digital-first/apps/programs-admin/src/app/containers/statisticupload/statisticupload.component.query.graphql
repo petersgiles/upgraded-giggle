@@ -13,7 +13,8 @@ query getLatestVersionNotes($statisticReportId: String!)
 {
   latestVersion(statisticReportId: $statisticReportId)
   {
-      notes
+    id
+    notes
   }
 }
 
