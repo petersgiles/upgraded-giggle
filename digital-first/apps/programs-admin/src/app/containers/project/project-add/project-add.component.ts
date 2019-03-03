@@ -23,7 +23,10 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
     programId: [undefined, Validators.required],
     projectName: [
       null,
-      [Validators.required, Validators.maxLength(formConstants.nameMaxLength)]
+      [
+        Validators.required,
+        Validators.maxLength(formConstants.projectNameMaxLength)
+      ]
     ],
     externalId: [''],
     notes: ['']
