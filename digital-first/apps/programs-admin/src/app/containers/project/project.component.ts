@@ -34,7 +34,9 @@ export class ProjectComponent implements OnInit, OnDestroy {
   }
 
   handleEditProject(project: Project.Project) {
-    return this.router.navigate(['projects/edit', project.id])
+    return this.router.navigate(['projects/edit', project.id], {
+      skipLocationChange: true
+    })
   }
 
   handleDeleteProject(project: Project.Project) {

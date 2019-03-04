@@ -73,7 +73,9 @@ export class AgencyComponent implements OnInit, OnDestroy {
   }
 
   private handleEditAgency(agency: Agency.Agency) {
-    return this.router.navigate(['agencies/edit', agency.id])
+    return this.router.navigate(['agencies/edit', agency.id], {
+      skipLocationChange: true
+    })
   }
 
   private handleDeleteAgency(agency: Agency.Agency) {

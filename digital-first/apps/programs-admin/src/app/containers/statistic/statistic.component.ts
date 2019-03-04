@@ -78,7 +78,9 @@ export class StatisticComponent implements OnInit {
   }
 
   handleEditStatistic(statistic: Statistic.Statistic) {
-    return this.router.navigate(['statistics/edit', statistic.id])
+    return this.router.navigate(['statistics/edit', statistic.id], {
+      skipLocationChange: true
+    })
   }
 
   handleDeleteStatistic(statistic: Statistic.Statistic) {

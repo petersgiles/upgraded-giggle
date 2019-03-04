@@ -50,7 +50,9 @@ export class StatisticsComponent implements OnDestroy {
   }
 
   add() {
-    return this.router.navigate(['statistics', 'add'])
+    return this.router.navigate(['statistics', 'add'], {
+      skipLocationChange: true
+    })
   }
 
   ngOnDestroy(): void {

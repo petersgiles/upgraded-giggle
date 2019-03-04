@@ -46,7 +46,9 @@ export class GroupComponent implements OnInit {
   }
 
   handleEditGroup(group: Group.Group) {
-    return this.router.navigate(['groups/edit', group.id])
+    return this.router.navigate(['groups/edit', group.id], {
+      skipLocationChange: true
+    })
   }
 
   handleDeleteGroup(group: Group.Group) {

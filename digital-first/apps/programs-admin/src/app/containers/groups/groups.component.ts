@@ -26,7 +26,7 @@ export class GroupsComponent implements OnDestroy {
   ) {}
 
   add() {
-    return this.router.navigate(['groups', 'add'])
+    return this.router.navigate(['groups', 'add'], { skipLocationChange: true })
   }
 
   doSearch() {

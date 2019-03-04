@@ -21,8 +21,7 @@ import {
   Program,
   ProgramGQL,
   Report,
-  UpdateAccessControlGQL,
-  UpdateAccessControlGroupGQL
+  UpdateAccessControlGQL
 } from '../../generated/graphql'
 import Reports = Report.Reports
 import {
@@ -60,7 +59,9 @@ export class ProgramComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   handleEditProgram(program) {
-    return this.router.navigate(['programs/edit', program.id])
+    return this.router.navigate(['programs/edit', program.id], {
+      skipLocationChange: true
+    })
   }
 
   handleDeleteProgram(program) {
