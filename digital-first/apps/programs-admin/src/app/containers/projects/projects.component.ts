@@ -28,7 +28,9 @@ export class ProjectsComponent implements OnDestroy {
   ) {}
 
   add() {
-    return this.router.navigate(['projects', 'add'])
+    return this.router.navigate(['projects', 'add'], {
+      skipLocationChange: true
+    })
   }
 
   doSearch() {

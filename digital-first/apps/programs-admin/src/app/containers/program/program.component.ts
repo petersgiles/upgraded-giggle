@@ -14,14 +14,14 @@ import {
   AccessRights,
   AllGroupsGQL,
   CreateProgramAccessControlGQL,
-  DeleteProgramAccessControlGQL,
+  DeleteAccessControlGQL,
   DeleteProgramGQL,
   DeleteReportGQL,
   Maybe,
   Program,
   ProgramGQL,
   Report,
-  UpdateProgramAccessControlGQL
+  UpdateAccessControlGQL
 } from '../../generated/graphql'
 import Reports = Report.Reports
 import {
@@ -49,9 +49,9 @@ export class ProgramComponent implements OnInit, OnDestroy, AfterViewInit {
     private route: ActivatedRoute,
     private deleteProgramGQL: DeleteProgramGQL,
     private deleteReportGQL: DeleteReportGQL,
-    private removeGroupFromProgramGQL: DeleteProgramAccessControlGQL,
+    private deleteAccessControlGQL: DeleteAccessControlGQL,
     private assignGroupToProgramGQL: CreateProgramAccessControlGQL,
-    private updateGroupPermissionsForProgramGQL: UpdateProgramAccessControlGQL,
+    private updateAccessControlGql: UpdateAccessControlGQL,
     private allGroupsGQL: AllGroupsGQL,
     private router: Router,
     public dialog: MdcDialog,
@@ -59,7 +59,9 @@ export class ProgramComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   handleEditProgram(program) {
-    return this.router.navigate(['programs/edit', program.id])
+    return this.router.navigate(['programs/edit', program.id], {
+      skipLocationChange: true
+    })
   }
 
   handleDeleteProgram(program) {
@@ -125,12 +127,12 @@ export class ProgramComponent implements OnInit, OnDestroy, AfterViewInit {
   handleGroupPermissionChangeClicked(
     permissionChanged: PermissionChangedEvent
   ) {
-    this.updateGroupPermissionsForProgramGQL
+    this.updateAccessControlGql
       .mutate(
         {
           data: {
             accessControlGroupId: permissionChanged.row.id,
-            programId: this.programId,
+            accessControlListId: permissionChanged.row.acl,
             accessRights: permissionChanged.event.value.toUpperCase(),
             rowVersion: permissionChanged.row.rowVersion
           }
@@ -142,7 +144,7 @@ export class ProgramComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   handleGroupPermissionDeleteClicked($event) {
-    this.removeGroupFromProgramGQL
+    this.deleteAccessControlGQL
       .mutate(
         {
           data: {

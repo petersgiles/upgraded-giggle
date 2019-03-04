@@ -12,10 +12,12 @@ import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
   templateUrl: './program-reports.component.html',
   styleUrls: ['./program-reports.component.scss']
 })
-export class ProgramReportsComponent {
+export class ProgramReportsComponent implements OnInit {
   @Input() reportsTableData: Maybe<Maybe<Program.Reports>[]>
 
   @Output() onDeleteClicked: EventEmitter<Reports> = new EventEmitter()
+
+  emptyTableMessage: { emptyMessage: string; totalMessage: string }
 
   expanded: true
 
@@ -56,5 +58,12 @@ export class ProgramReportsComponent {
           this.onDeleteClicked.emit(reportToDelete)
         }
       })
+  }
+
+  ngOnInit(): void {
+    this.emptyTableMessage = {
+      emptyMessage: 'No reports have been added to this program',
+      totalMessage: 'total'
+    }
   }
 }

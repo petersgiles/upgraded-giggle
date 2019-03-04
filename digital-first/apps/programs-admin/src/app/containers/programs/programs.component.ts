@@ -29,7 +29,9 @@ export class ProgramsComponent implements OnDestroy {
   ) {}
 
   add() {
-    return this.router.navigate(['programs', 'add'])
+    return this.router.navigate(['programs', 'add'], {
+      skipLocationChange: true
+    })
   }
 
   doSearch() {

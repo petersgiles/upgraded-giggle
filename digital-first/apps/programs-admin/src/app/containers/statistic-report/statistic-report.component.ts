@@ -3,12 +3,12 @@ import {
   AccessRights,
   AllGroupsGQL,
   CreateStatisticReportAccessControlGQL,
-  DeleteStatisticReportAccessControlGQL,
   StatisticReport,
   StatisticReportGQL,
-  UpdateStatisticReportAccessControlGQL,
   GetLatestVersionDetailGQL,
-  GetLatestVersionDetail
+  GetLatestVersionDetail,
+  DeleteAccessControlGQL,
+  UpdateAccessControlGQL
 } from '../../generated/graphql'
 import { Subscription } from 'rxjs'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -43,8 +43,8 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
     private statisticReportGql: StatisticReportGQL,
     private allGroupsGql: AllGroupsGQL,
     private createStatisticReportAccessControlGql: CreateStatisticReportAccessControlGQL,
-    private deleteStatisticReportAccessControlGql: DeleteStatisticReportAccessControlGQL,
-    private updateStatisticReportAccessControlGql: UpdateStatisticReportAccessControlGQL,
+    private deleteAccessControlGql: DeleteAccessControlGQL,
+    private updateAccessControlGql: UpdateAccessControlGQL,
     private getLatestVersionGQL: GetLatestVersionDetailGQL,
     private router: Router,
     public dialog: MdcDialog
@@ -159,12 +159,12 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
   handleGroupPermissionChangeClicked(
     permissionChanged: PermissionChangedEvent
   ) {
-    this.updateStatisticReportAccessControlGql
+    this.updateAccessControlGql
       .mutate(
         {
           data: {
             accessControlGroupId: permissionChanged.row.id,
-            statisticReportId: this.statisticReportId,
+            accessControlListId: permissionChanged.row.acl,
             accessRights: permissionChanged.event.value.toUpperCase(),
             rowVersion: permissionChanged.row.rowVersion
           }
@@ -176,12 +176,12 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
   }
 
   handleGroupPermissionDeleteClicked($event) {
-    this.deleteStatisticReportAccessControlGql
+    this.deleteAccessControlGql
       .mutate(
         {
           data: {
             accessControlGroupId: $event.id,
-            statisticReportId: this.statisticReportId
+            accessControlListId: $event.acl
           }
         },
         {
