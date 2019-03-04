@@ -14,7 +14,7 @@ import {
   Maybe,
   Statistic,
   StatisticGQL,
-  UpdateStatisticAccessControlGQL
+  UpdateAccessControlGQL
 } from '../../generated/graphql'
 import {
   PermissionChangedEvent,
@@ -43,7 +43,7 @@ export class StatisticComponent implements OnInit {
     private deleteStatisticGql: DeleteStatisticGQL,
     private deleteStatisticReportGql: DeleteStatisticReportGQL,
     private createStatisticAccessControlGql: CreateStatisticAccessControlGQL,
-    private updateStatisticAccessControlGql: UpdateStatisticAccessControlGQL,
+    private updateAccessControlGql: UpdateAccessControlGQL,
     private deleteAccessControlGql: DeleteAccessControlGQL,
     private allGroupsGql: AllGroupsGQL,
     private router: Router,
@@ -168,12 +168,12 @@ export class StatisticComponent implements OnInit {
   handleGroupPermissionChangeClicked(
     permissionChanged: PermissionChangedEvent
   ) {
-    this.updateStatisticAccessControlGql
+    this.updateAccessControlGql
       .mutate(
         {
           data: {
             accessControlGroupId: permissionChanged.row.id,
-            statisticId: this.statisticId,
+            accessControlListId: permissionChanged.row.acl,
             accessRights: permissionChanged.event.value.toUpperCase(),
             rowVersion: permissionChanged.row.rowVersion
           }

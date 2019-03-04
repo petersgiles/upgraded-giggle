@@ -32,16 +32,6 @@ mutation deleteReport($data: DeleteReportInputGraph) {
   deleteReport(input: $data)
 }
 
-mutation updateProgramAccessControl(
-  $data: UpdateProgramAccessControlInputGraph
-) {
-  updateProgramAccessControl(input: $data) {
-    rights
-    id
-    rowVersion
-  }
-}
-
 mutation createProgramAccessControl(
   $data: CreateProgramAccessControlInputGraph
 ) {

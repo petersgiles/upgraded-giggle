@@ -1,3 +1,11 @@
 mutation deleteAccessControl($data: DeleteAccessControlInputGraph) {
   deleteAccessControl(input: $data)
 }
+
+mutation updateAccessControl($data: UpdateAccessControlInputGraph) {
+  updateAccessControl(input: $data) {
+    id
+    rights
+    rowVersion
+  }
+}

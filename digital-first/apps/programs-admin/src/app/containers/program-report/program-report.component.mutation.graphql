@@ -5,11 +5,3 @@ mutation createReportAccessControl($data: CreateReportAccessControlInputGraph) {
     rowVersion
   }
 }
-
-mutation updateReportAccessControl($data: UpdateReportAccessControlInputGraph) {
-  updateReportAccessControl(input: $data) {
-    id
-    rights
-    rowVersion
-  }
-}

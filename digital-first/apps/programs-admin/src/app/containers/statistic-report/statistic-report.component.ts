@@ -5,10 +5,10 @@ import {
   CreateStatisticReportAccessControlGQL,
   StatisticReport,
   StatisticReportGQL,
-  UpdateStatisticReportAccessControlGQL,
   GetLatestVersionDetailGQL,
   GetLatestVersionDetail,
-  DeleteAccessControlGQL
+  DeleteAccessControlGQL,
+  UpdateAccessControlGQL
 } from '../../generated/graphql'
 import { Subscription } from 'rxjs'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -44,7 +44,7 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
     private allGroupsGql: AllGroupsGQL,
     private createStatisticReportAccessControlGql: CreateStatisticReportAccessControlGQL,
     private deleteAccessControlGql: DeleteAccessControlGQL,
-    private updateStatisticReportAccessControlGql: UpdateStatisticReportAccessControlGQL,
+    private updateAccessControlGql: UpdateAccessControlGQL,
     private getLatestVersionGQL: GetLatestVersionDetailGQL,
     private router: Router,
     public dialog: MdcDialog
@@ -159,12 +159,12 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
   handleGroupPermissionChangeClicked(
     permissionChanged: PermissionChangedEvent
   ) {
-    this.updateStatisticReportAccessControlGql
+    this.updateAccessControlGql
       .mutate(
         {
           data: {
             accessControlGroupId: permissionChanged.row.id,
-            statisticReportId: this.statisticReportId,
+            accessControlListId: permissionChanged.row.acl,
             accessRights: permissionChanged.event.value.toUpperCase(),
             rowVersion: permissionChanged.row.rowVersion
           }

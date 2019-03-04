@@ -246,6 +246,16 @@ export interface DeleteUserInputGraph {
   id: Guid
 }
 
+export interface UpdateAccessControlInputGraph {
+  accessControlListId: Guid
+
+  accessControlGroupId: Guid
+
+  rowVersion: string
+
+  accessRights?: Maybe<AccessRights>
+}
+
 export interface UpdateAccessControlGroupInputGraph {
   id: Guid
 
@@ -1005,6 +1015,28 @@ export namespace DeleteAccessControl {
   }
 }
 
+export namespace UpdateAccessControl {
+  export type Variables = {
+    data?: Maybe<UpdateAccessControlInputGraph>
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    updateAccessControl: Maybe<UpdateAccessControl>
+  }
+
+  export type UpdateAccessControl = {
+    __typename?: 'AccessControlEntryGraph'
+
+    id: string
+
+    rights: string
+
+    rowVersion: string
+  }
+}
+
 export namespace CreateReportAccessControl {
   export type Variables = {
     data?: Maybe<CreateReportAccessControlInputGraph>
@@ -1017,28 +1049,6 @@ export namespace CreateReportAccessControl {
   }
 
   export type CreateReportAccessControl = {
-    __typename?: 'AccessControlEntryGraph'
-
-    id: string
-
-    rights: string
-
-    rowVersion: string
-  }
-}
-
-export namespace UpdateReportAccessControl {
-  export type Variables = {
-    data?: Maybe<UpdateReportAccessControlInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    updateReportAccessControl: Maybe<UpdateReportAccessControl>
-  }
-
-  export type UpdateReportAccessControl = {
     __typename?: 'AccessControlEntryGraph'
 
     id: string
@@ -1238,28 +1248,6 @@ export namespace DeleteReport {
     __typename?: 'Mutation'
 
     deleteReport: Maybe<boolean>
-  }
-}
-
-export namespace UpdateProgramAccessControl {
-  export type Variables = {
-    data?: Maybe<UpdateProgramAccessControlInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    updateProgramAccessControl: Maybe<UpdateProgramAccessControl>
-  }
-
-  export type UpdateProgramAccessControl = {
-    __typename?: 'AccessControlEntryGraph'
-
-    rights: string
-
-    id: string
-
-    rowVersion: string
   }
 }
 
@@ -2921,15 +2909,13 @@ export class DeleteAccessControlGQL extends Apollo.Mutation<
 @Injectable({
   providedIn: 'root'
 })
-export class CreateReportAccessControlGQL extends Apollo.Mutation<
-  CreateReportAccessControl.Mutation,
-  CreateReportAccessControl.Variables
+export class UpdateAccessControlGQL extends Apollo.Mutation<
+  UpdateAccessControl.Mutation,
+  UpdateAccessControl.Variables
 > {
   document: any = gql`
-    mutation createReportAccessControl(
-      $data: CreateReportAccessControlInputGraph
-    ) {
-      createReportAccessControl(input: $data) {
+    mutation updateAccessControl($data: UpdateAccessControlInputGraph) {
+      updateAccessControl(input: $data) {
         id
         rights
         rowVersion
@@ -2940,15 +2926,15 @@ export class CreateReportAccessControlGQL extends Apollo.Mutation<
 @Injectable({
   providedIn: 'root'
 })
-export class UpdateReportAccessControlGQL extends Apollo.Mutation<
-  UpdateReportAccessControl.Mutation,
-  UpdateReportAccessControl.Variables
+export class CreateReportAccessControlGQL extends Apollo.Mutation<
+  CreateReportAccessControl.Mutation,
+  CreateReportAccessControl.Variables
 > {
   document: any = gql`
-    mutation updateReportAccessControl(
-      $data: UpdateReportAccessControlInputGraph
+    mutation createReportAccessControl(
+      $data: CreateReportAccessControlInputGraph
     ) {
-      updateReportAccessControl(input: $data) {
+      createReportAccessControl(input: $data) {
         id
         rights
         rowVersion
@@ -3085,25 +3071,6 @@ export class DeleteReportGQL extends Apollo.Mutation<
   document: any = gql`
     mutation deleteReport($data: DeleteReportInputGraph) {
       deleteReport(input: $data)
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class UpdateProgramAccessControlGQL extends Apollo.Mutation<
-  UpdateProgramAccessControl.Mutation,
-  UpdateProgramAccessControl.Variables
-> {
-  document: any = gql`
-    mutation updateProgramAccessControl(
-      $data: UpdateProgramAccessControlInputGraph
-    ) {
-      updateProgramAccessControl(input: $data) {
-        rights
-        id
-        rowVersion
-      }
     }
   `
 }

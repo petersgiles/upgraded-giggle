@@ -21,7 +21,8 @@ import {
   Program,
   ProgramGQL,
   Report,
-  UpdateProgramAccessControlGQL
+  UpdateAccessControlGQL,
+  UpdateAccessControlGroupGQL
 } from '../../generated/graphql'
 import Reports = Report.Reports
 import {
@@ -51,7 +52,7 @@ export class ProgramComponent implements OnInit, OnDestroy, AfterViewInit {
     private deleteReportGQL: DeleteReportGQL,
     private deleteAccessControlGQL: DeleteAccessControlGQL,
     private assignGroupToProgramGQL: CreateProgramAccessControlGQL,
-    private updateGroupPermissionsForProgramGQL: UpdateProgramAccessControlGQL,
+    private updateAccessControlGql: UpdateAccessControlGQL,
     private allGroupsGQL: AllGroupsGQL,
     private router: Router,
     public dialog: MdcDialog,
@@ -125,12 +126,12 @@ export class ProgramComponent implements OnInit, OnDestroy, AfterViewInit {
   handleGroupPermissionChangeClicked(
     permissionChanged: PermissionChangedEvent
   ) {
-    this.updateGroupPermissionsForProgramGQL
+    this.updateAccessControlGql
       .mutate(
         {
           data: {
             accessControlGroupId: permissionChanged.row.id,
-            programId: this.programId,
+            accessControlListId: permissionChanged.row.acl,
             accessRights: permissionChanged.event.value.toUpperCase(),
             rowVersion: permissionChanged.row.rowVersion
           }
