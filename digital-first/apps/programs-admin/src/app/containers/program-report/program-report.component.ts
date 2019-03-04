@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { first, map } from 'rxjs/operators'
 import { Subscription } from 'rxjs'
-import { DataTableConfig } from '@digital-first/df-datatable'
 import { DialogAssignGroupPermissionComponent } from '../../dialogs/dialog-assign-group-permission.component'
 import { MdcDialog } from '@angular-mdc/web'
 import {
@@ -182,52 +181,5 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
     return this.router.navigate(['../edit', report.id], {
       relativeTo: this.route
     })
-  }
-
-  private createProgramPermissionGroupTableData(
-    report: Report.Reports
-  ): DataTableConfig {
-    const groups = {}
-    report.accessControlList.forEach(acl => {
-      acl.accessControlEntries.forEach(ace => {
-        groups[ace.accessControlGroup.title] = {
-          id: ace.accessControlGroup.id,
-          acl: acl.id,
-          title: ace.accessControlGroup.title,
-          rights: ace.rights,
-          rowVersion: ace.rowVersion
-        }
-      })
-    })
-    const rows = (Object.keys(groups) || []).map(g => {
-      const group = groups[g]
-      return {
-        id: group.id,
-        data: group,
-        cells: [
-          {
-            value: `${group.title}`,
-            id: 'GROUPCELL'
-          },
-          {
-            value: group.rights.toUpperCase(),
-            type: 'radio',
-            id: 'PERMISSIONCELL',
-            data: [
-              { value: AccessRights.Read, caption: 'Read' },
-              { value: AccessRights.Write, caption: 'Read/Write' }
-            ]
-          }
-        ]
-      }
-    })
-
-    return {
-      title: 'permissions',
-      headings: [{ caption: 'Name' }, { caption: 'Permission' }],
-      rows: rows,
-      noDataMessage:
-        'This report inherits its permissions from the program. Adding groups here will break inheritance.'
-    }
   }
 }
