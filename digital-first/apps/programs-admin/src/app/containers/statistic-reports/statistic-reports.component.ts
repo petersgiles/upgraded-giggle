@@ -11,7 +11,7 @@ import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
   templateUrl: './statistic-reports.component.html',
   styleUrls: ['./statistic-reports.component.scss']
 })
-export class StatisticReportsComponent {
+export class StatisticReportsComponent implements OnInit {
   @Input()
   statisticreportsTableData: Maybe<Maybe<Statistic.StatisticReports>[]>
 
@@ -21,6 +21,8 @@ export class StatisticReportsComponent {
   columns = [{ prop: 'name', name: 'Name' }, { prop: 'notes', name: 'Notes' }]
 
   defaultPageLength: number = formConstants.defaultPageLength
+
+  emptyTableMessage: { emptyMessage: string; totalMessage: string }
 
   constructor(
     public dialog: MdcDialog,
@@ -52,5 +54,12 @@ export class StatisticReportsComponent {
     return this.router.navigate(['reports/', statisticReport.id], {
       relativeTo: this.route
     })
+  }
+
+  ngOnInit(): void {
+    this.emptyTableMessage = {
+      emptyMessage: 'No reports have been added to this statistic',
+      totalMessage: 'total'
+    }
   }
 }
