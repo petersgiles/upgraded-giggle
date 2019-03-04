@@ -1,0 +1,3 @@
+mutation deleteAccessControl($data: DeleteAccessControlInputGraph) {
+  deleteAccessControl(input: $data)
+}

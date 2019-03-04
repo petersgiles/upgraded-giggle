@@ -1,9 +1,8 @@
-mutation createProgram ($data: CreateProgramInputGraph!) {
-  createProgram (input: $data)
-  {
+mutation createProgram($data: CreateProgramInputGraph!) {
+  createProgram(input: $data) {
     id
     name
-    agency{
+    agency {
       id
     }
     notes
@@ -12,12 +11,11 @@ mutation createProgram ($data: CreateProgramInputGraph!) {
   }
 }
 
-mutation updateProgram ($data:UpdateProgramInputGraph!) {
-  updateProgram (input: $data)
-  {
+mutation updateProgram($data: UpdateProgramInputGraph!) {
+  updateProgram(input: $data) {
     id
     name
-    agency{
+    agency {
       id
     }
     notes
@@ -27,30 +25,29 @@ mutation updateProgram ($data:UpdateProgramInputGraph!) {
 }
 
 mutation deleteProgram($data: DeleteProgramInputGraph) {
-  deleteProgram(input:$data)
+  deleteProgram(input: $data)
 }
 
-mutation deleteReport($data:DeleteReportInputGraph) {
-  deleteReport(input:$data)
+mutation deleteReport($data: DeleteReportInputGraph) {
+  deleteReport(input: $data)
 }
 
-mutation updateProgramAccessControl($data: UpdateProgramAccessControlInputGraph){
-  updateProgramAccessControl(input: $data){
+mutation updateProgramAccessControl(
+  $data: UpdateProgramAccessControlInputGraph
+) {
+  updateProgramAccessControl(input: $data) {
     rights
     id
     rowVersion
   }
 }
 
-mutation createProgramAccessControl($data:CreateProgramAccessControlInputGraph){
-  createProgramAccessControl(input: $data){
+mutation createProgramAccessControl(
+  $data: CreateProgramAccessControlInputGraph
+) {
+  createProgramAccessControl(input: $data) {
     id
     rights
     rowVersion
   }
 }
-
-mutation deleteProgramAccessControl($data:DeleteProgramAccessControlInputGraph) {
-  deleteProgramAccessControl(input:$data)
-}
-

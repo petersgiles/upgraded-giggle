@@ -1,19 +1,19 @@
-mutation createStatisticReportAccessControl($data:CreateStatisticReportAccessControlInputGraph){
-  createStatisticReportAccessControl(input: $data){
+mutation createStatisticReportAccessControl(
+  $data: CreateStatisticReportAccessControlInputGraph
+) {
+  createStatisticReportAccessControl(input: $data) {
     id
     rights
     rowVersion
   }
 }
 
-mutation updateStatisticReportAccessControl($data:UpdateStatisticReportAccessControlInputGraph){
-  updateStatisticReportAccessControl(input: $data){
+mutation updateStatisticReportAccessControl(
+  $data: UpdateStatisticReportAccessControlInputGraph
+) {
+  updateStatisticReportAccessControl(input: $data) {
     id
     rights
     rowVersion
   }
-}
-
-mutation deleteStatisticReportAccessControl($data:DeleteStatisticReportAccessControlInputGraph) {
-  deleteStatisticReportAccessControl(input:$data)
 }

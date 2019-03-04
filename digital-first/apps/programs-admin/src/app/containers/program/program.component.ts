@@ -14,7 +14,7 @@ import {
   AccessRights,
   AllGroupsGQL,
   CreateProgramAccessControlGQL,
-  DeleteProgramAccessControlGQL,
+  DeleteAccessControlGQL,
   DeleteProgramGQL,
   DeleteReportGQL,
   Maybe,
@@ -49,7 +49,7 @@ export class ProgramComponent implements OnInit, OnDestroy, AfterViewInit {
     private route: ActivatedRoute,
     private deleteProgramGQL: DeleteProgramGQL,
     private deleteReportGQL: DeleteReportGQL,
-    private removeGroupFromProgramGQL: DeleteProgramAccessControlGQL,
+    private deleteAccessControlGQL: DeleteAccessControlGQL,
     private assignGroupToProgramGQL: CreateProgramAccessControlGQL,
     private updateGroupPermissionsForProgramGQL: UpdateProgramAccessControlGQL,
     private allGroupsGQL: AllGroupsGQL,
@@ -142,7 +142,7 @@ export class ProgramComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   handleGroupPermissionDeleteClicked($event) {
-    this.removeGroupFromProgramGQL
+    this.deleteAccessControlGQL
       .mutate(
         {
           data: {

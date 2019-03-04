@@ -9,7 +9,7 @@ import {
   AccessRights,
   AllGroupsGQL,
   CreateReportAccessControlGQL,
-  DeleteReportAccessControlGQL,
+  DeleteAccessControlGQL,
   Report,
   ReportGQL,
   UpdateReportAccessControlGQL
@@ -38,7 +38,7 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private allGroupsGql: AllGroupsGQL,
     private createReportAccessControlGql: CreateReportAccessControlGQL,
-    private deleteReportAccessControlGql: DeleteReportAccessControlGQL,
+    private deleteAccessControlGql: DeleteAccessControlGQL,
     private updateReportAccessControlGql: UpdateReportAccessControlGQL,
     private router: Router,
     public dialog: MdcDialog
@@ -156,12 +156,12 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
   }
 
   handleGroupPermissionDeleteClicked($event) {
-    this.deleteReportAccessControlGql
+    this.deleteAccessControlGql
       .mutate(
         {
           data: {
             accessControlGroupId: $event.id,
-            reportId: this.reportId
+            accessControlListId: $event.acl
           }
         },
         {

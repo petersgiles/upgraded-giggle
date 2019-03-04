@@ -8,7 +8,7 @@ import {
   AccessRights,
   AllGroupsGQL,
   CreateStatisticAccessControlGQL,
-  DeleteStatisticAccessControlGQL,
+  DeleteAccessControlGQL,
   DeleteStatisticGQL,
   DeleteStatisticReportGQL,
   Maybe,
@@ -44,7 +44,7 @@ export class StatisticComponent implements OnInit {
     private deleteStatisticReportGql: DeleteStatisticReportGQL,
     private createStatisticAccessControlGql: CreateStatisticAccessControlGQL,
     private updateStatisticAccessControlGql: UpdateStatisticAccessControlGQL,
-    private deleteStatisticAccessControlGql: DeleteStatisticAccessControlGQL,
+    private deleteAccessControlGql: DeleteAccessControlGQL,
     private allGroupsGql: AllGroupsGQL,
     private router: Router,
     public dialog: MdcDialog
@@ -185,12 +185,12 @@ export class StatisticComponent implements OnInit {
   }
 
   handleGroupPermissionDeleteClicked($event) {
-    this.deleteStatisticAccessControlGql
+    this.deleteAccessControlGql
       .mutate(
         {
           data: {
             accessControlGroupId: $event.id,
-            statisticId: this.statisticId
+            accessControlListId: $event.acl
           }
         },
         {
