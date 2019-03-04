@@ -17,6 +17,7 @@ export interface Commitment {
   party: Party,
   description: string,
   cost: string,
+  costingRequired: boolean,
   location: Electorate,
   electorates: Electorate[],
   whoAnnouncedType: WhoAnnouncedType

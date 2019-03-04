@@ -190,6 +190,7 @@ type CommitmentAction {
     criticalDate: CriticalDate,
     announcedby: String,
     party: PoliticalParty,
+    costingRequired: Boolean,
     whoAnnouncedType: WhoAnnouncedType,
     announcementType: AnnouncementType,
     commitmentType: CommitmentType,
@@ -242,6 +243,7 @@ type CommitmentAction {
       description: String!,
       party: ID
       cost: String
+      costingRequired: Boolean,
       location: ID,
       whoAnnouncedType: ID,
       themeType: ID,

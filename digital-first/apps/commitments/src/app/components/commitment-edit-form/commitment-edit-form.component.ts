@@ -55,6 +55,7 @@ export class CommitmentEditFormComponent implements OnDestroy {
     portfolio: [null],
     criticalDate: [null],
     cost: [null],
+    costingRequired: [false],
   })
 
   @Input()
@@ -79,6 +80,7 @@ export class CommitmentEditFormComponent implements OnDestroy {
         portfolio: val.portfolio && val.portfolio.id,
         criticalDate: val.criticalDate && val.criticalDate.id,
         cost: val.cost,
+        costingRequired: val.costingRequired,
       }
 
       this.form.patchValue(patch)
@@ -129,6 +131,8 @@ export class CommitmentEditFormComponent implements OnDestroy {
       date: moment(commitment.date).format(),
     }
 
+    // tslint:disable-next-line:no-console
+    console.log(map)
     return map
   }
 
