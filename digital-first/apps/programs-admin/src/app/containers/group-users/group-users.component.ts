@@ -19,7 +19,7 @@ import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
   templateUrl: './group-users.component.html',
   styleUrls: ['./group-users.component.scss']
 })
-export class GroupUsersComponent {
+export class GroupUsersComponent implements OnInit {
   defaultPageLength: number = formConstants.defaultPageLength
 
   columns = [
@@ -37,6 +37,8 @@ export class GroupUsersComponent {
 
   @Input()
   groupId: string
+
+  emptyTableMessage: { emptyMessage: string; totalMessage: string }
 
   constructor(
     public dialog: MdcDialog,
@@ -113,5 +115,12 @@ export class GroupUsersComponent {
 
   handleUserNavigation($event: any) {
     return this.router.navigate(['users/', $event.id])
+  }
+
+  ngOnInit(): void {
+    this.emptyTableMessage = {
+      emptyMessage: 'No users have been assigned to this group',
+      totalMessage: 'total'
+    }
   }
 }

@@ -34,7 +34,7 @@ export class StatisticComponent implements OnInit {
   statistic: Statistic.Statistic
 
   noDataMessage =
-    'This report inherits permissions from the statistic. Adding groups here will break inheritance.'
+    'Any authenticated user can view this statistic and subsequent statistic reports unless they have their own permission specified'
   permissionRows: PermissionRow[]
 
   constructor(
