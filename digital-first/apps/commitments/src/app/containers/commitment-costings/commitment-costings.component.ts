@@ -11,7 +11,10 @@ import { OPERATION_COSTING } from '../../services/app-data.service'
 @Component({
   selector: 'digital-first-commitment-costings',
   templateUrl: './commitment-costings.component.html',
-  styles: [``]
+  styles: [`
+  .toggle_costing_required {
+    min-width: 200px;
+  }`]
 })
 export class CommitmentCostingsComponent implements OnInit, OnDestroy {
 
@@ -21,6 +24,8 @@ export class CommitmentCostingsComponent implements OnInit, OnDestroy {
   tableData$: Observable<DataTableConfig>
   userOperation$: Observable<any>
   constructor(private router: Router, public dialog: MdcDialog, private service: CommitmentActionService) { }
+
+  @Input() required: boolean
 
   @Input()
   set commitment(val: number) {
@@ -79,4 +84,7 @@ export class CommitmentCostingsComponent implements OnInit, OnDestroy {
     return operations[OPERATION_COSTING]
   }
 
+  handleCostingEnable(commitment, enabled) {
+
+  }
 }

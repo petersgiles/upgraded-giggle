@@ -26,7 +26,8 @@ import {
   MdcTabBarModule,
   MdcTextFieldModule,
   MdcTopAppBarModule,
-  MdcTypographyModule
+  MdcTypographyModule,
+  MdcIconButtonModule
 } from '@angular-mdc/web'
 
 const MATERIAL_COMPONENTS = [
@@ -41,6 +42,7 @@ const MATERIAL_COMPONENTS = [
   MdcFormFieldModule,
   MdcGridListModule,
   MdcIconModule,
+  MdcIconButtonModule,
   MdcImageListModule,
   MdcLinearProgressModule,
   MdcListModule,

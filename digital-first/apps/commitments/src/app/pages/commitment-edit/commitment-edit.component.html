@@ -102,6 +102,7 @@
     <digital-first-commitment-costings
       *ngIf="commitment"
       [commitment]="commitment?.id"
+      [required]="commitment?.costingRequired"
     ></digital-first-commitment-costings>
 
     <digital-first-commitment-related-links
