@@ -360,16 +360,6 @@ export interface UpdateProgramInputGraph {
   rowVersion: string
 }
 
-export interface UpdateProgramAccessControlInputGraph {
-  programId: Guid
-
-  accessControlGroupId: Guid
-
-  rowVersion: string
-
-  accessRights?: Maybe<AccessRights>
-}
-
 export interface UpdateProjectInputGraph {
   externalId?: Maybe<string>
 
@@ -402,16 +392,6 @@ export interface UpdateReportInputGraph {
   rowVersion: string
 }
 
-export interface UpdateReportAccessControlInputGraph {
-  reportId: Guid
-
-  accessControlGroupId: Guid
-
-  accessRights?: Maybe<AccessRights>
-
-  rowVersion: string
-}
-
 export interface UpdateStatisticInputGraph {
   id: Guid
 
@@ -424,16 +404,6 @@ export interface UpdateStatisticInputGraph {
   rowVersion: string
 }
 
-export interface UpdateStatisticAccessControlInputGraph {
-  statisticId: Guid
-
-  accessControlGroupId: Guid
-
-  rowVersion: string
-
-  accessRights?: Maybe<AccessRights>
-}
-
 export interface UpdateStatisticReportInputGraph {
   id: Guid
 
@@ -442,16 +412,6 @@ export interface UpdateStatisticReportInputGraph {
   notes?: Maybe<string>
 
   statisticId: Guid
-
-  rowVersion: string
-}
-
-export interface UpdateStatisticReportAccessControlInputGraph {
-  statisticReportId: Guid
-
-  accessControlGroupId: Guid
-
-  accessRights?: Maybe<AccessRights>
 
   rowVersion: string
 }
@@ -1759,30 +1719,6 @@ export namespace CreateStatisticReportAccessControl {
   }
 }
 
-export namespace UpdateStatisticReportAccessControl {
-  export type Variables = {
-    data?: Maybe<UpdateStatisticReportAccessControlInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    updateStatisticReportAccessControl: Maybe<
-      UpdateStatisticReportAccessControl
-    >
-  }
-
-  export type UpdateStatisticReportAccessControl = {
-    __typename?: 'AccessControlEntryGraph'
-
-    id: string
-
-    rights: string
-
-    rowVersion: string
-  }
-}
-
 export namespace StatisticReport {
   export type Variables = {
     reportId: string
@@ -2009,28 +1945,6 @@ export namespace CreateStatisticAccessControl {
   }
 
   export type CreateStatisticAccessControl = {
-    __typename?: 'AccessControlEntryGraph'
-
-    id: string
-
-    rights: string
-
-    rowVersion: string
-  }
-}
-
-export namespace UpdateStatisticAccessControl {
-  export type Variables = {
-    data?: Maybe<UpdateStatisticAccessControlInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    updateStatisticAccessControl: Maybe<UpdateStatisticAccessControl>
-  }
-
-  export type UpdateStatisticAccessControl = {
     __typename?: 'AccessControlEntryGraph'
 
     id: string
@@ -3422,25 +3336,6 @@ export class CreateStatisticReportAccessControlGQL extends Apollo.Mutation<
 @Injectable({
   providedIn: 'root'
 })
-export class UpdateStatisticReportAccessControlGQL extends Apollo.Mutation<
-  UpdateStatisticReportAccessControl.Mutation,
-  UpdateStatisticReportAccessControl.Variables
-> {
-  document: any = gql`
-    mutation updateStatisticReportAccessControl(
-      $data: UpdateStatisticReportAccessControlInputGraph
-    ) {
-      updateStatisticReportAccessControl(input: $data) {
-        id
-        rights
-        rowVersion
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
 export class StatisticReportGQL extends Apollo.Query<
   StatisticReport.Query,
   StatisticReport.Variables
@@ -3602,25 +3497,6 @@ export class CreateStatisticAccessControlGQL extends Apollo.Mutation<
       $data: CreateStatisticAccessControlInputGraph
     ) {
       createStatisticAccessControl(input: $data) {
-        id
-        rights
-        rowVersion
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class UpdateStatisticAccessControlGQL extends Apollo.Mutation<
-  UpdateStatisticAccessControl.Mutation,
-  UpdateStatisticAccessControl.Variables
-> {
-  document: any = gql`
-    mutation updateStatisticAccessControl(
-      $data: UpdateStatisticAccessControlInputGraph
-    ) {
-      updateStatisticAccessControl(input: $data) {
         id
         rights
         rowVersion
