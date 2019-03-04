@@ -9,6 +9,8 @@
     "start:programs-admin": "ng serve programs-admin --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --live-reload true",
     "generate-graphql:deck": "gql-gen --config ./apps/deck/codegen.yml",
     "generate-graphql:programs-admin": "gql-gen --config ./apps/programs-admin/codegen.yml",
+    "test:programs-admin": "ng test programs-admin",
+    "testwatch:programs-admin": "ng test programs-admin --watch",
     "build": "ng build",
     "build:all": "run-p build:programs-admin sharepoint:build:commitments",
     "build:programs-admin": "ng build programs-admin --configuration=production",
@@ -132,6 +134,7 @@
     "zone.js": "^0.8.29"
   },
   "devDependencies": {
+    "@angular-builders/jest": "^7.3.1",
     "@angular-devkit/build-angular": "^0.13.2",
     "@angular/cli": "^7.3.2",
     "@angular/compiler-cli": "^7.2.6",
@@ -152,6 +155,7 @@
     "jasmine-core": "~3.3.0",
     "jasmine-marbles": "0.4.1",
     "jasmine-spec-reporter": "~4.2.1",
+    "jest": "^24.1.0",
     "karma": "~4.0.0",
     "karma-chrome-launcher": "~2.2.0",
     "karma-coverage-istanbul-reporter": "^2.0.5",

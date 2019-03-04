@@ -2,17 +2,9 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc/apps/programs-admin",
-    "types": [
-      "jasmine",
-      "node"
-    ]
+    "module": "commonjs",
+    "types": ["jest", "node"]
   },
-  "files": [
-    "src/test.ts",
-    "src/polyfills.ts"
-  ],
-  "include": [
-    "**/*.spec.ts",
-    "**/*.d.ts"
-  ]
+  "files": ["src/test.ts", "src/polyfills.ts"],
+  "include": ["**/*.spec.ts", "**/*.d.ts"]
 }

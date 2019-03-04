@@ -2315,6 +2315,8 @@ export namespace GetLatestVersionNotes {
   export type LatestVersion = {
     __typename?: 'StatisticReportVersionGraph'
 
+    id: Guid
+
     notes: Maybe<string>
   }
 }
@@ -3894,6 +3896,7 @@ export class GetLatestVersionNotesGQL extends Apollo.Query<
   document: any = gql`
     query getLatestVersionNotes($statisticReportId: String!) {
       latestVersion(statisticReportId: $statisticReportId) {
+        id
         notes
       }
     }
