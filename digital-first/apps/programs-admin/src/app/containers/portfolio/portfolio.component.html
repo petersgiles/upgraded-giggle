@@ -13,7 +13,7 @@
         ></df-button>
         <df-button
           *ngIf="agencyLinkedToPortfolio.length == 0"
-          icon="dddelete"
+          icon="delete"
           title="Delete"
           (onClick)="handleDeletePortfolio(portfolio)"
         ></df-button>
@@ -24,6 +24,9 @@
       <p>Title: {{ portfolio.title }}</p>
       <p>Metadata: {{ portfolio.metadata }}</p>
     </div>
+
+    <df-expander-panel title="Agencies" [expanded]="true" [expandable]="false">
+    </df-expander-panel>
 
     <div class="programsadmin-layout__row">
       <df-data-table
