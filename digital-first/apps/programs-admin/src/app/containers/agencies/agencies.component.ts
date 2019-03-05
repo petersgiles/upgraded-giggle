@@ -29,7 +29,9 @@ export class AgenciesComponent implements OnDestroy {
   searchText = ''
 
   add() {
-    return this.router.navigate(['agencies', 'add'])
+    return this.router.navigate(['agencies', 'add'], {
+      skipLocationChange: true
+    })
   }
 
   doSearch() {
