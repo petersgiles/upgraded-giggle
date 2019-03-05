@@ -174,6 +174,12 @@ export interface CreateUserInputGraph {
   agencyId: Guid
 }
 
+export interface DeleteAccessControlInputGraph {
+  accessControlListId: Guid
+
+  accessControlGroupId: Guid
+}
+
 export interface DeleteAccessControlGroupInputGraph {
   id: Guid
 }
@@ -220,12 +226,6 @@ export interface DeleteProgramInputGraph {
   id: Guid
 }
 
-export interface DeleteProgramAccessControlInputGraph {
-  accessControlListId: Guid
-
-  accessControlGroupId: Guid
-}
-
 export interface DeleteProjectInputGraph {
   id: Guid
 }
@@ -234,34 +234,26 @@ export interface DeleteReportInputGraph {
   id: Guid
 }
 
-export interface DeleteReportAccessControlInputGraph {
-  reportId: Guid
-
-  accessControlGroupId: Guid
-}
-
 export interface DeleteStatisticInputGraph {
   id: Guid
-}
-
-export interface DeleteStatisticAccessControlInputGraph {
-  statisticId: Guid
-
-  accessControlGroupId: Guid
 }
 
 export interface DeleteStatisticReportInputGraph {
   id: Guid
 }
 
-export interface DeleteStatisticReportAccessControlInputGraph {
-  statisticReportId: Guid
-
-  accessControlGroupId: Guid
-}
-
 export interface DeleteUserInputGraph {
   id: Guid
+}
+
+export interface UpdateAccessControlInputGraph {
+  accessControlListId: Guid
+
+  accessControlGroupId: Guid
+
+  rowVersion: string
+
+  accessRights?: Maybe<AccessRights>
 }
 
 export interface UpdateAccessControlGroupInputGraph {
@@ -368,16 +360,6 @@ export interface UpdateProgramInputGraph {
   rowVersion: string
 }
 
-export interface UpdateProgramAccessControlInputGraph {
-  programId: Guid
-
-  accessControlGroupId: Guid
-
-  rowVersion: string
-
-  accessRights?: Maybe<AccessRights>
-}
-
 export interface UpdateProjectInputGraph {
   externalId?: Maybe<string>
 
@@ -410,16 +392,6 @@ export interface UpdateReportInputGraph {
   rowVersion: string
 }
 
-export interface UpdateReportAccessControlInputGraph {
-  reportId: Guid
-
-  accessControlGroupId: Guid
-
-  accessRights?: Maybe<AccessRights>
-
-  rowVersion: string
-}
-
 export interface UpdateStatisticInputGraph {
   id: Guid
 
@@ -432,16 +404,6 @@ export interface UpdateStatisticInputGraph {
   rowVersion: string
 }
 
-export interface UpdateStatisticAccessControlInputGraph {
-  statisticId: Guid
-
-  accessControlGroupId: Guid
-
-  rowVersion: string
-
-  accessRights?: Maybe<AccessRights>
-}
-
 export interface UpdateStatisticReportInputGraph {
   id: Guid
 
@@ -450,16 +412,6 @@ export interface UpdateStatisticReportInputGraph {
   notes?: Maybe<string>
 
   statisticId: Guid
-
-  rowVersion: string
-}
-
-export interface UpdateStatisticReportAccessControlInputGraph {
-  statisticReportId: Guid
-
-  accessControlGroupId: Guid
-
-  accessRights?: Maybe<AccessRights>
 
   rowVersion: string
 }
@@ -1011,15 +963,37 @@ export namespace AllGroupsSearch {
   }
 }
 
-export namespace DeleteReportAccessControl {
+export namespace DeleteAccessControl {
   export type Variables = {
-    data?: Maybe<DeleteReportAccessControlInputGraph>
+    data?: Maybe<DeleteAccessControlInputGraph>
   }
 
   export type Mutation = {
     __typename?: 'Mutation'
 
-    deleteReportAccessControl: Maybe<boolean>
+    deleteAccessControl: Maybe<boolean>
+  }
+}
+
+export namespace UpdateAccessControl {
+  export type Variables = {
+    data?: Maybe<UpdateAccessControlInputGraph>
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    updateAccessControl: Maybe<UpdateAccessControl>
+  }
+
+  export type UpdateAccessControl = {
+    __typename?: 'AccessControlEntryGraph'
+
+    id: string
+
+    rights: string
+
+    rowVersion: string
   }
 }
 
@@ -1035,28 +1009,6 @@ export namespace CreateReportAccessControl {
   }
 
   export type CreateReportAccessControl = {
-    __typename?: 'AccessControlEntryGraph'
-
-    id: string
-
-    rights: string
-
-    rowVersion: string
-  }
-}
-
-export namespace UpdateReportAccessControl {
-  export type Variables = {
-    data?: Maybe<UpdateReportAccessControlInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    updateReportAccessControl: Maybe<UpdateReportAccessControl>
-  }
-
-  export type UpdateReportAccessControl = {
     __typename?: 'AccessControlEntryGraph'
 
     id: string
@@ -1259,28 +1211,6 @@ export namespace DeleteReport {
   }
 }
 
-export namespace UpdateProgramAccessControl {
-  export type Variables = {
-    data?: Maybe<UpdateProgramAccessControlInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    updateProgramAccessControl: Maybe<UpdateProgramAccessControl>
-  }
-
-  export type UpdateProgramAccessControl = {
-    __typename?: 'AccessControlEntryGraph'
-
-    rights: string
-
-    id: string
-
-    rowVersion: string
-  }
-}
-
 export namespace CreateProgramAccessControl {
   export type Variables = {
     data?: Maybe<CreateProgramAccessControlInputGraph>
@@ -1300,18 +1230,6 @@ export namespace CreateProgramAccessControl {
     rights: string
 
     rowVersion: string
-  }
-}
-
-export namespace DeleteProgramAccessControl {
-  export type Variables = {
-    data?: Maybe<DeleteProgramAccessControlInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    deleteProgramAccessControl: Maybe<boolean>
   }
 }
 
@@ -1801,42 +1719,6 @@ export namespace CreateStatisticReportAccessControl {
   }
 }
 
-export namespace UpdateStatisticReportAccessControl {
-  export type Variables = {
-    data?: Maybe<UpdateStatisticReportAccessControlInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    updateStatisticReportAccessControl: Maybe<
-      UpdateStatisticReportAccessControl
-    >
-  }
-
-  export type UpdateStatisticReportAccessControl = {
-    __typename?: 'AccessControlEntryGraph'
-
-    id: string
-
-    rights: string
-
-    rowVersion: string
-  }
-}
-
-export namespace DeleteStatisticReportAccessControl {
-  export type Variables = {
-    data?: Maybe<DeleteStatisticReportAccessControlInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    deleteStatisticReportAccessControl: Maybe<boolean>
-  }
-}
-
 export namespace StatisticReport {
   export type Variables = {
     reportId: string
@@ -2063,40 +1945,6 @@ export namespace CreateStatisticAccessControl {
   }
 
   export type CreateStatisticAccessControl = {
-    __typename?: 'AccessControlEntryGraph'
-
-    id: string
-
-    rights: string
-
-    rowVersion: string
-  }
-}
-
-export namespace DeleteStatisticAccessControl {
-  export type Variables = {
-    data?: Maybe<DeleteStatisticAccessControlInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    deleteStatisticAccessControl: Maybe<boolean>
-  }
-}
-
-export namespace UpdateStatisticAccessControl {
-  export type Variables = {
-    data?: Maybe<UpdateStatisticAccessControlInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    updateStatisticAccessControl: Maybe<UpdateStatisticAccessControl>
-  }
-
-  export type UpdateStatisticAccessControl = {
     __typename?: 'AccessControlEntryGraph'
 
     id: string
@@ -2962,15 +2810,30 @@ export class AllGroupsSearchGQL extends Apollo.Query<
 @Injectable({
   providedIn: 'root'
 })
-export class DeleteReportAccessControlGQL extends Apollo.Mutation<
-  DeleteReportAccessControl.Mutation,
-  DeleteReportAccessControl.Variables
+export class DeleteAccessControlGQL extends Apollo.Mutation<
+  DeleteAccessControl.Mutation,
+  DeleteAccessControl.Variables
 > {
   document: any = gql`
-    mutation deleteReportAccessControl(
-      $data: DeleteReportAccessControlInputGraph
-    ) {
-      deleteReportAccessControl(input: $data)
+    mutation deleteAccessControl($data: DeleteAccessControlInputGraph) {
+      deleteAccessControl(input: $data)
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdateAccessControlGQL extends Apollo.Mutation<
+  UpdateAccessControl.Mutation,
+  UpdateAccessControl.Variables
+> {
+  document: any = gql`
+    mutation updateAccessControl($data: UpdateAccessControlInputGraph) {
+      updateAccessControl(input: $data) {
+        id
+        rights
+        rowVersion
+      }
     }
   `
 }
@@ -2986,25 +2849,6 @@ export class CreateReportAccessControlGQL extends Apollo.Mutation<
       $data: CreateReportAccessControlInputGraph
     ) {
       createReportAccessControl(input: $data) {
-        id
-        rights
-        rowVersion
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class UpdateReportAccessControlGQL extends Apollo.Mutation<
-  UpdateReportAccessControl.Mutation,
-  UpdateReportAccessControl.Variables
-> {
-  document: any = gql`
-    mutation updateReportAccessControl(
-      $data: UpdateReportAccessControlInputGraph
-    ) {
-      updateReportAccessControl(input: $data) {
         id
         rights
         rowVersion
@@ -3147,25 +2991,6 @@ export class DeleteReportGQL extends Apollo.Mutation<
 @Injectable({
   providedIn: 'root'
 })
-export class UpdateProgramAccessControlGQL extends Apollo.Mutation<
-  UpdateProgramAccessControl.Mutation,
-  UpdateProgramAccessControl.Variables
-> {
-  document: any = gql`
-    mutation updateProgramAccessControl(
-      $data: UpdateProgramAccessControlInputGraph
-    ) {
-      updateProgramAccessControl(input: $data) {
-        rights
-        id
-        rowVersion
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
 export class CreateProgramAccessControlGQL extends Apollo.Mutation<
   CreateProgramAccessControl.Mutation,
   CreateProgramAccessControl.Variables
@@ -3179,21 +3004,6 @@ export class CreateProgramAccessControlGQL extends Apollo.Mutation<
         rights
         rowVersion
       }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class DeleteProgramAccessControlGQL extends Apollo.Mutation<
-  DeleteProgramAccessControl.Mutation,
-  DeleteProgramAccessControl.Variables
-> {
-  document: any = gql`
-    mutation deleteProgramAccessControl(
-      $data: DeleteProgramAccessControlInputGraph
-    ) {
-      deleteProgramAccessControl(input: $data)
     }
   `
 }
@@ -3526,40 +3336,6 @@ export class CreateStatisticReportAccessControlGQL extends Apollo.Mutation<
 @Injectable({
   providedIn: 'root'
 })
-export class UpdateStatisticReportAccessControlGQL extends Apollo.Mutation<
-  UpdateStatisticReportAccessControl.Mutation,
-  UpdateStatisticReportAccessControl.Variables
-> {
-  document: any = gql`
-    mutation updateStatisticReportAccessControl(
-      $data: UpdateStatisticReportAccessControlInputGraph
-    ) {
-      updateStatisticReportAccessControl(input: $data) {
-        id
-        rights
-        rowVersion
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class DeleteStatisticReportAccessControlGQL extends Apollo.Mutation<
-  DeleteStatisticReportAccessControl.Mutation,
-  DeleteStatisticReportAccessControl.Variables
-> {
-  document: any = gql`
-    mutation deleteStatisticReportAccessControl(
-      $data: DeleteStatisticReportAccessControlInputGraph
-    ) {
-      deleteStatisticReportAccessControl(input: $data)
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
 export class StatisticReportGQL extends Apollo.Query<
   StatisticReport.Query,
   StatisticReport.Variables
@@ -3721,40 +3497,6 @@ export class CreateStatisticAccessControlGQL extends Apollo.Mutation<
       $data: CreateStatisticAccessControlInputGraph
     ) {
       createStatisticAccessControl(input: $data) {
-        id
-        rights
-        rowVersion
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class DeleteStatisticAccessControlGQL extends Apollo.Mutation<
-  DeleteStatisticAccessControl.Mutation,
-  DeleteStatisticAccessControl.Variables
-> {
-  document: any = gql`
-    mutation deleteStatisticAccessControl(
-      $data: DeleteStatisticAccessControlInputGraph
-    ) {
-      deleteStatisticAccessControl(input: $data)
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class UpdateStatisticAccessControlGQL extends Apollo.Mutation<
-  UpdateStatisticAccessControl.Mutation,
-  UpdateStatisticAccessControl.Variables
-> {
-  document: any = gql`
-    mutation updateStatisticAccessControl(
-      $data: UpdateStatisticAccessControlInputGraph
-    ) {
-      updateStatisticAccessControl(input: $data) {
         id
         rights
         rowVersion

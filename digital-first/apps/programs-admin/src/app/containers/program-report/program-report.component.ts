@@ -2,17 +2,16 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { first, map } from 'rxjs/operators'
 import { Subscription } from 'rxjs'
-import { DataTableConfig } from '@digital-first/df-datatable'
 import { DialogAssignGroupPermissionComponent } from '../../dialogs/dialog-assign-group-permission.component'
 import { MdcDialog } from '@angular-mdc/web'
 import {
   AccessRights,
   AllGroupsGQL,
   CreateReportAccessControlGQL,
-  DeleteReportAccessControlGQL,
+  DeleteAccessControlGQL,
   Report,
   ReportGQL,
-  UpdateReportAccessControlGQL
+  UpdateAccessControlGQL
 } from '../../generated/graphql'
 import {
   PermissionChangedEvent,
@@ -26,7 +25,6 @@ import {
 })
 export class ProgramReportComponent implements OnInit, OnDestroy {
   report: Report.Reports
-
   reportId: string
   reportSubscription$: Subscription
   permissionRows: PermissionRow[]
@@ -38,8 +36,8 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private allGroupsGql: AllGroupsGQL,
     private createReportAccessControlGql: CreateReportAccessControlGQL,
-    private deleteReportAccessControlGql: DeleteReportAccessControlGQL,
-    private updateReportAccessControlGql: UpdateReportAccessControlGQL,
+    private deleteAccessControlGql: DeleteAccessControlGQL,
+    private updateAccessControlGql: UpdateAccessControlGQL,
     private router: Router,
     public dialog: MdcDialog
   ) {}
@@ -139,12 +137,12 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
   handleGroupPermissionChangeClicked(
     permissionChanged: PermissionChangedEvent
   ) {
-    this.updateReportAccessControlGql
+    this.updateAccessControlGql
       .mutate(
         {
           data: {
             accessControlGroupId: permissionChanged.row.id,
-            reportId: this.reportId,
+            accessControlListId: permissionChanged.row.acl,
             accessRights: permissionChanged.event.value.toUpperCase(),
             rowVersion: permissionChanged.row.rowVersion
           }
@@ -156,12 +154,12 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
   }
 
   handleGroupPermissionDeleteClicked($event) {
-    this.deleteReportAccessControlGql
+    this.deleteAccessControlGql
       .mutate(
         {
           data: {
             accessControlGroupId: $event.id,
-            reportId: this.reportId
+            accessControlListId: $event.acl
           }
         },
         {
@@ -183,52 +181,5 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
     return this.router.navigate(['../edit', report.id], {
       relativeTo: this.route
     })
-  }
-
-  private createProgramPermissionGroupTableData(
-    report: Report.Reports
-  ): DataTableConfig {
-    const groups = {}
-    report.accessControlList.forEach(acl => {
-      acl.accessControlEntries.forEach(ace => {
-        groups[ace.accessControlGroup.title] = {
-          id: ace.accessControlGroup.id,
-          acl: acl.id,
-          title: ace.accessControlGroup.title,
-          rights: ace.rights,
-          rowVersion: ace.rowVersion
-        }
-      })
-    })
-    const rows = (Object.keys(groups) || []).map(g => {
-      const group = groups[g]
-      return {
-        id: group.id,
-        data: group,
-        cells: [
-          {
-            value: `${group.title}`,
-            id: 'GROUPCELL'
-          },
-          {
-            value: group.rights.toUpperCase(),
-            type: 'radio',
-            id: 'PERMISSIONCELL',
-            data: [
-              { value: AccessRights.Read, caption: 'Read' },
-              { value: AccessRights.Write, caption: 'Read/Write' }
-            ]
-          }
-        ]
-      }
-    })
-
-    return {
-      title: 'permissions',
-      headings: [{ caption: 'Name' }, { caption: 'Permission' }],
-      rows: rows,
-      noDataMessage:
-        'This report inherits its permissions from the program. Adding groups here will break inheritance.'
-    }
   }
 }

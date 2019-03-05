@@ -8,13 +8,13 @@ import {
   AccessRights,
   AllGroupsGQL,
   CreateStatisticAccessControlGQL,
-  DeleteStatisticAccessControlGQL,
+  DeleteAccessControlGQL,
   DeleteStatisticGQL,
   DeleteStatisticReportGQL,
   Maybe,
   Statistic,
   StatisticGQL,
-  UpdateStatisticAccessControlGQL
+  UpdateAccessControlGQL
 } from '../../generated/graphql'
 import {
   PermissionChangedEvent,
@@ -34,7 +34,7 @@ export class StatisticComponent implements OnInit {
   statistic: Statistic.Statistic
 
   noDataMessage =
-    'This report inherits permissions from the statistic. Adding groups here will break inheritance.'
+    'Any authenticated user can view this statistic and subsequent statistic reports unless they have their own permission specified'
   permissionRows: PermissionRow[]
 
   constructor(
@@ -43,8 +43,8 @@ export class StatisticComponent implements OnInit {
     private deleteStatisticGql: DeleteStatisticGQL,
     private deleteStatisticReportGql: DeleteStatisticReportGQL,
     private createStatisticAccessControlGql: CreateStatisticAccessControlGQL,
-    private updateStatisticAccessControlGql: UpdateStatisticAccessControlGQL,
-    private deleteStatisticAccessControlGql: DeleteStatisticAccessControlGQL,
+    private updateAccessControlGql: UpdateAccessControlGQL,
+    private deleteAccessControlGql: DeleteAccessControlGQL,
     private allGroupsGql: AllGroupsGQL,
     private router: Router,
     public dialog: MdcDialog
@@ -78,7 +78,9 @@ export class StatisticComponent implements OnInit {
   }
 
   handleEditStatistic(statistic: Statistic.Statistic) {
-    return this.router.navigate(['statistics/edit', statistic.id])
+    return this.router.navigate(['statistics/edit', statistic.id], {
+      skipLocationChange: true
+    })
   }
 
   handleDeleteStatistic(statistic: Statistic.Statistic) {
@@ -168,12 +170,12 @@ export class StatisticComponent implements OnInit {
   handleGroupPermissionChangeClicked(
     permissionChanged: PermissionChangedEvent
   ) {
-    this.updateStatisticAccessControlGql
+    this.updateAccessControlGql
       .mutate(
         {
           data: {
             accessControlGroupId: permissionChanged.row.id,
-            statisticId: this.statisticId,
+            accessControlListId: permissionChanged.row.acl,
             accessRights: permissionChanged.event.value.toUpperCase(),
             rowVersion: permissionChanged.row.rowVersion
           }
@@ -185,12 +187,12 @@ export class StatisticComponent implements OnInit {
   }
 
   handleGroupPermissionDeleteClicked($event) {
-    this.deleteStatisticAccessControlGql
+    this.deleteAccessControlGql
       .mutate(
         {
           data: {
             accessControlGroupId: $event.id,
-            statisticId: this.statisticId
+            accessControlListId: $event.acl
           }
         },
         {
