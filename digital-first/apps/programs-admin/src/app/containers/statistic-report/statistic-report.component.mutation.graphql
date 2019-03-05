@@ -7,13 +7,3 @@ mutation createStatisticReportAccessControl(
     rowVersion
   }
 }
-
-mutation updateStatisticReportAccessControl(
-  $data: UpdateStatisticReportAccessControlInputGraph
-) {
-  updateStatisticReportAccessControl(input: $data) {
-    id
-    rights
-    rowVersion
-  }
-}

@@ -56,6 +56,7 @@ export class SharepointDataService implements AppDataService {
       CommitmentType: commitment.commitmentType,
       Contacts: commitment.contacts,
       Cost: commitment.cost,
+      CostingRequired: commitment.costingRequired,
       Date: commitment.date,
       Description: commitment.description,
       Location: commitment.location,

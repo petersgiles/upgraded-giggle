@@ -15,13 +15,3 @@ mutation createStatisticAccessControl(
     rowVersion
   }
 }
-
-mutation updateStatisticAccessControl(
-  $data: UpdateStatisticAccessControlInputGraph
-) {
-  updateStatisticAccessControl(input: $data) {
-    id
-    rights
-    rowVersion
-  }
-}
