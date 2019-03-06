@@ -9,46 +9,36 @@ export class DeckItem {
 
 	knex = (context: any) => context.connectors[this.connectorKeys.db].connection
 
-	getById(id: any, context: any): any {
-		let result
-		this.knex(context)
+	async getById(id: any, context: any): Promise<any> {
+		let result = await this.knex(context)
 			.select()
 			.from(DB_TABLE_DECKITEM)
-			.where('id', id)
-			.then((rows: any) => (result = rows))
-		console.log(result)
+      .where('id', id)
+
+		return result && result[0]
+	}
+
+	async getByParent(parent: any, context: any): Promise<any[]> {
+		let result = await this.knex(context)
+			.select()
+			.from(DB_TABLE_DECKITEM)
+      .where('parent', parent)
+      
+    console.log('getByParent', result)
 		return result
 	}
 
-	getByParent(id: any, context: any): any[] {
-		let result
-		this.knex(context)
-			.select()
-			.from(DB_TABLE_DECKITEM)
-			.where('parent', id)
-			.then((rows: any) => (result = rows))
-		console.log(result)
-		return result
-	}
-
-	upsert(item: any, context: any): void {
-    let result
-		if (item.id) {
-			this.knex(context)(DB_TABLE_DECKITEM)
-				.where({ id: item.id })
-        .update({ ...item })
-        .then((rows: any) => (result = rows))
+	async upsert(payload: any, context: any): Promise<void> {
+		if (payload.item.id) {
+			return this.knex(context)(DB_TABLE_DECKITEM)
+				.where({ id: payload.item.id })
+				.update({ ...payload.item })
 		} else {
-      this.knex(context)(DB_TABLE_DECKITEM)
-        .insert({ ...item })
-        .then((rows: any) => (result = rows))
-    }
-    
-		console.log(result)
-		return result
+			return this.knex(context)(DB_TABLE_DECKITEM).insert({ ...payload.item })
+		}
 	}
 
-	delete(item: any, context: any): void {
+	async delete(item: any, context: any): Promise<void> {
 		this.knex(context)(DB_TABLE_DECKITEM)
 			.where({ id: item.id })
 			.del()

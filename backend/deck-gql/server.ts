@@ -13,7 +13,7 @@ import * as knex from 'knex'
 
 import { logger } from '../shared/logger'
 import { importSchema } from 'graphql-import'
-import { DeckItem, createDeckItemTable } from './resolvers';
+import { DeckItem, createDeckItemTable } from './resolvers'
 import { HomeController } from './controllers'
 import { allowCrossDomain } from '../shared/cors'
 
@@ -30,7 +30,7 @@ createDeckItemTable(sqlDB)
 class SqlConnector {
 	connection: any
 	constructor(connection: knex) {
-    this.connection = connection
+		this.connection = connection
 	}
 	closeConnection() {
 		this.connection.close()
@@ -56,30 +56,45 @@ app.use('/home', HomeController)
 // });
 
 export const resolvers = {
-  Query: {
-    deckItem: (obj: any, args: any, context: any, info: any) => {
-      return context.models.DeckItem.getById(args.id, context);
-    },
-    deckItems: (obj: any, args: any, context: any, info: any) => {
-      return context.models.DeckItem.getByParent(args.id, context);
-    },
-  },
-  Mutation: {
-    upsertDeckItem: (obj: any, args: any, context: any, info: any) => {
-      console.log(obj, args)
-      return context.models.DeckItem.upsert(args, context);
-    },
-    deleteDeckItem: (obj: any, args: any, context: any, info: any) => {
-      return context.models.DeckItem.delete(args.id, context);
-    }
-  }
+	Query: {
+		deckItem: async (obj: any, args: any, context: any, info: any) => {
+			let result = await context.models.DeckItem.getById(args.id, context)
+			console.log('deckItem', result)
+			return result
+		},
+		deckItems: async (obj: any, args: any, context: any, info: any) => {
+      let result = await context.models.DeckItem.getByParent(args.parent, context)
+			console.log('deckItems', result)
+			return result
+		},
+	},
+	Mutation: {
+		upsertDeckItem: async (obj: any, args: any, context: any, info: any) => {
+			context.models.DeckItem.upsert(args, context).then((res: any) => {
+				let result: any = {
+					success: true,
+					error: null,
+				}
 
+				return result
+			})
+		},
+		deleteDeckItem: async (obj: any, args: any, context: any, info: any) => {
+			context.models.DeckItem.delete(args.id, context).then((res: any) => {
+				let result: any = {
+					success: true,
+					error: null,
+				}
+
+				return result
+			})
+		},
+	},
 }
 
-
 const server = new ApolloServer({
-  typeDefs,
-  resolvers: resolvers,
+	typeDefs,
+	resolvers: resolvers,
 	context: {
 		connectors: {
 			sql: new SqlConnector(sqlDB),

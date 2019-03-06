@@ -9,6 +9,13 @@ type DeckItem {
 	title: String
 }
 
+input DeckItemInput {
+	id: ID
+	parent: ID
+	title: String
+}
+
+
 # The "Query" type is the root of all GraphQL queries.
 type Query {
 	deckItem(id: ID!): DeckItem,
@@ -17,6 +24,6 @@ type Query {
 
 # The mutation root type, used to define all mutations.
 type Mutation {
-	upsertDeckItem(id: ID!, parent: ID, title: String): Response
+	upsertDeckItem(item: DeckItemInput!): Response
 	deleteDeckItem(id: ID!): Response
  }
