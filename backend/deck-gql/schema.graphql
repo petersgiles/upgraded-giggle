@@ -1,0 +1,22 @@
+type Response {
+  success: Boolean
+  error: String
+}
+
+type DeckItem {
+	id: ID
+	parent: ID
+	title: String
+}
+
+# The "Query" type is the root of all GraphQL queries.
+type Query {
+	deckItem(id: ID!): DeckItem,
+	deckItems(parent: ID): [DeckItem]
+}
+
+# The mutation root type, used to define all mutations.
+type Mutation {
+	upsertDeckItem(id: ID!, parent: ID, title: String): Response
+	deleteDeckItem(id: ID!): Response
+ }
