@@ -16,7 +16,7 @@ const uri = environment.datasource.dataServiceUrl
   exports: [HttpClientModule, ApolloModule, HttpLinkModule]
 })
 
-// TODO:  remove error link and rewrite error handler to format network error rather than HttpErrorResponse
+
 export class GraphQLModule {
   private DEFAULT_DEBOUNCE_TIMEOUT: 400 // NB.  default debounce doesn't seem to be observed. need to set explicitly in request
   constructor(apollo: Apollo, private httpClient: HttpClient) {
