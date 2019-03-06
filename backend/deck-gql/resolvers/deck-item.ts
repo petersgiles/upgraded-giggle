@@ -30,16 +30,16 @@ export class DeckItem {
 
 	async upsert(payload: any, context: any): Promise<void> {
 		if (payload.item.id) {
-			return this.knex(context)(DB_TABLE_DECKITEM)
+			return await this.knex(context)(DB_TABLE_DECKITEM)
 				.where({ id: payload.item.id })
 				.update({ ...payload.item })
 		} else {
-			return this.knex(context)(DB_TABLE_DECKITEM).insert({ ...payload.item })
+			return await this.knex(context)(DB_TABLE_DECKITEM).insert({ ...payload.item })
 		}
 	}
 
 	async delete(item: any, context: any): Promise<void> {
-		this.knex(context)(DB_TABLE_DECKITEM)
+		return await this.knex(context)(DB_TABLE_DECKITEM)
 			.where({ id: item.id })
 			.del()
 	}

@@ -70,24 +70,28 @@ export const resolvers = {
 	},
 	Mutation: {
 		upsertDeckItem: async (obj: any, args: any, context: any, info: any) => {
-			context.models.DeckItem.upsert(args, context).then((res: any) => {
-				let result: any = {
-					success: true,
-					error: null,
-				}
+      let result = await context.models.DeckItem.upsert(args, context)
+        .then((res: any) => {
+          let result: any = {
+            success: true,
+            error: null,
+          }
 
-				return result
-			})
+			  	return result
+      })
+      
+      return result
 		},
 		deleteDeckItem: async (obj: any, args: any, context: any, info: any) => {
-			context.models.DeckItem.delete(args.id, context).then((res: any) => {
+      let result = await context.models.DeckItem.delete(args.id, context)
+      .then((res: any) => {
 				let result: any = {
 					success: true,
 					error: null,
 				}
-
 				return result
-			})
+      })
+      return result
 		},
 	},
 }
