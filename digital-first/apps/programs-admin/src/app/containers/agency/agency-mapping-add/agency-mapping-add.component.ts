@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { FormBuilder, Validators } from '@angular/forms'
+import { FormBuilder, FormControl, Validators } from '@angular/forms'
 import {
   AllGroupsGQL,
   CreateAgencyMappingGQL,
@@ -8,7 +8,9 @@ import {
 import { Router, ActivatedRoute } from '@angular/router'
 import { map } from 'rxjs/operators'
 import { Observable } from 'rxjs'
-import { formConstants } from '../../../form-constants'
+
+export const domainRegex =
+  '\\b((?=[a-z0-9-]{1,63}\\.)[a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z]{2,63}\\b'
 
 @Component({
   selector: 'digital-first-agency-mapping-add',
@@ -20,7 +22,14 @@ export class AgencyMappingAddComponent implements OnInit {
   agencyId: any
 
   addAgencyMappingForm = this.formBuilder.group({
-    emailDomain: [null, Validators.required],
+    emailDomain: [
+      null,
+      [
+        Validators.required,
+        Validators.pattern(domainRegex),
+        Validators.maxLength(255)
+      ]
+    ],
     groupId: [null, Validators.required]
   })
 
