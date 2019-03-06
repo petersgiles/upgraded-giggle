@@ -3,14 +3,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { Subscription } from 'rxjs'
 import {
   StatisticAndStatisticReports,
-  StatisticAndStatisticReportsGQL,
-  GetLatestVersionNotesGQL
+  StatisticAndStatisticReportsGQL
 } from '../../generated/graphql'
 import { PassthroughService } from '../../services/passthrough.service'
 import { UploadElectorateStatisticSpreadsheet } from '@dsuite/programs-manager-messages'
 import { MdcSnackbar } from '@angular-mdc/web'
 import { FormBuilder } from '@angular/forms'
 import { Validators } from '@angular/forms'
+import { constructDependencies } from '@angular/core/src/di/reflective_provider'
 
 @Component({
   selector: 'digital-first-statisticupload',
@@ -37,8 +37,7 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
     private allStatistics: StatisticAndStatisticReportsGQL,
     private passthrough: PassthroughService,
     private formBuilder: FormBuilder,
-    private snackbar: MdcSnackbar,
-    private getLatestVersionGQL: GetLatestVersionNotesGQL
+    private snackbar: MdcSnackbar
   ) {}
 
   get diagnostic() {
@@ -62,7 +61,7 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
 
   onReportSelectionChange(event: { index: any; value: any }) {
     if (event.index > 0) {
-      this.loadNotesFromLastReportVersion(event.value)
+      this.getReportVersionNotes(event.value)
     }
   }
 
@@ -75,25 +74,19 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
       })
   }
 
-  loadNotesFromLastReportVersion(statisticReportId: string) {
-    const latestVersionPerStatisticSubscription$ = this.getLatestVersionGQL
-      .watch(
-        { statisticReportId: statisticReportId },
-        { fetchPolicy: 'network-only' }
-      )
-      .valueChanges.pipe(map(result => result.data.latestVersion))
-      .subscribe(latestReportVersion => {
-        if (latestReportVersion) {
-          this.statisticForm.patchValue({
-            notes: latestReportVersion.notes
-          })
-        }
-      })
+  getReportVersionNotes(statisticReportId: string) {
+    let statisticReport: any
+    this.statistics.filter(stats =>
+      stats.statisticReports
+        .filter(statisticReports => statisticReports.id === statisticReportId)
+        .map(statReport => (statisticReport = statReport))
+    )
 
-    this.latestVersionSubscription$ = [
-      ...this.latestVersionSubscription$,
-      latestVersionPerStatisticSubscription$
-    ]
+    if (statisticReport.latestVersion) {
+      this.statisticForm.patchValue({
+        notes: statisticReport.latestVersion.notes
+      })
+    }
   }
 
   fileChange(event) {
@@ -138,11 +131,5 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.statisticsSubscription$.unsubscribe()
-
-    for (const subscription of this.latestVersionSubscription$) {
-      if (subscription && subscription.unsubscribe) {
-        subscription.unsubscribe()
-      }
-    }
   }
 }

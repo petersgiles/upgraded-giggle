@@ -1,13 +1,10 @@
-query statisticReportVersion ($reportId: String!) {
-  statisticReport(id:$reportId)
+query statisticReportVersionEdit ($id: String!) {
+  statisticReportVersion(id:$id)
   {
-    version: latestVersion {
       id
       dataDate
       notes
       rowVersion
-    }
-
   }
 }
 

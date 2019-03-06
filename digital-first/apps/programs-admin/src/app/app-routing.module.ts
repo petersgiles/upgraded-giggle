@@ -30,8 +30,8 @@ import { StatisticComponent } from './containers/statistic/statistic.component'
 import { StatisticAddComponent } from './containers/statistic/statistic-add/statistic-add.component'
 import { StatisticEditComponent } from './containers/statistic/statistic-edit/statistic-edit.component'
 import { StatisticReportComponent } from './containers/statistic-report/statistic-report.component'
-import { StatisticReportAddComponent } from './containers/statistic-reports/statistic-report-add/statistic-report-add.component'
-import { StatisticReportEditComponent } from './containers/statistic-reports/statistic-report-edit/statistic-report-edit.component'
+import { StatisticReportAddComponent } from './containers/statistic-report/statistic-report-add/statistic-report-add.component'
+import { StatisticReportEditComponent } from './containers/statistic-report/statistic-report-edit/statistic-report-edit.component'
 import { ReportEditComponent } from './containers/program-reports/report-edit/report-edit.component'
 import { AgenciesComponent } from './containers/agencies/agencies.component'
 import {
@@ -335,7 +335,7 @@ export const routes: Routes = [
       },
       {
         path:
-          'edit-statistic-report-version/:reportVersionId/:reportId/:statisticId',
+          'edit-statistic-report-version/:statisticId/:reportId/:reportVersionId',
         component: EditStatisticReportVersionComponent,
         canActivate: [AuthGuard],
         data: {
@@ -343,7 +343,7 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'statistics/:id/reports/:id',
+        path: 'statistics/:statisticId/reports/:id',
         component: StatisticReportComponent,
         canActivate: [AuthGuard],
         data: {

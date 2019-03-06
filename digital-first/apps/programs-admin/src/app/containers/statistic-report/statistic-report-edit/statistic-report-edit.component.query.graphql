@@ -1,0 +1,11 @@
+query statisticReportEdit ($reportId: String!) {
+  statisticReport(id:$reportId)
+  {
+    id
+    name
+    notes
+    rowVersion
+    statisticId
+   
+    } 
+}

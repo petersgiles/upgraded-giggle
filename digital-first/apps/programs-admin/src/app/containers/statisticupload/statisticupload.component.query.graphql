@@ -5,17 +5,12 @@ query statisticAndStatisticReports{
     statisticReports{
       id
       name       
+      latestVersion
+      {
+          id
+          notes   
+      }
     }
   }
 }
-
-query getLatestVersionNotes($statisticReportId: String!)
-{
-  latestVersion(statisticReportId: $statisticReportId)
-  {
-    id
-    notes
-  }
-}
-
 

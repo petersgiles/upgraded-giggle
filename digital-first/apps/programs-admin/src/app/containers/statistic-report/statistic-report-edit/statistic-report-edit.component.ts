@@ -3,8 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { FormBuilder, Validators } from '@angular/forms'
 import { map } from 'rxjs/operators'
 import {
-  StatisticReport,
-  StatisticReportGQL,
+  StatisticReportEdit,
+  StatisticReportEditGQL,
   UpdateStatisticReportGQL
 } from '../../../generated/graphql'
 import { Subscription } from 'rxjs'
@@ -24,7 +24,7 @@ export class StatisticReportEditComponent implements OnInit, OnDestroy {
     notes: ['']
   })
 
-  report: StatisticReport.StatisticReports
+  report: StatisticReportEdit.StatisticReport
   reportSubscription$: Subscription
   private statisticReportId: string
 
@@ -32,7 +32,7 @@ export class StatisticReportEditComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private statisticReportGql: StatisticReportGQL,
+    private statisticReportGql: StatisticReportEditGQL,
     private updateStatisticReportGQL: UpdateStatisticReportGQL
   ) {}
 
@@ -44,7 +44,7 @@ export class StatisticReportEditComponent implements OnInit, OnDestroy {
         { reportId: this.statisticReportId },
         { fetchPolicy: 'network-only' }
       )
-      .valueChanges.pipe(map(value => value.data.statisticReports[0]))
+      .valueChanges.pipe(map(value => value.data.statisticReport))
       .subscribe(report => {
         this.report = report
         this.editStatisticReportForm.patchValue({
