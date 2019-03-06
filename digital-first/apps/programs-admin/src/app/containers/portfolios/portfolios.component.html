@@ -1,0 +1,29 @@
+<div class="page_title">
+  <div class="reader-card-article__title page_title_text" mdcHeadline5>
+    Portfolios
+  </div>
+</div>
+<div class="form-content">
+  <fieldset>
+    <div class="form-layout__row">
+      <mdc-text-field
+        [outlined]="true"
+        [(ngModel)]="searchText"
+        (ngModelChange)="doSearch()"
+        placeholder="search portfolios..."
+        autocomplete="off"
+        type="text"
+      >
+        <mdc-icon mdcTextFieldIcon leading>search</mdc-icon>
+      </mdc-text-field>
+    </div>
+  </fieldset>
+  <mdc-list>
+    <mdc-list-item *ngFor="let portfolio of portfolios">
+      <mdc-list-item-text>
+        <a [routerLink]="[portfolio.id]">{{ portfolio.title }}</a>
+      </mdc-list-item-text>
+    </mdc-list-item>
+  </mdc-list>
+</div>
+<button (click)="add()" icon="add" mdc-fab position="bottomRight"></button>

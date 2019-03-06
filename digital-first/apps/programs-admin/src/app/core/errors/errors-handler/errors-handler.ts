@@ -4,19 +4,27 @@ import { Router } from '@angular/router'
 import { environment } from '../../../../environments/environment'
 import { catchError } from 'rxjs/operators'
 import { of } from 'rxjs'
+import { SeqService } from '../../../services/seq.service'
 
 function logSuppressedError(reason) {
   // tslint:disable-next-line:no-console
   if (typeof console !== 'undefined' && console.warn) {
     // tslint:disable-next-line:no-console
-    console.warn('Suppressed error when logging to Seq: ' + reason)
+    console.warn(
+      'Suppressed error that occurred when trying to log error to server: ',
+      reason
+    )
   }
   return of(true)
 }
 
 @Injectable()
 export class ErrorsHandler implements ErrorHandler {
-  constructor(private httpClient: HttpClient, private injector: Injector) {}
+  constructor(
+    private httpClient: HttpClient,
+    private injector: Injector,
+    private seqService: SeqService
+  ) {}
 
   formatErrorMessage(errorToFormat: HttpErrorResponse): string {
     if (errorToFormat.status && errorToFormat.status === 403) {
@@ -39,7 +47,10 @@ export class ErrorsHandler implements ErrorHandler {
     const router = this.injector.get(Router)
     const ngZone = this.injector.get(NgZone)
 
-    this.sendToSeq(error)
+    this.seqService
+      .logToSeq(error)
+      .pipe(catchError(logSuppressedError))
+      .subscribe()
 
     if (environment.redirectErrors) {
       if (error instanceof HttpErrorResponse) {
@@ -66,49 +77,5 @@ export class ErrorsHandler implements ErrorHandler {
     // Log the error
     // tslint:disable-next-line:no-console
     console.error(error)
-  }
-
-  // TODO:  refactor this out to a service
-  private sendToSeq(error: Error | HttpErrorResponse) {
-    const event = this.createEvent(error)
-
-    this.httpClient
-      .post(
-        `${environment.datasource.adminApiUrl}/events/raw`,
-        JSON.stringify({ Events: [event] })
-      )
-      .pipe(catchError(logSuppressedError))
-      .subscribe()
-  }
-
-  private createEvent(error: Error | HttpErrorResponse) {
-    const mappedEvent = {
-      Level: 'Error',
-      MessageTemplate: 'Programs admin client application error: {message}.',
-      Properties: {
-        clientVersion: `${environment.version} (#${environment.commitHash})`
-      },
-      Timestamp: new Date().toISOString(),
-      Exception: ''
-    }
-
-    if (error instanceof HttpErrorResponse) {
-      const props = {
-        ...mappedEvent.Properties,
-        message: this.formatErrorMessage(error)
-      }
-      mappedEvent.Properties = props
-    }
-
-    if (error instanceof Error && error.stack) {
-      mappedEvent.Exception = error.stack
-
-      const props = {
-        ...mappedEvent.Properties,
-        message: error.message
-      }
-      mappedEvent.Properties = props
-    }
-    return mappedEvent
   }
 }

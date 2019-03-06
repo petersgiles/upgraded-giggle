@@ -84,6 +84,10 @@ import { UserStatisticAccessComponent } from './containers/user/user-statistic-a
 import { UserStatisticReportAccessComponent } from './containers/user/user-statistic-report-access/user-statistic-report-access.component'
 import { NgxDatatableModule } from '@swimlane/ngx-datatable'
 import { EditStatisticReportVersionComponent } from './containers/statistic-report/edit-statistic-report-version/edit-statistic-report-version.component'
+import { PortfolioComponent } from './containers/portfolio/portfolio.component'
+import { PortfoliosComponent } from './containers/portfolios/portfolios.component'
+import { PortfolioAddComponent } from './containers/portfolio/portfolio-add/portfolio-add.component'
+import { PortfolioEditComponent } from './containers/portfolio/portfolio-edit/portfolio-edit.component'
 
 const COMPONENTS = [AppComponent, HomeComponent]
 
@@ -150,7 +154,11 @@ export function initApplication(): Function {
     UserReportAccessComponent,
     UserStatisticAccessComponent,
     UserStatisticReportAccessComponent,
-    EditStatisticReportVersionComponent
+    EditStatisticReportVersionComponent,
+    PortfolioComponent,
+    PortfoliosComponent,
+    PortfolioAddComponent,
+    PortfolioEditComponent
   ],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [

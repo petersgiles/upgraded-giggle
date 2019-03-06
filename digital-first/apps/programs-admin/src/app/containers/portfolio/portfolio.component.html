@@ -1,0 +1,47 @@
+<div *ngIf="portfolio; else loading" class="app-page">
+  <section>
+    <df-expander-panel
+      title="Portfolio - {{ portfolio.title }}"
+      [expanded]="true"
+      [expandable]="false"
+    >
+      <ng-container panel-buttons>
+        <df-button
+          icon="edit"
+          title="Edit"
+          (onClick)="handleEditPortfolio(portfolio)"
+        ></df-button>
+        <df-button
+          *ngIf="agencyLinkedToPortfolio.length == 0"
+          icon="delete"
+          title="Delete"
+          (onClick)="handleDeletePortfolio(portfolio)"
+        ></df-button>
+      </ng-container>
+    </df-expander-panel>
+
+    <div class="programsadmin-layout__row">
+      <p>Title: {{ portfolio.title }}</p>
+      <p>Metadata: {{ portfolio.metadata }}</p>
+    </div>
+
+    <df-expander-panel title="Agencies" [expanded]="true" [expandable]="false">
+    </df-expander-panel>
+
+    <div class="programsadmin-layout__row">
+      <df-data-table
+        [rows]="agencyLinkedToPortfolio"
+        [columns]="columns"
+        [count]="agencyLinkedToPortfolio.length"
+        [hasDelete]="false"
+        [limit]="defaultPageLength"
+        [messages]="emptyTableMessage"
+        (onSelect)="agencyDetail($event)"
+      >
+      </df-data-table>
+    </div>
+  </section>
+</div>
+<ng-template #loading>
+  Loading...
+</ng-template>

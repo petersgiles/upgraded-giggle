@@ -997,6 +997,130 @@ export namespace UpdateAccessControl {
   }
 }
 
+export namespace CreatePortfolio {
+  export type Variables = {
+    data: CreatePortfolioInputGraph
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    createPortfolio: Maybe<CreatePortfolio>
+  }
+
+  export type CreatePortfolio = {
+    __typename?: 'PortfolioGraph'
+
+    id: Guid
+  }
+}
+
+export namespace UpdatePortfolio {
+  export type Variables = {
+    data: UpdatePortfolioInputGraph
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    updatePortfolio: Maybe<UpdatePortfolio>
+  }
+
+  export type UpdatePortfolio = {
+    __typename?: 'PortfolioGraph'
+
+    id: Guid
+  }
+}
+
+export namespace GetPortfolio {
+  export type Variables = {
+    id: string
+  }
+
+  export type Query = {
+    __typename?: 'Query'
+
+    portfolio: Maybe<Portfolio>
+  }
+
+  export type Portfolio = {
+    __typename?: 'PortfolioGraph'
+
+    id: Guid
+
+    title: string
+
+    metadata: Maybe<string>
+
+    rowVersion: string
+  }
+}
+
+export namespace DeletePortfolio {
+  export type Variables = {
+    data: DeletePortfolioInputGraph
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    deletePortfolio: Maybe<boolean>
+  }
+}
+
+export namespace GetPortfolioDetail {
+  export type Variables = {
+    id: string
+  }
+
+  export type Query = {
+    __typename?: 'Query'
+
+    portfolio: Maybe<Portfolio>
+  }
+
+  export type Portfolio = {
+    __typename?: 'PortfolioGraph'
+
+    id: Guid
+
+    title: string
+
+    metadata: Maybe<string>
+
+    agencies: Maybe<(Maybe<Agencies>)[]>
+  }
+
+  export type Agencies = {
+    __typename?: 'AgencyGraph'
+
+    id: Guid
+
+    title: string
+  }
+}
+
+export namespace AllPortfoliosSearch {
+  export type Variables = {
+    title?: Maybe<string>
+  }
+
+  export type Query = {
+    __typename?: 'Query'
+
+    portfolios: Maybe<(Maybe<Portfolios>)[]>
+  }
+
+  export type Portfolios = {
+    __typename?: 'PortfolioGraph'
+
+    id: Guid
+
+    title: string
+  }
+}
+
 export namespace CreateReportAccessControl {
   export type Variables = {
     data?: Maybe<CreateReportAccessControlInputGraph>
@@ -2833,6 +2957,107 @@ export class UpdateAccessControlGQL extends Apollo.Mutation<
         id
         rights
         rowVersion
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class CreatePortfolioGQL extends Apollo.Mutation<
+  CreatePortfolio.Mutation,
+  CreatePortfolio.Variables
+> {
+  document: any = gql`
+    mutation createPortfolio($data: CreatePortfolioInputGraph!) {
+      createPortfolio(input: $data) {
+        id
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdatePortfolioGQL extends Apollo.Mutation<
+  UpdatePortfolio.Mutation,
+  UpdatePortfolio.Variables
+> {
+  document: any = gql`
+    mutation updatePortfolio($data: UpdatePortfolioInputGraph!) {
+      updatePortfolio(input: $data) {
+        id
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class GetPortfolioGQL extends Apollo.Query<
+  GetPortfolio.Query,
+  GetPortfolio.Variables
+> {
+  document: any = gql`
+    query getPortfolio($id: String!) {
+      portfolio(id: $id) {
+        id
+        title
+        metadata
+        rowVersion
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class DeletePortfolioGQL extends Apollo.Mutation<
+  DeletePortfolio.Mutation,
+  DeletePortfolio.Variables
+> {
+  document: any = gql`
+    mutation deletePortfolio($data: DeletePortfolioInputGraph!) {
+      deletePortfolio(input: $data)
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class GetPortfolioDetailGQL extends Apollo.Query<
+  GetPortfolioDetail.Query,
+  GetPortfolioDetail.Variables
+> {
+  document: any = gql`
+    query getPortfolioDetail($id: String!) {
+      portfolio(id: $id) {
+        id
+        title
+        metadata
+        agencies {
+          id
+          title
+        }
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class AllPortfoliosSearchGQL extends Apollo.Query<
+  AllPortfoliosSearch.Query,
+  AllPortfoliosSearch.Variables
+> {
+  document: any = gql`
+    query allPortfoliosSearch($title: String) {
+      portfolios(
+        where: { path: "title", comparison: contains, value: [$title] }
+        orderBy: { path: "title" }
+      ) {
+        id
+        title
       }
     }
   `

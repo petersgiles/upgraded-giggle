@@ -46,6 +46,10 @@ import { AgencyMappingEditComponent } from './containers/agency/agency-mapping-e
 import { UserEditComponent } from './containers/user/user-edit/user-edit.component'
 import { UserAddComponent } from './containers/user/user-add/user-add.component'
 import { EditStatisticReportVersionComponent } from './containers/statistic-report/edit-statistic-report-version/edit-statistic-report-version.component'
+import { PortfolioComponent } from './containers/portfolio/portfolio.component'
+import { PortfoliosComponent } from './containers/portfolios/portfolios.component'
+import { PortfolioAddComponent } from './containers/portfolio/portfolio-add/portfolio-add.component'
+import { PortfolioEditComponent } from './containers/portfolio/portfolio-edit/portfolio-edit.component'
 
 export const routes: Routes = [
   {
@@ -143,6 +147,40 @@ export const routes: Routes = [
       {
         path: 'groups/:id',
         component: GroupComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+      {
+        path: 'portfolios',
+        component: PortfoliosComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'Portfolios',
+          icon: 'book',
+          nav: true
+        }
+      },
+      {
+        path: 'portfolios/add',
+        component: PortfolioAddComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+      {
+        path: 'portfolios/edit/:id',
+        component: PortfolioEditComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+      {
+        path: 'portfolios/:id',
+        component: PortfolioComponent,
         canActivate: [AuthGuard],
         data: {
           nav: false

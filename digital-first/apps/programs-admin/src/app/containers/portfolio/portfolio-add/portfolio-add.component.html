@@ -1,7 +1,7 @@
-<div *ngIf="(groups$ | async) as groups; else loading">
+<div>
   <div class="page_title">
     <div class="reader-card-article__title page_title_text" mdcHeadline5>
-      Add agencyMapping
+      Add portfolio
     </div>
   </div>
   <div>
@@ -14,32 +14,27 @@
               <form
                 (ngSubmit)="onSubmit()"
                 autocomplete="off"
-                [formGroup]="addAgencyMappingForm"
+                [formGroup]="addPortfolioForm"
               >
                 <fieldset>
-                  <h3 class="form-content__headline">Add agency mapping</h3>
+                  <h3 class="form-content__headline">Add portfolio</h3>
                   <div class="form-layout__row">
                     <mdc-text-field
                       [outlined]="true"
-                      formControlName="emailDomain"
-                      label="Email domain"
+                      formControlName="portfolioTitle"
+                      label="Title"
                       type="text"
                     >
                     </mdc-text-field>
                   </div>
                   <div class="form-layout__row">
-                    <mdc-select
-                      formControlName="groupId"
-                      id="group"
-                      placeholder="Group"
+                    <mdc-text-field
                       [outlined]="true"
-                      name="Group"
+                      formControlName="metadata"
+                      label="Metadata"
+                      type="text"
                     >
-                      <option value=""></option>
-                      <option *ngFor="let group of groups" [value]="group.id"
-                        >{{ group.title }}
-                      </option>
-                    </mdc-select>
+                    </mdc-text-field>
                   </div>
                   <div class="form-layout__row-with-button">
                     <button
@@ -47,8 +42,7 @@
                       class="mdc-button ng-mdc-button--primary mdc-button--raised mdc-ripple-upgraded"
                       type="submit"
                       [disabled]="
-                        addAgencyMappingForm.invalid ||
-                        addAgencyMappingForm.pristine
+                        addPortfolioForm.invalid || addPortfolioForm.pristine
                       "
                     >
                       Save
