@@ -26,7 +26,7 @@ app.use(allowCrossDomain)
 app.use(helmet());
 app.use(morgan('combined'))
 app.use(express.json())
-app.use(express.static(path.join(process.cwd(), 'policy-briefs-gql', 'public')))
+app.use(express.static(path.join(process.cwd(), 'deck-gql', 'public')))
 app.use('/home', HomeController)
 
 // app.use(function(req: any, res: any, next: any){

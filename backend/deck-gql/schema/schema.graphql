@@ -1,119 +1,113 @@
-  interface MutationResponse {
-    code: String!
-    success: Boolean!
-    message: String!
-  }
+interface MutationResponse {
+	code: String!
+	success: Boolean!
+	message: String!
+}
 
-  type UserProfileRole {
-    id: ID!
-    name: String!
-  }
+type UserProfileRole {
+	id: ID!
+	name: String!
+}
 
-  type UserProfile {
-    id: ID!
-    name: String!
-    email: String!
-    roles: [UserProfileRole],
-  }
+type UserProfile {
+	id: ID!
+	name: String!
+	email: String!
+	roles: [UserProfileRole]
+}
 
-  type StoreDeckItemMutationResponse implements MutationResponse {
-    code: String!
-    success: Boolean!
-    message: String!
-    card: DeckItem
-  }
+type StoreDeckItemMutationResponse implements MutationResponse {
+	code: String!
+	success: Boolean!
+	message: String!
+	card: DeckItem
+}
 
-  type RemoveDeckItemMutationResponse implements MutationResponse {
-    code: String!
-    success: Boolean!
-    message: String!
-  }
+type RemoveDeckItemMutationResponse implements MutationResponse {
+	code: String!
+	success: Boolean!
+	message: String!
+}
 
 enum CardType {
-  STANDARD
-  PARENT
-  WIKI
-  MARKDOWN
-  AUDIO
-  VIDEO
-  EMBED
-  FRAME
-  CHART
-  IMAGE
-  NEWTAB
+	STANDARD
+	PARENT
+	WIKI
+	MARKDOWN
+	AUDIO
+	VIDEO
+	EMBED
+	FRAME
+	CHART
+	IMAGE
+	NEWTAB
 }
 
 type DeckItemMedia {
-  url: String
-  type: String
+	url: String
+	type: String
 }
 
 type DeckItemChartColor {
-  backgroundColor: String
-  borderColor: String
-  pointBackgroundColor: String
-  pointBorderColor: String
-  pointHoverBackgroundColor: String
-  pointHoverBorderColor: String
+	backgroundColor: String
+	borderColor: String
+	pointBackgroundColor: String
+	pointBorderColor: String
+	pointHoverBackgroundColor: String
+	pointHoverBorderColor: String
 }
 type DeckItemChartData {
-  # data: []
-  label: String
+	# data: []
+	label: String
 }
 
 type DeckItemChartOptions {
-  responsive: Boolean
+	responsive: Boolean
 }
 
 type DeckItemChart {
-  chartData: [DeckItemChartData]
-  chartLegend: Boolean
-  # chartLabels: []
-  chartOptions: DeckItemChartOptions
-  chartType: String
-  chartColors: [DeckItemChartColor]
+	chartData: [DeckItemChartData]
+	chartLegend: Boolean
+	# chartLabels: []
+	chartOptions: DeckItemChartOptions
+	chartType: String
+	chartColors: [DeckItemChartColor]
 }
 
 type DeckItem {
-  id: ID
-  parent: ID
-  title: String
-  supportingText: String
-  size: String
-  cardType: CardType
-  # actions: []
-  sortOrder: String
-  colour: String
-  titleClass: String
-  media: DeckItemMedia
-  # data: []
+	id: ID
+	parent: ID
+	title: String
+	supportingText: String
+	size: String
+	cardType: CardType
+	# actions: []
+	sortOrder: String
+	colour: String
+	titleClass: String
+	media: DeckItemMedia
+	# data: []
 }
 
 input DeckItemInput {
-  id: ID
-  parent: ID
-  title: String
-  supportingText: String
-  size: String
-  sortOrder: String
-  colour: String
-  titleClass: String
+	id: ID
+	parent: ID
+	title: String
+	supportingText: String
+	size: String
+	sortOrder: String
+	colour: String
+	titleClass: String
 }
 
+# The "Query" type is the root of all GraphQL queries.
+type Query {
+	userProfile(id: ID): UserProfile
+	cards(parent: ID): [DeckItem]
+}
 
-  # The "Query" type is the root of all GraphQL queries.
-  type Query {
-    userProfile(id: ID): UserProfile
-    cards(parent: ID): [DeckItem]
-  }
-
-  # The mutation root type, used to define all mutations.
-  type Mutation {
-    storeCard( 
-      card: DeckItemInput,
-     ): StoreDeckItemMutationResponse,
-    removeCard(
-      id: ID!
-    ): RemoveDeckItemMutationResponse
-  }
-
+# The mutation root type, used to define all mutations.
+type Mutation {
+	storeCard(card: DeckItemInput): StoreDeckItemMutationResponse
+	removeCard(id: ID!): RemoveDeckItemMutationResponse
+}

@@ -14,9 +14,11 @@ import * as morgan from 'morgan'
 import { logger } from '../shared/logger'
 import { allowCrossDomain } from '../shared/cors';
 
-import { typeDefs, resolvers } from './schema'
 import { HomeController, AboutController } from './controllers'
+import { importSchema } from 'graphql-import';
 
+import { resolvers } from './schema'
+const typeDefs = importSchema('./commitments-gql/schema/schema.graphql')
 const port: number = 3001;
 
 const configurations: any = {
