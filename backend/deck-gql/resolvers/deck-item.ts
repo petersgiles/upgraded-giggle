@@ -13,7 +13,7 @@ export class DeckItem {
 		let result = await this.knex(context)
 			.select()
 			.from(DB_TABLE_DECKITEM)
-      .where('id', id)
+			.where('id', id)
 
 		return result && result[0]
 	}
@@ -22,9 +22,7 @@ export class DeckItem {
 		let result = await this.knex(context)
 			.select()
 			.from(DB_TABLE_DECKITEM)
-      .where('parent', parent)
-      
-    console.log('getByParent', result)
+			.where('parent', parent)
 		return result
 	}
 
@@ -34,15 +32,25 @@ export class DeckItem {
 				.where({ id: payload.item.id })
 				.update({ ...payload.item })
 		} else {
-			return await this.knex(context)(DB_TABLE_DECKITEM).insert({ ...payload.item })
+			return await this.knex(context)(DB_TABLE_DECKITEM).insert({
+				...payload.item,
+			})
 		}
 	}
 
-	async delete(item: any, context: any): Promise<void> {
+	async delete(id: any, context: any): Promise<void> {
 		return await this.knex(context)(DB_TABLE_DECKITEM)
-			.where({ id: item.id })
+			.where({ id: id })
 			.del()
 	}
+}
+
+export const dropDeckItemTable = (knex: any) => {
+	knex.schema.hasTable(DB_TABLE_DECKITEM).then(function(exists: any) {
+		if (!exists) {
+			return knex.schema.dropTable(DB_TABLE_DECKITEM)
+		}
+	})
 }
 
 export const createDeckItemTable = (knex: any) => {

@@ -1,45 +1,11 @@
-export interface DeckCardInput {
-  id?: string | null;
+export type Maybe<T> = T | null
 
-  thumbnail?: string | null;
+export interface DeckItemInput {
+  id?: Maybe<string>
 
-  title: string;
+  parent?: Maybe<string>
 
-  subTitle?: string | null;
-
-  supportingText?: string | null;
-
-  parentId?: string | null;
-
-  order: number;
-
-  presentation?: DeckCardPresentationInput | null;
-
-  buttons?: (DeckCardActionButtonInput | null)[] | null;
-
-  icons?: (DeckCardActionIconInput | null)[] | null;
-}
-
-export interface DeckCardPresentationInput {
-  description: string;
-}
-
-export interface DeckCardActionButtonInput {
-  text: string;
-
-  action?: DeckCardActionInput | null;
-}
-
-export interface DeckCardActionInput {
-  description: string;
-
-  action: string;
-}
-
-export interface DeckCardActionIconInput {
-  text: string;
-
-  action?: DeckCardActionInput | null;
+  title?: Maybe<string>
 }
 
 export enum CacheControlScope {
@@ -47,117 +13,83 @@ export enum CacheControlScope {
   Private = 'PRIVATE'
 }
 
-/** The `Upload` scalar type represents a file upload promise that resolves anobject containing `stream`, `filename`, `mimetype` and `encoding`. */
-export type Upload = any;
+/** The `Upload` scalar type represents a file upload promise that resolves an object containing `stream`, `filename`, `mimetype` and `encoding`. */
+export type Upload = any
 
 // ====================================================
 // Documents
 // ====================================================
 
-export namespace StoreCard {
+export namespace Store {
   export type Variables = {
-    card?: DeckCardInput | null;
-  };
+    item: DeckItemInput
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    storeCard: StoreCard | null;
-  };
+    upsertDeckItem: Maybe<UpsertDeckItem>
+  }
 
-  export type StoreCard = {
-    __typename?: 'StoreDeckCardMutationResponse';
+  export type UpsertDeckItem = {
+    __typename?: 'Response'
 
-    code: string;
+    success: Maybe<boolean>
 
-    success: boolean;
-
-    message: string;
-
-    card: Card | null;
-  };
-
-  export type Card = {
-    __typename?: 'DeckCard';
-
-    id: string;
-
-    title: string;
-
-    order: number;
-
-    presentation: Presentation | null;
-  };
-
-  export type Presentation = {
-    __typename?: 'DeckCardPresentation';
-
-    description: string;
-  };
+    error: Maybe<string>
+  }
 }
 
-export namespace RemoveCard {
+export namespace Delete {
   export type Variables = {
-    id: string;
-  };
+    id: string
+  }
 
   export type Mutation = {
-    __typename?: 'Mutation';
+    __typename?: 'Mutation'
 
-    removeCard: RemoveCard | null;
-  };
+    deleteDeckItem: Maybe<DeleteDeckItem>
+  }
 
-  export type RemoveCard = {
-    __typename?: 'RemoveDeckCardMutationResponse';
+  export type DeleteDeckItem = {
+    __typename?: 'Response'
 
-    code: string;
+    success: Maybe<boolean>
 
-    success: boolean;
-
-    message: string;
-  };
+    error: Maybe<string>
+  }
 }
 
-export namespace GetCard {
+export namespace GetDeckItems {
   export type Variables = {
-    id?: string | null;
-  };
+    id?: Maybe<string>
+  }
 
   export type Query = {
-    __typename?: 'Query';
+    __typename?: 'Query'
 
-    cards: (Cards | null)[] | null;
-  };
+    deckItems: Maybe<(Maybe<DeckItems>)[]>
+  }
 
-  export type Cards = {
-    __typename?: 'DeckCard';
+  export type DeckItems = {
+    __typename?: 'DeckItem'
 
-    id: string;
+    id: Maybe<string>
 
-    title: string;
+    title: Maybe<string>
 
-    parentId: string | null;
-
-    order: number;
-
-    presentation: Presentation | null;
-  };
-
-  export type Presentation = {
-    __typename?: 'DeckCardPresentation';
-
-    description: string;
-  };
+    parent: Maybe<string>
+  }
 }
 
 // ====================================================
 // START: Apollo Angular template
 // ====================================================
 
-import { Injectable } from '@angular/core';
-import * as Apollo from 'apollo-angular';
+import { Injectable } from '@angular/core'
+import * as Apollo from 'apollo-angular'
 
-import gql from 'graphql-tag';
+import gql from 'graphql-tag'
 
 // ====================================================
 // Apollo Services
@@ -166,62 +98,48 @@ import gql from 'graphql-tag';
 @Injectable({
   providedIn: 'root'
 })
-export class StoreCardGQL extends Apollo.Mutation<
-  StoreCard.Mutation,
-  StoreCard.Variables
-> {
+export class StoreGQL extends Apollo.Mutation<Store.Mutation, Store.Variables> {
   document: any = gql`
-    mutation StoreCard($card: DeckCardInput) {
-      storeCard(card: $card) {
-        code
+    mutation Store($item: DeckItemInput!) {
+      upsertDeckItem(item: $item) {
         success
-        message
-        card {
-          id
-          title
-          order
-          presentation {
-            description
-          }
-        }
+        error
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
 })
-export class RemoveCardGQL extends Apollo.Mutation<
-  RemoveCard.Mutation,
-  RemoveCard.Variables
+export class DeleteGQL extends Apollo.Mutation<
+  Delete.Mutation,
+  Delete.Variables
 > {
   document: any = gql`
-    mutation RemoveCard($id: ID!) {
-      removeCard(id: $id) {
-        code
+    mutation Delete($id: ID!) {
+      deleteDeckItem(id: $id) {
         success
-        message
+        error
       }
     }
-  `;
+  `
 }
 @Injectable({
   providedIn: 'root'
 })
-export class GetCardGQL extends Apollo.Query<GetCard.Query, GetCard.Variables> {
+export class GetDeckItemsGQL extends Apollo.Query<
+  GetDeckItems.Query,
+  GetDeckItems.Variables
+> {
   document: any = gql`
-    query GetCard($id: ID) {
-      cards(parentId: $id) {
+    query GetDeckItems($id: ID) {
+      deckItems(parent: $id) {
         id
         title
-        parentId
-        order
-        presentation {
-          description
-        }
+        parent
       }
     }
-  `;
+  `
 }
 
 // ====================================================

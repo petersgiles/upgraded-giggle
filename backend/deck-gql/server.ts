@@ -13,9 +13,10 @@ import * as knex from 'knex'
 
 import { logger } from '../shared/logger'
 import { importSchema } from 'graphql-import'
-import { DeckItem, createDeckItemTable } from './resolvers'
+import { DeckItem } from './resolvers'
 import { HomeController } from './controllers'
 import { allowCrossDomain } from '../shared/cors'
+import { createDB } from './sqllite-schema';
 
 const typeDefs = importSchema('./deck-gql/schema.graphql')
 
@@ -25,7 +26,7 @@ const sqlDB = knex({
 	useNullAsDefault: true,
 })
 
-createDeckItemTable(sqlDB)
+createDB(sqlDB)
 
 class SqlConnector {
 	connection: any
