@@ -192,7 +192,7 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
 
   handleEditReportVersion(reportVersionId: string) {
     return this.router.navigate([
-      `edit-statistic-report-version/${this.statisticId}/${
+      `statistic-report-version-edit/${this.statisticId}/${
         this.report.id
       }/${reportVersionId}`
     ])

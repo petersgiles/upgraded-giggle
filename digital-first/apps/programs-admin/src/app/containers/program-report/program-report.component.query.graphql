@@ -1,5 +1,5 @@
 query report ($reportId: String!) {
-  reports(ids:[$reportId])
+  reports(id:$reportId)
   {
     id
     name
@@ -18,5 +18,11 @@ query report ($reportId: String!) {
         rowVersion
       }
     }
+    latestVersion
+    {
+      id
+      dataDate
+      notes
+    } 
   }
 }

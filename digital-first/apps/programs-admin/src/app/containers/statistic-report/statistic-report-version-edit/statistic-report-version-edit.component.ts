@@ -10,11 +10,11 @@ import { Subscription } from 'rxjs'
 import { first, map } from 'rxjs/operators'
 
 @Component({
-  selector: 'digital-first-edit-statistic-report-version',
-  templateUrl: './edit-statistic-report-version.component.html',
-  styleUrls: ['./edit-statistic-report-version.component.scss']
+  selector: 'digital-first-statistic-report-version-edit',
+  templateUrl: './statistic-report-version-edit.component.html',
+  styleUrls: ['./statistic-report-version-edit.component.scss']
 })
-export class EditStatisticReportVersionComponent implements OnInit, OnDestroy {
+export class StatisticReportVersionEditComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,

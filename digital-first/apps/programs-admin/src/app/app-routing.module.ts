@@ -16,7 +16,7 @@ import { ProjectAddComponent } from './containers/project/project-add/project-ad
 import { ProjectEditComponent } from './containers/project/project-edit/project-edit.component'
 import { ProgramAddComponent } from './containers/program/program-add/program-add.component'
 import { ProgramEditComponent } from './containers/program/program-edit/program-edit.component'
-import { ReportAddComponent } from './containers/program-reports/report-add/report-add.component'
+import { ReportAddComponent } from './containers/program-report/report-add/report-add.component'
 import { AuthGuard } from '@digital-first/df-auth'
 import { ProgramReportComponent } from './containers/program-report/program-report.component'
 import { UsersComponent } from './containers/users/users.component'
@@ -32,7 +32,7 @@ import { StatisticEditComponent } from './containers/statistic/statistic-edit/st
 import { StatisticReportComponent } from './containers/statistic-report/statistic-report.component'
 import { StatisticReportAddComponent } from './containers/statistic-report/statistic-report-add/statistic-report-add.component'
 import { StatisticReportEditComponent } from './containers/statistic-report/statistic-report-edit/statistic-report-edit.component'
-import { ReportEditComponent } from './containers/program-reports/report-edit/report-edit.component'
+import { ReportEditComponent } from './containers/program-report/report-edit/report-edit.component'
 import { AgenciesComponent } from './containers/agencies/agencies.component'
 import {
   ErrorPageNotFoundComponent,
@@ -45,7 +45,7 @@ import { AgencyMappingAddComponent } from './containers/agency/agency-mapping-ad
 import { AgencyMappingEditComponent } from './containers/agency/agency-mapping-edit/agency-mapping-edit.component'
 import { UserEditComponent } from './containers/user/user-edit/user-edit.component'
 import { UserAddComponent } from './containers/user/user-add/user-add.component'
-import { EditStatisticReportVersionComponent } from './containers/statistic-report/edit-statistic-report-version/edit-statistic-report-version.component'
+import { StatisticReportVersionEditComponent } from './containers/statistic-report/statistic-report-version-edit/statistic-report-version-edit.component'
 import { PortfolioComponent } from './containers/portfolio/portfolio.component'
 import { PortfoliosComponent } from './containers/portfolios/portfolios.component'
 import { PortfolioAddComponent } from './containers/portfolio/portfolio-add/portfolio-add.component'
@@ -335,8 +335,8 @@ export const routes: Routes = [
       },
       {
         path:
-          'edit-statistic-report-version/:statisticId/:reportId/:reportVersionId',
-        component: EditStatisticReportVersionComponent,
+          'statistic-report-version-edit/:statisticId/:reportId/:reportVersionId',
+        component: StatisticReportVersionEditComponent,
         canActivate: [AuthGuard],
         data: {
           nav: false

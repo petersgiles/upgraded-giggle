@@ -47,7 +47,7 @@ import { ProgramEditComponent } from './containers/program/program-edit/program-
 import { PermissionComponent } from './containers/permission/permission.component'
 import { DialogAssignGroupPermissionComponent } from './dialogs/dialog-assign-group-permission.component'
 import { ProgramReportsComponent } from './containers/program-reports/program-reports.component'
-import { ReportAddComponent } from './containers/program-reports/report-add/report-add.component'
+import { ReportAddComponent } from './containers/program-report/report-add/report-add.component'
 import { ProgramReportComponent } from './containers/program-report/program-report.component'
 import { UsersComponent } from './containers/users/users.component'
 import { UserComponent } from './containers/user/user.component'
@@ -68,7 +68,7 @@ import { StatisticReportEditComponent } from './containers/statistic-report/stat
 import { ProjectComponent } from './containers/project/project.component'
 import { ProjectAddComponent } from './containers/project/project-add/project-add.component'
 import { ProjectEditComponent } from './containers/project/project-edit/project-edit.component'
-import { ReportEditComponent } from './containers/program-reports/report-edit/report-edit.component'
+import { ReportEditComponent } from './containers/program-report/report-edit/report-edit.component'
 import { ProjectsComponent } from './containers/projects/projects.component'
 import { AgenciesComponent } from './containers/agencies/agencies.component'
 import { AgencyComponent } from './containers/agency/agency.component'
@@ -83,7 +83,7 @@ import { UserReportAccessComponent } from './containers/user/user-report-access/
 import { UserStatisticAccessComponent } from './containers/user/user-statistic-access/user-statistic-access.component'
 import { UserStatisticReportAccessComponent } from './containers/user/user-statistic-report-access/user-statistic-report-access.component'
 import { NgxDatatableModule } from '@swimlane/ngx-datatable'
-import { EditStatisticReportVersionComponent } from './containers/statistic-report/edit-statistic-report-version/edit-statistic-report-version.component'
+import { StatisticReportVersionEditComponent } from './containers/statistic-report/statistic-report-version-edit/statistic-report-version-edit.component'
 import { PortfolioComponent } from './containers/portfolio/portfolio.component'
 import { PortfoliosComponent } from './containers/portfolios/portfolios.component'
 import { PortfolioAddComponent } from './containers/portfolio/portfolio-add/portfolio-add.component'
@@ -154,7 +154,7 @@ export function initApplication(): Function {
     UserReportAccessComponent,
     UserStatisticAccessComponent,
     UserStatisticReportAccessComponent,
-    EditStatisticReportVersionComponent,
+    StatisticReportVersionEditComponent,
     PortfolioComponent,
     PortfoliosComponent,
     PortfolioAddComponent,
