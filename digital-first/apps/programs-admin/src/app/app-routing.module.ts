@@ -50,6 +50,7 @@ import { PortfolioComponent } from './containers/portfolio/portfolio.component'
 import { PortfoliosComponent } from './containers/portfolios/portfolios.component'
 import { PortfolioAddComponent } from './containers/portfolio/portfolio-add/portfolio-add.component'
 import { PortfolioEditComponent } from './containers/portfolio/portfolio-edit/portfolio-edit.component'
+import { ReportVersionEditComponent } from './containers/program-report/report-version-edit/report-version-edit.component'
 
 export const routes: Routes = [
   {
@@ -239,7 +240,7 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'programs/:id/reports/:id',
+        path: 'programs/:programId/reports/:id',
         component: ProgramReportComponent,
         canActivate: [AuthGuard],
         data: {
@@ -279,6 +280,14 @@ export const routes: Routes = [
         data: {
           title: 'Project',
           icon: 'group_work',
+          nav: false
+        }
+      },
+      {
+        path: 'report-version-edit/:programId/:reportId/:reportVersionId',
+        component: ReportVersionEditComponent,
+        canActivate: [AuthGuard],
+        data: {
           nav: false
         }
       },

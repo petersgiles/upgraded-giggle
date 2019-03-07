@@ -392,6 +392,16 @@ export interface UpdateReportInputGraph {
   rowVersion: string
 }
 
+export interface UpdateReportVersionInputGraph {
+  id: Guid
+
+  dataDate: DateTimeOffset
+
+  notes?: Maybe<string>
+
+  rowVersion: string
+}
+
 export interface UpdateStatisticInputGraph {
   id: Guid
 
@@ -1168,6 +1178,8 @@ export namespace Report {
     rowVersion: string
 
     accessControlList: Maybe<(Maybe<AccessControlList>)[]>
+
+    latestVersion: Maybe<LatestVersion>
   }
 
   export type AccessControlList = {
@@ -1196,6 +1208,16 @@ export namespace Report {
     id: Guid
 
     title: string
+  }
+
+  export type LatestVersion = {
+    __typename?: 'ReportVersionGraph'
+
+    id: Guid
+
+    dataDate: Maybe<Date>
+
+    notes: string
   }
 }
 
@@ -1240,6 +1262,48 @@ export namespace UpdateReport {
     name: string
 
     notes: Maybe<string>
+  }
+}
+
+export namespace UpdateReportVersion {
+  export type Variables = {
+    data?: Maybe<UpdateReportVersionInputGraph>
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    updateReportVersion: Maybe<UpdateReportVersion>
+  }
+
+  export type UpdateReportVersion = {
+    __typename?: 'ReportVersionGraph'
+
+    id: Guid
+  }
+}
+
+export namespace ReportVersionEdit {
+  export type Variables = {
+    id: string
+  }
+
+  export type Query = {
+    __typename?: 'Query'
+
+    reportVersion: Maybe<ReportVersion>
+  }
+
+  export type ReportVersion = {
+    __typename?: 'ReportVersionGraph'
+
+    id: Guid
+
+    dataDate: Maybe<Date>
+
+    notes: string
+
+    rowVersion: string
   }
 }
 
@@ -1768,48 +1832,16 @@ export namespace AllProgramReports {
     id: Guid
 
     name: string
-  }
-}
 
-export namespace UpdateStatisticReportVersion {
-  export type Variables = {
-    data?: Maybe<UpdateStatisticReportVersionInputGraph>
+    latestVersion: Maybe<LatestVersion>
   }
 
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    updateStatisticReportVersion: Maybe<UpdateStatisticReportVersion>
-  }
-
-  export type UpdateStatisticReportVersion = {
-    __typename?: 'StatisticReportVersionGraph'
-
-    id: Guid
-  }
-}
-
-export namespace StatisticReportVersionEdit {
-  export type Variables = {
-    id: string
-  }
-
-  export type Query = {
-    __typename?: 'Query'
-
-    statisticReportVersion: Maybe<StatisticReportVersion>
-  }
-
-  export type StatisticReportVersion = {
-    __typename?: 'StatisticReportVersionGraph'
+  export type LatestVersion = {
+    __typename?: 'ReportVersionGraph'
 
     id: Guid
 
-    dataDate: Maybe<Date>
-
-    notes: Maybe<string>
-
-    rowVersion: string
+    notes: string
   }
 }
 
@@ -1884,6 +1916,48 @@ export namespace StatisticReportEdit {
     rowVersion: string
 
     statisticId: Guid
+  }
+}
+
+export namespace UpdateStatisticReportVersion {
+  export type Variables = {
+    data?: Maybe<UpdateStatisticReportVersionInputGraph>
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    updateStatisticReportVersion: Maybe<UpdateStatisticReportVersion>
+  }
+
+  export type UpdateStatisticReportVersion = {
+    __typename?: 'StatisticReportVersionGraph'
+
+    id: Guid
+  }
+}
+
+export namespace StatisticReportVersionEdit {
+  export type Variables = {
+    id: string
+  }
+
+  export type Query = {
+    __typename?: 'Query'
+
+    statisticReportVersion: Maybe<StatisticReportVersion>
+  }
+
+  export type StatisticReportVersion = {
+    __typename?: 'StatisticReportVersionGraph'
+
+    id: Guid
+
+    dataDate: Maybe<Date>
+
+    notes: Maybe<string>
+
+    rowVersion: string
   }
 }
 
@@ -3087,7 +3161,7 @@ export class CreateReportAccessControlGQL extends Apollo.Mutation<
 export class ReportGQL extends Apollo.Query<Report.Query, Report.Variables> {
   document: any = gql`
     query report($reportId: String!) {
-      reports(ids: [$reportId]) {
+      reports(id: $reportId) {
         id
         name
         notes
@@ -3104,6 +3178,11 @@ export class ReportGQL extends Apollo.Query<Report.Query, Report.Variables> {
             rights
             rowVersion
           }
+        }
+        latestVersion {
+          id
+          dataDate
+          notes
         }
       }
     }
@@ -3139,6 +3218,39 @@ export class UpdateReportGQL extends Apollo.Mutation<
         id
         name
         notes
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdateReportVersionGQL extends Apollo.Mutation<
+  UpdateReportVersion.Mutation,
+  UpdateReportVersion.Variables
+> {
+  document: any = gql`
+    mutation updateReportVersion($data: UpdateReportVersionInputGraph) {
+      updateReportVersion(input: $data) {
+        id
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class ReportVersionEditGQL extends Apollo.Query<
+  ReportVersionEdit.Query,
+  ReportVersionEdit.Variables
+> {
+  document: any = gql`
+    query reportVersionEdit($id: String!) {
+      reportVersion(id: $id) {
+        id
+        dataDate
+        notes
+        rowVersion
       }
     }
   `
@@ -3496,43 +3608,12 @@ export class AllProgramReportsGQL extends Apollo.Query<
           id
           name
           __typename
+          latestVersion {
+            id
+            notes
+          }
         }
         __typename
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class UpdateStatisticReportVersionGQL extends Apollo.Mutation<
-  UpdateStatisticReportVersion.Mutation,
-  UpdateStatisticReportVersion.Variables
-> {
-  document: any = gql`
-    mutation updateStatisticReportVersion(
-      $data: UpdateStatisticReportVersionInputGraph
-    ) {
-      updateStatisticReportVersion(input: $data) {
-        id
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class StatisticReportVersionEditGQL extends Apollo.Query<
-  StatisticReportVersionEdit.Query,
-  StatisticReportVersionEdit.Variables
-> {
-  document: any = gql`
-    query statisticReportVersionEdit($id: String!) {
-      statisticReportVersion(id: $id) {
-        id
-        dataDate
-        notes
-        rowVersion
       }
     }
   `
@@ -3588,6 +3669,41 @@ export class StatisticReportEditGQL extends Apollo.Query<
         notes
         rowVersion
         statisticId
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdateStatisticReportVersionGQL extends Apollo.Mutation<
+  UpdateStatisticReportVersion.Mutation,
+  UpdateStatisticReportVersion.Variables
+> {
+  document: any = gql`
+    mutation updateStatisticReportVersion(
+      $data: UpdateStatisticReportVersionInputGraph
+    ) {
+      updateStatisticReportVersion(input: $data) {
+        id
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class StatisticReportVersionEditGQL extends Apollo.Query<
+  StatisticReportVersionEdit.Query,
+  StatisticReportVersionEdit.Variables
+> {
+  document: any = gql`
+    query statisticReportVersionEdit($id: String!) {
+      statisticReportVersion(id: $id) {
+        id
+        dataDate
+        notes
+        rowVersion
       }
     }
   `

@@ -31,6 +31,33 @@
       [rows]="permissionRows"
       [noDataMessage]="noDataMessage"
     ></digital-first-permission>
+
+    <div *ngIf="latestVersion">
+      <df-expander-panel
+        title="Active Report Version"
+        [expanded]="true"
+        [expandable]="false"
+      >
+        <ng-container panel-buttons>
+          <df-button
+            icon="edit"
+            title="Edit"
+            (onClick)="handleEditReportVersion(latestVersion.id)"
+          ></df-button>
+        </ng-container>
+      </df-expander-panel>
+
+      <div class="programsadmin-layout__row">
+        <p>Data date: {{ latestVersion.dataDate }}</p>
+        <p *ngIf="latestVersion.notes; else elseBlock">
+          Notes: {{ latestVersion.notes }}
+        </p>
+        <ng-template #elseBlock>
+          <p>Notes:</p>
+          <p>No notes were provided for this report</p>
+        </ng-template>
+      </div>
+    </div>
   </section>
 </div>
 <ng-template #loading>

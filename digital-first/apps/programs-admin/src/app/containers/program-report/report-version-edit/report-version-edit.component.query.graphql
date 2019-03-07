@@ -1,0 +1,11 @@
+query reportVersionEdit ($id: String!) {
+  reportVersion(id:$id)
+  {
+      id
+      dataDate
+      notes
+      rowVersion
+  }
+}
+
+

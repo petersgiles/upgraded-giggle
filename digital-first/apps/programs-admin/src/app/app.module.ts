@@ -88,6 +88,7 @@ import { PortfolioComponent } from './containers/portfolio/portfolio.component'
 import { PortfoliosComponent } from './containers/portfolios/portfolios.component'
 import { PortfolioAddComponent } from './containers/portfolio/portfolio-add/portfolio-add.component'
 import { PortfolioEditComponent } from './containers/portfolio/portfolio-edit/portfolio-edit.component'
+import { ReportVersionEditComponent } from './containers/program-report/report-version-edit/report-version-edit.component'
 
 const COMPONENTS = [AppComponent, HomeComponent]
 
@@ -158,7 +159,8 @@ export function initApplication(): Function {
     PortfolioComponent,
     PortfoliosComponent,
     PortfolioAddComponent,
-    PortfolioEditComponent
+    PortfolioEditComponent,
+    ReportVersionEditComponent
   ],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [

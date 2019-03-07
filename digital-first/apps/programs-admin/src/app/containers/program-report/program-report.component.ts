@@ -26,7 +26,9 @@ import {
 export class ProgramReportComponent implements OnInit, OnDestroy {
   report: Report.Reports
   reportId: string
+  programId: string
   reportSubscription$: Subscription
+  latestVersion: Report.LatestVersion
   permissionRows: PermissionRow[]
   noDataMessage =
     'This report inherits its permissions from the program. Adding groups here will break inheritance.'
@@ -44,7 +46,7 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.reportId = this.route.snapshot.paramMap.get('id')
-
+    this.programId = this.route.snapshot.paramMap.get('programId')
     this.reportSubscription$ = this.reportGql
       .watch({ reportId: this.reportId }, { fetchPolicy: 'network-only' })
       .valueChanges.pipe(map(value => value.data.reports[0]))
@@ -64,6 +66,7 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
         } else {
           this.permissionRows = []
         }
+        this.latestVersion = report.latestVersion
       })
   }
 
@@ -181,5 +184,12 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
     return this.router.navigate(['../edit', report.id], {
       relativeTo: this.route
     })
+  }
+  handleEditReportVersion(reportVersionId: string) {
+    return this.router.navigate([
+      `report-version-edit/${this.programId}/${
+        this.report.id
+      }/${reportVersionId}`
+    ])
   }
 }
