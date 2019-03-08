@@ -10,7 +10,6 @@ import { UploadElectorateStatisticSpreadsheet } from '@dsuite/programs-manager-m
 import { MdcSnackbar } from '@angular-mdc/web'
 import { FormBuilder } from '@angular/forms'
 import { Validators } from '@angular/forms'
-import { constructDependencies } from '@angular/core/src/di/reflective_provider'
 
 @Component({
   selector: 'digital-first-statisticupload',
@@ -22,7 +21,6 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
   statistics: StatisticAndStatisticReports.Statistics[]
   statisticReports: StatisticAndStatisticReports.StatisticReports[]
   statisticsSubscription$: Subscription
-  latestVersionSubscription$: Subscription[] = []
 
   statisticForm = this.formBuilder.group({
     statisticId: [undefined, Validators.required],
