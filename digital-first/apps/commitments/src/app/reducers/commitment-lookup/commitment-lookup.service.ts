@@ -92,6 +92,10 @@ export class CommitmentLookupService {
         return this.store.pipe(select(fromRoot.getAllPortfolios))
     }
 
+    get CostingPortfolios(): Observable<Portfolio[]> {
+        return this.store.pipe(select(fromRoot.getCostingPortfolios))
+    }
+
     public getAllWhoAnnouncedTypes(filter?: any) {
         this.store.dispatch(new GetAllWhoAnnouncedTypes())
     }

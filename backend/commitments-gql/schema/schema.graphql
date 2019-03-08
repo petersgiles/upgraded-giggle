@@ -183,6 +183,7 @@ type CommitmentAction {
     description: String,
     cost: String,
     date: String,
+    status: String,
     criticalDate: CriticalDate,
     announcedby: String,
     party: PoliticalParty,
@@ -238,6 +239,7 @@ type CommitmentAction {
       title: String!,
       description: String!,
       party: ID
+      status: String,
       cost: String
       costingRequired: Boolean,
       location: ID,

@@ -16,6 +16,7 @@ export interface Commitment {
   title: string,
   party: Party,
   description: string,
+  status: string,
   cost: string,
   costingRequired: boolean,
   location: Electorate,

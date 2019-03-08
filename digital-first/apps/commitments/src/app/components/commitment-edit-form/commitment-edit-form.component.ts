@@ -8,11 +8,56 @@ import { Commitment } from '../../reducers/commitment/commitment.model'
 import { Electorate } from '../../models/location.model'
 import { CommitmentType } from '../../models/commitment-type.model'
 import { WhoAnnouncedType } from '../../models/who-announced-type.model'
-import { Subscription } from 'rxjs'
+import { Subscription, BehaviorSubject } from 'rxjs'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { CriticalDate } from '../../models/critical-date.model'
 import { ThemeType } from '../../models/theme-type.model'
 import { PackageType } from '../../models/package-type.model'
+import { DocumentStatus } from '@df/components'
+import { sortBy } from '@digital-first/df-utils';
+
+const workflow: DocumentStatus[] = [
+  {
+    id: '1',
+    icon: 'how_to_reg',
+    caption: 'With SCIT',
+    colour: 'GhostWhite',
+    active: false,
+    order: 1,
+  },
+  {
+    id: '2',
+    icon: 'how_to_reg',
+    caption:  'With Policy Area',
+    colour: 'GhostWhite',
+    active: false,
+    order: 2,
+  },
+  {
+    id: '3',
+    icon: 'how_to_reg',
+    caption: 'Cleared by Policy Area',
+    colour: 'GhostWhite',
+    active: false,
+    order: 3,
+  },
+  {
+    id: '4',
+    icon: 'how_to_reg',
+    caption: 'Cleared by Policy Area',
+    colour: 'GhostWhite',
+    active: false,
+    order: 3,
+  },
+  {
+    id: '5',
+    icon: 'how_to_reg',
+    caption: 'Cleared by Policy Area',
+    colour: 'GhostWhite',
+    active: false,
+    order: 3,
+  },
+]
 
 @Component({
   selector: 'digital-first-commitment-edit-form',
@@ -40,11 +85,14 @@ export class CommitmentEditFormComponent implements OnDestroy {
   @Output() onCancelled: EventEmitter<any> = new EventEmitter()
   @Output() onChanged: EventEmitter<Commitment> = new EventEmitter()
 
+  workflowList$: BehaviorSubject<DocumentStatus[]> = new BehaviorSubject(workflow)
+
   form = this.fb.group({
     id: [],
     title: [null, Validators.required],
     description: [''],
     date: [null, Validators.required],
+    status: [null],
     announcedby: [null],
     party: [null],
     announcementType: [null],
@@ -65,11 +113,18 @@ export class CommitmentEditFormComponent implements OnDestroy {
         this.formValueChangeSubscription.unsubscribe()
       }
 
+      const status = workflow.find(s => s.id !== val.status)
+      if (status) {
+        const newList = [...workflow.filter(s => s.id !== val.status), {...status, active: true}].sort(sortBy('id'))
+        this.workflowList$.next(newList)
+      }
+ 
       const patch = {
         id: val.id,
         title: val.title,
         description: val.description,
         announcedby: val.announcedby,
+        status: val.status,
         date: moment(val.date).format('YYYY-MM-DD'),
         party: val.party && val.party.id,
         whoAnnouncedType: val.whoAnnouncedType && val.whoAnnouncedType.id,
@@ -134,6 +189,12 @@ export class CommitmentEditFormComponent implements OnDestroy {
     // tslint:disable-next-line:no-console
     console.log(map)
     return map
+  }
+
+  handleStatusChange(status) {
+    const newList = [...workflow.filter(s => s.id !== status.id), {...status, active: true}].sort(sortBy('id'))
+    this.workflowList$.next(newList)
+    this.form.patchValue({status: status.id})
   }
 
 }

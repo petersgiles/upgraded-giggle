@@ -83,6 +83,11 @@ export const getAllPortfolios = createSelector(
     state => state.portfolios
 )
 
+export const getCostingPortfolios = createSelector(
+    getCommitmentLookupState,
+    state => state.portfolios.filter(p => p)
+)
+
 export const getPortfolioEntities = createSelector(
     getAllPortfolios,
     arrayToHash

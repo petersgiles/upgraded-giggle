@@ -6,6 +6,7 @@ export const GET_COMMITMENT = gql`
     id
     title
     description
+    status
     cost
     costingRequired
     portfolio {
@@ -103,6 +104,7 @@ mutation Commitment(
   $title: String!
   $description: String!
   $party: ID
+  $status: String
   $cost: String
   $costingRequired: Boolean
   $location: ID
@@ -122,6 +124,7 @@ mutation Commitment(
     title: $title
     description: $description
     party: $party
+    status: $status
     cost: $cost
     costingRequired: $costingRequired
     location: $location
@@ -235,6 +238,7 @@ export const GET_ALL_COMMITMENTS = gql`
     id
     title
     costingRequired
+    status
     electorates {
       id
     }

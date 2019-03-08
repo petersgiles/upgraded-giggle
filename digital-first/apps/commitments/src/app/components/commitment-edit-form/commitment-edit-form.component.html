@@ -2,8 +2,19 @@
   <form [formGroup]="form" (ngSubmit)="handleSubmit($event)" autocomplete="off">
     <fieldset [attr.disabled]="busy ? '' : null">
       <input type="hidden" formControlName="id" />
+     
+      <div class="form-layout__row">
+          <div class="mdc-chip-set" >
+              <mdc-chip *ngFor="let status of workflowList$ | async" (selectionChange)="handleStatusChange(status)" [ngClass]="{'active-status-chip': status.active}">
+                <mdc-chip-icon leading *ngIf="!status.active">{{status.icon}}</mdc-chip-icon>
+                <mdc-chip-icon leading *ngIf="status.active">check</mdc-chip-icon>
+                <mdc-chip-text>{{status.caption}}</mdc-chip-text>
+              </mdc-chip>
+            </div>
+      </div>
 
       <h3 class="form-content__headline">Commitment</h3>
+
       <div class="form-layout__row">
         <mdc-text-field
           formControlName="title"
