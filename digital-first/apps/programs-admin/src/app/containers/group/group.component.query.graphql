@@ -1,14 +1,20 @@
-query group ($groupId: String!) {
-  group(id:$groupId)
-  {
+query group($groupId: String!) {
+  group(id: $groupId) {
     id
     rowVersion
     title
-    members(orderBy: {path: "emailAddress"}){
+    members(orderBy: { path: "emailAddress" }) {
       id
       emailAddress
       lastLogin
       rowVersion
     }
+    roles {
+      id
+      description
+      operations
+      rowVersion
+      title
     }
   }
+}

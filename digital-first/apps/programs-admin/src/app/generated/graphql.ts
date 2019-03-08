@@ -136,6 +136,20 @@ export interface CreateReportAccessControlInputGraph {
   accessRights?: Maybe<AccessRights>
 }
 
+export interface CreateRoleInputGraph {
+  title: string
+
+  description?: Maybe<string>
+
+  operations: UInt32
+}
+
+export interface CreateRoleAccessControlGroupInputGraph {
+  roleId: Guid
+
+  accessControlGroupId: Guid
+}
+
 export interface CreateStatisticInputGraph {
   name: string
 
@@ -232,6 +246,16 @@ export interface DeleteProjectInputGraph {
 
 export interface DeleteReportInputGraph {
   id: Guid
+}
+
+export interface DeleteRoleInputGraph {
+  id: Guid
+}
+
+export interface DeleteRoleAccessControlGroupInputGraph {
+  roleId: Guid
+
+  accessControlGroupId: Guid
 }
 
 export interface DeleteStatisticInputGraph {
@@ -398,6 +422,18 @@ export interface UpdateReportVersionInputGraph {
   dataDate: DateTimeOffset
 
   notes?: Maybe<string>
+
+  rowVersion: string
+}
+
+export interface UpdateRoleInputGraph {
+  id: Guid
+
+  title: string
+
+  description?: Maybe<string>
+
+  operations: UInt32
 
   rowVersion: string
 }
@@ -785,6 +821,62 @@ export namespace Portfolios {
   }
 }
 
+export namespace CreateRoleAccessControlGroup {
+  export type Variables = {
+    data: CreateRoleAccessControlGroupInputGraph
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    createRoleAccessControlGroup: Maybe<CreateRoleAccessControlGroup>
+  }
+
+  export type CreateRoleAccessControlGroup = {
+    __typename?: 'RoleAccessControlGroupGraph'
+
+    accessControlGroupId: Guid
+
+    roleId: Guid
+  }
+}
+
+export namespace DeleteRoleAccessControlGroup {
+  export type Variables = {
+    data: DeleteRoleAccessControlGroupInputGraph
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    deleteRoleAccessControlGroup: Maybe<boolean>
+  }
+}
+
+export namespace AllRoles {
+  export type Variables = {}
+
+  export type Query = {
+    __typename?: 'Query'
+
+    roles: Maybe<(Maybe<Roles>)[]>
+  }
+
+  export type Roles = {
+    __typename?: 'RoleGraph'
+
+    id: Guid
+
+    title: string
+
+    description: string
+
+    operations: UInt32
+
+    rowVersion: string
+  }
+}
+
 export namespace CreateAccessControlGroupUser {
   export type Variables = {
     data: CreateAccessControlGroupUserInputGraph
@@ -916,6 +1008,8 @@ export namespace Group {
     title: string
 
     members: Maybe<(Maybe<Members>)[]>
+
+    roles: Maybe<(Maybe<Roles>)[]>
   }
 
   export type Members = {
@@ -928,6 +1022,20 @@ export namespace Group {
     lastLogin: Maybe<DateTimeOffset>
 
     rowVersion: string
+  }
+
+  export type Roles = {
+    __typename?: 'RoleGraph'
+
+    id: Guid
+
+    description: string
+
+    operations: UInt32
+
+    rowVersion: string
+
+    title: string
   }
 }
 
@@ -2850,6 +2958,58 @@ export class PortfoliosGQL extends Apollo.Query<
 @Injectable({
   providedIn: 'root'
 })
+export class CreateRoleAccessControlGroupGQL extends Apollo.Mutation<
+  CreateRoleAccessControlGroup.Mutation,
+  CreateRoleAccessControlGroup.Variables
+> {
+  document: any = gql`
+    mutation createRoleAccessControlGroup(
+      $data: CreateRoleAccessControlGroupInputGraph!
+    ) {
+      createRoleAccessControlGroup(input: $data) {
+        accessControlGroupId
+        roleId
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class DeleteRoleAccessControlGroupGQL extends Apollo.Mutation<
+  DeleteRoleAccessControlGroup.Mutation,
+  DeleteRoleAccessControlGroup.Variables
+> {
+  document: any = gql`
+    mutation deleteRoleAccessControlGroup(
+      $data: DeleteRoleAccessControlGroupInputGraph!
+    ) {
+      deleteRoleAccessControlGroup(input: $data)
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class AllRolesGQL extends Apollo.Query<
+  AllRoles.Query,
+  AllRoles.Variables
+> {
+  document: any = gql`
+    query allRoles {
+      roles {
+        id
+        title
+        description
+        operations
+        rowVersion
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
 export class CreateAccessControlGroupUserGQL extends Apollo.Mutation<
   CreateAccessControlGroupUser.Mutation,
   CreateAccessControlGroupUser.Variables
@@ -2963,6 +3123,13 @@ export class GroupGQL extends Apollo.Query<Group.Query, Group.Variables> {
           emailAddress
           lastLogin
           rowVersion
+        }
+        roles {
+          id
+          description
+          operations
+          rowVersion
+          title
         }
       }
     }
