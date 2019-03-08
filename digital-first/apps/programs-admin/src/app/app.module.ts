@@ -89,13 +89,16 @@ import { PortfoliosComponent } from './containers/portfolios/portfolios.componen
 import { PortfolioAddComponent } from './containers/portfolio/portfolio-add/portfolio-add.component'
 import { PortfolioEditComponent } from './containers/portfolio/portfolio-edit/portfolio-edit.component'
 import { ReportVersionEditComponent } from './containers/program-report/report-version-edit/report-version-edit.component'
+import { GroupRolesComponent } from './containers/group-roles/group-roles.component'
+import { DialogAssignRoleToGroupComponent } from './dialogs/dialog-assign-role-to-group.component'
 
 const COMPONENTS = [AppComponent, HomeComponent]
 
 const ENTRYCOMPONENTS = [
   DialogAreYouSureComponent,
   DialogAssignGroupPermissionComponent,
-  DialogAssignUserToGroupComponent
+  DialogAssignUserToGroupComponent,
+  DialogAssignRoleToGroupComponent
 ]
 
 export function initApplication(): Function {
@@ -120,6 +123,7 @@ export function initApplication(): Function {
     PermissionComponent,
     DialogAssignGroupPermissionComponent,
     DialogAssignUserToGroupComponent,
+    DialogAssignRoleToGroupComponent,
     ProgramReportsComponent,
     ReportAddComponent,
     ProgramReportComponent,
@@ -160,7 +164,8 @@ export function initApplication(): Function {
     PortfoliosComponent,
     PortfolioAddComponent,
     PortfolioEditComponent,
-    ReportVersionEditComponent
+    ReportVersionEditComponent,
+    GroupRolesComponent
   ],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [

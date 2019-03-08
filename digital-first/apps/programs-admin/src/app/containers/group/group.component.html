@@ -18,6 +18,13 @@
     </ng-container>
   </df-expander-panel>
 
+  <digital-first-group-roles
+    [groupId]="groupId"
+    [roles]="roles"
+    (onDeleteClicked)="handleRoleDeleteItemClicked($event)"
+  >
+  </digital-first-group-roles>
+
   <digital-first-group-users
     [members]="members"
     [groupId]="groupId"
