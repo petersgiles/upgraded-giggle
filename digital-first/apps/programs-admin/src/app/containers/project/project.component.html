@@ -20,10 +20,32 @@
     </df-expander-panel>
 
     <div class="programsadmin-layout__row">
-      <p>{{ project.name }}</p>
-      <p>{{ project.notes }}</p>
-      <p>{{ project.externalId }}</p>
-      <p>{{ project.status }}</p>
+      <dl>
+        <dt>
+          Name:
+        </dt>
+        <dd>
+          {{ project.name }}
+        </dd>
+        <dt>
+          Notes:
+        </dt>
+        <dd>
+          {{ project.notes }}
+        </dd>
+        <dt>
+          External id:
+        </dt>
+        <dd>
+          {{ project.externalId }}
+        </dd>
+        <dt>
+          Status:
+        </dt>
+        <dd>
+          {{ project.status }}
+        </dd>
+      </dl>
     </div>
   </section>
 </div>

@@ -19,8 +19,20 @@
   </df-expander-panel>
 
   <div class="programsadmin-layout__row">
-    <p>{{ statistic.agency.title }}</p>
-    <p>{{ statistic.externalId }}</p>
+    <dl>
+      <dt>
+        Agency:
+      </dt>
+      <dd>
+        {{ statistic.agency.title }}
+      </dd>
+      <dt>
+        External id:
+      </dt>
+      <dd>
+        {{ statistic.externalId }}
+      </dd>
+    </dl>
   </div>
 
   <digital-first-permission

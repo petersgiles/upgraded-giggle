@@ -20,9 +20,26 @@
     </df-expander-panel>
 
     <div class="programsadmin-layout__row">
-      <p>Title: {{ agency.title }}</p>
-      <p>Portfolio: {{ agency.portfolio.title }}</p>
-      <p *ngIf="agency.metadata">Metadata: {{ agency.metadata }}</p>
+      <dl>
+        <dt>
+          Agency:
+        </dt>
+        <dd>
+          {{ agency.title }}
+        </dd>
+        <dt>
+          Portfolio:
+        </dt>
+        <dd>
+          {{ agency.portfolio.title }}
+        </dd>
+        <dt *ngIf="agency.metadata">
+          Metadata:
+        </dt>
+        <dd *ngIf="agency.metadata">
+          {{ agency.metadata }}
+        </dd>
+      </dl>
     </div>
   </section>
 

@@ -21,8 +21,20 @@
     </df-expander-panel>
 
     <div class="programsadmin-layout__row">
-      <p>Title: {{ portfolio.title }}</p>
-      <p>Metadata: {{ portfolio.metadata }}</p>
+      <dl>
+        <dt>
+          Title:
+        </dt>
+        <dd>
+          {{ portfolio.title }}
+        </dd>
+        <dt *ngIf="portfolio.metadata">
+          Metadata:
+        </dt>
+        <dd *ngIf="portfolio.metadata">
+          {{ portfolio.metadata }}
+        </dd>
+      </dl>
     </div>
 
     <df-expander-panel title="Agencies" [expanded]="true" [expandable]="false">
