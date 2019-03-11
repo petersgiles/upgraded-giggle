@@ -4,7 +4,7 @@
       <input type="hidden" formControlName="id" />
 
       <div class="form-layout__row">
-        <digital-first-document-status [statuses]="workflowList$ | async" formControlName="status"></digital-first-document-status>
+        <df-status-picker [statuses]="workflowList$ | async" formControlName="status"></df-status-picker>
       </div>
 
       <h3 class="form-content__headline">Commitment</h3>

@@ -13,11 +13,9 @@ import { BusyComponent } from './busy.component'
 import { ElectorateSelectorComponent } from './electorate-selector/electorate-selector.component'
 import { AvatarComponent } from './avatar/avatar.component'
 import { InfoComponent } from './info/info.component'
-import { DocumentStatusComponent } from './document-status/document-status.component'
 
 const COMPONENTS = [
   ContactCardComponent,
-  DocumentStatusComponent,
   PageTitleComponent,
   RelatedArtifactsComponent,
   BusyComponent,

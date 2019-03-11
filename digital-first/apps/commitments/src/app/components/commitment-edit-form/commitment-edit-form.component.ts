@@ -20,7 +20,7 @@ import { CriticalDate } from '../../models/critical-date.model'
 import { ThemeType } from '../../models/theme-type.model'
 import { PackageType } from '../../models/package-type.model'
 import { sortBy } from '@digital-first/df-utils'
-import { DocumentStatus } from '@digital-first/df-components'
+import { DocumentStatus } from '@df/components'
 
 const workflow: DocumentStatus[] = [
   {
@@ -50,20 +50,20 @@ const workflow: DocumentStatus[] = [
   {
     id: '4',
     icon: 'how_to_reg',
-    caption: 'Cleared by Policy Area',
+    caption: 'For Costing',
     colour: 'GhostWhite',
     active: false,
-    order: 3
+    order: 4
   },
   {
     id: '5',
     icon: 'how_to_reg',
-    caption: 'Cleared by Policy Area',
+    caption: 'Final QA Done',
     colour: 'GhostWhite',
     active: false,
-    order: 3
+    order: 5
   }
-]
+].sort(sortBy('order'))
 
 @Component({
   selector: 'digital-first-commitment-edit-form',
