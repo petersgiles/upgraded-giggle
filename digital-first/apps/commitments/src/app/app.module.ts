@@ -82,6 +82,8 @@ import { CommitmentSubscriptionEffects } from './reducers/commitment-subscriptio
 import { CommitmentContactEffects } from './reducers/commitment-contact/commitment-contact.effects'
 import { CommitmentActionEffects } from './reducers/commitment-action/commitment-action.effects'
 import { CommitmentPortfolioEffects } from './reducers/commitment-portfolio/commitment-portfolio.effects'
+import { CommitmentPackageEffects } from './reducers/commitment-package/commitment-package.effects'
+import { CommitmentThemeEffects } from './reducers/commitment-theme/commitment-theme.effects'
 
 import { CommitmentDiscussionComponent } from './containers/commitment-discussion/commitment-discussion.component'
 import { CommitmentDeliveryLocationComponent } from './containers/commitment-delivery-location/commitment-delivery-location.component'
@@ -111,6 +113,8 @@ import { relatedLinksDataServiceProvider } from './reducers/related-link/related
 import { relatedCommitmentsDataServiceProvider } from './reducers/related-commitment/related-commitment-data.service'
 import { deliveryLocationsDataServiceProvider } from './reducers/commitment-delivery-location/commitment-delivery-location-data.service'
 import { commitmentPortfoliosDataServiceProvider } from './reducers/commitment-portfolio/commitment-portfolio-data.service'
+import { commitmentPackagesDataServiceProvider } from './reducers/commitment-package/commitment-package-data.service'
+import { commitmentThemesDataServiceProvider } from './reducers/commitment-theme/commitment-theme-data.service'
 
 import { DeliveryLocationEffects } from './reducers/commitment-delivery-location/commitment-delivery-location.effects'
 import { ExcelService } from './services/excel.service'
@@ -122,6 +126,8 @@ import {
   MetadataRefinerComponent
 } from '@digital-first/df-refiner'
 import { CommitmentPortfolioComponent } from './containers/commitment-portfolio/commitment-portfolio.component'
+import { CommitmentPackageComponent } from './containers/commitment-package/commitment-package.component'
+import { CommitmentThemeComponent } from './containers/commitment-theme/commitment-theme.component'
 import { DragDropModule } from '@angular/cdk/drag-drop'
 import { CommitmentMadLibComponent } from './containers/commitment-mad-lib/commitment-mad-lib.component'
 
@@ -152,6 +158,8 @@ const COMPONENTS = [
   CommitmentRelatedCommitmentsComponent,
   CommitmentCommitmentComponent,
   CommitmentPortfolioComponent,
+  CommitmentPackageComponent,
+  CommitmentThemeComponent,
   CommitmentMadLibComponent
 ]
 
@@ -283,6 +291,8 @@ export let appDataServiceProvider = {
       CommitmentSubscriptionEffects,
       CommitmentActionEffects,
       CommitmentPortfolioEffects,
+      CommitmentPackageEffects,
+      CommitmentThemeEffects,
       CommentOverviewMapEffects,
       DeliveryLocationEffects
     ]),
@@ -309,6 +319,8 @@ export let appDataServiceProvider = {
     lookupDataServiceProvider,
     subscriptionDataServiceProvider,
     commitmentPortfoliosDataServiceProvider,
+    commitmentPackagesDataServiceProvider,
+    commitmentThemesDataServiceProvider,
     { provide: FullLayoutService, useClass: AppFullLayoutService },
     {
       provide: APOLLO_OPTIONS,

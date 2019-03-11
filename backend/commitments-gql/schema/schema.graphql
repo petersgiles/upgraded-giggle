@@ -151,6 +151,16 @@ type CommitmentAction {
     portfolio: Portfolio
   }
 
+  type CommitmentPackage {
+    commitment: Commitment,
+    package: PackageType
+  }
+
+  type CommitmentTheme {
+    commitment: Commitment,
+    theme: ThemeType
+  }
+
   type RelatedCommitment {
     commitment: ID,
     relatedTo: ID
@@ -209,6 +219,8 @@ type CommitmentAction {
     commitmentContacts(commitment: ID!): [Contact],
     commitmentMapPoints(commitment: ID!): [MapPoint],
     commitmentPortfolios(commitment: ID!): [Portfolio],
+    commitmentPackages(commitment: ID!): [PackageType],
+    commitmentThemes(commitment: ID!): [ThemeType],
     commitmentElectorates(commitment: ID!): [Electorate],
     commitmentRelatedCommitments(commitment: ID!): [Commitment],
     commitmentRelatedLinks(commitment: ID!): [RelatedLink],
@@ -295,6 +307,10 @@ type CommitmentAction {
     deleteRelatedLink(id: ID!): Commitment,
     storeCommitmentPortfolio(commitment: ID!, portfolio: ID!, primary: Boolean): Commitment,
     deleteCommitmentPortfolio(commitment: ID!, portfolio: ID!): Commitment,
+    storeCommitmentTheme(commitment: ID!, theme: ID!, primary: Boolean): Commitment,
+    deleteCommitmentTheme(commitment: ID!, theme: ID!): Commitment,
+    storeCommitmentPackage(commitment: ID!, package: ID!, primary: Boolean): Commitment,
+    deleteCommitmentPackage(commitment: ID!, package: ID!): Commitment,
     storeCommitmentSubscription(commitment: ID!, subscriber: ID!): Commitment,
     deleteCommitmentSubscription(commitment: ID!, subscriber: ID!): Commitment,
     }
