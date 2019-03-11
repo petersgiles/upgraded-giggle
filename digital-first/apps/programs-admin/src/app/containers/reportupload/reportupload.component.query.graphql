@@ -6,6 +6,12 @@ query allProgramReports {
       id
       name
       __typename
+      
+      latestVersion
+      {
+          id
+          notes   
+      }  
     }
     __typename
   }

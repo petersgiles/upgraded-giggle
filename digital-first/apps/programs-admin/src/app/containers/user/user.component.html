@@ -18,7 +18,14 @@
     </ng-container>
   </df-expander-panel>
   <div class="programsadmin-layout__row">
-    <p>{{ user.agency.title }}</p>
+    <dl>
+      <dt>
+        Agency:
+      </dt>
+      <dd>
+        {{ user.agency.title }}
+      </dd>
+    </dl>
   </div>
 
   <digital-first-user-program-access [programAccessRows]="programAccessRows">

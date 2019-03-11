@@ -20,9 +20,26 @@
     </df-expander-panel>
 
     <div class="programsadmin-layout__row">
-      <p>{{ program.agency.title }}</p>
-      <p>{{ program.notes }}</p>
-      <p>{{ program.externalId }}</p>
+      <dl>
+        <dt>
+          Agency:
+        </dt>
+        <dd>
+          {{ program.agency.title }}
+        </dd>
+        <dt>
+          Notes:
+        </dt>
+        <dd>
+          {{ program.notes }}
+        </dd>
+        <dt>
+          External id:
+        </dt>
+        <dd>
+          {{ program.externalId }}
+        </dd>
+      </dl>
     </div>
 
     <digital-first-permission

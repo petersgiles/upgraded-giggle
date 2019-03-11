@@ -1,0 +1,14 @@
+mutation createRoleAccessControlGroup(
+  $data: CreateRoleAccessControlGroupInputGraph!
+) {
+  createRoleAccessControlGroup(input: $data) {
+    accessControlGroupId
+    roleId
+  }
+}
+
+mutation deleteRoleAccessControlGroup(
+  $data: DeleteRoleAccessControlGroupInputGraph!
+) {
+  deleteRoleAccessControlGroup(input: $data)
+}

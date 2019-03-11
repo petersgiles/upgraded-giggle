@@ -1,0 +1,13 @@
+query getPortfolioDetail ($id: String!) {
+  portfolio(id: $id)
+  {
+       id
+       title
+       metadata
+       agencies {
+         id
+         title
+       }
+
+    }
+}

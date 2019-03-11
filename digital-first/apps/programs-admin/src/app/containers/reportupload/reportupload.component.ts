@@ -52,7 +52,7 @@ export class ReportuploadComponent implements OnInit, OnDestroy {
           value => value.id === event.value
         )[0].reports
       }
-      this.reportForm.patchValue({ reportId: undefined })
+      this.reportForm.patchValue({ reportId: undefined, notes: '' })
     }
   }
 
@@ -63,6 +63,27 @@ export class ReportuploadComponent implements OnInit, OnDestroy {
       .subscribe(value => {
         this.programs = value
       })
+  }
+
+  onReportSelectionChange(event: { index: any; value: any }) {
+    if (event.index > 0) {
+      this.getReportVersionNotes(event.value)
+    }
+  }
+
+  getReportVersionNotes(reportId: string) {
+    let report: any
+    this.programs.filter(progs =>
+      progs.reports
+        .filter(pReports => pReports.id === reportId)
+        .map(pReport => (report = pReport))
+    )
+
+    if (report.latestVersion) {
+      this.reportForm.patchValue({
+        notes: report.latestVersion.notes
+      })
+    }
   }
 
   fileChange(event) {

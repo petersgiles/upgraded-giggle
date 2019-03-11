@@ -5,7 +5,8 @@ import {
   Group,
   GroupGQL,
   DeleteAccessControlGroupUserGQL,
-  Maybe
+  Maybe,
+  DeleteRoleAccessControlGroupGQL
 } from '../../generated/graphql'
 import { first, map } from 'rxjs/operators'
 import { Subscription } from 'rxjs'
@@ -23,12 +24,14 @@ export class GroupComponent implements OnInit {
   private groupSubscription$: Subscription
   group: Group.Group
   members: Maybe<Maybe<Group.Members>[]>
+  roles: Maybe<Maybe<Group.Roles>[]>
 
   constructor(
     private route: ActivatedRoute,
     private groupGQL: GroupGQL,
     private deleteAccessControlGroupGql: DeleteAccessControlGroupGQL,
     private deleteAccessControlGroupUserGql: DeleteAccessControlGroupUserGQL,
+    private deleteRoleAccessControlGroupGql: DeleteRoleAccessControlGroupGQL,
     private router: Router,
     public dialog: MdcDialog
   ) {}
@@ -42,6 +45,7 @@ export class GroupComponent implements OnInit {
       .subscribe(group => {
         this.group = group
         this.members = this.group.members
+        this.roles = this.group.roles
       })
   }
 
@@ -82,6 +86,30 @@ export class GroupComponent implements OnInit {
         {
           data: {
             userId: member.id,
+            accessControlGroupId: this.groupId
+          }
+        },
+        {
+          refetchQueries: [
+            {
+              query: this.groupGQL.document,
+              variables: {
+                groupId: this.groupId
+              }
+            }
+          ]
+        }
+      )
+      .pipe(first())
+      .subscribe(value => {})
+  }
+
+  handleRoleDeleteItemClicked(role: Group.Roles) {
+    this.deleteRoleAccessControlGroupGql
+      .mutate(
+        {
+          data: {
+            roleId: role.id,
             accessControlGroupId: this.groupId
           }
         },

@@ -15,11 +15,15 @@
     </df-expander-panel>
 
     <div class="programsadmin-layout__row">
-      <p>Notes:</p>
-      <p *ngIf="report.notes; else elseBlock">{{ report.notes }}</p>
-      <ng-template #elseBlock
-        ><p>No notes were provided for this report</p></ng-template
-      >
+      <dl>
+        <dt>
+          Notes:
+        </dt>
+        <dd *ngIf="report.notes; else elseBlock">{{ report.notes }}</dd>
+        <ng-template #elseBlock>
+          <dd>No notes were provided for this report</dd>
+        </ng-template>
+      </dl>
     </div>
 
     <digital-first-permission
@@ -48,14 +52,12 @@
       </df-expander-panel>
 
       <div class="programsadmin-layout__row">
-        <p>Data date:</p>
-        <p>{{ latestVersion.dataDate }}</p>
-
-        <p>Notes:</p>
+        <p>Data date: {{ latestVersion.dataDate }}</p>
         <p *ngIf="latestVersion.notes; else elseBlock">
-          {{ latestVersion.notes }}
+          Notes: {{ latestVersion.notes }}
         </p>
         <ng-template #elseBlock>
+          <p>Notes:</p>
           <p>No notes were provided for this report</p>
         </ng-template>
       </div>

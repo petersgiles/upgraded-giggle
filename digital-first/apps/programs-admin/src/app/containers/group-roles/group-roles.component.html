@@ -1,0 +1,23 @@
+<df-expander-panel title="Roles" [expanded]="true" [expandable]="false">
+  <ng-container panel-buttons>
+    <df-button
+      icon="directions_run"
+      title="Assign&nbsp;Role"
+      (onClick)="handleAddClicked($event)"
+    ></df-button>
+  </ng-container>
+</df-expander-panel>
+
+<div class="programsadmin-layout__row">
+  <df-data-table
+    [rows]="roles"
+    [columns]="columns"
+    [count]="roles.length"
+    [hasDelete]="true"
+    [limit]="defaultPageLength"
+    (onSelect)="handleRoleNavigation($event)"
+    (onDelete)="handleTableDeleteClicked($event)"
+    [messages]="emptyTableMessage"
+  >
+  </df-data-table>
+</div>

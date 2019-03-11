@@ -60,7 +60,6 @@ p {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
   text-align: right;
-  // margin-right: 20px
 }
 
 .app-layout-title-version {
@@ -70,4 +69,27 @@ p {
 
 .ngx-datatable.material .empty-row {
   text-align: center;
+}
+
+df-button {
+  min-width: 10px !important;
+  margin-right: 10px !important;
+}
+
+dl {
+  display: flex;
+  flex-flow: row wrap;
+}
+dt {
+  flex-basis: 10%;
+  margin-left: 4px;
+  padding: 4px 4px;
+  font-style: italic;
+  text-align: left;
+}
+dd {
+  flex-basis: 80%;
+  flex-grow: 1;
+  margin: 0;
+  padding: 4px 4px;
 }

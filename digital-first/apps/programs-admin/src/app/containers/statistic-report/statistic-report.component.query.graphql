@@ -1,5 +1,5 @@
-query statisticReport ($reportId: String!) {
-  statisticReports(ids:[$reportId])
+query statisticReportDetail ($reportId: String!) {
+  statisticReport(id:$reportId)
   {
     id
     name
@@ -18,17 +18,12 @@ query statisticReport ($reportId: String!) {
         rowVersion
       }
     }
-   
-  }
-}
-
-
-query getLatestVersionDetail($statisticReportId: String!)
-{
-  latestVersion(statisticReportId: $statisticReportId)
-  {
+    latestVersion
+    {
       id
       dataDate
       notes
+    } 
+   
   }
 }

@@ -3,10 +3,8 @@ import {
   AccessRights,
   AllGroupsGQL,
   CreateStatisticReportAccessControlGQL,
-  StatisticReport,
-  StatisticReportGQL,
-  GetLatestVersionDetailGQL,
-  GetLatestVersionDetail,
+  StatisticReportDetail,
+  StatisticReportDetailGQL,
   DeleteAccessControlGQL,
   UpdateAccessControlGQL
 } from '../../generated/graphql'
@@ -27,25 +25,22 @@ import {
   styleUrls: ['./statistic-report.component.scss']
 })
 export class StatisticReportComponent implements OnInit, OnDestroy {
-  report: StatisticReport.StatisticReports
+  report: StatisticReportDetail.StatisticReport
   reportSubscription$: Subscription
-  latestVersionSubscription$: Subscription
-  latestVersion: GetLatestVersionDetail.LatestVersion
   statisticId: string
   statisticReportId: string
-
+  latestVersion: StatisticReportDetail.LatestVersion
   noDataMessage =
     'This report inherits its permissions from the statistic. Adding groups here will break inheritance.'
   permissionRows: PermissionRow[]
 
   constructor(
     private route: ActivatedRoute,
-    private statisticReportGql: StatisticReportGQL,
+    private statisticReportGql: StatisticReportDetailGQL,
     private allGroupsGql: AllGroupsGQL,
     private createStatisticReportAccessControlGql: CreateStatisticReportAccessControlGQL,
     private deleteAccessControlGql: DeleteAccessControlGQL,
     private updateAccessControlGql: UpdateAccessControlGQL,
-    private getLatestVersionGQL: GetLatestVersionDetailGQL,
     private router: Router,
     public dialog: MdcDialog
   ) {}
@@ -58,7 +53,7 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
         { reportId: this.statisticReportId },
         { fetchPolicy: 'network-only' }
       )
-      .valueChanges.pipe(map(value => value.data.statisticReports[0]))
+      .valueChanges.pipe(map(value => value.data.statisticReport))
       .subscribe(report => {
         this.report = report
 
@@ -75,22 +70,12 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
         } else {
           this.permissionRows = []
         }
-      })
-
-    this.latestVersionSubscription$ = this.getLatestVersionGQL
-      .watch(
-        { statisticReportId: this.statisticReportId },
-        { fetchPolicy: 'network-only' }
-      )
-      .valueChanges.pipe(map(result => result.data.latestVersion))
-      .subscribe(item => {
-        this.latestVersion = item
+        this.latestVersion = this.report.latestVersion
       })
   }
 
   ngOnDestroy(): void {
     this.reportSubscription$.unsubscribe()
-    this.latestVersionSubscription$.unsubscribe()
   }
 
   handleOpenAddGroupDialog() {
@@ -199,7 +184,7 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
       .subscribe(value => {})
   }
 
-  handleEditStatisticReport(report: StatisticReport.StatisticReports) {
+  handleEditStatisticReport(report: StatisticReportDetail.StatisticReport) {
     return this.router.navigate(['../edit', report.id], {
       relativeTo: this.route
     })
@@ -207,9 +192,9 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
 
   handleEditReportVersion(reportVersionId: string) {
     return this.router.navigate([
-      `edit-statistic-report-version/${reportVersionId}/${this.report.id}/${
-        this.statisticId
-      }`
+      `statistic-report-version-edit/${this.statisticId}/${
+        this.report.id
+      }/${reportVersionId}`
     ])
   }
 }

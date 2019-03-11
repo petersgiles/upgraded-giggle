@@ -1,0 +1,9 @@
+query getPortfolio ($id: String!) {
+  portfolio(id: $id)
+  {
+       id
+       title
+       metadata
+       rowVersion
+    }
+}

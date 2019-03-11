@@ -3,28 +3,29 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { FormBuilder } from '@angular/forms'
 import { Validators } from '@angular/forms'
 import {
-  StatisticReportVersionGQL,
+  StatisticReportVersionEditGQL,
   UpdateStatisticReportVersionGQL
 } from '../../../generated/graphql'
 import { Subscription } from 'rxjs'
 import { first, map } from 'rxjs/operators'
 
 @Component({
-  selector: 'digital-first-edit-statistic-report-version',
-  templateUrl: './edit-statistic-report-version.component.html',
-  styleUrls: ['./edit-statistic-report-version.component.scss']
+  selector: 'digital-first-statistic-report-version-edit',
+  templateUrl: './statistic-report-version-edit.component.html',
+  styleUrls: ['./statistic-report-version-edit.component.scss']
 })
-export class EditStatisticReportVersionComponent implements OnInit, OnDestroy {
+export class StatisticReportVersionEditComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private statisticReportVersionGQL: StatisticReportVersionGQL,
+    private statisticReportVersionGQL: StatisticReportVersionEditGQL,
     private updateStatisticReportVersionGQL: UpdateStatisticReportVersionGQL
   ) {}
   reportVersionId: string
   reportId: string
   statisticId: string
+  callingPage: string
   statisticReportVersionSubscription$: Subscription
   rowVersion: string
   statisticReportVersionForm = this.formBuilder.group({
@@ -36,10 +37,10 @@ export class EditStatisticReportVersionComponent implements OnInit, OnDestroy {
     this.reportVersionId = this.route.snapshot.paramMap.get('reportVersionId')
     this.reportId = this.route.snapshot.paramMap.get('reportId')
     this.statisticId = this.route.snapshot.paramMap.get('statisticId')
-
+    this.callingPage = `statistics/${this.statisticId}/reports/${this.reportId}`
     this.statisticReportVersionSubscription$ = this.statisticReportVersionGQL
-      .watch({ reportId: this.reportId }, { fetchPolicy: 'network-only' })
-      .valueChanges.pipe(map(value => value.data.statisticReport.version))
+      .watch({ id: this.reportVersionId }, { fetchPolicy: 'network-only' })
+      .valueChanges.pipe(map(value => value.data.statisticReportVersion))
       .subscribe(reportVersion => {
         this.statisticReportVersionForm.patchValue({
           dataDate: reportVersion.dataDate,
@@ -54,9 +55,7 @@ export class EditStatisticReportVersionComponent implements OnInit, OnDestroy {
   }
 
   cancel() {
-    return this.router.navigate([
-      `statistics/${this.statisticId}/reports/${this.reportId}`
-    ])
+    return this.router.navigate([this.callingPage])
   }
 
   onSubmit() {
@@ -72,10 +71,6 @@ export class EditStatisticReportVersionComponent implements OnInit, OnDestroy {
         },
         {}
       )
-      .subscribe(() =>
-        this.router.navigate([
-          `statistics/${this.statisticId}/reports/${this.reportId}`
-        ])
-      )
+      .subscribe(() => this.router.navigate([this.callingPage]))
   }
 }

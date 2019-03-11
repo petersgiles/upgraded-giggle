@@ -136,6 +136,20 @@ export interface CreateReportAccessControlInputGraph {
   accessRights?: Maybe<AccessRights>
 }
 
+export interface CreateRoleInputGraph {
+  title: string
+
+  description?: Maybe<string>
+
+  operations: UInt32
+}
+
+export interface CreateRoleAccessControlGroupInputGraph {
+  roleId: Guid
+
+  accessControlGroupId: Guid
+}
+
 export interface CreateStatisticInputGraph {
   name: string
 
@@ -232,6 +246,16 @@ export interface DeleteProjectInputGraph {
 
 export interface DeleteReportInputGraph {
   id: Guid
+}
+
+export interface DeleteRoleInputGraph {
+  id: Guid
+}
+
+export interface DeleteRoleAccessControlGroupInputGraph {
+  roleId: Guid
+
+  accessControlGroupId: Guid
 }
 
 export interface DeleteStatisticInputGraph {
@@ -388,6 +412,28 @@ export interface UpdateReportInputGraph {
   programId: Guid
 
   notes?: Maybe<string>
+
+  rowVersion: string
+}
+
+export interface UpdateReportVersionInputGraph {
+  id: Guid
+
+  dataDate: DateTimeOffset
+
+  notes?: Maybe<string>
+
+  rowVersion: string
+}
+
+export interface UpdateRoleInputGraph {
+  id: Guid
+
+  title: string
+
+  description?: Maybe<string>
+
+  operations: UInt32
 
   rowVersion: string
 }
@@ -775,6 +821,62 @@ export namespace Portfolios {
   }
 }
 
+export namespace CreateRoleAccessControlGroup {
+  export type Variables = {
+    data: CreateRoleAccessControlGroupInputGraph
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    createRoleAccessControlGroup: Maybe<CreateRoleAccessControlGroup>
+  }
+
+  export type CreateRoleAccessControlGroup = {
+    __typename?: 'RoleAccessControlGroupGraph'
+
+    accessControlGroupId: Guid
+
+    roleId: Guid
+  }
+}
+
+export namespace DeleteRoleAccessControlGroup {
+  export type Variables = {
+    data: DeleteRoleAccessControlGroupInputGraph
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    deleteRoleAccessControlGroup: Maybe<boolean>
+  }
+}
+
+export namespace AllRoles {
+  export type Variables = {}
+
+  export type Query = {
+    __typename?: 'Query'
+
+    roles: Maybe<(Maybe<Roles>)[]>
+  }
+
+  export type Roles = {
+    __typename?: 'RoleGraph'
+
+    id: Guid
+
+    title: string
+
+    description: string
+
+    operations: UInt32
+
+    rowVersion: string
+  }
+}
+
 export namespace CreateAccessControlGroupUser {
   export type Variables = {
     data: CreateAccessControlGroupUserInputGraph
@@ -906,6 +1008,8 @@ export namespace Group {
     title: string
 
     members: Maybe<(Maybe<Members>)[]>
+
+    roles: Maybe<(Maybe<Roles>)[]>
   }
 
   export type Members = {
@@ -918,6 +1022,20 @@ export namespace Group {
     lastLogin: Maybe<DateTimeOffset>
 
     rowVersion: string
+  }
+
+  export type Roles = {
+    __typename?: 'RoleGraph'
+
+    id: Guid
+
+    description: string
+
+    operations: UInt32
+
+    rowVersion: string
+
+    title: string
   }
 }
 
@@ -997,6 +1115,130 @@ export namespace UpdateAccessControl {
   }
 }
 
+export namespace CreatePortfolio {
+  export type Variables = {
+    data: CreatePortfolioInputGraph
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    createPortfolio: Maybe<CreatePortfolio>
+  }
+
+  export type CreatePortfolio = {
+    __typename?: 'PortfolioGraph'
+
+    id: Guid
+  }
+}
+
+export namespace UpdatePortfolio {
+  export type Variables = {
+    data: UpdatePortfolioInputGraph
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    updatePortfolio: Maybe<UpdatePortfolio>
+  }
+
+  export type UpdatePortfolio = {
+    __typename?: 'PortfolioGraph'
+
+    id: Guid
+  }
+}
+
+export namespace GetPortfolio {
+  export type Variables = {
+    id: string
+  }
+
+  export type Query = {
+    __typename?: 'Query'
+
+    portfolio: Maybe<Portfolio>
+  }
+
+  export type Portfolio = {
+    __typename?: 'PortfolioGraph'
+
+    id: Guid
+
+    title: string
+
+    metadata: Maybe<string>
+
+    rowVersion: string
+  }
+}
+
+export namespace DeletePortfolio {
+  export type Variables = {
+    data: DeletePortfolioInputGraph
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    deletePortfolio: Maybe<boolean>
+  }
+}
+
+export namespace GetPortfolioDetail {
+  export type Variables = {
+    id: string
+  }
+
+  export type Query = {
+    __typename?: 'Query'
+
+    portfolio: Maybe<Portfolio>
+  }
+
+  export type Portfolio = {
+    __typename?: 'PortfolioGraph'
+
+    id: Guid
+
+    title: string
+
+    metadata: Maybe<string>
+
+    agencies: Maybe<(Maybe<Agencies>)[]>
+  }
+
+  export type Agencies = {
+    __typename?: 'AgencyGraph'
+
+    id: Guid
+
+    title: string
+  }
+}
+
+export namespace AllPortfoliosSearch {
+  export type Variables = {
+    title?: Maybe<string>
+  }
+
+  export type Query = {
+    __typename?: 'Query'
+
+    portfolios: Maybe<(Maybe<Portfolios>)[]>
+  }
+
+  export type Portfolios = {
+    __typename?: 'PortfolioGraph'
+
+    id: Guid
+
+    title: string
+  }
+}
+
 export namespace CreateReportAccessControl {
   export type Variables = {
     data?: Maybe<CreateReportAccessControlInputGraph>
@@ -1044,6 +1286,8 @@ export namespace Report {
     rowVersion: string
 
     accessControlList: Maybe<(Maybe<AccessControlList>)[]>
+
+    latestVersion: Maybe<LatestVersion>
   }
 
   export type AccessControlList = {
@@ -1072,6 +1316,16 @@ export namespace Report {
     id: Guid
 
     title: string
+  }
+
+  export type LatestVersion = {
+    __typename?: 'ReportVersionGraph'
+
+    id: Guid
+
+    dataDate: Maybe<Date>
+
+    notes: string
   }
 }
 
@@ -1116,6 +1370,48 @@ export namespace UpdateReport {
     name: string
 
     notes: Maybe<string>
+  }
+}
+
+export namespace UpdateReportVersion {
+  export type Variables = {
+    data?: Maybe<UpdateReportVersionInputGraph>
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    updateReportVersion: Maybe<UpdateReportVersion>
+  }
+
+  export type UpdateReportVersion = {
+    __typename?: 'ReportVersionGraph'
+
+    id: Guid
+  }
+}
+
+export namespace ReportVersionEdit {
+  export type Variables = {
+    id: string
+  }
+
+  export type Query = {
+    __typename?: 'Query'
+
+    reportVersion: Maybe<ReportVersion>
+  }
+
+  export type ReportVersion = {
+    __typename?: 'ReportVersionGraph'
+
+    id: Guid
+
+    dataDate: Maybe<Date>
+
+    notes: string
+
+    rowVersion: string
   }
 }
 
@@ -1644,156 +1940,16 @@ export namespace AllProgramReports {
     id: Guid
 
     name: string
-  }
-}
-
-export namespace UpdateStatisticReportVersion {
-  export type Variables = {
-    data?: Maybe<UpdateStatisticReportVersionInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    updateStatisticReportVersion: Maybe<UpdateStatisticReportVersion>
-  }
-
-  export type UpdateStatisticReportVersion = {
-    __typename?: 'StatisticReportVersionGraph'
-
-    id: Guid
-  }
-}
-
-export namespace StatisticReportVersion {
-  export type Variables = {
-    reportId: string
-  }
-
-  export type Query = {
-    __typename?: 'Query'
-
-    statisticReport: Maybe<StatisticReport>
-  }
-
-  export type StatisticReport = {
-    __typename?: 'StatisticReportGraph'
-
-    version: Maybe<Version>
-  }
-
-  export type Version = {
-    __typename?: 'StatisticReportVersionGraph'
-
-    id: Guid
-
-    dataDate: Maybe<Date>
-
-    notes: Maybe<string>
-
-    rowVersion: string
-  }
-}
-
-export namespace CreateStatisticReportAccessControl {
-  export type Variables = {
-    data?: Maybe<CreateStatisticReportAccessControlInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    createStatisticReportAccessControl: Maybe<
-      CreateStatisticReportAccessControl
-    >
-  }
-
-  export type CreateStatisticReportAccessControl = {
-    __typename?: 'AccessControlEntryGraph'
-
-    id: string
-
-    rights: string
-
-    rowVersion: string
-  }
-}
-
-export namespace StatisticReport {
-  export type Variables = {
-    reportId: string
-  }
-
-  export type Query = {
-    __typename?: 'Query'
-
-    statisticReports: Maybe<(Maybe<StatisticReports>)[]>
-  }
-
-  export type StatisticReports = {
-    __typename?: 'StatisticReportGraph'
-
-    id: Guid
-
-    name: string
-
-    notes: Maybe<string>
-
-    rowVersion: string
-
-    statisticId: Guid
-
-    accessControlList: Maybe<(Maybe<AccessControlList>)[]>
-  }
-
-  export type AccessControlList = {
-    __typename?: 'AccessControlListGraph'
-
-    id: Guid
-
-    accessControlEntries: Maybe<(Maybe<AccessControlEntries>)[]>
-  }
-
-  export type AccessControlEntries = {
-    __typename?: 'AccessControlEntryGraph'
-
-    id: string
-
-    accessControlGroup: Maybe<AccessControlGroup>
-
-    rights: string
-
-    rowVersion: string
-  }
-
-  export type AccessControlGroup = {
-    __typename?: 'AccessControlGroupGraph'
-
-    id: Guid
-
-    title: string
-  }
-}
-
-export namespace GetLatestVersionDetail {
-  export type Variables = {
-    statisticReportId: string
-  }
-
-  export type Query = {
-    __typename?: 'Query'
 
     latestVersion: Maybe<LatestVersion>
   }
 
   export type LatestVersion = {
-    __typename?: 'StatisticReportVersionGraph'
+    __typename?: 'ReportVersionGraph'
 
     id: Guid
 
-    dataDate: Maybe<Date>
-
-    notes: Maybe<string>
+    notes: string
   }
 }
 
@@ -1842,6 +1998,166 @@ export namespace UpdateStatisticReport {
     notes: Maybe<string>
 
     statisticId: Guid
+  }
+}
+
+export namespace StatisticReportEdit {
+  export type Variables = {
+    reportId: string
+  }
+
+  export type Query = {
+    __typename?: 'Query'
+
+    statisticReport: Maybe<StatisticReport>
+  }
+
+  export type StatisticReport = {
+    __typename?: 'StatisticReportGraph'
+
+    id: Guid
+
+    name: string
+
+    notes: Maybe<string>
+
+    rowVersion: string
+
+    statisticId: Guid
+  }
+}
+
+export namespace UpdateStatisticReportVersion {
+  export type Variables = {
+    data?: Maybe<UpdateStatisticReportVersionInputGraph>
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    updateStatisticReportVersion: Maybe<UpdateStatisticReportVersion>
+  }
+
+  export type UpdateStatisticReportVersion = {
+    __typename?: 'StatisticReportVersionGraph'
+
+    id: Guid
+  }
+}
+
+export namespace StatisticReportVersionEdit {
+  export type Variables = {
+    id: string
+  }
+
+  export type Query = {
+    __typename?: 'Query'
+
+    statisticReportVersion: Maybe<StatisticReportVersion>
+  }
+
+  export type StatisticReportVersion = {
+    __typename?: 'StatisticReportVersionGraph'
+
+    id: Guid
+
+    dataDate: Maybe<Date>
+
+    notes: Maybe<string>
+
+    rowVersion: string
+  }
+}
+
+export namespace CreateStatisticReportAccessControl {
+  export type Variables = {
+    data?: Maybe<CreateStatisticReportAccessControlInputGraph>
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    createStatisticReportAccessControl: Maybe<
+      CreateStatisticReportAccessControl
+    >
+  }
+
+  export type CreateStatisticReportAccessControl = {
+    __typename?: 'AccessControlEntryGraph'
+
+    id: string
+
+    rights: string
+
+    rowVersion: string
+  }
+}
+
+export namespace StatisticReportDetail {
+  export type Variables = {
+    reportId: string
+  }
+
+  export type Query = {
+    __typename?: 'Query'
+
+    statisticReport: Maybe<StatisticReport>
+  }
+
+  export type StatisticReport = {
+    __typename?: 'StatisticReportGraph'
+
+    id: Guid
+
+    name: string
+
+    notes: Maybe<string>
+
+    rowVersion: string
+
+    statisticId: Guid
+
+    accessControlList: Maybe<(Maybe<AccessControlList>)[]>
+
+    latestVersion: Maybe<LatestVersion>
+  }
+
+  export type AccessControlList = {
+    __typename?: 'AccessControlListGraph'
+
+    id: Guid
+
+    accessControlEntries: Maybe<(Maybe<AccessControlEntries>)[]>
+  }
+
+  export type AccessControlEntries = {
+    __typename?: 'AccessControlEntryGraph'
+
+    id: string
+
+    accessControlGroup: Maybe<AccessControlGroup>
+
+    rights: string
+
+    rowVersion: string
+  }
+
+  export type AccessControlGroup = {
+    __typename?: 'AccessControlGroupGraph'
+
+    id: Guid
+
+    title: string
+  }
+
+  export type LatestVersion = {
+    __typename?: 'StatisticReportVersionGraph'
+
+    id: Guid
+
+    dataDate: Maybe<Date>
+
+    notes: Maybe<string>
   }
 }
 
@@ -2146,16 +2462,6 @@ export namespace StatisticAndStatisticReports {
     id: Guid
 
     name: string
-  }
-}
-
-export namespace GetLatestVersionNotes {
-  export type Variables = {
-    statisticReportId: string
-  }
-
-  export type Query = {
-    __typename?: 'Query'
 
     latestVersion: Maybe<LatestVersion>
   }
@@ -2652,6 +2958,58 @@ export class PortfoliosGQL extends Apollo.Query<
 @Injectable({
   providedIn: 'root'
 })
+export class CreateRoleAccessControlGroupGQL extends Apollo.Mutation<
+  CreateRoleAccessControlGroup.Mutation,
+  CreateRoleAccessControlGroup.Variables
+> {
+  document: any = gql`
+    mutation createRoleAccessControlGroup(
+      $data: CreateRoleAccessControlGroupInputGraph!
+    ) {
+      createRoleAccessControlGroup(input: $data) {
+        accessControlGroupId
+        roleId
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class DeleteRoleAccessControlGroupGQL extends Apollo.Mutation<
+  DeleteRoleAccessControlGroup.Mutation,
+  DeleteRoleAccessControlGroup.Variables
+> {
+  document: any = gql`
+    mutation deleteRoleAccessControlGroup(
+      $data: DeleteRoleAccessControlGroupInputGraph!
+    ) {
+      deleteRoleAccessControlGroup(input: $data)
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class AllRolesGQL extends Apollo.Query<
+  AllRoles.Query,
+  AllRoles.Variables
+> {
+  document: any = gql`
+    query allRoles {
+      roles {
+        id
+        title
+        description
+        operations
+        rowVersion
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
 export class CreateAccessControlGroupUserGQL extends Apollo.Mutation<
   CreateAccessControlGroupUser.Mutation,
   CreateAccessControlGroupUser.Variables
@@ -2766,6 +3124,13 @@ export class GroupGQL extends Apollo.Query<Group.Query, Group.Variables> {
           lastLogin
           rowVersion
         }
+        roles {
+          id
+          description
+          operations
+          rowVersion
+          title
+        }
       }
     }
   `
@@ -2840,6 +3205,107 @@ export class UpdateAccessControlGQL extends Apollo.Mutation<
 @Injectable({
   providedIn: 'root'
 })
+export class CreatePortfolioGQL extends Apollo.Mutation<
+  CreatePortfolio.Mutation,
+  CreatePortfolio.Variables
+> {
+  document: any = gql`
+    mutation createPortfolio($data: CreatePortfolioInputGraph!) {
+      createPortfolio(input: $data) {
+        id
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdatePortfolioGQL extends Apollo.Mutation<
+  UpdatePortfolio.Mutation,
+  UpdatePortfolio.Variables
+> {
+  document: any = gql`
+    mutation updatePortfolio($data: UpdatePortfolioInputGraph!) {
+      updatePortfolio(input: $data) {
+        id
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class GetPortfolioGQL extends Apollo.Query<
+  GetPortfolio.Query,
+  GetPortfolio.Variables
+> {
+  document: any = gql`
+    query getPortfolio($id: String!) {
+      portfolio(id: $id) {
+        id
+        title
+        metadata
+        rowVersion
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class DeletePortfolioGQL extends Apollo.Mutation<
+  DeletePortfolio.Mutation,
+  DeletePortfolio.Variables
+> {
+  document: any = gql`
+    mutation deletePortfolio($data: DeletePortfolioInputGraph!) {
+      deletePortfolio(input: $data)
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class GetPortfolioDetailGQL extends Apollo.Query<
+  GetPortfolioDetail.Query,
+  GetPortfolioDetail.Variables
+> {
+  document: any = gql`
+    query getPortfolioDetail($id: String!) {
+      portfolio(id: $id) {
+        id
+        title
+        metadata
+        agencies {
+          id
+          title
+        }
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class AllPortfoliosSearchGQL extends Apollo.Query<
+  AllPortfoliosSearch.Query,
+  AllPortfoliosSearch.Variables
+> {
+  document: any = gql`
+    query allPortfoliosSearch($title: String) {
+      portfolios(
+        where: { path: "title", comparison: contains, value: [$title] }
+        orderBy: { path: "title" }
+      ) {
+        id
+        title
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
 export class CreateReportAccessControlGQL extends Apollo.Mutation<
   CreateReportAccessControl.Mutation,
   CreateReportAccessControl.Variables
@@ -2862,7 +3328,7 @@ export class CreateReportAccessControlGQL extends Apollo.Mutation<
 export class ReportGQL extends Apollo.Query<Report.Query, Report.Variables> {
   document: any = gql`
     query report($reportId: String!) {
-      reports(ids: [$reportId]) {
+      reports(id: $reportId) {
         id
         name
         notes
@@ -2879,6 +3345,11 @@ export class ReportGQL extends Apollo.Query<Report.Query, Report.Variables> {
             rights
             rowVersion
           }
+        }
+        latestVersion {
+          id
+          dataDate
+          notes
         }
       }
     }
@@ -2914,6 +3385,39 @@ export class UpdateReportGQL extends Apollo.Mutation<
         id
         name
         notes
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdateReportVersionGQL extends Apollo.Mutation<
+  UpdateReportVersion.Mutation,
+  UpdateReportVersion.Variables
+> {
+  document: any = gql`
+    mutation updateReportVersion($data: UpdateReportVersionInputGraph) {
+      updateReportVersion(input: $data) {
+        id
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class ReportVersionEditGQL extends Apollo.Query<
+  ReportVersionEdit.Query,
+  ReportVersionEdit.Variables
+> {
+  document: any = gql`
+    query reportVersionEdit($id: String!) {
+      reportVersion(id: $id) {
+        id
+        dataDate
+        notes
+        rowVersion
       }
     }
   `
@@ -3271,112 +3775,12 @@ export class AllProgramReportsGQL extends Apollo.Query<
           id
           name
           __typename
-        }
-        __typename
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class UpdateStatisticReportVersionGQL extends Apollo.Mutation<
-  UpdateStatisticReportVersion.Mutation,
-  UpdateStatisticReportVersion.Variables
-> {
-  document: any = gql`
-    mutation updateStatisticReportVersion(
-      $data: UpdateStatisticReportVersionInputGraph
-    ) {
-      updateStatisticReportVersion(input: $data) {
-        id
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class StatisticReportVersionGQL extends Apollo.Query<
-  StatisticReportVersion.Query,
-  StatisticReportVersion.Variables
-> {
-  document: any = gql`
-    query statisticReportVersion($reportId: String!) {
-      statisticReport(id: $reportId) {
-        version: latestVersion {
-          id
-          dataDate
-          notes
-          rowVersion
-        }
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class CreateStatisticReportAccessControlGQL extends Apollo.Mutation<
-  CreateStatisticReportAccessControl.Mutation,
-  CreateStatisticReportAccessControl.Variables
-> {
-  document: any = gql`
-    mutation createStatisticReportAccessControl(
-      $data: CreateStatisticReportAccessControlInputGraph
-    ) {
-      createStatisticReportAccessControl(input: $data) {
-        id
-        rights
-        rowVersion
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class StatisticReportGQL extends Apollo.Query<
-  StatisticReport.Query,
-  StatisticReport.Variables
-> {
-  document: any = gql`
-    query statisticReport($reportId: String!) {
-      statisticReports(ids: [$reportId]) {
-        id
-        name
-        notes
-        rowVersion
-        statisticId
-        accessControlList {
-          id
-          accessControlEntries(orderBy: { path: "accessControlGroup.title" }) {
+          latestVersion {
             id
-            accessControlGroup {
-              id
-              title
-            }
-            rights
-            rowVersion
+            notes
           }
         }
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class GetLatestVersionDetailGQL extends Apollo.Query<
-  GetLatestVersionDetail.Query,
-  GetLatestVersionDetail.Variables
-> {
-  document: any = gql`
-    query getLatestVersionDetail($statisticReportId: String!) {
-      latestVersion(statisticReportId: $statisticReportId) {
-        id
-        dataDate
-        notes
+        __typename
       }
     }
   `
@@ -3413,6 +3817,115 @@ export class UpdateStatisticReportGQL extends Apollo.Mutation<
         name
         notes
         statisticId
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class StatisticReportEditGQL extends Apollo.Query<
+  StatisticReportEdit.Query,
+  StatisticReportEdit.Variables
+> {
+  document: any = gql`
+    query statisticReportEdit($reportId: String!) {
+      statisticReport(id: $reportId) {
+        id
+        name
+        notes
+        rowVersion
+        statisticId
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdateStatisticReportVersionGQL extends Apollo.Mutation<
+  UpdateStatisticReportVersion.Mutation,
+  UpdateStatisticReportVersion.Variables
+> {
+  document: any = gql`
+    mutation updateStatisticReportVersion(
+      $data: UpdateStatisticReportVersionInputGraph
+    ) {
+      updateStatisticReportVersion(input: $data) {
+        id
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class StatisticReportVersionEditGQL extends Apollo.Query<
+  StatisticReportVersionEdit.Query,
+  StatisticReportVersionEdit.Variables
+> {
+  document: any = gql`
+    query statisticReportVersionEdit($id: String!) {
+      statisticReportVersion(id: $id) {
+        id
+        dataDate
+        notes
+        rowVersion
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class CreateStatisticReportAccessControlGQL extends Apollo.Mutation<
+  CreateStatisticReportAccessControl.Mutation,
+  CreateStatisticReportAccessControl.Variables
+> {
+  document: any = gql`
+    mutation createStatisticReportAccessControl(
+      $data: CreateStatisticReportAccessControlInputGraph
+    ) {
+      createStatisticReportAccessControl(input: $data) {
+        id
+        rights
+        rowVersion
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class StatisticReportDetailGQL extends Apollo.Query<
+  StatisticReportDetail.Query,
+  StatisticReportDetail.Variables
+> {
+  document: any = gql`
+    query statisticReportDetail($reportId: String!) {
+      statisticReport(id: $reportId) {
+        id
+        name
+        notes
+        rowVersion
+        statisticId
+        accessControlList {
+          id
+          accessControlEntries(orderBy: { path: "accessControlGroup.title" }) {
+            id
+            accessControlGroup {
+              id
+              title
+            }
+            rights
+            rowVersion
+          }
+        }
+        latestVersion {
+          id
+          dataDate
+          notes
+        }
       }
     }
   `
@@ -3623,23 +4136,11 @@ export class StatisticAndStatisticReportsGQL extends Apollo.Query<
         statisticReports {
           id
           name
+          latestVersion {
+            id
+            notes
+          }
         }
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class GetLatestVersionNotesGQL extends Apollo.Query<
-  GetLatestVersionNotes.Query,
-  GetLatestVersionNotes.Variables
-> {
-  document: any = gql`
-    query getLatestVersionNotes($statisticReportId: String!) {
-      latestVersion(statisticReportId: $statisticReportId) {
-        id
-        notes
       }
     }
   `

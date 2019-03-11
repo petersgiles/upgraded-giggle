@@ -35,6 +35,7 @@
                     placeholder="Report"
                     [outlined]="true"
                     name="report"
+                    (selectionChange)="onReportSelectionChange($event)"
                   >
                     <option value=""></option>
                     <option *ngFor="let report of reports" [value]="report.id">

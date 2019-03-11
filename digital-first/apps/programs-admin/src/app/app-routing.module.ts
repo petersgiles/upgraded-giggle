@@ -16,7 +16,7 @@ import { ProjectAddComponent } from './containers/project/project-add/project-ad
 import { ProjectEditComponent } from './containers/project/project-edit/project-edit.component'
 import { ProgramAddComponent } from './containers/program/program-add/program-add.component'
 import { ProgramEditComponent } from './containers/program/program-edit/program-edit.component'
-import { ReportAddComponent } from './containers/program-reports/report-add/report-add.component'
+import { ReportAddComponent } from './containers/program-report/report-add/report-add.component'
 import { AuthGuard } from '@digital-first/df-auth'
 import { ProgramReportComponent } from './containers/program-report/program-report.component'
 import { UsersComponent } from './containers/users/users.component'
@@ -30,9 +30,9 @@ import { StatisticComponent } from './containers/statistic/statistic.component'
 import { StatisticAddComponent } from './containers/statistic/statistic-add/statistic-add.component'
 import { StatisticEditComponent } from './containers/statistic/statistic-edit/statistic-edit.component'
 import { StatisticReportComponent } from './containers/statistic-report/statistic-report.component'
-import { StatisticReportAddComponent } from './containers/statistic-reports/statistic-report-add/statistic-report-add.component'
-import { StatisticReportEditComponent } from './containers/statistic-reports/statistic-report-edit/statistic-report-edit.component'
-import { ReportEditComponent } from './containers/program-reports/report-edit/report-edit.component'
+import { StatisticReportAddComponent } from './containers/statistic-report/statistic-report-add/statistic-report-add.component'
+import { StatisticReportEditComponent } from './containers/statistic-report/statistic-report-edit/statistic-report-edit.component'
+import { ReportEditComponent } from './containers/program-report/report-edit/report-edit.component'
 import { AgenciesComponent } from './containers/agencies/agencies.component'
 import {
   ErrorPageNotFoundComponent,
@@ -45,7 +45,12 @@ import { AgencyMappingAddComponent } from './containers/agency/agency-mapping-ad
 import { AgencyMappingEditComponent } from './containers/agency/agency-mapping-edit/agency-mapping-edit.component'
 import { UserEditComponent } from './containers/user/user-edit/user-edit.component'
 import { UserAddComponent } from './containers/user/user-add/user-add.component'
-import { EditStatisticReportVersionComponent } from './containers/statistic-report/edit-statistic-report-version/edit-statistic-report-version.component'
+import { StatisticReportVersionEditComponent } from './containers/statistic-report/statistic-report-version-edit/statistic-report-version-edit.component'
+import { PortfolioComponent } from './containers/portfolio/portfolio.component'
+import { PortfoliosComponent } from './containers/portfolios/portfolios.component'
+import { PortfolioAddComponent } from './containers/portfolio/portfolio-add/portfolio-add.component'
+import { PortfolioEditComponent } from './containers/portfolio/portfolio-edit/portfolio-edit.component'
+import { ReportVersionEditComponent } from './containers/program-report/report-version-edit/report-version-edit.component'
 
 export const routes: Routes = [
   {
@@ -149,6 +154,40 @@ export const routes: Routes = [
         }
       },
       {
+        path: 'portfolios',
+        component: PortfoliosComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'Portfolios',
+          icon: 'book',
+          nav: true
+        }
+      },
+      {
+        path: 'portfolios/add',
+        component: PortfolioAddComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+      {
+        path: 'portfolios/edit/:id',
+        component: PortfolioEditComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+      {
+        path: 'portfolios/:id',
+        component: PortfolioComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+      {
         path: 'programs',
         component: ProgramsComponent,
         canActivate: [AuthGuard],
@@ -201,7 +240,7 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'programs/:id/reports/:id',
+        path: 'programs/:programId/reports/:id',
         component: ProgramReportComponent,
         canActivate: [AuthGuard],
         data: {
@@ -241,6 +280,14 @@ export const routes: Routes = [
         data: {
           title: 'Project',
           icon: 'group_work',
+          nav: false
+        }
+      },
+      {
+        path: 'report-version-edit/:programId/:reportId/:reportVersionId',
+        component: ReportVersionEditComponent,
+        canActivate: [AuthGuard],
+        data: {
           nav: false
         }
       },
@@ -297,15 +344,15 @@ export const routes: Routes = [
       },
       {
         path:
-          'edit-statistic-report-version/:reportVersionId/:reportId/:statisticId',
-        component: EditStatisticReportVersionComponent,
+          'statistic-report-version-edit/:statisticId/:reportId/:reportVersionId',
+        component: StatisticReportVersionEditComponent,
         canActivate: [AuthGuard],
         data: {
           nav: false
         }
       },
       {
-        path: 'statistics/:id/reports/:id',
+        path: 'statistics/:statisticId/reports/:id',
         component: StatisticReportComponent,
         canActivate: [AuthGuard],
         data: {
