@@ -96,8 +96,6 @@ export class CommitmentEditFormComponent implements OnDestroy {
     announcedby: [null],
     party: [null],
     announcementType: [null],
-    themeType:  [null],
-    packageType: [null],
     whoAnnouncedType: [null],
     commitmentType: [null],
     portfolio: [null],
@@ -118,7 +116,7 @@ export class CommitmentEditFormComponent implements OnDestroy {
         const newList = [...workflow.filter(s => s.id !== val.status), {...status, active: true}].sort(sortBy('id'))
         this.workflowList$.next(newList)
       }
- 
+
       const patch = {
         id: val.id,
         title: val.title,
@@ -130,8 +128,6 @@ export class CommitmentEditFormComponent implements OnDestroy {
         whoAnnouncedType: val.whoAnnouncedType && val.whoAnnouncedType.id,
         announcementType: val.announcementType && val.announcementType.id,
         commitmentType: val.commitmentType && val.commitmentType.id,
-        themeType: val.themeType && val.themeType.id,
-        packageType: val.packageType && val.packageType.id,
         portfolio: val.portfolio && val.portfolio.id,
         criticalDate: val.criticalDate && val.criticalDate.id,
         cost: val.cost,

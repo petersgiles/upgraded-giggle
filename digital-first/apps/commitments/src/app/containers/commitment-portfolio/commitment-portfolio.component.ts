@@ -17,7 +17,7 @@ import { Portfolio } from '../../models'
   styleUrls: ['./commitment-portfolio.component.scss']
 })
 export class CommitmentPortfolioComponent implements OnInit, OnDestroy {
-  title = 'Responsibility'
+  title = 'Related Portfolio'
   _commitment: number
   userOperation$: Observable<any>
   portfoliosSubscription$: Subscription

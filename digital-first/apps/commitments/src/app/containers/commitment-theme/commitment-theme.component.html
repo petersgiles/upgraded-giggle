@@ -1,0 +1,69 @@
+<digital-first-commitment-view-guard
+  [operation]="getRight(userOperation$ | async)"
+>
+  <ng-container operation-type="read">
+    <digital-first-page-title
+      *ngIf="commitment"
+      [title]="title"
+      (onTitleClicked)="handleChangeExpanded(!expanded)"
+    >
+      <digital-first-date-format-button
+        *ngIf="expanded"
+        [timeFormat]="timeFormat"
+        (onChangeDateFormat)="handleChangeDateFormat($event)"
+      ></digital-first-date-format-button>
+      <digital-first-expand-collapse-button
+        [expanded]="expanded"
+        (onChangeExpanded)="handleChangeExpanded(!expanded)"
+      ></digital-first-expand-collapse-button>
+    </digital-first-page-title>
+  </ng-container>
+
+  <ng-container operation-type="write">
+    <digital-first-page-title
+      *ngIf="commitment"
+      [title]="title"
+      (onTitleClicked)="handleChangeExpanded(!expanded)"
+    >
+      <digital-first-date-format-button
+        *ngIf="expanded"
+        [timeFormat]="timeFormat"
+        (onChangeDateFormat)="handleChangeDateFormat($event)"
+      ></digital-first-date-format-button>
+      <digital-first-expand-collapse-button
+        [expanded]="expanded"
+        (onChangeExpanded)="handleChangeExpanded(!expanded)"
+      ></digital-first-expand-collapse-button>
+    </digital-first-page-title>
+    <div *ngIf="expanded" class="related-content">
+      <h3>Related</h3>
+      <mdc-chip-set
+        cdkDropList
+        #relatedList="cdkDropList"
+        [cdkDropListData]="related"
+        [cdkDropListConnectedTo]="sourceList"
+        (cdkDropListDropped)="addTheme($event)"
+      >
+        <mdc-chip *ngFor="let item of related" cdkDrag>
+          <mdc-chip-text>{{ item.title }}</mdc-chip-text>
+        </mdc-chip>
+        <div *ngIf="related?.length == 0" class="drop-target">
+          drop related themes here
+        </div>
+      </mdc-chip-set>
+
+      <h3>Themes</h3>
+      <mdc-chip-set
+        cdkDropList
+        #sourceList="cdkDropList"
+        [cdkDropListData]="themes"
+        [cdkDropListConnectedTo]="relatedList"
+        (cdkDropListDropped)="removeTheme($event)"
+      >
+        <mdc-chip *ngFor="let item of themes" cdkDrag>
+          <mdc-chip-text>{{ item.title }}</mdc-chip-text>
+        </mdc-chip>
+      </mdc-chip-set>
+    </div>
+  </ng-container>
+</digital-first-commitment-view-guard>
