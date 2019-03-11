@@ -190,9 +190,6 @@ export class CommitmentEditFormComponent implements OnDestroy {
       ...commitment,
       date: moment(commitment.date).format()
     }
-
-    // tslint:disable-next-line:no-console
-    console.log(map)
     return map
   }
 

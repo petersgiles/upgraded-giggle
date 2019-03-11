@@ -32,16 +32,13 @@ export class CommitmentPackageDataSharePointService
         viewXml: viewXml
       })
       .pipe(
-        // tslint:disable-next-line:no-console
-        tap(result => console.log(result)),
+
         map(mapCommitmentPackages),
-        // tslint:disable-next-line:no-console
-        tap(result => console.log(result)),
+
         concatMap((result: any) => {
           const ids = result.map(p => p.package)
           const packageViewXml = byIdsQuery(ids)
-          // tslint:disable-next-line:no-console
-          console.log('PackageType', result, ids, packageViewXml)
+
           if (packageViewXml) {
             return this.sharepoint
               .getItems({
@@ -49,8 +46,7 @@ export class CommitmentPackageDataSharePointService
                 viewXml: packageViewXml
               })
               .pipe(
-                // tslint:disable-next-line:no-console
-                tap(presult => console.log(presult)),
+
                 concatMap(packages =>
                   of({
                     data: { commitmentPackages: mapPackages(packages) },

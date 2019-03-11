@@ -26,8 +26,7 @@ export class CommitmentPackageEffects {
       map((action: GetPackagesByCommitment) => action.payload.commitment),
       concatMap((commitment: any) => this.service.getPackagesByCommitment(commitment)
         .pipe(
-          // tslint:disable-next-line:no-console
-          tap(result => console.log(result)),
+
           map((result: DataResult<CommitmentPackagesResult>) => new LoadCommitmentPackages({ packages: result.data.commitmentPackages })),
           catchError(error => of(new CommitmentPackageActionFailure(error)))
         )
@@ -53,8 +52,7 @@ export class CommitmentPackageEffects {
     .pipe(
       ofType(CommitmentPackageActionTypes.RemovePackageFromCommitment),
       map((action: RemovePackageFromCommitment) => action.payload),
-      // tslint:disable-next-line:no-console
-      tap(payload => console.log(payload)),
+
       switchMap((payload: any) => this.service.removePackageFromCommitment(payload)),
       switchMap((result: any) => [
         new AppNotification({ message: 'Package Removed' }),

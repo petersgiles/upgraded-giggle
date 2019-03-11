@@ -36,8 +36,7 @@ export function reducer(
     }
 
     case CommitmentPackageActionTypes.LoadCommitmentPackages: {
-      // tslint:disable-next-line:no-console
-      console.log('LoadCommitmentPackages', action.payload)
+
       const  packages = [...action.payload.packages]
       return {
         ...state,

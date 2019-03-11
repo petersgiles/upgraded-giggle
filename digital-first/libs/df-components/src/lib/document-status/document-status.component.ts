@@ -1,18 +1,28 @@
-import { Component, OnInit, Input } from '@angular/core'
+import { Component, OnInit, Input, forwardRef } from '@angular/core'
 import { DocumentStatus } from './document-status.model'
-import { ControlValueAccessor } from '@angular/forms'
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'digital-first-document-status',
   templateUrl: './document-status.component.html',
-  styleUrls: ['./document-status.component.scss']
+  styleUrls: ['./document-status.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => DocumentStatusComponent),
+      multi: true
+    }
+  ]
 })
 export class DocumentStatusComponent implements OnInit, ControlValueAccessor {
 
-  constructor() {}
+  constructor() {
+        // tslint:disable-next-line:no-console
+        console.log('DocumentStatusComponent')
+  }
 
   @Input()
-  status: DocumentStatus
+  status: string
 
   @Input()
   public statuses: DocumentStatus[]
@@ -21,7 +31,9 @@ export class DocumentStatusComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit() {}
 
-  writeValue(obj: DocumentStatus): void {
+  writeValue(obj: string): void {
+    // tslint:disable-next-line:no-console
+    console.log(obj)
     if (obj) {
       this.status = obj
     }
@@ -32,4 +44,11 @@ export class DocumentStatusComponent implements OnInit, ControlValueAccessor {
   registerOnTouched(fn: any): void {}
 
   setDisabledState?(isDisabled: boolean): void {  }
+
+  onSelectionChange(sli) {
+    // tslint:disable-next-line:no-console
+    console.log('onSelectionChange', sli)
+    this.status = sli.id
+    this.propagateChange(this.status)
+  }
 }

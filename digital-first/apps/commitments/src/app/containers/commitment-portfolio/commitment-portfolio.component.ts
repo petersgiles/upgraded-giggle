@@ -50,8 +50,7 @@ export class CommitmentPortfolioComponent implements OnInit, OnDestroy {
   }
 
   handleChangeExpanded(expanded) {
-    // tslint:disable-next-line:no-console
-    console.log(expanded)
+
 
     if (expanded) {
       this.service.expandPanel()
@@ -69,15 +68,13 @@ export class CommitmentPortfolioComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.commitmentPortfoliosSubscription$ = this.service.CommitmentPortfolios.subscribe(
       next => {
-        // tslint:disable-next-line:no-console
-        console.log(next)
+
         this.related = next || []
       }
     )
 
     this.portfoliosSubscription$ = this.lookup.Portfolios.subscribe(next => {
-      // tslint:disable-next-line:no-console
-      console.log(next)
+
       // the function is used to create a closure
       this.portfolios = (next || [])
     })
@@ -101,8 +98,7 @@ export class CommitmentPortfolioComponent implements OnInit, OnDestroy {
   removePortfolio(event: CdkDragDrop<string[]>) {
     if (event.previousContainer !== event.container) {
     const portfolio: any = event.previousContainer.data[event.previousIndex]
-// tslint:disable-next-line:no-console
-console.log(portfolio)
+
     this.service.removePortfolioFromCommitment(this.commitment, portfolio.id)
     }
   }

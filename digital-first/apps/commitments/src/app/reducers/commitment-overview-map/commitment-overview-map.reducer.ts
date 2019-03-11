@@ -34,9 +34,6 @@ export function reducer(
 
     case CommitmentOverviewMapActionTypes.LoadCommitmentOverviewMapCommitments: {
 
-      // tslint:disable-next-line:no-console
-      console.log('LoadCommitmentOverviewMapCommitments', action.payload)
-
       return {
         ...state,
         commitments: action.payload.data.commitments

@@ -3,7 +3,6 @@ import { DataTableConfig } from '@digital-first/df-datatable'
 import * as fromCommitmentTheme from './commitment-theme.reducer'
 
 export const getCommitmentThemeState = (state) =>  {
-  console.log(state)
   return state.commitmentTheme
 }
 

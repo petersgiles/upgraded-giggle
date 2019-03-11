@@ -50,8 +50,7 @@ export class CommitmentPackageComponent implements OnInit, OnDestroy {
   }
 
   handleChangeExpanded(expanded) {
-    // tslint:disable-next-line:no-console
-    console.log(expanded)
+
 
     if (expanded) {
       this.service.expandPanel()
@@ -69,15 +68,13 @@ export class CommitmentPackageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.commitmentPackagesSubscription$ = this.service.CommitmentPackages.subscribe(
       next => {
-        // tslint:disable-next-line:no-console
-        console.log(next)
+
         this.related = next || []
       }
     )
 
     this.packageSubscription$ = this.lookup.PackageTypes.subscribe(next => {
-      // tslint:disable-next-line:no-console
-      console.log(next)
+
       // the function is used to create a closure
       this.packages = (next || [])
     })
@@ -101,8 +98,7 @@ export class CommitmentPackageComponent implements OnInit, OnDestroy {
   removePackage(event: CdkDragDrop<string[]>) {
     if (event.previousContainer !== event.container) {
     const myPackage: any = event.previousContainer.data[event.previousIndex]
-// tslint:disable-next-line:no-console
-console.log(myPackage)
+
     this.service.removePackageFromCommitment(this.commitment, myPackage.id)
     }
   }

@@ -33,16 +33,13 @@ export class CommitmentThemeDataSharePointService
         viewXml: viewXml
       })
       .pipe(
-        // tslint:disable-next-line:no-console
-        tap(result => console.log(result)),
+
         map(mapCommitmentThemes),
-        // tslint:disable-next-line:no-console
-        tap(result => console.log(result)),
+
         concatMap((result: any) => {
           const ids = result.map(p => p.portfolio)
           const themeViewXml = byIdsQuery(ids)
-          // tslint:disable-next-line:no-console
-          console.log('Theme', result, ids, themeViewXml)
+
           if (themeViewXml) {
             return this.sharepoint
               .getItems({
@@ -50,8 +47,7 @@ export class CommitmentThemeDataSharePointService
                 viewXml: themeViewXml
               })
               .pipe(
-                // tslint:disable-next-line:no-console
-                tap(presult => console.log(presult)),
+
                 concatMap(themes =>
                   of({
                     data: { commitmentThemes: mapThemes(themes) },
@@ -73,7 +69,7 @@ export class CommitmentThemeDataSharePointService
     commitment: number
     theme: any
   }): Observable<DataResult<{ commitment: number }>> {
-    console.log("Adding theme to commitment")
+
     const spComment = {
       Title: `${variables.commitment} ${variables.theme}`,
       Commitment: variables.commitment,

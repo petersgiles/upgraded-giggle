@@ -23,8 +23,7 @@ export function reducer(
   switch (action.type) {
 
     case CommitmentThemeActionTypes.ExpandPanel: {
-      console.log("expand theme")
-      console.log(state)
+
       return {
         ...state,
         expanded: true
@@ -32,7 +31,7 @@ export function reducer(
     }
 
     case CommitmentThemeActionTypes.CollapsePanel: {
-      console.log("collapse theme")
+
       return {
         ...state,
         expanded: false
@@ -40,13 +39,9 @@ export function reducer(
     }
 
     case CommitmentThemeActionTypes.LoadCommitmentThemes: {
-      // tslint:disable-next-line:no-console
-      console.log('LoadCommitmentThemes', action.payload)
-      console.log(state)
-      console.log(action.payload)
+
       const themes = [...action.payload.themes]
 
-      console.log(themes)
       return {
         ...state,
         themes: themes
@@ -66,7 +61,7 @@ export function reducer(
 }
 
 export const selectAll = (state: State) => {
-  console.log(state)
+
   return state.themes
 }
 export const getExpanded = (state: State) => state.expanded

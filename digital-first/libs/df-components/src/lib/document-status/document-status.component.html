@@ -1,7 +1,13 @@
-<div class="mdc-chip-set" >
-    <mdc-chip *ngFor="let status of statuses" [ngClass]="{'active-status-chip': status.active}" ()>
-      <mdc-chip-icon leading *ngIf="!status.active">{{status.icon}}</mdc-chip-icon>
-      <mdc-chip-icon leading *ngIf="status.active">check</mdc-chip-icon>
-      <mdc-chip-text>{{status.caption}}</mdc-chip-text>
-    </mdc-chip>
-  </div>
+<mdc-chip-set >
+  <mdc-chip
+    *ngFor="let sli of statuses"
+    [ngClass]="{ 'active-status-chip': sli?.id === status }"
+    (selectionChange)="onSelectionChange(sli)"
+  >
+    <mdc-chip-icon leading *ngIf="sli?.id !== status">{{
+      sli?.icon
+    }}</mdc-chip-icon>
+    <mdc-chip-icon leading *ngIf="sli?.id === status">check</mdc-chip-icon>
+    <mdc-chip-text>{{ sli?.caption }}</mdc-chip-text>
+  </mdc-chip>
+</mdc-chip-set>

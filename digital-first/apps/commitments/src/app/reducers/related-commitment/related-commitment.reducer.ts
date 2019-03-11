@@ -36,8 +36,6 @@ export function reducer(
     }
 
     case RelatedCommitmentActionTypes.LoadRelatedCommitments: {
-      // tslint:disable-next-line:no-console
-      console.log('LoadRelatedCommitments', action.payload)
 
       if (action.payload.data.commitmentRelatedCommitments) {
         return {

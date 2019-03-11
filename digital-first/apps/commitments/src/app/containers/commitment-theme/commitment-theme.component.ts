@@ -50,8 +50,7 @@ export class CommitmentThemeComponent implements OnInit, OnDestroy {
   }
 
   handleChangeExpanded(expanded) {
-    // tslint:disable-next-line:no-console
-    console.log(expanded)
+
 
     if (expanded) {
       this.service.expandPanel()
@@ -69,22 +68,20 @@ export class CommitmentThemeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.commitmentThemesSubscription$ = this.service.CommitmentThemes.subscribe(
       next => {
-        // tslint:disable-next-line:no-console
-        console.log(next)
+
         this.related = next || []
       }
     )
 
     this.themeSubscription$ = this.lookup.ThemeTypes.subscribe(next => {
-      // tslint:disable-next-line:no-console
-      console.log(next)
+
       // the function is used to create a closure
       this.themes = (next || [])
     })
 
     this.expandedSubscription$ = this.service.Expanded.subscribe(
       p => {
-        console.log(p)
+
         this.expanded = p
       }
     )
@@ -104,8 +101,7 @@ export class CommitmentThemeComponent implements OnInit, OnDestroy {
   removeTheme(event: CdkDragDrop<string[]>) {
     if (event.previousContainer !== event.container) {
     const theme: any = event.previousContainer.data[event.previousIndex]
-// tslint:disable-next-line:no-console
-console.log(theme)
+
     this.service.removeThemeFromCommitment(this.commitment, theme.id)
     }
   }

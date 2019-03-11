@@ -36,8 +36,7 @@ export function reducer(
     }
 
     case CommitmentPortfolioActionTypes.LoadCommitmentPortfolios: {
-      // tslint:disable-next-line:no-console
-      console.log('LoadCommitmentPortfolios', action.payload)
+
       const portfolios = [...action.payload.portfolios]
       return {
         ...state,

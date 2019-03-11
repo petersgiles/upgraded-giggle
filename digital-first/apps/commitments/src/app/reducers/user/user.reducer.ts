@@ -52,8 +52,7 @@ export function reducer(
           {}
         )
       }
-      // tslint:disable-next-line:no-console
-      console.log('SetUserOperations', action.payload, ops)
+
 
       return {
         ...state,

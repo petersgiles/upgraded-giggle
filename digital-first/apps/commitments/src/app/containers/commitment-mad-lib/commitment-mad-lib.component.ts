@@ -37,8 +37,6 @@ export class CommitmentMadLibComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.commitmentPortfoliosSubscription$ = this.cpsservice.CommitmentPortfolios.subscribe(
       next => {
-        // tslint:disable-next-line:no-console
-        console.log(next)
         this.relatedPortfolios = next || []
       }
     )

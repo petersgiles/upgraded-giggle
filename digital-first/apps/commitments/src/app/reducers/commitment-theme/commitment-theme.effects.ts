@@ -26,8 +26,7 @@ export class CommitmentThemeEffects {
       map((action: GetThemesByCommitment) => action.payload.commitment),
       concatMap((commitment: any) => this.service.getThemesByCommitment(commitment)
         .pipe(
-          // tslint:disable-next-line:no-console
-          tap(result => console.log(result)),
+
           map((result: DataResult<CommitmentThemesResult>) => new LoadCommitmentThemes({ themes: result.data.commitmentThemes })),
           catchError(error => of(new CommitmentThemeActionFailure(error)))
         )
@@ -53,8 +52,7 @@ export class CommitmentThemeEffects {
     .pipe(
       ofType(CommitmentThemeActionTypes.RemoveThemeFromCommitment),
       map((action: RemoveThemeFromCommitment) => action.payload),
-      // tslint:disable-next-line:no-console
-      tap(payload => console.log(payload)),
+
       switchMap((payload: any) => this.service.removeThemeFromCommitment(payload)),
       switchMap((result: any) => [
         new AppNotification({ message: 'Theme Removed' }),

@@ -105,8 +105,7 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
 
   handleFilter ($event: any) {
     const val = $event.target.value.toLowerCase()
-    // tslint:disable-next-line:no-console
-    console.log('handleFilter', val)
+
     // filterFruits(val)
 
   }
@@ -128,8 +127,7 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
   }
 
   handleCommitmentsRowClicked(commitment) {
-    // tslint:disable-next-line:no-console
-    console.log(commitment)
+
     this.router.navigate(['/', 'commitment', commitment.id])
   }
 
