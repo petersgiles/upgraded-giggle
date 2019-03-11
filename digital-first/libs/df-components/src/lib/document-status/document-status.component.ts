@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, forwardRef } from '@angular/core'
 import { DocumentStatus } from './document-status.model'
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
 
 @Component({
   selector: 'digital-first-document-status',
@@ -15,10 +15,9 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   ]
 })
 export class DocumentStatusComponent implements OnInit, ControlValueAccessor {
-
   constructor() {
-        // tslint:disable-next-line:no-console
-        console.log('DocumentStatusComponent')
+    // tslint:disable-next-line:no-console
+    console.log('DocumentStatusComponent')
   }
 
   @Input()
@@ -43,7 +42,7 @@ export class DocumentStatusComponent implements OnInit, ControlValueAccessor {
   }
   registerOnTouched(fn: any): void {}
 
-  setDisabledState?(isDisabled: boolean): void {  }
+  setDisabledState?(isDisabled: boolean): void {}
 
   onSelectionChange(sli) {
     // tslint:disable-next-line:no-console
