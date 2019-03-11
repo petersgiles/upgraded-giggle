@@ -1,4 +1,10 @@
-import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core'
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnDestroy
+} from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import * as moment from 'moment'
 import { Party } from '../../models/party.model'
@@ -13,8 +19,8 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { CriticalDate } from '../../models/critical-date.model'
 import { ThemeType } from '../../models/theme-type.model'
 import { PackageType } from '../../models/package-type.model'
-import { DocumentStatus } from '@df/components'
-import { sortBy } from '@digital-first/df-utils';
+import { sortBy } from '@digital-first/df-utils'
+import { DocumentStatus } from '@digital-first/df-components'
 
 const workflow: DocumentStatus[] = [
   {
@@ -23,15 +29,15 @@ const workflow: DocumentStatus[] = [
     caption: 'With SCIT',
     colour: 'GhostWhite',
     active: false,
-    order: 1,
+    order: 1
   },
   {
     id: '2',
     icon: 'how_to_reg',
-    caption:  'With Policy Area',
+    caption: 'With Policy Area',
     colour: 'GhostWhite',
     active: false,
-    order: 2,
+    order: 2
   },
   {
     id: '3',
@@ -39,7 +45,7 @@ const workflow: DocumentStatus[] = [
     caption: 'Cleared by Policy Area',
     colour: 'GhostWhite',
     active: false,
-    order: 3,
+    order: 3
   },
   {
     id: '4',
@@ -47,7 +53,7 @@ const workflow: DocumentStatus[] = [
     caption: 'Cleared by Policy Area',
     colour: 'GhostWhite',
     active: false,
-    order: 3,
+    order: 3
   },
   {
     id: '5',
@@ -55,8 +61,8 @@ const workflow: DocumentStatus[] = [
     caption: 'Cleared by Policy Area',
     colour: 'GhostWhite',
     active: false,
-    order: 3,
-  },
+    order: 3
+  }
 ]
 
 @Component({
@@ -65,7 +71,6 @@ const workflow: DocumentStatus[] = [
   styleUrls: ['./commitment-edit-form.component.scss']
 })
 export class CommitmentEditFormComponent implements OnDestroy {
-
   @Input() showSubmit = false
   @Input() submitButtonText = 'Submit'
   @Input() parties: Party[]
@@ -85,7 +90,9 @@ export class CommitmentEditFormComponent implements OnDestroy {
   @Output() onCancelled: EventEmitter<any> = new EventEmitter()
   @Output() onChanged: EventEmitter<Commitment> = new EventEmitter()
 
-  workflowList$: BehaviorSubject<DocumentStatus[]> = new BehaviorSubject(workflow)
+  workflowList$: BehaviorSubject<DocumentStatus[]> = new BehaviorSubject(
+    workflow
+  )
 
   form = this.fb.group({
     id: [],
@@ -96,14 +103,14 @@ export class CommitmentEditFormComponent implements OnDestroy {
     announcedby: [null],
     party: [null],
     announcementType: [null],
-    themeType:  [null],
+    themeType: [null],
     packageType: [null],
     whoAnnouncedType: [null],
     commitmentType: [null],
     portfolio: [null],
     criticalDate: [null],
     cost: [null],
-    costingRequired: [false],
+    costingRequired: [false]
   })
 
   @Input()
@@ -113,12 +120,15 @@ export class CommitmentEditFormComponent implements OnDestroy {
         this.formValueChangeSubscription.unsubscribe()
       }
 
-      const status = workflow.find(s => s.id !== val.status)
-      if (status) {
-        const newList = [...workflow.filter(s => s.id !== val.status), {...status, active: true}].sort(sortBy('id'))
-        this.workflowList$.next(newList)
-      }
- 
+      // const status = workflow.find(s => s.id !== val.status)
+      // if (status) {
+      //   const newList = [
+      //     ...workflow.filter(s => s.id !== val.status),
+      //     { ...status, active: true }
+      //   ].sort(sortBy('id'))
+      //   this.workflowList$.next(newList)
+      // }
+
       const patch = {
         id: val.id,
         title: val.title,
@@ -135,7 +145,7 @@ export class CommitmentEditFormComponent implements OnDestroy {
         portfolio: val.portfolio && val.portfolio.id,
         criticalDate: val.criticalDate && val.criticalDate.id,
         cost: val.cost,
-        costingRequired: val.costingRequired,
+        costingRequired: val.costingRequired
       }
 
       this.form.patchValue(patch)
@@ -149,7 +159,6 @@ export class CommitmentEditFormComponent implements OnDestroy {
           this.handleChange(blurEvent)
           this.formValueChangeSubscription.unsubscribe()
         })
-
     }
   }
 
@@ -157,7 +166,7 @@ export class CommitmentEditFormComponent implements OnDestroy {
     return this.mapCommitment(this.form.value)
   }
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder) {}
 
   ngOnDestroy() {
     if (this.formValueChangeSubscription) {
@@ -183,7 +192,7 @@ export class CommitmentEditFormComponent implements OnDestroy {
   mapCommitment(commitment): any {
     const map: Commitment = {
       ...commitment,
-      date: moment(commitment.date).format(),
+      date: moment(commitment.date).format()
     }
 
     // tslint:disable-next-line:no-console
@@ -192,9 +201,11 @@ export class CommitmentEditFormComponent implements OnDestroy {
   }
 
   handleStatusChange(status) {
-    const newList = [...workflow.filter(s => s.id !== status.id), {...status, active: true}].sort(sortBy('id'))
-    this.workflowList$.next(newList)
-    this.form.patchValue({status: status.id})
+    // const newList = [
+    //   ...workflow.filter(s => s.id !== status.id),
+    //   { ...status, active: true }
+    // ].sort(sortBy('id'))
+    // this.workflowList$.next(newList)
+    // this.form.patchValue({ status: status.id })
   }
-
 }
