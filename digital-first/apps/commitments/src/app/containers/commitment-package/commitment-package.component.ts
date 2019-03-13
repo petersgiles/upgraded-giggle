@@ -26,6 +26,7 @@ export class CommitmentPackageComponent implements OnInit, OnDestroy {
   expandedSubscription$: Subscription
   expanded: boolean
   commitmentPackagesSubscription$: Subscription
+  megaTags$: any;
 
   constructor(
     public dialog: MdcDialog,
@@ -66,6 +67,9 @@ export class CommitmentPackageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+    this.megaTags$ =  this.service.SelectedMegaTags
+    
     this.commitmentPackagesSubscription$ = this.service.CommitmentPackages.subscribe(
       next => {
 
@@ -87,6 +91,14 @@ export class CommitmentPackageComponent implements OnInit, OnDestroy {
   }
 
   related = []
+
+  handleToggleSelected(megaTag) {
+    if (!megaTag.selected) {
+      this.service.removePackageFromCommitment(this.commitment, megaTag.id)
+    } else {
+      this.service.addPackageToCommitment(this.commitment, megaTag.id)
+    }
+  }
 
   addPackage(event: CdkDragDrop<string[]>) {
     if (event.previousContainer !== event.container) {

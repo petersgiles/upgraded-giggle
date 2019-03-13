@@ -12,6 +12,7 @@ import {
 import { DataTableConfig } from '@digital-first/df-datatable'
 import { Theme } from '../../models'
 import { GetPortfoliosByCommitment } from '../commitment-portfolio/commitment-portfolio.actions';
+import { MegaTag } from '@df/components';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +50,11 @@ export class CommitmentThemeService {
     return this.store.pipe(select(fromRoot.getAllCommitmentThemes))
     // return this.store.pipe(select(fromRoot.getAllCommitmentPortfolios))
   }
+
+  get SelectedMegaTags(): Observable<MegaTag[]> {
+    return this.store.pipe(select(fromRoot.getRelatedCommitmentThemes))
+  }
+
 
   get Expanded(): Observable<boolean> {
     return this.store.pipe(select(fromRoot.getCommitmentThemePanelExpanded))
