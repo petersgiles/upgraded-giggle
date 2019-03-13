@@ -167,7 +167,7 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
       Party: fc.party ? fc.party.title : '',
       'Responsible Portfolio': fc.portfolio ? fc.portfolio.title : '',
       'Type of Commitment': fc.commitmentType ? fc.commitmentType.title : '',
-      'Critical Date': fc.criticalDate
+      'Critical Date': fc.criticalDate ? fc.criticalDate.title : ''
     }))
 
     this.excelService.exportAsExcelFile(exportCommitments, 'commitments')
