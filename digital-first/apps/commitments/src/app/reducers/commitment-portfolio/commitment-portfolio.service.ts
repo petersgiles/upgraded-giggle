@@ -9,8 +9,8 @@ import {
   RemovePortfolioFromCommitment,
   GetPortfoliosByCommitment
 } from './commitment-portfolio.actions'
-import { DataTableConfig } from '@digital-first/df-datatable'
 import { Portfolio } from '../../models'
+import { MegaTag } from '@df/components'
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +42,10 @@ export class CommitmentPortfolioService {
 
   get CommitmentPortfolios(): Observable<Portfolio[]> {
     return this.store.pipe(select(fromRoot.getAllCommitmentPortfolios))
+  }
+
+  get SelectedMegaTags(): Observable<MegaTag[]> {
+    return this.store.pipe(select(fromRoot.getRelatedCommitmentPortfolios))
   }
 
   get Expanded(): Observable<boolean> {

@@ -17,6 +17,9 @@
         (onChangeExpanded)="handleChangeExpanded(!expanded)"
       ></digital-first-expand-collapse-button>
     </digital-first-page-title>
+
+
+
   </ng-container>
 
   <ng-container operation-type="write">
@@ -36,34 +39,11 @@
       ></digital-first-expand-collapse-button>
     </digital-first-page-title>
     <div *ngIf="expanded" class="related-content">
-      <h3>Related</h3>
-      <mdc-chip-set
-        cdkDropList
-        #relatedList="cdkDropList"
-        [cdkDropListData]="related"
-        [cdkDropListConnectedTo]="sourceList"
-        (cdkDropListDropped)="addPortfolio($event)"
-      >
-        <mdc-chip *ngFor="let item of related" cdkDrag>
-          <mdc-chip-text>{{ item.title }}</mdc-chip-text>
-        </mdc-chip>
-        <div *ngIf="related?.length == 0" class="drop-target">
-          drop related portfolios here
-        </div>
-      </mdc-chip-set>
-
-      <h3>Portfolios</h3>
-      <mdc-chip-set
-        cdkDropList
-        #sourceList="cdkDropList"
-        [cdkDropListData]="portfolios"
-        [cdkDropListConnectedTo]="relatedList"
-        (cdkDropListDropped)="removePortfolio($event)"
-      >
-        <mdc-chip *ngFor="let item of portfolios" cdkDrag>
-          <mdc-chip-text>{{ item.title }}</mdc-chip-text>
-        </mdc-chip>
-      </mdc-chip-set>
+      <df-mega-tag-chooser
+        [artifact]="commitment.id"
+        [tags]="megaTags$ | async"
+        (onSelectionChange)="handleToggleSelected($event)"
+      ></df-mega-tag-chooser>
     </div>
   </ng-container>
 </digital-first-commitment-view-guard>
