@@ -118,15 +118,6 @@ export class CommitmentEditFormComponent implements OnDestroy {
         this.formValueChangeSubscription.unsubscribe()
       }
 
-      // const status = workflow.find(s => s.id !== val.status)
-      // if (status) {
-      //   const newList = [
-      //     ...workflow.filter(s => s.id !== val.status),
-      //     { ...status, active: true }
-      //   ].sort(sortBy('id'))
-      //   this.workflowList$.next(newList)
-      // }
-
       const patch = {
         id: val.id,
         title: val.title,
@@ -191,14 +182,5 @@ export class CommitmentEditFormComponent implements OnDestroy {
       date: moment(commitment.date).format()
     }
     return map
-  }
-
-  handleStatusChange(status) {
-    // const newList = [
-    //   ...workflow.filter(s => s.id !== status.id),
-    //   { ...status, active: true }
-    // ].sort(sortBy('id'))
-    // this.workflowList$.next(newList)
-    // this.form.patchValue({ status: status.id })
   }
 }

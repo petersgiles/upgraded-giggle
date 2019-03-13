@@ -131,7 +131,7 @@ import { CommitmentThemeComponent } from './containers/commitment-theme/commitme
 import { DragDropModule } from '@angular/cdk/drag-drop'
 import { CommitmentMadLibComponent } from './containers/commitment-mad-lib/commitment-mad-lib.component'
 
-import { AvatarModule, DataTableModule, DocumentModule } from '@df/components'
+import { AvatarModule, DataTableModule, DocumentModule, PanelModule, MegaTaggerModule } from '@df/components'
 
 const COMPONENTS = [
   AppComponent,
@@ -260,6 +260,8 @@ export let appDataServiceProvider = {
     DfLoggingModule,
     DfComponentsModule,
     DataTableModule,
+    PanelModule,
+    MegaTaggerModule,
     AvatarModule,
     DfDatatableModule,
     DfButtonsModule,

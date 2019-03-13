@@ -4,12 +4,13 @@ import {
   moveItemInArray,
   transferArrayItem
 } from '@angular/cdk/drag-drop'
-import { Observable, Subscription } from 'rxjs'
+import { Observable, Subscription, merge, forkJoin } from 'rxjs'
 import { MdcDialog } from '@angular-mdc/web'
 import { OPERATION_COMMITMENT_PORTFOLIO } from '../../services/app-data.service'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 import { CommitmentPortfolioService } from '../../reducers/commitment-portfolio/commitment-portfolio.service'
 import { Portfolio } from '../../models'
+import { tap, map } from 'rxjs/operators'
 
 @Component({
   selector: 'digital-first-commitment-portfolio',
@@ -26,6 +27,7 @@ export class CommitmentPortfolioComponent implements OnInit, OnDestroy {
   expandedSubscription$: Subscription
   expanded: boolean
   commitmentPortfoliosSubscription$: Subscription
+  megaTags$: any
 
   constructor(
     public dialog: MdcDialog,
@@ -50,8 +52,6 @@ export class CommitmentPortfolioComponent implements OnInit, OnDestroy {
   }
 
   handleChangeExpanded(expanded) {
-
-
     if (expanded) {
       this.service.expandPanel()
     } else {
@@ -66,17 +66,18 @@ export class CommitmentPortfolioComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+    this.megaTags$ =  this.service.SelectedMegaTags
+
     this.commitmentPortfoliosSubscription$ = this.service.CommitmentPortfolios.subscribe(
       next => {
-
         this.related = next || []
       }
     )
 
     this.portfoliosSubscription$ = this.lookup.Portfolios.subscribe(next => {
-
       // the function is used to create a closure
-      this.portfolios = (next || [])
+      this.portfolios = next || []
     })
 
     this.expandedSubscription$ = this.service.Expanded.subscribe(
@@ -88,35 +89,43 @@ export class CommitmentPortfolioComponent implements OnInit, OnDestroy {
 
   related = []
 
-  addPortfolio(event: CdkDragDrop<string[]>) {
-    if (event.previousContainer !== event.container) {
-      const portfolio: any = event.previousContainer.data[event.previousIndex]
-      this.service.addPortfolioToCommitment(this.commitment, portfolio.id)
-    }
-  }
-
-  removePortfolio(event: CdkDragDrop<string[]>) {
-    if (event.previousContainer !== event.container) {
-    const portfolio: any = event.previousContainer.data[event.previousIndex]
-
-    this.service.removePortfolioFromCommitment(this.commitment, portfolio.id)
-    }
-  }
-
-  drop(event: CdkDragDrop<string[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      )
+  handleToggleSelected(megaTag) {
+    if (!megaTag.selected) {
+      this.service.removePortfolioFromCommitment(this.commitment, megaTag.id)
     } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      )
+      this.service.addPortfolioToCommitment(this.commitment, megaTag.id)
     }
   }
+
+  // addPortfolio(event: CdkDragDrop<string[]>) {
+  //   if (event.previousContainer !== event.container) {
+  //     const portfolio: any = event.previousContainer.data[event.previousIndex]
+  //     this.service.addPortfolioToCommitment(this.commitment, portfolio.id)
+  //   }
+  // }
+
+  // removePortfolio(event: CdkDragDrop<string[]>) {
+  //   if (event.previousContainer !== event.container) {
+  //     const portfolio: any = event.previousContainer.data[event.previousIndex]
+
+  //     this.service.removePortfolioFromCommitment(this.commitment, portfolio.id)
+  //   }
+  // }
+
+  // drop(event: CdkDragDrop<string[]>) {
+  //   if (event.previousContainer === event.container) {
+  //     moveItemInArray(
+  //       event.container.data,
+  //       event.previousIndex,
+  //       event.currentIndex
+  //     )
+  //   } else {
+  //     transferArrayItem(
+  //       event.previousContainer.data,
+  //       event.container.data,
+  //       event.previousIndex,
+  //       event.currentIndex
+  //     )
+  //   }
+  // }
 }
