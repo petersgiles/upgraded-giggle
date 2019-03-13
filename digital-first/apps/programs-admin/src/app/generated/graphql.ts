@@ -141,7 +141,37 @@ export interface CreateRoleInputGraph {
 
   description?: Maybe<string>
 
-  operations: UInt32
+  createAgency?: Maybe<boolean>
+
+  createProgram?: Maybe<boolean>
+
+  createProject?: Maybe<boolean>
+
+  createReport?: Maybe<boolean>
+
+  createStatistic?: Maybe<boolean>
+
+  deleteAgency?: Maybe<boolean>
+
+  deleteProgram?: Maybe<boolean>
+
+  deleteProject?: Maybe<boolean>
+
+  deleteReport?: Maybe<boolean>
+
+  deleteStatistic?: Maybe<boolean>
+
+  updateElectorateAdvice?: Maybe<boolean>
+
+  adminLogin?: Maybe<boolean>
+
+  allAgencyModifier?: Maybe<boolean>
+
+  manageApiKeys?: Maybe<boolean>
+
+  manageGroups?: Maybe<boolean>
+
+  manageAccessControls?: Maybe<boolean>
 }
 
 export interface CreateRoleAccessControlGroupInputGraph {
@@ -433,9 +463,39 @@ export interface UpdateRoleInputGraph {
 
   description?: Maybe<string>
 
-  operations: UInt32
-
   rowVersion: string
+
+  createAgency?: Maybe<boolean>
+
+  createProgram?: Maybe<boolean>
+
+  createProject?: Maybe<boolean>
+
+  createReport?: Maybe<boolean>
+
+  createStatistic?: Maybe<boolean>
+
+  deleteAgency?: Maybe<boolean>
+
+  deleteProgram?: Maybe<boolean>
+
+  deleteProject?: Maybe<boolean>
+
+  deleteReport?: Maybe<boolean>
+
+  deleteStatistic?: Maybe<boolean>
+
+  updateElectorateAdvice?: Maybe<boolean>
+
+  adminLogin?: Maybe<boolean>
+
+  allAgencyModifier?: Maybe<boolean>
+
+  manageApiKeys?: Maybe<boolean>
+
+  manageGroups?: Maybe<boolean>
+
+  manageAccessControls?: Maybe<boolean>
 }
 
 export interface UpdateStatisticInputGraph {
@@ -871,8 +931,6 @@ export namespace AllRoles {
 
     description: string
 
-    operations: UInt32
-
     rowVersion: string
   }
 }
@@ -1030,8 +1088,6 @@ export namespace Group {
     id: Guid
 
     description: string
-
-    operations: UInt32
 
     rowVersion: string
 
@@ -1950,6 +2006,142 @@ export namespace AllProgramReports {
     id: Guid
 
     notes: string
+  }
+}
+
+export namespace DeleteRole {
+  export type Variables = {
+    data?: Maybe<DeleteRoleInputGraph>
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    deleteRole: Maybe<boolean>
+  }
+}
+
+export namespace CreateRole {
+  export type Variables = {
+    data?: Maybe<CreateRoleInputGraph>
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    createRole: Maybe<CreateRole>
+  }
+
+  export type CreateRole = {
+    __typename?: 'RoleGraph'
+
+    id: Guid
+
+    title: string
+
+    rowVersion: string
+  }
+}
+
+export namespace UpdateRole {
+  export type Variables = {
+    data?: Maybe<UpdateRoleInputGraph>
+  }
+
+  export type Mutation = {
+    __typename?: 'Mutation'
+
+    updateRole: Maybe<UpdateRole>
+  }
+
+  export type UpdateRole = {
+    __typename?: 'RoleGraph'
+
+    id: Guid
+
+    title: string
+
+    description: string
+
+    rowVersion: string
+  }
+}
+
+export namespace Role {
+  export type Variables = {
+    roleId: string
+  }
+
+  export type Query = {
+    __typename?: 'Query'
+
+    role: Maybe<Role>
+  }
+
+  export type Role = {
+    __typename?: 'RoleGraph'
+
+    id: Guid
+
+    title: string
+
+    description: string
+
+    rowVersion: string
+
+    createAgency: boolean
+
+    createProgram: boolean
+
+    createProject: boolean
+
+    createReport: boolean
+
+    createStatistic: boolean
+
+    deleteAgency: boolean
+
+    deleteProgram: boolean
+
+    deleteProject: boolean
+
+    deleteReport: boolean
+
+    deleteStatistic: boolean
+
+    updateElectorateAdvice: boolean
+
+    manageApiKeys: boolean
+
+    manageAccessControls: boolean
+
+    manageGroups: boolean
+
+    adminLogin: boolean
+
+    allAgencyModifier: boolean
+  }
+}
+
+export namespace RolesSearch {
+  export type Variables = {
+    title?: Maybe<string>
+  }
+
+  export type Query = {
+    __typename?: 'Query'
+
+    roles: Maybe<(Maybe<Roles>)[]>
+  }
+
+  export type Roles = {
+    __typename?: 'RoleGraph'
+
+    id: Guid
+
+    title: string
+
+    description: string
   }
 }
 
@@ -3001,7 +3193,6 @@ export class AllRolesGQL extends Apollo.Query<
         id
         title
         description
-        operations
         rowVersion
       }
     }
@@ -3127,7 +3318,6 @@ export class GroupGQL extends Apollo.Query<Group.Query, Group.Variables> {
         roles {
           id
           description
-          operations
           rowVersion
           title
         }
@@ -3781,6 +3971,105 @@ export class AllProgramReportsGQL extends Apollo.Query<
           }
         }
         __typename
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class DeleteRoleGQL extends Apollo.Mutation<
+  DeleteRole.Mutation,
+  DeleteRole.Variables
+> {
+  document: any = gql`
+    mutation deleteRole($data: DeleteRoleInputGraph) {
+      deleteRole(input: $data)
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class CreateRoleGQL extends Apollo.Mutation<
+  CreateRole.Mutation,
+  CreateRole.Variables
+> {
+  document: any = gql`
+    mutation createRole($data: CreateRoleInputGraph) {
+      createRole(input: $data) {
+        id
+        title
+        rowVersion
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdateRoleGQL extends Apollo.Mutation<
+  UpdateRole.Mutation,
+  UpdateRole.Variables
+> {
+  document: any = gql`
+    mutation updateRole($data: UpdateRoleInputGraph) {
+      updateRole(input: $data) {
+        id
+        title
+        description
+        rowVersion
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class RoleGQL extends Apollo.Query<Role.Query, Role.Variables> {
+  document: any = gql`
+    query role($roleId: String!) {
+      role(id: $roleId) {
+        id
+        title
+        description
+        rowVersion
+        createAgency
+        createProgram
+        createProject
+        createReport
+        createStatistic
+        deleteAgency
+        deleteProgram
+        deleteProject
+        deleteReport
+        deleteStatistic
+        updateElectorateAdvice
+        manageApiKeys
+        manageAccessControls
+        manageGroups
+        adminLogin
+        allAgencyModifier
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class RolesSearchGQL extends Apollo.Query<
+  RolesSearch.Query,
+  RolesSearch.Variables
+> {
+  document: any = gql`
+    query rolesSearch($title: String) {
+      roles(
+        where: { path: "title", comparison: contains, value: [$title] }
+        orderBy: { path: "title" }
+      ) {
+        id
+        title
+        description
       }
     }
   `

@@ -12,7 +12,6 @@ query group($groupId: String!) {
     roles {
       id
       description
-      operations
       rowVersion
       title
     }
