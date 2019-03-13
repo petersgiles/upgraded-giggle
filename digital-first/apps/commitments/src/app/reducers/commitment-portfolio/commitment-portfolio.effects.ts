@@ -26,8 +26,7 @@ export class CommitmentPortfolioEffects {
       map((action: GetPortfoliosByCommitment) => action.payload.commitment),
       concatMap((commitment: any) => this.service.getPortfoliosByCommitment(commitment)
         .pipe(
-          // tslint:disable-next-line:no-console
-          tap(result => console.log(result)),
+
           map((result: DataResult<CommitmentPortfoliosResult>) => new LoadCommitmentPortfolios({ portfolios: result.data.commitmentPortfolios })),
           catchError(error => of(new CommitmentPortfolioActionFailure(error)))
         )
@@ -53,8 +52,7 @@ export class CommitmentPortfolioEffects {
     .pipe(
       ofType(CommitmentPortfolioActionTypes.RemovePortfolioFromCommitment),
       map((action: RemovePortfolioFromCommitment) => action.payload),
-      // tslint:disable-next-line:no-console
-      tap(payload => console.log(payload)),
+
       switchMap((payload: any) => this.service.removePortfolioFromCommitment(payload)),
       switchMap((result: any) => [
         new AppNotification({ message: 'Portfolio Removed' }),

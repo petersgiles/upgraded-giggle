@@ -42,8 +42,7 @@ export class CommitmentDataService {
  get UserOperation(): Observable<any> {
     return this.store.pipe(
         select(fromRoot.getCurrentUserOperations),
-        // tslint:disable-next-line:no-console
-        tap(result => console.log(result))
+
     )
 }
 
@@ -196,8 +195,7 @@ export class CommitmentDataService {
   }
 
   clearAllRefiners() {
-    // tslint:disable-next-line:no-console
-    console.log('clearAllRefiners')
+
     this.store.dispatch(new ClearAllRefiners())
   }
 

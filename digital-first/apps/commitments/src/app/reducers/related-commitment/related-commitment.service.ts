@@ -18,8 +18,7 @@ export class RelatedCommitmentService {
     get UserOperation(): Observable<any> {
         return this.store.pipe(
             select(fromRoot.getCurrentUserOperations),
-            // tslint:disable-next-line:no-console
-            tap(result => console.log(result))
+
         )
     }
 

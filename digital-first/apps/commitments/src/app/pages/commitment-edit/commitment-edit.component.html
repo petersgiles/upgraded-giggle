@@ -88,11 +88,25 @@
       </ng-container>
     </digital-first-commitment-view-guard>
 
+    <digital-first-commitment-theme
+    *ngIf="commitment"
+    [commitment]="commitment?.id"
+    >
+  </digital-first-commitment-theme>
+
+  <digital-first-commitment-package
+  *ngIf="commitment"
+  [commitment]="commitment?.id"
+  >
+  </digital-first-commitment-package>
+
     <digital-first-commitment-delivery-location
       *ngIf="commitment"
       [commitment]="commitment?.id"
     >
     </digital-first-commitment-delivery-location>
+
+
 
     <digital-first-commitment-contacts
       *ngIf="commitment"

@@ -32,16 +32,13 @@ export class CommitmentPortfolioDataSharePointService
         viewXml: viewXml
       })
       .pipe(
-        // tslint:disable-next-line:no-console
-        tap(result => console.log(result)),
+
         map(mapCommitmentPortfolios),
-        // tslint:disable-next-line:no-console
-        tap(result => console.log(result)),
+
         concatMap((result: any) => {
           const ids = result.map(p => p.portfolio)
           const portfolioViewXml = byIdsQuery(ids)
-          // tslint:disable-next-line:no-console
-          console.log('Portfolio', result, ids, portfolioViewXml)
+
           if (portfolioViewXml) {
             return this.sharepoint
               .getItems({
@@ -49,8 +46,7 @@ export class CommitmentPortfolioDataSharePointService
                 viewXml: portfolioViewXml
               })
               .pipe(
-                // tslint:disable-next-line:no-console
-                tap(presult => console.log(presult)),
+
                 concatMap(portfolios =>
                   of({
                     data: { commitmentPortfolios: mapPortfolios(portfolios) },

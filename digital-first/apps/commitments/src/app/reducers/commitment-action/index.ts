@@ -26,8 +26,7 @@ export const getCurrentCommitmentAction = createSelector(
     (actions, selected) => {
         const hash = arrayToHash(actions)
         const found = hash[selected]
-        // tslint:disable-next-line:no-console
-        console.log('getCurrentCommitmentAction', actions, selected, hash, found)
+
         return found
     })
 
@@ -38,8 +37,7 @@ export const getCommitmentActionsTableData = createSelector(
         const rows = (actions || []).map(c => {
 
             const portfolio = c.portfolio ? c.portfolio.title : 'unknown'
-            // tslint:disable-next-line:no-console
-            console.log(c)
+
             return {
                 id: c.id,
                 cells: [{

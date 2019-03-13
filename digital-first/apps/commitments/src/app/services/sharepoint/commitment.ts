@@ -11,6 +11,7 @@ export const mapCommitment = (commitment): Commitment => {
     title: item.Title,
     party: fromLookup(item.PoliticalParty),
     description: item.Description,
+    status: item.Status,
     cost: item.Cost,
     costingRequired: item.CostingRequired,
     electorates: [],

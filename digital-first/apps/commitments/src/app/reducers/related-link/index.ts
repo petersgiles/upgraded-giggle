@@ -38,8 +38,7 @@ export const getRelatedLinksTableData = createSelector(
                     data: c.url
                 }]
             }))
-        // tslint:disable-next-line:no-console
-        console.log('getAllRelatedLinks', data, rows)
+
         const dtc: DataTableConfig = {
             title: 'related links',
             headings: [

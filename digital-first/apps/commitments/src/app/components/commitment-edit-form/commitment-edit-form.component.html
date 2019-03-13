@@ -3,7 +3,12 @@
     <fieldset [attr.disabled]="busy ? '' : null">
       <input type="hidden" formControlName="id" />
 
+      <div class="form-layout__row">
+        <df-status-picker [statuses]="workflowList$ | async" formControlName="status"></df-status-picker>
+      </div>
+
       <h3 class="form-content__headline">Commitment</h3>
+
       <div class="form-layout__row">
         <mdc-text-field
           formControlName="title"
@@ -76,23 +81,6 @@
         >
         </ng-select>
 
-        <ng-select
-          [items]="themeTypes"
-          bindValue="id"
-          bindLabel="title"
-          placeholder="Theme"
-          formControlName="themeType"
-        >
-        </ng-select>
-
-        <ng-select
-          [items]="packageTypes"
-          bindValue="id"
-          bindLabel="title"
-          placeholder="Package"
-          formControlName="packageType"
-        >
-        </ng-select>
       </div>
 
       <h3 class="form-content__headline">Responsibility &amp; Costings</h3>
@@ -132,5 +120,6 @@
         </button>
       </div>
     </fieldset>
+
   </form>
 </div>

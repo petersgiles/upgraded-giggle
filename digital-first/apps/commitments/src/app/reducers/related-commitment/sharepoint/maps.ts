@@ -4,8 +4,7 @@ import { RelatedCommitment } from '../related-commitment.model'
 
 export const mapRelatedCommitment = (item): any => {
     const relatedTo = fromLookup(item.RelatedTo)
-    // tslint:disable-next-line:no-console
-    console.log(relatedTo)
+
     return {
       id: item.ID,
       title: relatedTo.title,

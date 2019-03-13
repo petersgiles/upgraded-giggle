@@ -13,6 +13,8 @@ export { WhoAnnouncedType, WhoAnnouncedTypesResult } from './who-announced-type.
 export { CriticalDate, CriticalDatesResult } from './critical-date.model'
 export { Party, PartysResult } from './party.model'
 export { Portfolio, PortfoliosResult, CommitmentPortfoliosResult } from './portfolio.model'
+export { Package, PackagesResult, CommitmentPackagesResult } from './package.model'
+export { Theme, ThemesResult, CommitmentThemesResult } from './theme.model'
 export { AnnouncementType, AnnouncementTypesResult } from './announcement-type.model'
 export { PackageType, PackageTypesResult } from './package-type.model'
 export { ThemeType, ThemeTypesResult } from './theme-type.model'

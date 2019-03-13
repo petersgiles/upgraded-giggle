@@ -105,8 +105,7 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
 
   handleFilter ($event: any) {
     const val = $event.target.value.toLowerCase()
-    // tslint:disable-next-line:no-console
-    console.log('handleFilter', val)
+
     // filterFruits(val)
 
   }
@@ -128,8 +127,7 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
   }
 
   handleCommitmentsRowClicked(commitment) {
-    // tslint:disable-next-line:no-console
-    console.log(commitment)
+
     this.router.navigate(['/', 'commitment', commitment.id])
   }
 
@@ -169,7 +167,7 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
       Party: fc.party ? fc.party.title : '',
       'Responsible Portfolio': fc.portfolio ? fc.portfolio.title : '',
       'Type of Commitment': fc.commitmentType ? fc.commitmentType.title : '',
-      'Critical Date': fc.criticalDate
+      'Critical Date': fc.criticalDate ? fc.criticalDate.title : ''
     }))
 
     this.excelService.exportAsExcelFile(exportCommitments, 'commitments')

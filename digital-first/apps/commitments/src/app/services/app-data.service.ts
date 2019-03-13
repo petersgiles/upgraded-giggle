@@ -14,6 +14,8 @@ export const OPERATION_RELATEDLINKS = 'relatedLinks'
 export const OPERATION_RELATEDCOMMITMENTS = 'relatedCommitments'
 export const OPERATION_DISCUSSION = 'discussion'
 export const OPERATION_COMMITMENT_PORTFOLIO = 'relatedPortfolios'
+export const OPERATION_COMMITMENT_THEME = 'relatedThemes'
+export const OPERATION_COMMITMENT_PACKAGE = 'relatedPackages'
 
 export const OPERATION_RIGHT_READ = 'read'
 export const OPERATION_RIGHT_WRITE = 'write'
@@ -29,6 +31,8 @@ export const OPERATION_DEFAULTS = {
   'relatedLinks': OPERATION_RIGHT_READ,
   'relatedCommitments': OPERATION_RIGHT_READ,
   'relatedPortfolios': OPERATION_RIGHT_WRITE,
+  'relatedPackages': OPERATION_RIGHT_WRITE,
+  'relatedThemes': OPERATION_RIGHT_WRITE,
   'discussion': OPERATION_RIGHT_WRITE, // Temporary Default
 }
 @Injectable({

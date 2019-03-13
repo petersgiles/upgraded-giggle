@@ -54,8 +54,6 @@ export function reducer(
 
     case CommitmentActionActionTypes.SetCurrentCommitmentAction: {
 
-      // tslint:disable-next-line:no-console
-      console.log('SetCurrentCommitmentAction', action.payload)
       return {
         ...state,
         selectedAction: action.payload.action

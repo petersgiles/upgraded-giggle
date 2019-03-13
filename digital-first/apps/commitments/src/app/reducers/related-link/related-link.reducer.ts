@@ -37,8 +37,7 @@ export function reducer(
 
     case RelatedLinkActionTypes.LoadRelatedLinks: {
 
-        // tslint:disable-next-line:no-console
-        console.log('LoadRelatedLinks', action.payload)
+
 
       if (action.payload.data.commitmentRelatedLinks) {
         return {

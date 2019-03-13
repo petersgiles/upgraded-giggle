@@ -318,6 +318,8 @@ export const getAllOverviewCommitments = createSelector(
   getOverviewLookupEnitites,
   getCommitmentOverviewState,
   (commitments, lookups, state) => {
+
+    
     const result = commitments.map(commitment => ({
       ...commitment,
       commitmentId: formatCommitmentId(commitment),

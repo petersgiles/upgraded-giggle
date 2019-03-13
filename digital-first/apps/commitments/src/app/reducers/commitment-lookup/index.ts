@@ -83,10 +83,36 @@ export const getAllPortfolios = createSelector(
     state => state.portfolios
 )
 
+export const getCostingPortfolios = createSelector(
+    getCommitmentLookupState,
+    state => state.portfolios.filter(p => p)
+)
+
 export const getPortfolioEntities = createSelector(
     getAllPortfolios,
     arrayToHash
 )
+
+export const getAllPackages = createSelector(
+  getCommitmentLookupState,
+  state => state.packages
+)
+
+export const getPackageEntities = createSelector(
+  getAllPackages,
+  arrayToHash
+)
+
+export const getAllThemes = createSelector(
+  getCommitmentLookupState,
+  state => state.themes
+)
+
+export const getThemeEntities = createSelector(
+  getAllThemes,
+  arrayToHash
+)
+
 
 export const getAllWhoAnnouncedTypes = createSelector(
     getCommitmentLookupState,

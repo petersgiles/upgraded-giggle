@@ -177,6 +177,7 @@ export class PortfoliosActionFailure implements Action {
     }
 }
 
+
 // WhoAnnouncedTypes
 
 export class GetAllWhoAnnouncedTypes implements Action {

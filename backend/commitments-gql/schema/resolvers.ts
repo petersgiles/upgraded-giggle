@@ -20,6 +20,8 @@ db.connect('./diskdb/commitments', [
   'commitment-tags',
   'commitment-electorates',
   'commitment-commitment-portfolios',
+  'commitment-commitment-packages',
+  'commitment-commitment-themes',
   'commitment-commitment-electorates',
   'commitment-related-commitments',
   'commitment-related-links',
@@ -101,6 +103,20 @@ export const resolvers = {
       // (commitment: ID!): [Portfolio]
       let set = db['commitment-commitment-portfolios'].find({ commitment: args.commitment })
       let found = set.map((f: any) => db['commitment-portfolios'].findOne({ id: f.portfolio }))
+      return found
+
+    },
+    commitmentPackages: (obj: any, args: any, context: any, info: any) => {
+      // (commitment: ID!): [packages]
+      let set = db['commitment-commitment-packages'].find({ commitment: args.commitment })
+      let found = set.map((f: any) => db['commitment-packageTypes'].findOne({ id: f.package }))
+      return found
+
+    },
+    commitmentThemes: (obj: any, args: any, context: any, info: any) => {
+      // (commitment: ID!): [themes]
+      let set = db['commitment-commitment-themes'].find({ commitment: args.commitment })
+      let found = set.map((f: any) => db['commitment-themeTypes'].findOne({ id: f.theme }))
       return found
 
     },
@@ -363,6 +379,50 @@ export const resolvers = {
       console.log('deleteCommitmentPortfolio', cc, args)
       var result = db['commitment-commitment-portfolios'].remove({ _id: cc._id }, false);
       console.log('deleteCommitmentPortfolio result', result)
+      const c = db.commitments.findOne({ id: cc.commitment })
+      return c
+    },
+    storeCommitmentTheme: (_root: any, args: any) => {
+      //(commitment: Int!, contact: Int!): Commitment,
+      const data = { ...args };
+      const ccc = db['commitment-commitment-themes'].findOne(data)
+      var saved = null
+      if (ccc) {
+        saved = db['commitment-commitment-themes'].update({ _id: ccc._id }, data, { multi: false, upsert: true });
+      } else {
+        saved = db['commitment-commitment-themes'].save([data]);
+      }
+
+      const c = db.commitments.findOne({ id: args.commitment })
+      return c
+    },
+    deleteCommitmentTheme: (_root: any, args: any) => {
+      var cc = db['commitment-commitment-themes'].findOne({ commitment: args.commitment, theme: args.theme });
+      console.log('deleteCommitmentTheme', cc, args)
+      var result = db['commitment-commitment-themes'].remove({ _id: cc._id }, false);
+      console.log('deleteCommitmentTheme result', result)
+      const c = db.commitments.findOne({ id: cc.commitment })
+      return c
+    },
+    storeCommitmentPackage: (_root: any, args: any) => {
+      //(commitment: Int!, contact: Int!): Commitment,
+      const data = { ...args };
+      const ccc = db['commitment-commitment-packages'].findOne(data)
+      var saved = null
+      if (ccc) {
+        saved = db['commitment-commitment-packages'].update({ _id: ccc._id }, data, { multi: false, upsert: true });
+      } else {
+        saved = db['commitment-commitment-packages'].save([data]);
+      }
+
+      const c = db.commitments.findOne({ id: args.commitment })
+      return c
+    },
+    deleteCommitmentPackage: (_root: any, args: any) => {
+      var cc = db['commitment-commitment-packages'].findOne({ commitment: args.commitment, pachage: args.package });
+      console.log('deleteCommitmentPackage', cc, args)
+      var result = db['commitment-commitment-packages'].remove({ _id: cc._id }, false);
+      console.log('deleteCommitmentPackage result', result)
       const c = db.commitments.findOne({ id: cc.commitment })
       return c
     },

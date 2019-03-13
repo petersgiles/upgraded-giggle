@@ -36,8 +36,7 @@ export class DeliveryLocationDataSharePointService
         viewXml: byCommitmentIdQuery({ id: commitment })
       }).pipe(
         map(mapCommitmentElectorates),
-        // tslint:disable-next-line:no-console
-        tap(commitmentElectorates => console.log(commitmentElectorates)),
+
         concatMap((commitmentElectorates: any) => {
           const ids = commitmentElectorates.map(ce => ce.electorate)
 
@@ -79,8 +78,7 @@ export class DeliveryLocationDataSharePointService
       })
       .pipe(
         map(mapCommitmentMapPoints),
-        // tslint:disable-next-line:no-console
-        tap(commitmentMapPoints => console.log(commitmentMapPoints)),
+
         concatMap((commitmentMapPoints: any) => {
           const mpIds = commitmentMapPoints.map(mp => mp.mapPoint)
 
