@@ -39,8 +39,6 @@ const portfolioTags = (packages || []).map(r => ({
     colour: r.colour,
     selected: false
 })).filter(p => !relatedTags.some(s => p.id === s.id))
-        // tslint:disable-next-line:no-console
-        console.log(relatedTags, portfolioTags)
         return [...relatedTags, ...portfolioTags]
     }
 )
