@@ -92,7 +92,6 @@ export class CommitmentLookupService {
         return this.store.pipe(select(fromRoot.getAllPortfolios))
     }
 
-
     public getAllThemes(filter?: any) {
         this.store.dispatch(new GetAllPortfolios())
     }
