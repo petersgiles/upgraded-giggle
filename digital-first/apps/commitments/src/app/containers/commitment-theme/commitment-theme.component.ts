@@ -26,6 +26,7 @@ export class CommitmentThemeComponent implements OnInit, OnDestroy {
   expandedSubscription$: Subscription
   expanded: boolean
   commitmentThemesSubscription$: Subscription
+  megaTags$: any;
 
   constructor(
     public dialog: MdcDialog,
@@ -66,6 +67,9 @@ export class CommitmentThemeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+    this.megaTags$ =  this.service.SelectedMegaTags
+    
     this.commitmentThemesSubscription$ = this.service.CommitmentThemes.subscribe(
       next => {
 
@@ -86,10 +90,18 @@ export class CommitmentThemeComponent implements OnInit, OnDestroy {
       }
     )
     this.userOperation$ = this.service.UserOperation
-    this.lookup.getAllPortfolios()
+    this.lookup.getAllThemeTypes()
   }
 
   related = []
+
+  handleToggleSelected(megaTag) {
+    if (!megaTag.selected) {
+      this.service.removeThemeFromCommitment(this.commitment, megaTag.id)
+    } else {
+      this.service.addThemeToCommitment(this.commitment, megaTag.id)
+    }
+  }
 
   addTheme(event: CdkDragDrop<string[]>) {
     if (event.previousContainer !== event.container) {

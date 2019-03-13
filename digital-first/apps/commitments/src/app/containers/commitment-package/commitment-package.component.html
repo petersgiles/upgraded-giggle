@@ -36,34 +36,11 @@
       ></digital-first-expand-collapse-button>
     </digital-first-page-title>
     <div *ngIf="expanded" class="related-content">
-      <h3>Related</h3>
-      <mdc-chip-set
-        cdkDropList
-        #relatedList="cdkDropList"
-        [cdkDropListData]="related"
-        [cdkDropListConnectedTo]="sourceList"
-        (cdkDropListDropped)="addPackage($event)"
-      >
-        <mdc-chip *ngFor="let item of related" cdkDrag>
-          <mdc-chip-text>{{ item?.title }}</mdc-chip-text>
-        </mdc-chip>
-        <div *ngIf="related?.length == 0" class="drop-target">
-          drop related packages here
-        </div>
-      </mdc-chip-set>
-
-      <h3>Packages</h3>
-      <mdc-chip-set
-        cdkDropList
-        #sourceList="cdkDropList"
-        [cdkDropListData]="packages"
-        [cdkDropListConnectedTo]="relatedList"
-        (cdkDropListDropped)="removePackage($event)"
-      >
-        <mdc-chip *ngFor="let item of packages" cdkDrag>
-          <mdc-chip-text>{{ item?.title }}</mdc-chip-text>
-        </mdc-chip>
-      </mdc-chip-set>
+        <df-mega-tag-chooser
+        [artifact]="commitment.id"
+        [tags]="megaTags$ | async"
+        (onSelectionChange)="handleToggleSelected($event)"
+      ></df-mega-tag-chooser>
     </div>
   </ng-container>
 </digital-first-commitment-view-guard>

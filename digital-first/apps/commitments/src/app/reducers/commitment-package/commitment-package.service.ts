@@ -11,6 +11,7 @@ import {
 } from './commitment-package.actions'
 import { DataTableConfig } from '@digital-first/df-datatable'
 import { Package } from '../../models'
+import { MegaTag } from '@df/components';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,10 @@ export class CommitmentPackageService {
 
   get CommitmentPackages(): Observable<Package[]> {
     return this.store.pipe(select(fromRoot.getAllCommitmentPackages))
+  }
+
+  get SelectedMegaTags(): Observable<MegaTag[]> {
+    return this.store.pipe(select(fromRoot.getRelatedCommitmentPackages))
   }
 
   get Expanded(): Observable<boolean> {
