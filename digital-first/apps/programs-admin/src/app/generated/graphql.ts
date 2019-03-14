@@ -600,9 +600,7 @@ export type Seconds = any
 // ====================================================
 
 export namespace AllAgenciesSearch {
-  export type Variables = {
-    title?: Maybe<string>
-  }
+  export type Variables = {}
 
   export type Query = {
     __typename?: 'Query'
@@ -617,7 +615,15 @@ export namespace AllAgenciesSearch {
 
     title: string
 
-    rowVersion: string
+    portfolio: Maybe<Portfolio>
+  }
+
+  export type Portfolio = {
+    __typename?: 'PortfolioGraph'
+
+    id: Guid
+
+    title: string
   }
 }
 
@@ -1116,9 +1122,7 @@ export namespace AllGroups {
 }
 
 export namespace AllGroupsSearch {
-  export type Variables = {
-    title?: Maybe<string>
-  }
+  export type Variables = {}
 
   export type Query = {
     __typename?: 'Query'
@@ -1276,9 +1280,7 @@ export namespace GetPortfolioDetail {
 }
 
 export namespace AllPortfoliosSearch {
-  export type Variables = {
-    title?: Maybe<string>
-  }
+  export type Variables = {}
 
   export type Query = {
     __typename?: 'Query'
@@ -1783,36 +1785,6 @@ export namespace AllPrograms {
   }
 }
 
-export namespace AllProgramsSearch {
-  export type Variables = {
-    name?: Maybe<string>
-  }
-
-  export type Query = {
-    __typename?: 'Query'
-
-    programs: Maybe<(Maybe<Programs>)[]>
-  }
-
-  export type Programs = {
-    __typename?: 'ProgramGraph'
-
-    id: Guid
-
-    name: string
-
-    agency: Maybe<Agency>
-  }
-
-  export type Agency = {
-    __typename?: 'AgencyGraph'
-
-    id: Guid
-
-    title: string
-  }
-}
-
 export namespace CreateProject {
   export type Variables = {
     data: CreateProjectInputGraph
@@ -2089,6 +2061,10 @@ export namespace Role {
 
     rowVersion: string
 
+    adminLogin: boolean
+
+    allAgencyModifier: boolean
+
     createAgency: boolean
 
     createProgram: boolean
@@ -2109,17 +2085,13 @@ export namespace Role {
 
     deleteStatistic: boolean
 
-    updateElectorateAdvice: boolean
-
     manageApiKeys: boolean
 
     manageAccessControls: boolean
 
     manageGroups: boolean
 
-    adminLogin: boolean
-
-    allAgencyModifier: boolean
+    updateElectorateAdvice: boolean
   }
 }
 
@@ -2600,9 +2572,7 @@ export namespace AllAgencies {
 }
 
 export namespace AllStatisticsSearch {
-  export type Variables = {
-    name?: Maybe<string>
-  }
+  export type Variables = {}
 
   export type Query = {
     __typename?: 'Query'
@@ -2908,9 +2878,7 @@ export namespace SelectAgencies {
 }
 
 export namespace AllUsersSearch {
-  export type Variables = {
-    emailAddress?: Maybe<string>
-  }
+  export type Variables = {}
 
   export type Query = {
     __typename?: 'Query'
@@ -2952,14 +2920,14 @@ export class AllAgenciesSearchGQL extends Apollo.Query<
   AllAgenciesSearch.Variables
 > {
   document: any = gql`
-    query allAgenciesSearch($title: String) {
-      agencies(
-        where: { path: "title", comparison: contains, value: [$title] }
-        orderBy: { path: "title" }
-      ) {
+    query allAgenciesSearch {
+      agencies(orderBy: { path: "title" }) {
         id
         title
-        rowVersion
+        portfolio {
+          id
+          title
+        }
       }
     }
   `
@@ -3350,11 +3318,8 @@ export class AllGroupsSearchGQL extends Apollo.Query<
   AllGroupsSearch.Variables
 > {
   document: any = gql`
-    query allGroupsSearch($title: String) {
-      groups(
-        where: { path: "title", comparison: contains, value: [$title] }
-        orderBy: { path: "title" }
-      ) {
+    query allGroupsSearch {
+      groups(orderBy: { path: "title" }) {
         id
         title
         rowVersion
@@ -3482,11 +3447,8 @@ export class AllPortfoliosSearchGQL extends Apollo.Query<
   AllPortfoliosSearch.Variables
 > {
   document: any = gql`
-    query allPortfoliosSearch($title: String) {
-      portfolios(
-        where: { path: "title", comparison: contains, value: [$title] }
-        orderBy: { path: "title" }
-      ) {
+    query allPortfoliosSearch {
+      portfolios(orderBy: { path: "title" }) {
         id
         title
       }
@@ -3815,29 +3777,6 @@ export class AllProgramsGQL extends Apollo.Query<
 @Injectable({
   providedIn: 'root'
 })
-export class AllProgramsSearchGQL extends Apollo.Query<
-  AllProgramsSearch.Query,
-  AllProgramsSearch.Variables
-> {
-  document: any = gql`
-    query allProgramsSearch($name: String) {
-      programs(
-        where: { path: "name", comparison: contains, value: [$name] }
-        orderBy: { path: "name" }
-      ) {
-        id
-        name
-        agency {
-          id
-          title
-        }
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
 export class CreateProjectGQL extends Apollo.Mutation<
   CreateProject.Mutation,
   CreateProject.Variables
@@ -4034,6 +3973,8 @@ export class RoleGQL extends Apollo.Query<Role.Query, Role.Variables> {
         title
         description
         rowVersion
+        adminLogin
+        allAgencyModifier
         createAgency
         createProgram
         createProject
@@ -4044,12 +3985,10 @@ export class RoleGQL extends Apollo.Query<Role.Query, Role.Variables> {
         deleteProject
         deleteReport
         deleteStatistic
-        updateElectorateAdvice
         manageApiKeys
         manageAccessControls
         manageGroups
-        adminLogin
-        allAgencyModifier
+        updateElectorateAdvice
       }
     }
   `
@@ -4395,11 +4334,8 @@ export class AllStatisticsSearchGQL extends Apollo.Query<
   AllStatisticsSearch.Variables
 > {
   document: any = gql`
-    query allStatisticsSearch($name: String) {
-      statistics(
-        where: { path: "name", comparison: contains, value: [$name] }
-        orderBy: { path: "name" }
-      ) {
+    query allStatisticsSearch {
+      statistics(orderBy: { path: "name" }) {
         id
         name
         agency {
@@ -4600,15 +4536,8 @@ export class AllUsersSearchGQL extends Apollo.Query<
   AllUsersSearch.Variables
 > {
   document: any = gql`
-    query allUsersSearch($emailAddress: String) {
-      users(
-        where: {
-          path: "emailAddress"
-          comparison: contains
-          value: [$emailAddress]
-        }
-        orderBy: { path: "emailAddress" }
-      ) {
+    query allUsersSearch {
+      users(orderBy: { path: "emailAddress" }) {
         id
         emailAddress
         lastLogin

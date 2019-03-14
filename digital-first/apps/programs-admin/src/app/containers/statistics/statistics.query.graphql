@@ -1,5 +1,5 @@
-query allStatisticsSearch($name: String) {
-  statistics(where: {path: "name", comparison: contains, value: [$name]}, orderBy:{path:"name"}) {
+query allStatisticsSearch {
+  statistics(orderBy: { path: "name" }) {
     id
     name
     agency {

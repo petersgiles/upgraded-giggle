@@ -1,15 +1,20 @@
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   OnDestroy,
-  ChangeDetectorRef,
-  ChangeDetectionStrategy
+  OnInit
 } from '@angular/core'
-import {
-  AllProgramsSearch,
-  AllProgramsSearchGQL
-} from '../../generated/graphql'
-import { Subscription } from 'rxjs'
+import { AllProgramsGQL } from '../../generated/graphql'
+import { BehaviorSubject, Subscription } from 'rxjs'
 import { Router } from '@angular/router'
+import { multiFilter } from '../../core/graphqlhelper'
+
+interface ProgramRow {
+  agency: string
+  name: string
+  id: string
+}
 
 @Component({
   selector: 'digital-first-programs',
@@ -17,15 +22,16 @@ import { Router } from '@angular/router'
   styleUrls: ['./programs.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProgramsComponent implements OnDestroy {
-  programs: AllProgramsSearch.Programs[]
-  subscriptions$: Subscription[] = []
-  searchText = ''
+export class ProgramsComponent implements OnInit, OnDestroy {
+  subscription$: Subscription
+  columns = [{ prop: 'name', name: 'Name' }, { prop: 'agency', name: 'Agency' }]
+  filterPrograms$: BehaviorSubject<ProgramRow[]>
+  rows: ProgramRow[]
 
   constructor(
-    private searchProgramsGQL: AllProgramsSearchGQL,
     private changeDetector: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private allProgramsGql: AllProgramsGQL
   ) {}
 
   add() {
@@ -34,32 +40,43 @@ export class ProgramsComponent implements OnDestroy {
     })
   }
 
-  doSearch() {
-    if (!this.searchText) {
+  handleFilter($event: any) {
+    const expression = $event.target.value.toLowerCase()
+
+    if (!expression) {
+      this.filterPrograms$.next(this.rows)
       return
     }
 
-    const searchSubscription$ = this.searchProgramsGQL
-      .watch(
-        { name: this.searchText },
-        {
-          fetchPolicy: 'no-cache',
-          context: { debounceKey: 'programs', debounceTimeout: 400 }
-        }
-      )
+    const filter = {
+      name: expression,
+      agency: expression
+    }
+
+    this.filterPrograms$.next(multiFilter(this.rows, filter))
+  }
+
+  ngOnInit(): void {
+    this.subscription$ = this.allProgramsGql
+      .watch({}, { fetchPolicy: 'network-only' })
       .valueChanges.subscribe(value => {
-        this.programs = value.data.programs
+        this.rows = value.data.programs.map(row => ({
+          id: row.id,
+          name: row.name,
+          agency: row.agency.title
+        }))
+
+        this.filterPrograms$ = new BehaviorSubject(this.rows)
+
         this.changeDetector.detectChanges()
       })
+  }
 
-    this.subscriptions$ = [...this.subscriptions$, searchSubscription$]
+  handleSelect(row: ProgramRow) {
+    return this.router.navigate(['programs/', row.id])
   }
 
   ngOnDestroy(): void {
-    for (const subscription of this.subscriptions$) {
-      if (subscription && subscription.unsubscribe) {
-        subscription.unsubscribe()
-      }
-    }
+    this.subscription$.unsubscribe()
   }
 }

@@ -2,31 +2,40 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  OnDestroy
+  OnDestroy,
+  OnInit
 } from '@angular/core'
-import {
-  AllAgenciesSearchGQL,
-  AllAgenciesSearch
-} from '../../generated/graphql'
-import { Subscription } from 'rxjs'
-import { ActivatedRoute, Router } from '@angular/router'
+import { AllAgenciesSearchGQL } from '../../generated/graphql'
+import { BehaviorSubject, Subscription } from 'rxjs'
+import { Router } from '@angular/router'
+import { multiFilter } from '../../core/graphqlhelper'
+
+interface AgencyRow {
+  title: string
+  id: string
+  portfolio: string
+}
+
 @Component({
   selector: 'digital-first-agencies',
   templateUrl: './agencies.component.html',
   styleUrls: ['./agencies.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AgenciesComponent implements OnDestroy {
+export class AgenciesComponent implements OnInit, OnDestroy {
+  subscription$: Subscription
+  columns = [
+    { prop: 'title', name: 'Name' },
+    { prop: 'portfolio', name: 'Portfolio' }
+  ]
+  filterAgencies$: BehaviorSubject<AgencyRow[]>
+  rows: AgencyRow[]
+
   constructor(
     private allAgenciesSearchGql: AllAgenciesSearchGQL,
     private changeDetector: ChangeDetectorRef,
-    private router: Router,
-    private route: ActivatedRoute
+    private router: Router
   ) {}
-
-  agencies: AllAgenciesSearch.Agencies[]
-  subscriptions$: Subscription[] = []
-  searchText = ''
 
   add() {
     return this.router.navigate(['agencies', 'add'], {
@@ -34,32 +43,43 @@ export class AgenciesComponent implements OnDestroy {
     })
   }
 
-  doSearch() {
-    if (!this.searchText) {
+  ngOnInit(): void {
+    this.subscription$ = this.allAgenciesSearchGql
+      .watch({}, { fetchPolicy: 'network-only' })
+      .valueChanges.subscribe(value => {
+        this.rows = value.data.agencies.map(row => ({
+          id: row.id,
+          title: row.title,
+          portfolio: row.portfolio.title
+        }))
+
+        this.filterAgencies$ = new BehaviorSubject(this.rows)
+
+        this.changeDetector.detectChanges()
+      })
+  }
+
+  handleFilter($event: any) {
+    const expression = $event.target.value.toLowerCase()
+
+    if (!expression) {
+      this.filterAgencies$.next(this.rows)
       return
     }
 
-    const searchSubscription$ = this.allAgenciesSearchGql
-      .watch(
-        { title: this.searchText },
-        {
-          fetchPolicy: 'no-cache',
-          context: { debounceKey: 'agencies', debounceTimeout: 400 }
-        }
-      )
-      .valueChanges.subscribe(value => {
-        this.agencies = value.data.agencies
-        this.changeDetector.detectChanges()
-      })
+    const filter = {
+      title: expression,
+      portfolio: expression
+    }
 
-    this.subscriptions$ = [...this.subscriptions$, searchSubscription$]
+    this.filterAgencies$.next(multiFilter(this.rows, filter))
   }
 
   ngOnDestroy(): void {
-    for (const subscription of this.subscriptions$) {
-      if (subscription && subscription.unsubscribe) {
-        subscription.unsubscribe()
-      }
-    }
+    this.subscription$.unsubscribe()
+  }
+
+  handleSelect(row: AgencyRow) {
+    return this.router.navigate(['agencies/', row.id])
   }
 }
