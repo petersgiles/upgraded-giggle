@@ -3,6 +3,7 @@ import { DataTableConfig } from '@digital-first/df-datatable'
 
 import * as fromCommitmentOverviewMap from './commitment-overview-map.reducer'
 import { formatCommitmentTitle } from '../../formatters'
+import { getFilteredOverviewCommitments } from '../commitment-overview'
 
 export const getCommitmentOverviewMapState = state => state.commitmentOverviewMap
 
@@ -14,6 +15,17 @@ export const getCommitmentOverviewMapMapPoints = createSelector(
 export const getCommitmentOverviewMapCommitments = createSelector(
     getCommitmentOverviewMapState,
     fromCommitmentOverviewMap.getOverviewCommitments
+)
+
+export const getCommitmentOverviewCommitmentsMapPoints = createSelector(
+    getCommitmentOverviewMapCommitments,
+    getCommitmentOverviewMapMapPoints,
+    getFilteredOverviewCommitments,
+    (ovmc, mp, oc) => {
+        console.log(ovmc, mp, oc)
+
+        return mp
+    }
 )
 
 export const getCommitmentOverviewMapCommitmentsTableData = createSelector(

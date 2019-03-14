@@ -8,7 +8,7 @@
         </mdc-top-app-bar-section>
         <mdc-top-app-bar-section align="end">
             <mdc-icon *ngIf="(sidebarItems$ | async)?.length > 0" mdcTopAppBarActionItem (click)="profileMenu.open = !profileMenu.open">more_vert</mdc-icon>
-            <span class="app-layout-title-version">{{version}}</span>
+            
             <digital-first-avatar [name]="profile?.name" [email]="profile?.email" [displayType]="profile?.displayType"
                 [size]="profile?.size" [background]="profile?.background">
             </digital-first-avatar>
@@ -16,10 +16,12 @@
             <div mdcMenuSurfaceAnchor #menuAnchor>
                 <mdc-menu #profileMenu [anchorElement]="menuAnchor">
                   <mdc-list>
-                    <a *ngFor="let item of sidebarItems$ | async"  mdc-list-item [routerLink]="item.routerLink" routerLinkActive="app-drawer-link-active">
+                    <a *ngFor="let item of sidebarItems$ | async"  mdc-list-item [routerLink]="item.routerLink" >
                        {{item.caption}}
                     </a>
+                    <a mdc-list-item> Version {{version}}</a>
                   </mdc-list>
+             
                 </mdc-menu>
             </div>
         </mdc-top-app-bar-section>

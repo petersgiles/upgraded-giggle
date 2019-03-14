@@ -30,6 +30,10 @@ export class CommitmentOverviewMapService {
         return this.store.pipe(select(fromRoot.getCommitmentOverviewMapMapPoints))
     }
 
+    get RefinedMapPoints(): Observable<MapPoint[]> {
+        return this.store.pipe(select(fromRoot.getCommitmentOverviewCommitmentsMapPoints))
+    }
+
     getMapPoints(filter?: string): any {
         this.store.dispatch(new GetCommitmentOverviewMapPoints({ filter: filter }))
     }

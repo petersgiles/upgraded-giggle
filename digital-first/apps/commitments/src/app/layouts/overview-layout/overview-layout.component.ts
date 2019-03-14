@@ -25,10 +25,21 @@ export class OverviewLayoutComponent implements OnInit {
     private router: Router,
     private service: CommitmentDataService,
     private excelService: ExcelService,
-    private refinerAction: RefinerActionService
+    private refinerAction: RefinerActionService,
+    private lookup: CommitmentLookupService
   ) {}
 
   ngOnInit() {
+    this.lookup.getAllWhoAnnouncedTypes()
+    this.lookup.getAllAnnouncementTypes()
+    this.lookup.getAllCommitmentTypes()
+    this.lookup.getAllCriticalDates()
+    this.lookup.getAllLocations()
+    this.lookup.getAllPartys()
+    this.lookup.getAllPortfolios()
+    this.lookup.getAllThemeTypes()
+    this.lookup.getAllPackageTypes()
+
     this.refinerGroups$ = this.service.RefinerGroups
     this.commitmentsFilteredSubscription$ = this.service.CommitmentFiltered.subscribe(
       fc => (this.filteredCommitments = fc)

@@ -30,7 +30,7 @@ export class CommitmentOverviewMapComponent implements OnInit {
     this.longitude = 133.8807
     this.zoom = 5
 
-    this.mapPoints$ = this.service.MapPoints
+    this.mapPoints$ = this.service.RefinedMapPoints
     this.commitments$ = this.service.Commitments
 
     this.service.getMapPoints()
