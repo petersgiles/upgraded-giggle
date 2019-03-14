@@ -5,10 +5,7 @@ import { AppUserProfile, SideBarItem } from '../models'
 @Injectable({
   providedIn: 'root'
 })
-export class FullLayoutService {
-   get drawerStyle(): 'permanent' | 'dismissible' | 'modal' {
-    return 'modal'
-  }
+export class TitleLayoutService {
 
   get version(): string {
     return '0.0.0.0'
@@ -27,10 +24,6 @@ export class FullLayoutService {
     })
   }
 
-  get drawOpen$(): Observable<boolean> {
-    return of(true)
-  }
-
   setDrawState(appdrawerOpen: any): any {
     throw new Error('Method not implemented.')
   }
@@ -40,8 +33,6 @@ export class FullLayoutService {
   }
 
   get notification$(): Observable<any> { return of(null) }
-
-  get open$(): Observable<boolean> { return of(null) }
 
   get protectiveMarking$(): Observable<any> { return of(null) }
 

@@ -118,13 +118,13 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
     this.router.navigate(['/', 'commitment', commitment.id])
   }
 
-  handleClearAllFilters() {
-    this.service.clearAllRefiners()
-  }
+  // handleClearAllFilters() {
+  //   this.service.clearAllRefiners()
+  // }
 
-  handleCreate() {
-    this.router.navigate(['/', 'commitment', 'create'])
-  }
+  // handleCreate() {
+  //   this.router.navigate(['/', 'commitment', 'create'])
+  // }
 
   handleCommitmentsRowClicked(commitment) {
 
@@ -138,26 +138,6 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
 
   handleShare(commitment?: Commitment) {
     this.router.navigate(['/', 'commitment', commitment.id])
-  }
-
-  handleRefinerGroupSelected(refiner) {
-    if (refiner.expanded) {
-      this.service.collapseRefinerGroup(refiner)
-    } else {
-      this.service.expandRefinerGroup(refiner)
-    }
-  }
-
-  handleRefinerSelected(refiner) {
-    if (refiner.selected) {
-      this.service.removeRefiner(refiner)
-    } else {
-      this.service.addRefiner(refiner)
-    }
-  }
-
-  handleSearchCriteriaChanged(text) {
-    this.service.setTextRefiner(text)
   }
 
   handleExport() {

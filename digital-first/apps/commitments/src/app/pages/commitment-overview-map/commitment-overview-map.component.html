@@ -1,6 +1,11 @@
 <div class="app-page">
   <section>
-    <digital-first-page-title title="Delivery locations"></digital-first-page-title>
+      <mdc-tab-bar [activeTabIndex]="1" useAutomaticActivation>
+          <mdc-tab-scroller>
+            <mdc-tab label="Overview" [routerLink]="['/']"></mdc-tab>
+            <mdc-tab label="Delivery Locations"></mdc-tab>
+          </mdc-tab-scroller>
+        </mdc-tab-bar>
     <div class="commitment-layout__row">
         <agm-map 
         [latitude]="latitude" 

@@ -1,6 +1,6 @@
 <ng-container *ngIf="commitment">
   <ng-container *ngIf="!required">
-    <digital-first-page-title title="Additional Costings Not Required">
+    <digital-first-page-title title="Official costing Not Required">
     </digital-first-page-title>
   </ng-container>
 
@@ -10,7 +10,7 @@
   >
     <ng-container operation-type="read">
       <digital-first-page-title
-        title="Additional Costings"
+        title="Official Costings"
         (onTitleClicked)="handleChangeExpanded(!expanded)"
       >
         <digital-first-expand-collapse-button

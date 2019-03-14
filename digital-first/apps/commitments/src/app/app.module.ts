@@ -11,7 +11,11 @@ import { AgmCoreModule } from '@agm/core'
 import { NgSelectModule } from '@ng-select/ng-select'
 import { MarkdownModule, MarkedOptions } from 'ngx-markdown'
 
-import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
+import {
+  DfLayoutsModule,
+  FullLayoutService,
+  TitleLayoutService
+} from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
 import {
   DfDiscussionModule,
@@ -131,7 +135,14 @@ import { CommitmentThemeComponent } from './containers/commitment-theme/commitme
 import { DragDropModule } from '@angular/cdk/drag-drop'
 import { CommitmentMadLibComponent } from './containers/commitment-mad-lib/commitment-mad-lib.component'
 
-import { AvatarModule, DataTableModule, DocumentModule, PanelModule, MegaTaggerModule } from '@df/components'
+import {
+  AvatarModule,
+  DataTableModule,
+  DocumentModule,
+  PanelModule,
+  MegaTaggerModule
+} from '@df/components'
+import { OverviewLayoutComponent } from './layouts/overview-layout/overview-layout.component'
 
 const COMPONENTS = [
   AppComponent,
@@ -160,7 +171,8 @@ const COMPONENTS = [
   CommitmentPortfolioComponent,
   CommitmentPackageComponent,
   CommitmentThemeComponent,
-  CommitmentMadLibComponent
+  CommitmentMadLibComponent,
+  OverviewLayoutComponent
 ]
 
 const ENTRYCOMPONENTS = [
@@ -323,7 +335,7 @@ export let appDataServiceProvider = {
     commitmentPortfoliosDataServiceProvider,
     commitmentPackagesDataServiceProvider,
     commitmentThemesDataServiceProvider,
-    { provide: FullLayoutService, useClass: AppFullLayoutService },
+    { provide: TitleLayoutService, useClass: AppFullLayoutService },
     {
       provide: APOLLO_OPTIONS,
       useFactory(httpLink: HttpLink) {

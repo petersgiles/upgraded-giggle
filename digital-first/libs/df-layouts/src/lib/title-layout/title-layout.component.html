@@ -1,0 +1,31 @@
+<mdc-top-app-bar class="app-top-app-bar" #topAppBar fixed prominent='false'>
+    <mdc-top-app-bar-row>
+        <mdc-top-app-bar-section align="start" title="{{title}}" >
+            <mdc-icon mdcTopAppBarActionItem [routerLink]="['/']">home</mdc-icon>
+        </mdc-top-app-bar-section>
+        <mdc-top-app-bar-section align="center"class="protective-marking">
+            <span >{{(protectiveMarking$ | async) | uppercase}}</span> 
+        </mdc-top-app-bar-section>
+        <mdc-top-app-bar-section align="end">
+            <mdc-icon *ngIf="(sidebarItems$ | async)?.length > 0" mdcTopAppBarActionItem (click)="profileMenu.open = !profileMenu.open">more_vert</mdc-icon>
+            <span class="app-layout-title-version">{{version}}</span>
+            <digital-first-avatar [name]="profile?.name" [email]="profile?.email" [displayType]="profile?.displayType"
+                [size]="profile?.size" [background]="profile?.background">
+            </digital-first-avatar>
+
+            <div mdcMenuSurfaceAnchor #menuAnchor>
+                <mdc-menu #profileMenu [anchorElement]="menuAnchor">
+                  <mdc-list>
+                    <a *ngFor="let item of sidebarItems$ | async"  mdc-list-item [routerLink]="item.routerLink" routerLinkActive="app-drawer-link-active">
+                       {{item.caption}}
+                    </a>
+                  </mdc-list>
+                </mdc-menu>
+            </div>
+        </mdc-top-app-bar-section>
+    </mdc-top-app-bar-row>
+</mdc-top-app-bar>
+
+<div mdcTopAppBarFixedAdjust>
+    <router-outlet></router-outlet>
+</div>
