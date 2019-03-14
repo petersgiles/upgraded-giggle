@@ -1,15 +1,15 @@
-query allGroups{
-  groups(orderBy:{path:"title"}){
+query allGroups {
+  groups(orderBy: { path: "title" }) {
     id
     title
     rowVersion
   }
 }
 
-query allGroupsSearch($title: String) {
-   groups(where: {path: "title", comparison: contains, value: [$title]},orderBy:{path:"title"}){
-       id
-       title
-       rowVersion
-     }
+query allGroupsSearch {
+  groups(orderBy: { path: "title" }) {
+    id
+    title
+    rowVersion
+  }
 }

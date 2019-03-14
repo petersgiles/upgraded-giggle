@@ -1122,9 +1122,7 @@ export namespace AllGroups {
 }
 
 export namespace AllGroupsSearch {
-  export type Variables = {
-    title?: Maybe<string>
-  }
+  export type Variables = {}
 
   export type Query = {
     __typename?: 'Query'
@@ -3326,11 +3324,8 @@ export class AllGroupsSearchGQL extends Apollo.Query<
   AllGroupsSearch.Variables
 > {
   document: any = gql`
-    query allGroupsSearch($title: String) {
-      groups(
-        where: { path: "title", comparison: contains, value: [$title] }
-        orderBy: { path: "title" }
-      ) {
+    query allGroupsSearch {
+      groups(orderBy: { path: "title" }) {
         id
         title
         rowVersion
