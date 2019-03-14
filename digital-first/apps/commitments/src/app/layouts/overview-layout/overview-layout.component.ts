@@ -6,6 +6,8 @@ import { CommitmentLookupService } from '../../reducers/commitment-lookup/commit
 import { ExcelService } from '../../services/excel.service'
 import { DateFormatPipe } from '@digital-first/df-moment'
 import { LoggerService } from '@digital-first/df-logging'
+import { BehaviorSubject } from 'rxjs'
+import { RefinerActionService } from '@digital-first/df-refiner'
 
 @Component({
   selector: 'digital-first-overview-layout',
@@ -16,15 +18,14 @@ export class OverviewLayoutComponent implements OnInit {
   refinerGroups$: any
   commitmentsFilteredSubscription$: any
   filteredCommitments: any
+  searchText$: BehaviorSubject<string> = new BehaviorSubject(null)
+
   constructor(
-    private snackbar: MdcSnackbar,
     public dialog: MdcDialog,
     private router: Router,
     private service: CommitmentDataService,
-    private lookup: CommitmentLookupService,
     private excelService: ExcelService,
-    private dateFormat: DateFormatPipe,
-    private logger: LoggerService
+    private refinerAction: RefinerActionService
   ) {}
 
   ngOnInit() {
@@ -35,6 +36,7 @@ export class OverviewLayoutComponent implements OnInit {
   }
 
   handleClearAllFilters() {
+    this.refinerAction.message.next('search')
     this.service.setTextRefiner(null)
     this.service.clearAllRefiners()
   }

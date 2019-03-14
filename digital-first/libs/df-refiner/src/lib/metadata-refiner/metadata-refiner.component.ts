@@ -1,7 +1,29 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, NgZone } from '@angular/core'
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ElementRef,
+  NgZone
+} from '@angular/core'
 import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
 import { FormControl } from '@angular/forms'
 import { debounceTime, distinctUntilChanged, flatMap } from 'rxjs/operators'
+
+import { Injectable } from '@angular/core'
+import { BehaviorSubject } from 'rxjs'
+
+@Injectable({
+  providedIn: 'root'
+})
+export class RefinerActionService {
+  constructor() {}
+
+  // tslint:disable-next-line:variable-name
+  public message: BehaviorSubject<string> = new BehaviorSubject(null)
+}
 
 @Component({
   selector: 'digital-first-metadata-refiner',
@@ -9,23 +31,30 @@ import { debounceTime, distinctUntilChanged, flatMap } from 'rxjs/operators'
   styleUrls: ['./metadata-refiner.component.scss']
 })
 export class MetadataRefinerComponent implements OnInit {
-  searchControl: FormControl
+  searchControl: FormControl = new FormControl()
+  action$: any
 
-  constructor(private ngZone: NgZone) { }
+  constructor(private ngZone: NgZone, private service: RefinerActionService) {}
 
   ngOnInit() {
-    this.searchControl = new FormControl()
+    this.action$ = this.service.message.subscribe(_ => {
+      this.searchControl.reset()
+    })
+
     this.searchControl.valueChanges
       .pipe(
         debounceTime(400),
-        distinctUntilChanged(),
+        distinctUntilChanged()
       )
-      .subscribe((searchResult) => {
-        this.onSearchCriteriaChanged.emit(searchResult)
-      }, (err: Error) => {
-        // tslint:disable-next-line:no-console
-        console.log(err)
-      })
+      .subscribe(
+        searchResult => {
+          this.onSearchCriteriaChanged.emit(searchResult)
+        },
+        (err: Error) => {
+          // tslint:disable-next-line:no-console
+          console.log(err)
+        }
+      )
   }
 
   @ViewChild('search')
@@ -54,5 +83,4 @@ export class MetadataRefinerComponent implements OnInit {
   handleOnClear($event) {
     this.searchControl.reset()
   }
-
 }
