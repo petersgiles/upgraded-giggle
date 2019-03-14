@@ -2572,9 +2572,7 @@ export namespace AllAgencies {
 }
 
 export namespace AllStatisticsSearch {
-  export type Variables = {
-    name?: Maybe<string>
-  }
+  export type Variables = {}
 
   export type Query = {
     __typename?: 'Query'
@@ -4338,11 +4336,8 @@ export class AllStatisticsSearchGQL extends Apollo.Query<
   AllStatisticsSearch.Variables
 > {
   document: any = gql`
-    query allStatisticsSearch($name: String) {
-      statistics(
-        where: { path: "name", comparison: contains, value: [$name] }
-        orderBy: { path: "name" }
-      ) {
+    query allStatisticsSearch {
+      statistics(orderBy: { path: "name" }) {
         id
         name
         agency {
