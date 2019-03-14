@@ -1,5 +1,5 @@
-query allUsersSearch($emailAddress : String) {
-  users(where: {path: "emailAddress", comparison: contains, value: [$emailAddress]},orderBy: {path: "emailAddress"}) {
+query allUsersSearch {
+  users(orderBy: { path: "emailAddress" }) {
     id
     emailAddress
     lastLogin

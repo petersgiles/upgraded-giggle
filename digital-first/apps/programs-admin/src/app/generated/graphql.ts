@@ -2878,9 +2878,7 @@ export namespace SelectAgencies {
 }
 
 export namespace AllUsersSearch {
-  export type Variables = {
-    emailAddress?: Maybe<string>
-  }
+  export type Variables = {}
 
   export type Query = {
     __typename?: 'Query'
@@ -4538,15 +4536,8 @@ export class AllUsersSearchGQL extends Apollo.Query<
   AllUsersSearch.Variables
 > {
   document: any = gql`
-    query allUsersSearch($emailAddress: String) {
-      users(
-        where: {
-          path: "emailAddress"
-          comparison: contains
-          value: [$emailAddress]
-        }
-        orderBy: { path: "emailAddress" }
-      ) {
+    query allUsersSearch {
+      users(orderBy: { path: "emailAddress" }) {
         id
         emailAddress
         lastLogin
