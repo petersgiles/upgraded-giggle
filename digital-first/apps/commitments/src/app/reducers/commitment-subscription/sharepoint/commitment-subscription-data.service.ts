@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core'
-import { SharepointJsomService } from '@digital-first/df-sharepoint'
+import { SharepointJsomService } from '@df/sharepoint'
 import { Observable, of } from 'rxjs'
 import { SubscriptionResult, DataResult } from '../../../models'
 import { concatMap, tap, map } from 'rxjs/operators'
 import { byCommitmentIdQuery, byJoinTableQuery } from '../../../services/sharepoint/caml'
 import { mapCommitmentSubscriptions } from './maps'
 import { CommitmentSubscriptionDataService } from '../commitment-subscription-data.service'
-import { AppUserProfile } from '@digital-first/df-layouts'
+
 
 @Injectable({
   providedIn: 'root'

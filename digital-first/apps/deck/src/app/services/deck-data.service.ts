@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { Observable, of, BehaviorSubject } from 'rxjs'
-import { AppUserProfile } from '@digital-first/df-layouts'
+import {SPAppUserProfile} from '@df/sharepoint'
 import { AppDataService } from './app-data.service'
 
 @Injectable({
@@ -10,7 +10,7 @@ export class DeckDataService implements AppDataService {
 
   _appdrawerOpen: BehaviorSubject<boolean> = new BehaviorSubject(true)
 
-  getCurrentUser(): Observable<AppUserProfile> {
+  getCurrentUser(): Observable<SPAppUserProfile> {
    return of()
   }
 

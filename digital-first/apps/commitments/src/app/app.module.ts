@@ -26,10 +26,6 @@ import {
   DialogSpinnerOverlayComponent,
   DialogAddContactComponent
 } from '@digital-first/df-dialogs'
-import {
-  DfSharepointModule,
-  SharepointJsomService
-} from '@digital-first/df-sharepoint'
 import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfMomentModule, DateFormatPipe } from '@digital-first/df-moment'
 import { WINDOW_PROVIDERS } from '@digital-first/df-utils'
@@ -132,6 +128,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop'
 import { CommitmentMadLibComponent } from './containers/commitment-mad-lib/commitment-mad-lib.component'
 
 import { AvatarModule, DataTableModule, DocumentModule, PanelModule, MegaTaggerModule } from '@df/components'
+import {DfSharepointLibModule, SharepointJsomService} from '@df/sharepoint'
 
 const COMPONENTS = [
   AppComponent,
@@ -273,7 +270,7 @@ export let appDataServiceProvider = {
     DfDiscussionModule,
     DfPagesModule,
     DfDialogsModule,
-    DfSharepointModule,
+    DfSharepointLibModule,
     DfPipesModule,
     AppRoutingModule,
 

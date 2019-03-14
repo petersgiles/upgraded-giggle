@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core'
 import { environment } from '../environments/environment'
 import { DeckDataService } from './services/deck-data.service'
 import { Observable, of } from 'rxjs'
-import { SideBarItem, AppUserProfile } from '@digital-first/df-layouts'
+import { SideBarItem} from '@digital-first/df-layouts'
+import {SPAppUserProfile} from '@df/sharepoint'
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +50,7 @@ export class AppFullLayoutService {
     return this.service.getBusy()
   }
 
-  get profile(): Observable<AppUserProfile> {
+  get profile(): Observable<SPAppUserProfile> {
     return this.service.getCurrentUser()
   }
   constructor(private service: DeckDataService) {

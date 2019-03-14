@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core'
 import { of, Observable } from 'rxjs'
+import {SPAppUserProfile} from '@df/sharepoint'
+
 export interface SideBarItem {
   caption?: string
   routerLink?: any[] | string
@@ -22,7 +24,7 @@ export class FullLayoutService {
     return 'New Application'
   }
 
-  get profile(): Observable<AppUserProfile> {
+  get profile(): Observable<SPAppUserProfile> {
     return of({
       name: 'Guest',
       background: 'red',
@@ -49,15 +51,6 @@ export class FullLayoutService {
 
   get protectiveMarking$(): Observable<any> { return of(null) }
 
-  constructor() { }
+  constructor() {}
 
-}
-
-export interface AppUserProfile {
-  name: string
-  roles?: any,
-  email?: string
-  background?: string
-  displayType?: string
-  size?: number
 }

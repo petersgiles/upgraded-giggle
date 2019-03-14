@@ -2,7 +2,8 @@ import { Injectable, OnInit, OnDestroy } from '@angular/core'
 import { environment } from '../environments/environment'
 import { CommitmentDataService } from './services/commitment-data.service'
 import { Observable, of, Subscription } from 'rxjs'
-import { SideBarItem, AppUserProfile } from '@digital-first/df-layouts'
+import { SideBarItem } from '@digital-first/df-layouts'
+import {SPAppUserProfile} from '@df/sharepoint'
 
 @Injectable({
   providedIn: 'root'
@@ -56,7 +57,7 @@ export class AppFullLayoutService {
     return this.service.getBusy()
   }
 
-  get profile(): Observable<AppUserProfile> {
+  get profile(): Observable<SPAppUserProfile> {
     return this.service.getCurrentUser()
   }
   constructor(private service: CommitmentDataService) {

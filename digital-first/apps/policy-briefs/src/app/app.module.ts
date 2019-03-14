@@ -22,7 +22,7 @@ import {
   DialogAddContactComponent
 } from '@digital-first/df-dialogs'
 
-import { DfSharepointModule, SharepointJsomService } from '@digital-first/df-sharepoint'
+import { DfSharepointModule, SharepointJsomService } from '@df/sharepoint'
 import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfMomentModule } from '@digital-first/df-moment'
 import { WINDOW_PROVIDERS } from '@digital-first/df-utils'

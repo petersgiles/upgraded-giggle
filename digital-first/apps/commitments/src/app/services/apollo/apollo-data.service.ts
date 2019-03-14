@@ -21,7 +21,7 @@ import { AppDataService, ROLE_VISITORS, ROLE_MEMBERS } from '../app-data.service
 import { Commitment } from '../../reducers/commitment'
 import { Injectable } from '@angular/core'
 import { Observable, of } from 'rxjs'
-import { AppUserProfile } from '@digital-first/df-layouts'
+import {SPAppUserProfile} from '@df/sharepoint'
 import { callQuery, callMutate } from './apollo-helpers'
 import { GET_GROUP_PERMISSIONS } from './group-permissions'
 
@@ -31,7 +31,7 @@ import { GET_GROUP_PERMISSIONS } from './group-permissions'
 export class ApolloDataService implements AppDataService {
   getCommitment = (criteria: { id: any; }) => callQuery<CommitmentResult>(this.apollo, { query: GET_COMMITMENT, variables: criteria })
 
-  getCurrentUser(): Observable<AppUserProfile> {
+  getCurrentUser(): Observable<SPAppUserProfile> {
 
     const userprofile = {
       userid: 0,
