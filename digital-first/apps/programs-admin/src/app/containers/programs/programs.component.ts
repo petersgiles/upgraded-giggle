@@ -78,6 +78,5 @@ export class ProgramsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription$.unsubscribe()
-    this.filterPrograms$.unsubscribe()
   }
 }

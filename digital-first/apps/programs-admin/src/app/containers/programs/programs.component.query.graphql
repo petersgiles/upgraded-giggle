@@ -1,16 +1,5 @@
 query allPrograms {
-  programs (orderBy: {path: "name"}){
-    id
-    name
-    ,agency{
-      id
-      title
-    }
-  }
-}
-
-query allProgramsSearch($name: String) {
-  programs(where: {path: "name", comparison: contains, value: [$name]}, orderBy:{path:"name"}) {
+  programs(orderBy: { path: "name" }) {
     id
     name
     agency {

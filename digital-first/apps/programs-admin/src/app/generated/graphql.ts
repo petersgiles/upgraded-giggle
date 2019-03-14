@@ -600,9 +600,7 @@ export type Seconds = any
 // ====================================================
 
 export namespace AllAgenciesSearch {
-  export type Variables = {
-    title?: Maybe<string>
-  }
+  export type Variables = {}
 
   export type Query = {
     __typename?: 'Query'
@@ -617,7 +615,15 @@ export namespace AllAgenciesSearch {
 
     title: string
 
-    rowVersion: string
+    portfolio: Maybe<Portfolio>
+  }
+
+  export type Portfolio = {
+    __typename?: 'PortfolioGraph'
+
+    id: Guid
+
+    title: string
   }
 }
 
@@ -1783,36 +1789,6 @@ export namespace AllPrograms {
   }
 }
 
-export namespace AllProgramsSearch {
-  export type Variables = {
-    name?: Maybe<string>
-  }
-
-  export type Query = {
-    __typename?: 'Query'
-
-    programs: Maybe<(Maybe<Programs>)[]>
-  }
-
-  export type Programs = {
-    __typename?: 'ProgramGraph'
-
-    id: Guid
-
-    name: string
-
-    agency: Maybe<Agency>
-  }
-
-  export type Agency = {
-    __typename?: 'AgencyGraph'
-
-    id: Guid
-
-    title: string
-  }
-}
-
 export namespace CreateProject {
   export type Variables = {
     data: CreateProjectInputGraph
@@ -2089,6 +2065,10 @@ export namespace Role {
 
     rowVersion: string
 
+    adminLogin: boolean
+
+    allAgencyModifier: boolean
+
     createAgency: boolean
 
     createProgram: boolean
@@ -2109,17 +2089,13 @@ export namespace Role {
 
     deleteStatistic: boolean
 
-    updateElectorateAdvice: boolean
-
     manageApiKeys: boolean
 
     manageAccessControls: boolean
 
     manageGroups: boolean
 
-    adminLogin: boolean
-
-    allAgencyModifier: boolean
+    updateElectorateAdvice: boolean
   }
 }
 
@@ -2952,14 +2928,14 @@ export class AllAgenciesSearchGQL extends Apollo.Query<
   AllAgenciesSearch.Variables
 > {
   document: any = gql`
-    query allAgenciesSearch($title: String) {
-      agencies(
-        where: { path: "title", comparison: contains, value: [$title] }
-        orderBy: { path: "title" }
-      ) {
+    query allAgenciesSearch {
+      agencies(orderBy: { path: "title" }) {
         id
         title
-        rowVersion
+        portfolio {
+          id
+          title
+        }
       }
     }
   `
@@ -3815,29 +3791,6 @@ export class AllProgramsGQL extends Apollo.Query<
 @Injectable({
   providedIn: 'root'
 })
-export class AllProgramsSearchGQL extends Apollo.Query<
-  AllProgramsSearch.Query,
-  AllProgramsSearch.Variables
-> {
-  document: any = gql`
-    query allProgramsSearch($name: String) {
-      programs(
-        where: { path: "name", comparison: contains, value: [$name] }
-        orderBy: { path: "name" }
-      ) {
-        id
-        name
-        agency {
-          id
-          title
-        }
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
 export class CreateProjectGQL extends Apollo.Mutation<
   CreateProject.Mutation,
   CreateProject.Variables
@@ -4034,6 +3987,8 @@ export class RoleGQL extends Apollo.Query<Role.Query, Role.Variables> {
         title
         description
         rowVersion
+        adminLogin
+        allAgencyModifier
         createAgency
         createProgram
         createProject
@@ -4044,12 +3999,10 @@ export class RoleGQL extends Apollo.Query<Role.Query, Role.Variables> {
         deleteProject
         deleteReport
         deleteStatistic
-        updateElectorateAdvice
         manageApiKeys
         manageAccessControls
         manageGroups
-        adminLogin
-        allAgencyModifier
+        updateElectorateAdvice
       }
     }
   `

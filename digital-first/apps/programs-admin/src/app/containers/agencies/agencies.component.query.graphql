@@ -1,10 +1,10 @@
-query allAgenciesSearch($title: String) {
-  agencies(
-    where: { path: "title", comparison: contains, value: [$title] }
-    orderBy: { path: "title" }
-  ) {
+query allAgenciesSearch {
+  agencies(orderBy: { path: "title" }) {
     id
     title
-    rowVersion
+    portfolio {
+      id
+      title
+    }
   }
 }
