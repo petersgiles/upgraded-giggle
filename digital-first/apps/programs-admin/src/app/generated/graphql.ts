@@ -1280,9 +1280,7 @@ export namespace GetPortfolioDetail {
 }
 
 export namespace AllPortfoliosSearch {
-  export type Variables = {
-    title?: Maybe<string>
-  }
+  export type Variables = {}
 
   export type Query = {
     __typename?: 'Query'
@@ -3453,11 +3451,8 @@ export class AllPortfoliosSearchGQL extends Apollo.Query<
   AllPortfoliosSearch.Variables
 > {
   document: any = gql`
-    query allPortfoliosSearch($title: String) {
-      portfolios(
-        where: { path: "title", comparison: contains, value: [$title] }
-        orderBy: { path: "title" }
-      ) {
+    query allPortfoliosSearch {
+      portfolios(orderBy: { path: "title" }) {
         id
         title
       }

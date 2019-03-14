@@ -3,27 +3,47 @@
     Portfolios
   </div>
 </div>
-<div class="form-content">
-  <fieldset>
+
+<div *ngIf="filterPortfolios$; else loading" class="app-page">
+  <div class="form-content">
     <div class="form-layout__row">
-      <mdc-text-field
-        [outlined]="true"
-        [(ngModel)]="searchText"
-        (ngModelChange)="doSearch()"
-        placeholder="search portfolios..."
-        autocomplete="off"
-        type="text"
+      <df-data-table
+        [hasFilter]="true"
+        [rows]="filterPortfolios$ | async"
+        [limit]="10"
+        [columns]="columns"
+        (onSelect)="handleSelect($event)"
+        (onFilter)="handleFilter($event)"
       >
-        <mdc-icon mdcTextFieldIcon leading>search</mdc-icon>
-      </mdc-text-field>
+      </df-data-table>
     </div>
-  </fieldset>
-  <mdc-list>
-    <mdc-list-item *ngFor="let portfolio of portfolios">
-      <mdc-list-item-text>
-        <a [routerLink]="[portfolio.id]">{{ portfolio.title }}</a>
-      </mdc-list-item-text>
-    </mdc-list-item>
-  </mdc-list>
+  </div>
 </div>
+<ng-template #loading>
+  Loading...
+</ng-template>
+
+<!--<div class="form-content">-->
+<!--<fieldset>-->
+<!--<div class="form-layout__row">-->
+<!--<mdc-text-field-->
+<!--[outlined]="true"-->
+<!--[(ngModel)]="searchText"-->
+<!--(ngModelChange)="doSearch()"-->
+<!--placeholder="search portfolios..."-->
+<!--autocomplete="off"-->
+<!--type="text"-->
+<!--&gt;-->
+<!--<mdc-icon mdcTextFieldIcon leading>search</mdc-icon>-->
+<!--</mdc-text-field>-->
+<!--</div>-->
+<!--</fieldset>-->
+<!--<mdc-list>-->
+<!--<mdc-list-item *ngFor="let portfolio of portfolios">-->
+<!--<mdc-list-item-text>-->
+<!--<a [routerLink]="[portfolio.id]">{{ portfolio.title }}</a>-->
+<!--</mdc-list-item-text>-->
+<!--</mdc-list-item>-->
+<!--</mdc-list>-->
+<!--</div>-->
 <button (click)="add()" icon="add" mdc-fab position="bottomRight"></button>
