@@ -2,11 +2,18 @@ import {
   Component,
   OnDestroy,
   ChangeDetectorRef,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  OnInit
 } from '@angular/core'
-import { AllGroupsSearch, AllGroupsSearchGQL } from '../../generated/graphql'
-import { Subscription } from 'rxjs'
+import { AllGroupsSearchGQL } from '../../generated/graphql'
+import { BehaviorSubject, Subscription } from 'rxjs'
 import { Router } from '@angular/router'
+import { multiFilter } from '../../core/graphqlhelper'
+
+interface GroupRow {
+  title: string
+  id: string
+}
 
 @Component({
   selector: 'digital-first-groups',
@@ -14,10 +21,11 @@ import { Router } from '@angular/router'
   styleUrls: ['./groups.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GroupsComponent implements OnDestroy {
-  groups: AllGroupsSearch.Groups[]
-  subscriptions$: Subscription[] = []
-  searchText = ''
+export class GroupsComponent implements OnInit, OnDestroy {
+  subscription$: Subscription
+  columns = [{ prop: 'title', name: 'Title' }]
+  filterGroups$: BehaviorSubject<GroupRow[]>
+  rows: GroupRow[]
 
   constructor(
     private searchGroupsGQL: AllGroupsSearchGQL,
@@ -25,36 +33,45 @@ export class GroupsComponent implements OnDestroy {
     private router: Router
   ) {}
 
+  handleFilter($event: any) {
+    const expression = $event.target.value.toLowerCase()
+
+    if (!expression) {
+      this.filterGroups$.next(this.rows)
+      return
+    }
+
+    const filter = {
+      title: expression
+    }
+
+    this.filterGroups$.next(multiFilter(this.rows, filter))
+  }
+
+  ngOnInit(): void {
+    this.subscription$ = this.searchGroupsGQL
+      .watch({}, { fetchPolicy: 'network-only' })
+      .valueChanges.subscribe(value => {
+        this.rows = value.data.groups.map(row => ({
+          id: row.id,
+          title: row.title
+        }))
+
+        this.filterGroups$ = new BehaviorSubject(this.rows)
+
+        this.changeDetector.detectChanges()
+      })
+  }
+
+  handleSelect(row: GroupRow) {
+    return this.router.navigate(['groups/', row.id])
+  }
+
   add() {
     return this.router.navigate(['groups', 'add'], { skipLocationChange: true })
   }
 
-  doSearch() {
-    if (!this.searchText) {
-      return
-    }
-
-    const searchSubscription$ = this.searchGroupsGQL
-      .watch(
-        { title: this.searchText },
-        {
-          fetchPolicy: 'no-cache',
-          context: { debounceKey: 'groups', debounceTimeout: 400 }
-        }
-      )
-      .valueChanges.subscribe(value => {
-        this.groups = value.data.groups
-        this.changeDetector.detectChanges()
-      })
-
-    this.subscriptions$ = [...this.subscriptions$, searchSubscription$]
-  }
-
   ngOnDestroy(): void {
-    for (const subscription of this.subscriptions$) {
-      if (subscription && subscription.unsubscribe) {
-        subscription.unsubscribe()
-      }
-    }
+    this.subscription$.unsubscribe()
   }
 }
