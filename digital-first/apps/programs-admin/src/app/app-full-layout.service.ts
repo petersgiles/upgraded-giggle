@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core'
 import { environment } from '../environments/environment'
 import { of, Observable, BehaviorSubject } from 'rxjs'
-import { SideBarItem} from '@digital-first/df-layouts'
-import {SPAppUserProfile} from '@df/sharepoint'
+import { SideBarItem, AppUserProfile } from '@digital-first/df-layouts'
 import { routes } from './app-routing.module'
 
 @Injectable({
@@ -39,7 +38,7 @@ export class AppFullLayoutService {
     return of(false)
   }
 
-  get profile(): Observable<SPAppUserProfile> {
+  get profile(): Observable<AppUserProfile> {
     return of(null)
   }
 

@@ -14,7 +14,7 @@ import { DfMomentModule } from '@digital-first/df-moment'
 import { DfDiscussionModule } from '@digital-first/df-discussion'
 import { DfPagesModule } from '@digital-first/df-pages'
 import { DfDialogsModule } from '@digital-first/df-dialogs'
-import { DfSharepointModule } from '@df/sharepoint'
+import { DfSharepointModule } from '@digital-first/df-sharepoint'
 
 import { HomeComponent } from './pages/home/home.component'
 import { AppFullLayoutService } from './app-full-layout.service'

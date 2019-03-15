@@ -1,5 +1,5 @@
 import { Contact } from '../../reducers/contact/contact.model'
-import { fromLookup, idFromLookup, fromUser } from '@df/sharepoint'
+import { fromLookup, idFromLookup, fromUser } from '@digital-first/df-sharepoint'
 
 export const mapCommitmentContact = (commitmentContact): any => ({
     id: commitmentContact.ID,

@@ -1,4 +1,4 @@
-import { fromLookup } from '@df/sharepoint'
+import { fromLookup } from '@digital-first/df-sharepoint'
 
 import { RelatedCommitment } from '../related-commitment.model'
 

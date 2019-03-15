@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 
 import { Observable, of, forkJoin } from 'rxjs'
 import { concatMap, map, tap } from 'rxjs/operators'
-import { SharepointJsomService } from '@df/sharepoint'
+import { SharepointJsomService } from '@digital-first/df-sharepoint'
 import { AppDataService } from '../app-data.service'
 
 import {
@@ -21,7 +21,7 @@ import { arrayToHash } from '@digital-first/df-utils'
 import { byIdQuery, byCommitmentIdQuery } from './caml'
 import { mapContacts, mapCommitmentContacts } from './contact'
 import { mapCommitment, mapCommitments } from './commitment'
-import {SPAppUserProfile} from '@df/sharepoint'
+import { AppUserProfile } from '@digital-first/df-layouts'
 import { mapPortfolios } from '../../reducers/commitment-lookup/sharepoint/maps'
 import { Contact } from '../../reducers/contact/contact.model'
 @Injectable({
@@ -29,7 +29,7 @@ import { Contact } from '../../reducers/contact/contact.model'
 })
 export class SharepointDataService implements AppDataService {
 
-  getCurrentUser(): Observable<SPAppUserProfile> {
+  getCurrentUser(): Observable<AppUserProfile> {
     return this.sharepoint.getCurrentUser()
   }
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 
 import { Observable, of, forkJoin } from 'rxjs'
 import { concatMap, map, tap } from 'rxjs/operators'
-import { SharepointJsomService, fromLookup } from '@df/sharepoint'
+import { SharepointJsomService, fromLookup } from '@digital-first/df-sharepoint'
 import { AppDataService } from '../app-data.service'
 
 import {

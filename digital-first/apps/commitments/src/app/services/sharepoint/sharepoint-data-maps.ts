@@ -1,4 +1,4 @@
-import { idFromLookup, fromLookup } from '@df/sharepoint'
+import { idFromLookup, fromLookup } from '@digital-first/df-sharepoint'
 
 export const mapCommitmentPortfolio = (commitmentPortfolio): any => ({
   id: commitmentPortfolio.ID,

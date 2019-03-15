@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy, NgZone, ViewChild } from '@angular/core'
 import { Subject, Observable, Subscription, of } from 'rxjs'
 import { Router, NavigationEnd } from '@angular/router'
 import { takeUntil, filter, delay, tap, concatMap } from 'rxjs/operators'
-import {SPAppUserProfile} from '@df/sharepoint'
 import {
   FullLayoutService,
+  AppUserProfile,
   SideBarItem
 } from './full-layout.service'
 import { MdcTopAppBar } from '@angular-mdc/web'
@@ -27,7 +27,7 @@ export class FullLayoutComponent implements OnInit, OnDestroy {
 
   matcher: MediaQueryList
   private _destroy = new Subject<void>()
-  _profile: SPAppUserProfile
+  _profile: AppUserProfile
   sidebarItems$: Observable<SideBarItem[]>
   notification$: Observable<string>
   open$: Observable<boolean>
@@ -52,7 +52,7 @@ export class FullLayoutComponent implements OnInit, OnDestroy {
     return this.service.title
   }
 
-  get profile(): SPAppUserProfile {
+  get profile(): AppUserProfile {
     return this._profile
   }
 

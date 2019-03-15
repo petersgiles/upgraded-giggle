@@ -1,4 +1,4 @@
-import { idFromLookup } from '@df/sharepoint'
+import { idFromLookup } from '@digital-first/df-sharepoint'
 
 export const mapCommitmentTheme = (item): any => ({
     id: item.ID,

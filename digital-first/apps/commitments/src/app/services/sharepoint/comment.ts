@@ -1,4 +1,4 @@
-import { fromLookup, idFromLookup, fromUser } from '@df/sharepoint'
+import { fromLookup, idFromLookup, fromUser } from '@digital-first/df-sharepoint'
 
 export const mapComment = (comment): any => {
 

@@ -1,5 +1,5 @@
 import { CommitmentAction } from '../commitment-action.model'
-import { fromLookup, idFromLookup } from '@df/sharepoint'
+import { fromLookup, idFromLookup } from '@digital-first/df-sharepoint'
 
 export const mapCommitmentAction = (item): CommitmentAction => ({
     id: item.ID,

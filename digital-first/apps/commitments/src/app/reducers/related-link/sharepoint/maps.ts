@@ -1,4 +1,4 @@
-import { fromLookup } from '@df/sharepoint'
+import { fromLookup } from '@digital-first/df-sharepoint'
 import { RelatedLink } from '../related-link.model'
 
 export const mapRelatedLink = (item): any => ({
