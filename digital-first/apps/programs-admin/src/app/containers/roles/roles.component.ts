@@ -7,8 +7,15 @@ import {
 } from '@angular/core'
 
 import { Router } from '@angular/router'
-import { RolesSearch, RolesSearchGQL, Maybe } from '../../generated/graphql'
-import { Subscription } from 'rxjs'
+import { RolesSearchGQL } from '../../generated/graphql'
+import { BehaviorSubject, Subscription } from 'rxjs'
+import { multiFilter } from '../../core/graphqlhelper'
+
+interface RoleRow {
+  id: string
+  name: string
+  description: string
+}
 
 @Component({
   selector: 'digital-first-roles',
@@ -17,9 +24,13 @@ import { Subscription } from 'rxjs'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RolesComponent implements OnInit, OnDestroy {
-  subscriptions$: Subscription[] = []
-  searchText = ''
-  roles: Maybe<Maybe<RolesSearch.Roles>[]>
+  subscription$: Subscription
+  columns = [
+    { prop: 'name', name: 'Name' },
+    { prop: 'description', name: 'Description' }
+  ]
+  filterRoles$: BehaviorSubject<RoleRow[]>
+  rows: RoleRow[]
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -27,27 +38,36 @@ export class RolesComponent implements OnInit, OnDestroy {
     private allRolesSearchGql: RolesSearchGQL
   ) {}
 
-  ngOnInit() {}
+  handleFilter($event: any) {
+    const expression = $event.target.value.toLowerCase()
 
-  doSearch() {
-    if (!this.searchText) {
+    if (!expression) {
+      this.filterRoles$.next(this.rows)
       return
     }
 
-    const searchSubscription$ = this.allRolesSearchGql
-      .watch(
-        { title: this.searchText },
-        {
-          fetchPolicy: 'no-cache',
-          context: { debounceKey: 'roles', debounceTimeout: 400 }
-        }
-      )
+    const filter = {
+      name: expression,
+      description: expression
+    }
+
+    this.filterRoles$.next(multiFilter(this.rows, filter))
+  }
+
+  ngOnInit(): void {
+    this.subscription$ = this.allRolesSearchGql
+      .watch({}, { fetchPolicy: 'network-only' })
       .valueChanges.subscribe(value => {
-        this.roles = value.data.roles
+        this.rows = value.data.roles.map(row => ({
+          id: row.id,
+          name: row.title,
+          description: row.description
+        }))
+
+        this.filterRoles$ = new BehaviorSubject(this.rows)
+
         this.changeDetector.detectChanges()
       })
-
-    this.subscriptions$ = [...this.subscriptions$, searchSubscription$]
   }
 
   add() {
@@ -56,11 +76,11 @@ export class RolesComponent implements OnInit, OnDestroy {
     })
   }
 
+  handleSelect(row: RoleRow) {
+    return this.router.navigate(['roles/', row.id])
+  }
+
   ngOnDestroy(): void {
-    for (const subscription of this.subscriptions$) {
-      if (subscription && subscription.unsubscribe) {
-        subscription.unsubscribe()
-      }
-    }
+    this.subscription$.unsubscribe()
   }
 }

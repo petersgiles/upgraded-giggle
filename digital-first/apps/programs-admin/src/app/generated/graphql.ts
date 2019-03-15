@@ -117,7 +117,13 @@ export interface CreateProjectInputGraph {
 
   status?: Maybe<string>
 
-  endDate?: Maybe<Date>
+  start?: Maybe<string>
+
+  end?: Maybe<string>
+
+  organisation?: Maybe<string>
+
+  sensitivities?: Maybe<string>
 }
 
 export interface CreateReportInputGraph {
@@ -417,8 +423,6 @@ export interface UpdateProgramInputGraph {
 export interface UpdateProjectInputGraph {
   externalId?: Maybe<string>
 
-  endDate?: Maybe<Date>
-
   geoJson?: Maybe<string>
 
   id: Guid
@@ -432,6 +436,14 @@ export interface UpdateProjectInputGraph {
   rowVersion: string
 
   status?: Maybe<string>
+
+  start?: Maybe<string>
+
+  end?: Maybe<string>
+
+  organisation?: Maybe<string>
+
+  sensitivities?: Maybe<string>
 }
 
 export interface UpdateReportInputGraph {
@@ -2096,9 +2108,7 @@ export namespace Role {
 }
 
 export namespace RolesSearch {
-  export type Variables = {
-    title?: Maybe<string>
-  }
+  export type Variables = {}
 
   export type Query = {
     __typename?: 'Query'
@@ -4001,11 +4011,8 @@ export class RolesSearchGQL extends Apollo.Query<
   RolesSearch.Variables
 > {
   document: any = gql`
-    query rolesSearch($title: String) {
-      roles(
-        where: { path: "title", comparison: contains, value: [$title] }
-        orderBy: { path: "title" }
-      ) {
+    query rolesSearch {
+      roles(orderBy: { path: "title" }) {
         id
         title
         description
