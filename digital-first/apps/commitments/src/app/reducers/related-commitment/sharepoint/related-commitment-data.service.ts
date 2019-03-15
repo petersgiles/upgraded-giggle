@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core'
 import {
   SharepointJsomService,
   idFromLookup
-} from '@digital-first/df-sharepoint'
+} from '@df/sharepoint'
 import { RelatedCommitmentDataService } from '../related-commitment-data.service'
 import { Observable, of } from 'rxjs'
 import { DataResult, RelatedCommitmentsResult } from '../../../models'

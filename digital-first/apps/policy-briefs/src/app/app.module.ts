@@ -22,7 +22,7 @@ import {
   DialogAddContactComponent
 } from '@digital-first/df-dialogs'
 
-import { DfSharepointModule, SharepointJsomService } from '@digital-first/df-sharepoint'
+import { DfSharepointLibModule, SharepointJsomService } from '@df/sharepoint'
 import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfMomentModule } from '@digital-first/df-moment'
 import { WINDOW_PROVIDERS } from '@digital-first/df-utils'
@@ -142,7 +142,7 @@ export let appDataServiceProvider = {
     DfDiscussionModule,
     DfPagesModule,
     DfDialogsModule,
-    DfSharepointModule,
+    DfSharepointLibModule,
     DfPipesModule,
     AppRoutingModule,
 

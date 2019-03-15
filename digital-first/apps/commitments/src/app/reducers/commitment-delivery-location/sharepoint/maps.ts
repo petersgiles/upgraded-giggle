@@ -1,4 +1,4 @@
-import { idFromLookup } from '@digital-first/df-sharepoint'
+import { idFromLookup } from '@df/sharepoint'
 import { MapPoint } from '@digital-first/df-map'
 import { Electorate } from '../../../models'
 

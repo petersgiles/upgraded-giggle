@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { SharepointJsomService } from '@digital-first/df-sharepoint'
+import { SharepointJsomService } from '@df/sharepoint'
 import { CommitmentPackageDataService } from '../commitment-package-data.service'
 import { Observable, of } from 'rxjs'
 import {

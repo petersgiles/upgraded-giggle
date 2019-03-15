@@ -1,5 +1,5 @@
 import { Commitment } from '../../reducers'
-import { fromLookup } from '@digital-first/df-sharepoint'
+import { fromLookup } from '@df/sharepoint'
 import { RelatedCommitment } from '../../reducers/related-commitment/related-commitment.model'
 import { RelatedLink } from '../../reducers/related-link/related-link.model'
 
