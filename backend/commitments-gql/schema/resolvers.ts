@@ -78,9 +78,6 @@ export const resolvers = {
       console.log('commitment MapPoints found => ', found)
       // console.log('commitment => ', commitment, 'commitmentMapPoints => ', set, 'found => ', found)
       return found
-
-
-
     },    
     mapPointCommitments: (obj: any, args: any, context: any, info: any) => {
 
@@ -137,7 +134,12 @@ export const resolvers = {
 
     },
     parties: () => db['commitment-parties'].find(),
-    portfolios: () => db['commitment-portfolios'].find(),
+    portfolios: () =>  {
+      return  db['commitment-portfolios'].find().filter((p: any) => (p.type || []).includes('portfolio'))
+     },
+    costingPortfolios: () => {
+     return  db['commitment-portfolios'].find().filter((p: any) => (p.type || []).includes('costing'))
+    },
     announcementTypes: () => db['commitment-announcementTypes'].find(),
     themeTypes: () => db['commitment-themeTypes'].find(),
     packageTypes: () => db['commitment-packageTypes'].find(),
