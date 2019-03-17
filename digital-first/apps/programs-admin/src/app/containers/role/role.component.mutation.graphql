@@ -1,0 +1,20 @@
+mutation deleteRole($data: DeleteRoleInputGraph) {
+  deleteRole(input: $data)
+}
+
+mutation createRole($data: CreateRoleInputGraph) {
+  createRole(input: $data) {
+    id
+    title
+    rowVersion
+  }
+}
+
+mutation updateRole($data: UpdateRoleInputGraph) {
+  updateRole(input: $data) {
+    id
+    title
+    description
+    rowVersion
+  }
+}

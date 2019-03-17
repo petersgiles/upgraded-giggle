@@ -1,29 +1,26 @@
 <div class="page_title">
-  <div class="reader-card-article__title page_title_text" mdcHeadline5>Programs
+  <div class="reader-card-article__title page_title_text" mdcHeadline5>
+    Programs
   </div>
 </div>
 
-<div class="form-content">
-  <fieldset>
+<div *ngIf="filterPrograms$; else loading" class="app-page">
+  <div class="form-content">
     <div class="form-layout__row">
-      <mdc-text-field [outlined]="true"
-                      [(ngModel)]="searchText"
-                      (ngModelChange)="doSearch()"
-                      placeholder="search programs..."
-                      autocomplete="off"
-                      type="text">
-        <mdc-icon mdcTextFieldIcon leading>search</mdc-icon>
-      </mdc-text-field>
+      <df-data-table
+        [hasFilter]="true"
+        [rows]="filterPrograms$ | async"
+        [limit]="10"
+        [columns]="columns"
+        (onSelect)="handleSelect($event)"
+        (onFilter)="handleFilter($event)"
+      >
+      </df-data-table>
     </div>
-  </fieldset>
-  <mdc-list>
-    <mdc-list-item *ngFor="let program of programs">
-      <mdc-list-item-text
-        secondaryText={{program.agency.title}}>
-        <a [routerLink]="[program.id]">{{program.name}}</a>
-      </mdc-list-item-text>
-    </mdc-list-item>
-  </mdc-list>
+  </div>
 </div>
+<ng-template #loading>
+  Loading...
+</ng-template>
 
-<button (click)="add()" icon="add" mdc-fab position='bottomRight'></button>
+<button (click)="add()" icon="add" mdc-fab position="bottomRight"></button>

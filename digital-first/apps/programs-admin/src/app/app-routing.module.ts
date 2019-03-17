@@ -51,6 +51,10 @@ import { PortfoliosComponent } from './containers/portfolios/portfolios.componen
 import { PortfolioAddComponent } from './containers/portfolio/portfolio-add/portfolio-add.component'
 import { PortfolioEditComponent } from './containers/portfolio/portfolio-edit/portfolio-edit.component'
 import { ReportVersionEditComponent } from './containers/program-report/report-version-edit/report-version-edit.component'
+import { RolesComponent } from './containers/roles/roles.component'
+import { RoleComponent } from './containers/role/role.component'
+import { RoleAddComponent } from './containers/role/role-add/role-add.component'
+import { RoleEditComponent } from './containers/role/role-edit/role-edit.component'
 
 export const routes: Routes = [
   {
@@ -280,6 +284,41 @@ export const routes: Routes = [
         data: {
           title: 'Project',
           icon: 'group_work',
+          nav: false
+        }
+      },
+      {
+        path: 'roles',
+        component: RolesComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'Roles',
+          icon: 'av_timer',
+          nav: true
+        }
+      },
+      {
+        path: 'roles/add',
+        component: RoleAddComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+      {
+        path: 'roles/edit/:id',
+        component: RoleEditComponent,
+        canActivate: [AuthGuard],
+        data: {
+          nav: false
+        }
+      },
+      {
+        path: 'roles/:id',
+        component: RoleComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'Role',
           nav: false
         }
       },

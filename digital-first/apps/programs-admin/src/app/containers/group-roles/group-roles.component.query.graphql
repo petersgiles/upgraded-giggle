@@ -3,7 +3,6 @@ query allRoles {
     id
     title
     description
-    operations
     rowVersion
   }
 }

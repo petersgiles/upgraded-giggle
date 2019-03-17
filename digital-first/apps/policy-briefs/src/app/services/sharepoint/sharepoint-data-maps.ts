@@ -1,4 +1,4 @@
-import { fromLookup, idFromLookup } from '@digital-first/df-sharepoint'
+import { fromLookup, idFromLookup } from '@df/sharepoint'
 
 import { Contact } from '../../reducers/contact/contact.model'
 

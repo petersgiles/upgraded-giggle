@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import {
   SharepointJsomService,
   idFromLookup
-} from '@digital-first/df-sharepoint'
+} from '@df/sharepoint'
 import { RelatedLinkDataService } from '../related-link-data.service'
 import { Observable, of } from 'rxjs'
 import { DataResult, RelatedLinksResult } from '../../../models'

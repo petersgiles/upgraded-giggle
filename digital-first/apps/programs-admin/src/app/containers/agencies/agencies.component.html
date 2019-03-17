@@ -1,27 +1,26 @@
 <div class="page_title">
-  <div class="reader-card-article__title page_title_text" mdcHeadline5>Agencies
+  <div class="reader-card-article__title page_title_text" mdcHeadline5>
+    Agencies
   </div>
 </div>
-<div class="form-content">
-  <fieldset>
-    <div class="form-layout__row">
-      <mdc-text-field [outlined]="true"
-                      [(ngModel)]="searchText"
-                      (ngModelChange)="doSearch()"
-                      placeholder="search agencies..."
-                      autocomplete="off"
-                      type="text">
-        <mdc-icon mdcTextFieldIcon leading>search</mdc-icon>
-      </mdc-text-field>
-    </div>
-  </fieldset>
-  <mdc-list>
-    <mdc-list-item *ngFor="let agency of agencies">
-      <mdc-list-item-text>
-        <a [routerLink]="[agency.id]">{{agency.title}}</a>
-      </mdc-list-item-text>
-    </mdc-list-item>
-  </mdc-list>
-</div>
-<button (click)="add()" icon="add" mdc-fab position='bottomRight'></button>
 
+<div *ngIf="filterAgencies$; else loading" class="app-page">
+  <div class="form-content">
+    <div class="form-layout__row">
+      <df-data-table
+        [hasFilter]="true"
+        [rows]="filterAgencies$ | async"
+        [limit]="10"
+        [columns]="columns"
+        (onSelect)="handleSelect($event)"
+        (onFilter)="handleFilter($event)"
+      >
+      </df-data-table>
+    </div>
+  </div>
+</div>
+<ng-template #loading>
+  Loading...
+</ng-template>
+
+<button (click)="add()" icon="add" mdc-fab position="bottomRight"></button>

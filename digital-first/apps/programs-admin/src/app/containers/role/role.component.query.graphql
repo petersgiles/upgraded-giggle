@@ -1,0 +1,24 @@
+query role($roleId: String!) {
+  role(id: $roleId) {
+    id
+    title
+    description
+    rowVersion
+    adminLogin
+    allAgencyModifier
+    createAgency
+    createProgram
+    createProject
+    createReport
+    createStatistic
+    deleteAgency
+    deleteProgram
+    deleteProject
+    deleteReport
+    deleteStatistic
+    manageApiKeys
+    manageAccessControls
+    manageGroups
+    updateElectorateAdvice
+  }
+}

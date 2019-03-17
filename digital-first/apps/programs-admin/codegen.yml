@@ -1,7 +1,7 @@
 schema:
   - https://localhost:52629/graphql:
       headers:
-        Authorization: 'Bearer <developers add your token here>'
+        Authorization: 'Bearer <dev to add token here>'
 documents:
   - ./apps/programs-admin/src/**/*.graphql
 overwrite: true
