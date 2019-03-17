@@ -4,6 +4,7 @@ import { DataTableConfig } from '@digital-first/df-datatable'
 import * as fromCommitmentOverviewMap from './commitment-overview-map.reducer'
 import { formatCommitmentTitle } from '../../formatters'
 import { getFilteredOverviewCommitments } from '../commitment-overview'
+import { arrayToHash, arrayToIndex } from '@digital-first/df-utils';
 
 export const getCommitmentOverviewMapState = state => state.commitmentOverviewMap
 
@@ -17,14 +18,23 @@ export const getCommitmentOverviewMapCommitments = createSelector(
     fromCommitmentOverviewMap.getOverviewCommitments
 )
 
-export const getCommitmentOverviewCommitmentsMapPoints = createSelector(
-    getCommitmentOverviewMapCommitments,
-    getCommitmentOverviewMapMapPoints,
-    getFilteredOverviewCommitments,
-    (ovmc, mp, oc) => {
-        console.log(ovmc, mp, oc)
+export const getCommitmentOverviewCommitmentMapPoints = createSelector(
+    getCommitmentOverviewMapState,
+    fromCommitmentOverviewMap.getOverviewCommitmentMapPoints
+)
 
-        return mp
+export const getCommitmentOverviewCommitmentsMapPoints = createSelector(
+    getFilteredOverviewCommitments,
+    getCommitmentOverviewCommitmentMapPoints,
+    getCommitmentOverviewMapMapPoints,
+    (foc, ovmc, mps) => {
+
+        const filtered = arrayToIndex(foc)
+
+        const cmpFiltered = arrayToIndex((ovmc || []).filter((cmp: any) => cmp.commitment && filtered.includes(cmp.commitment.id)).map(cf => cf.mapPoint), 'place_id')
+        const pointsFiltered = (mps || []).filter((mp: any) => cmpFiltered.includes(mp.place_id))
+
+        return pointsFiltered
     }
 )
 

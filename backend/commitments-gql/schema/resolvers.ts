@@ -1,3 +1,5 @@
+const arrayToHash = (array: any[], id: string = 'id') =>  (array || []).reduce((obj, item) =>  (obj[item[id]] = item , obj), {})
+
 var db = require('diskdb');
 
 db.connect('./diskdb/commitments', [
@@ -144,6 +146,18 @@ export const resolvers = {
     criticalDates: () => db['commitment-critical-dates'].find(),
     commitmentTypes: () => db['commitment-commitmentTypes'].find(),
     whoAnnouncedTypes: () => db['commitment-whoAnnouncedTypes'].find(),
+    allCommitmentMapPoints:() => {
+      
+      var mapPoints = arrayToHash(db['commitment-map-points'].find(), 'place_id')
+      var commitments = arrayToHash(db['commitments'].find())
+      console.log('allCommitmentMapPoints', mapPoints, commitments)
+      var found = db['commitment-commitment-map-points'].find().map((mp: any) =>({
+        mapPoint: mapPoints[mp.mapPoint],
+        commitment: commitments[mp.commitment],
+      }))
+
+      return found
+    },
     contacts: () => {
       var contacts = db['commitment-contacts'].find().map((c: any) => ({ ...c, id: c._id }))
       return contacts

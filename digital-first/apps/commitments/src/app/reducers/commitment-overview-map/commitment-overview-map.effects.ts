@@ -7,7 +7,7 @@ import { map, catchError, tap, concatMap } from 'rxjs/operators'
 import {
     CommitmentOverviewMapActionTypes, CommentOverviewMapActionFailure,
     GetCommitmentOverviewMapPoints, LoadCommitmentOverviewMapPoints,
-    GetCommitmentOverviewMapCommitments, LoadCommitmentOverviewMapCommitments
+    GetCommitmentOverviewMapCommitments, LoadCommitmentOverviewMapCommitments, GetCommitmentOverviewCommitmentMapPoints, LoadCommitmentOverviewCommitmentMapPoints
 } from './commitment-overview-map.actions'
 import { CommitmentOverviewMapDataService } from './commitment-overview-map-data.service'
 
@@ -38,6 +38,20 @@ export class CommentOverviewMapEffects {
                 .pipe(
 
                     concatMap((result) => [new LoadCommitmentOverviewMapCommitments(result)]),
+                    catchError(error => of(new CommentOverviewMapActionFailure(error)))
+                )
+            ))
+
+    @Effect()
+    getOverviewMapCommitmentMapPoints$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(CommitmentOverviewMapActionTypes.GetCommitmentOverviewCommitmentMapPoints),
+            map((action: GetCommitmentOverviewCommitmentMapPoints) => action.payload),
+
+            concatMap((filter: any) => this.service.getCommitmentOverviewCommitmentMapPoints(filter)
+                .pipe(
+
+                    concatMap((result) => [new LoadCommitmentOverviewCommitmentMapPoints(result)]),
                     catchError(error => of(new CommentOverviewMapActionFailure(error)))
                 )
             ))
