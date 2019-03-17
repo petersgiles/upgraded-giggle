@@ -4,28 +4,23 @@
   </div>
 </div>
 
-<div class="form-content">
-  <fieldset>
+<div *ngIf="filterRoles$; else loading" class="app-page">
+  <div class="form-content">
     <div class="form-layout__row">
-      <mdc-text-field
-        [outlined]="true"
-        [(ngModel)]="searchText"
-        (ngModelChange)="doSearch()"
-        placeholder="search roles..."
-        autocomplete="off"
-        type="text"
+      <df-data-table
+        [hasFilter]="true"
+        [rows]="filterRoles$ | async"
+        [limit]="10"
+        [columns]="columns"
+        (onSelect)="handleSelect($event)"
+        (onFilter)="handleFilter($event)"
       >
-        <mdc-icon mdcTextFieldIcon leading>search</mdc-icon>
-      </mdc-text-field>
+      </df-data-table>
     </div>
-  </fieldset>
-  <mdc-list>
-    <mdc-list-item *ngFor="let role of roles">
-      <mdc-list-item-text secondaryText="{{ role.description }}">
-        <a [routerLink]="[role.id]">{{ role.title }}</a>
-      </mdc-list-item-text>
-    </mdc-list-item>
-  </mdc-list>
+  </div>
 </div>
+<ng-template #loading>
+  Loading...
+</ng-template>
 
 <button (click)="add()" icon="add" mdc-fab position="bottomRight"></button>

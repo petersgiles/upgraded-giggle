@@ -13,6 +13,7 @@
 
 .app-page {
   padding-left: 0px;
+  overflow-y: auto;
 }
 
 .app-print-wrapper {
@@ -35,6 +36,10 @@ p {
     margin-left: 0.3em;
     margin-right: 0.3em;
   }
+}
+
+.mdc-drawer-app-content {
+  width: auto;
 }
 
 .form-content {

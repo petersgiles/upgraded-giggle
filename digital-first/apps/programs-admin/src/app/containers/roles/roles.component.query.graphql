@@ -1,8 +1,5 @@
-query rolesSearch($title: String) {
-  roles(
-    where: { path: "title", comparison: contains, value: [$title] }
-    orderBy: { path: "title" }
-  ) {
+query rolesSearch {
+  roles(orderBy: { path: "title" }) {
     id
     title
     description
