@@ -78,6 +78,7 @@
                 <div class="form-layout__row">
                   <mdc-form-field [alignEnd]="true">
                     <input
+                      class="inputfile"
                       type="file"
                       accept=".csv"
                       (change)="fileChange($event)"
@@ -86,6 +87,10 @@
                       required
                     />
                   </mdc-form-field>
+                  <label for="fileToUpload" class="mdc-button"
+                    >Choose a file</label
+                  >
+                  <p>{{ fileToUpload ? fileToUpload.name : '' }}</p>
                 </div>
                 <div class="form-layout__row-with-button">
                   <button

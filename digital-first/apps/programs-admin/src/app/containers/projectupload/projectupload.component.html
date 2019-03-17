@@ -32,12 +32,17 @@
                 <div class="form-layout__row">
                   <mdc-form-field [alignEnd]="true">
                     <input
+                      class="inputfile"
                       type="file"
                       accept=".csv"
                       (change)="fileChange($event)"
                       id="fileToUpload"
                       name="fileToUpload"
                     />
+                    <label for="fileToUpload" class="mdc-button"
+                      >Choose a file</label
+                    >
+                    <p>{{ fileToUpload ? fileToUpload.name : '' }}</p>
                   </mdc-form-field>
                 </div>
                 <div class="form-layout__row-with-button">
