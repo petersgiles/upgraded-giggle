@@ -14,7 +14,7 @@ import { switchMap, map, catchError, tap, concatMap } from 'rxjs/operators'
 
 import { AppNotification, ClearAppNotification } from '../app.actions'
 import { CommitmentThemeDataService } from './commitment-theme-data.service'
-import { DataResult, CommitmentThemesResult } from '../../models'
+import { DataResult, ThemeTypesResult } from '../../models'
 
 @Injectable()
 export class CommitmentThemeEffects {
@@ -26,8 +26,7 @@ export class CommitmentThemeEffects {
       map((action: GetThemesByCommitment) => action.payload.commitment),
       concatMap((commitment: any) => this.service.getThemesByCommitment(commitment)
         .pipe(
-
-          map((result: DataResult<CommitmentThemesResult>) => new LoadCommitmentThemes({ themes: result.data.commitmentThemes })),
+          map((result: DataResult<ThemeTypesResult>) => new LoadCommitmentThemes({ themes: result.data.themeTypes})),
           catchError(error => of(new CommitmentThemeActionFailure(error)))
         )
       ))

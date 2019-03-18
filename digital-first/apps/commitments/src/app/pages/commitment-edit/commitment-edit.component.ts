@@ -18,7 +18,7 @@ import { CriticalDate } from '../../models/critical-date.model'
 import { formatCommitmentTitle, formatCommitmentId } from '../../formatters'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 import { showSnackBar } from '../../dialogs/show-snack-bar'
-import { PackageType, ThemeType } from '../../models'
+import { PackageType, ThemeType, Status } from '../../models'
 import { OPERATION_COMMITMENT } from '../../services/app-data.service'
 
 @Component({
@@ -48,6 +48,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   criticalDates$: Observable<CriticalDate[]>
   parties$: Observable<Party[]>
   portfolios$: Observable<Portfolio[]>
+  statuses$: Observable<Status[]>;
   selectedElectorateIds: Location[] = []
   activeComment: any
   timeFormat: 'timeAgo' | 'dateFormat' | 'calendar'
@@ -84,6 +85,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.packageTypes$ = this.lookup.PackageTypes
     this.parties$ = this.lookup.Parties
     this.portfolios$ = this.lookup.Portfolios
+    this.statuses$ = this.lookup.Statuses
 
     this.autoSaveSubscription$ = this.service.CommitmentEditAutosave.subscribe(next => this.autoSave = next)
 
@@ -133,6 +135,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.lookup.getAllPortfolios()
     this.lookup.getAllThemeTypes()
     this.lookup.getAllPackageTypes()
+    this.lookup.getAllStatuses()
 
     this.user$ = this.service.getCurrentUser()
 
@@ -197,6 +200,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   handleUpdateCommitment(commitment) {
     this.formBusy = true
+    console.log("handleUpdateCommitment", commitment)
     this.service.upsertCommitment(commitment)
   }
 

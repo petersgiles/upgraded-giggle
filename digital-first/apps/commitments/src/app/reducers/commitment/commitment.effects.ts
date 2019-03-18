@@ -22,6 +22,7 @@ import { GetContactsByCommitment, ClearCommitmentContacts } from '../commitment-
 import { ClearCommitmentActions, GetActionsByCommitment } from '../commitment-action/commitment-action.actions'
 import { ClearRelatedLinks, GetRelatedLinksByCommitment } from '../related-link/related-link.actions'
 import { GetMapPointsByCommitment, ClearMapPoints, GetElectoratesByCommitment, ClearElectorates } from '../commitment-delivery-location/commitment-delivery-location.actions'
+import { GetPackagesByCommitment } from '../commitment-package/commitment-package.actions';
 
 @Injectable()
 export class CommitmentEffects {
@@ -58,7 +59,8 @@ export class CommitmentEffects {
             new GetActionsByCommitment({ commitment: result.data.commitment.id }),
             new GetContactsByCommitment({ commitment: result.data.commitment.id }),
             new GetRelatedCommitmentsByCommitment({ commitment: result.data.commitment.id }),
-            new GetRelatedLinksByCommitment({ commitment: result.data.commitment.id })
+            new GetRelatedLinksByCommitment({ commitment: result.data.commitment.id }),
+            new GetPackagesByCommitment({ commitment: result.data.commitment.id })
           ]),
           catchError(error => of(new CommitmentsActionFailure(error)))
         )

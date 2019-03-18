@@ -27,7 +27,23 @@ export const GET_COMMITMENT_MAPPOINTS = gql `
 export const GET_MAPPOINT_COMMITMENTS = gql `
 query MapPointCommitments($mapPoint: ID!) {
   mapPointCommitments(mapPoint: $mapPoint) {
-  	id
+    id
     title
+    criticalDate {
+      id
+      title
+    }
+    portfolio {
+      id
+      title
+    }
+    party {
+      id
+      title
+    }
+    commitmentType {
+      id
+      title
+    }
   }
 }`

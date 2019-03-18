@@ -2,43 +2,39 @@ import { Action } from '@ngrx/store'
 import { DataResult, AnnouncementTypesResult, CriticalDatesResult,
     CommitmentTypesResult, LocationsResult, PartysResult, PortfoliosResult,
     WhoAnnouncedTypesResult, PackageTypesResult, ThemeTypesResult } from '../../models'
+import { StatusesResult } from '../../models/status.model';
 
 export enum CommitmentLookupsActionTypes {
-    GetAllAnnouncementTypes = '[Lookups] Get All AnnouncementTypes',
-    LoadAnnouncementTypes = '[Lookups] Load AnnouncementTypes',
-    AnnouncementTypesActionFailure = '[Lookups] AnnouncementTypes Action Failure',
-
-    GetAllCommitmentTypes = '[Lookups] Get All CommitmentTypes',
-    LoadCommitmentTypes = '[Lookups] Load CommitmentTypes',
-    CommitmentTypesActionFailure = '[Lookups] CommitmentTypes Action Failure',
-
-    GetAllCriticalDates = '[Lookups] Get All CriticalDates',
-    LoadCriticalDates = '[Lookups] Load CriticalDates',
-    CriticalDatesActionFailure = '[Lookups] CriticalDates Action Failure',
-
-    GetAllLocations = '[Lookups] Get All Locations',
-    LoadLocations = '[Lookups] Load Locations',
-    LocationsActionFailure = '[Lookups] Locations Action Failure',
-
-    GetAllPartys = '[Lookups] Get All Partys',
-    LoadPartys = '[Lookups] Load Partys',
-    PartysActionFailure = '[Lookups] Partys Action Failure',
-
-    GetAllPortfolios = '[Lookups] Get All Portfolios',
-    LoadPortfolios = '[Lookups] Load Portfolios',
-    PortfoliosActionFailure = '[Lookups] Portfolios Action Failure',
-
-    GetAllPackageTypes = '[Lookups] Get All PackageTypes',
-    LoadPackageTypes = '[Lookups] Load PackageTypes',
-    PackageTypesActionFailure = '[Lookups] PackageTypes Action Failure',
-
-    GetAllThemeTypes = '[Lookups] Get All ThemeTypes',
-    LoadThemeTypes = '[Lookups] Load ThemeTypes',
-    ThemeTypesActionFailure = '[Lookups] ThemeTypes Action Failure',
-
-    GetAllWhoAnnouncedTypes = '[Lookups] Get All WhoAnnouncedTypes',
-    LoadWhoAnnouncedTypes = '[Lookups] Load WhoAnnouncedTypes',
-    WhoAnnouncedTypesActionFailure = '[Lookups] WhoAnnouncedTypes Action Failure',
+  GetAllAnnouncementTypes = '[Lookups] Get All AnnouncementTypes',
+  LoadAnnouncementTypes = '[Lookups] Load AnnouncementTypes',
+  AnnouncementTypesActionFailure = '[Lookups] AnnouncementTypes Action Failure',
+  GetAllCommitmentTypes = '[Lookups] Get All CommitmentTypes',
+  LoadCommitmentTypes = '[Lookups] Load CommitmentTypes',
+  CommitmentTypesActionFailure = '[Lookups] CommitmentTypes Action Failure',
+  GetAllCriticalDates = '[Lookups] Get All CriticalDates',
+  LoadCriticalDates = '[Lookups] Load CriticalDates',
+  CriticalDatesActionFailure = '[Lookups] CriticalDates Action Failure',
+  GetAllLocations = '[Lookups] Get All Locations',
+  LoadLocations = '[Lookups] Load Locations',
+  LocationsActionFailure = '[Lookups] Locations Action Failure',
+  GetAllPartys = '[Lookups] Get All Partys',
+  LoadPartys = '[Lookups] Load Partys',
+  PartysActionFailure = '[Lookups] Partys Action Failure',
+  GetAllPortfolios = '[Lookups] Get All Portfolios',
+  LoadPortfolios = '[Lookups] Load Portfolios',
+  PortfoliosActionFailure = '[Lookups] Portfolios Action Failure',
+  GetAllPackageTypes = '[Lookups] Get All PackageTypes',
+  LoadPackageTypes = '[Lookups] Load PackageTypes',
+  PackageTypesActionFailure = '[Lookups] PackageTypes Action Failure',
+  GetAllThemeTypes = '[Lookups] Get All ThemeTypes',
+  LoadThemeTypes = '[Lookups] Load ThemeTypes',
+  ThemeTypesActionFailure = '[Lookups] ThemeTypes Action Failure',
+  GetAllWhoAnnouncedTypes = '[Lookups] Get All WhoAnnouncedTypes',
+  LoadWhoAnnouncedTypes = '[Lookups] Load WhoAnnouncedTypes',
+  WhoAnnouncedTypesActionFailure = '[Lookups] WhoAnnouncedTypes Action Failure',
+  GetAllStatuses = '[Lookups] Get All Statuses',
+  LoadStatuses = '[Lookups] Load Statuses',
+  StatusesActionFailure = '[Lookups] Portfolios Action Failure',
 }
 
 // AnnouncementTypes
@@ -74,6 +70,25 @@ export class PackageTypesActionFailure implements Action {
     constructor(public payload: any) {
     }
 }
+
+
+
+// Statuses
+export class GetAllStatuses implements Action {
+    readonly type = CommitmentLookupsActionTypes.GetAllStatuses
+}
+
+export class LoadStatuses implements Action {
+    readonly type = CommitmentLookupsActionTypes.LoadStatuses
+    constructor(public payload: DataResult<StatusesResult>) { }
+}
+
+export class StatusesActionFailure implements Action {
+    readonly type = CommitmentLookupsActionTypes.StatusesActionFailure
+    constructor(public payload: any) {
+    }
+}
+
 
 // ThemeTypes
 
@@ -223,3 +238,6 @@ export type CommitmentLookupsActions =
     | GetAllWhoAnnouncedTypes
     | LoadWhoAnnouncedTypes
     | WhoAnnouncedTypesActionFailure
+    | GetAllStatuses
+    | LoadStatuses
+    | StatusesActionFailure

@@ -9,7 +9,7 @@ import { MdcDialog } from '@angular-mdc/web'
 import { OPERATION_COMMITMENT_PACKAGE } from '../../services/app-data.service'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 import { CommitmentPackageService } from '../../reducers/commitment-package/commitment-package.service'
-import { Package } from '../../models'
+import { PackageType } from '../../models'
 
 @Component({
   selector: 'digital-first-commitment-package',
@@ -21,8 +21,8 @@ export class CommitmentPackageComponent implements OnInit, OnDestroy {
   _commitment: number
   userOperation$: Observable<any>
   packageSubscription$: Subscription
-  packages: Package[]
-  commitmentPackage$: Observable<Package[]>
+  packages: PackageType[]
+  commitmentPackage$: Observable<PackageType[]>
   expandedSubscription$: Subscription
   expanded: boolean
   commitmentPackagesSubscription$: Subscription
@@ -69,7 +69,7 @@ export class CommitmentPackageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.megaTags$ =  this.service.SelectedMegaTags
-    
+
     this.commitmentPackagesSubscription$ = this.service.CommitmentPackages.subscribe(
       next => {
 

@@ -1,10 +1,10 @@
 import { ConsoleLoggerService } from './../../../../../../libs/df-logging/src/lib/console-logger.service';
 import { CommitmentThemeActionTypes, CommitmentThemeActions } from './commitment-theme.actions'
-import { Theme, Portfolio} from '../../models'
+import { ThemeType, Portfolio} from '../../models'
 
 export interface State {
   expanded: boolean
-  themes: Theme[]
+  themes: ThemeType[]
   loading: boolean
   error: any
 }

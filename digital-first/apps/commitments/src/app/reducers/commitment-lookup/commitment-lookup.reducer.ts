@@ -10,6 +10,7 @@ export interface State {
     whoAnnouncedTypes: any[]
     themeTypes: any[]
     packageTypes: any[]
+    statuses: any[]
 }
 
 export const initialState: State = {
@@ -21,7 +22,8 @@ export const initialState: State = {
     portfolios: null,
     whoAnnouncedTypes: null,
     themeTypes: null,
-    packageTypes: null
+    packageTypes: null,
+    statuses: null
 }
 
 export function reducer(
@@ -90,6 +92,13 @@ export function reducer(
             return {
                 ...state,
                 packageTypes: action.payload.data.packageTypes
+            }
+        }
+
+        case CommitmentLookupsActionTypes.LoadStatuses: {
+            return {
+                ...state,
+                statuses: action.payload.data.statuses
             }
         }
 

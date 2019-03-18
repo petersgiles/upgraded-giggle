@@ -6,13 +6,13 @@ import { Observable } from 'rxjs'
 import { DataResult } from '../../models'
 import { CommitmentThemeDataSharePointService as CommitmentThemeDataSharePointService } from './sharepoint/commitment-theme-data.service'
 import { CommitmentThemeDataApolloService } from './apollo/commitment-theme-data.service'
-import { CommitmentThemesResult } from '../../models/theme.model'
+import { ThemeTypesResult } from '../../models/theme-type.model'
 
 @Injectable({
   providedIn: 'root'
 })
 export abstract class CommitmentThemeDataService {
-  abstract getThemesByCommitment(commitment: any): Observable<DataResult<CommitmentThemesResult>>
+  abstract getThemesByCommitment(commitment: any): Observable<DataResult<ThemeTypesResult>>
   abstract addThemeToCommitment(variables: { commitment: any, theme: any }): Observable<DataResult<{ commitment: number }>>
   abstract removeThemeFromCommitment(variables: { commitment: any, theme: any }): Observable<DataResult<{ commitment: number }>>
 }

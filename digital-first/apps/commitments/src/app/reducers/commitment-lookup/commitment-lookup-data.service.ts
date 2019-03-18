@@ -15,6 +15,7 @@ export abstract class CommitmentLookupDataService {
     abstract filterThemeTypes(filter?: any): any
     abstract filterWhoAnnouncedTypes(filter?: any): any
     abstract filterPortfolios(filter?: any): any
+    abstract filterStatuses(filter?: any): any
     abstract filterPartys(filter?: any): any
     abstract filterLocations(filter?: any): any
     abstract filterCriticalDates(filter?: any): any

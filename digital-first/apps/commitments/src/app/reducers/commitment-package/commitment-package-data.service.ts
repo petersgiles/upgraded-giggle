@@ -6,13 +6,13 @@ import { Observable } from 'rxjs'
 import { DataResult } from '../../models'
 import { CommitmentPackageDataSharePointService } from './sharepoint/commitment-package-data.service'
 import { CommitmentPackageDataApolloService } from './apollo/commitment-package-data.service'
-import { CommitmentPackagesResult } from '../../models/package.model'
+import { PackageTypesResult } from '../../models/package-type.model'
 
 @Injectable({
   providedIn: 'root'
 })
 export abstract class CommitmentPackageDataService {
-  abstract getPackagesByCommitment(commitment: any): Observable<DataResult<CommitmentPackagesResult>>
+  abstract getPackagesByCommitment(commitment: any): Observable<DataResult<PackageTypesResult>>
   abstract addPackageToCommitment(variables: { commitment: any, mypackage: any }): Observable<DataResult<{ commitment: number }>>
   abstract removePackageFromCommitment(variables: { commitment: any, mypackage: any }): Observable<DataResult<{ commitment: number }>>
 }
