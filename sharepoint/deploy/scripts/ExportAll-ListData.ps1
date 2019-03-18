@@ -4,7 +4,7 @@
     [string] $exportPath = "$PSScriptRoot\..\..\commitments\Data"
 )
 
-$listsToExport = @("AnnouncementType", "CommitmentType", "CriticalDate", "Electorate", "PoliticalParty", "Portfolio", "WhoAnnouncedType" )
+$listsToExport = @("AnnouncementType", "CommitmentType", "CriticalDate", "Electorate", "PoliticalParty", "Portfolio", "WhoAnnouncedType", "PackageType")
 
 if(-not (Test-Path $exportPath))
 {
