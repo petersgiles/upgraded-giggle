@@ -26,7 +26,7 @@ export class CommitmentOverviewMapService {
         )
     }
 
-    get Commitments(): Observable<DataTableConfig> {
+    get Commitments(): Observable<any> {
         return this.store.pipe(select(fromRoot.getCommitmentOverviewMapCommitmentsTableData))
     }
 

@@ -2,7 +2,7 @@ import { createSelector } from '@ngrx/store'
 import { DataTableConfig } from '@digital-first/df-datatable'
 
 import * as fromCommitmentOverviewMap from './commitment-overview-map.reducer'
-import { formatCommitmentTitle } from '../../formatters'
+import { formatCommitmentTitle, formatCommitmentId } from '../../formatters'
 import { getFilteredOverviewCommitments } from '../commitment-overview'
 import { arrayToHash, arrayToIndex } from '@digital-first/df-utils'
 
@@ -42,23 +42,20 @@ export const getCommitmentOverviewMapCommitmentsTableData = createSelector(
     getCommitmentOverviewMapCommitments,
     (items) => {
 
-        const rows = (items || []).map(c =>
-                ({
-                    id: c.id,
-                    cells: [{
-                        value: `${formatCommitmentTitle(c)}`
-                    }]
-                }))
+        // tslint:disable-next-line:no-console
+        console.log('getCommitmentOverviewMapCommitments', items)
+        const rows = (items || []).map(c => ({
+            id: c.id,
+            commitmentId: formatCommitmentId(c),
+            title: formatCommitmentTitle(c),
+            party: c.party && c.party.title,
+            portfolio: c.portfolio && c.portfolio.title,
+            commitmentType: c.commitmentType && c.commitmentType.title,
+            criticalDate: c.criticalDate && c.criticalDate.title
+          }))
 
-        const dtc: DataTableConfig = {
-            title: 'commitments',
-            headings: [
-                { caption: 'Title' }
-            ],
-            rows: rows
-        }
-
-        return dtc
+        return rows
 
     }
+
 )

@@ -18,6 +18,7 @@ export class CommitmentOverviewMapComponent implements OnInit {
   public zoom: number
   mapPoints$: Observable<MapPoint[]>
   commitments$: Observable<DataTableConfig>
+  columns: { prop: string; name: string }[]
 
   constructor(
     private router: Router,
@@ -31,6 +32,15 @@ export class CommitmentOverviewMapComponent implements OnInit {
 
     this.mapPoints$ = this.service.RefinedMapPoints
     this.commitments$ = this.service.Commitments
+
+    this.columns = [
+      { prop: 'commitmentId', name: 'Id' },
+      { prop: 'title', name: 'Title' },
+      { prop: 'party', name: 'Party' },
+      { prop: 'portfolio', name: 'Responsible Portfolio' },
+      { prop: 'commitmentType', name: 'Type of Commitment' },
+      { prop: 'criticalDate', name: 'Critical Date' }
+    ]
 
     this.service.getAllCommitments()
     this.service.getCommitmentOverviewCommitmentMapPoints()

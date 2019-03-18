@@ -22,8 +22,15 @@
         </agm-map>
     </div>
     <div class="commitment-layout__row">
-        <digital-first-data-table [tableData]="commitments$ | async"
-          (onCellClicked)="handleRowClicked($event)"></digital-first-data-table>
+   
+
+          <df-data-table
+          [rows]="commitments$ | async"
+          [columns]="columns"
+          [count]="count"
+          (onSelect)="handleRowClicked($event)"
+        >
+        </df-data-table>
       </div>
   </section>
 </div>
