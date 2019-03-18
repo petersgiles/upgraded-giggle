@@ -38,8 +38,7 @@ export class CommitmentOverviewMapComponent implements OnInit {
       { prop: 'title', name: 'Title' },
       { prop: 'party', name: 'Party' },
       { prop: 'portfolio', name: 'Responsible Portfolio' },
-      { prop: 'commitmentType', name: 'Type of Commitment' },
-      { prop: 'criticalDate', name: 'Critical Date' }
+      { prop: 'commitmentType', name: 'Type of Commitment' }
     ]
 
     this.service.getAllCommitments()

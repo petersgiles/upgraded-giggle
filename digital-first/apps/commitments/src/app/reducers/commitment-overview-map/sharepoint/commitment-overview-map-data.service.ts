@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { SharepointJsomService } from '@df/sharepoint'
-import { Observable, of } from 'rxjs'
+import { Observable, of, forkJoin } from 'rxjs'
 import { DataResult, MapPointsResult, CommitmentsResult } from '../../../models'
 import { concatMap, tap, map } from 'rxjs/operators'
 import { CommitmentOverviewMapDataService } from '../commitment-overview-map-data.service'
@@ -29,44 +29,39 @@ export class CommitmentOverviewMapDataSharePointService
   getCommitmentOverviewCommitmentMapPoints(
     filter: any
   ): Observable<DataResult<CommitmentMapPointsResult>> {
-    return this.sharepoint
-      .getItems({
+    return forkJoin([
+      this.sharepoint.getItems({
         listName: 'CommitmentMapPoint'
+      }),
+      this.sharepoint.getItems({
+        listName: 'MapPoint'
+      }),
+      this.sharepoint.getItems({
+        listName: 'Commitment'
       })
-      .pipe(
-        map(mapCommitmentMapPoints),
-        concatMap((result: any) => {
+    ]).pipe(
+      concatMap(([spCommitmentMapPoints, spMapPoints, spCommitment]) => {
+        const commitmentMapPoints = mapCommitmentMapPoints(
+          spCommitmentMapPoints
+        )
+        const mapPoints = arrayToHash(mapMapPoints(spMapPoints))
+        const commitments = arrayToHash(mapCommitments(spCommitment))
 
-          const ids = result.map(p => p.mapPoint)
-          const cViewXml = byIdsQuery(ids)
+        const commps = (commitmentMapPoints || []).map((cmp: any) => ({
+          mapPoint: {
+            ...mapPoints[cmp.mapPoint]
+          },
+          commitment: {
+            ...commitments[cmp.commitment]
+          }
+        }))
 
-          return this.sharepoint
-            .getItems({
-              listName: 'MapPoint',
-              viewXml: cViewXml
-            })
-            .pipe(
-              map(mapMapPoints),
-              concatMap((mpResult: any) => {
-                const mapPoints = arrayToHash(mpResult)
-                const commps = (result || []).map((cmp: any) => ({
-                  mapPoint: {
-                  ...mapPoints[cmp.mapPoint]
-                  },
-                  commitment: {
-                    id: cmp.commitment,
-                    title: ''
-                  }
-                }))
-
-                return of({
-                  data: { commitmentMapPoints: commps },
-                  loading: false
-                })
-              })
-            )
+        return of({
+          data: { commitmentMapPoints: commps },
+          loading: false
         })
-      )
+      })
+    )
   }
 
   getMapPoints = (filter: any): Observable<DataResult<MapPointsResult>> =>
