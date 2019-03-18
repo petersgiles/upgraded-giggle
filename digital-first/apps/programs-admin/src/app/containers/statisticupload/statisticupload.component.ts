@@ -124,6 +124,13 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
       )
       .subscribe(() => {
         this.snackbar.open('File sent for processing successfully.', null)
+
+        this.fileToUpload = null
+
+        this.statisticForm.reset()
+        this.statisticForm.get('statisticId').setValue(' ')
+        this.statisticForm.get('statisticReportId').setValue(' ')
+        this.statisticForm.get('dataDate').setValue(' ')
       })
   }
 

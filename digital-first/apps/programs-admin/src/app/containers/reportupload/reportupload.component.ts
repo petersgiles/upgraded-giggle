@@ -124,6 +124,12 @@ export class ReportuploadComponent implements OnInit, OnDestroy {
       )
       .subscribe(() => {
         this.snackbar.open('File sent for processing successfully.', null)
+        this.fileToUpload = null
+
+        this.reportForm.reset()
+        this.reportForm.get('programId').setValue(' ')
+        this.reportForm.get('reportId').setValue(' ')
+        this.reportForm.get('dataDate').setValue(' ')
       })
   }
 
