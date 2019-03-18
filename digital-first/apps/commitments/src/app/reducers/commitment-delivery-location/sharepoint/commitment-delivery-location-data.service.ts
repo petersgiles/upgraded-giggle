@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import {
   SharepointJsomService
-} from '@digital-first/df-sharepoint'
+} from '@df/sharepoint'
 import { DeliveryLocationDataService } from '../commitment-delivery-location-data.service'
 import { Observable, of } from 'rxjs'
 import {

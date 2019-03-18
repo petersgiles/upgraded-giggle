@@ -32,14 +32,10 @@ export class DataTableComponent implements OnInit {
   }
 
   handleCellHeadingClicked(heading) {
-    // tslint:disable-next-line:no-console
-    console.log(heading)
     this.onCellHeadingClicked.emit({ ...heading })
   }
 
   handleCellClicked(row, cell) {
-    // tslint:disable-next-line:no-console
-    console.log(row, cell)
     this.onCellClicked.emit({ id: row.id, row, cell })
   }
 }

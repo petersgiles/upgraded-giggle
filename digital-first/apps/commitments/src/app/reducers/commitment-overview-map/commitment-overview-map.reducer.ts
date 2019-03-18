@@ -1,14 +1,19 @@
-import { CommitmentOverviewMapActions, CommitmentOverviewMapActionTypes } from './commitment-overview-map.actions'
+import {
+  CommitmentOverviewMapActions,
+  CommitmentOverviewMapActionTypes
+} from './commitment-overview-map.actions'
 import { MapPoint } from '@digital-first/df-map'
 import { Commitment } from '../commitment/commitment.model'
 
 export interface State {
   mapPoints: MapPoint[]
+  commitmentMapPoints: any[]
   commitments: Commitment[]
 }
 
 export const initialState: State = {
   mapPoints: null,
+  commitmentMapPoints: null,
   commitments: null
 }
 
@@ -17,7 +22,6 @@ export function reducer(
   action: CommitmentOverviewMapActions
 ): State {
   switch (action.type) {
-
     case CommitmentOverviewMapActionTypes.LoadCommitmentOverviewMapPoints: {
       return {
         ...state,
@@ -33,10 +37,16 @@ export function reducer(
     }
 
     case CommitmentOverviewMapActionTypes.LoadCommitmentOverviewMapCommitments: {
-
       return {
         ...state,
         commitments: action.payload.data.commitments
+      }
+    }
+
+    case CommitmentOverviewMapActionTypes.LoadCommitmentOverviewCommitmentMapPoints: {
+      return {
+        ...state,
+        commitmentMapPoints: action.payload.data.commitmentMapPoints
       }
     }
 
@@ -54,3 +64,5 @@ export function reducer(
 
 export const getOverviewMapPoints = (state: State) => state.mapPoints
 export const getOverviewCommitments = (state: State) => state.commitments
+export const getOverviewCommitmentMapPoints = (state: State) =>
+  state.commitmentMapPoints

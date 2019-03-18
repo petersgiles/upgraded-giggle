@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core'
-import { SharepointJsomService } from '@digital-first/df-sharepoint'
+import { SharepointJsomService } from '@df/sharepoint'
 import { Observable, of } from 'rxjs'
-import {
-  DataResult,
-  MapPointsResult,
-  CommitmentsResult
-} from '../../../models'
+import { DataResult, MapPointsResult, CommitmentsResult } from '../../../models'
 import { concatMap, tap, map } from 'rxjs/operators'
 import { CommitmentOverviewMapDataService } from '../commitment-overview-map-data.service'
 
@@ -28,6 +24,11 @@ import { LoggerService } from '@digital-first/df-logging'
 })
 export class CommitmentOverviewMapDataSharePointService
   implements CommitmentOverviewMapDataService {
+  getCommitmentOverviewCommitmentMapPoints(
+    filter: any
+  ): Observable<DataResult<any>> {
+    throw new Error('Method not implemented.')
+  }
   getMapPoints = (filter: any): Observable<DataResult<MapPointsResult>> =>
     this.sharepoint
       .getItems({

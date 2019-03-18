@@ -30,7 +30,7 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
   pageSize: number
   commitmentsFilteredSubscription$: Subscription
   filteredCommitments: any
-  columns: { prop: string; name: string; }[]
+  columns: { prop: string; name: string }[]
   commitmentsTableData$: Observable<any>
 
   constructor(
@@ -38,10 +38,7 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
     public dialog: MdcDialog,
     private router: Router,
     private service: CommitmentDataService,
-    private lookup: CommitmentLookupService,
-    private excelService: ExcelService,
-    private dateFormat: DateFormatPipe,
-    private logger: LoggerService
+    private excelService: ExcelService
   ) {}
 
   ngOnInit() {
@@ -52,27 +49,17 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
     )
 
     this.columns = [
-      { prop: 'commitmentId', name: 'Id'},
+      { prop: 'commitmentId', name: 'Id' },
       { prop: 'title', name: 'Title' },
       { prop: 'party', name: 'Party' },
-      { prop: 'portfolio',  name: 'Responsible Portfolio' },
-      { prop: 'commitmentType',  name: 'Type of Commitment' },
-      { prop: 'criticalDate',  name: 'Critical Date' }
+      { prop: 'portfolio', name: 'Responsible Portfolio' },
+      { prop: 'commitmentType', name: 'Type of Commitment' },
+      { prop: 'criticalDate', name: 'Critical Date' }
     ]
 
     this.commitmentsTableData$ = this.service.CommitmentDataTable
     this.refinerGroups$ = this.service.RefinerGroups
     this.activity$ = this.service.CommitmentActivity
-
-    this.lookup.getAllWhoAnnouncedTypes()
-    this.lookup.getAllAnnouncementTypes()
-    this.lookup.getAllCommitmentTypes()
-    this.lookup.getAllCriticalDates()
-    this.lookup.getAllLocations()
-    this.lookup.getAllPartys()
-    this.lookup.getAllPortfolios()
-    this.lookup.getAllThemeTypes()
-    this.lookup.getAllPackageTypes()
 
     this.service.getAllCommitments()
 
@@ -103,11 +90,10 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
     this.pagedDataTableRows = (this.dataTableRows || []).slice(skip, take)
   }
 
-  handleFilter ($event: any) {
+  handleFilter($event: any) {
     const val = $event.target.value.toLowerCase()
 
     // filterFruits(val)
-
   }
 
   ngOnDestroy(): void {
@@ -118,21 +104,19 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
     this.router.navigate(['/', 'commitment', commitment.id])
   }
 
-  handleClearAllFilters() {
-    this.service.clearAllRefiners()
-  }
+  // handleClearAllFilters() {
+  //   this.service.clearAllRefiners()
+  // }
 
-  handleCreate() {
-    this.router.navigate(['/', 'commitment', 'create'])
-  }
+  // handleCreate() {
+  //   this.router.navigate(['/', 'commitment', 'create'])
+  // }
 
   handleCommitmentsRowClicked(commitment) {
-
     this.router.navigate(['/', 'commitment', commitment.id])
   }
 
   handleCommitmentsCellHeadingClicked($event) {
-    this.logger.info('handleCommitmentCellHeadingClicked')
     this.service.sortByColumn($event)
   }
 
@@ -140,29 +124,9 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
     this.router.navigate(['/', 'commitment', commitment.id])
   }
 
-  handleRefinerGroupSelected(refiner) {
-    if (refiner.expanded) {
-      this.service.collapseRefinerGroup(refiner)
-    } else {
-      this.service.expandRefinerGroup(refiner)
-    }
-  }
-
-  handleRefinerSelected(refiner) {
-    if (refiner.selected) {
-      this.service.removeRefiner(refiner)
-    } else {
-      this.service.addRefiner(refiner)
-    }
-  }
-
-  handleSearchCriteriaChanged(text) {
-    this.service.setTextRefiner(text)
-  }
-
   handleExport() {
     const exportCommitments = this.filteredCommitments.map(fc => ({
-      'Id': fc.commitmentId,
+      Id: fc.commitmentId,
       Title: fc.title,
       Party: fc.party ? fc.party.title : '',
       'Responsible Portfolio': fc.portfolio ? fc.portfolio.title : '',

@@ -6,13 +6,17 @@ import { Store, select } from '@ngrx/store'
 
 import * as fromRoot from '..'
 import { MapPoint } from '@digital-first/df-map'
-import { GetCommitmentOverviewMapPoints, GetCommitmentOverviewMapCommitments } from './commitment-overview-map.actions'
+import { GetCommitmentOverviewMapPoints, GetCommitmentOverviewMapCommitments, GetCommitmentOverviewCommitmentMapPoints } from './commitment-overview-map.actions'
 import { DataTableConfig } from '@digital-first/df-datatable'
+import { GetAllCommitments } from '../commitment/commitment.actions';
 
 @Injectable({
     providedIn: 'root'
 })
 export class CommitmentOverviewMapService {
+  getAllCommitments(): any {
+    this.store.dispatch(new GetAllCommitments({ filter: null }))
+  }
 
     constructor(private store: Store<fromRoot.State>) { }
 
@@ -30,6 +34,10 @@ export class CommitmentOverviewMapService {
         return this.store.pipe(select(fromRoot.getCommitmentOverviewMapMapPoints))
     }
 
+    get RefinedMapPoints(): Observable<MapPoint[]> {
+        return this.store.pipe(select(fromRoot.getCommitmentOverviewCommitmentsMapPoints))
+    }
+
     getMapPoints(filter?: string): any {
         this.store.dispatch(new GetCommitmentOverviewMapPoints({ filter: filter }))
     }
@@ -38,4 +46,7 @@ export class CommitmentOverviewMapService {
         this.store.dispatch(new GetCommitmentOverviewMapCommitments({ filter: filter }))
     }
 
+    getCommitmentOverviewCommitmentMapPoints(filter?: string): any {
+        this.store.dispatch(new GetCommitmentOverviewCommitmentMapPoints({ filter: filter }))
+    }
 }

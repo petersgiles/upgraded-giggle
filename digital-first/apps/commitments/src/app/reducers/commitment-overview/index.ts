@@ -23,12 +23,10 @@ import {
 } from '../commitment-lookup'
 import { findInLookup } from '../utils'
 import {
-  DataTableConfig,
   DATA_TABLE_SORT_DIRECTION,
   DATA_TABLE_SORT_DIRECTION_DESC,
   DATA_TABLE_SORT_DIRECTION_ASC
 } from '@digital-first/df-datatable'
-import { stat } from 'fs'
 
 export const getCommitmentOverviewState = state => state.commitmentOverview
 
@@ -319,7 +317,6 @@ export const getAllOverviewCommitments = createSelector(
   getCommitmentOverviewState,
   (commitments, lookups, state) => {
 
-    
     const result = commitments.map(commitment => ({
       ...commitment,
       commitmentId: formatCommitmentId(commitment),

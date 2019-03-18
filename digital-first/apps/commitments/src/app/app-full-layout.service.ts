@@ -23,13 +23,7 @@ export class AppFullLayoutService {
     return of([{
       caption: 'Overview',
       icon: 'home',
-      routerLink: ['/commitment']
-    }, {
-      caption: 'Map Overview',
-      icon: 'near_me',
-      routerLink: ['/map']
-    }, {
-      divider: true
+      routerLink: ['/']
     }
   ])
   }

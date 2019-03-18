@@ -237,6 +237,7 @@ type CommitmentAction {
     announcementTypes: [AnnouncementType],
     commitmentTypes: [CommitmentType]
     whoAnnouncedTypes: [WhoAnnouncedType]
+    allCommitmentMapPoints: [CommitmentMapPoint]
     contacts: [Contact],
     comments(commitment: ID!): [Comment],
     locations: [Electorate],

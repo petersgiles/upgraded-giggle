@@ -1,4 +1,7 @@
 export * from './lib/simple-layout/simple-layout.component'
 export * from './lib/full-layout/full-layout.component'
 export * from './lib/full-layout/full-layout.service'
+export * from './lib/title-layout/title-layout.component'
+export * from './lib/title-layout/title-layout.service'
+export * from './lib/models'
 export * from './lib/df-layouts.module'

@@ -6,8 +6,10 @@ import { FullLayoutComponent } from './full-layout/full-layout.component'
 import { DfThemeModule } from '@digital-first/df-theme'
 import { FullLayoutService } from './full-layout/full-layout.service'
 import { DfComponentsModule } from '@digital-first/df-components'
+import { TitleLayoutComponent } from './title-layout/title-layout.component'
+import { TitleLayoutService } from './title-layout/title-layout.service'
 
-const COMPONENTS = [SimpleLayoutComponent, FullLayoutComponent]
+const COMPONENTS = [SimpleLayoutComponent, TitleLayoutComponent, FullLayoutComponent]
 
 @NgModule({
   imports: [
@@ -18,6 +20,6 @@ const COMPONENTS = [SimpleLayoutComponent, FullLayoutComponent]
   ],
   declarations: [...COMPONENTS],
   exports: [...COMPONENTS],
-  providers: [FullLayoutService]
+  providers: [TitleLayoutService, FullLayoutService]
 })
 export class DfLayoutsModule { }

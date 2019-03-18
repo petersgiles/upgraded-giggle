@@ -3,11 +3,10 @@ import { Subject, Observable, Subscription, of } from 'rxjs'
 import { Router, NavigationEnd } from '@angular/router'
 import { takeUntil, filter, delay, tap, concatMap } from 'rxjs/operators'
 import {
-  FullLayoutService,
-  AppUserProfile,
-  SideBarItem
+  FullLayoutService
 } from './full-layout.service'
 import { MdcTopAppBar } from '@angular-mdc/web'
+import { AppUserProfile, SideBarItem } from '../models'
 
 const SMALL_WIDTH_BREAKPOINT = 1240
 

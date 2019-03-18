@@ -21,8 +21,7 @@ export class CommitmentOverviewMapComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private service: CommitmentOverviewMapService,
-    private logger: LoggerService
+    private service: CommitmentOverviewMapService
   ) {}
 
   ngOnInit() {
@@ -30,9 +29,11 @@ export class CommitmentOverviewMapComponent implements OnInit {
     this.longitude = 133.8807
     this.zoom = 5
 
-    this.mapPoints$ = this.service.MapPoints
+    this.mapPoints$ = this.service.RefinedMapPoints
     this.commitments$ = this.service.Commitments
 
+    this.service.getAllCommitments()
+    this.service.getCommitmentOverviewCommitmentMapPoints()
     this.service.getMapPoints()
   }
 

@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core'
 import { of, Observable } from 'rxjs'
-export interface SideBarItem {
-  caption?: string
-  routerLink?: any[] | string
-  icon?: string
-  divider?: boolean
-}
+import { AppUserProfile, SideBarItem } from '../models'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -51,13 +47,4 @@ export class FullLayoutService {
 
   constructor() { }
 
-}
-
-export interface AppUserProfile {
-  name: string
-  roles?: any,
-  email?: string
-  background?: string
-  displayType?: string
-  size?: number
 }

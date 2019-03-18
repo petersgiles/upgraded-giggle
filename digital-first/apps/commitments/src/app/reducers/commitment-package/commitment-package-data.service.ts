@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { SharepointJsomService } from '@digital-first/df-sharepoint'
+import { SharepointJsomService } from '@df/sharepoint'
 import { Apollo } from 'apollo-angular'
 import { SettingsService } from '../../services/settings.service'
 import { Observable } from 'rxjs'
