@@ -53,4 +53,8 @@ export class CommitmentOverviewMapComponent implements OnInit {
   handleMapPointSelected(_, mapPoint) {
     this.service.getOverviewMapCommitment(mapPoint.place_id)
   }
+
+  getIcon(mapPoint) {
+    return `/assets/${mapPoint.iconUrl || 'beachflag.png'}`
+  }
 }

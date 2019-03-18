@@ -5,6 +5,7 @@ import * as fromCommitmentOverviewMap from './commitment-overview-map.reducer'
 import { formatCommitmentTitle, formatCommitmentId } from '../../formatters'
 import { getFilteredOverviewCommitments } from '../commitment-overview'
 import { arrayToHash, arrayToIndex } from '@digital-first/df-utils'
+import { getAllParties } from '../commitment-lookup';
 
 export const getCommitmentOverviewMapState = state => state.commitmentOverviewMap
 
@@ -23,18 +24,36 @@ export const getCommitmentOverviewCommitmentMapPoints = createSelector(
     fromCommitmentOverviewMap.getOverviewCommitmentMapPoints
 )
 
+const DEFAULT_PARTY_ICON = 'beachFlag.png'
+
 export const getCommitmentOverviewCommitmentsMapPoints = createSelector(
     getFilteredOverviewCommitments,
     getCommitmentOverviewCommitmentMapPoints,
     getCommitmentOverviewMapMapPoints,
-    (foc, ovmc, mps) => {
+    getAllParties,
+    (foc, ovmc, mps, parties) => {
 
-        const filtered = arrayToIndex(foc)
+        const refinedCommitmentIds = arrayToIndex(foc)
+        const refinedCommitments = arrayToHash(foc)
+        const mapPointHash = arrayToHash(mps, 'place_id')
+        const partyHash = arrayToHash(parties, 'id')
 
-        const cmpFiltered = arrayToIndex((ovmc || []).filter((cmp: any) => cmp.commitment && filtered.includes(cmp.commitment.id)).map(cf => cf.mapPoint), 'place_id')
-        const pointsFiltered = (mps || []).filter((mp: any) => cmpFiltered.includes(mp.place_id))
+        const refinedMapPoints = (ovmc || [])
+            .filter((cmp: any) => cmp.commitment && refinedCommitmentIds.includes(cmp.commitment.id))
+            .map((cmp: any) => {
 
-        return pointsFiltered
+                const currentcommitment = refinedCommitments[cmp.commitment.id]
+                const iconName = partyHash[currentcommitment.party.id].icon || DEFAULT_PARTY_ICON
+           
+                return {
+                    ...mapPointHash[cmp.mapPoint.place_id],
+                    iconUrl:  iconName 
+                }
+            })
+           
+console.log('refinedMapPoints', mps, refinedCommitments, partyHash)
+
+        return refinedMapPoints
     }
 )
 
