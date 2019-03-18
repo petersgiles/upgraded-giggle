@@ -24,7 +24,7 @@ export const getCommitmentOverviewCommitmentMapPoints = createSelector(
     fromCommitmentOverviewMap.getOverviewCommitmentMapPoints
 )
 
-const DEFAULT_PARTY_ICON = 'beachFlag.png'
+const DEFAULT_PARTY_ICON = 'beachflag.png'
 
 export const getCommitmentOverviewCommitmentsMapPoints = createSelector(
     getFilteredOverviewCommitments,
