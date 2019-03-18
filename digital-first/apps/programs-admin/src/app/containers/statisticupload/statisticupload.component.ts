@@ -1,5 +1,11 @@
 import { map } from 'rxjs/operators'
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core'
 import { Subscription } from 'rxjs'
 import {
   StatisticAndStatisticReports,
@@ -21,6 +27,9 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
   statistics: StatisticAndStatisticReports.Statistics[]
   statisticReports: StatisticAndStatisticReports.StatisticReports[]
   statisticsSubscription$: Subscription
+
+  @ViewChild('inputElement')
+  inputElement: ElementRef
 
   statisticForm = this.formBuilder.group({
     statisticId: [undefined, Validators.required],
@@ -128,6 +137,7 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
         this.fileToUpload = null
 
         this.statisticForm.reset()
+        this.inputElement.nativeElement.value = ''
         this.statisticForm.get('statisticId').setValue(' ')
         this.statisticForm.get('statisticReportId').setValue(' ')
         this.statisticForm.get('dataDate').setValue(' ')
