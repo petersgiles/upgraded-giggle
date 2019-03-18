@@ -7,6 +7,10 @@ export const GET_COMMITMENT = gql`
     title
     description
     status
+    {
+      id
+      title
+    }
     cost
     costingRequired
     portfolio {
@@ -239,6 +243,9 @@ export const GET_ALL_COMMITMENTS = gql`
     title
     costingRequired
     status
+    {
+      id
+    }
     electorates {
       id
     }

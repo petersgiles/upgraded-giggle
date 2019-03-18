@@ -10,13 +10,14 @@ import { CriticalDate } from '../../models/critical-date.model'
 import { PackageType } from '../../models/package-type.model'
 import { ThemeType } from '../../models/theme-type.model'
 import { MapPoint } from '@digital-first/df-map'
+import { Status } from '../../models';
 
 export interface Commitment {
   id: number
   title: string,
   party: Party,
   description: string,
-  status: string,
+  status: Status,
   cost: string,
   costingRequired: boolean,
   location: Electorate,
@@ -31,6 +32,8 @@ export interface Commitment {
   packageType: PackageType,
   themeType: ThemeType,
   portfolios: Portfolio[],
+  packages: PackageType[],
+  themes: ThemeType[],
   mapPoints: MapPoint[],
   contacts: Contact[],
   relatedContacts: Commitment[]

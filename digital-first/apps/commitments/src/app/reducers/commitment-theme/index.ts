@@ -20,27 +20,25 @@ export const getRelatedCommitmentThemes = createSelector(
   getAllCommitmentThemes,
   getAllThemeTypes,
   (related, themes) => {
+    const relatedTags = (related || []).map(r => ({
+      id: r.id,
+      group: 'Themes',
+      icon: 'widgets',
+      caption: r.title,
+      order: 1,
+      colour: r.colour,
+      selected: true
+    }))
 
-    console.log('themes =>', related, themes)
-const relatedTags =  (related || []).map(r => ({
-  id: r.id,
-  group: 'Themes',
-  icon: 'widgets',
-  caption: r.title,
-  order: 1,
-  colour: r.colour,
-  selected: true
-}))
-
-const themeTags = (themes || []).map(r => ({
-  id: r.id,
-  group: 'Themes',
-  icon: 'widgets',
-  caption: r.title,
-  order: 1,
-  colour: r.colour,
-  selected: false
-})).filter(p => !relatedTags.some(s => p.id === s.id))
-      return [...relatedTags, ...themeTags]
+    const themeTags = (themes || []).map(r => ({
+      id: r.id,
+      group: 'Themes',
+      icon: 'widgets',
+      caption: r.title,
+      order: 1,
+      colour: r.colour,
+      selected: false
+    })).filter(p => !relatedTags.some(s => p.id === s.id))
+    return [...relatedTags, ...themeTags]
   }
 )

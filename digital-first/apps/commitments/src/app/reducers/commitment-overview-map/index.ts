@@ -41,9 +41,6 @@ export const getCommitmentOverviewCommitmentsMapPoints = createSelector(
 export const getCommitmentOverviewMapCommitmentsTableData = createSelector(
     getCommitmentOverviewMapCommitments,
     (items) => {
-
-        // tslint:disable-next-line:no-console
-        console.log('getCommitmentOverviewMapCommitments', items)
         const rows = (items || []).map(c => ({
             id: c.id,
             commitmentId: formatCommitmentId(c),
