@@ -1,9 +1,9 @@
 import { CommitmentPackageActionTypes, CommitmentPackageActions } from './commitment-package.actions'
-import { Package } from '../../models'
+import { PackageType } from '../../models'
 
 export interface State {
   expanded: boolean
-  packages: Package[]
+  packages: PackageType[]
   loading: boolean
   error: any
 }

@@ -4,7 +4,7 @@
       <input type="hidden" formControlName="id" />
 
       <div class="form-layout__row">
-        <df-status-picker [statuses]="workflowList$ | async" formControlName="status"></df-status-picker>
+        <df-status-picker [statuses]="statuses" formControlName="status"></df-status-picker>
       </div>
 
       <h3 class="form-content__headline">Commitment</h3>
@@ -14,7 +14,6 @@
           formControlName="title"
           label="Title"
           required
-          [helperText]="titleFieldInputHelper"
         ></mdc-text-field>
       </div>
       <div class="form-layout__row">

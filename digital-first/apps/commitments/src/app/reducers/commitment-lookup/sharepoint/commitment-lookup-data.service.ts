@@ -6,12 +6,23 @@ import { concatMap, tap, map } from 'rxjs/operators'
 import { byCommitmentIdQuery } from '../../../services/sharepoint/caml'
 import { CommitmentLookupDataService } from '../commitment-lookup-data.service'
 import { mapWhoAnnouncedTypes, mapAnnouncementTypes, mapPortfolios, mapCriticalDates,
-  mapParties, mapCommitmentTypes, mapLocations, mapPackageTypes, mapThemeTypes } from './maps'
+  mapParties, mapCommitmentTypes, mapLocations, mapPackageTypes, mapThemeTypes, mapStatuses } from './maps'
 
 @Injectable({
     providedIn: 'root'
 })
 export class CommitmentLookupDataSharePointService implements CommitmentLookupDataService {
+  filterStatuses(filter?: any) {
+        return this.sharepoint.getItems({ listName: 'Status' })
+        .pipe(
+          concatMap((result: any) =>
+            of({
+              data: { statuses: mapStatuses(result) },
+              loading: false,
+              error: null
+            }))
+        )
+  }
 
   filterPackageTypes(filter: any) {
     return this.sharepoint.getItems({ listName: 'PackageType' })

@@ -14,7 +14,7 @@ import { switchMap, map, catchError, tap, concatMap } from 'rxjs/operators'
 
 import { AppNotification, ClearAppNotification } from '../app.actions'
 import { CommitmentPackageDataService } from './commitment-package-data.service'
-import { DataResult, CommitmentPackagesResult } from '../../models'
+import { DataResult, PackageTypesResult } from '../../models'
 
 @Injectable()
 export class CommitmentPackageEffects {
@@ -26,11 +26,11 @@ export class CommitmentPackageEffects {
       map((action: GetPackagesByCommitment) => action.payload.commitment),
       concatMap((commitment: any) => this.service.getPackagesByCommitment(commitment)
         .pipe(
-
-          map((result: DataResult<CommitmentPackagesResult>) => new LoadCommitmentPackages({ packages: result.data.commitmentPackages })),
+          map((result: DataResult<PackageTypesResult>) => new LoadCommitmentPackages({ packages: result.data.packageTypes })),
           catchError(error => of(new CommitmentPackageActionFailure(error)))
         )
-      ))
+      )
+    )
 
   @Effect()
   addPackageToCommitment$: Observable<Action> = this.actions$

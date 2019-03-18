@@ -2,7 +2,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core'
 import * as indef from 'indefinite'
 import { CommitmentPortfolioService } from '../../reducers/commitment-portfolio/commitment-portfolio.service'
 import { Commitment } from '../../reducers'
-import { Portfolio, Package } from '../../models'
+import { Portfolio, PackageType } from '../../models'
 import { Subscription, Observable } from 'rxjs'
 import { DeliveryLocationService } from '../../reducers/commitment-delivery-location/commitment-delivery-location.service'
 import { Electorate } from '../../models'
@@ -22,7 +22,7 @@ export class CommitmentMadLibComponent implements OnInit, OnDestroy {
   commitmentThemeSubscription$: Subscription
   commitmentPackageSubscription$: Subscription
   relatedPortfolios: Portfolio[]
-  relatedPackages$: Package[]
+  relatedPackages$: PackageType[]
   mapPoint$: Observable<MapPoint[]>
   electorate$: Observable<Electorate[]>
 
@@ -52,7 +52,6 @@ export class CommitmentMadLibComponent implements OnInit, OnDestroy {
 
     this.commitmentPackageSubscription$ = this.packageService.CommitmentPackages.subscribe(
       next => {
-        console.log("CommitmentPackageSubscription", next)
         this.relatedPackages$ = next || []
       }
     )
@@ -64,7 +63,7 @@ export class CommitmentMadLibComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.commitmentPortfoliosSubscription$.unsubscribe()
-    // this.commitmentPackageSubscription$.unsubscribe()
+    this.commitmentPackageSubscription$.unsubscribe()
   }
 
   public getIndefiniteArticle(term) {

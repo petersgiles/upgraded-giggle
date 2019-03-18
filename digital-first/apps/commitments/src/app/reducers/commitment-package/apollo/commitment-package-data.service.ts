@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Apollo } from 'apollo-angular'
 import { callQuery, callMutate } from '../../../services/apollo/apollo-helpers'
-import { DataResult, PackagesResult, CommitmentPackagesResult } from '../../../models'
+import { DataResult, PackageTypesResult } from '../../../models'
 import { REMOVE_COMMITMENT_PACKAGE, STORE_COMMITMENT_PACKAGE, GET_COMMITMENT_PACKAGES } from './queries'
 import { CommitmentPackageDataService } from '../commitment-package-data.service'
 import { Observable } from 'rxjs'
@@ -11,9 +11,9 @@ import { Observable } from 'rxjs'
 })
 export class CommitmentPackageDataApolloService implements CommitmentPackageDataService {
 
-  getPackagesByCommitment = (commitment: any): Observable<DataResult<CommitmentPackagesResult>> =>
-    callQuery<CommitmentPackagesResult>(this.apollo, { query: GET_COMMITMENT_PACKAGES, variables: { commitment: commitment } }
-      , result => ({ data: {commitmentPackages: result.data.commitmentPackages } })
+  getPackagesByCommitment = (commitment: any): Observable<DataResult<PackageTypesResult>> =>
+    callQuery<PackageTypesResult>(this.apollo, { query: GET_COMMITMENT_PACKAGES, variables: { commitment: commitment } }
+      , result => ({ data: {packageTypes: result.data.commitmentPackages } })
     )
 
   addPackageToCommitment = (variables: { commitment: any, mypackage: any }): Observable<DataResult<{ commitment: number }>> =>

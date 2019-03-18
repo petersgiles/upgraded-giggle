@@ -80,6 +80,7 @@
           [portfolios]="portfolios$ | async"
           [packageTypes]="packageTypes$ | async"
           [themeTypes]="themeTypes$ | async"
+          [statuses] = "statuses$ | async"
           (onSubmitted)="handleUpdateCommitment($event)"
           (onCancelled)="handleCancelled($event)"
           (onChanged)="handleUpdateCommitmentChange($event)"

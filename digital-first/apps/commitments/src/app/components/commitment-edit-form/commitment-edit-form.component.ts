@@ -14,13 +14,12 @@ import { Commitment } from '../../reducers/commitment/commitment.model'
 import { Electorate } from '../../models/location.model'
 import { CommitmentType } from '../../models/commitment-type.model'
 import { WhoAnnouncedType } from '../../models/who-announced-type.model'
-import { Subscription, BehaviorSubject } from 'rxjs'
+import { Subscription } from 'rxjs'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { CriticalDate } from '../../models/critical-date.model'
 import { ThemeType } from '../../models/theme-type.model'
 import { PackageType } from '../../models/package-type.model'
-import { DocumentStatus } from '@df/components'
-import { workflowStatuses } from '../../constants';
+import { Status } from '../../models/status.model';
 
 @Component({
   selector: 'digital-first-commitment-edit-form',
@@ -32,6 +31,30 @@ export class CommitmentEditFormComponent implements OnDestroy {
   @Input() submitButtonText = 'Submit'
   @Input() parties: Party[]
   @Input() portfolios: Portfolio[]
+
+  _statuses: Status[]
+  @Input()
+  set statuses(val: Status[]) {
+    if (val) {
+      this._statuses = val
+    }
+  }
+
+  get statuses(): Status[] {
+    let mappedStatuses = null
+    if(this._statuses)
+    {
+      mappedStatuses = this._statuses.map((status) => {
+      return {
+        ...status,
+        caption: status ? status.title : ''
+
+      }
+    })
+    }
+    return mappedStatuses
+  }
+
   @Input() announcementTypes: AnnouncementType[]
   @Input() themeTypes: ThemeType[]
   @Input() packageTypes: PackageType[]
@@ -47,9 +70,7 @@ export class CommitmentEditFormComponent implements OnDestroy {
   @Output() onCancelled: EventEmitter<any> = new EventEmitter()
   @Output() onChanged: EventEmitter<Commitment> = new EventEmitter()
 
-  workflowList$: BehaviorSubject<DocumentStatus[]> = new BehaviorSubject(
-    workflowStatuses
-  )
+
 
   form = this.fb.group({
     id: [],
@@ -80,7 +101,7 @@ export class CommitmentEditFormComponent implements OnDestroy {
         title: val.title,
         description: val.description,
         announcedby: val.announcedby,
-        status: val.status,
+        status: val.status && val.status.id,
         date: moment(val.date).format('YYYY-MM-DD'),
         party: val.party && val.party.id,
         whoAnnouncedType: val.whoAnnouncedType && val.whoAnnouncedType.id,
@@ -136,7 +157,7 @@ export class CommitmentEditFormComponent implements OnDestroy {
   mapCommitment(commitment): any {
     const map: Commitment = {
       ...commitment,
-      date: moment(commitment.date).format()
+      date: moment(commitment.date).format(),
     }
     return map
   }
