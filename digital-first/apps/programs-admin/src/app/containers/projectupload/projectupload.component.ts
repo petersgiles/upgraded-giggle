@@ -80,6 +80,11 @@ export class ProjectuploadComponent implements OnInit, OnDestroy {
       .sendMessageOnToBus(message, 'UploadProjectElectorateReport', formData)
       .subscribe(value => {
         this.snackbar.open('File sent for processing successfully.', null)
+
+        this.fileToUpload = null
+
+        this.projectForm.reset()
+        this.projectForm.get('programId').setValue(' ')
       })
   }
 
