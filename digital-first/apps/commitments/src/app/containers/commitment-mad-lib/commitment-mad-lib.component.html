@@ -15,7 +15,7 @@
         <span *ngIf="last"> and </span>
         <span *ngIf="!last">, </span>
       </ng-container><strong>{{ rp?.title }}</strong>
-      
+
     </ng-container>.
   </p>
   <p>
@@ -36,7 +36,7 @@
       with <strong>no</strong> specified party funding</ng-container
     >
     <ng-container *ngIf="commitment.cost"
-      >that the party announced requires funding of 
+      >that the party announced requires funding of
       <strong>{{commitment.cost}}</strong></ng-container
     >. It was announced via
     <strong>{{
@@ -46,7 +46,7 @@
   </p>
 
   <p *ngIf="(electorate$ | async)?.length > 0">
-      Delivery Location<span *ngIf="(electorate$ | async)?.length > 1">s</span>: 
+      Delivery Location<span *ngIf="(electorate$ | async)?.length > 1">s</span>:
       <ng-container
       *ngFor="let location of electorate$ | async; index as index; last as last; first as first">
       <ng-container *ngIf="!first">
@@ -57,7 +57,7 @@
   </p>
 
   <p *ngIf="(mapPoint$ | async)?.length > 0">
-      Delivery Address<span *ngIf="(mapPoint$ | async)?.length > 1">es</span>: 
+      Delivery Address<span *ngIf="(mapPoint$ | async)?.length > 1">es</span>:
       <ng-container
       *ngFor="let mapPoint of mapPoint$ | async; index as index; last as last; first as first">
       <ng-container *ngIf="!first">
@@ -72,8 +72,18 @@
     >.
   </p>
 
-  <p *ngIf="commitment.packageType">
-    Package: <strong>{{ commitment.packageType?.title }}</strong>
+  <p *ngIf="relatedPackages$?.length > 0">
+    Related Package<span *ngIf="relatedPackages$?.length > 1"
+      >s</span
+    >:
+    <ng-container
+      *ngFor="let rp of relatedPackages$; index as index; last as last; first as first">
+      <ng-container *ngIf="!first">
+        <span *ngIf="last"> and </span>
+        <span *ngIf="!last">, </span>
+      </ng-container><strong>{{ rp?.title }}</strong>
+
+    </ng-container>.
   </p>
 
   <ng-container *ngIf="commitment.description">

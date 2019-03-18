@@ -2,11 +2,13 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core'
 import * as indef from 'indefinite'
 import { CommitmentPortfolioService } from '../../reducers/commitment-portfolio/commitment-portfolio.service'
 import { Commitment } from '../../reducers'
-import { Portfolio } from '../../models'
+import { Portfolio, Package } from '../../models'
 import { Subscription, Observable } from 'rxjs'
 import { DeliveryLocationService } from '../../reducers/commitment-delivery-location/commitment-delivery-location.service'
 import { Electorate } from '../../models'
 import { MapPoint } from '@digital-first/df-map'
+import { CommitmentPackageService } from '../../reducers/commitment-package/commitment-package.service';
+import { CommitmentThemeService } from '../../reducers/commitment-theme/commitment-theme.service';
 
 @Component({
   selector: 'digital-first-commitment-mad-lib',
@@ -17,7 +19,10 @@ export class CommitmentMadLibComponent implements OnInit, OnDestroy {
 
   _commitment: Commitment
   commitmentPortfoliosSubscription$: Subscription
+  commitmentThemeSubscription$: Subscription
+  commitmentPackageSubscription$: Subscription
   relatedPortfolios: Portfolio[]
+  relatedPackages$: Package[]
   mapPoint$: Observable<MapPoint[]>
   electorate$: Observable<Electorate[]>
 
@@ -32,7 +37,11 @@ export class CommitmentMadLibComponent implements OnInit, OnDestroy {
   get commitment() {
     return this._commitment
   }
-  constructor(private cpsservice: CommitmentPortfolioService, private dlsservice: DeliveryLocationService) {}
+  constructor(
+    private cpsservice: CommitmentPortfolioService,
+    private dlsservice: DeliveryLocationService,
+    private packageService: CommitmentPackageService
+    ) {}
 
   ngOnInit() {
     this.commitmentPortfoliosSubscription$ = this.cpsservice.CommitmentPortfolios.subscribe(
@@ -41,12 +50,21 @@ export class CommitmentMadLibComponent implements OnInit, OnDestroy {
       }
     )
 
+    this.commitmentPackageSubscription$ = this.packageService.CommitmentPackages.subscribe(
+      next => {
+        console.log("CommitmentPackageSubscription", next)
+        this.relatedPackages$ = next || []
+      }
+    )
+
+
     this.mapPoint$ = this.dlsservice.MapPoints
     this.electorate$ = this.dlsservice.Electorates
   }
 
   ngOnDestroy(): void {
     this.commitmentPortfoliosSubscription$.unsubscribe()
+    // this.commitmentPackageSubscription$.unsubscribe()
   }
 
   public getIndefiniteArticle(term) {
