@@ -4,7 +4,7 @@ import { DataTableConfig } from '@digital-first/df-datatable'
 import * as fromCommitmentOverviewMap from './commitment-overview-map.reducer'
 import { formatCommitmentTitle } from '../../formatters'
 import { getFilteredOverviewCommitments } from '../commitment-overview'
-import { arrayToHash, arrayToIndex } from '@digital-first/df-utils';
+import { arrayToHash, arrayToIndex } from '@digital-first/df-utils'
 
 export const getCommitmentOverviewMapState = state => state.commitmentOverviewMap
 

@@ -8,7 +8,7 @@ import * as fromRoot from '..'
 import { MapPoint } from '@digital-first/df-map'
 import { GetCommitmentOverviewMapPoints, GetCommitmentOverviewMapCommitments, GetCommitmentOverviewCommitmentMapPoints } from './commitment-overview-map.actions'
 import { DataTableConfig } from '@digital-first/df-datatable'
-import { GetAllCommitments } from '../commitment/commitment.actions';
+import { GetAllCommitments } from '../commitment/commitment.actions'
 
 @Injectable({
     providedIn: 'root'

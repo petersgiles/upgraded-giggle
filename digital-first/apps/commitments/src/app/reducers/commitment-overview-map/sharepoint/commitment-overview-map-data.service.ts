@@ -18,6 +18,8 @@ import {
 } from '../../commitment-delivery-location/sharepoint/maps'
 
 import { LoggerService } from '@digital-first/df-logging'
+import { CommitmentMapPointsResult } from '../../../models/commitment-map-points.model'
+import { arrayToHash } from '@digital-first/df-utils'
 
 @Injectable({
   providedIn: 'root'
@@ -26,9 +28,47 @@ export class CommitmentOverviewMapDataSharePointService
   implements CommitmentOverviewMapDataService {
   getCommitmentOverviewCommitmentMapPoints(
     filter: any
-  ): Observable<DataResult<any>> {
-    throw new Error('Method not implemented.')
+  ): Observable<DataResult<CommitmentMapPointsResult>> {
+    return this.sharepoint
+      .getItems({
+        listName: 'CommitmentMapPoint'
+      })
+      .pipe(
+        map(mapCommitmentMapPoints),
+        concatMap((result: any) => {
+
+          const ids = result.map(p => p.mapPoint)
+          const cViewXml = byIdsQuery(ids)
+
+          return this.sharepoint
+            .getItems({
+              listName: 'MapPoint',
+              viewXml: cViewXml
+            })
+            .pipe(
+              map(mapMapPoints),
+              concatMap((mpResult: any) => {
+                const mapPoints = arrayToHash(mpResult)
+                const commps = (result || []).map((cmp: any) => ({
+                  mapPoint: {
+                  ...mapPoints[cmp.mapPoint]
+                  },
+                  commitment: {
+                    id: cmp.commitment,
+                    title: ''
+                  }
+                }))
+
+                return of({
+                  data: { commitmentMapPoints: commps },
+                  loading: false
+                })
+              })
+            )
+        })
+      )
   }
+
   getMapPoints = (filter: any): Observable<DataResult<MapPointsResult>> =>
     this.sharepoint
       .getItems({
