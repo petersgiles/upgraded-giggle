@@ -15,7 +15,7 @@ import {
   CommentsResult,
   ContactsResult,
 } from '../../models'
-import { arrayToHash } from '@digital-first/df-utils'
+import { arrayToHash } from '@df/utils'
 
 @Injectable({
   providedIn: 'root'

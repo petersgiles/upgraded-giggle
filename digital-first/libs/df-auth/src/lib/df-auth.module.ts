@@ -7,7 +7,7 @@ import { LoginPageComponent } from './components/login-page/login-page.component
 import {
   WINDOW_PROVIDERS,
   LOCALSTORAGE_PROVIDERS
-} from '@digital-first/df-utils'
+} from '@df/utils'
 import { DfComponentsModule } from '@digital-first/df-components'
 import { DfThemeModule } from '@digital-first/df-theme'
 

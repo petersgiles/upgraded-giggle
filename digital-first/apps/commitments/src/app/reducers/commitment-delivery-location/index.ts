@@ -2,7 +2,7 @@ import { createSelector } from '@ngrx/store'
 import { DataTableConfig } from '@digital-first/df-datatable'
 
 import * as fromCommitmentDeliveryLocations from './commitment-delivery-location.reducer'
-import { arrayToHash } from '@digital-first/df-utils'
+import { arrayToHash } from '@df/utils'
 
 export const getDeliveryLocationEntitiesState = state => state.deliveryLocation
 

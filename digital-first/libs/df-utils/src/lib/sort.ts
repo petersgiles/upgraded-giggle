@@ -1,1 +1,0 @@
-export const orderByArray = (arr: any, precedent: any) => arr.sort((left: any, right: any) => precedent.indexOf(left) > precedent.indexOf(right) ? 1 : -1)

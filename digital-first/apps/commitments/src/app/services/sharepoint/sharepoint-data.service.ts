@@ -17,7 +17,7 @@ import {
   GroupPermissionsResult,
 } from '../../models'
 import { Commitment } from '../../reducers/commitment'
-import { arrayToHash } from '@digital-first/df-utils'
+import { arrayToHash } from '@df/utils'
 import { byIdQuery, byCommitmentIdQuery } from './caml'
 import { mapContacts, mapCommitmentContacts } from './contact'
 import { mapCommitment, mapCommitments } from './commitment'

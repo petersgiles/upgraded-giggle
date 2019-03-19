@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store'
-import { arrayToHash } from '@digital-first/df-utils'
+import { arrayToHash } from '@df/utils'
 
 export const getCommitmentLookupState = state => state.commitmentLookup
 

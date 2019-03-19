@@ -22,7 +22,7 @@ import { DfThemeModule } from '@digital-first/df-theme'
 import { DfPagesModule } from '@digital-first/df-pages'
 
 import { DfMomentModule } from '@digital-first/df-moment'
-import { WINDOW_PROVIDERS } from '@digital-first/df-utils'
+import { WINDOW_PROVIDERS } from '@df/utils'
 
 import { AppComponent } from './app.component'
 import { AppFullLayoutService } from './app-full-layout.service'

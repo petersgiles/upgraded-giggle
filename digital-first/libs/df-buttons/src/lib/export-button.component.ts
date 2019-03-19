@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
-import { getContrastYIQ } from '@digital-first/df-utils'
+import { getContrastYIQ } from '@df/utils'
 
 @Component({
   selector: 'digital-first-export-button',
