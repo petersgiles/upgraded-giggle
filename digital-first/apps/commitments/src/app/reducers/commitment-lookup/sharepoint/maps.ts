@@ -80,7 +80,8 @@ export const mapPortfolio = (portfolio): any => ({
     id: portfolio.ID,
     title: portfolio.Title,
     colour: portfolio.Colour,
-    sortOrder: portfolio.SortOrder
+    sortOrder: portfolio.SortOrder,
+    type: portfolio.AgencyType
 })
 
 export const mapPortfolios = (portfolios): Portfolio[] => portfolios.map(mapPortfolio)

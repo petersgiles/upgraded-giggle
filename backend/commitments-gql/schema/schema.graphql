@@ -86,6 +86,7 @@ type Portfolio {
     sortorder: String,
     colour: String,
     icon: String,
+    type: [String]
 }
 
 type Status {

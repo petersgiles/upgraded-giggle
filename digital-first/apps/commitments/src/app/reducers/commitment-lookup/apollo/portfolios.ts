@@ -7,6 +7,7 @@ export const GET_PORTFOLIOS = gql`
     title
     icon
     colour
+    type
   }
 }
 `
