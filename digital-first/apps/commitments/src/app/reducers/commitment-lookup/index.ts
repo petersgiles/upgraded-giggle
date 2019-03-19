@@ -141,3 +141,13 @@ export const getWhoAnnouncedTypeEntities = createSelector(
     getAllWhoAnnouncedTypes,
     arrayToHash
 )
+
+export const getAllStatuses = createSelector(
+    getCommitmentLookupState,
+    state => state.statuses
+)
+
+export const getStatusEntities = createSelector(
+    getAllStatuses,
+    arrayToHash
+)

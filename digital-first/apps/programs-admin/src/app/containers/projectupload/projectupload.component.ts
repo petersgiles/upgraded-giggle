@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core'
 import { Subscription } from 'rxjs'
 import { AllPrograms, AllProgramsGQL } from '../../generated/graphql'
 import { PassthroughService } from '../../services/passthrough.service'
@@ -7,6 +7,7 @@ import { MdcSnackbar } from '@angular-mdc/web'
 import { FormBuilder } from '@angular/forms'
 import { Validators } from '@angular/forms'
 import { map } from 'rxjs/operators'
+import { ViewChild } from '@angular/core'
 
 @Component({
   selector: 'digital-first-projectupload',
@@ -18,6 +19,9 @@ export class ProjectuploadComponent implements OnInit, OnDestroy {
   programs: AllPrograms.Programs[]
 
   programsSubscription$: Subscription
+
+  @ViewChild('inputElement')
+  inputElement: ElementRef
 
   projectForm = this.formBuilder.group({
     programId: [undefined, Validators.required],
@@ -80,6 +84,12 @@ export class ProjectuploadComponent implements OnInit, OnDestroy {
       .sendMessageOnToBus(message, 'UploadProjectElectorateReport', formData)
       .subscribe(value => {
         this.snackbar.open('File sent for processing successfully.', null)
+
+        this.fileToUpload = null
+
+        this.projectForm.reset()
+        this.inputElement.nativeElement.value = ''
+        this.projectForm.get('programId').setValue(' ')
       })
   }
 

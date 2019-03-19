@@ -89,6 +89,15 @@ type Portfolio {
     type: [String]
 }
 
+type Status {
+    id: ID,
+    title: String,
+    description: String,
+    sortorder: String,
+    colour: String,
+    icon: String,
+}
+
 type Contact {
   id: ID,
   name: String
@@ -194,7 +203,7 @@ type CommitmentAction {
     description: String,
     cost: String,
     date: String,
-    status: String,
+    status: Status,
     criticalDate: CriticalDate,
     announcedby: String,
     party: PoliticalParty,
@@ -228,6 +237,7 @@ type CommitmentAction {
     mapPointCommitments(mapPoint: ID!) : [Commitment],
     parties: [PoliticalParty],
     portfolios: [Portfolio],
+    statuses: [Status],
     criticalDates: [CriticalDate],
     mapPoints: [MapPoint],
     themeTypes: [ThemeType],
@@ -238,6 +248,7 @@ type CommitmentAction {
     announcementTypes: [AnnouncementType],
     commitmentTypes: [CommitmentType]
     whoAnnouncedTypes: [WhoAnnouncedType]
+    allCommitmentMapPoints: [CommitmentMapPoint]
     contacts: [Contact],
     comments(commitment: ID!): [Comment],
     locations: [Electorate],

@@ -1,7 +1,7 @@
 ﻿param (
     [string] $webUrl = "http://vm-dev-lbs13/sites/commitments/",
-   [string] $listName = "AnnouncementType",
-   [string] $binPath = "C:\Users\atpakkianathan\source\Dsuite\DF-Client\sharepoint\deploy\scripts\",
+   [string] $listName = "PackageType",
+   [string] $binPath = "$PSScriptRoot"
    [string] $exportPath = "$PSScriptRoot\..\..\commitments\Data"
 )
 

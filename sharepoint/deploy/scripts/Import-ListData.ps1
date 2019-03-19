@@ -1,7 +1,7 @@
 ﻿param (
-   [string]$webUrl ="https://lbs.cloud9.cabnet/sites/commitments",
-   [string]$dataFile = "$PSScriptRoot\..\..\commitments\Data\Portfolio.csv",
-   [string]$listName = "Portfolio",
+   [string]$webUrl ="http://vm-dev-lbs13/sites/commitments/tim",
+   [string]$dataFile = "$PSScriptRoot\..\..\commitments\Data\PackageType.csv",
+   [string]$listName = "PackageType",
    [string] $binPath = "$PSScriptRoot"
 )
 

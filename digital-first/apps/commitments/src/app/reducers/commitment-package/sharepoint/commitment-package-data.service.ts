@@ -4,8 +4,7 @@ import { CommitmentPackageDataService } from '../commitment-package-data.service
 import { Observable, of } from 'rxjs'
 import {
   DataResult,
-  PackagesResult,
-  CommitmentPackagesResult
+  PackageTypesResult,
 } from '../../../models'
 import { concatMap, map, tap } from 'rxjs/operators'
 import {
@@ -14,7 +13,7 @@ import {
   byIdsQuery
 } from '../../../services/sharepoint/caml'
 import { mapCommitmentPackages } from './maps'
-import { mapPackages } from '../../commitment-lookup/sharepoint/maps'
+import { mapPackageTypes } from '../../commitment-lookup/sharepoint/maps'
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +22,7 @@ export class CommitmentPackageDataSharePointService
   implements CommitmentPackageDataService {
   getPackagesByCommitment(
     commitment: any
-  ): Observable<DataResult<CommitmentPackagesResult>> {
+  ): Observable<DataResult<PackageTypesResult>> {
     const viewXml = byCommitmentIdQuery({ id: commitment })
 
     return this.sharepoint
@@ -46,17 +45,16 @@ export class CommitmentPackageDataSharePointService
                 viewXml: packageViewXml
               })
               .pipe(
-
                 concatMap(packages =>
                   of({
-                    data: { commitmentPackages: mapPackages(packages) },
+                    data: { packageTypes: mapPackageTypes(packages) },
                     loading: false
                   })
                 )
               )
           } else {
             return of({
-              data: { commitmentPackages: [] },
+              data: { packageTypes: [] },
               loading: false
             })
           }

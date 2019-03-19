@@ -1,5 +1,11 @@
 import { map } from 'rxjs/operators'
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core'
 import { Subscription } from 'rxjs'
 import {
   AllProgramReportsGQL,
@@ -21,6 +27,9 @@ export class ReportuploadComponent implements OnInit, OnDestroy {
   programs: AllProgramReports.Programs[]
   reports: AllProgramReports.Reports[]
   reportsSubscription$: Subscription
+
+  @ViewChild('inputElement')
+  inputElement: ElementRef
 
   reportForm = this.formBuilder.group({
     programId: [undefined, Validators.required],
@@ -124,6 +133,13 @@ export class ReportuploadComponent implements OnInit, OnDestroy {
       )
       .subscribe(() => {
         this.snackbar.open('File sent for processing successfully.', null)
+        this.fileToUpload = null
+
+        this.reportForm.reset()
+        this.inputElement.nativeElement.value = ''
+        this.reportForm.get('programId').setValue(' ')
+        this.reportForm.get('reportId').setValue(' ')
+        this.reportForm.get('dataDate').setValue(' ')
       })
   }
 

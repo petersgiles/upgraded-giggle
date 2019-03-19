@@ -18,11 +18,11 @@ export class CommitmentOverviewMapComponent implements OnInit {
   public zoom: number
   mapPoints$: Observable<MapPoint[]>
   commitments$: Observable<DataTableConfig>
+  columns: { prop: string; name: string }[]
 
   constructor(
     private router: Router,
-    private service: CommitmentOverviewMapService,
-    private logger: LoggerService
+    private service: CommitmentOverviewMapService
   ) {}
 
   ngOnInit() {
@@ -33,6 +33,16 @@ export class CommitmentOverviewMapComponent implements OnInit {
     this.mapPoints$ = this.service.RefinedMapPoints
     this.commitments$ = this.service.Commitments
 
+    this.columns = [
+      { prop: 'commitmentId', name: 'Id' },
+      { prop: 'title', name: 'Title' },
+      { prop: 'party', name: 'Party' },
+      { prop: 'portfolio', name: 'Responsible Portfolio' },
+      { prop: 'commitmentType', name: 'Type of Commitment' }
+    ]
+
+    this.service.getAllCommitments()
+    this.service.getCommitmentOverviewCommitmentMapPoints()
     this.service.getMapPoints()
   }
 
@@ -42,5 +52,9 @@ export class CommitmentOverviewMapComponent implements OnInit {
 
   handleMapPointSelected(_, mapPoint) {
     this.service.getOverviewMapCommitment(mapPoint.place_id)
+  }
+
+  getIcon(mapPoint) {
+    return `/assets/${mapPoint.iconUrl || 'beachflag.png'}`
   }
 }

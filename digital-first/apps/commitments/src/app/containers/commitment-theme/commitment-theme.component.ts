@@ -8,7 +8,7 @@ import { Observable, Subscription } from 'rxjs'
 import { MdcDialog } from '@angular-mdc/web'
 import { OPERATION_COMMITMENT_THEME } from '../../services/app-data.service'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
-import { Theme } from '../../models'
+import { ThemeType } from '../../models'
 import { CommitmentThemeService } from '../../reducers/commitment-theme/commitment-theme.service';
 
 @Component({
@@ -21,8 +21,8 @@ export class CommitmentThemeComponent implements OnInit, OnDestroy {
   _commitment: number
   userOperation$: Observable<any>
   themeSubscription$: Subscription
-  themes: Theme[]
-  commitmentThemes$: Observable<Theme[]>
+  themes: ThemeType[]
+  commitmentThemes$: Observable<ThemeType[]>
   expandedSubscription$: Subscription
   expanded: boolean
   commitmentThemesSubscription$: Subscription
@@ -69,7 +69,7 @@ export class CommitmentThemeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.megaTags$ =  this.service.SelectedMegaTags
-    
+
     this.commitmentThemesSubscription$ = this.service.CommitmentThemes.subscribe(
       next => {
 

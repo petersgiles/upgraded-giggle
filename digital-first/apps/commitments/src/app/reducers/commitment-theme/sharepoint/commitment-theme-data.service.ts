@@ -1,21 +1,19 @@
-import { ThemeType } from './../../../models/theme-type.model';
 import { Injectable } from '@angular/core'
 import { SharepointJsomService } from '@df/sharepoint'
 import { CommitmentThemeDataService } from '../commitment-theme-data.service'
 import { Observable, of } from 'rxjs'
 import {
   DataResult,
-  ThemesResult,
-  CommitmentThemesResult
+  ThemeTypesResult,
 } from '../../../models'
-import { concatMap, map, tap } from 'rxjs/operators'
+import { concatMap, map } from 'rxjs/operators'
 import {
   byJoinTableQuery,
   byCommitmentIdQuery,
   byIdsQuery
 } from '../../../services/sharepoint/caml'
 import { mapCommitmentThemes } from './maps'
-import { mapThemes } from '../../commitment-lookup/sharepoint/maps'
+import { mapThemeTypes } from '../../commitment-lookup/sharepoint/maps'
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +22,7 @@ export class CommitmentThemeDataSharePointService
   implements CommitmentThemeDataService {
   getThemesByCommitment(
     commitment: any
-  ): Observable<DataResult<CommitmentThemesResult>> {
+  ): Observable<DataResult<ThemeTypesResult>> {
     const viewXml = byCommitmentIdQuery({ id: commitment })
 
     return this.sharepoint
@@ -37,7 +35,7 @@ export class CommitmentThemeDataSharePointService
         map(mapCommitmentThemes),
 
         concatMap((result: any) => {
-          const ids = result.map(p => p.portfolio)
+          const ids = result.map(p => p.theme)
           const themeViewXml = byIdsQuery(ids)
 
           if (themeViewXml) {
@@ -50,14 +48,14 @@ export class CommitmentThemeDataSharePointService
 
                 concatMap(themes =>
                   of({
-                    data: { commitmentThemes: mapThemes(themes) },
+                    data: { themeTypes: mapThemeTypes(themes) },
                     loading: false
                   })
                 )
               )
           } else {
             return of({
-              data: { commitmentThemes: [] },
+              data: { themeTypes: [] },
               loading: false
             })
           }

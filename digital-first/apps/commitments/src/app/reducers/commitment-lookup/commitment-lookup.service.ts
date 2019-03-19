@@ -15,11 +15,12 @@ import {
     GetAllCriticalDates, GetAllAnnouncementTypes,
     GetAllWhoAnnouncedTypes, GetAllCommitmentTypes,
     GetAllLocations, GetAllPartys, GetAllPortfolios,
-    GetAllThemeTypes, GetAllPackageTypes } from './commitment-lookup.actions'
+    GetAllThemeTypes, GetAllPackageTypes, GetAllStatuses } from './commitment-lookup.actions'
 
 import { ThemeType } from '../../models/theme-type.model'
 import { PackageType } from '../../models/package-type.model'
 import { Electorate } from '../../models'
+import { Status } from '../../models/status.model';
 
 @Injectable({
     providedIn: 'root'
@@ -58,6 +59,14 @@ export class CommitmentLookupService {
 
     get PackageTypes(): Observable<PackageType[]> {
         return this.store.pipe(select(fromRoot.getAllPackageTypes))
+    }
+
+    public getAllStatuses(filter?: any) {
+        this.store.dispatch(new GetAllStatuses())
+    }
+
+    get Statuses(): Observable<Status[]> {
+        return this.store.pipe(select(fromRoot.getAllStatuses))
     }
 
     getAllCriticalDates(filter?: any) {

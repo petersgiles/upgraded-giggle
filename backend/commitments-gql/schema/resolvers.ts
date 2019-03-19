@@ -1,3 +1,5 @@
+const arrayToHash = (array: any[], id: string = 'id') =>  (array || []).reduce((obj, item) =>  (obj[item[id]] = item , obj), {})
+
 var db = require('diskdb');
 
 db.connect('./diskdb/commitments', [
@@ -11,6 +13,7 @@ db.connect('./diskdb/commitments', [
   'commitment-critical-dates',
   'commitment-commitment-map-points',
   'commitment-portfolios',
+  'commitment-statuses',
   'commitment-whoAnnouncedTypes',
   'commitment-themeTypes',
   'commitment-packageTypes',
@@ -137,12 +140,25 @@ export const resolvers = {
     portfolios: () =>  {
       return  db['commitment-portfolios'].find().filter((p: any) => (p.type || []))
      },
+    statuses: () => db['commitment-statuses'].find(),
     announcementTypes: () => db['commitment-announcementTypes'].find(),
     themeTypes: () => db['commitment-themeTypes'].find(),
     packageTypes: () => db['commitment-packageTypes'].find(),
     criticalDates: () => db['commitment-critical-dates'].find(),
     commitmentTypes: () => db['commitment-commitmentTypes'].find(),
     whoAnnouncedTypes: () => db['commitment-whoAnnouncedTypes'].find(),
+    allCommitmentMapPoints:() => {
+      
+      var mapPoints = arrayToHash(db['commitment-map-points'].find(), 'place_id')
+      var commitments = arrayToHash(db['commitments'].find())
+      console.log('allCommitmentMapPoints', mapPoints, commitments)
+      var found = db['commitment-commitment-map-points'].find().map((mp: any) =>({
+        mapPoint: mapPoints[mp.mapPoint],
+        commitment: commitments[mp.commitment],
+      }))
+
+      return found
+    },
     contacts: () => {
       var contacts = db['commitment-contacts'].find().map((c: any) => ({ ...c, id: c._id }))
       return contacts
@@ -180,7 +196,7 @@ export const resolvers = {
       var author = db['commitment-contacts'].find({ username: args.author })
 
       const data = { ...args, author: author };
-      var updated = db.commitments.update(query, data, { multi: false, upsert: true });
+      db.commitments.update(query, data, { multi: false, upsert: true });
 
       return data;
     },
@@ -234,8 +250,7 @@ export const resolvers = {
         saved = db['commitment-commitment-actions'].save([data]);
       }
 
-      const c = db.commitments.findOne({ id: args.commitment })
-      return c
+      return db.commitments.findOne({ id: args.commitment })
     },
     deleteCommitmentAction: (_root: any, args: any) => {
       var cc = db['commitment-commitment-actions'].findOne({ commitment: args.commitment, _id: args.action });
@@ -255,8 +270,7 @@ export const resolvers = {
         saved = db['commitment-commitment-contacts'].save([data]);
       }
 
-      const c = db.commitments.findOne({ id: args.commitment })
-      return c
+      return db.commitments.findOne({ id: args.commitment })
     },
     deleteCommitmentContact: (_root: any, args: any) => {
       var cc = db['commitment-commitment-contacts'].findOne({ commitment: args.commitment, contact: args.contact });
@@ -278,7 +292,7 @@ export const resolvers = {
       };
 
       const c = db['commitment-map-points'].findOne(query)
-      var result = db['commitment-map-points'].remove({ _id: c._id }, false);
+      db['commitment-map-points'].remove({ _id: c._id }, false);
       return { ...c }
 
     },
@@ -292,126 +306,107 @@ export const resolvers = {
         saved = db['commitment-related-commitments'].save([data]);
       }
 
-      const c = db.commitments.findOne({ id: args.commitment })
-      return c
+      return db.commitments.findOne({ id: args.commitment })
     },
     storeRelatedLink: (_root: any, args: any) => {
       const data = { ...args };
 
       console.log('storeRelatedLink', data)
       const ccc = db['commitment-related-links'].findOne(data)
-      var saved = null
       if (!ccc) {
-        saved = db['commitment-related-links'].save([data]);
+        db['commitment-related-links'].save([data]);
       }
-      const c = db.commitments.findOne({ id: args.commitment })
-      console.log(args, ccc, saved)
-      return c
+      return db.commitments.findOne({ id: args.commitment })
     },
     deleteRelatedLink: (_root: any, args: any) => {
       var cc = db['commitment-related-links'].findOne({ _id: args.id,  });
-      var result = db['commitment-related-links'].remove({ _id: cc._id }, false);
-      const c = db.commitments.findOne({ id: cc.commitment })
-      return c
+      db['commitment-related-links'].remove({ _id: cc._id }, false);
+      return db.commitments.findOne({ id: cc.commitment })
     },
     deleteRelatedCommitment: (_root: any, args: any) => {
       var cc = db['commitment-related-commitments'].findOne({ commitment: args.commitment, relatedTo: args.relatedTo });
-      var result = db['commitment-related-commitments'].remove({ _id: cc._id }, false);
-      const c = db.commitments.findOne({ id: cc.commitment })
-      return c
+      db['commitment-related-commitments'].remove({ _id: cc._id }, false);
+      return db.commitments.findOne({ id: cc.commitment })
     },
     storeCommitmentMapPoint: (_root: any, args: any) => {
       const data = { ...args };
-      const ccc = db['commitment-commitment-map-points'].findOne(data)
-      var saved = null
-      if (ccc) {
-        saved = db['commitment-commitment-map-points'].update({ _id: ccc._id }, data, { multi: false, upsert: true });
+      const found = db['commitment-commitment-map-points'].findOne(data)
+      if (found) {
+        db['commitment-commitment-map-points'].update({ _id: found._id }, data, { multi: false, upsert: true });
       } else {
-        saved = db['commitment-commitment-map-points'].save([data]);
+        db['commitment-commitment-map-points'].save([data]);
       }
 
-      const c = db.commitments.findOne({ id: args.commitment })
-      return c
+      return db.commitments.findOne({ id: args.commitment })
     },
     deleteCommitmentMapPoint: (_root: any, args: any) => {
       var cc = db['commitment-commitment-map-points'].findOne({ commitment: args.commitment, mapPoint: args.mapPoint });
-      var result = db['commitment-commitment-map-points'].remove({ _id: cc._id }, false);
-      const c = db.commitments.findOne({ id: cc.commitment })
-      return c
+      db['commitment-commitment-map-points'].remove({ _id: cc._id }, false);
+      return db.commitments.findOne({ id: cc.commitment })
     },
     storeCommitmentElectorate: (_root: any, args: any) => {
       //(commitment: Int!, contact: Int!): Commitment,
       const data = { ...args };
-      const ccc = db['commitment-commitment-electorates'].findOne(data)
-      var saved = null
-      if (ccc) {
-        saved = db['commitment-commitment-electorates'].update({ _id: ccc._id }, data, { multi: false, upsert: true });
+      const found = db['commitment-commitment-electorates'].findOne(data)
+      if (found) {
+        db['commitment-commitment-electorates'].update({ _id: found._id }, data, { multi: false, upsert: true });
       } else {
-        saved = db['commitment-commitment-electorates'].save([data]);
+        db['commitment-commitment-electorates'].save([data]);
       }
 
-      const c = db.commitments.findOne({ id: args.commitment })
-      return c
+      return db.commitments.findOne({ id: args.commitment })
     },
     deleteCommitmentElectorate: (_root: any, args: any) => {
       var cc = db['commitment-commitment-electorates'].findOne({ commitment: args.commitment, electorate: args.electorate });
-      var result = db['commitment-commitment-electorates'].remove({ _id: cc._id }, false);
-      const c = db.commitments.findOne({ id: cc.commitment })
-      return c
+      db['commitment-commitment-electorates'].remove({ _id: cc._id }, false);
+      return db.commitments.findOne({ id: cc.commitment })
     },
     storeCommitmentPortfolio: (_root: any, args: any) => {
       //(commitment: Int!, contact: Int!): Commitment,
       const data = { ...args };
-      const ccc = db['commitment-commitment-portfolios'].findOne(data)
-      var saved = null
-      if (ccc) {
-        saved = db['commitment-commitment-portfolios'].update({ _id: ccc._id }, data, { multi: false, upsert: true });
+      const found = db['commitment-commitment-portfolios'].findOne(data)
+      if (found) {
+        db['commitment-commitment-portfolios'].update({ _id: found._id }, data, { multi: false, upsert: true });
       } else {
-        saved = db['commitment-commitment-portfolios'].save([data]);
+        db['commitment-commitment-portfolios'].save([data]);
       }
 
-      const c = db.commitments.findOne({ id: args.commitment })
-      return c
+      return db.commitments.findOne({ id: args.commitment })
     },
     deleteCommitmentPortfolio: (_root: any, args: any) => {
       var cc = db['commitment-commitment-portfolios'].findOne({ commitment: args.commitment, portfolio: args.portfolio });
       console.log('deleteCommitmentPortfolio', cc, args)
       var result = db['commitment-commitment-portfolios'].remove({ _id: cc._id }, false);
       console.log('deleteCommitmentPortfolio result', result)
-      const c = db.commitments.findOne({ id: cc.commitment })
-      return c
+      return db.commitments.findOne({ id: cc.commitment })
     },
     storeCommitmentTheme: (_root: any, args: any) => {
       //(commitment: Int!, contact: Int!): Commitment,
       const data = { ...args };
-      const ccc = db['commitment-commitment-themes'].findOne(data)
-      var saved = null
-      if (ccc) {
-        saved = db['commitment-commitment-themes'].update({ _id: ccc._id }, data, { multi: false, upsert: true });
+      const found = db['commitment-commitment-themes'].findOne(data)
+      if (found) {
+        db['commitment-commitment-themes'].update({ _id: found._id }, data, { multi: false, upsert: true });
       } else {
-        saved = db['commitment-commitment-themes'].save([data]);
+        db['commitment-commitment-themes'].save([data]);
       }
 
-      const c = db.commitments.findOne({ id: args.commitment })
-      return c
+      return db.commitments.findOne({ id: args.commitment })
     },
     deleteCommitmentTheme: (_root: any, args: any) => {
       var cc = db['commitment-commitment-themes'].findOne({ commitment: args.commitment, theme: args.theme });
       console.log('deleteCommitmentTheme', cc, args)
       var result = db['commitment-commitment-themes'].remove({ _id: cc._id }, false);
       console.log('deleteCommitmentTheme result', result)
-      const c = db.commitments.findOne({ id: cc.commitment })
-      return c
+      return db.commitments.findOne({ id: cc.commitment })
     },
     storeCommitmentPackage: (_root: any, args: any) => {
       //(commitment: Int!, contact: Int!): Commitment,
       const data = { ...args };
-      const ccc = db['commitment-commitment-packages'].findOne(data)
-      var saved = null
-      if (ccc) {
-        saved = db['commitment-commitment-packages'].update({ _id: ccc._id }, data, { multi: false, upsert: true });
+      const found = db['commitment-commitment-packages'].findOne(data)
+      if (found) {
+        db['commitment-commitment-packages'].update({ _id: found._id }, data, { multi: false, upsert: true });
       } else {
-        saved = db['commitment-commitment-packages'].save([data]);
+        db['commitment-commitment-packages'].save([data]);
       }
 
       const c = db.commitments.findOne({ id: args.commitment })
@@ -419,23 +414,18 @@ export const resolvers = {
     },
     deleteCommitmentPackage: (_root: any, args: any) => {
       var cc = db['commitment-commitment-packages'].findOne({ commitment: args.commitment, pachage: args.package });
-      console.log('deleteCommitmentPackage', cc, args)
-      var result = db['commitment-commitment-packages'].remove({ _id: cc._id }, false);
-      console.log('deleteCommitmentPackage result', result)
-      const c = db.commitments.findOne({ id: cc.commitment })
-      return c
+      db['commitment-commitment-packages'].remove({ _id: cc._id }, false);
+      return db.commitments.findOne({ id: cc.commitment })
     },
     storeCommitmentSubscription: (_root: any, args: any) => {
       const data = { ...args, Title: `${args.commitment} - ${args.subscriber}` }
-      const tableName = 'commitment-subscriptions'
       const found = db[commitmentSubscriptionTable].findOne(data)
 
-      var saved = null
       if (found) {
-        saved = db[commitmentSubscriptionTable].update({ _id: found._id }, data, { multi: false, upsert: true })
+        db[commitmentSubscriptionTable].update({ _id: found._id }, data, { multi: false, upsert: true })
       }
       else {
-        saved = db[commitmentSubscriptionTable].save([data])
+        db[commitmentSubscriptionTable].save([data])
       }
       return db.commitments.findOne({ id: args.commitment })
     },
@@ -467,6 +457,9 @@ export const resolvers = {
     },
     commitmentType(commitment: any) {
       return db['commitment-commitmentTypes'].findOne({ id: commitment.commitmentType })
+    },
+    status(commitment: any) {
+      return db['commitment-statuses'].findOne({ id: commitment.status })
     },
     portfolio(commitment: any) {
       let found = db['commitment-portfolios'].findOne({ id: commitment.portfolio })

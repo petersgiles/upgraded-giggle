@@ -1,16 +1,10 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core'
-import {
-  CdkDragDrop,
-  moveItemInArray,
-  transferArrayItem
-} from '@angular/cdk/drag-drop'
-import { Observable, Subscription, merge, forkJoin } from 'rxjs'
+import { Observable, Subscription } from 'rxjs'
 import { MdcDialog } from '@angular-mdc/web'
 import { OPERATION_COMMITMENT_PORTFOLIO } from '../../services/app-data.service'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 import { CommitmentPortfolioService } from '../../reducers/commitment-portfolio/commitment-portfolio.service'
 import { Portfolio } from '../../models'
-import { tap, map } from 'rxjs/operators'
 
 @Component({
   selector: 'digital-first-commitment-portfolio',

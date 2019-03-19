@@ -16,6 +16,7 @@ export const OPERATION_DISCUSSION = 'discussion'
 export const OPERATION_COMMITMENT_PORTFOLIO = 'relatedPortfolios'
 export const OPERATION_COMMITMENT_THEME = 'relatedThemes'
 export const OPERATION_COMMITMENT_PACKAGE = 'relatedPackages'
+export const OPERATION_COMMITMENT_STATUS = 'relatedStatuses'
 
 export const OPERATION_RIGHT_READ = 'read'
 export const OPERATION_RIGHT_WRITE = 'write'
@@ -33,6 +34,7 @@ export const OPERATION_DEFAULTS = {
   'relatedPortfolios': OPERATION_RIGHT_WRITE,
   'relatedPackages': OPERATION_RIGHT_WRITE,
   'relatedThemes': OPERATION_RIGHT_WRITE,
+  'relatedStatuses': OPERATION_RIGHT_WRITE,
   'discussion': OPERATION_RIGHT_WRITE, // Temporary Default
 }
 @Injectable({

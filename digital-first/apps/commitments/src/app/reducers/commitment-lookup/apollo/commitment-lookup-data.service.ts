@@ -8,7 +8,8 @@ import {
     PortfoliosResult, PartysResult, LocationsResult,
     CommitmentTypesResult,
     ThemeTypesResult,
-    PackageTypesResult
+    PackageTypesResult,
+    StatusesResult
 } from '../../../models'
 import { CommitmentLookupDataService } from '../commitment-lookup-data.service'
 import {
@@ -20,13 +21,16 @@ import {
     GET_LOCATIONS,
     GET_COMMITMENT_TYPES,
     GET_THEME_TYPES,
-    GET_PACKAGE_TYPES
+    GET_PACKAGE_TYPES,
+    GET_STATUSES
 } from './queries'
 
 @Injectable({
     providedIn: 'root'
 })
 export class CommitmentLookupDataApolloService implements CommitmentLookupDataService {
+
+    filterStatuses = (filter?: any) => callQuery<StatusesResult>(this.apollo, { query: GET_STATUSES, variables: filter })
     filterPackageTypes = (filter?: any) => callQuery<PackageTypesResult>(this.apollo, { query: GET_PACKAGE_TYPES, variables: filter })
     filterThemeTypes = (filter?: any) => callQuery<ThemeTypesResult >(this.apollo, { query: GET_THEME_TYPES, variables: filter })
     filterWhoAnnouncedTypes = (filter?: any) => callQuery<WhoAnnouncedTypesResult>(this.apollo, { query: GET_WHO_ANNOUNCED_TYPES, variables: filter })

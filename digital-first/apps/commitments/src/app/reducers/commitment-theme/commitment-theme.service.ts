@@ -9,9 +9,7 @@ import {
   RemoveThemeFromCommitment,
   GetThemesByCommitment
 } from './commitment-theme.actions'
-import { DataTableConfig } from '@digital-first/df-datatable'
-import { Theme } from '../../models'
-import { GetPortfoliosByCommitment } from '../commitment-portfolio/commitment-portfolio.actions';
+import { ThemeType } from '../../models'
 import { MegaTag } from '@df/components';
 
 @Injectable({
@@ -35,26 +33,16 @@ export class CommitmentThemeService {
   }
 
   getThemesByCommitment(commitment: number): any {
-    console.log("Get Themes by commitment")
     this.store.dispatch(new GetThemesByCommitment({ commitment }))
-    // this.store.dispatch(new GetPortfoliosByCommitment({ commitment }))
   }
 
-  get Themes(): Observable<Theme[]> {
-    // return this.store.pipe(select(fromRoot.getAllThemes))
-
-    return this.store.pipe(select(fromRoot.getAllPortfolios))
-  }
-
-  get CommitmentThemes(): Observable<Theme[]> {
+  get CommitmentThemes(): Observable<ThemeType[]> {
     return this.store.pipe(select(fromRoot.getAllCommitmentThemes))
-    // return this.store.pipe(select(fromRoot.getAllCommitmentPortfolios))
   }
 
   get SelectedMegaTags(): Observable<MegaTag[]> {
     return this.store.pipe(select(fromRoot.getRelatedCommitmentThemes))
   }
-
 
   get Expanded(): Observable<boolean> {
     return this.store.pipe(select(fromRoot.getCommitmentThemePanelExpanded))

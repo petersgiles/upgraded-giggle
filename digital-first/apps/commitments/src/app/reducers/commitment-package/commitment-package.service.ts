@@ -10,7 +10,7 @@ import {
   GetPackagesByCommitment
 } from './commitment-package.actions'
 import { DataTableConfig } from '@digital-first/df-datatable'
-import { Package } from '../../models'
+import { PackageType } from '../../models'
 import { MegaTag } from '@df/components';
 
 @Injectable({
@@ -37,11 +37,11 @@ export class CommitmentPackageService {
     this.store.dispatch(new GetPackagesByCommitment({ commitment }))
   }
 
-  get Packages(): Observable<Package[]> {
+  get Packages(): Observable<PackageType[]> {
     return this.store.pipe(select(fromRoot.getAllPackages))
   }
 
-  get CommitmentPackages(): Observable<Package[]> {
+  get CommitmentPackages(): Observable<PackageType[]> {
     return this.store.pipe(select(fromRoot.getAllCommitmentPackages))
   }
 
