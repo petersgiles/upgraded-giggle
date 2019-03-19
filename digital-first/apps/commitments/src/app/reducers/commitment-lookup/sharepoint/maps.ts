@@ -71,7 +71,8 @@ export const mapParty = (party): any => ({
     id: party.ID,
     title: party.Title,
     colour: party.Colour,
-    sortOrder: party.SortOrder
+    sortOrder: party.SortOrder,
+    icon: party.Icon
 })
 
 export const mapParties = (parties): Party[] => parties.map(mapParty)

@@ -6,5 +6,6 @@ export const environment = {
   datasource: {
     type: 'sharepoint',
     dataServiceUrl: '',
-  }
+  },
+  assetsPath: '/assets'
 }

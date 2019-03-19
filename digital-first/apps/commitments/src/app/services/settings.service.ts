@@ -15,4 +15,8 @@ export class SettingsService {
   get datasource(): any {
     return environment.datasource
   }
+
+  get assetsPath(): any {
+    return environment.assetsPath
+  }
 }

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs'
 import { MapPoint } from '@digital-first/df-map'
 import { Router } from '@angular/router'
 import { DataTableConfig } from '@digital-first/df-datatable'
+import { SettingsService } from '../../services/settings.service'
 
 @Component({
   selector: 'digital-first-commitment-overview-map',
@@ -22,7 +23,8 @@ export class CommitmentOverviewMapComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private service: CommitmentOverviewMapService
+    private service: CommitmentOverviewMapService,
+    private settings: SettingsService
   ) {}
 
   ngOnInit() {
@@ -55,6 +57,6 @@ export class CommitmentOverviewMapComponent implements OnInit {
   }
 
   getIcon(mapPoint) {
-    return `/assets/${mapPoint.iconUrl || 'beachflag.png'}`
+    return `${this.settings.assetsPath}/${mapPoint.iconUrl || 'beachflag.png'}`
   }
 }
