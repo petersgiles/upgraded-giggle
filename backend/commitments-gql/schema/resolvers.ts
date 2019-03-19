@@ -135,11 +135,8 @@ export const resolvers = {
     },
     parties: () => db['commitment-parties'].find(),
     portfolios: () =>  {
-      return  db['commitment-portfolios'].find().filter((p: any) => (p.type || []).includes('portfolio'))
+      return  db['commitment-portfolios'].find().filter((p: any) => (p.type || []))
      },
-    costingPortfolios: () => {
-     return  db['commitment-portfolios'].find().filter((p: any) => (p.type || []).includes('costing'))
-    },
     announcementTypes: () => db['commitment-announcementTypes'].find(),
     themeTypes: () => db['commitment-themeTypes'].find(),
     packageTypes: () => db['commitment-packageTypes'].find(),

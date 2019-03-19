@@ -3,6 +3,7 @@ export interface Portfolio {
   title?: string
   icon?: string
   colour?: string
+  type?: string[]
 }
 
 export interface PortfoliosResult {

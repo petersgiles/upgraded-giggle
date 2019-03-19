@@ -3,6 +3,24 @@ import { arrayToHash } from '@digital-first/df-utils'
 
 export const getCommitmentLookupState = state => state.commitmentLookup
 
+const portfolioSelector = (state) => {
+    
+    if(state.portfolios)
+    {
+        return state.portfolios.filter(p => p.type.includes('portfolio'))
+    }
+    return null;
+}
+
+const agencyCostingSelector = (state) => {
+    
+    if(state.portfolios)
+    {
+        return state.portfolios.filter(p => p.type.includes('costing'))
+    }
+    return null;
+}
+
 export const getAllAnnouncementTypes = createSelector(
     getCommitmentLookupState,
     state => state.announcementTypes
@@ -80,12 +98,12 @@ export const getPartyEntities = createSelector(
 
 export const getAllPortfolios = createSelector(
     getCommitmentLookupState,
-    state => state.portfolios
+    portfolioSelector
 )
 
-export const getCostingPortfolios = createSelector(
+export const getCostingAgencies = createSelector(
     getCommitmentLookupState,
-    state => state.portfolios.filter(p => p)
+    agencyCostingSelector
 )
 
 export const getPortfolioEntities = createSelector(

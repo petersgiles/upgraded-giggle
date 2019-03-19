@@ -86,7 +86,7 @@ type Portfolio {
     sortorder: String,
     colour: String,
     icon: String,
-    type: String
+    type: [String]
 }
 
 type Contact {
@@ -228,7 +228,6 @@ type CommitmentAction {
     mapPointCommitments(mapPoint: ID!) : [Commitment],
     parties: [PoliticalParty],
     portfolios: [Portfolio],
-    costingPortfolios: [Portfolio],
     criticalDates: [CriticalDate],
     mapPoints: [MapPoint],
     themeTypes: [ThemeType],

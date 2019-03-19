@@ -92,6 +92,11 @@ export class CommitmentLookupService {
         return this.store.pipe(select(fromRoot.getAllPortfolios))
     }
 
+
+    get CostingAgencies(): Observable<Portfolio[]> {
+        return this.store.pipe(select(fromRoot.getCostingAgencies))
+    }
+
     public getAllThemes(filter?: any) {
         this.store.dispatch(new GetAllPortfolios())
     }
@@ -100,9 +105,7 @@ export class CommitmentLookupService {
         return this.store.pipe(select(fromRoot.getAllPortfolios))
     }
 
-    get CostingPortfolios(): Observable<Portfolio[]> {
-        return this.store.pipe(select(fromRoot.getCostingPortfolios))
-    }
+   
 
     public getAllWhoAnnouncedTypes(filter?: any) {
         this.store.dispatch(new GetAllWhoAnnouncedTypes())
