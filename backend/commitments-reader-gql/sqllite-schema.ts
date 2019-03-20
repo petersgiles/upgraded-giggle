@@ -2,17 +2,22 @@ import {
 	dropCommitmentTable,
 	createCommitmentTable,
 	dropTagTable,
-	createTagTable,
+    createTagTable,
+    dropMapPointTable,
+    createMapPointTable
 } from './resolvers'
+
 
 export const createDB = (knex: any, drop?: boolean) => {
 	if (drop) {
 		dropCommitmentTable(knex)
-		dropTagTable(knex)
+        dropTagTable(knex)
+        dropMapPointTable(knex)
 	}
 
 	createCommitmentTable(knex)
-	createTagTable(knex)
+    createTagTable(knex)
+    createMapPointTable(knex)
 }
 
 export const getById = async (
