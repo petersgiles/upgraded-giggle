@@ -1,10 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { ProjectGQL, Project, DeleteProjectGQL } from '../../generated/graphql'
+import { ProjectGQL, Project } from '../../generated/graphql'
 import { map, first } from 'rxjs/operators'
 import { Subscription } from 'rxjs'
 import { MdcDialog } from '@angular-mdc/web'
-import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
 @Component({
   selector: 'digital-first-project',
   templateUrl: './project.component.html',
@@ -14,7 +13,6 @@ export class ProjectComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private projectGQL: ProjectGQL,
-    private deleteProjectGQL: DeleteProjectGQL,
     public dialog: MdcDialog,
     private router: Router
   ) {}
@@ -30,37 +28,6 @@ export class ProjectComponent implements OnInit, OnDestroy {
       .valueChanges.pipe(map(value => value.data.project))
       .subscribe(project => {
         this.project = project
-      })
-  }
-
-  handleEditProject(project: Project.Project) {
-    return this.router.navigate(['projects/edit', project.id], {
-      skipLocationChange: true
-    })
-  }
-
-  handleDeleteProject(project: Project.Project) {
-    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
-      escapeToClose: true,
-      clickOutsideToClose: true
-    })
-
-    dialogRef
-      .afterClosed()
-      .pipe(first())
-      .subscribe(result => {
-        if (result === ARE_YOU_SURE_ACCEPT && this.project) {
-          this.deleteProjectGQL
-            .mutate(
-              {
-                data: {
-                  id: project.id
-                }
-              },
-              {}
-            )
-            .subscribe(value => this.router.navigate(['projects']))
-        }
       })
   }
 

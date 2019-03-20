@@ -27,12 +27,6 @@ export class ProjectsComponent implements OnDestroy {
     private router: Router
   ) {}
 
-  add() {
-    return this.router.navigate(['projects', 'add'], {
-      skipLocationChange: true
-    })
-  }
-
   doSearch() {
     if (!this.searchText) {
       return

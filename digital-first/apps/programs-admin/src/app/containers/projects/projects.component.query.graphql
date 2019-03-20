@@ -15,5 +15,9 @@ query allProjectsSearch($name: String) {
     program {
         name
     }
+     programSubmission
+        {
+           timeStamp
+        }
   }
 }

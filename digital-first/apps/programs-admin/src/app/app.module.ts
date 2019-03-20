@@ -66,8 +66,6 @@ import { StatisticReportComponent } from './containers/statistic-report/statisti
 import { StatisticReportAddComponent } from './containers/statistic-report/statistic-report-add/statistic-report-add.component'
 import { StatisticReportEditComponent } from './containers/statistic-report/statistic-report-edit/statistic-report-edit.component'
 import { ProjectComponent } from './containers/project/project.component'
-import { ProjectAddComponent } from './containers/project/project-add/project-add.component'
-import { ProjectEditComponent } from './containers/project/project-edit/project-edit.component'
 import { ReportEditComponent } from './containers/program-report/report-edit/report-edit.component'
 import { ProjectsComponent } from './containers/projects/projects.component'
 import { AgenciesComponent } from './containers/agencies/agencies.component'
@@ -90,10 +88,10 @@ import { PortfolioAddComponent } from './containers/portfolio/portfolio-add/port
 import { PortfolioEditComponent } from './containers/portfolio/portfolio-edit/portfolio-edit.component'
 import { ReportVersionEditComponent } from './containers/program-report/report-version-edit/report-version-edit.component'
 import { GroupRolesComponent } from './containers/group-roles/group-roles.component'
-import { DialogAssignRoleToGroupComponent } from './dialogs/dialog-assign-role-to-group.component';
-import { RolesComponent } from './containers/roles/roles.component';
-import { RoleComponent } from './containers/role/role.component';
-import { RoleAddComponent } from './containers/role/role-add/role-add.component';
+import { DialogAssignRoleToGroupComponent } from './dialogs/dialog-assign-role-to-group.component'
+import { RolesComponent } from './containers/roles/roles.component'
+import { RoleComponent } from './containers/role/role.component'
+import { RoleAddComponent } from './containers/role/role-add/role-add.component'
 import { RoleEditComponent } from './containers/role/role-edit/role-edit.component'
 
 const COMPONENTS = [AppComponent, HomeComponent]
@@ -149,8 +147,6 @@ export function initApplication(): Function {
     ReportEditComponent,
     ProjectsComponent,
     ProjectComponent,
-    ProjectAddComponent,
-    ProjectEditComponent,
     AgenciesComponent,
     AgencyComponent,
     AgencyAddComponent,

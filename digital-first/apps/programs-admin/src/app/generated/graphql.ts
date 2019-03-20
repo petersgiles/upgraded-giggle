@@ -48,36 +48,6 @@ export interface CreateApiKeyInputGraph {
   apiKey?: Maybe<string>
 }
 
-export interface CreateDisplayGroupInputGraph {
-  title: string
-
-  sortOrder: UInt32
-
-  metadata?: Maybe<string>
-
-  parentId?: Maybe<Guid>
-}
-
-export interface CreateDisplayGroupProgramInputGraph {
-  sortOrder: UInt32
-
-  metadata: string
-
-  programId: Guid
-
-  displayGroupId: Guid
-}
-
-export interface CreateDisplayGroupStatisticInputGraph {
-  sortOrder: UInt32
-
-  metadata: string
-
-  statisticId: Guid
-
-  displayGroupId: Guid
-}
-
 export interface CreatePortfolioInputGraph {
   title: string
 
@@ -104,12 +74,18 @@ export interface CreateProgramAccessControlInputGraph {
   accessRights?: Maybe<AccessRights>
 }
 
+export interface CreateProgramSubmissionInputGraph {
+  programId: Guid
+}
+
 export interface CreateProjectInputGraph {
   name: string
 
   externalId?: Maybe<string>
 
   programId: Guid
+
+  programSubmissionId: Guid
 
   geoJson?: Maybe<string>
 
@@ -252,22 +228,6 @@ export interface DeleteApiKeyInputGraph {
   id: Guid
 }
 
-export interface DeleteDisplayGroupInputGraph {
-  id: Guid
-}
-
-export interface DeleteDisplayGroupProgramInputGraph {
-  programId: Guid
-
-  displayGroupId: Guid
-}
-
-export interface DeleteDisplayGroupStatisticInputGraph {
-  statisticId: Guid
-
-  displayGroupId: Guid
-}
-
 export interface DeletePortfolioInputGraph {
   id: Guid
 }
@@ -356,44 +316,6 @@ export interface UpdateApiKeyInputGraph {
   rowVersion: string
 }
 
-export interface UpdateDisplayGroupInputGraph {
-  id: Guid
-
-  title: string
-
-  sortOrder: UInt32
-
-  metadata?: Maybe<string>
-
-  parentId?: Maybe<Guid>
-
-  rowVersion: string
-}
-
-export interface UpdateDisplayGroupProgramInputGraph {
-  programId: Guid
-
-  displayGroupId: Guid
-
-  sortOrder: UInt32
-
-  metadata?: Maybe<string>
-
-  rowVersion: string
-}
-
-export interface UpdateDisplayGroupStatisticInputGraph {
-  statisticId: Guid
-
-  displayGroupId: Guid
-
-  sortOrder: UInt32
-
-  metadata?: Maybe<string>
-
-  rowVersion: string
-}
-
 export interface UpdatePortfolioInputGraph {
   id: Guid
 
@@ -431,8 +353,6 @@ export interface UpdateProjectInputGraph {
 
   notes?: Maybe<string>
 
-  programId: Guid
-
   rowVersion: string
 
   status?: Maybe<string>
@@ -461,7 +381,7 @@ export interface UpdateReportInputGraph {
 export interface UpdateReportVersionInputGraph {
   id: Guid
 
-  dataDate: DateTimeOffset
+  dataDate: Date
 
   notes?: Maybe<string>
 
@@ -537,7 +457,7 @@ export interface UpdateStatisticReportInputGraph {
 export interface UpdateStatisticReportVersionInputGraph {
   id: Guid
 
-  dataDate: DateTimeOffset
+  dataDate: Date
 
   notes?: Maybe<string>
 
@@ -587,17 +507,20 @@ export enum AccessRights {
 /** Guid */
 export type Guid = any
 
-/** The `DateTimeOffset` scalar type represents a date, time and offset from UTC. `DateTimeOffset` expects timestamps to be formatted in accordance with the [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard. */
-export type DateTimeOffset = any
+/** The `Date` scalar type represents a year, month and day in accordance with the [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard (yyyy-MM-dd). */
+export type Date = any
 
 /** UInt32 */
 export type UInt32 = any
 
-/** The `Date` scalar type represents a year, month and day in accordance with the [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard (yyyy-MM-dd). */
-export type Date = any
+/** For passing untyped JSON */
+export type Json = any
 
 /** The `DateTime` scalar type represents a date and time. `DateTime` expects timestamps to be formatted in accordance with the [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard. */
 export type DateTime = any
+
+/** The `DateTimeOffset` scalar type represents a date, time and offset from UTC. `DateTimeOffset` expects timestamps to be formatted in accordance with the [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard. */
+export type DateTimeOffset = any
 
 export type Decimal = any
 
@@ -989,7 +912,7 @@ export namespace Users {
 
     emailAddress: string
 
-    lastLogin: Maybe<DateTimeOffset>
+    lastLogin: Maybe<Date>
 
     rowVersion: string
   }
@@ -1095,7 +1018,7 @@ export namespace Group {
 
     emailAddress: string
 
-    lastLogin: Maybe<DateTimeOffset>
+    lastLogin: Maybe<Date>
 
     rowVersion: string
   }
@@ -1393,7 +1316,7 @@ export namespace Report {
 
     id: Guid
 
-    dataDate: Maybe<Date>
+    dataDate: Date
 
     notes: string
   }
@@ -1477,7 +1400,7 @@ export namespace ReportVersionEdit {
 
     id: Guid
 
-    dataDate: Maybe<Date>
+    dataDate: Date
 
     notes: string
 
@@ -1797,74 +1720,6 @@ export namespace AllPrograms {
   }
 }
 
-export namespace CreateProject {
-  export type Variables = {
-    data: CreateProjectInputGraph
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    createProject: Maybe<CreateProject>
-  }
-
-  export type CreateProject = {
-    __typename?: 'ProjectGraph'
-
-    id: Guid
-
-    name: string
-
-    geoJson: Maybe<string>
-
-    notes: Maybe<string>
-
-    externalId: Maybe<string>
-
-    rowVersion: string
-  }
-}
-
-export namespace UpdateProject {
-  export type Variables = {
-    data: UpdateProjectInputGraph
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    updateProject: Maybe<UpdateProject>
-  }
-
-  export type UpdateProject = {
-    __typename?: 'ProjectGraph'
-
-    id: Guid
-
-    name: string
-
-    geoJson: Maybe<string>
-
-    notes: Maybe<string>
-
-    externalId: Maybe<string>
-
-    rowVersion: string
-  }
-}
-
-export namespace DeleteProject {
-  export type Variables = {
-    data: DeleteProjectInputGraph
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    deleteProject: Maybe<boolean>
-  }
-}
-
 export namespace Project {
   export type Variables = {
     id: string
@@ -1892,12 +1747,20 @@ export namespace Project {
     rowVersion: string
 
     program: Maybe<Program>
+
+    programSubmission: Maybe<ProgramSubmission>
   }
 
   export type Program = {
     __typename?: 'ProgramGraph'
 
     id: Guid
+  }
+
+  export type ProgramSubmission = {
+    __typename?: 'ProgramSubmissionGraph'
+
+    timeStamp: Date
   }
 }
 
@@ -1946,12 +1809,20 @@ export namespace AllProjectsSearch {
     name: string
 
     program: Maybe<Program>
+
+    programSubmission: Maybe<ProgramSubmission>
   }
 
   export type Program = {
     __typename?: 'ProgramGraph'
 
     name: string
+  }
+
+  export type ProgramSubmission = {
+    __typename?: 'ProgramSubmissionGraph'
+
+    timeStamp: Date
   }
 }
 
@@ -2235,7 +2106,7 @@ export namespace StatisticReportVersionEdit {
 
     id: Guid
 
-    dataDate: Maybe<Date>
+    dataDate: Date
 
     notes: Maybe<string>
 
@@ -2329,7 +2200,7 @@ export namespace StatisticReportDetail {
 
     id: Guid
 
-    dataDate: Maybe<Date>
+    dataDate: Date
 
     notes: Maybe<string>
   }
@@ -2773,7 +2644,7 @@ export namespace User {
 
     emailAddress: string
 
-    lastLogin: Maybe<DateTimeOffset>
+    lastLogin: Maybe<Date>
 
     agency: Maybe<Agency>
 
@@ -2803,7 +2674,7 @@ export namespace User {
 
     key: string
 
-    created: DateTimeOffset
+    created: Date
 
     rowVersion: string
 
@@ -2817,7 +2688,7 @@ export namespace User {
 
     name: string
 
-    groupId: Maybe<Guid>
+    groupId: Guid
 
     groupName: Maybe<string>
 
@@ -2903,7 +2774,7 @@ export namespace AllUsersSearch {
 
     emailAddress: string
 
-    lastLogin: Maybe<DateTimeOffset>
+    lastLogin: Maybe<Date>
 
     rowVersion: string
   }
@@ -3787,59 +3658,6 @@ export class AllProgramsGQL extends Apollo.Query<
 @Injectable({
   providedIn: 'root'
 })
-export class CreateProjectGQL extends Apollo.Mutation<
-  CreateProject.Mutation,
-  CreateProject.Variables
-> {
-  document: any = gql`
-    mutation createProject($data: CreateProjectInputGraph!) {
-      createProject(input: $data) {
-        id
-        name
-        geoJson
-        notes
-        externalId
-        rowVersion
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class UpdateProjectGQL extends Apollo.Mutation<
-  UpdateProject.Mutation,
-  UpdateProject.Variables
-> {
-  document: any = gql`
-    mutation updateProject($data: UpdateProjectInputGraph!) {
-      updateProject(input: $data) {
-        id
-        name
-        geoJson
-        notes
-        externalId
-        rowVersion
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class DeleteProjectGQL extends Apollo.Mutation<
-  DeleteProject.Mutation,
-  DeleteProject.Variables
-> {
-  document: any = gql`
-    mutation deleteProject($data: DeleteProjectInputGraph!) {
-      deleteProject(input: $data)
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
 export class ProjectGQL extends Apollo.Query<Project.Query, Project.Variables> {
   document: any = gql`
     query project($id: String!) {
@@ -3852,6 +3670,9 @@ export class ProjectGQL extends Apollo.Query<Project.Query, Project.Variables> {
         rowVersion
         program {
           id
+        }
+        programSubmission {
+          timeStamp
         }
       }
     }
@@ -3893,6 +3714,9 @@ export class AllProjectsSearchGQL extends Apollo.Query<
         name
         program {
           name
+        }
+        programSubmission {
+          timeStamp
         }
       }
     }
