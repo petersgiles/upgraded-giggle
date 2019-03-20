@@ -4,6 +4,11 @@ interface MutationResponse {
 	message: String!
 }
 
+type Response {
+  success: Boolean
+  error: String
+}
+
 type UserProfileRole {
 	id: ID!
 	name: String!
@@ -16,12 +21,25 @@ type UserProfile {
 	roles: [UserProfileRole]
 }
 
+type Commitment {
+	id: ID
+	title: String
+}
+
+input CommitmentInput {
+	id: ID
+	title: String
+}
+
 # The "Query" type is the root of all GraphQL queries.
 type Query {
 	userProfile(id: ID): UserProfile
+	commitment(id: ID!): Commitment
+	commitments: [Commitment]
 }
 
 # The mutation root type, used to define all mutations.
 type Mutation {
-	
+	upsertCommitment(item: CommitmentInput!): Response
+	deleteCommitment(id: ID!): Response
 }

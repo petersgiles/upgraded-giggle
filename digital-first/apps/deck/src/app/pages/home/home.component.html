@@ -6,10 +6,8 @@
         title="Add&nbsp;Item"
         (onAddItem)="handleAddItemDialog()"
       ></digital-first-add-item-button>
-      <digital-first-busy [busy]="formBusy"></digital-first-busy>
+      <digital-first-navigation-item-button *ngIf="(grandParent$ | async) as gp" (onNavigate)="handleGoBack(gp)" [title]="gp.title"></digital-first-navigation-item-button>
     </digital-first-page-title>
-    <df-deck [cards]="cards" (onAction)="handleAction($event)"></df-deck>
-
-    <digital-first-deck></digital-first-deck>
+    <df-deck [cards]="cards$ | async" [readOnly]="false" (onAction)="handleAction($event)" (onEdit)="handleEvent($event, 'onEdit')"></df-deck>
   </section>
 </div>
