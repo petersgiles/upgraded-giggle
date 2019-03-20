@@ -79,6 +79,12 @@
     },
     "df-refiner": {
       "tags": []
+    },
+    "commitments-reader": {
+      "tags": []
+    },
+    "commitments-reader-e2e": {
+      "tags": []
     }
   }
 }
