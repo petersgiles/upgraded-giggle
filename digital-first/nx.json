@@ -82,9 +82,6 @@
     },
     "commitments-reader": {
       "tags": []
-    },
-    "commitments-reader-e2e": {
-      "tags": []
     }
   }
 }
