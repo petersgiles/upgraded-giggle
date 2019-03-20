@@ -1,0 +1,19 @@
+type Tag {
+	id: ID!,
+    title: String,
+    description: String,
+    sortorder: String,
+    colour: String,
+    icon: String,
+	parent: ID
+}
+
+input TagInput {
+	id: ID,
+    title: String!,
+    description: String,
+    sortorder: String,
+    colour: String,
+    icon: String,
+	parent: ID
+}

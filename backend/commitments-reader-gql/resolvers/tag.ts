@@ -1,6 +1,6 @@
-export const DB_TABLE_COMMITMENT = 'commitment'
+export const DB_TABLE_TAG = 'tag'
 
-export class Commitment {
+export class Tag {
 	connectorKeys: { db: string }
 
 	constructor(connectorKeys: { db: string }) {
@@ -12,7 +12,7 @@ export class Commitment {
 	async getById(id: any, context: any): Promise<any> {
 		let result = await this.knex(context)
 			.select()
-			.from(DB_TABLE_COMMITMENT)
+			.from(DB_TABLE_TAG)
 			.where('id', id)
 
 		return result && result[0]
@@ -21,47 +21,56 @@ export class Commitment {
 	async getAll(context: any): Promise<any[]> {
 		let result = await this.knex(context)
 			.select()
-			.from(DB_TABLE_COMMITMENT)
+			.from(DB_TABLE_TAG)
+		return result
+	}
+
+	async getByParent(payload: any, context: any): Promise<any[]> {
+		let result = await this.knex(context)
+			.select()
+			.from(DB_TABLE_TAG)
+			.where('parent', payload.parent)
 		return result
 	}
 
 	async upsert(payload: any, context: any): Promise<void> {
 		if (payload.item.id) {
-			return await this.knex(context)(DB_TABLE_COMMITMENT)
+			return await this.knex(context)(DB_TABLE_TAG)
 				.where({ id: payload.item.id })
 				.update({ ...payload.item })
 		} else {
-			return await this.knex(context)(DB_TABLE_COMMITMENT).insert({
+			return await this.knex(context)(DB_TABLE_TAG).insert({
 				...payload.item,
 			})
 		}
 	}
 
 	async delete(id: any, context: any): Promise<void> {
-		return await this.knex(context)(DB_TABLE_COMMITMENT)
+		return await this.knex(context)(DB_TABLE_TAG)
 			.where({ id: id })
 			.del()
 	}
 }
 
-export const dropCommitmentTable = (knex: any) => {
-	knex.schema.hasTable(DB_TABLE_COMMITMENT).then(function(exists: any) {
+export const dropTagTable = (knex: any) => {
+	knex.schema.hasTable(DB_TABLE_TAG).then(function(exists: any) {
 		if (!exists) {
-			return knex.schema.dropTable(DB_TABLE_COMMITMENT)
+			return knex.schema.dropTable(DB_TABLE_TAG)
 		}
 	})
 }
 
-export const createCommitmentTable = (knex: any) => {
-	knex.schema.hasTable(DB_TABLE_COMMITMENT).then(function(exists: any) {
+export const createTagTable = (knex: any) => {
+	knex.schema.hasTable(DB_TABLE_TAG).then(function(exists: any) {
 		if (!exists) {
-			return knex.schema.createTable(DB_TABLE_COMMITMENT, function(t: any) {
+			return knex.schema.createTable(DB_TABLE_TAG, function(t: any) {
 				t.increments('id').primary()
 				t.string('title', 512)
 				t.string('description', 512)
-				t.string('cost', 512)
-				t.string('date', 512)
-				t.string('announcedby', 512)
+				t.integer('sortorder', 512)
+				t.string('colour', 512)
+				t.string('icon', 512)
+				t.integer('parent', 512)
 			})
 		}
 	})

@@ -1,0 +1,12 @@
+
+type UserProfileRole {
+	id: ID!
+	name: String!
+}
+
+type UserProfile {
+	id: ID!
+	name: String!
+	email: String!
+	roles: [UserProfileRole]
+}

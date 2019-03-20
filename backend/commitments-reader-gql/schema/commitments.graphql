@@ -1,0 +1,25 @@
+
+type Commitment {
+	id: ID!,
+    title: String,
+    description: String,
+    cost: String,
+    date: String,
+    announcedby: String,
+	party: [Tag],
+	criticalDate: [Tag],
+    whoAnnounced: [Tag],
+    announcement: [Tag],
+    commitment: [Tag],
+    portfolio: [Tag],
+    electorates: [Tag],
+}
+
+input CommitmentInput {
+	id: ID
+    title: String!,
+    description: String,
+    cost: String,
+    date: String,
+    announcedby: String,
+}

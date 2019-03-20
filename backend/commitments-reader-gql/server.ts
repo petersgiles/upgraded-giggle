@@ -13,10 +13,10 @@ import * as knex from 'knex'
 
 import { logger } from '../shared/logger'
 import { importSchema } from 'graphql-import'
-import { Commitment } from './resolvers'
+import { Commitment, Tag } from './resolvers'
 import { HomeController } from './controllers'
 import { allowCrossDomain } from '../shared/cors'
-import { createDB } from './sqllite-schema';
+import { createDB, getById, getByAll, upsert, remove, getByParent } from './sqllite-schema'
 
 const typeDefs = importSchema('./commitments-reader-gql/schema.graphql')
 
@@ -48,7 +48,9 @@ app.use(allowCrossDomain)
 app.use(helmet())
 app.use(morgan('combined'))
 app.use(express.json())
-app.use(express.static(path.join(process.cwd(), 'commitment-reader-gql', 'public')))
+app.use(
+	express.static(path.join(process.cwd(), 'commitment-reader-gql', 'public'))
+)
 app.use('/home', HomeController)
 
 // app.use(function(req: any, res: any, next: any){
@@ -58,42 +60,16 @@ app.use('/home', HomeController)
 
 export const resolvers = {
 	Query: {
-		commitment: async (obj: any, args: any, context: any, info: any) => {
-			let result = await context.models.Commitment.getById(args.id, context)
-			console.log('Commitment', result)
-			return result
-		},
-		commitments: async (obj: any, args: any, context: any, info: any) => {
-      let result = await context.models.Commitment.getAll(context)
-			console.log('Commitments', result)
-			return result
-		},
+		commitment: async (obj: any, args: any, context: any, info: any) => getById('Commitment', obj, args, context, info),
+		commitments: async (obj: any, args: any, context: any, info: any) => getByAll('Commitment', obj, args, context, info),
+		tag: async (obj: any, args: any, context: any, info: any) => getById('Tag', obj, args, context, info),
+		tags: async (obj: any, args: any, context: any, info: any) => getByParent('Tag', obj, args, context, info),
 	},
 	Mutation: {
-		upsertCommitment: async (obj: any, args: any, context: any, info: any) => {
-      let result = await context.models.Commitment.upsert(args, context)
-        .then((res: any) => {
-          let result: any = {
-            success: true,
-            error: null,
-          }
-
-			  	return result
-      })
-      
-      return result
-		},
-		deleteCommitment: async (obj: any, args: any, context: any, info: any) => {
-      let result = await context.models.Commitment.delete(args.id, context)
-      .then((res: any) => {
-				let result: any = {
-					success: true,
-					error: null,
-				}
-				return result
-      })
-      return result
-		},
+		upsertCommitment: async (obj: any, args: any, context: any, info: any) => upsert('Commitment', obj, args, context, info),
+		deleteCommitment: async (obj: any, args: any, context: any, info: any) => remove('Commitment', obj, args, context, info),
+		upsertTag: async (obj: any, args: any, context: any, info: any) => upsert('Tag', obj, args, context, info),
+		deleteTag: async (obj: any, args: any, context: any, info: any) => remove('Tag', obj, args, context, info)
 	},
 }
 
@@ -106,6 +82,7 @@ const server = new ApolloServer({
 		},
 		models: {
 			Commitment: new Commitment({ db: 'sql' }),
+			Tag: new Tag({ db: 'sql' }),
 		},
 	},
 })

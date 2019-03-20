@@ -1,45 +1,22 @@
-interface MutationResponse {
-	code: String!
-	success: Boolean!
-	message: String!
-}
 
-type Response {
-  success: Boolean
-  error: String
-}
-
-type UserProfileRole {
-	id: ID!
-	name: String!
-}
-
-type UserProfile {
-	id: ID!
-	name: String!
-	email: String!
-	roles: [UserProfileRole]
-}
-
-type Commitment {
-	id: ID
-	title: String
-}
-
-input CommitmentInput {
-	id: ID
-	title: String
-}
+# import MutationResponse, MutationResponse from "schema/response.graphql"
+# import UserProfileRole, UserProfile from "schema/user-profiles.graphql"
+# import Tag, TagInput from "schema/tags.graphql"
+# import Commitment, CommitmentInput from "schema/commitments.graphql"
 
 # The "Query" type is the root of all GraphQL queries.
 type Query {
 	userProfile(id: ID): UserProfile
 	commitment(id: ID!): Commitment
 	commitments: [Commitment]
+    tag(id: ID!): Tag
+	tags(parent: ID): [Tag]
 }
 
 # The mutation root type, used to define all mutations.
 type Mutation {
 	upsertCommitment(item: CommitmentInput!): Response
 	deleteCommitment(id: ID!): Response
+	upsertTag(item: TagInput!): Response
+	deleteTag(id: ID!): Response
 }
