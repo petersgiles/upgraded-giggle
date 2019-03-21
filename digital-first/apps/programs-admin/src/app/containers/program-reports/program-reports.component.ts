@@ -4,7 +4,7 @@ import { first } from 'rxjs/operators'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Maybe, Program, Report } from '../../generated/graphql'
 import { formConstants } from '../../form-constants'
-import Reports = Report.Reports
+import Reports = Report.Report
 import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
 
 @Component({

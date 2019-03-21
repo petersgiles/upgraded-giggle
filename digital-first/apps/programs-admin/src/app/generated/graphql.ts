@@ -1262,10 +1262,10 @@ export namespace Report {
   export type Query = {
     __typename?: 'Query'
 
-    reports: Maybe<(Maybe<Reports>)[]>
+    report: Maybe<Report>
   }
 
-  export type Reports = {
+  export type Report = {
     __typename?: 'ReportGraph'
 
     id: Guid
@@ -3361,7 +3361,7 @@ export class CreateReportAccessControlGQL extends Apollo.Mutation<
 export class ReportGQL extends Apollo.Query<Report.Query, Report.Variables> {
   document: any = gql`
     query report($reportId: String!) {
-      reports(id: $reportId) {
+      report(id: $reportId) {
         id
         name
         notes

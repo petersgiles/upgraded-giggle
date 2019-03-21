@@ -24,7 +24,7 @@ import {
   styleUrls: ['./program-report.component.scss']
 })
 export class ProgramReportComponent implements OnInit, OnDestroy {
-  report: Report.Reports
+  report: Report.Report
   reportId: string
   programId: string
   reportSubscription$: Subscription
@@ -49,7 +49,7 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
     this.programId = this.route.snapshot.paramMap.get('programId')
     this.reportSubscription$ = this.reportGql
       .watch({ reportId: this.reportId }, { fetchPolicy: 'network-only' })
-      .valueChanges.pipe(map(value => value.data.reports[0]))
+      .valueChanges.pipe(map(value => value.data.report))
       .subscribe(report => {
         this.report = report
 
@@ -180,7 +180,7 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
       .subscribe(value => {})
   }
 
-  handleEditReport(report: Report.Reports) {
+  handleEditReport(report: Report.Report) {
     return this.router.navigate(['../edit', report.id], {
       relativeTo: this.route
     })

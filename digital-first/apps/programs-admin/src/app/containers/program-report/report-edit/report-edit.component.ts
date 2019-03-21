@@ -22,7 +22,7 @@ export class ReportEditComponent implements OnInit, OnDestroy {
     ],
     notes: ['']
   })
-  private report: Report.Reports
+  private report: Report.Report
 
   constructor(
     private formBuilder: FormBuilder,
@@ -37,7 +37,7 @@ export class ReportEditComponent implements OnInit, OnDestroy {
 
     this.reportSubscription$ = this.reportGQL
       .watch({ reportId: this.reportId }, { fetchPolicy: 'network-only' })
-      .valueChanges.pipe(map(value => value.data.reports[0]))
+      .valueChanges.pipe(map(value => value.data.report))
       .subscribe(report => {
         this.report = report
         this.editReportForm.patchValue({

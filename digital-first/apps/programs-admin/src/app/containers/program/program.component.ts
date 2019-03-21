@@ -23,7 +23,7 @@ import {
   Report,
   UpdateAccessControlGQL
 } from '../../generated/graphql'
-import Reports = Report.Reports
+import Reports = Report.Report
 import {
   PermissionChangedEvent,
   PermissionRow

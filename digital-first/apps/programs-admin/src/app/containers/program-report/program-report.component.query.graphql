@@ -1,5 +1,5 @@
 query report ($reportId: String!) {
-  reports(id:$reportId)
+  report(id:$reportId)
   {
     id
     name
