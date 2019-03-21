@@ -1095,7 +1095,8 @@
             "tsConfig": "apps/commitments-reader/tsconfig.app.json",
             "assets": [
               "apps/commitments-reader/src/favicon.ico",
-              "apps/commitments-reader/src/assets"
+              "apps/commitments-reader/src/assets",
+              "apps/commitments-reader/src/scheduler"
             ],
             "styles": ["apps/commitments-reader/src/styles.scss"],
             "scripts": [],
