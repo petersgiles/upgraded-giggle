@@ -33,6 +33,7 @@ export class RefinerActionService {
 export class MetadataRefinerComponent implements OnInit {
   searchControl: FormControl = new FormControl()
   action$: any
+  _refinerGroups: RefinerGroup[];
 
   constructor(private ngZone: NgZone, private service: RefinerActionService) {}
 
@@ -63,7 +64,13 @@ export class MetadataRefinerComponent implements OnInit {
   startVisible: boolean
 
   @Input()
-  refinerGroups: RefinerGroup[]
+  set refinerGroups(val) {
+    console.log(val)
+    this._refinerGroups = val
+  }  
+  get refinerGroups(): RefinerGroup[] {
+    return this._refinerGroups
+  }
 
   @Output()
   onRefinerGroupSelected: EventEmitter<RefinerGroup> = new EventEmitter()
