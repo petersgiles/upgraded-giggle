@@ -4,13 +4,13 @@
     class="reader-card-article__title page_title_text"
     mdcHeadline5
   >
-    Commitment
+    Commitments
   </div>
 </div>
 <div class="app-page">
   <section>
     <div class="app-layout__row--no-wrap">
-        <digital-first-metadata-refiner
+      <digital-first-metadata-refiner
         [refinerGroups]="refinerGroups$ | async"
         (onSearchCriteriaChanged)="handleSearchCriteriaChanged($event)"
         (onClear)="handleSearchCriteriaChanged(null)"
