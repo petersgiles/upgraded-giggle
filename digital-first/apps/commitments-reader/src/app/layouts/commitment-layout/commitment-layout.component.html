@@ -4,7 +4,7 @@
     class="reader-card-article__title page_title_text"
     mdcHeadline5
   >
-    Commitments
+    Commitment
   </div>
 </div>
 <div class="app-page">
@@ -13,11 +13,14 @@
       <df-refiner></df-refiner>
       <div class="overview-outlet">
         <section>
-          <mdc-tab-bar [activeTabIndex]="0" useAutomaticActivation>
+          <mdc-tab-bar [activeTabIndex]="activeTab" useAutomaticActivation>
             <mdc-tab-scroller>
-              <mdc-tab label="Overview" [routerLink]="['/', 'overview']"></mdc-tab>
-              <mdc-tab label="Delivery Locations" [routerLink]="['/', 'map']" ></mdc-tab>
-              <mdc-tab label="Planner" [routerLink]="['/', 'planner']" ></mdc-tab>
+              <mdc-tab
+                *ngFor="let tab of tabs"
+                [label]="tab.label"
+                [icon]="tab.icon"
+                [routerLink]="tab.link"
+              ></mdc-tab>
             </mdc-tab-scroller>
           </mdc-tab-bar>
           <div class="app-layout__row--no-wrap">

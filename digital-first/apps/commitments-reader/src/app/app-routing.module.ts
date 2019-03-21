@@ -25,13 +25,13 @@ const routes: Routes = [
     },
     children: [
       {
+        path: 'home',
+        component: HomeComponent
+      }, 
+      {
         path: '',
         component: CommitmentLayoutComponent,
         children: [
-          {
-            path: 'home',
-            component: HomeComponent
-          },
           {
             path: 'overview',
             component: OverviewPageComponent
