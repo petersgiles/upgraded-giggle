@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 
 @Component({
   selector: 'digital-first-overview-page',
@@ -7,9 +7,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OverviewPageComponent implements OnInit {
 
-  constructor() { }
+  commitmentsTableData$
+  columns
+  count
 
-  ngOnInit() {
+  constructor() {
+    this.columns = [
+      { prop: 'commitmentId', name: 'Id' },
+      { prop: 'title', name: 'Title' },
+      { prop: 'party', name: 'Party' },
+      { prop: 'portfolio', name: 'Responsible Portfolio' },
+      { prop: 'commitmentType', name: 'Type of Commitment' },
+      { prop: 'criticalDate', name: 'Critical Date' }
+    ]
+
   }
 
+  ngOnInit() {}
+
+  handleCommitmentsRowClicked($event) {}
 }

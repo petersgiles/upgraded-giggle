@@ -1,8 +1,28 @@
 :host {
-    width: 100%;
+  width:100%;
+  width: -webkit-fill-available;
+  display: flex;
+  flex-direction: column;
+
+
+  digital-first-data-table {
+    width:100%;
     width: -webkit-fill-available;
-    display: flex;
-    flex-direction: column;
 
   }
-  
+
+  .overview-data-table{
+    flex-direction: row;
+    width: 100%;
+  }
+
+  input[type=text] {
+    font-size: 14px;
+    display: block;
+    background: transparent;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #5264AE;
+}
+}
+

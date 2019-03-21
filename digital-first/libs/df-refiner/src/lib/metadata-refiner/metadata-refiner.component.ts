@@ -65,7 +65,6 @@ export class MetadataRefinerComponent implements OnInit {
 
   @Input()
   set refinerGroups(val) {
-    console.log(val)
     this._refinerGroups = val
   }  
   get refinerGroups(): RefinerGroup[] {

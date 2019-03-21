@@ -1,8 +1,16 @@
 <div class="app-page">
     <section>
-      <df-expander-panel title="Overview" [expanded]="true" [expandable]="false">
-          Welcome to  Overview
-      </df-expander-panel>
+      <div class="app-layout__row--no-wrap">
+        <div class="overview-data-table">
+          <df-data-table
+            [rows]="commitmentsTableData$ | async"
+            [columns]="columns"
+            [count]="count"
+            (onSelect)="handleCommitmentsRowClicked($event)"
+          >
+          </df-data-table>
+        </div>
+      </div>
     </section>
   </div>
   

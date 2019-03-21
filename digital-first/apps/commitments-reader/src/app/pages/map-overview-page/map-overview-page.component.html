@@ -1,8 +1,32 @@
 <div class="app-page">
-    <section>
-      <df-expander-panel title="Map" [expanded]="true" [expandable]="false">
-          Welcome to Map Overview
-      </df-expander-panel>
-    </section>
-  </div>
-  
+  <section>
+    <div class="commitment-layout__row">
+      <agm-map
+        [latitude]="latitude"
+        [longitude]="longitude"
+        [zoom]="zoom"
+        [disableDefaultUI]="false"
+        [zoomControl]="true"
+      >
+        <agm-marker
+          *ngFor="let mapPoint of (mapPoints$ | async)"
+          style="text-shadow: 0px 0px 6.2px grey; background-color: blueviolet;"
+          [latitude]="mapPoint.latitude"
+          [longitude]="mapPoint.longitude"
+          [title]="mapPoint.address"
+          [iconUrl]="getIcon(mapPoint)"
+          (markerClick)="handleMapPointSelected($event, mapPoint)"
+        ></agm-marker>
+      </agm-map>
+    </div>
+    <div class="commitment-layout__row">
+      <df-data-table
+        [rows]="commitments$ | async"
+        [columns]="columns"
+        [count]="count"
+        (onSelect)="handleRowClicked($event)"
+      >
+      </df-data-table>
+    </div>
+  </section>
+</div>

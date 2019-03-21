@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { Apollo, APOLLO_OPTIONS, ApolloModule } from 'apollo-angular'
 import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
-
+import { AgmCoreModule } from '@agm/core'
 import { AppRoutingModule } from './app-routing.module'
 import { DfLayoutsModule, TitleLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
@@ -51,6 +51,10 @@ const COMPONENTS = [
     FormsModule,
     ReactiveFormsModule,
     ApolloModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDbiAzbni3d2FTFOJAHP185j7lZWm95kgc',
+      libraries: ['places']
+    }),
     HttpClientModule,
     HttpLinkModule,
     DataTableModule,
