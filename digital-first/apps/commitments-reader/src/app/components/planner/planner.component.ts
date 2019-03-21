@@ -1,5 +1,7 @@
 import { Component, AfterViewInit } from '@angular/core'
 import * as createjs from 'createjs-module'
+import * as data from './planner.data.json'
+import * as config from './planner.config.json'
 
 @Component({
   selector: 'digital-first-planner',
