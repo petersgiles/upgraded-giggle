@@ -10,7 +10,13 @@
 <div class="app-page">
   <section>
     <div class="app-layout__row--no-wrap">
-      <df-refiner></df-refiner>
+        <digital-first-metadata-refiner
+        [refinerGroups]="refinerGroups$ | async"
+        (onSearchCriteriaChanged)="handleSearchCriteriaChanged($event)"
+        (onClear)="handleSearchCriteriaChanged(null)"
+        (onRefinerGroupSelected)="handleRefinerGroupSelected($event)"
+        (onRefinerSelected)="handleRefinerSelected($event)"
+      ></digital-first-metadata-refiner>
       <div class="overview-outlet">
         <section>
           <mdc-tab-bar [activeTabIndex]="activeTab" useAutomaticActivation>

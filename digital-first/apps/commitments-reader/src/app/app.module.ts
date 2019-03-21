@@ -12,14 +12,13 @@ import { DfLayoutsModule, TitleLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
 import { DfPagesModule } from '@digital-first/df-pages'
 import { DfPipesModule } from '@digital-first/df-pipes'
-
+import { DfRefinerModule } from '@digital-first/df-refiner'
 import {
   DialogAreYouSureComponent,
   DataTableModule,
   PanelModule,
   ButtonModule,
-  DialogsModule,
-  RefinerModule
+  DialogsModule
 } from '@df/components'
 import { AppFullLayoutService } from './app-full-layout.service'
 import { environment } from '../environments/environment'
@@ -55,8 +54,8 @@ const COMPONENTS = [
     DataTableModule,
     PanelModule,
     ButtonModule,
-    RefinerModule,
     DialogsModule,
+    DfRefinerModule,
     DfLayoutsModule,
     DfThemeModule,
     DfPagesModule,
