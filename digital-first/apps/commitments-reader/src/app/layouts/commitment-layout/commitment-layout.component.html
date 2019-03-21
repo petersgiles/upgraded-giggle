@@ -1,0 +1,30 @@
+<div class="page_title">
+  <div
+    #discussion
+    class="reader-card-article__title page_title_text"
+    mdcHeadline5
+  >
+    Commitments
+  </div>
+</div>
+<div class="app-page">
+  <section>
+    <div class="app-layout__row--no-wrap">
+      <df-refiner></df-refiner>
+      <div class="overview-outlet">
+        <section>
+          <mdc-tab-bar [activeTabIndex]="0" useAutomaticActivation>
+            <mdc-tab-scroller>
+              <mdc-tab label="Overview" [routerLink]="['/', 'overview']"></mdc-tab>
+              <mdc-tab label="Delivery Locations" [routerLink]="['/', 'map']" ></mdc-tab>
+              <mdc-tab label="Planner" [routerLink]="['/', 'planner']" ></mdc-tab>
+            </mdc-tab-scroller>
+          </mdc-tab-bar>
+          <div class="app-layout__row--no-wrap">
+            <router-outlet></router-outlet>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+</div>
