@@ -10,7 +10,8 @@ import {
   ErrorPageNotFoundComponent,
   ErrorServerComponent
 } from '@digital-first/df-pages'
-import { HomeComponent } from './pages/home/home.component';
+import { HomeComponent } from './pages/home/home.component'
+import { PlannerPageComponent } from './pages/planner-page/planner-page.component'
 
 const routes: Routes = [
   {
@@ -23,6 +24,10 @@ const routes: Routes = [
       {
         path: '',
         component: HomeComponent
+      },
+      {
+        path: 'planner',
+        component: PlannerPageComponent
       }
     ]
   },

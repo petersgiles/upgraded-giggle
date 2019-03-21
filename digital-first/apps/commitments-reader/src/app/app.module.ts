@@ -7,8 +7,6 @@ import { Apollo, APOLLO_OPTIONS, ApolloModule } from 'apollo-angular'
 import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 
-import { AppComponent } from './app.component'
-import { HomeComponent } from './pages/home/home.component'
 import { AppRoutingModule } from './app-routing.module'
 import { DfLayoutsModule, TitleLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
@@ -21,14 +19,18 @@ import {
   PanelModule,
   ButtonModule,
   DialogsModule
-} from '@df/components'
+
+} from '@df/components';
 import { AppFullLayoutService } from './app-full-layout.service';
 import { environment } from '../environments/environment';
 import { initApplication } from './app-init';
 
+import { AppComponent } from './app.component'
+import { HomeComponent } from './pages/home/home.component'
+import { PlannerComponent } from './components/planner/planner.component';
+import { PlannerPageComponent } from './pages/planner-page/planner-page.component'
 
-
-const COMPONENTS = [AppComponent, HomeComponent]
+const COMPONENTS = [AppComponent, HomeComponent, PlannerComponent, PlannerPageComponent]
 
 @NgModule({
   declarations: [...COMPONENTS],

@@ -24,6 +24,10 @@ export class AppFullLayoutService {
       caption: 'Home',
       icon: 'home',
       routerLink: ['/']
+    },    {
+      caption: 'Planner',
+      icon: 'home',
+      routerLink: ['/planner']
     }
   ])
   }
