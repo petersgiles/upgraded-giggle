@@ -1,6 +1,7 @@
-import { Component, ViewChild } from '@angular/core'
+import { Component, ViewChild, ModuleWithComponentFactories } from '@angular/core'
 import { SchedulerComponent } from '../scheduler/scheduler.component'
-
+import{ Moment} from 'moment'
+import moment = require('moment');
 @Component({
   selector: 'digital-first-planner',
   templateUrl: './planner.component.html',

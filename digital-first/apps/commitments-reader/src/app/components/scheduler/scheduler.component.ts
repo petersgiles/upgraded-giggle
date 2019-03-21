@@ -40,9 +40,9 @@ export class SchedulerComponent implements OnInit, OnChanges {
   @Input() resources: object[];
   @Input() readOnly: boolean = false;
   @Input() responsiveLevels: any;
-  @Input() rowHeight: number = 50;
+  @Input() rowHeight: number = 60;
   @Input() startDate: any;
-  @Input() viewPreset: string = 'hourAndDay';
+  @Input() viewPreset: string = 'weekAndDay';
 
   @Input() crudManager: object;
   @Input() eventStore: object;
