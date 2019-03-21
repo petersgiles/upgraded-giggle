@@ -2,8 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc/apps/commitments-reader",
-    "types": [],
-    "scheduler": ["src/scheduler/scheduler.module.js"]
+    "types": []
   },
   "exclude": ["src/test-setup.ts", "**/*.spec.ts"],
   "include": ["**/*.ts"]
