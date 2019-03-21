@@ -1097,7 +1097,7 @@
               "apps/commitments-reader/src/favicon.ico",
               "apps/commitments-reader/src/assets"
             ],
-            "styles": ["apps/commitments-reader/src/styles.css"],
+            "styles": ["apps/commitments-reader/src/styles.scss"],
             "scripts": [],
             "es5BrowserSupport": true
           },
@@ -1161,33 +1161,6 @@
             "jestConfig": "apps/commitments-reader/jest.config.js",
             "tsConfig": "apps/commitments-reader/tsconfig.spec.json",
             "setupFile": "apps/commitments-reader/src/test-setup.ts"
-          }
-        }
-      }
-    },
-    "commitments-reader-e2e": {
-      "root": "apps/commitments-reader-e2e",
-      "projectType": "application",
-      "prefix": "",
-      "architect": {
-        "e2e": {
-          "builder": "@nrwl/builders:cypress",
-          "options": {
-            "cypressConfig": "apps/commitments-reader-e2e/cypress.json",
-            "tsConfig": "apps/commitments-reader-e2e/tsconfig.e2e.json",
-            "devServerTarget": "commitments-reader:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "commitments-reader:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "apps/commitments-reader-e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**"]
           }
         }
       }
