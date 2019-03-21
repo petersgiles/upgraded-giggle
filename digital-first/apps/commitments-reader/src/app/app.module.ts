@@ -15,12 +15,14 @@ import {
   PanelModule,
   ButtonModule,
   DialogsModule
-} from '@df/components'
+} from '@df/components';
+import { PlannerComponent } from './components/planner/planner.component';
+import { PlannerPageComponent } from './pages/planner-page/planner-page.component'
 
 const COMPONENTS = [AppComponent, HomeComponent]
 
 @NgModule({
-  declarations: [...COMPONENTS],
+  declarations: [...COMPONENTS, PlannerComponent, PlannerPageComponent],
   imports: [
     BrowserModule,
     DataTableModule,
