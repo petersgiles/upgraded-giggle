@@ -18,19 +18,30 @@ import {
   DataTableModule,
   PanelModule,
   ButtonModule,
-  DialogsModule
-
-} from '@df/components';
-import { AppFullLayoutService } from './app-full-layout.service';
-import { environment } from '../environments/environment';
-import { initApplication } from './app-init';
+  DialogsModule,
+  RefinerModule
+} from '@df/components'
+import { AppFullLayoutService } from './app-full-layout.service'
+import { environment } from '../environments/environment'
+import { initApplication } from './app-init'
 
 import { AppComponent } from './app.component'
 import { HomeComponent } from './pages/home/home.component'
-import { PlannerComponent } from './components/planner/planner.component';
+import { PlannerComponent } from './components/planner/planner.component'
 import { PlannerPageComponent } from './pages/planner-page/planner-page.component'
+import { OverviewPageComponent } from './pages/overview-page/overview-page.component'
+import { MapOverviewPageComponent } from './pages/map-overview-page/map-overview-page.component'
+import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component'
 
-const COMPONENTS = [AppComponent, HomeComponent, PlannerComponent, PlannerPageComponent]
+const COMPONENTS = [
+  AppComponent,
+  HomeComponent,
+  PlannerComponent,
+  PlannerPageComponent,
+  OverviewPageComponent,
+  MapOverviewPageComponent,
+  CommitmentLayoutComponent
+]
 
 @NgModule({
   declarations: [...COMPONENTS],
@@ -44,6 +55,7 @@ const COMPONENTS = [AppComponent, HomeComponent, PlannerComponent, PlannerPageCo
     DataTableModule,
     PanelModule,
     ButtonModule,
+    RefinerModule,
     DialogsModule,
     DfLayoutsModule,
     DfThemeModule,
@@ -82,7 +94,7 @@ const COMPONENTS = [AppComponent, HomeComponent, PlannerComponent, PlannerPageCo
         }
       },
       deps: [HttpLink]
-    },
+    }
   ],
   bootstrap: [AppComponent]
 })

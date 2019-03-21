@@ -12,6 +12,9 @@ import {
 } from '@digital-first/df-pages'
 import { HomeComponent } from './pages/home/home.component'
 import { PlannerPageComponent } from './pages/planner-page/planner-page.component'
+import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component'
+import { OverviewPageComponent } from './pages/overview-page/overview-page.component'
+import { MapOverviewPageComponent } from './pages/map-overview-page/map-overview-page.component'
 
 const routes: Routes = [
   {
@@ -22,12 +25,26 @@ const routes: Routes = [
     },
     children: [
       {
-        path: '',
+        path: 'home',
         component: HomeComponent
-      },
+      }, 
       {
-        path: 'planner',
-        component: PlannerPageComponent
+        path: '',
+        component: CommitmentLayoutComponent,
+        children: [
+          {
+            path: 'overview',
+            component: OverviewPageComponent
+          },
+          {
+            path: 'map',
+            component: MapOverviewPageComponent
+          },
+          {
+            path: 'planner',
+            component: PlannerPageComponent
+          }
+        ]
       }
     ]
   },
