@@ -31,6 +31,7 @@ import { PlannerPageComponent } from './pages/planner-page/planner-page.componen
 import { OverviewPageComponent } from './pages/overview-page/overview-page.component'
 import { MapOverviewPageComponent } from './pages/map-overview-page/map-overview-page.component'
 import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component'
+import { SchedulerComponent } from './components/scheduler/scheduler.component'
 
 const COMPONENTS = [
   AppComponent,
@@ -39,7 +40,8 @@ const COMPONENTS = [
   PlannerPageComponent,
   OverviewPageComponent,
   MapOverviewPageComponent,
-  CommitmentLayoutComponent
+  CommitmentLayoutComponent,
+  SchedulerComponent
 ]
 
 @NgModule({
