@@ -1,7 +1,9 @@
-import { Component, ViewChild, ModuleWithComponentFactories } from '@angular/core'
+import { Component, ViewChild } from '@angular/core'
 import { SchedulerComponent } from '../scheduler/scheduler.component'
-import{ Moment} from 'moment'
-import moment = require('moment');
+import { Moment } from 'moment'
+import moment = require('moment')
+import { DateHelper } from 'bryntum-scheduler'
+
 @Component({
   selector: 'digital-first-planner',
   templateUrl: './planner.component.html',
@@ -35,4 +37,21 @@ export class PlannerComponent {
       editable: false
     }
   ]
+
+  config = {
+    features: {
+      timeRanges: {
+        showCurrentTimeLine: true,
+        showHeaderElements: false,
+        enableResizing: false
+      }
+    },
+    timeRanges: [
+      {
+        startDate: '2019-03-17 11:00',
+        endDate: '2019-03-27 12:00',
+        cls: 'striped'
+      }
+    ]
+  }
 }
