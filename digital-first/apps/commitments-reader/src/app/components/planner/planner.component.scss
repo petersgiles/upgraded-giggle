@@ -28,3 +28,18 @@
     @include timerange-transparent($color: #d4eeff);
   }
 }
+
+.b-sch-event {
+  &.milestone {
+    position: absolute;
+    left: 0;
+    content: " ";
+    height: 0.7em;
+    width: 0.7em;
+    transform-origin: 0;
+    transform: rotate(45deg) translateX(-50%);
+    background-image: inherit;
+    background-color: inherit;
+    border: inherit;
+  }
+}

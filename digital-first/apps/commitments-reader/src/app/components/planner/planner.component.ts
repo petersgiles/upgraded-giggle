@@ -69,4 +69,10 @@ export class PlannerComponent {
       startDate: '2019-04-22'
     }
   ]
+
+  eventRenderer({ eventRecord, tplData }) {
+    // Add a custom CSS classes to the template element data by setting a property name
+    tplData.cls.milestone = eventRecord.isMilestone
+    return eventRecord.name
+  }
 }
