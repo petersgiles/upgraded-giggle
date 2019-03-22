@@ -4,8 +4,9 @@ import { ActivatedRoute } from '@angular/router'
 import {
   UserGQL,
   DeleteUserGQL,
-  DeleteApiKeyGQL,
-  CreateApiKeyGQL, UserQuery
+  // DeleteApiKeyGQL,
+  // CreateApiKeyGQL,
+  UserQuery
 } from '../../generated/graphql'
 import { map, first } from 'rxjs/operators'
 import { Subscription } from 'rxjs'
@@ -37,8 +38,8 @@ export class UserComponent implements OnInit, OnDestroy {
     private router: Router,
     public dialog: MdcDialog,
     private deleteUserGQL: DeleteUserGQL,
-    private deleteApiKeyGQL: DeleteApiKeyGQL,
-    private createApiKeyGQL: CreateApiKeyGQL
+    // private deleteApiKeyGQL: DeleteApiKeyGQL,
+    // private createApiKeyGQL: CreateApiKeyGQL
   ) {}
 
   ngOnInit() {
@@ -101,41 +102,51 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   handleDeleteApiKey($event) {
-    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
-      escapeToClose: true,
-      clickOutsideToClose: true
-    })
 
-    dialogRef
-      .afterClosed()
-      .pipe(first())
-      .subscribe(result => {
-        if (result === ARE_YOU_SURE_ACCEPT && this.user) {
-          this.deleteApiKeyGQL
-            .mutate(
-              {
-                data: {
-                  id: $event.id
-                }
-              },
-              {}
-            )
-            .subscribe(() => this.loadUser())
-        }
-      })
+    //TODO: this will need to disable the key not actually deleted it.
+    alert('not yet implemented')
+    // const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+    //   escapeToClose: true,
+    //   clickOutsideToClose: true
+    // })
+    //
+    // dialogRef
+    //   .afterClosed()
+    //   .pipe(first())
+    //   .subscribe(result => {
+    //     if (result === ARE_YOU_SURE_ACCEPT && this.user) {
+    //       this.deleteApiKeyGQL
+    //         .mutate(
+    //           {
+    //             data: {
+    //               id: $event.id
+    //             }
+    //           },
+    //           {}
+    //         )
+    //         .subscribe(() => this.loadUser())
+    //     }
+    //   })
   }
 
   handleAddApiKey() {
-    this.createApiKeyGQL
-      .mutate(
-        {
-          data: {
-            userId: this.userId
-          }
-        },
-        {}
-      )
-      .subscribe(() => this.loadUser())
+
+    //TODO:  hand the issuing of an api key
+    //This has changed to now be one way hash and so will need to present
+    //the user with a one of chance to record the api key  as it can't be retrieved
+    //due to the hash
+
+    alert('not yet implemented')
+    // this.createApiKeyGQL
+    //   .mutate(
+    //     {
+    //       data: {
+    //         userId: this.userId
+    //       }
+    //     },
+    //     {}
+    //   )
+    //   .subscribe(() => this.loadUser())
   }
 
   ngOnDestroy(): void {

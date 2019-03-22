@@ -1,18 +1,35 @@
 type Maybe<T> = T | null
+/** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string
   String: string
   Boolean: boolean
   Int: number
   Float: number
+  /** Guid */
   Guid: any
-  Date: any
-  UInt32: any
-  Json: any
-  DateTime: any
+  /** The `DateTimeOffset` scalar type represents a date, time and offset from UTC.
+   * `DateTimeOffset` expects timestamps to be formatted in accordance with the
+   * [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard.
+   */
   DateTimeOffset: any
+  /** UInt32 */
+  UInt32: any
+  /** For passing untyped JSON */
+  Json: any
+  /** The `Date` scalar type represents a year, month and day in accordance with the
+   * [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard.
+   */
+  Date: any
+  /** The `DateTime` scalar type represents a date and time. `DateTime` expects
+   * timestamps to be formatted in accordance with the
+   * [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard.
+   */
+  DateTime: any
   Decimal: any
+  /** The `Milliseconds` scalar type represents a period of time represented as the total number of milliseconds. */
   Milliseconds: any
+  /** The `Seconds` scalar type represents a period of time represented as the total number of seconds. */
   Seconds: any
 }
 
@@ -142,25 +159,12 @@ export type AgencyMappingGraphAgencyArgs = {
 }
 
 export type ApiKeyGraph = {
-  created: Scalars['Date']
+  created: Scalars['DateTimeOffset']
   disable: Scalars['Boolean']
   id: Scalars['Guid']
-  issuedBy: UserGraph
-  issuedById: Scalars['Guid']
-  issuer?: Maybe<UserGraph>
   key: Scalars['String']
-  rowVersion: Scalars['String']
   user: UserGraph
   userId: Scalars['Guid']
-}
-
-export type ApiKeyGraphIssuerArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
 }
 
 export type AppropriationGraph = {
@@ -229,7 +233,6 @@ export type CreateAgencyMappingInputGraph = {
 
 export type CreateApiKeyInputGraph = {
   userId: Scalars['Guid']
-  apiKey?: Maybe<Scalars['String']>
 }
 
 export type CreatePortfolioInputGraph = {
@@ -253,20 +256,6 @@ export type CreateProgramInputGraph = {
 
 export type CreateProgramSubmissionInputGraph = {
   programId: Scalars['Guid']
-}
-
-export type CreateProjectInputGraph = {
-  name: Scalars['String']
-  externalId?: Maybe<Scalars['String']>
-  programId: Scalars['Guid']
-  programSubmissionId: Scalars['Guid']
-  geoJson?: Maybe<Scalars['String']>
-  notes?: Maybe<Scalars['String']>
-  status?: Maybe<Scalars['String']>
-  start?: Maybe<Scalars['String']>
-  end?: Maybe<Scalars['String']>
-  organisation?: Maybe<Scalars['String']>
-  sensitivities?: Maybe<Scalars['String']>
 }
 
 export type CreateReportAccessControlInputGraph = {
@@ -358,19 +347,11 @@ export type DeleteAgencyMappingInputGraph = {
   id: Scalars['Guid']
 }
 
-export type DeleteApiKeyInputGraph = {
-  id: Scalars['Guid']
-}
-
 export type DeletePortfolioInputGraph = {
   id: Scalars['Guid']
 }
 
 export type DeleteProgramInputGraph = {
-  id: Scalars['Guid']
-}
-
-export type DeleteProjectInputGraph = {
   id: Scalars['Guid']
 }
 
@@ -399,6 +380,10 @@ export type DeleteUserInputGraph = {
   id: Scalars['Guid']
 }
 
+export type DisableApiKeyInputGraph = {
+  id: Scalars['Guid']
+}
+
 export type ElectorateAdviceGraph = {
   active: Scalars['Boolean']
   advice: Scalars['String']
@@ -407,7 +392,7 @@ export type ElectorateAdviceGraph = {
   electorate?: Maybe<ElectorateGraph>
   electorateId: Scalars['Guid']
   id: Scalars['Guid']
-  timestamp: Scalars['Date']
+  timestamp: Scalars['DateTimeOffset']
 }
 
 export type ElectorateAdviceGraphElectorateArgs = {
@@ -476,12 +461,11 @@ export type Mutation = {
   createAccessControlGroupUser?: Maybe<AccessControlGroupUserGraph>
   createAgency?: Maybe<AgencyGraph>
   createAgencyMapping?: Maybe<AgencyMappingGraph>
-  createApiKey?: Maybe<ApiKeyGraph>
+  createApiKey?: Maybe<Scalars['String']>
   createPortfolio?: Maybe<PortfolioGraph>
   createProgram?: Maybe<ProgramGraph>
   createProgramAccessControl?: Maybe<AccessControlEntryGraph>
   createProgramSubmission?: Maybe<ProgramSubmissionGraph>
-  createProject?: Maybe<ProjectGraph>
   createReport?: Maybe<ReportGraph>
   createReportAccessControl?: Maybe<AccessControlEntryGraph>
   createRole?: Maybe<RoleGraph>
@@ -496,24 +480,21 @@ export type Mutation = {
   deleteAccessControlGroupUser?: Maybe<Scalars['Boolean']>
   deleteAgency?: Maybe<Scalars['Boolean']>
   deleteAgencyMapping?: Maybe<Scalars['Boolean']>
-  deleteApiKey?: Maybe<Scalars['Boolean']>
   deletePortfolio?: Maybe<Scalars['Boolean']>
   deleteProgram?: Maybe<Scalars['Boolean']>
-  deleteProject?: Maybe<Scalars['Boolean']>
   deleteReport?: Maybe<Scalars['Boolean']>
   deleteRole?: Maybe<Scalars['Boolean']>
   deleteRoleAccessControlGroup?: Maybe<Scalars['Boolean']>
   deleteStatistic?: Maybe<Scalars['Boolean']>
   deleteStatisticReport?: Maybe<Scalars['Boolean']>
   deleteUser?: Maybe<Scalars['Boolean']>
+  disableApiKey?: Maybe<Scalars['Boolean']>
   updateAccessControl?: Maybe<AccessControlEntryGraph>
   updateAccessControlGroup?: Maybe<AccessControlGroupGraph>
   updateAgency?: Maybe<AgencyGraph>
   updateAgencyMapping?: Maybe<AgencyMappingGraph>
-  updateApiKey?: Maybe<ApiKeyGraph>
   updatePortfolio?: Maybe<PortfolioGraph>
   updateProgram?: Maybe<ProgramGraph>
-  updateProject?: Maybe<ProjectGraph>
   updateReport?: Maybe<ReportGraph>
   updateReportVersion?: Maybe<ReportVersionGraph>
   updateRole?: Maybe<RoleGraph>
@@ -557,10 +538,6 @@ export type MutationCreateProgramAccessControlArgs = {
 
 export type MutationCreateProgramSubmissionArgs = {
   input: CreateProgramSubmissionInputGraph
-}
-
-export type MutationCreateProjectArgs = {
-  input: CreateProjectInputGraph
 }
 
 export type MutationCreateReportArgs = {
@@ -619,20 +596,12 @@ export type MutationDeleteAgencyMappingArgs = {
   input: DeleteAgencyMappingInputGraph
 }
 
-export type MutationDeleteApiKeyArgs = {
-  input: DeleteApiKeyInputGraph
-}
-
 export type MutationDeletePortfolioArgs = {
   input: DeletePortfolioInputGraph
 }
 
 export type MutationDeleteProgramArgs = {
   input: DeleteProgramInputGraph
-}
-
-export type MutationDeleteProjectArgs = {
-  input: DeleteProjectInputGraph
 }
 
 export type MutationDeleteReportArgs = {
@@ -659,6 +628,10 @@ export type MutationDeleteUserArgs = {
   input: DeleteUserInputGraph
 }
 
+export type MutationDisableApiKeyArgs = {
+  input: DisableApiKeyInputGraph
+}
+
 export type MutationUpdateAccessControlArgs = {
   input: UpdateAccessControlInputGraph
 }
@@ -675,20 +648,12 @@ export type MutationUpdateAgencyMappingArgs = {
   input: UpdateAgencyMappingInputGraph
 }
 
-export type MutationUpdateApiKeyArgs = {
-  input: UpdateApiKeyInputGraph
-}
-
 export type MutationUpdatePortfolioArgs = {
   input: UpdatePortfolioInputGraph
 }
 
 export type MutationUpdateProgramArgs = {
   input: UpdateProgramInputGraph
-}
-
-export type MutationUpdateProjectArgs = {
-  input: UpdateProjectInputGraph
 }
 
 export type MutationUpdateReportArgs = {
@@ -850,13 +815,14 @@ export type ProgramGraphReportsArgs = {
 }
 
 export type ProgramSubmissionGraph = {
+  dataDate: Scalars['DateTimeOffset']
   id: Scalars['Guid']
   program?: Maybe<ProgramGraph>
   programId: Scalars['Guid']
   projects?: Maybe<Array<Maybe<ProjectGraph>>>
   submittedBy: UserGraph
   submittedById: Scalars['Guid']
-  timeStamp: Scalars['Date']
+  timeStamp: Scalars['DateTimeOffset']
 }
 
 export type ProgramSubmissionGraphProgramArgs = {
@@ -911,7 +877,7 @@ export type ProjectFundingSnapshotGraph = {
   projectId: Scalars['Guid']
   rowVersion: Scalars['String']
   spent: Scalars['UInt32']
-  timestamp: Scalars['Date']
+  timestamp: Scalars['DateTimeOffset']
 }
 
 export type ProjectFundingSnapshotGraphProjectArgs = {
@@ -926,7 +892,7 @@ export type ProjectFundingSnapshotGraphProjectArgs = {
 export type ProjectGraph = {
   electorates?: Maybe<Array<Maybe<ElectorateGraph>>>
   end: Scalars['String']
-  endDate?: Maybe<Scalars['Date']>
+  endDate?: Maybe<Scalars['DateTimeOffset']>
   externalId?: Maybe<Scalars['String']>
   geoJson?: Maybe<Scalars['String']>
   id: Scalars['Guid']
@@ -1338,7 +1304,7 @@ export type ReportGraphAccessControlListArgs = {
 }
 
 export type ReportVersionGraph = {
-  dataDate: Scalars['Date']
+  dataDate: Scalars['DateTimeOffset']
   id: Scalars['Guid']
   notes: Scalars['String']
   report?: Maybe<ReportGraph>
@@ -1347,7 +1313,7 @@ export type ReportVersionGraph = {
   reportId: Scalars['Guid']
   rowVersion: Scalars['String']
   schema?: Maybe<Scalars['String']>
-  timestamp: Scalars['Date']
+  timestamp: Scalars['DateTimeOffset']
 }
 
 export type ReportVersionGraphReportArgs = {
@@ -1563,7 +1529,7 @@ export type StatisticReportGraphAccessControlListArgs = {
 }
 
 export type StatisticReportVersionGraph = {
-  dataDate: Scalars['Date']
+  dataDate: Scalars['DateTimeOffset']
   id: Scalars['Guid']
   notes?: Maybe<Scalars['String']>
   reportFormat?: Maybe<Scalars['String']>
@@ -1572,7 +1538,7 @@ export type StatisticReportVersionGraph = {
   statisticReport?: Maybe<StatisticReportGraph>
   statisticReportData: Array<StatisticDataGraph>
   statisticReportId: Scalars['Guid']
-  timestamp: Scalars['Date']
+  timestamp: Scalars['DateTimeOffset']
 }
 
 export type StatisticReportVersionGraphStatisticReportArgs = {
@@ -1622,12 +1588,6 @@ export type UpdateAgencyMappingInputGraph = {
   rowVersion: Scalars['String']
 }
 
-export type UpdateApiKeyInputGraph = {
-  id: Scalars['Guid']
-  disable: Scalars['Boolean']
-  rowVersion: Scalars['String']
-}
-
 export type UpdatePortfolioInputGraph = {
   id: Scalars['Guid']
   title: Scalars['String']
@@ -1645,20 +1605,6 @@ export type UpdateProgramInputGraph = {
   rowVersion: Scalars['String']
 }
 
-export type UpdateProjectInputGraph = {
-  externalId?: Maybe<Scalars['String']>
-  geoJson?: Maybe<Scalars['String']>
-  id: Scalars['Guid']
-  name: Scalars['String']
-  notes?: Maybe<Scalars['String']>
-  rowVersion: Scalars['String']
-  status?: Maybe<Scalars['String']>
-  start?: Maybe<Scalars['String']>
-  end?: Maybe<Scalars['String']>
-  organisation?: Maybe<Scalars['String']>
-  sensitivities?: Maybe<Scalars['String']>
-}
-
 export type UpdateReportInputGraph = {
   id: Scalars['Guid']
   name: Scalars['String']
@@ -1669,7 +1615,7 @@ export type UpdateReportInputGraph = {
 
 export type UpdateReportVersionInputGraph = {
   id: Scalars['Guid']
-  dataDate: Scalars['Date']
+  dataDate: Scalars['DateTimeOffset']
   notes?: Maybe<Scalars['String']>
   rowVersion: Scalars['String']
 }
@@ -1715,7 +1661,7 @@ export type UpdateStatisticReportInputGraph = {
 
 export type UpdateStatisticReportVersionInputGraph = {
   id: Scalars['Guid']
-  dataDate: Scalars['Date']
+  dataDate: Scalars['DateTimeOffset']
   notes?: Maybe<Scalars['String']>
   rowVersion: Scalars['String']
 }
@@ -1732,7 +1678,7 @@ export type UserGraph = {
   apiKeys?: Maybe<Array<Maybe<ApiKeyGraph>>>
   emailAddress: Scalars['String']
   id: Scalars['Guid']
-  lastLogin?: Maybe<Scalars['Date']>
+  lastLogin?: Maybe<Scalars['DateTimeOffset']>
   programAccess?: Maybe<Array<Maybe<ResultantAccessGraph>>>
   programSubmissions?: Maybe<Array<Maybe<ProgramSubmissionGraph>>>
   reportAccess?: Maybe<Array<Maybe<ResultantAccessGraph>>>
@@ -3095,17 +3041,9 @@ export type CreateApiKeyMutationVariables = {
   data: CreateApiKeyInputGraph
 }
 
-export type CreateApiKeyMutation = { __typename?: 'Mutation' } & {
-  createApiKey: Maybe<{ __typename?: 'ApiKeyGraph' } & Pick<ApiKeyGraph, 'id'>>
-}
-
-export type DeleteApiKeyMutationVariables = {
-  data: DeleteApiKeyInputGraph
-}
-
-export type DeleteApiKeyMutation = { __typename?: 'Mutation' } & Pick<
+export type CreateApiKeyMutation = { __typename?: 'Mutation' } & Pick<
   Mutation,
-  'deleteApiKey'
+  'createApiKey'
 >
 
 export type UserQueryVariables = {
@@ -3126,7 +3064,7 @@ export type UserQuery = { __typename?: 'Query' } & {
             Maybe<
               { __typename?: 'ApiKeyGraph' } & Pick<
                 ApiKeyGraph,
-                'id' | 'key' | 'created' | 'rowVersion' | 'disable'
+                'id' | 'key' | 'created' | 'disable'
               >
             >
           >
@@ -4842,9 +4780,7 @@ export class DeleteUserGQL extends Apollo.Mutation<
 }
 export const CreateApiKeyDocument = gql`
   mutation createApiKey($data: CreateApiKeyInputGraph!) {
-    createApiKey(input: $data) {
-      id
-    }
+    createApiKey(input: $data)
   }
 `
 
@@ -4856,21 +4792,6 @@ export class CreateApiKeyGQL extends Apollo.Mutation<
   CreateApiKeyMutationVariables
 > {
   document = CreateApiKeyDocument
-}
-export const DeleteApiKeyDocument = gql`
-  mutation deleteApiKey($data: DeleteApiKeyInputGraph!) {
-    deleteApiKey(input: $data)
-  }
-`
-
-@Injectable({
-  providedIn: 'root'
-})
-export class DeleteApiKeyGQL extends Apollo.Mutation<
-  DeleteApiKeyMutation,
-  DeleteApiKeyMutationVariables
-> {
-  document = DeleteApiKeyDocument
 }
 export const UserDocument = gql`
   query user($userId: String!) {
@@ -4886,7 +4807,6 @@ export const UserDocument = gql`
         id
         key
         created
-        rowVersion
         disable
       }
       programAccess {
@@ -4965,7 +4885,4 @@ export class AllUsersSearchGQL extends Apollo.Query<
   AllUsersSearchQueryVariables
 > {
   document = AllUsersSearchDocument
-}
-
-export class DeleteProjectGQL {
 }
