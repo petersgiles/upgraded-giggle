@@ -4,12 +4,15 @@
 # import Tag, TagInput from "schema/tags.graphql"
 # import Commitment, CommitmentInput, CommitmentMapPointInput from "schema/commitments.graphql"
 # import MapPoint, MapPointInput from "schema/map-point.graphql"
+# import NavigableApplication, NavigableApplicationInput from "schema/navigation.graphql"
 
 # The "Query" type is the root of all GraphQL queries.
 type Query {
 	userProfile(id: ID): UserProfile
 	commitment(id: ID!): Commitment
 	commitments: [Commitment]
+	mappoint(place_id: String!): MapPoint
+	mappoints: [MapPoint]
     tag(id: ID!): Tag
 	tags(parent: ID): [Tag]
 }

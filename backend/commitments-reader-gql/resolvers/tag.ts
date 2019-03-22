@@ -67,11 +67,13 @@ export const createTagTable = (knex: any) => {
 			return knex.schema.createTable(DB_TABLE_TAG, function(t: any) {
 				t.increments('id').primary()
 				t.string('title', 512)
-				t.string('description', 512)
-				t.integer('sortorder', 512)
+				t.text('description')
+				t.integer('sortorder')
 				t.string('colour', 512)
 				t.string('icon', 512)
-				t.integer('parent', 512)
+				t.integer('parent').unsigned()
+
+				t.foreign('parent').references('id').inTable(DB_TABLE_TAG);
 			})
 		}
 	})

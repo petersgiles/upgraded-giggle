@@ -26,7 +26,7 @@ const sqlDB = knex({
 	useNullAsDefault: true,
 })
 
-createDB(sqlDB)
+createDB(sqlDB, true)
 
 class SqlConnector {
 	connection: any

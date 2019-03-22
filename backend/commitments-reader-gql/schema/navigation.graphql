@@ -1,0 +1,13 @@
+type NavigableApplication {
+	id: ID
+    title: String!,
+    icon: String!
+    description: String!,
+}
+
+input NavigableApplicationInput {
+	id: ID
+    title: String!,
+    icon: String!,
+    description: String!,
+}
