@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import {
-  AllAgencies,
-  AllAgenciesGQL,
+  AllAgenciesGQL, AllAgenciesQuery,
   AllProgramsGQL,
   CreateProgramGQL
 } from '../../../generated/graphql'
@@ -18,7 +17,7 @@ import { formConstants } from '../../../form-constants'
 })
 export class ProgramAddComponent implements OnInit, OnDestroy {
   agenciesSubscription$: Subscription
-  agencies: AllAgencies.Agencies[]
+  agencies: AllAgenciesQuery['agencies']
 
   addProgramForm = this.formBuilder.group({
     agencyId: [undefined, Validators.required],

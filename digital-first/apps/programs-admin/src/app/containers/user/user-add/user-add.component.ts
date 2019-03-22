@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { SelectAgenciesGQL, SelectAgencies, CreateUserGQL } from '../../../generated/graphql'
+import {SelectAgenciesGQL, CreateUserGQL, SelectAgenciesQuery} from '../../../generated/graphql'
 import {Subscription} from 'rxjs'
 import {map} from 'rxjs/operators'
 import { Observable } from 'rxjs'
@@ -18,7 +18,7 @@ export class UserAddComponent implements OnInit {
     private router: Router,
     private createUserGQL: CreateUserGQL) { }
 
-  agencies$: Observable<SelectAgencies.Agencies[]>
+  agencies$: Observable<SelectAgenciesQuery['agencies']>
   addUserForm = this.formBuilder.group({
     emailAddress: [null, [Validators.required, Validators.email]],
     agencyId: [null, Validators.required]

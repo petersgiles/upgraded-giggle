@@ -11,9 +11,7 @@ import {
   DeleteAccessControlGQL,
   DeleteStatisticGQL,
   DeleteStatisticReportGQL,
-  Maybe,
-  Statistic,
-  StatisticGQL,
+  StatisticGQL, StatisticQuery,
   UpdateAccessControlGQL
 } from '../../generated/graphql'
 import {
@@ -21,6 +19,8 @@ import {
   PermissionRow
 } from '../permission/permission.component'
 import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
+
+type Statistic = StatisticQuery['statistic']
 
 @Component({
   selector: 'digital-first-statistic',
@@ -30,8 +30,8 @@ import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
 export class StatisticComponent implements OnInit {
   statisticId: string
   statisticSubscription$: Subscription
-  statisticReportTableData: Maybe<Maybe<Statistic.StatisticReports>[]>
-  statistic: Statistic.Statistic
+  statisticReportTableData: Statistic['statisticReports']
+  statistic: Statistic
 
   noDataMessage =
     'Any authenticated user can view this statistic and subsequent statistic reports unless they have their own permission specified'
@@ -77,13 +77,13 @@ export class StatisticComponent implements OnInit {
       })
   }
 
-  handleEditStatistic(statistic: Statistic.Statistic) {
+  handleEditStatistic(statistic: Statistic) {
     return this.router.navigate(['statistics/edit', statistic.id], {
       skipLocationChange: true
     })
   }
 
-  handleDeleteStatistic(statistic: Statistic.Statistic) {
+  handleDeleteStatistic(statistic: Statistic) {
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
       clickOutsideToClose: true

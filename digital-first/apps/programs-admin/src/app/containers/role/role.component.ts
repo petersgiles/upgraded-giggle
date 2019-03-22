@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { MdcDialog } from '@angular-mdc/web'
-import { DeleteRoleGQL, Maybe, Role, RoleGQL } from '../../generated/graphql'
+import {DeleteRoleGQL, RoleGQL, RoleQuery} from '../../generated/graphql'
 import { Subscription } from 'rxjs'
 import { first, map } from 'rxjs/operators'
 import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
+
+type Role = RoleQuery['role']
 
 @Component({
   selector: 'digital-first-role',
@@ -14,7 +16,7 @@ import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
 export class RoleComponent implements OnInit {
   private roleId: string
   roleSubscription$: Subscription
-  role: Maybe<Role.Role>
+  role: Role
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -34,13 +36,13 @@ export class RoleComponent implements OnInit {
       })
   }
 
-  handleEditRoles(role: Maybe<Role.Role>) {
+  handleEditRoles(role: Role) {
     return this.router.navigate(['roles/edit', role.id], {
       skipLocationChange: true
     })
   }
 
-  handleDeleteRole(role: Maybe<Role.Role>) {
+  handleDeleteRole(role: Role) {
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
       clickOutsideToClose: true

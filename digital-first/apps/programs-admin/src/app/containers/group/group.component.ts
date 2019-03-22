@@ -2,17 +2,18 @@ import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import {
   DeleteAccessControlGroupGQL,
-  Group,
   GroupGQL,
   DeleteAccessControlGroupUserGQL,
-  Maybe,
-  DeleteRoleAccessControlGroupGQL
+  DeleteRoleAccessControlGroupGQL, GroupQuery,  RoleGraph
 } from '../../generated/graphql'
 import { first, map } from 'rxjs/operators'
 import { Subscription } from 'rxjs'
 import { MdcDialog } from '@angular-mdc/web'
-import Members = Group.Members
 import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
+
+type Group = GroupQuery['group']
+
+type Member = Group['members'][0]
 
 @Component({
   selector: 'digital-first-group',
@@ -22,9 +23,9 @@ import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
 export class GroupComponent implements OnInit {
   private groupId: string
   private groupSubscription$: Subscription
-  group: Group.Group
-  members: Maybe<Maybe<Group.Members>[]>
-  roles: Maybe<Maybe<Group.Roles>[]>
+  group: Group
+  members: Group['members']
+  roles: Group['roles']
 
   constructor(
     private route: ActivatedRoute,
@@ -49,13 +50,13 @@ export class GroupComponent implements OnInit {
       })
   }
 
-  handleEditGroup(group: Group.Group) {
+  handleEditGroup(group: Group) {
     return this.router.navigate(['groups/edit', group.id], {
       skipLocationChange: true
     })
   }
 
-  handleDeleteGroup(group: Group.Group) {
+  handleDeleteGroup(group: Group) {
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
       clickOutsideToClose: true
@@ -80,7 +81,7 @@ export class GroupComponent implements OnInit {
       })
   }
 
-  handleUserDeleteItemClicked(member: Members) {
+  handleUserDeleteItemClicked(member: Member) {
     this.deleteAccessControlGroupUserGql
       .mutate(
         {
@@ -104,7 +105,7 @@ export class GroupComponent implements OnInit {
       .subscribe(value => {})
   }
 
-  handleRoleDeleteItemClicked(role: Group.Roles) {
+  handleRoleDeleteItemClicked(role: RoleGraph) {
     this.deleteRoleAccessControlGroupGql
       .mutate(
         {

@@ -23,6 +23,6 @@ query report ($reportId: String!) {
       id
       dataDate
       notes
-    } 
+    }
   }
 }

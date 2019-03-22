@@ -9,8 +9,7 @@ import {
   AllGroupsGQL,
   CreateReportAccessControlGQL,
   DeleteAccessControlGQL,
-  Report,
-  ReportGQL,
+  ReportGQL, ReportQuery,
   UpdateAccessControlGQL
 } from '../../generated/graphql'
 import {
@@ -24,11 +23,11 @@ import {
   styleUrls: ['./program-report.component.scss']
 })
 export class ProgramReportComponent implements OnInit, OnDestroy {
-  report: Report.Report
+  report: ReportQuery['report']
   reportId: string
   programId: string
   reportSubscription$: Subscription
-  latestVersion: Report.LatestVersion
+  latestVersion: ReportQuery['report']['latestVersion']
   permissionRows: PermissionRow[]
   noDataMessage =
     'This report inherits its permissions from the program. Adding groups here will break inheritance.'
@@ -180,7 +179,7 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
       .subscribe(value => {})
   }
 
-  handleEditReport(report: Report.Report) {
+  handleEditReport(report: ReportQuery['report']) {
     return this.router.navigate(['../edit', report.id], {
       relativeTo: this.route
     })

@@ -1,477 +1,194 @@
-export type Maybe<T> = T | null
-
-export interface OrderByGraph {
-  path: string
-
-  descending?: Maybe<boolean>
+type Maybe<T> = T | null
+export type Scalars = {
+  ID: string
+  String: string
+  Boolean: boolean
+  Int: number
+  Float: number
+  Guid: any
+  Date: any
+  UInt32: any
+  Json: any
+  DateTime: any
+  DateTimeOffset: any
+  Decimal: any
+  Milliseconds: any
+  Seconds: any
 }
 
-export interface WhereExpressionGraph {
-  path: string
-
-  comparison?: Maybe<ComparisonGraph>
-
-  case?: Maybe<StringComparison>
-
-  value?: Maybe<(Maybe<string>)[]>
+export type AccessControlEntryGraph = {
+  accessControlGroup?: Maybe<AccessControlGroupGraph>
+  id: Scalars['String']
+  rights: Scalars['String']
+  rowVersion: Scalars['String']
 }
 
-export interface CreateAccessControlGroupInputGraph {
-  title: string
+export type AccessControlEntryGraphAccessControlGroupArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
 }
 
-export interface CreateAccessControlGroupUserInputGraph {
-  accessControlGroupId: Guid
-
-  userId: Guid
+export type AccessControlGroupGraph = {
+  id: Scalars['Guid']
+  members?: Maybe<Array<Maybe<UserGraph>>>
+  roles?: Maybe<Array<Maybe<RoleGraph>>>
+  rowVersion: Scalars['String']
+  title: Scalars['String']
 }
 
-export interface CreateAgencyInputGraph {
-  title: string
-
-  metadata?: Maybe<string>
-
-  portfolioId: Guid
+export type AccessControlGroupGraphMembersArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
 }
 
-export interface CreateAgencyMappingInputGraph {
-  agencyId: Guid
-
-  emailDomain: string
-
-  accessControlGroupId: Guid
+export type AccessControlGroupGraphRolesArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
 }
 
-export interface CreateApiKeyInputGraph {
-  userId: Guid
-
-  apiKey?: Maybe<string>
+export type AccessControlGroupUserGraph = {
+  accessControlGroupId: Scalars['Guid']
+  userId: Scalars['Guid']
 }
 
-export interface CreatePortfolioInputGraph {
-  title: string
-
-  metadata?: Maybe<string>
+export type AccessControlListGraph = {
+  accessControlEntries?: Maybe<Array<Maybe<AccessControlEntryGraph>>>
+  id: Scalars['Guid']
 }
 
-export interface CreateProgramInputGraph {
-  name: string
-
-  agencyId: Guid
-
-  externalId?: Maybe<string>
-
-  notes?: Maybe<string>
-
-  commitments?: Maybe<string>
+export type AccessControlListGraphAccessControlEntriesArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
 }
 
-export interface CreateProgramAccessControlInputGraph {
-  programId: Guid
-
-  accessControlGroupId: Guid
-
-  accessRights?: Maybe<AccessRights>
+export enum AccessRights {
+  None = 'NONE',
+  Read = 'READ',
+  Write = 'WRITE'
 }
 
-export interface CreateProgramSubmissionInputGraph {
-  programId: Guid
+export type AgencyGraph = {
+  agencyMapping?: Maybe<Array<Maybe<AgencyMappingGraph>>>
+  agencyMappings: Array<AgencyMappingGraph>
+  id: Scalars['Guid']
+  metadata?: Maybe<Scalars['String']>
+  portfolio?: Maybe<PortfolioGraph>
+  portfolioId: Scalars['Guid']
+  rowVersion: Scalars['String']
+  title: Scalars['String']
+  users: Array<UserGraph>
 }
 
-export interface CreateProjectInputGraph {
-  name: string
-
-  externalId?: Maybe<string>
-
-  programId: Guid
-
-  programSubmissionId: Guid
-
-  geoJson?: Maybe<string>
-
-  notes?: Maybe<string>
-
-  status?: Maybe<string>
-
-  start?: Maybe<string>
-
-  end?: Maybe<string>
-
-  organisation?: Maybe<string>
-
-  sensitivities?: Maybe<string>
+export type AgencyGraphAgencyMappingArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
 }
 
-export interface CreateReportInputGraph {
-  name: string
-
-  programId: Guid
-
-  notes?: Maybe<string>
+export type AgencyGraphPortfolioArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
 }
 
-export interface CreateReportAccessControlInputGraph {
-  reportId: Guid
-
-  accessControlGroupId: Guid
-
-  accessRights?: Maybe<AccessRights>
+export type AgencyMappingGraph = {
+  accessControlGroup?: Maybe<AccessControlGroupGraph>
+  accessControlGroupId: Scalars['Guid']
+  agency?: Maybe<AgencyGraph>
+  agencyId: Scalars['Guid']
+  emailDomain: Scalars['String']
+  id: Scalars['Guid']
+  rowVersion: Scalars['String']
 }
 
-export interface CreateRoleInputGraph {
-  title: string
-
-  description?: Maybe<string>
-
-  createAgency?: Maybe<boolean>
-
-  createProgram?: Maybe<boolean>
-
-  createProject?: Maybe<boolean>
-
-  createReport?: Maybe<boolean>
-
-  createStatistic?: Maybe<boolean>
-
-  deleteAgency?: Maybe<boolean>
-
-  deleteProgram?: Maybe<boolean>
-
-  deleteProject?: Maybe<boolean>
-
-  deleteReport?: Maybe<boolean>
-
-  deleteStatistic?: Maybe<boolean>
-
-  updateElectorateAdvice?: Maybe<boolean>
-
-  adminLogin?: Maybe<boolean>
-
-  allAgencyModifier?: Maybe<boolean>
-
-  manageApiKeys?: Maybe<boolean>
-
-  manageGroups?: Maybe<boolean>
-
-  manageAccessControls?: Maybe<boolean>
+export type AgencyMappingGraphAccessControlGroupArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
 }
 
-export interface CreateRoleAccessControlGroupInputGraph {
-  roleId: Guid
-
-  accessControlGroupId: Guid
+export type AgencyMappingGraphAgencyArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
 }
 
-export interface CreateStatisticInputGraph {
-  name: string
-
-  agencyId: Guid
-
-  externalId?: Maybe<string>
+export type ApiKeyGraph = {
+  created: Scalars['Date']
+  disable: Scalars['Boolean']
+  id: Scalars['Guid']
+  issuedBy: UserGraph
+  issuedById: Scalars['Guid']
+  issuer?: Maybe<UserGraph>
+  key: Scalars['String']
+  rowVersion: Scalars['String']
+  user: UserGraph
+  userId: Scalars['Guid']
 }
 
-export interface CreateStatisticAccessControlInputGraph {
-  statisticId: Guid
-
-  accessControlGroupId: Guid
-
-  accessRights?: Maybe<AccessRights>
+export type ApiKeyGraphIssuerArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
 }
 
-export interface CreateStatisticReportInputGraph {
-  name: string
-
-  notes?: Maybe<string>
-
-  statisticId: Guid
+export type AppropriationGraph = {
+  budget: BudgetGraph
+  budgetId: Scalars['Guid']
+  budgetYear?: Maybe<Scalars['UInt32']>
+  dollars: Scalars['UInt32']
+  financialYear: Scalars['String']
+  id: Scalars['Guid']
+  program: ProgramGraph
+  programId: Scalars['Guid']
+  rowVersion: Scalars['String']
 }
 
-export interface CreateStatisticReportAccessControlInputGraph {
-  statisticReportId: Guid
-
-  accessControlGroupId: Guid
-
-  accessRights?: Maybe<AccessRights>
+export type BudgetGraph = {
+  appropriations?: Maybe<Array<Maybe<AppropriationGraph>>>
+  id: Scalars['Guid']
+  rowVersion: Scalars['String']
+  year: Scalars['UInt32']
 }
 
-export interface CreateUserInputGraph {
-  emailAddress: string
-
-  agencyId: Guid
-}
-
-export interface DeleteAccessControlInputGraph {
-  accessControlListId: Guid
-
-  accessControlGroupId: Guid
-}
-
-export interface DeleteAccessControlGroupInputGraph {
-  id: Guid
-}
-
-export interface DeleteAccessControlGroupUserInputGraph {
-  accessControlGroupId: Guid
-
-  userId: Guid
-}
-
-export interface DeleteAgencyInputGraph {
-  id: Guid
-}
-
-export interface DeleteAgencyMappingInputGraph {
-  id: Guid
-}
-
-export interface DeleteApiKeyInputGraph {
-  id: Guid
-}
-
-export interface DeletePortfolioInputGraph {
-  id: Guid
-}
-
-export interface DeleteProgramInputGraph {
-  id: Guid
-}
-
-export interface DeleteProjectInputGraph {
-  id: Guid
-}
-
-export interface DeleteReportInputGraph {
-  id: Guid
-}
-
-export interface DeleteRoleInputGraph {
-  id: Guid
-}
-
-export interface DeleteRoleAccessControlGroupInputGraph {
-  roleId: Guid
-
-  accessControlGroupId: Guid
-}
-
-export interface DeleteStatisticInputGraph {
-  id: Guid
-}
-
-export interface DeleteStatisticReportInputGraph {
-  id: Guid
-}
-
-export interface DeleteUserInputGraph {
-  id: Guid
-}
-
-export interface UpdateAccessControlInputGraph {
-  accessControlListId: Guid
-
-  accessControlGroupId: Guid
-
-  rowVersion: string
-
-  accessRights?: Maybe<AccessRights>
-}
-
-export interface UpdateAccessControlGroupInputGraph {
-  id: Guid
-
-  title: string
-
-  rowVersion: string
-}
-
-export interface UpdateAgencyInputGraph {
-  id: Guid
-
-  title: string
-
-  metadata?: Maybe<string>
-
-  rowVersion: string
-
-  portfolioId: Guid
-}
-
-export interface UpdateAgencyMappingInputGraph {
-  id: Guid
-
-  agencyId: Guid
-
-  emailDomain: string
-
-  accessControlGroupId: Guid
-
-  rowVersion: string
-}
-
-export interface UpdateApiKeyInputGraph {
-  id: Guid
-
-  disable: boolean
-
-  rowVersion: string
-}
-
-export interface UpdatePortfolioInputGraph {
-  id: Guid
-
-  title: string
-
-  metadata?: Maybe<string>
-
-  rowVersion: string
-}
-
-export interface UpdateProgramInputGraph {
-  id: Guid
-
-  name: string
-
-  agencyId: Guid
-
-  externalId?: Maybe<string>
-
-  notes?: Maybe<string>
-
-  commitments?: Maybe<string>
-
-  rowVersion: string
-}
-
-export interface UpdateProjectInputGraph {
-  externalId?: Maybe<string>
-
-  geoJson?: Maybe<string>
-
-  id: Guid
-
-  name: string
-
-  notes?: Maybe<string>
-
-  rowVersion: string
-
-  status?: Maybe<string>
-
-  start?: Maybe<string>
-
-  end?: Maybe<string>
-
-  organisation?: Maybe<string>
-
-  sensitivities?: Maybe<string>
-}
-
-export interface UpdateReportInputGraph {
-  id: Guid
-
-  name: string
-
-  programId: Guid
-
-  notes?: Maybe<string>
-
-  rowVersion: string
-}
-
-export interface UpdateReportVersionInputGraph {
-  id: Guid
-
-  dataDate: Date
-
-  notes?: Maybe<string>
-
-  rowVersion: string
-}
-
-export interface UpdateRoleInputGraph {
-  id: Guid
-
-  title: string
-
-  description?: Maybe<string>
-
-  rowVersion: string
-
-  createAgency?: Maybe<boolean>
-
-  createProgram?: Maybe<boolean>
-
-  createProject?: Maybe<boolean>
-
-  createReport?: Maybe<boolean>
-
-  createStatistic?: Maybe<boolean>
-
-  deleteAgency?: Maybe<boolean>
-
-  deleteProgram?: Maybe<boolean>
-
-  deleteProject?: Maybe<boolean>
-
-  deleteReport?: Maybe<boolean>
-
-  deleteStatistic?: Maybe<boolean>
-
-  updateElectorateAdvice?: Maybe<boolean>
-
-  adminLogin?: Maybe<boolean>
-
-  allAgencyModifier?: Maybe<boolean>
-
-  manageApiKeys?: Maybe<boolean>
-
-  manageGroups?: Maybe<boolean>
-
-  manageAccessControls?: Maybe<boolean>
-}
-
-export interface UpdateStatisticInputGraph {
-  id: Guid
-
-  name: string
-
-  agencyId: Guid
-
-  externalId?: Maybe<string>
-
-  rowVersion: string
-}
-
-export interface UpdateStatisticReportInputGraph {
-  id: Guid
-
-  name: string
-
-  notes?: Maybe<string>
-
-  statisticId: Guid
-
-  rowVersion: string
-}
-
-export interface UpdateStatisticReportVersionInputGraph {
-  id: Guid
-
-  dataDate: Date
-
-  notes?: Maybe<string>
-
-  rowVersion: string
-}
-
-export interface UpdateUserInputGraph {
-  id: Guid
-
-  emailAddress: string
-
-  agencyId: Guid
-
-  rowVersion: string
+export type BudgetGraphAppropriationsArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
 }
 
 export enum ComparisonGraph {
@@ -489,2487 +206,3859 @@ export enum ComparisonGraph {
   StartsWith = 'startsWith'
 }
 
+export type CreateAccessControlGroupInputGraph = {
+  title: Scalars['String']
+}
+
+export type CreateAccessControlGroupUserInputGraph = {
+  accessControlGroupId: Scalars['Guid']
+  userId: Scalars['Guid']
+}
+
+export type CreateAgencyInputGraph = {
+  title: Scalars['String']
+  metadata?: Maybe<Scalars['String']>
+  portfolioId: Scalars['Guid']
+}
+
+export type CreateAgencyMappingInputGraph = {
+  agencyId: Scalars['Guid']
+  emailDomain: Scalars['String']
+  accessControlGroupId: Scalars['Guid']
+}
+
+export type CreateApiKeyInputGraph = {
+  userId: Scalars['Guid']
+  apiKey?: Maybe<Scalars['String']>
+}
+
+export type CreatePortfolioInputGraph = {
+  title: Scalars['String']
+  metadata?: Maybe<Scalars['String']>
+}
+
+export type CreateProgramAccessControlInputGraph = {
+  programId: Scalars['Guid']
+  accessControlGroupId: Scalars['Guid']
+  accessRights?: Maybe<AccessRights>
+}
+
+export type CreateProgramInputGraph = {
+  name: Scalars['String']
+  agencyId: Scalars['Guid']
+  externalId?: Maybe<Scalars['String']>
+  notes?: Maybe<Scalars['String']>
+  commitments?: Maybe<Scalars['String']>
+}
+
+export type CreateProgramSubmissionInputGraph = {
+  programId: Scalars['Guid']
+}
+
+export type CreateProjectInputGraph = {
+  name: Scalars['String']
+  externalId?: Maybe<Scalars['String']>
+  programId: Scalars['Guid']
+  programSubmissionId: Scalars['Guid']
+  geoJson?: Maybe<Scalars['String']>
+  notes?: Maybe<Scalars['String']>
+  status?: Maybe<Scalars['String']>
+  start?: Maybe<Scalars['String']>
+  end?: Maybe<Scalars['String']>
+  organisation?: Maybe<Scalars['String']>
+  sensitivities?: Maybe<Scalars['String']>
+}
+
+export type CreateReportAccessControlInputGraph = {
+  reportId: Scalars['Guid']
+  accessControlGroupId: Scalars['Guid']
+  accessRights?: Maybe<AccessRights>
+}
+
+export type CreateReportInputGraph = {
+  name: Scalars['String']
+  programId: Scalars['Guid']
+  notes?: Maybe<Scalars['String']>
+}
+
+export type CreateRoleAccessControlGroupInputGraph = {
+  roleId: Scalars['Guid']
+  accessControlGroupId: Scalars['Guid']
+}
+
+export type CreateRoleInputGraph = {
+  title: Scalars['String']
+  description?: Maybe<Scalars['String']>
+  createAgency?: Maybe<Scalars['Boolean']>
+  createProgram?: Maybe<Scalars['Boolean']>
+  createProject?: Maybe<Scalars['Boolean']>
+  createReport?: Maybe<Scalars['Boolean']>
+  createStatistic?: Maybe<Scalars['Boolean']>
+  deleteAgency?: Maybe<Scalars['Boolean']>
+  deleteProgram?: Maybe<Scalars['Boolean']>
+  deleteProject?: Maybe<Scalars['Boolean']>
+  deleteReport?: Maybe<Scalars['Boolean']>
+  deleteStatistic?: Maybe<Scalars['Boolean']>
+  updateElectorateAdvice?: Maybe<Scalars['Boolean']>
+  adminLogin?: Maybe<Scalars['Boolean']>
+  allAgencyModifier?: Maybe<Scalars['Boolean']>
+  manageApiKeys?: Maybe<Scalars['Boolean']>
+  manageGroups?: Maybe<Scalars['Boolean']>
+  manageAccessControls?: Maybe<Scalars['Boolean']>
+}
+
+export type CreateStatisticAccessControlInputGraph = {
+  statisticId: Scalars['Guid']
+  accessControlGroupId: Scalars['Guid']
+  accessRights?: Maybe<AccessRights>
+}
+
+export type CreateStatisticInputGraph = {
+  name: Scalars['String']
+  agencyId: Scalars['Guid']
+  externalId?: Maybe<Scalars['String']>
+}
+
+export type CreateStatisticReportAccessControlInputGraph = {
+  statisticReportId: Scalars['Guid']
+  accessControlGroupId: Scalars['Guid']
+  accessRights?: Maybe<AccessRights>
+}
+
+export type CreateStatisticReportInputGraph = {
+  name: Scalars['String']
+  notes?: Maybe<Scalars['String']>
+  statisticId: Scalars['Guid']
+}
+
+export type CreateUserInputGraph = {
+  emailAddress: Scalars['String']
+  agencyId: Scalars['Guid']
+}
+
+export type DeleteAccessControlGroupInputGraph = {
+  id: Scalars['Guid']
+}
+
+export type DeleteAccessControlGroupUserInputGraph = {
+  accessControlGroupId: Scalars['Guid']
+  userId: Scalars['Guid']
+}
+
+export type DeleteAccessControlInputGraph = {
+  accessControlListId: Scalars['Guid']
+  accessControlGroupId: Scalars['Guid']
+}
+
+export type DeleteAgencyInputGraph = {
+  id: Scalars['Guid']
+}
+
+export type DeleteAgencyMappingInputGraph = {
+  id: Scalars['Guid']
+}
+
+export type DeleteApiKeyInputGraph = {
+  id: Scalars['Guid']
+}
+
+export type DeletePortfolioInputGraph = {
+  id: Scalars['Guid']
+}
+
+export type DeleteProgramInputGraph = {
+  id: Scalars['Guid']
+}
+
+export type DeleteProjectInputGraph = {
+  id: Scalars['Guid']
+}
+
+export type DeleteReportInputGraph = {
+  id: Scalars['Guid']
+}
+
+export type DeleteRoleAccessControlGroupInputGraph = {
+  roleId: Scalars['Guid']
+  accessControlGroupId: Scalars['Guid']
+}
+
+export type DeleteRoleInputGraph = {
+  id: Scalars['Guid']
+}
+
+export type DeleteStatisticInputGraph = {
+  id: Scalars['Guid']
+}
+
+export type DeleteStatisticReportInputGraph = {
+  id: Scalars['Guid']
+}
+
+export type DeleteUserInputGraph = {
+  id: Scalars['Guid']
+}
+
+export type ElectorateAdviceGraph = {
+  active: Scalars['Boolean']
+  advice: Scalars['String']
+  createdBy: UserGraph
+  createdById: Scalars['Guid']
+  electorate?: Maybe<ElectorateGraph>
+  electorateId: Scalars['Guid']
+  id: Scalars['Guid']
+  timestamp: Scalars['Date']
+}
+
+export type ElectorateAdviceGraphElectorateArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ElectorateGraph = {
+  advice?: Maybe<Array<Maybe<ElectorateAdviceGraph>>>
+  electorateAdvice: Array<ElectorateAdviceGraph>
+  id: Scalars['Guid']
+  member: Scalars['String']
+  name: Scalars['String']
+  party: Scalars['String']
+  percentOfStatePopulation: Scalars['Float']
+  population: Scalars['UInt32']
+  programs?: Maybe<Array<Maybe<ProgramGraph>>>
+  projects?: Maybe<Array<Maybe<ProjectGraph>>>
+  rowVersion: Scalars['String']
+  state?: Maybe<StateGraph>
+  stateId: Scalars['Guid']
+}
+
+export type ElectorateGraphAdviceArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ElectorateGraphProgramsArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ElectorateGraphProjectsArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ElectorateGraphStateArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type Mutation = {
+  createAccessControlGroup?: Maybe<AccessControlGroupGraph>
+  createAccessControlGroupUser?: Maybe<AccessControlGroupUserGraph>
+  createAgency?: Maybe<AgencyGraph>
+  createAgencyMapping?: Maybe<AgencyMappingGraph>
+  createApiKey?: Maybe<ApiKeyGraph>
+  createPortfolio?: Maybe<PortfolioGraph>
+  createProgram?: Maybe<ProgramGraph>
+  createProgramAccessControl?: Maybe<AccessControlEntryGraph>
+  createProgramSubmission?: Maybe<ProgramSubmissionGraph>
+  createProject?: Maybe<ProjectGraph>
+  createReport?: Maybe<ReportGraph>
+  createReportAccessControl?: Maybe<AccessControlEntryGraph>
+  createRole?: Maybe<RoleGraph>
+  createRoleAccessControlGroup?: Maybe<RoleAccessControlGroupGraph>
+  createStatistic?: Maybe<StatisticGraph>
+  createStatisticAccessControl?: Maybe<AccessControlEntryGraph>
+  createStatisticReport?: Maybe<StatisticReportGraph>
+  createStatisticReportAccessControl?: Maybe<AccessControlEntryGraph>
+  createUser?: Maybe<UserGraph>
+  deleteAccessControl?: Maybe<Scalars['Boolean']>
+  deleteAccessControlGroup?: Maybe<Scalars['Boolean']>
+  deleteAccessControlGroupUser?: Maybe<Scalars['Boolean']>
+  deleteAgency?: Maybe<Scalars['Boolean']>
+  deleteAgencyMapping?: Maybe<Scalars['Boolean']>
+  deleteApiKey?: Maybe<Scalars['Boolean']>
+  deletePortfolio?: Maybe<Scalars['Boolean']>
+  deleteProgram?: Maybe<Scalars['Boolean']>
+  deleteProject?: Maybe<Scalars['Boolean']>
+  deleteReport?: Maybe<Scalars['Boolean']>
+  deleteRole?: Maybe<Scalars['Boolean']>
+  deleteRoleAccessControlGroup?: Maybe<Scalars['Boolean']>
+  deleteStatistic?: Maybe<Scalars['Boolean']>
+  deleteStatisticReport?: Maybe<Scalars['Boolean']>
+  deleteUser?: Maybe<Scalars['Boolean']>
+  updateAccessControl?: Maybe<AccessControlEntryGraph>
+  updateAccessControlGroup?: Maybe<AccessControlGroupGraph>
+  updateAgency?: Maybe<AgencyGraph>
+  updateAgencyMapping?: Maybe<AgencyMappingGraph>
+  updateApiKey?: Maybe<ApiKeyGraph>
+  updatePortfolio?: Maybe<PortfolioGraph>
+  updateProgram?: Maybe<ProgramGraph>
+  updateProject?: Maybe<ProjectGraph>
+  updateReport?: Maybe<ReportGraph>
+  updateReportVersion?: Maybe<ReportVersionGraph>
+  updateRole?: Maybe<RoleGraph>
+  updateStatistic?: Maybe<StatisticGraph>
+  updateStatisticReport?: Maybe<StatisticReportGraph>
+  updateStatisticReportVersion?: Maybe<StatisticReportVersionGraph>
+  updateUser?: Maybe<UserGraph>
+}
+
+export type MutationCreateAccessControlGroupArgs = {
+  input: CreateAccessControlGroupInputGraph
+}
+
+export type MutationCreateAccessControlGroupUserArgs = {
+  input: CreateAccessControlGroupUserInputGraph
+}
+
+export type MutationCreateAgencyArgs = {
+  input: CreateAgencyInputGraph
+}
+
+export type MutationCreateAgencyMappingArgs = {
+  input: CreateAgencyMappingInputGraph
+}
+
+export type MutationCreateApiKeyArgs = {
+  input: CreateApiKeyInputGraph
+}
+
+export type MutationCreatePortfolioArgs = {
+  input: CreatePortfolioInputGraph
+}
+
+export type MutationCreateProgramArgs = {
+  input: CreateProgramInputGraph
+}
+
+export type MutationCreateProgramAccessControlArgs = {
+  input: CreateProgramAccessControlInputGraph
+}
+
+export type MutationCreateProgramSubmissionArgs = {
+  input: CreateProgramSubmissionInputGraph
+}
+
+export type MutationCreateProjectArgs = {
+  input: CreateProjectInputGraph
+}
+
+export type MutationCreateReportArgs = {
+  input: CreateReportInputGraph
+}
+
+export type MutationCreateReportAccessControlArgs = {
+  input: CreateReportAccessControlInputGraph
+}
+
+export type MutationCreateRoleArgs = {
+  input: CreateRoleInputGraph
+}
+
+export type MutationCreateRoleAccessControlGroupArgs = {
+  input: CreateRoleAccessControlGroupInputGraph
+}
+
+export type MutationCreateStatisticArgs = {
+  input: CreateStatisticInputGraph
+}
+
+export type MutationCreateStatisticAccessControlArgs = {
+  input: CreateStatisticAccessControlInputGraph
+}
+
+export type MutationCreateStatisticReportArgs = {
+  input: CreateStatisticReportInputGraph
+}
+
+export type MutationCreateStatisticReportAccessControlArgs = {
+  input: CreateStatisticReportAccessControlInputGraph
+}
+
+export type MutationCreateUserArgs = {
+  input: CreateUserInputGraph
+}
+
+export type MutationDeleteAccessControlArgs = {
+  input: DeleteAccessControlInputGraph
+}
+
+export type MutationDeleteAccessControlGroupArgs = {
+  input: DeleteAccessControlGroupInputGraph
+}
+
+export type MutationDeleteAccessControlGroupUserArgs = {
+  input: DeleteAccessControlGroupUserInputGraph
+}
+
+export type MutationDeleteAgencyArgs = {
+  input: DeleteAgencyInputGraph
+}
+
+export type MutationDeleteAgencyMappingArgs = {
+  input: DeleteAgencyMappingInputGraph
+}
+
+export type MutationDeleteApiKeyArgs = {
+  input: DeleteApiKeyInputGraph
+}
+
+export type MutationDeletePortfolioArgs = {
+  input: DeletePortfolioInputGraph
+}
+
+export type MutationDeleteProgramArgs = {
+  input: DeleteProgramInputGraph
+}
+
+export type MutationDeleteProjectArgs = {
+  input: DeleteProjectInputGraph
+}
+
+export type MutationDeleteReportArgs = {
+  input: DeleteReportInputGraph
+}
+
+export type MutationDeleteRoleArgs = {
+  input: DeleteRoleInputGraph
+}
+
+export type MutationDeleteRoleAccessControlGroupArgs = {
+  input: DeleteRoleAccessControlGroupInputGraph
+}
+
+export type MutationDeleteStatisticArgs = {
+  input: DeleteStatisticInputGraph
+}
+
+export type MutationDeleteStatisticReportArgs = {
+  input: DeleteStatisticReportInputGraph
+}
+
+export type MutationDeleteUserArgs = {
+  input: DeleteUserInputGraph
+}
+
+export type MutationUpdateAccessControlArgs = {
+  input: UpdateAccessControlInputGraph
+}
+
+export type MutationUpdateAccessControlGroupArgs = {
+  input: UpdateAccessControlGroupInputGraph
+}
+
+export type MutationUpdateAgencyArgs = {
+  input: UpdateAgencyInputGraph
+}
+
+export type MutationUpdateAgencyMappingArgs = {
+  input: UpdateAgencyMappingInputGraph
+}
+
+export type MutationUpdateApiKeyArgs = {
+  input: UpdateApiKeyInputGraph
+}
+
+export type MutationUpdatePortfolioArgs = {
+  input: UpdatePortfolioInputGraph
+}
+
+export type MutationUpdateProgramArgs = {
+  input: UpdateProgramInputGraph
+}
+
+export type MutationUpdateProjectArgs = {
+  input: UpdateProjectInputGraph
+}
+
+export type MutationUpdateReportArgs = {
+  input: UpdateReportInputGraph
+}
+
+export type MutationUpdateReportVersionArgs = {
+  input: UpdateReportVersionInputGraph
+}
+
+export type MutationUpdateRoleArgs = {
+  input: UpdateRoleInputGraph
+}
+
+export type MutationUpdateStatisticArgs = {
+  input: UpdateStatisticInputGraph
+}
+
+export type MutationUpdateStatisticReportArgs = {
+  input: UpdateStatisticReportInputGraph
+}
+
+export type MutationUpdateStatisticReportVersionArgs = {
+  input: UpdateStatisticReportVersionInputGraph
+}
+
+export type MutationUpdateUserArgs = {
+  input: UpdateUserInputGraph
+}
+
+export type OrderByGraph = {
+  path: Scalars['String']
+  descending?: Maybe<Scalars['Boolean']>
+}
+
+export type PortfolioGraph = {
+  agencies?: Maybe<Array<Maybe<AgencyGraph>>>
+  id: Scalars['Guid']
+  metadata?: Maybe<Scalars['String']>
+  rowVersion: Scalars['String']
+  title: Scalars['String']
+}
+
+export type PortfolioGraphAgenciesArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ProgramAccessControlListGraph = {
+  accessControlList: AccessControlListGraph
+  accessControlListId: Scalars['Guid']
+  accessControls?: Maybe<AccessControlListGraph>
+  program?: Maybe<ProgramGraph>
+  programId: Scalars['Guid']
+}
+
+export type ProgramAccessControlListGraphAccessControlsArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ProgramAccessControlListGraphProgramArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ProgramGraph = {
+  accessControlList?: Maybe<Array<Maybe<AccessControlListGraph>>>
+  agency?: Maybe<AgencyGraph>
+  agencyId: Scalars['Guid']
+  appropriations?: Maybe<Array<Maybe<AppropriationGraph>>>
+  commitments?: Maybe<Scalars['String']>
+  electorates?: Maybe<Array<Maybe<ElectorateGraph>>>
+  externalId?: Maybe<Scalars['String']>
+  id: Scalars['Guid']
+  name: Scalars['String']
+  notes?: Maybe<Scalars['String']>
+  programAccessControlList: ProgramAccessControlListGraph
+  programSubmission?: Maybe<Array<Maybe<ProgramSubmissionGraph>>>
+  programSubmissions: Array<ProgramSubmissionGraph>
+  projects?: Maybe<Array<Maybe<ProjectGraph>>>
+  reports?: Maybe<Array<Maybe<ReportGraph>>>
+  rowVersion: Scalars['String']
+}
+
+export type ProgramGraphAccessControlListArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ProgramGraphAgencyArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ProgramGraphAppropriationsArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ProgramGraphElectoratesArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ProgramGraphProgramSubmissionArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ProgramGraphProjectsArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ProgramGraphReportsArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ProgramSubmissionGraph = {
+  id: Scalars['Guid']
+  program?: Maybe<ProgramGraph>
+  programId: Scalars['Guid']
+  projects?: Maybe<Array<Maybe<ProjectGraph>>>
+  submittedBy: UserGraph
+  submittedById: Scalars['Guid']
+  timeStamp: Scalars['Date']
+}
+
+export type ProgramSubmissionGraphProgramArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ProgramSubmissionGraphProjectsArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ProjectElectorateGraph = {
+  electorate?: Maybe<ElectorateGraph>
+  electorateId: Scalars['Guid']
+  project?: Maybe<ProjectGraph>
+  projectId: Scalars['Guid']
+}
+
+export type ProjectElectorateGraphElectorateArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ProjectElectorateGraphProjectArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ProjectFundingSnapshotGraph = {
+  committed: Scalars['UInt32']
+  id: Scalars['Guid']
+  program: ProgramGraph
+  programId: Scalars['Guid']
+  project?: Maybe<ProjectGraph>
+  projectId: Scalars['Guid']
+  rowVersion: Scalars['String']
+  spent: Scalars['UInt32']
+  timestamp: Scalars['Date']
+}
+
+export type ProjectFundingSnapshotGraphProjectArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ProjectGraph = {
+  electorates?: Maybe<Array<Maybe<ElectorateGraph>>>
+  end: Scalars['String']
+  endDate?: Maybe<Scalars['Date']>
+  externalId?: Maybe<Scalars['String']>
+  geoJson?: Maybe<Scalars['String']>
+  id: Scalars['Guid']
+  markdown: Scalars['String']
+  name: Scalars['String']
+  notes?: Maybe<Scalars['String']>
+  organisation: Scalars['String']
+  program?: Maybe<ProgramGraph>
+  programId: Scalars['Guid']
+  programSubmission?: Maybe<ProgramSubmissionGraph>
+  programSubmissionId: Scalars['Guid']
+  projectElectorates: Array<ProjectElectorateGraph>
+  projectFundingSnapshots?: Maybe<Array<Maybe<ProjectFundingSnapshotGraph>>>
+  rowVersion: Scalars['String']
+  sensitivities: Scalars['String']
+  start: Scalars['String']
+  status?: Maybe<Scalars['String']>
+}
+
+export type ProjectGraphElectoratesArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ProjectGraphProgramArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ProjectGraphProgramSubmissionArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ProjectGraphProjectFundingSnapshotsArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type Query = {
+  agencies?: Maybe<Array<Maybe<AgencyGraph>>>
+  agency?: Maybe<AgencyGraph>
+  agencyMapping?: Maybe<AgencyMappingGraph>
+  agencyMappings?: Maybe<Array<Maybe<AgencyMappingGraph>>>
+  electorate?: Maybe<ElectorateGraph>
+  electorates?: Maybe<Array<Maybe<ElectorateGraph>>>
+  group?: Maybe<AccessControlGroupGraph>
+  groups?: Maybe<Array<Maybe<AccessControlGroupGraph>>>
+  latestVersion?: Maybe<StatisticReportVersionGraph>
+  portfolio?: Maybe<PortfolioGraph>
+  portfolios?: Maybe<Array<Maybe<PortfolioGraph>>>
+  program?: Maybe<ProgramGraph>
+  programs?: Maybe<Array<Maybe<ProgramGraph>>>
+  programSubmission?: Maybe<ProgramSubmissionGraph>
+  programSubmissions?: Maybe<Array<Maybe<ProgramSubmissionGraph>>>
+  project?: Maybe<ProjectGraph>
+  projects?: Maybe<Array<Maybe<ProjectGraph>>>
+  report?: Maybe<ReportGraph>
+  reports?: Maybe<Array<Maybe<ReportGraph>>>
+  reportVersion?: Maybe<ReportVersionGraph>
+  role?: Maybe<RoleGraph>
+  roles?: Maybe<Array<Maybe<RoleGraph>>>
+  statistic?: Maybe<StatisticGraph>
+  statisticReport?: Maybe<StatisticReportGraph>
+  statisticReports?: Maybe<Array<Maybe<StatisticReportGraph>>>
+  statisticReportVersion?: Maybe<StatisticReportVersionGraph>
+  statistics?: Maybe<Array<Maybe<StatisticGraph>>>
+  user?: Maybe<UserGraph>
+  users?: Maybe<Array<Maybe<UserGraph>>>
+}
+
+export type QueryAgenciesArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryAgencyArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryAgencyMappingArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryAgencyMappingsArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryElectorateArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryElectoratesArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryGroupArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryGroupsArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryLatestVersionArgs = {
+  statisticReportId: Scalars['String']
+}
+
+export type QueryPortfolioArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryPortfoliosArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryProgramArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryProgramsArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryProgramSubmissionArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryProgramSubmissionsArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryProjectArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryProjectsArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryReportArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryReportsArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryReportVersionArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryRoleArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryRolesArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryStatisticArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryStatisticReportArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryStatisticReportsArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryStatisticReportVersionArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryStatisticsArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryUserArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryUsersArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ReportAccessControlListGraph = {
+  accessControlList?: Maybe<AccessControlListGraph>
+  accessControlListId: Scalars['Guid']
+  report?: Maybe<ReportGraph>
+  reportId: Scalars['Guid']
+}
+
+export type ReportAccessControlListGraphAccessControlListArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ReportAccessControlListGraphReportArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ReportDataGraph = {
+  data?: Maybe<Scalars['Json']>
+  id: Scalars['Guid']
+  markdown: Scalars['String']
+  report: ReportGraph
+  reportId: Scalars['Guid']
+  reportVersion?: Maybe<ReportVersionGraph>
+  reportVersionId: Scalars['Guid']
+  sortOrder: Scalars['UInt32']
+}
+
+export type ReportDataGraphReportVersionArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ReportGraph = {
+  accessControlList?: Maybe<Array<Maybe<AccessControlListGraph>>>
+  id: Scalars['Guid']
+  latestVersion?: Maybe<ReportVersionGraph>
+  name: Scalars['String']
+  notes?: Maybe<Scalars['String']>
+  program: ProgramGraph
+  programId: Scalars['Guid']
+  reportAccessControlList: ReportAccessControlListGraph
+  reportVersions: Array<ReportVersionGraph>
+  rowVersion: Scalars['String']
+}
+
+export type ReportGraphAccessControlListArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ReportVersionGraph = {
+  dataDate: Scalars['Date']
+  id: Scalars['Guid']
+  notes: Scalars['String']
+  report?: Maybe<ReportGraph>
+  reportData: Array<ReportDataGraph>
+  reportFormat?: Maybe<Scalars['String']>
+  reportId: Scalars['Guid']
+  rowVersion: Scalars['String']
+  schema?: Maybe<Scalars['String']>
+  timestamp: Scalars['Date']
+}
+
+export type ReportVersionGraphReportArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ResultantAccessGraph = {
+  accessControlListId?: Maybe<Scalars['Guid']>
+  accessRights: Scalars['String']
+  accessWasInherited?: Maybe<Scalars['Boolean']>
+  entityId: Scalars['Guid']
+  groupId: Scalars['Guid']
+  groupName?: Maybe<Scalars['String']>
+  hasAccessToParent?: Maybe<Scalars['Boolean']>
+  name: Scalars['String']
+  parentId?: Maybe<Scalars['Guid']>
+  parentName?: Maybe<Scalars['String']>
+}
+
+export type RoleAccessControlGroupGraph = {
+  accessControlGroup?: Maybe<AccessControlGroupGraph>
+  accessControlGroupId: Scalars['Guid']
+  role?: Maybe<RoleGraph>
+  roleId: Scalars['Guid']
+}
+
+export type RoleAccessControlGroupGraphAccessControlGroupArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type RoleAccessControlGroupGraphRoleArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type RoleGraph = {
+  adminLogin: Scalars['Boolean']
+  allAgencyModifier: Scalars['Boolean']
+  createAgency: Scalars['Boolean']
+  createProgram: Scalars['Boolean']
+  createProject: Scalars['Boolean']
+  createReport: Scalars['Boolean']
+  createStatistic: Scalars['Boolean']
+  deleteAgency: Scalars['Boolean']
+  deleteProgram: Scalars['Boolean']
+  deleteProject: Scalars['Boolean']
+  deleteReport: Scalars['Boolean']
+  deleteStatistic: Scalars['Boolean']
+  description: Scalars['String']
+  id: Scalars['Guid']
+  manageAccessControls: Scalars['Boolean']
+  manageApiKeys: Scalars['Boolean']
+  manageGroups: Scalars['Boolean']
+  rowVersion: Scalars['String']
+  title: Scalars['String']
+  updateElectorateAdvice: Scalars['Boolean']
+}
+
+export type StateGraph = {
+  abbreviation: Scalars['String']
+  electorates: Array<ElectorateGraph>
+  id: Scalars['Guid']
+  name: Scalars['String']
+  population: Scalars['UInt32']
+  rowVersion: Scalars['String']
+}
+
+export type StatisticAccessControlListGraph = {
+  accessControlList: AccessControlListGraph
+  accessControlListId: Scalars['Guid']
+  accessControls?: Maybe<AccessControlListGraph>
+  statistic?: Maybe<StatisticGraph>
+  statisticId: Scalars['Guid']
+}
+
+export type StatisticAccessControlListGraphAccessControlsArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type StatisticAccessControlListGraphStatisticArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type StatisticDataGraph = {
+  data?: Maybe<Scalars['Json']>
+  id: Scalars['Guid']
+  markdown: Scalars['String']
+  sortOrder: Scalars['UInt32']
+  statisticReport: StatisticReportGraph
+  statisticReportId: Scalars['Guid']
+  statisticReportVersion?: Maybe<StatisticReportVersionGraph>
+  statisticReportVersionId: Scalars['Guid']
+}
+
+export type StatisticDataGraphStatisticReportVersionArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type StatisticGraph = {
+  accessControlList?: Maybe<Array<Maybe<AccessControlListGraph>>>
+  agency?: Maybe<AgencyGraph>
+  agencyId?: Maybe<Scalars['Guid']>
+  externalId?: Maybe<Scalars['String']>
+  id: Scalars['Guid']
+  name: Scalars['String']
+  rowVersion: Scalars['String']
+  statisticAccessControlList: StatisticAccessControlListGraph
+  statisticReports?: Maybe<Array<Maybe<StatisticReportGraph>>>
+}
+
+export type StatisticGraphAccessControlListArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type StatisticGraphAgencyArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type StatisticGraphStatisticReportsArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type StatisticReportAccessControlListGraph = {
+  accessControlList: AccessControlListGraph
+  accessControlListId: Scalars['Guid']
+  accessControls?: Maybe<AccessControlListGraph>
+  statisticReport?: Maybe<StatisticReportGraph>
+  statisticReportId: Scalars['Guid']
+}
+
+export type StatisticReportAccessControlListGraphAccessControlsArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type StatisticReportAccessControlListGraphStatisticReportArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type StatisticReportGraph = {
+  accessControlList?: Maybe<Array<Maybe<AccessControlListGraph>>>
+  id: Scalars['Guid']
+  latestVersion?: Maybe<StatisticReportVersionGraph>
+  name: Scalars['String']
+  notes?: Maybe<Scalars['String']>
+  rowVersion: Scalars['String']
+  statistic: StatisticGraph
+  statisticId: Scalars['Guid']
+  statisticReportAccessControlList: StatisticReportAccessControlListGraph
+  statisticReportVersions: Array<StatisticReportVersionGraph>
+}
+
+export type StatisticReportGraphAccessControlListArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type StatisticReportVersionGraph = {
+  dataDate: Scalars['Date']
+  id: Scalars['Guid']
+  notes?: Maybe<Scalars['String']>
+  reportFormat?: Maybe<Scalars['String']>
+  rowVersion: Scalars['String']
+  schema: Scalars['String']
+  statisticReport?: Maybe<StatisticReportGraph>
+  statisticReportData: Array<StatisticDataGraph>
+  statisticReportId: Scalars['Guid']
+  timestamp: Scalars['Date']
+}
+
+export type StatisticReportVersionGraphStatisticReportArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
 export enum StringComparison {
-  CurrentCulture = 'CURRENT_CULTURE',
-  CurrentCultureIgnoreCase = 'CURRENT_CULTURE_IGNORE_CASE',
-  InvariantCulture = 'INVARIANT_CULTURE',
-  InvariantCultureIgnoreCase = 'INVARIANT_CULTURE_IGNORE_CASE',
+  Current_Culture = 'CURRENT_CULTURE',
+  Current_Culture_Ignore_Case = 'CURRENT_CULTURE_IGNORE_CASE',
+  Invariant_Culture = 'INVARIANT_CULTURE',
+  Invariant_Culture_Ignore_Case = 'INVARIANT_CULTURE_IGNORE_CASE',
   Ordinal = 'ORDINAL',
-  OrdinalIgnoreCase = 'ORDINAL_IGNORE_CASE'
+  Ordinal_Ignore_Case = 'ORDINAL_IGNORE_CASE'
 }
 
-export enum AccessRights {
-  None = 'NONE',
-  Read = 'READ',
-  Write = 'WRITE'
+export type UpdateAccessControlGroupInputGraph = {
+  id: Scalars['Guid']
+  title: Scalars['String']
+  rowVersion: Scalars['String']
 }
 
-/** Guid */
-export type Guid = any
-
-/** The `Date` scalar type represents a year, month and day in accordance with the [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard (yyyy-MM-dd). */
-export type Date = any
-
-/** UInt32 */
-export type UInt32 = any
-
-/** For passing untyped JSON */
-export type Json = any
-
-/** The `DateTime` scalar type represents a date and time. `DateTime` expects timestamps to be formatted in accordance with the [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard. */
-export type DateTime = any
-
-/** The `DateTimeOffset` scalar type represents a date, time and offset from UTC. `DateTimeOffset` expects timestamps to be formatted in accordance with the [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard. */
-export type DateTimeOffset = any
-
-export type Decimal = any
-
-/** The `Milliseconds` scalar type represents a period of time represented as the total number of milliseconds. */
-export type Milliseconds = any
-
-/** The `Seconds` scalar type represents a period of time represented as the total number of seconds. */
-export type Seconds = any
-
-// ====================================================
-// Documents
-// ====================================================
-
-export namespace AllAgenciesSearch {
-  export type Variables = {}
-
-  export type Query = {
-    __typename?: 'Query'
-
-    agencies: Maybe<(Maybe<Agencies>)[]>
-  }
-
-  export type Agencies = {
-    __typename?: 'AgencyGraph'
-
-    id: Guid
-
-    title: string
-
-    portfolio: Maybe<Portfolio>
-  }
-
-  export type Portfolio = {
-    __typename?: 'PortfolioGraph'
-
-    id: Guid
-
-    title: string
-  }
+export type UpdateAccessControlInputGraph = {
+  accessControlListId: Scalars['Guid']
+  accessControlGroupId: Scalars['Guid']
+  rowVersion: Scalars['String']
+  accessRights?: Maybe<AccessRights>
 }
 
-export namespace CreateAgency {
-  export type Variables = {
-    data: CreateAgencyInputGraph
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    createAgency: Maybe<CreateAgency>
-  }
-
-  export type CreateAgency = {
-    __typename?: 'AgencyGraph'
-
-    id: Guid
-  }
+export type UpdateAgencyInputGraph = {
+  id: Scalars['Guid']
+  title: Scalars['String']
+  metadata?: Maybe<Scalars['String']>
+  rowVersion: Scalars['String']
+  portfolioId: Scalars['Guid']
 }
 
-export namespace UpdateAgency {
-  export type Variables = {
-    data: UpdateAgencyInputGraph
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    updateAgency: Maybe<UpdateAgency>
-  }
-
-  export type UpdateAgency = {
-    __typename?: 'AgencyGraph'
-
-    id: Guid
-
-    title: string
-
-    metadata: Maybe<string>
-
-    portfolio: Maybe<Portfolio>
-
-    rowVersion: string
-  }
-
-  export type Portfolio = {
-    __typename?: 'PortfolioGraph'
-
-    id: Guid
-
-    title: string
-  }
+export type UpdateAgencyMappingInputGraph = {
+  id: Scalars['Guid']
+  agencyId: Scalars['Guid']
+  emailDomain: Scalars['String']
+  accessControlGroupId: Scalars['Guid']
+  rowVersion: Scalars['String']
 }
 
-export namespace GetAgency {
-  export type Variables = {
-    id: string
-  }
-
-  export type Query = {
-    __typename?: 'Query'
-
-    agency: Maybe<Agency>
-  }
-
-  export type Agency = {
-    __typename?: 'AgencyGraph'
-
-    id: Guid
-
-    title: string
-
-    metadata: Maybe<string>
-
-    rowVersion: string
-
-    portfolio: Maybe<Portfolio>
-  }
-
-  export type Portfolio = {
-    __typename?: 'PortfolioGraph'
-
-    id: Guid
-
-    title: string
-  }
+export type UpdateApiKeyInputGraph = {
+  id: Scalars['Guid']
+  disable: Scalars['Boolean']
+  rowVersion: Scalars['String']
 }
 
-export namespace CreateAgencyMapping {
-  export type Variables = {
-    data: CreateAgencyMappingInputGraph
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    createAgencyMapping: Maybe<CreateAgencyMapping>
-  }
-
-  export type CreateAgencyMapping = {
-    __typename?: 'AgencyMappingGraph'
-
-    id: Guid
-  }
+export type UpdatePortfolioInputGraph = {
+  id: Scalars['Guid']
+  title: Scalars['String']
+  metadata?: Maybe<Scalars['String']>
+  rowVersion: Scalars['String']
 }
 
-export namespace UpdateAgencyMapping {
-  export type Variables = {
-    data: UpdateAgencyMappingInputGraph
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    updateAgencyMapping: Maybe<UpdateAgencyMapping>
-  }
-
-  export type UpdateAgencyMapping = {
-    __typename?: 'AgencyMappingGraph'
-
-    id: Guid
-  }
+export type UpdateProgramInputGraph = {
+  id: Scalars['Guid']
+  name: Scalars['String']
+  agencyId: Scalars['Guid']
+  externalId?: Maybe<Scalars['String']>
+  notes?: Maybe<Scalars['String']>
+  commitments?: Maybe<Scalars['String']>
+  rowVersion: Scalars['String']
 }
 
-export namespace GetAgencyMapping {
-  export type Variables = {
-    id: string
-  }
-
-  export type Query = {
-    __typename?: 'Query'
-
-    agencyMapping: Maybe<AgencyMapping>
-  }
-
-  export type AgencyMapping = {
-    __typename?: 'AgencyMappingGraph'
-
-    id: Guid
-
-    emailDomain: string
-
-    rowVersion: string
-
-    agency: Maybe<Agency>
-
-    accessControlGroup: Maybe<AccessControlGroup>
-  }
-
-  export type Agency = {
-    __typename?: 'AgencyGraph'
-
-    id: Guid
-  }
-
-  export type AccessControlGroup = {
-    __typename?: 'AccessControlGroupGraph'
-
-    id: Guid
-
-    title: string
-  }
+export type UpdateProjectInputGraph = {
+  externalId?: Maybe<Scalars['String']>
+  geoJson?: Maybe<Scalars['String']>
+  id: Scalars['Guid']
+  name: Scalars['String']
+  notes?: Maybe<Scalars['String']>
+  rowVersion: Scalars['String']
+  status?: Maybe<Scalars['String']>
+  start?: Maybe<Scalars['String']>
+  end?: Maybe<Scalars['String']>
+  organisation?: Maybe<Scalars['String']>
+  sensitivities?: Maybe<Scalars['String']>
 }
 
-export namespace DeleteAgency {
-  export type Variables = {
-    data: DeleteAgencyInputGraph
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    deleteAgency: Maybe<boolean>
-  }
+export type UpdateReportInputGraph = {
+  id: Scalars['Guid']
+  name: Scalars['String']
+  programId: Scalars['Guid']
+  notes?: Maybe<Scalars['String']>
+  rowVersion: Scalars['String']
 }
 
-export namespace DeleteAgencyMapping {
-  export type Variables = {
-    data: DeleteAgencyMappingInputGraph
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    deleteAgencyMapping: Maybe<boolean>
-  }
+export type UpdateReportVersionInputGraph = {
+  id: Scalars['Guid']
+  dataDate: Scalars['Date']
+  notes?: Maybe<Scalars['String']>
+  rowVersion: Scalars['String']
 }
 
-export namespace Agency {
-  export type Variables = {
-    id: string
-  }
-
-  export type Query = {
-    __typename?: 'Query'
-
-    agency: Maybe<Agency>
-  }
-
-  export type Agency = {
-    __typename?: 'AgencyGraph'
-
-    id: Guid
-
-    title: string
-
-    metadata: Maybe<string>
-
-    rowVersion: string
-
-    portfolio: Maybe<Portfolio>
-
-    agencyMapping: Maybe<(Maybe<AgencyMapping>)[]>
-  }
-
-  export type Portfolio = {
-    __typename?: 'PortfolioGraph'
-
-    id: Guid
-
-    title: string
-  }
-
-  export type AgencyMapping = {
-    __typename?: 'AgencyMappingGraph'
-
-    id: Guid
-
-    emailDomain: string
-
-    rowVersion: string
-
-    accessControlGroup: Maybe<AccessControlGroup>
-  }
-
-  export type AccessControlGroup = {
-    __typename?: 'AccessControlGroupGraph'
-
-    id: Guid
-
-    title: string
-  }
+export type UpdateRoleInputGraph = {
+  id: Scalars['Guid']
+  title: Scalars['String']
+  description?: Maybe<Scalars['String']>
+  rowVersion: Scalars['String']
+  createAgency?: Maybe<Scalars['Boolean']>
+  createProgram?: Maybe<Scalars['Boolean']>
+  createProject?: Maybe<Scalars['Boolean']>
+  createReport?: Maybe<Scalars['Boolean']>
+  createStatistic?: Maybe<Scalars['Boolean']>
+  deleteAgency?: Maybe<Scalars['Boolean']>
+  deleteProgram?: Maybe<Scalars['Boolean']>
+  deleteProject?: Maybe<Scalars['Boolean']>
+  deleteReport?: Maybe<Scalars['Boolean']>
+  deleteStatistic?: Maybe<Scalars['Boolean']>
+  updateElectorateAdvice?: Maybe<Scalars['Boolean']>
+  adminLogin?: Maybe<Scalars['Boolean']>
+  allAgencyModifier?: Maybe<Scalars['Boolean']>
+  manageApiKeys?: Maybe<Scalars['Boolean']>
+  manageGroups?: Maybe<Scalars['Boolean']>
+  manageAccessControls?: Maybe<Scalars['Boolean']>
 }
 
-export namespace Portfolios {
-  export type Variables = {}
-
-  export type Query = {
-    __typename?: 'Query'
-
-    portfolios: Maybe<(Maybe<Portfolios>)[]>
-  }
-
-  export type Portfolios = {
-    __typename?: 'PortfolioGraph'
-
-    id: Guid
-
-    title: string
-  }
+export type UpdateStatisticInputGraph = {
+  id: Scalars['Guid']
+  name: Scalars['String']
+  agencyId: Scalars['Guid']
+  externalId?: Maybe<Scalars['String']>
+  rowVersion: Scalars['String']
 }
 
-export namespace CreateRoleAccessControlGroup {
-  export type Variables = {
-    data: CreateRoleAccessControlGroupInputGraph
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    createRoleAccessControlGroup: Maybe<CreateRoleAccessControlGroup>
-  }
-
-  export type CreateRoleAccessControlGroup = {
-    __typename?: 'RoleAccessControlGroupGraph'
-
-    accessControlGroupId: Guid
-
-    roleId: Guid
-  }
+export type UpdateStatisticReportInputGraph = {
+  id: Scalars['Guid']
+  name: Scalars['String']
+  notes?: Maybe<Scalars['String']>
+  statisticId: Scalars['Guid']
+  rowVersion: Scalars['String']
 }
 
-export namespace DeleteRoleAccessControlGroup {
-  export type Variables = {
-    data: DeleteRoleAccessControlGroupInputGraph
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    deleteRoleAccessControlGroup: Maybe<boolean>
-  }
+export type UpdateStatisticReportVersionInputGraph = {
+  id: Scalars['Guid']
+  dataDate: Scalars['Date']
+  notes?: Maybe<Scalars['String']>
+  rowVersion: Scalars['String']
 }
 
-export namespace AllRoles {
-  export type Variables = {}
-
-  export type Query = {
-    __typename?: 'Query'
-
-    roles: Maybe<(Maybe<Roles>)[]>
-  }
-
-  export type Roles = {
-    __typename?: 'RoleGraph'
-
-    id: Guid
-
-    title: string
-
-    description: string
-
-    rowVersion: string
-  }
+export type UpdateUserInputGraph = {
+  id: Scalars['Guid']
+  emailAddress: Scalars['String']
+  agencyId: Scalars['Guid']
+  rowVersion: Scalars['String']
 }
 
-export namespace CreateAccessControlGroupUser {
-  export type Variables = {
-    data: CreateAccessControlGroupUserInputGraph
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    createAccessControlGroupUser: Maybe<CreateAccessControlGroupUser>
-  }
-
-  export type CreateAccessControlGroupUser = {
-    __typename?: 'AccessControlGroupUserGraph'
-
-    accessControlGroupId: Guid
-
-    userId: Guid
-  }
+export type UserGraph = {
+  agency?: Maybe<AgencyGraph>
+  apiKeys?: Maybe<Array<Maybe<ApiKeyGraph>>>
+  emailAddress: Scalars['String']
+  id: Scalars['Guid']
+  lastLogin?: Maybe<Scalars['Date']>
+  programAccess?: Maybe<Array<Maybe<ResultantAccessGraph>>>
+  programSubmissions?: Maybe<Array<Maybe<ProgramSubmissionGraph>>>
+  reportAccess?: Maybe<Array<Maybe<ResultantAccessGraph>>>
+  rowVersion: Scalars['String']
+  statisticAccess?: Maybe<Array<Maybe<ResultantAccessGraph>>>
+  statisticReportAccess?: Maybe<Array<Maybe<ResultantAccessGraph>>>
 }
 
-export namespace Users {
-  export type Variables = {}
-
-  export type Query = {
-    __typename?: 'Query'
-
-    users: Maybe<(Maybe<Users>)[]>
-  }
-
-  export type Users = {
-    __typename?: 'UserGraph'
-
-    id: Guid
-
-    emailAddress: string
-
-    lastLogin: Maybe<Date>
-
-    rowVersion: string
-  }
+export type UserGraphAgencyArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
 }
 
-export namespace CreateAccessControlGroup {
-  export type Variables = {
-    data?: Maybe<CreateAccessControlGroupInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    createAccessControlGroup: Maybe<CreateAccessControlGroup>
-  }
-
-  export type CreateAccessControlGroup = {
-    __typename?: 'AccessControlGroupGraph'
-
-    id: Guid
-
-    title: string
-
-    rowVersion: string
-  }
+export type UserGraphApiKeysArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
 }
 
-export namespace UpdateAccessControlGroup {
-  export type Variables = {
-    data?: Maybe<UpdateAccessControlGroupInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    updateAccessControlGroup: Maybe<UpdateAccessControlGroup>
-  }
-
-  export type UpdateAccessControlGroup = {
-    __typename?: 'AccessControlGroupGraph'
-
-    id: Guid
-
-    title: string
-
-    rowVersion: string
-  }
+export type UserGraphProgramSubmissionsArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
 }
 
-export namespace DeleteAccessControlGroup {
-  export type Variables = {
-    data?: Maybe<DeleteAccessControlGroupInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    deleteAccessControlGroup: Maybe<boolean>
-  }
+export type WhereExpressionGraph = {
+  path: Scalars['String']
+  comparison?: Maybe<ComparisonGraph>
+  case?: Maybe<StringComparison>
+  value?: Maybe<Array<Maybe<Scalars['String']>>>
 }
-
-export namespace DeleteAccessControlGroupUser {
-  export type Variables = {
-    data: DeleteAccessControlGroupUserInputGraph
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    deleteAccessControlGroupUser: Maybe<boolean>
-  }
-}
-
-export namespace Group {
-  export type Variables = {
-    groupId: string
-  }
-
-  export type Query = {
-    __typename?: 'Query'
-
-    group: Maybe<Group>
-  }
-
-  export type Group = {
-    __typename?: 'AccessControlGroupGraph'
-
-    id: Guid
-
-    rowVersion: string
-
-    title: string
-
-    members: Maybe<(Maybe<Members>)[]>
-
-    roles: Maybe<(Maybe<Roles>)[]>
-  }
-
-  export type Members = {
-    __typename?: 'UserGraph'
-
-    id: Guid
-
-    emailAddress: string
-
-    lastLogin: Maybe<Date>
-
-    rowVersion: string
-  }
-
-  export type Roles = {
-    __typename?: 'RoleGraph'
-
-    id: Guid
-
-    description: string
-
-    rowVersion: string
-
-    title: string
-  }
-}
-
-export namespace AllGroups {
-  export type Variables = {}
-
-  export type Query = {
-    __typename?: 'Query'
-
-    groups: Maybe<(Maybe<Groups>)[]>
-  }
-
-  export type Groups = {
-    __typename?: 'AccessControlGroupGraph'
-
-    id: Guid
-
-    title: string
-
-    rowVersion: string
-  }
-}
-
-export namespace AllGroupsSearch {
-  export type Variables = {}
-
-  export type Query = {
-    __typename?: 'Query'
-
-    groups: Maybe<(Maybe<Groups>)[]>
-  }
-
-  export type Groups = {
-    __typename?: 'AccessControlGroupGraph'
-
-    id: Guid
-
-    title: string
-
-    rowVersion: string
-  }
-}
-
-export namespace DeleteAccessControl {
-  export type Variables = {
-    data?: Maybe<DeleteAccessControlInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    deleteAccessControl: Maybe<boolean>
-  }
-}
-
-export namespace UpdateAccessControl {
-  export type Variables = {
-    data?: Maybe<UpdateAccessControlInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    updateAccessControl: Maybe<UpdateAccessControl>
-  }
-
-  export type UpdateAccessControl = {
-    __typename?: 'AccessControlEntryGraph'
-
-    id: string
-
-    rights: string
-
-    rowVersion: string
-  }
-}
-
-export namespace CreatePortfolio {
-  export type Variables = {
-    data: CreatePortfolioInputGraph
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    createPortfolio: Maybe<CreatePortfolio>
-  }
-
-  export type CreatePortfolio = {
-    __typename?: 'PortfolioGraph'
-
-    id: Guid
-  }
-}
-
-export namespace UpdatePortfolio {
-  export type Variables = {
-    data: UpdatePortfolioInputGraph
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    updatePortfolio: Maybe<UpdatePortfolio>
-  }
-
-  export type UpdatePortfolio = {
-    __typename?: 'PortfolioGraph'
-
-    id: Guid
-  }
-}
-
-export namespace GetPortfolio {
-  export type Variables = {
-    id: string
-  }
-
-  export type Query = {
-    __typename?: 'Query'
-
-    portfolio: Maybe<Portfolio>
-  }
-
-  export type Portfolio = {
-    __typename?: 'PortfolioGraph'
-
-    id: Guid
-
-    title: string
-
-    metadata: Maybe<string>
-
-    rowVersion: string
-  }
-}
-
-export namespace DeletePortfolio {
-  export type Variables = {
-    data: DeletePortfolioInputGraph
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    deletePortfolio: Maybe<boolean>
-  }
-}
-
-export namespace GetPortfolioDetail {
-  export type Variables = {
-    id: string
-  }
-
-  export type Query = {
-    __typename?: 'Query'
-
-    portfolio: Maybe<Portfolio>
-  }
-
-  export type Portfolio = {
-    __typename?: 'PortfolioGraph'
-
-    id: Guid
-
-    title: string
-
-    metadata: Maybe<string>
-
-    agencies: Maybe<(Maybe<Agencies>)[]>
-  }
-
-  export type Agencies = {
-    __typename?: 'AgencyGraph'
-
-    id: Guid
-
-    title: string
-  }
-}
-
-export namespace AllPortfoliosSearch {
-  export type Variables = {}
-
-  export type Query = {
-    __typename?: 'Query'
-
-    portfolios: Maybe<(Maybe<Portfolios>)[]>
-  }
-
-  export type Portfolios = {
-    __typename?: 'PortfolioGraph'
-
-    id: Guid
-
-    title: string
-  }
-}
-
-export namespace CreateReportAccessControl {
-  export type Variables = {
-    data?: Maybe<CreateReportAccessControlInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    createReportAccessControl: Maybe<CreateReportAccessControl>
-  }
-
-  export type CreateReportAccessControl = {
-    __typename?: 'AccessControlEntryGraph'
-
-    id: string
-
-    rights: string
-
-    rowVersion: string
-  }
-}
-
-export namespace Report {
-  export type Variables = {
-    reportId: string
-  }
-
-  export type Query = {
-    __typename?: 'Query'
-
-    report: Maybe<Report>
-  }
-
-  export type Report = {
-    __typename?: 'ReportGraph'
-
-    id: Guid
-
-    name: string
-
-    notes: Maybe<string>
-
-    programId: Guid
-
-    rowVersion: string
-
-    accessControlList: Maybe<(Maybe<AccessControlList>)[]>
-
-    latestVersion: Maybe<LatestVersion>
-  }
-
-  export type AccessControlList = {
-    __typename?: 'AccessControlListGraph'
-
-    id: Guid
-
-    accessControlEntries: Maybe<(Maybe<AccessControlEntries>)[]>
-  }
-
-  export type AccessControlEntries = {
-    __typename?: 'AccessControlEntryGraph'
-
-    id: string
-
-    accessControlGroup: Maybe<AccessControlGroup>
-
-    rights: string
-
-    rowVersion: string
-  }
-
-  export type AccessControlGroup = {
-    __typename?: 'AccessControlGroupGraph'
-
-    id: Guid
-
-    title: string
-  }
-
-  export type LatestVersion = {
-    __typename?: 'ReportVersionGraph'
-
-    id: Guid
-
-    dataDate: Date
-
-    notes: string
-  }
-}
-
-export namespace CreateReport {
-  export type Variables = {
-    data?: Maybe<CreateReportInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    createReport: Maybe<CreateReport>
-  }
-
-  export type CreateReport = {
-    __typename?: 'ReportGraph'
-
-    id: Guid
-
-    notes: Maybe<string>
-
-    rowVersion: string
-  }
-}
-
-export namespace UpdateReport {
-  export type Variables = {
-    data?: Maybe<UpdateReportInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    updateReport: Maybe<UpdateReport>
-  }
-
-  export type UpdateReport = {
-    __typename?: 'ReportGraph'
-
-    id: Guid
-
-    name: string
-
-    notes: Maybe<string>
-  }
-}
-
-export namespace UpdateReportVersion {
-  export type Variables = {
-    data?: Maybe<UpdateReportVersionInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    updateReportVersion: Maybe<UpdateReportVersion>
-  }
-
-  export type UpdateReportVersion = {
-    __typename?: 'ReportVersionGraph'
-
-    id: Guid
-  }
-}
-
-export namespace ReportVersionEdit {
-  export type Variables = {
-    id: string
-  }
-
-  export type Query = {
-    __typename?: 'Query'
-
-    reportVersion: Maybe<ReportVersion>
-  }
-
-  export type ReportVersion = {
-    __typename?: 'ReportVersionGraph'
-
-    id: Guid
-
-    dataDate: Date
-
-    notes: string
-
-    rowVersion: string
-  }
-}
-
-export namespace CreateProgram {
-  export type Variables = {
-    data: CreateProgramInputGraph
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    createProgram: Maybe<CreateProgram>
-  }
-
-  export type CreateProgram = {
-    __typename?: 'ProgramGraph'
-
-    id: Guid
-
-    name: string
-
-    agency: Maybe<Agency>
-
-    notes: Maybe<string>
-
-    externalId: Maybe<string>
-
-    rowVersion: string
-  }
-
-  export type Agency = {
-    __typename?: 'AgencyGraph'
-
-    id: Guid
-  }
-}
-
-export namespace UpdateProgram {
-  export type Variables = {
-    data: UpdateProgramInputGraph
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    updateProgram: Maybe<UpdateProgram>
-  }
-
-  export type UpdateProgram = {
-    __typename?: 'ProgramGraph'
-
-    id: Guid
-
-    name: string
-
-    agency: Maybe<Agency>
-
-    notes: Maybe<string>
-
-    externalId: Maybe<string>
-
-    rowVersion: string
-  }
-
-  export type Agency = {
-    __typename?: 'AgencyGraph'
-
-    id: Guid
-  }
-}
-
-export namespace DeleteProgram {
-  export type Variables = {
-    data?: Maybe<DeleteProgramInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    deleteProgram: Maybe<boolean>
-  }
-}
-
-export namespace DeleteReport {
-  export type Variables = {
-    data?: Maybe<DeleteReportInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    deleteReport: Maybe<boolean>
-  }
-}
-
-export namespace CreateProgramAccessControl {
-  export type Variables = {
-    data?: Maybe<CreateProgramAccessControlInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    createProgramAccessControl: Maybe<CreateProgramAccessControl>
-  }
-
-  export type CreateProgramAccessControl = {
-    __typename?: 'AccessControlEntryGraph'
-
-    id: string
-
-    rights: string
-
-    rowVersion: string
-  }
-}
-
-export namespace Program {
-  export type Variables = {
-    programId: string
-  }
-
-  export type Query = {
-    __typename?: 'Query'
-
-    program: Maybe<Program>
-  }
-
-  export type Program = {
-    __typename?: 'ProgramGraph'
-
-    id: Guid
-
-    name: string
-
-    notes: Maybe<string>
-
-    externalId: Maybe<string>
-
-    rowVersion: string
-
-    accessControlList: Maybe<(Maybe<AccessControlList>)[]>
-
-    agency: Maybe<Agency>
-
-    reports: Maybe<(Maybe<Reports>)[]>
-  }
-
-  export type AccessControlList = {
-    __typename?: 'AccessControlListGraph'
-
-    id: Guid
-
-    accessControlEntries: Maybe<(Maybe<AccessControlEntries>)[]>
-  }
-
-  export type AccessControlEntries = {
-    __typename?: 'AccessControlEntryGraph'
-
-    id: string
-
-    rights: string
-
-    rowVersion: string
-
-    accessControlGroup: Maybe<AccessControlGroup>
-  }
-
-  export type AccessControlGroup = {
-    __typename?: 'AccessControlGroupGraph'
-
-    id: Guid
-
-    title: string
-  }
-
-  export type Agency = {
-    __typename?: 'AgencyGraph'
-
-    id: Guid
-
-    title: string
-
-    metadata: Maybe<string>
-  }
-
-  export type Reports = {
-    __typename?: 'ReportGraph'
-
-    id: Guid
-
-    name: string
-
-    notes: Maybe<string>
-
-    accessControlList: Maybe<(Maybe<_AccessControlList>)[]>
-  }
-
-  export type _AccessControlList = {
-    __typename?: 'AccessControlListGraph'
-
-    accessControlEntries: Maybe<(Maybe<_AccessControlEntries>)[]>
-  }
-
-  export type _AccessControlEntries = {
-    __typename?: 'AccessControlEntryGraph'
-
-    accessControlGroup: Maybe<_AccessControlGroup>
-  }
-
-  export type _AccessControlGroup = {
-    __typename?: 'AccessControlGroupGraph'
-
-    title: string
-  }
-}
-
-export namespace EditProgram {
-  export type Variables = {
-    programId: string
-  }
-
-  export type Query = {
-    __typename?: 'Query'
-
-    program: Maybe<Program>
-  }
-
-  export type Program = {
-    __typename?: 'ProgramGraph'
-
-    id: Guid
-
-    name: string
-
-    notes: Maybe<string>
-
-    externalId: Maybe<string>
-
-    rowVersion: string
-
-    agency: Maybe<Agency>
-  }
-
-  export type Agency = {
-    __typename?: 'AgencyGraph'
-
-    id: Guid
-
-    title: string
-
-    metadata: Maybe<string>
-  }
-}
-
-export namespace AllPortfolios {
-  export type Variables = {}
-
-  export type Query = {
-    __typename?: 'Query'
-
-    portfolios: Maybe<(Maybe<Portfolios>)[]>
-  }
-
-  export type Portfolios = {
-    __typename?: 'PortfolioGraph'
-
-    id: Guid
-
-    title: string
-
-    metadata: Maybe<string>
-
-    agencies: Maybe<(Maybe<Agencies>)[]>
-  }
-
-  export type Agencies = {
-    __typename?: 'AgencyGraph'
-
-    id: Guid
-
-    metadata: Maybe<string>
-
-    title: string
-  }
-}
-
-export namespace AllPrograms {
-  export type Variables = {}
-
-  export type Query = {
-    __typename?: 'Query'
-
-    programs: Maybe<(Maybe<Programs>)[]>
-  }
-
-  export type Programs = {
-    __typename?: 'ProgramGraph'
-
-    id: Guid
-
-    name: string
-
-    agency: Maybe<Agency>
-  }
-
-  export type Agency = {
-    __typename?: 'AgencyGraph'
-
-    id: Guid
-
-    title: string
-  }
-}
-
-export namespace Project {
-  export type Variables = {
-    id: string
-  }
-
-  export type Query = {
-    __typename?: 'Query'
-
-    project: Maybe<Project>
-  }
-
-  export type Project = {
-    __typename?: 'ProjectGraph'
-
-    id: Guid
-
-    name: string
-
-    notes: Maybe<string>
-
-    externalId: Maybe<string>
-
-    status: Maybe<string>
-
-    rowVersion: string
-
-    program: Maybe<Program>
-
-    programSubmission: Maybe<ProgramSubmission>
-  }
-
-  export type Program = {
-    __typename?: 'ProgramGraph'
-
-    id: Guid
-  }
-
-  export type ProgramSubmission = {
-    __typename?: 'ProgramSubmissionGraph'
-
-    timeStamp: Date
-  }
-}
-
-export namespace AllProjects {
-  export type Variables = {}
-
-  export type Query = {
-    __typename?: 'Query'
-
-    projects: Maybe<(Maybe<Projects>)[]>
-  }
-
-  export type Projects = {
-    __typename?: 'ProjectGraph'
-
-    id: Guid
-
-    name: string
-
-    program: Maybe<Program>
-  }
-
-  export type Program = {
-    __typename?: 'ProgramGraph'
-
-    name: string
-  }
-}
-
-export namespace AllProjectsSearch {
-  export type Variables = {
-    name?: Maybe<string>
-  }
-
-  export type Query = {
-    __typename?: 'Query'
-
-    projects: Maybe<(Maybe<Projects>)[]>
-  }
-
-  export type Projects = {
-    __typename?: 'ProjectGraph'
-
-    id: Guid
-
-    name: string
-
-    program: Maybe<Program>
-
-    programSubmission: Maybe<ProgramSubmission>
-  }
-
-  export type Program = {
-    __typename?: 'ProgramGraph'
-
-    name: string
-  }
-
-  export type ProgramSubmission = {
-    __typename?: 'ProgramSubmissionGraph'
-
-    timeStamp: Date
-  }
-}
-
-export namespace AllProgramReports {
-  export type Variables = {}
-
-  export type Query = {
-    __typename?: 'Query'
-
-    programs: Maybe<(Maybe<Programs>)[]>
-  }
-
-  export type Programs = {
-    __typename: 'ProgramGraph'
-
-    id: Guid
-
-    name: string
-
-    reports: Maybe<(Maybe<Reports>)[]>
-  }
-
-  export type Reports = {
-    __typename: 'ReportGraph'
-
-    id: Guid
-
-    name: string
-
-    latestVersion: Maybe<LatestVersion>
-  }
-
-  export type LatestVersion = {
-    __typename?: 'ReportVersionGraph'
-
-    id: Guid
-
-    notes: string
-  }
-}
-
-export namespace DeleteRole {
-  export type Variables = {
-    data?: Maybe<DeleteRoleInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    deleteRole: Maybe<boolean>
-  }
-}
-
-export namespace CreateRole {
-  export type Variables = {
-    data?: Maybe<CreateRoleInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    createRole: Maybe<CreateRole>
-  }
-
-  export type CreateRole = {
-    __typename?: 'RoleGraph'
-
-    id: Guid
-
-    title: string
-
-    rowVersion: string
-  }
-}
-
-export namespace UpdateRole {
-  export type Variables = {
-    data?: Maybe<UpdateRoleInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    updateRole: Maybe<UpdateRole>
-  }
-
-  export type UpdateRole = {
-    __typename?: 'RoleGraph'
-
-    id: Guid
-
-    title: string
-
-    description: string
-
-    rowVersion: string
-  }
-}
-
-export namespace Role {
-  export type Variables = {
-    roleId: string
-  }
-
-  export type Query = {
-    __typename?: 'Query'
-
-    role: Maybe<Role>
-  }
-
-  export type Role = {
-    __typename?: 'RoleGraph'
-
-    id: Guid
-
-    title: string
-
-    description: string
-
-    rowVersion: string
-
-    adminLogin: boolean
-
-    allAgencyModifier: boolean
-
-    createAgency: boolean
-
-    createProgram: boolean
-
-    createProject: boolean
-
-    createReport: boolean
-
-    createStatistic: boolean
-
-    deleteAgency: boolean
-
-    deleteProgram: boolean
-
-    deleteProject: boolean
-
-    deleteReport: boolean
-
-    deleteStatistic: boolean
-
-    manageApiKeys: boolean
-
-    manageAccessControls: boolean
-
-    manageGroups: boolean
-
-    updateElectorateAdvice: boolean
-  }
-}
-
-export namespace RolesSearch {
-  export type Variables = {}
-
-  export type Query = {
-    __typename?: 'Query'
-
-    roles: Maybe<(Maybe<Roles>)[]>
-  }
-
-  export type Roles = {
-    __typename?: 'RoleGraph'
-
-    id: Guid
-
-    title: string
-
-    description: string
-  }
-}
-
-export namespace CreateStatisticReport {
-  export type Variables = {
-    data: CreateStatisticReportInputGraph
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    createStatisticReport: Maybe<CreateStatisticReport>
-  }
-
-  export type CreateStatisticReport = {
-    __typename?: 'StatisticReportGraph'
-
-    id: Guid
-
-    name: string
-
-    notes: Maybe<string>
-
-    statisticId: Guid
-  }
-}
-
-export namespace UpdateStatisticReport {
-  export type Variables = {
-    data?: Maybe<UpdateStatisticReportInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    updateStatisticReport: Maybe<UpdateStatisticReport>
-  }
-
-  export type UpdateStatisticReport = {
-    __typename?: 'StatisticReportGraph'
-
-    id: Guid
-
-    name: string
-
-    notes: Maybe<string>
-
-    statisticId: Guid
-  }
-}
-
-export namespace StatisticReportEdit {
-  export type Variables = {
-    reportId: string
-  }
-
-  export type Query = {
-    __typename?: 'Query'
-
-    statisticReport: Maybe<StatisticReport>
-  }
-
-  export type StatisticReport = {
-    __typename?: 'StatisticReportGraph'
-
-    id: Guid
-
-    name: string
-
-    notes: Maybe<string>
-
-    rowVersion: string
-
-    statisticId: Guid
-  }
-}
-
-export namespace UpdateStatisticReportVersion {
-  export type Variables = {
-    data?: Maybe<UpdateStatisticReportVersionInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    updateStatisticReportVersion: Maybe<UpdateStatisticReportVersion>
-  }
-
-  export type UpdateStatisticReportVersion = {
-    __typename?: 'StatisticReportVersionGraph'
-
-    id: Guid
-  }
-}
-
-export namespace StatisticReportVersionEdit {
-  export type Variables = {
-    id: string
-  }
-
-  export type Query = {
-    __typename?: 'Query'
-
-    statisticReportVersion: Maybe<StatisticReportVersion>
-  }
-
-  export type StatisticReportVersion = {
-    __typename?: 'StatisticReportVersionGraph'
-
-    id: Guid
-
-    dataDate: Date
-
-    notes: Maybe<string>
-
-    rowVersion: string
-  }
-}
-
-export namespace CreateStatisticReportAccessControl {
-  export type Variables = {
-    data?: Maybe<CreateStatisticReportAccessControlInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    createStatisticReportAccessControl: Maybe<
-      CreateStatisticReportAccessControl
+export type AllAgenciesSearchQueryVariables = {}
+
+export type AllAgenciesSearchQuery = { __typename?: 'Query' } & {
+  agencies: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'AgencyGraph' } & Pick<AgencyGraph, 'id' | 'title'> & {
+            portfolio: Maybe<
+              { __typename?: 'PortfolioGraph' } & Pick<
+                PortfolioGraph,
+                'id' | 'title'
+              >
+            >
+          }
+      >
     >
-  }
-
-  export type CreateStatisticReportAccessControl = {
-    __typename?: 'AccessControlEntryGraph'
-
-    id: string
-
-    rights: string
-
-    rowVersion: string
-  }
+  >
 }
 
-export namespace StatisticReportDetail {
-  export type Variables = {
-    reportId: string
-  }
-
-  export type Query = {
-    __typename?: 'Query'
-
-    statisticReport: Maybe<StatisticReport>
-  }
-
-  export type StatisticReport = {
-    __typename?: 'StatisticReportGraph'
-
-    id: Guid
-
-    name: string
-
-    notes: Maybe<string>
-
-    rowVersion: string
-
-    statisticId: Guid
-
-    accessControlList: Maybe<(Maybe<AccessControlList>)[]>
-
-    latestVersion: Maybe<LatestVersion>
-  }
-
-  export type AccessControlList = {
-    __typename?: 'AccessControlListGraph'
-
-    id: Guid
-
-    accessControlEntries: Maybe<(Maybe<AccessControlEntries>)[]>
-  }
-
-  export type AccessControlEntries = {
-    __typename?: 'AccessControlEntryGraph'
-
-    id: string
-
-    accessControlGroup: Maybe<AccessControlGroup>
-
-    rights: string
-
-    rowVersion: string
-  }
-
-  export type AccessControlGroup = {
-    __typename?: 'AccessControlGroupGraph'
-
-    id: Guid
-
-    title: string
-  }
-
-  export type LatestVersion = {
-    __typename?: 'StatisticReportVersionGraph'
-
-    id: Guid
-
-    dataDate: Date
-
-    notes: Maybe<string>
-  }
+export type CreateAgencyMutationVariables = {
+  data: CreateAgencyInputGraph
 }
 
-export namespace CreateStatistic {
-  export type Variables = {
-    data: CreateStatisticInputGraph
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    createStatistic: Maybe<CreateStatistic>
-  }
-
-  export type CreateStatistic = {
-    __typename?: 'StatisticGraph'
-
-    id: Guid
-
-    name: string
-
-    agency: Maybe<Agency>
-
-    externalId: Maybe<string>
-
-    rowVersion: string
-  }
-
-  export type Agency = {
-    __typename?: 'AgencyGraph'
-
-    id: Guid
-  }
+export type CreateAgencyMutation = { __typename?: 'Mutation' } & {
+  createAgency: Maybe<{ __typename?: 'AgencyGraph' } & Pick<AgencyGraph, 'id'>>
 }
 
-export namespace UpdateStatistic {
-  export type Variables = {
-    data: UpdateStatisticInputGraph
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    updateStatistic: Maybe<UpdateStatistic>
-  }
-
-  export type UpdateStatistic = {
-    __typename?: 'StatisticGraph'
-
-    id: Guid
-
-    name: string
-
-    agency: Maybe<Agency>
-
-    externalId: Maybe<string>
-
-    rowVersion: string
-  }
-
-  export type Agency = {
-    __typename?: 'AgencyGraph'
-
-    id: Guid
-  }
+export type UpdateAgencyMutationVariables = {
+  data: UpdateAgencyInputGraph
 }
 
-export namespace DeleteStatisticReport {
-  export type Variables = {
-    data: DeleteStatisticReportInputGraph
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    deleteStatisticReport: Maybe<boolean>
-  }
+export type UpdateAgencyMutation = { __typename?: 'Mutation' } & {
+  updateAgency: Maybe<
+    { __typename?: 'AgencyGraph' } & Pick<
+      AgencyGraph,
+      'id' | 'title' | 'metadata' | 'rowVersion'
+    > & {
+        portfolio: Maybe<
+          { __typename?: 'PortfolioGraph' } & Pick<
+            PortfolioGraph,
+            'id' | 'title'
+          >
+        >
+      }
+  >
 }
 
-export namespace DeleteStatistic {
-  export type Variables = {
-    data: DeleteStatisticInputGraph
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    deleteStatistic: Maybe<boolean>
-  }
+export type GetAgencyQueryVariables = {
+  id: Scalars['String']
 }
 
-export namespace CreateStatisticAccessControl {
-  export type Variables = {
-    data?: Maybe<CreateStatisticAccessControlInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    createStatisticAccessControl: Maybe<CreateStatisticAccessControl>
-  }
-
-  export type CreateStatisticAccessControl = {
-    __typename?: 'AccessControlEntryGraph'
-
-    id: string
-
-    rights: string
-
-    rowVersion: string
-  }
+export type GetAgencyQuery = { __typename?: 'Query' } & {
+  agency: Maybe<
+    { __typename?: 'AgencyGraph' } & Pick<
+      AgencyGraph,
+      'id' | 'title' | 'metadata' | 'rowVersion'
+    > & {
+        portfolio: Maybe<
+          { __typename?: 'PortfolioGraph' } & Pick<
+            PortfolioGraph,
+            'id' | 'title'
+          >
+        >
+      }
+  >
 }
 
-export namespace AllStatistics {
-  export type Variables = {}
-
-  export type Query = {
-    __typename?: 'Query'
-
-    statistics: Maybe<(Maybe<Statistics>)[]>
-  }
-
-  export type Statistics = {
-    __typename?: 'StatisticGraph'
-
-    id: Guid
-
-    name: string
-
-    agency: Maybe<Agency>
-
-    statisticReports: Maybe<(Maybe<StatisticReports>)[]>
-  }
-
-  export type Agency = {
-    __typename?: 'AgencyGraph'
-
-    id: Guid
-
-    title: string
-  }
-
-  export type StatisticReports = {
-    __typename?: 'StatisticReportGraph'
-
-    id: Guid
-
-    name: string
-
-    notes: Maybe<string>
-  }
+export type CreateAgencyMappingMutationVariables = {
+  data: CreateAgencyMappingInputGraph
 }
 
-export namespace Statistic {
-  export type Variables = {
-    statisticId: string
-  }
-
-  export type Query = {
-    __typename?: 'Query'
-
-    statistic: Maybe<Statistic>
-  }
-
-  export type Statistic = {
-    __typename?: 'StatisticGraph'
-
-    id: Guid
-
-    agency: Maybe<Agency>
-
-    accessControlList: Maybe<(Maybe<AccessControlList>)[]>
-
-    name: string
-
-    externalId: Maybe<string>
-
-    rowVersion: string
-
-    statisticReports: Maybe<(Maybe<StatisticReports>)[]>
-  }
-
-  export type Agency = {
-    __typename?: 'AgencyGraph'
-
-    id: Guid
-
-    title: string
-  }
-
-  export type AccessControlList = {
-    __typename?: 'AccessControlListGraph'
-
-    id: Guid
-
-    accessControlEntries: Maybe<(Maybe<AccessControlEntries>)[]>
-  }
-
-  export type AccessControlEntries = {
-    __typename?: 'AccessControlEntryGraph'
-
-    id: string
-
-    rights: string
-
-    rowVersion: string
-
-    accessControlGroup: Maybe<AccessControlGroup>
-  }
-
-  export type AccessControlGroup = {
-    __typename?: 'AccessControlGroupGraph'
-
-    id: Guid
-
-    title: string
-  }
-
-  export type StatisticReports = {
-    __typename?: 'StatisticReportGraph'
-
-    id: Guid
-
-    name: string
-
-    notes: Maybe<string>
-  }
+export type CreateAgencyMappingMutation = { __typename?: 'Mutation' } & {
+  createAgencyMapping: Maybe<
+    { __typename?: 'AgencyMappingGraph' } & Pick<AgencyMappingGraph, 'id'>
+  >
 }
 
-export namespace AllAgencies {
-  export type Variables = {}
-
-  export type Query = {
-    __typename?: 'Query'
-
-    agencies: Maybe<(Maybe<Agencies>)[]>
-  }
-
-  export type Agencies = {
-    __typename?: 'AgencyGraph'
-
-    id: Guid
-
-    metadata: Maybe<string>
-
-    title: string
-  }
+export type UpdateAgencyMappingMutationVariables = {
+  data: UpdateAgencyMappingInputGraph
 }
 
-export namespace AllStatisticsSearch {
-  export type Variables = {}
-
-  export type Query = {
-    __typename?: 'Query'
-
-    statistics: Maybe<(Maybe<Statistics>)[]>
-  }
-
-  export type Statistics = {
-    __typename?: 'StatisticGraph'
-
-    id: Guid
-
-    name: string
-
-    agency: Maybe<Agency>
-  }
-
-  export type Agency = {
-    __typename?: 'AgencyGraph'
-
-    id: Guid
-
-    title: string
-  }
+export type UpdateAgencyMappingMutation = { __typename?: 'Mutation' } & {
+  updateAgencyMapping: Maybe<
+    { __typename?: 'AgencyMappingGraph' } & Pick<AgencyMappingGraph, 'id'>
+  >
 }
 
-export namespace StatisticAndStatisticReports {
-  export type Variables = {}
-
-  export type Query = {
-    __typename?: 'Query'
-
-    statistics: Maybe<(Maybe<Statistics>)[]>
-  }
-
-  export type Statistics = {
-    __typename?: 'StatisticGraph'
-
-    id: Guid
-
-    name: string
-
-    statisticReports: Maybe<(Maybe<StatisticReports>)[]>
-  }
-
-  export type StatisticReports = {
-    __typename?: 'StatisticReportGraph'
-
-    id: Guid
-
-    name: string
-
-    latestVersion: Maybe<LatestVersion>
-  }
-
-  export type LatestVersion = {
-    __typename?: 'StatisticReportVersionGraph'
-
-    id: Guid
-
-    notes: Maybe<string>
-  }
+export type GetAgencyMappingQueryVariables = {
+  id: Scalars['String']
 }
 
-export namespace CreateUser {
-  export type Variables = {
-    data?: Maybe<CreateUserInputGraph>
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    createUser: Maybe<CreateUser>
-  }
-
-  export type CreateUser = {
-    __typename?: 'UserGraph'
-
-    id: Guid
-  }
+export type GetAgencyMappingQuery = { __typename?: 'Query' } & {
+  agencyMapping: Maybe<
+    { __typename?: 'AgencyMappingGraph' } & Pick<
+      AgencyMappingGraph,
+      'id' | 'emailDomain' | 'rowVersion'
+    > & {
+        agency: Maybe<{ __typename?: 'AgencyGraph' } & Pick<AgencyGraph, 'id'>>
+        accessControlGroup: Maybe<
+          { __typename?: 'AccessControlGroupGraph' } & Pick<
+            AccessControlGroupGraph,
+            'id' | 'title'
+          >
+        >
+      }
+  >
 }
 
-export namespace UpdateUser {
-  export type Variables = {
-    data: UpdateUserInputGraph
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    updateUser: Maybe<UpdateUser>
-  }
-
-  export type UpdateUser = {
-    __typename?: 'UserGraph'
-
-    id: Guid
-
-    emailAddress: string
-  }
+export type DeleteAgencyMutationVariables = {
+  data: DeleteAgencyInputGraph
 }
 
-export namespace GetUser {
-  export type Variables = {
-    id: string
-  }
+export type DeleteAgencyMutation = { __typename?: 'Mutation' } & Pick<
+  Mutation,
+  'deleteAgency'
+>
 
-  export type Query = {
-    __typename?: 'Query'
-
-    user: Maybe<User>
-  }
-
-  export type User = {
-    __typename?: 'UserGraph'
-
-    emailAddress: string
-
-    agency: Maybe<Agency>
-
-    rowVersion: string
-  }
-
-  export type Agency = {
-    __typename?: 'AgencyGraph'
-
-    id: Guid
-  }
+export type DeleteAgencyMappingMutationVariables = {
+  data: DeleteAgencyMappingInputGraph
 }
 
-export namespace DeleteUser {
-  export type Variables = {
-    data: DeleteUserInputGraph
-  }
+export type DeleteAgencyMappingMutation = { __typename?: 'Mutation' } & Pick<
+  Mutation,
+  'deleteAgencyMapping'
+>
 
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    deleteUser: Maybe<boolean>
-  }
+export type AgencyQueryVariables = {
+  id: Scalars['String']
 }
 
-export namespace CreateApiKey {
-  export type Variables = {
-    data: CreateApiKeyInputGraph
-  }
-
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    createApiKey: Maybe<CreateApiKey>
-  }
-
-  export type CreateApiKey = {
-    __typename?: 'ApiKeyGraph'
-
-    id: Guid
-  }
+export type AgencyQuery = { __typename?: 'Query' } & {
+  agency: Maybe<
+    { __typename?: 'AgencyGraph' } & Pick<
+      AgencyGraph,
+      'id' | 'title' | 'metadata' | 'rowVersion'
+    > & {
+        portfolio: Maybe<
+          { __typename?: 'PortfolioGraph' } & Pick<
+            PortfolioGraph,
+            'id' | 'title'
+          >
+        >
+        agencyMapping: Maybe<
+          Array<
+            Maybe<
+              { __typename?: 'AgencyMappingGraph' } & Pick<
+                AgencyMappingGraph,
+                'id' | 'emailDomain' | 'rowVersion'
+              > & {
+                  accessControlGroup: Maybe<
+                    { __typename?: 'AccessControlGroupGraph' } & Pick<
+                      AccessControlGroupGraph,
+                      'id' | 'title'
+                    >
+                  >
+                }
+            >
+          >
+        >
+      }
+  >
 }
 
-export namespace DeleteApiKey {
-  export type Variables = {
-    data: DeleteApiKeyInputGraph
-  }
+export type PortfoliosQueryVariables = {}
 
-  export type Mutation = {
-    __typename?: 'Mutation'
-
-    deleteApiKey: Maybe<boolean>
-  }
+export type PortfoliosQuery = { __typename?: 'Query' } & {
+  portfolios: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'PortfolioGraph' } & Pick<PortfolioGraph, 'id' | 'title'>
+      >
+    >
+  >
 }
 
-export namespace User {
-  export type Variables = {
-    userId: string
-  }
-
-  export type Query = {
-    __typename?: 'Query'
-
-    user: Maybe<User>
-  }
-
-  export type User = {
-    __typename?: 'UserGraph'
-
-    id: Guid
-
-    emailAddress: string
-
-    lastLogin: Maybe<Date>
-
-    agency: Maybe<Agency>
-
-    apiKeys: Maybe<(Maybe<ApiKeys>)[]>
-
-    programAccess: Maybe<(Maybe<ProgramAccess>)[]>
-
-    reportAccess: Maybe<(Maybe<ReportAccess>)[]>
-
-    statisticAccess: Maybe<(Maybe<StatisticAccess>)[]>
-
-    statisticReportAccess: Maybe<(Maybe<StatisticReportAccess>)[]>
-  }
-
-  export type Agency = {
-    __typename?: 'AgencyGraph'
-
-    id: Guid
-
-    title: string
-  }
-
-  export type ApiKeys = {
-    __typename?: 'ApiKeyGraph'
-
-    id: Guid
-
-    key: string
-
-    created: Date
-
-    rowVersion: string
-
-    disable: boolean
-  }
-
-  export type ProgramAccess = {
-    __typename?: 'ResultantAccessGraph'
-
-    entityId: Guid
-
-    name: string
-
-    groupId: Guid
-
-    groupName: Maybe<string>
-
-    accessRights: string
-  }
-
-  export type ReportAccess = {
-    __typename?: 'ResultantAccessGraph'
-
-    entityId: Guid
-
-    groupName: Maybe<string>
-
-    name: string
-
-    parentName: Maybe<string>
-
-    hasAccessToParent: Maybe<boolean>
-  }
-
-  export type StatisticAccess = {
-    __typename?: 'ResultantAccessGraph'
-
-    entityId: Guid
-
-    name: string
-
-    groupName: Maybe<string>
-
-    hasAccessToParent: Maybe<boolean>
-
-    parentName: Maybe<string>
-  }
-
-  export type StatisticReportAccess = {
-    __typename?: 'ResultantAccessGraph'
-
-    entityId: Guid
-
-    name: string
-
-    parentName: Maybe<string>
-
-    hasAccessToParent: Maybe<boolean>
-
-    groupName: Maybe<string>
-
-    accessRights: string
-  }
+export type CreateRoleAccessControlGroupMutationVariables = {
+  data: CreateRoleAccessControlGroupInputGraph
 }
 
-export namespace SelectAgencies {
-  export type Variables = {}
-
-  export type Query = {
-    __typename?: 'Query'
-
-    agencies: Maybe<(Maybe<Agencies>)[]>
-  }
-
-  export type Agencies = {
-    __typename?: 'AgencyGraph'
-
-    id: Guid
-
-    title: string
-  }
+export type CreateRoleAccessControlGroupMutation = {
+  __typename?: 'Mutation'
+} & {
+  createRoleAccessControlGroup: Maybe<
+    { __typename?: 'RoleAccessControlGroupGraph' } & Pick<
+      RoleAccessControlGroupGraph,
+      'accessControlGroupId' | 'roleId'
+    >
+  >
 }
 
-export namespace AllUsersSearch {
-  export type Variables = {}
-
-  export type Query = {
-    __typename?: 'Query'
-
-    users: Maybe<(Maybe<Users>)[]>
-  }
-
-  export type Users = {
-    __typename?: 'UserGraph'
-
-    id: Guid
-
-    emailAddress: string
-
-    lastLogin: Maybe<Date>
-
-    rowVersion: string
-  }
+export type DeleteRoleAccessControlGroupMutationVariables = {
+  data: DeleteRoleAccessControlGroupInputGraph
 }
 
-// ====================================================
-// START: Apollo Angular template
-// ====================================================
+export type DeleteRoleAccessControlGroupMutation = {
+  __typename?: 'Mutation'
+} & Pick<Mutation, 'deleteRoleAccessControlGroup'>
 
+export type AllRolesQueryVariables = {}
+
+export type AllRolesQuery = { __typename?: 'Query' } & {
+  roles: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'RoleGraph' } & Pick<
+          RoleGraph,
+          'id' | 'title' | 'description' | 'rowVersion'
+        >
+      >
+    >
+  >
+}
+
+export type CreateAccessControlGroupUserMutationVariables = {
+  data: CreateAccessControlGroupUserInputGraph
+}
+
+export type CreateAccessControlGroupUserMutation = {
+  __typename?: 'Mutation'
+} & {
+  createAccessControlGroupUser: Maybe<
+    { __typename?: 'AccessControlGroupUserGraph' } & Pick<
+      AccessControlGroupUserGraph,
+      'accessControlGroupId' | 'userId'
+    >
+  >
+}
+
+export type UsersQueryVariables = {}
+
+export type UsersQuery = { __typename?: 'Query' } & {
+  users: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'UserGraph' } & Pick<
+          UserGraph,
+          'id' | 'emailAddress' | 'lastLogin' | 'rowVersion'
+        >
+      >
+    >
+  >
+}
+
+export type CreateAccessControlGroupMutationVariables = {
+  data?: Maybe<CreateAccessControlGroupInputGraph>
+}
+
+export type CreateAccessControlGroupMutation = { __typename?: 'Mutation' } & {
+  createAccessControlGroup: Maybe<
+    { __typename?: 'AccessControlGroupGraph' } & Pick<
+      AccessControlGroupGraph,
+      'id' | 'title' | 'rowVersion'
+    >
+  >
+}
+
+export type UpdateAccessControlGroupMutationVariables = {
+  data?: Maybe<UpdateAccessControlGroupInputGraph>
+}
+
+export type UpdateAccessControlGroupMutation = { __typename?: 'Mutation' } & {
+  updateAccessControlGroup: Maybe<
+    { __typename?: 'AccessControlGroupGraph' } & Pick<
+      AccessControlGroupGraph,
+      'id' | 'title' | 'rowVersion'
+    >
+  >
+}
+
+export type DeleteAccessControlGroupMutationVariables = {
+  data?: Maybe<DeleteAccessControlGroupInputGraph>
+}
+
+export type DeleteAccessControlGroupMutation = {
+  __typename?: 'Mutation'
+} & Pick<Mutation, 'deleteAccessControlGroup'>
+
+export type DeleteAccessControlGroupUserMutationVariables = {
+  data: DeleteAccessControlGroupUserInputGraph
+}
+
+export type DeleteAccessControlGroupUserMutation = {
+  __typename?: 'Mutation'
+} & Pick<Mutation, 'deleteAccessControlGroupUser'>
+
+export type GroupQueryVariables = {
+  groupId: Scalars['String']
+}
+
+export type GroupQuery = { __typename?: 'Query' } & {
+  group: Maybe<
+    { __typename?: 'AccessControlGroupGraph' } & Pick<
+      AccessControlGroupGraph,
+      'id' | 'rowVersion' | 'title'
+    > & {
+        members: Maybe<
+          Array<
+            Maybe<
+              { __typename?: 'UserGraph' } & Pick<
+                UserGraph,
+                'id' | 'emailAddress' | 'lastLogin' | 'rowVersion'
+              >
+            >
+          >
+        >
+        roles: Maybe<
+          Array<
+            Maybe<
+              { __typename?: 'RoleGraph' } & Pick<
+                RoleGraph,
+                'id' | 'description' | 'rowVersion' | 'title'
+              >
+            >
+          >
+        >
+      }
+  >
+}
+
+export type AllGroupsQueryVariables = {}
+
+export type AllGroupsQuery = { __typename?: 'Query' } & {
+  groups: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'AccessControlGroupGraph' } & Pick<
+          AccessControlGroupGraph,
+          'id' | 'title' | 'rowVersion'
+        >
+      >
+    >
+  >
+}
+
+export type AllGroupsSearchQueryVariables = {}
+
+export type AllGroupsSearchQuery = { __typename?: 'Query' } & {
+  groups: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'AccessControlGroupGraph' } & Pick<
+          AccessControlGroupGraph,
+          'id' | 'title' | 'rowVersion'
+        >
+      >
+    >
+  >
+}
+
+export type DeleteAccessControlMutationVariables = {
+  data?: Maybe<DeleteAccessControlInputGraph>
+}
+
+export type DeleteAccessControlMutation = { __typename?: 'Mutation' } & Pick<
+  Mutation,
+  'deleteAccessControl'
+>
+
+export type UpdateAccessControlMutationVariables = {
+  data?: Maybe<UpdateAccessControlInputGraph>
+}
+
+export type UpdateAccessControlMutation = { __typename?: 'Mutation' } & {
+  updateAccessControl: Maybe<
+    { __typename?: 'AccessControlEntryGraph' } & Pick<
+      AccessControlEntryGraph,
+      'id' | 'rights' | 'rowVersion'
+    >
+  >
+}
+
+export type CreatePortfolioMutationVariables = {
+  data: CreatePortfolioInputGraph
+}
+
+export type CreatePortfolioMutation = { __typename?: 'Mutation' } & {
+  createPortfolio: Maybe<
+    { __typename?: 'PortfolioGraph' } & Pick<PortfolioGraph, 'id'>
+  >
+}
+
+export type UpdatePortfolioMutationVariables = {
+  data: UpdatePortfolioInputGraph
+}
+
+export type UpdatePortfolioMutation = { __typename?: 'Mutation' } & {
+  updatePortfolio: Maybe<
+    { __typename?: 'PortfolioGraph' } & Pick<PortfolioGraph, 'id'>
+  >
+}
+
+export type GetPortfolioQueryVariables = {
+  id: Scalars['String']
+}
+
+export type GetPortfolioQuery = { __typename?: 'Query' } & {
+  portfolio: Maybe<
+    { __typename?: 'PortfolioGraph' } & Pick<
+      PortfolioGraph,
+      'id' | 'title' | 'metadata' | 'rowVersion'
+    >
+  >
+}
+
+export type DeletePortfolioMutationVariables = {
+  data: DeletePortfolioInputGraph
+}
+
+export type DeletePortfolioMutation = { __typename?: 'Mutation' } & Pick<
+  Mutation,
+  'deletePortfolio'
+>
+
+export type GetPortfolioDetailQueryVariables = {
+  id: Scalars['String']
+}
+
+export type GetPortfolioDetailQuery = { __typename?: 'Query' } & {
+  portfolio: Maybe<
+    { __typename?: 'PortfolioGraph' } & Pick<
+      PortfolioGraph,
+      'id' | 'title' | 'metadata'
+    > & {
+        agencies: Maybe<
+          Array<
+            Maybe<
+              { __typename?: 'AgencyGraph' } & Pick<AgencyGraph, 'id' | 'title'>
+            >
+          >
+        >
+      }
+  >
+}
+
+export type AllPortfoliosSearchQueryVariables = {}
+
+export type AllPortfoliosSearchQuery = { __typename?: 'Query' } & {
+  portfolios: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'PortfolioGraph' } & Pick<PortfolioGraph, 'id' | 'title'>
+      >
+    >
+  >
+}
+
+export type CreateReportAccessControlMutationVariables = {
+  data?: Maybe<CreateReportAccessControlInputGraph>
+}
+
+export type CreateReportAccessControlMutation = { __typename?: 'Mutation' } & {
+  createReportAccessControl: Maybe<
+    { __typename?: 'AccessControlEntryGraph' } & Pick<
+      AccessControlEntryGraph,
+      'id' | 'rights' | 'rowVersion'
+    >
+  >
+}
+
+export type ReportQueryVariables = {
+  reportId: Scalars['String']
+}
+
+export type ReportQuery = { __typename?: 'Query' } & {
+  report: Maybe<
+    { __typename?: 'ReportGraph' } & Pick<
+      ReportGraph,
+      'id' | 'name' | 'notes' | 'programId' | 'rowVersion'
+    > & {
+        accessControlList: Maybe<
+          Array<
+            Maybe<
+              { __typename?: 'AccessControlListGraph' } & Pick<
+                AccessControlListGraph,
+                'id'
+              > & {
+                  accessControlEntries: Maybe<
+                    Array<
+                      Maybe<
+                        { __typename?: 'AccessControlEntryGraph' } & Pick<
+                          AccessControlEntryGraph,
+                          'id' | 'rights' | 'rowVersion'
+                        > & {
+                            accessControlGroup: Maybe<
+                              { __typename?: 'AccessControlGroupGraph' } & Pick<
+                                AccessControlGroupGraph,
+                                'id' | 'title'
+                              >
+                            >
+                          }
+                      >
+                    >
+                  >
+                }
+            >
+          >
+        >
+        latestVersion: Maybe<
+          { __typename?: 'ReportVersionGraph' } & Pick<
+            ReportVersionGraph,
+            'id' | 'dataDate' | 'notes'
+          >
+        >
+      }
+  >
+}
+
+export type CreateReportMutationVariables = {
+  data?: Maybe<CreateReportInputGraph>
+}
+
+export type CreateReportMutation = { __typename?: 'Mutation' } & {
+  createReport: Maybe<
+    { __typename?: 'ReportGraph' } & Pick<
+      ReportGraph,
+      'id' | 'notes' | 'rowVersion'
+    >
+  >
+}
+
+export type UpdateReportMutationVariables = {
+  data?: Maybe<UpdateReportInputGraph>
+}
+
+export type UpdateReportMutation = { __typename?: 'Mutation' } & {
+  updateReport: Maybe<
+    { __typename?: 'ReportGraph' } & Pick<ReportGraph, 'id' | 'name' | 'notes'>
+  >
+}
+
+export type UpdateReportVersionMutationVariables = {
+  data?: Maybe<UpdateReportVersionInputGraph>
+}
+
+export type UpdateReportVersionMutation = { __typename?: 'Mutation' } & {
+  updateReportVersion: Maybe<
+    { __typename?: 'ReportVersionGraph' } & Pick<ReportVersionGraph, 'id'>
+  >
+}
+
+export type ReportVersionEditQueryVariables = {
+  id: Scalars['String']
+}
+
+export type ReportVersionEditQuery = { __typename?: 'Query' } & {
+  reportVersion: Maybe<
+    { __typename?: 'ReportVersionGraph' } & Pick<
+      ReportVersionGraph,
+      'id' | 'dataDate' | 'notes' | 'rowVersion'
+    >
+  >
+}
+
+export type CreateProgramMutationVariables = {
+  data: CreateProgramInputGraph
+}
+
+export type CreateProgramMutation = { __typename?: 'Mutation' } & {
+  createProgram: Maybe<
+    { __typename?: 'ProgramGraph' } & Pick<
+      ProgramGraph,
+      'id' | 'name' | 'notes' | 'externalId' | 'rowVersion'
+    > & {
+        agency: Maybe<{ __typename?: 'AgencyGraph' } & Pick<AgencyGraph, 'id'>>
+      }
+  >
+}
+
+export type UpdateProgramMutationVariables = {
+  data: UpdateProgramInputGraph
+}
+
+export type UpdateProgramMutation = { __typename?: 'Mutation' } & {
+  updateProgram: Maybe<
+    { __typename?: 'ProgramGraph' } & Pick<
+      ProgramGraph,
+      'id' | 'name' | 'notes' | 'externalId' | 'rowVersion'
+    > & {
+        agency: Maybe<{ __typename?: 'AgencyGraph' } & Pick<AgencyGraph, 'id'>>
+      }
+  >
+}
+
+export type DeleteProgramMutationVariables = {
+  data?: Maybe<DeleteProgramInputGraph>
+}
+
+export type DeleteProgramMutation = { __typename?: 'Mutation' } & Pick<
+  Mutation,
+  'deleteProgram'
+>
+
+export type DeleteReportMutationVariables = {
+  data?: Maybe<DeleteReportInputGraph>
+}
+
+export type DeleteReportMutation = { __typename?: 'Mutation' } & Pick<
+  Mutation,
+  'deleteReport'
+>
+
+export type CreateProgramAccessControlMutationVariables = {
+  data?: Maybe<CreateProgramAccessControlInputGraph>
+}
+
+export type CreateProgramAccessControlMutation = { __typename?: 'Mutation' } & {
+  createProgramAccessControl: Maybe<
+    { __typename?: 'AccessControlEntryGraph' } & Pick<
+      AccessControlEntryGraph,
+      'id' | 'rights' | 'rowVersion'
+    >
+  >
+}
+
+export type ProgramQueryVariables = {
+  programId: Scalars['String']
+}
+
+export type ProgramQuery = { __typename?: 'Query' } & {
+  program: Maybe<
+    { __typename?: 'ProgramGraph' } & Pick<
+      ProgramGraph,
+      'id' | 'name' | 'notes' | 'externalId' | 'rowVersion'
+    > & {
+        accessControlList: Maybe<
+          Array<
+            Maybe<
+              { __typename?: 'AccessControlListGraph' } & Pick<
+                AccessControlListGraph,
+                'id'
+              > & {
+                  accessControlEntries: Maybe<
+                    Array<
+                      Maybe<
+                        { __typename?: 'AccessControlEntryGraph' } & Pick<
+                          AccessControlEntryGraph,
+                          'id' | 'rights' | 'rowVersion'
+                        > & {
+                            accessControlGroup: Maybe<
+                              { __typename?: 'AccessControlGroupGraph' } & Pick<
+                                AccessControlGroupGraph,
+                                'id' | 'title'
+                              >
+                            >
+                          }
+                      >
+                    >
+                  >
+                }
+            >
+          >
+        >
+        agency: Maybe<
+          { __typename?: 'AgencyGraph' } & Pick<
+            AgencyGraph,
+            'id' | 'title' | 'metadata'
+          >
+        >
+        reports: Maybe<
+          Array<
+            Maybe<
+              { __typename?: 'ReportGraph' } & Pick<
+                ReportGraph,
+                'id' | 'name' | 'notes'
+              > & {
+                  accessControlList: Maybe<
+                    Array<
+                      Maybe<
+                        { __typename?: 'AccessControlListGraph' } & {
+                          accessControlEntries: Maybe<
+                            Array<
+                              Maybe<
+                                { __typename?: 'AccessControlEntryGraph' } & {
+                                  accessControlGroup: Maybe<
+                                    {
+                                      __typename?: 'AccessControlGroupGraph'
+                                    } & Pick<AccessControlGroupGraph, 'title'>
+                                  >
+                                }
+                              >
+                            >
+                          >
+                        }
+                      >
+                    >
+                  >
+                }
+            >
+          >
+        >
+      }
+  >
+}
+
+export type EditProgramQueryVariables = {
+  programId: Scalars['String']
+}
+
+export type EditProgramQuery = { __typename?: 'Query' } & {
+  program: Maybe<
+    { __typename?: 'ProgramGraph' } & Pick<
+      ProgramGraph,
+      'id' | 'name' | 'notes' | 'externalId' | 'rowVersion'
+    > & {
+        agency: Maybe<
+          { __typename?: 'AgencyGraph' } & Pick<
+            AgencyGraph,
+            'id' | 'title' | 'metadata'
+          >
+        >
+      }
+  >
+}
+
+export type AllPortfoliosQueryVariables = {}
+
+export type AllPortfoliosQuery = { __typename?: 'Query' } & {
+  portfolios: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'PortfolioGraph' } & Pick<
+          PortfolioGraph,
+          'id' | 'title' | 'metadata'
+        > & {
+            agencies: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'AgencyGraph' } & Pick<
+                    AgencyGraph,
+                    'id' | 'metadata' | 'title'
+                  >
+                >
+              >
+            >
+          }
+      >
+    >
+  >
+}
+
+export type AllProgramsQueryVariables = {}
+
+export type AllProgramsQuery = { __typename?: 'Query' } & {
+  programs: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'ProgramGraph' } & Pick<ProgramGraph, 'id' | 'name'> & {
+            agency: Maybe<
+              { __typename?: 'AgencyGraph' } & Pick<AgencyGraph, 'id' | 'title'>
+            >
+          }
+      >
+    >
+  >
+}
+
+export type ProjectQueryVariables = {
+  id: Scalars['String']
+}
+
+export type ProjectQuery = { __typename?: 'Query' } & {
+  project: Maybe<
+    { __typename?: 'ProjectGraph' } & Pick<
+      ProjectGraph,
+      'id' | 'name' | 'notes' | 'externalId' | 'status' | 'rowVersion'
+    > & {
+        program: Maybe<
+          { __typename?: 'ProgramGraph' } & Pick<ProgramGraph, 'id'>
+        >
+        programSubmission: Maybe<
+          { __typename?: 'ProgramSubmissionGraph' } & Pick<
+            ProgramSubmissionGraph,
+            'timeStamp'
+          >
+        >
+      }
+  >
+}
+
+export type AllProjectsQueryVariables = {}
+
+export type AllProjectsQuery = { __typename?: 'Query' } & {
+  projects: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'ProjectGraph' } & Pick<ProjectGraph, 'id' | 'name'> & {
+            program: Maybe<
+              { __typename?: 'ProgramGraph' } & Pick<ProgramGraph, 'name'>
+            >
+          }
+      >
+    >
+  >
+}
+
+export type AllProjectsSearchQueryVariables = {
+  name?: Maybe<Scalars['String']>
+}
+
+export type AllProjectsSearchQuery = { __typename?: 'Query' } & {
+  projects: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'ProjectGraph' } & Pick<ProjectGraph, 'id' | 'name'> & {
+            program: Maybe<
+              { __typename?: 'ProgramGraph' } & Pick<ProgramGraph, 'name'>
+            >
+            programSubmission: Maybe<
+              { __typename?: 'ProgramSubmissionGraph' } & Pick<
+                ProgramSubmissionGraph,
+                'timeStamp'
+              >
+            >
+          }
+      >
+    >
+  >
+}
+
+export type AllProgramReportsQueryVariables = {}
+
+export type AllProgramReportsQuery = { __typename?: 'Query' } & {
+  programs: Maybe<
+    Array<
+      Maybe<
+        { __typename: 'ProgramGraph' } & Pick<ProgramGraph, 'id' | 'name'> & {
+            reports: Maybe<
+              Array<
+                Maybe<
+                  { __typename: 'ReportGraph' } & Pick<
+                    ReportGraph,
+                    'id' | 'name'
+                  > & {
+                      latestVersion: Maybe<
+                        { __typename?: 'ReportVersionGraph' } & Pick<
+                          ReportVersionGraph,
+                          'id' | 'notes'
+                        >
+                      >
+                    }
+                >
+              >
+            >
+          }
+      >
+    >
+  >
+}
+
+export type DeleteRoleMutationVariables = {
+  data?: Maybe<DeleteRoleInputGraph>
+}
+
+export type DeleteRoleMutation = { __typename?: 'Mutation' } & Pick<
+  Mutation,
+  'deleteRole'
+>
+
+export type CreateRoleMutationVariables = {
+  data?: Maybe<CreateRoleInputGraph>
+}
+
+export type CreateRoleMutation = { __typename?: 'Mutation' } & {
+  createRole: Maybe<
+    { __typename?: 'RoleGraph' } & Pick<
+      RoleGraph,
+      'id' | 'title' | 'rowVersion'
+    >
+  >
+}
+
+export type UpdateRoleMutationVariables = {
+  data?: Maybe<UpdateRoleInputGraph>
+}
+
+export type UpdateRoleMutation = { __typename?: 'Mutation' } & {
+  updateRole: Maybe<
+    { __typename?: 'RoleGraph' } & Pick<
+      RoleGraph,
+      'id' | 'title' | 'description' | 'rowVersion'
+    >
+  >
+}
+
+export type RoleQueryVariables = {
+  roleId: Scalars['String']
+}
+
+export type RoleQuery = { __typename?: 'Query' } & {
+  role: Maybe<
+    { __typename?: 'RoleGraph' } & Pick<
+      RoleGraph,
+      | 'id'
+      | 'title'
+      | 'description'
+      | 'rowVersion'
+      | 'adminLogin'
+      | 'allAgencyModifier'
+      | 'createAgency'
+      | 'createProgram'
+      | 'createProject'
+      | 'createReport'
+      | 'createStatistic'
+      | 'deleteAgency'
+      | 'deleteProgram'
+      | 'deleteProject'
+      | 'deleteReport'
+      | 'deleteStatistic'
+      | 'manageApiKeys'
+      | 'manageAccessControls'
+      | 'manageGroups'
+      | 'updateElectorateAdvice'
+    >
+  >
+}
+
+export type RolesSearchQueryVariables = {}
+
+export type RolesSearchQuery = { __typename?: 'Query' } & {
+  roles: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'RoleGraph' } & Pick<
+          RoleGraph,
+          'id' | 'title' | 'description'
+        >
+      >
+    >
+  >
+}
+
+export type CreateStatisticReportMutationVariables = {
+  data: CreateStatisticReportInputGraph
+}
+
+export type CreateStatisticReportMutation = { __typename?: 'Mutation' } & {
+  createStatisticReport: Maybe<
+    { __typename?: 'StatisticReportGraph' } & Pick<
+      StatisticReportGraph,
+      'id' | 'name' | 'notes' | 'statisticId'
+    >
+  >
+}
+
+export type UpdateStatisticReportMutationVariables = {
+  data?: Maybe<UpdateStatisticReportInputGraph>
+}
+
+export type UpdateStatisticReportMutation = { __typename?: 'Mutation' } & {
+  updateStatisticReport: Maybe<
+    { __typename?: 'StatisticReportGraph' } & Pick<
+      StatisticReportGraph,
+      'id' | 'name' | 'notes' | 'statisticId'
+    >
+  >
+}
+
+export type StatisticReportEditQueryVariables = {
+  reportId: Scalars['String']
+}
+
+export type StatisticReportEditQuery = { __typename?: 'Query' } & {
+  statisticReport: Maybe<
+    { __typename?: 'StatisticReportGraph' } & Pick<
+      StatisticReportGraph,
+      'id' | 'name' | 'notes' | 'rowVersion' | 'statisticId'
+    >
+  >
+}
+
+export type UpdateStatisticReportVersionMutationVariables = {
+  data?: Maybe<UpdateStatisticReportVersionInputGraph>
+}
+
+export type UpdateStatisticReportVersionMutation = {
+  __typename?: 'Mutation'
+} & {
+  updateStatisticReportVersion: Maybe<
+    { __typename?: 'StatisticReportVersionGraph' } & Pick<
+      StatisticReportVersionGraph,
+      'id'
+    >
+  >
+}
+
+export type StatisticReportVersionEditQueryVariables = {
+  id: Scalars['String']
+}
+
+export type StatisticReportVersionEditQuery = { __typename?: 'Query' } & {
+  statisticReportVersion: Maybe<
+    { __typename?: 'StatisticReportVersionGraph' } & Pick<
+      StatisticReportVersionGraph,
+      'id' | 'dataDate' | 'notes' | 'rowVersion'
+    >
+  >
+}
+
+export type CreateStatisticReportAccessControlMutationVariables = {
+  data?: Maybe<CreateStatisticReportAccessControlInputGraph>
+}
+
+export type CreateStatisticReportAccessControlMutation = {
+  __typename?: 'Mutation'
+} & {
+  createStatisticReportAccessControl: Maybe<
+    { __typename?: 'AccessControlEntryGraph' } & Pick<
+      AccessControlEntryGraph,
+      'id' | 'rights' | 'rowVersion'
+    >
+  >
+}
+
+export type StatisticReportDetailQueryVariables = {
+  reportId: Scalars['String']
+}
+
+export type StatisticReportDetailQuery = { __typename?: 'Query' } & {
+  statisticReport: Maybe<
+    { __typename?: 'StatisticReportGraph' } & Pick<
+      StatisticReportGraph,
+      'id' | 'name' | 'notes' | 'rowVersion' | 'statisticId'
+    > & {
+        accessControlList: Maybe<
+          Array<
+            Maybe<
+              { __typename?: 'AccessControlListGraph' } & Pick<
+                AccessControlListGraph,
+                'id'
+              > & {
+                  accessControlEntries: Maybe<
+                    Array<
+                      Maybe<
+                        { __typename?: 'AccessControlEntryGraph' } & Pick<
+                          AccessControlEntryGraph,
+                          'id' | 'rights' | 'rowVersion'
+                        > & {
+                            accessControlGroup: Maybe<
+                              { __typename?: 'AccessControlGroupGraph' } & Pick<
+                                AccessControlGroupGraph,
+                                'id' | 'title'
+                              >
+                            >
+                          }
+                      >
+                    >
+                  >
+                }
+            >
+          >
+        >
+        latestVersion: Maybe<
+          { __typename?: 'StatisticReportVersionGraph' } & Pick<
+            StatisticReportVersionGraph,
+            'id' | 'dataDate' | 'notes'
+          >
+        >
+      }
+  >
+}
+
+export type CreateStatisticMutationVariables = {
+  data: CreateStatisticInputGraph
+}
+
+export type CreateStatisticMutation = { __typename?: 'Mutation' } & {
+  createStatistic: Maybe<
+    { __typename?: 'StatisticGraph' } & Pick<
+      StatisticGraph,
+      'id' | 'name' | 'externalId' | 'rowVersion'
+    > & {
+        agency: Maybe<{ __typename?: 'AgencyGraph' } & Pick<AgencyGraph, 'id'>>
+      }
+  >
+}
+
+export type UpdateStatisticMutationVariables = {
+  data: UpdateStatisticInputGraph
+}
+
+export type UpdateStatisticMutation = { __typename?: 'Mutation' } & {
+  updateStatistic: Maybe<
+    { __typename?: 'StatisticGraph' } & Pick<
+      StatisticGraph,
+      'id' | 'name' | 'externalId' | 'rowVersion'
+    > & {
+        agency: Maybe<{ __typename?: 'AgencyGraph' } & Pick<AgencyGraph, 'id'>>
+      }
+  >
+}
+
+export type DeleteStatisticReportMutationVariables = {
+  data: DeleteStatisticReportInputGraph
+}
+
+export type DeleteStatisticReportMutation = { __typename?: 'Mutation' } & Pick<
+  Mutation,
+  'deleteStatisticReport'
+>
+
+export type DeleteStatisticMutationVariables = {
+  data: DeleteStatisticInputGraph
+}
+
+export type DeleteStatisticMutation = { __typename?: 'Mutation' } & Pick<
+  Mutation,
+  'deleteStatistic'
+>
+
+export type CreateStatisticAccessControlMutationVariables = {
+  data?: Maybe<CreateStatisticAccessControlInputGraph>
+}
+
+export type CreateStatisticAccessControlMutation = {
+  __typename?: 'Mutation'
+} & {
+  createStatisticAccessControl: Maybe<
+    { __typename?: 'AccessControlEntryGraph' } & Pick<
+      AccessControlEntryGraph,
+      'id' | 'rights' | 'rowVersion'
+    >
+  >
+}
+
+export type AllStatisticsQueryVariables = {}
+
+export type AllStatisticsQuery = { __typename?: 'Query' } & {
+  statistics: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'StatisticGraph' } & Pick<
+          StatisticGraph,
+          'id' | 'name'
+        > & {
+            agency: Maybe<
+              { __typename?: 'AgencyGraph' } & Pick<AgencyGraph, 'id' | 'title'>
+            >
+            statisticReports: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'StatisticReportGraph' } & Pick<
+                    StatisticReportGraph,
+                    'id' | 'name' | 'notes'
+                  >
+                >
+              >
+            >
+          }
+      >
+    >
+  >
+}
+
+export type StatisticQueryVariables = {
+  statisticId: Scalars['String']
+}
+
+export type StatisticQuery = { __typename?: 'Query' } & {
+  statistic: Maybe<
+    { __typename?: 'StatisticGraph' } & Pick<
+      StatisticGraph,
+      'id' | 'name' | 'externalId' | 'rowVersion'
+    > & {
+        agency: Maybe<
+          { __typename?: 'AgencyGraph' } & Pick<AgencyGraph, 'id' | 'title'>
+        >
+        accessControlList: Maybe<
+          Array<
+            Maybe<
+              { __typename?: 'AccessControlListGraph' } & Pick<
+                AccessControlListGraph,
+                'id'
+              > & {
+                  accessControlEntries: Maybe<
+                    Array<
+                      Maybe<
+                        { __typename?: 'AccessControlEntryGraph' } & Pick<
+                          AccessControlEntryGraph,
+                          'id' | 'rights' | 'rowVersion'
+                        > & {
+                            accessControlGroup: Maybe<
+                              { __typename?: 'AccessControlGroupGraph' } & Pick<
+                                AccessControlGroupGraph,
+                                'id' | 'title'
+                              >
+                            >
+                          }
+                      >
+                    >
+                  >
+                }
+            >
+          >
+        >
+        statisticReports: Maybe<
+          Array<
+            Maybe<
+              { __typename?: 'StatisticReportGraph' } & Pick<
+                StatisticReportGraph,
+                'id' | 'name' | 'notes'
+              >
+            >
+          >
+        >
+      }
+  >
+}
+
+export type AllAgenciesQueryVariables = {}
+
+export type AllAgenciesQuery = { __typename?: 'Query' } & {
+  agencies: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'AgencyGraph' } & Pick<
+          AgencyGraph,
+          'id' | 'metadata' | 'title'
+        >
+      >
+    >
+  >
+}
+
+export type AllStatisticsSearchQueryVariables = {}
+
+export type AllStatisticsSearchQuery = { __typename?: 'Query' } & {
+  statistics: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'StatisticGraph' } & Pick<
+          StatisticGraph,
+          'id' | 'name'
+        > & {
+            agency: Maybe<
+              { __typename?: 'AgencyGraph' } & Pick<AgencyGraph, 'id' | 'title'>
+            >
+          }
+      >
+    >
+  >
+}
+
+export type StatisticAndStatisticReportsQueryVariables = {}
+
+export type StatisticAndStatisticReportsQuery = { __typename?: 'Query' } & {
+  statistics: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'StatisticGraph' } & Pick<
+          StatisticGraph,
+          'id' | 'name'
+        > & {
+            statisticReports: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'StatisticReportGraph' } & Pick<
+                    StatisticReportGraph,
+                    'id' | 'name'
+                  > & {
+                      latestVersion: Maybe<
+                        { __typename?: 'StatisticReportVersionGraph' } & Pick<
+                          StatisticReportVersionGraph,
+                          'id' | 'notes'
+                        >
+                      >
+                    }
+                >
+              >
+            >
+          }
+      >
+    >
+  >
+}
+
+export type CreateUserMutationVariables = {
+  data?: Maybe<CreateUserInputGraph>
+}
+
+export type CreateUserMutation = { __typename?: 'Mutation' } & {
+  createUser: Maybe<{ __typename?: 'UserGraph' } & Pick<UserGraph, 'id'>>
+}
+
+export type UpdateUserMutationVariables = {
+  data: UpdateUserInputGraph
+}
+
+export type UpdateUserMutation = { __typename?: 'Mutation' } & {
+  updateUser: Maybe<
+    { __typename?: 'UserGraph' } & Pick<UserGraph, 'id' | 'emailAddress'>
+  >
+}
+
+export type GetUserQueryVariables = {
+  id: Scalars['String']
+}
+
+export type GetUserQuery = { __typename?: 'Query' } & {
+  user: Maybe<
+    { __typename?: 'UserGraph' } & Pick<
+      UserGraph,
+      'emailAddress' | 'rowVersion'
+    > & {
+        agency: Maybe<{ __typename?: 'AgencyGraph' } & Pick<AgencyGraph, 'id'>>
+      }
+  >
+}
+
+export type DeleteUserMutationVariables = {
+  data: DeleteUserInputGraph
+}
+
+export type DeleteUserMutation = { __typename?: 'Mutation' } & Pick<
+  Mutation,
+  'deleteUser'
+>
+
+export type CreateApiKeyMutationVariables = {
+  data: CreateApiKeyInputGraph
+}
+
+export type CreateApiKeyMutation = { __typename?: 'Mutation' } & {
+  createApiKey: Maybe<{ __typename?: 'ApiKeyGraph' } & Pick<ApiKeyGraph, 'id'>>
+}
+
+export type DeleteApiKeyMutationVariables = {
+  data: DeleteApiKeyInputGraph
+}
+
+export type DeleteApiKeyMutation = { __typename?: 'Mutation' } & Pick<
+  Mutation,
+  'deleteApiKey'
+>
+
+export type UserQueryVariables = {
+  userId: Scalars['String']
+}
+
+export type UserQuery = { __typename?: 'Query' } & {
+  user: Maybe<
+    { __typename?: 'UserGraph' } & Pick<
+      UserGraph,
+      'id' | 'emailAddress' | 'lastLogin'
+    > & {
+        agency: Maybe<
+          { __typename?: 'AgencyGraph' } & Pick<AgencyGraph, 'id' | 'title'>
+        >
+        apiKeys: Maybe<
+          Array<
+            Maybe<
+              { __typename?: 'ApiKeyGraph' } & Pick<
+                ApiKeyGraph,
+                'id' | 'key' | 'created' | 'rowVersion' | 'disable'
+              >
+            >
+          >
+        >
+        programAccess: Maybe<
+          Array<
+            Maybe<
+              { __typename?: 'ResultantAccessGraph' } & Pick<
+                ResultantAccessGraph,
+                'entityId' | 'name' | 'groupId' | 'groupName' | 'accessRights'
+              >
+            >
+          >
+        >
+        reportAccess: Maybe<
+          Array<
+            Maybe<
+              { __typename?: 'ResultantAccessGraph' } & Pick<
+                ResultantAccessGraph,
+                | 'entityId'
+                | 'groupName'
+                | 'name'
+                | 'parentName'
+                | 'hasAccessToParent'
+              >
+            >
+          >
+        >
+        statisticAccess: Maybe<
+          Array<
+            Maybe<
+              { __typename?: 'ResultantAccessGraph' } & Pick<
+                ResultantAccessGraph,
+                | 'entityId'
+                | 'name'
+                | 'groupName'
+                | 'hasAccessToParent'
+                | 'parentName'
+              >
+            >
+          >
+        >
+        statisticReportAccess: Maybe<
+          Array<
+            Maybe<
+              { __typename?: 'ResultantAccessGraph' } & Pick<
+                ResultantAccessGraph,
+                | 'entityId'
+                | 'name'
+                | 'parentName'
+                | 'hasAccessToParent'
+                | 'groupName'
+                | 'accessRights'
+              >
+            >
+          >
+        >
+      }
+  >
+}
+
+export type SelectAgenciesQueryVariables = {}
+
+export type SelectAgenciesQuery = { __typename?: 'Query' } & {
+  agencies: Maybe<
+    Array<
+      Maybe<{ __typename?: 'AgencyGraph' } & Pick<AgencyGraph, 'id' | 'title'>>
+    >
+  >
+}
+
+export type AllUsersSearchQueryVariables = {}
+
+export type AllUsersSearchQuery = { __typename?: 'Query' } & {
+  users: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'UserGraph' } & Pick<
+          UserGraph,
+          'id' | 'emailAddress' | 'lastLogin' | 'rowVersion'
+        >
+      >
+    >
+  >
+}
+
+import gql from 'graphql-tag'
 import { Injectable } from '@angular/core'
 import * as Apollo from 'apollo-angular'
 
-import gql from 'graphql-tag'
-
-// ====================================================
-// Apollo Services
-// ====================================================
+export const AllAgenciesSearchDocument = gql`
+  query allAgenciesSearch {
+    agencies(orderBy: { path: "title" }) {
+      id
+      title
+      portfolio {
+        id
+        title
+      }
+    }
+  }
+`
 
 @Injectable({
   providedIn: 'root'
 })
 export class AllAgenciesSearchGQL extends Apollo.Query<
-  AllAgenciesSearch.Query,
-  AllAgenciesSearch.Variables
+  AllAgenciesSearchQuery,
+  AllAgenciesSearchQueryVariables
 > {
-  document: any = gql`
-    query allAgenciesSearch {
-      agencies(orderBy: { path: "title" }) {
-        id
-        title
-        portfolio {
-          id
-          title
-        }
-      }
-    }
-  `
+  document = AllAgenciesSearchDocument
 }
+export const CreateAgencyDocument = gql`
+  mutation createAgency($data: CreateAgencyInputGraph!) {
+    createAgency(input: $data) {
+      id
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class CreateAgencyGQL extends Apollo.Mutation<
-  CreateAgency.Mutation,
-  CreateAgency.Variables
+  CreateAgencyMutation,
+  CreateAgencyMutationVariables
 > {
-  document: any = gql`
-    mutation createAgency($data: CreateAgencyInputGraph!) {
-      createAgency(input: $data) {
-        id
-      }
-    }
-  `
+  document = CreateAgencyDocument
 }
+export const UpdateAgencyDocument = gql`
+  mutation updateAgency($data: UpdateAgencyInputGraph!) {
+    updateAgency(input: $data) {
+      id
+      title
+      metadata
+      portfolio {
+        id
+        title
+      }
+      rowVersion
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class UpdateAgencyGQL extends Apollo.Mutation<
-  UpdateAgency.Mutation,
-  UpdateAgency.Variables
+  UpdateAgencyMutation,
+  UpdateAgencyMutationVariables
 > {
-  document: any = gql`
-    mutation updateAgency($data: UpdateAgencyInputGraph!) {
-      updateAgency(input: $data) {
+  document = UpdateAgencyDocument
+}
+export const GetAgencyDocument = gql`
+  query getAgency($id: String!) {
+    agency(id: $id) {
+      id
+      title
+      metadata
+      rowVersion
+      portfolio {
         id
         title
-        metadata
-        portfolio {
-          id
-          title
-        }
-        rowVersion
       }
     }
-  `
-}
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class GetAgencyGQL extends Apollo.Query<
-  GetAgency.Query,
-  GetAgency.Variables
+  GetAgencyQuery,
+  GetAgencyQueryVariables
 > {
-  document: any = gql`
-    query getAgency($id: String!) {
-      agency(id: $id) {
-        id
-        title
-        metadata
-        rowVersion
-        portfolio {
-          id
-          title
-        }
-      }
-    }
-  `
+  document = GetAgencyDocument
 }
+export const CreateAgencyMappingDocument = gql`
+  mutation createAgencyMapping($data: CreateAgencyMappingInputGraph!) {
+    createAgencyMapping(input: $data) {
+      id
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class CreateAgencyMappingGQL extends Apollo.Mutation<
-  CreateAgencyMapping.Mutation,
-  CreateAgencyMapping.Variables
+  CreateAgencyMappingMutation,
+  CreateAgencyMappingMutationVariables
 > {
-  document: any = gql`
-    mutation createAgencyMapping($data: CreateAgencyMappingInputGraph!) {
-      createAgencyMapping(input: $data) {
-        id
-      }
-    }
-  `
+  document = CreateAgencyMappingDocument
 }
+export const UpdateAgencyMappingDocument = gql`
+  mutation updateAgencyMapping($data: UpdateAgencyMappingInputGraph!) {
+    updateAgencyMapping(input: $data) {
+      id
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class UpdateAgencyMappingGQL extends Apollo.Mutation<
-  UpdateAgencyMapping.Mutation,
-  UpdateAgencyMapping.Variables
+  UpdateAgencyMappingMutation,
+  UpdateAgencyMappingMutationVariables
 > {
-  document: any = gql`
-    mutation updateAgencyMapping($data: UpdateAgencyMappingInputGraph!) {
-      updateAgencyMapping(input: $data) {
+  document = UpdateAgencyMappingDocument
+}
+export const GetAgencyMappingDocument = gql`
+  query getAgencyMapping($id: String!) {
+    agencyMapping(id: $id) {
+      id
+      emailDomain
+      rowVersion
+      agency {
         id
       }
+      accessControlGroup {
+        id
+        title
+      }
     }
-  `
-}
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class GetAgencyMappingGQL extends Apollo.Query<
-  GetAgencyMapping.Query,
-  GetAgencyMapping.Variables
+  GetAgencyMappingQuery,
+  GetAgencyMappingQueryVariables
 > {
-  document: any = gql`
-    query getAgencyMapping($id: String!) {
-      agencyMapping(id: $id) {
+  document = GetAgencyMappingDocument
+}
+export const DeleteAgencyDocument = gql`
+  mutation deleteAgency($data: DeleteAgencyInputGraph!) {
+    deleteAgency(input: $data)
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DeleteAgencyGQL extends Apollo.Mutation<
+  DeleteAgencyMutation,
+  DeleteAgencyMutationVariables
+> {
+  document = DeleteAgencyDocument
+}
+export const DeleteAgencyMappingDocument = gql`
+  mutation deleteAgencyMapping($data: DeleteAgencyMappingInputGraph!) {
+    deleteAgencyMapping(input: $data)
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DeleteAgencyMappingGQL extends Apollo.Mutation<
+  DeleteAgencyMappingMutation,
+  DeleteAgencyMappingMutationVariables
+> {
+  document = DeleteAgencyMappingDocument
+}
+export const AgencyDocument = gql`
+  query agency($id: String!) {
+    agency(id: $id) {
+      id
+      title
+      metadata
+      rowVersion
+      portfolio {
+        id
+        title
+      }
+      agencyMapping {
         id
         emailDomain
         rowVersion
-        agency {
-          id
-        }
         accessControlGroup {
           id
           title
         }
       }
     }
-  `
-}
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
-export class DeleteAgencyGQL extends Apollo.Mutation<
-  DeleteAgency.Mutation,
-  DeleteAgency.Variables
-> {
-  document: any = gql`
-    mutation deleteAgency($data: DeleteAgencyInputGraph!) {
-      deleteAgency(input: $data)
+export class AgencyGQL extends Apollo.Query<AgencyQuery, AgencyQueryVariables> {
+  document = AgencyDocument
+}
+export const PortfoliosDocument = gql`
+  query portfolios {
+    portfolios {
+      id
+      title
     }
-  `
-}
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
-export class DeleteAgencyMappingGQL extends Apollo.Mutation<
-  DeleteAgencyMapping.Mutation,
-  DeleteAgencyMapping.Variables
+export class PortfoliosGQL extends Apollo.Query<
+  PortfoliosQuery,
+  PortfoliosQueryVariables
 > {
-  document: any = gql`
-    mutation deleteAgencyMapping($data: DeleteAgencyMappingInputGraph!) {
-      deleteAgencyMapping(input: $data)
-    }
-  `
+  document = PortfoliosDocument
 }
+export const CreateRoleAccessControlGroupDocument = gql`
+  mutation createRoleAccessControlGroup(
+    $data: CreateRoleAccessControlGroupInputGraph!
+  ) {
+    createRoleAccessControlGroup(input: $data) {
+      accessControlGroupId
+      roleId
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
-export class AgencyGQL extends Apollo.Query<Agency.Query, Agency.Variables> {
-  document: any = gql`
-    query agency($id: String!) {
-      agency(id: $id) {
+export class CreateRoleAccessControlGroupGQL extends Apollo.Mutation<
+  CreateRoleAccessControlGroupMutation,
+  CreateRoleAccessControlGroupMutationVariables
+> {
+  document = CreateRoleAccessControlGroupDocument
+}
+export const DeleteRoleAccessControlGroupDocument = gql`
+  mutation deleteRoleAccessControlGroup(
+    $data: DeleteRoleAccessControlGroupInputGraph!
+  ) {
+    deleteRoleAccessControlGroup(input: $data)
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DeleteRoleAccessControlGroupGQL extends Apollo.Mutation<
+  DeleteRoleAccessControlGroupMutation,
+  DeleteRoleAccessControlGroupMutationVariables
+> {
+  document = DeleteRoleAccessControlGroupDocument
+}
+export const AllRolesDocument = gql`
+  query allRoles {
+    roles {
+      id
+      title
+      description
+      rowVersion
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AllRolesGQL extends Apollo.Query<
+  AllRolesQuery,
+  AllRolesQueryVariables
+> {
+  document = AllRolesDocument
+}
+export const CreateAccessControlGroupUserDocument = gql`
+  mutation createAccessControlGroupUser(
+    $data: CreateAccessControlGroupUserInputGraph!
+  ) {
+    createAccessControlGroupUser(input: $data) {
+      accessControlGroupId
+      userId
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CreateAccessControlGroupUserGQL extends Apollo.Mutation<
+  CreateAccessControlGroupUserMutation,
+  CreateAccessControlGroupUserMutationVariables
+> {
+  document = CreateAccessControlGroupUserDocument
+}
+export const UsersDocument = gql`
+  query users {
+    users(orderBy: { path: "emailAddress" }) {
+      id
+      emailAddress
+      lastLogin
+      rowVersion
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UsersGQL extends Apollo.Query<UsersQuery, UsersQueryVariables> {
+  document = UsersDocument
+}
+export const CreateAccessControlGroupDocument = gql`
+  mutation createAccessControlGroup($data: CreateAccessControlGroupInputGraph) {
+    createAccessControlGroup(input: $data) {
+      id
+      title
+      rowVersion
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CreateAccessControlGroupGQL extends Apollo.Mutation<
+  CreateAccessControlGroupMutation,
+  CreateAccessControlGroupMutationVariables
+> {
+  document = CreateAccessControlGroupDocument
+}
+export const UpdateAccessControlGroupDocument = gql`
+  mutation updateAccessControlGroup($data: UpdateAccessControlGroupInputGraph) {
+    updateAccessControlGroup(input: $data) {
+      id
+      title
+      rowVersion
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdateAccessControlGroupGQL extends Apollo.Mutation<
+  UpdateAccessControlGroupMutation,
+  UpdateAccessControlGroupMutationVariables
+> {
+  document = UpdateAccessControlGroupDocument
+}
+export const DeleteAccessControlGroupDocument = gql`
+  mutation deleteAccessControlGroup($data: DeleteAccessControlGroupInputGraph) {
+    deleteAccessControlGroup(input: $data)
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DeleteAccessControlGroupGQL extends Apollo.Mutation<
+  DeleteAccessControlGroupMutation,
+  DeleteAccessControlGroupMutationVariables
+> {
+  document = DeleteAccessControlGroupDocument
+}
+export const DeleteAccessControlGroupUserDocument = gql`
+  mutation deleteAccessControlGroupUser(
+    $data: DeleteAccessControlGroupUserInputGraph!
+  ) {
+    deleteAccessControlGroupUser(input: $data)
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DeleteAccessControlGroupUserGQL extends Apollo.Mutation<
+  DeleteAccessControlGroupUserMutation,
+  DeleteAccessControlGroupUserMutationVariables
+> {
+  document = DeleteAccessControlGroupUserDocument
+}
+export const GroupDocument = gql`
+  query group($groupId: String!) {
+    group(id: $groupId) {
+      id
+      rowVersion
+      title
+      members(orderBy: { path: "emailAddress" }) {
+        id
+        emailAddress
+        lastLogin
+        rowVersion
+      }
+      roles {
+        id
+        description
+        rowVersion
+        title
+      }
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class GroupGQL extends Apollo.Query<GroupQuery, GroupQueryVariables> {
+  document = GroupDocument
+}
+export const AllGroupsDocument = gql`
+  query allGroups {
+    groups(orderBy: { path: "title" }) {
+      id
+      title
+      rowVersion
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AllGroupsGQL extends Apollo.Query<
+  AllGroupsQuery,
+  AllGroupsQueryVariables
+> {
+  document = AllGroupsDocument
+}
+export const AllGroupsSearchDocument = gql`
+  query allGroupsSearch {
+    groups(orderBy: { path: "title" }) {
+      id
+      title
+      rowVersion
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AllGroupsSearchGQL extends Apollo.Query<
+  AllGroupsSearchQuery,
+  AllGroupsSearchQueryVariables
+> {
+  document = AllGroupsSearchDocument
+}
+export const DeleteAccessControlDocument = gql`
+  mutation deleteAccessControl($data: DeleteAccessControlInputGraph) {
+    deleteAccessControl(input: $data)
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DeleteAccessControlGQL extends Apollo.Mutation<
+  DeleteAccessControlMutation,
+  DeleteAccessControlMutationVariables
+> {
+  document = DeleteAccessControlDocument
+}
+export const UpdateAccessControlDocument = gql`
+  mutation updateAccessControl($data: UpdateAccessControlInputGraph) {
+    updateAccessControl(input: $data) {
+      id
+      rights
+      rowVersion
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdateAccessControlGQL extends Apollo.Mutation<
+  UpdateAccessControlMutation,
+  UpdateAccessControlMutationVariables
+> {
+  document = UpdateAccessControlDocument
+}
+export const CreatePortfolioDocument = gql`
+  mutation createPortfolio($data: CreatePortfolioInputGraph!) {
+    createPortfolio(input: $data) {
+      id
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CreatePortfolioGQL extends Apollo.Mutation<
+  CreatePortfolioMutation,
+  CreatePortfolioMutationVariables
+> {
+  document = CreatePortfolioDocument
+}
+export const UpdatePortfolioDocument = gql`
+  mutation updatePortfolio($data: UpdatePortfolioInputGraph!) {
+    updatePortfolio(input: $data) {
+      id
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdatePortfolioGQL extends Apollo.Mutation<
+  UpdatePortfolioMutation,
+  UpdatePortfolioMutationVariables
+> {
+  document = UpdatePortfolioDocument
+}
+export const GetPortfolioDocument = gql`
+  query getPortfolio($id: String!) {
+    portfolio(id: $id) {
+      id
+      title
+      metadata
+      rowVersion
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class GetPortfolioGQL extends Apollo.Query<
+  GetPortfolioQuery,
+  GetPortfolioQueryVariables
+> {
+  document = GetPortfolioDocument
+}
+export const DeletePortfolioDocument = gql`
+  mutation deletePortfolio($data: DeletePortfolioInputGraph!) {
+    deletePortfolio(input: $data)
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DeletePortfolioGQL extends Apollo.Mutation<
+  DeletePortfolioMutation,
+  DeletePortfolioMutationVariables
+> {
+  document = DeletePortfolioDocument
+}
+export const GetPortfolioDetailDocument = gql`
+  query getPortfolioDetail($id: String!) {
+    portfolio(id: $id) {
+      id
+      title
+      metadata
+      agencies {
         id
         title
-        metadata
-        rowVersion
-        portfolio {
+      }
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class GetPortfolioDetailGQL extends Apollo.Query<
+  GetPortfolioDetailQuery,
+  GetPortfolioDetailQueryVariables
+> {
+  document = GetPortfolioDetailDocument
+}
+export const AllPortfoliosSearchDocument = gql`
+  query allPortfoliosSearch {
+    portfolios(orderBy: { path: "title" }) {
+      id
+      title
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AllPortfoliosSearchGQL extends Apollo.Query<
+  AllPortfoliosSearchQuery,
+  AllPortfoliosSearchQueryVariables
+> {
+  document = AllPortfoliosSearchDocument
+}
+export const CreateReportAccessControlDocument = gql`
+  mutation createReportAccessControl(
+    $data: CreateReportAccessControlInputGraph
+  ) {
+    createReportAccessControl(input: $data) {
+      id
+      rights
+      rowVersion
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CreateReportAccessControlGQL extends Apollo.Mutation<
+  CreateReportAccessControlMutation,
+  CreateReportAccessControlMutationVariables
+> {
+  document = CreateReportAccessControlDocument
+}
+export const ReportDocument = gql`
+  query report($reportId: String!) {
+    report(id: $reportId) {
+      id
+      name
+      notes
+      programId
+      rowVersion
+      accessControlList {
+        id
+        accessControlEntries(orderBy: { path: "accessControlGroup.title" }) {
           id
-          title
+          accessControlGroup {
+            id
+            title
+          }
+          rights
+          rowVersion
         }
-        agencyMapping {
+      }
+      latestVersion {
+        id
+        dataDate
+        notes
+      }
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ReportGQL extends Apollo.Query<ReportQuery, ReportQueryVariables> {
+  document = ReportDocument
+}
+export const CreateReportDocument = gql`
+  mutation createReport($data: CreateReportInputGraph) {
+    createReport(input: $data) {
+      id
+      notes
+      rowVersion
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CreateReportGQL extends Apollo.Mutation<
+  CreateReportMutation,
+  CreateReportMutationVariables
+> {
+  document = CreateReportDocument
+}
+export const UpdateReportDocument = gql`
+  mutation updateReport($data: UpdateReportInputGraph) {
+    updateReport(input: $data) {
+      id
+      name
+      notes
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdateReportGQL extends Apollo.Mutation<
+  UpdateReportMutation,
+  UpdateReportMutationVariables
+> {
+  document = UpdateReportDocument
+}
+export const UpdateReportVersionDocument = gql`
+  mutation updateReportVersion($data: UpdateReportVersionInputGraph) {
+    updateReportVersion(input: $data) {
+      id
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdateReportVersionGQL extends Apollo.Mutation<
+  UpdateReportVersionMutation,
+  UpdateReportVersionMutationVariables
+> {
+  document = UpdateReportVersionDocument
+}
+export const ReportVersionEditDocument = gql`
+  query reportVersionEdit($id: String!) {
+    reportVersion(id: $id) {
+      id
+      dataDate
+      notes
+      rowVersion
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ReportVersionEditGQL extends Apollo.Query<
+  ReportVersionEditQuery,
+  ReportVersionEditQueryVariables
+> {
+  document = ReportVersionEditDocument
+}
+export const CreateProgramDocument = gql`
+  mutation createProgram($data: CreateProgramInputGraph!) {
+    createProgram(input: $data) {
+      id
+      name
+      agency {
+        id
+      }
+      notes
+      externalId
+      rowVersion
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CreateProgramGQL extends Apollo.Mutation<
+  CreateProgramMutation,
+  CreateProgramMutationVariables
+> {
+  document = CreateProgramDocument
+}
+export const UpdateProgramDocument = gql`
+  mutation updateProgram($data: UpdateProgramInputGraph!) {
+    updateProgram(input: $data) {
+      id
+      name
+      agency {
+        id
+      }
+      notes
+      externalId
+      rowVersion
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdateProgramGQL extends Apollo.Mutation<
+  UpdateProgramMutation,
+  UpdateProgramMutationVariables
+> {
+  document = UpdateProgramDocument
+}
+export const DeleteProgramDocument = gql`
+  mutation deleteProgram($data: DeleteProgramInputGraph) {
+    deleteProgram(input: $data)
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DeleteProgramGQL extends Apollo.Mutation<
+  DeleteProgramMutation,
+  DeleteProgramMutationVariables
+> {
+  document = DeleteProgramDocument
+}
+export const DeleteReportDocument = gql`
+  mutation deleteReport($data: DeleteReportInputGraph) {
+    deleteReport(input: $data)
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DeleteReportGQL extends Apollo.Mutation<
+  DeleteReportMutation,
+  DeleteReportMutationVariables
+> {
+  document = DeleteReportDocument
+}
+export const CreateProgramAccessControlDocument = gql`
+  mutation createProgramAccessControl(
+    $data: CreateProgramAccessControlInputGraph
+  ) {
+    createProgramAccessControl(input: $data) {
+      id
+      rights
+      rowVersion
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CreateProgramAccessControlGQL extends Apollo.Mutation<
+  CreateProgramAccessControlMutation,
+  CreateProgramAccessControlMutationVariables
+> {
+  document = CreateProgramAccessControlDocument
+}
+export const ProgramDocument = gql`
+  query program($programId: String!) {
+    program(id: $programId) {
+      id
+      name
+      notes
+      externalId
+      rowVersion
+      accessControlList {
+        id
+        accessControlEntries(orderBy: { path: "accessControlGroup.title" }) {
           id
-          emailDomain
+          rights
           rowVersion
           accessControlGroup {
             id
@@ -2977,1407 +4066,906 @@ export class AgencyGQL extends Apollo.Query<Agency.Query, Agency.Variables> {
           }
         }
       }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class PortfoliosGQL extends Apollo.Query<
-  Portfolios.Query,
-  Portfolios.Variables
-> {
-  document: any = gql`
-    query portfolios {
-      portfolios {
-        id
-        title
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class CreateRoleAccessControlGroupGQL extends Apollo.Mutation<
-  CreateRoleAccessControlGroup.Mutation,
-  CreateRoleAccessControlGroup.Variables
-> {
-  document: any = gql`
-    mutation createRoleAccessControlGroup(
-      $data: CreateRoleAccessControlGroupInputGraph!
-    ) {
-      createRoleAccessControlGroup(input: $data) {
-        accessControlGroupId
-        roleId
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class DeleteRoleAccessControlGroupGQL extends Apollo.Mutation<
-  DeleteRoleAccessControlGroup.Mutation,
-  DeleteRoleAccessControlGroup.Variables
-> {
-  document: any = gql`
-    mutation deleteRoleAccessControlGroup(
-      $data: DeleteRoleAccessControlGroupInputGraph!
-    ) {
-      deleteRoleAccessControlGroup(input: $data)
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class AllRolesGQL extends Apollo.Query<
-  AllRoles.Query,
-  AllRoles.Variables
-> {
-  document: any = gql`
-    query allRoles {
-      roles {
-        id
-        title
-        description
-        rowVersion
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class CreateAccessControlGroupUserGQL extends Apollo.Mutation<
-  CreateAccessControlGroupUser.Mutation,
-  CreateAccessControlGroupUser.Variables
-> {
-  document: any = gql`
-    mutation createAccessControlGroupUser(
-      $data: CreateAccessControlGroupUserInputGraph!
-    ) {
-      createAccessControlGroupUser(input: $data) {
-        accessControlGroupId
-        userId
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class UsersGQL extends Apollo.Query<Users.Query, Users.Variables> {
-  document: any = gql`
-    query users {
-      users(orderBy: { path: "emailAddress" }) {
-        id
-        emailAddress
-        lastLogin
-        rowVersion
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class CreateAccessControlGroupGQL extends Apollo.Mutation<
-  CreateAccessControlGroup.Mutation,
-  CreateAccessControlGroup.Variables
-> {
-  document: any = gql`
-    mutation createAccessControlGroup(
-      $data: CreateAccessControlGroupInputGraph
-    ) {
-      createAccessControlGroup(input: $data) {
-        id
-        title
-        rowVersion
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class UpdateAccessControlGroupGQL extends Apollo.Mutation<
-  UpdateAccessControlGroup.Mutation,
-  UpdateAccessControlGroup.Variables
-> {
-  document: any = gql`
-    mutation updateAccessControlGroup(
-      $data: UpdateAccessControlGroupInputGraph
-    ) {
-      updateAccessControlGroup(input: $data) {
-        id
-        title
-        rowVersion
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class DeleteAccessControlGroupGQL extends Apollo.Mutation<
-  DeleteAccessControlGroup.Mutation,
-  DeleteAccessControlGroup.Variables
-> {
-  document: any = gql`
-    mutation deleteAccessControlGroup(
-      $data: DeleteAccessControlGroupInputGraph
-    ) {
-      deleteAccessControlGroup(input: $data)
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class DeleteAccessControlGroupUserGQL extends Apollo.Mutation<
-  DeleteAccessControlGroupUser.Mutation,
-  DeleteAccessControlGroupUser.Variables
-> {
-  document: any = gql`
-    mutation deleteAccessControlGroupUser(
-      $data: DeleteAccessControlGroupUserInputGraph!
-    ) {
-      deleteAccessControlGroupUser(input: $data)
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class GroupGQL extends Apollo.Query<Group.Query, Group.Variables> {
-  document: any = gql`
-    query group($groupId: String!) {
-      group(id: $groupId) {
-        id
-        rowVersion
-        title
-        members(orderBy: { path: "emailAddress" }) {
-          id
-          emailAddress
-          lastLogin
-          rowVersion
-        }
-        roles {
-          id
-          description
-          rowVersion
-          title
-        }
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class AllGroupsGQL extends Apollo.Query<
-  AllGroups.Query,
-  AllGroups.Variables
-> {
-  document: any = gql`
-    query allGroups {
-      groups(orderBy: { path: "title" }) {
-        id
-        title
-        rowVersion
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class AllGroupsSearchGQL extends Apollo.Query<
-  AllGroupsSearch.Query,
-  AllGroupsSearch.Variables
-> {
-  document: any = gql`
-    query allGroupsSearch {
-      groups(orderBy: { path: "title" }) {
-        id
-        title
-        rowVersion
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class DeleteAccessControlGQL extends Apollo.Mutation<
-  DeleteAccessControl.Mutation,
-  DeleteAccessControl.Variables
-> {
-  document: any = gql`
-    mutation deleteAccessControl($data: DeleteAccessControlInputGraph) {
-      deleteAccessControl(input: $data)
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class UpdateAccessControlGQL extends Apollo.Mutation<
-  UpdateAccessControl.Mutation,
-  UpdateAccessControl.Variables
-> {
-  document: any = gql`
-    mutation updateAccessControl($data: UpdateAccessControlInputGraph) {
-      updateAccessControl(input: $data) {
-        id
-        rights
-        rowVersion
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class CreatePortfolioGQL extends Apollo.Mutation<
-  CreatePortfolio.Mutation,
-  CreatePortfolio.Variables
-> {
-  document: any = gql`
-    mutation createPortfolio($data: CreatePortfolioInputGraph!) {
-      createPortfolio(input: $data) {
-        id
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class UpdatePortfolioGQL extends Apollo.Mutation<
-  UpdatePortfolio.Mutation,
-  UpdatePortfolio.Variables
-> {
-  document: any = gql`
-    mutation updatePortfolio($data: UpdatePortfolioInputGraph!) {
-      updatePortfolio(input: $data) {
-        id
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class GetPortfolioGQL extends Apollo.Query<
-  GetPortfolio.Query,
-  GetPortfolio.Variables
-> {
-  document: any = gql`
-    query getPortfolio($id: String!) {
-      portfolio(id: $id) {
+      agency {
         id
         title
         metadata
-        rowVersion
       }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class DeletePortfolioGQL extends Apollo.Mutation<
-  DeletePortfolio.Mutation,
-  DeletePortfolio.Variables
-> {
-  document: any = gql`
-    mutation deletePortfolio($data: DeletePortfolioInputGraph!) {
-      deletePortfolio(input: $data)
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class GetPortfolioDetailGQL extends Apollo.Query<
-  GetPortfolioDetail.Query,
-  GetPortfolioDetail.Variables
-> {
-  document: any = gql`
-    query getPortfolioDetail($id: String!) {
-      portfolio(id: $id) {
-        id
-        title
-        metadata
-        agencies {
-          id
-          title
-        }
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class AllPortfoliosSearchGQL extends Apollo.Query<
-  AllPortfoliosSearch.Query,
-  AllPortfoliosSearch.Variables
-> {
-  document: any = gql`
-    query allPortfoliosSearch {
-      portfolios(orderBy: { path: "title" }) {
-        id
-        title
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class CreateReportAccessControlGQL extends Apollo.Mutation<
-  CreateReportAccessControl.Mutation,
-  CreateReportAccessControl.Variables
-> {
-  document: any = gql`
-    mutation createReportAccessControl(
-      $data: CreateReportAccessControlInputGraph
-    ) {
-      createReportAccessControl(input: $data) {
-        id
-        rights
-        rowVersion
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class ReportGQL extends Apollo.Query<Report.Query, Report.Variables> {
-  document: any = gql`
-    query report($reportId: String!) {
-      report(id: $reportId) {
+      reports {
         id
         name
         notes
-        programId
-        rowVersion
         accessControlList {
-          id
-          accessControlEntries(orderBy: { path: "accessControlGroup.title" }) {
-            id
+          accessControlEntries {
             accessControlGroup {
-              id
-              title
-            }
-            rights
-            rowVersion
-          }
-        }
-        latestVersion {
-          id
-          dataDate
-          notes
-        }
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class CreateReportGQL extends Apollo.Mutation<
-  CreateReport.Mutation,
-  CreateReport.Variables
-> {
-  document: any = gql`
-    mutation createReport($data: CreateReportInputGraph) {
-      createReport(input: $data) {
-        id
-        notes
-        rowVersion
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class UpdateReportGQL extends Apollo.Mutation<
-  UpdateReport.Mutation,
-  UpdateReport.Variables
-> {
-  document: any = gql`
-    mutation updateReport($data: UpdateReportInputGraph) {
-      updateReport(input: $data) {
-        id
-        name
-        notes
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class UpdateReportVersionGQL extends Apollo.Mutation<
-  UpdateReportVersion.Mutation,
-  UpdateReportVersion.Variables
-> {
-  document: any = gql`
-    mutation updateReportVersion($data: UpdateReportVersionInputGraph) {
-      updateReportVersion(input: $data) {
-        id
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class ReportVersionEditGQL extends Apollo.Query<
-  ReportVersionEdit.Query,
-  ReportVersionEdit.Variables
-> {
-  document: any = gql`
-    query reportVersionEdit($id: String!) {
-      reportVersion(id: $id) {
-        id
-        dataDate
-        notes
-        rowVersion
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class CreateProgramGQL extends Apollo.Mutation<
-  CreateProgram.Mutation,
-  CreateProgram.Variables
-> {
-  document: any = gql`
-    mutation createProgram($data: CreateProgramInputGraph!) {
-      createProgram(input: $data) {
-        id
-        name
-        agency {
-          id
-        }
-        notes
-        externalId
-        rowVersion
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class UpdateProgramGQL extends Apollo.Mutation<
-  UpdateProgram.Mutation,
-  UpdateProgram.Variables
-> {
-  document: any = gql`
-    mutation updateProgram($data: UpdateProgramInputGraph!) {
-      updateProgram(input: $data) {
-        id
-        name
-        agency {
-          id
-        }
-        notes
-        externalId
-        rowVersion
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class DeleteProgramGQL extends Apollo.Mutation<
-  DeleteProgram.Mutation,
-  DeleteProgram.Variables
-> {
-  document: any = gql`
-    mutation deleteProgram($data: DeleteProgramInputGraph) {
-      deleteProgram(input: $data)
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class DeleteReportGQL extends Apollo.Mutation<
-  DeleteReport.Mutation,
-  DeleteReport.Variables
-> {
-  document: any = gql`
-    mutation deleteReport($data: DeleteReportInputGraph) {
-      deleteReport(input: $data)
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class CreateProgramAccessControlGQL extends Apollo.Mutation<
-  CreateProgramAccessControl.Mutation,
-  CreateProgramAccessControl.Variables
-> {
-  document: any = gql`
-    mutation createProgramAccessControl(
-      $data: CreateProgramAccessControlInputGraph
-    ) {
-      createProgramAccessControl(input: $data) {
-        id
-        rights
-        rowVersion
-      }
-    }
-  `
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class ProgramGQL extends Apollo.Query<Program.Query, Program.Variables> {
-  document: any = gql`
-    query program($programId: String!) {
-      program(id: $programId) {
-        id
-        name
-        notes
-        externalId
-        rowVersion
-        accessControlList {
-          id
-          accessControlEntries(orderBy: { path: "accessControlGroup.title" }) {
-            id
-            rights
-            rowVersion
-            accessControlGroup {
-              id
               title
             }
           }
         }
-        agency {
-          id
-          title
-          metadata
-        }
-        reports {
-          id
-          name
-          notes
-          accessControlList {
-            accessControlEntries {
-              accessControlGroup {
-                title
-              }
-            }
-          }
-        }
       }
     }
-  `
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ProgramGQL extends Apollo.Query<
+  ProgramQuery,
+  ProgramQueryVariables
+> {
+  document = ProgramDocument
 }
+export const EditProgramDocument = gql`
+  query editProgram($programId: String!) {
+    program(id: $programId) {
+      id
+      name
+      notes
+      externalId
+      rowVersion
+      agency {
+        id
+        title
+        metadata
+      }
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class EditProgramGQL extends Apollo.Query<
-  EditProgram.Query,
-  EditProgram.Variables
+  EditProgramQuery,
+  EditProgramQueryVariables
 > {
-  document: any = gql`
-    query editProgram($programId: String!) {
-      program(id: $programId) {
+  document = EditProgramDocument
+}
+export const AllPortfoliosDocument = gql`
+  query allPortfolios {
+    portfolios(orderBy: { path: "title" }) {
+      id
+      title
+      metadata
+      agencies {
         id
-        name
-        notes
-        externalId
-        rowVersion
-        agency {
-          id
-          title
-          metadata
-        }
+        metadata
+        title
       }
     }
-  `
-}
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class AllPortfoliosGQL extends Apollo.Query<
-  AllPortfolios.Query,
-  AllPortfolios.Variables
+  AllPortfoliosQuery,
+  AllPortfoliosQueryVariables
 > {
-  document: any = gql`
-    query allPortfolios {
-      portfolios(orderBy: { path: "title" }) {
+  document = AllPortfoliosDocument
+}
+export const AllProgramsDocument = gql`
+  query allPrograms {
+    programs(orderBy: { path: "name" }) {
+      id
+      name
+      agency {
         id
         title
-        metadata
-        agencies {
-          id
-          metadata
-          title
-        }
       }
     }
-  `
-}
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class AllProgramsGQL extends Apollo.Query<
-  AllPrograms.Query,
-  AllPrograms.Variables
+  AllProgramsQuery,
+  AllProgramsQueryVariables
 > {
-  document: any = gql`
-    query allPrograms {
-      programs(orderBy: { path: "name" }) {
+  document = AllProgramsDocument
+}
+export const ProjectDocument = gql`
+  query project($id: String!) {
+    project(id: $id) {
+      id
+      name
+      notes
+      externalId
+      status
+      rowVersion
+      program {
         id
-        name
-        agency {
-          id
-          title
-        }
+      }
+      programSubmission {
+        timeStamp
       }
     }
-  `
-}
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
-export class ProjectGQL extends Apollo.Query<Project.Query, Project.Variables> {
-  document: any = gql`
-    query project($id: String!) {
-      project(id: $id) {
-        id
+export class ProjectGQL extends Apollo.Query<
+  ProjectQuery,
+  ProjectQueryVariables
+> {
+  document = ProjectDocument
+}
+export const AllProjectsDocument = gql`
+  query allProjects {
+    projects(orderBy: { path: "name" }) {
+      id
+      name
+      program {
         name
-        notes
-        externalId
-        status
-        rowVersion
-        program {
-          id
-        }
-        programSubmission {
-          timeStamp
-        }
       }
     }
-  `
-}
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class AllProjectsGQL extends Apollo.Query<
-  AllProjects.Query,
-  AllProjects.Variables
+  AllProjectsQuery,
+  AllProjectsQueryVariables
 > {
-  document: any = gql`
-    query allProjects {
-      projects(orderBy: { path: "name" }) {
-        id
+  document = AllProjectsDocument
+}
+export const AllProjectsSearchDocument = gql`
+  query allProjectsSearch($name: String) {
+    projects(
+      where: { path: "name", comparison: contains, value: [$name] }
+      orderBy: { path: "name" }
+    ) {
+      id
+      name
+      program {
         name
-        program {
-          name
-        }
+      }
+      programSubmission {
+        timeStamp
       }
     }
-  `
-}
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class AllProjectsSearchGQL extends Apollo.Query<
-  AllProjectsSearch.Query,
-  AllProjectsSearch.Variables
+  AllProjectsSearchQuery,
+  AllProjectsSearchQueryVariables
 > {
-  document: any = gql`
-    query allProjectsSearch($name: String) {
-      projects(
-        where: { path: "name", comparison: contains, value: [$name] }
-        orderBy: { path: "name" }
-      ) {
+  document = AllProjectsSearchDocument
+}
+export const AllProgramReportsDocument = gql`
+  query allProgramReports {
+    programs(orderBy: { path: "name" }) {
+      id
+      name
+      reports(orderBy: { path: "name" }) {
         id
         name
-        program {
-          name
-        }
-        programSubmission {
-          timeStamp
+        __typename
+        latestVersion {
+          id
+          notes
         }
       }
+      __typename
     }
-  `
-}
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class AllProgramReportsGQL extends Apollo.Query<
-  AllProgramReports.Query,
-  AllProgramReports.Variables
+  AllProgramReportsQuery,
+  AllProgramReportsQueryVariables
 > {
-  document: any = gql`
-    query allProgramReports {
-      programs(orderBy: { path: "name" }) {
-        id
-        name
-        reports(orderBy: { path: "name" }) {
-          id
-          name
-          __typename
-          latestVersion {
-            id
-            notes
-          }
-        }
-        __typename
-      }
-    }
-  `
+  document = AllProgramReportsDocument
 }
+export const DeleteRoleDocument = gql`
+  mutation deleteRole($data: DeleteRoleInputGraph) {
+    deleteRole(input: $data)
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class DeleteRoleGQL extends Apollo.Mutation<
-  DeleteRole.Mutation,
-  DeleteRole.Variables
+  DeleteRoleMutation,
+  DeleteRoleMutationVariables
 > {
-  document: any = gql`
-    mutation deleteRole($data: DeleteRoleInputGraph) {
-      deleteRole(input: $data)
-    }
-  `
+  document = DeleteRoleDocument
 }
+export const CreateRoleDocument = gql`
+  mutation createRole($data: CreateRoleInputGraph) {
+    createRole(input: $data) {
+      id
+      title
+      rowVersion
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class CreateRoleGQL extends Apollo.Mutation<
-  CreateRole.Mutation,
-  CreateRole.Variables
+  CreateRoleMutation,
+  CreateRoleMutationVariables
 > {
-  document: any = gql`
-    mutation createRole($data: CreateRoleInputGraph) {
-      createRole(input: $data) {
-        id
-        title
-        rowVersion
-      }
-    }
-  `
+  document = CreateRoleDocument
 }
+export const UpdateRoleDocument = gql`
+  mutation updateRole($data: UpdateRoleInputGraph) {
+    updateRole(input: $data) {
+      id
+      title
+      description
+      rowVersion
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class UpdateRoleGQL extends Apollo.Mutation<
-  UpdateRole.Mutation,
-  UpdateRole.Variables
+  UpdateRoleMutation,
+  UpdateRoleMutationVariables
 > {
-  document: any = gql`
-    mutation updateRole($data: UpdateRoleInputGraph) {
-      updateRole(input: $data) {
-        id
-        title
-        description
-        rowVersion
-      }
-    }
-  `
+  document = UpdateRoleDocument
 }
+export const RoleDocument = gql`
+  query role($roleId: String!) {
+    role(id: $roleId) {
+      id
+      title
+      description
+      rowVersion
+      adminLogin
+      allAgencyModifier
+      createAgency
+      createProgram
+      createProject
+      createReport
+      createStatistic
+      deleteAgency
+      deleteProgram
+      deleteProject
+      deleteReport
+      deleteStatistic
+      manageApiKeys
+      manageAccessControls
+      manageGroups
+      updateElectorateAdvice
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
-export class RoleGQL extends Apollo.Query<Role.Query, Role.Variables> {
-  document: any = gql`
-    query role($roleId: String!) {
-      role(id: $roleId) {
-        id
-        title
-        description
-        rowVersion
-        adminLogin
-        allAgencyModifier
-        createAgency
-        createProgram
-        createProject
-        createReport
-        createStatistic
-        deleteAgency
-        deleteProgram
-        deleteProject
-        deleteReport
-        deleteStatistic
-        manageApiKeys
-        manageAccessControls
-        manageGroups
-        updateElectorateAdvice
-      }
-    }
-  `
+export class RoleGQL extends Apollo.Query<RoleQuery, RoleQueryVariables> {
+  document = RoleDocument
 }
+export const RolesSearchDocument = gql`
+  query rolesSearch {
+    roles(orderBy: { path: "title" }) {
+      id
+      title
+      description
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class RolesSearchGQL extends Apollo.Query<
-  RolesSearch.Query,
-  RolesSearch.Variables
+  RolesSearchQuery,
+  RolesSearchQueryVariables
 > {
-  document: any = gql`
-    query rolesSearch {
-      roles(orderBy: { path: "title" }) {
-        id
-        title
-        description
-      }
-    }
-  `
+  document = RolesSearchDocument
 }
+export const CreateStatisticReportDocument = gql`
+  mutation createStatisticReport($data: CreateStatisticReportInputGraph!) {
+    createStatisticReport(input: $data) {
+      id
+      name
+      notes
+      statisticId
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class CreateStatisticReportGQL extends Apollo.Mutation<
-  CreateStatisticReport.Mutation,
-  CreateStatisticReport.Variables
+  CreateStatisticReportMutation,
+  CreateStatisticReportMutationVariables
 > {
-  document: any = gql`
-    mutation createStatisticReport($data: CreateStatisticReportInputGraph!) {
-      createStatisticReport(input: $data) {
-        id
-        name
-        notes
-        statisticId
-      }
-    }
-  `
+  document = CreateStatisticReportDocument
 }
+export const UpdateStatisticReportDocument = gql`
+  mutation updateStatisticReport($data: UpdateStatisticReportInputGraph) {
+    updateStatisticReport(input: $data) {
+      id
+      name
+      notes
+      statisticId
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class UpdateStatisticReportGQL extends Apollo.Mutation<
-  UpdateStatisticReport.Mutation,
-  UpdateStatisticReport.Variables
+  UpdateStatisticReportMutation,
+  UpdateStatisticReportMutationVariables
 > {
-  document: any = gql`
-    mutation updateStatisticReport($data: UpdateStatisticReportInputGraph) {
-      updateStatisticReport(input: $data) {
-        id
-        name
-        notes
-        statisticId
-      }
-    }
-  `
+  document = UpdateStatisticReportDocument
 }
+export const StatisticReportEditDocument = gql`
+  query statisticReportEdit($reportId: String!) {
+    statisticReport(id: $reportId) {
+      id
+      name
+      notes
+      rowVersion
+      statisticId
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class StatisticReportEditGQL extends Apollo.Query<
-  StatisticReportEdit.Query,
-  StatisticReportEdit.Variables
+  StatisticReportEditQuery,
+  StatisticReportEditQueryVariables
 > {
-  document: any = gql`
-    query statisticReportEdit($reportId: String!) {
-      statisticReport(id: $reportId) {
-        id
-        name
-        notes
-        rowVersion
-        statisticId
-      }
-    }
-  `
+  document = StatisticReportEditDocument
 }
+export const UpdateStatisticReportVersionDocument = gql`
+  mutation updateStatisticReportVersion(
+    $data: UpdateStatisticReportVersionInputGraph
+  ) {
+    updateStatisticReportVersion(input: $data) {
+      id
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class UpdateStatisticReportVersionGQL extends Apollo.Mutation<
-  UpdateStatisticReportVersion.Mutation,
-  UpdateStatisticReportVersion.Variables
+  UpdateStatisticReportVersionMutation,
+  UpdateStatisticReportVersionMutationVariables
 > {
-  document: any = gql`
-    mutation updateStatisticReportVersion(
-      $data: UpdateStatisticReportVersionInputGraph
-    ) {
-      updateStatisticReportVersion(input: $data) {
-        id
-      }
-    }
-  `
+  document = UpdateStatisticReportVersionDocument
 }
+export const StatisticReportVersionEditDocument = gql`
+  query statisticReportVersionEdit($id: String!) {
+    statisticReportVersion(id: $id) {
+      id
+      dataDate
+      notes
+      rowVersion
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class StatisticReportVersionEditGQL extends Apollo.Query<
-  StatisticReportVersionEdit.Query,
-  StatisticReportVersionEdit.Variables
+  StatisticReportVersionEditQuery,
+  StatisticReportVersionEditQueryVariables
 > {
-  document: any = gql`
-    query statisticReportVersionEdit($id: String!) {
-      statisticReportVersion(id: $id) {
-        id
-        dataDate
-        notes
-        rowVersion
-      }
-    }
-  `
+  document = StatisticReportVersionEditDocument
 }
+export const CreateStatisticReportAccessControlDocument = gql`
+  mutation createStatisticReportAccessControl(
+    $data: CreateStatisticReportAccessControlInputGraph
+  ) {
+    createStatisticReportAccessControl(input: $data) {
+      id
+      rights
+      rowVersion
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class CreateStatisticReportAccessControlGQL extends Apollo.Mutation<
-  CreateStatisticReportAccessControl.Mutation,
-  CreateStatisticReportAccessControl.Variables
+  CreateStatisticReportAccessControlMutation,
+  CreateStatisticReportAccessControlMutationVariables
 > {
-  document: any = gql`
-    mutation createStatisticReportAccessControl(
-      $data: CreateStatisticReportAccessControlInputGraph
-    ) {
-      createStatisticReportAccessControl(input: $data) {
+  document = CreateStatisticReportAccessControlDocument
+}
+export const StatisticReportDetailDocument = gql`
+  query statisticReportDetail($reportId: String!) {
+    statisticReport(id: $reportId) {
+      id
+      name
+      notes
+      rowVersion
+      statisticId
+      accessControlList {
         id
-        rights
-        rowVersion
+        accessControlEntries(orderBy: { path: "accessControlGroup.title" }) {
+          id
+          accessControlGroup {
+            id
+            title
+          }
+          rights
+          rowVersion
+        }
+      }
+      latestVersion {
+        id
+        dataDate
+        notes
       }
     }
-  `
-}
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class StatisticReportDetailGQL extends Apollo.Query<
-  StatisticReportDetail.Query,
-  StatisticReportDetail.Variables
+  StatisticReportDetailQuery,
+  StatisticReportDetailQueryVariables
 > {
-  document: any = gql`
-    query statisticReportDetail($reportId: String!) {
-      statisticReport(id: $reportId) {
-        id
-        name
-        notes
-        rowVersion
-        statisticId
-        accessControlList {
-          id
-          accessControlEntries(orderBy: { path: "accessControlGroup.title" }) {
-            id
-            accessControlGroup {
-              id
-              title
-            }
-            rights
-            rowVersion
-          }
-        }
-        latestVersion {
-          id
-          dataDate
-          notes
-        }
-      }
-    }
-  `
+  document = StatisticReportDetailDocument
 }
+export const CreateStatisticDocument = gql`
+  mutation createStatistic($data: CreateStatisticInputGraph!) {
+    createStatistic(input: $data) {
+      id
+      name
+      agency {
+        id
+      }
+      externalId
+      rowVersion
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class CreateStatisticGQL extends Apollo.Mutation<
-  CreateStatistic.Mutation,
-  CreateStatistic.Variables
+  CreateStatisticMutation,
+  CreateStatisticMutationVariables
 > {
-  document: any = gql`
-    mutation createStatistic($data: CreateStatisticInputGraph!) {
-      createStatistic(input: $data) {
-        id
-        name
-        agency {
-          id
-        }
-        externalId
-        rowVersion
-      }
-    }
-  `
+  document = CreateStatisticDocument
 }
+export const UpdateStatisticDocument = gql`
+  mutation updateStatistic($data: UpdateStatisticInputGraph!) {
+    updateStatistic(input: $data) {
+      id
+      name
+      agency {
+        id
+      }
+      externalId
+      rowVersion
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class UpdateStatisticGQL extends Apollo.Mutation<
-  UpdateStatistic.Mutation,
-  UpdateStatistic.Variables
+  UpdateStatisticMutation,
+  UpdateStatisticMutationVariables
 > {
-  document: any = gql`
-    mutation updateStatistic($data: UpdateStatisticInputGraph!) {
-      updateStatistic(input: $data) {
-        id
-        name
-        agency {
-          id
-        }
-        externalId
-        rowVersion
-      }
-    }
-  `
+  document = UpdateStatisticDocument
 }
+export const DeleteStatisticReportDocument = gql`
+  mutation deleteStatisticReport($data: DeleteStatisticReportInputGraph!) {
+    deleteStatisticReport(input: $data)
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class DeleteStatisticReportGQL extends Apollo.Mutation<
-  DeleteStatisticReport.Mutation,
-  DeleteStatisticReport.Variables
+  DeleteStatisticReportMutation,
+  DeleteStatisticReportMutationVariables
 > {
-  document: any = gql`
-    mutation deleteStatisticReport($data: DeleteStatisticReportInputGraph!) {
-      deleteStatisticReport(input: $data)
-    }
-  `
+  document = DeleteStatisticReportDocument
 }
+export const DeleteStatisticDocument = gql`
+  mutation deleteStatistic($data: DeleteStatisticInputGraph!) {
+    deleteStatistic(input: $data)
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class DeleteStatisticGQL extends Apollo.Mutation<
-  DeleteStatistic.Mutation,
-  DeleteStatistic.Variables
+  DeleteStatisticMutation,
+  DeleteStatisticMutationVariables
 > {
-  document: any = gql`
-    mutation deleteStatistic($data: DeleteStatisticInputGraph!) {
-      deleteStatistic(input: $data)
-    }
-  `
+  document = DeleteStatisticDocument
 }
+export const CreateStatisticAccessControlDocument = gql`
+  mutation createStatisticAccessControl(
+    $data: CreateStatisticAccessControlInputGraph
+  ) {
+    createStatisticAccessControl(input: $data) {
+      id
+      rights
+      rowVersion
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class CreateStatisticAccessControlGQL extends Apollo.Mutation<
-  CreateStatisticAccessControl.Mutation,
-  CreateStatisticAccessControl.Variables
+  CreateStatisticAccessControlMutation,
+  CreateStatisticAccessControlMutationVariables
 > {
-  document: any = gql`
-    mutation createStatisticAccessControl(
-      $data: CreateStatisticAccessControlInputGraph
-    ) {
-      createStatisticAccessControl(input: $data) {
+  document = CreateStatisticAccessControlDocument
+}
+export const AllStatisticsDocument = gql`
+  query allStatistics {
+    statistics(orderBy: { path: "name" }) {
+      id
+      name
+      agency {
         id
-        rights
-        rowVersion
+        title
+      }
+      statisticReports {
+        id
+        name
+        notes
       }
     }
-  `
-}
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class AllStatisticsGQL extends Apollo.Query<
-  AllStatistics.Query,
-  AllStatistics.Variables
+  AllStatisticsQuery,
+  AllStatisticsQueryVariables
 > {
-  document: any = gql`
-    query allStatistics {
-      statistics(orderBy: { path: "name" }) {
+  document = AllStatisticsDocument
+}
+export const StatisticDocument = gql`
+  query statistic($statisticId: String!) {
+    statistic(id: $statisticId) {
+      id
+      agency {
         id
-        name
-        agency {
+        title
+      }
+      accessControlList {
+        id
+        accessControlEntries(orderBy: { path: "accessControlGroup.title" }) {
           id
-          title
-        }
-        statisticReports {
-          id
-          name
-          notes
+          rights
+          rowVersion
+          accessControlGroup {
+            id
+            title
+          }
         }
       }
+      name
+      externalId
+      rowVersion
+      statisticReports {
+        id
+        name
+        notes
+      }
     }
-  `
-}
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class StatisticGQL extends Apollo.Query<
-  Statistic.Query,
-  Statistic.Variables
+  StatisticQuery,
+  StatisticQueryVariables
 > {
-  document: any = gql`
-    query statistic($statisticId: String!) {
-      statistic(id: $statisticId) {
-        id
-        agency {
-          id
-          title
-        }
-        accessControlList {
-          id
-          accessControlEntries(orderBy: { path: "accessControlGroup.title" }) {
-            id
-            rights
-            rowVersion
-            accessControlGroup {
-              id
-              title
-            }
-          }
-        }
-        name
-        externalId
-        rowVersion
-        statisticReports {
-          id
-          name
-          notes
-        }
-      }
-    }
-  `
+  document = StatisticDocument
 }
+export const AllAgenciesDocument = gql`
+  query allAgencies {
+    agencies(orderBy: { path: "title" }) {
+      id
+      metadata
+      title
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class AllAgenciesGQL extends Apollo.Query<
-  AllAgencies.Query,
-  AllAgencies.Variables
+  AllAgenciesQuery,
+  AllAgenciesQueryVariables
 > {
-  document: any = gql`
-    query allAgencies {
-      agencies(orderBy: { path: "title" }) {
+  document = AllAgenciesDocument
+}
+export const AllStatisticsSearchDocument = gql`
+  query allStatisticsSearch {
+    statistics(orderBy: { path: "name" }) {
+      id
+      name
+      agency {
         id
-        metadata
         title
       }
     }
-  `
-}
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class AllStatisticsSearchGQL extends Apollo.Query<
-  AllStatisticsSearch.Query,
-  AllStatisticsSearch.Variables
+  AllStatisticsSearchQuery,
+  AllStatisticsSearchQueryVariables
 > {
-  document: any = gql`
-    query allStatisticsSearch {
-      statistics(orderBy: { path: "name" }) {
+  document = AllStatisticsSearchDocument
+}
+export const StatisticAndStatisticReportsDocument = gql`
+  query statisticAndStatisticReports {
+    statistics(orderBy: { path: "name" }) {
+      id
+      name
+      statisticReports {
         id
         name
-        agency {
+        latestVersion {
           id
-          title
+          notes
         }
       }
     }
-  `
-}
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class StatisticAndStatisticReportsGQL extends Apollo.Query<
-  StatisticAndStatisticReports.Query,
-  StatisticAndStatisticReports.Variables
+  StatisticAndStatisticReportsQuery,
+  StatisticAndStatisticReportsQueryVariables
 > {
-  document: any = gql`
-    query statisticAndStatisticReports {
-      statistics(orderBy: { path: "name" }) {
-        id
-        name
-        statisticReports {
-          id
-          name
-          latestVersion {
-            id
-            notes
-          }
-        }
-      }
-    }
-  `
+  document = StatisticAndStatisticReportsDocument
 }
+export const CreateUserDocument = gql`
+  mutation createUser($data: CreateUserInputGraph) {
+    createUser(input: $data) {
+      id
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class CreateUserGQL extends Apollo.Mutation<
-  CreateUser.Mutation,
-  CreateUser.Variables
+  CreateUserMutation,
+  CreateUserMutationVariables
 > {
-  document: any = gql`
-    mutation createUser($data: CreateUserInputGraph) {
-      createUser(input: $data) {
-        id
-      }
-    }
-  `
+  document = CreateUserDocument
 }
+export const UpdateUserDocument = gql`
+  mutation updateUser($data: UpdateUserInputGraph!) {
+    updateUser(input: $data) {
+      id
+      emailAddress
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class UpdateUserGQL extends Apollo.Mutation<
-  UpdateUser.Mutation,
-  UpdateUser.Variables
+  UpdateUserMutation,
+  UpdateUserMutationVariables
 > {
-  document: any = gql`
-    mutation updateUser($data: UpdateUserInputGraph!) {
-      updateUser(input: $data) {
-        id
-        emailAddress
-      }
-    }
-  `
+  document = UpdateUserDocument
 }
+export const GetUserDocument = gql`
+  query getUser($id: String!) {
+    user(id: $id) {
+      emailAddress
+      agency {
+        id
+      }
+      rowVersion
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
-export class GetUserGQL extends Apollo.Query<GetUser.Query, GetUser.Variables> {
-  document: any = gql`
-    query getUser($id: String!) {
-      user(id: $id) {
-        emailAddress
-        agency {
-          id
-        }
-        rowVersion
-      }
-    }
-  `
+export class GetUserGQL extends Apollo.Query<
+  GetUserQuery,
+  GetUserQueryVariables
+> {
+  document = GetUserDocument
 }
+export const DeleteUserDocument = gql`
+  mutation deleteUser($data: DeleteUserInputGraph!) {
+    deleteUser(input: $data)
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class DeleteUserGQL extends Apollo.Mutation<
-  DeleteUser.Mutation,
-  DeleteUser.Variables
+  DeleteUserMutation,
+  DeleteUserMutationVariables
 > {
-  document: any = gql`
-    mutation deleteUser($data: DeleteUserInputGraph!) {
-      deleteUser(input: $data)
-    }
-  `
+  document = DeleteUserDocument
 }
+export const CreateApiKeyDocument = gql`
+  mutation createApiKey($data: CreateApiKeyInputGraph!) {
+    createApiKey(input: $data) {
+      id
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class CreateApiKeyGQL extends Apollo.Mutation<
-  CreateApiKey.Mutation,
-  CreateApiKey.Variables
+  CreateApiKeyMutation,
+  CreateApiKeyMutationVariables
 > {
-  document: any = gql`
-    mutation createApiKey($data: CreateApiKeyInputGraph!) {
-      createApiKey(input: $data) {
-        id
-      }
-    }
-  `
+  document = CreateApiKeyDocument
 }
+export const DeleteApiKeyDocument = gql`
+  mutation deleteApiKey($data: DeleteApiKeyInputGraph!) {
+    deleteApiKey(input: $data)
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class DeleteApiKeyGQL extends Apollo.Mutation<
-  DeleteApiKey.Mutation,
-  DeleteApiKey.Variables
+  DeleteApiKeyMutation,
+  DeleteApiKeyMutationVariables
 > {
-  document: any = gql`
-    mutation deleteApiKey($data: DeleteApiKeyInputGraph!) {
-      deleteApiKey(input: $data)
-    }
-  `
+  document = DeleteApiKeyDocument
 }
+export const UserDocument = gql`
+  query user($userId: String!) {
+    user(id: $userId) {
+      id
+      emailAddress
+      lastLogin
+      agency {
+        id
+        title
+      }
+      apiKeys(orderBy: { path: "created" }) {
+        id
+        key
+        created
+        rowVersion
+        disable
+      }
+      programAccess {
+        entityId
+        name
+        groupId
+        groupName
+        accessRights
+      }
+      reportAccess {
+        entityId
+        groupName
+        name
+        parentName
+        hasAccessToParent
+      }
+      statisticAccess {
+        entityId
+        name
+        groupName
+        hasAccessToParent
+        parentName
+      }
+      statisticReportAccess {
+        entityId
+        name
+        parentName
+        hasAccessToParent
+        groupName
+        accessRights
+      }
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
-export class UserGQL extends Apollo.Query<User.Query, User.Variables> {
-  document: any = gql`
-    query user($userId: String!) {
-      user(id: $userId) {
-        id
-        emailAddress
-        lastLogin
-        agency {
-          id
-          title
-        }
-        apiKeys(orderBy: { path: "created" }) {
-          id
-          key
-          created
-          rowVersion
-          disable
-        }
-        programAccess {
-          entityId
-          name
-          groupId
-          groupName
-          accessRights
-        }
-        reportAccess {
-          entityId
-          groupName
-          name
-          parentName
-          hasAccessToParent
-        }
-        statisticAccess {
-          entityId
-          name
-          groupName
-          hasAccessToParent
-          parentName
-        }
-        statisticReportAccess {
-          entityId
-          name
-          parentName
-          hasAccessToParent
-          groupName
-          accessRights
-        }
-      }
-    }
-  `
+export class UserGQL extends Apollo.Query<UserQuery, UserQueryVariables> {
+  document = UserDocument
 }
+export const SelectAgenciesDocument = gql`
+  query selectAgencies {
+    agencies(orderBy: { path: "title" }) {
+      id
+      title
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class SelectAgenciesGQL extends Apollo.Query<
-  SelectAgencies.Query,
-  SelectAgencies.Variables
+  SelectAgenciesQuery,
+  SelectAgenciesQueryVariables
 > {
-  document: any = gql`
-    query selectAgencies {
-      agencies(orderBy: { path: "title" }) {
-        id
-        title
-      }
-    }
-  `
+  document = SelectAgenciesDocument
 }
+export const AllUsersSearchDocument = gql`
+  query allUsersSearch {
+    users(orderBy: { path: "emailAddress" }) {
+      id
+      emailAddress
+      lastLogin
+      rowVersion
+    }
+  }
+`
+
 @Injectable({
   providedIn: 'root'
 })
 export class AllUsersSearchGQL extends Apollo.Query<
-  AllUsersSearch.Query,
-  AllUsersSearch.Variables
+  AllUsersSearchQuery,
+  AllUsersSearchQueryVariables
 > {
-  document: any = gql`
-    query allUsersSearch {
-      users(orderBy: { path: "emailAddress" }) {
-        id
-        emailAddress
-        lastLogin
-        rowVersion
-      }
-    }
-  `
+  document = AllUsersSearchDocument
 }
 
-// ====================================================
-// END: Apollo Angular template
-// ====================================================
+export class DeleteProjectGQL {
+}

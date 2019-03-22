@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import { formConstants } from '../../../form-constants'
 import {
-  GetPortfolioGQL,
-  GetPortfolio,
+  GetPortfolioGQL, GetPortfolioQuery,
   UpdatePortfolioGQL
 } from '../../../generated/graphql'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -18,7 +17,7 @@ export class PortfolioEditComponent implements OnInit {
   rowVersion: string
   portfolioId: string
   portfolioSubscription$: Subscription
-  portfolio: GetPortfolio.Portfolio
+  portfolio: GetPortfolioQuery['portfolio']
   editPortfolioForm = this.formBuilder.group({
     portfolioTitle: [
       null,

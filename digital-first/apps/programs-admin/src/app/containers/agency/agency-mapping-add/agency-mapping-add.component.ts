@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormControl, Validators } from '@angular/forms'
 import {
-  AllGroupsGQL,
-  CreateAgencyMappingGQL,
-  AllGroups
+  AllGroupsGQL, AllGroupsQuery,
+  CreateAgencyMappingGQL
 } from '../../../generated/graphql'
 import { Router, ActivatedRoute } from '@angular/router'
 import { map } from 'rxjs/operators'
@@ -18,7 +17,7 @@ export const domainRegex =
   styleUrls: ['./agency-mapping-add.component.scss']
 })
 export class AgencyMappingAddComponent implements OnInit {
-  groups$: Observable<AllGroups.Groups[]>
+  groups$: Observable<AllGroupsQuery['groups']>
   agencyId: any
 
   addAgencyMappingForm = this.formBuilder.group({

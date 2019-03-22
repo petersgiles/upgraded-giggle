@@ -3,10 +3,9 @@ import {
   AccessRights,
   AllGroupsGQL,
   CreateStatisticReportAccessControlGQL,
-  StatisticReportDetail,
   StatisticReportDetailGQL,
   DeleteAccessControlGQL,
-  UpdateAccessControlGQL
+  UpdateAccessControlGQL, StatisticReportDetailQuery
 } from '../../generated/graphql'
 import { Subscription } from 'rxjs'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -19,17 +18,19 @@ import {
   PermissionRow
 } from '../permission/permission.component'
 
+type StatisticReport = StatisticReportDetailQuery['statisticReport']
+
 @Component({
   selector: 'digital-first-statistic-report',
   templateUrl: './statistic-report.component.html',
   styleUrls: ['./statistic-report.component.scss']
 })
 export class StatisticReportComponent implements OnInit, OnDestroy {
-  report: StatisticReportDetail.StatisticReport
+  report: StatisticReport
   reportSubscription$: Subscription
   statisticId: string
   statisticReportId: string
-  latestVersion: StatisticReportDetail.LatestVersion
+  latestVersion: StatisticReport['latestVersion']
   noDataMessage =
     'This report inherits its permissions from the statistic. Adding groups here will break inheritance.'
   permissionRows: PermissionRow[]
@@ -184,7 +185,7 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
       .subscribe(value => {})
   }
 
-  handleEditStatisticReport(report: StatisticReportDetail.StatisticReport) {
+  handleEditStatisticReport(report: StatisticReport) {
     return this.router.navigate(['../edit', report.id], {
       relativeTo: this.route
     })

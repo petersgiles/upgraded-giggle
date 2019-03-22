@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { Maybe, User } from '../../../generated/graphql'
 import { formConstants } from '../../../form-constants'
+import {UserQuery} from '../../../generated/graphql'
 
 @Component({
   selector: 'digital-first-user-statistic-access',
@@ -16,7 +16,7 @@ export class UserStatisticAccessComponent implements OnInit {
   ]
 
   @Input()
-  statisticAccessRows: Maybe<Maybe<User.StatisticAccess>[]>
+  statisticAccessRows:  UserQuery['user']['statisticAccess']
   defaultPageLength: number = formConstants.defaultPageLength
 
   constructor() {}

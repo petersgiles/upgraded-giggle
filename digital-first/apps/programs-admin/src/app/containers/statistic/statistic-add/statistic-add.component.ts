@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { Subscription } from 'rxjs'
 import {
-  AllAgencies,
-  AllAgenciesGQL,
+  AllAgenciesGQL, AllAgenciesQuery,
   CreateStatisticGQL
 } from '../../../generated/graphql'
 import { FormBuilder, Validators } from '@angular/forms'
@@ -17,7 +16,7 @@ import { formConstants } from '../../../form-constants'
 })
 export class StatisticAddComponent implements OnInit {
   agenciesSubscription$: Subscription
-  agencies: AllAgencies.Agencies[]
+  agencies: AllAgenciesQuery['agencies']
 
   addStatisticForm = this.formBuilder.group({
     agencyId: [undefined, Validators.required],

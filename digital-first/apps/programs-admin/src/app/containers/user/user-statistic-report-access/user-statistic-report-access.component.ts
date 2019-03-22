@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { Maybe, User } from '../../../generated/graphql'
 import { formConstants } from '../../../form-constants'
+import {UserQuery} from '../../../generated/graphql'
 
 @Component({
   selector: 'digital-first-user-statistic-report-access',
@@ -9,7 +9,7 @@ import { formConstants } from '../../../form-constants'
 })
 export class UserStatisticReportAccessComponent implements OnInit {
   @Input()
-  statisticReportAccessRows: Maybe<Maybe<User.StatisticReportAccess>[]>
+  statisticReportAccessRows:  UserQuery['user']['statisticReportAccess']
 
   columns = [
     { prop: 'name', name: 'Statistic Report Name' },

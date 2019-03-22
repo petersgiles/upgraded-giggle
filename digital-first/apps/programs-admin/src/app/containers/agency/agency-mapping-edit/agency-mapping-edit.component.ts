@@ -3,8 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms'
 import {
   AllGroupsGQL,
   UpdateAgencyMappingGQL,
-  GetAgencyMappingGQL,
-  AllGroups
+  GetAgencyMappingGQL, AllGroupsQuery
 } from '../../../generated/graphql'
 import { Router, ActivatedRoute } from '@angular/router'
 import { map } from 'rxjs/operators'
@@ -17,7 +16,7 @@ import { formConstants } from '../../../form-constants'
   styleUrls: ['./agency-mapping-edit.component.scss']
 })
 export class AgencyMappingEditComponent implements OnInit {
-  groups$: Observable<AllGroups.Groups[]>
+  groups$: Observable<AllGroupsQuery['groups']>
   agencyId: any
   agencyMappingId: any
   agencyMappingSubscription$: Subscription

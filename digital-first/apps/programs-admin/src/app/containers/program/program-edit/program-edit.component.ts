@@ -2,11 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import { Observable } from 'rxjs'
 import {
-  AllAgencies,
-  AllAgenciesGQL,
-  EditProgram,
-  EditProgramGQL,
-  UpdateProgramGQL
+  AllAgenciesGQL, AllAgenciesQuery,
+  EditProgramGQL, EditProgramQuery, UpdateProgramGQL
 } from '../../../generated/graphql'
 import { ActivatedRoute, Router } from '@angular/router'
 import { map } from 'rxjs/operators'
@@ -20,8 +17,8 @@ import { formConstants } from '../../../form-constants'
 })
 export class ProgramEditComponent implements OnInit, OnDestroy {
   programSubscription$: Subscription
-  agencies$: Observable<AllAgencies.Agencies[]>
-  programs$: Observable<EditProgram.Program>
+  agencies$: Observable<AllAgenciesQuery['agencies']>
+  programs$: Observable<EditProgramQuery['program']>
 
   rowVersion: string
 

@@ -7,8 +7,7 @@ import {
 } from '@angular/core'
 import {
   GetPortfolioDetailGQL,
-  GetPortfolioDetail,
-  DeletePortfolioGQL
+  DeletePortfolioGQL, GetPortfolioDetailQuery
 } from '../../generated/graphql'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Subscription } from 'rxjs'
@@ -22,7 +21,7 @@ import { formConstants } from '../../form-constants'
   styleUrls: ['./portfolio.component.scss']
 })
 export class PortfolioComponent implements OnInit, OnDestroy {
-  portfolio: GetPortfolioDetail.Portfolio
+  portfolio: GetPortfolioDetailQuery['portfolio']
   portfolioId: string
   portfolioSubscription$: Subscription
   agencyLinkedToPortfolio: any
@@ -57,7 +56,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       })
   }
 
-  handleEditPortfolio(portfolio: GetPortfolioDetail.Portfolio) {
+  handleEditPortfolio(portfolio: GetPortfolioDetailQuery['portfolio']) {
     return this.router.navigate(['portfolios/edit', portfolio.id], {
       skipLocationChange: true
     })
@@ -66,7 +65,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     return this.router.navigate(['agencies/', $event.id])
   }
 
-  handleDeletePortfolio(portfolio: GetPortfolioDetail.Portfolio) {
+  handleDeletePortfolio(portfolio: GetPortfolioDetailQuery['portfolio']) {
     if (
       this.agencyLinkedToPortfolio &&
       this.agencyLinkedToPortfolio.length === 0

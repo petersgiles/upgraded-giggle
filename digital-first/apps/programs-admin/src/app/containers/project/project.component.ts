@@ -1,9 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { ProjectGQL, Project } from '../../generated/graphql'
-import { map, first } from 'rxjs/operators'
+import {ProjectGQL, ProjectQuery} from '../../generated/graphql'
+import { map} from 'rxjs/operators'
 import { Subscription } from 'rxjs'
 import { MdcDialog } from '@angular-mdc/web'
+
+type Project = ProjectQuery['project']
+
 @Component({
   selector: 'digital-first-project',
   templateUrl: './project.component.html',
@@ -13,11 +16,10 @@ export class ProjectComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private projectGQL: ProjectGQL,
-    public dialog: MdcDialog,
-    private router: Router
+    public dialog: MdcDialog
   ) {}
   projectId: string
-  project: Project.Project
+  project: Project
   projectSubscription$: Subscription
 
   ngOnInit() {

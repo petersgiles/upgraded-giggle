@@ -2,12 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { formatDate } from '@angular/common'
 import { ActivatedRoute } from '@angular/router'
 import {
-  Maybe,
-  User,
   UserGQL,
   DeleteUserGQL,
   DeleteApiKeyGQL,
-  CreateApiKeyGQL
+  CreateApiKeyGQL, UserQuery
 } from '../../generated/graphql'
 import { map, first } from 'rxjs/operators'
 import { Subscription } from 'rxjs'
@@ -17,6 +15,8 @@ import { MdcDialog } from '@angular-mdc/web'
 import { formConstants } from '../../form-constants'
 import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
 
+type User = UserQuery['user']
+
 @Component({
   selector: 'digital-first-user',
   templateUrl: './user.component.html',
@@ -25,12 +25,12 @@ import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
 export class UserComponent implements OnInit, OnDestroy {
   userId: string
   userSubscription$: Subscription
-  user: User.User
-  programAccessRows: Maybe<Maybe<User.ProgramAccess[]>>
-  reportAccessRows: Maybe<Maybe<User.ReportAccess>[]>
-  statisticReportAccessRows: Maybe<Maybe<User.StatisticReportAccess>[]>
-  statisticAccessRows: Maybe<Maybe<User.StatisticAccess>[]>
-  apiKeysRows: Maybe<Maybe<User.ApiKeys>[]>
+  user: User
+  programAccessRows: User['programAccess']
+  reportAccessRows: User['reportAccess']
+  statisticReportAccessRows: User['statisticReportAccess']
+  statisticAccessRows: User['statisticAccess']
+  apiKeysRows: User['apiKeys']
   constructor(
     private route: ActivatedRoute,
     private userGQL: UserGQL,
@@ -71,11 +71,11 @@ export class UserComponent implements OnInit, OnDestroy {
   ]
   defaultPageLength: number = formConstants.defaultPageLength
 
-  handleEditUser(user: User.User) {
+  handleEditUser(user: User) {
     return this.router.navigate(['users/edit', user.id])
   }
 
-  handleDeleteUser(user: User.User) {
+  handleDeleteUser(user: User) {
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
       clickOutsideToClose: true
