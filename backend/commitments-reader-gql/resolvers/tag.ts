@@ -1,4 +1,5 @@
-export const DB_TABLE_TAG = 'tag'
+import { DB_TABLE_TAG } from ".";
+
 
 export class Tag {
 	connectorKeys: { db: string }

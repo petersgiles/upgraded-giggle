@@ -16,7 +16,7 @@ import { importSchema } from 'graphql-import'
 import { Commitment, Tag } from './resolvers'
 import { HomeController } from './controllers'
 import { allowCrossDomain } from '../shared/cors'
-import { createDB, getById, getByAll, upsert, remove, getByParent } from './sqllite-schema'
+import { createDB, getById, getByAll, upsert, remove, getByParent } from './resolvers'
 
 const typeDefs = importSchema('./commitments-reader-gql/schema.graphql')
 

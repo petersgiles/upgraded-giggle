@@ -1,4 +1,4 @@
-export const DB_TABLE_COMMITMENT = 'commitment'
+import { DB_TABLE_COMMITMENT, DB_TABLE_MAP_POINT, DB_TABLE_COMMITMENT_MAPPOINT } from ".";
 
 export class Commitment {
 	connectorKeys: { db: string }
@@ -56,12 +56,24 @@ export const createCommitmentTable = (knex: any) => {
 	knex.schema.hasTable(DB_TABLE_COMMITMENT).then(function(exists: any) {
 		if (!exists) {
 			return knex.schema.createTable(DB_TABLE_COMMITMENT, function(t: any) {
-				t.increments('id').primary()
+				t.string('id').primary()
 				t.string('title', 512)
 				t.string('description', 512)
 				t.string('cost', 512)
 				t.string('date', 512)
 				t.string('announcedby', 512)
+			})
+		}
+	})
+}
+
+export const createCommitmentMapPointTable = (knex: any) => {
+	knex.schema.hasTable(DB_TABLE_COMMITMENT_MAPPOINT).then(function(exists: any) {
+		if (!exists) {
+			return knex.schema.createTable(DB_TABLE_COMMITMENT, function(t: any) {
+				t.integer('commitment').unsigned().notNullable();
+				t.string('mappoint').notNullable();
+				t.foreign('mappoint').references('place_id').inTable(DB_TABLE_MAP_POINT);
 			})
 		}
 	})

@@ -5,7 +5,7 @@ import {
     createTagTable,
     dropMapPointTable,
     createMapPointTable
-} from './resolvers'
+} from '.'
 
 
 export const createDB = (knex: any, drop?: boolean) => {

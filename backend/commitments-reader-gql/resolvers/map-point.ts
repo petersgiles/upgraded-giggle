@@ -1,4 +1,4 @@
-export const DB_TABLE_MAP_POINT = 'mappoint'
+import { DB_TABLE_MAP_POINT } from '.'
 
 export class MapPoint {
 	connectorKeys: { db: string }

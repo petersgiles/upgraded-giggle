@@ -23,3 +23,8 @@ input CommitmentInput {
     date: String,
     announcedby: String,
 }
+
+input CommitmentMapPointInput {
+	commitment: ID
+    mapPoint: ID
+}

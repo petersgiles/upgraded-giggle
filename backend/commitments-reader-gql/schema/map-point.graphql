@@ -5,7 +5,7 @@ type MapPoint {
 	longitude: Float
 }
 
-type MapPointInput {
+input MapPointInput {
 	place_id: String
 	address: String
 	latitude: Float
