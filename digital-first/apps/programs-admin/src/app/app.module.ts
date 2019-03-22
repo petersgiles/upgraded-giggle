@@ -16,7 +16,7 @@ import {
   DialogsModule
 } from '@df/components'
 
-import { UuidService } from '@df/utils'
+import { UuidService, WINDOW_PROVIDERS } from '@df/utils'
 
 import { DfAuthModule, AUTH_KEY } from '@digital-first/df-auth'
 import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
@@ -24,7 +24,6 @@ import { DfThemeModule } from '@digital-first/df-theme'
 import { DfPagesModule } from '@digital-first/df-pages'
 
 import { DfMomentModule } from '@digital-first/df-moment'
-import { WINDOW_PROVIDERS } from '@digital-first/df-utils'
 
 import { AppComponent } from './app.component'
 import { AppFullLayoutService } from './app-full-layout.service'
