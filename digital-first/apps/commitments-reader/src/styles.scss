@@ -2,10 +2,9 @@
 @import "../../../libs/df-theme/styles.scss";
 @import "~@swimlane/ngx-datatable/release/index.css";
 @import "~@swimlane/ngx-datatable/release/themes/material.css";
-@import '~@swimlane/ngx-datatable/release/assets/icons.css';
+@import "~@swimlane/ngx-datatable/release/assets/icons.css";
 
 .app-page {
-
   padding-bottom: 45px;
   padding-left: 20px;
   overflow-y: hidden;
@@ -15,9 +14,9 @@
 }
 
 ngx-wig {
-    flex-grow: 1;
-    margin-left: .3em;
-    margin-right: .3em;
+  flex-grow: 1;
+  margin-left: 0.3em;
+  margin-right: 0.3em;
 }
 
 .ngx-datatable {
