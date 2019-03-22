@@ -8,7 +8,7 @@ import {
   EventEmitter,
   SimpleChanges
 } from '@angular/core'
-import { Scheduler, DateHelper } from 'bryntum-scheduler'
+import { Scheduler } from 'bryntum-scheduler'
 
 @Component({
   selector: 'scheduler',
@@ -48,6 +48,7 @@ export class SchedulerComponent implements OnInit, OnChanges {
     'sort',
     'stripe',
     'summary',
+    'timeRanges',
     'tree'
   ]
 
@@ -92,9 +93,9 @@ export class SchedulerComponent implements OnInit, OnChanges {
   @Input() resources: object[]
   @Input() readOnly: boolean = false
   @Input() responsiveLevels: any
-  @Input() rowHeight: number = 60
+  @Input() rowHeight: number = 50
   @Input() startDate: any
-  @Input() viewPreset: string = 'weekAndDay'
+  @Input() viewPreset: string = 'hourAndDay'
 
   @Input() crudManager: object
   @Input() eventStore: object
@@ -102,7 +103,42 @@ export class SchedulerComponent implements OnInit, OnChanges {
   @Input() dependencyStore: object
   @Input() assignmentStore: object
 
-  @Input() config: object
+  // Config for all features
+  @Input() featureConfig: any
+
+  //Features
+  @Input() timeRanges: object[]
+
+  // Old, bad conflated features/featureconfig
+  @Input() cellEdit: boolean | object = true
+  @Input() cellTooltip: boolean | object = true
+  @Input() columnLines: boolean | object = true
+  @Input() columnPicker: boolean = true
+  @Input() columnReorder: boolean = true
+  @Input() columnResize: boolean = true
+  @Input() contextMenu: boolean | object
+  @Input() dependencies: boolean | object = false
+  @Input() eventDrag: boolean | object = true
+  @Input() eventContextMenu: boolean | object = true
+  @Input() eventDragCreate: boolean | object = true
+  @Input() eventEdit: boolean | object = true
+  @Input() eventFilter: boolean | object = true
+  @Input() eventResize: boolean | object = true
+  @Input() eventTooltip: boolean | object = true
+  @Input() filter: boolean | object
+  @Input() filterBar: boolean | object
+  @Input() group: boolean | object | string = true
+  @Input() groupSummary: boolean | object
+  @Input() headerContextMenu: boolean | object
+  @Input() labels: boolean | object
+  @Input() nonWorkingTime: boolean
+  @Input() regionResize: boolean
+  @Input() search: boolean
+  @Input() scheduleTooltip: boolean | object = true
+  @Input() sort: boolean | object | string = true
+  @Input() stripe: boolean
+  @Input() summary: boolean | object
+  @Input() tree: boolean
 
   @Output() selectedEvent: string = ''
   @Output() onSchedulerEvents = new EventEmitter<object>()
@@ -113,9 +149,8 @@ export class SchedulerComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    const // Features config object
-      _config = {
-        ...this.config,
+    const // Grid config object
+      config = {
         // Render scheduler to components element
         appendTo: this.elementRef.nativeElement.firstElementChild,
 
@@ -132,17 +167,26 @@ export class SchedulerComponent implements OnInit, OnChanges {
           },
 
           thisObj: this
-        }
+        },
+
+        features: this.featureConfig
       }
 
     // Pass configs on to scheduler
     this.configInputs.forEach(configName => {
       if (configName in this) {
-        _config[configName] = this[configName]
+        config[configName] = this[configName]
       }
     })
 
-    const engine = (this.schedulerEngine = new Scheduler(_config))
+    // Add features to config
+    this.featureInputs.forEach(featureName => {
+      if (featureName in this) {
+        config[featureName] = this[featureName]
+      }
+    })
+
+    const engine = (this.schedulerEngine = new Scheduler(config))
 
     // Relay events from eventStore and resourceStore, making them a bit easier to catch in your app.
     // The events are prefixed with 'events' and 'resources', turning and 'add' event into either 'eventsAdd' or
@@ -152,18 +196,16 @@ export class SchedulerComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    const me = this
-
-    if (me.schedulerEngine) {
+    if (this.schedulerEngine) {
       // Iterate over all changes
       Object.entries(changes).forEach(([name, { currentValue }]) => {
         // Apply changes that match configs to grid
-        if (me.configInputs.includes(name)) {
-          me.schedulerEngine[name] = currentValue
+        if (this.configInputs.includes(name)) {
+          this.schedulerEngine[name] = currentValue
         }
 
-        if (me.featureInputs.includes(name)) {
-          me.schedulerEngine[name] = currentValue
+        if (this.featureInputs.includes(name)) {
+          this.schedulerEngine[name] = currentValue
         }
       })
     }

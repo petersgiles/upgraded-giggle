@@ -38,20 +38,29 @@ export class PlannerComponent {
     }
   ]
 
-  config = {
-    features: {
-      timeRanges: {
-        showCurrentTimeLine: true,
-        showHeaderElements: false,
-        enableResizing: false
-      }
-    },
-    timeRanges: [
-      {
-        startDate: '2019-03-17 11:00',
-        endDate: '2019-03-27 12:00',
-        cls: 'striped'
-      }
-    ]
+  featureConfig = {
+    timeRanges: {
+      showCurrentTimeLine: true,
+      showHeaderElements: false,
+      enableResizing: false
+    }
   }
+  timeRanges = [
+    {
+      startDate: '2019-03-17 11:00',
+      endDate: '2019-03-27 12:00',
+      cls: 'striped'
+    }
+  ]
+
+  // config = {
+  //   features: {
+  //     timeRanges: {
+  //       showCurrentTimeLine: true,
+  //       showHeaderElements: false,
+  //       enableResizing: false
+  //     }
+  //   },
+
+  // }
 }
