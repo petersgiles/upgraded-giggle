@@ -1,8 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { formConstants } from '../../form-constants'
 import {
-  AllRolesGQL, CreateRoleAccessControlGroupGQL,
-  GroupGQL, GroupQuery} from '../../generated/graphql'
+  AllRolesGQL,
+  CreateRoleAccessControlGroupGQL,
+  GroupGQL,
+  GroupQuery
+} from '../../generated/graphql'
 import { MdcDialog } from '@angular-mdc/web'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'

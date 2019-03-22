@@ -5,7 +5,8 @@ import {
   CreateStatisticReportAccessControlGQL,
   StatisticReportDetailGQL,
   DeleteAccessControlGQL,
-  UpdateAccessControlGQL, StatisticReportDetailQuery
+  UpdateAccessControlGQL,
+  StatisticReportDetailQuery
 } from '../../generated/graphql'
 import { Subscription } from 'rxjs'
 import { ActivatedRoute, Router } from '@angular/router'

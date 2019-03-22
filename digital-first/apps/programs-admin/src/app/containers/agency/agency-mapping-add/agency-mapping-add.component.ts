@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormControl, Validators } from '@angular/forms'
 import {
-  AllGroupsGQL, AllGroupsQuery,
+  AllGroupsGQL,
+  AllGroupsQuery,
   CreateAgencyMappingGQL
 } from '../../../generated/graphql'
 import { Router, ActivatedRoute } from '@angular/router'

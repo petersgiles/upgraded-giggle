@@ -8,7 +8,9 @@ import {
 } from '@angular/core'
 import { Subscription } from 'rxjs'
 import {
-  StatisticAndStatisticReportsGQL, StatisticAndStatisticReportsQuery, StatisticAndStatisticReportsQueryVariables
+  StatisticAndStatisticReportsGQL,
+  StatisticAndStatisticReportsQuery,
+  StatisticAndStatisticReportsQueryVariables
 } from '../../generated/graphql'
 import { PassthroughService } from '../../services/passthrough.service'
 import { UploadElectorateStatisticSpreadsheet } from '@dsuite/programs-manager-messages'

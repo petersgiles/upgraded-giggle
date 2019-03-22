@@ -4,7 +4,9 @@ import {
   DeleteAccessControlGroupGQL,
   GroupGQL,
   DeleteAccessControlGroupUserGQL,
-  DeleteRoleAccessControlGroupGQL, GroupQuery,  RoleGraph
+  DeleteRoleAccessControlGroupGQL,
+  GroupQuery,
+  RoleGraph
 } from '../../generated/graphql'
 import { first, map } from 'rxjs/operators'
 import { Subscription } from 'rxjs'

@@ -5,7 +5,8 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core'
 import {
-  AllProjectsSearchGQL, AllProjectsSearchQuery
+  AllProjectsSearchGQL,
+  AllProjectsSearchQuery
 } from '../../generated/graphql'
 import { Subscription } from 'rxjs'
 import { Router } from '@angular/router'

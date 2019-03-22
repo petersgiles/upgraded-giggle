@@ -4,7 +4,7 @@ import { first } from 'rxjs/operators'
 import { ActivatedRoute, Router } from '@angular/router'
 import { formConstants } from '../../form-constants'
 import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
-import {ProgramQuery} from '../../generated/graphql'
+import { ProgramQuery } from '../../generated/graphql'
 
 type Reports = ProgramQuery['program']['reports']
 type Report = Reports[0]

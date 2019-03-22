@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import {
-  GroupGQL, GroupQuery,
+  GroupGQL,
+  GroupQuery,
   UpdateAccessControlGroupGQL
 } from '../../../generated/graphql'
 import { ActivatedRoute, Router } from '@angular/router'

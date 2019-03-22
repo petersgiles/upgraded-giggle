@@ -18,7 +18,8 @@ import {
   DeleteProgramGQL,
   DeleteReportGQL,
   ProgramGQL,
-  ProgramQuery, ReportGraph,
+  ProgramQuery,
+  ReportGraph,
   UpdateAccessControlGQL
 } from '../../generated/graphql'
 import {
@@ -217,7 +218,7 @@ export class ProgramComponent implements OnInit, OnDestroy, AfterViewInit {
       })
   }
 
-  handleProgramReportDeleteItemClicked(report:ReportGraph) {
+  handleProgramReportDeleteItemClicked(report: ReportGraph) {
     this.deleteReportGQL
       .mutate(
         {

@@ -1,7 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import {
-  AllPortfoliosGQL, UpdateAgencyGQL, GetAgencyGQL, AllPortfoliosQuery} from '../../../generated/graphql'
+  AllPortfoliosGQL,
+  UpdateAgencyGQL,
+  GetAgencyGQL,
+  AllPortfoliosQuery
+} from '../../../generated/graphql'
 import { ActivatedRoute, Router } from '@angular/router'
 import { map } from 'rxjs/operators'
 import { Observable, Subscription } from 'rxjs'
@@ -17,7 +21,7 @@ export class AgencyEditComponent implements OnInit, OnDestroy {
   agencyId: string
   portfolios$: Observable<AllPortfoliosQuery['portfolios']>
   agencySubscription$: Subscription
-    editAgencyForm = this.formBuilder.group({
+  editAgencyForm = this.formBuilder.group({
     agencyName: [
       null,
       [

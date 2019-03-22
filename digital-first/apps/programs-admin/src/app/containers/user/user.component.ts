@@ -37,10 +37,10 @@ export class UserComponent implements OnInit, OnDestroy {
     private userGQL: UserGQL,
     private router: Router,
     public dialog: MdcDialog,
-    private deleteUserGQL: DeleteUserGQL,
-    // private deleteApiKeyGQL: DeleteApiKeyGQL,
-    // private createApiKeyGQL: CreateApiKeyGQL
-  ) {}
+    private deleteUserGQL: DeleteUserGQL
+  ) // private deleteApiKeyGQL: DeleteApiKeyGQL,
+  // private createApiKeyGQL: CreateApiKeyGQL
+  {}
 
   ngOnInit() {
     this.userId = this.route.snapshot.paramMap.get('id')
@@ -102,7 +102,6 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   handleDeleteApiKey($event) {
-
     //TODO: this will need to disable the key not actually deleted it.
     alert('not yet implemented')
     // const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
@@ -130,7 +129,6 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   handleAddApiKey() {
-
     //TODO:  hand the issuing of an api key
     //This has changed to now be one way hash and so will need to present
     //the user with a one of chance to record the api key  as it can't be retrieved

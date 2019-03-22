@@ -2,8 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import { Observable } from 'rxjs'
 import {
-  AllAgenciesGQL, AllAgenciesQuery,
-  EditProgramGQL, EditProgramQuery, UpdateProgramGQL
+  AllAgenciesGQL,
+  AllAgenciesQuery,
+  EditProgramGQL,
+  EditProgramQuery,
+  UpdateProgramGQL
 } from '../../../generated/graphql'
 import { ActivatedRoute, Router } from '@angular/router'
 import { map } from 'rxjs/operators'

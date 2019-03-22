@@ -3,7 +3,7 @@ import { MdcDialog } from '@angular-mdc/web'
 import { ActivatedRoute, Router } from '@angular/router'
 import { first } from 'rxjs/operators'
 import { formConstants } from '../../form-constants'
-import {StatisticQuery} from '../../generated/graphql'
+import { StatisticQuery } from '../../generated/graphql'
 import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
 
 type StatisticReports = StatisticQuery['statistic']['statisticReports']

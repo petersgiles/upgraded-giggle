@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import { formConstants } from '../../../form-constants'
 import {
-  GetPortfolioGQL, GetPortfolioQuery,
+  GetPortfolioGQL,
+  GetPortfolioQuery,
   UpdatePortfolioGQL
 } from '../../../generated/graphql'
 import { ActivatedRoute, Router } from '@angular/router'

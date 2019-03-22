@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import {ProjectGQL, ProjectQuery} from '../../generated/graphql'
-import { map} from 'rxjs/operators'
+import { ProjectGQL, ProjectQuery } from '../../generated/graphql'
+import { map } from 'rxjs/operators'
 import { Subscription } from 'rxjs'
 import { MdcDialog } from '@angular-mdc/web'
 

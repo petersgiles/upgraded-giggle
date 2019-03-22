@@ -11,7 +11,8 @@ import {
   DeleteAccessControlGQL,
   DeleteStatisticGQL,
   DeleteStatisticReportGQL,
-  StatisticGQL, StatisticQuery,
+  StatisticGQL,
+  StatisticQuery,
   UpdateAccessControlGQL
 } from '../../generated/graphql'
 import {

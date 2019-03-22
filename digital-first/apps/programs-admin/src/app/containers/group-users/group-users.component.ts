@@ -4,7 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { first, map } from 'rxjs/operators'
 import {
   CreateAccessControlGroupUserGQL,
-  GroupGQL, GroupQuery, UserGraph,
+  GroupGQL,
+  GroupQuery,
+  UserGraph,
   UsersGQL
 } from '../../generated/graphql'
 import { DialogAssignUserToGroupComponent } from '../../dialogs/dialog-assign-user-to-group.component'
@@ -22,7 +24,6 @@ type Member = Members[0]
 export class GroupUsersComponent implements OnInit {
   defaultPageLength: number = formConstants.defaultPageLength
 
-
   columns = [
     { prop: 'emailAddress', name: 'Email address' },
     { prop: 'lastLogin', name: 'Last login' }
@@ -34,7 +35,7 @@ export class GroupUsersComponent implements OnInit {
   expanded: true
 
   @Input()
-  members:  Members
+  members: Members
 
   @Input()
   groupId: string

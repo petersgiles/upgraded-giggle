@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import {
-  AllAgenciesGQL, AllAgenciesQuery,
+  AllAgenciesGQL,
+  AllAgenciesQuery,
   AllProgramsGQL,
   CreateProgramGQL
 } from '../../../generated/graphql'

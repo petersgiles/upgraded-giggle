@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
-import {UserQuery} from '../../../generated/graphql'
+import { UserQuery } from '../../../generated/graphql'
 import { formConstants } from '../../../form-constants'
 
 @Component({
@@ -8,7 +8,6 @@ import { formConstants } from '../../../form-constants'
   styleUrls: ['./user-program-access.component.scss']
 })
 export class UserProgramAccessComponent implements OnInit {
-
   defaultPageLength: number = formConstants.defaultPageLength
 
   @Input()

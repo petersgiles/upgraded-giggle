@@ -9,7 +9,8 @@ import {
   AllGroupsGQL,
   CreateReportAccessControlGQL,
   DeleteAccessControlGQL,
-  ReportGQL, ReportQuery,
+  ReportGQL,
+  ReportQuery,
   UpdateAccessControlGQL
 } from '../../generated/graphql'
 import {

@@ -3,7 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { FormBuilder, Validators } from '@angular/forms'
 import { map } from 'rxjs/operators'
 import {
-  StatisticReportEditGQL, StatisticReportEditQuery,
+  StatisticReportEditGQL,
+  StatisticReportEditQuery,
   UpdateStatisticReportGQL
 } from '../../../generated/graphql'
 import { Subscription } from 'rxjs'

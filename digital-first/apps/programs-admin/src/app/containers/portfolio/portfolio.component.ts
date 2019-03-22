@@ -7,7 +7,8 @@ import {
 } from '@angular/core'
 import {
   GetPortfolioDetailGQL,
-  DeletePortfolioGQL, GetPortfolioDetailQuery
+  DeletePortfolioGQL,
+  GetPortfolioDetailQuery
 } from '../../generated/graphql'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Subscription } from 'rxjs'

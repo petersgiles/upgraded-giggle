@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import {
-  AllPortfoliosGQL, AllPortfoliosQuery,
+  AllPortfoliosGQL,
+  AllPortfoliosQuery,
   CreateAgencyGQL
 } from '../../../generated/graphql'
 import { Router } from '@angular/router'

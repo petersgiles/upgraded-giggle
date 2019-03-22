@@ -8,9 +8,13 @@ import {
 } from '@angular/core'
 import { Subscription } from 'rxjs'
 import {
-  AllProgramReportsGQL, AllProgramReportsQuery
+  AllProgramReportsGQL,
+  AllProgramReportsQuery
 } from '../../generated/graphql'
-import {ReportSchema, UploadElectorateReportSpreadsheet} from '@dsuite/programs-manager-messages'
+import {
+  ReportSchema,
+  UploadElectorateReportSpreadsheet
+} from '@dsuite/programs-manager-messages'
 import { PassthroughService } from '../../services/passthrough.service'
 import { MdcSnackbar } from '@angular-mdc/web'
 import { FormBuilder } from '@angular/forms'

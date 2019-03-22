@@ -2,7 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Subscription } from 'rxjs'
-import {ReportGQL, ReportQuery, UpdateReportGQL} from '../../../generated/graphql'
+import {
+  ReportGQL,
+  ReportQuery,
+  UpdateReportGQL
+} from '../../../generated/graphql'
 import { map } from 'rxjs/operators'
 import { formConstants } from '../../../form-constants'
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { MdcDialog } from '@angular-mdc/web'
-import {DeleteRoleGQL, RoleGQL, RoleQuery} from '../../generated/graphql'
+import { DeleteRoleGQL, RoleGQL, RoleQuery } from '../../generated/graphql'
 import { Subscription } from 'rxjs'
 import { first, map } from 'rxjs/operators'
 import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'

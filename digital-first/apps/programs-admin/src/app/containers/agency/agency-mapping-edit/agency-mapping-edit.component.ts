@@ -3,7 +3,8 @@ import { FormBuilder, Validators } from '@angular/forms'
 import {
   AllGroupsGQL,
   UpdateAgencyMappingGQL,
-  GetAgencyMappingGQL, AllGroupsQuery
+  GetAgencyMappingGQL,
+  AllGroupsQuery
 } from '../../../generated/graphql'
 import { Router, ActivatedRoute } from '@angular/router'
 import { map } from 'rxjs/operators'

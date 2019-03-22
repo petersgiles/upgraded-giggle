@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core'
 import {
   SelectAgenciesGQL,
   GetUserGQL,
-  UpdateUserGQL, SelectAgenciesQuery
+  UpdateUserGQL,
+  SelectAgenciesQuery
 } from '../../../generated/graphql'
 import { Subscription, Observable } from 'rxjs'
 import { map } from 'rxjs/operators'

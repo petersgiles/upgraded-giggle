@@ -4,8 +4,10 @@ import { FormBuilder, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { map } from 'rxjs/operators'
 import {
-  AllAgenciesGQL, AllAgenciesQuery,
-  StatisticGQL, StatisticQuery,
+  AllAgenciesGQL,
+  AllAgenciesQuery,
+  StatisticGQL,
+  StatisticQuery,
   UpdateStatisticGQL
 } from '../../../generated/graphql'
 import { formConstants } from '../../../form-constants'

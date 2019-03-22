@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core'
 import { Subscription } from 'rxjs'
 import {
-  AllAgenciesGQL, AllAgenciesQuery,
+  AllAgenciesGQL,
+  AllAgenciesQuery,
   CreateStatisticGQL
 } from '../../../generated/graphql'
 import { FormBuilder, Validators } from '@angular/forms'
