@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store'
 import { DataResult, AnnouncementTypesResult, CriticalDatesResult,
     CommitmentTypesResult, LocationsResult, PartysResult, PortfoliosResult,
-    WhoAnnouncedTypesResult, PackageTypesResult, ThemeTypesResult } from '../../models'
+    WhoAnnouncedTypesResult, PackageTypesResult, ThemeTypesResult, CommitmentPortfolioResult } from '../../models'
 import { StatusesResult } from '../../models/status.model';
 
 export enum CommitmentLookupsActionTypes {
@@ -35,6 +35,8 @@ export enum CommitmentLookupsActionTypes {
   GetAllStatuses = '[Lookups] Get All Statuses',
   LoadStatuses = '[Lookups] Load Statuses',
   StatusesActionFailure = '[Lookups] Portfolios Action Failure',
+  GetAllCommitmentPortfolios = '[Lookups] Get All Commitment Portfolios',
+  LoadAllCommitmentPortfolios = '[Lookups] Load Commitment Portfolios',
 }
 
 // AnnouncementTypes
@@ -186,6 +188,16 @@ export class LoadPortfolios implements Action {
     constructor(public payload: DataResult<PortfoliosResult>) { }
 }
 
+
+export class GetAllCommitmentPortfolios implements Action {
+    readonly type = CommitmentLookupsActionTypes.GetAllCommitmentPortfolios
+}
+
+export class LoadAllCommitmentPortfolios implements Action {
+    readonly type = CommitmentLookupsActionTypes.LoadAllCommitmentPortfolios
+    constructor(public payload: DataResult<CommitmentPortfolioResult>) { }
+}
+
 export class PortfoliosActionFailure implements Action {
     readonly type = CommitmentLookupsActionTypes.PortfoliosActionFailure
     constructor(public payload: any) {
@@ -241,3 +253,5 @@ export type CommitmentLookupsActions =
     | GetAllStatuses
     | LoadStatuses
     | StatusesActionFailure
+    | GetAllCommitmentPortfolios
+    | LoadAllCommitmentPortfolios

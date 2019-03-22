@@ -1,4 +1,5 @@
 import { CommitmentLookupsActions, CommitmentLookupsActionTypes } from './commitment-lookup.actions'
+import { MdcNotchedOutlineModule } from '@angular-mdc/web';
 
 export interface State {
     announcementTypes: any[]
@@ -11,6 +12,7 @@ export interface State {
     themeTypes: any[]
     packageTypes: any[]
     statuses: any[]
+    commitmentPortfolios: any[]
 }
 
 export const initialState: State = {
@@ -23,7 +25,8 @@ export const initialState: State = {
     whoAnnouncedTypes: null,
     themeTypes: null,
     packageTypes: null,
-    statuses: null
+    statuses: null,
+    commitmentPortfolios: null
 }
 
 export function reducer(
@@ -99,6 +102,13 @@ export function reducer(
             return {
                 ...state,
                 statuses: action.payload.data.statuses
+            }
+        }
+
+        case CommitmentLookupsActionTypes.LoadAllCommitmentPortfolios: {
+            return {
+                ...state,
+                commitmentPortfolios: action.payload.data.commitmentPortfolios
             }
         }
 

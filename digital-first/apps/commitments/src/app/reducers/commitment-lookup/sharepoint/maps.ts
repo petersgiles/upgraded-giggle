@@ -1,4 +1,5 @@
-import { WhoAnnouncedType, AnnouncementType, CriticalDate, CommitmentType, Party, Portfolio,  PackageType, ThemeType, Electorate, Status } from '../../../models'
+import { WhoAnnouncedType, AnnouncementType, CriticalDate, CommitmentType, Party, Portfolio, PackageType, ThemeType, Electorate, Status, CommitmentPortfolio } from '../../../models'
+import { fromLookup } from '@df/sharepoint'
 
 export const mapWhoAnnouncedType = (announcementType): any => ({
     id: announcementType.ID,
@@ -37,7 +38,7 @@ export const mapStatus = (val): any => ({
 })
 
 export const mapStatuses = (vals): Status[] => {
-  return vals.map(mapStatus);
+    return vals.map(mapStatus);
 }
 
 export const mapAnnouncementType = (announcementType): any => ({
@@ -95,3 +96,12 @@ export const mapLocation = (location): Electorate => ({
 
 export const mapLocations = (locations): Electorate[] =>
     locations.map(mapLocation)
+
+export const mapCommitmentPortfolio = (commitmentPortfolio): CommitmentPortfolio => ({
+    id: commitmentPortfolio.ID,
+    commitment: fromLookup(commitmentPortfolio.Commitment).title,
+    portfolio: fromLookup(commitmentPortfolio.Portfolio).title
+})
+
+export const mapCommitmentPortfolios = (commitmentPortfolios): CommitmentPortfolio[] =>
+    commitmentPortfolios.map(mapCommitmentPortfolio)

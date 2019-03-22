@@ -11,11 +11,12 @@ import { CriticalDate } from '../../models/critical-date.model'
 import { Party } from '../../models/party.model'
 import { Portfolio } from '../../models/portfolio.model'
 import { WhoAnnouncedType } from '../../models/who-announced-type.model'
+import {CommitmentPortfolio} from '../../models/commitment-portfolio.model'
 import {
     GetAllCriticalDates, GetAllAnnouncementTypes,
     GetAllWhoAnnouncedTypes, GetAllCommitmentTypes,
     GetAllLocations, GetAllPartys, GetAllPortfolios,
-    GetAllThemeTypes, GetAllPackageTypes, GetAllStatuses } from './commitment-lookup.actions'
+    GetAllThemeTypes, GetAllPackageTypes, GetAllStatuses, GetAllCommitmentPortfolios } from './commitment-lookup.actions'
 
 import { ThemeType } from '../../models/theme-type.model'
 import { PackageType } from '../../models/package-type.model'
@@ -122,6 +123,14 @@ export class CommitmentLookupService {
 
     get WhoAnnouncedTypes(): Observable<WhoAnnouncedType[]> {
         return this.store.pipe(select(fromRoot.getAllWhoAnnouncedTypes))
+    }
+
+    public getAllCommitmentPortfolios(filter?: any) {
+        this.store.dispatch(new GetAllCommitmentPortfolios())
+    }
+
+    get CommitmentPortfolios(): Observable<CommitmentPortfolio[]> {
+        return this.store.pipe(select(fromRoot.getAllPortfolios))
     }
 
 }

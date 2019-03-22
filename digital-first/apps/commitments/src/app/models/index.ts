@@ -17,6 +17,7 @@ export { AnnouncementType, AnnouncementTypesResult } from './announcement-type.m
 export { PackageType, PackageTypesResult } from './package-type.model'
 export { ThemeType, ThemeTypesResult } from './theme-type.model'
 export { Status, StatusesResult } from './status.model'
+export { CommitmentPortfolio, CommitmentPortfolioResult } from './commitment-portfolio.model'
 export interface ServiceData<T> {
   data: { [key: string]: T }
 }

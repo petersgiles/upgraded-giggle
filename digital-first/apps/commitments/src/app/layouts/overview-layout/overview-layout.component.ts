@@ -39,6 +39,8 @@ export class OverviewLayoutComponent implements OnInit {
     this.lookup.getAllPortfolios()
     this.lookup.getAllThemeTypes()
     this.lookup.getAllPackageTypes()
+    this.lookup.getAllCommitmentPortfolios()
+    
 
     this.refinerGroups$ = this.service.RefinerGroups
     this.commitmentsFilteredSubscription$ = this.service.CommitmentFiltered.subscribe(
@@ -63,7 +65,16 @@ export class OverviewLayoutComponent implements OnInit {
       Party: fc.party ? fc.party.title : '',
       'Responsible Portfolio': fc.portfolio ? fc.portfolio.title : '',
       'Type of Commitment': fc.commitmentType ? fc.commitmentType.title : '',
-      'Critical Date': fc.criticalDate ? fc.criticalDate.title : ''
+      'Critical Date': fc.criticalDate ? fc.criticalDate.title : '',
+      'Type of Who Announced': fc.whoAnnouncedType ? fc.whoAnnouncedType.title : '',
+      'Type of Announcement': fc.announcementType ? fc.announcementType : '',
+      'Theme Type': fc.themeType ? fc.themeType : '',
+      'Locations': fc.location ? fc.location : '',
+      'Package Type': fc.packageType ? fc.packageType : '',
+      'Status': fc.status ? fc.status: '',
+      'Costing Required': fc.costingRequired ? fc.costingRequired : '',
+      'Cost': fc.cost ? fc.cost : '',
+      'Related Portfolios': fc.portfolios &&  fc.portfolios.length ? fc.portfolios.join() : ''   
     }))
 
     this.excelService.exportAsExcelFile(exportCommitments, 'commitments')

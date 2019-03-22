@@ -6,7 +6,7 @@ import { concatMap, tap, map } from 'rxjs/operators'
 import { byCommitmentIdQuery } from '../../../services/sharepoint/caml'
 import { CommitmentLookupDataService } from '../commitment-lookup-data.service'
 import { mapWhoAnnouncedTypes, mapAnnouncementTypes, mapPortfolios, mapCriticalDates,
-  mapParties, mapCommitmentTypes, mapLocations, mapPackageTypes, mapThemeTypes, mapStatuses } from './maps'
+  mapParties, mapCommitmentTypes, mapLocations, mapPackageTypes, mapThemeTypes, mapStatuses, mapCommitmentPortfolios } from './maps'
 
 @Injectable({
     providedIn: 'root'
@@ -123,6 +123,18 @@ export class CommitmentLookupDataSharePointService implements CommitmentLookupDa
             }))
         )
     }
+
+    filterCommitmentPortfolios(filter: any) {
+      return this.sharepoint.getItems({ listName: 'CommitmentPortfolio' })
+      .pipe(
+        concatMap((result: any) =>
+          of({
+            data: { commitmentPortfolios: mapCommitmentPortfolios(result) },
+            loading: false,
+            error: null
+          }))
+      )
+  }
 
     constructor(private sharepoint: SharepointJsomService) { }
 }

@@ -40,6 +40,7 @@ export class CommitmentLookupDataApolloService implements CommitmentLookupDataSe
     filterPartys = (filter?: any) => callQuery<PartysResult>(this.apollo, { query: GET_PARTIES, variables: filter })
     filterLocations = (filter?: any) => callQuery<LocationsResult>(this.apollo, { query: GET_LOCATIONS, variables: filter })
     filterCommitmentTypes = (filter?: any) => callQuery<CommitmentTypesResult>(this.apollo, { query: GET_COMMITMENT_TYPES, variables: filter })
+    filterCommitmentPortfolios = (filter?: any) => callQuery<PortfoliosResult>(this.apollo, { query: GET_PORTFOLIOS, variables: filter })
 
     constructor(private apollo: Apollo) { }
 }

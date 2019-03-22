@@ -14,7 +14,8 @@ import {
     PortfoliosResult,
     WhoAnnouncedTypesResult,
     ThemeTypesResult,
-    PackageTypesResult
+    PackageTypesResult,
+    CommitmentPortfolioResult
 } from '../../models'
 
 import {
@@ -28,6 +29,7 @@ import {
     LoadPortfolios, PortfoliosActionFailure,
     LoadThemeTypes, ThemeTypesActionFailure,
     LoadPackageTypes, PackageTypesActionFailure, LoadStatuses, StatusesActionFailure,
+    LoadAllCommitmentPortfolios
   } from './commitment-lookup.actions'
 import { CommitmentLookupDataService } from './commitment-lookup-data.service'
 import { StatusesResult } from '../../models/status.model';
@@ -141,6 +143,17 @@ export class CommitmentLookupEffects {
                 .pipe(
                     map((result: DataResult<WhoAnnouncedTypesResult>) => new LoadWhoAnnouncedTypes(result)),
                     catchError(error => of(new WhoAnnouncedTypesActionFailure(error)))
+                )
+            ))
+
+            @Effect()
+    getAllCommitmentPortfolios$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(CommitmentLookupsActionTypes.GetAllCommitmentPortfolios),
+            switchMap((filter: any): Observable<Action> => this.service.filterCommitmentPortfolios(filter)
+                .pipe(
+                    map((result: DataResult<CommitmentPortfolioResult>) => new LoadAllCommitmentPortfolios(result)),
+                    catchError(error => of(new PortfoliosActionFailure(error)))
                 )
             ))
 
