@@ -16,6 +16,8 @@ import {
   DialogsModule
 } from '@df/components'
 
+import { UuidService } from '@df/utils'
+
 import { DfAuthModule, AUTH_KEY } from '@digital-first/df-auth'
 import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
@@ -206,7 +208,8 @@ export function initApplication(): Function {
       useFactory: initApplication,
       multi: true
     },
-    { provide: FullLayoutService, useClass: AppFullLayoutService }
+    { provide: FullLayoutService, useClass: AppFullLayoutService },
+    UuidService
   ],
   bootstrap: [AppComponent],
   exports: [AgencyComponent, AgencyAddComponent]

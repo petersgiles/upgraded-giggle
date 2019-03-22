@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { environment } from '../../environments/environment'
-import { UUID } from '@digital-first/df-utils'
+import { UuidService } from '@df/utils'
 
 @Injectable({
   providedIn: 'root'
 })
 export class PassthroughService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private uuidService: UuidService) {}
 
   sendMessageOnToBus(
     message,
@@ -17,10 +17,10 @@ export class PassthroughService {
   ): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({
-        // Notes: couldn't use message.constructor.name because of the AOT build, had to pass the name as a sting
+        // Notes: couldn't use message.constructor.name because of the AOT build, had to pass the name as a string
         MessageType: messageTypeName,
         MessageNamespace: 'ProgramsManager.Messages',
-        MessageId: UUID.UUID()
+        MessageId: this.uuidService.generate()
       })
     }
 
