@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core'
 import { SchedulerComponent } from '../scheduler/scheduler.component'
 import { Moment } from 'moment'
 import moment = require('moment')
-import { DateHelper } from 'bryntum-scheduler'
 
 @Component({
   selector: 'digital-first-planner',
@@ -47,20 +46,32 @@ export class PlannerComponent {
   }
   timeRanges = [
     {
-      startDate: '2019-03-17 11:00',
-      endDate: '2019-03-27 12:00',
-      cls: 'striped'
+      name: 'Both sitting',
+      startDate: '2019-04-02 00:00',
+      duration: 2,
+      cls: 'timerange-sitting-both'
+    },
+    {
+      name: 'House sitting',
+      startDate: '2019-04-04 00:00',
+      duration: 1,
+      cls: 'timerange-sitting-house'
+    },
+    {
+      name: 'House sitting',
+      startDate: '2019-04-15 00:00',
+      endDate: '2019-04-18 0:00',
+      cls: 'timerange-sitting-house'
+    },
+    {
+      name: 'International travel',
+      startDate: '2019-04-19 00:00',
+      endDate: '2019-04-21 0:00',
+      cls: 'timerange-sitting-senate'
+    },
+    {
+      name: 'State election',
+      startDate: '2019-04-22 00:00'
     }
   ]
-
-  // config = {
-  //   features: {
-  //     timeRanges: {
-  //       showCurrentTimeLine: true,
-  //       showHeaderElements: false,
-  //       enableResizing: false
-  //     }
-  //   },
-
-  // }
 }
