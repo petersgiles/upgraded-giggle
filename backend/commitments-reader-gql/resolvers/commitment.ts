@@ -1,4 +1,8 @@
-import { DB_TABLE_COMMITMENT, DB_TABLE_MAP_POINT, DB_TABLE_COMMITMENT_MAPPOINT } from ".";
+import {
+	DB_TABLE_COMMITMENT,
+	DB_TABLE_MAP_POINT,
+	DB_TABLE_COMMITMENT_MAPPOINT,
+} from '.'
 
 export class Commitment {
 	connectorKeys: { db: string }
@@ -42,48 +46,4 @@ export class Commitment {
 			.where({ id: id })
 			.del()
 	}
-}
-
-export const dropCommitmentTable = (knex: any) => {
-	knex.schema.hasTable(DB_TABLE_COMMITMENT).then(function(exists: any) {
-		if (!exists) {
-			return knex.schema.dropTable(DB_TABLE_COMMITMENT)
-		}
-	})
-}
-
-export const createCommitmentTable = (knex: any) => {
-	knex.schema.hasTable(DB_TABLE_COMMITMENT).then(function(exists: any) {
-		if (!exists) {
-			return knex.schema.createTable(DB_TABLE_COMMITMENT, function(t: any) {
-				t.increments('id').primary()
-				t.string('title', 512)
-				t.text('description')
-				t.string('cost', 512)
-				t.string('date', 512)
-				t.string('announcedby', 512)
-			})
-		}
-	})
-}
-
-export const dropCommitmentMapPointTable = (knex: any) => {
-	knex.schema.hasTable(DB_TABLE_COMMITMENT_MAPPOINT).then(function(exists: any) {
-		if (!exists) {
-			return knex.schema.dropTable(DB_TABLE_COMMITMENT_MAPPOINT)
-		}
-	})
-}
-
-export const createCommitmentMapPointTable = (knex: any) => {
-	knex.schema.hasTable(DB_TABLE_COMMITMENT_MAPPOINT).then(function(exists: any) {
-		if (!exists) {
-			return knex.schema.createTable(DB_TABLE_COMMITMENT, function(t: any) {
-				t.integer('commitment').unsigned().notNullable();
-				t.string('mappoint').notNullable();
-				t.foreign('commitment').references('id').inTable(DB_TABLE_COMMITMENT);
-				t.foreign('mappoint').references('place_id').inTable(DB_TABLE_MAP_POINT);
-			})
-		}
-	})
 }

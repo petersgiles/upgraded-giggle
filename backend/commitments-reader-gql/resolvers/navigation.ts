@@ -43,24 +43,3 @@ export class NavigableApplication {
 			.del()
 	}
 }
-
-export const dropNavigableApplicationTable = (knex: any) => {
-	knex.schema.hasTable(DB_TABLE_NAVIGATION).then(function(exists: any) {
-		if (!exists) {
-			return knex.schema.dropTable(DB_TABLE_NAVIGATION)
-		}
-	})
-}
-
-export const createNavigableApplicationTable = (knex: any) => {
-	knex.schema.hasTable(DB_TABLE_NAVIGATION).then(function(exists: any) {
-		if (!exists) {
-			return knex.schema.createTable(DB_TABLE_NAVIGATION, function(t: any) {
-				t.increments('id').primary()
-				t.string('title', 1024)
-				t.text('description')
-				t.string('icon', 256)
-			})
-		}
-	})
-}

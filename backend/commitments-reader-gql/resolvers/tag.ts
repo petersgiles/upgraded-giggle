@@ -52,29 +52,3 @@ export class Tag {
 			.del()
 	}
 }
-
-export const dropTagTable = (knex: any) => {
-	knex.schema.hasTable(DB_TABLE_TAG).then(function(exists: any) {
-		if (!exists) {
-			return knex.schema.dropTable(DB_TABLE_TAG)
-		}
-	})
-}
-
-export const createTagTable = (knex: any) => {
-	knex.schema.hasTable(DB_TABLE_TAG).then(function(exists: any) {
-		if (!exists) {
-			return knex.schema.createTable(DB_TABLE_TAG, function(t: any) {
-				t.increments('id').primary()
-				t.string('title', 512)
-				t.text('description')
-				t.integer('sortorder')
-				t.string('colour', 512)
-				t.string('icon', 512)
-				t.integer('parent').unsigned()
-
-				t.foreign('parent').references('id').inTable(DB_TABLE_TAG);
-			})
-		}
-	})
-}

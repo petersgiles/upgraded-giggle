@@ -1,33 +1,4 @@
-import {
-	dropCommitmentTable,
-	createCommitmentTable,
-	dropTagTable,
-    createTagTable,
-    dropMapPointTable,
-    createMapPointTable,
-	dropNavigableApplicationTable,
-	dropCommitmentMapPointTable,
-	createCommitmentMapPointTable,
-	createNavigableApplicationTable
-} from '.'
 
-
-export const createDB = (knex: any, drop?: boolean) => {
-	if (drop) {
-
-		dropCommitmentMapPointTable(knex)
-		dropCommitmentTable(knex)
-		dropMapPointTable(knex)
-		dropNavigableApplicationTable(knex)
-		dropTagTable(knex)
-	}
-
-	createTagTable(knex)
-	createCommitmentTable(knex)
-	createMapPointTable(knex)
-	createCommitmentMapPointTable(knex)
-	createNavigableApplicationTable(knex)
-}
 
 export const getById = async (
 	modelName: string,
