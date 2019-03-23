@@ -6,7 +6,7 @@
   
   .flex-container > div {
     margin-block-end: auto;
-    flex:0.3;
+    flex:0.25;
     margin: 10px;
     text-align: center;
     padding-top: 20px;
@@ -63,3 +63,6 @@
   }
 }
 
+.b-watermark{
+  display: none !important;
+}

@@ -20,12 +20,19 @@ export class PlannerComponent {
   currentZoomView:string="100 days";
 
   zoomLevelViews=[
-          {level:0,view:"3 year", startDate:this.startDate,endDate:DateHelper.add(this.startDate,3,"year"),viewPreset:"monthAndYear"},
-          {level:5,view:"1 year",startDate:this.startDate,endDate:DateHelper.add(this.startDate,1,"year"),viewPreset:"weekDateAndMonth"},
-          {level:10,view:"100 days",startDate:this.startDate,endDate:DateHelper.add(this.startDate,100,"day"),viewPreset:"weekDateAndMonth"},
-          {level:15,view:"1 month",startDate:this.startDate,endDate:DateHelper.add(this.startDate,1,"month"),viewPreset:"dayAndWeek"},
-          {level:20, view:"1 week",startDate:this.startDate,endDate:DateHelper.add(this.startDate,7,"day"),viewPreset:"dayAndWeek"}
+          {level:1,view:"3 year", startDate:this.startDate,endDate:DateHelper.add(this.startDate,3,"year"),viewPreset:"monthAndYear"},
+          {level:2,view:"1 year",startDate:this.startDate,endDate:DateHelper.add(this.startDate,1,"year"),viewPreset:"weekDateAndMonth"},
+          {level:3,view:"100 days",startDate:this.startDate,endDate:DateHelper.add(this.startDate,100,"day"),viewPreset:"weekDateAndMonth"},
+          {level:4,view:"1 month",startDate:this.startDate,endDate:DateHelper.add(this.startDate,1,"month"),viewPreset:"dayAndWeek"},
+          {level:5, view:"1 week",startDate:this.startDate,endDate:DateHelper.add(this.startDate,7,"day"),viewPreset:"dayAndWeek"}
         ]
+  //  zoomLevels: [
+  //         { width: 40,    increment: 5,   resolution: 60, preset: 'dayAndWeek', resolutionUnit: 'day' },     
+  //         { width: 50,    increment: 4,   resolution: 60, preset: 'dayAndWeek', resolutionUnit: 'day' },
+  //         { width: 60,    increment: 3,   resolution: 60, preset: 'weekDateAndMonth', resolutionUnit: 'day' },
+  //         { width: 80,    increment: 2,   resolution: 30, preset: 'weekDateAndMonth', resolutionUnit: 'day' },
+  //         { width: 100,   increment: 1,   resolution: 15, preset: 'monthAndYear', resolutionUnit: 'day' }
+      // ]
   events = [
     {
       id: 1,
@@ -85,7 +92,8 @@ export class PlannerComponent {
 
 onSliderInput(event: MdcSliderChange): void {
  this.resetSchedulerZoomLevel(event);
-}
+ console.log( this.scheduler.schedulerEngine.startDate);
+  }
 
 private resetSchedulerZoomLevel(event: MdcSliderChange) {
     this.zoomLevelViews.forEach(lv => {
