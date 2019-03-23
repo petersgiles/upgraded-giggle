@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { Apollo, APOLLO_OPTIONS, ApolloModule } from 'apollo-angular'
 import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
+import { MdcSliderModule } from '@angular-mdc/web';
 import { AgmCoreModule } from '@agm/core'
 import { AppRoutingModule } from './app-routing.module'
 import { DfLayoutsModule, TitleLayoutService } from '@digital-first/df-layouts'
@@ -66,7 +67,8 @@ const COMPONENTS = [
     DfThemeModule,
     DfPagesModule,
     DfPipesModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MdcSliderModule,
   ],
   providers: [
     {

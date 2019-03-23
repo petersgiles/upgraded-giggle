@@ -2,6 +2,8 @@ import { Component, ViewChild } from '@angular/core'
 import { SchedulerComponent } from '../scheduler/scheduler.component'
 import { Moment } from 'moment'
 import moment = require('moment')
+import { MdcSliderChange } from '@angular-mdc/web';
+import { DateHelper } from 'bryntum-scheduler';
 
 @Component({
   selector: 'digital-first-planner',
@@ -11,6 +13,18 @@ import moment = require('moment')
 export class PlannerComponent {
   @ViewChild(SchedulerComponent) scheduler: SchedulerComponent
 
+  startDate = new Date()
+  endDate = DateHelper.add(this.startDate,100,"day");
+  viewPreset = "weekDateAndMonth";
+  currentZoomView:string="100 days";
+
+  zoomLevelViews=[
+          {level:0,view:"3 year", startDate:this.startDate,endDate:DateHelper.add(this.startDate,3,"year"),viewPreset:"monthAndYear"},
+          {level:5,view:"1 year",startDate:this.startDate,endDate:DateHelper.add(this.startDate,1,"year"),viewPreset:"weekDateAndMonth"},
+          {level:10,view:"100 days",startDate:this.startDate,endDate:DateHelper.add(this.startDate,100,"day"),viewPreset:"weekDateAndMonth"},
+          {level:15,view:"1 month",startDate:this.startDate,endDate:DateHelper.add(this.startDate,1,"month"),viewPreset:"dayAndWeek"},
+          {level:20, view:"1 week",startDate:this.startDate,endDate:DateHelper.add(this.startDate,7,"day"),viewPreset:"dayAndWeek"}
+        ]
   events = [
     {
       id: 1,
@@ -26,8 +40,7 @@ export class PlannerComponent {
     { id: 3, name: 'Commitment C' }
   ]
 
-  startDate = new Date()
-  endDate = new Date(2019, 5, 7, 0)
+ 
 
   columns = [
     {
@@ -74,4 +87,19 @@ export class PlannerComponent {
       startDate: '2019-04-22 00:00'
     }
   ]
+
+  
+onSliderInput(event: MdcSliderChange): void {
+ this.resetSchedulerZoomLevel(event);
+}
+
+  private resetSchedulerZoomLevel(event: MdcSliderChange) {
+    this.zoomLevelViews.forEach(lv => {
+      if (lv.level === event.value) {
+        this.currentZoomView = lv.view;
+        this.endDate = lv.endDate;
+        this.viewPreset = lv.viewPreset;
+      }
+    });
+  }
 }

@@ -93,7 +93,7 @@ export class SchedulerComponent implements OnInit, OnChanges {
   @Input() resources: object[]
   @Input() readOnly: boolean = false
   @Input() responsiveLevels: any
-  @Input() rowHeight: number = 50
+  @Input() rowHeight: number = 150
   @Input() startDate: any
   @Input() viewPreset: string = 'hourAndDay'
 

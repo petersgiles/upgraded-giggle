@@ -1,0 +1,21 @@
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    align-items:center;
+  }
+  
+  .flex-container > div {
+    margin-block-end: auto;
+    flex:0.3;
+    margin: 10px;
+    text-align: center;
+    padding-top: 20px;
+  }
+
+  .mdc-slider__thumb{
+    transform: scale(1) !important;
+  }
+  
+
+  
