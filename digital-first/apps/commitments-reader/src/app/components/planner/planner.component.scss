@@ -4,18 +4,24 @@
     align-items:center;
   }
   
-  .flex-container > div {
+  .flex-container > div{
     margin-block-end: auto;
-    flex:0.25;
-    margin: 10px;
+    flex:1;
+    margin: 15px;
     text-align: center;
     padding-top: 20px;
+    scroll-behavior: auto;
+    font-weight: bold;
+  }
+  .mdc-slider__track-container {
+
+    height: 12px;
+    border-radius: 4px;
+  }
+  .mdc-slider__thumb{
+    transform: scale(2) !important;
   }
 
-  .mdc-slider__thumb{
-    transform: scale(1) !important;
-  }
-  
 
 .b-sch-timerange label {
   background: #fff;

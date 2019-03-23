@@ -8,7 +8,7 @@ import {
   EventEmitter,
   SimpleChanges
 } from '@angular/core'
-import { Scheduler } from 'bryntum-scheduler'
+import { Scheduler, EventNavigation } from 'bryntum-scheduler'
 
 @Component({
   selector: 'scheduler',
@@ -186,11 +186,19 @@ export class SchedulerComponent implements OnInit, OnChanges {
       }
     })
 
+  //   config["zoomLevels"]= [
+  //     { width: 40,    increment: 5,   resolution: 60, preset: 'dayAndWeek', resolutionUnit: 'day' },     
+  //     { width: 50,    increment: 4,   resolution: 60, preset: 'dayAndWeek', resolutionUnit: 'day' },
+  //     { width: 60,    increment: 3,   resolution: 60, preset: 'weekDateAndMonth', resolutionUnit: 'day' },
+  //     { width: 80,    increment: 2,   resolution: 30, preset: 'weekDateAndMonth', resolutionUnit: 'day' },
+  //     { width: 100,   increment: 1,   resolution: 15, preset: 'monthAndYear', resolutionUnit: 'day' }
+  // ]
     const engine = (this.schedulerEngine = new Scheduler(config))
 
     // Relay events from eventStore and resourceStore, making them a bit easier to catch in your app.
     // The events are prefixed with 'events' and 'resources', turning and 'add' event into either 'eventsAdd' or
     // 'resourcesAdd'
+
     engine.eventStore.relayAll(engine, 'events')
     engine.resourceStore.relayAll(engine, 'resources')
   }
