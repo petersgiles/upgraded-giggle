@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core'
+import { AllCommitmentsGQL } from '../../generated/commitmentSearch'
+import { tap } from 'rxjs/operators'
 
 @Component({
   selector: 'digital-first-overview-page',
@@ -6,12 +8,11 @@ import { Component, OnInit } from '@angular/core'
   styleUrls: ['./overview-page.component.scss']
 })
 export class OverviewPageComponent implements OnInit {
-
   commitmentsTableData$
   columns
   count
 
-  constructor() {
+  constructor(private commitmentsGql: AllCommitmentsGQL) {
     this.columns = [
       { prop: 'commitmentId', name: 'Id' },
       { prop: 'title', name: 'Title' },
@@ -20,10 +21,14 @@ export class OverviewPageComponent implements OnInit {
       { prop: 'commitmentType', name: 'Type of Commitment' },
       { prop: 'criticalDate', name: 'Critical Date' }
     ]
-
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    // this.commitmentsTableData$ = this.commitmentsGql
+    //   .fetch({ fetchPolicy: 'network-only' })
+    //   .pipe(tap(result => console.log(result)))
+    //   .subscribe(items => {})
+  }
 
   handleCommitmentsRowClicked($event) {}
 }

@@ -1,4 +1,4 @@
-export const DB_TABLE_MAP_POINT = 'mappoint'
+import { DB_TABLE_MAP_POINT } from '.'
 
 export class MapPoint {
 	connectorKeys: { db: string }
@@ -42,25 +42,4 @@ export class MapPoint {
 			.where({ id: id })
 			.del()
 	}
-}
-
-export const dropMapPointTable = (knex: any) => {
-	knex.schema.hasTable(DB_TABLE_MAP_POINT).then(function(exists: any) {
-		if (!exists) {
-			return knex.schema.dropTable(DB_TABLE_MAP_POINT)
-		}
-	})
-}
-
-export const createMapPointTable = (knex: any) => {
-	knex.schema.hasTable(DB_TABLE_MAP_POINT).then(function(exists: any) {
-		if (!exists) {
-			return knex.schema.createTable(DB_TABLE_MAP_POINT, function(t: any) {
-				t.string('place_id').primary()
-				t.string('address', 1024)
-				t.string('latitude', 512)
-				t.string('longitude', 512)
-			})
-		}
-	})
 }

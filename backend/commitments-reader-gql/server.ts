@@ -16,17 +16,15 @@ import { importSchema } from 'graphql-import'
 import { Commitment, Tag } from './resolvers'
 import { HomeController } from './controllers'
 import { allowCrossDomain } from '../shared/cors'
-import { createDB, getById, getByAll, upsert, remove, getByParent } from './sqllite-schema'
+import { getById, getByAll, upsert, remove, getByParent } from './resolvers'
 
 const typeDefs = importSchema('./commitments-reader-gql/schema.graphql')
 
 const sqlDB = knex({
 	client: 'sqlite3',
-	connection: { filename: './db/commitments-reader.db' },
+	connection: { filename: './commitments-reader-gql/db/dev.sqlite3' },
 	useNullAsDefault: true,
 })
-
-createDB(sqlDB)
 
 class SqlConnector {
 	connection: any

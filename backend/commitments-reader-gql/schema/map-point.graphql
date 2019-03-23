@@ -1,13 +1,13 @@
 type MapPoint {
-	place_id: String
-	address: String
-	latitude: Float
-	longitude: Float
+	place_id: String!
+	address: String!
+	latitude: Float!
+	longitude: Float!
 }
 
-type MapPointInput {
-	place_id: String
-	address: String
-	latitude: Float
-	longitude: Float
+input MapPointInput {
+	place_id: String!
+	address: String!
+	latitude: Float!
+	longitude: Float!
 }

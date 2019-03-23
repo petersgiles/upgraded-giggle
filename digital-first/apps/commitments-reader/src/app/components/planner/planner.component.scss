@@ -1,4 +1,3 @@
-
 .flex-container {
     display: flex;
     flex-direction: row;
@@ -18,4 +17,49 @@
   }
   
 
-  
+.b-sch-timerange label {
+  background: #fff;
+  white-space: nowrap;
+  padding: 4px;
+  font-weight: 500;
+}
+
+@mixin timerange-transparent($color) {
+  background-color: $color;
+  color: black;
+  opacity: 0.5;
+}
+
+@mixin timerange-striped($color) {
+  background-image: linear-gradient(-45deg, rgba(0, 0, 0, 0) 46%, $color 49%, $color 51%, rgba(0, 0, 0, 0) 55%);
+  background-size: 6px 6px;
+  color: $color;
+}
+
+.b-sch-timerange {
+  &.timerange-sitting-senate {
+    @include timerange-transparent($color: #ffd7d7);
+  }
+  &.timerange-sitting-house {
+    @include timerange-transparent($color: #d8fbd8);
+  }
+  &.timerange-sitting-both {
+    @include timerange-transparent($color: #d4eeff);
+  }
+}
+
+.b-sch-event {
+  &.milestone {
+    position: absolute;
+    left: 0;
+    content: " ";
+    height: 0.7em;
+    width: 0.7em;
+    transform-origin: 0;
+    transform: rotate(45deg) translateX(-50%);
+    background-image: inherit;
+    background-color: inherit;
+    border: inherit;
+  }
+}
+

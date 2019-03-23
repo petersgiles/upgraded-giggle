@@ -1,10 +1,6 @@
-import {
-	DB_TABLE_COMMITMENT,
-	DB_TABLE_MAP_POINT,
-	DB_TABLE_COMMITMENT_MAPPOINT,
-} from '.'
+import { DB_TABLE_NAVIGATION } from '.'
 
-export class Commitment {
+export class NavigableApplication {
 	connectorKeys: { db: string }
 
 	constructor(connectorKeys: { db: string }) {
@@ -16,7 +12,7 @@ export class Commitment {
 	async getById(id: any, context: any): Promise<any> {
 		let result = await this.knex(context)
 			.select()
-			.from(DB_TABLE_COMMITMENT)
+			.from(DB_TABLE_NAVIGATION)
 			.where('id', id)
 
 		return result && result[0]
@@ -25,24 +21,24 @@ export class Commitment {
 	async getAll(context: any): Promise<any[]> {
 		let result = await this.knex(context)
 			.select()
-			.from(DB_TABLE_COMMITMENT)
+			.from(DB_TABLE_NAVIGATION)
 		return result
 	}
 
 	async upsert(payload: any, context: any): Promise<void> {
 		if (payload.item.id) {
-			return await this.knex(context)(DB_TABLE_COMMITMENT)
+			return await this.knex(context)(DB_TABLE_NAVIGATION)
 				.where({ id: payload.item.id })
 				.update({ ...payload.item })
 		} else {
-			return await this.knex(context)(DB_TABLE_COMMITMENT).insert({
+			return await this.knex(context)(DB_TABLE_NAVIGATION).insert({
 				...payload.item,
 			})
 		}
 	}
 
 	async delete(id: any, context: any): Promise<void> {
-		return await this.knex(context)(DB_TABLE_COMMITMENT)
+		return await this.knex(context)(DB_TABLE_NAVIGATION)
 			.where({ id: id })
 			.del()
 	}

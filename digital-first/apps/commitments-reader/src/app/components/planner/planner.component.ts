@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core'
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core'
 import { SchedulerComponent } from '../scheduler/scheduler.component'
 import { Moment } from 'moment'
 import moment = require('moment')
@@ -8,7 +8,8 @@ import { DateHelper } from 'bryntum-scheduler';
 @Component({
   selector: 'digital-first-planner',
   templateUrl: './planner.component.html',
-  styleUrls: ['./planner.component.scss']
+  styleUrls: ['./planner.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class PlannerComponent {
   @ViewChild(SchedulerComponent) scheduler: SchedulerComponent
@@ -60,40 +61,33 @@ export class PlannerComponent {
   timeRanges = [
     {
       name: 'Both sitting',
-      startDate: '2019-04-02 00:00',
+      startDate: '2019-04-02',
       duration: 2,
       cls: 'timerange-sitting-both'
     },
     {
       name: 'House sitting',
-      startDate: '2019-04-04 00:00',
+      startDate: '2019-04-04',
       duration: 1,
       cls: 'timerange-sitting-house'
     },
     {
       name: 'House sitting',
-      startDate: '2019-04-15 00:00',
-      endDate: '2019-04-18 0:00',
+      startDate: '2019-04-15',
+      endDate: '2019-04-19',
       cls: 'timerange-sitting-house'
     },
     {
-      name: 'International travel',
-      startDate: '2019-04-19 00:00',
-      endDate: '2019-04-21 0:00',
-      cls: 'timerange-sitting-senate'
-    },
-    {
       name: 'State election',
-      startDate: '2019-04-22 00:00'
+      startDate: '2019-04-22'
     }
   ]
 
-  
 onSliderInput(event: MdcSliderChange): void {
  this.resetSchedulerZoomLevel(event);
 }
 
-  private resetSchedulerZoomLevel(event: MdcSliderChange) {
+private resetSchedulerZoomLevel(event: MdcSliderChange) {
     this.zoomLevelViews.forEach(lv => {
       if (lv.level === event.value) {
         this.currentZoomView = lv.view;
@@ -101,5 +95,11 @@ onSliderInput(event: MdcSliderChange): void {
         this.viewPreset = lv.viewPreset;
       }
     });
+  }
+
+  eventRenderer({ eventRecord, tplData }) {
+    // Add a custom CSS classes to the template element data by setting a property name
+    tplData.cls.milestone = eventRecord.isMilestone
+    return eventRecord.name
   }
 }
