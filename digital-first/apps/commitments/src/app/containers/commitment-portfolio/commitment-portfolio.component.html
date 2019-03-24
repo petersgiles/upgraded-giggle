@@ -2,24 +2,6 @@
   [operation]="getRight(userOperation$ | async)"
 >
   <ng-container operation-type="read">
-    <digital-first-page-title
-      *ngIf="commitment"
-      [title]="title"
-      (onTitleClicked)="handleChangeExpanded(!expanded)"
-    >
-      <digital-first-date-format-button
-        *ngIf="expanded"
-        [timeFormat]="timeFormat"
-        (onChangeDateFormat)="handleChangeDateFormat($event)"
-      ></digital-first-date-format-button>
-      <digital-first-expand-collapse-button
-        [expanded]="expanded"
-        (onChangeExpanded)="handleChangeExpanded(!expanded)"
-      ></digital-first-expand-collapse-button>
-    </digital-first-page-title>
-
-
-
   </ng-container>
 
   <ng-container operation-type="write">
@@ -28,11 +10,6 @@
       [title]="title"
       (onTitleClicked)="handleChangeExpanded(!expanded)"
     >
-      <digital-first-date-format-button
-        *ngIf="expanded"
-        [timeFormat]="timeFormat"
-        (onChangeDateFormat)="handleChangeDateFormat($event)"
-      ></digital-first-date-format-button>
       <digital-first-expand-collapse-button
         [expanded]="expanded"
         (onChangeExpanded)="handleChangeExpanded(!expanded)"
