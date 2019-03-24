@@ -17,7 +17,7 @@
     </digital-first-page-title>
     <div *ngIf="expanded" class="related-content">
         <df-mega-tag-chooser
-        [artifact]="commitment.id"
+        [artifact]="commitment"
         [tags]="megaTags$ | async"
         (onSelectionChange)="handleToggleSelected($event)"
       ></df-mega-tag-chooser>
