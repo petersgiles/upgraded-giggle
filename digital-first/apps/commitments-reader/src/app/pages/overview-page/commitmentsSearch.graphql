@@ -1,0 +1,38 @@
+query CommitmentsSearch($input: CommitmentRefinementInput!) {
+  commitments(input: $input) {
+    id
+    title
+    description
+    cost
+    date
+    announcedby
+    party {
+      id
+      title
+    }
+    criticalDate {
+      id
+      title
+    }
+    whoAnnounced {
+      id
+      title
+    }
+    announcement {
+      id
+      title
+    }
+    commitment {
+      id
+      title
+    }
+    portfolio {
+      id
+      title
+    }
+    electorates {
+      id
+      title
+    }
+  }
+}

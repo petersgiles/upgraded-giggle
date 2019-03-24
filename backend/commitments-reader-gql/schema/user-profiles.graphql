@@ -1,12 +1,12 @@
-
-type UserProfileRole {
-	id: ID!
-	name: String!
+enum Role {
+	GUEST
+	USER
+	ADMIN
 }
 
 type UserProfile {
 	id: ID!
 	name: String!
 	email: String!
-	roles: [UserProfileRole]
+	roles: [Role]
 }

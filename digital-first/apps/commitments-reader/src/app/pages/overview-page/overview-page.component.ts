@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core'
-import { AllCommitmentsGQL } from '../../generated/commitmentSearch'
 import { tap } from 'rxjs/operators'
 
 @Component({
@@ -12,7 +11,7 @@ export class OverviewPageComponent implements OnInit {
   columns
   count
 
-  constructor(private commitmentsGql: AllCommitmentsGQL) {
+  constructor() {
     this.columns = [
       { prop: 'commitmentId', name: 'Id' },
       { prop: 'title', name: 'Title' },

@@ -1,3 +1,4 @@
+scalar Date
 
 # import MutationResponse, MutationResponse from "schema/response.graphql"
 # import UserProfileRole, UserProfile from "schema/user-profiles.graphql"
@@ -10,7 +11,7 @@
 type Query {
 	userProfile(id: ID): UserProfile
 	commitment(id: ID!): Commitment
-	commitments: [Commitment]
+	commitments(input: CommitmentRefinementInput): [Commitment]
 	mappoint(place_id: String!): MapPoint
 	mappoints: [MapPoint]
     tag(id: ID!): Tag

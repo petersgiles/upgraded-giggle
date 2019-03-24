@@ -15,6 +15,11 @@ type Commitment {
     electorates: [Tag],
 }
 
+input CommitmentRefinementInput {
+    text: String,
+    tags: [ID],
+}
+
 input CommitmentInput {
 	id: ID
     title: String!,
@@ -27,4 +32,9 @@ input CommitmentInput {
 input CommitmentMapPointInput {
 	commitment: ID
     mapPoint: ID
+}
+
+input CommitmentTagInput {
+	commitment: ID
+    tag: ID
 }

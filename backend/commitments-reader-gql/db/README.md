@@ -30,8 +30,20 @@ knex init
 knex migrate:make initial
 ```
 
+## Adding a seed
+
+```bash
+knex seed:make 01_seed_name
+```
+
 ## Run the migration
 
 ```bash
 knex migrate:latest
+```
+
+## Run the seeder
+
+```bash
+knex seed:run
 ```
