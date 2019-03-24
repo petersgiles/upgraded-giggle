@@ -3,8 +3,7 @@ exports.up = function(knex, Promise) {
     return knex.schema.createTable('commitment_mappoint', function(
         t
     ) {
-        t.integer('commitment')
-            .unsigned()
+        t.string('commitment')
             .notNullable()
         t.string('mappoint').notNullable()
         t.foreign('commitment')
