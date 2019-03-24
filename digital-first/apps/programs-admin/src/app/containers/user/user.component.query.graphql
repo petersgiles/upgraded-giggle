@@ -7,7 +7,7 @@ query user($userId: String!) {
       id
       title
     }
-    apiKeys(orderBy:{path:"created"}) {
+    apiKeys(orderBy:{path:"created", descending: true}) {
       id
       key
       created

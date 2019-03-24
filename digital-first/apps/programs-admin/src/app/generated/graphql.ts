@@ -868,28 +868,8 @@ export type ProjectElectorateGraphProjectArgs = {
   take: Scalars['Int']
 }
 
-export type ProjectFundingSnapshotGraph = {
-  committed: Scalars['UInt32']
-  id: Scalars['Guid']
-  program: ProgramGraph
-  programId: Scalars['Guid']
-  project?: Maybe<ProjectGraph>
-  projectId: Scalars['Guid']
-  rowVersion: Scalars['String']
-  spent: Scalars['UInt32']
-  timestamp: Scalars['DateTimeOffset']
-}
-
-export type ProjectFundingSnapshotGraphProjectArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
-}
-
 export type ProjectGraph = {
+  committed: Scalars['UInt32']
   electorates?: Maybe<Array<Maybe<ElectorateGraph>>>
   end: Scalars['String']
   endDate?: Maybe<Scalars['DateTimeOffset']>
@@ -905,9 +885,9 @@ export type ProjectGraph = {
   programSubmission?: Maybe<ProgramSubmissionGraph>
   programSubmissionId: Scalars['Guid']
   projectElectorates: Array<ProjectElectorateGraph>
-  projectFundingSnapshots?: Maybe<Array<Maybe<ProjectFundingSnapshotGraph>>>
   rowVersion: Scalars['String']
   sensitivities: Scalars['String']
+  spent: Scalars['UInt32']
   start: Scalars['String']
   status?: Maybe<Scalars['String']>
 }
@@ -931,15 +911,6 @@ export type ProjectGraphProgramArgs = {
 }
 
 export type ProjectGraphProgramSubmissionArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
-}
-
-export type ProjectGraphProjectFundingSnapshotsArgs = {
   id: Scalars['String']
   ids: Array<Maybe<Scalars['String']>>
   orderBy: Array<Maybe<OrderByGraph>>
@@ -3046,6 +3017,15 @@ export type CreateApiKeyMutation = { __typename?: 'Mutation' } & Pick<
   'createApiKey'
 >
 
+export type DisableApiKeyMutationVariables = {
+  data?: Maybe<DisableApiKeyInputGraph>
+}
+
+export type DisableApiKeyMutation = { __typename?: 'Mutation' } & Pick<
+  Mutation,
+  'disableApiKey'
+>
+
 export type UserQueryVariables = {
   userId: Scalars['String']
 }
@@ -4793,6 +4773,21 @@ export class CreateApiKeyGQL extends Apollo.Mutation<
 > {
   document = CreateApiKeyDocument
 }
+export const DisableApiKeyDocument = gql`
+  mutation disableApiKey($data: DisableApiKeyInputGraph) {
+    disableApiKey(input: $data)
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DisableApiKeyGQL extends Apollo.Mutation<
+  DisableApiKeyMutation,
+  DisableApiKeyMutationVariables
+> {
+  document = DisableApiKeyDocument
+}
 export const UserDocument = gql`
   query user($userId: String!) {
     user(id: $userId) {
@@ -4803,7 +4798,7 @@ export const UserDocument = gql`
         id
         title
       }
-      apiKeys(orderBy: { path: "created" }) {
+      apiKeys(orderBy: { path: "created", descending: true }) {
         id
         key
         created

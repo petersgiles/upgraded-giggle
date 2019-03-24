@@ -1,12 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild
+} from '@angular/core'
 import { formatDate } from '@angular/common'
 import { ActivatedRoute } from '@angular/router'
 import {
   UserGQL,
   DeleteUserGQL,
-  // DeleteApiKeyGQL,
-  // CreateApiKeyGQL,
-  UserQuery
+  CreateApiKeyGQL,
+  UserQuery,
+  DisableApiKeyGQL
 } from '../../generated/graphql'
 import { map, first } from 'rxjs/operators'
 import { Subscription } from 'rxjs'
@@ -15,6 +21,7 @@ import { Router } from '@angular/router'
 import { MdcDialog } from '@angular-mdc/web'
 import { formConstants } from '../../form-constants'
 import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
+import { DialogApiKeyComponent } from './dialog-apikey.component'
 
 type User = UserQuery['user']
 
@@ -32,18 +39,34 @@ export class UserComponent implements OnInit, OnDestroy {
   statisticReportAccessRows: User['statisticReportAccess']
   statisticAccessRows: User['statisticAccess']
   apiKeysRows: User['apiKeys']
+
+  apiKeysColumns = []
+
+  @ViewChild('disableTemplate') disableTemplate: TemplateRef<any>
+
   constructor(
     private route: ActivatedRoute,
     private userGQL: UserGQL,
     private router: Router,
     public dialog: MdcDialog,
-    private deleteUserGQL: DeleteUserGQL
-  ) // private deleteApiKeyGQL: DeleteApiKeyGQL,
-  // private createApiKeyGQL: CreateApiKeyGQL
-  {}
+    private deleteUserGQL: DeleteUserGQL,
+    private disableApiKeyGQL: DisableApiKeyGQL,
+    private createApiKeyGQL: CreateApiKeyGQL
+  ) {}
 
   ngOnInit() {
     this.userId = this.route.snapshot.paramMap.get('id')
+    this.apiKeysColumns = [
+      { prop: 'key', name: 'Hashed Key' },
+      { prop: 'created', name: 'Created' },
+      { prop: 'enabled', name: 'Enabled' },
+      {
+        name: '',
+        cellTemplate: this.disableTemplate,
+        prop: 'disable'
+      }
+    ]
+
     this.loadUser()
   }
 
@@ -59,17 +82,13 @@ export class UserComponent implements OnInit, OnDestroy {
         this.statisticAccessRows = user.statisticAccess
         this.apiKeysRows = user.apiKeys.map(value =>
           Object.assign({}, value, {
-            created: `${formatDate(value.created, 'medium', 'en-AU')}`
+            created: `${formatDate(value.created, 'medium', 'en-AU')}`,
+            enabled: !value.disable
           })
         )
       })
   }
 
-  apiKeysColumns = [
-    { prop: 'key', name: 'Key' },
-    { prop: 'created', name: 'Created' },
-    { prop: 'disable', name: 'Disabled' }
-  ]
   defaultPageLength: number = formConstants.defaultPageLength
 
   handleEditUser(user: User) {
@@ -101,50 +120,58 @@ export class UserComponent implements OnInit, OnDestroy {
       })
   }
 
-  handleDeleteApiKey($event) {
-    //TODO: this will need to disable the key not actually deleted it.
-    alert('not yet implemented')
-    // const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
-    //   escapeToClose: true,
-    //   clickOutsideToClose: true
-    // })
-    //
-    // dialogRef
-    //   .afterClosed()
-    //   .pipe(first())
-    //   .subscribe(result => {
-    //     if (result === ARE_YOU_SURE_ACCEPT && this.user) {
-    //       this.deleteApiKeyGQL
-    //         .mutate(
-    //           {
-    //             data: {
-    //               id: $event.id
-    //             }
-    //           },
-    //           {}
-    //         )
-    //         .subscribe(() => this.loadUser())
-    //     }
-    //   })
+  handleDisableApiKey($event, row) {
+    console.log($event)
+
+    console.log(row)
+
+    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+      escapeToClose: true,
+      clickOutsideToClose: true
+    })
+
+    dialogRef
+      .afterClosed()
+      .pipe(first())
+      .subscribe(result => {
+        if (result === ARE_YOU_SURE_ACCEPT && this.user) {
+          this.disableApiKeyGQL
+            .mutate(
+              {
+                data: {
+                  id: row.id
+                }
+              },
+              {}
+            )
+            .subscribe(() => this.loadUser())
+        }
+      })
   }
 
   handleAddApiKey() {
-    //TODO:  hand the issuing of an api key
-    //This has changed to now be one way hash and so will need to present
-    //the user with a one of chance to record the api key  as it can't be retrieved
-    //due to the hash
+    const result = this.createApiKeyGQL
+      .mutate(
+        {
+          data: {
+            userId: this.userId
+          }
+        },
+        {}
+      )
+      .subscribe(value => {
+        const dialogRef = this.dialog.open(DialogApiKeyComponent, {
+          escapeToClose: true,
+          clickOutsideToClose: true,
+          data: {
+            apiKey: value.data.createApiKey
+          }
+        })
 
-    alert('not yet implemented')
-    // this.createApiKeyGQL
-    //   .mutate(
-    //     {
-    //       data: {
-    //         userId: this.userId
-    //       }
-    //     },
-    //     {}
-    //   )
-    //   .subscribe(() => this.loadUser())
+        dialogRef.afterClosed().subscribe(value1 => {
+          this.loadUser()
+        })
+      })
   }
 
   ngOnDestroy(): void {

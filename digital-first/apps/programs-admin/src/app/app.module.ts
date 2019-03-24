@@ -94,6 +94,7 @@ import { RolesComponent } from './containers/roles/roles.component'
 import { RoleComponent } from './containers/role/role.component'
 import { RoleAddComponent } from './containers/role/role-add/role-add.component'
 import { RoleEditComponent } from './containers/role/role-edit/role-edit.component'
+import { DialogApiKeyComponent } from './containers/user/dialog-apikey.component'
 
 const COMPONENTS = [AppComponent, HomeComponent]
 
@@ -101,7 +102,8 @@ const ENTRYCOMPONENTS = [
   DialogAreYouSureComponent,
   DialogAssignGroupPermissionComponent,
   DialogAssignUserToGroupComponent,
-  DialogAssignRoleToGroupComponent
+  DialogAssignRoleToGroupComponent,
+  DialogApiKeyComponent
 ]
 
 export function initApplication(): Function {
@@ -127,6 +129,7 @@ export function initApplication(): Function {
     DialogAssignGroupPermissionComponent,
     DialogAssignUserToGroupComponent,
     DialogAssignRoleToGroupComponent,
+    DialogApiKeyComponent,
     ProgramReportsComponent,
     ReportAddComponent,
     ProgramReportComponent,
