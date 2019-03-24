@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
-import { tap } from 'rxjs/operators'
+import { tap, map } from 'rxjs/operators'
+import { CommitmentsSearchGQL } from '../../generated/graphql';
 
 @Component({
   selector: 'digital-first-overview-page',
@@ -11,7 +12,7 @@ export class OverviewPageComponent implements OnInit {
   columns
   count
 
-  constructor() {
+  constructor(private commitmentsSearchGQL: CommitmentsSearchGQL) {
     this.columns = [
       { prop: 'commitmentId', name: 'Id' },
       { prop: 'title', name: 'Title' },
@@ -23,10 +24,15 @@ export class OverviewPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.commitmentsTableData$ = this.commitmentsGql
-    //   .fetch({ fetchPolicy: 'network-only' })
-    //   .pipe(tap(result => console.log(result)))
-    //   .subscribe(items => {})
+    this.commitmentsTableData$ = this.commitmentsSearchGQL
+      .fetch(
+        { input: {} },
+        { fetchPolicy: 'network-only' }
+        )
+      .pipe(
+        tap(result => console.log(result)),
+        map(result => result.data.commitments)
+        )
   }
 
   handleCommitmentsRowClicked($event) {}
