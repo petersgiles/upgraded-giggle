@@ -121,10 +121,6 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   handleDisableApiKey($event, row) {
-    console.log($event)
-
-    console.log(row)
-
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
       clickOutsideToClose: true
