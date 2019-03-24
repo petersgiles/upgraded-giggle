@@ -20,11 +20,11 @@ export class PlannerComponent {
   currentZoomView:string="100 days";
 
   zoomLevelViews=[
-          {level:1,view:"3 year", startDate:this.startDate,endDate:DateHelper.add(this.startDate,3,"year"),viewPreset:"monthAndYear"},
-          {level:2,view:"1 year",startDate:this.startDate,endDate:DateHelper.add(this.startDate,1,"year"),viewPreset:"weekDateAndMonth"},
-          {level:3,view:"100 days",startDate:this.startDate,endDate:DateHelper.add(this.startDate,100,"day"),viewPreset:"weekDateAndMonth"},
-          {level:4,view:"1 month",startDate:this.startDate,endDate:DateHelper.add(this.startDate,31,"day"),viewPreset:"weekDateAndMonth"},
-          {level:5, view:"1 week",startDate:this.startDate,endDate:DateHelper.add(this.startDate,7,"day"),viewPreset:"dayAndWeek"}
+          {level:1,view:"3 Years", startDate:this.startDate,endDate:DateHelper.add(this.startDate,3,"year"),viewPreset:"monthAndYear"},
+          {level:2,view:"1 Year",startDate:this.startDate,endDate:DateHelper.add(this.startDate,1,"year"),viewPreset:"weekDateAndMonth"},
+          {level:3,view:"100 Days",startDate:this.startDate,endDate:DateHelper.add(this.startDate,100,"day"),viewPreset:"weekDateAndMonth"},
+          {level:4,view:"1 Month",startDate:this.startDate,endDate:DateHelper.add(this.startDate,31,"day"),viewPreset:"weekDateAndMonth"},
+          {level:5, view:"1 Week",startDate:this.startDate,endDate:DateHelper.add(this.startDate,7,"day"),viewPreset:"dayAndWeek"}
         ]
    
   events = [
