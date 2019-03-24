@@ -39,6 +39,7 @@ export class OverviewLayoutComponent implements OnInit {
     this.lookup.getAllPortfolios()
     this.lookup.getAllThemeTypes()
     this.lookup.getAllPackageTypes()
+    this.lookup.getAllStatuses()
 
     this.refinerGroups$ = this.service.RefinerGroups
     this.commitmentsFilteredSubscription$ = this.service.CommitmentFiltered.subscribe(
