@@ -1,5 +1,5 @@
 [
-    {
+	{
 		"id": "states-group",
 		"title": "States",
 		"description": "States Group",
@@ -7,70 +7,70 @@
 		"colour": "Pink",
 		"icon": "place",
 		"parent": null
-    },
-    {
-        "id": "ACT",
-        "title": "ACT",
-        "description": "ACT",
-        "sortorder": 999,
-        "colour": "Pink",
-        "icon": "place",
-        "parent": "states-group"
-    },
-    {
-        "id": "NSW",
-        "title": "NSW",
-        "description": "NSW",
-        "sortorder": 999,
-        "colour": "Pink",
-        "icon": "place",
-        "parent": "states-group"
-    },
-    {
-        "id": "VIC",
-        "title": "VIC",
-        "description": "VIC",
-        "sortorder": 999,
-        "colour": "Pink",
-        "icon": "place",
-        "parent": "states-group"
-    },
-    {
-        "id": "NT",
-        "title": "NT",
-        "description": "NT",
-        "sortorder": 999,
-        "colour": "Pink",
-        "icon": "place",
-        "parent": "states-group"
-    },
-    {
-        "id": "Qld",
-        "title": "Qld",
-        "description": "Qld",
-        "sortorder": 999,
-        "colour": "Pink",
-        "icon": "place",
-        "parent": "states-group"
-    },
-    {
-        "id": "WA",
-        "title": "WA",
-        "description": "WA",
-        "sortorder": 999,
-        "colour": "Pink",
-        "icon": "place",
-        "parent": "states-group"
-    },
-    {
-        "id": "TAS",
-        "title": "TAS",
-        "description": "TAS",
-        "sortorder": 999,
-        "colour": "Pink",
-        "icon": "place",
-        "parent": "states-group"
-    },
+	},
+	{
+		"id": "ACT",
+		"title": "ACT",
+		"description": "ACT",
+		"sortorder": 999,
+		"colour": "Pink",
+		"icon": "place",
+		"parent": "states-group"
+	},
+	{
+		"id": "NSW",
+		"title": "NSW",
+		"description": "NSW",
+		"sortorder": 999,
+		"colour": "Pink",
+		"icon": "place",
+		"parent": "states-group"
+	},
+	{
+		"id": "VIC",
+		"title": "VIC",
+		"description": "VIC",
+		"sortorder": 999,
+		"colour": "Pink",
+		"icon": "place",
+		"parent": "states-group"
+	},
+	{
+		"id": "NT",
+		"title": "NT",
+		"description": "NT",
+		"sortorder": 999,
+		"colour": "Pink",
+		"icon": "place",
+		"parent": "states-group"
+	},
+	{
+		"id": "Qld",
+		"title": "Qld",
+		"description": "Qld",
+		"sortorder": 999,
+		"colour": "Pink",
+		"icon": "place",
+		"parent": "states-group"
+	},
+	{
+		"id": "WA",
+		"title": "WA",
+		"description": "WA",
+		"sortorder": 999,
+		"colour": "Pink",
+		"icon": "place",
+		"parent": "states-group"
+	},
+	{
+		"id": "TAS",
+		"title": "TAS",
+		"description": "TAS",
+		"sortorder": 999,
+		"colour": "Pink",
+		"icon": "place",
+		"parent": "states-group"
+	},
 
 	{
 		"id": "status-group",
@@ -1871,5 +1871,41 @@
 		"colour": "Red",
 		"icon": "place",
 		"parent": "ACT"
+	},
+	{
+		"id": "commitment-type-group",
+		"title": "Commitment Type",
+		"description": "Commitment Type",
+		"sortorder": 1,
+		"colour": "red",
+		"icon": "category",
+		"parent": null
+	},
+	{
+		"id": "commitment-type-3",
+		"title": "National",
+		"description": "National",
+		"sortorder": 999,
+		"colour": "red",
+		"icon": "category",
+		"parent": "commitment-type-group"
+	},
+	{
+		"id": "commitment-type-2",
+		"title": "State",
+		"description": "State",
+		"sortorder": 999,
+		"colour": "red",
+		"icon": "category",
+		"parent": "commitment-type-group"
+	},
+	{
+		"id": "commitment-type-1",
+		"title": "Electorate",
+		"description": "Electorate",
+		"sortorder": 999,
+		"colour": "red",
+		"icon": "category",
+		"parent": "commitment-type-group"
 	}
 ]

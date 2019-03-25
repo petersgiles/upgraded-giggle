@@ -4,7 +4,7 @@ var parents = tags.filter((t) => !t.parent)
 var portfolioGroup = tags.filter((t) => t.parent === 'portfolio-group')
 var criticalDateGroup = tags.filter((t) => t.parent === 'critical-date-group')
 var statusGroup = tags.filter((t) => t.parent === 'status-group')
-
+var commitmentTypeGroup = tags.filter((t) => t.parent === 'commitment-type')
 var partyGroup = tags.filter((t) => t.parent === 'party-group')
 var statesGroup = tags.filter((t) => t.parent === 'states-group')
 var electorateGroups = statesGroup.map(s=>s.id).reduce((acc, item) => {
