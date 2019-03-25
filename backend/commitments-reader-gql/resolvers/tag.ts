@@ -34,6 +34,14 @@ export class Tag {
 		return result
 	}
 
+	async getResolverTree(payload: any, context: any): Promise<any[]> {
+		let result = await this.knex(context)
+			.select()
+			.from(DB_TABLE_TAG)
+		return result.map((t: any) => ({...t, expanded: true, selected: false, groupId: t.parent}))
+	}
+
+
 	async upsert(payload: any, context: any): Promise<void> {
 		if (payload.item.id) {
 			return await this.knex(context)(DB_TABLE_TAG)

@@ -173,8 +173,8 @@
 	},
 	{
 		"id": "critical-date-group",
-		"title": "Undefined",
-		"description": "Undefined",
+		"title": "Critical Date",
+		"description": "Critical Date",
 		"sortorder": 999,
 		"colour": "red",
 		"icon": "category",

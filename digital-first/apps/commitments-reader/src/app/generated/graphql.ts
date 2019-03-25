@@ -72,6 +72,62 @@ export type Upload = any
 // Documents
 // ====================================================
 
+export namespace GetRefinerTags {
+  export type Variables = {}
+
+  export type Query = {
+    __typename?: 'Query'
+
+    refiners: Maybe<(Maybe<Refiners>)[]>
+  }
+
+  export type Refiners = {
+    __typename?: 'Resolver'
+
+    id: string
+
+    title: Maybe<string>
+
+    expanded: Maybe<boolean>
+
+    selected: Maybe<boolean>
+
+    groupId: Maybe<string>
+
+    children: Maybe<(Maybe<Children>)[]>
+  }
+
+  export type Children = {
+    __typename?: 'Resolver'
+
+    id: string
+
+    title: Maybe<string>
+
+    expanded: Maybe<boolean>
+
+    selected: Maybe<boolean>
+
+    groupId: Maybe<string>
+
+    children: Maybe<(Maybe<_Children>)[]>
+  }
+
+  export type _Children = {
+    __typename?: 'Resolver'
+
+    id: string
+
+    title: Maybe<string>
+
+    groupId: Maybe<string>
+
+    expanded: Maybe<boolean>
+
+    selected: Maybe<boolean>
+  }
+}
+
 export namespace CommitmentsSearch {
   export type Variables = {
     input: CommitmentRefinementInput
@@ -183,6 +239,39 @@ import gql from 'graphql-tag'
 // Apollo Services
 // ====================================================
 
+@Injectable({
+  providedIn: 'root'
+})
+export class GetRefinerTagsGQL extends Apollo.Query<
+  GetRefinerTags.Query,
+  GetRefinerTags.Variables
+> {
+  document: any = gql`
+    query GetRefinerTags {
+      refiners {
+        id
+        title
+        expanded
+        selected
+        groupId
+        children {
+          id
+          title
+          expanded
+          selected
+          groupId
+          children {
+            id
+            title
+            groupId
+            expanded
+            selected
+          }
+        }
+      }
+    }
+  `
+}
 @Injectable({
   providedIn: 'root'
 })
