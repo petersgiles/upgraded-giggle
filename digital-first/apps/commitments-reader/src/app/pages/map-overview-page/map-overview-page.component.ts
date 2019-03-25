@@ -3,6 +3,7 @@ import { Observable, of } from 'rxjs'
 import { CommitmentsMapPointSearchGQL } from '../../generated/graphql'
 import { tap, map } from 'rxjs/operators';
 import { SettingsService } from '../../services/settings.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'digital-first-map-overview-page',
@@ -19,6 +20,7 @@ export class MapOverviewPageComponent implements OnInit {
   columns: { prop: string; name: string }[]
 
   constructor(
+    private router: Router,
     private settings: SettingsService,
     private commitmentsMapPointSearchGQL: CommitmentsMapPointSearchGQL
   ) {}
@@ -48,6 +50,14 @@ export class MapOverviewPageComponent implements OnInit {
     this.commitments$ = of(null)
 
    
+  }
+
+  handleRowClicked(row) {
+   // this.router.navigate(['/', 'commitment', row.id])
+  }
+
+  handleMapPointSelected(_, mapPoint) {
+
   }
 
   getIcon(mapPoint) {
