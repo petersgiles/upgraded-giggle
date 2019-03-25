@@ -16,7 +16,7 @@ type Query {
 	mappoints: [MapPoint]
     tag(id: ID!): Tag
 	tags(parent: ID): [Tag]
-	refiners: [Resolver]
+	refiners: [Refiner]
 }
 
 # The mutation root type, used to define all mutations.

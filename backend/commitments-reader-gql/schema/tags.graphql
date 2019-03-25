@@ -18,11 +18,11 @@ input TagInput {
 	parent: ID
 }
 
-type Resolver {
+type Refiner {
 	id: ID!,
     title: String,
     expanded: Boolean,
     selected: Boolean,
     groupId: String,
-    children: [Resolver]
+    children: [Refiner]
 }

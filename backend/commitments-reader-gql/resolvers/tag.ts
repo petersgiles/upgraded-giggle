@@ -38,7 +38,7 @@ export class Tag {
 		let result = await this.knex(context)
 			.select()
 			.from(DB_TABLE_TAG)
-		return result.map((t: any) => ({...t, expanded: true, selected: false, groupId: t.parent}))
+		return result.map((t: any) => ({...t, expanded: false, selected: false, groupId: t.parent}))
 	}
 
 

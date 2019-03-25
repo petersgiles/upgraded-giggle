@@ -82,7 +82,7 @@ export namespace GetRefinerTags {
   }
 
   export type Refiners = {
-    __typename?: 'Resolver'
+    __typename?: 'Refiner'
 
     id: string
 
@@ -98,7 +98,7 @@ export namespace GetRefinerTags {
   }
 
   export type Children = {
-    __typename?: 'Resolver'
+    __typename?: 'Refiner'
 
     id: string
 
@@ -114,7 +114,7 @@ export namespace GetRefinerTags {
   }
 
   export type _Children = {
-    __typename?: 'Resolver'
+    __typename?: 'Refiner'
 
     id: string
 
@@ -125,6 +125,28 @@ export namespace GetRefinerTags {
     expanded: Maybe<boolean>
 
     selected: Maybe<boolean>
+  }
+}
+
+export namespace CommitmentsMapPointSearch {
+  export type Variables = {}
+
+  export type Query = {
+    __typename?: 'Query'
+
+    mappoints: Maybe<(Maybe<Mappoints>)[]>
+  }
+
+  export type Mappoints = {
+    __typename?: 'MapPoint'
+
+    place_id: string
+
+    address: string
+
+    latitude: number
+
+    longitude: number
   }
 }
 
@@ -268,6 +290,24 @@ export class GetRefinerTagsGQL extends Apollo.Query<
             selected
           }
         }
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class CommitmentsMapPointSearchGQL extends Apollo.Query<
+  CommitmentsMapPointSearch.Query,
+  CommitmentsMapPointSearch.Variables
+> {
+  document: any = gql`
+    query CommitmentsMapPointSearch {
+      mappoints {
+        place_id
+        address
+        latitude
+        longitude
       }
     }
   `
