@@ -1,0 +1,8 @@
+query CommitmentsMapPointSearch {
+  mappoints {
+    place_id
+    address
+    latitude
+    longitude
+  }
+}

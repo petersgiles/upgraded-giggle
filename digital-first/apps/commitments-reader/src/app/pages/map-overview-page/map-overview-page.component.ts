@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core'
 import { Observable, of } from 'rxjs'
+import { CommitmentsMapPointSearchGQL } from '../../generated/graphql'
+import { tap, map } from 'rxjs/operators';
+import { SettingsService } from '../../services/settings.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'digital-first-map-overview-page',
@@ -15,16 +19,16 @@ export class MapOverviewPageComponent implements OnInit {
   commitments$: Observable<any>
   columns: { prop: string; name: string }[]
 
-  constructor() {}
+  constructor(
+    private router: Router,
+    private settings: SettingsService,
+    private commitmentsMapPointSearchGQL: CommitmentsMapPointSearchGQL
+  ) {}
 
   ngOnInit() {
     this.latitude = -27.698
     this.longitude = 133.8807
     this.zoom = 5
-
-    this.mapPoints$ = of(null)
-    this.commitments$ = of(null)
-
     this.columns = [
       { prop: 'commitmentId', name: 'Id' },
       { prop: 'title', name: 'Title' },
@@ -32,5 +36,31 @@ export class MapOverviewPageComponent implements OnInit {
       { prop: 'portfolio', name: 'Responsible Portfolio' },
       { prop: 'commitmentType', name: 'Type of Commitment' }
     ]
+
+    this.mapPoints$ = this.commitmentsMapPointSearchGQL
+    .fetch(
+      { input: {} },
+      { fetchPolicy: 'network-only' }
+      )
+    .pipe(
+      tap(result => console.log(result)),
+      map(result => result.data.mappoints)
+      )
+
+    this.commitments$ = of(null)
+
+   
+  }
+
+  handleRowClicked(row) {
+   // this.router.navigate(['/', 'commitment', row.id])
+  }
+
+  handleMapPointSelected(_, mapPoint) {
+
+  }
+
+  getIcon(mapPoint) {
+    return `${this.settings.assetsPath}/${mapPoint.iconUrl || 'beachflag.png'}`
   }
 }
