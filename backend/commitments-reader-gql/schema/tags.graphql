@@ -17,12 +17,3 @@ input TagInput {
     icon: String,
 	parent: ID
 }
-
-type Refiner {
-	id: ID!,
-    title: String,
-    expanded: Boolean,
-    selected: Boolean,
-    groupId: String,
-    children: [Refiner]
-}

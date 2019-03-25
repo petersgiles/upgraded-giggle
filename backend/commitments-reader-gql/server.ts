@@ -10,10 +10,10 @@ import * as helmet from 'helmet' // Security
 import * as express from 'express'
 import * as morgan from 'morgan'
 import * as knex from 'knex'
-import { toTree } from '../shared/utils'
+
 import { logger } from '../shared/logger'
 import { importSchema } from 'graphql-import'
-import { Commitment, Tag, MapPoint, DB_TABLE_TAG } from './resolvers'
+import { Commitment, Tag } from './resolvers'
 import { HomeController } from './controllers'
 import { allowCrossDomain } from '../shared/cors'
 import { getById, getByAll, upsert, remove, getByParent } from './resolvers'
@@ -60,28 +60,12 @@ export const resolvers = {
 	Query: {
 		commitment: async (obj: any, args: any, context: any, info: any) => getById('Commitment', obj, args, context, info),
 		commitments: async (obj: any, args: any, context: any, info: any) => getByAll('Commitment', obj, args, context, info),
-		mappoint: async (obj: any, args: any, context: any, info: any) => getById('MapPoint', obj, args, context, info),
-		mappoints: async (obj: any, args: any, context: any, info: any) => getByAll('MapPoint', obj, args, context, info),
 		tag: async (obj: any, args: any, context: any, info: any) => getById('Tag', obj, args, context, info),
 		tags: async (obj: any, args: any, context: any, info: any) => getByParent('Tag', obj, args, context, info),
-		refiners: async (obj: any, args: any, context: any, info: any) => {
-
-			let result = await context.models.Tag.getResolverTree(args, context)
-
-			return toTree(result, {
-				id: 'id',
-				parentId: 'parent',
-				children: 'children',
-				level: 'level',
-				firstParentId: null
-			  })
-		},
 	},
 	Mutation: {
 		upsertCommitment: async (obj: any, args: any, context: any, info: any) => upsert('Commitment', obj, args, context, info),
 		deleteCommitment: async (obj: any, args: any, context: any, info: any) => remove('Commitment', obj, args, context, info),
-		upsertMapPoint: async (obj: any, args: any, context: any, info: any) => upsert('MapPoint', obj, args, context, info),
-		deleteMapPoint: async (obj: any, args: any, context: any, info: any) => remove('MapPoint', obj, args, context, info),
 		upsertTag: async (obj: any, args: any, context: any, info: any) => upsert('Tag', obj, args, context, info),
 		deleteTag: async (obj: any, args: any, context: any, info: any) => remove('Tag', obj, args, context, info)
 	},
@@ -95,9 +79,8 @@ const server = new ApolloServer({
 			sql: new SqlConnector(sqlDB),
 		},
 		models: {
-			Tag: new Tag({ db: 'sql' }),
 			Commitment: new Commitment({ db: 'sql' }),
-			MapPoint: new MapPoint({ db: 'sql' }),
+			Tag: new Tag({ db: 'sql' }),
 		},
 	},
 })

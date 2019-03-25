@@ -6,20 +6,15 @@ import {
   Input,
   Output,
   EventEmitter,
-  SimpleChanges,
-  OnDestroy
+  SimpleChanges
 } from '@angular/core'
-import { Scheduler } from 'bryntum-scheduler'
+import { Scheduler, EventNavigation } from 'bryntum-scheduler'
 
 @Component({
   selector: 'scheduler',
   template: '<div></div>'
 })
-export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
-  ngOnDestroy(): void {
-    this.schedulerEngine.destroy()
-  }
-
+export class SchedulerComponent implements OnInit, OnChanges {
   private elementRef: ElementRef
   public schedulerEngine: Scheduler
 
@@ -191,13 +186,13 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
       }
     })
 
-    //   config["zoomLevels"]= [
-    //     { width: 40,    increment: 5,   resolution: 60, preset: 'dayAndWeek', resolutionUnit: 'day' },
-    //     { width: 50,    increment: 4,   resolution: 60, preset: 'dayAndWeek', resolutionUnit: 'day' },
-    //     { width: 60,    increment: 3,   resolution: 60, preset: 'weekDateAndMonth', resolutionUnit: 'day' },
-    //     { width: 80,    increment: 2,   resolution: 30, preset: 'weekDateAndMonth', resolutionUnit: 'day' },
-    //     { width: 100,   increment: 1,   resolution: 15, preset: 'monthAndYear', resolutionUnit: 'day' }
-    // ]
+  //   config["zoomLevels"]= [
+  //     { width: 40,    increment: 5,   resolution: 60, preset: 'dayAndWeek', resolutionUnit: 'day' },     
+  //     { width: 50,    increment: 4,   resolution: 60, preset: 'dayAndWeek', resolutionUnit: 'day' },
+  //     { width: 60,    increment: 3,   resolution: 60, preset: 'weekDateAndMonth', resolutionUnit: 'day' },
+  //     { width: 80,    increment: 2,   resolution: 30, preset: 'weekDateAndMonth', resolutionUnit: 'day' },
+  //     { width: 100,   increment: 1,   resolution: 15, preset: 'monthAndYear', resolutionUnit: 'day' }
+  // ]
     const engine = (this.schedulerEngine = new Scheduler(config))
 
     // Relay events from eventStore and resourceStore, making them a bit easier to catch in your app.

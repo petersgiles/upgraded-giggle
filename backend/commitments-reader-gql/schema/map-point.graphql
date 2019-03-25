@@ -3,7 +3,6 @@ type MapPoint {
 	address: String!
 	latitude: Float!
 	longitude: Float!
-	commitments: [Commitment]
 }
 
 input MapPointInput {

@@ -1,5 +1,7 @@
 import {
-	DB_TABLE_COMMITMENT
+	DB_TABLE_COMMITMENT,
+	DB_TABLE_MAP_POINT,
+	DB_TABLE_COMMITMENT_MAPPOINT,
 } from '.'
 
 export class Commitment {

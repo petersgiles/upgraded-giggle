@@ -14,7 +14,7 @@ export class OverviewPageComponent implements OnInit {
 
   constructor(private commitmentsSearchGQL: CommitmentsSearchGQL) {
     this.columns = [
-      { prop: 'id', name: 'Id' },
+      { prop: 'commitmentId', name: 'Id' },
       { prop: 'title', name: 'Title' },
       { prop: 'party', name: 'Party' },
       { prop: 'portfolio', name: 'Responsible Portfolio' },

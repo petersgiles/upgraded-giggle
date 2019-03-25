@@ -2,7 +2,7 @@ scalar Date
 
 # import MutationResponse, MutationResponse from "schema/response.graphql"
 # import UserProfileRole, UserProfile from "schema/user-profiles.graphql"
-# import Tag, TagInput, Resolver from "schema/tags.graphql"
+# import Tag, TagInput from "schema/tags.graphql"
 # import Commitment, CommitmentInput, CommitmentMapPointInput from "schema/commitments.graphql"
 # import MapPoint, MapPointInput from "schema/map-point.graphql"
 # import NavigableApplication, NavigableApplicationInput from "schema/navigation.graphql"
@@ -16,7 +16,6 @@ type Query {
 	mappoints: [MapPoint]
     tag(id: ID!): Tag
 	tags(parent: ID): [Tag]
-	refiners: [Refiner]
 }
 
 # The mutation root type, used to define all mutations.

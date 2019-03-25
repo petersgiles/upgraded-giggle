@@ -8,6 +8,7 @@ export const getById = async (
 	info: any
 ) => {
 	let result = await context.models[modelName].getById(args.id, context)
+	console.log('By ID', modelName, result)
 	return result
 }
 
@@ -19,6 +20,7 @@ export const getByAll = async (
 	info: any
 ) => {
 	let result = await context.models[modelName].getAll(context)
+	console.log('All', modelName, result)
 	return result
 }
 
@@ -30,6 +32,7 @@ export const getByParent = async (
 	info: any
 ) => {
 	let result = await context.models[modelName].getByParent(args, context)
+	console.log('ByParent', modelName, result)
 	return result
 }
 

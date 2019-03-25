@@ -3,9 +3,8 @@ import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core'
 import { AppRouterService } from '../../services/app-router.service'
 
 import { BehaviorSubject } from 'rxjs'
+import { refinerdata } from './refiner-data'
 import { RefinerGroup } from '@digital-first/df-refiner';
-import { GetRefinerTagsGQL } from '../../generated/graphql';
-import { tap, map, first } from 'rxjs/operators';
 
 @Component({
   selector: 'digital-first-commitment-layout',
@@ -38,9 +37,11 @@ export class CommitmentLayoutComponent
   urlSubscription: any
   selectId$: any
 
-  refinerGroups$: BehaviorSubject<RefinerGroup[]> = new BehaviorSubject(null)
+  refinerGroups$: BehaviorSubject<RefinerGroup[]> = new BehaviorSubject(
+    refinerdata
+  )
 
-  constructor(private appRouter: AppRouterService, private getRefinerTagsGQL: GetRefinerTagsGQL) {}
+  constructor(private appRouter: AppRouterService) {}
 
   handleRefinerGroupSelected($event) {
     const data = this.refinerGroups$.getValue()
@@ -65,20 +66,6 @@ export class CommitmentLayoutComponent
   ngOnDestroy(): void {}
 
   ngOnInit() {
-
-    this.getRefinerTagsGQL
-      .fetch(
-      { input: {} },
-      { fetchPolicy: 'network-only' }
-      )
-    .pipe(
-      first(),
-      tap(result => console.log(result)),
-      map(result => result.data.refiners)
-      )
-      .subscribe(result => this.refinerGroups$.next(result)
-      )
-
     this.appRouter.segments.subscribe(url => {
       let x = this.tabs.findIndex(p => p.id === url)
       this.activeTab = x
