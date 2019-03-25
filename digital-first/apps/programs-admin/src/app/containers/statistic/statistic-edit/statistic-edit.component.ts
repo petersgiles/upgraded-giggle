@@ -4,10 +4,10 @@ import { FormBuilder, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { map } from 'rxjs/operators'
 import {
-  AllAgencies,
   AllAgenciesGQL,
-  Statistic,
+  AllAgenciesQuery,
   StatisticGQL,
+  StatisticQuery,
   UpdateStatisticGQL
 } from '../../../generated/graphql'
 import { formConstants } from '../../../form-constants'
@@ -34,8 +34,8 @@ export class StatisticEditComponent implements OnInit, OnDestroy {
 
   statisticId: string
 
-  statistics$: Observable<Statistic.Statistic | null>
-  agencies$: Observable<(AllAgencies.Agencies | null)[]>
+  statistics$: Observable<StatisticQuery['statistic']>
+  agencies$: Observable<AllAgenciesQuery['agencies']>
 
   constructor(
     private formBuilder: FormBuilder,

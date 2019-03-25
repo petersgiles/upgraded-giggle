@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import {
   AllPortfoliosGQL,
-  CreateAgencyGQL,
-  AllPortfolios
+  AllPortfoliosQuery,
+  CreateAgencyGQL
 } from '../../../generated/graphql'
 import { Router } from '@angular/router'
 import { map } from 'rxjs/operators'
@@ -16,7 +16,7 @@ import { formConstants } from '../../../form-constants'
   styleUrls: ['./agency-add.component.scss']
 })
 export class AgencyAddComponent implements OnInit {
-  portfolios$: Observable<AllPortfolios.Portfolios[]>
+  portfolios$: Observable<AllPortfoliosQuery['portfolios']>
   addAgencyForm = this.formBuilder.group({
     agencyName: [
       null,

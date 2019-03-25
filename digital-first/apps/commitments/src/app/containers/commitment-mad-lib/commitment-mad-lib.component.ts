@@ -2,7 +2,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core'
 import * as indef from 'indefinite'
 import { CommitmentPortfolioService } from '../../reducers/commitment-portfolio/commitment-portfolio.service'
 import { Commitment } from '../../reducers'
-import { Portfolio, PackageType } from '../../models'
+import { Portfolio, PackageType, ThemeType } from '../../models'
 import { Subscription, Observable } from 'rxjs'
 import { DeliveryLocationService } from '../../reducers/commitment-delivery-location/commitment-delivery-location.service'
 import { Electorate } from '../../models'
@@ -23,6 +23,7 @@ export class CommitmentMadLibComponent implements OnInit, OnDestroy {
   commitmentPackageSubscription$: Subscription
   relatedPortfolios: Portfolio[]
   relatedPackages$: PackageType[]
+  relatedThemes$: ThemeType[]
   mapPoint$: Observable<MapPoint[]>
   electorate$: Observable<Electorate[]>
 
@@ -40,7 +41,8 @@ export class CommitmentMadLibComponent implements OnInit, OnDestroy {
   constructor(
     private cpsservice: CommitmentPortfolioService,
     private dlsservice: DeliveryLocationService,
-    private packageService: CommitmentPackageService
+    private packageService: CommitmentPackageService,
+    private themeService: CommitmentThemeService
     ) {}
 
   ngOnInit() {
@@ -53,6 +55,12 @@ export class CommitmentMadLibComponent implements OnInit, OnDestroy {
     this.commitmentPackageSubscription$ = this.packageService.CommitmentPackages.subscribe(
       next => {
         this.relatedPackages$ = next || []
+      }
+    )
+
+    this.commitmentThemeSubscription$ = this.themeService.CommitmentThemes.subscribe(
+      next => {
+        this.relatedThemes$ = next || []
       }
     )
 

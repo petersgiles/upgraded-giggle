@@ -3,8 +3,12 @@ import { MdcDialog } from '@angular-mdc/web'
 import { ActivatedRoute, Router } from '@angular/router'
 import { first } from 'rxjs/operators'
 import { formConstants } from '../../form-constants'
-import { Maybe, Statistic } from '../../generated/graphql'
+import { StatisticQuery } from '../../generated/graphql'
 import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
+
+type StatisticReports = StatisticQuery['statistic']['statisticReports']
+
+type StatisticReport = StatisticReports[0]
 
 @Component({
   selector: 'digital-first-statistic-reports',
@@ -13,7 +17,7 @@ import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
 })
 export class StatisticReportsComponent implements OnInit {
   @Input()
-  statisticreportsTableData: Maybe<Maybe<Statistic.StatisticReports>[]>
+  statisticreportsTableData: StatisticReports
 
   @Output() onDeleteClicked: EventEmitter<any> = new EventEmitter()
 
@@ -34,7 +38,7 @@ export class StatisticReportsComponent implements OnInit {
     return this.router.navigate(['reports/add'], { relativeTo: this.route })
   }
 
-  handleTableDeleteClicked(statisticReport: Statistic.StatisticReports) {
+  handleTableDeleteClicked(statisticReport: StatisticReport) {
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
       clickOutsideToClose: true
@@ -50,7 +54,7 @@ export class StatisticReportsComponent implements OnInit {
       })
   }
 
-  handleReportNavigation(statisticReport: Statistic.StatisticReports) {
+  handleReportNavigation(statisticReport: StatisticReport) {
     return this.router.navigate(['reports/', statisticReport.id], {
       relativeTo: this.route
     })

@@ -2,10 +2,12 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { MdcDialog } from '@angular-mdc/web'
 import { first } from 'rxjs/operators'
 import { ActivatedRoute, Router } from '@angular/router'
-import { Maybe, Program, Report } from '../../generated/graphql'
 import { formConstants } from '../../form-constants'
-import Reports = Report.Reports
 import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
+import { ProgramQuery } from '../../generated/graphql'
+
+type Reports = ProgramQuery['program']['reports']
+type Report = Reports[0]
 
 @Component({
   selector: 'digital-first-program-reports',
@@ -13,9 +15,9 @@ import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
   styleUrls: ['./program-reports.component.scss']
 })
 export class ProgramReportsComponent implements OnInit {
-  @Input() reportsTableData: Maybe<Maybe<Program.Reports>[]>
+  @Input() reportsTableData: Reports
 
-  @Output() onDeleteClicked: EventEmitter<Reports> = new EventEmitter()
+  @Output() onDeleteClicked: EventEmitter<Report> = new EventEmitter()
 
   emptyTableMessage: { emptyMessage: string; totalMessage: string }
 
@@ -38,13 +40,13 @@ export class ProgramReportsComponent implements OnInit {
     return this.router.navigate(['reports/add'], { relativeTo: this.route })
   }
 
-  handleReportNavigation(report: Reports) {
+  handleReportNavigation(report: Report) {
     return this.router.navigate(['reports/', report.id], {
       relativeTo: this.route
     })
   }
 
-  handleTableDeleteClicked(reportToDelete: Reports) {
+  handleTableDeleteClicked(reportToDelete: Report) {
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
       clickOutsideToClose: true

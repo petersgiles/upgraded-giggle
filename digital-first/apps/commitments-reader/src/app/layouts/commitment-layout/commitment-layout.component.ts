@@ -3,7 +3,6 @@ import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core'
 import { AppRouterService } from '../../services/app-router.service'
 
 import { BehaviorSubject } from 'rxjs'
-import { RefinerGroup } from '@digital-first/df-refiner';
 import { GetRefinerTagsGQL } from '../../generated/graphql';
 import { tap, map, first } from 'rxjs/operators';
 
@@ -38,7 +37,7 @@ export class CommitmentLayoutComponent
   urlSubscription: any
   selectId$: any
 
-  refinerGroups$: BehaviorSubject<RefinerGroup[]> = new BehaviorSubject(null)
+  refinerGroups$: BehaviorSubject<any[]> = new BehaviorSubject(null)
 
   constructor(private appRouter: AppRouterService, private getRefinerTagsGQL: GetRefinerTagsGQL) {}
 

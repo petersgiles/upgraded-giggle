@@ -1,0 +1,35 @@
+fragment TagParts on Tag {
+  id
+  title
+}
+
+fragment CommitmentParts on Commitment {
+    id
+    title
+    description
+    cost
+    date
+    announcedby
+    party {
+      ...TagParts
+    }
+    criticalDate {
+      ...TagParts
+    }
+    whoAnnounced {
+      ...TagParts
+    }
+    announcement {
+      ...TagParts
+    }
+    commitment {
+      ...TagParts
+    }
+    portfolio {
+      ...TagParts
+    }
+    electorates {
+      ...TagParts
+    }
+  
+}

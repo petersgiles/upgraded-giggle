@@ -2,7 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Subscription } from 'rxjs'
-import { Report, ReportGQL, UpdateReportGQL } from '../../../generated/graphql'
+import {
+  ReportGQL,
+  ReportQuery,
+  UpdateReportGQL
+} from '../../../generated/graphql'
 import { map } from 'rxjs/operators'
 import { formConstants } from '../../../form-constants'
 
@@ -22,7 +26,7 @@ export class ReportEditComponent implements OnInit, OnDestroy {
     ],
     notes: ['']
   })
-  private report: Report.Reports
+  private report: ReportQuery['report']
 
   constructor(
     private formBuilder: FormBuilder,
@@ -37,7 +41,7 @@ export class ReportEditComponent implements OnInit, OnDestroy {
 
     this.reportSubscription$ = this.reportGQL
       .watch({ reportId: this.reportId }, { fetchPolicy: 'network-only' })
-      .valueChanges.pipe(map(value => value.data.reports[0]))
+      .valueChanges.pipe(map(value => value.data.report))
       .subscribe(report => {
         this.report = report
         this.editReportForm.patchValue({

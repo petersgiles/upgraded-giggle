@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { tap, map } from 'rxjs/operators'
-import { CommitmentsSearchGQL } from '../../generated/graphql';
+import { CommitmentsSearchGQL, CommitmentPartsFragment } from '../../generated/graphql';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'digital-first-overview-page',
@@ -8,9 +9,11 @@ import { CommitmentsSearchGQL } from '../../generated/graphql';
   styleUrls: ['./overview-page.component.scss']
 })
 export class OverviewPageComponent implements OnInit {
-  commitmentsTableData$
-  columns
-  count
+
+  
+  public commitmentsTableData$: Observable<CommitmentPartsFragment[]>
+  public columns: {prop: string, name: string}[]
+  public count: number
 
   constructor(private commitmentsSearchGQL: CommitmentsSearchGQL) {
     this.columns = [

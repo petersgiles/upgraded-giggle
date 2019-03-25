@@ -5,8 +5,8 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core'
 import {
-  AllProjectsSearch,
-  AllProjectsSearchGQL
+  AllProjectsSearchGQL,
+  AllProjectsSearchQuery
 } from '../../generated/graphql'
 import { Subscription } from 'rxjs'
 import { Router } from '@angular/router'
@@ -17,7 +17,7 @@ import { Router } from '@angular/router'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProjectsComponent implements OnDestroy {
-  projects: AllProjectsSearch.Projects[]
+  projects: AllProjectsSearchQuery['projects']
   subscriptions$: Subscription[] = []
   searchText = ''
 
@@ -26,12 +26,6 @@ export class ProjectsComponent implements OnDestroy {
     private changeDetector: ChangeDetectorRef,
     private router: Router
   ) {}
-
-  add() {
-    return this.router.navigate(['projects', 'add'], {
-      skipLocationChange: true
-    })
-  }
 
   doSearch() {
     if (!this.searchText) {

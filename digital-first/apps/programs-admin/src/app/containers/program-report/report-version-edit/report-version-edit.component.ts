@@ -7,7 +7,7 @@ import {
   UpdateReportVersionGQL
 } from '../../../generated/graphql'
 import { Subscription } from 'rxjs'
-import { first, map } from 'rxjs/operators'
+import { map } from 'rxjs/operators'
 
 @Component({
   selector: 'digital-first-report-version-edit',

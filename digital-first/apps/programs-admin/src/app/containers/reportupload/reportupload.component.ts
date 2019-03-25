@@ -9,13 +9,18 @@ import {
 import { Subscription } from 'rxjs'
 import {
   AllProgramReportsGQL,
-  AllProgramReports
+  AllProgramReportsQuery
 } from '../../generated/graphql'
-import { UploadElectorateReportSpreadsheet } from '@dsuite/programs-manager-messages'
+import {
+  ReportSchema,
+  UploadElectorateReportSpreadsheet
+} from '@dsuite/programs-manager-messages'
 import { PassthroughService } from '../../services/passthrough.service'
 import { MdcSnackbar } from '@angular-mdc/web'
 import { FormBuilder } from '@angular/forms'
 import { Validators } from '@angular/forms'
+
+type Reports = AllProgramReportsQuery['programs'][0]['reports']
 
 @Component({
   selector: 'digital-first-reportupload',
@@ -24,8 +29,8 @@ import { Validators } from '@angular/forms'
 })
 export class ReportuploadComponent implements OnInit, OnDestroy {
   fileToUpload: File
-  programs: AllProgramReports.Programs[]
-  reports: AllProgramReports.Reports[]
+  programs: AllProgramReportsQuery['programs']
+  reports: Reports
   reportsSubscription$: Subscription
 
   @ViewChild('inputElement')
