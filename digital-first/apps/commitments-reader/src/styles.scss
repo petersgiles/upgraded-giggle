@@ -7,7 +7,7 @@
 .app-page {
   padding-bottom: 45px;
   padding-left: 20px;
-  overflow-y: scroll;
+  overflow-y: hidden;
   overflow-x: hidden;
   max-height: calc(100vh - 110px);
   padding-left: 0px;
@@ -15,7 +15,6 @@
 
 // .page {
 //   overflow-y: hidden;
-//   overflow-x: hidden;
 // }
 
 // digital-first-metadata-refiner {
