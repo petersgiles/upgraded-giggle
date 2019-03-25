@@ -1,7 +1,7 @@
 [
     {
 		"id": "states-group",
-		"title": "States Group",
+		"title": "States",
 		"description": "States Group",
 		"sortorder": 1,
 		"colour": "Pink",
@@ -74,7 +74,7 @@
 
 	{
 		"id": "status-group",
-		"title": "Status Group",
+		"title": "Status",
 		"description": "Status Group",
 		"sortorder": 1,
 		"colour": "GhostWhite",
@@ -173,8 +173,8 @@
 	},
 	{
 		"id": "critical-date-group",
-		"title": "Undefined",
-		"description": "Undefined",
+		"title": "Critical Date",
+		"description": "Critical Date",
 		"sortorder": 999,
 		"colour": "red",
 		"icon": "category",
@@ -352,85 +352,13 @@
 		"parent": "party-group"
 	},
 	{
-		"id": "states",
-		"title": "states",
-		"description": "states",
-		"sortorder": 999,
-		"colour": "Black",
-		"icon": "place",
+		"id": "portfolio-group",
+		"title": "Portfolios",
+		"description": "Portfolios",
+		"sortorder": 1,
+		"colour": "red",
+		"icon": "category",
 		"parent": null
-	},
-	{
-		"id": "NSW",
-		"title": "NSW",
-		"description": "NSW",
-		"sortorder": 999,
-		"colour": "Black",
-		"icon": "place",
-		"parent": "states"
-	},
-	{
-		"id": "QLD",
-		"title": "QLD",
-		"description": "QLD",
-		"sortorder": 999,
-		"colour": "Black",
-		"icon": "place",
-		"parent": "states"
-	},
-	{
-		"id": "SA",
-		"title": "SA",
-		"description": "SA",
-		"sortorder": 999,
-		"colour": "Black",
-		"icon": "place",
-		"parent": "states"
-	},
-	{
-		"id": "NT",
-		"title": "NT",
-		"description": "NT",
-		"sortorder": 999,
-		"colour": "Black",
-		"icon": "place",
-		"parent": "states"
-	},
-	{
-		"id": "VIC",
-		"title": "VIC",
-		"description": "VIC",
-		"sortorder": 999,
-		"colour": "Black",
-		"icon": "place",
-		"parent": "states"
-	},
-	{
-		"id": "TAS",
-		"title": "TAS",
-		"description": "TAS",
-		"sortorder": 999,
-		"colour": "Black",
-		"icon": "place",
-		"parent": "states"
-	},
-	{
-		"id": "ACT",
-		"title": "ACT",
-		"description": "ACT",
-		"sortorder": 999,
-		"colour": "Black",
-		"icon": "place",
-		"parent": "states"
-	},
-	{
-		"id": "WA",
-		"title": "WA",
-		"description": "WA",
-		"sortorder": 999,
-		"colour": "Black",
-		"icon": "place",
-		"parent": "states"
 	},
 	{
 		"id": "00000012-0000-0000-0000-000000000000",

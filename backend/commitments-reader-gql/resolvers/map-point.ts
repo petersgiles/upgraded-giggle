@@ -1,4 +1,4 @@
-import { DB_TABLE_MAP_POINT } from '.'
+import { DB_TABLE_MAP_POINT, DB_TABLE_COMMITMENT_MAPPOINT } from '.'
 
 export class MapPoint {
 	connectorKeys: { db: string }
@@ -22,6 +22,7 @@ export class MapPoint {
 		let result = await this.knex(context)
 			.select()
 			.from(DB_TABLE_MAP_POINT)
+
 		return result
 	}
 
