@@ -19,7 +19,8 @@ import {
   getWhoAnnouncedTypeEntities,
   getAllPartys,
   getAllThemeTypes,
-  getAllPackageTypes
+  getAllPackageTypes,
+  getAllStatuses
 } from '../commitment-lookup'
 import { findInLookup } from '../utils'
 import {
@@ -114,6 +115,10 @@ const REFINER_GROUP_PACKAGE_TYPE = {
   key: 'packageType', // key needs to match property on artifact
   title: 'Package'
 }
+const REFINER_GROUP_STATUS = {
+  key: 'status', // key needs to match property on artifact
+  title: 'Status'
+}
 export const getRefinerUx = createSelector(
   getCommitmentOverviewSelectedRefiners,
   getCommitmentOverviewExpandedRefinerGroups,
@@ -137,18 +142,21 @@ export const getRefinerLookups = createSelector(
   getAllWhoAnnouncedTypes,
   getAllThemeTypes,
   getAllPackageTypes,
+  getAllStatuses,
   (
     announcementTypes,
     commitmentTypes,
     whoAnnouncedTypes,
     themes,
-    packages
+    packages,
+    statuses
   ) => ({
     announcementTypes,
     commitmentTypes,
     whoAnnouncedTypes,
     themes,
-    packages
+    packages,
+    statuses
   })
 )
 
@@ -167,7 +175,8 @@ export const getRefinerGroups = createSelector(
       lookups.commitmentTypes,
       lookups.whoAnnouncedTypes,
       lookups.themes,
-      lookups.packages
+      lookups.packages,
+      lookups.statuses
     ]
 
     const refinerGroupTitles = [
@@ -178,7 +187,9 @@ export const getRefinerGroups = createSelector(
       REFINER_GROUP_COMMITMENT_TYPE,
       REFINER_GROUP_WHO_ANNOUNCED_TYPE,
       REFINER_GROUP_THEME_TYPE,
-      REFINER_GROUP_PACKAGE_TYPE
+      REFINER_GROUP_PACKAGE_TYPE,
+      REFINER_GROUP_STATUS
+
     ]
     refiners.reduce((acc: RefinerGroup[], item: any[], index: number) => {
       const groupkey = refinerGroupTitles[index].key

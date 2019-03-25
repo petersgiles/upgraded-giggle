@@ -31,10 +31,10 @@ export const OPERATION_DEFAULTS = {
   'costing': OPERATION_RIGHT_READ,
   'relatedLinks': OPERATION_RIGHT_READ,
   'relatedCommitments': OPERATION_RIGHT_READ,
-  'relatedPortfolios': OPERATION_RIGHT_WRITE,
-  'relatedPackages': OPERATION_RIGHT_WRITE,
-  'relatedThemes': OPERATION_RIGHT_WRITE,
-  'relatedStatuses': OPERATION_RIGHT_WRITE,
+  'relatedPortfolios': OPERATION_RIGHT_READ,
+  'relatedPackages': OPERATION_RIGHT_READ,
+  'relatedThemes': OPERATION_RIGHT_READ,
+  'relatedStatuses': OPERATION_RIGHT_READ,
   'discussion': OPERATION_RIGHT_WRITE, // Temporary Default
 }
 @Injectable({
