@@ -1,0 +1,12 @@
+query CommitmentsGet($input: CommitmentRefinementInput!) {
+  commitments(input: $input) {
+    id
+    title
+    date
+    announcedby
+    party {
+      id
+      title
+    }
+  }
+}
