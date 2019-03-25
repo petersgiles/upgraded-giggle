@@ -72,3 +72,18 @@
 .b-watermark{
   display: none !important;
 }
+
+
+.commitment-scheduler-container {
+  flex           : 1;
+  display        : flex;
+  flex-direction : column;
+}
+
+scheduler {
+  display         : flex;
+  flex            : 1;
+  flex-direction  : column;
+  justify-content : stretch;
+  
+}
