@@ -1,15 +1,21 @@
-
 <div class="flex-container">
-<div id="zoom">
-  <mdc-slider  [markers]="false" [min]="1" [max]="5.1" [step]="1" [value]="3"
- (input)="onSliderInput($event)"></mdc-slider>
- <label style="float:left">3 Years</label>
-  <label for="">Zoom Level ({{currentZoomView}})</label>
-  <label style="float:right">1 Week</label>
-</div>
+  <div id="zoom">
+    <mdc-slider
+      #slider
+      [markers]="false"
+      [min]="zoomSlider.min"
+      [max]="zoomSlider.max"
+      [step]="1"
+      [value]="zoomSlider.levelId"
+      (input)="onSliderInput($event)"
+    ></mdc-slider>
+    <label style="float:left">3 Years</label>
+    <label for="">Zoom Level ({{ currentZoomLevel.label }})</label>
+    <label style="float:right">1 Week</label>
+  </div>
 </div>
 <div style="max-height:95%">
-    <scheduler
+  <scheduler
     #scheduler
     [rowHeight]="60"
     [events]="events"
@@ -20,9 +26,11 @@
     [columns]="columns"
     [featureConfig]="featureConfig"
     [timeRanges]="timeRanges"
-    [viewPreset]="viewPreset"
     [eventRenderer]="eventRenderer"
+    [zoomLevels]="zoomLevels"
+    [zoomLevel]="currentZoomLevel.id"
+    (onSchedulerEvents)="handleEvent($event)"
     eventColor="green"
     eventStyle="border"
-  ></scheduler>  
+  ></scheduler>
 </div>

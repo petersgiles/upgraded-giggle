@@ -108,6 +108,10 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() dependencyStore: object
   @Input() assignmentStore: object
 
+  // New ones that we have added
+  @Input() zoomLevels: object[]
+  @Input() zoomLevel: number
+
   // Config for all features
   @Input() featureConfig: any
 
@@ -155,7 +159,7 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
     const // Grid config object
-      config = {
+      config: any = {
         // Render scheduler to components element
         appendTo: this.elementRef.nativeElement.firstElementChild,
 
@@ -191,14 +195,16 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
       }
     })
 
-    //   config["zoomLevels"]= [
-    //     { width: 40,    increment: 5,   resolution: 60, preset: 'dayAndWeek', resolutionUnit: 'day' },
-    //     { width: 50,    increment: 4,   resolution: 60, preset: 'dayAndWeek', resolutionUnit: 'day' },
-    //     { width: 60,    increment: 3,   resolution: 60, preset: 'weekDateAndMonth', resolutionUnit: 'day' },
-    //     { width: 80,    increment: 2,   resolution: 30, preset: 'weekDateAndMonth', resolutionUnit: 'day' },
-    //     { width: 100,   increment: 1,   resolution: 15, preset: 'monthAndYear', resolutionUnit: 'day' }
-    // ]
+    // Explicitly handle new configs we add - probs should be like this instead of current enumeration pattern
+    if (this.zoomLevels) {
+      config.zoomLevels = this.zoomLevels
+      config.minZoomLevel = this.zoomLevels[0]
+      config.maxZoomLevel = this.zoomLevels[this.zoomLevels.length - 1]
+    }
+
     const engine = (this.schedulerEngine = new Scheduler(config))
+
+    engine.zoomLevel = this.zoomLevel || engine.minZoomLevel
 
     // Relay events from eventStore and resourceStore, making them a bit easier to catch in your app.
     // The events are prefixed with 'events' and 'resources', turning and 'add' event into either 'eventsAdd' or
@@ -221,6 +227,12 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
           this.schedulerEngine[name] = currentValue
         }
       })
+
+      // explicit
+      if (changes.zoomLevel) {
+        this.schedulerEngine.zoomLevel =
+          changes.zoomLevel.currentValue || this.schedulerEngine.minZoomLevel
+      }
     }
   }
 

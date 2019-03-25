@@ -18,44 +18,64 @@ export class PlannerComponent {
 
   startDate = new Date()
   endDate = DateHelper.add(this.startDate, 100, 'day')
-  viewPreset = 'weekDateAndMonth'
-  currentZoomView: string = '100 days'
 
-  zoomLevelViews = [
+  //TODO: set widths based on size of parent container
+  //TODO: raise request to have these internally sorted
+  //TODO: infer id based on index
+  zoomLevels = [
     {
-      level: 1,
-      view: '3 Years',
-      startDate: this.startDate,
-      endDate: DateHelper.add(this.startDate, 3, 'year'),
-      viewPreset: 'monthAndYear'
+      id: 0,
+      label: '3 years',
+      width: 100,
+      increment: 1,
+      resolution: 1,
+      preset: 'year',
+      resolutionUnit: 'year'
     },
     {
-      level: 2,
-      view: '1 Year',
-      startDate: this.startDate,
-      endDate: DateHelper.add(this.startDate, 1, 'year'),
-      viewPreset: 'weekDateAndMonth'
+      id: 1,
+      label: '1 year',
+      width: 100,
+      increment: 1,
+      resolution: 12,
+      preset: 'monthAndYear',
+      resolutionUnit: 'month'
     },
     {
-      level: 3,
-      view: '100 Days',
-      startDate: this.startDate,
-      endDate: DateHelper.add(this.startDate, 100, 'day'),
-      viewPreset: 'weekDateAndMonth'
+      id: 2,
+      label: '100 days',
+      width: 100,
+      increment: 1,
+      resolution: 1,
+      preset: 'weekAndMonth',
+      resolutionUnit: 'month'
     },
     {
-      level: 4,
-      view: '1 Month',
-      startDate: this.startDate,
-      endDate: DateHelper.add(this.startDate, 31, 'day'),
-      viewPreset: 'weekDateAndMonth'
+      id: 3,
+      label: 'month',
+      width: 250,
+      increment: 1,
+      resolution: 1,
+      preset: 'weekAndMonth',
+      resolutionUnit: 'week'
     },
     {
-      level: 5,
-      view: '1 Week',
-      startDate: this.startDate,
-      endDate: DateHelper.add(this.startDate, 7, 'day'),
-      viewPreset: 'dayAndWeek'
+      id: 4,
+      label: 'fortnight',
+      width: 100,
+      increment: 1,
+      resolution: 7,
+      preset: 'weekAndDay',
+      resolutionUnit: 'day'
+    },
+    {
+      id: 5,
+      label: 'week',
+      width: 200,
+      increment: 1,
+      resolution: 1,
+      preset: 'weekAndDay',
+      resolutionUnit: 'day'
     }
   ]
 
@@ -107,7 +127,22 @@ export class PlannerComponent {
     }
   ]
 
+  //TODO: type or componentize
+  zoomSlider: any = {}
+
+  get currentZoomLevel() {
+    return (
+      this.zoomLevels &&
+      this.zoomSlider &&
+      this.zoomLevels.find(_ => _.id === this.zoomSlider.levelId)
+    )
+  }
+
   ngOnInit() {
+    this.zoomSlider.min = 0
+    this.zoomSlider.max = this.zoomLevels.length - 1
+    this.zoomSlider.levelId = 0
+
     const scheduler: any = this.scheduler.schedulerEngine
     this.featureConfig = {
       timeRanges: {
@@ -162,18 +197,21 @@ export class PlannerComponent {
   }
 
   private resetSchedulerZoomLevel(event: MdcSliderChange) {
-    this.zoomLevelViews.forEach(lv => {
-      if (lv.level === event.value) {
-        this.currentZoomView = lv.view
-        this.scheduler.schedulerEngine.viewPreset = lv.viewPreset
-        this.scheduler.schedulerEngine.setTimeSpan(this.startDate, lv.endDate)
-      }
-    })
+    console.log(event)
+    this.zoomSlider.levelId = event.value
   }
 
   eventRenderer({ eventRecord, tplData }) {
     // Add a custom CSS classes to the template element data by setting a property name
     tplData.cls.milestone = eventRecord.isMilestone
     return eventRecord.name
+  }
+
+  handleEvent(event: Event) {
+    switch (event.type) {
+      case 'zoomchange':
+        const level: any = (event as any).level
+        this.zoomSlider.levelId = level.id
+    }
   }
 }
