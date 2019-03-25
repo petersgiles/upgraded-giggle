@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewEncapsulation } from '@angular/core'
+import { Component, ViewChild, ViewEncapsulation, Input } from '@angular/core'
 import { SchedulerComponent } from '../scheduler/scheduler.component'
 import { Moment } from 'moment'
 import moment = require('moment')
@@ -12,6 +12,9 @@ import { DateHelper } from 'bryntum-scheduler';
   encapsulation: ViewEncapsulation.None
 })
 export class PlannerComponent {
+  @Input() 
+  commitments:any[]
+
   @ViewChild(SchedulerComponent) scheduler: SchedulerComponent
 
   startDate = new Date()
@@ -26,7 +29,7 @@ export class PlannerComponent {
           {level:4,view:"1 Month",startDate:this.startDate,endDate:DateHelper.add(this.startDate,31,"day"),viewPreset:"weekDateAndMonth"},
           {level:5, view:"1 Week",startDate:this.startDate,endDate:DateHelper.add(this.startDate,7,"day"),viewPreset:"dayAndWeek"}
         ]
-   
+
   events = [
     {
       id: 1,
@@ -35,14 +38,6 @@ export class PlannerComponent {
       duration: 1
     }
   ]
-
-  resources = [
-    { id: 1, name: 'Commitment A' },
-    { id: 2, name: 'Commitment B' },
-    { id: 3, name: 'Commitment C' }
-  ]
-
- 
 
   columns = [
     {

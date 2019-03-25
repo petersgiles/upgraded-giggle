@@ -170,6 +170,40 @@ export namespace CommitmentsSearch {
   }
 }
 
+export namespace CommitmentsGet {
+  export type Variables = {
+    input: CommitmentRefinementInput
+  }
+
+  export type Query = {
+    __typename?: 'Query'
+
+    commitments: Maybe<(Maybe<Commitments>)[]>
+  }
+
+  export type Commitments = {
+    __typename?: 'Commitment'
+
+    id: string
+
+    title: Maybe<string>
+
+    date: Maybe<string>
+
+    announcedby: Maybe<string>
+
+    party: Maybe<(Maybe<Party>)[]>
+  }
+
+  export type Party = {
+    __typename?: 'Tag'
+
+    id: string
+
+    title: Maybe<string>
+  }
+}
+
 // ====================================================
 // START: Apollo Angular template
 // ====================================================
@@ -224,6 +258,28 @@ export class CommitmentsSearchGQL extends Apollo.Query<
           title
         }
         electorates {
+          id
+          title
+        }
+      }
+    }
+  `
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class CommitmentsGetGQL extends Apollo.Query<
+  CommitmentsGet.Query,
+  CommitmentsGet.Variables
+> {
+  document: any = gql`
+    query CommitmentsGet($input: CommitmentRefinementInput!) {
+      commitments(input: $input) {
+        id
+        title
+        date
+        announcedby
+        party {
           id
           title
         }

@@ -1,5 +1,6 @@
 <div class="app-page">
   <section>
-    <digital-first-planner></digital-first-planner>
+    <digital-first-planner [commitments]="commitmentsData$ | async">
+    </digital-first-planner>
   </section>
 </div>
