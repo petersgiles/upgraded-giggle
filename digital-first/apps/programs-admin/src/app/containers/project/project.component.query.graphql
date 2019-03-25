@@ -10,5 +10,9 @@ query project ($id: String!) {
     program {
       id
     }
+     programSubmission
+        {
+           timeStamp
+        }
    }
 }

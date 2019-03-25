@@ -1,13 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild
+} from '@angular/core'
 import { formatDate } from '@angular/common'
 import { ActivatedRoute } from '@angular/router'
 import {
-  Maybe,
-  User,
   UserGQL,
   DeleteUserGQL,
-  DeleteApiKeyGQL,
-  CreateApiKeyGQL
+  CreateApiKeyGQL,
+  UserQuery,
+  DisableApiKeyGQL
 } from '../../generated/graphql'
 import { map, first } from 'rxjs/operators'
 import { Subscription } from 'rxjs'
@@ -16,6 +21,9 @@ import { Router } from '@angular/router'
 import { MdcDialog } from '@angular-mdc/web'
 import { formConstants } from '../../form-constants'
 import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
+import { DialogApiKeyComponent } from './dialog-apikey.component'
+
+type User = UserQuery['user']
 
 @Component({
   selector: 'digital-first-user',
@@ -25,24 +33,40 @@ import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
 export class UserComponent implements OnInit, OnDestroy {
   userId: string
   userSubscription$: Subscription
-  user: User.User
-  programAccessRows: Maybe<Maybe<User.ProgramAccess[]>>
-  reportAccessRows: Maybe<Maybe<User.ReportAccess>[]>
-  statisticReportAccessRows: Maybe<Maybe<User.StatisticReportAccess>[]>
-  statisticAccessRows: Maybe<Maybe<User.StatisticAccess>[]>
-  apiKeysRows: Maybe<Maybe<User.ApiKeys>[]>
+  user: User
+  programAccessRows: User['programAccess']
+  reportAccessRows: User['reportAccess']
+  statisticReportAccessRows: User['statisticReportAccess']
+  statisticAccessRows: User['statisticAccess']
+  apiKeysRows: User['apiKeys']
+
+  apiKeysColumns = []
+
+  @ViewChild('disableTemplate') disableTemplate: TemplateRef<any>
+
   constructor(
     private route: ActivatedRoute,
     private userGQL: UserGQL,
     private router: Router,
     public dialog: MdcDialog,
     private deleteUserGQL: DeleteUserGQL,
-    private deleteApiKeyGQL: DeleteApiKeyGQL,
+    private disableApiKeyGQL: DisableApiKeyGQL,
     private createApiKeyGQL: CreateApiKeyGQL
   ) {}
 
   ngOnInit() {
     this.userId = this.route.snapshot.paramMap.get('id')
+    this.apiKeysColumns = [
+      { prop: 'key', name: 'Hashed Key' },
+      { prop: 'created', name: 'Created' },
+      { prop: 'enabled', name: 'Enabled' },
+      {
+        name: '',
+        cellTemplate: this.disableTemplate,
+        prop: 'disable'
+      }
+    ]
+
     this.loadUser()
   }
 
@@ -58,24 +82,20 @@ export class UserComponent implements OnInit, OnDestroy {
         this.statisticAccessRows = user.statisticAccess
         this.apiKeysRows = user.apiKeys.map(value =>
           Object.assign({}, value, {
-            created: `${formatDate(value.created, 'medium', 'en-AU')}`
+            created: `${formatDate(value.created, 'medium', 'en-AU')}`,
+            enabled: !value.disable
           })
         )
       })
   }
 
-  apiKeysColumns = [
-    { prop: 'key', name: 'Key' },
-    { prop: 'created', name: 'Created' },
-    { prop: 'disable', name: 'Disabled' }
-  ]
   defaultPageLength: number = formConstants.defaultPageLength
 
-  handleEditUser(user: User.User) {
+  handleEditUser(user: User) {
     return this.router.navigate(['users/edit', user.id])
   }
 
-  handleDeleteUser(user: User.User) {
+  handleDeleteUser(user: User) {
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
       clickOutsideToClose: true
@@ -100,7 +120,11 @@ export class UserComponent implements OnInit, OnDestroy {
       })
   }
 
-  handleDeleteApiKey($event) {
+  handleDisableApiKey($event, row) {
+    console.log($event)
+
+    console.log(row)
+
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
       clickOutsideToClose: true
@@ -111,11 +135,11 @@ export class UserComponent implements OnInit, OnDestroy {
       .pipe(first())
       .subscribe(result => {
         if (result === ARE_YOU_SURE_ACCEPT && this.user) {
-          this.deleteApiKeyGQL
+          this.disableApiKeyGQL
             .mutate(
               {
                 data: {
-                  id: $event.id
+                  id: row.id
                 }
               },
               {}
@@ -126,7 +150,7 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   handleAddApiKey() {
-    this.createApiKeyGQL
+    const result = this.createApiKeyGQL
       .mutate(
         {
           data: {
@@ -135,7 +159,19 @@ export class UserComponent implements OnInit, OnDestroy {
         },
         {}
       )
-      .subscribe(() => this.loadUser())
+      .subscribe(value => {
+        const dialogRef = this.dialog.open(DialogApiKeyComponent, {
+          escapeToClose: true,
+          clickOutsideToClose: true,
+          data: {
+            apiKey: value.data.createApiKey
+          }
+        })
+
+        dialogRef.afterClosed().subscribe(value1 => {
+          this.loadUser()
+        })
+      })
   }
 
   ngOnDestroy(): void {

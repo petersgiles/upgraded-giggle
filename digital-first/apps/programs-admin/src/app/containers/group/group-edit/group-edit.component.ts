@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import {
-  Group,
   GroupGQL,
+  GroupQuery,
   UpdateAccessControlGroupGQL
 } from '../../../generated/graphql'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -28,7 +28,7 @@ export class GroupEditComponent implements OnInit, OnDestroy {
   })
 
   groupId: string
-  group$: Observable<Group.Group | null>
+  group$: Observable<GroupQuery['group']>
   rowVersion: string
   groupSubscription$: Subscription
 

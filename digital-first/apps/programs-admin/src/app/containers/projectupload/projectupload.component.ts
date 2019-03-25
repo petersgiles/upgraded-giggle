@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core'
 import { Subscription } from 'rxjs'
-import { AllPrograms, AllProgramsGQL } from '../../generated/graphql'
+import { AllProgramsGQL, AllProgramsQuery } from '../../generated/graphql'
 import { PassthroughService } from '../../services/passthrough.service'
 import { UploadProjectElectorateReport } from '@dsuite/programs-manager-messages'
 import { MdcSnackbar } from '@angular-mdc/web'
@@ -16,7 +16,7 @@ import { ViewChild } from '@angular/core'
 })
 export class ProjectuploadComponent implements OnInit, OnDestroy {
   fileToUpload: File
-  programs: AllPrograms.Programs[]
+  programs: AllProgramsQuery['programs']
 
   programsSubscription$: Subscription
 

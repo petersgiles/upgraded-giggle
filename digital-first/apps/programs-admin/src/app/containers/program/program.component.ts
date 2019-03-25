@@ -17,13 +17,11 @@ import {
   DeleteAccessControlGQL,
   DeleteProgramGQL,
   DeleteReportGQL,
-  Maybe,
-  Program,
   ProgramGQL,
-  Report,
+  ProgramQuery,
+  ReportGraph,
   UpdateAccessControlGQL
 } from '../../generated/graphql'
-import Reports = Report.Reports
 import {
   PermissionChangedEvent,
   PermissionRow
@@ -36,10 +34,10 @@ import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
   styleUrls: ['./program.component.scss']
 })
 export class ProgramComponent implements OnInit, OnDestroy, AfterViewInit {
-  program: Program.Program
+  program: ProgramQuery['program']
   programId: string
   programsSubscription$: Subscription
-  reportsTableData: Maybe<Maybe<Program.Reports>[]>
+  reportsTableData: ProgramQuery['program']['reports']
   noDataMessage =
     'No groups will be able to view this program. Please assign at least one group.'
   permissionRows: PermissionRow[]
@@ -220,7 +218,7 @@ export class ProgramComponent implements OnInit, OnDestroy, AfterViewInit {
       })
   }
 
-  handleProgramReportDeleteItemClicked(report: Reports) {
+  handleProgramReportDeleteItemClicked(report: ReportGraph) {
     this.deleteReportGQL
       .mutate(
         {

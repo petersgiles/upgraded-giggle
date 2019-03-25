@@ -9,8 +9,9 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { first, map } from 'rxjs/operators'
 import { Subscription } from 'rxjs'
 import {
-  Agency,
   AgencyGQL,
+  AgencyGraph,
+  AgencyQuery,
   DeleteAgencyGQL,
   DeleteAgencyMappingGQL
 } from '../../generated/graphql'
@@ -25,7 +26,7 @@ import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
 })
 export class AgencyComponent implements OnInit, OnDestroy {
   agencyId: string
-  agency: Agency.Agency
+  agency: AgencyQuery['agency']
   agencySubscription$: Subscription
 
   emptyTableMessage = {
@@ -72,13 +73,13 @@ export class AgencyComponent implements OnInit, OnDestroy {
       })
   }
 
-  private handleEditAgency(agency: Agency.Agency) {
+  private handleEditAgency(agency: AgencyQuery['agency']) {
     return this.router.navigate(['agencies/edit', agency.id], {
       skipLocationChange: true
     })
   }
 
-  private handleDeleteAgency(agency: Agency.Agency) {
+  private handleDeleteAgency(agency: AgencyQuery['agency']) {
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
       clickOutsideToClose: true
@@ -135,7 +136,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
       })
   }
 
-  private handleAddAgencyMapping(agency: Agency.Agency) {
+  private handleAddAgencyMapping(agency: AgencyQuery['agency']) {
     return this.router.navigate(['agencymapping/add/', agency.id])
   }
 
