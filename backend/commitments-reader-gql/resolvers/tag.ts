@@ -35,8 +35,19 @@ export class Tag {
 
 	async getResolverTree(payload: any, context: any): Promise<any[]> {
 		let result = await this.knex(context)
-			.select()
 			.from(TABLE.TAG)
+			.where(function () {
+				this
+				  .where('id', 'portfolio-group')
+				  .orWhere('id', 'critical-date-group')
+				  .orWhere('id', 'commitment-type-group')
+				  .orWhere('parent', 'portfolio-group')
+				  .orWhere('parent', 'critical-date-group')
+				  .orWhere('parent', 'commitment-type-group')
+			  })
+			
+			.select()
+
 		return result.map((t: any) => ({
 			...t,
 			expanded: false,

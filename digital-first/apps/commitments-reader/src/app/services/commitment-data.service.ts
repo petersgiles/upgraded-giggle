@@ -1,18 +1,13 @@
-import {
-  Observable, of,
-} from 'rxjs'
+import { Observable, of } from 'rxjs'
 import { Injectable } from '@angular/core'
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommitmentDataService {
-
-
- get UserOperation(): Observable<any> {
-   return of(null)
-}
+  get UserOperation(): Observable<any> {
+    return of(null)
+  }
   getDrawState(): Observable<boolean> {
     return of(false)
   }
@@ -24,7 +19,7 @@ export class CommitmentDataService {
     return of(false)
   }
 
-  constructor() { }
+  constructor() {}
 
   // Notification
 
@@ -35,6 +30,4 @@ export class CommitmentDataService {
   getCurrentUser(): Observable<any> {
     return of(null)
   }
-
-  
 }
