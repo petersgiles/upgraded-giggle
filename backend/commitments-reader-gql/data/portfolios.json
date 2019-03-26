@@ -1,0 +1,74 @@
+﻿[
+    {
+        "Id":  "7b1b6dc0-6fcf-44d0-a08c-8679b5f8c4bf",
+        "Name":  "Agriculture and Water Resources"
+    },
+    {
+        "Id":  "b40634e7-b85f-4a5f-910c-54f05d142512",
+        "Name":  "Communications and the Arts"
+    },
+    {
+        "Id":  "23c27b6f-49cb-4db0-b6b6-f03ca8d0acdb",
+        "Name":  "Education and Training"
+    },
+    {
+        "Id":  "5df3c041-37fd-422d-a4d1-9cd114057151",
+        "Name":  "Health"
+    },
+    {
+        "Id":  "ccfbc129-7391-4584-affd-521c14883a35",
+        "Name":  "Indigenous Affairs"
+    },
+    {
+        "Id":  "18a3d0fd-f3a8-4fd7-ac08-05fe60184d8e",
+        "Name":  "Defence"
+    },
+    {
+        "Id":  "92984908-b5c0-4fb4-b026-b9330fa7bc27",
+        "Name":  "Foreign Affairs and Trade"
+    },
+    {
+        "Id":  "b2f43e38-5f08-443d-b484-8061a0ac45cb",
+        "Name":  "Environment and Energy"
+    },
+    {
+        "Id":  "b6e90c5c-6f6b-4135-a600-c6e6b8e34ed1",
+        "Name":  "Treasury"
+    },
+    {
+        "Id":  "d96dc1a2-4566-4fb7-8871-75daa65aa965",
+        "Name":  "Home Affairs"
+    },
+    {
+        "Id":  "908d2dee-34d9-461e-a95a-7ccf904dd81f",
+        "Name":  "Infrastructure, Regional Development and Cities"
+    },
+    {
+        "Id":  "7d0910ef-d5b9-4aea-b1a9-88d6c33e3350",
+        "Name":  "Industry, Innovation and Science"
+    },
+    {
+        "Id":  "f245ba24-a5d7-4840-92c7-682f9c72713a",
+        "Name":  "Jobs and Small Business"
+    },
+    {
+        "Id":  "23a7e3df-f42b-4c5c-8b88-28e7402b512d",
+        "Name":  "Prime Minister and Cabinet"
+    },
+    {
+        "Id":  "708bcb9d-b2d7-4e73-ab6d-20094e7d909f",
+        "Name":  "Human Services"
+    },
+    {
+        "Id":  "fc81690c-bc72-4119-af4c-410cc1ab4a49",
+        "Name":  "Attorney-General\u0027s"
+    },
+    {
+        "Id":  "8c506b18-1023-44a1-93ff-3a16a1a87822",
+        "Name":  "Finance"
+    },
+    {
+        "Id":  "b5c53713-563a-4bfa-8b7e-fcc8294485f5",
+        "Name":  "Social Services"
+    }
+]

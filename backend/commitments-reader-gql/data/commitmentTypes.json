@@ -1,0 +1,18 @@
+﻿[
+    {
+        "Id":  "bfdc4a96-e7a2-4e90-a37b-512304391ab9",
+        "Name":  "National"
+    },
+    {
+        "Id":  "24c6b425-fbef-497e-bfea-24c539747ff4",
+        "Name":  "State"
+    },
+    {
+        "Id":  "dfcb2b3b-c4c0-4e6c-9604-fd3e24cb8dac",
+        "Name":  "Electorate"
+    },
+    {
+        "Id":  "0ff3a8c0-0c4f-492a-ac31-5f2c608247b3",
+        "Name":  "International"
+    }
+]
