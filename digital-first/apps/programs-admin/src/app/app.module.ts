@@ -94,7 +94,8 @@ import { RolesComponent } from './containers/roles/roles.component'
 import { RoleComponent } from './containers/role/role.component'
 import { RoleAddComponent } from './containers/role/role-add/role-add.component'
 import { RoleEditComponent } from './containers/role/role-edit/role-edit.component'
-import { DialogApiKeyComponent } from './containers/user/dialog-apikey.component'
+import { DialogApiKeyComponent } from './containers/user/dialog-apikey.component';
+import { UserGroupsComponent } from './containers/user/user-groups/user-groups.component'
 
 const COMPONENTS = [AppComponent, HomeComponent]
 
@@ -173,7 +174,8 @@ export function initApplication(): Function {
     RolesComponent,
     RoleComponent,
     RoleAddComponent,
-    RoleEditComponent
+    RoleEditComponent,
+    UserGroupsComponent
   ],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [

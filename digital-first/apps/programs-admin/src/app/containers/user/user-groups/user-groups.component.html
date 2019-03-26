@@ -1,0 +1,10 @@
+<df-expander-panel title="Group Membership" [expandable]="false">
+</df-expander-panel>
+<div class="programsadmin-layout__row">
+  <df-data-table
+    [rows]="groupRows"
+    [columns]="columns"
+    [count]="groupRows.length"
+    [limit]="defaultPageLength"
+  ></df-data-table>
+</div>

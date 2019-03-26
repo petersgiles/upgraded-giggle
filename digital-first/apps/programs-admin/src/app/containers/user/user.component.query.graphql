@@ -3,6 +3,10 @@ query user($userId: String!) {
     id
     emailAddress
     lastLogin
+    groups{
+      id
+      title
+    }
     agency {
       id
       title

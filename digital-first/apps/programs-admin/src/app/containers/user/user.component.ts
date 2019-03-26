@@ -36,6 +36,7 @@ export class UserComponent implements OnInit, OnDestroy {
   user: User
   programAccessRows: User['programAccess']
   reportAccessRows: User['reportAccess']
+  groupRows: User['groups']
   statisticReportAccessRows: User['statisticReportAccess']
   statisticAccessRows: User['statisticAccess']
   apiKeysRows: User['apiKeys']
@@ -78,6 +79,7 @@ export class UserComponent implements OnInit, OnDestroy {
         this.user = user
         this.programAccessRows = user.programAccess
         this.reportAccessRows = user.reportAccess
+        this.groupRows = user.groups
         this.statisticReportAccessRows = user.statisticReportAccess
         this.statisticAccessRows = user.statisticAccess
         this.apiKeysRows = user.apiKeys.map(value =>

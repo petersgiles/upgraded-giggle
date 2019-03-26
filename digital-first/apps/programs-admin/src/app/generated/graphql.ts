@@ -1648,6 +1648,7 @@ export type UserGraph = {
   agency?: Maybe<AgencyGraph>
   apiKeys?: Maybe<Array<Maybe<ApiKeyGraph>>>
   emailAddress: Scalars['String']
+  groups?: Maybe<Array<Maybe<AccessControlGroupGraph>>>
   id: Scalars['Guid']
   lastLogin?: Maybe<Scalars['DateTimeOffset']>
   programAccess?: Maybe<Array<Maybe<ResultantAccessGraph>>>
@@ -3036,6 +3037,16 @@ export type UserQuery = { __typename?: 'Query' } & {
       UserGraph,
       'id' | 'emailAddress' | 'lastLogin'
     > & {
+        groups: Maybe<
+          Array<
+            Maybe<
+              { __typename?: 'AccessControlGroupGraph' } & Pick<
+                AccessControlGroupGraph,
+                'id' | 'title'
+              >
+            >
+          >
+        >
         agency: Maybe<
           { __typename?: 'AgencyGraph' } & Pick<AgencyGraph, 'id' | 'title'>
         >
@@ -4794,6 +4805,10 @@ export const UserDocument = gql`
       id
       emailAddress
       lastLogin
+      groups {
+        id
+        title
+      }
       agency {
         id
         title
