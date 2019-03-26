@@ -1,0 +1,26 @@
+[
+    {
+      "name": "Both sitting",
+      "startDate": "2019-04-02",
+      "duration": 2,
+      "cls": "timerange-sitting-both"
+    },
+    {
+      "name": "House sitting",
+      "startDate": "2019-04-04",
+      "duration": 1,
+      "cls": "timerange-sitting-house"
+    },
+    {
+      "name": "House sitting",
+      "startDate": "2019-04-15",
+      "endDate": "2019-04-19",
+      "cls": "timerange-sitting-house"
+    },
+    {
+      "name": "State election",
+      "startDate": "2019-04-22",
+      "endDate":"",
+      "cls":""
+    }
+  ]

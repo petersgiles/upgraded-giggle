@@ -2,19 +2,20 @@
     display: flex;
     flex-direction: row;
     align-items:center;
+    overflow: auto;
   }
   
   .flex-container > div{
     margin-block-end: auto;
-    flex:0.85;
-    margin: 15px;
+    flex:1;
+    margin: 25px;
     text-align: center;
     padding-top: 20px;
     scroll-behavior: auto;
     font-weight: bold;
   }
   .mdc-slider__track-container {
-
+   
     height: 12px;
     border-radius: 4px;
   }
@@ -71,18 +72,4 @@
 
 .b-watermark{
   display: none !important;
-}
-
-
-.commitment-scheduler-container {
-  display        : flex;
-  flex-direction : column;
-}
-
-scheduler {
-  display         : flex;
-  flex            : 1;
-  flex-direction  : column;
-  justify-content : stretch;
-  
 }

@@ -16,7 +16,7 @@ export class OverviewPageComponent implements OnInit {
   public commitmentsTableData$: Observable<CommitmentPartsFragment[]>
   public columns: { prop: string; name: string }[]
   public count: number
-
+  
   constructor(private dataService:  CommitmentRefinerService) {
 
   }
