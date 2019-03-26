@@ -12,8 +12,13 @@ import { first, map } from 'rxjs/operators'
 })
 export class CommitmentRefinerService {
   public columns: { prop: string; name: string }[]
-  public mapPoints$: Observable<any[]>
-  public commitments$: Observable<any[]>
+  public mapPoints$: BehaviorSubject<any[]> = new BehaviorSubject(null)
+  public selectedMapPoint$: BehaviorSubject<any> = new BehaviorSubject(null)
+  public mapPointCommitments$: BehaviorSubject<any[]> = new BehaviorSubject(
+    null
+  )
+  public commitments$: BehaviorSubject<any[]> = new BehaviorSubject(null)
+  public refinerGroups$: BehaviorSubject<any[]> = new BehaviorSubject(null)
 
   constructor(
     private getRefinerTagsGQL: GetRefinerTagsGQL,
@@ -28,6 +33,53 @@ export class CommitmentRefinerService {
       { prop: 'criticalDate', name: 'Critical Date' }
     ]
 
+    this.refinerGroups$.subscribe(
+      rg => {
+        this.getRefinedMapPoints(rg)
+        this.getRefinedCommitments(rg)
+      }
+    )
+
+    this.selectedMapPoint$.subscribe(
+      mp => this.getMapPointCommitments(mp)
+    )
+
+    this.getRefiners()
+  }
+
+  private getRefinedCommitments(refinerGroups) {
+
+    this.commitmentsSearchGQL
+      .fetch({ input: {} }, { fetchPolicy: 'network-only' })
+      .pipe(
+        first(),
+        map(result => result.data.commitments)
+      )
+      .subscribe(result => this.commitments$.next(result))
+  }
+
+  private getMapPointCommitments(mapPoints) {
+
+    this.commitmentsSearchGQL
+      .fetch({ input: {} }, { fetchPolicy: 'network-only' })
+      .pipe(
+        first(),
+        map(result => result.data.commitments)
+      )
+      .subscribe(result => this.commitments$.next(result))
+  }
+
+  private getRefinedMapPoints(refinerGroups) {
+    this.commitmentsMapPointSearchGQL
+      .fetch({ input: {} }, { fetchPolicy: 'network-only' })
+      .pipe(
+        first(),
+        map(result => result.data.mappoints)
+      )
+      .subscribe(result => this.mapPoints$.next(result))
+  }
+
+  private getRefiners() {
     this.getRefinerTagsGQL
       .fetch({ input: {} }, { fetchPolicy: 'network-only' })
       .pipe(
@@ -35,28 +87,16 @@ export class CommitmentRefinerService {
         map(result => result.data.refiners)
       )
       .subscribe(result => this.refinerGroups$.next(result))
-
-    this.mapPoints$ = this.commitmentsMapPointSearchGQL
-      .fetch({ input: {} }, { fetchPolicy: 'network-only' })
-      .pipe(map(result => result.data.mappoints))
-
-     this.commitments$ = this.commitmentsSearchGQL
-      .fetch({ input: {} }, { fetchPolicy: 'network-only' })
-      .pipe(
-        map(result => result.data.commitments)
-      )
   }
 
-  refinerGroups$: BehaviorSubject<any[]> = new BehaviorSubject(null)
-
-  handleRefinerGroupSelected(item) {
+  public handleRefinerGroupSelected(item) {
     const data = this.refinerGroups$.getValue()
     const group = data.findIndex(p => p.id === item.id)
     data[group].expanded = !data[group].expanded
     this.refinerGroups$.next(data)
   }
 
-  handleRefinerSelected(item) {
+  public handleRefinerSelected(item) {
     const data = this.refinerGroups$.getValue()
     const group = data.findIndex(p => p.id === item.groupId)
     data[group].expanded = true
