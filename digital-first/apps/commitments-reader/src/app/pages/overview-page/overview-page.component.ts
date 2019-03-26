@@ -20,7 +20,7 @@ export class OverviewPageComponent implements OnInit {
     this.columns = [
       { prop: 'id', name: 'Id' },
       { prop: 'title', name: 'Title' },
-      { prop: 'party', name: 'Party' },
+      // { prop: 'party', name: 'Party' },
       { prop: 'portfolio', name: 'Responsible Portfolio' },
       { prop: 'type', name: 'Type of Commitment' },
       { prop: 'criticalDate', name: 'Critical Date' }

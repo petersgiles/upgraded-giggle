@@ -33,7 +33,7 @@ export class PlannerComponent {
       increment: 1,
       resolution: 1,
       preset: 'year',
-      resolutionUnit: 'year'
+      resolutionUnit: 'day'
     },
     {
       id: 1,
@@ -42,7 +42,7 @@ export class PlannerComponent {
       increment: 1,
       resolution: 12,
       preset: 'monthAndYear',
-      resolutionUnit: 'month'
+      resolutionUnit: 'day'
     },
     {
       id: 2,
@@ -51,7 +51,7 @@ export class PlannerComponent {
       increment: 1,
       resolution: 1,
       preset: 'weekAndMonth',
-      resolutionUnit: 'month'
+      resolutionUnit: 'day'
     },
     {
       id: 3,
@@ -60,7 +60,7 @@ export class PlannerComponent {
       increment: 1,
       resolution: 1,
       preset: 'weekAndMonth',
-      resolutionUnit: 'week'
+      resolutionUnit: 'day'
     },
     {
       id: 4,
@@ -124,7 +124,8 @@ export class PlannerComponent {
       startDate: '2019-04-22'
     }
   ]
-
+  
+  commonEvents = [{},{}]
   //TODO: type or componentize
   zoomSlider: any = {}
 
@@ -162,17 +163,14 @@ export class PlannerComponent {
                 durationUnit: 'd',
                 name: 'Announcement',
                 eventType: 'Announcement'
-              })
-              ;(me.scheduler.schedulerEngine as any).editEvent(event)
+              });
+              (me.scheduler.schedulerEngine as any).editEvent(event)
             }
           },
           {
             text: 'Budget',
             icon: 'b-fa b-fa-fw b-fa-money',
-            onItem({ date, resourceRecord, items }) {
-              console.log(date, resourceRecord, items)
-              // Custom date based action
-
+            onItem({ date, resourceRecord}) {
               const event = new EventModel({
                 resourceId: resourceRecord.id,
                 startDate: date,
@@ -180,15 +178,14 @@ export class PlannerComponent {
                 durationUnit: 'd',
                 name: 'Budget',
                 eventType: 'Budget',
-                location: 'test'
-              })
-              ;(me.scheduler.schedulerEngine as any).editEvent(event)
+              });
+              (me.scheduler.schedulerEngine as any).editEvent(event)
             }
           },
           {
             text: 'MyEOFY',
             icon: 'b-fa b-fa-fw b-fa-date',
-            onItem({ date, resourceRecord, items }) {
+            onItem({ date, resourceRecord}) {
               const event = new EventModel({
                 resourceId: resourceRecord.id,
                 startDate: date,
@@ -196,8 +193,8 @@ export class PlannerComponent {
                 durationUnit: 'd',
                 name: 'MyEOFY',
                 eventType: 'MyEOFY'
-              })
-              ;(me.scheduler.schedulerEngine as any).editEvent(event)
+              });
+              (me.scheduler.schedulerEngine as any).editEvent(event)
             }
           }
         ]
@@ -205,14 +202,6 @@ export class PlannerComponent {
       eventEdit: {
         // Add extra widgets to the event editor
         extraWidgets: [
-          {
-            type: 'text',
-            name: 'location',
-            label: 'Location',
-            id: 'location',
-            index: 1
-            // This field is only displayed for meetings
-          },
           {
             type: 'combo',
             name: 'eventType',
