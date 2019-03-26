@@ -1,5 +1,8 @@
-﻿$commitments = Import-Csv "$PSScriptRoot\commitments.csv" -Encoding UTF8 -ErrorAction Stop
-$criticalDateLookup = Import-Csv "$PSScriptRoot\critical-dates.csv" -Encoding UTF8 -ErrorAction Stop
+﻿$inputPath = $PSScriptRoot
+$outputPath = "$PSScriptRoot\.."
+
+$commitments = Import-Csv "$inputPath\commitments.csv" -Encoding UTF8 -ErrorAction Stop
+$criticalDateLookup = Import-Csv "$inputPath\critical-dates.csv" -Encoding UTF8 -ErrorAction Stop
 
 # Commitment Types
 $commitmentTypes = $commitments | Select-Object -Unique -Property CommitmentType | % {
@@ -58,12 +61,12 @@ foreach ($commitment in $commitments) {
     
 }
 
-$commitments | ConvertTo-Json | Out-File -Encoding utf8 $PSScriptRoot\commitments.json
+$commitments | ConvertTo-Json | Out-File -Encoding utf8 $outputPath\commitments.json
 
-$commitmentTypeRelationships | ConvertTo-Json | Out-File -Encoding utf8 $PSScriptRoot\commitmentCommitmentTypes.json
-$portfolioRelationships | ConvertTo-Json | Out-File -Encoding utf8 $PSScriptRoot\commitmentPortfolios.json
-$criticalDateRelationships | ConvertTo-Json | Out-File -Encoding utf8 $PSScriptRoot\commitmentCriticalDates.json
+$commitmentTypeRelationships | ConvertTo-Json | Out-File -Encoding utf8 $outputPath\commitmentCommitmentTypes.json
+$portfolioRelationships | ConvertTo-Json | Out-File -Encoding utf8 $outputPath\commitmentPortfolios.json
+$criticalDateRelationships | ConvertTo-Json | Out-File -Encoding utf8 $outputPath\commitmentCriticalDates.json
 
-$commitmentTypes | ConvertTo-Json | Out-File -Encoding utf8 $PSScriptRoot\commitmentTypes.json
-$portfolios | ConvertTo-Json | Out-File -Encoding utf8 $PSScriptRoot\portfolios.json
-$criticalDates | ConvertTo-Json | Out-File -Encoding utf8 $PSScriptRoot\criticalDates.json
+$commitmentTypes | ConvertTo-Json | Out-File -Encoding utf8 $outputPath\commitmentTypes.json
+$portfolios | ConvertTo-Json | Out-File -Encoding utf8 $outputPath\portfolios.json
+$criticalDates | ConvertTo-Json | Out-File -Encoding utf8 $outputPath\criticalDates.json

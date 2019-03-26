@@ -1,74 +1,74 @@
 ﻿[
     {
-        "Id":  "7b1b6dc0-6fcf-44d0-a08c-8679b5f8c4bf",
+        "Id":  "893d68fe-d326-4d1c-abab-73a795ea4fda",
         "Name":  "Agriculture and Water Resources"
     },
     {
-        "Id":  "b40634e7-b85f-4a5f-910c-54f05d142512",
+        "Id":  "0cffe04d-269b-41a9-bd1f-9b49cdc9f862",
         "Name":  "Communications and the Arts"
     },
     {
-        "Id":  "23c27b6f-49cb-4db0-b6b6-f03ca8d0acdb",
+        "Id":  "57e89c05-2ad5-4cf2-959e-6fa1bdffcc54",
         "Name":  "Education and Training"
     },
     {
-        "Id":  "5df3c041-37fd-422d-a4d1-9cd114057151",
+        "Id":  "82d5b078-f6ec-4334-b1ff-9331a9df77c4",
         "Name":  "Health"
     },
     {
-        "Id":  "ccfbc129-7391-4584-affd-521c14883a35",
+        "Id":  "71211cca-602d-4111-b9b2-955e0ee71d50",
         "Name":  "Indigenous Affairs"
     },
     {
-        "Id":  "18a3d0fd-f3a8-4fd7-ac08-05fe60184d8e",
+        "Id":  "c7e9ff5a-2e0f-4409-9b44-d7399319cd21",
         "Name":  "Defence"
     },
     {
-        "Id":  "92984908-b5c0-4fb4-b026-b9330fa7bc27",
+        "Id":  "297baf20-7fbf-4280-9459-0b3ae0fa2b72",
         "Name":  "Foreign Affairs and Trade"
     },
     {
-        "Id":  "b2f43e38-5f08-443d-b484-8061a0ac45cb",
+        "Id":  "903ec9cf-e0c6-4960-abbd-05b4e7c40a26",
         "Name":  "Environment and Energy"
     },
     {
-        "Id":  "b6e90c5c-6f6b-4135-a600-c6e6b8e34ed1",
+        "Id":  "73e8d2f3-5385-4670-89f7-d3f8ee24c03e",
         "Name":  "Treasury"
     },
     {
-        "Id":  "d96dc1a2-4566-4fb7-8871-75daa65aa965",
+        "Id":  "c7baeff4-bb1a-4627-9244-c2bde26f3620",
         "Name":  "Home Affairs"
     },
     {
-        "Id":  "908d2dee-34d9-461e-a95a-7ccf904dd81f",
+        "Id":  "7366ca9f-ed8d-448c-abc2-8d4a4ad2caf1",
         "Name":  "Infrastructure, Regional Development and Cities"
     },
     {
-        "Id":  "7d0910ef-d5b9-4aea-b1a9-88d6c33e3350",
+        "Id":  "c48765db-17e1-4c22-bfc0-15627322963c",
         "Name":  "Industry, Innovation and Science"
     },
     {
-        "Id":  "f245ba24-a5d7-4840-92c7-682f9c72713a",
+        "Id":  "2ac40acf-08be-486c-8610-ca80c5a295c9",
         "Name":  "Jobs and Small Business"
     },
     {
-        "Id":  "23a7e3df-f42b-4c5c-8b88-28e7402b512d",
+        "Id":  "29d93b04-c08d-4f58-af3b-a3341dafa815",
         "Name":  "Prime Minister and Cabinet"
     },
     {
-        "Id":  "708bcb9d-b2d7-4e73-ab6d-20094e7d909f",
+        "Id":  "d2be3ad9-199f-414e-8224-0d5c7045ebe9",
         "Name":  "Human Services"
     },
     {
-        "Id":  "fc81690c-bc72-4119-af4c-410cc1ab4a49",
+        "Id":  "6c2326cd-5dd2-4246-b8de-004002f7f7c6",
         "Name":  "Attorney-General\u0027s"
     },
     {
-        "Id":  "8c506b18-1023-44a1-93ff-3a16a1a87822",
+        "Id":  "224df7fa-9bca-4273-8a9b-534c2e7250b9",
         "Name":  "Finance"
     },
     {
-        "Id":  "b5c53713-563a-4bfa-8b7e-fcc8294485f5",
+        "Id":  "806374ca-1840-4962-b970-412e714a0bc8",
         "Name":  "Social Services"
     }
 ]
