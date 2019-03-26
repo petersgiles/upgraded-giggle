@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core'
 import { Observable, of } from 'rxjs'
 import { CommitmentsMapPointSearchGQL } from '../../generated/graphql'
-import { tap, map } from 'rxjs/operators';
-import { SettingsService } from '../../services/settings.service';
-import { Router } from '@angular/router';
+import { tap, map } from 'rxjs/operators'
+import { SettingsService } from '../../services/settings.service'
+import { Router } from '@angular/router'
+import { CommitmentRefinerService } from '../../services/commitment-refiner.service'
 
 @Component({
   selector: 'digital-first-map-overview-page',
@@ -15,50 +16,24 @@ export class MapOverviewPageComponent implements OnInit {
   public longitude: number
 
   public zoom: number
-  mapPoints$: Observable<any[]>
-  commitments$: Observable<any>
-  columns: { prop: string; name: string }[]
 
   constructor(
     private router: Router,
     private settings: SettingsService,
-    private commitmentsMapPointSearchGQL: CommitmentsMapPointSearchGQL
+    private dataService: CommitmentRefinerService
   ) {}
 
   ngOnInit() {
     this.latitude = -27.698
     this.longitude = 133.8807
     this.zoom = 5
-    this.columns = [
-      { prop: 'commitmentId', name: 'Id' },
-      { prop: 'title', name: 'Title' },
-      { prop: 'party', name: 'Party' },
-      { prop: 'portfolio', name: 'Responsible Portfolio' },
-      { prop: 'commitmentType', name: 'Type of Commitment' }
-    ]
-
-    this.mapPoints$ = this.commitmentsMapPointSearchGQL
-    .fetch(
-      { input: {} },
-      { fetchPolicy: 'network-only' }
-      )
-    .pipe(
-      tap(result => console.log(result)),
-      map(result => result.data.mappoints)
-      )
-
-    this.commitments$ = of(null)
-
-   
   }
 
   handleRowClicked(row) {
-   // this.router.navigate(['/', 'commitment', row.id])
+    // this.router.navigate(['/', 'commitment', row.id])
   }
 
-  handleMapPointSelected(_, mapPoint) {
-
-  }
+  handleMapPointSelected(_, mapPoint) {}
 
   getIcon(mapPoint) {
     return `${this.settings.assetsPath}/${mapPoint.iconUrl || 'beachflag.png'}`
