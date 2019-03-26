@@ -1,8 +1,15 @@
-import { Component, ViewChild, ViewEncapsulation, Input } from '@angular/core'
+import {
+  Component,
+  ViewChild,
+  ViewEncapsulation,
+  Input,
+  ɵConsole
+} from '@angular/core'
 import { SchedulerComponent } from '../scheduler/scheduler.component'
 import { MdcSliderChange } from '@angular-mdc/web'
 import { DateHelper, EventModel, Store } from 'bryntum-scheduler'
 import { componentNeedsResolution } from '@angular/core/src/metadata/resource_loading'
+import { CommitmentEventType } from '../../models/commitment-event-type'
 
 declare var window: any
 @Component({
@@ -29,7 +36,7 @@ export class PlannerComponent {
     {
       id: 0,
       label: '3 years',
-      width: 100,
+      width: 140,
       increment: 1,
       resolution: 1,
       preset: 'year',
@@ -69,7 +76,7 @@ export class PlannerComponent {
       increment: 1,
       resolution: 7,
       preset: 'weekAndDay',
-      resolutionUnit: 'day'
+      resolutionUnit: 'hour'
     },
     {
       id: 5,
@@ -78,7 +85,7 @@ export class PlannerComponent {
       increment: 1,
       resolution: 1,
       preset: 'weekAndDay',
-      resolutionUnit: 'day'
+      resolutionUnit: 'hour'
     }
   ]
 
@@ -124,9 +131,60 @@ export class PlannerComponent {
       startDate: '2019-04-22'
     }
   ]
-  
-  commonEvents = [{},{}]
+
+  commonEventTypes: CommitmentEventType[] = [
+    {
+      id: '0001',
+      type: 'Policy development',
+      duration: 30,
+      durationUnit: 'd',
+      icon: ''
+    },
+    {
+      id: '0002',
+      type: 'Cabinet Meeting',
+      duration: 1,
+      durationUnit: 'd',
+      icon: ''
+    },
+    {
+      id: '0003',
+      type: 'Drafting the Explanatory Memorandum',
+      duration: 7,
+      durationUnit: 'd',
+      icon: ''
+    },
+    {
+      id: '0004',
+      type: 'drafting legislative',
+      duration: 30,
+      durationUnit: 'd',
+      icon: ''
+    },
+    {
+      id: '0005',
+      type: 'Legislative introduction',
+      duration: 1,
+      durationUnit: 'd',
+      icon: ''
+    },
+    {
+      id: '0006',
+      type: 'Announcement',
+      duration: 1,
+      durationUnit: 'd',
+      icon: ''
+    },
+    {
+      id: '0007',
+      type: 'Review',
+      duration: 90,
+      durationUnit: 'd',
+      icon: ''
+    }
+  ]
   //TODO: type or componentize
+
   zoomSlider: any = {}
 
   get currentZoomLevel() {
@@ -151,53 +209,7 @@ export class PlannerComponent {
       },
       scheduleContextMenu: {
         // Extra items for all events
-        extraItems: [
-          {
-            text: 'Announcement',
-            icon: 'b-fa b-fa-fw b-fa-document',
-            onItem({ date, resourceRecord }) {
-              const event = new EventModel({
-                resourceId: resourceRecord.id,
-                startDate: date,
-                duration: 1,
-                durationUnit: 'd',
-                name: 'Announcement',
-                eventType: 'Announcement'
-              });
-              (me.scheduler.schedulerEngine as any).editEvent(event)
-            }
-          },
-          {
-            text: 'Budget',
-            icon: 'b-fa b-fa-fw b-fa-money',
-            onItem({ date, resourceRecord}) {
-              const event = new EventModel({
-                resourceId: resourceRecord.id,
-                startDate: date,
-                duration: 1,
-                durationUnit: 'd',
-                name: 'Budget',
-                eventType: 'Budget',
-              });
-              (me.scheduler.schedulerEngine as any).editEvent(event)
-            }
-          },
-          {
-            text: 'MyEOFY',
-            icon: 'b-fa b-fa-fw b-fa-date',
-            onItem({ date, resourceRecord}) {
-              const event = new EventModel({
-                resourceId: resourceRecord.id,
-                startDate: date,
-                duration: 1,
-                durationUnit: 'd',
-                name: 'MyEOFY',
-                eventType: 'MyEOFY'
-              });
-              (me.scheduler.schedulerEngine as any).editEvent(event)
-            }
-          }
-        ]
+        extraItems: me.populateExtraItems(me)
       },
       eventEdit: {
         // Add extra widgets to the event editor
@@ -208,7 +220,7 @@ export class PlannerComponent {
             id: 'eventType',
             label: 'Type',
             index: 2,
-            items: ['Announcement', 'Budget', 'MyEOFY']
+            items: me.populateExtraEventTypes()
           }
         ]
       }
@@ -220,7 +232,6 @@ export class PlannerComponent {
   }
 
   private resetSchedulerZoomLevel(event: MdcSliderChange) {
-    console.log(event)
     this.zoomSlider.levelId = event.value
   }
 
@@ -237,5 +248,35 @@ export class PlannerComponent {
         this.zoomSlider.levelId = level.id
         console.log(level.id)
     }
+  }
+
+  populateExtraItems(me: any) {
+    let extraItems = []
+    this.commonEventTypes.forEach(e => {
+      extraItems.push({
+        text: e.type,
+        icon: 'b-fa b-fa-fw b-fa-document',
+        onItem({ date, resourceRecord }) {
+          const event = new EventModel({
+            resourceId: resourceRecord.id,
+            startDate: date,
+            duration: e.duration,
+            durationUnit: e.durationUnit,
+            name: e.type,
+            eventType: e.type
+          })
+          ;(me.scheduler.schedulerEngine as any).editEvent(event)
+        }
+      })
+    })
+    return extraItems
+  }
+
+  populateExtraEventTypes() {
+    let extraTypes = []
+    this.commonEventTypes.forEach(c => {
+      extraTypes.push(c.type)
+    })
+    return extraTypes;
   }
 }
