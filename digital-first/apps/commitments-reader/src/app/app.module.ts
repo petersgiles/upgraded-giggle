@@ -33,6 +33,8 @@ import { OverviewPageComponent } from './pages/overview-page/overview-page.compo
 import { MapOverviewPageComponent } from './pages/map-overview-page/map-overview-page.component'
 import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component'
 import { SchedulerComponent } from './components/scheduler/scheduler.component'
+import { CommitmentRefinerService } from './services/commitment-refiner/commitment-refiner.service'
+import { GetRefinerTagsGQL } from './generated/graphql'
 
 const COMPONENTS = [
   AppComponent,

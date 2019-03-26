@@ -21,8 +21,8 @@
     </div>
     <div class="commitment-layout__row">
       <df-data-table
-        [rows]="dataService.mapPointCommitments$ | async"
-        [columns]="dataService.columns"
+        [rows]="mapPointCommitments$ | async"
+        [columns]="columns$ | async"
         [count]="count"
         (onSelect)="handleRowClicked($event)"
       >

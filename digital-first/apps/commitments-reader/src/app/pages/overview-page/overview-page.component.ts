@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core'
-import { tap, map } from 'rxjs/operators'
 import {
-  CommitmentsSearchGQL,
   CommitmentPartsFragment
 } from '../../generated/graphql'
 import { Observable } from 'rxjs'
-import { CommitmentRefinerService } from '../../services/commitment-refiner.service'
+import { CommitmentRefinerService, DataTableColumn } from '../../services/commitment-refiner'
 
 @Component({
   selector: 'digital-first-overview-page',
@@ -14,14 +12,15 @@ import { CommitmentRefinerService } from '../../services/commitment-refiner.serv
 })
 export class OverviewPageComponent implements OnInit {
   public commitmentsTableData$: Observable<CommitmentPartsFragment[]>
-  public columns: { prop: string; name: string }[]
+  public columns$: Observable<DataTableColumn[]>
   public count: number
-  
+
   constructor(private dataService:  CommitmentRefinerService) {
 
   }
 
   ngOnInit() {
+    this.columns$ = this.dataService.columns$
     this.commitmentsTableData$ = this.dataService.commitments$
   }
 
