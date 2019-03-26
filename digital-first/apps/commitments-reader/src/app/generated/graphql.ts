@@ -184,6 +184,41 @@ export type UserProfile = {
   email: Scalars['String']
   roles?: Maybe<Array<Maybe<Role>>>
 }
+export type PlannerCommitmentsQueryVariables = {
+  input: CommitmentRefinementInput
+}
+
+export type PlannerCommitmentsQuery = { __typename?: 'Query' } & {
+  commitments: Maybe<
+    Array<Maybe<{ __typename?: 'Commitment' } & CommitmentPartsFragment>>
+  >
+}
+
+export type CommitmentsMapPointSearchQueryVariables = {}
+
+export type CommitmentsMapPointSearchQuery = { __typename?: 'Query' } & {
+  mappoints: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'MapPoint' } & Pick<
+          MapPoint,
+          'place_id' | 'address' | 'latitude' | 'longitude'
+        >
+      >
+    >
+  >
+}
+
+export type CommitmentsSearchQueryVariables = {
+  input: CommitmentRefinementInput
+}
+
+export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
+  commitments: Maybe<
+    Array<Maybe<{ __typename?: 'Commitment' } & CommitmentPartsFragment>>
+  >
+}
+
 export type CommitmentPartsFragment = { __typename?: 'Commitment' } & Pick<
   Commitment,
   | 'id'
@@ -236,41 +271,6 @@ export type GetRefinerTagsQuery = { __typename?: 'Query' } & {
   >
 }
 
-export type CommitmentsMapPointSearchQueryVariables = {}
-
-export type CommitmentsMapPointSearchQuery = { __typename?: 'Query' } & {
-  mappoints: Maybe<
-    Array<
-      Maybe<
-        { __typename?: 'MapPoint' } & Pick<
-          MapPoint,
-          'place_id' | 'address' | 'latitude' | 'longitude'
-        >
-      >
-    >
-  >
-}
-
-export type CommitmentsSearchQueryVariables = {
-  input: CommitmentRefinementInput
-}
-
-export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
-  commitments: Maybe<
-    Array<Maybe<{ __typename?: 'Commitment' } & CommitmentPartsFragment>>
-  >
-}
-
-export type PlannerCommitmentsQueryVariables = {
-  input: CommitmentRefinementInput
-}
-
-export type PlannerCommitmentsQuery = { __typename?: 'Query' } & {
-  commitments: Maybe<
-    Array<Maybe<{ __typename?: 'Commitment' } & CommitmentPartsFragment>>
-  >
-}
-
 import gql from 'graphql-tag'
 import { Injectable } from '@angular/core'
 import * as Apollo from 'apollo-angular'
@@ -285,40 +285,23 @@ export const CommitmentPartsFragmentDoc = gql`
     announcedby
   }
 `
-export const GetRefinerTagsDocument = gql`
-  query GetRefinerTags {
-    refiners {
-      id
-      title
-      expanded
-      selected
-      groupId
-      children {
-        id
-        title
-        expanded
-        selected
-        groupId
-        children {
-          id
-          title
-          groupId
-          expanded
-          selected
-        }
-      }
+export const PlannerCommitmentsDocument = gql`
+  query PlannerCommitments($input: CommitmentRefinementInput!) {
+    commitments(input: $input) {
+      ...CommitmentParts
     }
   }
+  ${CommitmentPartsFragmentDoc}
 `
 
 @Injectable({
   providedIn: 'root'
 })
-export class GetRefinerTagsGQL extends Apollo.Query<
-  GetRefinerTagsQuery,
-  GetRefinerTagsQueryVariables
+export class PlannerCommitmentsGQL extends Apollo.Query<
+  PlannerCommitmentsQuery,
+  PlannerCommitmentsQueryVariables
 > {
-  document = GetRefinerTagsDocument
+  document = PlannerCommitmentsDocument
 }
 export const CommitmentsMapPointSearchDocument = gql`
   query CommitmentsMapPointSearch {
@@ -358,21 +341,38 @@ export class CommitmentsSearchGQL extends Apollo.Query<
 > {
   document = CommitmentsSearchDocument
 }
-export const PlannerCommitmentsDocument = gql`
-  query PlannerCommitments($input: CommitmentRefinementInput!) {
-    commitments(input: $input) {
-      ...CommitmentParts
+export const GetRefinerTagsDocument = gql`
+  query GetRefinerTags {
+    refiners {
+      id
+      title
+      expanded
+      selected
+      groupId
+      children {
+        id
+        title
+        expanded
+        selected
+        groupId
+        children {
+          id
+          title
+          groupId
+          expanded
+          selected
+        }
+      }
     }
   }
-  ${CommitmentPartsFragmentDoc}
 `
 
 @Injectable({
   providedIn: 'root'
 })
-export class PlannerCommitmentsGQL extends Apollo.Query<
-  PlannerCommitmentsQuery,
-  PlannerCommitmentsQueryVariables
+export class GetRefinerTagsGQL extends Apollo.Query<
+  GetRefinerTagsQuery,
+  GetRefinerTagsQueryVariables
 > {
-  document = PlannerCommitmentsDocument
+  document = GetRefinerTagsDocument
 }
