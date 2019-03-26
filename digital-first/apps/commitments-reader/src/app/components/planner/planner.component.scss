@@ -6,7 +6,7 @@
   
   .flex-container > div{
     margin-block-end: auto;
-    flex:1;
+    flex:0.85;
     margin: 15px;
     text-align: center;
     padding-top: 20px;
@@ -71,4 +71,18 @@
 
 .b-watermark{
   display: none !important;
+}
+
+
+.commitment-scheduler-container {
+  display        : flex;
+  flex-direction : column;
+}
+
+scheduler {
+  display         : flex;
+  flex            : 1;
+  flex-direction  : column;
+  justify-content : stretch;
+  
 }

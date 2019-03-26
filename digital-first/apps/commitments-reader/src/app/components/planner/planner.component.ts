@@ -1,10 +1,10 @@
 import { Component, ViewChild, ViewEncapsulation, Input } from '@angular/core'
 import { SchedulerComponent } from '../scheduler/scheduler.component'
-import { Moment } from 'moment'
-import moment = require('moment')
 import { MdcSliderChange } from '@angular-mdc/web'
-import { DateHelper, EventModel } from 'bryntum-scheduler'
+import { DateHelper, EventModel, Store } from 'bryntum-scheduler'
+import { componentNeedsResolution } from '@angular/core/src/metadata/resource_loading'
 
+declare var window: any
 @Component({
   selector: 'digital-first-planner',
   templateUrl: './planner.component.html',
@@ -18,6 +18,9 @@ export class PlannerComponent {
   @ViewChild(SchedulerComponent) scheduler: SchedulerComponent
 
   featureConfig: Object
+
+  startDate = new Date()
+  endDate = DateHelper.add(this.startDate, 3, 'year')
 
   //TODO: set widths based on size of parent container
   //TODO: raise request to have these internally sorted
@@ -92,6 +95,7 @@ export class PlannerComponent {
     {
       text: 'Commitments',
       field: 'name',
+      width: 250,
       editable: false
     }
   ]
@@ -133,11 +137,11 @@ export class PlannerComponent {
   }
 
   ngOnInit() {
+    const me = this
     this.zoomSlider.min = 0
     this.zoomSlider.max = this.zoomLevels.length - 1
     this.zoomSlider.levelId = 0
 
-    const scheduler: any = this.scheduler.schedulerEngine
     this.featureConfig = {
       timeRanges: {
         showCurrentTimeLine: true,
@@ -148,18 +152,52 @@ export class PlannerComponent {
         // Extra items for all events
         extraItems: [
           {
-            text: 'Extra',
-            icon: 'b-fa b-fa-fw b-fa-flag',
+            text: 'Announcement',
+            icon: 'b-fa b-fa-fw b-fa-document',
+            onItem({ date, resourceRecord }) {
+              const event = new EventModel({
+                resourceId: resourceRecord.id,
+                startDate: date,
+                duration: 1,
+                durationUnit: 'd',
+                name: 'Announcement',
+                eventType: 'Announcement'
+              })
+              ;(me.scheduler.schedulerEngine as any).editEvent(event)
+            }
+          },
+          {
+            text: 'Budget',
+            icon: 'b-fa b-fa-fw b-fa-money',
             onItem({ date, resourceRecord, items }) {
               console.log(date, resourceRecord, items)
               // Custom date based action
 
               const event = new EventModel({
-                startDate: new Date(),
+                resourceId: resourceRecord.id,
+                startDate: date,
                 duration: 1,
-                name: 'New task'
+                durationUnit: 'd',
+                name: 'Budget',
+                eventType: 'Budget',
+                location: 'test'
               })
-              scheduler.editEvent(event, resourceRecord)
+              ;(me.scheduler.schedulerEngine as any).editEvent(event)
+            }
+          },
+          {
+            text: 'MyEOFY',
+            icon: 'b-fa b-fa-fw b-fa-date',
+            onItem({ date, resourceRecord, items }) {
+              const event = new EventModel({
+                resourceId: resourceRecord.id,
+                startDate: date,
+                duration: 1,
+                durationUnit: 'd',
+                name: 'MyEOFY',
+                eventType: 'MyEOFY'
+              })
+              ;(me.scheduler.schedulerEngine as any).editEvent(event)
             }
           }
         ]
@@ -171,15 +209,17 @@ export class PlannerComponent {
             type: 'text',
             name: 'location',
             label: 'Location',
+            id: 'location',
             index: 1
             // This field is only displayed for meetings
           },
           {
             type: 'combo',
             name: 'eventType',
+            id: 'eventType',
             label: 'Type',
             index: 2,
-            items: ['Appointment', 'Internal', 'Meeting']
+            items: ['Announcement', 'Budget', 'MyEOFY']
           }
         ]
       }
@@ -206,6 +246,7 @@ export class PlannerComponent {
       case 'zoomchange':
         const level: any = (event as any).level
         this.zoomSlider.levelId = level.id
+        console.log(level.id)
     }
   }
 }

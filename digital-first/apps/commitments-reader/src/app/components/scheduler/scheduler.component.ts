@@ -200,6 +200,7 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
       config.maxZoomLevel = this.zoomLevels[this.zoomLevels.length - 1]
     }
 
+
     const engine = (this.schedulerEngine = new Scheduler(config))
 
     // TODO: Raise bug with Brytum - setting start and end kills the app
@@ -216,7 +217,7 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
     // }
 
     engine.zoomLevel = this.zoomLevel || engine.minZoomLevel
-
+    engine.maxWidth = "calc(100% - 250px)"
     // Relay events from eventStore and resourceStore, making them a bit easier to catch in your app.
     // The events are prefixed with 'events' and 'resources', turning and 'add' event into either 'eventsAdd' or
     // 'resourcesAdd'
