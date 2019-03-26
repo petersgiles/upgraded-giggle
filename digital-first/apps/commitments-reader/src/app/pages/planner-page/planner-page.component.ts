@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
-import { CommitmentsGetGQL } from '../../generated/graphql'
-import { tap, map } from 'rxjs/operators';
+import { PlannerCommitmentsGQL } from '../../generated/graphql'
+import { tap, map } from 'rxjs/operators'
 @Component({
   selector: 'digital-first-planner-page',
   templateUrl: './planner-page.component.html',
@@ -8,17 +8,19 @@ import { tap, map } from 'rxjs/operators';
 })
 export class PlannerPageComponent implements OnInit {
   commitmentsData$
-  constructor(private commitmentsGet: CommitmentsGetGQL) {}
+  constructor(private commitmentsGet: PlannerCommitmentsGQL) {}
 
   ngOnInit() {
-    this.commitmentsData$=  this.commitmentsGet
-      .fetch({ input: {} }, { fetchPolicy: 'network-only' })
-      .pipe(
+    this.commitmentsData$ = this.commitmentsGet
+      .watch({ input: {} })
+      .valueChanges.pipe(
         tap(result => console.log(result.data.commitments)),
-        map(result =>{
-              let commitments = [];
-              result.data.commitments.forEach(c=>commitments.push({id:c.id,name:c.title}));
-              return commitments;
+        map(result => {
+          let commitments = []
+          result.data.commitments.forEach(c =>
+            commitments.push({ id: c.id, name: c.title })
+          )
+          return commitments
         })
       )
   }

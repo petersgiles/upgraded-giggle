@@ -12,15 +12,12 @@ import { DateHelper, EventModel } from 'bryntum-scheduler'
   encapsulation: ViewEncapsulation.None
 })
 export class PlannerComponent {
-  @Input() 
-  commitments:any[]
+  @Input()
+  commitments: any[]
 
   @ViewChild(SchedulerComponent) scheduler: SchedulerComponent
 
   featureConfig: Object
-
-  startDate = new Date()
-  endDate = DateHelper.add(this.startDate, 100, 'day')
 
   //TODO: set widths based on size of parent container
   //TODO: raise request to have these internally sorted

@@ -1,12 +1,5 @@
-query CommitmentsGet($input: CommitmentRefinementInput!) {
+query PlannerCommitments($input: CommitmentRefinementInput!) {
   commitments(input: $input) {
-    id
-    title
-    date
-    announcedby
-    party {
-      id
-      title
-    }
+    ...CommitmentParts
   }
 }
