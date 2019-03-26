@@ -130,7 +130,7 @@ export class PlannerComponent implements OnInit {
     this.commonEventTypes.forEach(e => {
       extraItems.push({
         text: e.type,
-        icon: 'b-fa b-fa-fw b-fa-document',
+        icon: e.icon,
         onItem({ date, resourceRecord }) {
           const event = new EventModel({
             resourceId: resourceRecord.id,
@@ -138,7 +138,8 @@ export class PlannerComponent implements OnInit {
             duration: e.duration,
             durationUnit: e.durationUnit,
             name: e.type,
-            eventType: e.type
+            eventType: e.type,
+            eventColor:e.color
           })
           ;(me.scheduler.schedulerEngine as any).editEvent(event)
         }
