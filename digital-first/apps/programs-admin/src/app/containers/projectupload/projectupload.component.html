@@ -30,8 +30,25 @@
                   </mdc-select>
                 </div>
                 <div class="form-layout__row">
+                  <mdc-text-field
+                    formControlName="dataDate"
+                    type="date"
+                    #outlinedicon
+                    [outlined]="true"
+                    required
+                    label="Data date"
+                    name="dataDate"
+                  >
+                    <mdc-icon mdcTextFieldIcon leading #leadingicon
+                      >event</mdc-icon
+                    >
+                  </mdc-text-field>
+                </div>
+
+                <div class="form-layout__row">
                   <mdc-form-field [alignEnd]="true">
-                    <input #inputElement
+                    <input
+                      #inputElement
                       class="inputfile"
                       type="file"
                       accept=".csv"

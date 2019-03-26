@@ -25,6 +25,7 @@ export class ProjectuploadComponent implements OnInit, OnDestroy {
 
   projectForm = this.formBuilder.group({
     programId: [undefined, Validators.required],
+    dataDate: ['', Validators.required],
     file: [null, Validators.required]
   })
 
@@ -73,7 +74,10 @@ export class ProjectuploadComponent implements OnInit, OnDestroy {
     const message = new UploadProjectElectorateReport()
 
     message.programId = this.projectForm.value['programId']
+    message.dataDate = new Date(this.projectForm.value['dataDate'])
     message.fileName = this.fileToUpload.name
+
+    console.log(this.projectForm.value['dataDate'])
 
     const formData = new FormData()
     formData.append('file', this.projectForm.value['file'], 'default')
@@ -90,6 +94,7 @@ export class ProjectuploadComponent implements OnInit, OnDestroy {
         this.projectForm.reset()
         this.inputElement.nativeElement.value = ''
         this.projectForm.get('programId').setValue(' ')
+        this.projectForm.get('dataDate').setValue(' ')
       })
   }
 

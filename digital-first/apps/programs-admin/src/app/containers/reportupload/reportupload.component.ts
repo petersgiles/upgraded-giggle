@@ -12,7 +12,6 @@ import {
   AllProgramReportsQuery
 } from '../../generated/graphql'
 import {
-  ReportSchema,
   UploadElectorateReportSpreadsheet
 } from '@dsuite/programs-manager-messages'
 import { PassthroughService } from '../../services/passthrough.service'
