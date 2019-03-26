@@ -20,7 +20,7 @@ export class PlannerComponent {
   featureConfig: Object
 
   startDate = new Date()
-  endDate = DateHelper.add(this.startDate, 100, 'day')
+  endDate = DateHelper.add(this.startDate, 3, 'year')
 
   //TODO: set widths based on size of parent container
   //TODO: raise request to have these internally sorted
@@ -137,12 +137,11 @@ export class PlannerComponent {
   }
 
   ngOnInit() {
+    const me = this;
     this.zoomSlider.min = 0
     this.zoomSlider.max = this.zoomLevels.length - 1
     this.zoomSlider.levelId = 0
-
-    const scheduler: any = this.scheduler.schedulerEngine
-    
+  
     this.featureConfig = {
       timeRanges: {
         showCurrentTimeLine: true,
@@ -156,7 +155,7 @@ export class PlannerComponent {
             text: 'Announcement',
             icon: 'b-fa b-fa-fw b-fa-document',
             onItem({ date, resourceRecord }) {
-              const event = new window.scheduler.eventStore.modelClass({
+              const event = new EventModel({
                 resourceId: resourceRecord.id,
                 startDate: date,
                 duration: 1,
@@ -164,7 +163,8 @@ export class PlannerComponent {
                 name: 'Announcement',
                 eventType: 'Announcement'
               })
-              window.scheduler.editEvent(event)
+              ;
+              (me.scheduler.schedulerEngine as any).editEvent(event)
             }
           },
           {
@@ -174,7 +174,7 @@ export class PlannerComponent {
               console.log(date, resourceRecord, items)
               // Custom date based action
 
-              const event = new window.scheduler.eventStore.modelClass({
+              const event = new EventModel({
                 resourceId: resourceRecord.id,
                 startDate: date,
                 duration: 1,
@@ -182,23 +182,23 @@ export class PlannerComponent {
                 name: 'Budget',
                 eventType: 'Budget',
                 location:'test'
-              })
-              window.scheduler.editEvent(event)
+              });
+              (me.scheduler.schedulerEngine as any).editEvent(event)
             }
           },
           {
             text: 'MyEOFY',
             icon: 'b-fa b-fa-fw b-fa-date',
             onItem({ date, resourceRecord, items }) {
-              const event = new window.scheduler.eventStore.modelClass({
+              const event = new EventModel({
                 resourceId: resourceRecord.id,
                 startDate: date,
                 duration: 1,
                 durationUnit: 'd',
                 name: 'MyEOFY',
                 eventType: 'MyEOFY'
-              })
-              window.scheduler.editEvent(event)
+              });
+              (me.scheduler.schedulerEngine as any).editEvent(event)
             }
           }
         ]
@@ -227,13 +227,6 @@ export class PlannerComponent {
     }
   }
 
-  ngAfterViewInit() {
-    // exposing scheduling engine to be easily accessible from console
-    window.scheduler = this.scheduler.schedulerEngine
-    this.scheduler.schedulerEngine.width="calc(100% - 250px)"
-    this.scheduler.schedulerEngine.height = 700
-  }
-
   onSliderInput(event: MdcSliderChange): void {
     this.resetSchedulerZoomLevel(event)
   }
@@ -255,9 +248,6 @@ export class PlannerComponent {
         const level: any = (event as any).level
         this.zoomSlider.levelId = level.id
         console.log(level.id)
-        break
-      case 'beforeeventedit':
-        console.log(event)
     }
   }
 }

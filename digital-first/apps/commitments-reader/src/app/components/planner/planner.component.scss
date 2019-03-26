@@ -6,7 +6,7 @@
   
   .flex-container > div{
     margin-block-end: auto;
-    flex:1;
+    flex:0.85;
     margin: 15px;
     text-align: center;
     padding-top: 20px;
@@ -75,7 +75,6 @@
 
 
 .commitment-scheduler-container {
-  flex           : 1;
   display        : flex;
   flex-direction : column;
 }
