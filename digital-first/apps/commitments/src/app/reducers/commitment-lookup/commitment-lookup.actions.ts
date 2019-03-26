@@ -1,7 +1,8 @@
 import { Action } from '@ngrx/store'
 import { DataResult, AnnouncementTypesResult, CriticalDatesResult,
     CommitmentTypesResult, LocationsResult, PartysResult, PortfoliosResult,
-    WhoAnnouncedTypesResult, PackageTypesResult, ThemeTypesResult, CommitmentPortfolioResult } from '../../models'
+    WhoAnnouncedTypesResult, PackageTypesResult, ThemeTypesResult, CommitmentPortfoliosResult, 
+    CommitmentPackageResult, CommitmentElectoratesResult, CommitmentContactsResult, CommitmentMapPointsResult  } from '../../models'
 import { StatusesResult } from '../../models/status.model';
 
 export enum CommitmentLookupsActionTypes {
@@ -37,7 +38,18 @@ export enum CommitmentLookupsActionTypes {
   StatusesActionFailure = '[Lookups] Portfolios Action Failure',
   GetAllCommitmentPortfolios = '[Lookups] Get All Commitment Portfolios',
   LoadAllCommitmentPortfolios = '[Lookups] Load Commitment Portfolios',
+  GetAllCommitmentPackages = '[Lookups] Get All Commitment Packages',
+  LoadAllCommitmentPackages = '[Lookups] Load Commitment Packages',
+  GetAllCommitmentElectorates = '[Lookups] Get All Commitment Electorates',
+  LoadAllCommitmentElectorates = '[Lookups] Load Commitment Electorates',
+  GetAllCommitmentContacts = '[Lookups] Get All Commitment Contacts',
+  LoadAllCommitmentContacts = '[Lookups] Load Commitment Contacts',
+  ContactsActionFailure = '[Lookups] Contacts Action Failure',
+  GetAllCommitmentMapPoints = '[Lookups] Get All Commitment Map Points',
+  LoadAllCommitmentMapPoints = '[Lookups] Load Commitment Map Points',
+  MapPointsActionFailure = '[Lookups] Map Points Action Failure',
 }
+
 
 // AnnouncementTypes
 
@@ -154,6 +166,15 @@ export class LoadLocations implements Action {
     constructor(public payload: DataResult<LocationsResult>) { }
 }
 
+export class GetAllCommitmentElectorates implements Action {
+    readonly type = CommitmentLookupsActionTypes.GetAllCommitmentElectorates
+}
+
+export class LoadAllCommitmentElectorates implements Action {
+    readonly type = CommitmentLookupsActionTypes.LoadAllCommitmentElectorates
+    constructor(public payload: DataResult<CommitmentElectoratesResult>) { }
+}
+
 export class LocationsActionFailure implements Action {
     readonly type = CommitmentLookupsActionTypes.LocationsActionFailure
     constructor(public payload: any) {
@@ -195,7 +216,7 @@ export class GetAllCommitmentPortfolios implements Action {
 
 export class LoadAllCommitmentPortfolios implements Action {
     readonly type = CommitmentLookupsActionTypes.LoadAllCommitmentPortfolios
-    constructor(public payload: DataResult<CommitmentPortfolioResult>) { }
+    constructor(public payload: DataResult<CommitmentPortfoliosResult>) { }
 }
 
 export class PortfoliosActionFailure implements Action {
@@ -204,6 +225,53 @@ export class PortfoliosActionFailure implements Action {
     }
 }
 
+// Commitment Packages
+export class GetAllCommitmentPackages implements Action {
+    readonly type = CommitmentLookupsActionTypes.GetAllCommitmentPackages
+}
+
+export class LoadAllCommitmentPackages implements Action {
+    readonly type = CommitmentLookupsActionTypes.LoadAllCommitmentPackages
+    constructor(public payload: DataResult<CommitmentPackageResult>) { }
+}
+
+export class PackageActionFailure implements Action {
+    readonly type = CommitmentLookupsActionTypes.PackageTypesActionFailure
+    constructor(public payload: any) {
+    }
+}
+
+//Commitment Contacts
+export class GetAllCommitmentContacts implements Action {
+    readonly type = CommitmentLookupsActionTypes.GetAllCommitmentContacts
+}
+
+export class LoadAllCommitmentContacts implements Action {
+    readonly type = CommitmentLookupsActionTypes.LoadAllCommitmentContacts
+    constructor(public payload: DataResult<CommitmentContactsResult>) { }
+}
+
+export class ContactActionFailure implements Action {
+    readonly type = CommitmentLookupsActionTypes.ContactsActionFailure
+    constructor(public payload: any) {
+    }
+}
+
+ //Commitment MapPoints
+ export class GetAllCommitmentMapPoints implements Action {
+    readonly type = CommitmentLookupsActionTypes.GetAllCommitmentMapPoints
+}
+
+export class LoadAllCommitmentMapPoints implements Action {
+    readonly type = CommitmentLookupsActionTypes.LoadAllCommitmentMapPoints
+    constructor(public payload: DataResult<CommitmentMapPointsResult>) { }
+}
+
+export class MapPointActionFailure implements Action {
+    readonly type = CommitmentLookupsActionTypes.MapPointsActionFailure
+    constructor(public payload: any) {
+    }
+}
 
 // WhoAnnouncedTypes
 
@@ -255,3 +323,14 @@ export type CommitmentLookupsActions =
     | StatusesActionFailure
     | GetAllCommitmentPortfolios
     | LoadAllCommitmentPortfolios
+    | GetAllCommitmentPackages
+    | LoadAllCommitmentPackages
+    | GetAllCommitmentElectorates
+    | LoadAllCommitmentElectorates
+    | GetAllCommitmentContacts
+    | LoadAllCommitmentContacts
+    | ContactActionFailure
+    | GetAllCommitmentMapPoints
+    | LoadAllCommitmentMapPoints
+    | MapPointActionFailure
+

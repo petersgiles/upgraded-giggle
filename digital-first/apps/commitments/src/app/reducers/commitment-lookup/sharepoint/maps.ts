@@ -1,4 +1,4 @@
-import { WhoAnnouncedType, AnnouncementType, CriticalDate, CommitmentType, Party, Portfolio, PackageType, ThemeType, Electorate, Status, CommitmentPortfolio } from '../../../models'
+import { WhoAnnouncedType, AnnouncementType, CriticalDate, CommitmentType, Party, Portfolio, PackageType, ThemeType, Electorate, Status } from '../../../models'
 import { fromLookup } from '@df/sharepoint'
 
 export const mapWhoAnnouncedType = (announcementType): any => ({
@@ -97,11 +97,42 @@ export const mapLocation = (location): Electorate => ({
 export const mapLocations = (locations): Electorate[] =>
     locations.map(mapLocation)
 
-export const mapCommitmentPortfolio = (commitmentPortfolio): CommitmentPortfolio => ({
+export const mapCommitmentPortfolio = (commitmentPortfolio): Portfolio => ({
     id: commitmentPortfolio.ID,
     commitment: fromLookup(commitmentPortfolio.Commitment).title,
     portfolio: fromLookup(commitmentPortfolio.Portfolio).title
 })
 
-export const mapCommitmentPortfolios = (commitmentPortfolios): CommitmentPortfolio[] =>
+export const mapCommitmentPortfolios = (commitmentPortfolios): Portfolio[] =>
     commitmentPortfolios.map(mapCommitmentPortfolio)
+
+export const mapCommitmentPackage = (commitmentPackage): PackageType => ({
+    id: commitmentPackage.ID,
+    title: commitmentPackage.title,
+    commitment: fromLookup(commitmentPackage.Commitment).title,
+    package: fromLookup(commitmentPackage.Package).title
+})
+
+export const mapCommitmentPackages = (commitmentPackages): PackageType[] =>
+    commitmentPackages.map(mapCommitmentPackage)
+
+export const mapCommitmentElectorate = (commitmentElectorate): any => ({
+    id: commitmentElectorate.ID,
+    commitment: fromLookup(commitmentElectorate.Commitment).title,
+    electorate: fromLookup(commitmentElectorate.Electorate).title
+})
+export const mapCommitmentElectorates = (commitmentElectorates): any[] => commitmentElectorates.map(mapCommitmentElectorate)
+
+export const mapCommitmentContact = (commitmentContacts): any => ({
+    id: commitmentContacts.ID,
+    commitment: fromLookup(commitmentContacts.Commitment).title,
+    contact: fromLookup(commitmentContacts.Contact).title
+})
+export const mapCommitmentContacts = (commitmentContacts): any[] => commitmentContacts.map(mapCommitmentContact)
+
+export const mapCommitmentMapPoint = (commitmentMapPoints): any => ({
+    id: commitmentMapPoints.ID,
+    commitment: fromLookup(commitmentMapPoints.Commitment).title,
+    mapPoint: fromLookup(commitmentMapPoints.MapPoint).title
+})
+export const mapCommitmentMapPoints = (commitmentMapPoints): any[] => commitmentMapPoints.map(mapCommitmentMapPoint)

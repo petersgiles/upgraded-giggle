@@ -13,6 +13,10 @@ export interface State {
     packageTypes: any[]
     statuses: any[]
     commitmentPortfolios: any[]
+    commitmentPackages: any[]
+    commitmentElectorates: any[]
+    commitmentContacts: any[]
+    commitmentMapPoints: any[]
 }
 
 export const initialState: State = {
@@ -26,7 +30,11 @@ export const initialState: State = {
     themeTypes: null,
     packageTypes: null,
     statuses: null,
-    commitmentPortfolios: null
+    commitmentPortfolios: null,
+    commitmentPackages: null,
+    commitmentElectorates: null,
+    commitmentContacts: null,
+    commitmentMapPoints: null
 }
 
 export function reducer(
@@ -111,6 +119,35 @@ export function reducer(
                 commitmentPortfolios: action.payload.data.commitmentPortfolios
             }
         }
+
+        case CommitmentLookupsActionTypes.LoadAllCommitmentPackages: {
+            return {
+                ...state,
+                commitmentPackages: action.payload.data.commitmentPackages
+            }
+        }
+
+        case CommitmentLookupsActionTypes.LoadAllCommitmentElectorates: {
+            return {
+                ...state,
+                commitmentElectorates: action.payload.data.commitmentElectorates
+            }
+        }
+
+        case CommitmentLookupsActionTypes.LoadAllCommitmentContacts: {
+            return {
+                ...state,
+                commitmentContacts: action.payload.data.commitmentContacts
+            }
+        }
+
+        case CommitmentLookupsActionTypes.LoadAllCommitmentMapPoints: {
+            return {
+                ...state,
+                commitmentMapPoints: action.payload.data.commitmentMapPoints
+            }
+        }
+
 
         default:
             return state

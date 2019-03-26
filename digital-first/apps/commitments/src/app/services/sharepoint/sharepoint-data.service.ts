@@ -6,14 +6,14 @@ import { SharepointJsomService } from '@df/sharepoint'
 import { AppDataService } from '../app-data.service'
 
 import {
-  mapCommitmentPortfolios, mapGroupPermissions,
+  mapCommitmentPortfolios, mapGroupPermissions, mapCommitmentPackages
 } from './sharepoint-data-maps'
 
 import {
   DataResult,
   CommitmentResult,
   CommitmentsResult,
-  ContactsResult,
+  Contact, ContactsResult,
   GroupPermissionsResult,
 } from '../../models'
 import { Commitment } from '../../reducers/commitment'
@@ -22,8 +22,8 @@ import { byIdQuery, byCommitmentIdQuery } from './caml'
 import { mapContacts, mapCommitmentContacts } from './contact'
 import { mapCommitment, mapCommitments } from './commitment'
 import { SPAppUserProfile } from '@df/sharepoint'
-import { mapPortfolios } from '../../reducers/commitment-lookup/sharepoint/maps'
-import { Contact } from '../../reducers/contact/contact.model'
+import { mapPortfolios, mapPackageTypes } from '../../reducers/commitment-lookup/sharepoint/maps'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -102,18 +102,27 @@ export class SharepointDataService implements AppDataService {
       this.sharepoint.getItems({
         listName: 'CommitmentPortfolio',
         viewXml: byCommitmentIdQuery(criteria)
+      }),
+      this.sharepoint.getItems({
+        listName: 'PackageType'
+      }),
+      this.sharepoint.getItems({
+        listName: 'CommitmentPackage',
+        viewXml: byCommitmentIdQuery(criteria)
       })
     ]).pipe(
-      concatMap(([spCommitment, spContacts, spCommitmentContacts, spPortfolios, spCommitmentPortfolios]) => {
+      concatMap(([spCommitment, spContacts, spCommitmentContacts, spPortfolios, spCommitmentPortfolios, spPackages, spCommitmentPackages]) => {
 
         const commitment = mapCommitment(spCommitment[0])
         const contacts = arrayToHash(mapContacts(spContacts))
         const commitmentContact = mapCommitmentContacts(spCommitmentContacts)
         const portfolios = arrayToHash(mapPortfolios(spPortfolios))
+        const packages = arrayToHash(mapPackageTypes(spPackages))
         const commitmentPortfolio = mapCommitmentPortfolios(spCommitmentPortfolios)
+        const commitmentPackage = mapCommitmentPackages(spCommitmentPackages)
         commitment.contacts = commitmentContact.map(c => ({ ...contacts[c.contact], ccid: c.id }))
         commitment.portfolios = commitmentPortfolio.map(c => ({ ...portfolios[c.portfolio] }))
-
+        commitment.packages = commitmentPackage.map(c => ({ ...packages[c.package] }))
         return of({
           data: { commitment: commitment },
           loading: false

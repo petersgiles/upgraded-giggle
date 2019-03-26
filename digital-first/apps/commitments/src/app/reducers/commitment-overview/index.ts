@@ -2,7 +2,7 @@ import { createSelector, createSelectorFactory,  defaultMemoize } from '@ngrx/st
 import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
 
 import * as fromCommitmentOverview from './commitment-overview.reducer'
-
+import { getAllContacts } from '../contact'
 import { getAllCommitments } from '../commitment'
 import { Commitment } from '../commitment/commitment.model'
 import { formatCommitmentTitle, formatCommitmentId } from '../../formatters'
@@ -22,12 +22,15 @@ import {
   getAllPackageTypes,
   getAllLocations,
   getCostingAgencies,
-  getAllPackages,
   getAllThemes,
   getAllStatuses,
-  getLookupCommitmentPortfolios
+  getLookupCommitmentPortfolios,
+  getLookupCommitmentPackages,
+  getLookupCommitmentElectorates,
+  getLookupCommitmentContacts,
+  getLookupCommitmentMapPoints
 } from '../commitment-lookup'
-import { findInLookup, findInLookupCommitmentPortfolio } from '../utils'
+import { findInLookup, findInLookupCommitmentPortfolio, findInLookupCommitmentContact } from '../utils'
 import {
   DATA_TABLE_SORT_DIRECTION,
   DATA_TABLE_SORT_DIRECTION_DESC,
@@ -262,12 +265,16 @@ export const bigSelector = selectorFunc(
   getCommitmentTypeEntities,
   getWhoAnnouncedTypeEntities,
   getCriticalDateEntities,
-  getAllPackageTypes,
   getAllLocations,
   getCostingAgencies,
   getAllThemes,
   getAllStatuses,
   getLookupCommitmentPortfolios,
+  getLookupCommitmentPackages,
+  getLookupCommitmentElectorates,
+  getLookupCommitmentContacts,
+  getAllContacts,
+  getLookupCommitmentMapPoints,
   (
     partys,
     portfolios,
@@ -275,12 +282,16 @@ export const bigSelector = selectorFunc(
     commitmentTypes,
     whoAnnouncedTypes,
     criticalDates,
-    packages,
     locations,
     costingAgencies,
     themes,
     statuses,
     commitmentPortfolios,
+    commitmentPackages,
+    commitmentElectorates,
+    commitmentContacts,
+    allContacts,
+    commitmentMapPoints,
   ) => ({
     partys,
     portfolios,
@@ -288,12 +299,16 @@ export const bigSelector = selectorFunc(
     commitmentTypes,
     whoAnnouncedTypes,
     criticalDates,
-    packages,
     locations,
     costingAgencies,
     themes,
     statuses,
-    commitmentPortfolios
+    commitmentPortfolios,
+    commitmentPackages,
+    commitmentElectorates,
+    commitmentContacts,
+    allContacts,
+    commitmentMapPoints,
   })
 )
 
@@ -381,6 +396,12 @@ export const getAllOverviewCommitments = createSelector(
       description: null,
       portfolio: findInLookup(commitment.portfolio, lookups.portfolios),
       party: findInLookup(commitment.party, lookups.partys),
+      cost: commitment.cost,
+      announcedBy: commitment.announcedby,
+      location:  findInLookup(
+        commitment.location,
+        lookups.locations
+      ),
       whoAnnouncedType: findInLookup(
         commitment.whoAnnouncedType,
         lookups.whoAnnouncedTypes
@@ -399,26 +420,29 @@ export const getAllOverviewCommitments = createSelector(
       ),
       portfolios:  findInLookupCommitmentPortfolio(
         commitment,
-        lookups.commitmentPortfolios
+        lookups.commitmentPortfolios,
+        'portfolio'
       ),
-      location:  findInLookup(
-        commitment.location,
-        lookups.locations
+      packages:  findInLookupCommitmentPortfolio(
+        commitment,
+        lookups.commitmentPackages,
+        'package'
       ),
-      themeType: findInLookup(
-        commitment.themeType,
-        lookups.themeTypes
+      electorates:  findInLookupCommitmentPortfolio(
+        commitment,
+        lookups.commitmentElectorates,
+        'electorate'
       ),
-      packageType: findInLookup(
-        commitment.packageType,
-        lookups.packageTypes
+      contacts:  findInLookupCommitmentContact(
+        commitment,
+        lookups
       ),
-      status: findInLookup(
-        commitment.status,
-        lookups.statuses
-      ),
-      costingRequired: commitment.costingRequired,
-      cost: commitment.cost
+      themeType: commitment.themeType,
+    
+      status: commitment.status,
+        
+      costingRequired: commitment.costingRequired
+      
     }))
 
     if (state.sortDirection) {

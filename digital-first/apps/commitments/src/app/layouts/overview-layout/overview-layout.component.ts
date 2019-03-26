@@ -26,7 +26,7 @@ export class OverviewLayoutComponent implements OnInit {
     private service: CommitmentDataService,
     private excelService: ExcelService,
     private refinerAction: RefinerActionService,
-    private lookup: CommitmentLookupService
+    private lookup: CommitmentLookupService,
   ) {}
 
   ngOnInit() {
@@ -39,8 +39,13 @@ export class OverviewLayoutComponent implements OnInit {
     this.lookup.getAllPortfolios()
     this.lookup.getAllThemeTypes()
     this.lookup.getAllPackageTypes()
+    this.lookup.getAllStatuses()
     this.lookup.getAllCommitmentPortfolios()
-    
+    this.lookup.getAllCommitmentPackages()
+    this.lookup.getAllCommitmentElectorates()
+    this.lookup.getAllCommitmentContacts()
+    this.lookup.getAllCommitmentMapPoints()
+    this.service.getAllContacts();
 
     this.refinerGroups$ = this.service.RefinerGroups
     this.commitmentsFilteredSubscription$ = this.service.CommitmentFiltered.subscribe(
@@ -63,18 +68,20 @@ export class OverviewLayoutComponent implements OnInit {
       Id: fc.commitmentId,
       Title: fc.title,
       Party: fc.party ? fc.party.title : '',
+      Cost: fc.cost ? fc.cost : '',
+      Location: fc.location ? fc.location.title : '',
+      'Announced by': fc.announcedBy ? fc.announcedBy: '',
       'Responsible Portfolio': fc.portfolio ? fc.portfolio.title : '',
+      'Type of Announcement': fc.announcementType ? fc.announcementType.title : '',
+      'Type of Who Announced': fc.whoAnnouncedType ? fc.whoAnnouncedType.title : '',
       'Type of Commitment': fc.commitmentType ? fc.commitmentType.title : '',
       'Critical Date': fc.criticalDate ? fc.criticalDate.title : '',
-      'Type of Who Announced': fc.whoAnnouncedType ? fc.whoAnnouncedType.title : '',
-      'Type of Announcement': fc.announcementType ? fc.announcementType : '',
-      'Theme Type': fc.themeType ? fc.themeType : '',
-      'Locations': fc.location ? fc.location : '',
-      'Package Type': fc.packageType ? fc.packageType : '',
-      'Status': fc.status ? fc.status: '',
+       Packages: fc.packages && fc.packages ? fc.packages.join() : '',
       'Costing Required': fc.costingRequired ? fc.costingRequired : '',
-      'Cost': fc.cost ? fc.cost : '',
-      'Related Portfolios': fc.portfolios &&  fc.portfolios.length ? fc.portfolios.join() : ''   
+       Status: fc.status ? fc.status.title: '',
+      'Related Portfolios': fc.portfolios &&  fc.portfolios.length ? fc.portfolios.join() : '',
+      'Related Electorates': fc.electorates &&  fc.electorates.length ? fc.electorates.join() : '',
+       Contacts: fc.contacts &&  fc.contacts.length ? fc.contacts.join() : ''    
     }))
 
     this.excelService.exportAsExcelFile(exportCommitments, 'commitments')

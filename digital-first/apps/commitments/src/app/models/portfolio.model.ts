@@ -4,6 +4,8 @@ export interface Portfolio {
   icon?: string
   colour?: string
   type?: string[]
+  commitment?: string
+  portfolio?: string
 }
 
 export interface PortfoliosResult {

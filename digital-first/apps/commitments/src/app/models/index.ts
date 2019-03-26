@@ -1,6 +1,6 @@
 import { Commitment } from '../reducers/commitment'
 
-import { Contact } from '../reducers/contact/contact.model'
+
 import { RelatedCommitment } from '../reducers/related-commitment/related-commitment.model'
 import { CommitmentAction } from '../reducers/commitment-action/commitment-action.model'
 import { RelatedLink } from '../reducers/related-link/related-link.model'
@@ -8,16 +8,18 @@ import { GroupPermission } from '../reducers/user/user.model'
 import { MapPoint } from '@digital-first/df-map'
 
 export { CommitmentType, CommitmentTypesResult } from './commitment-type.model'
-export { Electorate, LocationsResult } from './location.model'
+export { Electorate, CommitmentElectoratesResult, LocationsResult } from './location.model'
 export { WhoAnnouncedType, WhoAnnouncedTypesResult } from './who-announced-type.model'
 export { CriticalDate, CriticalDatesResult } from './critical-date.model'
 export { Party, PartysResult } from './party.model'
 export { Portfolio, PortfoliosResult, CommitmentPortfoliosResult } from './portfolio.model'
 export { AnnouncementType, AnnouncementTypesResult } from './announcement-type.model'
-export { PackageType, PackageTypesResult } from './package-type.model'
+export { PackageType, PackageTypesResult, CommitmentPackageResult } from './package-type.model'
 export { ThemeType, ThemeTypesResult } from './theme-type.model'
 export { Status, StatusesResult } from './status.model'
-export { CommitmentPortfolio, CommitmentPortfolioResult } from './commitment-portfolio.model'
+export { Contact, ContactsResult, CommitmentContactsResult } from '../models/contact.model'
+export { CommitmentMapPoint, CommitmentMapPointsResult } from '../models/commitment-map-points.model'
+
 export interface ServiceData<T> {
   data: { [key: string]: T }
 }
@@ -59,9 +61,6 @@ export interface CommitmentsResult {
   commitments: Commitment[]
 }
 
-export interface ContactsResult {
-  contacts: Contact[]
-}
 
 export interface MapPointsResult {
   mapPoints: MapPoint[]

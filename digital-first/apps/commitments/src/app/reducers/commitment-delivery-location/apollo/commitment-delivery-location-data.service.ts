@@ -17,7 +17,7 @@ import {
   ELECTORATES_BY_COMMITMENT
 } from './queries'
 import { GET_COMMITMENT } from '../../../services/apollo/commitments'
-import { ElectoratesResult } from '../../../models/location.model'
+import { CommitmentElectoratesResult } from '../../../models/location.model'
 
 @Injectable({
   providedIn: 'root'
@@ -97,7 +97,7 @@ export class DeliveryLocationDataApolloService
     )
 
   getElectoratesByCommitment = (commitment: any) =>
-    callQuery<ElectoratesResult>(
+    callQuery<CommitmentElectoratesResult>(
       this.apollo,
       {
         query: ELECTORATES_BY_COMMITMENT,

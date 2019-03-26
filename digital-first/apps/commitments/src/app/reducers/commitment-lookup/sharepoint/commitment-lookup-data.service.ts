@@ -6,7 +6,8 @@ import { concatMap, tap, map } from 'rxjs/operators'
 import { byCommitmentIdQuery } from '../../../services/sharepoint/caml'
 import { CommitmentLookupDataService } from '../commitment-lookup-data.service'
 import { mapWhoAnnouncedTypes, mapAnnouncementTypes, mapPortfolios, mapCriticalDates,
-  mapParties, mapCommitmentTypes, mapLocations, mapPackageTypes, mapThemeTypes, mapStatuses, mapCommitmentPortfolios } from './maps'
+  mapParties, mapCommitmentTypes, mapLocations, mapPackageTypes, mapThemeTypes, mapStatuses, 
+  mapCommitmentPortfolios,  mapCommitmentPackages, mapCommitmentElectorates, mapCommitmentContacts, mapCommitmentMapPoints } from './maps'
 
 @Injectable({
     providedIn: 'root'
@@ -135,6 +136,54 @@ export class CommitmentLookupDataSharePointService implements CommitmentLookupDa
           }))
       )
   }
+
+  filterCommitmentPackages(filter: any) {
+    return this.sharepoint.getItems({ listName: 'CommitmentPackage' })
+    .pipe(
+      concatMap((result: any) =>
+        of({
+          data: { commitmentPackages: mapCommitmentPackages(result) },
+          loading: false,
+          error: null
+        }))
+    )
+}
+
+filterCommitmentElectorates(filter: any) {
+  return this.sharepoint.getItems({ listName: 'CommitmentElectorate' })
+  .pipe(
+    concatMap((result: any) =>
+      of({
+        data: { commitmentElectorates: mapCommitmentElectorates(result) },
+        loading: false,
+        error: null
+      }))
+  )
+}
+
+filterCommitmentContacts(filter: any) {
+  return this.sharepoint.getItems({ listName: 'CommitmentContact' })
+  .pipe(
+    concatMap((result: any) =>
+      of({
+        data: { commitmentContacts: mapCommitmentContacts(result) },
+        loading: false,
+        error: null
+      }))
+  )
+}
+
+filterCommitmentMapPoints(filter: any) {
+  return this.sharepoint.getItems({ listName: 'CommitmentMapPoint' })
+  .pipe(
+    concatMap((result: any) =>
+      of({
+        data: { commitmentMapPoints: mapCommitmentMapPoints(result) },
+        loading: false,
+        error: null
+      }))
+  )
+}
 
     constructor(private sharepoint: SharepointJsomService) { }
 }
