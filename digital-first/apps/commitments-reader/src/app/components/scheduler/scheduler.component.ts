@@ -63,7 +63,6 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
     'barMargin',
     'columns',
     'emptyText',
-    'endDate',
     'events',
     'eventBodyTemplate',
     'eventColor',
@@ -75,7 +74,6 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
     'rowHeight',
     'responsiveLevels',
     'viewPreset',
-    'startDate',
     'crudManager',
     'eventStore',
     'resourceStore',
@@ -204,6 +202,19 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
 
 
     const engine = (this.schedulerEngine = new Scheduler(config))
+
+    // TODO: Raise bug with Brytum - setting start and end kills the app
+    // Set start and end date. If both are defined, use setTimeSpan
+    // if (this.startDate && this.endDate) {
+    //   console.log('setTimeSpan')
+    //   engine.setTimeSpan(this.startDate, this.endDate)
+    // } else if (this.startDate) {
+    //   console.log('startDate')
+    //   engine.startDate = this.startDate
+    // } else if (this.endDate) {
+    //   console.log('endDate')
+    //   engine.endDate = this.endDate
+    // }
 
     engine.zoomLevel = this.zoomLevel || engine.minZoomLevel
     engine.maxWidth = "calc(100% - 250px)"

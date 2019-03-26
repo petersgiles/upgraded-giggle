@@ -137,11 +137,11 @@ export class PlannerComponent {
   }
 
   ngOnInit() {
-    const me = this;
+    const me = this
     this.zoomSlider.min = 0
     this.zoomSlider.max = this.zoomLevels.length - 1
     this.zoomSlider.levelId = 0
-  
+
     this.featureConfig = {
       timeRanges: {
         showCurrentTimeLine: true,
@@ -163,8 +163,7 @@ export class PlannerComponent {
                 name: 'Announcement',
                 eventType: 'Announcement'
               })
-              ;
-              (me.scheduler.schedulerEngine as any).editEvent(event)
+              ;(me.scheduler.schedulerEngine as any).editEvent(event)
             }
           },
           {
@@ -181,9 +180,9 @@ export class PlannerComponent {
                 durationUnit: 'd',
                 name: 'Budget',
                 eventType: 'Budget',
-                location:'test'
-              });
-              (me.scheduler.schedulerEngine as any).editEvent(event)
+                location: 'test'
+              })
+              ;(me.scheduler.schedulerEngine as any).editEvent(event)
             }
           },
           {
@@ -197,8 +196,8 @@ export class PlannerComponent {
                 durationUnit: 'd',
                 name: 'MyEOFY',
                 eventType: 'MyEOFY'
-              });
-              (me.scheduler.schedulerEngine as any).editEvent(event)
+              })
+              ;(me.scheduler.schedulerEngine as any).editEvent(event)
             }
           }
         ]
@@ -210,14 +209,14 @@ export class PlannerComponent {
             type: 'text',
             name: 'location',
             label: 'Location',
-            id:"location",
+            id: 'location',
             index: 1
             // This field is only displayed for meetings
           },
           {
             type: 'combo',
             name: 'eventType',
-            id:"eventType",
+            id: 'eventType',
             label: 'Type',
             index: 2,
             items: ['Announcement', 'Budget', 'MyEOFY']

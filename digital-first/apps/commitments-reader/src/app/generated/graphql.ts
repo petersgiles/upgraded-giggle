@@ -261,11 +261,11 @@ export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
   >
 }
 
-export type CommitmentsGetQueryVariables = {
+export type PlannerCommitmentsQueryVariables = {
   input: CommitmentRefinementInput
 }
 
-export type CommitmentsGetQuery = { __typename?: 'Query' } & {
+export type PlannerCommitmentsQuery = { __typename?: 'Query' } & {
   commitments: Maybe<
     Array<Maybe<{ __typename?: 'Commitment' } & CommitmentPartsFragment>>
   >
@@ -358,8 +358,8 @@ export class CommitmentsSearchGQL extends Apollo.Query<
 > {
   document = CommitmentsSearchDocument
 }
-export const CommitmentsGetDocument = gql`
-  query CommitmentsGet($input: CommitmentRefinementInput!) {
+export const PlannerCommitmentsDocument = gql`
+  query PlannerCommitments($input: CommitmentRefinementInput!) {
     commitments(input: $input) {
       ...CommitmentParts
     }
@@ -370,9 +370,9 @@ export const CommitmentsGetDocument = gql`
 @Injectable({
   providedIn: 'root'
 })
-export class CommitmentsGetGQL extends Apollo.Query<
-  CommitmentsGetQuery,
-  CommitmentsGetQueryVariables
+export class PlannerCommitmentsGQL extends Apollo.Query<
+  PlannerCommitmentsQuery,
+  PlannerCommitmentsQueryVariables
 > {
-  document = CommitmentsGetDocument
+  document = PlannerCommitmentsDocument
 }
