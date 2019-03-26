@@ -13,18 +13,23 @@ import * as knex from 'knex'
 import { toTree } from '../shared/utils'
 import { logger } from '../shared/logger'
 import { importSchema } from 'graphql-import'
-import { Commitment, Tag, MapPoint, DB_TABLE_TAG } from './resolvers'
+import { Commitment, Tag, MapPoint } from './resolvers'
 import { HomeController } from './controllers'
 import { allowCrossDomain } from '../shared/cors'
 import { getById, getByAll, upsert, remove, getByParent } from './resolvers'
 
 const typeDefs = importSchema('./commitments-reader-gql/schema.graphql')
 
+
 const sqlDB = knex({
 	client: 'sqlite3',
 	connection: { filename: './commitments-reader-gql/db/dev.sqlite3' },
 	useNullAsDefault: true,
 })
+
+sqlDB.on( 'query', function( queryData: any ) {
+    console.log( queryData );
+});
 
 class SqlConnector {
 	connection: any

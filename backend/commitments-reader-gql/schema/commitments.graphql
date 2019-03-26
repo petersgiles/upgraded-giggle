@@ -2,17 +2,11 @@
 type Commitment {
 	id: ID!,
     title: String,
-    description: String,
-    cost: String,
-    date: String,
-    announcedby: String,
-	party: [Tag],
-	criticalDate: [Tag],
-    whoAnnounced: [Tag],
-    announcement: [Tag],
-    commitment: [Tag],
-    portfolio: [Tag],
-    electorates: [Tag],
+	party: String,
+	criticalDate: String,
+    type: String,
+    portfolio: String
+    announcedby: String
 }
 
 input CommitmentRefinementInput {
@@ -21,12 +15,12 @@ input CommitmentRefinementInput {
 }
 
 input CommitmentInput {
-	id: ID
+	id: ID,
     title: String!,
-    description: String,
-    cost: String,
-    date: String,
-    announcedby: String,
+	party: ID!,
+	criticalDate: ID!,
+    type: ID!,
+    portfolio: ID!
 }
 
 input CommitmentMapPointInput {

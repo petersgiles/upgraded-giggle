@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core'
 import { tap, map } from 'rxjs/operators'
-import { CommitmentsSearchGQL, CommitmentPartsFragment } from '../../generated/graphql';
-import { Observable } from 'rxjs';
+import {
+  CommitmentsSearchGQL,
+  CommitmentPartsFragment
+} from '../../generated/graphql'
+import { Observable } from 'rxjs'
 
 @Component({
   selector: 'digital-first-overview-page',
@@ -9,10 +12,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./overview-page.component.scss']
 })
 export class OverviewPageComponent implements OnInit {
-
-  
   public commitmentsTableData$: Observable<CommitmentPartsFragment[]>
-  public columns: {prop: string, name: string}[]
+  public columns: { prop: string; name: string }[]
   public count: number
 
   constructor(private commitmentsSearchGQL: CommitmentsSearchGQL) {
@@ -21,21 +22,19 @@ export class OverviewPageComponent implements OnInit {
       { prop: 'title', name: 'Title' },
       { prop: 'party', name: 'Party' },
       { prop: 'portfolio', name: 'Responsible Portfolio' },
-      { prop: 'commitmentType', name: 'Type of Commitment' },
+      { prop: 'type', name: 'Type of Commitment' },
       { prop: 'criticalDate', name: 'Critical Date' }
     ]
   }
 
   ngOnInit() {
     this.commitmentsTableData$ = this.commitmentsSearchGQL
-      .fetch(
-        { input: {} },
-        { fetchPolicy: 'network-only' }
-        )
+      .fetch({ input: {} }, { fetchPolicy: 'network-only' })
       .pipe(
+        // tslint:disable-next-line:no-console
         tap(result => console.log(result)),
         map(result => result.data.commitments)
-        )
+      )
   }
 
   handleCommitmentsRowClicked($event) {}

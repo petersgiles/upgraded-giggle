@@ -19,26 +19,20 @@ export enum CacheControlScope {
 export type Commitment = {
   id: Scalars['ID']
   title?: Maybe<Scalars['String']>
-  description?: Maybe<Scalars['String']>
-  cost?: Maybe<Scalars['String']>
-  date?: Maybe<Scalars['String']>
+  party?: Maybe<Scalars['String']>
+  criticalDate?: Maybe<Scalars['String']>
+  type?: Maybe<Scalars['String']>
+  portfolio?: Maybe<Scalars['String']>
   announcedby?: Maybe<Scalars['String']>
-  party?: Maybe<Array<Maybe<Tag>>>
-  criticalDate?: Maybe<Array<Maybe<Tag>>>
-  whoAnnounced?: Maybe<Array<Maybe<Tag>>>
-  announcement?: Maybe<Array<Maybe<Tag>>>
-  commitment?: Maybe<Array<Maybe<Tag>>>
-  portfolio?: Maybe<Array<Maybe<Tag>>>
-  electorates?: Maybe<Array<Maybe<Tag>>>
 }
 
 export type CommitmentInput = {
   id?: Maybe<Scalars['ID']>
   title: Scalars['String']
-  description?: Maybe<Scalars['String']>
-  cost?: Maybe<Scalars['String']>
-  date?: Maybe<Scalars['String']>
-  announcedby?: Maybe<Scalars['String']>
+  party: Scalars['ID']
+  criticalDate: Scalars['ID']
+  type: Scalars['ID']
+  portfolio: Scalars['ID']
 }
 
 export type CommitmentMapPointInput = {
@@ -190,23 +184,16 @@ export type UserProfile = {
   email: Scalars['String']
   roles?: Maybe<Array<Maybe<Role>>>
 }
-export type TagPartsFragment = { __typename?: 'Tag' } & Pick<
-  Tag,
-  'id' | 'title'
->
-
 export type CommitmentPartsFragment = { __typename?: 'Commitment' } & Pick<
   Commitment,
-  'id' | 'title' | 'description' | 'cost' | 'date' | 'announcedby'
-> & {
-    party: Maybe<Array<Maybe<{ __typename?: 'Tag' } & TagPartsFragment>>>
-    criticalDate: Maybe<Array<Maybe<{ __typename?: 'Tag' } & TagPartsFragment>>>
-    whoAnnounced: Maybe<Array<Maybe<{ __typename?: 'Tag' } & TagPartsFragment>>>
-    announcement: Maybe<Array<Maybe<{ __typename?: 'Tag' } & TagPartsFragment>>>
-    commitment: Maybe<Array<Maybe<{ __typename?: 'Tag' } & TagPartsFragment>>>
-    portfolio: Maybe<Array<Maybe<{ __typename?: 'Tag' } & TagPartsFragment>>>
-    electorates: Maybe<Array<Maybe<{ __typename?: 'Tag' } & TagPartsFragment>>>
-  }
+  | 'id'
+  | 'title'
+  | 'party'
+  | 'type'
+  | 'criticalDate'
+  | 'portfolio'
+  | 'announcedby'
+>
 
 export type GetRefinerTagsQueryVariables = {}
 
@@ -280,61 +267,23 @@ export type CommitmentsGetQueryVariables = {
 
 export type CommitmentsGetQuery = { __typename?: 'Query' } & {
   commitments: Maybe<
-    Array<
-      Maybe<
-        { __typename?: 'Commitment' } & Pick<
-          Commitment,
-          'id' | 'title' | 'date' | 'announcedby'
-        > & {
-            party: Maybe<
-              Array<Maybe<{ __typename?: 'Tag' } & Pick<Tag, 'id' | 'title'>>>
-            >
-          }
-      >
-    >
+    Array<Maybe<{ __typename?: 'Commitment' } & CommitmentPartsFragment>>
   >
 }
 
 import gql from 'graphql-tag'
 import { Injectable } from '@angular/core'
 import * as Apollo from 'apollo-angular'
-export const TagPartsFragmentDoc = gql`
-  fragment TagParts on Tag {
-    id
-    title
-  }
-`
 export const CommitmentPartsFragmentDoc = gql`
   fragment CommitmentParts on Commitment {
     id
     title
-    description
-    cost
-    date
+    party
+    type
+    criticalDate
+    portfolio
     announcedby
-    party {
-      ...TagParts
-    }
-    criticalDate {
-      ...TagParts
-    }
-    whoAnnounced {
-      ...TagParts
-    }
-    announcement {
-      ...TagParts
-    }
-    commitment {
-      ...TagParts
-    }
-    portfolio {
-      ...TagParts
-    }
-    electorates {
-      ...TagParts
-    }
   }
-  ${TagPartsFragmentDoc}
 `
 export const GetRefinerTagsDocument = gql`
   query GetRefinerTags {
@@ -412,16 +361,10 @@ export class CommitmentsSearchGQL extends Apollo.Query<
 export const CommitmentsGetDocument = gql`
   query CommitmentsGet($input: CommitmentRefinementInput!) {
     commitments(input: $input) {
-      id
-      title
-      date
-      announcedby
-      party {
-        id
-        title
-      }
+      ...CommitmentParts
     }
   }
+  ${CommitmentPartsFragmentDoc}
 `
 
 @Injectable({

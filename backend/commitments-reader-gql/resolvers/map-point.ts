@@ -1,4 +1,4 @@
-import { DB_TABLE_MAP_POINT, DB_TABLE_COMMITMENT_MAPPOINT } from '.'
+import { TABLE } from './db'
 
 export class MapPoint {
 	connectorKeys: { db: string }
@@ -12,7 +12,7 @@ export class MapPoint {
 	async getById(id: any, context: any): Promise<any> {
 		let result = await this.knex(context)
 			.select()
-			.from(DB_TABLE_MAP_POINT)
+			.from(TABLE.MAP_POINT)
 			.where('id', id)
 
 		return result && result[0]
@@ -21,25 +21,25 @@ export class MapPoint {
 	async getAll(context: any): Promise<any[]> {
 		let result = await this.knex(context)
 			.select()
-			.from(DB_TABLE_MAP_POINT)
+			.from(TABLE.MAP_POINT)
 
 		return result
 	}
 
 	async upsert(payload: any, context: any): Promise<void> {
 		if (payload.item.id) {
-			return await this.knex(context)(DB_TABLE_MAP_POINT)
+			return await this.knex(context)(TABLE.MAP_POINT)
 				.where({ id: payload.item.id })
 				.update({ ...payload.item })
 		} else {
-			return await this.knex(context)(DB_TABLE_MAP_POINT).insert({
+			return await this.knex(context)(TABLE.MAP_POINT).insert({
 				...payload.item,
 			})
 		}
 	}
 
 	async delete(id: any, context: any): Promise<void> {
-		return await this.knex(context)(DB_TABLE_MAP_POINT)
+		return await this.knex(context)(TABLE.MAP_POINT)
 			.where({ id: id })
 			.del()
 	}

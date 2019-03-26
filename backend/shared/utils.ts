@@ -1,3 +1,6 @@
+export const arrayToHash = (array: any[], id: string = 'id') =>  (array || []).reduce((obj, item) =>  (obj[item[id]] = item , obj), {})
+export const arrayToIndex = (array: any[], id: string = 'id') =>  (array || []).map(item => item[id])
+
 export const sortBy = (key: string | number) => (a: { [x: string]: number; }, b: { [x: string]: number; }) => (a[key] > b[key]) ? 1 : ((b[key] > a[key]) ? -1 : 0)
 
 export function toTree(data: any[], options?: {

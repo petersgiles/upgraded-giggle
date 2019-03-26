@@ -1,5 +1,4 @@
-import { DB_TABLE_TAG } from ".";
-
+import { TABLE } from './db'
 
 export class Tag {
 	connectorKeys: { db: string }
@@ -13,7 +12,7 @@ export class Tag {
 	async getById(id: any, context: any): Promise<any> {
 		let result = await this.knex(context)
 			.select()
-			.from(DB_TABLE_TAG)
+			.from(TABLE.TAG)
 			.where('id', id)
 
 		return result && result[0]
@@ -22,14 +21,14 @@ export class Tag {
 	async getAll(context: any): Promise<any[]> {
 		let result = await this.knex(context)
 			.select()
-			.from(DB_TABLE_TAG)
+			.from(TABLE.TAG)
 		return result
 	}
 
 	async getByParent(payload: any, context: any): Promise<any[]> {
 		let result = await this.knex(context)
 			.select()
-			.from(DB_TABLE_TAG)
+			.from(TABLE.TAG)
 			.where('parent', payload.parent)
 		return result
 	}
@@ -37,25 +36,29 @@ export class Tag {
 	async getResolverTree(payload: any, context: any): Promise<any[]> {
 		let result = await this.knex(context)
 			.select()
-			.from(DB_TABLE_TAG)
-		return result.map((t: any) => ({...t, expanded: false, selected: false, groupId: t.parent}))
+			.from(TABLE.TAG)
+		return result.map((t: any) => ({
+			...t,
+			expanded: false,
+			selected: false,
+			groupId: t.parent,
+		}))
 	}
-
 
 	async upsert(payload: any, context: any): Promise<void> {
 		if (payload.item.id) {
-			return await this.knex(context)(DB_TABLE_TAG)
+			return await this.knex(context)(TABLE.TAG)
 				.where({ id: payload.item.id })
 				.update({ ...payload.item })
 		} else {
-			return await this.knex(context)(DB_TABLE_TAG).insert({
+			return await this.knex(context)(TABLE.TAG).insert({
 				...payload.item,
 			})
 		}
 	}
 
 	async delete(id: any, context: any): Promise<void> {
-		return await this.knex(context)(DB_TABLE_TAG)
+		return await this.knex(context)(TABLE.TAG)
 			.where({ id: id })
 			.del()
 	}

@@ -1,4 +1,4 @@
-import { DB_TABLE_NAVIGATION } from '.'
+import { TABLE } from './db'
 
 export class NavigableApplication {
 	connectorKeys: { db: string }
@@ -12,7 +12,7 @@ export class NavigableApplication {
 	async getById(id: any, context: any): Promise<any> {
 		let result = await this.knex(context)
 			.select()
-			.from(DB_TABLE_NAVIGATION)
+			.from(TABLE.NAVIGATION)
 			.where('id', id)
 
 		return result && result[0]
@@ -21,24 +21,24 @@ export class NavigableApplication {
 	async getAll(context: any): Promise<any[]> {
 		let result = await this.knex(context)
 			.select()
-			.from(DB_TABLE_NAVIGATION)
+			.from(TABLE.NAVIGATION)
 		return result
 	}
 
 	async upsert(payload: any, context: any): Promise<void> {
 		if (payload.item.id) {
-			return await this.knex(context)(DB_TABLE_NAVIGATION)
+			return await this.knex(context)(TABLE.NAVIGATION)
 				.where({ id: payload.item.id })
 				.update({ ...payload.item })
 		} else {
-			return await this.knex(context)(DB_TABLE_NAVIGATION).insert({
+			return await this.knex(context)(TABLE.NAVIGATION).insert({
 				...payload.item,
 			})
 		}
 	}
 
 	async delete(id: any, context: any): Promise<void> {
-		return await this.knex(context)(DB_TABLE_NAVIGATION)
+		return await this.knex(context)(TABLE.NAVIGATION)
 			.where({ id: id })
 			.del()
 	}

@@ -102,6 +102,7 @@
     "apollo-angular-link-http": "^1.5.0",
     "apollo-cache-inmemory": "^1.5.1",
     "apollo-client": "^2.5.1",
+    "apollo-link": "^1.2.11",
     "apollo-link-debounce": "^2.1.0",
     "apollo-link-error": "^1.1.8",
     "chart.js": "^2.8.0",
