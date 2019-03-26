@@ -3,22 +3,27 @@ import {
   ViewChild,
   ViewEncapsulation,
   Input,
-  ɵConsole
+  ɵConsole,
+  OnInit
 } from '@angular/core'
 import { SchedulerComponent } from '../scheduler/scheduler.component'
 import { MdcSliderChange } from '@angular-mdc/web'
 import { DateHelper, EventModel, Store } from 'bryntum-scheduler'
 import { componentNeedsResolution } from '@angular/core/src/metadata/resource_loading'
 import { CommitmentEventType } from '../../models/commitment-event-type'
+import * as CommonEventTypes from './data/eventTypes.json'
+import * as ZoomLevels from './data/zoomLevels.json'
+import * as timeRanges from './data/timeRanges.json'
 
 declare var window: any
+
 @Component({
   selector: 'digital-first-planner',
   templateUrl: './planner.component.html',
   styleUrls: ['./planner.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class PlannerComponent {
+export class PlannerComponent implements OnInit {
   @Input()
   commitments: any[]
 
@@ -29,66 +34,11 @@ export class PlannerComponent {
   startDate = new Date()
   endDate = DateHelper.add(this.startDate, 3, 'year')
 
-  //TODO: set widths based on size of parent container
-  //TODO: raise request to have these internally sorted
-  //TODO: infer id based on index
-  zoomLevels = [
-    {
-      id: 0,
-      label: '3 years',
-      width: 140,
-      increment: 1,
-      resolution: 1,
-      preset: 'year',
-      resolutionUnit: 'day'
-    },
-    {
-      id: 1,
-      label: '1 year',
-      width: 100,
-      increment: 1,
-      resolution: 12,
-      preset: 'monthAndYear',
-      resolutionUnit: 'day'
-    },
-    {
-      id: 2,
-      label: '100 days',
-      width: 100,
-      increment: 1,
-      resolution: 1,
-      preset: 'weekAndMonth',
-      resolutionUnit: 'day'
-    },
-    {
-      id: 3,
-      label: 'month',
-      width: 250,
-      increment: 1,
-      resolution: 1,
-      preset: 'weekAndMonth',
-      resolutionUnit: 'day'
-    },
-    {
-      id: 4,
-      label: 'fortnight',
-      width: 100,
-      increment: 1,
-      resolution: 7,
-      preset: 'weekAndDay',
-      resolutionUnit: 'hour'
-    },
-    {
-      id: 5,
-      label: 'week',
-      width: 200,
-      increment: 1,
-      resolution: 1,
-      preset: 'weekAndDay',
-      resolutionUnit: 'hour'
-    }
-  ]
-
+  // TODO: set widths based on size of parent container
+  // TODO: raise request to have these internally sorted
+  // TODO: infer id based on index
+  
+  // Setup data for scheduler
   events = [
     {
       id: 1,
@@ -106,84 +56,9 @@ export class PlannerComponent {
       editable: false
     }
   ]
-
-  timeRanges = [
-    {
-      name: 'Both sitting',
-      startDate: '2019-04-02',
-      duration: 2,
-      cls: 'timerange-sitting-both'
-    },
-    {
-      name: 'House sitting',
-      startDate: '2019-04-04',
-      duration: 1,
-      cls: 'timerange-sitting-house'
-    },
-    {
-      name: 'House sitting',
-      startDate: '2019-04-15',
-      endDate: '2019-04-19',
-      cls: 'timerange-sitting-house'
-    },
-    {
-      name: 'State election',
-      startDate: '2019-04-22'
-    }
-  ]
-
-  commonEventTypes: CommitmentEventType[] = [
-    {
-      id: '0001',
-      type: 'Policy development',
-      duration: 30,
-      durationUnit: 'd',
-      icon: ''
-    },
-    {
-      id: '0002',
-      type: 'Cabinet Meeting',
-      duration: 1,
-      durationUnit: 'd',
-      icon: ''
-    },
-    {
-      id: '0003',
-      type: 'Drafting the Explanatory Memorandum',
-      duration: 7,
-      durationUnit: 'd',
-      icon: ''
-    },
-    {
-      id: '0004',
-      type: 'drafting legislative',
-      duration: 30,
-      durationUnit: 'd',
-      icon: ''
-    },
-    {
-      id: '0005',
-      type: 'Legislative introduction',
-      duration: 1,
-      durationUnit: 'd',
-      icon: ''
-    },
-    {
-      id: '0006',
-      type: 'Announcement',
-      duration: 1,
-      durationUnit: 'd',
-      icon: ''
-    },
-    {
-      id: '0007',
-      type: 'Review',
-      duration: 90,
-      durationUnit: 'd',
-      icon: ''
-    }
-  ]
-  //TODO: type or componentize
+  timeRanges = timeRanges
+  zoomLevels = ZoomLevels
+  commonEventTypes = CommonEventTypes
 
   zoomSlider: any = {}
 

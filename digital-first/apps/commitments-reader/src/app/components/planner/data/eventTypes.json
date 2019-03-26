@@ -1,0 +1,51 @@
+[
+    {
+      "id": "0001",
+      "type": "Policy development",
+      "duration": 30,
+      "durationUnit": "d",
+      "icon": ""
+    },
+    {
+      "id": "0002",
+      "type": "Cabinet Meeting",
+      "duration": 1,
+      "durationUnit": "d",
+      "icon": ""
+    },
+    {
+      "id": "0003",
+      "type": "Drafting the Explanatory Memorandum",
+      "duration": 7,
+      "durationUnit": "d",
+      "icon": ""
+    },
+    {
+      "id": "0004",
+      "type": "Drafting legislative",
+      "duration": 30,
+      "durationUnit": "d",
+      "icon": ""
+    },
+    {
+      "id": "0005",
+      "type": "Legislative introduction",
+      "duration": 1,
+      "durationUnit": "d",
+      "icon": ""
+    },
+    {
+      "id": "0006",
+      "type": "Announcement",
+      "duration": 1,
+      "durationUnit": "d",
+      "icon": ""
+    },
+    {
+      "id": "0007",
+      "type": "Review",
+      "duration": 90,
+      "durationUnit": "d",
+      "icon": ""
+    }
+  ]
