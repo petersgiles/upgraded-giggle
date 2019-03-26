@@ -1,5 +1,6 @@
 import {
   Component,
+  OnInit,
   OnDestroy,
   ChangeDetectorRef,
   ChangeDetectionStrategy
@@ -8,18 +9,30 @@ import {
   AllProjectsSearchGQL,
   AllProjectsSearchQuery
 } from '../../generated/graphql'
-import { Subscription } from 'rxjs'
+import { BehaviorSubject, Subscription } from 'rxjs'
 import { Router } from '@angular/router'
+import { multiFilter } from '../../core/graphqlhelper'
+interface ProjectRow {
+  id: string
+  name: string
+  submissionDate: string
+}
+
 @Component({
   selector: 'digital-first-projects',
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProjectsComponent implements OnDestroy {
-  projects: AllProjectsSearchQuery['projects']
-  subscriptions$: Subscription[] = []
-  searchText = ''
+export class ProjectsComponent implements OnDestroy, OnInit {
+  subscription$: Subscription
+  columns = [
+    { prop: 'name', name: 'Project' },
+    { prop: 'submissionDate', name: 'Date' }
+  ]
+  filterProjects$: BehaviorSubject<ProjectRow[]>
+  rows: ProjectRow[]
+  allProjectsSearch: AllProjectsSearchQuery
 
   constructor(
     private searchProjectsGQL: AllProjectsSearchGQL,
@@ -27,32 +40,42 @@ export class ProjectsComponent implements OnDestroy {
     private router: Router
   ) {}
 
-  doSearch() {
-    if (!this.searchText) {
+  ngOnInit(): void {
+    this.subscription$ = this.searchProjectsGQL
+      .watch({}, { fetchPolicy: 'network-only' })
+      .valueChanges.subscribe(value => {
+        this.rows = value.data.projects.map(row => ({
+          id: row.id,
+          name: row.name,
+          submissionDate: row.programSubmission.timeStamp
+        }))
+
+        this.filterProjects$ = new BehaviorSubject(this.rows)
+
+        this.changeDetector.detectChanges()
+      })
+  }
+
+  handleSelect(row) {
+    return this.router.navigate(['projects/', row.id])
+  }
+
+  handleFilter($event: any) {
+    const expression = $event.target.value.toLowerCase()
+
+    if (!expression) {
+      this.filterProjects$.next(this.rows)
       return
     }
 
-    const searchSubscription$ = this.searchProjectsGQL
-      .watch(
-        { name: this.searchText },
-        {
-          fetchPolicy: 'no-cache',
-          context: { debounceKey: 'projects', debounceTimeout: 400 }
-        }
-      )
-      .valueChanges.subscribe(value => {
-        this.projects = value.data.projects
-        this.changeDetector.detectChanges()
-      })
+    const filter = {
+      name: expression
+    }
 
-    this.subscriptions$ = [...this.subscriptions$, searchSubscription$]
+    this.filterProjects$.next(multiFilter(this.rows, filter))
   }
 
   ngOnDestroy(): void {
-    for (const subscription of this.subscriptions$) {
-      if (subscription && subscription.unsubscribe) {
-        subscription.unsubscribe()
-      }
-    }
+    this.subscription$.unsubscribe()
   }
 }

@@ -2458,13 +2458,10 @@ export type ProjectQuery = { __typename?: 'Query' } & {
       ProjectGraph,
       'id' | 'name' | 'notes' | 'externalId' | 'status' | 'rowVersion'
     > & {
-        program: Maybe<
-          { __typename?: 'ProgramGraph' } & Pick<ProgramGraph, 'id'>
-        >
         programSubmission: Maybe<
           { __typename?: 'ProgramSubmissionGraph' } & Pick<
             ProgramSubmissionGraph,
-            'timeStamp'
+            'id' | 'timeStamp'
           >
         >
       }
@@ -2487,9 +2484,7 @@ export type AllProjectsQuery = { __typename?: 'Query' } & {
   >
 }
 
-export type AllProjectsSearchQueryVariables = {
-  name?: Maybe<Scalars['String']>
-}
+export type AllProjectsSearchQueryVariables = {}
 
 export type AllProjectsSearchQuery = { __typename?: 'Query' } & {
   projects: Maybe<
@@ -2497,12 +2492,15 @@ export type AllProjectsSearchQuery = { __typename?: 'Query' } & {
       Maybe<
         { __typename?: 'ProjectGraph' } & Pick<ProjectGraph, 'id' | 'name'> & {
             program: Maybe<
-              { __typename?: 'ProgramGraph' } & Pick<ProgramGraph, 'name'>
+              { __typename?: 'ProgramGraph' } & Pick<
+                ProgramGraph,
+                'id' | 'name'
+              >
             >
             programSubmission: Maybe<
               { __typename?: 'ProgramSubmissionGraph' } & Pick<
                 ProgramSubmissionGraph,
-                'timeStamp'
+                'id' | 'timeStamp'
               >
             >
           }
@@ -4106,10 +4104,8 @@ export const ProjectDocument = gql`
       externalId
       status
       rowVersion
-      program {
-        id
-      }
       programSubmission {
+        id
         timeStamp
       }
     }
@@ -4147,17 +4143,16 @@ export class AllProjectsGQL extends Apollo.Query<
   document = AllProjectsDocument
 }
 export const AllProjectsSearchDocument = gql`
-  query allProjectsSearch($name: String) {
-    projects(
-      where: { path: "name", comparison: contains, value: [$name] }
-      orderBy: { path: "name" }
-    ) {
+  query allProjectsSearch {
+    projects(orderBy: { path: "name" }) {
       id
       name
       program {
+        id
         name
       }
       programSubmission {
+        id
         timeStamp
       }
     }

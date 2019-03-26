@@ -5,26 +5,23 @@
 </div>
 
 <div class="form-content">
-  <fieldset>
-    <div class="form-layout__row">
-      <mdc-text-field
-        [outlined]="true"
-        [(ngModel)]="searchText"
-        (ngModelChange)="doSearch()"
-        placeholder="search projects..."
-        autocomplete="off"
-        type="text"
-      >
-        <mdc-icon mdcTextFieldIcon leading>search</mdc-icon>
-      </mdc-text-field>
+  <div *ngIf="filterProjects$; else loading" class="app-page">
+    <div class="form-content">
+      <div class="form-layout__row">
+        <df-data-table
+          [hasFilter]="true"
+          [rows]="filterProjects$ | async"
+          [limit]="10"
+          [columns]="columns"
+          (onSelect)="handleSelect($event)"
+          (onFilter)="handleFilter($event)"
+        >
+        </df-data-table>
+      </div>
     </div>
-  </fieldset>
-  <mdc-list>
-    <mdc-list-item *ngFor="let project of projects">
-      <mdc-list-item-text secondaryText="{{ project.program.name }}">
-        <a [routerLink]="[project.id]">{{ project.name }}</a>
-        {{ project?.programSubmission.timeStamp }}
-      </mdc-list-item-text>
-    </mdc-list-item>
-  </mdc-list>
+  </div>
+
+  <ng-template #loading>
+    Loading...
+  </ng-template>
 </div>
