@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, OnDestroy } from '@angular/core'
 import {
   CommitmentPartsFragment
 } from '../../generated/graphql'
-import { Observable } from 'rxjs'
+import { Observable, Subscription } from 'rxjs'
 import { CommitmentRefinerService, DataTableColumn } from '../../services/commitment-refiner'
 
 @Component({
@@ -10,19 +10,22 @@ import { CommitmentRefinerService, DataTableColumn } from '../../services/commit
   templateUrl: './overview-page.component.html',
   styleUrls: ['./overview-page.component.scss']
 })
-export class OverviewPageComponent implements OnInit {
+export class OverviewPageComponent implements OnInit, OnDestroy {
+
   public commitmentsTableData$: Observable<CommitmentPartsFragment[]>
   public columns$: Observable<DataTableColumn[]>
   public count: number
 
-  constructor(private dataService:  CommitmentRefinerService) {
-
-  }
+  constructor(private dataService:  CommitmentRefinerService) {}
 
   ngOnInit() {
     this.columns$ = this.dataService.columns$
     this.commitmentsTableData$ = this.dataService.commitments$
+    this.dataService.getOverviewPage()
   }
 
-  handleCommitmentsRowClicked($event) {}
+  ngOnDestroy(): void {
+  }
+
+  handleCommitmentsRowClicked($event) {  }
 }

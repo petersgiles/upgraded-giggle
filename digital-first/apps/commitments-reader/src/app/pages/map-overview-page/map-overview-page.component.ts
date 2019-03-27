@@ -32,13 +32,17 @@ export class MapOverviewPageComponent implements OnInit {
     this.columns$ = this.dataService.columns$
     this.mapPoints$ = this.dataService.mapPoints$
     this.mapPointCommitments$ = this.dataService.mapPointCommitments$
+
+    this.dataService.getMapPage()
   }
 
   handleRowClicked(row) {
     // this.router.navigate(['/', 'commitment', row.id])
   }
 
-  handleMapPointSelected(_, mapPoint) {}
+  handleMapPointSelected(_, mapPoint) {
+    this.dataService.selectMapPoint(mapPoint)
+  }
 
   getIcon(mapPoint) {
     return `${this.settings.assetsPath}/${mapPoint.iconUrl || 'beachflag.png'}`

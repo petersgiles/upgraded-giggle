@@ -1,3 +1,5 @@
+import { CommitmentRefinementInput } from '../../generated/graphql'
+
 export abstract class RefinerAction {
   type: string
   payload: any
@@ -11,7 +13,8 @@ export enum RefinerActionTypes {
   GetRefinedCommitments = '[RefinerActionTypes] GetRefinedCommitments',
   LoadRefinedCommitments = '[RefinerActionTypes] LoadRefinedCommitments',
   SelectRefinerGroup = '[RefinerActionTypes] SelectRefinerGroup',
-  SelectRefiner = '[RefinerActionTypes] SelectRefiner'
+  SelectRefiner = '[RefinerActionTypes] SelectRefiner',
+  SelectMapPoint = '[RefinerActionTypes] SelectMapPoint',
 }
 
 export class GetRefinedMapPoints implements RefinerAction {
@@ -36,7 +39,7 @@ export class LoadRefinerGroups implements RefinerAction {
 
 export class GetRefinedCommitments implements RefinerAction {
     type = RefinerActionTypes.GetRefinedCommitments
-    constructor(public payload: any) {}
+    constructor(public payload: CommitmentRefinementInput) {}
   }
 
 export class LoadRefinedCommitments implements RefinerAction {
@@ -53,6 +56,10 @@ export class SelectRefiner implements RefinerAction {
   type = RefinerActionTypes.SelectRefiner
   constructor(public payload: any) {}
 }
+export class SelectMapPoint implements RefinerAction {
+  type = RefinerActionTypes.SelectMapPoint
+  constructor(public payload: any) {}
+}
 
 export type RefinerServiceActions =
   | GetRefinerGroups
@@ -63,3 +70,4 @@ export type RefinerServiceActions =
   | LoadRefinedMapPoints
   | SelectRefinerGroup
   | SelectRefiner
+  | SelectMapPoint
