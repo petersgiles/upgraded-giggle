@@ -82,7 +82,7 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
   ]
 
   // Configs
-  @Input() autoHeight: boolean = true
+  @Input() autoHeight: boolean = false
   @Input() barMargin: number = 5
   @Input() columns: object[]
   @Input() emptyText: string
@@ -199,7 +199,6 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
       config.minZoomLevel = this.zoomLevels[0]
       config.maxZoomLevel = this.zoomLevels[this.zoomLevels.length - 1]
     }
-
 
     const engine = (this.schedulerEngine = new Scheduler(config))
 

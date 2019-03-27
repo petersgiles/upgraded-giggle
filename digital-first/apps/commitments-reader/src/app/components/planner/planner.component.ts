@@ -3,19 +3,14 @@ import {
   ViewChild,
   ViewEncapsulation,
   Input,
-  ɵConsole,
   OnInit
 } from '@angular/core'
 import { SchedulerComponent } from '../scheduler/scheduler.component'
 import { MdcSliderChange } from '@angular-mdc/web'
-import { DateHelper, EventModel, Store } from 'bryntum-scheduler'
-import { componentNeedsResolution } from '@angular/core/src/metadata/resource_loading'
-import { CommitmentEventType } from '../../models/commitment-event-type'
+import { DateHelper, EventModel } from 'bryntum-scheduler'
 import * as CommonEventTypes from './data/eventTypes.json'
 import * as ZoomLevels from './data/zoomLevels.json'
 import * as timeRanges from './data/timeRanges.json'
-
-declare var window: any
 
 @Component({
   selector: 'digital-first-planner',
@@ -33,7 +28,7 @@ export class PlannerComponent implements OnInit {
 
   startDate = new Date()
   endDate = DateHelper.add(this.startDate, 3, 'year')
-  myEofyDate =DateHelper.add(this.startDate, 3, 'month')
+  myEofyDate = DateHelper.add(this.startDate, 3, 'month')
   // TODO: set widths based on size of parent container
   // TODO: raise request to have these internally sorted
   // TODO: infer id based on index
@@ -81,7 +76,7 @@ export class PlannerComponent implements OnInit {
         showCurrentTimeLine: true,
         showHeaderElements: false,
         enableResizing: false,
-        currentDateFormat:"D"
+        currentDateFormat: 'D'
       },
       scheduleContextMenu: {
         // Extra items for all events
@@ -122,12 +117,11 @@ export class PlannerComponent implements OnInit {
       case 'zoomchange':
         const level: any = (event as any).level
         this.zoomSlider.levelId = level.id
-        console.log(level.id)
     }
   }
 
   populateExtraItems(me: any) {
-    let extraItems = []
+    const extraItems = []
     this.commonEventTypes.forEach(e => {
       extraItems.push({
         text: e.type,
@@ -150,7 +144,7 @@ export class PlannerComponent implements OnInit {
   }
 
   populateExtraEventTypes() {
-    let extraTypes = []
+    const extraTypes = []
     this.commonEventTypes.forEach(c => {
       extraTypes.push(c.type)
     })
@@ -158,7 +152,6 @@ export class PlannerComponent implements OnInit {
   }
 
   scrollToDate(date: Date) {
-    // this.scheduler.schedulerEngine.zoomTo(5)
-    this.scheduler.schedulerEngine.scrollToDate(date,{block:"center"})
+    this.scheduler.schedulerEngine.scrollToDate(date, { block: 'center' })
   }
 }
