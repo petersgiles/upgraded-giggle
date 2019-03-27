@@ -1088,7 +1088,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/apps/commitments-reader",
+            "outputPath": "../sharepoint/deploy/SiteAssets/apps/commitments-reader",
             "index": "apps/commitments-reader/src/index.html",
             "main": "apps/commitments-reader/src/main.ts",
             "polyfills": "apps/commitments-reader/src/polyfills.ts",
@@ -1124,6 +1124,14 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
+                }
+              ]
+            },
+            "sharepoint": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/commitments-reader/src/environments/environment.ts",
+                  "with": "apps/commitments-reader/src/environments/environment.sharepoint.ts"
                 }
               ]
             }
