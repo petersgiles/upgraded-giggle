@@ -2461,7 +2461,7 @@ export type ProjectQuery = { __typename?: 'Query' } & {
         programSubmission: Maybe<
           { __typename?: 'ProgramSubmissionGraph' } & Pick<
             ProgramSubmissionGraph,
-            'id' | 'timeStamp'
+            'id' | 'timeStamp' | 'dataDate'
           >
         >
       }
@@ -2500,7 +2500,7 @@ export type AllProjectsSearchQuery = { __typename?: 'Query' } & {
             programSubmission: Maybe<
               { __typename?: 'ProgramSubmissionGraph' } & Pick<
                 ProgramSubmissionGraph,
-                'id' | 'timeStamp'
+                'id' | 'timeStamp' | 'dataDate'
               >
             >
           }
@@ -4107,6 +4107,7 @@ export const ProjectDocument = gql`
       programSubmission {
         id
         timeStamp
+        dataDate
       }
     }
   }
@@ -4154,6 +4155,7 @@ export const AllProjectsSearchDocument = gql`
       programSubmission {
         id
         timeStamp
+        dataDate
       }
     }
   }

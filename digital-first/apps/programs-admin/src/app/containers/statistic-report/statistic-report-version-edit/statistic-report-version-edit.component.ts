@@ -8,7 +8,7 @@ import {
 } from '../../../generated/graphql'
 import { Subscription } from 'rxjs'
 import { first, map } from 'rxjs/operators'
-
+import { formatDateForTextField } from '../../../date-time-format'
 @Component({
   selector: 'digital-first-statistic-report-version-edit',
   templateUrl: './statistic-report-version-edit.component.html',
@@ -43,7 +43,7 @@ export class StatisticReportVersionEditComponent implements OnInit, OnDestroy {
       .valueChanges.pipe(map(value => value.data.statisticReportVersion))
       .subscribe(reportVersion => {
         this.statisticReportVersionForm.patchValue({
-          dataDate: reportVersion.dataDate,
+          dataDate: formatDateForTextField(reportVersion.dataDate),
           notes: reportVersion.notes
         })
         this.rowVersion = reportVersion.rowVersion

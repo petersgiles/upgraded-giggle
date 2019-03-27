@@ -17,7 +17,7 @@ import {
   PermissionChangedEvent,
   PermissionRow
 } from '../permission/permission.component'
-
+import { formatDate } from '../../date-time-format'
 @Component({
   selector: 'digital-first-program-report',
   templateUrl: './program-report.component.html',
@@ -67,6 +67,9 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
           this.permissionRows = []
         }
         this.latestVersion = report.latestVersion
+        if (this.latestVersion) {
+          this.latestVersion.dataDate = formatDate(this.latestVersion.dataDate)
+        }
       })
   }
 

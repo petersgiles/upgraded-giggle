@@ -12,10 +12,13 @@ import {
 import { BehaviorSubject, Subscription } from 'rxjs'
 import { Router } from '@angular/router'
 import { multiFilter } from '../../core/graphqlhelper'
+import { formatDate, formatDateTime } from '../../date-time-format'
 interface ProjectRow {
   id: string
   name: string
   submissionDate: string
+  dataDate: string
+  programName: string
 }
 
 @Component({
@@ -28,7 +31,9 @@ export class ProjectsComponent implements OnDestroy, OnInit {
   subscription$: Subscription
   columns = [
     { prop: 'name', name: 'Project' },
-    { prop: 'submissionDate', name: 'Date' }
+    { prop: 'programName', name: 'Program' },
+    { prop: 'dataDate', name: 'Data date' },
+    { prop: 'submissionDate', name: 'Submission date' }
   ]
   filterProjects$: BehaviorSubject<ProjectRow[]>
   rows: ProjectRow[]
@@ -47,7 +52,9 @@ export class ProjectsComponent implements OnDestroy, OnInit {
         this.rows = value.data.projects.map(row => ({
           id: row.id,
           name: row.name,
-          submissionDate: row.programSubmission.timeStamp
+          submissionDate: formatDateTime(row.programSubmission.timeStamp),
+          dataDate: formatDate(row.programSubmission.dataDate),
+          programName: row.program.name
         }))
 
         this.filterProjects$ = new BehaviorSubject(this.rows)

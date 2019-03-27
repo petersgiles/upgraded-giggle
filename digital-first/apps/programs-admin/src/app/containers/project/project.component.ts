@@ -4,7 +4,7 @@ import { ProjectGQL, ProjectQuery } from '../../generated/graphql'
 import { map } from 'rxjs/operators'
 import { Subscription } from 'rxjs'
 import { MdcDialog } from '@angular-mdc/web'
-
+import { formatDate, formatDateTime } from '../../date-time-format'
 type Project = ProjectQuery['project']
 
 @Component({
@@ -30,6 +30,12 @@ export class ProjectComponent implements OnInit, OnDestroy {
       .valueChanges.pipe(map(value => value.data.project))
       .subscribe(project => {
         this.project = project
+        this.project.programSubmission.dataDate = formatDate(
+          this.project.programSubmission.dataDate
+        )
+        this.project.programSubmission.timeStamp = formatDateTime(
+          this.project.programSubmission.timeStamp
+        )
       })
   }
 
