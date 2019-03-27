@@ -7,7 +7,7 @@ import * as bodyParser from 'body-parser' // pull information from HTML POST (ex
 import * as methodOverride from 'method-override' // simulate DELETE and PUT (express4)
 import * as compression from 'compression'
 import * as helmet from 'helmet' // Security
-import * as express from 'express'
+import * as express from 'express'	
 import * as morgan from 'morgan'
 import * as knex from 'knex'
 import { toTree } from '../shared/utils'
@@ -55,7 +55,8 @@ app.use(
 	express.static(path.join(process.cwd(), 'commitment-reader-gql', 'public'))
 )
 app.use('/home', HomeController)
-
+var cors = require('cors')
+app.use(cors())
 // app.use(function(req: any, res: any, next: any){
 //   logger.error('404 page requested');
 //   res.status(404).send('This page does not exist!');
