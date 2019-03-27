@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { PlannerCommitmentsGQL } from '../../generated/graphql'
 import { tap, map } from 'rxjs/operators'
+import { CommitmentRefinerService } from '../../services/commitment-refiner'
 @Component({
   selector: 'digital-first-planner-page',
   templateUrl: './planner-page.component.html',
@@ -8,21 +9,16 @@ import { tap, map } from 'rxjs/operators'
 })
 export class PlannerPageComponent implements OnInit {
   commitmentsData$
-  constructor(private commitmentsGet: PlannerCommitmentsGQL) {}
+  constructor(private dataService: CommitmentRefinerService) {}
 
   ngOnInit() {
-    this.commitmentsData$ = this.commitmentsGet
-      .watch({ input: {} })
-      .valueChanges.pipe(
-        // tslint:disable-next-line:no-console
-        tap(result => console.log(result.data.commitments)),
-        map(result => {
-          const commitments = []
-          result.data.commitments.forEach(c =>
-            commitments.push({ id: c.id, name: c.title })
-          )
-          return commitments
-        })
-      )
+    this.commitmentsData$ = this.dataService.commitments$.pipe(
+      map(result => {
+        const commitments = []
+        result.forEach(c => commitments.push({ id: c.id, name: c.title }))
+        return commitments
+      })
+    )
+    this.dataService.getPlannerPage()
   }
 }
