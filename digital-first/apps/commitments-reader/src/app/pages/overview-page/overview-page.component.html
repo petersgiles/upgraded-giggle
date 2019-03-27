@@ -4,7 +4,7 @@
         <div class="overview-data-table">
           <df-data-table
             [rows]="commitmentsTableData$ | async"
-            [columns]="dataService.columns"
+            [columns]="columns$ | async"
             [count]="count"
             (onSelect)="handleCommitmentsRowClicked($event)"
           >

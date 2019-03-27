@@ -18,7 +18,7 @@ export class Tag {
 		return result && result[0]
 	}
 
-	async getAll(context: any): Promise<any[]> {
+	async getAll(args: any,context: any): Promise<any[]> {
 		let result = await this.knex(context)
 			.select()
 			.from(TABLE.TAG)

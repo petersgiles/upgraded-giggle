@@ -11,7 +11,7 @@
   <section>
     <div class="app-layout__row--no-wrap">
       <digital-first-metadata-refiner
-        [refinerGroups]="dataService.refinerGroups$ | async"
+        [refinerGroups]="refinerGroups$ | async"
         (onSearchCriteriaChanged)="handleSearchCriteriaChanged($event)"
         (onClear)="handleSearchCriteriaChanged(null)"
         (onRefinerGroupSelected)="handleRefinerGroupSelected($event)"

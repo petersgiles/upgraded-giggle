@@ -14,9 +14,10 @@ export class PlannerPageComponent implements OnInit {
     this.commitmentsData$ = this.commitmentsGet
       .watch({ input: {} })
       .valueChanges.pipe(
+        // tslint:disable-next-line:no-console
         tap(result => console.log(result.data.commitments)),
         map(result => {
-          let commitments = []
+          const commitments = []
           result.data.commitments.forEach(c =>
             commitments.push({ id: c.id, name: c.title })
           )

@@ -18,7 +18,7 @@ export const getByAll = async (
 	context: any,
 	info: any
 ) => {
-	let result = await context.models[modelName].getAll(context)
+	let result = await context.models[modelName].getAll(args, context)
 	return result
 }
 

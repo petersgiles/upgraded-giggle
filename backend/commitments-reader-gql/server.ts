@@ -28,7 +28,7 @@ const sqlDB = knex({
 })
 
 sqlDB.on( 'query', function( queryData: any ) {
-    console.log( queryData );
+    // console.log( queryData );
 });
 
 class SqlConnector {

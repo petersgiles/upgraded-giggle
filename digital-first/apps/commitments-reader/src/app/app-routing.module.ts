@@ -24,10 +24,11 @@ const routes: Routes = [
       title: 'Home'
     },
     children: [
+      { path: '', redirectTo: 'overview', pathMatch: 'full' },
       {
         path: 'home',
         component: HomeComponent
-      }, 
+      },
       {
         path: '',
         component: CommitmentLayoutComponent,

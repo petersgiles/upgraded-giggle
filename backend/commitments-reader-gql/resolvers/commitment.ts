@@ -19,9 +19,13 @@ export class Commitment {
 		return result && result[0]
 	}
 
-	async getAll(context: any): Promise<any[]> {
+	async getAll(args: any, context: any): Promise<any[]> {
 		let commitmentParties = await this.knex(context)
-			.select(`${TABLE.COMMITMENT_PARTY}.commitment as id`, `Tag.title`)
+			.select(
+				`${TABLE.COMMITMENT_PARTY}.commitment as id`,
+				`Tag.title`,
+				`Tag.id as tagId`
+			)
 			.from(TABLE.COMMITMENT_PARTY)
 			.leftJoin(`${TABLE.TAG} as Tag`, function() {
 				this.on(`${TABLE.COMMITMENT_PARTY}.party`, '=', `Tag.id`)
@@ -30,28 +34,52 @@ export class Commitment {
 		let parties = arrayToHash(commitmentParties)
 
 		let commitmentCriticalDates = await this.knex(context)
-			.select(`${TABLE.COMMITMENT_CRITICAL_DATE}.commitment as id`, `Tag.title`)
+			.select(
+				`${TABLE.COMMITMENT_CRITICAL_DATE}.commitment as id`,
+				`Tag.title`,
+				`Tag.id as tagId`
+			)
 			.from(TABLE.COMMITMENT_CRITICAL_DATE)
 			.leftJoin(`${TABLE.TAG} as Tag`, function() {
-				this.on(`${TABLE.COMMITMENT_CRITICAL_DATE}.critical_date`, '=', `Tag.id`)
+				this.on(
+					`${TABLE.COMMITMENT_CRITICAL_DATE}.critical_date`,
+					'=',
+					`Tag.id`
+				)
 			})
 
 		let criticalDates = arrayToHash(commitmentCriticalDates)
 
 		let commitmentResponsiblePortfolios = await this.knex(context)
-			.select(`${TABLE.COMMITMENT_RESPONSIBLE_PORTFOLIO}.commitment as id`, `Tag.title`)
+			.select(
+				`${TABLE.COMMITMENT_RESPONSIBLE_PORTFOLIO}.commitment as id`,
+				`Tag.title`,
+				`Tag.id as tagId`
+			)
 			.from(TABLE.COMMITMENT_RESPONSIBLE_PORTFOLIO)
 			.leftJoin(`${TABLE.TAG} as Tag`, function() {
-				this.on(`${TABLE.COMMITMENT_RESPONSIBLE_PORTFOLIO}.responsible_portfolio`, '=', `Tag.id`)
+				this.on(
+					`${TABLE.COMMITMENT_RESPONSIBLE_PORTFOLIO}.responsible_portfolio`,
+					'=',
+					`Tag.id`
+				)
 			})
 
 		let commitmentPortfolios = arrayToHash(commitmentResponsiblePortfolios)
 
 		let commitmentCommitmentTypes = await this.knex(context)
-			.select(`${TABLE.COMMITMENT_COMMITMENT_TYPE}.commitment as id`, `Tag.title`)
+			.select(
+				`${TABLE.COMMITMENT_COMMITMENT_TYPE}.commitment as id`,
+				`Tag.title`,
+				`Tag.id as tagId`
+			)
 			.from(TABLE.COMMITMENT_COMMITMENT_TYPE)
 			.leftJoin(`${TABLE.TAG} as Tag`, function() {
-				this.on(`${TABLE.COMMITMENT_COMMITMENT_TYPE}.commitment_type`, '=', `Tag.id`)
+				this.on(
+					`${TABLE.COMMITMENT_COMMITMENT_TYPE}.commitment_type`,
+					'=',
+					`Tag.id`
+				)
 			})
 
 		let commitmentTypes = arrayToHash(commitmentCommitmentTypes)
@@ -69,6 +97,22 @@ export class Commitment {
 				type: commitmentTypes[p.id].title,
 			}
 		})
+
+		let refinedCommitments: any[]
+		if (args.input && args.input.tags.length > 0) {
+
+			const argtags = args.input.tags
+			 refinedCommitments = [
+				...commitmentCommitmentTypes,
+				...commitmentResponsiblePortfolios,
+				...commitmentCriticalDates,
+			]
+				.filter((t) => argtags.includes(t.tagId))
+				.map((t) => t.id)
+
+				commitments = commitments.filter((r: any) => refinedCommitments.includes(r.id))
+			
+		}
 
 		return commitments
 	}
