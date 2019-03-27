@@ -59,6 +59,15 @@ export class CommitmentLayoutComponent
     this.appRouter.segments.subscribe(url => {
       const x = this.tabs.findIndex(p => p.id === url)
       this.activeTab = x
+      this.dataService.getLayoutPage()
+      switch (this.activeTab) {
+        case 0:
+        this.dataService.getOverviewPage()
+        break
+        case 1:
+        this.dataService.getMapPage()
+        break
+      }
     })
   }
 }

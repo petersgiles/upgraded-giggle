@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { Observable, of } from 'rxjs'
-import { CommitmentPartsFragment } from '../../generated/graphql'
+import { CommitmentPartsFragment, MapPoint } from '../../generated/graphql'
 import { SettingsService } from '../../services/settings.service'
 import { Router } from '@angular/router'
 import { CommitmentRefinerService, DataTableColumn } from '../../services/commitment-refiner'
@@ -15,6 +15,7 @@ export class MapOverviewPageComponent implements OnInit {
   public longitude: number
 
   public zoom: number
+  public mapPoints$: Observable<MapPoint[]>
   public mapPointCommitments$: Observable<CommitmentPartsFragment[]>
   public columns$: Observable<DataTableColumn[]>
 
@@ -29,6 +30,7 @@ export class MapOverviewPageComponent implements OnInit {
     this.longitude = 133.8807
     this.zoom = 5
     this.columns$ = this.dataService.columns$
+    this.mapPoints$ = this.dataService.mapPoints$
     this.mapPointCommitments$ = this.dataService.mapPointCommitments$
   }
 

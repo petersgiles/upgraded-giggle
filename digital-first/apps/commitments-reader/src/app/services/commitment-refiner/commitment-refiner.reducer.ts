@@ -55,7 +55,7 @@ export class RefinerReducer {
     state: RefinerState,
     action: RefinerServiceActions
   ): RefinerState => {
-    if (!DEBUG) {
+    if (DEBUG) {
       // tslint:disable-next-line:no-console
       console.log('reduce', action)
     }
@@ -72,6 +72,13 @@ export class RefinerReducer {
         return {
           ...state,
           commitments: action.payload
+        }
+      }
+
+      case RefinerActionTypes.LoadRefinedMapPoints: {
+        return {
+          ...state,
+          mapPoints: action.payload
         }
       }
 
