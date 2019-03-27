@@ -1,28 +1,35 @@
 .flex-container {
-    display: flex;
-    flex-direction: row;
-    align-items:center;
-    overflow: auto;
-  }
-  
-  .flex-container > div{
-    margin-block-end: auto;
-    flex:1;
-    margin: 25px;
-    text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  > #zoom {
+    flex: 0.8;
+    margin: 0 25px 10px;
     padding-top: 20px;
     scroll-behavior: auto;
-    font-weight: bold;
-  }
-  .mdc-slider__track-container {
-   
-    height: 12px;
-    border-radius: 4px;
-  }
-  .mdc-slider__thumb{
-    transform: scale(2) !important;
+    > .zoomLabels {
+      left: -10%;
+      text-align: center;
+      position: relative;
+      white-space: nowrap;
+      > label {
+        width: 20%;
+        display: inline-block;
+      }
+    }
   }
 
+  > #planerButtons {
+    flex: 0.2;
+    display: flex;
+    padding-right: 20px;
+    > button {
+      flex: 1;
+      margin: 10px;
+    }
+  }
+}
 
 .b-sch-timerange label {
   background: #fff;
@@ -67,9 +74,35 @@
     background-image: inherit;
     background-color: inherit;
     border: inherit;
+
+    > i {
+      font-size: 0.7em;
+    }
   }
 }
 
-.b-watermark{
+.b-watermark {
   display: none !important;
+}
+
+.b-grid.b-timelinebase.b-scheduler,
+#scheduler-container {
+  width: calc(100vw - 280px);
+}
+
+.b-grid-body-container.b-widget-scroller {
+  height: calc(100vh - 370px) !important;
+}
+
+.mdc-slider__pin-value-marker {
+  display: none;
+}
+
+.mdc-slider__track-marker::after,
+.mdc-slider__track-marker-container::after {
+  height: 10px;
+}
+
+.mdc-slider__track-container {
+  overflow: visible;
 }

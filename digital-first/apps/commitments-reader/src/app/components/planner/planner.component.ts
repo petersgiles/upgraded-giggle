@@ -3,19 +3,15 @@ import {
   ViewChild,
   ViewEncapsulation,
   Input,
-  ɵConsole,
   OnInit
 } from '@angular/core'
 import { SchedulerComponent } from '../scheduler/scheduler.component'
 import { MdcSliderChange } from '@angular-mdc/web'
-import { DateHelper, EventModel, Store } from 'bryntum-scheduler'
-import { componentNeedsResolution } from '@angular/core/src/metadata/resource_loading'
-import { CommitmentEventType } from '../../models/commitment-event-type'
+import { DateHelper, EventModel } from 'bryntum-scheduler'
 import * as CommonEventTypes from './data/eventTypes.json'
 import * as ZoomLevels from './data/zoomLevels.json'
 import * as timeRanges from './data/timeRanges.json'
-
-declare var window: any
+import { LocalStorageRef } from '@df/utils'
 
 @Component({
   selector: 'digital-first-planner',
@@ -33,11 +29,11 @@ export class PlannerComponent implements OnInit {
 
   startDate = new Date()
   endDate = DateHelper.add(this.startDate, 3, 'year')
-
+  myEofyDate = DateHelper.add(this.startDate, 3, 'month')
   // TODO: set widths based on size of parent container
   // TODO: raise request to have these internally sorted
   // TODO: infer id based on index
-  
+
   // Setup data for scheduler
   events = [
     {
@@ -74,13 +70,14 @@ export class PlannerComponent implements OnInit {
     const me = this
     this.zoomSlider.min = 0
     this.zoomSlider.max = this.zoomLevels.length - 1
-    this.zoomSlider.levelId = 0
+    this.zoomSlider.levelId = 5
 
     this.featureConfig = {
       timeRanges: {
         showCurrentTimeLine: true,
         showHeaderElements: false,
-        enableResizing: false
+        enableResizing: false,
+        currentDateFormat: 'D'
       },
       scheduleContextMenu: {
         // Extra items for all events
@@ -111,8 +108,11 @@ export class PlannerComponent implements OnInit {
   }
 
   eventRenderer({ eventRecord, tplData }) {
-    // Add a custom CSS classes to the template element data by setting a property name
-    tplData.cls.milestone = eventRecord.isMilestone
+    if (eventRecord.isMilestone) {
+      tplData.cls.milestone = true
+      tplData.style = `color:${eventRecord.eventColor}`
+    }
+
     return eventRecord.name
   }
 
@@ -121,12 +121,17 @@ export class PlannerComponent implements OnInit {
       case 'zoomchange':
         const level: any = (event as any).level
         this.zoomSlider.levelId = level.id
-        console.log(level.id)
+        break
+      case 'aftereventsave':
+        localStorage.setItem(
+          'commimentEvents',
+          JSON.stringify(this.scheduler.schedulerEngine.eventStore.records)
+        )
     }
   }
 
   populateExtraItems(me: any) {
-    let extraItems = []
+    const extraItems = []
     this.commonEventTypes.forEach(e => {
       extraItems.push({
         text: e.type,
@@ -139,7 +144,9 @@ export class PlannerComponent implements OnInit {
             durationUnit: e.durationUnit,
             name: e.type,
             eventType: e.type,
-            eventColor:e.color
+            eventColor: e.color,
+            iconCls: e.icon
+            // TODO: work out how to use onBeforeSave() to set this stuff instead, so it can be used from within the widgets too
           })
           ;(me.scheduler.schedulerEngine as any).editEvent(event)
         }
@@ -149,10 +156,14 @@ export class PlannerComponent implements OnInit {
   }
 
   populateExtraEventTypes() {
-    let extraTypes = []
+    const extraTypes = []
     this.commonEventTypes.forEach(c => {
       extraTypes.push(c.type)
     })
-    return extraTypes;
+    return extraTypes
+  }
+
+  scrollToDate(date: Date) {
+    this.scheduler.schedulerEngine.scrollToDate(date, { block: 'center' })
   }
 }

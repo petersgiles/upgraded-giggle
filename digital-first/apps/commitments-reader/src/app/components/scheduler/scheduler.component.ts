@@ -9,7 +9,7 @@ import {
   SimpleChanges,
   OnDestroy
 } from '@angular/core'
-import { Scheduler } from 'bryntum-scheduler'
+import { Scheduler, Model } from 'bryntum-scheduler'
 
 @Component({
   selector: 'scheduler',
@@ -82,7 +82,7 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
   ]
 
   // Configs
-  @Input() autoHeight: boolean = true
+  @Input() autoHeight: boolean = false
   @Input() barMargin: number = 5
   @Input() columns: object[]
   @Input() emptyText: string
@@ -200,7 +200,6 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
       config.maxZoomLevel = this.zoomLevels[this.zoomLevels.length - 1]
     }
 
-
     const engine = (this.schedulerEngine = new Scheduler(config))
 
     // TODO: Raise bug with Brytum - setting start and end kills the app
@@ -223,6 +222,10 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
 
     engine.eventStore.relayAll(engine, 'events')
     engine.resourceStore.relayAll(engine, 'resources')
+    const existingRecords = JSON.parse(
+      localStorage.getItem('commimentEvents')
+    ) as Model[]
+    engine.eventStore.add(existingRecords)
   }
 
   ngOnChanges(changes: SimpleChanges) {
