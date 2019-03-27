@@ -1,28 +1,26 @@
 .flex-container {
-    display: flex;
-    flex-direction: row;
-    align-items:center;
-    overflow: auto;
-  }
-  
-  .flex-container > div{
-    margin-block-end: auto;
-    flex:1;
-    margin: 25px;
-    text-align: center;
-    padding-top: 20px;
-    scroll-behavior: auto;
-    font-weight: bold;
-  }
-  .mdc-slider__track-container {
-   
-    height: 12px;
-    border-radius: 4px;
-  }
-  .mdc-slider__thumb{
-    transform: scale(2) !important;
-  }
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: auto;
+}
 
+.flex-container > div {
+  margin-block-end: auto;
+  flex: 1;
+  margin: 25px;
+  text-align: center;
+  padding-top: 20px;
+  scroll-behavior: auto;
+  font-weight: bold;
+}
+.mdc-slider__track-container {
+  height: 12px;
+  border-radius: 4px;
+}
+.mdc-slider__thumb {
+  transform: scale(2) !important;
+}
 
 .b-sch-timerange label {
   background: #fff;
@@ -70,6 +68,12 @@
   }
 }
 
-.b-watermark{
+.b-watermark {
   display: none !important;
+}
+
+#scheduler-container {
+  width: calc(100vw - 300px);
+  height: calc(100vh - 350px);
+  overflow: auto;
 }
