@@ -84,7 +84,7 @@ export class DeliveryLocationDataApolloService
   filterMapPoints = (filter?: any) =>
     callQuery<MapPointsResult>(this.apollo, { query: GET_MAP_POINTS })
 
-  getMapPointsByCommitment = (commitment: any): Observable<DataResult<MapPointsResult>> =>
+  getMapPointsByCommitment = (commitment: any) =>
     callQuery<MapPointsResult>(
       this.apollo,
       {
@@ -96,14 +96,14 @@ export class DeliveryLocationDataApolloService
       })
     )
 
-  getElectoratesByCommitment = (commitment: any): Observable<DataResult<CommitmentElectoratesResult>> =>
+  getElectoratesByCommitment = (commitment: any) =>
     callQuery<CommitmentElectoratesResult>(
       this.apollo,
       {
         query: ELECTORATES_BY_COMMITMENT,
         variables: { commitment: commitment }
       },
-      (result: any): any => ({
+      (result: any)  => ({
         data: { commitmentElectorates: result.data.commitmentElectorates }
       })
     )

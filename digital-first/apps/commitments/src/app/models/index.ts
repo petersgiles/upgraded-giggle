@@ -1,6 +1,5 @@
 import { Commitment } from '../reducers/commitment'
 
-
 import { CommitmentAction } from '../reducers/commitment-action/commitment-action.model'
 import { RelatedLink } from '../reducers/related-link/related-link.model'
 import { GroupPermission } from '../reducers/user/user.model'
@@ -26,7 +25,7 @@ export interface ServiceData<T> {
 
 export interface DataResult<T> {
   data: T
-  loading: any
+  loading?: any
   error?: any
   networkStatus?: number
   stale?: boolean
@@ -58,7 +57,6 @@ export interface CommitmentResult {
 export interface CommitmentsResult {
   commitments: Commitment[]
 }
-
 
 export interface MapPointsResult {
   mapPoints: MapPoint[]

@@ -22,11 +22,13 @@ export const callMutate = <T>(apollo, options: {
         catchError(replyError)
     )
 
+type DataResultCallback<T, TResult> =  (item: T) => TResult
+
 export const callQuery = <T>(apollo, options: {
     query: any,
     fetchPolicy?: 'no-cache' | 'network-only',
     variables?: any
-}, mapper?: any): Observable<DataResult<T>> =>
+}, mapper?: DataResultCallback<any, DataResult<T>>): Observable<DataResult<T>> =>
 
     apollo
         .query({
