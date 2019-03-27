@@ -17,6 +17,8 @@ export interface State {
     commitmentElectorates: any[]
     commitmentContacts: any[]
     commitmentMapPoints: any[]
+    mapPoints: any[]
+    relatedCommitments: any[]
 }
 
 export const initialState: State = {
@@ -34,7 +36,9 @@ export const initialState: State = {
     commitmentPackages: null,
     commitmentElectorates: null,
     commitmentContacts: null,
-    commitmentMapPoints: null
+    commitmentMapPoints: null,
+    mapPoints: null,
+    relatedCommitments: null,
 }
 
 export function reducer(
@@ -145,6 +149,20 @@ export function reducer(
             return {
                 ...state,
                 commitmentMapPoints: action.payload.data.commitmentMapPoints
+            }
+        }
+
+        case CommitmentLookupsActionTypes.LoadAllMapPoints: {
+            return {
+                ...state,
+                mapPoints: action.payload.data.mapPoints
+            }
+        }
+
+        case CommitmentLookupsActionTypes.LoadAllRelatedCommitments: {
+            return {
+                ...state,
+                relatedCommitments: action.payload.data.relatedCommitments
             }
         }
 

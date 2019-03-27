@@ -1,7 +1,6 @@
 import { Commitment } from '../../reducers'
 import { fromLookup } from '@df/sharepoint'
-import { RelatedCommitment } from '../../reducers/related-commitment/related-commitment.model'
-import { RelatedLink } from '../../reducers/related-link/related-link.model'
+
 
 export const mapCommitment = (commitment): Commitment => {
   const item: any = commitment

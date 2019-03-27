@@ -1,3 +1,5 @@
+import { CommitmentContact } from '../models'
+
 export const findInLookup = (object, lookupSet) => {
     if (object && object.id && lookupSet) {
         return lookupSet[object.id]
@@ -5,59 +7,67 @@ export const findInLookup = (object, lookupSet) => {
     return null
 }
 
-export const findInLookupCommitmentPortfolio = (object, lookupSet, objectType) => {
+export const findInLookupCommitmentAssocs = (object, lookupSet, key) => {
     if (object && object.title && lookupSet) {
-        let commitmentPortfolios = new Array()
+        let commitmentAssocs = new Array()
         lookupSet.filter(obj => {
-            if (obj.commitment === object.title && objectType === 'portfolio') {
-                commitmentPortfolios.push(obj.portfolio)
-            }
-            else if (obj.commitment === object.title && objectType === 'package') {
-                commitmentPortfolios.push(obj.package)
-            }
-            else if (obj.commitment === object.title && objectType === 'electorate') {
-                commitmentPortfolios.push(obj.electorate)
-            }
-            else if (obj.commitment === object.title && objectType === 'contact') {
-                commitmentPortfolios.push(obj.electorate)
+            if (obj.commitment === object.title) {
+                commitmentAssocs.push(obj[key])
             }
         })
-        return commitmentPortfolios
+        return commitmentAssocs
     }
     return null
 }
 
- class Contact{
+class Contact {
     firstName: string
     name: string
     phone: string
     email: string
 
-    toString(){
+    toString() {
         return this.firstName + ' ' + this.name + ' - ' + this.phone + ' - ' + this.email
     }
 }
 
 export const findInLookupCommitmentContact = (object, lookupSet) => {
     if (object && object.title && lookupSet) {
-        let commitmentPortfolios = new Array()
-        let contacts = ''
+        let commitmentContacts = new Array()
         lookupSet.commitmentContacts.filter(commitmentContact => {
             if (commitmentContact.commitment === object.title) {
                 lookupSet.allContacts.filter(contact => {
                     if (contact.name === commitmentContact.contact) {
-                        let thisContact  = new Contact()
+                        let thisContact = new CommitmentContact()
                         thisContact.name = contact.name
                         thisContact.firstName = contact.firstName
                         thisContact.phone = contact.phone
                         thisContact.email = contact.email
-                        commitmentPortfolios.push(thisContact.toString())
+                        commitmentContacts.push(thisContact.toString())
                     }
                 })
 
             }
         })
-        return commitmentPortfolios
+        return commitmentContacts
+    }
+    return null
+}
+
+export const findInLookupCommitmentMapPoint = (object, lookupSet) => {
+    if (object && object.title && lookupSet) {
+        let commitmentMapPoints= new Array()
+        lookupSet.commitmentMapPoints.filter(commitmentMapPoint => {
+            if (commitmentMapPoint.commitment === object.title) {
+                lookupSet.allMapPoints.filter(mapPoint => {
+                    if (mapPoint.id.toString() === commitmentMapPoint.mapPoint) {
+                        commitmentMapPoints.push(mapPoint.address)
+                    }
+                })
+
+            }
+        })
+        return commitmentMapPoints
     }
     return null
 }

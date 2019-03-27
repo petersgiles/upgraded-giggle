@@ -1,5 +1,6 @@
 import { WhoAnnouncedType, AnnouncementType, CriticalDate, CommitmentType, Party, Portfolio, PackageType, ThemeType, Electorate, Status } from '../../../models'
 import { fromLookup } from '@df/sharepoint'
+import { MapPoint } from '@digital-first/df-map'
 
 export const mapWhoAnnouncedType = (announcementType): any => ({
     id: announcementType.ID,
@@ -136,3 +137,21 @@ export const mapCommitmentMapPoint = (commitmentMapPoints): any => ({
     mapPoint: fromLookup(commitmentMapPoints.MapPoint).title
 })
 export const mapCommitmentMapPoints = (commitmentMapPoints): any[] => commitmentMapPoints.map(mapCommitmentMapPoint)
+
+export const mapMapPoint = (location): any => ({
+    id: location.ID,
+    place_id: location.PlaceId,
+    address: location.Title,
+    latitude: location.Latitude,
+    longitude: location.Longitude
+})
+
+export const mapMapPoints = (mapPoints): MapPoint[] =>
+    mapPoints.map(mapMapPoint)
+
+export const mapRelatedCommitment = (relatedTo): any => ({
+    id: relatedTo.ID,
+    commitment: fromLookup(relatedTo.Commitment).title,
+    relatedTo: fromLookup(relatedTo.RelatedTo).title
+})
+export const mapRelatedCommitments = (relatedCommitments): any[] => relatedCommitments.map(mapRelatedCommitment)

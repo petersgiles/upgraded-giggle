@@ -17,7 +17,8 @@ import {
     GetAllWhoAnnouncedTypes, GetAllCommitmentTypes,
     GetAllLocations, GetAllPartys, GetAllPortfolios,
     GetAllThemeTypes, GetAllPackageTypes, GetAllStatuses, GetAllCommitmentPortfolios, 
-    GetAllCommitmentPackages, GetAllCommitmentElectorates, GetAllCommitmentContacts, GetAllCommitmentMapPoints } from './commitment-lookup.actions'
+    GetAllCommitmentPackages, GetAllCommitmentElectorates, GetAllCommitmentContacts,
+     GetAllCommitmentMapPoints, GetAllMapPoints, GetAllRelatedCommitments } from './commitment-lookup.actions'
 
 import { ThemeType } from '../../models/theme-type.model'
 import { PackageType } from '../../models/package-type.model'
@@ -160,6 +161,14 @@ export class CommitmentLookupService {
 
     public getAllCommitmentMapPoints(filter?: any) {
         this.store.dispatch(new GetAllCommitmentMapPoints())
+    }
+
+    public getAllMapPoints(filter?: any) {
+        this.store.dispatch(new GetAllMapPoints())
+    }
+
+    public getAllRelatedCommitments(filter?: any) {
+        this.store.dispatch(new GetAllRelatedCommitments())
     }
 
     get CommitmentMapPoints(): Observable<Contact[]> {

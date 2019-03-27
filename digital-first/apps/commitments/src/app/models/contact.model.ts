@@ -13,6 +13,18 @@ export interface Contact {
   commitment?: string
 }
 
+export class CommitmentContact implements Contact{
+  id
+  name
+  firstName
+  jobTitle
+  phone
+  email
+
+  toString() {
+      return this.firstName + ' ' + this.name + ' - ' + this.phone + ' - ' + this.email
+  }
+}
 
 export interface ContactsResult {
     contacts: Contact[]

@@ -47,6 +47,8 @@ export class CommitmentLookupDataApolloService implements CommitmentLookupDataSe
     filterCommitmentElectorates = (filter?: any) => callQuery<CommitmentElectoratesResult>(this.apollo, { query:   GET_LOCATIONS, variables: filter })
     filterCommitmentContacts = (filter?: any) => callQuery<CommitmentContactsResult>(this.apollo, { query:   GET_LOCATIONS, variables: filter })
     filterCommitmentMapPoints = (filter?: any) => callQuery<CommitmentContactsResult>(this.apollo, { query:   GET_LOCATIONS, variables: filter })
+    filterMapPoints = (filter?: any) => callQuery<CommitmentContactsResult>(this.apollo, { query:   GET_LOCATIONS, variables: filter })
+    filterRelatedCommitments = (filter?: any) => callQuery<CommitmentContactsResult>(this.apollo, { query:   GET_LOCATIONS, variables: filter })
 
     constructor(private apollo: Apollo) { }
 }

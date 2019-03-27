@@ -7,7 +7,8 @@ import { byCommitmentIdQuery } from '../../../services/sharepoint/caml'
 import { CommitmentLookupDataService } from '../commitment-lookup-data.service'
 import { mapWhoAnnouncedTypes, mapAnnouncementTypes, mapPortfolios, mapCriticalDates,
   mapParties, mapCommitmentTypes, mapLocations, mapPackageTypes, mapThemeTypes, mapStatuses, 
-  mapCommitmentPortfolios,  mapCommitmentPackages, mapCommitmentElectorates, mapCommitmentContacts, mapCommitmentMapPoints } from './maps'
+  mapCommitmentPortfolios,  mapCommitmentPackages, mapCommitmentElectorates, 
+  mapCommitmentContacts, mapCommitmentMapPoints, mapMapPoints, mapRelatedCommitments } from './maps'
 
 @Injectable({
     providedIn: 'root'
@@ -179,6 +180,30 @@ filterCommitmentMapPoints(filter: any) {
     concatMap((result: any) =>
       of({
         data: { commitmentMapPoints: mapCommitmentMapPoints(result) },
+        loading: false,
+        error: null
+      }))
+  )
+}
+
+filterMapPoints(filter: any) {
+  return this.sharepoint.getItems({ listName: 'MapPoint' })
+  .pipe(
+    concatMap((result: any) =>
+      of({
+        data: { mapPoints: mapMapPoints(result) },
+        loading: false,
+        error: null
+      }))
+  )
+}
+
+filterRelatedCommitments(filter: any) {
+  return this.sharepoint.getItems({ listName: 'RelatedCommitment' })
+  .pipe(
+    concatMap((result: any) =>
+      of({
+        data: { relatedCommitments: mapRelatedCommitments(result) },
         loading: false,
         error: null
       }))

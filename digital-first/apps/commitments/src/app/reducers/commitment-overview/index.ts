@@ -1,6 +1,5 @@
 import { createSelector, createSelectorFactory,  defaultMemoize } from '@ngrx/store'
 import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
-
 import * as fromCommitmentOverview from './commitment-overview.reducer'
 import { getAllContacts } from '../contact'
 import { getAllCommitments } from '../commitment'
@@ -28,15 +27,17 @@ import {
   getLookupCommitmentPackages,
   getLookupCommitmentElectorates,
   getLookupCommitmentContacts,
-  getLookupCommitmentMapPoints
+  getLookupCommitmentMapPoints,
+  getLookupMapPoints,
+  getRelatedCommitments
 } from '../commitment-lookup'
-import { findInLookup, findInLookupCommitmentPortfolio, findInLookupCommitmentContact } from '../utils'
+import { findInLookup, findInLookupCommitmentAssocs, findInLookupCommitmentContact, findInLookupCommitmentMapPoint } from '../utils'
 import {
   DATA_TABLE_SORT_DIRECTION,
   DATA_TABLE_SORT_DIRECTION_DESC,
   DATA_TABLE_SORT_DIRECTION_ASC
 } from '@digital-first/df-datatable'
-//import { getAllCommitmentPortfolios } from '../commitment-portfolio';
+
 
 export const getCommitmentOverviewState = state => state.commitmentOverview
 
@@ -258,7 +259,7 @@ export const getFilteredOverviewCommitments = createSelector(
 )
 
 const selectorFunc  = createSelectorFactory(defaultMemoize)
-export const bigSelector = selectorFunc(
+export const lookupAllSelector = selectorFunc(
   getPartyEntities,
   getPortfolioEntities,
   getAnnouncementTypeEntities,
@@ -275,6 +276,8 @@ export const bigSelector = selectorFunc(
   getLookupCommitmentContacts,
   getAllContacts,
   getLookupCommitmentMapPoints,
+  getLookupMapPoints,
+  getRelatedCommitments,
   (
     partys,
     portfolios,
@@ -292,6 +295,8 @@ export const bigSelector = selectorFunc(
     commitmentContacts,
     allContacts,
     commitmentMapPoints,
+    allMapPoints,
+    relatedCommitments,
   ) => ({
     partys,
     portfolios,
@@ -309,10 +314,12 @@ export const bigSelector = selectorFunc(
     commitmentContacts,
     allContacts,
     commitmentMapPoints,
+    allMapPoints,
+    relatedCommitments,
   })
 )
 
-export const getOverviewLookupEnitites = createSelector(
+/*export const getOverviewLookupEnitites = createSelector(
   getPartyEntities,
   getPortfolioEntities,
   getAnnouncementTypeEntities,
@@ -340,7 +347,7 @@ export const getOverviewLookupEnitites = createSelector(
     packages,
     commitmentPortfolios
   })
-)
+)*/
 
 
 
@@ -386,7 +393,7 @@ const sortByField = (
 
 export const getAllOverviewCommitments = createSelector(
   getFilteredOverviewCommitments,
-  bigSelector,//getOverviewLookupEnitites,
+  lookupAllSelector,
   getCommitmentOverviewState,
   (commitments, lookups, state) => {
 
@@ -398,6 +405,7 @@ export const getAllOverviewCommitments = createSelector(
       party: findInLookup(commitment.party, lookups.partys),
       cost: commitment.cost,
       announcedBy: commitment.announcedby,
+      date: commitment.date,
       location:  findInLookup(
         commitment.location,
         lookups.locations
@@ -418,31 +426,36 @@ export const getAllOverviewCommitments = createSelector(
         commitment.commitmentType,
         lookups.commitmentTypes
       ),
-      portfolios:  findInLookupCommitmentPortfolio(
+      portfolios:  findInLookupCommitmentAssocs(
         commitment,
         lookups.commitmentPortfolios,
         'portfolio'
       ),
-      packages:  findInLookupCommitmentPortfolio(
+      packages:  findInLookupCommitmentAssocs(
         commitment,
         lookups.commitmentPackages,
         'package'
       ),
-      electorates:  findInLookupCommitmentPortfolio(
+      electorates:  findInLookupCommitmentAssocs(
         commitment,
         lookups.commitmentElectorates,
         'electorate'
+      ),
+      relatedCommitments:  findInLookupCommitmentAssocs(
+        commitment,
+        lookups.relatedCommitments,
+        'relatedTo'
       ),
       contacts:  findInLookupCommitmentContact(
         commitment,
         lookups
       ),
-      themeType: commitment.themeType,
-    
+      mapPoints:  findInLookupCommitmentMapPoint(
+        commitment,
+        lookups
+      ),
       status: commitment.status,
-        
       costingRequired: commitment.costingRequired
-      
     }))
 
     if (state.sortDirection) {

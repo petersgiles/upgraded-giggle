@@ -1,7 +1,6 @@
 import { Commitment } from '../reducers/commitment'
 
 
-import { RelatedCommitment } from '../reducers/related-commitment/related-commitment.model'
 import { CommitmentAction } from '../reducers/commitment-action/commitment-action.model'
 import { RelatedLink } from '../reducers/related-link/related-link.model'
 import { GroupPermission } from '../reducers/user/user.model'
@@ -17,8 +16,9 @@ export { AnnouncementType, AnnouncementTypesResult } from './announcement-type.m
 export { PackageType, PackageTypesResult, CommitmentPackageResult } from './package-type.model'
 export { ThemeType, ThemeTypesResult } from './theme-type.model'
 export { Status, StatusesResult } from './status.model'
-export { Contact, ContactsResult, CommitmentContactsResult } from '../models/contact.model'
+export { Contact, ContactsResult, CommitmentContactsResult, CommitmentContact } from '../models/contact.model'
 export { CommitmentMapPoint, CommitmentMapPointsResult } from '../models/commitment-map-points.model'
+export { RelatedCommitment, RelatedCommitmentsResult } from '../models/commitment-relatedTo.model'
 
 export interface ServiceData<T> {
   data: { [key: string]: T }
@@ -35,9 +35,7 @@ export interface DataResult<T> {
 export interface CommitmentActionsResult {
   commitmentActions: CommitmentAction[]
 }
-export interface RelatedCommitmentsResult {
-  commitmentRelatedCommitments: RelatedCommitment[]
-}
+
 export interface RelatedLinksResult {
   commitmentRelatedLinks: RelatedLink[]
 }

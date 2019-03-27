@@ -74,7 +74,7 @@ export class RelatedCommitmentDataSharePointService
         concatMap(items =>
           of({
             data: {
-              commitmentRelatedCommitments: mapRelatedCommitments(items)
+              relatedCommitments: mapRelatedCommitments(items)
             },
             loading: false
           })

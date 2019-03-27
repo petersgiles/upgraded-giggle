@@ -4,10 +4,9 @@ import { Router } from '@angular/router'
 import { CommitmentDataService } from '../../services/commitment-data.service'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 import { ExcelService } from '../../services/excel.service'
-import { DateFormatPipe } from '@digital-first/df-moment'
-import { LoggerService } from '@digital-first/df-logging'
 import { BehaviorSubject } from 'rxjs'
 import { RefinerActionService } from '@digital-first/df-refiner'
+import { formatDate } from '@angular/common'
 
 @Component({
   selector: 'digital-first-overview-layout',
@@ -45,7 +44,9 @@ export class OverviewLayoutComponent implements OnInit {
     this.lookup.getAllCommitmentElectorates()
     this.lookup.getAllCommitmentContacts()
     this.lookup.getAllCommitmentMapPoints()
-    this.service.getAllContacts();
+    this.lookup.getAllMapPoints()
+    this.lookup.getAllRelatedCommitments()
+    this.service.getAllContacts()
 
     this.refinerGroups$ = this.service.RefinerGroups
     this.commitmentsFilteredSubscription$ = this.service.CommitmentFiltered.subscribe(
@@ -70,6 +71,7 @@ export class OverviewLayoutComponent implements OnInit {
       Party: fc.party ? fc.party.title : '',
       Cost: fc.cost ? fc.cost : '',
       Location: fc.location ? fc.location.title : '',
+      Date: fc.date ? `${formatDate(fc.date, 'medium', 'en-AU')}` : '',
       'Announced by': fc.announcedBy ? fc.announcedBy: '',
       'Responsible Portfolio': fc.portfolio ? fc.portfolio.title : '',
       'Type of Announcement': fc.announcementType ? fc.announcementType.title : '',
@@ -81,7 +83,9 @@ export class OverviewLayoutComponent implements OnInit {
        Status: fc.status ? fc.status.title: '',
       'Related Portfolios': fc.portfolios &&  fc.portfolios.length ? fc.portfolios.join() : '',
       'Related Electorates': fc.electorates &&  fc.electorates.length ? fc.electorates.join() : '',
-       Contacts: fc.contacts &&  fc.contacts.length ? fc.contacts.join() : ''    
+       Contacts: fc.contacts &&  fc.contacts.length ? fc.contacts.join() : '',
+       'Related Map Points': fc.mapPoints &&  fc.mapPoints.length ? fc.mapPoints.join() : '',
+       'Related Commitments': fc.relatedCommitments &&  fc.relatedCommitments.length ? fc.relatedCommitments.join() : ''      
     }))
 
     this.excelService.exportAsExcelFile(exportCommitments, 'commitments')

@@ -2,8 +2,10 @@ import { Action } from '@ngrx/store'
 import { DataResult, AnnouncementTypesResult, CriticalDatesResult,
     CommitmentTypesResult, LocationsResult, PartysResult, PortfoliosResult,
     WhoAnnouncedTypesResult, PackageTypesResult, ThemeTypesResult, CommitmentPortfoliosResult, 
-    CommitmentPackageResult, CommitmentElectoratesResult, CommitmentContactsResult, CommitmentMapPointsResult  } from '../../models'
-import { StatusesResult } from '../../models/status.model';
+    CommitmentPackageResult, CommitmentElectoratesResult, CommitmentContactsResult, 
+    CommitmentMapPointsResult, MapPointsResult, RelatedCommitmentsResult } from '../../models'
+import { StatusesResult } from '../../models/status.model'
+import { MapPoint } from '@digital-first/df-map'
 
 export enum CommitmentLookupsActionTypes {
   GetAllAnnouncementTypes = '[Lookups] Get All AnnouncementTypes',
@@ -48,6 +50,11 @@ export enum CommitmentLookupsActionTypes {
   GetAllCommitmentMapPoints = '[Lookups] Get All Commitment Map Points',
   LoadAllCommitmentMapPoints = '[Lookups] Load Commitment Map Points',
   MapPointsActionFailure = '[Lookups] Map Points Action Failure',
+  GetAllMapPoints = '[Lookups] Get All Map Points',
+  LoadAllMapPoints = '[Lookups] Load Map Points',
+  GetAllRelatedCommitments = '[Lookups] Get All Related Commitments',
+  LoadAllRelatedCommitments = '[Lookups] Load Related Commitments',
+  RelatedCommitmentActionFailure = '[Lookups] related Commitments Action Failure',
 }
 
 
@@ -267,6 +274,16 @@ export class LoadAllCommitmentMapPoints implements Action {
     constructor(public payload: DataResult<CommitmentMapPointsResult>) { }
 }
 
+export class GetAllMapPoints implements Action {
+    readonly type = CommitmentLookupsActionTypes.GetAllMapPoints
+}
+
+export class LoadAllMapPoints implements Action {
+    readonly type = CommitmentLookupsActionTypes.LoadAllMapPoints
+    constructor(public payload: DataResult<MapPointsResult>) { }
+}
+
+
 export class MapPointActionFailure implements Action {
     readonly type = CommitmentLookupsActionTypes.MapPointsActionFailure
     constructor(public payload: any) {
@@ -286,6 +303,23 @@ export class LoadWhoAnnouncedTypes implements Action {
 
 export class WhoAnnouncedTypesActionFailure implements Action {
     readonly type = CommitmentLookupsActionTypes.WhoAnnouncedTypesActionFailure
+    constructor(public payload: any) {
+    }
+}
+
+// Related Commitments
+
+export class GetAllRelatedCommitments implements Action {
+    readonly type = CommitmentLookupsActionTypes.GetAllRelatedCommitments
+}
+
+export class LoadAllRelatedCommitments implements Action {
+    readonly type = CommitmentLookupsActionTypes.LoadAllRelatedCommitments
+    constructor(public payload: DataResult<RelatedCommitmentsResult>) { }
+}
+
+export class RelatedCommitmentActionFailure implements Action {
+    readonly type = CommitmentLookupsActionTypes.RelatedCommitmentActionFailure
     constructor(public payload: any) {
     }
 }
@@ -333,4 +367,9 @@ export type CommitmentLookupsActions =
     | GetAllCommitmentMapPoints
     | LoadAllCommitmentMapPoints
     | MapPointActionFailure
+    | GetAllMapPoints
+    | LoadAllMapPoints
+    | RelatedCommitmentActionFailure
+    | GetAllRelatedCommitments
+    | LoadAllRelatedCommitments
 
