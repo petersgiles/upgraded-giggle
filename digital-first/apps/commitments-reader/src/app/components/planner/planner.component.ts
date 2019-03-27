@@ -11,6 +11,7 @@ import { DateHelper, EventModel } from 'bryntum-scheduler'
 import * as CommonEventTypes from './data/eventTypes.json'
 import * as ZoomLevels from './data/zoomLevels.json'
 import * as timeRanges from './data/timeRanges.json'
+import { LocalStorageRef } from '@df/utils'
 
 @Component({
   selector: 'digital-first-planner',
@@ -120,6 +121,12 @@ export class PlannerComponent implements OnInit {
       case 'zoomchange':
         const level: any = (event as any).level
         this.zoomSlider.levelId = level.id
+        break
+      case 'aftereventsave':
+        localStorage.setItem(
+          'commimentEvents',
+          JSON.stringify(this.scheduler.schedulerEngine.eventStore.records)
+        )
     }
   }
 
