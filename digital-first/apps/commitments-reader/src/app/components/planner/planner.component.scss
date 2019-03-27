@@ -3,40 +3,35 @@
   flex-direction: row;
   align-items: center;
   overflow: auto;
+
+  > div {
+    margin-block-end: auto;
+    flex: 1;
+    margin: 25px;
+    text-align: center;
+    padding-top: 20px;
+    scroll-behavior: auto;
+    font-weight: bold;
+  }
+
+  > #zoom {
+    margin-block-end: auto;
+    flex: 1;
+    margin: 25px;
+    text-align: center;
+    padding-top: 20px;
+    scroll-behavior: auto;
+    font-weight: bold;
+  }
+
+  > #planerButtons {
+    flex: 0.3;
+    > button {
+      margin: 10px;
+    }
+  }
 }
 
-.flex-container > #zoom {
-  margin-block-end: auto;
-  flex: 1;
-  margin: 25px;
-  text-align: center;
-  padding-top: 20px;
-  scroll-behavior: auto;
-  font-weight: bold;
-}
-.flex-container > #planerButtons {
-  flex: 0.3;
-}
-.flex-container > #planerButtons > button {
-  margin: 10px;
-}
-.mdc-slider__track-container {
-  height: 12px;
-  border-radius: 4px;
-}
-.mdc-slider__thumb {
-  transform: scale(2) !important;
-}
-
-.flex-container > div {
-  margin-block-end: auto;
-  flex: 1;
-  margin: 25px;
-  text-align: center;
-  padding-top: 20px;
-  scroll-behavior: auto;
-  font-weight: bold;
-}
 .mdc-slider__track-container {
   height: 12px;
   border-radius: 4px;
