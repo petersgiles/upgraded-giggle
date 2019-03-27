@@ -8,7 +8,7 @@ import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
 
 import { Commitment } from '../reducers/commitment/commitment.model'
 
-import { Contact } from '../reducers/contact/contact.model'
+import { Contact } from '../models/contact.model'
 import {
   UnsubscribeFromCommitment, GetCommitmentSubscriptionForUser, SubscriptionActionFailure,
   SubscribeToCommitment

@@ -14,7 +14,14 @@ import {
     PortfoliosResult,
     WhoAnnouncedTypesResult,
     ThemeTypesResult,
-    PackageTypesResult
+    PackageTypesResult,
+    CommitmentPortfoliosResult,
+    CommitmentPackageResult,
+    CommitmentElectoratesResult,
+    CommitmentContactsResult,
+    CommitmentMapPointsResult,
+    MapPointsResult,
+    RelatedCommitmentsResult
 } from '../../models'
 
 import {
@@ -28,7 +35,11 @@ import {
     LoadPortfolios, PortfoliosActionFailure,
     LoadThemeTypes, ThemeTypesActionFailure,
     LoadPackageTypes, PackageTypesActionFailure, LoadStatuses, StatusesActionFailure,
-  } from './commitment-lookup.actions'
+    LoadAllCommitmentPortfolios, LoadAllCommitmentPackages,
+    LoadAllCommitmentElectorates, LoadAllCommitmentContacts, ContactActionFailure,
+    LoadAllCommitmentMapPoints, MapPointActionFailure, LoadAllMapPoints, 
+    LoadAllRelatedCommitments, RelatedCommitmentActionFailure
+} from './commitment-lookup.actions'
 import { CommitmentLookupDataService } from './commitment-lookup-data.service'
 import { StatusesResult } from '../../models/status.model';
 
@@ -143,6 +154,83 @@ export class CommitmentLookupEffects {
                     catchError(error => of(new WhoAnnouncedTypesActionFailure(error)))
                 )
             ))
+
+    @Effect()
+    getAllCommitmentPortfolios$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(CommitmentLookupsActionTypes.GetAllCommitmentPortfolios),
+            switchMap((filter: any): Observable<Action> => this.service.filterCommitmentPortfolios(filter)
+                .pipe(
+                    map((result: DataResult<CommitmentPortfoliosResult>) => new LoadAllCommitmentPortfolios(result)),
+                    catchError(error => of(new PortfoliosActionFailure(error)))
+                )
+            ))
+
+    @Effect()
+    getAllCommitmentPackages$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(CommitmentLookupsActionTypes.GetAllCommitmentPackages),
+            switchMap((filter: any): Observable<Action> => this.service.filterCommitmentPackages(filter)
+                .pipe(
+                    map((result: DataResult<CommitmentPackageResult>) => new LoadAllCommitmentPackages(result)),
+                    catchError(error => of(new PackageTypesActionFailure(error)))
+                )
+            ))
+
+    @Effect()
+    getAllCommitmentElectorates$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(CommitmentLookupsActionTypes.GetAllCommitmentElectorates),
+            switchMap((filter: any): Observable<Action> => this.service.filterCommitmentElectorates(filter)
+                .pipe(
+                    map((result: DataResult<CommitmentElectoratesResult>) => new LoadAllCommitmentElectorates(result)),
+                    catchError(error => of(new LocationsActionFailure(error)))
+                )
+            ))
+
+    @Effect()
+    getAllCommitmentContacts$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(CommitmentLookupsActionTypes.GetAllCommitmentContacts),
+            switchMap((filter: any): Observable<Action> => this.service.filterCommitmentContacts(filter)
+                .pipe(
+                    map((result: DataResult<CommitmentContactsResult>) => new LoadAllCommitmentContacts(result)),
+                    catchError(error => of(new ContactActionFailure(error)))
+                )
+            ))
+
+    @Effect()
+    getAllCommitmentMapPoints$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(CommitmentLookupsActionTypes.GetAllCommitmentMapPoints),
+            switchMap((filter: any): Observable<Action> => this.service.filterCommitmentMapPoints(filter)
+                .pipe(
+                    map((result: DataResult<CommitmentMapPointsResult>) => new LoadAllCommitmentMapPoints(result)),
+                    catchError(error => of(new MapPointActionFailure(error)))
+                )
+            ))
+
+    @Effect()
+    getAllMapPoints$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(CommitmentLookupsActionTypes.GetAllMapPoints),
+            switchMap((filter: any): Observable<Action> => this.service.filterMapPoints(filter)
+                .pipe(
+                    map((result: DataResult<MapPointsResult>) => new LoadAllMapPoints(result)),
+                    catchError(error => of(new MapPointActionFailure(error)))
+                )
+            ))
+
+            @Effect()
+            getAllrelatedCommitments$: Observable<Action> = this.actions$
+                .pipe(
+                    ofType(CommitmentLookupsActionTypes.GetAllRelatedCommitments),
+                    switchMap((filter: any): Observable<Action> => this.service.filterRelatedCommitments(filter)
+                        .pipe(
+                            map((result: DataResult<RelatedCommitmentsResult>) => new LoadAllRelatedCommitments(result)),
+                            catchError(error => of(new RelatedCommitmentActionFailure(error)))
+                        )
+                    ))
 
     constructor(private actions$: Actions, private service: CommitmentLookupDataService) { }
 }

@@ -9,7 +9,9 @@ import {
     CommitmentTypesResult,
     ThemeTypesResult,
     PackageTypesResult,
-    StatusesResult
+    StatusesResult,
+    CommitmentElectoratesResult,
+    CommitmentContactsResult
 } from '../../../models'
 import { CommitmentLookupDataService } from '../commitment-lookup-data.service'
 import {
@@ -40,6 +42,13 @@ export class CommitmentLookupDataApolloService implements CommitmentLookupDataSe
     filterPartys = (filter?: any) => callQuery<PartysResult>(this.apollo, { query: GET_PARTIES, variables: filter })
     filterLocations = (filter?: any) => callQuery<LocationsResult>(this.apollo, { query: GET_LOCATIONS, variables: filter })
     filterCommitmentTypes = (filter?: any) => callQuery<CommitmentTypesResult>(this.apollo, { query: GET_COMMITMENT_TYPES, variables: filter })
+    filterCommitmentPortfolios = (filter?: any) => callQuery<PortfoliosResult>(this.apollo, { query: GET_PORTFOLIOS, variables: filter })
+    filterCommitmentPackages = (filter?: any) => callQuery<PackageTypesResult>(this.apollo, { query:  GET_PACKAGE_TYPES, variables: filter })
+    filterCommitmentElectorates = (filter?: any) => callQuery<CommitmentElectoratesResult>(this.apollo, { query:   GET_LOCATIONS, variables: filter })
+    filterCommitmentContacts = (filter?: any) => callQuery<CommitmentContactsResult>(this.apollo, { query:   GET_LOCATIONS, variables: filter })
+    filterCommitmentMapPoints = (filter?: any) => callQuery<CommitmentContactsResult>(this.apollo, { query:   GET_LOCATIONS, variables: filter })
+    filterMapPoints = (filter?: any) => callQuery<CommitmentContactsResult>(this.apollo, { query:   GET_LOCATIONS, variables: filter })
+    filterRelatedCommitments = (filter?: any) => callQuery<CommitmentContactsResult>(this.apollo, { query:   GET_LOCATIONS, variables: filter })
 
     constructor(private apollo: Apollo) { }
 }

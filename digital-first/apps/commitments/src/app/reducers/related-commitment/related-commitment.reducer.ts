@@ -1,4 +1,4 @@
-import { RelatedCommitment } from './related-commitment.model'
+import { RelatedCommitment } from '../../models'
 import { RelatedCommitmentActions, RelatedCommitmentActionTypes } from './related-commitment.actions'
 
 export interface State  {
@@ -37,10 +37,10 @@ export function reducer(
 
     case RelatedCommitmentActionTypes.LoadRelatedCommitments: {
 
-      if (action.payload.data.commitmentRelatedCommitments) {
+      if (action.payload.data.relatedCommitments) {
         return {
           ...state,
-          entities: [...action.payload.data.commitmentRelatedCommitments],
+          entities: action.payload.data.relatedCommitments,
           loading: action.payload.loading,
           error: action.payload.error
         }

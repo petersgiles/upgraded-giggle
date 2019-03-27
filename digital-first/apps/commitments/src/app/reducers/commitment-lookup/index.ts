@@ -151,3 +151,39 @@ export const getStatusEntities = createSelector(
     getAllStatuses,
     arrayToHash
 )
+
+export const getLookupCommitmentPortfolios = createSelector(
+    getCommitmentLookupState,
+    state => state.commitmentPortfolios
+)
+
+export const getLookupCommitmentPackages = createSelector(
+    getCommitmentLookupState,
+    state => state.commitmentPackages
+)
+
+export const getLookupCommitmentElectorates = createSelector(
+    getCommitmentLookupState,
+    state => state.commitmentElectorates
+)
+
+export const getLookupCommitmentContacts = createSelector(
+    getCommitmentLookupState,
+    state => state.commitmentContacts
+)
+
+export const getLookupCommitmentMapPoints = createSelector(
+    getCommitmentLookupState,
+    state => state.commitmentMapPoints
+)
+
+export const getLookupMapPoints = createSelector(
+    getCommitmentLookupState,
+    state => state.mapPoints
+)
+
+export const getRelatedCommitments = createSelector(
+    getCommitmentLookupState,
+    state => state.relatedCommitments
+)
+

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import * as moment from 'moment'
-import { Contact } from '../../reducers/contact/contact.model'
+import { Contact } from '../../models/contact.model'
 import { Party } from '../../models/party.model'
 import { Portfolio } from '../../models/portfolio.model'
 

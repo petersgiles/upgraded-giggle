@@ -1,8 +1,7 @@
-import { createSelector } from '@ngrx/store'
+import { createSelector, createSelectorFactory,  defaultMemoize } from '@ngrx/store'
 import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
-
 import * as fromCommitmentOverview from './commitment-overview.reducer'
-
+import { getAllContacts } from '../contact'
 import { getAllCommitments } from '../commitment'
 import { Commitment } from '../commitment/commitment.model'
 import { formatCommitmentTitle, formatCommitmentId } from '../../formatters'
@@ -20,14 +19,25 @@ import {
   getAllPartys,
   getAllThemeTypes,
   getAllPackageTypes,
-  getAllStatuses
+  getAllLocations,
+  getCostingAgencies,
+  getAllThemes,
+  getAllStatuses,
+  getLookupCommitmentPortfolios,
+  getLookupCommitmentPackages,
+  getLookupCommitmentElectorates,
+  getLookupCommitmentContacts,
+  getLookupCommitmentMapPoints,
+  getLookupMapPoints,
+  getRelatedCommitments
 } from '../commitment-lookup'
-import { findInLookup } from '../utils'
+import { findInLookup, findInLookupCommitmentAssocs, findInLookupCommitmentContact, findInLookupCommitmentMapPoint } from '../utils'
 import {
   DATA_TABLE_SORT_DIRECTION,
   DATA_TABLE_SORT_DIRECTION_DESC,
   DATA_TABLE_SORT_DIRECTION_ASC
 } from '@digital-first/df-datatable'
+
 
 export const getCommitmentOverviewState = state => state.commitmentOverview
 
@@ -258,29 +268,98 @@ export const getFilteredOverviewCommitments = createSelector(
   }
 )
 
-export const getOverviewLookupEnitites = createSelector(
+const selectorFunc  = createSelectorFactory(defaultMemoize)
+export const lookupAllSelector = selectorFunc(
   getPartyEntities,
   getPortfolioEntities,
   getAnnouncementTypeEntities,
   getCommitmentTypeEntities,
   getWhoAnnouncedTypeEntities,
   getCriticalDateEntities,
+  getAllLocations,
+  getCostingAgencies,
+  getAllThemes,
+  getAllStatuses,
+  getLookupCommitmentPortfolios,
+  getLookupCommitmentPackages,
+  getLookupCommitmentElectorates,
+  getLookupCommitmentContacts,
+  getAllContacts,
+  getLookupCommitmentMapPoints,
+  getLookupMapPoints,
+  getRelatedCommitments,
   (
     partys,
     portfolios,
     announcementTypes,
     commitmentTypes,
     whoAnnouncedTypes,
-    criticalDates
+    criticalDates,
+    locations,
+    costingAgencies,
+    themes,
+    statuses,
+    commitmentPortfolios,
+    commitmentPackages,
+    commitmentElectorates,
+    commitmentContacts,
+    allContacts,
+    commitmentMapPoints,
+    allMapPoints,
+    relatedCommitments,
   ) => ({
     partys,
     portfolios,
     announcementTypes,
     commitmentTypes,
     whoAnnouncedTypes,
-    criticalDates
+    criticalDates,
+    locations,
+    costingAgencies,
+    themes,
+    statuses,
+    commitmentPortfolios,
+    commitmentPackages,
+    commitmentElectorates,
+    commitmentContacts,
+    allContacts,
+    commitmentMapPoints,
+    allMapPoints,
+    relatedCommitments,
   })
 )
+
+/*export const getOverviewLookupEnitites = createSelector(
+  getPartyEntities,
+  getPortfolioEntities,
+  getAnnouncementTypeEntities,
+  getCommitmentTypeEntities,
+  getWhoAnnouncedTypeEntities,
+  getCriticalDateEntities,
+  getAllPackageTypes,
+  getLookupCommitmentPortfolios,
+  (
+    partys,
+    portfolios,
+    announcementTypes,
+    commitmentTypes,
+    whoAnnouncedTypes,
+    criticalDates,
+    packages,
+    commitmentPortfolios,
+  ) => ({
+    partys,
+    portfolios,
+    announcementTypes,
+    commitmentTypes,
+    whoAnnouncedTypes,
+    criticalDates,
+    packages,
+    commitmentPortfolios
+  })
+)*/
+
+
 
 const getFieldValue = (columnName: string, commitment: Commitment) => {
   if (!commitment[columnName]) {
@@ -324,7 +403,7 @@ const sortByField = (
 
 export const getAllOverviewCommitments = createSelector(
   getFilteredOverviewCommitments,
-  getOverviewLookupEnitites,
+  lookupAllSelector,
   getCommitmentOverviewState,
   (commitments, lookups, state) => {
 
@@ -334,6 +413,13 @@ export const getAllOverviewCommitments = createSelector(
       description: null,
       portfolio: findInLookup(commitment.portfolio, lookups.portfolios),
       party: findInLookup(commitment.party, lookups.partys),
+      cost: commitment.cost,
+      announcedBy: commitment.announcedby,
+      date: commitment.date,
+      location:  findInLookup(
+        commitment.location,
+        lookups.locations
+      ),
       whoAnnouncedType: findInLookup(
         commitment.whoAnnouncedType,
         lookups.whoAnnouncedTypes
@@ -349,7 +435,37 @@ export const getAllOverviewCommitments = createSelector(
       commitmentType: findInLookup(
         commitment.commitmentType,
         lookups.commitmentTypes
-      )
+      ),
+      portfolios:  findInLookupCommitmentAssocs(
+        commitment,
+        lookups.commitmentPortfolios,
+        'portfolio'
+      ),
+      packages:  findInLookupCommitmentAssocs(
+        commitment,
+        lookups.commitmentPackages,
+        'package'
+      ),
+      electorates:  findInLookupCommitmentAssocs(
+        commitment,
+        lookups.commitmentElectorates,
+        'electorate'
+      ),
+      relatedCommitments:  findInLookupCommitmentAssocs(
+        commitment,
+        lookups.relatedCommitments,
+        'relatedTo'
+      ),
+      contacts:  findInLookupCommitmentContact(
+        commitment,
+        lookups
+      ),
+      mapPoints:  findInLookupCommitmentMapPoint(
+        commitment,
+        lookups
+      ),
+      status: commitment.status,
+      costingRequired: commitment.costingRequired
     }))
 
     if (state.sortDirection) {

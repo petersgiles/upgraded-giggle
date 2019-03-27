@@ -1,4 +1,5 @@
 import { CommitmentLookupsActions, CommitmentLookupsActionTypes } from './commitment-lookup.actions'
+import { MdcNotchedOutlineModule } from '@angular-mdc/web';
 
 export interface State {
     announcementTypes: any[]
@@ -11,6 +12,13 @@ export interface State {
     themeTypes: any[]
     packageTypes: any[]
     statuses: any[]
+    commitmentPortfolios: any[]
+    commitmentPackages: any[]
+    commitmentElectorates: any[]
+    commitmentContacts: any[]
+    commitmentMapPoints: any[]
+    mapPoints: any[]
+    relatedCommitments: any[]
 }
 
 export const initialState: State = {
@@ -23,7 +31,14 @@ export const initialState: State = {
     whoAnnouncedTypes: null,
     themeTypes: null,
     packageTypes: null,
-    statuses: null
+    statuses: null,
+    commitmentPortfolios: null,
+    commitmentPackages: null,
+    commitmentElectorates: null,
+    commitmentContacts: null,
+    commitmentMapPoints: null,
+    mapPoints: null,
+    relatedCommitments: null,
 }
 
 export function reducer(
@@ -101,6 +116,56 @@ export function reducer(
                 statuses: action.payload.data.statuses
             }
         }
+
+        case CommitmentLookupsActionTypes.LoadAllCommitmentPortfolios: {
+            return {
+                ...state,
+                commitmentPortfolios: action.payload.data.commitmentPortfolios
+            }
+        }
+
+        case CommitmentLookupsActionTypes.LoadAllCommitmentPackages: {
+            return {
+                ...state,
+                commitmentPackages: action.payload.data.commitmentPackages
+            }
+        }
+
+        case CommitmentLookupsActionTypes.LoadAllCommitmentElectorates: {
+            return {
+                ...state,
+                commitmentElectorates: action.payload.data.commitmentElectorates
+            }
+        }
+
+        case CommitmentLookupsActionTypes.LoadAllCommitmentContacts: {
+            return {
+                ...state,
+                commitmentContacts: action.payload.data.commitmentContacts
+            }
+        }
+
+        case CommitmentLookupsActionTypes.LoadAllCommitmentMapPoints: {
+            return {
+                ...state,
+                commitmentMapPoints: action.payload.data.commitmentMapPoints
+            }
+        }
+
+        case CommitmentLookupsActionTypes.LoadAllMapPoints: {
+            return {
+                ...state,
+                mapPoints: action.payload.data.mapPoints
+            }
+        }
+
+        case CommitmentLookupsActionTypes.LoadAllRelatedCommitments: {
+            return {
+                ...state,
+                relatedCommitments: action.payload.data.relatedCommitments
+            }
+        }
+
 
         default:
             return state
