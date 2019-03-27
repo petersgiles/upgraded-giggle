@@ -5,6 +5,29 @@
   overflow: auto;
 }
 
+.flex-container > #zoom {
+  margin-block-end: auto;
+  flex: 1;
+  margin: 25px;
+  text-align: center;
+  padding-top: 20px;
+  scroll-behavior: auto;
+  font-weight: bold;
+}
+.flex-container > #planerButtons {
+  flex: 0.3;
+}
+.flex-container > #planerButtons > button {
+  margin: 10px;
+}
+.mdc-slider__track-container {
+  height: 12px;
+  border-radius: 4px;
+}
+.mdc-slider__thumb {
+  transform: scale(2) !important;
+}
+
 .flex-container > div {
   margin-block-end: auto;
   flex: 1;
@@ -72,8 +95,11 @@
   display: none !important;
 }
 
+.b-grid.b-timelinebase.b-scheduler,
 #scheduler-container {
   width: calc(100vw - 300px);
-  height: calc(100vh - 350px);
-  overflow: auto;
+}
+
+.b-grid-body-container.b-widget-scroller {
+  height: calc(100vh - 440px) !important;
 }
