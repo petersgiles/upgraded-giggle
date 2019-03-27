@@ -36,7 +36,7 @@ $criticalDateRelationships = @()
 
 foreach ($commitment in $commitments) {
     $commitment.CriticalDate = ($criticalDateLookup | ? { $_.Id -eq $commitment.CriticalDate }).Title
-    $commitment.Id = New-Guid
+    $commitment.Id = "C-" + $commitment.Id.ToString().PadLeft(4,"0")
 
     $commitmentTypeRelationships += (
         [PSCustomObject] @{
