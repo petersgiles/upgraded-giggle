@@ -9,7 +9,8 @@ export const environment = {
   datasource: {
     type: 'local',
     dataServiceUrl: '//localhost:3001/graphql',
-  }
+  },
+  assetsPath: '/assets'
 }
 
 /*

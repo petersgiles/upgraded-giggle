@@ -564,32 +564,6 @@
         }
       }
     },
-    "df-sharepoint": {
-      "root": "libs/df-sharepoint",
-      "sourceRoot": "libs/df-sharepoint/src",
-      "projectType": "library",
-      "prefix": "digital-first",
-      "architect": {
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "libs/df-sharepoint/src/test.ts",
-            "tsConfig": "libs/df-sharepoint/tsconfig.spec.json",
-            "karmaConfig": "libs/df-sharepoint/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/df-sharepoint/tsconfig.lib.json",
-              "libs/df-sharepoint/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      }
-    },
     "df-moment": {
       "root": "libs/df-moment",
       "sourceRoot": "libs/df-moment/src",

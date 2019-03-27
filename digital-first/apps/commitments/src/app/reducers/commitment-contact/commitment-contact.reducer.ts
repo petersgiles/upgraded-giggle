@@ -1,5 +1,5 @@
 import { CommitmentContactActionTypes, CommitmentContactActions } from './commitment-contact.actions'
-import { Contact } from '../contact/contact.model'
+import { Contact } from '../../models/contact.model'
 
 export interface State {
   expanded: boolean

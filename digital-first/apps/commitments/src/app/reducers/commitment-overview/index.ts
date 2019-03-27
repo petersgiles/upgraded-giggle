@@ -1,8 +1,11 @@
-import { createSelector } from '@ngrx/store'
+import {
+  createSelector,
+  createSelectorFactory,
+  defaultMemoize
+} from '@ngrx/store'
 import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
-
 import * as fromCommitmentOverview from './commitment-overview.reducer'
-
+import { getAllContacts } from '../contact'
 import { getAllCommitments } from '../commitment'
 import { Commitment } from '../commitment/commitment.model'
 import { formatCommitmentTitle, formatCommitmentId } from '../../formatters'
@@ -19,9 +22,25 @@ import {
   getWhoAnnouncedTypeEntities,
   getAllPartys,
   getAllThemeTypes,
-  getAllPackageTypes
+  getAllPackageTypes,
+  getAllLocations,
+  getCostingAgencies,
+  getAllThemes,
+  getAllStatuses,
+  getLookupCommitmentPortfolios,
+  getLookupCommitmentPackages,
+  getLookupCommitmentElectorates,
+  getLookupCommitmentContacts,
+  getLookupCommitmentMapPoints,
+  getLookupMapPoints,
+  getRelatedCommitments
 } from '../commitment-lookup'
-import { findInLookup } from '../utils'
+import {
+  findInLookup,
+  findInLookupCommitmentAssocs,
+  findInLookupCommitmentContact,
+  findInLookupCommitmentMapPoint
+} from '../utils'
 import {
   DATA_TABLE_SORT_DIRECTION,
   DATA_TABLE_SORT_DIRECTION_DESC,
@@ -114,6 +133,10 @@ const REFINER_GROUP_PACKAGE_TYPE = {
   key: 'packageType', // key needs to match property on artifact
   title: 'Package'
 }
+const REFINER_GROUP_STATUS = {
+  key: 'status', // key needs to match property on artifact
+  title: 'Status'
+}
 export const getRefinerUx = createSelector(
   getCommitmentOverviewSelectedRefiners,
   getCommitmentOverviewExpandedRefinerGroups,
@@ -137,18 +160,21 @@ export const getRefinerLookups = createSelector(
   getAllWhoAnnouncedTypes,
   getAllThemeTypes,
   getAllPackageTypes,
+  getAllStatuses,
   (
     announcementTypes,
     commitmentTypes,
     whoAnnouncedTypes,
     themes,
-    packages
+    packages,
+    statuses
   ) => ({
     announcementTypes,
     commitmentTypes,
     whoAnnouncedTypes,
     themes,
-    packages
+    packages,
+    statuses
   })
 )
 
@@ -167,7 +193,8 @@ export const getRefinerGroups = createSelector(
       lookups.commitmentTypes,
       lookups.whoAnnouncedTypes,
       lookups.themes,
-      lookups.packages
+      lookups.packages,
+      lookups.statuses
     ]
 
     const refinerGroupTitles = [
@@ -178,7 +205,8 @@ export const getRefinerGroups = createSelector(
       REFINER_GROUP_COMMITMENT_TYPE,
       REFINER_GROUP_WHO_ANNOUNCED_TYPE,
       REFINER_GROUP_THEME_TYPE,
-      REFINER_GROUP_PACKAGE_TYPE
+      REFINER_GROUP_PACKAGE_TYPE,
+      REFINER_GROUP_STATUS
     ]
     refiners.reduce((acc: RefinerGroup[], item: any[], index: number) => {
       const groupkey = refinerGroupTitles[index].key
@@ -247,29 +275,96 @@ export const getFilteredOverviewCommitments = createSelector(
   }
 )
 
-export const getOverviewLookupEnitites = createSelector(
+const selectorFunc = createSelectorFactory(defaultMemoize)
+export const lookupAllSelector = selectorFunc(
   getPartyEntities,
   getPortfolioEntities,
   getAnnouncementTypeEntities,
   getCommitmentTypeEntities,
   getWhoAnnouncedTypeEntities,
   getCriticalDateEntities,
+  getAllLocations,
+  getCostingAgencies,
+  getAllThemes,
+  getAllStatuses,
+  getLookupCommitmentPortfolios,
+  getLookupCommitmentPackages,
+  getLookupCommitmentElectorates,
+  getLookupCommitmentContacts,
+  getAllContacts,
+  getLookupCommitmentMapPoints,
+  getLookupMapPoints,
+  getRelatedCommitments,
   (
     partys,
     portfolios,
     announcementTypes,
     commitmentTypes,
     whoAnnouncedTypes,
-    criticalDates
+    criticalDates,
+    locations,
+    costingAgencies,
+    themes,
+    statuses,
+    commitmentPortfolios,
+    commitmentPackages,
+    commitmentElectorates,
+    commitmentContacts,
+    allContacts,
+    commitmentMapPoints,
+    allMapPoints,
+    relatedCommitments
   ) => ({
     partys,
     portfolios,
     announcementTypes,
     commitmentTypes,
     whoAnnouncedTypes,
-    criticalDates
+    criticalDates,
+    locations,
+    costingAgencies,
+    themes,
+    statuses,
+    commitmentPortfolios,
+    commitmentPackages,
+    commitmentElectorates,
+    commitmentContacts: commitmentContacts || [],
+    allContacts,
+    commitmentMapPoints: commitmentMapPoints || [],
+    allMapPoints,
+    relatedCommitments
   })
 )
+
+/*export const getOverviewLookupEnitites = createSelector(
+  getPartyEntities,
+  getPortfolioEntities,
+  getAnnouncementTypeEntities,
+  getCommitmentTypeEntities,
+  getWhoAnnouncedTypeEntities,
+  getCriticalDateEntities,
+  getAllPackageTypes,
+  getLookupCommitmentPortfolios,
+  (
+    partys,
+    portfolios,
+    announcementTypes,
+    commitmentTypes,
+    whoAnnouncedTypes,
+    criticalDates,
+    packages,
+    commitmentPortfolios,
+  ) => ({
+    partys,
+    portfolios,
+    announcementTypes,
+    commitmentTypes,
+    whoAnnouncedTypes,
+    criticalDates,
+    packages,
+    commitmentPortfolios
+  })
+)*/
 
 const getFieldValue = (columnName: string, commitment: Commitment) => {
   if (!commitment[columnName]) {
@@ -313,16 +408,19 @@ const sortByField = (
 
 export const getAllOverviewCommitments = createSelector(
   getFilteredOverviewCommitments,
-  getOverviewLookupEnitites,
+  lookupAllSelector,
   getCommitmentOverviewState,
   (commitments, lookups, state) => {
-
     const result = commitments.map(commitment => ({
       ...commitment,
       commitmentId: formatCommitmentId(commitment),
       description: null,
       portfolio: findInLookup(commitment.portfolio, lookups.portfolios),
       party: findInLookup(commitment.party, lookups.partys),
+      cost: commitment.cost,
+      announcedBy: commitment.announcedby,
+      date: commitment.date,
+      location: findInLookup(commitment.location, lookups.locations),
       whoAnnouncedType: findInLookup(
         commitment.whoAnnouncedType,
         lookups.whoAnnouncedTypes
@@ -338,7 +436,31 @@ export const getAllOverviewCommitments = createSelector(
       commitmentType: findInLookup(
         commitment.commitmentType,
         lookups.commitmentTypes
-      )
+      ),
+      portfolios: findInLookupCommitmentAssocs(
+        commitment,
+        lookups.commitmentPortfolios,
+        'portfolio'
+      ),
+      packages: findInLookupCommitmentAssocs(
+        commitment,
+        lookups.commitmentPackages,
+        'package'
+      ),
+      electorates: findInLookupCommitmentAssocs(
+        commitment,
+        lookups.commitmentElectorates,
+        'electorate'
+      ),
+      relatedCommitments: findInLookupCommitmentAssocs(
+        commitment,
+        lookups.relatedCommitments,
+        'relatedTo'
+      ),
+      contacts: findInLookupCommitmentContact(commitment, lookups),
+      mapPoints: findInLookupCommitmentMapPoint(commitment, lookups),
+      status: commitment.status,
+      costingRequired: commitment.costingRequired
     }))
 
     if (state.sortDirection) {

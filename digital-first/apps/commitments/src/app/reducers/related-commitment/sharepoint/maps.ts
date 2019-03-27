@@ -1,6 +1,6 @@
 import { fromLookup } from '@df/sharepoint'
 
-import { RelatedCommitment } from '../related-commitment.model'
+import { RelatedCommitment } from '../../../models'
 
 export const mapRelatedCommitment = (item): any => {
     const relatedTo = fromLookup(item.RelatedTo)

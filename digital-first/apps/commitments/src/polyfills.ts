@@ -35,7 +35,7 @@ import 'core-js/es6/weak-map'
 import 'core-js/es6/set'
 
 /** IE10 and IE11 requires the following for NgClass support on SVG elements */
-import 'classlist.js'  // Run `npm install --save classlist.js`.
+import 'classlist.js' // Run `npm install --save classlist.js`.
 
 /** IE10 and IE11 requires the following for the Reflect API. */
 import 'core-js/es6/reflect'
@@ -48,7 +48,11 @@ import 'core-js/es6/reflect'
  * Only required if AnimationBuilder is used within the application and using IE/Edge or Safari.
  * Standard animation support in Angular DOES NOT require any polyfills (as of Angular 6.0).
  **/
-import 'web-animations-js'  // Run `npm install --save web-animations-js`.
+
+// tslint:disable-next-line:import-spacing
+import 'web-animations-js'
+
+// Run `npm install --save web-animations-js`.
 
 /**
  * By default, zone.js will patch all possible macroTask and DomEvents
@@ -63,7 +67,7 @@ import 'web-animations-js'  // Run `npm install --save web-animations-js`.
  * in IE/Edge developer tools, the addEventListener will also be wrapped by zone.js
  * with the following flag, it will bypass `zone.js` patch for IE/Edge
  */
-(window as any).__Zone_enable_cross_context_check = true
+; (window as any).__Zone_enable_cross_context_check = true
 
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
@@ -74,42 +78,109 @@ import 'zone.js/dist/zone' // Included with Angular CLI.
  * APPLICATION IMPORTS
  */
 
-String.prototype.padStart = String.prototype.padStart ? String.prototype.padStart : function (targetLength, padString) {
-    targetLength = Math.floor(targetLength) || 0
-    if (targetLength < this.length) { return String(this) }
+String.prototype.padStart = String.prototype.padStart
+  ? String.prototype.padStart
+  : function(targetLength, padString) {
+      targetLength = Math.floor(targetLength) || 0
+      if (targetLength < this.length) {
+        return String(this)
+      }
 
-    padString = padString ? String(padString) : ' '
+      padString = padString ? String(padString) : ' '
 
-    let pad = ''
-    const len = targetLength - this.length
-    let i = 0
-    while (pad.length < len) {
+      let pad = ''
+      const len = targetLength - this.length
+      let i = 0
+      while (pad.length < len) {
         if (!padString[i]) {
-            i = 0
+          i = 0
         }
         pad += padString[i]
         i++
+      }
+
+      return pad + String(this).slice(0)
     }
 
-    return pad + String(this).slice(0)
-}
+String.prototype.padEnd = String.prototype.padEnd
+  ? String.prototype.padEnd
+  : function(targetLength, padString) {
+      targetLength = Math.floor(targetLength) || 0
+      if (targetLength < this.length) {
+        return String(this)
+      }
 
-String.prototype.padEnd = String.prototype.padEnd ? String.prototype.padEnd : function(targetLength, padString) {
-    targetLength = Math.floor(targetLength) || 0
-    if (targetLength < this.length) { return String(this) }
+      padString = padString ? String(padString) : ' '
 
-    padString = padString ? String(padString) : ' '
-
-    let pad = ''
-    const len = targetLength - this.length
-    let i = 0
-    while (pad.length < len) {
+      let pad = ''
+      const len = targetLength - this.length
+      let i = 0
+      while (pad.length < len) {
         if (!padString[i]) {
-            i = 0
+          i = 0
         }
         pad += padString[i]
         i++
+      }
+
+      return String(this).slice(0) + pad
     }
 
-    return String(this).slice(0) + pad
+// https://tc39.github.io/ecma262/#sec-array.prototype.includes
+if (!Array.prototype.includes) {
+  Object.defineProperty(Array.prototype, 'includes', {
+    value: function(valueToFind, fromIndex) {
+      if (this == null) {
+        throw new TypeError('"this" is null or not defined')
+      }
+
+      // 1. Let O be ? ToObject(this value).
+      const o = Object(this)
+
+      // 2. Let len be ? ToLength(? Get(O, "length")).
+      // tslint:disable-next-line:no-bitwise
+      const len = o.length >>> 0
+
+      // 3. If len is 0, return false.
+      if (len === 0) {
+        return false
+      }
+
+      // 4. Let n be ? ToInteger(fromIndex).
+      //    (If fromIndex is undefined, this step produces the value 0.)
+      // tslint:disable-next-line:no-bitwise
+      const n = fromIndex | 0
+
+      // 5. If n ≥ 0, then
+      //  a. Let k be n.
+      // 6. Else n < 0,
+      //  a. Let k be len + n.
+      //  b. If k < 0, let k be 0.
+      let k = Math.max(n >= 0 ? n : len - Math.abs(n), 0)
+
+      function sameValueZero(x, y) {
+        return (
+          x === y ||
+          (typeof x === 'number' &&
+            typeof y === 'number' &&
+            isNaN(x) &&
+            isNaN(y))
+        )
+      }
+
+      // 7. Repeat, while k < len
+      while (k < len) {
+        // a. Let elementK be the result of ? Get(O, ! ToString(k)).
+        // b. If SameValueZero(valueToFind, elementK) is true, return true.
+        if (sameValueZero(o[k], valueToFind)) {
+          return true
+        }
+        // c. Increase k by 1.
+        k++
+      }
+
+      // 8. Return false
+      return false
+    }
+  })
 }

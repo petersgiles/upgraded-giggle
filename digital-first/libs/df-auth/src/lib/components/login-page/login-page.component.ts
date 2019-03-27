@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core'
-import { WINDOW } from '@digital-first/df-utils'
+import { WINDOW } from '@df/utils'
 import { FEDERATEDLOGINAPIPATH, APPBASEPATH } from '@digital-first/df-app-tokens'
 
 @Component({

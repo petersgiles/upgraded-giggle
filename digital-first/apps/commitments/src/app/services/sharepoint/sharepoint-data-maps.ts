@@ -7,6 +7,13 @@ export const mapCommitmentPortfolio = (commitmentPortfolio): any => ({
 })
 export const mapCommitmentPortfolios = (commitmentPortfolios): any[] => commitmentPortfolios.map(mapCommitmentPortfolio)
 
+export const mapCommitmentPackage = (commitmentPackage): any => ({
+  id: commitmentPackage.ID,
+  commitment: idFromLookup(commitmentPackage.Commitment),
+  package: idFromLookup(commitmentPackage.Package)
+})
+export const mapCommitmentPackages = (commitmentPackages): any[] => commitmentPackages.map(mapCommitmentPackage)
+
 export const mapGroupPermission = (item): any => ({
   id: item.ID,
   rights: item.Rights,

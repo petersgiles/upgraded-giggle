@@ -6,7 +6,7 @@ import { MdcDialog, MdcSnackbar } from '@angular-mdc/web'
 import { CommitmentDataService } from '../../services/commitment-data.service'
 import { map } from 'rxjs/operators'
 import { Subscription, Observable } from 'rxjs'
-import { formatCommitmentTitle } from '../../formatters'
+import { formatCommitmentTitle, formatCommitmentId } from '../../formatters'
 import { Commitment } from '../../reducers'
 import { Portfolio } from '../../models'
 import { showSnackBar } from '../../dialogs/show-snack-bar'
@@ -26,6 +26,7 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
   activitySubscription$: Subscription
   formBusy: boolean
   portfolios$: Observable<Portfolio[]>
+  costingAgencies$: Observable<Portfolio[]>
   currentActionSubscription$: Subscription
 
   constructor(
@@ -52,7 +53,7 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
   })
 
   getTitle(commitment) {
-    return `${formatCommitmentTitle(commitment)} Costing`
+    return `${formatCommitmentId(commitment)} - ${formatCommitmentTitle(commitment)} - Costing`
   }
 
   handleGoBack($event) {
@@ -94,6 +95,7 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
     )
 
     this.portfolios$ = this.lookup.Portfolios
+    this.costingAgencies$ = this.lookup.CostingAgencies
 
     this.activitySubscription$ = this.service.Notification.subscribe(
       (next: any) => {
@@ -125,8 +127,7 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
 
         this.form.patchValue(patch)
       })
-
-    this.lookup.getAllPortfolios()
+      this.lookup.getAllPortfolios()
   }
 
   ngOnDestroy(): void {
