@@ -1,9 +1,23 @@
 import { Action } from '@ngrx/store'
-import { DataResult, AnnouncementTypesResult, CriticalDatesResult,
-    CommitmentTypesResult, LocationsResult, PartysResult, PortfoliosResult,
-    WhoAnnouncedTypesResult, PackageTypesResult, ThemeTypesResult, CommitmentPortfoliosResult, 
-    CommitmentPackageResult, CommitmentElectoratesResult, CommitmentContactsResult, 
-    CommitmentMapPointsResult, MapPointsResult, RelatedCommitmentsResult } from '../../models'
+import {
+  DataResult,
+  AnnouncementTypesResult,
+  CriticalDatesResult,
+  CommitmentTypesResult,
+  LocationsResult,
+  PartysResult,
+  PortfoliosResult,
+  WhoAnnouncedTypesResult,
+  PackageTypesResult,
+  ThemeTypesResult,
+  CommitmentPortfoliosResult,
+  CommitmentPackageResult,
+  CommitmentElectoratesResult,
+  CommitmentContactsResult,
+  CommitmentMapPointsResult,
+  MapPointsResult,
+  RelatedCommitmentsResult
+} from '../../models'
 import { StatusesResult } from '../../models/status.model'
 import { MapPoint } from '@digital-first/df-map'
 
@@ -54,322 +68,301 @@ export enum CommitmentLookupsActionTypes {
   LoadAllMapPoints = '[Lookups] Load Map Points',
   GetAllRelatedCommitments = '[Lookups] Get All Related Commitments',
   LoadAllRelatedCommitments = '[Lookups] Load Related Commitments',
-  RelatedCommitmentActionFailure = '[Lookups] related Commitments Action Failure',
+  RelatedCommitmentActionFailure = '[Lookups] related Commitments Action Failure'
 }
-
 
 // AnnouncementTypes
 
 export class GetAllAnnouncementTypes implements Action {
-    readonly type = CommitmentLookupsActionTypes.GetAllAnnouncementTypes
+  readonly type = CommitmentLookupsActionTypes.GetAllAnnouncementTypes
 }
 
 export class LoadAnnouncementTypes implements Action {
-    readonly type = CommitmentLookupsActionTypes.LoadAnnouncementTypes
-    constructor(public payload: DataResult<AnnouncementTypesResult>) { }
+  readonly type = CommitmentLookupsActionTypes.LoadAnnouncementTypes
+  constructor(public payload: DataResult<AnnouncementTypesResult>) {}
 }
 
 export class AnnouncementTypesActionFailure implements Action {
-    readonly type = CommitmentLookupsActionTypes.AnnouncementTypesActionFailure
-    constructor(public payload: any) {
-    }
+  readonly type = CommitmentLookupsActionTypes.AnnouncementTypesActionFailure
+  constructor(public payload: any) {}
 }
 
 // PackageTypes
 
 export class GetAllPackageTypes implements Action {
-    readonly type = CommitmentLookupsActionTypes.GetAllPackageTypes
+  readonly type = CommitmentLookupsActionTypes.GetAllPackageTypes
 }
 
 export class LoadPackageTypes implements Action {
-    readonly type = CommitmentLookupsActionTypes.LoadPackageTypes
-    constructor(public payload: DataResult<PackageTypesResult>) { }
+  readonly type = CommitmentLookupsActionTypes.LoadPackageTypes
+  constructor(public payload: DataResult<PackageTypesResult>) {}
 }
 
 export class PackageTypesActionFailure implements Action {
-    readonly type = CommitmentLookupsActionTypes.PackageTypesActionFailure
-    constructor(public payload: any) {
-    }
+  readonly type = CommitmentLookupsActionTypes.PackageTypesActionFailure
+  constructor(public payload: any) {}
 }
-
-
 
 // Statuses
 export class GetAllStatuses implements Action {
-    readonly type = CommitmentLookupsActionTypes.GetAllStatuses
+  readonly type = CommitmentLookupsActionTypes.GetAllStatuses
 }
 
 export class LoadStatuses implements Action {
-    readonly type = CommitmentLookupsActionTypes.LoadStatuses
-    constructor(public payload: DataResult<StatusesResult>) { }
+  readonly type = CommitmentLookupsActionTypes.LoadStatuses
+  constructor(public payload: DataResult<StatusesResult>) {}
 }
 
 export class StatusesActionFailure implements Action {
-    readonly type = CommitmentLookupsActionTypes.StatusesActionFailure
-    constructor(public payload: any) {
-    }
+  readonly type = CommitmentLookupsActionTypes.StatusesActionFailure
+  constructor(public payload: any) {}
 }
-
 
 // ThemeTypes
 
 export class GetAllThemeTypes implements Action {
-    readonly type = CommitmentLookupsActionTypes.GetAllThemeTypes
+  readonly type = CommitmentLookupsActionTypes.GetAllThemeTypes
 }
 
 export class LoadThemeTypes implements Action {
-    readonly type = CommitmentLookupsActionTypes.LoadThemeTypes
-    constructor(public payload: DataResult<ThemeTypesResult>) { }
+  readonly type = CommitmentLookupsActionTypes.LoadThemeTypes
+  constructor(public payload: DataResult<ThemeTypesResult>) {}
 }
 
 export class ThemeTypesActionFailure implements Action {
-    readonly type = CommitmentLookupsActionTypes.ThemeTypesActionFailure
-    constructor(public payload: any) {
-    }
+  readonly type = CommitmentLookupsActionTypes.ThemeTypesActionFailure
+  constructor(public payload: any) {}
 }
 
 // CommitmentTypes
 
 export class GetAllCommitmentTypes implements Action {
-    readonly type = CommitmentLookupsActionTypes.GetAllCommitmentTypes
+  readonly type = CommitmentLookupsActionTypes.GetAllCommitmentTypes
 }
 
 export class LoadCommitmentTypes implements Action {
-    readonly type = CommitmentLookupsActionTypes.LoadCommitmentTypes
-    constructor(public payload: DataResult<CommitmentTypesResult>) { }
+  readonly type = CommitmentLookupsActionTypes.LoadCommitmentTypes
+  constructor(public payload: DataResult<CommitmentTypesResult>) {}
 }
 
 export class CommitmentTypesActionFailure implements Action {
-    readonly type = CommitmentLookupsActionTypes.CommitmentTypesActionFailure
-    constructor(public payload: any) {
-    }
+  readonly type = CommitmentLookupsActionTypes.CommitmentTypesActionFailure
+  constructor(public payload: any) {}
 }
 
 // CriticalDates
 
 export class GetAllCriticalDates implements Action {
-    readonly type = CommitmentLookupsActionTypes.GetAllCriticalDates
+  readonly type = CommitmentLookupsActionTypes.GetAllCriticalDates
 }
 
 export class LoadCriticalDates implements Action {
-    readonly type = CommitmentLookupsActionTypes.LoadCriticalDates
-    constructor(public payload: DataResult<CriticalDatesResult>) { }
+  readonly type = CommitmentLookupsActionTypes.LoadCriticalDates
+  constructor(public payload: DataResult<CriticalDatesResult>) {}
 }
 
 export class CriticalDatesActionFailure implements Action {
-    readonly type = CommitmentLookupsActionTypes.CriticalDatesActionFailure
-    constructor(public payload: any) {
-    }
+  readonly type = CommitmentLookupsActionTypes.CriticalDatesActionFailure
+  constructor(public payload: any) {}
 }
 
 // Locations
 
 export class GetAllLocations implements Action {
-    readonly type = CommitmentLookupsActionTypes.GetAllLocations
+  readonly type = CommitmentLookupsActionTypes.GetAllLocations
 }
 
 export class LoadLocations implements Action {
-    readonly type = CommitmentLookupsActionTypes.LoadLocations
-    constructor(public payload: DataResult<LocationsResult>) { }
+  readonly type = CommitmentLookupsActionTypes.LoadLocations
+  constructor(public payload: DataResult<LocationsResult>) {}
 }
 
 export class GetAllCommitmentElectorates implements Action {
-    readonly type = CommitmentLookupsActionTypes.GetAllCommitmentElectorates
+  readonly type = CommitmentLookupsActionTypes.GetAllCommitmentElectorates
 }
 
 export class LoadAllCommitmentElectorates implements Action {
-    readonly type = CommitmentLookupsActionTypes.LoadAllCommitmentElectorates
-    constructor(public payload: DataResult<CommitmentElectoratesResult>) { }
+  readonly type = CommitmentLookupsActionTypes.LoadAllCommitmentElectorates
+  constructor(public payload: DataResult<CommitmentElectoratesResult>) {}
 }
 
 export class LocationsActionFailure implements Action {
-    readonly type = CommitmentLookupsActionTypes.LocationsActionFailure
-    constructor(public payload: any) {
-    }
+  readonly type = CommitmentLookupsActionTypes.LocationsActionFailure
+  constructor(public payload: any) {}
 }
 
 // Partys
 
 export class GetAllPartys implements Action {
-    readonly type = CommitmentLookupsActionTypes.GetAllPartys
+  readonly type = CommitmentLookupsActionTypes.GetAllPartys
 }
 
 export class LoadPartys implements Action {
-    readonly type = CommitmentLookupsActionTypes.LoadPartys
-    constructor(public payload: DataResult<PartysResult>) { }
+  readonly type = CommitmentLookupsActionTypes.LoadPartys
+  constructor(public payload: DataResult<PartysResult>) {}
 }
 
 export class PartysActionFailure implements Action {
-    readonly type = CommitmentLookupsActionTypes.PartysActionFailure
-    constructor(public payload: any) {
-    }
+  readonly type = CommitmentLookupsActionTypes.PartysActionFailure
+  constructor(public payload: any) {}
 }
 
 // Portfolios
 
 export class GetAllPortfolios implements Action {
-    readonly type = CommitmentLookupsActionTypes.GetAllPortfolios
+  readonly type = CommitmentLookupsActionTypes.GetAllPortfolios
 }
 
 export class LoadPortfolios implements Action {
-    readonly type = CommitmentLookupsActionTypes.LoadPortfolios
-    constructor(public payload: DataResult<PortfoliosResult>) { }
+  readonly type = CommitmentLookupsActionTypes.LoadPortfolios
+  constructor(public payload: DataResult<PortfoliosResult>) {}
 }
 
-
 export class GetAllCommitmentPortfolios implements Action {
-    readonly type = CommitmentLookupsActionTypes.GetAllCommitmentPortfolios
+  readonly type = CommitmentLookupsActionTypes.GetAllCommitmentPortfolios
 }
 
 export class LoadAllCommitmentPortfolios implements Action {
-    readonly type = CommitmentLookupsActionTypes.LoadAllCommitmentPortfolios
-    constructor(public payload: DataResult<CommitmentPortfoliosResult>) { }
+  readonly type = CommitmentLookupsActionTypes.LoadAllCommitmentPortfolios
+  constructor(public payload: DataResult<CommitmentPortfoliosResult>) {}
 }
 
 export class PortfoliosActionFailure implements Action {
-    readonly type = CommitmentLookupsActionTypes.PortfoliosActionFailure
-    constructor(public payload: any) {
-    }
+  readonly type = CommitmentLookupsActionTypes.PortfoliosActionFailure
+  constructor(public payload: any) {}
 }
 
 // Commitment Packages
 export class GetAllCommitmentPackages implements Action {
-    readonly type = CommitmentLookupsActionTypes.GetAllCommitmentPackages
+  readonly type = CommitmentLookupsActionTypes.GetAllCommitmentPackages
 }
 
 export class LoadAllCommitmentPackages implements Action {
-    readonly type = CommitmentLookupsActionTypes.LoadAllCommitmentPackages
-    constructor(public payload: DataResult<CommitmentPackageResult>) { }
+  readonly type = CommitmentLookupsActionTypes.LoadAllCommitmentPackages
+  constructor(public payload: DataResult<CommitmentPackageResult>) {}
 }
 
 export class PackageActionFailure implements Action {
-    readonly type = CommitmentLookupsActionTypes.PackageTypesActionFailure
-    constructor(public payload: any) {
-    }
+  readonly type = CommitmentLookupsActionTypes.PackageTypesActionFailure
+  constructor(public payload: any) {}
 }
 
-//Commitment Contacts
+// Commitment Contacts
 export class GetAllCommitmentContacts implements Action {
-    readonly type = CommitmentLookupsActionTypes.GetAllCommitmentContacts
+  readonly type = CommitmentLookupsActionTypes.GetAllCommitmentContacts
 }
 
 export class LoadAllCommitmentContacts implements Action {
-    readonly type = CommitmentLookupsActionTypes.LoadAllCommitmentContacts
-    constructor(public payload: DataResult<CommitmentContactsResult>) { }
+  readonly type = CommitmentLookupsActionTypes.LoadAllCommitmentContacts
+  constructor(public payload: DataResult<CommitmentContactsResult>) {}
 }
 
 export class ContactActionFailure implements Action {
-    readonly type = CommitmentLookupsActionTypes.ContactsActionFailure
-    constructor(public payload: any) {
-    }
+  readonly type = CommitmentLookupsActionTypes.ContactsActionFailure
+  constructor(public payload: any) {}
 }
 
- //Commitment MapPoints
- export class GetAllCommitmentMapPoints implements Action {
-    readonly type = CommitmentLookupsActionTypes.GetAllCommitmentMapPoints
+// Commitment MapPoints
+export class GetAllCommitmentMapPoints implements Action {
+  readonly type = CommitmentLookupsActionTypes.GetAllCommitmentMapPoints
 }
 
 export class LoadAllCommitmentMapPoints implements Action {
-    readonly type = CommitmentLookupsActionTypes.LoadAllCommitmentMapPoints
-    constructor(public payload: DataResult<CommitmentMapPointsResult>) { }
+  readonly type = CommitmentLookupsActionTypes.LoadAllCommitmentMapPoints
+  constructor(public payload: DataResult<CommitmentMapPointsResult>) {}
 }
 
 export class GetAllMapPoints implements Action {
-    readonly type = CommitmentLookupsActionTypes.GetAllMapPoints
+  readonly type = CommitmentLookupsActionTypes.GetAllMapPoints
 }
 
 export class LoadAllMapPoints implements Action {
-    readonly type = CommitmentLookupsActionTypes.LoadAllMapPoints
-    constructor(public payload: DataResult<MapPointsResult>) { }
+  readonly type = CommitmentLookupsActionTypes.LoadAllMapPoints
+  constructor(public payload: DataResult<MapPointsResult>) {}
 }
 
-
 export class MapPointActionFailure implements Action {
-    readonly type = CommitmentLookupsActionTypes.MapPointsActionFailure
-    constructor(public payload: any) {
-    }
+  readonly type = CommitmentLookupsActionTypes.MapPointsActionFailure
+  constructor(public payload: any) {}
 }
 
 // WhoAnnouncedTypes
 
 export class GetAllWhoAnnouncedTypes implements Action {
-    readonly type = CommitmentLookupsActionTypes.GetAllWhoAnnouncedTypes
+  readonly type = CommitmentLookupsActionTypes.GetAllWhoAnnouncedTypes
 }
 
 export class LoadWhoAnnouncedTypes implements Action {
-    readonly type = CommitmentLookupsActionTypes.LoadWhoAnnouncedTypes
-    constructor(public payload: DataResult<WhoAnnouncedTypesResult>) { }
+  readonly type = CommitmentLookupsActionTypes.LoadWhoAnnouncedTypes
+  constructor(public payload: DataResult<WhoAnnouncedTypesResult>) {}
 }
 
 export class WhoAnnouncedTypesActionFailure implements Action {
-    readonly type = CommitmentLookupsActionTypes.WhoAnnouncedTypesActionFailure
-    constructor(public payload: any) {
-    }
+  readonly type = CommitmentLookupsActionTypes.WhoAnnouncedTypesActionFailure
+  constructor(public payload: any) {}
 }
 
 // Related Commitments
 
 export class GetAllRelatedCommitments implements Action {
-    readonly type = CommitmentLookupsActionTypes.GetAllRelatedCommitments
+  readonly type = CommitmentLookupsActionTypes.GetAllRelatedCommitments
 }
 
 export class LoadAllRelatedCommitments implements Action {
-    readonly type = CommitmentLookupsActionTypes.LoadAllRelatedCommitments
-    constructor(public payload: DataResult<RelatedCommitmentsResult>) { }
+  readonly type = CommitmentLookupsActionTypes.LoadAllRelatedCommitments
+  constructor(public payload: DataResult<RelatedCommitmentsResult>) {}
 }
 
 export class RelatedCommitmentActionFailure implements Action {
-    readonly type = CommitmentLookupsActionTypes.RelatedCommitmentActionFailure
-    constructor(public payload: any) {
-    }
+  readonly type = CommitmentLookupsActionTypes.RelatedCommitmentActionFailure
+  constructor(public payload: any) {}
 }
 
 export type CommitmentLookupsActions =
-      LoadAnnouncementTypes
-    | GetAllAnnouncementTypes
-    | AnnouncementTypesActionFailure
-    | GetAllCommitmentTypes
-    | LoadCommitmentTypes
-    | CommitmentTypesActionFailure
-    | GetAllThemeTypes
-    | LoadThemeTypes
-    | ThemeTypesActionFailure
-    | GetAllPackageTypes
-    | LoadPackageTypes
-    | PackageTypesActionFailure
-    | GetAllCriticalDates
-    | LoadCriticalDates
-    | CriticalDatesActionFailure
-    | GetAllLocations
-    | LoadLocations
-    | LocationsActionFailure
-    | GetAllPartys
-    | LoadPartys
-    | PartysActionFailure
-    | GetAllPortfolios
-    | LoadPortfolios
-    | PortfoliosActionFailure
-    | GetAllWhoAnnouncedTypes
-    | LoadWhoAnnouncedTypes
-    | WhoAnnouncedTypesActionFailure
-    | GetAllStatuses
-    | LoadStatuses
-    | StatusesActionFailure
-    | GetAllCommitmentPortfolios
-    | LoadAllCommitmentPortfolios
-    | GetAllCommitmentPackages
-    | LoadAllCommitmentPackages
-    | GetAllCommitmentElectorates
-    | LoadAllCommitmentElectorates
-    | GetAllCommitmentContacts
-    | LoadAllCommitmentContacts
-    | ContactActionFailure
-    | GetAllCommitmentMapPoints
-    | LoadAllCommitmentMapPoints
-    | MapPointActionFailure
-    | GetAllMapPoints
-    | LoadAllMapPoints
-    | RelatedCommitmentActionFailure
-    | GetAllRelatedCommitments
-    | LoadAllRelatedCommitments
-
+  | LoadAnnouncementTypes
+  | GetAllAnnouncementTypes
+  | AnnouncementTypesActionFailure
+  | GetAllCommitmentTypes
+  | LoadCommitmentTypes
+  | CommitmentTypesActionFailure
+  | GetAllThemeTypes
+  | LoadThemeTypes
+  | ThemeTypesActionFailure
+  | GetAllPackageTypes
+  | LoadPackageTypes
+  | PackageTypesActionFailure
+  | GetAllCriticalDates
+  | LoadCriticalDates
+  | CriticalDatesActionFailure
+  | GetAllLocations
+  | LoadLocations
+  | LocationsActionFailure
+  | GetAllPartys
+  | LoadPartys
+  | PartysActionFailure
+  | GetAllPortfolios
+  | LoadPortfolios
+  | PortfoliosActionFailure
+  | GetAllWhoAnnouncedTypes
+  | LoadWhoAnnouncedTypes
+  | WhoAnnouncedTypesActionFailure
+  | GetAllStatuses
+  | LoadStatuses
+  | StatusesActionFailure
+  | GetAllCommitmentPortfolios
+  | LoadAllCommitmentPortfolios
+  | GetAllCommitmentPackages
+  | LoadAllCommitmentPackages
+  | GetAllCommitmentElectorates
+  | LoadAllCommitmentElectorates
+  | GetAllCommitmentContacts
+  | LoadAllCommitmentContacts
+  | ContactActionFailure
+  | GetAllCommitmentMapPoints
+  | LoadAllCommitmentMapPoints
+  | MapPointActionFailure
+  | GetAllMapPoints
+  | LoadAllMapPoints
+  | RelatedCommitmentActionFailure
+  | GetAllRelatedCommitments
+  | LoadAllRelatedCommitments
