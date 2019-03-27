@@ -74,6 +74,10 @@
     background-image: inherit;
     background-color: inherit;
     border: inherit;
+
+    > i {
+      font-size: 0.7em;
+    }
   }
 }
 

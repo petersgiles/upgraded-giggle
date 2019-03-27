@@ -107,8 +107,11 @@ export class PlannerComponent implements OnInit {
   }
 
   eventRenderer({ eventRecord, tplData }) {
-    // Add a custom CSS classes to the template element data by setting a property name
-    tplData.cls.milestone = eventRecord.isMilestone
+    if (eventRecord.isMilestone) {
+      tplData.cls.milestone = true
+      tplData.style = `color:${eventRecord.eventColor}`
+    }
+
     return eventRecord.name
   }
 
@@ -134,7 +137,9 @@ export class PlannerComponent implements OnInit {
             durationUnit: e.durationUnit,
             name: e.type,
             eventType: e.type,
-            eventColor: e.color
+            eventColor: e.color,
+            iconCls: e.icon
+            // TODO: work out how to use onBeforeSave() to set this stuff instead, so it can be used from within the widgets too
           })
           ;(me.scheduler.schedulerEngine as any).editEvent(event)
         }
