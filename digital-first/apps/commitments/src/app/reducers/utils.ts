@@ -20,17 +20,6 @@ export const findInLookupCommitmentAssocs = (object, lookupSet, key) => {
     return null
 }
 
-class Contact {
-    firstName: string
-    name: string
-    phone: string
-    email: string
-
-    toString() {
-        return this.firstName + ' ' + this.name + ' - ' + this.phone + ' - ' + this.email
-    }
-}
-
 export const findInLookupCommitmentContact = (object, lookupSet) => {
     if (object && object.title && lookupSet) {
         let commitmentContacts = new Array()
