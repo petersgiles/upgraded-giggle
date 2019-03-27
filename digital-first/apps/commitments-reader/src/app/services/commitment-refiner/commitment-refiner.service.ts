@@ -148,7 +148,16 @@ export class CommitmentRefinerService implements OnDestroy {
     this.action$.next(new GetRefinedMapPoints(null))
   }
 
-  public getPlannerPage() {}
+  public getPlannerPage() {
+    const store = this.store$.getValue()
+
+    const payload: CommitmentRefinementInput = {
+      text: null,
+      tags: [...store.selectedRefiners]
+    }
+
+    this.action$.next(new GetRefinedCommitments(payload))
+  }
 
   ngOnDestroy(): void {
     this.actionSubscription$.unsubscribe()
