@@ -8,7 +8,7 @@ export const callMutate = <T>(apollo, options: {
     mutation: any,
     fetchPolicy?: 'no-cache' | 'network-only',
     variables?: any
-}, mapper?:  DataResultCallback<any, DataResult<T>>): Observable<DataResult<T>> => apollo
+}, mapper?:  any): Observable<DataResult<T>> => apollo
     .mutate({
         ...options
     })
@@ -26,7 +26,7 @@ export const callQuery = <T>(apollo, options: {
     query: any,
     fetchPolicy?: 'no-cache' | 'network-only',
     variables?: any
-}, mapper?: DataResultCallback<any, DataResult<T>>): Observable<DataResult<T>> =>
+}, mapper?: any): Observable<DataResult<T>> =>
 
     apollo
         .query({
