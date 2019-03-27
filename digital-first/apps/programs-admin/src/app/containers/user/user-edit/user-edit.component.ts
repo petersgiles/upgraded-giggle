@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core'
 import {
   SelectAgenciesGQL,
-  SelectAgencies,
   GetUserGQL,
-  UpdateUserGQL
+  UpdateUserGQL,
+  SelectAgenciesQuery
 } from '../../../generated/graphql'
 import { Subscription, Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
@@ -25,7 +25,7 @@ export class UserEditComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
-  agencies$: Observable<SelectAgencies.Agencies[]>
+  agencies$: Observable<SelectAgenciesQuery['agencies']>
   userSubscription$: Subscription
   userId: string
   rowVersion: string

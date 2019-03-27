@@ -16,13 +16,14 @@ import {
   DialogsModule
 } from '@df/components'
 
+import { UuidService, WINDOW_PROVIDERS } from '@df/utils'
+
 import { DfAuthModule, AUTH_KEY } from '@digital-first/df-auth'
 import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
 import { DfPagesModule } from '@digital-first/df-pages'
 
 import { DfMomentModule } from '@digital-first/df-moment'
-import { WINDOW_PROVIDERS } from '@df/utils'
 
 import { AppComponent } from './app.component'
 import { AppFullLayoutService } from './app-full-layout.service'
@@ -66,8 +67,6 @@ import { StatisticReportComponent } from './containers/statistic-report/statisti
 import { StatisticReportAddComponent } from './containers/statistic-report/statistic-report-add/statistic-report-add.component'
 import { StatisticReportEditComponent } from './containers/statistic-report/statistic-report-edit/statistic-report-edit.component'
 import { ProjectComponent } from './containers/project/project.component'
-import { ProjectAddComponent } from './containers/project/project-add/project-add.component'
-import { ProjectEditComponent } from './containers/project/project-edit/project-edit.component'
 import { ReportEditComponent } from './containers/program-report/report-edit/report-edit.component'
 import { ProjectsComponent } from './containers/projects/projects.component'
 import { AgenciesComponent } from './containers/agencies/agencies.component'
@@ -90,11 +89,13 @@ import { PortfolioAddComponent } from './containers/portfolio/portfolio-add/port
 import { PortfolioEditComponent } from './containers/portfolio/portfolio-edit/portfolio-edit.component'
 import { ReportVersionEditComponent } from './containers/program-report/report-version-edit/report-version-edit.component'
 import { GroupRolesComponent } from './containers/group-roles/group-roles.component'
-import { DialogAssignRoleToGroupComponent } from './dialogs/dialog-assign-role-to-group.component';
-import { RolesComponent } from './containers/roles/roles.component';
-import { RoleComponent } from './containers/role/role.component';
-import { RoleAddComponent } from './containers/role/role-add/role-add.component';
+import { DialogAssignRoleToGroupComponent } from './dialogs/dialog-assign-role-to-group.component'
+import { RolesComponent } from './containers/roles/roles.component'
+import { RoleComponent } from './containers/role/role.component'
+import { RoleAddComponent } from './containers/role/role-add/role-add.component'
 import { RoleEditComponent } from './containers/role/role-edit/role-edit.component'
+import { DialogApiKeyComponent } from './containers/user/dialog-apikey.component'
+import { UserGroupsComponent } from './containers/user/user-groups/user-groups.component'
 
 const COMPONENTS = [AppComponent, HomeComponent]
 
@@ -102,7 +103,8 @@ const ENTRYCOMPONENTS = [
   DialogAreYouSureComponent,
   DialogAssignGroupPermissionComponent,
   DialogAssignUserToGroupComponent,
-  DialogAssignRoleToGroupComponent
+  DialogAssignRoleToGroupComponent,
+  DialogApiKeyComponent
 ]
 
 export function initApplication(): Function {
@@ -128,6 +130,7 @@ export function initApplication(): Function {
     DialogAssignGroupPermissionComponent,
     DialogAssignUserToGroupComponent,
     DialogAssignRoleToGroupComponent,
+    DialogApiKeyComponent,
     ProgramReportsComponent,
     ReportAddComponent,
     ProgramReportComponent,
@@ -149,8 +152,6 @@ export function initApplication(): Function {
     ReportEditComponent,
     ProjectsComponent,
     ProjectComponent,
-    ProjectAddComponent,
-    ProjectEditComponent,
     AgenciesComponent,
     AgencyComponent,
     AgencyAddComponent,
@@ -173,7 +174,8 @@ export function initApplication(): Function {
     RolesComponent,
     RoleComponent,
     RoleAddComponent,
-    RoleEditComponent
+    RoleEditComponent,
+    UserGroupsComponent
   ],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [
@@ -210,7 +212,8 @@ export function initApplication(): Function {
       useFactory: initApplication,
       multi: true
     },
-    { provide: FullLayoutService, useClass: AppFullLayoutService }
+    { provide: FullLayoutService, useClass: AppFullLayoutService },
+    UuidService
   ],
   bootstrap: [AppComponent],
   exports: [AgencyComponent, AgencyAddComponent]

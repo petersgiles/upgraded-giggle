@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { Maybe, User } from '../../../generated/graphql'
+import { UserQuery } from '../../../generated/graphql'
 import { formConstants } from '../../../form-constants'
 
 @Component({
@@ -11,7 +11,7 @@ export class UserProgramAccessComponent implements OnInit {
   defaultPageLength: number = formConstants.defaultPageLength
 
   @Input()
-  programAccessRows: Maybe<Maybe<User.ProgramAccess>[]>
+  programAccessRows: UserQuery['user']['programAccess']
 
   columns = [
     { prop: 'name', name: 'Program Name' },

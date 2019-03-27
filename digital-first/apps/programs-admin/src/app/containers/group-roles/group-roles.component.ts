@@ -1,18 +1,19 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { formConstants } from '../../form-constants'
 import {
-  AllRoles,
   AllRolesGQL,
   CreateRoleAccessControlGroupGQL,
   GroupGQL,
-  Maybe
+  GroupQuery
 } from '../../generated/graphql'
 import { MdcDialog } from '@angular-mdc/web'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
 import { first, map } from 'rxjs/operators'
-import Roles = AllRoles.Roles
 import { DialogAssignRoleToGroupComponent } from '../../dialogs/dialog-assign-role-to-group.component'
+
+type Roles = GroupQuery['group']['roles']
+type Role = Roles[0]
 
 @Component({
   selector: 'digital-first-group-roles',
@@ -41,7 +42,7 @@ export class GroupRolesComponent implements OnInit {
   @Output() onAddItemClicked: EventEmitter<any> = new EventEmitter()
 
   @Input()
-  roles: Maybe<Maybe<Roles>[]>
+  roles: Roles
 
   @Input()
   groupId: string
@@ -101,7 +102,7 @@ export class GroupRolesComponent implements OnInit {
     }
   }
 
-  handleTableDeleteClicked(role: Roles) {
+  handleTableDeleteClicked(role: Role) {
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
       clickOutsideToClose: true

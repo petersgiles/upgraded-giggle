@@ -3,9 +3,8 @@ import { FormBuilder, Validators } from '@angular/forms'
 import {
   AllPortfoliosGQL,
   UpdateAgencyGQL,
-  Agency,
   GetAgencyGQL,
-  AllPortfolios
+  AllPortfoliosQuery
 } from '../../../generated/graphql'
 import { ActivatedRoute, Router } from '@angular/router'
 import { map } from 'rxjs/operators'
@@ -20,9 +19,8 @@ import { formConstants } from '../../../form-constants'
 export class AgencyEditComponent implements OnInit, OnDestroy {
   rowVersion: string
   agencyId: string
-  portfolios$: Observable<AllPortfolios.Portfolios[]>
+  portfolios$: Observable<AllPortfoliosQuery['portfolios']>
   agencySubscription$: Subscription
-  agency: Agency.Agency
   editAgencyForm = this.formBuilder.group({
     agencyName: [
       null,

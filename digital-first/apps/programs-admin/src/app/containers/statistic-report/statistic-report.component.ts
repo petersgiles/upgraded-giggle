@@ -3,10 +3,10 @@ import {
   AccessRights,
   AllGroupsGQL,
   CreateStatisticReportAccessControlGQL,
-  StatisticReportDetail,
   StatisticReportDetailGQL,
   DeleteAccessControlGQL,
-  UpdateAccessControlGQL
+  UpdateAccessControlGQL,
+  StatisticReportDetailQuery
 } from '../../generated/graphql'
 import { Subscription } from 'rxjs'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -18,6 +18,8 @@ import {
   PermissionChangedEvent,
   PermissionRow
 } from '../permission/permission.component'
+import { formatDate } from '../../date-time-format'
+type StatisticReport = StatisticReportDetailQuery['statisticReport']
 
 @Component({
   selector: 'digital-first-statistic-report',
@@ -25,11 +27,11 @@ import {
   styleUrls: ['./statistic-report.component.scss']
 })
 export class StatisticReportComponent implements OnInit, OnDestroy {
-  report: StatisticReportDetail.StatisticReport
+  report: StatisticReport
   reportSubscription$: Subscription
   statisticId: string
   statisticReportId: string
-  latestVersion: StatisticReportDetail.LatestVersion
+  latestVersion: StatisticReport['latestVersion']
   noDataMessage =
     'This report inherits its permissions from the statistic. Adding groups here will break inheritance.'
   permissionRows: PermissionRow[]
@@ -48,6 +50,7 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.statisticReportId = this.route.snapshot.paramMap.get('id')
     this.statisticId = this.route.snapshot.paramMap.get('statisticId')
+
     this.reportSubscription$ = this.statisticReportGql
       .watch(
         { reportId: this.statisticReportId },
@@ -71,6 +74,9 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
           this.permissionRows = []
         }
         this.latestVersion = this.report.latestVersion
+        if (this.latestVersion) {
+          this.latestVersion.dataDate = formatDate(this.latestVersion.dataDate)
+        }
       })
   }
 
@@ -184,7 +190,7 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
       .subscribe(value => {})
   }
 
-  handleEditStatisticReport(report: StatisticReportDetail.StatisticReport) {
+  handleEditStatisticReport(report: StatisticReport) {
     return this.router.navigate(['../edit', report.id], {
       relativeTo: this.route
     })

@@ -4,15 +4,17 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { first, map } from 'rxjs/operators'
 import {
   CreateAccessControlGroupUserGQL,
-  Group,
   GroupGQL,
-  Maybe,
+  GroupQuery,
+  UserGraph,
   UsersGQL
 } from '../../generated/graphql'
 import { DialogAssignUserToGroupComponent } from '../../dialogs/dialog-assign-user-to-group.component'
 import { formConstants } from '../../form-constants'
-import Members = Group.Members
 import { ARE_YOU_SURE_ACCEPT, DialogAreYouSureComponent } from '@df/components'
+
+type Members = GroupQuery['group']['members']
+type Member = Members[0]
 
 @Component({
   selector: 'digital-first-group-users',
@@ -33,7 +35,7 @@ export class GroupUsersComponent implements OnInit {
   expanded: true
 
   @Input()
-  members: Maybe<Maybe<Group.Members>[]>
+  members: Members
 
   @Input()
   groupId: string
@@ -97,7 +99,7 @@ export class GroupUsersComponent implements OnInit {
     }
   }
 
-  handleTableDeleteClicked(member: Members) {
+  handleTableDeleteClicked(member: Member) {
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
       clickOutsideToClose: true

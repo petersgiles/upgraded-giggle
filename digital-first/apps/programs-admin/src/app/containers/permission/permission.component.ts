@@ -11,7 +11,6 @@ import { MdcDialog } from '@angular-mdc/web'
 
 import { first } from 'rxjs/operators'
 import { formConstants } from '../../form-constants'
-import { Guid } from '../../generated/graphql'
 import { DialogAreYouSureComponent } from '@df/components'
 import { ARE_YOU_SURE_ACCEPT } from '@digital-first/df-dialogs'
 
@@ -91,8 +90,8 @@ export class PermissionComponent implements OnInit {
 export interface PermissionRow {
   rowVersion: string
   rights: string
-  id: Guid
-  acl: Guid
+  id: string
+  acl: string
   title: string
 }
 

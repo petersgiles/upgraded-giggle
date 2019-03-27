@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core'
-import { AllUsersSearch, AllUsersSearchGQL } from '../../generated/graphql'
+import { AllUsersSearchGQL } from '../../generated/graphql'
 import { BehaviorSubject, Subscription } from 'rxjs'
 import { Router } from '@angular/router'
 import { multiFilter } from '../../core/graphqlhelper'

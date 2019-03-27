@@ -3,8 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { FormBuilder, Validators } from '@angular/forms'
 import { map } from 'rxjs/operators'
 import {
-  StatisticReportEdit,
   StatisticReportEditGQL,
+  StatisticReportEditQuery,
   UpdateStatisticReportGQL
 } from '../../../generated/graphql'
 import { Subscription } from 'rxjs'
@@ -24,7 +24,7 @@ export class StatisticReportEditComponent implements OnInit, OnDestroy {
     notes: ['']
   })
 
-  report: StatisticReportEdit.StatisticReport
+  report: StatisticReportEditQuery['statisticReport']
   reportSubscription$: Subscription
   private statisticReportId: string
 

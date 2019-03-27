@@ -8,8 +8,9 @@ import {
 } from '@angular/core'
 import { Subscription } from 'rxjs'
 import {
-  StatisticAndStatisticReports,
-  StatisticAndStatisticReportsGQL
+  StatisticAndStatisticReportsGQL,
+  StatisticAndStatisticReportsQuery,
+  StatisticAndStatisticReportsQueryVariables
 } from '../../generated/graphql'
 import { PassthroughService } from '../../services/passthrough.service'
 import { UploadElectorateStatisticSpreadsheet } from '@dsuite/programs-manager-messages'
@@ -24,8 +25,8 @@ import { Validators } from '@angular/forms'
 })
 export class StatisticuploadComponent implements OnInit, OnDestroy {
   fileToUpload: File
-  statistics: StatisticAndStatisticReports.Statistics[]
-  statisticReports: StatisticAndStatisticReports.StatisticReports[]
+  statistics: StatisticAndStatisticReportsQuery['statistics']
+  statisticReports: StatisticAndStatisticReportsQuery['statistics'][0]['statisticReports']
   statisticsSubscription$: Subscription
 
   @ViewChild('inputElement')

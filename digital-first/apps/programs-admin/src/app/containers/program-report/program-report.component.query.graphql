@@ -1,5 +1,5 @@
 query report ($reportId: String!) {
-  reports(id:$reportId)
+  report(id:$reportId)
   {
     id
     name
@@ -23,6 +23,6 @@ query report ($reportId: String!) {
       id
       dataDate
       notes
-    } 
+    }
   }
 }

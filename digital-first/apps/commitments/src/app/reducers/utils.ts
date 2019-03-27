@@ -9,7 +9,7 @@ export const findInLookup = (object, lookupSet) => {
 
 export const findInLookupCommitmentAssocs = (object, lookupSet, key) => {
     if (object && object.title && lookupSet) {
-        let commitmentAssocs = new Array()
+        const commitmentAssocs = new Array()
         lookupSet.filter(obj => {
             if (obj.commitment === object.title) {
                 commitmentAssocs.push(obj[key])
@@ -22,12 +22,12 @@ export const findInLookupCommitmentAssocs = (object, lookupSet, key) => {
 
 export const findInLookupCommitmentContact = (object, lookupSet) => {
     if (object && object.title && lookupSet) {
-        let commitmentContacts = new Array()
+        const commitmentContacts = new Array()
         lookupSet.commitmentContacts.filter(commitmentContact => {
             if (commitmentContact.commitment === object.title) {
                 lookupSet.allContacts.filter(contact => {
                     if (contact.name === commitmentContact.contact) {
-                        let thisContact = new CommitmentContact()
+                        const thisContact = new CommitmentContact()
                         thisContact.name = contact.name
                         thisContact.firstName = contact.firstName
                         thisContact.phone = contact.phone
@@ -45,7 +45,7 @@ export const findInLookupCommitmentContact = (object, lookupSet) => {
 
 export const findInLookupCommitmentMapPoint = (object, lookupSet) => {
     if (object && object.title && lookupSet) {
-        let commitmentMapPoints= new Array()
+        const commitmentMapPoints= new Array()
         lookupSet.commitmentMapPoints.filter(commitmentMapPoint => {
             if (commitmentMapPoint.commitment === object.title) {
                 lookupSet.allMapPoints.filter(mapPoint => {

@@ -3,15 +3,18 @@ query user($userId: String!) {
     id
     emailAddress
     lastLogin
+    groups{
+      id
+      title
+    }
     agency {
       id
       title
     }
-    apiKeys(orderBy:{path:"created"}) {
+    apiKeys(orderBy:{path:"created", descending: true}) {
       id
       key
       created
-      rowVersion
       disable
     }
     programAccess {

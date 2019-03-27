@@ -4,7 +4,7 @@ import { callQuery, callMutate } from '../../../services/apollo/apollo-helpers'
 import { DataResult, MapPointsResult, CommitmentResult } from '../../../models'
 import { DeliveryLocationDataService } from '../commitment-delivery-location-data.service'
 import { Observable } from 'rxjs'
-import { MapPoint } from '@digital-first/df-map'
+
 import {
   STORE_MAP_POINT,
   REMOVE_MAP_POINT,
@@ -16,7 +16,7 @@ import {
   STORE_COMMITMENT_ELECTORATE,
   ELECTORATES_BY_COMMITMENT
 } from './queries'
-import { GET_COMMITMENT } from '../../../services/apollo/commitments'
+
 import { CommitmentElectoratesResult } from '../../../models/location.model'
 
 @Injectable({
@@ -84,7 +84,7 @@ export class DeliveryLocationDataApolloService
   filterMapPoints = (filter?: any) =>
     callQuery<MapPointsResult>(this.apollo, { query: GET_MAP_POINTS })
 
-  getMapPointsByCommitment = (commitment: any) =>
+  getMapPointsByCommitment = (commitment: any): Observable<DataResult<MapPointsResult>> =>
     callQuery<MapPointsResult>(
       this.apollo,
       {
@@ -96,7 +96,7 @@ export class DeliveryLocationDataApolloService
       })
     )
 
-  getElectoratesByCommitment = (commitment: any) =>
+  getElectoratesByCommitment = (commitment: any): Observable<DataResult<CommitmentElectoratesResult>> =>
     callQuery<CommitmentElectoratesResult>(
       this.apollo,
       {
@@ -104,7 +104,7 @@ export class DeliveryLocationDataApolloService
         variables: { commitment: commitment }
       },
       (result: any): any => ({
-        data: { electorates: result.data.commitmentElectorates }
+        data: { commitmentElectorates: result.data.commitmentElectorates }
       })
     )
 

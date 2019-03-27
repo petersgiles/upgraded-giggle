@@ -7,8 +7,12 @@ query project ($id: String!) {
     externalId
     status
     rowVersion
-    program {
-      id
-    }
+  
+     programSubmission
+        {
+          id
+           timeStamp
+           dataDate
+        }
    }
 }

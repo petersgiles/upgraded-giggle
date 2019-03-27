@@ -47,7 +47,9 @@ export class PortfoliosComponent implements OnInit, OnDestroy {
     })
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.subscription$.unsubscribe()
+  }
 
   handleSelect(row: PortfolioRow) {
     return this.router.navigate(['portfolios/', row.id])

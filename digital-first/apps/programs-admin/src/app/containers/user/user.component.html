@@ -1,19 +1,19 @@
-<div class="app-page" *ngIf="user; else loading">
+<div *ngIf="user; else loading" class="app-page">
   <df-expander-panel
-    title="User - {{ user.emailAddress }}"
-    [expanded]="true"
     [expandable]="false"
+    [expanded]="true"
+    title="User - {{ user.emailAddress }}"
   >
     <ng-container panel-buttons>
       <df-button
+        (onClick)="handleEditUser(user)"
         icon="edit"
         title="Edit"
-        (onClick)="handleEditUser(user)"
       ></df-button>
       <df-button
+        (onClick)="handleDeleteUser(user)"
         icon="delete"
         title="Delete"
-        (onClick)="handleDeleteUser(user)"
       ></df-button>
     </ng-container>
   </df-expander-panel>
@@ -27,6 +27,34 @@
       </dd>
     </dl>
   </div>
+
+  <section>
+    <df-expander-panel [expandable]="false" title="API Keys">
+      <ng-container panel-buttons>
+        <df-button
+          (onClick)="handleAddApiKey()"
+          icon="add"
+          title="Add"
+        ></df-button>
+      </ng-container>
+    </df-expander-panel>
+
+    <div class="programsadmin-layout__row">
+      <df-data-table
+        (onDelete)="handleDisableApiKey($event)"
+        [columns]="apiKeysColumns"
+        [count]="apiKeysRows.length"
+        [hasDelete]="false"
+        [limit]="defaultPageLength"
+        [rows]="apiKeysRows"
+      >
+      </df-data-table>
+    </div>
+  </section>
+
+  <digital-first-user-groups
+    [groupRows]="groupRows"
+  ></digital-first-user-groups>
 
   <digital-first-user-program-access [programAccessRows]="programAccessRows">
   </digital-first-user-program-access>
@@ -43,31 +71,16 @@
     [statisticReportAccessRows]="statisticReportAccessRows"
   >
   </digital-first-user-statistic-report-access>
-
-  <section>
-    <df-expander-panel title="API Keys" [expandable]="false">
-      <ng-container panel-buttons>
-        <df-button
-          icon="add"
-          title="Add"
-          (onClick)="handleAddApiKey()"
-        ></df-button>
-      </ng-container>
-    </df-expander-panel>
-
-    <div class="programsadmin-layout__row">
-      <df-data-table
-        [rows]="apiKeysRows"
-        [columns]="apiKeysColumns"
-        [count]="apiKeysRows.length"
-        [hasDelete]="true"
-        [limit]="defaultPageLength"
-        (onDelete)="handleDeleteApiKey($event)"
-      >
-      </df-data-table>
-    </div>
-  </section>
 </div>
 <ng-template #loading>
   Loading...
+</ng-template>
+
+<ng-template #disableTemplate let-row="row" let-value="value">
+  <df-button
+    *ngIf="!value"
+    icon="highlight_off"
+    title="Disable"
+    (onClick)="handleDisableApiKey($event, row)"
+  ></df-button>
 </ng-template>

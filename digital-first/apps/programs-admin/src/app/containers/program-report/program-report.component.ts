@@ -9,26 +9,26 @@ import {
   AllGroupsGQL,
   CreateReportAccessControlGQL,
   DeleteAccessControlGQL,
-  Report,
   ReportGQL,
+  ReportQuery,
   UpdateAccessControlGQL
 } from '../../generated/graphql'
 import {
   PermissionChangedEvent,
   PermissionRow
 } from '../permission/permission.component'
-
+import { formatDate } from '../../date-time-format'
 @Component({
   selector: 'digital-first-program-report',
   templateUrl: './program-report.component.html',
   styleUrls: ['./program-report.component.scss']
 })
 export class ProgramReportComponent implements OnInit, OnDestroy {
-  report: Report.Reports
+  report: ReportQuery['report']
   reportId: string
   programId: string
   reportSubscription$: Subscription
-  latestVersion: Report.LatestVersion
+  latestVersion: ReportQuery['report']['latestVersion']
   permissionRows: PermissionRow[]
   noDataMessage =
     'This report inherits its permissions from the program. Adding groups here will break inheritance.'
@@ -49,7 +49,7 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
     this.programId = this.route.snapshot.paramMap.get('programId')
     this.reportSubscription$ = this.reportGql
       .watch({ reportId: this.reportId }, { fetchPolicy: 'network-only' })
-      .valueChanges.pipe(map(value => value.data.reports[0]))
+      .valueChanges.pipe(map(value => value.data.report))
       .subscribe(report => {
         this.report = report
 
@@ -67,6 +67,9 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
           this.permissionRows = []
         }
         this.latestVersion = report.latestVersion
+        if (this.latestVersion) {
+          this.latestVersion.dataDate = formatDate(this.latestVersion.dataDate)
+        }
       })
   }
 
@@ -180,7 +183,7 @@ export class ProgramReportComponent implements OnInit, OnDestroy {
       .subscribe(value => {})
   }
 
-  handleEditReport(report: Report.Reports) {
+  handleEditReport(report: ReportQuery['report']) {
     return this.router.navigate(['../edit', report.id], {
       relativeTo: this.route
     })

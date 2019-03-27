@@ -52,7 +52,7 @@ export function reducer(
     case DeliveryLocationActionTypes.LoadElectorates: {
       return {
         ...state,
-        electorates: [...action.payload.data.electorates],
+        electorates: [...action.payload.data.commitmentElectorates],
         loading: action.payload.loading,
         error: action.payload.error
       }
