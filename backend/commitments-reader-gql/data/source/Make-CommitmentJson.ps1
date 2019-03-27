@@ -48,7 +48,7 @@ foreach ($commitment in $commitments) {
     $portfolioRelationships += (
         [PSCustomObject] @{
             CommitmentId = $commitment.ID
-            CommitmentTypeId = ($portfolios | ? { $commitment.Portfolio -eq $_.Name }).Id
+            CommitmentPortfolioId = ($portfolios | ? { $commitment.Portfolio -eq $_.Name }).Id
         }
     )
 

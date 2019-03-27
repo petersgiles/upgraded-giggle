@@ -1,21 +1,16 @@
+var bulkInsert = require("../bulkInsert.js").bulkInsert;
 
-var tags = require('./tags.json')
-var criticalDateGroup = tags.filter((t) => t.parent === 'critical-date-group')
-
-var commitments = require('./commitments.json')
-var id = 0;
-var cmps = commitments.map(p => {
-  var index = Math.floor(Math.random() * Math.floor(criticalDateGroup.length))
-
+var commitmentCriticalDates = require("../../data/commitmentCriticalDates.json");
+var cmps = commitmentCriticalDates.map(p => {
   return {
-    commitment: `C-${(++id).pad(4)}`,
-    critical_date: criticalDateGroup[index].id
-  }
+    commitment: p.CommitmentId,
+    critical_date: p.CriticalDateId
+  };
 });
-
 
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
-  return knex('commitment_critical_date').del()
-    .then(_ => knex('commitment_critical_date').insert(cmps));
+  return knex("commitment_critical_date")
+    .del()
+    .then(_ => bulkInsert(knex, "commitment_critical_date", cmps));
 };

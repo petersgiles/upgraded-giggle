@@ -1,21 +1,16 @@
+var bulkInsert = require("../bulkInsert.js").bulkInsert;
 
-var tags = require('./tags.json')
-var portfolioGroup = tags.filter((t) => t.parent === 'portfolio-group')
-
-var commitments = require('./commitments.json')
-var id = 0;
-var cmps = commitments.map(p => {
-  var index = Math.floor(Math.random() * Math.floor(portfolioGroup.length))
-
+var commitmentPortfolios = require("../../data/commitmentPortfolios.json");
+var cmps = commitmentPortfolios.map(p => {
   return {
-    commitment: `C-${(++id).pad(4)}`,
-    responsible_portfolio: portfolioGroup[index].id
-  }
+    commitment: p.CommitmentId,
+    responsible_portfolio: p.CommitmentPortfolioId
+  };
 });
-
 
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
-  return knex('commitment_responsible_portfolio').del()
-    .then(_ => knex('commitment_responsible_portfolio').insert(cmps));
+  return knex("commitment_responsible_portfolio")
+    .del()
+    .then(_ => bulkInsert(knex, "commitment_responsible_portfolio", cmps));
 };

@@ -1,26 +1,26 @@
 ﻿[
     {
-        "Id":  "82c4987c-e7dc-4c17-aa2b-076fc22eb50a",
+        "Id":  "3981d1a5-4b89-4290-b652-1714135e270b",
         "Name":  "Budget"
     },
     {
-        "Id":  "5274ae12-c73b-44fe-8f55-c75644c27fac",
+        "Id":  "8261de39-e3fb-46d8-8cfd-96672903360b",
         "Name":  "First 100 days"
     },
     {
-        "Id":  "98e8e437-3f5d-4936-b68a-3a33256e2320",
+        "Id":  "d57b8b0d-9ab1-4bbb-a12c-1f2a801ca522",
         "Name":  "First term"
     },
     {
-        "Id":  "acd6f5c9-25dc-45fe-a04b-998c59b98073",
+        "Id":  "47c5610f-ec71-499c-b701-b0ce404a7762",
         "Name":  "First year"
     },
     {
-        "Id":  "dbdf38af-3fc7-47ee-ac80-a35e04c6cc3a",
+        "Id":  "d67898e9-b615-4362-8d00-fc534191a742",
         "Name":  "Undefined"
     },
     {
-        "Id":  "67439793-6b87-4018-8f75-bdd84c7f5fac",
+        "Id":  "650cf888-cb54-480a-8816-9a9fbf1a8211",
         "Name":  "First two weeks"
     }
 ]
