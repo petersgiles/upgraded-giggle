@@ -170,15 +170,13 @@ export class CommitmentRefinerService implements OnDestroy {
     // tslint:disable-next-line:no-console
     console.log(action)
 
-    return this.commitmentsSearchGQL
-      .fetch({ input: action.payload }, { fetchPolicy: 'network-only' })
-      .pipe(
-        first(),
-        // tslint:disable-next-line:no-console
-        tap(result => console.log('Get Refined Commitment Result', result)),
-        map((result: any) => result.data.commitments),
-        map(result => new LoadRefinedCommitments(result))
-      )
+    return this.commitmentsSearchGQL.fetch({ input: action.payload }).pipe(
+      first(),
+      // tslint:disable-next-line:no-console
+      tap(result => console.log('Get Refined Commitment Result', result)),
+      map((result: any) => result.data.commitments),
+      map(result => new LoadRefinedCommitments(result))
+    )
   }
 
   getRefinedMapPointsEffect = (
@@ -187,15 +185,13 @@ export class CommitmentRefinerService implements OnDestroy {
     // tslint:disable-next-line:no-console
     console.log(action)
 
-    return this.commitmentsMapPointSearchGQL
-      .fetch({ input: {} }, { fetchPolicy: 'network-only' })
-      .pipe(
-        first(),
-        // tslint:disable-next-line:no-console
-        tap(result => console.log('Get Refined MapPoint Result', result)),
-        map((result: any) => result.data.mappoints),
-        map(result => new LoadRefinedMapPoints(result))
-      )
+    return this.commitmentsMapPointSearchGQL.fetch({ input: {} }).pipe(
+      first(),
+      // tslint:disable-next-line:no-console
+      tap(result => console.log('Get Refined MapPoint Result', result)),
+      map((result: any) => result.data.mappoints),
+      map(result => new LoadRefinedMapPoints(result))
+    )
   }
 
   getRefinerGroupsEffect = (
@@ -204,15 +200,13 @@ export class CommitmentRefinerService implements OnDestroy {
     // tslint:disable-next-line:no-console
     console.log(action)
 
-    return this.getRefinerTagsGQL
-      .fetch({ input: {} }, { fetchPolicy: 'network-only' })
-      .pipe(
-        first(),
-        // tslint:disable-next-line:no-console
-        tap(result => console.log('Get Refiner Groups Result', result)),
-        map((result: any) => result.data.refiners),
-        map(result => new LoadRefinerGroups(result))
-      )
+    return this.getRefinerTagsGQL.fetch({ input: {} }).pipe(
+      first(),
+      // tslint:disable-next-line:no-console
+      tap(result => console.log('Get Refiner Groups Result', result)),
+      map((result: any) => result.data.refiners),
+      map(result => new LoadRefinerGroups(result))
+    )
   }
 
   public selectMapPoint(item: any): any {
