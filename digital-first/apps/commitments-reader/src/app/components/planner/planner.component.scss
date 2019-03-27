@@ -5,7 +5,7 @@
     overflow: auto;
   }
   
-  .flex-container > div{
+  .flex-container > #zoom{
     margin-block-end: auto;
     flex:1;
     margin: 25px;
@@ -13,6 +13,12 @@
     padding-top: 20px;
     scroll-behavior: auto;
     font-weight: bold;
+  }
+  .flex-container>#planerButtons{
+    flex:0.3;
+  } 
+  .flex-container>#planerButtons> button{
+    margin:10px;
   }
   .mdc-slider__track-container {
    

@@ -33,11 +33,11 @@ export class PlannerComponent implements OnInit {
 
   startDate = new Date()
   endDate = DateHelper.add(this.startDate, 3, 'year')
-
+  myEofyDate =DateHelper.add(this.startDate, 3, 'month')
   // TODO: set widths based on size of parent container
   // TODO: raise request to have these internally sorted
   // TODO: infer id based on index
-  
+
   // Setup data for scheduler
   events = [
     {
@@ -80,7 +80,8 @@ export class PlannerComponent implements OnInit {
       timeRanges: {
         showCurrentTimeLine: true,
         showHeaderElements: false,
-        enableResizing: false
+        enableResizing: false,
+        currentDateFormat:"D"
       },
       scheduleContextMenu: {
         // Extra items for all events
@@ -139,7 +140,7 @@ export class PlannerComponent implements OnInit {
             durationUnit: e.durationUnit,
             name: e.type,
             eventType: e.type,
-            eventColor:e.color
+            eventColor: e.color
           })
           ;(me.scheduler.schedulerEngine as any).editEvent(event)
         }
@@ -153,6 +154,11 @@ export class PlannerComponent implements OnInit {
     this.commonEventTypes.forEach(c => {
       extraTypes.push(c.type)
     })
-    return extraTypes;
+    return extraTypes
+  }
+
+  scrollToDate(date: Date) {
+    // this.scheduler.schedulerEngine.zoomTo(5)
+    this.scheduler.schedulerEngine.scrollToDate(date,{block:"center"})
   }
 }

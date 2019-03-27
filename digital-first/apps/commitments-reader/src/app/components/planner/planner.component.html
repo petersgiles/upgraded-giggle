@@ -13,6 +13,10 @@
     <label for="">Zoom Level ({{ currentZoomLevel.label }})</label>
     <label style="float:right">1 Week</label>
   </div>
+  <div id="planerButtons">
+    <button mdc-button outlined (click)="scrollToDate(startDate)">Today</button>
+    <button mdc-button outlined (click)="scrollToDate(myEofyDate)">MyEOFY</button>
+  </div>
 </div>
 
 <div>
