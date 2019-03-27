@@ -10,7 +10,7 @@
   },
   {
     "id": 1,
-    "label": "fortnight",
+    "label": "15 days",
     "width": 100,
     "increment": 1,
     "resolution": 7,
