@@ -2,42 +2,33 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  overflow: auto;
-
-  > div {
-    margin-block-end: auto;
-    flex: 1;
-    margin: 25px;
-    text-align: center;
-    padding-top: 20px;
-    scroll-behavior: auto;
-    font-weight: bold;
-  }
 
   > #zoom {
-    margin-block-end: auto;
-    flex: 1;
-    margin: 25px;
-    text-align: center;
+    flex: 0.8;
+    margin: 0 25px 10px;
     padding-top: 20px;
     scroll-behavior: auto;
-    font-weight: bold;
+    > .zoomLabels {
+      left: -10%;
+      text-align: center;
+      position: relative;
+      white-space: nowrap;
+      > label {
+        width: 20%;
+        display: inline-block;
+      }
+    }
   }
 
   > #planerButtons {
-    flex: 0.3;
+    flex: 0.2;
+    display: flex;
+    padding-right: 20px;
     > button {
+      flex: 1;
       margin: 10px;
     }
   }
-}
-
-.mdc-slider__track-container {
-  height: 12px;
-  border-radius: 4px;
-}
-.mdc-slider__thumb {
-  transform: scale(2) !important;
 }
 
 .b-sch-timerange label {
@@ -97,4 +88,17 @@
 
 .b-grid-body-container.b-widget-scroller {
   height: calc(100vh - 440px) !important;
+}
+
+.mdc-slider__pin-value-marker {
+  display: none;
+}
+
+.mdc-slider__track-marker::after,
+.mdc-slider__track-marker-container::after {
+  height: 10px;
+}
+
+.mdc-slider__track-container {
+  overflow: visible;
 }
