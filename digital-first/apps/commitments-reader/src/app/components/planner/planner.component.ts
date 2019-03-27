@@ -74,7 +74,7 @@ export class PlannerComponent implements OnInit {
     const me = this
     this.zoomSlider.min = 0
     this.zoomSlider.max = this.zoomLevels.length - 1
-    this.zoomSlider.levelId = 0
+    this.zoomSlider.levelId = 5
 
     this.featureConfig = {
       timeRanges: {
