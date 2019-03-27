@@ -16,6 +16,7 @@
     "build": "ng build",
     "build:all": "run-p build:programs-admin sharepoint:build:commitments sharepoint:build:commitments-reader",
     "build:programs-admin": "ng build programs-admin --configuration=production",
+    "build:commitments-reader": "ng build commitments-reader --configuration=production",
     "test": "ng test",
     "lint": "./node_modules/.bin/nx lint && ng lint",
     "e2e": "ng e2e",

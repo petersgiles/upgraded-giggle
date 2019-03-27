@@ -5,7 +5,7 @@ export const environment = {
   version: require('../../../../package.json').version,
   datasource: {
     type: 'sharepoint',
-    dataServiceUrl: '',
+    dataServiceUrl: '//localhost:3008/graphql'
   },
   assetsPath: '/sites/commitments/SiteAssets/apps/commitments/assets'
 }

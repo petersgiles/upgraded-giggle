@@ -5,7 +5,7 @@ export const environment = {
   version: require('../../../../package.json').version,
   datasource: {
     type: 'graph',
-    dataServiceUrl: '',
+    dataServiceUrl: '//localhost:3008/graphql'
   },
   assetsPath: '/assets'
 }

@@ -22,7 +22,6 @@
       <df-data-table
         [rows]="mapPointCommitments$ | async"
         [columns]="columns$ | async"
-        [count]="count"
         (onSelect)="handleRowClicked($event)"
       >
       </df-data-table>
