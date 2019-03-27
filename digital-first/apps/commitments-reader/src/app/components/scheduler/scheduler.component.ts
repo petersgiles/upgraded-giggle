@@ -9,7 +9,7 @@ import {
   SimpleChanges,
   OnDestroy
 } from '@angular/core'
-import { Scheduler } from 'bryntum-scheduler'
+import { Scheduler, Model } from 'bryntum-scheduler'
 
 @Component({
   selector: 'scheduler',
@@ -222,6 +222,10 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
 
     engine.eventStore.relayAll(engine, 'events')
     engine.resourceStore.relayAll(engine, 'resources')
+    const existingRecords = JSON.parse(
+      localStorage.getItem('commimentEvents')
+    ) as Model[]
+    engine.eventStore.add(existingRecords)
   }
 
   ngOnChanges(changes: SimpleChanges) {
