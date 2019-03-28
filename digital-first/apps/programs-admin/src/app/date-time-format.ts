@@ -1,6 +1,8 @@
 import { Component } from '@angular/core'
 import { DatePipe } from '@angular/common'
+
 @Component({
+  templateUrl: './date-time-format.html',
   providers: [DatePipe]
 })
 export class DateTimeFormat {
