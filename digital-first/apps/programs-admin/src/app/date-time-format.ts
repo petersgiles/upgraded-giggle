@@ -13,8 +13,4 @@ export class DateTimeFormat {
   formatDate(val: string) {
     return this.datePipe.transform(val, 'yyyy-MM-dd', 'en-AU')
   }
-
-  formatDateForTextField(val: string) {
-    return this.datePipe.transform(val, 'yyyy-dd-MM', 'en-AU')
-  }
 }

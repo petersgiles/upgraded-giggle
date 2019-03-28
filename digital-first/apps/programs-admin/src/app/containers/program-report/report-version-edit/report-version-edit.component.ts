@@ -44,9 +44,7 @@ export class ReportVersionEditComponent implements OnInit, OnDestroy {
       .valueChanges.pipe(map(value => value.data.reportVersion))
       .subscribe(reportVersion => {
         this.reportVersionForm.patchValue({
-          dataDate: this.dateTimeFormat.formatDateForTextField(
-            reportVersion.dataDate
-          ),
+          dataDate: this.dateTimeFormat.formatDate(reportVersion.dataDate),
           notes: reportVersion.notes
         })
         this.rowVersion = reportVersion.rowVersion

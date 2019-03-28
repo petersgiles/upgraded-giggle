@@ -12,7 +12,7 @@ import {
 import { BehaviorSubject, Subscription } from 'rxjs'
 import { Router } from '@angular/router'
 import { multiFilter } from '../../core/graphqlhelper'
-import { formatDate, formatDateTime } from '../../date-time-format'
+import { DateTimeFormat } from '../../date-time-format'
 interface ProjectRow {
   id: string
   name: string
@@ -42,7 +42,8 @@ export class ProjectsComponent implements OnDestroy, OnInit {
   constructor(
     private searchProjectsGQL: AllProjectsSearchGQL,
     private changeDetector: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private dateTimeFormat: DateTimeFormat
   ) {}
 
   ngOnInit(): void {
@@ -52,8 +53,12 @@ export class ProjectsComponent implements OnDestroy, OnInit {
         this.rows = value.data.projects.map(row => ({
           id: row.id,
           name: row.name,
-          submissionDate: formatDateTime(row.programSubmission.timeStamp),
-          dataDate: formatDate(row.programSubmission.dataDate),
+          submissionDate: this.dateTimeFormat.formatDateTime(
+            row.programSubmission.timeStamp
+          ),
+          dataDate: this.dateTimeFormat.formatDate(
+            row.programSubmission.dataDate
+          ),
           programName: row.program.name
         }))
 
