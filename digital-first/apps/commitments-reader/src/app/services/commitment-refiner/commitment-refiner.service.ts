@@ -145,7 +145,15 @@ export class CommitmentRefinerService implements OnDestroy {
   }
 
   public getMapPage() {
-    this.action$.next(new GetRefinedMapPoints(null))
+
+    const store = this.store$.getValue()
+
+    const payload: CommitmentRefinementInput = {
+      text: null,
+      tags: [...store.selectedRefiners]
+    }
+
+    this.action$.next(new GetRefinedMapPoints(payload))
   }
 
   public getPlannerPage() {
@@ -188,7 +196,7 @@ export class CommitmentRefinerService implements OnDestroy {
     console.log(action)
 
     return this.commitmentsMapPointSearchGQL
-      .fetch({ input: {} }, { fetchPolicy: 'network-only' })
+      .fetch({ input: action.payload}, { fetchPolicy: 'network-only' })
       .pipe(
         first(),
         // tslint:disable-next-line:no-console
@@ -226,5 +234,6 @@ export class CommitmentRefinerService implements OnDestroy {
   public handleRefinerSelected(item) {
     this.action$.next(new SelectRefiner(item))
     this.getOverviewPage()
+    this.getMapPage()
   }
 }

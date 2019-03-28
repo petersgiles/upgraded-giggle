@@ -1,5 +1,5 @@
-import { TABLE, getJoinedTag } from './db'
-
+import { TABLE, getRefinedCommitments } from './db'
+import { logger } from "../../shared/logger";
 export class MapPoint {
 	connectorKeys: { db: string }
 
@@ -19,50 +19,35 @@ export class MapPoint {
 	}
 
 	async getAll(args: any, context: any): Promise<any[]> {
-		let commitmentCriticalDates = await getJoinedTag(
-			this.knex(context),
-			TABLE.COMMITMENT_CRITICAL_DATE,
-			'critical_date'
-		)
-		let commitmentResponsiblePortfolios = await getJoinedTag(
-			this.knex(context),
-			TABLE.COMMITMENT_RESPONSIBLE_PORTFOLIO,
-			'responsible_portfolio'
-		)
-		let commitmentCommitmentTypes = await getJoinedTag(
-			this.knex(context),
-			TABLE.COMMITMENT_COMMITMENT_TYPE,
-			'commitment_type'
-		)
+		
+		logger.info(
+			`ℹ getAll ${args}`
+		  );
 
-		let refinedCommitments: any[]
-		if (args.input && args.input.tags && args.input.tags.length > 0) {
-			const argtags = args.input.tags
-
-			refinedCommitments = [
-				...commitmentCommitmentTypes,
-				...commitmentResponsiblePortfolios,
-				...commitmentCriticalDates,
-			]
-				.filter((t) => argtags.includes(t.tagId))
-				.map((t) => t.id)
-		}
-
+		let refinedCommitments = await getRefinedCommitments(this.knex(context), args)
 		let mapPoints = await this.knex(context)
 			.select()
 			.from(TABLE.MAP_POINT)
 
-		// if(refinedCommitments.length> 0){
-		// 	// let commitmentMapPoints = await this.knex(context)
-		// 	// .select()
-		// 	// .from(TABLE.COMMITMENT_MAPPOINT)
+		if(refinedCommitments.length > 0){
+			let commitmentMapPoints = await this.knex(context)
+			.select()
+			.from(TABLE.COMMITMENT_MAPPOINT)
 
-		// 	// commitmentMapPoints = commitmentMapPoints.filter((cmp: any) => refinedCommitments.includes(cmp.commitment))
+			const refinedCommitmentsIds = refinedCommitments.map((rc: any) => rc.id)
+			const commitmentMapPointsIds = commitmentMapPoints.filter((cmp: any) => refinedCommitmentsIds.includes(cmp.commitment)).map((cmp: any) => cmp.mappoint)
 
-		// 	console.log('refinedCommitments', refinedCommitments)
+			logger.info(
+				`🚩- refinedCommitments: ${refinedCommitmentsIds.length}, 📍 - mapPoints: ${mapPoints.length}, 🍏 - commitmentMapPointsIds: ${JSON.stringify(commitmentMapPointsIds)}`
+			  );
 
-		// 	// mapPoints = mapPoints.filter((mp: any) => commitmentMapPoints.include(mp.id))
-		// }
+			mapPoints = mapPoints.filter((mp: any) => commitmentMapPointsIds.includes(mp.place_id))
+
+			
+			logger.info(
+				`🚩- refinedCommitments: ${refinedCommitmentsIds.length}: 📍 - mapPoints ${mapPoints.length}`
+			  );
+		}
 
 		return mapPoints
 	}

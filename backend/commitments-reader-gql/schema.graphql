@@ -13,7 +13,7 @@ type Query {
 	commitment(id: ID!): Commitment
 	commitments(input: CommitmentRefinementInput): [Commitment]
 	mappoint(place_id: String!): MapPoint
-	mappoints: [MapPoint]
+	mappoints(input: CommitmentRefinementInput): [MapPoint]
     tag(id: ID!): Tag
 	tags(parent: ID): [Tag]
 	refiners: [Refiner]

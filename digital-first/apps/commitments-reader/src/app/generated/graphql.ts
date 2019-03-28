@@ -130,6 +130,10 @@ export type QueryMappointArgs = {
   place_id: Scalars['String']
 }
 
+export type QueryMappointsArgs = {
+  input?: Maybe<CommitmentRefinementInput>
+}
+
 export type QueryTagArgs = {
   id: Scalars['ID']
 }
@@ -194,7 +198,9 @@ export type PlannerCommitmentsQuery = { __typename?: 'Query' } & {
   >
 }
 
-export type CommitmentsMapPointSearchQueryVariables = {}
+export type CommitmentsMapPointSearchQueryVariables = {
+  input: CommitmentRefinementInput
+}
 
 export type CommitmentsMapPointSearchQuery = { __typename?: 'Query' } & {
   mappoints: Maybe<
@@ -304,8 +310,8 @@ export class PlannerCommitmentsGQL extends Apollo.Query<
   document = PlannerCommitmentsDocument
 }
 export const CommitmentsMapPointSearchDocument = gql`
-  query CommitmentsMapPointSearch {
-    mappoints {
+  query CommitmentsMapPointSearch($input: CommitmentRefinementInput!) {
+    mappoints(input: $input) {
       place_id
       address
       latitude
