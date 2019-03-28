@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   OnDestroy,
   ChangeDetectorRef,
   ChangeDetectionStrategy
@@ -29,7 +28,7 @@ interface ProjectRow {
   styleUrls: ['./projects.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProjectsComponent implements OnDestroy, OnInit {
+export class ProjectsComponent implements OnDestroy {
   subscriptions$: Subscription[] = []
   columns = [
     { prop: 'name', name: 'Project' },
@@ -51,8 +50,6 @@ export class ProjectsComponent implements OnDestroy, OnInit {
     private dateTimeFormat: DateTimeFormat,
     private formBuilder: FormBuilder
   ) {}
-
-  ngOnInit(): void {}
 
   doSearch() {
     this.formSubmitted = true
