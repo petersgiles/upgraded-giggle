@@ -2484,7 +2484,9 @@ export type AllProjectsQuery = { __typename?: 'Query' } & {
   >
 }
 
-export type AllProjectsSearchQueryVariables = {}
+export type AllProjectsSearchQueryVariables = {
+  name?: Maybe<Scalars['String']>
+}
 
 export type AllProjectsSearchQuery = { __typename?: 'Query' } & {
   projects: Maybe<
@@ -4144,8 +4146,11 @@ export class AllProjectsGQL extends Apollo.Query<
   document = AllProjectsDocument
 }
 export const AllProjectsSearchDocument = gql`
-  query allProjectsSearch {
-    projects(orderBy: { path: "name" }) {
+  query allProjectsSearch($name: String) {
+    projects(
+      where: { path: "name", comparison: contains, value: [$name] }
+      orderBy: { path: "name" }
+    ) {
       id
       name
       program {

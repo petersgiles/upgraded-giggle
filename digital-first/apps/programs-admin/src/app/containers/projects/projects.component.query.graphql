@@ -8,19 +8,19 @@ query allProjects {
   }
 }
 
-query allProjectsSearch {
-  projects(orderBy:{path:"name"}) {
-    id
-    name   
-    program {
-        id
-        name
-    }
-     programSubmission
-        {
-           id
-           timeStamp
-           dataDate
-        }
+query  allProjectsSearch($name: String) {
+    projects(where: {path: "name", comparison: contains, value: [$name]}, orderBy:{path:"name"}) {
+      id
+      name   
+      program {
+          id
+          name
+      }
+      programSubmission
+          {
+          id
+          timeStamp
+          dataDate
+          }
   }
 }
