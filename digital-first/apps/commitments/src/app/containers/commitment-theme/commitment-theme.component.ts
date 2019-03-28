@@ -9,7 +9,7 @@ import { MdcDialog } from '@angular-mdc/web'
 import { OPERATION_COMMITMENT_THEME } from '../../services/app-data.service'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 import { ThemeType } from '../../models'
-import { CommitmentThemeService } from '../../reducers/commitment-theme/commitment-theme.service';
+import { CommitmentThemeService } from '../../reducers/commitment-theme/commitment-theme.service'
 
 @Component({
   selector: 'digital-first-commitment-theme',
@@ -26,7 +26,7 @@ export class CommitmentThemeComponent implements OnInit, OnDestroy {
   expandedSubscription$: Subscription
   expanded: boolean
   commitmentThemesSubscription$: Subscription
-  megaTags$: any;
+  megaTags$: any
 
   constructor(
     public dialog: MdcDialog,
@@ -51,8 +51,6 @@ export class CommitmentThemeComponent implements OnInit, OnDestroy {
   }
 
   handleChangeExpanded(expanded) {
-
-
     if (expanded) {
       this.service.expandPanel()
     } else {
@@ -67,28 +65,22 @@ export class CommitmentThemeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
-    this.megaTags$ =  this.service.SelectedMegaTags
+    this.megaTags$ = this.service.SelectedMegaTags
 
     this.commitmentThemesSubscription$ = this.service.CommitmentThemes.subscribe(
       next => {
-
         this.related = next || []
       }
     )
 
     this.themeSubscription$ = this.lookup.ThemeTypes.subscribe(next => {
-
       // the function is used to create a closure
-      this.themes = (next || [])
+      this.themes = next || []
     })
 
-    this.expandedSubscription$ = this.service.Expanded.subscribe(
-      p => {
-
-        this.expanded = p
-      }
-    )
+    this.expandedSubscription$ = this.service.Expanded.subscribe(p => {
+      this.expanded = p
+    })
     this.userOperation$ = this.service.UserOperation
     this.lookup.getAllThemeTypes()
   }
@@ -112,9 +104,9 @@ export class CommitmentThemeComponent implements OnInit, OnDestroy {
 
   removeTheme(event: CdkDragDrop<string[]>) {
     if (event.previousContainer !== event.container) {
-    const theme: any = event.previousContainer.data[event.previousIndex]
+      const theme: any = event.previousContainer.data[event.previousIndex]
 
-    this.service.removeThemeFromCommitment(this.commitment, theme.id)
+      this.service.removeThemeFromCommitment(this.commitment, theme.id)
     }
   }
 

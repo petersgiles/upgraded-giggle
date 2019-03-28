@@ -1,0 +1,6 @@
+
+query CommitmentsSearch($input: CommitmentRefinementInput!) {
+  commitments(input: $input) {
+   ...CommitmentParts
+  }
+}

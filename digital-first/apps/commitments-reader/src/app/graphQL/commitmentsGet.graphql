@@ -1,0 +1,5 @@
+query PlannerCommitments($input: CommitmentRefinementInput!) {
+  commitments(input: $input) {
+    ...CommitmentParts
+  }
+}

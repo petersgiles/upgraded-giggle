@@ -1,11 +1,7 @@
-query GetCard($id: ID) {
-  cards(parentId: $id) {
+query GetDeckItems($id: ID) {
+  deckItems(parent: $id){
     id
     title
-    parentId
-    order
-    presentation {
-      description
-    }
+    parent
   }
 }

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "0001",
+    "type": "Policy development",
+    "duration": 30,
+    "durationUnit": "d",
+    "icon": "b-fa b-fa-fw b-fa-podcast",
+    "color": "#1eae33"
+  },
+  {
+    "id": "0002",
+    "type": "Cabinet Meeting",
+    "duration": 0,
+    "durationUnit": "d",
+    "icon": "b-fa b-fa-fw b-fa-users",
+    "color": "#669999"
+  },
+  {
+    "id": "0003",
+    "type": "Drafting the Explanatory Memorandum",
+    "duration": 7,
+    "durationUnit": "d",
+    "icon": "b-fa b-fa-fw b-fa-file",
+    "color": "#008066"
+  },
+  {
+    "id": "0004",
+    "type": "Drafting legislative",
+    "duration": 30,
+    "durationUnit": "d",
+    "icon": "b-fa b-fa-fw b-fa-book",
+    "color": "#00b38f"
+  },
+  {
+    "id": "0005",
+    "type": "Legislative introduction",
+    "duration": 0,
+    "durationUnit": "d",
+    "icon": "b-fa b-fa-fw b-fa-language",
+    "color": "#0d0d0d"
+  },
+  {
+    "id": "0006",
+    "type": "Announcement",
+    "duration": 0,
+    "durationUnit": "d",
+    "icon": "b-fa b-fa-fw b-fa-bullhorn",
+    "color": "#000033"
+  },
+  {
+    "id": "0007",
+    "type": "Review",
+    "duration": 90,
+    "durationUnit": "d",
+    "icon": "b-fa b-fa-fw b-fa-eye",
+    "color": "#3d3d29"
+  }
+]

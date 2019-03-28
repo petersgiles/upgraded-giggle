@@ -1,0 +1,33 @@
+scalar Date
+
+# import MutationResponse, MutationResponse from "schema/response.graphql"
+# import UserProfileRole, UserProfile from "schema/user-profiles.graphql"
+# import Tag, TagInput, Resolver from "schema/tags.graphql"
+# import Commitment, CommitmentInput, CommitmentMapPointInput from "schema/commitments.graphql"
+# import MapPoint, MapPointInput from "schema/map-point.graphql"
+# import NavigableApplication, NavigableApplicationInput from "schema/navigation.graphql"
+
+# The "Query" type is the root of all GraphQL queries.
+type Query {
+	userProfile(id: ID): UserProfile
+	commitment(id: ID!): Commitment
+	commitments(input: CommitmentRefinementInput): [Commitment]
+	mapPointCommitments(input: CommitmentRefinementInput): [Commitment]
+	mappoint(place_id: String!): MapPoint
+	mappoints(input: CommitmentRefinementInput): [MapPoint]
+    tag(id: ID!): Tag
+	tags(parent: ID): [Tag]
+	refiners: [Refiner]
+}
+
+# The mutation root type, used to define all mutations.
+type Mutation {
+	upsertMapPoint(item: MapPointInput!): Response
+	deleteMapPoint(id: ID!): Response
+	upsertCommitmentMapPoint(item: CommitmentMapPointInput!): Response
+	deleteCommitmentMapPoint(item: CommitmentMapPointInput!): Response
+	upsertCommitment(item: CommitmentInput!): Response
+	deleteCommitment(id: ID!): Response
+	upsertTag(item: TagInput!): Response
+	deleteTag(id: ID!): Response
+}
