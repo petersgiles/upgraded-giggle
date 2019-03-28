@@ -7,7 +7,7 @@ import {
 } from '@angular/core'
 import { SchedulerComponent } from '../scheduler/scheduler.component'
 import { MdcSliderChange } from '@angular-mdc/web'
-import { DateHelper, EventModel } from 'bryntum-scheduler'
+import { DateHelper, EventModel, Model } from 'bryntum-scheduler'
 import * as CommonEventTypes from './data/eventTypes.json'
 import * as ZoomLevels from './data/zoomLevels.json'
 import * as timeRanges from './data/timeRanges.json'
@@ -36,14 +36,7 @@ export class PlannerComponent implements OnInit {
   // TODO: infer id based on index
 
   // Setup data for scheduler
-  events = [
-    {
-      id: 1,
-      name: 'First event',
-      startDate: new Date(),
-      duration: 1
-    }
-  ]
+  events = []
 
   columns = [
     {
@@ -72,6 +65,7 @@ export class PlannerComponent implements OnInit {
     this.zoomSlider.min = 0
     this.zoomSlider.max = this.zoomLevels.length - 1
     this.zoomSlider.levelId = 5
+    this.events = JSON.parse(localStorage.getItem('commimentEvents'))
 
     this.featureConfig = {
       timeRanges: {
@@ -126,7 +120,7 @@ export class PlannerComponent implements OnInit {
       case 'aftereventsave':
         localStorage.setItem(
           'commimentEvents',
-          JSON.stringify(this.scheduler.schedulerEngine.eventStore.records)
+          JSON.stringify(this.scheduler.schedulerEngine.events)
         )
     }
   }
@@ -139,6 +133,7 @@ export class PlannerComponent implements OnInit {
         icon: e.icon,
         onItem({ date, resourceRecord }) {
           const event = new EventModel({
+            id: crypto.getRandomValues(new Uint32Array(4)).join('-'), // As scheduler only gvies a common name in resourceEventModel[Number] manner so we need to use guid.
             resourceId: resourceRecord.id,
             startDate: date,
             duration: e.duration,
