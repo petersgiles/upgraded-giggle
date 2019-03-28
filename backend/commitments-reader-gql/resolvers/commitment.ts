@@ -22,6 +22,11 @@ export class Commitment {
 		return await getRefinedCommitments(this.knex(context), args)
 	}
 
+	async getCommitmentsByMapPoint(args: any, context: any): Promise<any[]>{
+		return await getRefinedCommitments(this.knex(context), args)
+	}
+
+
 	async upsert(payload: any, context: any): Promise<void> {
 		if (payload.item.id) {
 			return await this.knex(context)(TABLE.COMMITMENT)

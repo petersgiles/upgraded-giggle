@@ -23,6 +23,7 @@ export interface RefinerState {
   refinerGroups: RefinerGroup[]
   selectedMapPoint: any
   mapPoints: any[]
+  mapPointsCommitments: CommitmentPartsFragment[]
   commitments: CommitmentPartsFragment[]
   columns: DataTableColumn[]
 }
@@ -37,6 +38,7 @@ export const initialState: RefinerState = {
   sortDirection: null,
   selectedMapPoint: [],
   mapPoints: [],
+  mapPointsCommitments: [],
   commitments: [],
   columns: [
     { prop: 'id', name: 'Id' },
@@ -65,6 +67,13 @@ export class RefinerReducer {
         return {
           ...state,
           refinerGroups: action.payload
+        }
+      }
+
+      case RefinerActionTypes.LoadMapPointsCommitments: {
+        return {
+          ...state,
+          mapPointsCommitments: action.payload
         }
       }
 

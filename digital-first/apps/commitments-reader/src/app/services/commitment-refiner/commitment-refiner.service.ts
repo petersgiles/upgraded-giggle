@@ -6,7 +6,8 @@ import {
   CommitmentsSearchGQL,
   CommitmentPartsFragment,
   MapPoint,
-  CommitmentRefinementInput
+  CommitmentRefinementInput,
+  MapPointCommitmentsSearchGQL
 } from '../../generated/graphql'
 import { first, map, tap, filter, switchMap } from 'rxjs/operators'
 import { environment } from '../../../environments/environment'
@@ -22,7 +23,9 @@ import {
   LoadRefinedCommitments,
   GetRefinedMapPoints,
   LoadRefinedMapPoints,
-  SelectMapPoint
+  SelectMapPoint,
+  GetMapPointsCommitments,
+  LoadMapPointsCommitments
 } from './commitment-refiner.actions'
 import {
   RefinerState,
@@ -61,7 +64,8 @@ export class CommitmentRefinerService implements OnDestroy {
     private refinerEffects: RefinerEffects,
     private getRefinerTagsGQL: GetRefinerTagsGQL,
     private commitmentsSearchGQL: CommitmentsSearchGQL,
-    private commitmentsMapPointSearchGQL: CommitmentsMapPointSearchGQL
+    private commitmentsMapPointSearchGQL: CommitmentsMapPointSearchGQL,
+    private mapPointCommitmentsSearchGQL: MapPointCommitmentsSearchGQL
   ) {
     this.registerEffects()
 
@@ -109,7 +113,7 @@ export class CommitmentRefinerService implements OnDestroy {
       this.mapPoints$.next(store.mapPoints)
       this.commitments$.next(store.commitments)
       this.selectedRefinders$.next(store.selectedRefiners)
-      // this.mapPointCommitments$.next(store.mapPointCommitments)
+      this.mapPointCommitments$.next(store.mapPointsCommitments)
       this.refinerGroups$.next(store.refinerGroups)
     })
   }
@@ -127,6 +131,12 @@ export class CommitmentRefinerService implements OnDestroy {
       RefinerActionTypes.GetRefinedMapPoints,
       this.getRefinedMapPointsEffect
     )
+
+    this.refinerEffects.register(
+      RefinerActionTypes.GetMapPointsCommitments,
+      this.getMapPointsCommitmentsEffect
+    )
+
   }
 
   public getLayoutPage() {
@@ -144,8 +154,17 @@ export class CommitmentRefinerService implements OnDestroy {
     this.action$.next(new GetRefinedCommitments(payload))
   }
 
-  public getMapPage() {
+  public getMapPageCommitments() {
+    const store = this.store$.getValue()
+    const payload: CommitmentRefinementInput = {
+      text: null,
+      mapPoints: [store.selectedMapPoint]
+    }
 
+    this.action$.next(new GetMapPointsCommitments(payload))
+  }
+
+  public getMapPage() {
     const store = this.store$.getValue()
 
     const payload: CommitmentRefinementInput = {
@@ -172,6 +191,21 @@ export class CommitmentRefinerService implements OnDestroy {
     this.storeSubscription$.unsubscribe()
   }
 
+  getMapPointsCommitmentsEffect = (
+    action: GetMapPointsCommitments
+  ): Observable<RefinerAction> => {
+    // tslint:disable-next-line:no-console
+    console.log(action)
+
+    return this.mapPointCommitmentsSearchGQL.fetch({ input: action.payload }).pipe(
+      first(),
+      // tslint:disable-next-line:no-console
+      tap(result => console.log('Get Map Points Commitments Result', result)),
+      map((result: any) => result.data.mapPointCommitments),
+      map(result => new LoadMapPointsCommitments(result))
+    )
+  }
+
   getRefinedCommitmentsEffect = (
     action: GetRefinedCommitments
   ): Observable<RefinerAction> => {
@@ -194,7 +228,7 @@ export class CommitmentRefinerService implements OnDestroy {
     console.log(action)
 
     return this.commitmentsMapPointSearchGQL
-      .fetch({ input: action.payload})
+      .fetch({ input: action.payload })
       .pipe(
         first(),
         // tslint:disable-next-line:no-console
@@ -221,6 +255,7 @@ export class CommitmentRefinerService implements OnDestroy {
 
   public selectMapPoint(item: any): any {
     this.action$.next(new SelectMapPoint(item))
+    this.getMapPageCommitments()
   }
 
   public handleRefinerGroupSelected(item) {

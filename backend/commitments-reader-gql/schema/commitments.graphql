@@ -12,6 +12,7 @@ type Commitment {
 input CommitmentRefinementInput {
     text: String,
     tags: [ID],
+    mapPoints: [ID]
 }
 
 input CommitmentInput {

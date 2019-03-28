@@ -12,6 +12,7 @@ type Query {
 	userProfile(id: ID): UserProfile
 	commitment(id: ID!): Commitment
 	commitments(input: CommitmentRefinementInput): [Commitment]
+	mapPointCommitments(input: CommitmentRefinementInput): [Commitment]
 	mappoint(place_id: String!): MapPoint
 	mappoints(input: CommitmentRefinementInput): [MapPoint]
     tag(id: ID!): Tag

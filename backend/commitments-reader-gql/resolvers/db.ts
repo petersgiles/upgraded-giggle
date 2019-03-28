@@ -1,4 +1,5 @@
 import { arrayToHash } from '../../shared/utils'
+import { logger } from "../../shared/logger";
 
 export const TABLE = {
 	COMMITMENT: 'commitment',
@@ -102,6 +103,39 @@ export const getRefinedCommitments = async (knexContext: any, args: any) => {
         (!Object.keys(portfolioHash).length || portfolioHash[r.id]) &&
         (!Object.keys(criticalDateHash).length || criticalDateHash[r.id]));
     }
+    return refinedCommitments;
+  }
+
+
+  export const getMapPointCommitments = async (knexContext: any, args: any) => {
+    let commitmentCriticalDates = await getCommitmentCriticalDates(knexContext);
+    let commitmentResponsiblePortfolios = await getCommitmentResponsiblePortfolios(knexContext);
+    let commitmentCommitmentTypes = await getCommitmentTypes(knexContext);
+    let criticalDates = arrayToHash(commitmentCriticalDates);
+    let commitmentPortfolios = arrayToHash(commitmentResponsiblePortfolios);
+    let commitmentTypes = arrayToHash(commitmentCommitmentTypes);
+    let result = await getCommitment(knexContext);
+    let commitments = result.map((p: any) => {
+      return {
+        ...p,
+        party: null,
+        criticalDate: criticalDates[p.id].title,
+        portfolio: commitmentPortfolios[p.id].title,
+        type: commitmentTypes[p.id].title,
+      };
+    });
+    let refinedCommitments = commitments;
+    if (args.input && args.input.mapPoints && args.input.mapPoints.length > 0) {
+    	let commitmentMapPoints = await knexContext
+      .from(TABLE.COMMITMENT_MAPPOINT)
+      .whereIn('mappoint', [...args.input.mapPoints])
+      .select('commitment')
+
+      logger.info(`cheese ${JSON.stringify(commitmentMapPoints)}`)
+
+    }
+    
+
     return refinedCommitments;
   }
 

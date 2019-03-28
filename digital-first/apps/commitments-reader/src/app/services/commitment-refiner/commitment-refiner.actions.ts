@@ -12,9 +12,11 @@ export enum RefinerActionTypes {
   LoadRefinedMapPoints = '[RefinerActionTypes] LoadRefinedMapPoints',
   GetRefinedCommitments = '[RefinerActionTypes] GetRefinedCommitments',
   LoadRefinedCommitments = '[RefinerActionTypes] LoadRefinedCommitments',
+  GetMapPointsCommitments = '[RefinerActionTypes] GetMapPointsCommitments',
+  LoadMapPointsCommitments = '[RefinerActionTypes] LoadMapPointsCommitments',
   SelectRefinerGroup = '[RefinerActionTypes] SelectRefinerGroup',
   SelectRefiner = '[RefinerActionTypes] SelectRefiner',
-  SelectMapPoint = '[RefinerActionTypes] SelectMapPoint',
+  SelectMapPoint = '[RefinerActionTypes] SelectMapPoint'
 }
 
 export class GetRefinedMapPoints implements RefinerAction {
@@ -36,17 +38,25 @@ export class LoadRefinerGroups implements RefinerAction {
   type = RefinerActionTypes.LoadRefinerGroups
   constructor(public payload: any) {}
 }
-
 export class GetRefinedCommitments implements RefinerAction {
-    type = RefinerActionTypes.GetRefinedCommitments
-    constructor(public payload: CommitmentRefinementInput) {}
-  }
+  type = RefinerActionTypes.GetRefinedCommitments
+  constructor(public payload: CommitmentRefinementInput) {}
+}
 
 export class LoadRefinedCommitments implements RefinerAction {
-    type = RefinerActionTypes.LoadRefinedCommitments
-    constructor(public payload: any) {}
-  }
+  type = RefinerActionTypes.LoadRefinedCommitments
+  constructor(public payload: any) {}
+}
 
+export class GetMapPointsCommitments implements RefinerAction {
+  type = RefinerActionTypes.GetMapPointsCommitments
+  constructor(public payload: CommitmentRefinementInput) {}
+}
+
+export class LoadMapPointsCommitments implements RefinerAction {
+  type = RefinerActionTypes.LoadMapPointsCommitments
+  constructor(public payload: any) {}
+}
 export class SelectRefinerGroup implements RefinerAction {
   type = RefinerActionTypes.SelectRefinerGroup
   constructor(public payload: any) {}
@@ -71,3 +81,5 @@ export type RefinerServiceActions =
   | SelectRefinerGroup
   | SelectRefiner
   | SelectMapPoint
+  | GetMapPointsCommitments
+  | LoadMapPointsCommitments

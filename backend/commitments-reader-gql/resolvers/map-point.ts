@@ -20,9 +20,9 @@ export class MapPoint {
 
 	async getAll(args: any, context: any): Promise<any[]> {
 		
-		logger.info(
-			`ℹ getAll ${args}`
-		  );
+		// logger.info(
+		// 	`ℹ getAll ${args}`
+		//   );
 
 		let refinedCommitments = await getRefinedCommitments(this.knex(context), args)
 		let mapPoints = await this.knex(context)
@@ -37,16 +37,15 @@ export class MapPoint {
 			const refinedCommitmentsIds = refinedCommitments.map((rc: any) => rc.id)
 			const commitmentMapPointsIds = commitmentMapPoints.filter((cmp: any) => refinedCommitmentsIds.includes(cmp.commitment)).map((cmp: any) => cmp.mappoint)
 
-			logger.info(
-				`🚩- refinedCommitments: ${refinedCommitmentsIds.length}, 📍 - mapPoints: ${mapPoints.length}, 🍏 - commitmentMapPointsIds: ${JSON.stringify(commitmentMapPointsIds)}`
-			  );
+			// logger.info(
+			// 	`🚩- refinedCommitments: ${refinedCommitmentsIds.length}, 📍 - mapPoints: ${mapPoints.length}, 🍏 - commitmentMapPointsIds: ${JSON.stringify(commitmentMapPointsIds)}`
+			//   );
 
 			mapPoints = mapPoints.filter((mp: any) => commitmentMapPointsIds.includes(mp.place_id))
 
-			
-			logger.info(
-				`🚩- refinedCommitments: ${refinedCommitmentsIds.length}: 📍 - mapPoints ${mapPoints.length}`
-			  );
+			// logger.info(
+			// 	`🚩- refinedCommitments: ${refinedCommitmentsIds.length}: 📍 - mapPoints ${mapPoints.length}`
+			//   );
 		}
 
 		return mapPoints

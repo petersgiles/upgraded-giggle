@@ -43,6 +43,7 @@ export type CommitmentMapPointInput = {
 export type CommitmentRefinementInput = {
   text?: Maybe<Scalars['String']>
   tags?: Maybe<Array<Maybe<Scalars['ID']>>>
+  mapPoints?: Maybe<Array<Maybe<Scalars['ID']>>>
 }
 
 export type MapPoint = {
@@ -236,6 +237,16 @@ export type CommitmentPartsFragment = { __typename?: 'Commitment' } & Pick<
   | 'announcedby'
 >
 
+export type MapPointCommitmentsSearchQueryVariables = {
+  input: CommitmentRefinementInput
+}
+
+export type MapPointCommitmentsSearchQuery = { __typename?: 'Query' } & {
+  commitments: Maybe<
+    Array<Maybe<{ __typename?: 'Commitment' } & CommitmentPartsFragment>>
+  >
+}
+
 export type GetRefinerTagsQueryVariables = {}
 
 export type GetRefinerTagsQuery = { __typename?: 'Query' } & {
@@ -346,6 +357,24 @@ export class CommitmentsSearchGQL extends Apollo.Query<
   CommitmentsSearchQueryVariables
 > {
   document = CommitmentsSearchDocument
+}
+export const MapPointCommitmentsSearchDocument = gql`
+  query MapPointCommitmentsSearch($input: CommitmentRefinementInput!) {
+    commitments(input: $input) {
+      ...CommitmentParts
+    }
+  }
+  ${CommitmentPartsFragmentDoc}
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class MapPointCommitmentsSearchGQL extends Apollo.Query<
+  MapPointCommitmentsSearchQuery,
+  MapPointCommitmentsSearchQueryVariables
+> {
+  document = MapPointCommitmentsSearchDocument
 }
 export const GetRefinerTagsDocument = gql`
   query GetRefinerTags {

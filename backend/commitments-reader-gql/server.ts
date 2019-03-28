@@ -63,6 +63,10 @@ export const resolvers = {
 			getById('Commitment', obj, args, context, info),
 		commitments: async (obj: any, args: any, context: any, info: any) =>
 			getByAll('Commitment', obj, args, context, info),
+		mapPointCommitments: async (obj: any, args: any, context: any, info: any) => {
+			let result = await context.models.Commitment.getCommitmentsByMapPoint(args, context)
+			return result
+		},
 		mappoint: async (obj: any, args: any, context: any, info: any) =>
 			getById('MapPoint', obj, args, context, info),
 		mappoints: async (obj: any, args: any, context: any, info: any) =>
