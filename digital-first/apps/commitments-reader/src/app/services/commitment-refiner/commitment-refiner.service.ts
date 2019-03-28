@@ -158,7 +158,7 @@ export class CommitmentRefinerService implements OnDestroy {
     const store = this.store$.getValue()
     const payload: CommitmentRefinementInput = {
       text: null,
-      mapPoints: [store.selectedMapPoint]
+      mapPoints: [store.selectedMapPoint.place_id]
     }
 
     this.action$.next(new GetMapPointsCommitments(payload))
@@ -201,7 +201,7 @@ export class CommitmentRefinerService implements OnDestroy {
       first(),
       // tslint:disable-next-line:no-console
       tap(result => console.log('Get Map Points Commitments Result', result)),
-      map((result: any) => result.data.mapPointCommitments),
+      map((result: any) => result.data.commitments),
       map(result => new LoadMapPointsCommitments(result))
     )
   }

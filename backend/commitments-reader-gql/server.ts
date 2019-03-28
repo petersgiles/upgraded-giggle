@@ -26,7 +26,7 @@ const sqlDB = knex({
 })
 
 sqlDB.on('query', function(queryData: any) {
-	logger.info(`🕳️${queryData}`)
+	logger.info(`🕳️ - ${JSON.stringify(queryData)}`)
 })
 
 class SqlConnector {

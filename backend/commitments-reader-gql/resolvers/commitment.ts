@@ -1,4 +1,5 @@
-import { TABLE, getRefinedCommitments } from './db'
+import { TABLE, getRefinedCommitments, getMapPointCommitments } from './db'
+import { logger } from '../../shared/logger';
 
 export class Commitment {
 	connectorKeys: { db: string }
@@ -23,7 +24,8 @@ export class Commitment {
 	}
 
 	async getCommitmentsByMapPoint(args: any, context: any): Promise<any[]>{
-		return await getRefinedCommitments(this.knex(context), args)
+		logger.info(`🍏 -  getCommitmentsByMapPoint ${JSON.stringify(args)}`)
+		return await getMapPointCommitments(this.knex(context), args)
 	}
 
 

@@ -108,6 +108,9 @@ export const getRefinedCommitments = async (knexContext: any, args: any) => {
 
 
   export const getMapPointCommitments = async (knexContext: any, args: any) => {
+
+    logger.info(`🚩- getMapPointCommitments ${JSON.stringify(args)}`)
+
     let commitmentCriticalDates = await getCommitmentCriticalDates(knexContext);
     let commitmentResponsiblePortfolios = await getCommitmentResponsiblePortfolios(knexContext);
     let commitmentCommitmentTypes = await getCommitmentTypes(knexContext);
@@ -125,13 +128,18 @@ export const getRefinedCommitments = async (knexContext: any, args: any) => {
       };
     });
     let refinedCommitments = commitments;
+
+    
+
     if (args.input && args.input.mapPoints && args.input.mapPoints.length > 0) {
+      
     	let commitmentMapPoints = await knexContext
       .from(TABLE.COMMITMENT_MAPPOINT)
       .whereIn('mappoint', [...args.input.mapPoints])
       .select('commitment')
 
-      logger.info(`cheese ${JSON.stringify(commitmentMapPoints)}`)
+      logger.info(`🍏 -  commitmentMapPoints ${JSON.stringify(commitmentMapPoints)}`)
+
 
     }
     
