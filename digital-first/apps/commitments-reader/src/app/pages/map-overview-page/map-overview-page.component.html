@@ -14,6 +14,7 @@
           [latitude]="mapPoint.latitude"
           [longitude]="mapPoint.longitude"
           [title]="mapPoint.address"
+          [iconUrl]="getIcon(mapPoint)"
           (markerClick)="handleMapPointSelected($event, mapPoint)"
         ></agm-marker>
       </agm-map>
