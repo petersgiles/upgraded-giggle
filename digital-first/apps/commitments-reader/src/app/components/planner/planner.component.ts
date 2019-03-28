@@ -28,8 +28,9 @@ export class PlannerComponent implements OnInit {
   featureConfig: Object
 
   startDate = new Date()
-  endDate = DateHelper.add(this.startDate, 3, 'year')
-  myEofyDate = DateHelper.add(this.startDate, 3, 'month')
+
+  // TODO: actually get this from the next MYEFO date
+  myEofyDate = new Date('2019-12-10')
   // TODO: set widths based on size of parent container
   // TODO: raise request to have these internally sorted
   // TODO: infer id based on index
