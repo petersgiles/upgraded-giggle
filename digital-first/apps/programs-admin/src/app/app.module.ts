@@ -177,7 +177,8 @@ export function initApplication(): Function {
     RoleComponent,
     RoleAddComponent,
     RoleEditComponent,
-    UserGroupsComponent
+    UserGroupsComponent,
+    DateTimeFormat
   ],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [
