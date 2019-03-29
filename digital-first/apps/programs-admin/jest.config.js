@@ -1,1 +1,9 @@
-// Custom jest config for the project goes here. An empty file is required to prevent a warning which breaks the build.
+module.exports = {
+  name: 'programs-admin',
+  preset: 'jest-preset-angular',
+  coverageDirectory: '../../coverage/apps/programs-admin/',
+  snapshotSerializers: [
+    'jest-preset-angular/AngularSnapshotSerializer.js',
+    'jest-preset-angular/HTMLCommentSerializer.js'
+  ]
+}
