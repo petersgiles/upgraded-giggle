@@ -21,6 +21,13 @@ export abstract class CommitmentLookupDataService {
     abstract filterCriticalDates(filter?: any): any
     abstract filterCommitmentTypes(filter?: any): any
     abstract filterAnnouncementTypes(filter?: any): any
+    abstract filterCommitmentPortfolios(filter?: any): any
+    abstract filterCommitmentPackages(filter?: any): any
+    abstract filterCommitmentElectorates(filter?: any): any
+    abstract filterCommitmentContacts(filter?: any): any
+    abstract filterCommitmentMapPoints(filter?: any): any
+    abstract filterMapPoints(filter?: any): any
+    abstract filterRelatedCommitments(filter?: any): any
 }
 
 const lookupDataServiceFactory = (settings: SettingsService, sharepointlib: SharepointJsomService, apollo: Apollo) => {

@@ -1,7 +1,25 @@
 import { createSelector } from '@ngrx/store'
-import { arrayToHash } from '@digital-first/df-utils'
+import { arrayToHash } from '@df/utils'
 
 export const getCommitmentLookupState = state => state.commitmentLookup
+
+const portfolioSelector = (state) => {
+    
+    if(state.portfolios)
+    {
+        return state.portfolios.filter(p => p.type.includes('portfolio'))
+    }
+    return null;
+}
+
+const agencyCostingSelector = (state) => {
+    
+    if(state.portfolios)
+    {
+        return state.portfolios.filter(p => p.type.includes('costing'))
+    }
+    return null;
+}
 
 export const getAllAnnouncementTypes = createSelector(
     getCommitmentLookupState,
@@ -80,12 +98,12 @@ export const getPartyEntities = createSelector(
 
 export const getAllPortfolios = createSelector(
     getCommitmentLookupState,
-    state => state.portfolios
+    portfolioSelector
 )
 
-export const getCostingPortfolios = createSelector(
+export const getCostingAgencies = createSelector(
     getCommitmentLookupState,
-    state => state.portfolios.filter(p => p)
+    agencyCostingSelector
 )
 
 export const getPortfolioEntities = createSelector(
@@ -133,3 +151,39 @@ export const getStatusEntities = createSelector(
     getAllStatuses,
     arrayToHash
 )
+
+export const getLookupCommitmentPortfolios = createSelector(
+    getCommitmentLookupState,
+    state => state.commitmentPortfolios
+)
+
+export const getLookupCommitmentPackages = createSelector(
+    getCommitmentLookupState,
+    state => state.commitmentPackages
+)
+
+export const getLookupCommitmentElectorates = createSelector(
+    getCommitmentLookupState,
+    state => state.commitmentElectorates
+)
+
+export const getLookupCommitmentContacts = createSelector(
+    getCommitmentLookupState,
+    state => state.commitmentContacts
+)
+
+export const getLookupCommitmentMapPoints = createSelector(
+    getCommitmentLookupState,
+    state => state.commitmentMapPoints
+)
+
+export const getLookupMapPoints = createSelector(
+    getCommitmentLookupState,
+    state => state.mapPoints
+)
+
+export const getRelatedCommitments = createSelector(
+    getCommitmentLookupState,
+    state => state.relatedCommitments
+)
+

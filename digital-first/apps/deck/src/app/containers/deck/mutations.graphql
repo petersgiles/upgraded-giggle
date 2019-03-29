@@ -1,23 +1,13 @@
-mutation StoreCard($card: DeckCardInput) {
-  storeCard(card: $card) {
-    code
+mutation Store($item: DeckItemInput!) {
+  upsertDeckItem(item: $item) {
     success
-    message
-    card {
-      id
-      title
-      order
-      presentation {
-        description
-      }
-    }
+    error
   }
 }
 
-mutation RemoveCard($id: ID!) {
-  removeCard(id: $id) {
-    code
+mutation Delete($id: ID!) {
+  deleteDeckItem(id: $id) {
     success
-    message
+    error
   }
 }

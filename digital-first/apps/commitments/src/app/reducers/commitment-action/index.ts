@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store'
 import { DataTableConfig } from '@digital-first/df-datatable'
 import * as fromCommitmentAction from './commitment-action.reducer'
-import { arrayToHash } from '@digital-first/df-utils'
+import { arrayToHash } from '@df/utils'
 
 export const getCommitmentActionState = state => state.commitmentAction
 

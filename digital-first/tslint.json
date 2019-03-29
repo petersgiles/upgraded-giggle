@@ -50,13 +50,7 @@
     "no-var-keyword": true,
     "number-literal-format": true,
     "object-literal-sort-keys": false,
-    "one-line": [
-      true,
-      "check-open-brace",
-      "check-catch",
-      // "check-else",
-      "check-whitespace"
-    ],
+    "one-line": [true, "check-open-brace", "check-catch", "check-whitespace"],
     "one-variable-per-declaration": [true, "ignore-for-loop"],
     "only-arrow-functions": [true, "allow-named-functions"],
     "prefer-const": true,
@@ -91,8 +85,6 @@
       "check-separator",
       "check-type"
     ],
-    // TODO: uncomment after removing ripple directive
-    // "directive-selector": [true, "attribute", ["app", "ngrx"], "camelCase"],
     "component-selector": [true, "element", ["app", "layout"], "kebab-case"],
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,
@@ -103,13 +95,15 @@
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
     "directive-class-suffix": true,
-
     "nx-enforce-module-boundaries": [
       true,
       {
         "allow": [],
         "depConstraints": [
-          { "sourceTag": "*", "onlyDependOnLibsWithTags": ["*"] }
+          {
+            "sourceTag": "*",
+            "onlyDependOnLibsWithTags": ["*"]
+          }
         ]
       }
     ]

@@ -12,7 +12,7 @@
             <input type="hidden" formControlName="id" />
       
             <div class="form-layout__row">
-              <ng-select [items]="portfolios$ | async" bindValue="id" bindLabel="title" required placeholder="Responsible Portfolio"
+              <ng-select [items]="costingAgencies$ | async" bindValue="id" bindLabel="title" required placeholder="Costing Agency"
               formControlName="portfolio">
               </ng-select>
 

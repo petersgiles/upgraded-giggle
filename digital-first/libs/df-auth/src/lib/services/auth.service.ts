@@ -7,7 +7,7 @@ import { map, mergeMap, first } from 'rxjs/operators'
 import { FEDERATEDLOGINAPIPATH } from '@digital-first/df-app-tokens'
 import { LoggerService } from '@digital-first/df-logging'
 import { AUTH_KEY } from '../constants'
-import { LOCALSTORAGE } from '@digital-first/df-utils'
+import { LOCALSTORAGE } from '@df/utils'
 
 const CLAIM_EMAIL =
   'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'

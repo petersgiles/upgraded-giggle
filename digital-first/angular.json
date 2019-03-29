@@ -564,32 +564,6 @@
         }
       }
     },
-    "df-sharepoint": {
-      "root": "libs/df-sharepoint",
-      "sourceRoot": "libs/df-sharepoint/src",
-      "projectType": "library",
-      "prefix": "digital-first",
-      "architect": {
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "libs/df-sharepoint/src/test.ts",
-            "tsConfig": "libs/df-sharepoint/tsconfig.spec.json",
-            "karmaConfig": "libs/df-sharepoint/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/df-sharepoint/tsconfig.lib.json",
-              "libs/df-sharepoint/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      }
-    },
     "df-moment": {
       "root": "libs/df-moment",
       "sourceRoot": "libs/df-moment/src",
@@ -1101,6 +1075,103 @@
       "schematics": {
         "@nrwl/schematics:component": {
           "styleext": "scss"
+        }
+      }
+    },
+    "commitments-reader": {
+      "root": "apps/commitments-reader/",
+      "sourceRoot": "apps/commitments-reader/src",
+      "projectType": "application",
+      "prefix": "digital-first",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "../sharepoint/deploy/SiteAssets/apps/commitments-reader",
+            "index": "apps/commitments-reader/src/index.html",
+            "main": "apps/commitments-reader/src/main.ts",
+            "polyfills": "apps/commitments-reader/src/polyfills.ts",
+            "tsConfig": "apps/commitments-reader/tsconfig.app.json",
+            "assets": [
+              "apps/commitments-reader/src/favicon.ico",
+              "apps/commitments-reader/src/assets",
+              "apps/commitments-reader/src/scheduler"
+            ],
+            "styles": ["apps/commitments-reader/src/styles.scss"],
+            "scripts": [],
+            "es5BrowserSupport": true
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/commitments-reader/src/environments/environment.ts",
+                  "with": "apps/commitments-reader/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            },
+            "sharepoint": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/commitments-reader/src/environments/environment.ts",
+                  "with": "apps/commitments-reader/src/environments/environment.sharepoint.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "port": 4210,
+            "browserTarget": "commitments-reader:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "commitments-reader:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "commitments-reader:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/commitments-reader/tsconfig.app.json",
+              "apps/commitments-reader/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "apps/commitments-reader/jest.config.js",
+            "tsConfig": "apps/commitments-reader/tsconfig.spec.json",
+            "setupFile": "apps/commitments-reader/src/test-setup.ts"
+          }
         }
       }
     }

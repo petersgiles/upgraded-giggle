@@ -6,7 +6,7 @@ import {
   HttpEvent
 } from '@angular/common/http'
 import { Observable } from 'rxjs'
-import { LOCALSTORAGE } from '@digital-first/df-utils'
+import { LOCALSTORAGE } from '@df/utils'
 
 import { AUTH_KEY } from '../constants'
 import { Router } from '@angular/router'

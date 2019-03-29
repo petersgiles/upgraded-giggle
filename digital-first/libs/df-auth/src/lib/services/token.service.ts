@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core'
 import { Router, GuardsCheckStart } from '@angular/router'
 import { filter, map, tap, switchMap } from 'rxjs/operators'
-import { LOCALSTORAGE } from '@digital-first/df-utils'
+import { LOCALSTORAGE } from '@df/utils'
 import { AUTH_KEY } from '../constants'
 import { AuthService } from './auth.service'
 

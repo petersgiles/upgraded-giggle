@@ -1,4 +1,4 @@
-import { Contact } from '../contact/contact.model'
+import { Contact } from '../../models/contact.model'
 
 export interface Comment {
   id: number

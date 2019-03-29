@@ -19,7 +19,7 @@ import {
 
 import { LoggerService } from '@digital-first/df-logging'
 import { CommitmentMapPointsResult } from '../../../models/commitment-map-points.model'
-import { arrayToHash } from '@digital-first/df-utils'
+import { arrayToHash } from '@df/utils'
 
 @Injectable({
   providedIn: 'root'

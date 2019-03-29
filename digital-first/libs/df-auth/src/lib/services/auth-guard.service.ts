@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core'
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'
 import { Observable, of } from 'rxjs'
-import { LOCALSTORAGE } from '@digital-first/df-utils'
+import { LOCALSTORAGE } from '@df/utils'
 import { LoggerService } from '@digital-first/df-logging'
 import { AUTH_KEY } from '../constants'
 import { JwtHelperService } from '@auth0/angular-jwt'

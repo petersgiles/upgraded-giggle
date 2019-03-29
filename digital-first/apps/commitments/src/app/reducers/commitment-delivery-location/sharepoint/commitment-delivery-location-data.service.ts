@@ -17,12 +17,15 @@ import {
 } from '../../../services/sharepoint/caml'
 import {
   mapCommitmentMapPoints,
-  mapMapPoints,
+  mapMapPoints/*,
   mapCommitmentElectorates,
-  mapElectorates
+  mapElectorates*/
 } from './maps'
+import {
+  mapCommitmentElectorates,
+} from '../../commitment-lookup/sharepoint/maps'
 import { MapPoint } from '@digital-first/df-map'
-import { ElectoratesResult } from '../../../models/location.model'
+import { CommitmentElectoratesResult } from '../../../models/location.model'
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +33,7 @@ import { ElectoratesResult } from '../../../models/location.model'
 export class DeliveryLocationDataSharePointService
   implements DeliveryLocationDataService {
 
-  getElectoratesByCommitment(commitment: any): Observable<DataResult<ElectoratesResult>> {
+  getElectoratesByCommitment(commitment: any): Observable<DataResult<CommitmentElectoratesResult>> {
       return this.sharepoint.getItems({
         listName: 'CommitmentElectorate',
         viewXml: byCommitmentIdQuery({ id: commitment })
@@ -42,7 +45,7 @@ export class DeliveryLocationDataSharePointService
 
           if (!ids.length) {
             return of({
-              data: { electorates: [] },
+              data: { commitmentElectorates: [] },
               loading: false
             })
           }
@@ -57,7 +60,7 @@ export class DeliveryLocationDataSharePointService
             .pipe(
               concatMap(electorates =>
                 of({
-                  data: { electorates: mapElectorates(electorates) },
+                  data: { commitmentElectorates: mapCommitmentElectorates(electorates) },
                   loading: false
                 })
               )
