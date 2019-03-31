@@ -1,6 +1,9 @@
 <ng-container *ngIf="commitment">
   <h1>{{ commitment?.title }}</h1>
-
+  <p>
+    Status: <strong>{{ commitment.status?.title }}</strong
+    >.
+  </p>
   <p>
     Responsible Portfolio: <strong>{{ commitment.portfolio?.title }}</strong
     >.

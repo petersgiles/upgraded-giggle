@@ -2,6 +2,7 @@ import {
   CommitmentLookupsActions,
   CommitmentLookupsActionTypes
 } from './commitment-lookup.actions'
+import { sortBy } from '@df/utils'
 
 export interface State {
   announcementTypes: any[]
@@ -105,9 +106,13 @@ export function reducer(
     }
 
     case CommitmentLookupsActionTypes.LoadPackageTypes: {
+      const packageTypes = [...(action.payload.data.packageTypes || [])].sort(
+        sortBy('title')
+      )
+
       return {
         ...state,
-        packageTypes: action.payload.data.packageTypes
+        packageTypes: packageTypes
       }
     }
 
