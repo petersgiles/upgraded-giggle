@@ -3,7 +3,7 @@ import {
   createSelectorFactory,
   defaultMemoize
 } from '@ngrx/store'
-import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
+import { RefinerGroup } from '@digital-first/df-refiner'
 import * as fromCommitmentOverview from './commitment-overview.reducer'
 import { getAllContacts } from '../contact'
 import { getAllCommitments } from '../commitment'
@@ -33,7 +33,7 @@ import {
   getLookupCommitmentContacts,
   getLookupCommitmentMapPoints,
   getLookupMapPoints,
-  getRelatedCommitments
+  getRelatedCommitments,
 } from '../commitment-lookup'
 import {
   findInLookup,
@@ -245,18 +245,22 @@ export const getFilteredOverviewCommitments = createSelector(
   getAllCommitments,
   getRefinersAsFilter,
   getCommitmentOverviewTextRefiner,
-  getCommitmentOverviewState,
-  (arr: Commitment[], filters: any, filterText, state: any) => {
+  getLookupCommitmentPackages,
+  (arr: Commitment[], filters: any, filterText, packages: any) => {
     const filterKeys = Object.keys(filters)
     let refined = arr.filter(eachObj =>
       filterKeys.every(eachKey => {
         if (!filters[eachKey].length) {
           return true // passing an empty filter means that filter is ignored.
         }
-        const filteredProperty = filters[eachKey]
-          .map(fp => fp.id)
-          .includes(eachObj[eachKey] && eachObj[eachKey].id)
-        return filteredProperty // filters[eachKey].includes(eachObj[eachKey])
+        let filteredProperty = filters[eachKey]
+          .map(fp => packages.find(pkg => fp.title === pkg.package && eachObj.title === pkg.commitment))  
+
+          if(filteredProperty){
+             filteredProperty = filteredProperty.filter(fp => !!fp === true) // filter out where item is undefined for that commitment
+          }
+          return filteredProperty ? (filteredProperty.length ? true : false) : false
+       
       })
     )
 

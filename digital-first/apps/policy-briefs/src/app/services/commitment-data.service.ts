@@ -4,7 +4,7 @@ import {
 import { Injectable } from '@angular/core'
 import { tap } from 'rxjs/operators'
 import { Store, select } from '@ngrx/store'
-import { RefinerGroup, RefinerType, DataTableConfig } from '@digital-first/df-components'
+//import { RefinerGroup, RefinerType, DataTableConfig } from '@digital-first/df-components'
 
 import { Comment } from '../reducers/comment/comment.model'
 import { Contact } from '../reducers/contact/contact.model'
