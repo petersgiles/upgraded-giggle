@@ -4,16 +4,17 @@ const TABLES = require("../table-names.js");
 exports.up = function(knex, Promise) {
     return knex.schema.createTable(TABLES.DECK_ITEM, function(t) {
         t.increments('id').primary()
+        t.integer('parent').unsigned()
         t.string('title', 512)
-        t.text('description')
-        t.integer('size')
-        t.integer('type')
-        t.integer('sortorder')
+        t.integer('cardType', 32)
+        t.text('supportingText')
+        t.string('size')
+        t.string('sortOrder')
         t.string('colour', 32)
+        t.string('titleClass')
         t.string('media', 512)
         t.json('data')
         t.timestamp('created_at').defaultTo(knex.fn.now())
-        t.integer('parent').unsigned()
 
         t.foreign('parent')
             .references('id')

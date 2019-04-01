@@ -1,11 +1,32 @@
+type DeckItemAction {
+	url: String,
+	title: Sring
+}
+
 type DeckItem {
 	id: ID
 	parent: ID
 	title: String
+	cardType: String
+    supportingText: String,
+    size: String,
+    sortOrder: String,
+    colour: String,
+    titleClass: String,
+    media: String,
+    data: String
 }
 
 input DeckItemInput {
 	id: ID
 	parent: ID
 	title: String
+	cardType: String
+    supportingText: String,
+    size: String,
+	 sortOrder: String,
+    colour: String,
+    titleClass: String,
+    media: String,
+    data: String
 }

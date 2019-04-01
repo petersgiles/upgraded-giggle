@@ -1,4 +1,5 @@
 import { TABLE } from './db'
+import { logger } from "../../shared/logger";
 
 export class DeckItem {
 	connectorKeys: { db: string }
@@ -18,11 +19,15 @@ export class DeckItem {
 		return result && result[0]
 	}
 
-	async getByParent(parent: any, context: any): Promise<any[]> {
+	async getByParent(payload: any, context: any): Promise<any[]> {
+
 		let result = await this.knex(context)
 			.select()
 			.from(TABLE.DECK_ITEM)
-			.where('parent', parent)
+			.where('parent', payload.parent)
+
+		logger.info(`🍏 -  getByParent ${JSON.stringify(result)}`)
+
 		return result
 	}
 
