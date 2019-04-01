@@ -1,19 +1,6 @@
-type Response {
-  success: Boolean
-  error: String
-}
 
-type DeckItem {
-	id: ID
-	parent: ID
-	title: String
-}
-
-input DeckItemInput {
-	id: ID
-	parent: ID
-	title: String
-}
+# import MutationResponse, Response from "schema/response.graphql"
+# import DeckItem, DeckItemInput from "schema/deck-item.graphql"
 
 
 # The "Query" type is the root of all GraphQL queries.

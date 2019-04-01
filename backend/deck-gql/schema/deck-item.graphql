@@ -1,0 +1,11 @@
+type DeckItem {
+	id: ID
+	parent: ID
+	title: String
+}
+
+input DeckItemInput {
+	id: ID
+	parent: ID
+	title: String
+}

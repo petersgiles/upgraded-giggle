@@ -16,17 +16,18 @@ import { importSchema } from 'graphql-import'
 import { DeckItem } from './resolvers'
 import { HomeController } from './controllers'
 import { allowCrossDomain } from '../shared/cors'
-import { createDB } from './sqllite-schema';
 
 const typeDefs = importSchema('./deck-gql/schema.graphql')
 
 const sqlDB = knex({
 	client: 'sqlite3',
-	connection: { filename: './db/deck.db' },
+	connection: { filename: './deck-gql/db/dev.sqlite3' },
 	useNullAsDefault: true,
 })
 
-createDB(sqlDB)
+sqlDB.on('query', function(queryData: any) {
+	logger.info(`🕳️ - ${JSON.stringify(queryData)}`)
+})
 
 class SqlConnector {
 	connection: any
@@ -40,6 +41,7 @@ class SqlConnector {
 		return this.connection.collection(collectionName)
 	}
 }
+
 
 const app: express.Application = express()
 const port: number = 3002
