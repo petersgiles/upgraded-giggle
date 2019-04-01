@@ -7,7 +7,6 @@ import { DeckModule } from '@df/components'
 import { WINDOW_PROVIDERS } from '@df/utils'
 import {
   DfLayoutsModule,
-  FullLayoutService,
   TitleLayoutService
 } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
@@ -25,9 +24,7 @@ import { AppFullLayoutService } from './app-full-layout.service'
 import { AppRoutingModule } from './app-routing.module'
 import { DeckDataService } from './services/deck-data.service'
 import { GraphQLModule } from './graphql.module'
-import { DeckComponent } from './containers/deck/deck.component'
 import { DragDropModule } from '@angular/cdk/drag-drop'
-import { CardComponent } from './components/card/card.component'
 import { DfDatatableModule } from '@digital-first/df-datatable'
 import { DfButtonsModule } from '@digital-first/df-buttons'
 import { DfMapModule } from '@digital-first/df-map'
@@ -37,8 +34,6 @@ import { DialogEditDeckItemComponent } from './dialogs/dialog-edit-deck-item.com
 const COMPONENTS = [
   AppComponent,
   HomeComponent,
-  DeckComponent,
-  CardComponent,
   DialogEditDeckItemComponent
 ]
 
