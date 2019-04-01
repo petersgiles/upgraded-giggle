@@ -16,6 +16,13 @@ import { importSchema } from 'graphql-import'
 import { DeckItem } from './resolvers'
 import { HomeController } from './controllers'
 import { allowCrossDomain } from '../shared/cors'
+import {
+	getById,
+	getByAll,
+	upsert,
+	remove,
+	getByParent,
+} from '../shared/resolvers'
 
 const typeDefs = importSchema('./deck-gql/schema.graphql')
 
@@ -42,7 +49,6 @@ class SqlConnector {
 	}
 }
 
-
 const app: express.Application = express()
 const port: number = 3002
 
@@ -58,44 +64,22 @@ app.use('/home', HomeController)
 //   res.status(404).send('This page does not exist!');
 // });
 
+let ResolverModels = {
+	DeckItem: 'DeckItem'
+}
+
 export const resolvers = {
 	Query: {
-		deckItem: async (obj: any, args: any, context: any, info: any) => {
-			let result = await context.models.DeckItem.getById(args.id, context)
-			console.log('deckItem', result)
-			return result
-		},
-		deckItems: async (obj: any, args: any, context: any, info: any) => {
-      let result = await context.models.DeckItem.getByParent(args.parent, context)
-			console.log('deckItems', result)
-			return result
-		},
+		deckItem: async (obj: any, args: any, context: any, info: any) =>
+			getById(ResolverModels.DeckItem, obj, args, context, info),
+		deckItems: async (obj: any, args: any, context: any, info: any) =>
+			getByParent('DeckItem', obj, args, context, info),
 	},
 	Mutation: {
-		upsertDeckItem: async (obj: any, args: any, context: any, info: any) => {
-      let result = await context.models.DeckItem.upsert(args, context)
-        .then((res: any) => {
-          let result: any = {
-            success: true,
-            error: null,
-          }
-
-			  	return result
-      })
-      
-      return result
-		},
-		deleteDeckItem: async (obj: any, args: any, context: any, info: any) => {
-      let result = await context.models.DeckItem.delete(args.id, context)
-      .then((res: any) => {
-				let result: any = {
-					success: true,
-					error: null,
-				}
-				return result
-      })
-      return result
-		},
+		upsertDeckItem: async (obj: any, args: any, context: any, info: any) =>
+			upsert(ResolverModels.DeckItem, obj, args, context, info),
+		deleteDeckItem: async (obj: any, args: any, context: any, info: any) =>
+			remove(ResolverModels.DeckItem, obj, args, context, info),
 	},
 }
 

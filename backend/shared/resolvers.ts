@@ -1,5 +1,3 @@
-
-
 export const getById = async (
 	modelName: string,
 	obj: any,

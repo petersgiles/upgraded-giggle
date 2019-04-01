@@ -5,7 +5,7 @@ import { AppComponent } from './app.component'
 import { NxModule } from '@nrwl/nx'
 import { DeckModule } from '@df/components'
 import { WINDOW_PROVIDERS } from '@df/utils'
-import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
+import { DfLayoutsModule, FullLayoutService, TitleLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
 import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfLoggingModule } from '@digital-first/df-logging'
@@ -27,14 +27,7 @@ import { CardComponent } from './components/card/card.component'
 import { DfDatatableModule } from '@digital-first/df-datatable'
 import { DfButtonsModule } from '@digital-first/df-buttons'
 import { DfMapModule } from '@digital-first/df-map'
-
-export function initApplication(): Function {
-  return () => new Promise(resolve => {
-    // tslint:disable-next-line:no-console
-    console.log('app initialise started...')
-    resolve(true)
-  })
-}
+import { initApplication } from './app-init'
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, DeckComponent, CardComponent],
@@ -68,7 +61,7 @@ export function initApplication(): Function {
       multi: true
     },
     DeckDataService,
-    { provide: FullLayoutService, useClass: AppFullLayoutService },
+    { provide: TitleLayoutService, useClass: AppFullLayoutService },
   ],
   bootstrap: [AppComponent]
 })

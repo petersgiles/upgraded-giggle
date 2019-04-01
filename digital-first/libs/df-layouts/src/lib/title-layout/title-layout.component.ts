@@ -21,6 +21,9 @@ export class TitleLayoutComponent implements OnInit, OnDestroy {
   open$: Observable<boolean>
 
   @ViewChild('topAppBar') topAppBar: MdcTopAppBar
+  appItems$: Observable<
+    import('c:/Users/apgiles/Code/DF-Client/digital-first/libs/df-layouts/src/lib/models/index').AppItem[]
+  >
 
   constructor(
     private router: Router,
@@ -53,7 +56,7 @@ export class TitleLayoutComponent implements OnInit, OnDestroy {
     })
 
     this.sidebarItems$ = this.service.sidebarItems$
-
+    this.appItems$ = this.service.appItems$
     this.notification$ = this.service.notification$.pipe(
       concatMap(result =>
         result ? of(result.message) : of(null).pipe(delay(2750))

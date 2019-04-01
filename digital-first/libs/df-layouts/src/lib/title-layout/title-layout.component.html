@@ -1,33 +1,59 @@
-<mdc-top-app-bar class="app-top-app-bar" #topAppBar fixed prominent='false'>
-    <mdc-top-app-bar-row>
-        <mdc-top-app-bar-section align="start" title="{{title}}" >
-            <mdc-icon mdcTopAppBarActionItem [routerLink]="['/']">home</mdc-icon>
-        </mdc-top-app-bar-section>
-        <mdc-top-app-bar-section align="center"class="protective-marking">
-            <span >{{(protectiveMarking$ | async) | uppercase}}</span> 
-        </mdc-top-app-bar-section>
-        <mdc-top-app-bar-section align="end">
-            <mdc-icon *ngIf="(sidebarItems$ | async)?.length > 0" mdcTopAppBarActionItem (click)="profileMenu.open = !profileMenu.open">more_vert</mdc-icon>
-            
-            <digital-first-avatar [name]="profile?.name" [email]="profile?.email" [displayType]="profile?.displayType"
-                [size]="profile?.size" [background]="profile?.background">
-            </digital-first-avatar>
+<mdc-top-app-bar class="app-top-app-bar" #topAppBar fixed prominent="false">
+  <mdc-top-app-bar-row>
+    <mdc-top-app-bar-section align="start" title="{{ title }}">
+      <mdc-icon mdcTopAppBarActionItem [routerLink]="['/']">home</mdc-icon>
+    </mdc-top-app-bar-section>
+    <mdc-top-app-bar-section align="center" class="protective-marking">
+      <span>{{ protectiveMarking$ | async | uppercase }}</span>
+    </mdc-top-app-bar-section>
+    <mdc-top-app-bar-section align="end">
+      <mdc-icon
+        *ngIf="(sidebarItems$ | async)?.length > 0"
+        mdcTopAppBarActionItem
+        (click)="profileMenu.open = !profileMenu.open"
+        >more_vert</mdc-icon
+      >
 
-            <div mdcMenuSurfaceAnchor #menuAnchor>
-                <mdc-menu #profileMenu [anchorElement]="menuAnchor">
-                  <mdc-list>
-                    <a *ngFor="let item of sidebarItems$ | async"  mdc-list-item [routerLink]="item.routerLink" >
-                       {{item.caption}}
-                    </a>
-                    <a mdc-list-item> Version {{version}}</a>
-                  </mdc-list>
-             
-                </mdc-menu>
+      <digital-first-avatar
+        [name]="profile?.name"
+        [email]="profile?.email"
+        [displayType]="profile?.displayType"
+        [size]="profile?.size"
+        [background]="profile?.background"
+      >
+      </digital-first-avatar>
+
+      <div mdcMenuSurfaceAnchor #menuAnchor>
+        <mdc-menu #profileMenu [anchorElement]="menuAnchor">
+          <div class="nav-list wrap">
+            <div *ngFor="let item of (appItems$ | async)" class="nav-button">
+
+     <div>
+                  <span class="nav-button-icon material-icons">{{
+                    item.icon
+                  }}</span>
+                  <div class="nav-button-text">{{ item.caption }}</div>
+                </div>
+       
             </div>
-        </mdc-top-app-bar-section>
-    </mdc-top-app-bar-row>
+          </div>
+
+          <mdc-list>
+            <a
+              *ngFor="let item of (sidebarItems$ | async)"
+              mdc-list-item
+              [routerLink]="item.routerLink"
+            >
+              {{ item.caption }}
+            </a>
+            <a mdc-list-item> Version {{ version }}</a>
+          </mdc-list>
+        </mdc-menu>
+      </div>
+    </mdc-top-app-bar-section>
+  </mdc-top-app-bar-row>
 </mdc-top-app-bar>
 
 <div mdcTopAppBarFixedAdjust>
-    <router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 </div>

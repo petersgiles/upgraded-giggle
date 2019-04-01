@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { of, Observable } from 'rxjs'
-import { AppUserProfile, SideBarItem } from '../models'
+import { AppUserProfile, SideBarItem, AppItem } from '../models'
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +26,10 @@ export class TitleLayoutService {
 
   setDrawState(appdrawerOpen: any): any {
     throw new Error('Method not implemented.')
+  }
+
+  get appItems$(): Observable<AppItem[]> {
+    return of([])
   }
 
   get sidebarItems$(): Observable<SideBarItem[]> {

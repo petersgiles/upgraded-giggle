@@ -13,3 +13,50 @@
 .mdc-menu {
   width: 250px;
 }
+
+.nav-list {
+  padding: 4px;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+
+  .nav-button{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 100%;
+    color: #687381;
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all linear 0.05s;
+    -webkit-transition: all linear 0.05s;
+    -moz-transition: all linear 0.05s;
+  }
+
+  .nav-button-icon {
+    padding: 8px;
+    font-size: 48px;
+  }
+
+  .nav-button-text {
+    width: 100%;
+    text-align: center;
+  }
+
+
+}
+
+.nowrap {
+  -webkit-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+}
+
+.wrap {
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
