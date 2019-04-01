@@ -11,7 +11,7 @@
         *ngIf="(sidebarItems$ | async)?.length > 0"
         mdcTopAppBarActionItem
         (click)="profileMenu.open = !profileMenu.open"
-        >more_vert</mdc-icon
+        >apps</mdc-icon
       >
 
       <digital-first-avatar
@@ -25,16 +25,15 @@
 
       <div mdcMenuSurfaceAnchor #menuAnchor>
         <mdc-menu #profileMenu [anchorElement]="menuAnchor">
+         
           <div class="nav-list wrap">
             <div *ngFor="let item of (appItems$ | async)" class="nav-button">
-
-     <div>
-                  <span class="nav-button-icon material-icons">{{
-                    item.icon
-                  }}</span>
-                  <div class="nav-button-text">{{ item.caption }}</div>
-                </div>
-       
+              <a *ngIf="item.url" [href]="item.url" class="nav-button-anchor">
+                <span class="nav-button-icon material-icons">{{
+                  item.icon
+                }}</span>
+                <div class="nav-button-text">{{ item.caption }}</div>
+            </a>
             </div>
           </div>
 
@@ -46,8 +45,9 @@
             >
               {{ item.caption }}
             </a>
-            <a mdc-list-item> Version {{ version }}</a>
           </mdc-list>
+
+          <div class="app-version">Version {{ version }}</div>
         </mdc-menu>
       </div>
     </mdc-top-app-bar-section>
