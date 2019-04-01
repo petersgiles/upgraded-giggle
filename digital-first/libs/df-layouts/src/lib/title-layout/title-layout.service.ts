@@ -40,6 +40,10 @@ export class TitleLayoutService {
 
   get protectiveMarking$(): Observable<any> { return of(null) }
 
+  get logo$(): Observable<any> { return of('assets/crest.png') }
+
+  get homeUrl$(): Observable<any> { return of(['/']) }
+
   constructor() { }
 
 }

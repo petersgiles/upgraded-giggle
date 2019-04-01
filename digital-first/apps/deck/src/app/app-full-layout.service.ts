@@ -16,32 +16,33 @@ export class AppFullLayoutService {
   }
 
   get title(): string {
-    return 'Deck'
+    return 'The Department of Bloop de Bloop - Yellow IGB - Home Deck'
   }
 
   get appItems$(): Observable<AppItem[]> {
     return of([
       {
-        caption: 'Admin',
-        icon: 'home',
-        routerLink: ['/']
-      },  {
         caption: 'Dashboard',
         icon: 'dashboard',
-        routerLink: ['/']
+        url: '//vm-dev-lbs13/sites/redigb/SitePages/deck.aspx/deck'
       },  {
-        caption: 'Settings',
+        caption: 'Activity',
+        icon: 'timeline',
+        url: '//vm-dev-lbs13/sites/redigb/SitePages/index.aspx/recent'
+      },  {
+        caption: 'Alerts',
+        icon: 'notifications',
+        url: '//vm-dev-lbs13/sites/redigb/SitePages/index.aspx/notifications'
+      }, {
+        caption: 'Permissions',
+        icon: 'supervisor_account',
+        url: '//vm-dev-lbs13/sites/redigb/_layouts/15/user.aspx',
+        target: '_blank'
+      },  {
+        caption: 'Admin',
         icon: 'settings',
-        routerLink: ['/']
-      },  {
-        caption: 'Inbox',
-        icon: 'all_inbox',
-        routerLink: ['/']
-      },  {
-        caption: 'Calendar',
-        icon: 'calendar_today',
-        routerLink: ['/']
-      }
+        url: '//vm-dev-lbs13/sites/redigb/SitePages/admin.aspx/admin'
+      },
     ])
   }
 
@@ -74,6 +75,10 @@ export class AppFullLayoutService {
   get protectiveMarking$(): Observable<any> {
     return of('UNCLASSIFIED')
   }
+
+  get logo$(): Observable<any> { return of('assets/crest.png') }
+
+  get homeUrl$(): Observable<any> { return of(['/']) }
 
   get open$(): Observable<boolean> {
     return this.service.getBusy()

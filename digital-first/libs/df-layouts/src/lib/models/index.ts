@@ -9,6 +9,7 @@ export interface AppItem {
   caption?: string
   url?: any[] | string
   icon?: string
+  target?: string
 }
 
 export interface AppUserProfile {

@@ -5,7 +5,11 @@ import { AppComponent } from './app.component'
 import { NxModule } from '@nrwl/nx'
 import { DeckModule } from '@df/components'
 import { WINDOW_PROVIDERS } from '@df/utils'
-import { DfLayoutsModule, FullLayoutService, TitleLayoutService } from '@digital-first/df-layouts'
+import {
+  DfLayoutsModule,
+  FullLayoutService,
+  TitleLayoutService
+} from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
 import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfLoggingModule } from '@digital-first/df-logging'
@@ -28,9 +32,21 @@ import { DfDatatableModule } from '@digital-first/df-datatable'
 import { DfButtonsModule } from '@digital-first/df-buttons'
 import { DfMapModule } from '@digital-first/df-map'
 import { initApplication } from './app-init'
+import { DialogEditDeckItemComponent } from './dialogs/dialog-edit-deck-item.component'
+
+const COMPONENTS = [
+  AppComponent,
+  HomeComponent,
+  DeckComponent,
+  CardComponent,
+  DialogEditDeckItemComponent
+]
+
+const ENTRYCOMPONENTS = [DialogEditDeckItemComponent]
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, DeckComponent, CardComponent],
+  declarations: [...COMPONENTS],
+  entryComponents: [...ENTRYCOMPONENTS],
   imports: [
     BrowserModule,
     NxModule.forRoot(),
@@ -61,7 +77,7 @@ import { initApplication } from './app-init'
       multi: true
     },
     DeckDataService,
-    { provide: TitleLayoutService, useClass: AppFullLayoutService },
+    { provide: TitleLayoutService, useClass: AppFullLayoutService }
   ],
   bootstrap: [AppComponent]
 })
