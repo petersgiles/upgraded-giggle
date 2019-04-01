@@ -9,8 +9,9 @@ import {
   SimpleChanges,
   OnDestroy
 } from '@angular/core'
-import { Scheduler, Model } from 'bryntum-scheduler'
 
+import { Scheduler, Model } from 'bryntum-scheduler'
+import * as EnLocale from 'bryntum-scheduler/locales/scheduler.locale.en'
 @Component({
   selector: 'scheduler',
   template: '<div></div>'
@@ -201,6 +202,7 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     const engine = (this.schedulerEngine = new Scheduler(config))
+    engine.localeManager.locale = EnLocale
 
     // TODO: Raise bug with Brytum - setting start and end kills the app
     // Set start and end date. If both are defined, use setTimeSpan
@@ -222,10 +224,6 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
 
     engine.eventStore.relayAll(engine, 'events')
     engine.resourceStore.relayAll(engine, 'resources')
-    const existingRecords = JSON.parse(
-      localStorage.getItem('commimentEvents')
-    ) as Model[]
-    engine.eventStore.add(existingRecords)
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -254,22 +252,5 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
     const scheduler = this.schedulerEngine
     scheduler.eventStore.remove(scheduler.selectedEvents)
     this.selectedEvent = ''
-  }
-
-  addEvent() {
-    const scheduler = this.schedulerEngine
-
-    const event = new scheduler.eventStore.modelClass({
-      resourceId: scheduler.resourceStore.first.id,
-      startDate: scheduler.startDate,
-      duration: 1,
-      durationUnit: 'h',
-      name: 'New task',
-      eventType: 'Meeting'
-    })
-
-    // editEvent is dynamically assigned to Scheduler from the EditEvent feature, and is thus not part of typings
-    //@ts-ignore
-    scheduler.editEvent(event)
   }
 }
