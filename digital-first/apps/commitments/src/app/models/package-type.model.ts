@@ -5,6 +5,7 @@ export interface PackageType {
   colour?: string
   commitment?: string
   package?: string
+  refinerGroup?: string
 }
 
 export interface PackageTypesResult {

@@ -6,6 +6,7 @@ export interface Portfolio {
   type?: string[]
   commitment?: string
   portfolio?: string
+  refinerGroup?: string
 }
 
 export interface PortfoliosResult {
