@@ -3,7 +3,7 @@ import { DeckItem } from '@df/components'
 import { ActivatedRoute, ParamMap } from '@angular/router'
 import { map, first, tap } from 'rxjs/operators'
 import { Observable, BehaviorSubject } from 'rxjs'
-import { GetDeckItemsGQL } from '../../generated/graphql'
+import { GetDeckItemsGQL } from '../../generated/deck-schema'
 import { MdcDialog } from '@angular-mdc/web'
 import {
   EDIT_DECK_ITEM_CLOSE,

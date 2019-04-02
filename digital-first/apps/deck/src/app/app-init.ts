@@ -2,7 +2,7 @@ export function initApplication(): Function {
   return () =>
     new Promise(resolve => {
       // tslint:disable-next-line:no-console
-      console.log('app initialise started...')
+      console.log('🥓 - app initialise started...')
 
       // store.pipe(select(fromRoot.getLoggedIn)).subscribe(isLoggedIn => {
       //   if (isLoggedIn) {

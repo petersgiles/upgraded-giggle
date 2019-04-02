@@ -13,7 +13,7 @@ export const environment = {
     },
     commitments: {
       type: 'apollo',
-      dataServiceUrl: '//localhost:3002/graphql'
+      dataServiceUrl: '//localhost:3008/graphql'
     },
     brief: {
       type: 'apollo',
