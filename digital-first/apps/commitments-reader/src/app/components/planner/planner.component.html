@@ -1,0 +1,48 @@
+<div class="flex-container">
+  <div id="zoom">
+    <mdc-slider
+      #slider
+      markers
+      discrete
+      [min]="zoomSlider.min"
+      [max]="zoomSlider.max"
+      [step]="1"
+      [value]="zoomSlider.levelId"
+      (input)="onSliderInput($event)"
+    ></mdc-slider>
+    <div class="zoomLabels">
+      <label *ngFor="let zoomLevel of zoomLevels">
+        {{ zoomLevel.label }}
+      </label>
+    </div>
+
+    <!-- <label style="float:left">1 Week</label>
+    <label for="">Zoom Level ({{ currentZoomLevel.label }})</label>
+    <label style="float:right">3 Years</label> -->
+  </div>
+  <div id="planerButtons">
+    <button mdc-button outlined (click)="scrollToDate(startDate)">Today</button>
+    <button mdc-button outlined (click)="scrollToDate(myEofyDate)">
+      MYEFO
+    </button>
+  </div>
+</div>
+
+<div id="scheduler-container">
+  <scheduler
+    #scheduler
+    [rowHeight]="50"
+    [events]="events"
+    [resources]="commitments"
+    [barMargin]="10"
+    [columns]="columns"
+    [featureConfig]="featureConfig"
+    [timeRanges]="timeRanges"
+    [eventRenderer]="eventRenderer"
+    [zoomLevels]="zoomLevels"
+    [zoomLevel]="currentZoomLevel.id"
+    (onSchedulerEvents)="handleEvent($event)"
+    eventColor="green"
+    eventStyle="border"
+  ></scheduler>
+</div>

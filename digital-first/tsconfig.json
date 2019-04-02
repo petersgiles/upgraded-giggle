@@ -14,6 +14,9 @@
     "lib": ["es2017", "esnext.asynciterable", "dom"],
     "baseUrl": ".",
     "paths": {
+      "bryntum-scheduler": [
+        "apps/commitments-reader/src/scheduler/scheduler.module.js"
+      ],
       "@digital-first/df-layouts": ["libs/df-layouts/src/index.ts"],
       "@digital-first/df-theme": ["libs/df-theme/src/index.ts"],
       "@digital-first/df-discussion": ["libs/df-discussion/src/index.ts"],

@@ -36,6 +36,10 @@ $context = New-Object Microsoft.SharePoint.Client.ClientContext($siteUrl)
 HandleMixedModeWebApplication $context $binPath
 
 $listsAll = Get-ListsToProcess $saveLocation
+if($listAll -eq $null)
+{
+    return
+}
 $listsToProcess = @()
 foreach ($listName in $listsAll) {
     $listExists = Does-ListExist $context $listName

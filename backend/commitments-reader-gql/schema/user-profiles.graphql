@@ -1,0 +1,12 @@
+enum Role {
+	GUEST
+	USER
+	ADMIN
+}
+
+type UserProfile {
+	id: ID!
+	name: String!
+	email: String!
+	roles: [Role]
+}
