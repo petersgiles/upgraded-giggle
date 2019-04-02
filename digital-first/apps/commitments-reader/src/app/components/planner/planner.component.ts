@@ -11,7 +11,6 @@ import { DateHelper, EventModel, Model } from 'bryntum-scheduler'
 import * as CommonEventTypes from './data/eventTypes.json'
 import * as ZoomLevels from './data/zoomLevels.json'
 import * as timeRanges from './data/timeRanges.json'
-import { LocalStorageRef } from '@df/utils'
 
 @Component({
   selector: 'digital-first-planner',
@@ -28,7 +27,7 @@ export class PlannerComponent implements OnInit {
   featureConfig: Object
 
   startDate = new Date()
-
+  //endDate = new Date('2022-6-1')
   // TODO: actually get this from the next MYEFO date
   myEofyDate = new Date('2019-12-10')
   // TODO: set widths based on size of parent container
