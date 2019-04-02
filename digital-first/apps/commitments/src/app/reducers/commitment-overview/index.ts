@@ -34,6 +34,7 @@ import {
   getLookupCommitmentMapPoints,
   getLookupMapPoints,
   getRelatedCommitments,
+  getAllCriticalDates
 } from '../commitment-lookup'
 import {
   findInLookup,
@@ -125,15 +126,15 @@ const REFINER_GROUP_WHO_ANNOUNCED_TYPE = {
   key: 'whoAnnouncedType', // key needs to match property on artifact
   title: 'Who Announced'
 }
-const REFINER_GROUP_PACKAGE_TYPE = {
+export const REFINER_GROUP_PACKAGE_TYPE = {
   key: 'packageType', // key needs to match property on artifact
-  title: 'Package'
+  title: 'Packages and Funds'
 }
 const REFINER_GROUP_STATUS = {
   key: 'status', // key needs to match property on artifact
   title: 'Status'
 }
-const REFINER_GROUP_RELATED_PORTFOLIOS = {
+export const REFINER_GROUP_RELATED_PORTFOLIOS = {
   key: 'relatedPortfolio', // key needs to match property on artifact
   title: 'Related Portfolio'
 }
@@ -161,7 +162,7 @@ export const getRefinerLookups = createSelector(
   getAllThemeTypes,
   getAllPackageTypes,
   getAllStatuses,
-  //getCriticalDateEntities,
+  getAllCriticalDates,
   getLookupCommitmentPortfolios,
   (
     announcementTypes,
@@ -170,7 +171,7 @@ export const getRefinerLookups = createSelector(
     themes,
     packages,
     statuses,
-    //criticalDates,
+    criticalDates,
     relatedPortfolios,
   ) => ({
     announcementTypes,
@@ -179,7 +180,7 @@ export const getRefinerLookups = createSelector(
     themes,
     packages,
     statuses,
-    //criticalDates,
+    criticalDates,
     relatedPortfolios,
   })
 )
@@ -199,7 +200,7 @@ export const getRefinerGroups = createSelector(
       lookups.whoAnnouncedTypes,
       lookups.packages,
       lookups.statuses,
-     // lookups.criticalDates,
+      lookups.criticalDates,
       lookups.relatedPortfolios
     ]
 
@@ -211,7 +212,7 @@ export const getRefinerGroups = createSelector(
       REFINER_GROUP_WHO_ANNOUNCED_TYPE,
       REFINER_GROUP_PACKAGE_TYPE,
       REFINER_GROUP_STATUS,
-      //REFINER_GROUP_CRITICAL_DATE,
+      REFINER_GROUP_CRITICAL_DATE,
       REFINER_GROUP_RELATED_PORTFOLIOS
     ]
     refiners.reduce((acc: RefinerGroup[], item: any[], index: number) => {
@@ -255,21 +256,16 @@ export const getFilteredOverviewCommitments = createSelector(
   getLookupCommitmentPortfolios,
   (arr: Commitment[], filters: any, filterText, packages: any, relatedPortfolios: any) => {
     const filterKeys = Object.keys(filters)
+    const joined = [...packages,...relatedPortfolios]
     let refined = arr.filter(eachObj =>
       filterKeys.every(eachKey => {
         if (!filters[eachKey].length) {
           return true // passing an empty filter means that filter is ignored.
         }
-        
-        if(eachKey === 'packageType'){
+
+        if(joined.find(jn => jn.refinerGroup === eachKey)){
           let filteredProperty = filters[eachKey]
-          .map(fp => fp.groupId === 'packageType' && packages.find(pkg => fp.title === pkg.package && eachObj.title === pkg.title))  
-          .filter(fp => !!fp === true)
-          return filteredProperty ? (filteredProperty.length ? true : false) : false
-        }
-        else  if(eachKey === 'relatedPortfolio'){
-          let filteredProperty = filters[eachKey]
-          .map(fp => fp.groupId === 'relatedPortfolio' && relatedPortfolios.find(rel => fp.title === eachObj.portfolio.title && eachObj.title === rel.commitment))  
+          .map(fp => fp.groupId === eachKey && joined.find(jn => fp.title === jn.title && eachObj.title === jn.commitment))  
           .filter(fp => !!fp === true)
           return filteredProperty ? (filteredProperty.length ? true : false) : false
         }

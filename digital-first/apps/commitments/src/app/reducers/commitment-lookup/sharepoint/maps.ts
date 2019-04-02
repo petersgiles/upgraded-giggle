@@ -1,6 +1,7 @@
 import { WhoAnnouncedType, AnnouncementType, CriticalDate, CommitmentType, Party, Portfolio, PackageType, ThemeType, Electorate, Status } from '../../../models'
 import { fromLookup } from '@df/sharepoint'
 import { MapPoint } from '@digital-first/df-map'
+import { REFINER_GROUP_RELATED_PORTFOLIOS, REFINER_GROUP_PACKAGE_TYPE } from '../../commitment-overview'
 
 export const mapWhoAnnouncedType = (announcementType): any => ({
     id: announcementType.ID,
@@ -100,6 +101,7 @@ export const mapLocations = (locations): Electorate[] =>
 
 export const mapCommitmentPortfolio = (commitmentPortfolio): Portfolio => ({
     id: commitmentPortfolio.ID,
+    refinerGroup: REFINER_GROUP_RELATED_PORTFOLIOS.key,
     title: fromLookup(commitmentPortfolio.Portfolio).title,
     commitment: fromLookup(commitmentPortfolio.Commitment).title,
     portfolio: fromLookup(commitmentPortfolio.Portfolio).title
@@ -110,7 +112,8 @@ export const mapCommitmentPortfolios = (commitmentPortfolios): Portfolio[] =>
 
 export const mapCommitmentPackage = (commitmentPackage): PackageType => ({
     id: commitmentPackage.ID,
-    title: fromLookup(commitmentPackage.Commitment).title,
+    refinerGroup: REFINER_GROUP_PACKAGE_TYPE.key,
+    title: fromLookup(commitmentPackage.Package).title,
     commitment: fromLookup(commitmentPackage.Commitment).title,
     package: fromLookup(commitmentPackage.Package).title
 })
