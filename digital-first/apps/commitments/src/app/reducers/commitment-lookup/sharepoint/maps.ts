@@ -100,6 +100,7 @@ export const mapLocations = (locations): Electorate[] =>
 
 export const mapCommitmentPortfolio = (commitmentPortfolio): Portfolio => ({
     id: commitmentPortfolio.ID,
+    title: fromLookup(commitmentPortfolio.Portfolio).title,
     commitment: fromLookup(commitmentPortfolio.Commitment).title,
     portfolio: fromLookup(commitmentPortfolio.Portfolio).title
 })
@@ -109,7 +110,7 @@ export const mapCommitmentPortfolios = (commitmentPortfolios): Portfolio[] =>
 
 export const mapCommitmentPackage = (commitmentPackage): PackageType => ({
     id: commitmentPackage.ID,
-    title: commitmentPackage.title,
+    title: fromLookup(commitmentPackage.Commitment).title,
     commitment: fromLookup(commitmentPackage.Commitment).title,
     package: fromLookup(commitmentPackage.Package).title
 })

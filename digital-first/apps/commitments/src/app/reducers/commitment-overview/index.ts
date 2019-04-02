@@ -125,10 +125,6 @@ const REFINER_GROUP_WHO_ANNOUNCED_TYPE = {
   key: 'whoAnnouncedType', // key needs to match property on artifact
   title: 'Who Announced'
 }
-const REFINER_GROUP_THEME_TYPE = {
-  key: 'themeType', // key needs to match property on artifact
-  title: 'Theme'
-}
 const REFINER_GROUP_PACKAGE_TYPE = {
   key: 'packageType', // key needs to match property on artifact
   title: 'Package'
@@ -136,6 +132,10 @@ const REFINER_GROUP_PACKAGE_TYPE = {
 const REFINER_GROUP_STATUS = {
   key: 'status', // key needs to match property on artifact
   title: 'Status'
+}
+const REFINER_GROUP_RELATED_PORTFOLIOS = {
+  key: 'relatedPortfolio', // key needs to match property on artifact
+  title: 'Related Portfolio'
 }
 export const getRefinerUx = createSelector(
   getCommitmentOverviewSelectedRefiners,
@@ -161,20 +161,26 @@ export const getRefinerLookups = createSelector(
   getAllThemeTypes,
   getAllPackageTypes,
   getAllStatuses,
+  //getCriticalDateEntities,
+  getLookupCommitmentPortfolios,
   (
     announcementTypes,
     commitmentTypes,
     whoAnnouncedTypes,
     themes,
     packages,
-    statuses
+    statuses,
+    //criticalDates,
+    relatedPortfolios,
   ) => ({
     announcementTypes,
     commitmentTypes,
     whoAnnouncedTypes,
     themes,
     packages,
-    statuses
+    statuses,
+    //criticalDates,
+    relatedPortfolios,
   })
 )
 
@@ -188,25 +194,25 @@ export const getRefinerGroups = createSelector(
     const refiners = [
       pp.partys,
       pp.portfolios,
-      // locations,
       lookups.announcementTypes,
       lookups.commitmentTypes,
       lookups.whoAnnouncedTypes,
-      lookups.themes,
       lookups.packages,
-      lookups.statuses
+      lookups.statuses,
+     // lookups.criticalDates,
+      lookups.relatedPortfolios
     ]
 
     const refinerGroupTitles = [
       REFINER_GROUP_PARTY,
       REFINER_GROUP_PORTFOLIO,
-      // REFINER_GROUP_LOCATION,
       REFINER_GROUP_ANNOUNCEMENT_TYPE,
       REFINER_GROUP_COMMITMENT_TYPE,
       REFINER_GROUP_WHO_ANNOUNCED_TYPE,
-      REFINER_GROUP_THEME_TYPE,
       REFINER_GROUP_PACKAGE_TYPE,
-      REFINER_GROUP_STATUS
+      REFINER_GROUP_STATUS,
+      //REFINER_GROUP_CRITICAL_DATE,
+      REFINER_GROUP_RELATED_PORTFOLIOS
     ]
     refiners.reduce((acc: RefinerGroup[], item: any[], index: number) => {
       const groupkey = refinerGroupTitles[index].key
@@ -246,21 +252,33 @@ export const getFilteredOverviewCommitments = createSelector(
   getRefinersAsFilter,
   getCommitmentOverviewTextRefiner,
   getLookupCommitmentPackages,
-  (arr: Commitment[], filters: any, filterText, packages: any) => {
+  getLookupCommitmentPortfolios,
+  (arr: Commitment[], filters: any, filterText, packages: any, relatedPortfolios: any) => {
     const filterKeys = Object.keys(filters)
     let refined = arr.filter(eachObj =>
       filterKeys.every(eachKey => {
         if (!filters[eachKey].length) {
           return true // passing an empty filter means that filter is ignored.
         }
-        let filteredProperty = filters[eachKey]
-          .map(fp => packages.find(pkg => fp.title === pkg.package && eachObj.title === pkg.commitment))  
-
-          if(filteredProperty){
-             filteredProperty = filteredProperty.filter(fp => !!fp === true) // filter out where item is undefined for that commitment
-          }
+        
+        if(eachKey === 'packageType'){
+          let filteredProperty = filters[eachKey]
+          .map(fp => fp.groupId === 'packageType' && packages.find(pkg => fp.title === pkg.package && eachObj.title === pkg.title))  
+          .filter(fp => !!fp === true)
           return filteredProperty ? (filteredProperty.length ? true : false) : false
-       
+        }
+        else  if(eachKey === 'relatedPortfolio'){
+          let filteredProperty = filters[eachKey]
+          .map(fp => fp.groupId === 'relatedPortfolio' && relatedPortfolios.find(rel => fp.title === eachObj.portfolio.title && eachObj.title === rel.commitment))  
+          .filter(fp => !!fp === true)
+          return filteredProperty ? (filteredProperty.length ? true : false) : false
+        }
+        else{
+          let filteredProperty = filters[eachKey]
+          .map(fp => fp.id)
+          .includes(eachObj[eachKey] && eachObj[eachKey].id)
+          return filteredProperty 
+        }
       })
     )
 
@@ -339,36 +357,6 @@ export const lookupAllSelector = selectorFunc(
     relatedCommitments
   })
 )
-
-/*export const getOverviewLookupEnitites = createSelector(
-  getPartyEntities,
-  getPortfolioEntities,
-  getAnnouncementTypeEntities,
-  getCommitmentTypeEntities,
-  getWhoAnnouncedTypeEntities,
-  getCriticalDateEntities,
-  getAllPackageTypes,
-  getLookupCommitmentPortfolios,
-  (
-    partys,
-    portfolios,
-    announcementTypes,
-    commitmentTypes,
-    whoAnnouncedTypes,
-    criticalDates,
-    packages,
-    commitmentPortfolios,
-  ) => ({
-    partys,
-    portfolios,
-    announcementTypes,
-    commitmentTypes,
-    whoAnnouncedTypes,
-    criticalDates,
-    packages,
-    commitmentPortfolios
-  })
-)*/
 
 const getFieldValue = (columnName: string, commitment: Commitment) => {
   if (!commitment[columnName]) {
