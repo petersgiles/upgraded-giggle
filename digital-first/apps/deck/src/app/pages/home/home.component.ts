@@ -1,11 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
-import { DeckItem, CardType } from '@df/components'
+import { DeckItem } from '@df/components'
 import { ActivatedRoute, ParamMap } from '@angular/router'
-import { map, first, switchMap, tap } from 'rxjs/operators'
+import { map, first, tap } from 'rxjs/operators'
 import { Observable, BehaviorSubject } from 'rxjs'
 import { GetDeckItemsGQL } from '../../generated/graphql'
-import { ApolloQueryResult } from 'apollo-client'
-import { Query } from 'apollo-angular'
 import { MdcDialog } from '@angular-mdc/web'
 import {
   EDIT_DECK_ITEM_CLOSE,
@@ -24,7 +22,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private getDeckItems: GetDeckItemsGQL
   ) {}
 
-  public cards$: BehaviorSubject<DeckItem[]> = new BehaviorSubject(null)
+  public cards$: BehaviorSubject<DeckItem[]> = new BehaviorSubject([])
   public parent$: BehaviorSubject<string> = new BehaviorSubject(null)
   public grandParent$: Observable<DeckItem>
   public displayCards$: Observable<DeckItem[]>
@@ -50,14 +48,23 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {}
 
-  cards: DeckItem[]
+  handleAction($event) {
+    // tslint:disable-next-line:no-console
+    console.log($event)
+  }
 
-  handleAddItemDialog() {
+  handleEdit($event) {
+
+    // tslint:disable-next-line:no-console
+    console.log($event)
+
+    const deckItems = this.cards$.getValue()
+
     const dialogRef = this.dialog.open(DialogEditDeckItemComponent, {
       escapeToClose: true,
       clickOutsideToClose: true,
       data: {
-        deckItems: []
+        deckItems: deckItems
       }
     })
 

@@ -23,6 +23,7 @@ import {
 	remove,
 	getByParent,
 } from '../shared/resolvers'
+import { DeckItemAction } from './resolvers/deck-item-action'
 
 const typeDefs = importSchema('./deck-gql/schema.graphql')
 
@@ -65,7 +66,8 @@ app.use('/home', HomeController)
 // });
 
 let ResolverModels = {
-	DeckItem: 'DeckItem'
+	DeckItem: 'DeckItem',
+	DeckItemAction: 'DeckItemAction',
 }
 
 export const resolvers = {
@@ -73,13 +75,21 @@ export const resolvers = {
 		deckItem: async (obj: any, args: any, context: any, info: any) =>
 			getById(ResolverModels.DeckItem, obj, args, context, info),
 		deckItems: async (obj: any, args: any, context: any, info: any) =>
-			getByParent('DeckItem', obj, args, context, info),
+			getByParent(ResolverModels.DeckItem, obj, args, context, info),
+		action: async (obj: any, args: any, context: any, info: any) =>
+			getByParent(ResolverModels.DeckItemAction, obj, args, context, info),
+		actions: async (obj: any, args: any, context: any, info: any) =>
+			getByParent(ResolverModels.DeckItemAction, obj, args, context, info),
 	},
 	Mutation: {
 		upsertDeckItem: async (obj: any, args: any, context: any, info: any) =>
 			upsert(ResolverModels.DeckItem, obj, args, context, info),
 		deleteDeckItem: async (obj: any, args: any, context: any, info: any) =>
 			remove(ResolverModels.DeckItem, obj, args, context, info),
+	},
+	DeckItem: {
+		actions: async (obj: any, args: any, context: any, info: any) =>
+			getByParent(ResolverModels.DeckItemAction, null, obj, context, null),
 	},
 }
 
@@ -92,6 +102,7 @@ const server = new ApolloServer({
 		},
 		models: {
 			DeckItem: new DeckItem({ db: 'sql' }),
+			DeckItemAction: new DeckItemAction({ db: 'sql' }),
 		},
 	},
 })

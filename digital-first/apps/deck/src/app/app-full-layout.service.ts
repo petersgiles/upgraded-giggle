@@ -1,49 +1,28 @@
-import { Injectable } from '@angular/core'
+import { Injectable, OnInit, OnDestroy } from '@angular/core'
 import { environment } from '../environments/environment'
 import { DeckDataService } from './services/deck-data.service'
-import { Observable, of, Subscription } from 'rxjs'
+import { Observable, of, Subscription, BehaviorSubject } from 'rxjs'
 import { SideBarItem, AppUserProfile, AppItem } from '@digital-first/df-layouts'
+import { AppConfigService, Config, App, Logo } from './services/config.service'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppFullLayoutService {
   _profile: any
-  profileSubscription$: Subscription
+  configSubscription$: Subscription
+  appItems$: BehaviorSubject<App[]> = new BehaviorSubject(null)
+  _title: string
+  logo$: BehaviorSubject<Logo> = new BehaviorSubject(null)
+  protectiveMarking$: BehaviorSubject<string> = new BehaviorSubject(null)
+  bookType$: BehaviorSubject<string> = new BehaviorSubject(null)
 
   get version(): string {
     return environment.version
   }
 
   get title(): string {
-    return 'The Department of Bloop de Bloop - Yellow IGB - Home Deck'
-  }
-
-  get appItems$(): Observable<AppItem[]> {
-    return of([
-      {
-        caption: 'Dashboard',
-        icon: 'dashboard',
-        url: '//vm-dev-lbs13/sites/redigb/SitePages/deck.aspx/deck'
-      },  {
-        caption: 'Activity',
-        icon: 'timeline',
-        url: '//vm-dev-lbs13/sites/redigb/SitePages/index.aspx/recent'
-      },  {
-        caption: 'Alerts',
-        icon: 'notifications',
-        url: '//vm-dev-lbs13/sites/redigb/SitePages/index.aspx/notifications'
-      }, {
-        caption: 'Permissions',
-        icon: 'supervisor_account',
-        url: '//vm-dev-lbs13/sites/redigb/_layouts/15/user.aspx',
-        target: '_blank'
-      },  {
-        caption: 'Admin',
-        icon: 'settings',
-        url: '//vm-dev-lbs13/sites/redigb/SitePages/admin.aspx/admin'
-      },
-    ])
+    return this._title
   }
 
   get sidebarItems$(): Observable<SideBarItem[]> {
@@ -72,14 +51,6 @@ export class AppFullLayoutService {
     return this.service.Notification
   }
 
-  get protectiveMarking$(): Observable<any> {
-    return of('UNCLASSIFIED')
-  }
-
-  get logo$(): Observable<any> { return of('assets/crest.png') }
-
-  get homeUrl$(): Observable<any> { return of(['/']) }
-
   get open$(): Observable<boolean> {
     return this.service.getBusy()
   }
@@ -87,5 +58,19 @@ export class AppFullLayoutService {
   get profile(): Observable<AppUserProfile> {
     return this.service.getCurrentUser()
   }
-  constructor(private service: DeckDataService) {}
+
+  constructor(
+    private service: DeckDataService,
+    private configuration: AppConfigService
+  ) {
+    this.configSubscription$ = this.configuration.config.subscribe(c => {
+      // tslint:disable-next-line:no-console
+      console.log(c)
+      this.appItems$.next(c.header.apps)
+      this.logo$.next(c.header.logo)
+      this._title = c.header.title
+      this.bookType$.next(c.header.bookType)
+      this.protectiveMarking$.next(c.header.classification)
+    })
+  }
 }

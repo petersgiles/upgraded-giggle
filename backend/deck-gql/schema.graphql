@@ -1,12 +1,15 @@
 
 # import MutationResponse, Response from "schema/response.graphql"
 # import DeckItem, DeckItemInput from "schema/deck-item.graphql"
+# import DeckItemAction, DeckItemActionInput from "schema/deck-item.graphql"
 
 
 # The "Query" type is the root of all GraphQL queries.
 type Query {
 	deckItem(id: ID!): DeckItem,
 	deckItems(parent: ID): [DeckItem]
+	action(id: ID!): DeckItemAction,
+	actions(deckItem: ID!): [DeckItemAction]
 }
 
 # The mutation root type, used to define all mutations.

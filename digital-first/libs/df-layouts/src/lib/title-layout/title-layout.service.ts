@@ -28,6 +28,10 @@ export class TitleLayoutService {
     throw new Error('Method not implemented.')
   }
 
+  get bookType$(): Observable<string> {
+    return of('')
+  }
+
   get appItems$(): Observable<AppItem[]> {
     return of([])
   }
@@ -40,9 +44,11 @@ export class TitleLayoutService {
 
   get protectiveMarking$(): Observable<any> { return of(null) }
 
-  get logo$(): Observable<any> { return of('assets/crest.png') }
-
-  get homeUrl$(): Observable<any> { return of(['/']) }
+  get logo$(): Observable<any> { return of({
+    'image': 'assets/crest.png',
+    'url': '/',
+    'title': 'configure me'
+  }) }
 
   constructor() { }
 

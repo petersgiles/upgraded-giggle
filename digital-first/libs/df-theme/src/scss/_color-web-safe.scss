@@ -148,17 +148,36 @@ $web-colors : ("AliceBlue", AliceBlue, $primary-color-text),
   ("Yellow", Yellow, $primary-color-text),
   ("YellowGreen", YellowGreen, $primary-color-text);
   
+  @function set-notification-text-color($colours) {
+    @if (lightness($colours) > 40) {
+      @return $primary-text-color; // Lighter backgorund, return dark color
+    } @else {
+      @return $primary-color-text; // Darker background, return light color
+    }
+  }
 
   @each $color in $web-colors {
     .#{nth($color,1)},
     .#{to-lower-case(nth($color,1))}{
       background-color: nth($color,2);
-      color: nth($color,3);
+      color: set-notification-text-color(nth($color,3));
       
       &-invert{
         color: nth($color,2);
-        background-color: nth($color,3);
+        background-color: set-notification-text-color(nth($color,3));
       }
     }
 
+
+    .pack-highlight-#{nth($color,1)} {
+      border-left: 6px solid #{nth($color,1)} !important;
+    }
+
+    .border-left-#{nth($color,1)} {
+      border-left: 6px solid #{nth($color,1)} !important;
+    }
+  }
+
+  .transparent {
+    background-color: transparent !important;
   }

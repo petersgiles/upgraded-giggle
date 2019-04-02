@@ -27,6 +27,12 @@ export type DeckItem = {
   titleClass?: Maybe<Scalars['String']>
   media?: Maybe<Scalars['String']>
   data?: Maybe<Scalars['String']>
+  actions?: Maybe<Array<Maybe<DeckItemAction>>>
+}
+
+export type DeckItemAction = {
+  url?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
 }
 
 export type DeckItemInput = {
@@ -59,6 +65,8 @@ export type MutationDeleteDeckItemArgs = {
 export type Query = {
   deckItem?: Maybe<DeckItem>
   deckItems?: Maybe<Array<Maybe<DeckItem>>>
+  action?: Maybe<DeckItemAction>
+  actions?: Maybe<Array<Maybe<DeckItemAction>>>
 }
 
 export type QueryDeckItemArgs = {
@@ -67,6 +75,14 @@ export type QueryDeckItemArgs = {
 
 export type QueryDeckItemsArgs = {
   parent?: Maybe<Scalars['ID']>
+}
+
+export type QueryActionArgs = {
+  id: Scalars['ID']
+}
+
+export type QueryActionsArgs = {
+  deckItem: Scalars['ID']
 }
 
 export type Response = {
@@ -115,7 +131,18 @@ export type GetDeckItemsQuery = { __typename?: 'Query' } & {
           | 'titleClass'
           | 'media'
           | 'data'
-        >
+        > & {
+            actions: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'DeckItemAction' } & Pick<
+                    DeckItemAction,
+                    'url' | 'title'
+                  >
+                >
+              >
+            >
+          }
       >
     >
   >
@@ -175,6 +202,10 @@ export const GetDeckItemsDocument = gql`
       titleClass
       media
       data
+      actions {
+        url
+        title
+      }
     }
   }
 `

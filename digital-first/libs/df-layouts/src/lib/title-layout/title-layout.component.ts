@@ -20,12 +20,12 @@ export class TitleLayoutComponent implements OnInit, OnDestroy {
   notification$: Observable<string>
   open$: Observable<boolean>
   logo$: Observable<any>
-  homeUrl$: Observable<any>
 
   @ViewChild('topAppBar') topAppBar: MdcTopAppBar
   appItems$: Observable<
     import('c:/Users/apgiles/Code/DF-Client/digital-first/libs/df-layouts/src/lib/models/index').AppItem[]
   >
+  bookType$: Observable<string>
   constructor(
     private router: Router,
     private ngZone: NgZone,
@@ -56,8 +56,7 @@ export class TitleLayoutComponent implements OnInit, OnDestroy {
       this._profile = p
     })
     this.logo$ = this.service.logo$
-    this.homeUrl$ = this.service.homeUrl$
-
+    this.bookType$ = this.service.bookType$
     this.sidebarItems$ = this.service.sidebarItems$
     this.appItems$ = this.service.appItems$
     this.notification$ = this.service.notification$.pipe(

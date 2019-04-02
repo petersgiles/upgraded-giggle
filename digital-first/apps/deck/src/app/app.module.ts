@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule, APP_INITIALIZER } from '@angular/core'
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { AppComponent } from './app.component'
 import { NxModule } from '@nrwl/nx'
 import { DeckModule } from '@df/components'
@@ -44,6 +44,8 @@ const ENTRYCOMPONENTS = [DialogEditDeckItemComponent]
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     NxModule.forRoot(),
     GraphQLModule,
     DeckModule,

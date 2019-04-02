@@ -73,7 +73,7 @@
     "@angular/platform-browser-dynamic": "^7.2.9",
     "@angular/router": "^7.2.9",
     "@auth0/angular-jwt": "^2.1.0",
-    "@df/components": "^0.2.29514",
+    "@df/components": "^0.2.30208",
     "@df/sharepoint": "0.0.29205",
     "@df/utils": "0.0.29505",
     "@dsuite/programs-manager-messages": "^1.0.29141",

@@ -3,7 +3,7 @@ const TABLES = require("../table-names.js");
 
 exports.up = function(knex, Promise) {
     return knex.schema.createTable(TABLES.DECK_ITEM, function(t) {
-        t.increments('id').primary()
+        t.integer('id').primary()
         t.integer('parent').unsigned()
         t.string('title', 512)
         t.integer('cardType', 32)

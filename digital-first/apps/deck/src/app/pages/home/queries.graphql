@@ -11,5 +11,9 @@ query GetDeckItems($id: ID) {
     titleClass
     media
     data
+    actions {
+      url
+      title
+    }
   }
 }

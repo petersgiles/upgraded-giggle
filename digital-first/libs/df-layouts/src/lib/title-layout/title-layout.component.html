@@ -1,8 +1,8 @@
 <mdc-top-app-bar class="app-top-app-bar" #topAppBar fixed prominent="false">
   <mdc-top-app-bar-row>
     <mdc-top-app-bar-section align="start" title="{{ title }}">
-      <a *ngIf="logo$ | async" [href]="homeUrl$ | async" title="Return to home page">
-        <img [src]="logo$ | async" alt=""
+      <a *ngIf="(logo$ | async) as logo" [href]="logo.url" [title]="logo.title">
+        <img [src]="logo.image" alt=""
       /></a>
 
       <mdc-icon *ngIf="!(logo$ | async)" mdcTopAppBarActionItem [routerLink]="['/']">home</mdc-icon>
@@ -50,7 +50,7 @@
             </a>
           </mdc-list>
 
-          <div class="app-version">Version {{ version }}</div>
+          <div class="app-version">Version {{ version }} {{bookType$ | async}}</div>
         </mdc-menu>
       </div>
     </mdc-top-app-bar-section>
