@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
 import { HomeComponent } from './pages/home/home.component'
+import { LinkComponent } from './pages/link/link.component'
+
 import {
   SimpleLayoutComponent,
   TitleLayoutComponent
@@ -26,6 +28,18 @@ const routes: Routes = [
       {
         path: ':parent',
         component: HomeComponent
+      }
+    ]
+  }, {
+    path: 'link',
+    component: TitleLayoutComponent,
+    data: {
+      title: 'Home'
+    },
+    children: [
+      {
+        path: '',
+        component: LinkComponent
       }
     ]
   },

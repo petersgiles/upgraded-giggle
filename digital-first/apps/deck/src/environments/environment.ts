@@ -16,7 +16,7 @@ export const environment = {
       dataServiceUrl: '//localhost:3008/graphql'
     },
     brief: {
-      type: 'apollo',
+      type: 'sharepoint',
       dataServiceUrl: '//localhost:3002/graphql'
     }
   }

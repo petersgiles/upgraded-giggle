@@ -10,12 +10,13 @@ import { AppConfigService, Config, App, Logo } from './services/config.service'
 })
 export class AppFullLayoutService {
   _profile: any
-  configSubscription$: Subscription
-  appItems$: BehaviorSubject<App[]> = new BehaviorSubject(null)
   _title: string
+
+  appItems$: BehaviorSubject<App[]> = new BehaviorSubject(null)
+  bookType$: BehaviorSubject<string> = new BehaviorSubject(null)
+  configSubscription$: Subscription
   logo$: BehaviorSubject<Logo> = new BehaviorSubject(null)
   protectiveMarking$: BehaviorSubject<string> = new BehaviorSubject(null)
-  bookType$: BehaviorSubject<string> = new BehaviorSubject(null)
 
   get version(): string {
     return environment.version
@@ -28,9 +29,14 @@ export class AppFullLayoutService {
   get sidebarItems$(): Observable<SideBarItem[]> {
     return of([
       {
-        caption: 'Home',
+        caption: 'Deck (Home)',
         icon: 'home',
         routerLink: ['/']
+      },
+      {
+        caption: 'Link Artifacts',
+        icon: 'link',
+        routerLink: ['/', 'link']
       }
     ])
   }
@@ -66,10 +72,11 @@ export class AppFullLayoutService {
     this.configSubscription$ = this.configuration.config.subscribe(c => {
       // tslint:disable-next-line:no-console
       console.log(c)
-      this.appItems$.next(c.header.apps)
-      this.logo$.next(c.header.logo)
       this._title = c.header.title
+
+      this.appItems$.next(c.header.apps)
       this.bookType$.next(c.header.bookType)
+      this.logo$.next(c.header.logo)
       this.protectiveMarking$.next(c.header.classification)
     })
   }

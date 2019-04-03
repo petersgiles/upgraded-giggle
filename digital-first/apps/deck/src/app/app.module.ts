@@ -30,10 +30,12 @@ import { DfButtonsModule } from '@digital-first/df-buttons'
 import { DfMapModule } from '@digital-first/df-map'
 import { initApplication } from './app-init'
 import { DialogEditDeckItemComponent } from './dialogs/dialog-edit-deck-item.component'
+import { LinkComponent } from './pages/link/link.component'
 
 const COMPONENTS = [
   AppComponent,
   HomeComponent,
+  LinkComponent,
   DialogEditDeckItemComponent
 ]
 

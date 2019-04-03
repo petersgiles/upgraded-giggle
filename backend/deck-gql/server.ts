@@ -14,7 +14,7 @@ import * as knex from 'knex'
 import { logger } from '../shared/logger'
 import { importSchema } from 'graphql-import'
 import { DeckItem } from './resolvers'
-import { HomeController } from './controllers'
+import { HomeController, BriefApiController } from './controllers'
 import { allowCrossDomain } from '../shared/cors'
 import {
 	getById,
@@ -59,6 +59,7 @@ app.use(morgan('combined'))
 app.use(express.json())
 app.use(express.static(path.join(process.cwd(), 'deck-gql', 'public')))
 app.use('/home', HomeController)
+app.use('/brief-api', BriefApiController)
 
 // app.use(function(req: any, res: any, next: any){
 //   logger.error('404 page requested');
@@ -76,10 +77,6 @@ export const resolvers = {
 			getById(ResolverModels.DeckItem, obj, args, context, info),
 		deckItems: async (obj: any, args: any, context: any, info: any) =>
 			getByParent(ResolverModels.DeckItem, obj, args, context, info),
-		action: async (obj: any, args: any, context: any, info: any) =>
-			getByParent(ResolverModels.DeckItemAction, obj, args, context, info),
-		actions: async (obj: any, args: any, context: any, info: any) =>
-			getByParent(ResolverModels.DeckItemAction, obj, args, context, info),
 	},
 	Mutation: {
 		upsertDeckItem: async (obj: any, args: any, context: any, info: any) =>
