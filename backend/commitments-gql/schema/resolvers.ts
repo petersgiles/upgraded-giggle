@@ -32,7 +32,9 @@ db.connect('./diskdb/commitments', [
   'commitment-related-links',
   'commitment-subscriptions',
   'commitment-commitment-actions',
-  'commitment-group-permissions'
+  'commitment-group-permissions',
+  'commitment-related-portfolios',
+  'commitment-related-packages'
 ]);
 
 const commitmentSubscriptionTable = 'commitment-subscriptions';
@@ -176,6 +178,8 @@ export const resolvers = {
       var found = db['commitment-related-links'].find().map((c: any) => ({ ...c, id: c._id }))
       return found
     },
+    relatedPortfolios: () => db['commitment-related-portfolios'].find(),
+    relatedPackages: () => db['commitment-related-packages'].find(),
     locations: () => db['commitment-electorates'].find(),
     tags: () => db['commitment-tags'].find(),
   },

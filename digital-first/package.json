@@ -112,6 +112,7 @@
     "@ngrx/store": "7.3.0",
     "@nrwl/nx": "^7.7.1",
     "@swimlane/ngx-datatable": "^14.0.0",
+    "@types/jest": "^24.0.11",
     "angular-tree-component": "^8.3.0",
     "apollo-angular": "^1.5.0",
     "apollo-angular-link-http": "^1.5.0",
@@ -161,7 +162,6 @@
     "zone.js": "^0.8.29"
   },
   "devDependencies": {
-    "@angular-builders/jest": "^7.3.1",
     "@angular-devkit/build-angular": "^0.13.5",
     "@angular/cli": "^7.3.5",
     "@angular/compiler-cli": "^7.2.9",
@@ -185,7 +185,7 @@
     "jasmine-marbles": "0.4.1",
     "jasmine-spec-reporter": "~4.2.1",
     "jest": "^24.5.0",
-    "jest-preset-angular": "7.0.0",
+    "jest-preset-angular": "^7.0.1",
     "karma": "~4.0.1",
     "karma-chrome-launcher": "~2.2.0",
     "karma-coverage-istanbul-reporter": "^2.0.5",

@@ -96,6 +96,8 @@ import { RoleAddComponent } from './containers/role/role-add/role-add.component'
 import { RoleEditComponent } from './containers/role/role-edit/role-edit.component'
 import { DialogApiKeyComponent } from './containers/user/dialog-apikey.component'
 import { UserGroupsComponent } from './containers/user/user-groups/user-groups.component'
+import { DatePipe } from '@angular/common'
+import { DateTimeFormat } from './date-time-format'
 
 const COMPONENTS = [AppComponent, HomeComponent]
 
@@ -213,7 +215,9 @@ export function initApplication(): Function {
       multi: true
     },
     { provide: FullLayoutService, useClass: AppFullLayoutService },
-    UuidService
+    UuidService,
+    DatePipe,
+    DateTimeFormat
   ],
   bootstrap: [AppComponent],
   exports: [AgencyComponent, AgencyAddComponent]

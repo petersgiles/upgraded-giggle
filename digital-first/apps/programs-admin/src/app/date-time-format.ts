@@ -1,30 +1,17 @@
-export function formatDateTime(utcDate: string): string {
-  if (Date.parse(utcDate)) return new Date(utcDate).toLocaleString('en-AU')
-  return utcDate
-}
-export function formatDate(utcDate: string): string {
-  if (Date.parse(utcDate)) return new Date(utcDate).toLocaleDateString('en-AU')
-  return utcDate
-}
+import { NgModule } from '@angular/core'
+import { DatePipe } from '@angular/common'
 
-export function formatDateForTextField(utcDate: string): string {
-  if (Date.parse(utcDate)) {
-    var dte = new Date(utcDate)
+@NgModule({
+  providers: [DatePipe]
+})
+export class DateTimeFormat {
+  constructor(private datePipe: DatePipe) {}
 
-    var m = dte.getMonth() + 1
-    var mm = m.toString()
-    var d = dte.getDate()
-    var dd = d.toString()
-
-    if (m < 10) {
-      mm = `0${m.toString()}`
-    }
-
-    if (d < 10) {
-      dd = `0${d.toString()}`
-    }
-
-    return `${dte.getFullYear()}-${mm}-${dd}`
+  formatDateTime(val: string) {
+    return this.datePipe.transform(val, 'yyyy-MM-dd h:mm:ss a', 'en-AU')
   }
-  return utcDate
+
+  formatDate(val: string) {
+    return this.datePipe.transform(val, 'yyyy-MM-dd', 'en-AU')
+  }
 }

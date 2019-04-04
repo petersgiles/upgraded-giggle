@@ -149,12 +149,12 @@ export const getStatusEntities = createSelector(
 
 export const getLookupCommitmentPortfolios = createSelector(
   getCommitmentLookupState,
-  state => state.commitmentPortfolios
+  state => state.relatedPortfolios
 )
 
 export const getLookupCommitmentPackages = createSelector(
   getCommitmentLookupState,
-  state => state.commitmentPackages
+  state => state.relatedPackages
 )
 
 export const getLookupCommitmentElectorates = createSelector(
