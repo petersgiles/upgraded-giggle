@@ -13,5 +13,5 @@ export interface PackageTypesResult {
 }
 
 export interface CommitmentPackageResult {
-  commitmentPackages: PackageType[]
+  relatedPackages: PackageType[]
 }

@@ -183,6 +183,23 @@ type CommitmentAction {
     url: String
   }
 
+  type RelatedPortfolio {
+     id: ID,
+     commitment: String,
+     portfolio: String,
+     title: String,
+     refinerGroup: String
+  }
+
+  type RelatedPackage
+  {
+     id: ID,
+     commitment: String,
+     package: String,
+     title: String,
+     refinerGroup: String
+  }
+  
   type GroupPermission {
     id: ID,
     group: String,
@@ -244,6 +261,8 @@ type CommitmentAction {
     packageTypes: [PackageType],
     relatedCommitment: [RelatedCommitment],
     relatedLinks: [RelatedLink],
+    relatedPortfolios: [RelatedPortfolio],
+    relatedPackages: [RelatedPackage],
     commitmentSubscription(commitment: ID!, user: ID!): [Subscription]
     announcementTypes: [AnnouncementType],
     commitmentTypes: [CommitmentType]

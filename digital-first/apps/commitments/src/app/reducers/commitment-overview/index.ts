@@ -34,7 +34,7 @@ import {
   getLookupCommitmentMapPoints,
   getLookupMapPoints,
   getRelatedCommitments,
-  getAllCriticalDates
+  getAllCriticalDates,
 } from '../commitment-lookup'
 import {
   findInLookup,
@@ -138,6 +138,10 @@ export const REFINER_GROUP_RELATED_PORTFOLIOS = {
   key: 'relatedPortfolio', // key needs to match property on artifact
   title: 'Related Portfolio'
 }
+const REFINER_GROUP_COSTING_REQUIRED = {
+  key: 'costingRequired', // key needs to match property on artifact
+  title: 'Costing'
+}
 export const getRefinerUx = createSelector(
   getCommitmentOverviewSelectedRefiners,
   getCommitmentOverviewExpandedRefinerGroups,
@@ -201,7 +205,8 @@ export const getRefinerGroups = createSelector(
       lookups.packages,
       lookups.statuses,
       lookups.criticalDates,
-      lookups.relatedPortfolios
+      lookups.relatedPortfolios,
+      [{id: undefined, groupId: 'costing', title: 'Required'}]
     ]
 
     const refinerGroupTitles = [
@@ -213,7 +218,8 @@ export const getRefinerGroups = createSelector(
       REFINER_GROUP_PACKAGE_TYPE,
       REFINER_GROUP_STATUS,
       REFINER_GROUP_CRITICAL_DATE,
-      REFINER_GROUP_RELATED_PORTFOLIOS
+      REFINER_GROUP_RELATED_PORTFOLIOS,
+      REFINER_GROUP_COSTING_REQUIRED
     ]
     refiners.reduce((acc: RefinerGroup[], item: any[], index: number) => {
       const groupkey = refinerGroupTitles[index].key
@@ -256,7 +262,7 @@ export const getFilteredOverviewCommitments = createSelector(
   getLookupCommitmentPortfolios,
   (arr: Commitment[], filters: any, filterText, packages: any, relatedPortfolios: any) => {
     const filterKeys = Object.keys(filters)
-    const joined = [...packages,...relatedPortfolios]
+    const joined = [...packages, ...relatedPortfolios]
     let refined = arr.filter(eachObj =>
       filterKeys.every(eachKey => {
         if (!filters[eachKey].length) {

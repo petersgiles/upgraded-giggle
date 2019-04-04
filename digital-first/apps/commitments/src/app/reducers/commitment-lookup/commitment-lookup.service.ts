@@ -32,7 +32,7 @@ import {
 
 import { ThemeType } from '../../models/theme-type.model'
 import { PackageType } from '../../models/package-type.model'
-import { Electorate } from '../../models'
+import { Electorate, RelatedCommitment } from '../../models'
 import { Status } from '../../models/status.model'
 
 @Injectable({
@@ -171,6 +171,10 @@ export class CommitmentLookupService {
 
   public getAllMapPoints(filter?: any) {
     this.store.dispatch(new GetAllMapPoints())
+  }
+
+  get RelatedPortfolios(): Observable<Portfolio[]> {
+    return this.store.pipe(select(fromRoot.getRelatedCommitmentPortfolios))
   }
 
   public getAllRelatedCommitments(filter?: any) {

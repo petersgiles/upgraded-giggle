@@ -14,5 +14,5 @@ export interface PortfoliosResult {
 }
 
 export interface CommitmentPortfoliosResult {
-  commitmentPortfolios: Portfolio[]
+  relatedPortfolios: Portfolio[]
 }
