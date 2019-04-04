@@ -124,7 +124,8 @@ export const mapCommitmentPackages = (commitmentPackages): PackageType[] =>
 export const mapCommitmentElectorate = (commitmentElectorate): any => ({
     id: commitmentElectorate.ID,
     commitment: fromLookup(commitmentElectorate.Commitment).title,
-    electorate: fromLookup(commitmentElectorate.Electorate).title
+    electorate: fromLookup(commitmentElectorate.Electorate).title,
+    electorateId: fromLookup(commitmentElectorate.Electorate).id,
 })
 export const mapCommitmentElectorates = (commitmentElectorates): any[] => commitmentElectorates.map(mapCommitmentElectorate)
 
