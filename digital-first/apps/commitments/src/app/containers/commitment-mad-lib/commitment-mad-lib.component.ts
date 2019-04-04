@@ -2,13 +2,14 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core'
 import * as indef from 'indefinite'
 import { CommitmentPortfolioService } from '../../reducers/commitment-portfolio/commitment-portfolio.service'
 import { Commitment } from '../../reducers'
-import { Portfolio, PackageType, ThemeType } from '../../models'
+import { Portfolio, PackageType, ThemeType, Status } from '../../models'
 import { Subscription, Observable } from 'rxjs'
 import { DeliveryLocationService } from '../../reducers/commitment-delivery-location/commitment-delivery-location.service'
 import { Electorate } from '../../models'
 import { MapPoint } from '@digital-first/df-map'
-import { CommitmentPackageService } from '../../reducers/commitment-package/commitment-package.service';
-import { CommitmentThemeService } from '../../reducers/commitment-theme/commitment-theme.service';
+import { CommitmentPackageService } from '../../reducers/commitment-package/commitment-package.service'
+import { CommitmentThemeService } from '../../reducers/commitment-theme/commitment-theme.service'
+import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 
 @Component({
   selector: 'digital-first-commitment-mad-lib',
@@ -16,7 +17,6 @@ import { CommitmentThemeService } from '../../reducers/commitment-theme/commitme
   styleUrls: ['./commitment-mad-lib.component.scss']
 })
 export class CommitmentMadLibComponent implements OnInit, OnDestroy {
-
   _commitment: Commitment
   commitmentPortfoliosSubscription$: Subscription
   commitmentThemeSubscription$: Subscription
@@ -43,7 +43,7 @@ export class CommitmentMadLibComponent implements OnInit, OnDestroy {
     private dlsservice: DeliveryLocationService,
     private packageService: CommitmentPackageService,
     private themeService: CommitmentThemeService
-    ) {}
+  ) {}
 
   ngOnInit() {
     this.commitmentPortfoliosSubscription$ = this.cpsservice.CommitmentPortfolios.subscribe(
@@ -63,7 +63,6 @@ export class CommitmentMadLibComponent implements OnInit, OnDestroy {
         this.relatedThemes$ = next || []
       }
     )
-
 
     this.mapPoint$ = this.dlsservice.MapPoints
     this.electorate$ = this.dlsservice.Electorates

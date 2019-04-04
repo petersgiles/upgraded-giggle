@@ -3,112 +3,108 @@ import { arrayToHash } from '@df/utils'
 
 export const getCommitmentLookupState = state => state.commitmentLookup
 
-const portfolioSelector = (state) => {
-    
-    if(state.portfolios)
-    {
-        return state.portfolios.filter(p => p.type.includes('portfolio'))
-    }
-    return null;
+const portfolioSelector = state => {
+  if (state.portfolios) {
+    return state.portfolios.filter(p => p.type.includes('portfolio'))
+  }
+  return null
 }
 
-const agencyCostingSelector = (state) => {
-    
-    if(state.portfolios)
-    {
-        return state.portfolios.filter(p => p.type.includes('costing'))
-    }
-    return null;
+const agencyCostingSelector = state => {
+  if (state.portfolios) {
+    return state.portfolios.filter(p => p.type.includes('costing'))
+  }
+  return null
 }
 
 export const getAllAnnouncementTypes = createSelector(
-    getCommitmentLookupState,
-    state => state.announcementTypes
+  getCommitmentLookupState,
+  state => state.announcementTypes
 )
 
 export const getAnnouncementTypeEntities = createSelector(
-    getAllAnnouncementTypes,
-    arrayToHash
+  getAllAnnouncementTypes,
+  arrayToHash
 )
 
 export const getAllThemeTypes = createSelector(
-    getCommitmentLookupState,
-    state => state.themeTypes
+  getCommitmentLookupState,
+  state => state.themeTypes
 )
 
 export const getThemeTypeEntities = createSelector(
-    getAllThemeTypes,
-    arrayToHash
+  getAllThemeTypes,
+  arrayToHash
 )
 
 export const getAllPackageTypes = createSelector(
-    getCommitmentLookupState,
-    state => state.packageTypes
+  getCommitmentLookupState,
+  state => state.packageTypes
 )
 
 export const getPackageTypeEntities = createSelector(
-    getAllPackageTypes,
-    arrayToHash
+  getAllPackageTypes,
+  arrayToHash
 )
 
 export const getAllCommitmentTypes = createSelector(
-    getCommitmentLookupState,
-    state => state.commitmentTypes
+  getCommitmentLookupState,
+  state => state.commitmentTypes
 )
 
 export const getCommitmentTypeEntities = createSelector(
-    getAllCommitmentTypes,
-    arrayToHash
+  getAllCommitmentTypes,
+  arrayToHash
 )
 
 export const getAllCriticalDates = createSelector(
-    getCommitmentLookupState,
-    state => state.criticalDates
+  getCommitmentLookupState,
+  state => state.criticalDates
 )
 
 export const getCriticalDateEntities = createSelector(
-    getAllCriticalDates,
-    arrayToHash
+  getAllCriticalDates,
+  arrayToHash
 )
 
 export const getAllLocations = createSelector(
-    getCommitmentLookupState,
-    state => state.locations
+  getCommitmentLookupState,
+  state => state.locations
 )
 
 export const getLocationEntities = createSelector(
-    getAllLocations,
-    arrayToHash
+  getAllLocations,
+  arrayToHash
 )
 
 export const getAllParties = createSelector(
-    getCommitmentLookupState,
-    state => state.parties
+  getCommitmentLookupState,
+  state => state.parties
 )
 
 export const getAllPartys = createSelector(
-    getCommitmentLookupState,
-    state => state.parties
+  getCommitmentLookupState,
+  state => state.parties
 )
 
 export const getPartyEntities = createSelector(
-    getAllParties,
-    arrayToHash
+  getAllParties,
+  arrayToHash
 )
 
 export const getAllPortfolios = createSelector(
-    getCommitmentLookupState,
-    portfolioSelector
+  getCommitmentLookupState,
+  portfolioSelector
 )
 
 export const getCostingAgencies = createSelector(
-    getCommitmentLookupState,
-    agencyCostingSelector
+  getCommitmentLookupState,
+  agencyCostingSelector
 )
 
 export const getPortfolioEntities = createSelector(
-    getAllPortfolios,
-    arrayToHash
+  getAllPortfolios,
+  arrayToHash
 )
 
 export const getAllPackages = createSelector(
@@ -131,59 +127,57 @@ export const getThemeEntities = createSelector(
   arrayToHash
 )
 
-
 export const getAllWhoAnnouncedTypes = createSelector(
-    getCommitmentLookupState,
-    state => state.whoAnnouncedTypes
+  getCommitmentLookupState,
+  state => state.whoAnnouncedTypes
 )
 
 export const getWhoAnnouncedTypeEntities = createSelector(
-    getAllWhoAnnouncedTypes,
-    arrayToHash
+  getAllWhoAnnouncedTypes,
+  arrayToHash
 )
 
 export const getAllStatuses = createSelector(
-    getCommitmentLookupState,
-    state => state.statuses
+  getCommitmentLookupState,
+  state => state.statuses
 )
 
 export const getStatusEntities = createSelector(
-    getAllStatuses,
-    arrayToHash
+  getAllStatuses,
+  arrayToHash
 )
 
 export const getLookupCommitmentPortfolios = createSelector(
-    getCommitmentLookupState,
-    state => state.commitmentPortfolios
+  getCommitmentLookupState,
+  state => state.relatedPortfolios
 )
 
 export const getLookupCommitmentPackages = createSelector(
-    getCommitmentLookupState,
-    state => state.commitmentPackages
+  getCommitmentLookupState,
+  state => state.relatedPackages
 )
 
 export const getLookupCommitmentElectorates = createSelector(
-    getCommitmentLookupState,
-    state => state.commitmentElectorates
+  getCommitmentLookupState,
+  state => state.commitmentElectorates
 )
 
 export const getLookupCommitmentContacts = createSelector(
-    getCommitmentLookupState,
-    state => state.commitmentContacts
+  getCommitmentLookupState,
+  state => state.commitmentContacts
 )
 
 export const getLookupCommitmentMapPoints = createSelector(
-    getCommitmentLookupState,
-    state => state.commitmentMapPoints
+  getCommitmentLookupState,
+  state => state.commitmentMapPoints
 )
 
 export const getLookupMapPoints = createSelector(
-    getCommitmentLookupState,
-    state => state.mapPoints
+  getCommitmentLookupState,
+  state => state.mapPoints
 )
 
 export const getRelatedCommitments = createSelector(
-    getCommitmentLookupState,
-    state => state.relatedCommitments
+  getCommitmentLookupState,
+  state => state.relatedCommitments
 )
-

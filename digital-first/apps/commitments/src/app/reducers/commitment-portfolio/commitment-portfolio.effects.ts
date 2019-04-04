@@ -27,7 +27,7 @@ export class CommitmentPortfolioEffects {
       concatMap((commitment: any) => this.service.getPortfoliosByCommitment(commitment)
         .pipe(
 
-          map((result: DataResult<CommitmentPortfoliosResult>) => new LoadCommitmentPortfolios({ portfolios: result.data.commitmentPortfolios })),
+          map((result: DataResult<CommitmentPortfoliosResult>) => new LoadCommitmentPortfolios({ portfolios: result.data.relatedPortfolios })),
           catchError(error => of(new CommitmentPortfolioActionFailure(error)))
         )
       ))

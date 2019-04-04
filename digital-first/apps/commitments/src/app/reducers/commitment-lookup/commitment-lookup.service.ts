@@ -1,6 +1,4 @@
-import {
-    Observable,
-} from 'rxjs'
+import { Observable } from 'rxjs'
 import { Injectable } from '@angular/core'
 import { Store, select } from '@ngrx/store'
 
@@ -11,167 +9,179 @@ import { CriticalDate } from '../../models/critical-date.model'
 import { Party } from '../../models/party.model'
 import { Portfolio } from '../../models/portfolio.model'
 import { WhoAnnouncedType } from '../../models/who-announced-type.model'
-import {Contact } from '../../models/contact.model'
+import { Contact } from '../../models/contact.model'
 import {
-    GetAllCriticalDates, GetAllAnnouncementTypes,
-    GetAllWhoAnnouncedTypes, GetAllCommitmentTypes,
-    GetAllLocations, GetAllPartys, GetAllPortfolios,
-    GetAllThemeTypes, GetAllPackageTypes, GetAllStatuses, GetAllCommitmentPortfolios, 
-    GetAllCommitmentPackages, GetAllCommitmentElectorates, GetAllCommitmentContacts,
-     GetAllCommitmentMapPoints, GetAllMapPoints, GetAllRelatedCommitments } from './commitment-lookup.actions'
+  GetAllCriticalDates,
+  GetAllAnnouncementTypes,
+  GetAllWhoAnnouncedTypes,
+  GetAllCommitmentTypes,
+  GetAllLocations,
+  GetAllPartys,
+  GetAllPortfolios,
+  GetAllThemeTypes,
+  GetAllPackageTypes,
+  GetAllStatuses,
+  GetAllCommitmentPortfolios,
+  GetAllCommitmentPackages,
+  GetAllCommitmentElectorates,
+  GetAllCommitmentContacts,
+  GetAllCommitmentMapPoints,
+  GetAllMapPoints,
+  GetAllRelatedCommitments
+} from './commitment-lookup.actions'
 
 import { ThemeType } from '../../models/theme-type.model'
 import { PackageType } from '../../models/package-type.model'
-import { Electorate } from '../../models'
-import { Status } from '../../models/status.model';
+import { Electorate, RelatedCommitment } from '../../models'
+import { Status } from '../../models/status.model'
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class CommitmentLookupService {
+  constructor(private store: Store<fromRoot.State>) {}
 
-    constructor(private store: Store<fromRoot.State>) { }
+  public getAllAnnouncementTypes(filter?: any) {
+    this.store.dispatch(new GetAllAnnouncementTypes())
+  }
 
-    public getAllAnnouncementTypes(filter?: any) {
-        this.store.dispatch(new GetAllAnnouncementTypes())
-    }
+  get AnnouncementTypes(): Observable<AnnouncementType[]> {
+    return this.store.pipe(select(fromRoot.getAllAnnouncementTypes))
+  }
 
-    get AnnouncementTypes(): Observable<AnnouncementType[]> {
-        return this.store.pipe(select(fromRoot.getAllAnnouncementTypes))
-    }
+  public getAllCommitmentTypes(filter?: any) {
+    this.store.dispatch(new GetAllCommitmentTypes())
+  }
 
-    public getAllCommitmentTypes(filter?: any) {
-        this.store.dispatch(new GetAllCommitmentTypes())
-    }
+  get CommitmentTypes(): Observable<CommitmentType[]> {
+    return this.store.pipe(select(fromRoot.getAllCommitmentTypes))
+  }
 
-    get CommitmentTypes(): Observable<CommitmentType[]> {
-        return this.store.pipe(select(fromRoot.getAllCommitmentTypes))
-    }
+  public getAllThemeTypes(filter?: any) {
+    this.store.dispatch(new GetAllThemeTypes())
+  }
 
-    public getAllThemeTypes(filter?: any) {
-        this.store.dispatch(new GetAllThemeTypes())
-    }
+  get ThemeTypes(): Observable<ThemeType[]> {
+    return this.store.pipe(select(fromRoot.getAllThemeTypes))
+  }
 
-    get ThemeTypes(): Observable<ThemeType[]> {
-        return this.store.pipe(select(fromRoot.getAllThemeTypes))
-    }
+  public getAllPackageTypes(filter?: any) {
+    this.store.dispatch(new GetAllPackageTypes())
+  }
 
-    public getAllPackageTypes(filter?: any) {
-        this.store.dispatch(new GetAllPackageTypes())
-    }
+  get PackageTypes(): Observable<PackageType[]> {
+    return this.store.pipe(select(fromRoot.getAllPackageTypes))
+  }
 
-    get PackageTypes(): Observable<PackageType[]> {
-        return this.store.pipe(select(fromRoot.getAllPackageTypes))
-    }
+  public getAllStatuses(filter?: any) {
+    this.store.dispatch(new GetAllStatuses())
+  }
 
-    public getAllStatuses(filter?: any) {
-        this.store.dispatch(new GetAllStatuses())
-    }
+  get Statuses(): Observable<Status[]> {
+    return this.store.pipe(select(fromRoot.getAllStatuses))
+  }
 
-    get Statuses(): Observable<Status[]> {
-        return this.store.pipe(select(fromRoot.getAllStatuses))
-    }
+  getAllCriticalDates(filter?: any) {
+    this.store.dispatch(new GetAllCriticalDates())
+  }
 
-    getAllCriticalDates(filter?: any) {
-        this.store.dispatch(new GetAllCriticalDates())
-    }
+  get CriticalDates(): Observable<CriticalDate[]> {
+    return this.store.pipe(select(fromRoot.getAllCriticalDates))
+  }
 
-    get CriticalDates(): Observable<CriticalDate[]> {
-        return this.store.pipe(select(fromRoot.getAllCriticalDates))
-    }
+  public getAllLocations(filter?: any) {
+    this.store.dispatch(new GetAllLocations())
+  }
 
-    public getAllLocations(filter?: any) {
-        this.store.dispatch(new GetAllLocations())
-    }
+  get Locations(): Observable<Electorate[]> {
+    return this.store.pipe(select(fromRoot.getAllLocations))
+  }
 
-    get Locations(): Observable<Electorate[]> {
-        return this.store.pipe(select(fromRoot.getAllLocations))
-    }
+  public getAllPartys(filter?: any) {
+    this.store.dispatch(new GetAllPartys())
+  }
 
-    public getAllPartys(filter?: any) {
-        this.store.dispatch(new GetAllPartys())
-    }
+  get Parties(): Observable<Party[]> {
+    return this.store.pipe(select(fromRoot.getAllParties))
+  }
 
-    get Parties(): Observable<Party[]> {
-        return this.store.pipe(select(fromRoot.getAllParties))
-    }
+  public getAllPortfolios(filter?: any) {
+    this.store.dispatch(new GetAllPortfolios())
+  }
 
-    public getAllPortfolios(filter?: any) {
-        this.store.dispatch(new GetAllPortfolios())
-    }
+  get Portfolios(): Observable<Portfolio[]> {
+    return this.store.pipe(select(fromRoot.getAllPortfolios))
+  }
 
-    get Portfolios(): Observable<Portfolio[]> {
-        return this.store.pipe(select(fromRoot.getAllPortfolios))
-    }
+  get CostingAgencies(): Observable<Portfolio[]> {
+    return this.store.pipe(select(fromRoot.getCostingAgencies))
+  }
 
+  public getAllThemes(filter?: any) {
+    this.store.dispatch(new GetAllPortfolios())
+  }
 
-    get CostingAgencies(): Observable<Portfolio[]> {
-        return this.store.pipe(select(fromRoot.getCostingAgencies))
-    }
+  get Themes(): Observable<Portfolio[]> {
+    return this.store.pipe(select(fromRoot.getAllPortfolios))
+  }
 
-    public getAllThemes(filter?: any) {
-        this.store.dispatch(new GetAllPortfolios())
-    }
+  public getAllWhoAnnouncedTypes(filter?: any) {
+    this.store.dispatch(new GetAllWhoAnnouncedTypes())
+  }
 
-    get Themes(): Observable<Portfolio[]> {
-        return this.store.pipe(select(fromRoot.getAllPortfolios))
-    }
+  get WhoAnnouncedTypes(): Observable<WhoAnnouncedType[]> {
+    return this.store.pipe(select(fromRoot.getAllWhoAnnouncedTypes))
+  }
 
-   
+  public getAllCommitmentPortfolios(filter?: any) {
+    this.store.dispatch(new GetAllCommitmentPortfolios())
+  }
 
-    public getAllWhoAnnouncedTypes(filter?: any) {
-        this.store.dispatch(new GetAllWhoAnnouncedTypes())
-    }
+  get CommitmentPortfolios(): Observable<Portfolio[]> {
+    return this.store.pipe(select(fromRoot.getAllPortfolios))
+  }
 
-    get WhoAnnouncedTypes(): Observable<WhoAnnouncedType[]> {
-        return this.store.pipe(select(fromRoot.getAllWhoAnnouncedTypes))
-    }
+  public getAllCommitmentPackages(filter?: any) {
+    this.store.dispatch(new GetAllCommitmentPackages())
+  }
 
-    public getAllCommitmentPortfolios(filter?: any) {
-        this.store.dispatch(new GetAllCommitmentPortfolios())
-    }
+  get CommitmentPackages(): Observable<PackageType[]> {
+    return this.store.pipe(select(fromRoot.getAllPackages))
+  }
 
-    get CommitmentPortfolios(): Observable<Portfolio[]> {
-        return this.store.pipe(select(fromRoot.getAllPortfolios))
-    }
+  public getAllCommitmentElectorates(filter?: any) {
+    this.store.dispatch(new GetAllCommitmentElectorates())
+  }
 
-    public getAllCommitmentPackages(filter?: any) {
-        this.store.dispatch(new GetAllCommitmentPackages())
-    }
+  get CommitmentElectorates(): Observable<Electorate[]> {
+    return this.store.pipe(select(fromRoot.getAllPackages))
+  }
 
-    get CommitmentPackages(): Observable<PackageType[]> {
-        return this.store.pipe(select(fromRoot.getAllPackages))
-    }
+  public getAllCommitmentContacts(filter?: any) {
+    this.store.dispatch(new GetAllCommitmentContacts())
+  }
 
-    public getAllCommitmentElectorates(filter?: any) {
-        this.store.dispatch(new GetAllCommitmentElectorates())
-    }
+  get CommitmentContacts(): Observable<Contact[]> {
+    return this.store.pipe(select(fromRoot.getAllContacts))
+  }
 
-    get CommitmentElectorates(): Observable<Electorate[]> {
-        return this.store.pipe(select(fromRoot.getAllPackages))
-    }
+  public getAllCommitmentMapPoints(filter?: any) {
+    this.store.dispatch(new GetAllCommitmentMapPoints())
+  }
 
-    public getAllCommitmentContacts(filter?: any) {
-        this.store.dispatch(new GetAllCommitmentContacts())
-    }
+  public getAllMapPoints(filter?: any) {
+    this.store.dispatch(new GetAllMapPoints())
+  }
 
-    get CommitmentContacts(): Observable<Contact[]> {
-        return this.store.pipe(select(fromRoot.getAllContacts))
-    }
+  get RelatedPortfolios(): Observable<Portfolio[]> {
+    return this.store.pipe(select(fromRoot.getRelatedCommitmentPortfolios))
+  }
 
-    public getAllCommitmentMapPoints(filter?: any) {
-        this.store.dispatch(new GetAllCommitmentMapPoints())
-    }
+  public getAllRelatedCommitments(filter?: any) {
+    this.store.dispatch(new GetAllRelatedCommitments())
+  }
 
-    public getAllMapPoints(filter?: any) {
-        this.store.dispatch(new GetAllMapPoints())
-    }
-
-    public getAllRelatedCommitments(filter?: any) {
-        this.store.dispatch(new GetAllRelatedCommitments())
-    }
-
-    get CommitmentMapPoints(): Observable<Contact[]> {
-        return this.store.pipe(select(fromRoot.getAllContacts))
-    }
+  get CommitmentMapPoints(): Observable<Contact[]> {
+    return this.store.pipe(select(fromRoot.getAllContacts))
+  }
 }

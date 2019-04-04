@@ -1,5 +1,5 @@
 import { CommitmentOverviewActionTypes, CommitmentOverviewActions } from './commitment-overview.actions'
-import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
+import { RefinerType } from '@digital-first/df-refiner'
 
 export interface State {
   expandedRefinerGroups: (string | number)[]

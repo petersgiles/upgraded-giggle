@@ -2,6 +2,7 @@ import {
   CommitmentLookupsActions,
   CommitmentLookupsActionTypes
 } from './commitment-lookup.actions'
+import { sortBy } from '@df/utils'
 
 export interface State {
   announcementTypes: any[]
@@ -14,8 +15,8 @@ export interface State {
   themeTypes: any[]
   packageTypes: any[]
   statuses: any[]
-  commitmentPortfolios: any[]
-  commitmentPackages: any[]
+  relatedPortfolios: any[]
+  relatedPackages: any[]
   commitmentElectorates: any[]
   commitmentContacts: any[]
   commitmentMapPoints: any[]
@@ -34,8 +35,8 @@ export const initialState: State = {
   themeTypes: [],
   packageTypes: [],
   statuses: [],
-  commitmentPortfolios: [],
-  commitmentPackages: [],
+  relatedPortfolios: [],
+  relatedPackages: [],
   commitmentElectorates: [],
   commitmentContacts: [],
   commitmentMapPoints: [],
@@ -105,9 +106,13 @@ export function reducer(
     }
 
     case CommitmentLookupsActionTypes.LoadPackageTypes: {
+      const packageTypes = [...(action.payload.data.packageTypes || [])].sort(
+        sortBy('title')
+      )
+
       return {
         ...state,
-        packageTypes: action.payload.data.packageTypes
+        packageTypes: packageTypes
       }
     }
 
@@ -121,14 +126,14 @@ export function reducer(
     case CommitmentLookupsActionTypes.LoadAllCommitmentPortfolios: {
       return {
         ...state,
-        commitmentPortfolios: action.payload.data.commitmentPortfolios
+        relatedPortfolios: action.payload.data.relatedPortfolios
       }
     }
 
     case CommitmentLookupsActionTypes.LoadAllCommitmentPackages: {
       return {
         ...state,
-        commitmentPackages: action.payload.data.commitmentPackages
+        relatedPackages: action.payload.data.relatedPackages
       }
     }
 
