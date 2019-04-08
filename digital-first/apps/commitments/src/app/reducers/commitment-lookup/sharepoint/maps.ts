@@ -1,4 +1,4 @@
-import { WhoAnnouncedType, AnnouncementType, CriticalDate, CommitmentType, Party, Portfolio, PackageType, ThemeType, Electorate, Status } from '../../../models'
+import { WhoAnnouncedType, AnnouncementType, CriticalDate, CommitmentType, Party, Portfolio, PackageType, Electorate, Status } from '../../../models'
 import { fromLookup } from '@df/sharepoint'
 import { MapPoint } from '@digital-first/df-map'
 import { REFINER_GROUP_RELATED_PORTFOLIOS, REFINER_GROUP_PACKAGE_TYPE } from '../../commitment-overview'
@@ -12,14 +12,6 @@ export const mapWhoAnnouncedType = (announcementType): any => ({
 
 export const mapWhoAnnouncedTypes = (whoAnnouncedTypes): WhoAnnouncedType[] => whoAnnouncedTypes.map(mapWhoAnnouncedType)
 
-export const mapThemeType = (val): any => ({
-    id: val.ID,
-    title: val.Title,
-    colour: val.Colour,
-    sortOrder: val.SortOrder
-})
-
-export const mapThemeTypes = (vals): ThemeType[] => vals.map(mapThemeType)
 
 export const mapPackageType = (val): any => ({
     id: val.ID,

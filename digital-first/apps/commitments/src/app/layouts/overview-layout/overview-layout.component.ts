@@ -36,7 +36,6 @@ export class OverviewLayoutComponent implements OnInit {
     this.lookup.getAllLocations()
     this.lookup.getAllPartys()
     this.lookup.getAllPortfolios()
-    this.lookup.getAllThemeTypes()
     this.lookup.getAllPackageTypes()
     this.lookup.getAllStatuses()
     this.lookup.getAllCommitmentPortfolios()

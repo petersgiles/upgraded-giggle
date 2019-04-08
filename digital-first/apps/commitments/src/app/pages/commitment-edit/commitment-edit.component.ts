@@ -18,7 +18,7 @@ import { CriticalDate } from '../../models/critical-date.model'
 import { formatCommitmentTitle, formatCommitmentId } from '../../formatters'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 import { showSnackBar } from '../../dialogs/show-snack-bar'
-import { PackageType, ThemeType, Status } from '../../models'
+import { PackageType, Status } from '../../models'
 import { OPERATION_COMMITMENT } from '../../services/app-data.service'
 
 @Component({
@@ -43,7 +43,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   commitmentContactsTableData$: Observable<DataTableConfig>
   commitmentCommitmentsTableData$: Observable<DataTableConfig>
 
-  themeTypes$: Observable<ThemeType[]>
   packageTypes$: Observable<PackageType[]>
   criticalDates$: Observable<CriticalDate[]>
   parties$: Observable<Party[]>
@@ -81,7 +80,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.announcementTypes$ = this.lookup.AnnouncementTypes
     this.criticalDates$ = this.lookup.CriticalDates
     this.commitmentTypes$ = this.lookup.CommitmentTypes
-    this.themeTypes$ = this.lookup.ThemeTypes
     this.packageTypes$ = this.lookup.PackageTypes
     this.parties$ = this.lookup.Parties
     this.portfolios$ = this.lookup.Portfolios
@@ -133,7 +131,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.lookup.getAllLocations()
     this.lookup.getAllPartys()
     this.lookup.getAllPortfolios()
-    this.lookup.getAllThemeTypes()
     this.lookup.getAllPackageTypes()
     this.lookup.getAllStatuses()
 

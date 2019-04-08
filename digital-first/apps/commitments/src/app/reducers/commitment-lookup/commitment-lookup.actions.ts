@@ -9,7 +9,6 @@ import {
   PortfoliosResult,
   WhoAnnouncedTypesResult,
   PackageTypesResult,
-  ThemeTypesResult,
   CommitmentPortfoliosResult,
   CommitmentPackageResult,
   CommitmentElectoratesResult,
@@ -43,9 +42,6 @@ export enum CommitmentLookupsActionTypes {
   GetAllPackageTypes = '[Lookups] Get All PackageTypes',
   LoadPackageTypes = '[Lookups] Load PackageTypes',
   PackageTypesActionFailure = '[Lookups] PackageTypes Action Failure',
-  GetAllThemeTypes = '[Lookups] Get All ThemeTypes',
-  LoadThemeTypes = '[Lookups] Load ThemeTypes',
-  ThemeTypesActionFailure = '[Lookups] ThemeTypes Action Failure',
   GetAllWhoAnnouncedTypes = '[Lookups] Get All WhoAnnouncedTypes',
   LoadWhoAnnouncedTypes = '[Lookups] Load WhoAnnouncedTypes',
   WhoAnnouncedTypesActionFailure = '[Lookups] WhoAnnouncedTypes Action Failure',
@@ -115,22 +111,6 @@ export class LoadStatuses implements Action {
 
 export class StatusesActionFailure implements Action {
   readonly type = CommitmentLookupsActionTypes.StatusesActionFailure
-  constructor(public payload: any) {}
-}
-
-// ThemeTypes
-
-export class GetAllThemeTypes implements Action {
-  readonly type = CommitmentLookupsActionTypes.GetAllThemeTypes
-}
-
-export class LoadThemeTypes implements Action {
-  readonly type = CommitmentLookupsActionTypes.LoadThemeTypes
-  constructor(public payload: DataResult<ThemeTypesResult>) {}
-}
-
-export class ThemeTypesActionFailure implements Action {
-  readonly type = CommitmentLookupsActionTypes.ThemeTypesActionFailure
   constructor(public payload: any) {}
 }
 
@@ -325,9 +305,6 @@ export type CommitmentLookupsActions =
   | GetAllCommitmentTypes
   | LoadCommitmentTypes
   | CommitmentTypesActionFailure
-  | GetAllThemeTypes
-  | LoadThemeTypes
-  | ThemeTypesActionFailure
   | GetAllPackageTypes
   | LoadPackageTypes
   | PackageTypesActionFailure
