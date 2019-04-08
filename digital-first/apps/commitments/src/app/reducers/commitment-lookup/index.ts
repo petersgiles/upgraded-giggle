@@ -107,16 +107,6 @@ export const getPackageEntities = createSelector(
   arrayToHash
 )
 
-export const getAllThemes = createSelector(
-  getCommitmentLookupState,
-  state => state.themes
-)
-
-export const getThemeEntities = createSelector(
-  getAllThemes,
-  arrayToHash
-)
-
 export const getAllWhoAnnouncedTypes = createSelector(
   getCommitmentLookupState,
   state => state.whoAnnouncedTypes

@@ -56,7 +56,6 @@ export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionRedu
             { 'relatedCommitment': ['expanded'] },
             { 'deliveryLocation': ['expanded'] },
             { 'commitmentPortfolio': ['expanded'] },
-            { 'commitmentTheme': ['expanded'] },
             { 'commitmentPackage': ['expanded'] }
         ], rehydrate: true
     })(reducer)
