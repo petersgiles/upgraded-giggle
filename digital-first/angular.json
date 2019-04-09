@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/apps/policy-briefs",
+            "outputPath": "../sharepoint/deploy/SiteAssets/apps/policy-briefs",
             "index": "apps/policy-briefs/src/index.html",
             "main": "apps/policy-briefs/src/main.ts",
             "polyfills": "apps/policy-briefs/src/polyfills.ts",
