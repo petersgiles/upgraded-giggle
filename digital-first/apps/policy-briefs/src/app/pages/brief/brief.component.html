@@ -3,7 +3,7 @@
     <nav>
       <df-pack-navigator
         [nodes]="nodes$ | async"
-        (onSelect)="handleSelect($event)"
+        (onSelect)="handleSelectNavigatorNode($event)"
         (onMoveNode)="handleEvent($event, 'Move')"
       ></df-pack-navigator>
     </nav>
