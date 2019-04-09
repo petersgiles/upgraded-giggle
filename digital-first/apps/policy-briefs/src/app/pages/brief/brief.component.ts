@@ -3,7 +3,7 @@ import { BehaviorSubject, Subscription, Observable } from 'rxjs'
 import { FormBuilder } from '@angular/forms'
 import { DocumentStatus, NavigatorTreeNode } from '@df/components'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
-import { discussionTree, statuslist, navigatorData } from './mock-data'
+import { discussionTree, statuslist, navigatorData, baconIpsum } from './mock-data'
 import { toTree, sortBy } from '@df/utils'
 
 const defaultBrief = {
@@ -20,7 +20,7 @@ export class BriefComponent implements OnInit, OnDestroy {
   public navData$: BehaviorSubject<NavigatorTreeNode[]> = new BehaviorSubject(
     []
   )
-
+  public briefHtml$: BehaviorSubject<string> = new BehaviorSubject(baconIpsum)
   public background$: BehaviorSubject<string> = new BehaviorSubject('#455a64')
   public documentStatusList$: BehaviorSubject<any>
 

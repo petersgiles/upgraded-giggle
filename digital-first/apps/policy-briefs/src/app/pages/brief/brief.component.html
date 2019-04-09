@@ -59,13 +59,7 @@
             <div>
                 <div class="brief-protective-marking"><strong>UNCLASSIFIED</strong></div>
             </div>
-            Home
-
-            <df-status-picker
-              [statuses]="documentStatusList$ | async"
-              [formControlName]="'status'"
-            >
-            </df-status-picker>
+            <div [innerHtml]="briefHtml$ | async | safeHtml"></div>
           </form>
         </div>
       </df-expander-panel>
