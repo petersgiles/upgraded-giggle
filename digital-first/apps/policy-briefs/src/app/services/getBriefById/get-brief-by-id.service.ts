@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core'
 import { SharepointJsomService } from '@df/sharepoint'
 import { Apollo } from 'apollo-angular'
 import { SettingsService } from '../settings.service'
-import { GetBriefByIdApolloService } from './apollo/get-brief-by-id-apollo.service'
 import { GetBriefByIdSharepointService } from './sharepoint/get-brief-by-id-sharepoint.service'
 import { Observable } from 'rxjs'
 
@@ -30,7 +29,7 @@ const getBriefByIdServiceFactory = (
     case 'sharepoint':
       return new GetBriefByIdSharepointService(sharepointlib)
     default:
-      return new GetBriefByIdApolloService(apollo)
+      // return new GetBriefByIdApolloService(apollo)
   }
 }
 
