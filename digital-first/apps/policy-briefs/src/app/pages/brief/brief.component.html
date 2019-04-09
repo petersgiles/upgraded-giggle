@@ -16,9 +16,9 @@
         <df-discussion
           [hostId]="'some-guid'"
           [comments]="comments$ | async"
-          (onReplyToComment)="handleEvent($event, 'onReplyToComment')"
-          (onDeleteComment)="handleEvent($event, 'onDeleteComment')"
-          (onAddComment)="handleEvent($event, 'onAddComment')"
+          (onReplyToComment)="handleReplyToComment($event, 'onReplyToComment')"
+          (onDeleteComment)="handleDeleteComment($event, 'onDeleteComment')"
+          (onAddComment)="handleAddComment($event, 'onAddComment')"
         ></df-discussion>
       </df-expander-panel>
       <df-expander-panel

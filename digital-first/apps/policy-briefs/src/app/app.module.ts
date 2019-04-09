@@ -26,6 +26,7 @@ import { PolicyBriefsDataService } from './services/policy-briefs-data.service'
 import { BriefComponent } from './pages/brief/brief.component'
 import { DfPagesModule } from '@digital-first/df-pages'
 import { DfPipesModule } from '@digital-first/df-pipes'
+import { getBriefByIdServiceProvider } from './services/getBriefById/get-brief-by-id.service'
 
 const COMPONENTS = [AppComponent, HomeComponent, BriefComponent]
 
@@ -61,7 +62,8 @@ const ENTRYCOMPONENTS = []
       multi: true
     },
     PolicyBriefsDataService,
-    { provide: TitleLayoutService, useClass: AppFullLayoutService }
+    { provide: TitleLayoutService, useClass: AppFullLayoutService },
+    getBriefByIdServiceProvider
   ],
   bootstrap: [AppComponent]
 })

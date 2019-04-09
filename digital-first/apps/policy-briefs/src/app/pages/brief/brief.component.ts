@@ -3,8 +3,14 @@ import { BehaviorSubject, Subscription, Observable } from 'rxjs'
 import { FormBuilder } from '@angular/forms'
 import { DocumentStatus, NavigatorTreeNode } from '@df/components'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
-import { discussionTree, statuslist, navigatorData, baconIpsum } from './mock-data'
+import {
+  discussionTree,
+  statuslist,
+  navigatorData,
+  baconIpsum
+} from './mock-data'
 import { toTree, sortBy } from '@df/utils'
+import { GetBriefByIdService } from '../../services/getBriefById/get-brief-by-id.service'
 
 const defaultBrief = {
   status: '1'
@@ -39,7 +45,9 @@ export class BriefComponent implements OnInit, OnDestroy {
   public tree: any
 
   // tslint:disable-next-line:no-empty
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private getBriefByIdService: GetBriefByIdService) {
     this.storyData = navigatorData
   }
 
@@ -81,8 +89,8 @@ export class BriefComponent implements OnInit, OnDestroy {
   handleChange($event) {
     const editedBrief = this.mapFormToBrief(this.form.value)
 
-  // tslint:disable-next-line:no-console
-  console.log('🐛 - handleChange', $event)
+    // tslint:disable-next-line:no-console
+    console.log('🐛 - handleChange', $event)
   }
 
   mapFormToBrief(brief): any {
@@ -108,6 +116,19 @@ export class BriefComponent implements OnInit, OnDestroy {
     found.active = true
     const list = [...navData.filter(n => n.id !== node.id), found]
     this.navData$.next(list)
+  }
+
+  public handleReplyToComment($event) {
+    // tslint:disable-next-line:no-console
+    console.log(`💬 -  ReplyToComment`, $event)
+  }
+  public handleDeleteComment($event) {
+    // tslint:disable-next-line:no-console
+    console.log(`💬 -  DeleteComment`, $event)
+  }
+  public handleAddComment($event) {
+    // tslint:disable-next-line:no-console
+    console.log(`💬 -  AddComment`, $event)
   }
 
   handleEvent($event, action) {
