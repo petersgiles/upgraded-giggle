@@ -18,11 +18,11 @@ import { allowCrossDomain } from '../shared/cors'
 import { getById, getByAll, upsert, remove, getByParent } from './resolvers'
 
 
-const typeDefs = importSchema('./commitments-reader-gql/schema.graphql')
+const typeDefs = importSchema('./policy-briefs-gql/schema.graphql')
 
 const sqlDB = knex({
 	client: 'sqlite3',
-	connection: { filename: './commitments-reader-gql/db/dev.sqlite3' },
+	connection: { filename: './policy-briefs-gql/db/dev.sqlite3' },
 	useNullAsDefault: true,
 })
 
@@ -44,7 +44,7 @@ class SqlConnector {
 }
 
 const app: express.Application = express()
-const port: number = 3008
+const port: number = 3202
 
 app.use(allowCrossDomain)
 app.use(helmet())
@@ -62,12 +62,9 @@ export const resolvers = {
 	Query: {
 		brief: async (obj: any, args: any, context: any, info: any) =>
 			getById('PolicyBrief', obj, args, context, info),
-    briefs: async (obj: any, args: any, context: any, info: any) =>
+    	briefs: async (obj: any, args: any, context: any, info: any) =>
 			getByAll('PolicyBrief', obj, args, context, info)
-	},
-	Mutation: {
-	
-	},
+	}
 }
 
 const server = new ApolloServer({

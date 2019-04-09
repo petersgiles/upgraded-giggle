@@ -7,12 +7,11 @@ scalar Date
 
 # The "Query" type is the root of all GraphQL queries.
 type Query {
-	policies: [Policy]
 	brief(id: ID!): Brief
-	briefs(input: CommitmentRefinementInput): [Commitment]
+	briefs(input: BriefRefinementInput): [Brief]
 }
 
 # The mutation root type, used to define all mutations.
-type Mutation {
+# type Mutation {
 
-}
+# }

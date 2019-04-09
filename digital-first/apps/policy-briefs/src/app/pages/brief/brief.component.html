@@ -1,0 +1,78 @@
+<div class="app-page">
+  <div class="brief-layout">
+    <nav>
+      <df-pack-navigator
+        [nodes]="nodes$ | async"
+        (onSelect)="handleSelect($event)"
+        (onMoveNode)="handleEvent($event, 'Move')"
+      ></df-pack-navigator>
+    </nav>
+    <section>
+      <df-expander-panel
+        title="Discussion"
+        [background]="background$ | async"
+        expanded="true"
+      >
+        <df-discussion
+          [hostId]="'some-guid'"
+          [comments]="comments$ | async"
+          (onReplyToComment)="handleEvent($event, 'onReplyToComment')"
+          (onDeleteComment)="handleEvent($event, 'onDeleteComment')"
+          (onAddComment)="handleEvent($event, 'onAddComment')"
+        ></df-discussion>
+      </df-expander-panel>
+      <df-expander-panel
+        title="Sample Policy Brief"
+        [background]="background$ | async"
+        expandable="false"
+        expanded="true"
+      >
+        <ng-container panel-buttons>
+          <span class="brief-reference">BRIEF-19-000001</span>
+          <df-button
+            class="edit"
+            title="Edit"
+            icon="edit"
+            [background]="background$ | async"
+            (onClick)="handleEdit($event)"
+          ></df-button>
+          <df-button
+            title="Subscribe"
+            icon="add_alert"
+            [background]="background$ | async"
+            (onClick)="handleEdit($event)"
+          ></df-button>
+          <df-button
+            title="Admin"
+            icon="settings"
+            [background]="background$ | async"
+            (onClick)="handleEdit($event)"
+          ></df-button>
+        </ng-container>
+        <div class="GhostWhite brief-document">
+          <form [formGroup]="form" (ngSubmit)="handleSubmit($event)" autocomplete="off">
+            <df-status-picker
+              [statuses]="documentStatusList$ | async"
+              [formControlName]="'status'"
+            >
+            </df-status-picker>
+            <div>
+                <div class="brief-protective-marking"><strong>UNCLASSIFIED</strong></div>
+            </div>
+            Home
+
+            <df-status-picker
+              [statuses]="documentStatusList$ | async"
+              [formControlName]="'status'"
+            >
+            </df-status-picker>
+          </form>
+        </div>
+      </df-expander-panel>
+    </section>
+  </div>
+  <div class="brief-layout"><section>
+      <p>Form Status: {{ form.status }}</p>
+      <pre>{{ form.value | json }}</pre>
+  </section></div>
+</div>

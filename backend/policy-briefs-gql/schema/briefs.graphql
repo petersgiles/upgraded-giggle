@@ -55,10 +55,14 @@ type Brief {
 	notify: String
 	policy: Policy
 	policyDirection: String
-	reference: String
-	sortOrder: Integer
+	sortOrder: Int
 	subPolicy: SubPolicy
-	title: String!
 	createdBy: SharePointUser
 	modifiedBy: SharePointUser
+}
+
+
+input BriefRefinementInput {
+    text: String,
+    tags: [ID]
 }

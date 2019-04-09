@@ -1,2 +1,34 @@
 /* You can add global styles to this file, and also import other style files */
-@import "../../../libs/df-theme/styles.scss";
+@import '../../../libs/df-theme/styles.scss';
+
+$prefix: 'df';
+
+$primary-color-dark: #455a64 !default;
+$primary-color: #607d8b !default;
+$primary-color-text: #ffffff !default;
+$primary-color-light: #cfd8dc !default;
+$primary-color-text: #ffffff !default;
+$accent-color: #536dfe !default;
+$primary-text-color: #212121 !default;
+$secondary-text-color: #757575 !default;
+$divider-color: #bdbdbd !default;
+
+$background: #fff !default;
+
+$mdc-theme-primary: $primary-color-dark;
+$mdc-theme-secondary: $primary-color;
+$mdc-theme-background: $background;
+
+$spacing-xs: 4px;
+$spacing-md: 8px;
+$spacing-lg: 16px;
+
+ngx-wig {
+  flex-grow: 1;
+  margin-left: 0.3em;
+  margin-right: 0.3em;
+}
+
+.app-page {
+  padding-left: 0px;
+}

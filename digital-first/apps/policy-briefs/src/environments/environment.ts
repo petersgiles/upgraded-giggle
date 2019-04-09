@@ -6,9 +6,15 @@ declare var require: any
 export const environment = {
   production: false,
   version: require('../../../../package.json').version,
-  datasource: {
-    type: 'local',
-    dataServiceUrl: '//localhost:3001/graphql',
+  datasources: {
+    default: {
+      type: 'apollo',
+      dataServiceUrl: '//localhost:3202/graphql'
+    },
+    brief: {
+      type: 'sharepoint',
+      dataServiceUrl: '//localhost:3202/graphql'
+    }
   }
 }
 
