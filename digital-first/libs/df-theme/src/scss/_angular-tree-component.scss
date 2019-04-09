@@ -1,0 +1,57 @@
+tree-node {
+  font-family: "Roboto";
+  font-weight: 400;
+}
+
+.dense {
+  font-size: 0.812rem;
+}
+
+.node-wrapper {
+  display: flex;
+  position: relative;
+  align-items: center;
+  min-height: 38px;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
+.node-content-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  flex-grow: 1;
+  position: relative;
+}
+
+.toggle-children { 
+  background-image: 
+  url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z'/><path fill='none' d='M0 0h24v24H0V0z'/></svg>");
+  height: 24px;
+  width: 24px;
+  background-size: contain;
+  display: inline-block;
+  position: relative;
+  top: 1px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.tree-children {
+  padding-left: 6px;
+}
+
+.active {
+  background-color: #94999b !important;
+  color: #fff !important;
+}
+
+.child-active {
+  background-color: #8c989e !important;
+  color: #fff !important;
+  border-bottom: #505d63 solid 1px !important;
+}
+
+.node-content-wrapper:hover {
+  background: none;
+}

@@ -41,7 +41,7 @@ export class DeliveryLocationDataSharePointService
         map(mapCommitmentElectorates),
 
         concatMap((commitmentElectorates: any) => {
-          const ids = commitmentElectorates.map(ce => ce.electorate)
+          const ids = commitmentElectorates.map(ce => ce.electorateId)
 
           if (!ids.length) {
             return of({

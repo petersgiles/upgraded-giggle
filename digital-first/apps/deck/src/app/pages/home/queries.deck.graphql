@@ -1,0 +1,19 @@
+query GetDeckItems($id: ID) {
+  deckItems(parent: $id) {
+    id
+    parent
+    title
+    cardType
+    supportingText
+    size
+    sortOrder
+    colour
+    titleClass
+    media
+    data
+    actions {
+      url
+      title
+    }
+  }
+}

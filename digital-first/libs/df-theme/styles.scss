@@ -1,9 +1,29 @@
+@import "./src/scss/variables";
+@import "./src/scss/mixins";
+
 @import "./src/scss/global";
 @import "./src/scss/vendor";
 @import "./src/scss/layout";
-@import "./src/scss/color-web-safe";
 
+@import "./src/scss/color-web-safe";
+@import "./src/scss/angular-tree-component";
+
+.mdc-typography {
+    font-family: Roboto,sans-serif;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+}
+
+.mdc-list-item__primary-text {
+    white-space: normal !important;
+    width: 100%;
+}
+
+@import "./src/scss/icons";
 @import "./src/scss/cards";
+@import "./src/scss/file";
+@import "./src/scss/deck";
+
 @import "./src/scss/dialogs";
 @import "./src/scss/forms";
 @import "./src/scss/application";

@@ -1,11 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule, APP_INITIALIZER } from '@angular/core'
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { AppComponent } from './app.component'
 import { NxModule } from '@nrwl/nx'
 import { DeckModule } from '@df/components'
 import { WINDOW_PROVIDERS } from '@df/utils'
-import { DfLayoutsModule, FullLayoutService } from '@digital-first/df-layouts'
+import {
+  DfLayoutsModule,
+  TitleLayoutService
+} from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
 import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfLoggingModule } from '@digital-first/df-logging'
@@ -21,25 +24,30 @@ import { AppFullLayoutService } from './app-full-layout.service'
 import { AppRoutingModule } from './app-routing.module'
 import { DeckDataService } from './services/deck-data.service'
 import { GraphQLModule } from './graphql.module'
-import { DeckComponent } from './containers/deck/deck.component'
 import { DragDropModule } from '@angular/cdk/drag-drop'
-import { CardComponent } from './components/card/card.component'
 import { DfDatatableModule } from '@digital-first/df-datatable'
 import { DfButtonsModule } from '@digital-first/df-buttons'
 import { DfMapModule } from '@digital-first/df-map'
+import { initApplication } from './app-init'
+import { DialogEditDeckItemComponent } from './dialogs/dialog-edit-deck-item.component'
+import { LinkComponent } from './pages/link/link.component'
 
-export function initApplication(): Function {
-  return () => new Promise(resolve => {
-    // tslint:disable-next-line:no-console
-    console.log('app initialise started...')
-    resolve(true)
-  })
-}
+const COMPONENTS = [
+  AppComponent,
+  HomeComponent,
+  LinkComponent,
+  DialogEditDeckItemComponent
+]
+
+const ENTRYCOMPONENTS = [DialogEditDeckItemComponent]
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, DeckComponent, CardComponent],
+  declarations: [...COMPONENTS],
+  entryComponents: [...ENTRYCOMPONENTS],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     NxModule.forRoot(),
     GraphQLModule,
     DeckModule,
@@ -68,7 +76,7 @@ export function initApplication(): Function {
       multi: true
     },
     DeckDataService,
-    { provide: FullLayoutService, useClass: AppFullLayoutService },
+    { provide: TitleLayoutService, useClass: AppFullLayoutService }
   ],
   bootstrap: [AppComponent]
 })

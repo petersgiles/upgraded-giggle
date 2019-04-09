@@ -131,7 +131,7 @@ export class CommitmentLookupDataSharePointService implements CommitmentLookupDa
       .pipe(
         concatMap((result: any) =>
           of({
-            data: { commitmentPortfolios: mapCommitmentPortfolios(result) },
+            data: { relatedPortfolios: mapCommitmentPortfolios(result) },
             loading: false,
             error: null
           }))
@@ -143,7 +143,7 @@ export class CommitmentLookupDataSharePointService implements CommitmentLookupDa
     .pipe(
       concatMap((result: any) =>
         of({
-          data: { commitmentPackages: mapCommitmentPackages(result) },
+          data: { relatedPackages: mapCommitmentPackages(result) },
           loading: false,
           error: null
         }))

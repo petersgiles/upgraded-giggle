@@ -14,19 +14,28 @@ import * as knex from 'knex'
 import { logger } from '../shared/logger'
 import { importSchema } from 'graphql-import'
 import { DeckItem } from './resolvers'
-import { HomeController } from './controllers'
+import { HomeController, BriefApiController } from './controllers'
 import { allowCrossDomain } from '../shared/cors'
-import { createDB } from './sqllite-schema';
+import {
+	getById,
+	getByAll,
+	upsert,
+	remove,
+	getByParent,
+} from '../shared/resolvers'
+import { DeckItemAction } from './resolvers/deck-item-action'
 
 const typeDefs = importSchema('./deck-gql/schema.graphql')
 
 const sqlDB = knex({
 	client: 'sqlite3',
-	connection: { filename: './db/deck.db' },
+	connection: { filename: './deck-gql/db/dev.sqlite3' },
 	useNullAsDefault: true,
 })
 
-createDB(sqlDB)
+sqlDB.on('query', function(queryData: any) {
+	logger.info(`🕳️ - ${JSON.stringify(queryData)}`)
+})
 
 class SqlConnector {
 	connection: any
@@ -50,50 +59,34 @@ app.use(morgan('combined'))
 app.use(express.json())
 app.use(express.static(path.join(process.cwd(), 'deck-gql', 'public')))
 app.use('/home', HomeController)
+app.use('/brief-api', BriefApiController)
 
 // app.use(function(req: any, res: any, next: any){
 //   logger.error('404 page requested');
 //   res.status(404).send('This page does not exist!');
 // });
 
+let ResolverModels = {
+	DeckItem: 'DeckItem',
+	DeckItemAction: 'DeckItemAction',
+}
+
 export const resolvers = {
 	Query: {
-		deckItem: async (obj: any, args: any, context: any, info: any) => {
-			let result = await context.models.DeckItem.getById(args.id, context)
-			console.log('deckItem', result)
-			return result
-		},
-		deckItems: async (obj: any, args: any, context: any, info: any) => {
-      let result = await context.models.DeckItem.getByParent(args.parent, context)
-			console.log('deckItems', result)
-			return result
-		},
+		deckItem: async (obj: any, args: any, context: any, info: any) =>
+			getById(ResolverModels.DeckItem, obj, args, context, info),
+		deckItems: async (obj: any, args: any, context: any, info: any) =>
+			getByParent(ResolverModels.DeckItem, obj, args, context, info),
 	},
 	Mutation: {
-		upsertDeckItem: async (obj: any, args: any, context: any, info: any) => {
-      let result = await context.models.DeckItem.upsert(args, context)
-        .then((res: any) => {
-          let result: any = {
-            success: true,
-            error: null,
-          }
-
-			  	return result
-      })
-      
-      return result
-		},
-		deleteDeckItem: async (obj: any, args: any, context: any, info: any) => {
-      let result = await context.models.DeckItem.delete(args.id, context)
-      .then((res: any) => {
-				let result: any = {
-					success: true,
-					error: null,
-				}
-				return result
-      })
-      return result
-		},
+		upsertDeckItem: async (obj: any, args: any, context: any, info: any) =>
+			upsert(ResolverModels.DeckItem, obj, args, context, info),
+		deleteDeckItem: async (obj: any, args: any, context: any, info: any) =>
+			remove(ResolverModels.DeckItem, obj, args, context, info),
+	},
+	DeckItem: {
+		actions: async (obj: any, args: any, context: any, info: any) =>
+			getByParent(ResolverModels.DeckItemAction, null, obj, context, null),
 	},
 }
 
@@ -106,6 +99,7 @@ const server = new ApolloServer({
 		},
 		models: {
 			DeckItem: new DeckItem({ db: 'sql' }),
+			DeckItemAction: new DeckItemAction({ db: 'sql' }),
 		},
 	},
 })

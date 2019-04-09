@@ -1,0 +1,42 @@
+<mdc-dialog>
+  <mdc-dialog-container>
+    <mdc-dialog-surface>
+      <mdc-dialog-title>Enter a Link (URL)</mdc-dialog-title>
+      <mdc-dialog-content>
+        <form
+          [formGroup]="dialogForm"
+          id="dialogForm"
+          (ngSubmit)="submit()"
+          autocomplete="off"
+        >
+        <fieldset [attr.disabled]="busy ? '' : null" 
+            *ngFor="let control of formControls"
+            [ngSwitch]="control.type"
+          >
+            <input
+              *ngSwitchCase="formControlType.Hidden"
+              type="hidden"
+              [formControlName]="control.name"
+            />
+
+            <mdc-text-field
+              *ngSwitchCase="formControlType.Text"
+              [label]="control.label"
+              fullwidth
+              type="text"
+              [formControlName]="control.name"
+            ></mdc-text-field>
+
+            <span *ngSwitchDefault>unknown control {{ control.name }}</span>
+          </fieldset>
+        </form>
+      </mdc-dialog-content>
+      <mdc-dialog-actions>
+        <button mdcDialogButton mdcDialogAction="${EDIT_DECK_ITEM_CLOSE}">
+          Cancel
+        </button>
+        <button mdcDialogButton form="dialogForm" default>Save</button>
+      </mdc-dialog-actions>
+    </mdc-dialog-surface>
+  </mdc-dialog-container>
+</mdc-dialog>

@@ -16,7 +16,7 @@ export class OverviewPageComponent implements OnInit, OnDestroy {
   public columns$: Observable<DataTableColumn[]>
   public count: number
 
-  constructor(private dataService:  CommitmentRefinerService) {}
+  constructor(private dataService: CommitmentRefinerService) {}
 
   ngOnInit() {
     this.columns$ = this.dataService.columns$
