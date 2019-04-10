@@ -12,7 +12,6 @@ export interface State {
   parties: any[]
   portfolios: any[]
   whoAnnouncedTypes: any[]
-  themeTypes: any[]
   packageTypes: any[]
   statuses: any[]
   relatedPortfolios: any[]
@@ -32,7 +31,6 @@ export const initialState: State = {
   parties: [],
   portfolios: [],
   whoAnnouncedTypes: [],
-  themeTypes: [],
   packageTypes: [],
   statuses: [],
   relatedPortfolios: [],
@@ -95,13 +93,6 @@ export function reducer(
       return {
         ...state,
         whoAnnouncedTypes: action.payload.data.whoAnnouncedTypes
-      }
-    }
-
-    case CommitmentLookupsActionTypes.LoadThemeTypes: {
-      return {
-        ...state,
-        themeTypes: action.payload.data.themeTypes
       }
     }
 

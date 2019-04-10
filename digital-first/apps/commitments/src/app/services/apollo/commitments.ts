@@ -67,12 +67,6 @@ export const GET_COMMITMENT = gql`
       icon
       colour
     }
-    themeType {
-      id
-      title
-      icon
-      colour
-    }
     packageType {
       id
       title
@@ -116,7 +110,6 @@ mutation Commitment(
   $criticalDate: ID
   $whoAnnouncedType: ID
   $commitmentType: ID
-  $themeType: ID
   $packageType: ID
   $date: String
   $announcedby: String
@@ -136,7 +129,6 @@ mutation Commitment(
     criticalDate: $criticalDate
     whoAnnouncedType: $whoAnnouncedType
     commitmentType: $commitmentType
-    themeType: $themeType
     packageType: $packageType
     date: $date
     announcedby: $announcedby
@@ -193,12 +185,6 @@ mutation Commitment(
       colour
     }
     announcementType {
-      id
-      title
-      icon
-      colour
-    }
-    themeType {
       id
       title
       icon
@@ -264,9 +250,6 @@ export const GET_ALL_COMMITMENTS = gql`
       id
     }
     packageType {
-      id
-    }
-    themeType {
       id
     }
     portfolio {

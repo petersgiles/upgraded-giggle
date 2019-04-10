@@ -17,7 +17,6 @@ db.connect('./diskdb/commitments', [
   'commitment-portfolios',
   'commitment-statuses',
   'commitment-whoAnnouncedTypes',
-  'commitment-themeTypes',
   'commitment-packageTypes',
   'commitment-announcementTypes',
   'commitment-commitmentTypes',
@@ -26,7 +25,6 @@ db.connect('./diskdb/commitments', [
   'commitment-electorates',
   'commitment-commitment-portfolios',
   'commitment-commitment-packages',
-  'commitment-commitment-themes',
   'commitment-commitment-electorates',
   'commitment-related-commitments',
   'commitment-related-links',
@@ -117,13 +115,6 @@ export const resolvers = {
       return found
 
     },
-    commitmentThemes: (obj: any, args: any, context: any, info: any) => {
-      // (commitment: ID!): [themes]
-      let set = db['commitment-commitment-themes'].find({ commitment: args.commitment })
-      let found = set.map((f: any) => db['commitment-themeTypes'].findOne({ id: f.theme }))
-      return found
-
-    },
     commitmentElectorates: (obj: any, args: any, context: any, info: any) => {
       let set = db['commitment-commitment-electorates'].find({ commitment: args.commitment })
       let found = set.map((f: any) => db['commitment-electorates'].findOne({ id: f.electorate })).map((c: any) => ({ ...c  }))
@@ -146,7 +137,6 @@ export const resolvers = {
      },
     statuses: () => db['commitment-statuses'].find(),
     announcementTypes: () => db['commitment-announcementTypes'].find(),
-    themeTypes: () => db['commitment-themeTypes'].find(),
     packageTypes: () => db['commitment-packageTypes'].find(),
     criticalDates: () => db['commitment-critical-dates'].find(),
     commitmentTypes: () => db['commitment-commitmentTypes'].find(),
@@ -386,25 +376,6 @@ export const resolvers = {
       logger.info('deleteCommitmentPortfolio result', result)
       return db.commitments.findOne({ id: cc.commitment })
     },
-    storeCommitmentTheme: (_root: any, args: any) => {
-      //(commitment: Int!, contact: Int!): Commitment,
-      const data = { ...args };
-      const found = db['commitment-commitment-themes'].findOne(data)
-      if (found) {
-        db['commitment-commitment-themes'].update({ _id: found._id }, data, { multi: false, upsert: true });
-      } else {
-        db['commitment-commitment-themes'].save([data]);
-      }
-
-      return db.commitments.findOne({ id: args.commitment })
-    },
-    deleteCommitmentTheme: (_root: any, args: any) => {
-      var cc = db['commitment-commitment-themes'].findOne({ commitment: args.commitment, theme: args.theme });
-      logger.info('deleteCommitmentTheme', cc, args)
-      var result = db['commitment-commitment-themes'].remove({ _id: cc._id }, false);
-      logger.info('deleteCommitmentTheme result', result)
-      return db.commitments.findOne({ id: cc.commitment })
-    },
     storeCommitmentPackage: (_root: any, args: any) => {
       //(commitment: Int!, contact: Int!): Commitment,
       const data = { ...args };
@@ -454,9 +425,6 @@ export const resolvers = {
     },
     packageType(commitment: any) {
       return db['commitment-packageTypes'].findOne({ id: commitment.packageType })
-    },
-    themeType(commitment: any) {
-      return db['commitment-themeTypes'].findOne({ id: commitment.themeType })
     },
     criticalDate(commitment: any) {
       return db['commitment-critical-dates'].findOne({ id: commitment.criticalDate })

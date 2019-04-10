@@ -13,7 +13,6 @@ import {
     PartysResult,
     PortfoliosResult,
     WhoAnnouncedTypesResult,
-    ThemeTypesResult,
     PackageTypesResult,
     CommitmentPortfoliosResult,
     CommitmentPackageResult,
@@ -33,7 +32,6 @@ import {
     LoadPartys, PartysActionFailure,
     LoadWhoAnnouncedTypes, WhoAnnouncedTypesActionFailure,
     LoadPortfolios, PortfoliosActionFailure,
-    LoadThemeTypes, ThemeTypesActionFailure,
     LoadPackageTypes, PackageTypesActionFailure, LoadStatuses, StatusesActionFailure,
     LoadAllCommitmentPortfolios, LoadAllCommitmentPackages,
     LoadAllCommitmentElectorates, LoadAllCommitmentContacts, ContactActionFailure,
@@ -57,16 +55,6 @@ export class CommitmentLookupEffects {
                 )
             ))
 
-    @Effect()
-    getAllThemeTypes$: Observable<Action> = this.actions$
-        .pipe(
-            ofType(CommitmentLookupsActionTypes.GetAllThemeTypes),
-            switchMap((filter: any): Observable<Action> => this.service.filterThemeTypes(filter)
-                .pipe(
-                    map((result: DataResult<ThemeTypesResult>) => new LoadThemeTypes(result)),
-                    catchError(error => of(new ThemeTypesActionFailure(error)))
-                )
-            ))
     @Effect()
     getAllPackageTypes$: Observable<Action> = this.actions$
         .pipe(

@@ -12,7 +12,6 @@ import { CommitmentLookupDataApolloService } from './apollo/commitment-lookup-da
 })
 export abstract class CommitmentLookupDataService {
     abstract filterPackageTypes(filter?: any): any
-    abstract filterThemeTypes(filter?: any): any
     abstract filterWhoAnnouncedTypes(filter?: any): any
     abstract filterPortfolios(filter?: any): any
     abstract filterStatuses(filter?: any): any

@@ -17,7 +17,6 @@ import { WhoAnnouncedType } from '../../models/who-announced-type.model'
 import { Subscription } from 'rxjs'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { CriticalDate } from '../../models/critical-date.model'
-import { ThemeType } from '../../models/theme-type.model'
 import { PackageType } from '../../models/package-type.model'
 import { Status } from '../../models/status.model'
 
@@ -53,7 +52,6 @@ export class CommitmentEditFormComponent implements OnDestroy {
   }
 
   @Input() announcementTypes: AnnouncementType[]
-  @Input() themeTypes: ThemeType[]
   @Input() packageTypes: PackageType[]
   @Input() whoAnnouncedTypes: WhoAnnouncedType[]
   @Input() commitmentTypes: CommitmentType[]

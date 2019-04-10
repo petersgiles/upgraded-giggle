@@ -50,7 +50,6 @@ export class SharepointDataService implements AppDataService {
     const spCommitment = {
       WhoAnnouncedType: commitment.whoAnnouncedType,
       AnnouncementType: commitment.announcementType,
-      ThemeType: commitment.themeType,
       PackageType: commitment.packageType,
       CriticalDate: commitment.criticalDate,
       CommitmentType: commitment.commitmentType,

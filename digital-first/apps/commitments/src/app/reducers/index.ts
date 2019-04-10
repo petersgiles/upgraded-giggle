@@ -38,7 +38,6 @@ import * as fromCommitmentSubscription from './commitment-subscription/commitmen
 import * as fromCommitmentContact from './commitment-contact/commitment-contact.reducer'
 import * as fromCommitmentPortfolio from './commitment-portfolio/commitment-portfolio.reducer'
 import * as fromCommitmentPackage from './commitment-package/commitment-package.reducer'
-import * as fromCommitmentTheme from './commitment-theme/commitment-theme.reducer'
 import * as fromCommitmentAction from './commitment-action/commitment-action.reducer'
 import * as fromCommitmentOverviewMap from './commitment-overview-map/commitment-overview-map.reducer'
 import * as fromCommitmentDeliveryLocations from './commitment-delivery-location/commitment-delivery-location.reducer'
@@ -57,7 +56,6 @@ export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionRedu
             { 'relatedCommitment': ['expanded'] },
             { 'deliveryLocation': ['expanded'] },
             { 'commitmentPortfolio': ['expanded'] },
-            { 'commitmentTheme': ['expanded'] },
             { 'commitmentPackage': ['expanded'] }
         ], rehydrate: true
     })(reducer)
@@ -84,7 +82,6 @@ export interface State {
     commitmentOverviewMap: fromCommitmentOverviewMap.State,
     commitmentPortfolio: fromCommitmentPortfolio.State,
     commitmentPackage: fromCommitmentPackage.State,
-    commitmentTheme: fromCommitmentTheme.State,
     deliveryLocation: fromCommitmentDeliveryLocations.State
 }
 
@@ -106,7 +103,6 @@ export const reducers: ActionReducerMap<State> = {
     commitmentOverviewMap: fromCommitmentOverviewMap.reducer,
     commitmentPortfolio: fromCommitmentPortfolio.reducer,
     commitmentPackage: fromCommitmentPackage.reducer,
-    commitmentTheme: fromCommitmentTheme.reducer,
     deliveryLocation: fromCommitmentDeliveryLocations.reducer
 }
 
@@ -132,7 +128,6 @@ export * from './commitment-subscription'
 export * from './commitment-action'
 export * from './commitment-portfolio'
 export * from './commitment-package'
-export * from './commitment-theme'
 export * from './commitment-delivery-location'
 
 export class CustomSerializer
