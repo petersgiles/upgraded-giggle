@@ -110,4 +110,5 @@ export class OverviewLayoutComponent implements OnInit {
   handleSearchCriteriaChanged(text) {
     this.service.setTextRefiner(text)
   }
+
 }

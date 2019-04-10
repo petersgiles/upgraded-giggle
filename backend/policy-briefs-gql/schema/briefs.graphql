@@ -45,7 +45,7 @@ type Brief {
 	title: String!
 	reference: String!
 	briefStatus: BriefStatus
-	SecurityClassification: SecurityClassification
+	securityClassification: SecurityClassification
 	briefDivision: BriefDivision
 	contactOfficer: SharePointUser
 	created: Date
