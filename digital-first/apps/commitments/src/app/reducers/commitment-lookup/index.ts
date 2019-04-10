@@ -132,6 +132,15 @@ export const getLookupCommitmentPortfolios = createSelector(
   state => state.relatedPortfolios
 )
 
+export const sortBy = (key: string | number) => (a: { [x: string]: number; }, b: { [x: string]: number; }) => (a[key] > b[key]) ? 1 : ((b[key] > a[key]) ? -1 : 0)
+
+export const getUniqueLookupCommitmentPortfolios = createSelector(
+  getCommitmentLookupState,
+  state => {
+    return (Array.from(state.relatedPortfolios.reduce((m, t) => m.set(t.title, t), new Map()).values())).sort(sortBy('title'))
+  }
+)
+
 export const getLookupCommitmentPackages = createSelector(
   getCommitmentLookupState,
   state => state.relatedPackages

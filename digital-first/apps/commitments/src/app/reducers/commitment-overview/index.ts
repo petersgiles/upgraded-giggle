@@ -33,6 +33,7 @@ import {
   getLookupMapPoints,
   getRelatedCommitments,
   getAllCriticalDates,
+  getUniqueLookupCommitmentPortfolios
 } from '../commitment-lookup'
 import {
   findInLookup,
@@ -164,7 +165,8 @@ export const getRefinerLookups = createSelector(
   getAllPackageTypes,
   getAllStatuses,
   getAllCriticalDates,
-  getLookupCommitmentPortfolios,
+  getUniqueLookupCommitmentPortfolios,
+  //getLookupCommitmentPortfolios,
   (
     announcementTypes,
     commitmentTypes,

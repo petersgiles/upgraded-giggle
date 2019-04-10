@@ -13,10 +13,17 @@
   <digital-first-export-button
     (onExport)="handleExport()"
   ></digital-first-export-button>
-  <digital-first-add-item-button
-    title="New&nbsp;Commitment"
-    (onAddItem)="handleCreate()"
-  ></digital-first-add-item-button>
+
+  <digital-first-commitment-view-guard [operation]="getRight(userOperation$ | async)">
+    <ng-container operation-type="read">
+    </ng-container>
+  
+    <ng-container operation-type="write">
+      <digital-first-add-item-button title="New&nbsp;Commitment" (onAddItem)="handleCreate()">
+      </digital-first-add-item-button>
+    </ng-container>
+  </digital-first-commitment-view-guard>
+
 </div>
 <div class="app-page">
   <section>
