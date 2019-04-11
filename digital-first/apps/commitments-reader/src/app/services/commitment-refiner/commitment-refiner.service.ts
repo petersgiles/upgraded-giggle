@@ -158,8 +158,6 @@ export class CommitmentRefinerService implements OnDestroy {
       portfolioLookups: this.getItems(store.selectedRefiners, 3)
     }
 
-    console.log(`🔥 -- `, store, payload)
-
     this.action$.next(new GetRefinedCommitments(payload))
   }
 
@@ -206,7 +204,6 @@ export class CommitmentRefinerService implements OnDestroy {
     return this.mapPointCommitmentsSearchGQL.fetch().pipe(
       first(),
       // tslint:disable-next-line:no-console
-      tap(result => console.log('Get Map Points Commitments Result', result)),
       map((result: any) => result.data.commitments),
       map(result => new LoadMapPointsCommitments(result))
     )

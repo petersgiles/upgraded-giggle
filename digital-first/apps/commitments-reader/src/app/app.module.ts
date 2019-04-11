@@ -3,7 +3,7 @@ import { NgModule, APP_INITIALIZER } from '@angular/core'
 import { NxModule } from '@nrwl/nx'
 import { HttpClientModule, HttpHeaders, HttpClient } from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { Apollo, APOLLO_OPTIONS, ApolloModule , } from 'apollo-angular'
+import { Apollo, APOLLO_OPTIONS, ApolloModule } from 'apollo-angular'
 import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { MdcSliderModule, MdcElevationModule } from '@angular-mdc/web'
@@ -96,6 +96,7 @@ const COMPONENTS = [
         return {
           cache: new InMemoryCache(),
           link: httpLink.create({
+            method: 'GET',
             uri: environment.datasource.dataServiceUrl,
             headers: new HttpHeaders({
               ProgramsApiKey: environment.apiKey
