@@ -23,7 +23,7 @@ export class TitleLayoutComponent implements OnInit, OnDestroy {
 
   @ViewChild('topAppBar') topAppBar: MdcTopAppBar
   appItems$: Observable<
-    import('c:/Users/apgiles/Code/DF-Client/digital-first/libs/df-layouts/src/lib/models/index').AppItem[]
+    import('../models/index').AppItem[]
   >
   bookType$: Observable<string>
   constructor(
