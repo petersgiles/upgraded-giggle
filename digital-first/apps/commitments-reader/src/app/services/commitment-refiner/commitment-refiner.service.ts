@@ -172,7 +172,6 @@ export class CommitmentRefinerService implements OnDestroy {
 
   public getMapPage() {
     const store = this.store$.getValue()
-
     const payload: any = {
       id: 1
     }
