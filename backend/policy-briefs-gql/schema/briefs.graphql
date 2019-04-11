@@ -42,21 +42,23 @@ type Policy {
 
 type Brief {
 	id: ID!
-	title: String!
-	reference: String!
-	briefStatus: BriefStatus
-	securityClassification: SecurityClassification
-	briefDivision: BriefDivision
-	contactOfficer: SharePointUser
+	title: String
+	reference: String
+	notify: String
+	policyDirection: String
 	created: Date
-	dLM: DLM
 	dueDate: Date
 	modified: Date
-	notify: String
-	policy: Policy
-	policyDirection: String
 	sortOrder: Int
+
+	securityClassification: SecurityClassification
+	dLM: DLM
+	policy: Policy
 	subPolicy: SubPolicy
+	briefStatus: BriefStatus
+	briefDivision: BriefDivision
+
+	contactOfficer: SharePointUser
 	createdBy: SharePointUser
 	modifiedBy: SharePointUser
 }

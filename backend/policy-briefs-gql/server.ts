@@ -13,9 +13,10 @@ import * as knex from 'knex'
 import { toTree } from '../shared/utils'
 import { logger } from '../shared/logger'
 import { importSchema } from 'graphql-import'
-import { PolicyBrief } from './resolvers'
+import { PolicyBrief, TABLE } from './resolvers'
 import { allowCrossDomain } from '../shared/cors'
 import { getById, getByAll, upsert, remove, getByParent } from './resolvers'
+import { Lookups } from './resolvers/lookups';
 
 
 const typeDefs = importSchema('./policy-briefs-gql/schema.graphql')
@@ -58,12 +59,33 @@ app.use(cors())
 //   res.status(404).send('This page does not exist!');
 // });
 
-export const resolvers = {
+export const resolvers: any = {
 	Query: {
 		brief: async (obj: any, args: any, context: any, info: any) =>
 			getById('PolicyBrief', obj, args, context, info),
     	briefs: async (obj: any, args: any, context: any, info: any) =>
 			getByAll('PolicyBrief', obj, args, context, info)
+	},
+	Brief: {
+		securityClassification: async (obj: any, args: any, context: any, info: any) => 
+			await context.models['Lookups'].getLookupByKey(obj.securityClassification, context, TABLE.SECURITY_CLASSIFICATION, 'id'),
+		dLM: async (obj: any, args: any, context: any, info: any) => 
+			await context.models['Lookups'].getLookupByKey(obj.dlm, context, TABLE.BRIEF_DLM, 'id'),
+		policy: async (obj: any, args: any, context: any, info: any) => 
+			await context.models['Lookups'].getLookupByKey(obj.policy, context, TABLE.POLICY, 'id'),
+		subPolicy: async (obj: any, args: any, context: any, info: any) => 
+			await context.models['Lookups'].getLookupByKey(obj.subPolicy, context, TABLE.SUBPOLICY, 'id'),
+		briefStatus: async (obj: any, args: any, context: any, info: any) => 
+			await context.models['Lookups'].getLookupByKey(obj.briefStatus, context, TABLE.BRIEF_STATUS, 'id'),
+		briefDivision: async (obj: any, args: any, context: any, info: any) => 
+			await context.models['Lookups'].getLookupByKey(obj.briefDivision, context, TABLE.BRIEF_DIVISION, 'id'),
+		contactOfficer: async (obj: any, args: any, context: any, info: any) => 
+			await context.models['Lookups'].getLookupByKey(obj.contactOfficer, context, TABLE.USER, 'id'),
+		createdBy: async (obj: any, args: any, context: any, info: any) => 
+			await context.models['Lookups'].getLookupByKey(obj.createdBy, context, TABLE.USER, 'id'),
+		modifiedBy: async (obj: any, args: any, context: any, info: any) => 
+			await context.models['Lookups'].getLookupByKey(obj.modifiedBy, context, TABLE.USER, 'id'),
+
 	}
 }
 
@@ -75,7 +97,8 @@ const server = new ApolloServer({
 			sql: new SqlConnector(sqlDB),
 		},
 		models: {
-			PolicyBrief: new PolicyBrief({ db: 'sql' })
+			PolicyBrief: new PolicyBrief({ db: 'sql' }),
+			Lookups: new Lookups({ db: 'sql' })
 		},
 	},
 })

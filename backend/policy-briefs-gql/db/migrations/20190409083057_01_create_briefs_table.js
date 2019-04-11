@@ -11,7 +11,7 @@ exports.up = function(knex, Promise) {
 	return new Promise(async (resolve, reject) => {
 		try {
 			await knex.schema.createTable(TABLE_USER, (table) => {
-				table.increments('id').primary()
+				table.integer('id').primary()
 				table.string('account', 512)
 				table.string('name', 512)
 				table.string('eMail', 512)
@@ -26,22 +26,27 @@ exports.up = function(knex, Promise) {
 			console.log(`${TABLE_USER} created successfully!`)
 
 			await knex.schema.createTable(TABLE_SECURITY_CLASSIFICATION, (table) => {
-				table.increments('id').primary()
+				table.integer('id').primary()
 				table.string('title', 512)
 			})
 
 			console.log(`${TABLE_SECURITY_CLASSIFICATION} created successfully!`)
 
 			await knex.schema.createTable(TABLE_BRIEF_DLM, (table) => {
-				table.increments('id').primary()
+				table.integer('id').primary()
 				table.string('title', 512)
 			})
 
 			console.log(`${TABLE_BRIEF_DLM} created successfully!`)
 
 			await knex.schema.createTable(TABLE_BRIEF_STATUS, (table) => {
-				table.increments('id').primary()
+				table.integer('id').primary()
 				table.string('title', 512)
+				table.integer('sortorder')
+				table.integer('enumeration')
+				table.integer('icon')
+				table.integer('colour')
+				table.boolean('publish')
 			})
 
 			console.log(`${TABLE_BRIEF_STATUS} created successfully!`)
@@ -54,15 +59,21 @@ exports.up = function(knex, Promise) {
 			console.log(`${TABLE_BRIEF_DIVISION} created successfully!`)
 
 			await knex.schema.createTable(TABLE_POLICY, (table) => {
-				table.increments('id').primary()
+				table.integer('id').primary()
 				table.string('title', 512)
 			})
 
 			console.log(`${TABLE_POLICY} created successfully!`)
 
 			await knex.schema.createTable(TABLE_SUBPOLICY, (table) => {
-				table.increments('id').primary()
+				table.integer('id').primary()
 				table.string('title', 512)
+				table.integer('policy').unsigned()
+
+				table
+				.foreign('policy')
+				.references('id')
+				.inTable(TABLE_POLICY)
 			})
 
 			console.log(`${TABLE_SUBPOLICY} created successfully!`)
