@@ -1,5 +1,20 @@
-query PlannerCommitments($input: CommitmentRefinementInput!) {
-  commitments(input: $input) {
-    ...CommitmentParts
+query PlannerCommitments($refiner: CommitmentRefinerGraph!) {
+  commitments(refiner: $refiner) {
+    id
+    title
+    politicalParty
+    announcedBy
+    announcementType { 
+        id
+        title 
+      } 
+    criticalDate {
+        id
+        title
+    }
+    portfolioLookup {
+        id
+        title
+    }
   }
 }

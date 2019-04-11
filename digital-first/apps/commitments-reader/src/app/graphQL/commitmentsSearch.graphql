@@ -1,6 +1,6 @@
 
-query CommitmentsSearch($input: CommitmentRefinementInput!) {
-  commitments(input: $input) {
+query CommitmentsSearch($refiner: CommitmentRefinerGraph!) {
+  commitments(refiner: $refiner) {
    ...CommitmentParts
   }
 }

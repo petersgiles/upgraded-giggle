@@ -1134,6 +1134,22 @@
                   "with": "apps/commitments-reader/src/environments/environment.sharepoint.ts"
                 }
               ]
+            },
+            "remote": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/commitments-reader/src/environments/environment.ts",
+                  "with": "apps/commitments-reader/src/environments/environment.remote.ts"
+                }
+              ]
+            },
+            "remotedev": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/commitments-reader/src/environments/environment.ts",
+                  "with": "apps/commitments-reader/src/environments/environment.remote-dev.ts"
+                }
+              ]
             }
           }
         },
@@ -1146,6 +1162,12 @@
           "configurations": {
             "production": {
               "browserTarget": "commitments-reader:build:production"
+            },
+            "remote": {
+              "browserTarget": "commitments-reader:build:remote"
+            },
+            "remotedev": {
+              "browserTarget": "commitments-reader:build:remotedev"
             }
           }
         },

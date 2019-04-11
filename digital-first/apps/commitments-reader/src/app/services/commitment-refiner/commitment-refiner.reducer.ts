@@ -14,8 +14,13 @@ export interface DataTableColumn {
   name: string
 }
 
+export interface SelectedRefinerItem {
+  groupId: number
+  itemId: number
+}
+
 export interface RefinerState {
-  selectedRefiners: string[]
+  selectedRefiners: SelectedRefinerItem[]
   expandedRefinerGroups: (string | number)[]
   textRefiner: string
   sortColumn: string
@@ -44,7 +49,7 @@ export const initialState: RefinerState = {
     { prop: 'id', name: 'Id' },
     { prop: 'title', name: 'Title' },
     { prop: 'portfolio', name: 'Responsible Portfolio' },
-    { prop: 'type', name: 'Type of Commitment' },
+    { prop: 'announcementType', name: 'Type of Commitment' },
     { prop: 'criticalDate', name: 'Critical Date' }
   ]
 }
@@ -91,7 +96,7 @@ export class RefinerReducer {
         }
       }
 
-      case RefinerActionTypes.SelectMapPoint : {
+      case RefinerActionTypes.SelectMapPoint: {
         return {
           ...state,
           selectedMapPoint: action.payload
@@ -99,11 +104,12 @@ export class RefinerReducer {
       }
 
       case RefinerActionTypes.SelectRefinerGroup: {
-
         const refinerGroups = [...state.refinerGroups]
         const group = refinerGroups.findIndex(p => p.id === action.payload.id)
         refinerGroups[group].expanded = !refinerGroups[group].expanded
-        const expandedRefinerGroups = state.expandedRefinerGroups.filter(p => p !== action.payload.id)
+        const expandedRefinerGroups = state.expandedRefinerGroups.filter(
+          p => p !== action.payload.id
+        )
         if (refinerGroups[group].expanded) {
           expandedRefinerGroups.push(action.payload.id)
         }
@@ -116,13 +122,13 @@ export class RefinerReducer {
       }
 
       case RefinerActionTypes.SelectRefiner: {
-
         const item = action.payload
         const refinerGroups = [...state.refinerGroups]
         const group = refinerGroups.findIndex(p => p.id === item.groupId)
         refinerGroups[group].expanded = true
-
-        const expandedRefinerGroups = state.expandedRefinerGroups.filter(p => p !== item.groupId)
+        const expandedRefinerGroups = state.expandedRefinerGroups.filter(
+          p => p !== item.groupId
+        )
         if (refinerGroups[group].expanded) {
           expandedRefinerGroups.push(item.groupId)
         }
@@ -134,9 +140,21 @@ export class RefinerReducer {
         refinerGroups[group].children[refiner].selected = !refinerGroups[group]
           .children[refiner].selected
 
-        const selectedRefiners = state.selectedRefiners.filter(p => p !== item.id)
+        const selectedRefiners =
+          item.selected === false
+            ? state.selectedRefiners.filter(
+                p => p.groupId !== item.groupId && p.itemId !== item.itemId
+              )
+            : state.selectedRefiners
+
+        // of the items in the store
+        // the groupid should not equal the imcoming groupId AND item.id
         if (refinerGroups[group].children[refiner].selected) {
-          selectedRefiners.push(item.id)
+          const selectedItem: SelectedRefinerItem = {
+            groupId: item.groupId,
+            itemId: item.id
+          }
+          selectedRefiners.push(selectedItem)
         }
         return {
           ...state,
