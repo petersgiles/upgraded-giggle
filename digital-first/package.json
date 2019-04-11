@@ -13,6 +13,7 @@
     "generate-graphql:deck": "gql-gen --config ./apps/deck/codegen.yml",
     "generate-graphql:commitments-reader": "gql-gen --config ./apps/commitments-reader/codegen.yml",
     "generate-graphql:programs-admin": "gql-gen --config ./apps/programs-admin/codegen.yml",
+    "generate-graphql:policy-briefs": "gql-gen --config ./apps/policy-briefs/codegen.yml",
     "test:programs-admin": "ng test programs-admin",
     "testwatch:programs-admin": "ng test programs-admin --watch",
     "build": "ng build",

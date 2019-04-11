@@ -24,7 +24,6 @@ export class Lookups {
 		return result && result[0]
 	}
 
-	
 	async getLookupsByKey(
 		id: any,
 		context: any,
@@ -47,5 +46,14 @@ export class Lookups {
 			.select()
 			.from(tableName)
 		return result
+	}
+
+	async getPackNavigation(
+		context: any
+	): Promise<any> {
+		let policies = await this.knex(context)
+			.select()
+			.from(TABLE.POLICY)
+		return policies
 	}
 }

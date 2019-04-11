@@ -10,6 +10,7 @@ type Query {
 	brief(id: ID!): Brief
 	briefs(input: BriefRefinementInput): [Brief]
 	policies: [Policy]
+	sidebar: [NavigatorTreeNode]
 }
 
 # The mutation root type, used to define all mutations.

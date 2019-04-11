@@ -1,3 +1,16 @@
+
+type NavigatorTreeNode {
+    id: ID!
+    caption: String;
+    meta: String;
+    parent: String;
+    colour: String;
+    order: Integer;
+    active: Boolean;
+    expanded: Boolean;
+	children: [NavigatorTreeNode]
+}
+
 type SecurityClassification {
 	id: ID!
 	title: String!

@@ -67,6 +67,8 @@ export const resolvers: any = {
 			getByAll('PolicyBrief', obj, args, context, info),
 		policies: async (obj: any, args: any, context: any, info: any) =>
 			await context.models['Lookups'].getAll(context, TABLE.POLICY),
+		sidebar: async (obj: any, args: any, context: any, info: any) =>
+			await context.models['Lookups'].getPackNavigation(context),
 	},
 	Brief: {
 		securityClassification: async (obj: any, args: any, context: any, info: any) => 

@@ -1,0 +1,14 @@
+query GetPackNavigation{
+  policies {
+    id
+    title
+    children: subPolicies {
+      id
+      title
+      briefs {
+        id
+        title
+      }
+    }
+  }
+}
