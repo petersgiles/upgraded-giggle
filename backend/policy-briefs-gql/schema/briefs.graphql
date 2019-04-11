@@ -33,11 +33,14 @@ type BriefStatus {
 type SubPolicy {
 	id: ID!
 	title: String!
+	policy: Policy
+	briefs: [Brief]
 }
 
 type Policy {
 	id: ID!
 	title: String!
+	subPolicies: [SubPolicy]
 }
 
 type Brief {

@@ -23,4 +23,29 @@ export class Lookups {
 		console.log('🏺', id, tableName, key, result)
 		return result && result[0]
 	}
+
+	
+	async getLookupsByKey(
+		id: any,
+		context: any,
+		tableName: string,
+		key: string
+	): Promise<any> {
+		let result = await this.knex(context)
+			.select()
+			.from(tableName)
+			.where(key, id)
+		console.log('🏺', id, tableName, key, result)
+		return result
+	}
+
+	async getAll(
+		context: any,
+		tableName: string
+	): Promise<any> {
+		let result = await this.knex(context)
+			.select()
+			.from(tableName)
+		return result
+	}
 }
