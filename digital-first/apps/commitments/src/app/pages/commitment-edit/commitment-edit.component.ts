@@ -29,6 +29,7 @@ import { OPERATION_COMMITMENT } from '../../services/app-data.service'
 export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   commitment: Commitment
+  commitmentId: number
   commitmentSubscription$: Subscription
   commitmentEditExpandedPanelsSubscription$: Subscription
   activitySubscription$: Subscription
@@ -90,6 +91,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.commitmentSubscription$ = this.service.Commitment.subscribe(
       next => {
         this.commitment = next
+        this.commitmentId = this.commitment ? this.commitment.id : null
         this.selectedElectorateIds = this.commitment ? arrayToIndex(this.commitment.electorates) : []
       },
       error => showSnackBar(this.snackbar, error)

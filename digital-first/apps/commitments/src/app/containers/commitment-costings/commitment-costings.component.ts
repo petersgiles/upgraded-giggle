@@ -7,33 +7,56 @@ import { DialogAreYouSureComponent, ARE_YOU_SURE_ACCEPT } from '@digital-first/d
 import { first } from 'rxjs/operators'
 import { Router } from '@angular/router'
 import { OPERATION_COSTING } from '../../services/app-data.service'
+import { Commitment } from '../../reducers/commitment/commitment.model'
+import { showSnackBar } from '../../dialogs/show-snack-bar'
+import { CommitmentDataService } from '../../services/commitment-data.service'
 
 @Component({
   selector: 'digital-first-commitment-costings',
   templateUrl: './commitment-costings.component.html',
   styles: [`
+  .mdc-component__containers[dir-horizontal] {
+    align-items: right;
+    justify-content: center;
+    flex-direction: column;
+  }
   .toggle_costing_required {
     min-width: 200px;
   }`]
 })
 export class CommitmentCostingsComponent implements OnInit, OnDestroy {
-
+  currCommitment: Commitment
+  commitmentSubscription$: Subscription
   _commitment: number
   expanded: boolean
   expandedSubscription$: Subscription
   tableData$: Observable<DataTableConfig>
   userOperation$: Observable<any>
-  constructor(private router: Router, public dialog: MdcDialog, private service: CommitmentActionService) { }
+  constructor(
+    private router: Router, 
+    public dialog: MdcDialog, 
+   // private snackbar: MdcSnackbar,
+    private commitmentService: CommitmentDataService,
+    private service: CommitmentActionService) { }
 
   @Input() required: boolean
 
   @Input()
-  set commitment(val: number) {
+  set commitmentId(val: number) {
     this._commitment = val
   }
 
-  get commitment() {
+  get commitmentId() {
     return this._commitment
+  }
+
+  @Input()
+  set commitment(val: Commitment) {
+    this.currCommitment = val
+  }
+  
+  get commitment() {
+    return this.currCommitment
   }
 
   handleChangeExpanded(expanded) {
@@ -63,17 +86,23 @@ export class CommitmentCostingsComponent implements OnInit, OnDestroy {
 
   }
   handleCreateCosting() {
-    this.router.navigate(['/', 'commitment', this.commitment, 'costing'])
+    this.router.navigate(['/', 'commitment', this.commitmentId, 'costing'])
   }
 
   handleRowClicked(row) {
-    this.router.navigate(['/', 'commitment', this.commitment, 'costing', row.id])
+    this.router.navigate(['/', 'commitment', this.commitmentId, 'costing', row.id])
   }
 
   ngOnInit(): void {
     this.userOperation$ = this.service.UserOperation
     this.expandedSubscription$ = this.service.Expanded.subscribe(p => this.expanded = p)
     this.tableData$ = this.service.CommitmentActionsTableData
+    this.commitmentSubscription$ = this.commitmentService.Commitment.subscribe(
+      next => {
+        this.currCommitment = next
+      }/*,
+      error => showSnackBar(this.snackbar, error)*/
+    )
   }
 
   ngOnDestroy(): void {
@@ -84,7 +113,12 @@ export class CommitmentCostingsComponent implements OnInit, OnDestroy {
     return operations[OPERATION_COSTING]
   }
 
-  handleCostingEnable(commitment, enabled) {
-
+  handleCostingRequired(event: any) {
+    if(event.value){
+      this.commitment.costingRequired = true;
+    }
+    else{
+      this.commitment.costingRequired = false;
+    }
   }
 }

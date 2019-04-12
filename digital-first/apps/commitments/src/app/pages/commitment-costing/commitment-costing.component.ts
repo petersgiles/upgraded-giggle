@@ -1,11 +1,11 @@
 import { LoggerService } from '@digital-first/df-logging'
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { Component, OnInit, OnDestroy, HostListener, ElementRef } from '@angular/core'
 import { Router, ActivatedRoute, ParamMap } from '@angular/router'
 import { Location } from '@angular/common'
 import { MdcDialog, MdcSnackbar } from '@angular-mdc/web'
 import { CommitmentDataService } from '../../services/commitment-data.service'
 import { map } from 'rxjs/operators'
-import { Subscription, Observable } from 'rxjs'
+import { Subscription, Observable, BehaviorSubject } from 'rxjs'
 import { formatCommitmentTitle, formatCommitmentId } from '../../formatters'
 import { Commitment } from '../../reducers'
 import { Portfolio } from '../../models'
@@ -13,6 +13,8 @@ import { showSnackBar } from '../../dialogs/show-snack-bar'
 import { FormBuilder, Validators } from '@angular/forms'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 import { CommitmentActionService } from '../../reducers/commitment-action/commitment-action.service'
+
+
 
 @Component({
   selector: 'digital-first-commitment-costing',
@@ -28,6 +30,29 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
   portfolios$: Observable<Portfolio[]>
   costingAgencies$: Observable<Portfolio[]>
   currentActionSubscription$: Subscription
+  href: string
+  
+  @HostListener('click', ['$event']) 
+  onMouseEnter(e: any) {
+    if(e.target !== 'a' && this.el.nativeElement.querySelector('a')){
+      this.el.nativeElement.querySelector('a').addEventListener('click', this.onClick.bind(this));
+      let el = this.el.nativeElement.querySelector('a')
+       el.style.cursor = 'pointer'
+       this.href = el.href
+  //  let c = window.location.protocol
+     // el.setAttribute("target","_blank")
+    }
+  
+   
+   
+  }
+
+  onClick(e: any){
+    window.open(this.href)
+    return false
+  }
+  
+description$: BehaviorSubject<string> = new BehaviorSubject('')
 
   constructor(
     private router: Router,
@@ -39,8 +64,11 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
     private lookup: CommitmentLookupService,
     private actionService: CommitmentActionService,
     private fb: FormBuilder,
-    private logger: LoggerService
-  ) {}
+    private logger: LoggerService,
+    private el: ElementRef
+  ) {
+    
+  }
 
   form = this.fb.group({
     id: [],
@@ -84,9 +112,12 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
         }
         this.form.patchValue(patch)
       }
+
+     
       // error => showSnackBar(this.snackbar, error)
     )
-
+    
+   
     this.commitmentSubscription$ = this.service.Commitment.subscribe(
       next => {
         this.commitment = next
@@ -136,6 +167,8 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
     this.commitmentSubscription$.unsubscribe()
     this.currentActionSubscription$.unsubscribe()
   }
+
+
 
   handleSubmit($event) {
     this.actionService.addActionToCommitment(

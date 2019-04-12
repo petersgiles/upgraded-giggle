@@ -100,8 +100,6 @@
     >
     </digital-first-commitment-delivery-location>
 
-
-
     <digital-first-commitment-contacts
       *ngIf="commitment"
       [commitment]="commitment?.id"
@@ -109,7 +107,7 @@
 
     <digital-first-commitment-costings
       *ngIf="commitment"
-      [commitment]="commitment?.id"
+      [commitmentId]="commitment?.id"
       [required]="commitment?.costingRequired"
     ></digital-first-commitment-costings>
 

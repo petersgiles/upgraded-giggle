@@ -1,7 +1,17 @@
-<ng-container *ngIf="commitment">
+<ng-container *ngIf="commitmentId">
   <ng-container *ngIf="!required">
     <digital-first-page-title title="Official costing Not Required">
+        <div>
+            <span class="mdc-button__label">Costing required</span>
+            <button mdc-icon-button icon="check_circle_outline" class="mdc-component__containers" 
+              aria-label="Costing required"
+              [on]="commitment.costingRequired"
+              (change)="handleCostingRequired($event)"> 
+            </button>
+          </div>
     </digital-first-page-title>
+  
+
   </ng-container>
 
   <digital-first-commitment-view-guard
@@ -31,17 +41,25 @@
 
     <ng-container operation-type="write">
       <digital-first-page-title
-        *ngIf="commitment"
+        *ngIf="commitmentId"
         title="Official Costings"
         (onTitleClicked)="handleChangeExpanded(!expanded)"
       >
-      
+      <div>
+      <span class="mdc-button__label">Costing required</span>
+          <button mdc-icon-button icon="check_circle_outline"
+            aria-label="Costing required"
+            [on]="commitment.costingRequired"
+            (change)="handleCostingRequired($event)"> 
+          </button>
+        </div>
         <digital-first-add-item-button
           icon="attach_money"
           title="New&nbsp;Costing"
           *ngIf="expanded"
           (onAddItem)="handleCreateCosting()"
         ></digital-first-add-item-button>
+
         <digital-first-expand-collapse-button
           [expanded]="expanded"
           (onChangeExpanded)="handleChangeExpanded(!expanded)"
