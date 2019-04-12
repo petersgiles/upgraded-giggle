@@ -140,7 +140,7 @@ export class RefinerReducer {
         refinerGroups[group].children[refiner].selected = !refinerGroups[group]
           .children[refiner].selected
 
-        console.log('store prior to filter', state.selectedRefiners)
+        // console.log('store prior to filter', state.selectedRefiners)
 
         // if the item is not selected, then it has been unselected. Remove from store
         const selectedRefiners =
@@ -150,7 +150,7 @@ export class RefinerReducer {
               )
             : state.selectedRefiners
 
-        console.log('store after filter', selectedRefiners)
+        // console.log('store after filter', selectedRefiners)
 
         // if the item is selected. Add to store
         if (refinerGroups[group].children[refiner].selected) {
@@ -159,7 +159,7 @@ export class RefinerReducer {
             itemId: item.id
           }
           selectedRefiners.push(selectedItem)
-          console.log('store after add', state.selectedRefiners)
+          //console.log('store after add', state.selectedRefiners)
         }
         return {
           ...state,

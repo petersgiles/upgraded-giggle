@@ -143,7 +143,14 @@ export class CommitmentRefinerService implements OnDestroy {
 
   getItems(storeRefiners: any, groupId: any): number[] {
     if (storeRefiners.find(find => find.groupId === groupId)) {
-      return storeRefiners.find(find => find.groupId === groupId).itemId
+      const ids: number[] = []
+      storeRefiners
+        .filter(find => find.groupId === groupId)
+        .map(i => {
+          ids.push(i.itemId)
+        })
+
+      return ids
     }
 
     return null

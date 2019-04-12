@@ -40,7 +40,10 @@ export class LoadRefinerGroups implements RefinerAction {
 }
 export class GetRefinedCommitments implements RefinerAction {
   type = RefinerActionTypes.GetRefinedCommitments
-  constructor(public payload: CommitmentRefinerGraph) {}
+
+  constructor(public payload: CommitmentRefinerGraph) {
+    console.log('🍓', payload)
+  }
 }
 
 export class LoadRefinedCommitments implements RefinerAction {
