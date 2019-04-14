@@ -11,7 +11,7 @@ import {
   UpsertCommitment,
   StoreCommitment
 } from './commitment.actions'
-import { switchMap, map, catchError, tap, switchMapTo, concatMap } from 'rxjs/operators'
+import { switchMap, map, catchError, concatMap } from 'rxjs/operators'
 
 import { AppDataService } from '../../services/app-data.service'
 import { DataResult, CommitmentsResult, CommitmentResult } from '../../models'

@@ -18,7 +18,6 @@ import {
   GetAllLocations,
   GetAllPartys,
   GetAllPortfolios,
-  GetAllThemeTypes,
   GetAllPackageTypes,
   GetAllStatuses,
   GetAllCommitmentPortfolios,
@@ -30,7 +29,6 @@ import {
   GetAllRelatedCommitments
 } from './commitment-lookup.actions'
 
-import { ThemeType } from '../../models/theme-type.model'
 import { PackageType } from '../../models/package-type.model'
 import { Electorate, RelatedCommitment } from '../../models'
 import { Status } from '../../models/status.model'
@@ -55,14 +53,6 @@ export class CommitmentLookupService {
 
   get CommitmentTypes(): Observable<CommitmentType[]> {
     return this.store.pipe(select(fromRoot.getAllCommitmentTypes))
-  }
-
-  public getAllThemeTypes(filter?: any) {
-    this.store.dispatch(new GetAllThemeTypes())
-  }
-
-  get ThemeTypes(): Observable<ThemeType[]> {
-    return this.store.pipe(select(fromRoot.getAllThemeTypes))
   }
 
   public getAllPackageTypes(filter?: any) {
@@ -115,14 +105,6 @@ export class CommitmentLookupService {
 
   get CostingAgencies(): Observable<Portfolio[]> {
     return this.store.pipe(select(fromRoot.getCostingAgencies))
-  }
-
-  public getAllThemes(filter?: any) {
-    this.store.dispatch(new GetAllPortfolios())
-  }
-
-  get Themes(): Observable<Portfolio[]> {
-    return this.store.pipe(select(fromRoot.getAllPortfolios))
   }
 
   public getAllWhoAnnouncedTypes(filter?: any) {

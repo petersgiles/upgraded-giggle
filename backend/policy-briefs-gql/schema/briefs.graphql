@@ -1,13 +1,13 @@
 
 type NavigatorTreeNode {
     id: ID!
-    caption: String;
-    meta: String;
-    parent: String;
-    colour: String;
-    order: Integer;
-    active: Boolean;
-    expanded: Boolean;
+    caption: String
+    meta: String
+    parent: String
+    colour: String
+    order: Int
+    active: Boolean
+    expanded: Boolean
 	children: [NavigatorTreeNode]
 }
 
@@ -82,5 +82,11 @@ type Brief {
 
 input BriefRefinementInput {
     text: String,
+    tags: [ID]
+}
+
+
+input NavigatorRefinementInput {
+	text: String,
     tags: [ID]
 }

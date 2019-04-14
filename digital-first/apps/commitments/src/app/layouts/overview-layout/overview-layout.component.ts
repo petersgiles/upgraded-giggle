@@ -7,6 +7,8 @@ import { ExcelService } from '../../services/excel.service'
 import { BehaviorSubject } from 'rxjs'
 import { RefinerActionService } from '@digital-first/df-refiner'
 import { formatDate } from '@angular/common'
+import { OPERATION_LOCATION } from '../../services/app-data.service'
+import { Observable } from 'rxjs'
 
 @Component({
   selector: 'digital-first-overview-layout',
@@ -18,6 +20,7 @@ export class OverviewLayoutComponent implements OnInit {
   commitmentsFilteredSubscription$: any
   filteredCommitments: any
   searchText$: BehaviorSubject<string> = new BehaviorSubject(null)
+  userOperation$: Observable<any>
 
   constructor(
     public dialog: MdcDialog,
@@ -29,6 +32,8 @@ export class OverviewLayoutComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.userOperation$ = this.service.UserOperation
+    
     this.lookup.getAllWhoAnnouncedTypes()
     this.lookup.getAllAnnouncementTypes()
     this.lookup.getAllCommitmentTypes()
@@ -36,7 +41,6 @@ export class OverviewLayoutComponent implements OnInit {
     this.lookup.getAllLocations()
     this.lookup.getAllPartys()
     this.lookup.getAllPortfolios()
-    this.lookup.getAllThemeTypes()
     this.lookup.getAllPackageTypes()
     this.lookup.getAllStatuses()
     this.lookup.getAllCommitmentPortfolios()
