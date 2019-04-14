@@ -3,7 +3,7 @@ import { NgModule, APP_INITIALIZER } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { AppComponent } from './app.component'
 import { NxModule } from '@nrwl/nx'
-import { DeckModule } from '@df/components'
+import { DeckModule, DialogAreYouSureComponent } from '@df/components'
 import { WINDOW_PROVIDERS } from '@df/utils'
 import {
   DfLayoutsModule,
@@ -29,17 +29,16 @@ import { DfDatatableModule } from '@digital-first/df-datatable'
 import { DfButtonsModule } from '@digital-first/df-buttons'
 import { DfMapModule } from '@digital-first/df-map'
 import { initApplication } from './app-init'
-import { DialogEditDeckItemComponent } from './dialogs/dialog-edit-deck-item.component'
 import { LinkComponent } from './pages/link/link.component'
 
 const COMPONENTS = [
   AppComponent,
   HomeComponent,
   LinkComponent,
-  DialogEditDeckItemComponent
+  DialogAreYouSureComponent
 ]
 
-const ENTRYCOMPONENTS = [DialogEditDeckItemComponent]
+const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
 
 @NgModule({
   declarations: [...COMPONENTS],

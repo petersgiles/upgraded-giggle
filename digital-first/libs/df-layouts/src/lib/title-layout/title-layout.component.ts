@@ -4,7 +4,7 @@ import { Router, NavigationEnd } from '@angular/router'
 import { takeUntil, filter, delay, tap, concatMap } from 'rxjs/operators'
 import { TitleLayoutService } from './title-layout.service'
 import { MdcTopAppBar } from '@angular-mdc/web'
-import { AppUserProfile, SideBarItem } from '../models'
+import { AppUserProfile, SideBarItem, AppItem } from '../models'
 
 @Component({
   selector: 'digital-first-title-layout',
@@ -22,9 +22,7 @@ export class TitleLayoutComponent implements OnInit, OnDestroy {
   logo$: Observable<any>
 
   @ViewChild('topAppBar') topAppBar: MdcTopAppBar
-  appItems$: Observable<
-    import('c:/Users/apgiles/Code/DF-Client/digital-first/libs/df-layouts/src/lib/models/index').AppItem[]
-  >
+  appItems$: Observable<AppItem[]>
   bookType$: Observable<string>
   constructor(
     private router: Router,
