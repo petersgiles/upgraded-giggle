@@ -6,7 +6,7 @@ declare var require: any
 export const environment = {
   production: false,
   version: require('../../../../package.json').version,
-  config: '//vm-dev-lbs13/sites/redigb/SiteAssets/apps/policy-briefs/assets/config.txt',
+  config: 'assets/policy_briefs_config.txt',
   datasources: {
     default: {
       type: 'apollo',

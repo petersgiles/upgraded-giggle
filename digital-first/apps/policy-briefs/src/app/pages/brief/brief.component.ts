@@ -54,8 +54,8 @@ export class BriefComponent implements OnInit, OnDestroy {
     this.navData$.next(this.storyData)
 
     this.nodes$ = this.navData$.pipe(
-      map(nd =>
-        toTree(nd.sort(sortBy('order')), {
+      map((nd: NavigatorTreeNode[]) =>
+        toTree((nd || []).sort(sortBy('order')), {
           id: 'id',
           parentId: 'parent',
           children: 'children',

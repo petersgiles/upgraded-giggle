@@ -1,0 +1,36 @@
+{
+    "header": {
+        "title": "The Department of Bloop de Bloop - Yellow IGB",
+        "classification": "UNCLASSIFIED",
+        "bookType": "red",
+        "logo": {
+           "image": "assets/crest.png",
+           "url": "/",
+           "title": "Return to home page"
+        },
+        "apps": [
+            {
+              "caption": "Dashboard",
+              "icon": "dashboard",
+              "url": "//vm-dev-lbs13/sites/redigb/SitePages/deck.aspx/deck"
+            },  {
+              "caption": "Activity",
+              "icon": "timeline",
+              "url": "//vm-dev-lbs13/sites/redigb/SitePages/index.aspx/recent"
+            },  {
+              "caption": "Alerts",
+              "icon": "notifications",
+              "url": "//vm-dev-lbs13/sites/redigb/SitePages/index.aspx/notifications"
+            }, {
+              "caption": "Permissions",
+              "icon": "how_to_reg",
+              "url": "//vm-dev-lbs13/sites/redigb/_layouts/15/user.aspx",
+              "target": "_blank"
+            },  {
+              "caption": "Admin",
+              "icon": "settings",
+              "url": "//vm-dev-lbs13/sites/redigb/SitePages/admin.aspx/admin"
+            }
+          ]
+    }
+}

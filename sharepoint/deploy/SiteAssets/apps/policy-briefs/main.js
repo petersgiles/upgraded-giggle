@@ -2355,7 +2355,7 @@ var BriefComponent = /** @class */ (function () {
         var _this = this;
         this.navData$.next(this.storyData);
         this.nodes$ = this.navData$.pipe(operators_1.map(function (nd) {
-            return utils_1.toTree(nd.sort(utils_1.sortBy('order')), {
+            return utils_1.toTree((nd || []).sort(utils_1.sortBy('order')), {
                 id: 'id',
                 parentId: 'parent',
                 children: 'children',
@@ -3081,7 +3081,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.environment = {
     production: true,
     version: __webpack_require__(/*! ../../../../package.json */ "../../package.json").version,
-    config: 'assets/config.txt',
+    config: '../../AppConfig/policy_briefs_config.txt',
     datasources: {
         deck: {
             type: 'sharepoint',
@@ -3118,7 +3118,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.environment = {
     production: false,
     version: __webpack_require__(/*! ../../../../package.json */ "../../package.json").version,
-    config: '//vm-dev-lbs13/sites/redigb/SiteAssets/apps/policy-briefs/assets/config.txt',
+    config: 'http://vm-dev-lbs13/sites/redigb/SiteAssets/apps/policy-briefs/assets/policy_briefs_config.txt',
     datasources: {
         deck: {
             type: 'sharepoint',

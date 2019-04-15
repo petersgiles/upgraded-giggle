@@ -1,5 +1,6 @@
 import { TABLE } from './db'
 import { logger } from '../../shared/logger'
+import { level } from 'winston';
 
 export class Lookups {
 	connectorKeys: { db: string }
@@ -51,12 +52,12 @@ export class Lookups {
 		let policies = await this.knex(context)
 			.select()
 			.from(TABLE.POLICY)
-			.map(this.navigateTreeMap)
+			.map((r: any) => this.navigateTreeMap(r, 1))
 
 		let subpolicies = await this.knex(context)
 			.select()
 			.from(TABLE.SUBPOLICY)
-			.map(this.navigateTreeMap)
+			.map((r: any) => this.navigateTreeMap(r, 2))
 
 		navigatorData = [...policies, ...subpolicies]
 
@@ -64,11 +65,12 @@ export class Lookups {
 	}
 
 
-	public navigateTreeMap = (item: any) => {
+	public navigateTreeMap = (item: any, level?: any) => {
 		return {
 				id: item.id,
 				parent: item.policy,
 				caption: item.title,
+				level: level,
 				meta: '',
 				colour: 'GoldenRod',
 				order: 999,
