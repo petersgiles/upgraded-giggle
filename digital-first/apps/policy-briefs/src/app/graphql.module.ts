@@ -17,6 +17,24 @@ export class GraphQLModule {
           link: new HttpLink(this.httpClient).create({
             uri: environment.datasources[key].dataServiceUrl
           }),
+          resolvers: {
+            Mutation: {
+              expandNavNode(input: string) {
+                return {
+                  code: '200',
+                  success: true,
+                  message: 'Hi'
+                }
+              }
+            },
+            NavigatorTreeNode: {
+              active() {
+                return true
+              },
+              expanded() {
+                return false
+              }
+          }},
           cache: new InMemoryCache()
         }
 

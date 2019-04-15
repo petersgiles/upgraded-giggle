@@ -1,0 +1,19 @@
+query GetPackNavigation {
+  navigatorTree @namedClient(name: "packNavigation") {
+    id
+    caption
+    parent
+    colour
+    order
+    active @client
+    expanded @client
+  }
+}
+
+mutation ExpandNavNode($input: String!) @client {
+  expandNavNode(input: $input) @namedClient(name: "packNavigation") {
+    code
+    success
+    message
+  }
+}

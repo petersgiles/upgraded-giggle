@@ -2,7 +2,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core'
 import { BehaviorSubject, Subscription, Observable } from 'rxjs'
 import { FormBuilder } from '@angular/forms'
 import { DocumentStatus, NavigatorTreeNode } from '@df/components'
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
+import {
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  tap,
+  first
+} from 'rxjs/operators'
 import {
   discussionTree,
   statuslist,
@@ -11,6 +17,8 @@ import {
 } from './mock-data'
 import { toTree, sortBy } from '@df/utils'
 import { GetBriefByIdService } from '../../services/getBriefById/get-brief-by-id.service'
+import { GetPackNavigationService } from '../../services/getPackNavigation/get-pack-navigation.service'
+import { GetPackNavigationGQL } from '../../generated/graphql'
 
 const defaultBrief = {
   status: '1'
@@ -47,11 +55,18 @@ export class BriefComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line:no-empty
   constructor(
     private fb: FormBuilder,
-    private getBriefByIdService: GetBriefByIdService) {
-  }
+    private getBriefByIdService: GetBriefByIdService,
+    private getPackNavigationService: GetPackNavigationService
+  ) {}
 
   ngOnInit() {
-    this.navData$.next(this.storyData)
+    this.getPackNavigationService
+      .getPackNavigation()
+      .pipe(
+        // tslint:disable-next-line:no-console
+        tap(result => console.log('getPackNavigation', result))
+      )
+      .subscribe(nodes => this.navData$.next(nodes))
 
     this.nodes$ = this.navData$.pipe(
       map((nd: NavigatorTreeNode[]) =>
@@ -110,11 +125,17 @@ export class BriefComponent implements OnInit, OnDestroy {
   }
 
   public handleSelectNavigatorNode(node) {
-    const navData = this.storyData.map(n => ({ ...n, active: false }))
-    const found = { ...navData.find(n => n.id === node.id) }
-    found.active = true
-    const list = [...navData.filter(n => n.id !== node.id), found]
-    this.navData$.next(list)
+    // const navData = this.storyData.map(n => ({ ...n, active: false }))
+    // const found = { ...navData.find(n => n.id === node.id) }
+    // found.active = true
+    // const list = [...navData.filter(n => n.id !== node.id), found]
+    // this.navData$.next(list)
+    this.getPackNavigationService.expandNavNode(null)
+      .pipe(
+        // tslint:disable-next-line:no-console
+        tap(result => console.log('handleSelectNavigatorNode', result))
+      )
+      .subscribe()
   }
 
   public handleReplyToComment($event) {

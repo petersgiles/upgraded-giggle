@@ -73,9 +73,7 @@ export class Lookups {
 				level: level,
 				meta: '',
 				colour: 'GoldenRod',
-				order: 999,
-				active: false,
-				expanded: false
+				order: 999
 			}
 	} 
 

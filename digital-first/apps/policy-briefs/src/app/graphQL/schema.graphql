@@ -1,0 +1,19 @@
+directive @client on FIELD
+
+# import NavNode from "navigatorTree.graphql"
+
+type NavigatorTreeNode {
+    active: Boolean
+	expanded: Boolean
+}
+
+interface ClientMutationResponse {
+	code: String!
+	success: Boolean!
+	message: String!
+}
+
+type Mutation {
+    expandNavNode(input: String!): ClientMutationResponse
+}
+

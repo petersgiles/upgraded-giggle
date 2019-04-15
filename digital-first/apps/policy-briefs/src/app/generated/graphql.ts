@@ -52,9 +52,23 @@ export enum CacheControlScope {
   Private = 'PRIVATE'
 }
 
+export type ClientMutationResponse = {
+  code: Scalars['String']
+  success: Scalars['Boolean']
+  message: Scalars['String']
+}
+
 export type Dlm = {
   id: Scalars['ID']
   title: Scalars['String']
+}
+
+export type Mutation = {
+  expandNavNode?: Maybe<ClientMutationResponse>
+}
+
+export type MutationExpandNavNodeArgs = {
+  input: Scalars['String']
 }
 
 export type NavigatorRefinementInput = {
@@ -63,14 +77,14 @@ export type NavigatorRefinementInput = {
 }
 
 export type NavigatorTreeNode = {
+  active?: Maybe<Scalars['Boolean']>
+  expanded?: Maybe<Scalars['Boolean']>
   id: Scalars['ID']
   caption?: Maybe<Scalars['String']>
   meta?: Maybe<Scalars['String']>
   parent?: Maybe<Scalars['String']>
   colour?: Maybe<Scalars['String']>
   order?: Maybe<Scalars['Int']>
-  active?: Maybe<Scalars['Boolean']>
-  expanded?: Maybe<Scalars['Boolean']>
   children?: Maybe<Array<Maybe<NavigatorTreeNode>>>
 }
 
@@ -84,7 +98,7 @@ export type Query = {
   brief?: Maybe<Brief>
   briefs?: Maybe<Array<Maybe<Brief>>>
   policies?: Maybe<Array<Maybe<Policy>>>
-  sidebar?: Maybe<Array<Maybe<NavigatorTreeNode>>>
+  navigatorTree?: Maybe<Array<Maybe<NavigatorTreeNode>>>
 }
 
 export type QueryBriefArgs = {
@@ -95,7 +109,7 @@ export type QueryBriefsArgs = {
   input?: Maybe<BriefRefinementInput>
 }
 
-export type QuerySidebarArgs = {
+export type QueryNavigatorTreeArgs = {
   input?: Maybe<NavigatorRefinementInput>
 }
 
@@ -186,7 +200,7 @@ export type GetBriefByIdQuery = { __typename?: 'Query' } & {
 export type GetPackNavigationQueryVariables = {}
 
 export type GetPackNavigationQuery = { __typename?: 'Query' } & {
-  sidebar: Maybe<
+  navigatorTree: Maybe<
     Array<
       Maybe<
         { __typename?: 'NavigatorTreeNode' } & Pick<
@@ -201,6 +215,16 @@ export type GetPackNavigationQuery = { __typename?: 'Query' } & {
         >
       >
     >
+  >
+}
+
+export type ExpandNavNodeMutationVariables = {
+  input: Scalars['String']
+}
+
+export type ExpandNavNodeMutation = { __typename?: 'Mutation' } & {
+  expandNavNode: Maybe<
+    Pick<ClientMutationResponse, 'code' | 'success' | 'message'>
   >
 }
 
@@ -270,14 +294,14 @@ export class GetBriefByIdGQL extends Apollo.Query<
 }
 export const GetPackNavigationDocument = gql`
   query GetPackNavigation {
-    sidebar {
+    navigatorTree {
       id
       caption
       parent
       colour
       order
-      active
-      expanded
+      active @client
+      expanded @client
     }
   }
 `
@@ -290,4 +314,25 @@ export class GetPackNavigationGQL extends Apollo.Query<
   GetPackNavigationQueryVariables
 > {
   document = GetPackNavigationDocument
+  client = 'packNavigation'
+}
+export const ExpandNavNodeDocument = gql`
+  mutation ExpandNavNode($input: String!) @client {
+    expandNavNode(input: $input) {
+      code
+      success
+      message
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ExpandNavNodeGQL extends Apollo.Mutation<
+  ExpandNavNodeMutation,
+  ExpandNavNodeMutationVariables
+> {
+  document = ExpandNavNodeDocument
+  client = 'packNavigation'
 }

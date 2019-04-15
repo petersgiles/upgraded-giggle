@@ -6,19 +6,22 @@ import { SettingsService } from '../settings.service'
 import { Observable } from 'rxjs'
 import { GetPackNavigationSharepointService } from './sharepoint/get-pack-navigation-sharepoint.service'
 import { GetPackNavigationApolloService } from './apollo/get-pack-navigation-apollo.service'
+import { GetPackNavigationGQL, ExpandNavNodeGQL } from '../../generated/graphql'
 
 @Injectable({
   providedIn: 'root'
 })
 export abstract class GetPackNavigationService {
   constructor() {}
-  abstract getPackNavigation(briefId: any): Observable<any>
+  abstract getPackNavigation(input?: any): Observable<any>
+  abstract expandNavNode(input): Observable<any>
 }
 
 const getPackNavigationServiceFactory = (
   settings: SettingsService,
   sharepointlib: SharepointJsomService,
-  apollo: Apollo
+  getPackNavigationGQL: GetPackNavigationGQL,
+  expandNavNodeGQL: ExpandNavNodeGQL
 ) => {
 
   let source = null
@@ -30,12 +33,14 @@ const getPackNavigationServiceFactory = (
     case 'sharepoint':
       return new GetPackNavigationSharepointService(sharepointlib)
     default:
-      return new GetPackNavigationApolloService(apollo)
+    // tslint:disable-next-line:no-console
+    console.log('GetPackNavigationApolloService')
+      return new GetPackNavigationApolloService(getPackNavigationGQL, expandNavNodeGQL)
   }
 }
 
 export let getPackNavigationServiceProvider = {
   provide: GetPackNavigationService,
   useFactory: getPackNavigationServiceFactory,
-  deps: [SettingsService, SharepointJsomService, Apollo]
+  deps: [SettingsService, SharepointJsomService, GetPackNavigationGQL, ExpandNavNodeGQL]
 }

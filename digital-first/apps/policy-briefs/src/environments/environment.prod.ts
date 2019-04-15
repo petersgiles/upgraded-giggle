@@ -3,23 +3,19 @@ declare var require: any
 export const environment = {
   production: true,
   version: require('../../../../package.json').version,
-  config: '../../AppConfig/policy_briefs_config.txt',
+  config: 'assets/config.txt',
   datasources: {
-    deck: {
-      type: 'sharepoint',
-      dataServiceUrl: ''
-    },
-    commitments: {
+    default: {
       type: 'apollo',
-      dataServiceUrl: ''
+      dataServiceUrl: '//localhost:3202/graphql'
     },
     brief: {
       type: 'sharepoint',
-      dataServiceUrl: ''
+      dataServiceUrl: '//localhost:3202/graphql'
     },
     packNavigation: {
-      type: 'sharepoint',
-      dataServiceUrl: ''
+      type: 'apollo',
+      dataServiceUrl: '//localhost:3202/graphql'
     }
   }
 }

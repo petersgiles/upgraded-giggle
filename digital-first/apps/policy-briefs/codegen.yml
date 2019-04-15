@@ -1,7 +1,9 @@
 schema:
+  - ./apps/policy-briefs/src/app/graphQL/schema.graphql:
   - http://localhost:3202/graphql:
       headers:
         ProgramsApiKey: "peter.giles@pmc.gov.au"
+  
 documents:
   - ./apps/policy-briefs/**/*.graphql
 overwrite: true

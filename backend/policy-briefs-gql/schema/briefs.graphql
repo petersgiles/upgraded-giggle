@@ -6,8 +6,6 @@ type NavigatorTreeNode {
     parent: String
     colour: String
     order: Int
-    active: Boolean
-    expanded: Boolean
 	children: [NavigatorTreeNode]
 }
 

@@ -7,6 +7,9 @@ import { Observable, of } from 'rxjs'
   providedIn: 'root'
 })
 export class GetPackNavigationSharepointService implements GetPackNavigationService {
+  expandNavNode(input: any): Observable<any> {
+    throw new Error('Method not implemented.')
+  }
   constructor(private sharepointlib: SharepointJsomService) {}
 
   getPackNavigation(briefId: any): Observable<any> {
