@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core'
+import { Component, OnInit, Input, OnDestroy, ViewChild } from '@angular/core'
 import { MdcDialog } from '@angular-mdc/web'
 import { CommitmentActionService } from '../../reducers/commitment-action/commitment-action.service'
 import { Subscription, Observable } from 'rxjs'
@@ -10,6 +10,7 @@ import { OPERATION_COSTING } from '../../services/app-data.service'
 import { Commitment } from '../../reducers/commitment/commitment.model'
 import { showSnackBar } from '../../dialogs/show-snack-bar'
 import { CommitmentDataService } from '../../services/commitment-data.service'
+
 
 @Component({
   selector: 'digital-first-commitment-costings',
@@ -37,7 +38,7 @@ export class CommitmentCostingsComponent implements OnInit, OnDestroy {
     public dialog: MdcDialog, 
    // private snackbar: MdcSnackbar,
     private commitmentService: CommitmentDataService,
-    private service: CommitmentActionService) { }
+    private service: CommitmentActionService) {}
 
   @Input() required: boolean
 
@@ -114,11 +115,6 @@ export class CommitmentCostingsComponent implements OnInit, OnDestroy {
   }
 
   handleCostingRequired(event: any) {
-    if(event.value){
-      this.commitment.costingRequired = true;
-    }
-    else{
-      this.commitment.costingRequired = false;
-    }
+      this.commitmentService.setCostingRequired(this.commitment.id, !this.commitment.costingRequired)
   }
 }

@@ -1,78 +1,47 @@
 <ng-container *ngIf="commitmentId">
   <ng-container *ngIf="!required">
     <digital-first-page-title title="Official costing Not Required">
-        <div>
-            <span class="mdc-button__label">Costing required</span>
-            <button mdc-icon-button icon="check_circle_outline" class="mdc-component__containers" 
-              aria-label="Costing required"
-              [on]="commitment.costingRequired"
-              (change)="handleCostingRequired($event)"> 
-            </button>
-          </div>
+        
+              <button mdc-button aria-label="Costing required" (click)="handleCostingRequired($event)">
+                <mdc-icon>check_box_outline_blank</mdc-icon>Required
+              </button>
+
     </digital-first-page-title>
-  
 
   </ng-container>
 
-  <digital-first-commitment-view-guard
-    *ngIf="required"
-    [operation]="getRight(userOperation$ | async)"
-  >
+  <digital-first-commitment-view-guard *ngIf="required" [operation]="getRight(userOperation$ | async)">
     <ng-container operation-type="read">
-      <digital-first-page-title
-        title="Official Costings"
-        (onTitleClicked)="handleChangeExpanded(!expanded)"
-      >
-        <digital-first-expand-collapse-button
-          [expanded]="expanded"
-          (onChangeExpanded)="handleChangeExpanded(!expanded)"
-        ></digital-first-expand-collapse-button>
+      <digital-first-page-title title="Official Costings" (onTitleClicked)="handleChangeExpanded(!expanded)">
+        <digital-first-expand-collapse-button [expanded]="expanded"
+          (onChangeExpanded)="handleChangeExpanded(!expanded)"></digital-first-expand-collapse-button>
       </digital-first-page-title>
 
       <div class="commitment-layout__row" *ngIf="expanded">
-        <digital-first-data-table
-          [tableData]="tableData$ | async"
-          [hasDeleteItemButton]="false"
-          (onDeleteItem)="handleTableDeleteClicked($event)"
-          (onCellClicked)="handleRowClicked($event)"
-        ></digital-first-data-table>
+        <digital-first-data-table [tableData]="tableData$ | async" [hasDeleteItemButton]="false"
+          (onDeleteItem)="handleTableDeleteClicked($event)" (onCellClicked)="handleRowClicked($event)">
+        </digital-first-data-table>
       </div>
     </ng-container>
 
     <ng-container operation-type="write">
-      <digital-first-page-title
-        *ngIf="commitmentId"
-        title="Official Costings"
-        (onTitleClicked)="handleChangeExpanded(!expanded)"
-      >
-      <div>
-      <span class="mdc-button__label">Costing required</span>
-          <button mdc-icon-button icon="check_circle_outline"
-            aria-label="Costing required"
-            [on]="commitment.costingRequired"
-            (change)="handleCostingRequired($event)"> 
-          </button>
-        </div>
-        <digital-first-add-item-button
-          icon="attach_money"
-          title="New&nbsp;Costing"
-          *ngIf="expanded"
-          (onAddItem)="handleCreateCosting()"
-        ></digital-first-add-item-button>
+      <digital-first-page-title *ngIf="commitmentId" title="Official Costings"
+        (onTitleClicked)="handleChangeExpanded(!expanded)">
+        <button mdc-button aria-label="Costing required" 
+        (click)="handleCostingRequired($event)">
+        <mdc-icon>check</mdc-icon>Required
+      </button>
+        <digital-first-add-item-button icon="attach_money" title="New&nbsp;Costing" *ngIf="expanded"
+          (onAddItem)="handleCreateCosting()"></digital-first-add-item-button>
 
-        <digital-first-expand-collapse-button
-          [expanded]="expanded"
-          (onChangeExpanded)="handleChangeExpanded(!expanded)"
-        ></digital-first-expand-collapse-button>
+        <digital-first-expand-collapse-button [expanded]="expanded"
+          (onChangeExpanded)="handleChangeExpanded(!expanded)"></digital-first-expand-collapse-button>
       </digital-first-page-title>
 
       <div class="commitment-layout__row" *ngIf="expanded">
-        <digital-first-data-table
-          [tableData]="tableData$ | async"
-          [hasDeleteItemButton]="true"
-          (onDeleteItem)="handleTableDeleteClicked($event)"
-          (onCellClicked)="handleRowClicked($event)"
-        ></digital-first-data-table>
+        <digital-first-data-table [tableData]="tableData$ | async" [hasDeleteItemButton]="true"
+          (onDeleteItem)="handleTableDeleteClicked($event)" (onCellClicked)="handleRowClicked($event)">
+        </digital-first-data-table>
       </div>
     </ng-container>
   </digital-first-commitment-view-guard>

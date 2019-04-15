@@ -9,9 +9,10 @@ import {
   GetAllCommitments,
   SetCurrentCommitment,
   UpsertCommitment,
-  StoreCommitment
+  StoreCommitment,
+  SetCostingRequired
 } from './commitment.actions'
-import { switchMap, map, catchError, concatMap } from 'rxjs/operators'
+import { switchMap, map, catchError, concatMap, tap } from 'rxjs/operators'
 
 import { AppDataService } from '../../services/app-data.service'
 import { DataResult, CommitmentsResult, CommitmentResult } from '../../models'
@@ -22,10 +23,27 @@ import { GetContactsByCommitment, ClearCommitmentContacts } from '../commitment-
 import { ClearCommitmentActions, GetActionsByCommitment } from '../commitment-action/commitment-action.actions'
 import { ClearRelatedLinks, GetRelatedLinksByCommitment } from '../related-link/related-link.actions'
 import { GetMapPointsByCommitment, ClearMapPoints, GetElectoratesByCommitment, ClearElectorates } from '../commitment-delivery-location/commitment-delivery-location.actions'
-import { GetPackagesByCommitment } from '../commitment-package/commitment-package.actions';
+import { GetPackagesByCommitment } from '../commitment-package/commitment-package.actions'
+
 
 @Injectable()
 export class CommitmentEffects {
+
+  @Effect()
+  setCostingRequired$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(CommitmentActionTypes.SetCostingRequired),
+      map((action: SetCostingRequired) => action.payload),
+      tap((payload: any) => console.log('setCostingRequired', payload)),
+      switchMap((payload) => this.service.setCostingRequired(payload)),
+      switchMap((result: any) => [
+        new AppNotification({ message: 'Action Stored' }),
+        new SetCurrentCommitment({ id: result.data.commitment }),
+        new ClearAppNotification()
+      ]),
+      catchError(error => of(new CommitmentsActionFailure(error)))
+
+    )
 
   @Effect()
   getAllCommitments$: Observable<Action> = this.actions$
