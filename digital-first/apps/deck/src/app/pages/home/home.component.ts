@@ -3,13 +3,16 @@ import {
   DeckItem,
   DeckHelper,
   CardType,
-  DialogAreYouSureComponent
+  DialogAreYouSureComponent,
+  DeckItemMedia
 } from '@df/components'
 import { ActivatedRoute, ParamMap } from '@angular/router'
 import { map, first, tap, withLatestFrom } from 'rxjs/operators'
-import { Observable, BehaviorSubject, combineLatest } from 'rxjs'
-import { GetDeckItemsGQL } from '../../generated/deck-schema'
+import { Observable, BehaviorSubject, combineLatest, Subscribable } from 'rxjs'
+import { GetDeckItemsGQL, StoreGQL } from '../../generated/deck-schema'
 import { MdcDialog } from '@angular-mdc/web'
+import { Subscription } from 'rxjs'
+import { _FEATURE_CONFIGS } from '@ngrx/store/src/tokens'
 
 @Component({
   selector: 'digital-first-home',
@@ -20,68 +23,61 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private dialog: MdcDialog,
-    private getDeckItems: GetDeckItemsGQL
+    private getDeckItems: GetDeckItemsGQL,
+    private upsertDeckItem: StoreGQL
   ) {}
 
-  public cards$: BehaviorSubject<DeckItem[]> = new BehaviorSubject([])
   public parent$: BehaviorSubject<string> = new BehaviorSubject(null)
   public selectedCard$: BehaviorSubject<DeckItem> = new BehaviorSubject(null)
   public cardTypes$: BehaviorSubject<string[]> = new BehaviorSubject(
     Object.keys(CardType).map(ct => CardType[ct] as string)
   )
   public grandParent$: Observable<DeckItem>
-  public displayCards$: Observable<DeckItem[]>
   public eligibleParents$: Observable<{ id: string; title: string }[]>
+  public cards$: Observable<DeckItem[]>
+  private mySubscription: Subscription
 
   ngOnInit() {
-    this.getDeckItems
-      .fetch({ id: null }, { fetchPolicy: 'network-only' })
-      .pipe(
-        // tslint:disable-next-line:no-console
-        tap((result: any) => console.log(result.data.deckItems))
-      )
-      .subscribe((result: any) => {
-        console.log(result.data.deckItems)
-      })
+    this.mySubscription = this.parent$.subscribe({
+      next: parentid => {
+        this.cards$ = this.getDeckItems
+          .watch({ id: parentid }, { fetchPolicy: 'network-only' })
+          .valueChanges.pipe(map((result: any) => result.data.deckItems))
+      }
+    })
 
-    this.cards$.next([])
-    this.setUpDisplayCards()
-    this.setUpEligibleParents()
-    this.setUpGrandParent()
-    this.route.paramMap
-      .pipe(
-        first(),
-        map((params: ParamMap) => +params.get('parent'))
-      )
-      .subscribe((parent: any) => this.parent$.next(parent))
+    this.mySubscription.add(
+      this.route.paramMap
+        .pipe(
+          first(),
+          map((params: ParamMap) => params.get('parent'))
+        )
+        .subscribe((parent: any) => {
+          this.parent$.next(parent)
+        })
+    )
   }
-  ngOnDestroy(): void {}
+
+  ngOnDestroy(): void {
+    this.mySubscription.unsubscribe()
+  }
 
   handleSubmitted($event: DeckItem) {
-    // TODO: the following code didn't save anything jsut for demo
-    const oldCards = this.cards$.getValue()
-    const newCards = oldCards.filter(p => $event.id !== p.id)
-    const oldCard = oldCards.find(p => p.id === $event.id)
-    if (oldCard && $event.parent !== oldCard.parent) {
-      const cards = this.cards$.getValue()
-      if (DeckHelper.isSelectedParentACurrentDescendant($event, cards)) {
-        DeckHelper.liftUpChildren(oldCard, cards)
-      }
-    }
-    if (!$event.id) {
-      $event.id = Math.random().toString()
-    }
-    newCards.push($event)
-    this.cards$.next(newCards)
+    this.cards$.pipe(
+      map(data => {
+        const oldCard = data.find(p => p.id === $event.id)
+        if (oldCard.parent !== $event.parent) {
+          if (DeckHelper.isSelectedParentACurrentDescendant($event, data)) {
+            DeckHelper.liftUpChildren(oldCard, data)
+          }
+        }
+      })
+    )
+    this.upsertDeckItem.mutate({ item: {} })
     this.selectedCard$.next(null)
-    $event = null
   }
 
   handleCancel($event) {
-    if (!$event.id) {
-      const cardItems = this.cards$.getValue().filter(item => item.id)
-      this.cards$.next(cardItems)
-    }
     this.selectedCard$.next(null)
   }
 
@@ -96,6 +92,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   handleEdit($event) {
     this.selectedCard$.next($event)
+    this.setUpEligibleParents()
   }
 
   handleGoBack($event) {
@@ -123,20 +120,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.parent$.next($event.parent)
   }
 
-  private setUpDisplayCards() {
-    this.displayCards$ = combineLatest(this.parent$, this.cards$).pipe(
-      map(([parentId, cards]) => {
-        const value = cards
-          .filter(c => c.parent === parentId)
-          .sort((a, b) => (Number(a.sortOrder) < Number(b.sortOrder) ? -1 : 1))
-        value.forEach(c => {
-          c.hasChildren = cards.filter(x => x.parent === c.id).length > 0
-        })
-        return value
-      })
-    )
-  }
-
   private setUpEligibleParents() {
     this.eligibleParents$ = this.selectedCard$
       .pipe(withLatestFrom(this.cards$))
@@ -152,14 +135,5 @@ export class HomeComponent implements OnInit, OnDestroy {
           }
         })
       )
-  }
-
-  private setUpGrandParent() {
-    this.grandParent$ = this.parent$.pipe(
-      withLatestFrom(this.cards$),
-      map(([parentId, cards]) =>
-        parentId ? cards.find(c => c.id == parentId) : null
-      )
-    )
   }
 }
