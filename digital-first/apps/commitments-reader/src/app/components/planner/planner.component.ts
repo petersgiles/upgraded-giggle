@@ -27,7 +27,7 @@ export class PlannerComponent implements OnInit {
   featureConfig: Object
 
   startDate = new Date()
-  //endDate = new Date('2022-6-1')
+  endDate = DateHelper.add(this.startDate, 3, 'years')
   // TODO: actually get this from the next MYEFO date
   myEofyDate = new Date('2019-12-10')
   // TODO: set widths based on size of parent container
@@ -63,7 +63,7 @@ export class PlannerComponent implements OnInit {
     const me = this
     this.zoomSlider.min = 0
     this.zoomSlider.max = this.zoomLevels.length - 1
-    this.zoomSlider.levelId = 5
+    this.zoomSlider.levelId = 3
     this.events = JSON.parse(localStorage.getItem('commimentEvents'))
 
     this.featureConfig = {
@@ -91,6 +91,7 @@ export class PlannerComponent implements OnInit {
         ]
       }
     }
+    me.scheduler.schedulerEngine.setTimeSpan(this.startDate,this.endDate)
   }
 
   onSliderInput(event: MdcSliderChange): void {
