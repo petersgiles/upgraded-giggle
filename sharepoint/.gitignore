@@ -2,6 +2,8 @@
 
 # compiled output
 /dist
+/deploy/SiteAssets
+/deploy/SitePages
 /tmp
 /out-tsc
 
