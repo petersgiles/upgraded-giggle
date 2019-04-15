@@ -1,14 +1,11 @@
-query GetPackNavigation{
-  policies {
+query GetPackNavigation {
+  sidebar {
     id
-    title
-    children: subPolicies {
-      id
-      title
-      briefs {
-        id
-        title
-      }
-    }
+    caption
+    parent
+    colour
+    order
+    active
+    expanded
   }
 }

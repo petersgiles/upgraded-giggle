@@ -16,6 +16,10 @@ export const environment = {
     brief: {
       type: 'sharepoint',
       dataServiceUrl: ''
+    },
+    packNavigation: {
+      type: 'sharepoint',
+      dataServiceUrl: ''
     }
   }
 }

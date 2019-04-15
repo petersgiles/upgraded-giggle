@@ -48,7 +48,10 @@ const createFakeHtmlDoc = (buzz, noun) => {
   </html>
   `
 }
-const policyChoices = [{ id: 1, title: 'Sample Policy' }]
+const policyChoices = [
+	{ id: 1, title: 'Sample Policy', colour: 'GoldenRod' },
+	{ id: 2, title: 'Sample Policy', colour: 'GoldenRod' },
+]
 
 const subpolicyChoices = [
 	{ id: 1, title: 'Sample Sub Policy A', policy: 1 },
@@ -73,25 +76,49 @@ const securityClassificationChoices = [
 ]
 
 const statusChoices = [
-	{ id: 1, title: 'Draft', sortorder: 1, enumeration: 1, icon: 'people', colour: 'Tomato', publish: false },
-	{ id: 2, title: 'Done', sortorder: 2, enumeration: 2, icon: 'people', colour: 'Wheat', publish: false },
-	{ id: 3, title: 'Ready', sortorder: 3, enumeration: 3, icon: 'people', colour: 'WhiteSmoke', publish: true },
+	{
+		id: 1,
+		title: 'Draft',
+		sortorder: 1,
+		enumeration: 1,
+		icon: 'people',
+		colour: 'Tomato',
+		publish: false,
+	},
+	{
+		id: 2,
+		title: 'Done',
+		sortorder: 2,
+		enumeration: 2,
+		icon: 'people',
+		colour: 'Wheat',
+		publish: false,
+	},
+	{
+		id: 3,
+		title: 'Ready',
+		sortorder: 3,
+		enumeration: 3,
+		icon: 'people',
+		colour: 'WhiteSmoke',
+		publish: true,
+	},
 ]
 
 const createFakeBrief = (index) => {
 	try {
 		let created = faker.date.past()
-    let due = faker.date.future(1, created)
-    let noun = faker.company.bsNoun()
-    let buzz = faker.company.bsBuzz()
+		let due = faker.date.future(1, created)
+		let noun = faker.company.bsNoun()
+		let buzz = faker.company.bsBuzz()
 
 		let spid = faker.random.number({ min: 1, max: 2 })
 
 		const subpolicyChoices = [
 			{ id: 1, title: 'Sample Sub Policy A', policy: 1 },
 			{ id: 2, title: 'Sample Sub Policy B', policy: 1 },
-    ]
-    
+		]
+
 		let subpolicy = subpolicyChoices.find((item) => item.id == spid)
 
 		let brief = {
@@ -105,8 +132,8 @@ const createFakeBrief = (index) => {
 			dueDate: due,
 			modified: faker.date.between(created, due),
 			policy: subpolicy.policy,
-      subpolicy: subpolicy.id,
-      briefStatus: faker.random.number({
+			subpolicy: subpolicy.id,
+			briefStatus: faker.random.number({
 				min: 1,
 				max: 3,
 			}),

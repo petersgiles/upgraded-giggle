@@ -48,7 +48,6 @@ export class BriefComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private getBriefByIdService: GetBriefByIdService) {
-    this.storyData = navigatorData
   }
 
   ngOnInit() {

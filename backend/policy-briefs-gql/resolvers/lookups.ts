@@ -38,22 +38,44 @@ export class Lookups {
 		return result
 	}
 
-	async getAll(
-		context: any,
-		tableName: string
-	): Promise<any> {
+	async getAll(context: any, tableName: string): Promise<any> {
 		let result = await this.knex(context)
 			.select()
 			.from(tableName)
 		return result
 	}
 
-	async getPackNavigation(
-		context: any
-	): Promise<any> {
+	async getPackNavigation(context: any): Promise<any> {
+		let navigatorData: any[] = []
+
 		let policies = await this.knex(context)
 			.select()
 			.from(TABLE.POLICY)
-		return policies
+			.map(this.navigateTreeMap)
+
+		let subpolicies = await this.knex(context)
+			.select()
+			.from(TABLE.SUBPOLICY)
+			.map(this.navigateTreeMap)
+
+		navigatorData = [...policies, ...subpolicies]
+
+		return navigatorData
 	}
+
+
+	public navigateTreeMap = (item: any) => {
+		return {
+				id: item.id,
+				parent: item.policy,
+				caption: item.title,
+				meta: '',
+				colour: 'GoldenRod',
+				order: 999,
+				active: false,
+				expanded: false
+			}
+	} 
+
+
 }

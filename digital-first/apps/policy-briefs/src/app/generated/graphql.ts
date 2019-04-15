@@ -57,6 +57,23 @@ export type Dlm = {
   title: Scalars['String']
 }
 
+export type NavigatorRefinementInput = {
+  text?: Maybe<Scalars['String']>
+  tags?: Maybe<Array<Maybe<Scalars['ID']>>>
+}
+
+export type NavigatorTreeNode = {
+  id: Scalars['ID']
+  caption?: Maybe<Scalars['String']>
+  meta?: Maybe<Scalars['String']>
+  parent?: Maybe<Scalars['String']>
+  colour?: Maybe<Scalars['String']>
+  order?: Maybe<Scalars['Int']>
+  active?: Maybe<Scalars['Boolean']>
+  expanded?: Maybe<Scalars['Boolean']>
+  children?: Maybe<Array<Maybe<NavigatorTreeNode>>>
+}
+
 export type Policy = {
   id: Scalars['ID']
   title: Scalars['String']
@@ -67,6 +84,7 @@ export type Query = {
   brief?: Maybe<Brief>
   briefs?: Maybe<Array<Maybe<Brief>>>
   policies?: Maybe<Array<Maybe<Policy>>>
+  sidebar?: Maybe<Array<Maybe<NavigatorTreeNode>>>
 }
 
 export type QueryBriefArgs = {
@@ -75,6 +93,10 @@ export type QueryBriefArgs = {
 
 export type QueryBriefsArgs = {
   input?: Maybe<BriefRefinementInput>
+}
+
+export type QuerySidebarArgs = {
+  input?: Maybe<NavigatorRefinementInput>
 }
 
 export enum Role {
@@ -164,32 +186,19 @@ export type GetBriefByIdQuery = { __typename?: 'Query' } & {
 export type GetPackNavigationQueryVariables = {}
 
 export type GetPackNavigationQuery = { __typename?: 'Query' } & {
-  policies: Maybe<
+  sidebar: Maybe<
     Array<
       Maybe<
-        { __typename?: 'Policy' } & Pick<Policy, 'id' | 'title'> & {
-            subPolicies: Maybe<
-              Array<
-                Maybe<
-                  { __typename?: 'SubPolicy' } & Pick<
-                    SubPolicy,
-                    'id' | 'title'
-                  > & {
-                      briefs: Maybe<
-                        Array<
-                          Maybe<
-                            { __typename?: 'Brief' } & Pick<
-                              Brief,
-                              'id' | 'title'
-                            >
-                          >
-                        >
-                      >
-                    }
-                >
-              >
-            >
-          }
+        { __typename?: 'NavigatorTreeNode' } & Pick<
+          NavigatorTreeNode,
+          | 'id'
+          | 'caption'
+          | 'parent'
+          | 'colour'
+          | 'order'
+          | 'active'
+          | 'expanded'
+        >
       >
     >
   >
@@ -261,17 +270,14 @@ export class GetBriefByIdGQL extends Apollo.Query<
 }
 export const GetPackNavigationDocument = gql`
   query GetPackNavigation {
-    policies {
+    sidebar {
       id
-      title
-      subPolicies {
-        id
-        title
-        briefs {
-          id
-          title
-        }
-      }
+      caption
+      parent
+      colour
+      order
+      active
+      expanded
     }
   }
 `
