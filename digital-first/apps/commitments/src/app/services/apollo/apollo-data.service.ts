@@ -5,6 +5,7 @@ import {
   GET_CONTACTS,
   UPSERT_COMMITMENT,
   STORE_CONTACT,
+  SET_COSTING_REQUIRED
 } from './apollo-queries'
 
 import {
@@ -12,7 +13,6 @@ import {
   CommitmentsResult,
   ContactsResult,
   DataResult,
-  MapPointsResult,
   GroupPermissionsResult,
 } from '../../models'
 
@@ -64,12 +64,13 @@ export class ApolloDataService implements AppDataService {
 
   setCostingRequired(payload: {commitment: number, costingRequired: boolean}): Observable<DataResult<CommitmentResult>> {
     const variables = {
-      // ...commitment
+        id: payload.commitment,
+        costingRequired: payload.costingRequired
     }
 
     return callMutate<CommitmentResult>(this.apollo,
-      { mutation: UPSERT_COMMITMENT, variables: variables },
-      (result: any) => ({ data: { commitment: result.data.upsertCommitment } }))
+      { mutation: SET_COSTING_REQUIRED, variables: variables },
+      (result: any) => ({ data: { commitment: result.data.setCostingRequired.id } }))
 
   }
 

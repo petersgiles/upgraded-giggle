@@ -12,12 +12,11 @@ import {
   StoreCommitment,
   SetCostingRequired
 } from './commitment.actions'
-import { switchMap, map, catchError, concatMap, tap } from 'rxjs/operators'
+import { switchMap, map, catchError, concatMap } from 'rxjs/operators'
 
 import { AppDataService } from '../../services/app-data.service'
 import { DataResult, CommitmentsResult, CommitmentResult } from '../../models'
 import { AppNotification, ClearAppNotification } from '../app.actions'
-// import { GetMapPointsByCommitment, ClearMapPoints } from '../map-point/map-point.actions'
 import { ClearRelatedCommitments, GetRelatedCommitmentsByCommitment } from '../related-commitment/related-commitment.actions'
 import { GetContactsByCommitment, ClearCommitmentContacts } from '../commitment-contact/commitment-contact.actions'
 import { ClearCommitmentActions, GetActionsByCommitment } from '../commitment-action/commitment-action.actions'
@@ -34,7 +33,6 @@ export class CommitmentEffects {
     .pipe(
       ofType(CommitmentActionTypes.SetCostingRequired),
       map((action: SetCostingRequired) => action.payload),
-      tap((payload: any) => console.log('setCostingRequired', payload)),
       switchMap((payload) => this.service.setCostingRequired(payload)),
       switchMap((result: any) => [
         new AppNotification({ message: 'Action Stored' }),
