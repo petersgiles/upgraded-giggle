@@ -9,23 +9,39 @@ import {
   GetAllCommitments,
   SetCurrentCommitment,
   UpsertCommitment,
-  StoreCommitment
+  StoreCommitment,
+  SetCostingRequired
 } from './commitment.actions'
 import { switchMap, map, catchError, concatMap } from 'rxjs/operators'
 
 import { AppDataService } from '../../services/app-data.service'
 import { DataResult, CommitmentsResult, CommitmentResult } from '../../models'
 import { AppNotification, ClearAppNotification } from '../app.actions'
-// import { GetMapPointsByCommitment, ClearMapPoints } from '../map-point/map-point.actions'
 import { ClearRelatedCommitments, GetRelatedCommitmentsByCommitment } from '../related-commitment/related-commitment.actions'
 import { GetContactsByCommitment, ClearCommitmentContacts } from '../commitment-contact/commitment-contact.actions'
 import { ClearCommitmentActions, GetActionsByCommitment } from '../commitment-action/commitment-action.actions'
 import { ClearRelatedLinks, GetRelatedLinksByCommitment } from '../related-link/related-link.actions'
 import { GetMapPointsByCommitment, ClearMapPoints, GetElectoratesByCommitment, ClearElectorates } from '../commitment-delivery-location/commitment-delivery-location.actions'
-import { GetPackagesByCommitment } from '../commitment-package/commitment-package.actions';
+import { GetPackagesByCommitment } from '../commitment-package/commitment-package.actions'
+
 
 @Injectable()
 export class CommitmentEffects {
+
+  @Effect()
+  setCostingRequired$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(CommitmentActionTypes.SetCostingRequired),
+      map((action: SetCostingRequired) => action.payload),
+      switchMap((payload) => this.service.setCostingRequired(payload)),
+      switchMap((result: any) => [
+        new AppNotification({ message: 'Action Stored' }),
+        new SetCurrentCommitment({ id: result.data.commitment }),
+        new ClearAppNotification()
+      ]),
+      catchError(error => of(new CommitmentsActionFailure(error)))
+
+    )
 
   @Effect()
   getAllCommitments$: Observable<Action> = this.actions$
