@@ -34,17 +34,19 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
   
   @HostListener('click', ['$event']) 
   onMouseEnter(e: any) {
-    if(e.target !== 'a' && this.el.nativeElement.querySelector('a')){
-      this.el.nativeElement.querySelector('a').addEventListener('click', this.onClick.bind(this));
-      let el = this.el.nativeElement.querySelector('a')
-       el.style.cursor = 'pointer'
-       this.href = el.href
-  //  let c = window.location.protocol
-     // el.setAttribute("target","_blank")
+    let anchorCollection = this.el.nativeElement.querySelectorAll('a')
+    for (let i = 0; i < anchorCollection.length; i++){
+      let el = anchorCollection[i]
+      let elRect = el.getBoundingClientRect()
+      let posX = elRect.left + elRect.width
+      let posY = elRect.top + elRect.height
+      let posOK = e.clientX <= posX && e.clientY <= posY && e.clientY >= elRect.top && e.clientY <= elRect.bottom
+      if (e.target !== 'a' && posOK) {
+        el.addEventListener('click', this.onClick.bind(this))
+        el.style.cursor = 'pointer'
+        this.href = el.href
+      }
     }
-  
-   
-   
   }
 
   onClick(e: any){

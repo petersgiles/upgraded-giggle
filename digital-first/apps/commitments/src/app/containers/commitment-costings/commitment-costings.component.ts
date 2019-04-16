@@ -114,7 +114,7 @@ export class CommitmentCostingsComponent implements OnInit, OnDestroy {
     return operations[OPERATION_COSTING]
   }
 
-  handleCostingRequired(event: any) {
+  handleCostingRequired() {
       this.commitmentService.setCostingRequired(this.commitment.id, !this.commitment.costingRequired)
   }
 }

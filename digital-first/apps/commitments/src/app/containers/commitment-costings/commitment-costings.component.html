@@ -2,7 +2,7 @@
   <ng-container *ngIf="!required">
     <digital-first-page-title title="Official costing Not Required">
         
-              <button mdc-button aria-label="Costing required" (click)="handleCostingRequired($event)">
+              <button mdc-button aria-label="Costing required" (click)="handleCostingRequired()">
                 <mdc-icon>check_box_outline_blank</mdc-icon>Required
               </button>
 
@@ -28,7 +28,7 @@
       <digital-first-page-title *ngIf="commitmentId" title="Official Costings"
         (onTitleClicked)="handleChangeExpanded(!expanded)">
         <button mdc-button aria-label="Costing required" 
-        (click)="handleCostingRequired($event)">
+        (click)="handleCostingRequired()">
         <mdc-icon>check</mdc-icon>Required
       </button>
         <digital-first-add-item-button icon="attach_money" title="New&nbsp;Costing" *ngIf="expanded"
