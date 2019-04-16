@@ -35,3 +35,8 @@ export const mapCommitment = (commitment): Commitment => {
 
 export const mapCommitments = (commitments): Commitment[] =>
   commitments.map(mapCommitment)
+
+export const mapCostingRequiredAction = (item): any => ({
+  id: item.ID,
+  costingRequired: item.costingRequired
+})

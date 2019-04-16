@@ -62,6 +62,17 @@ export class ApolloDataService implements AppDataService {
 
   }
 
+  setCostingRequired(payload: {commitment: number, costingRequired: boolean}): Observable<DataResult<CommitmentResult>> {
+    const variables = {
+      // ...commitment
+    }
+
+    return callMutate<CommitmentResult>(this.apollo,
+      { mutation: UPSERT_COMMITMENT, variables: variables },
+      (result: any) => ({ data: { commitment: result.data.upsertCommitment } }))
+
+  }
+
   storeContact(contact: {
     name: string,
     username: string,

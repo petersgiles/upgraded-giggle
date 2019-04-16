@@ -41,6 +41,7 @@ export const OPERATION_DEFAULTS = {
   providedIn: 'root'
 })
 export abstract class AppDataService {
+  abstract setCostingRequired(payload: {commitment: number, costingRequired: boolean}):  Observable<any>
   abstract getCurrentUser(): Observable<any>
   abstract getCurrentUserOperations(roles: any): Observable<any>
   abstract storeCommitment(commitment: Commitment): Observable<any>

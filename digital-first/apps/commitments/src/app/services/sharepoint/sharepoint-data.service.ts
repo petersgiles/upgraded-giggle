@@ -20,7 +20,7 @@ import { Commitment } from '../../reducers/commitment'
 import { arrayToHash } from '@df/utils'
 import { byIdQuery, byCommitmentIdQuery } from './caml'
 import { mapContacts, mapCommitmentContacts } from './contact'
-import { mapCommitment, mapCommitments } from './commitment'
+import { mapCommitment, mapCommitments, mapCostingRequiredAction } from './commitment'
 import { SPAppUserProfile } from '@df/sharepoint'
 import { mapPortfolios, mapPackageTypes } from '../../reducers/commitment-lookup/sharepoint/maps'
 
@@ -81,6 +81,30 @@ export class SharepointDataService implements AppDataService {
         })
       )
   }
+
+  setCostingRequired = (payload: {commitment: number, costingRequired: boolean}): Observable<DataResult<{ commitment: number }>> => {
+
+    const spCommitment = {
+      CostingRequired:  payload.costingRequired,
+    }
+
+    return this.sharepoint
+    .storeItem({
+      listName: 'Commitment',
+      data: spCommitment,
+      id: payload.commitment
+    })
+    .pipe(
+      map(mapCostingRequiredAction),
+      concatMap((result: any) =>
+        of({
+          data: { commitment: result.id },
+          loading: false
+        })
+      )
+    )
+}
+
 
   getCommitment = (criteria: { id: any; }): Observable<DataResult<CommitmentResult>> =>
     forkJoin([
