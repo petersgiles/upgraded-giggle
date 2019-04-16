@@ -124,17 +124,26 @@ export class BriefComponent implements OnInit, OnDestroy {
     console.log(`🐋 -  Select`, $event)
   }
 
+  public handleToggleExpandNavigatorNode($event) {
+    // tslint:disable-next-line:no-console
+    console.log(`🎯 -  handleToggleExpandNavigatorNode`, $event.node)
+
+    this.getPackNavigationService
+      .toggleExpandPackNavigationNode({
+        id: $event.node.id,
+        isExpanded: $event.node.isExpanded
+      })
+      .pipe(first())
+      .subscribe()
+  }
+
   public handleSelectNavigatorNode(node) {
-    // const navData = this.storyData.map(n => ({ ...n, active: false }))
-    // const found = { ...navData.find(n => n.id === node.id) }
-    // found.active = true
-    // const list = [...navData.filter(n => n.id !== node.id), found]
-    // this.navData$.next(list)
-    this.getPackNavigationService.expandNavNode(null)
-      .pipe(
-        // tslint:disable-next-line:no-console
-        tap(result => console.log('handleSelectNavigatorNode', result))
-      )
+    // tslint:disable-next-line:no-console
+    console.log(`🎯 -  HandleSelectNavigatorNode`, node)
+
+    this.getPackNavigationService
+      .activatePackNavigationNode({ id: node.id, isActive: node.isActive })
+      .pipe(first())
       .subscribe()
   }
 
@@ -151,7 +160,7 @@ export class BriefComponent implements OnInit, OnDestroy {
     console.log(`💬 -  AddComment`, $event)
   }
 
-  handleEvent($event, action) {
+  public handleEvent($event, action) {
     // tslint:disable-next-line:no-console
     console.log(`🦍 - ${action}`, $event)
   }

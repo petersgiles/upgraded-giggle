@@ -1,19 +1,21 @@
-query GetPackNavigation {
-  navigatorTree @namedClient(name: "packNavigation") {
+query GetPackNavigation($id: ID) {
+  navigatorTree(id: $id) @namedClient(name: "packNavigation") {
     id
     caption
     parent
     colour
     order
-    active @client
-    expanded @client
+    isActive @client
+    isExpanded @client
   }
 }
 
-mutation ExpandNavNode($input: String!) @client {
-  expandNavNode(input: $input) @namedClient(name: "packNavigation") {
-    code
-    success
-    message
-  }
+mutation ToggleExpandPackNavigationNode($input: TogglePackNavigationNodeInput!) {
+  toggleExpandPackNavigationNode(input: $input) @client
 }
+
+mutation ActivatePackNavigationNode($input: ActivatePackNavigationNodeInput!) {
+  activatePackNavigationNode(input: $input) @client
+}
+
+	

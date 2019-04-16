@@ -64,25 +64,21 @@ type Brief {
 	dueDate: Date
 	modified: Date
 	sortOrder: Int
-
 	securityClassification: SecurityClassification
 	dLM: DLM
 	policy: Policy
 	subPolicy: SubPolicy
 	briefStatus: BriefStatus
 	briefDivision: BriefDivision
-
 	contactOfficer: SharePointUser
 	createdBy: SharePointUser
 	modifiedBy: SharePointUser
 }
 
-
 input BriefRefinementInput {
     text: String,
     tags: [ID]
 }
-
 
 input NavigatorRefinementInput {
 	text: String,

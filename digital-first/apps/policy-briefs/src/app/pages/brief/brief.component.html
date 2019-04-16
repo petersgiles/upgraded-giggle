@@ -5,6 +5,7 @@
         [nodes]="nodes$ | async"
         (onSelect)="handleSelectNavigatorNode($event)"
         (onMoveNode)="handleEvent($event, 'Move')"
+        (onToggleExpand)="handleToggleExpandNavigatorNode($event)"
       ></df-pack-navigator>
     </nav>
     <section>

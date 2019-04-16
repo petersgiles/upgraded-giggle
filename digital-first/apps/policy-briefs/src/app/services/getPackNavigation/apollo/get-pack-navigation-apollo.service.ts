@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { GetPackNavigationService } from '../get-pack-navigation.service'
 
 import { Observable, of } from 'rxjs'
-import { GetPackNavigationGQL, ExpandNavNodeGQL } from '../../../generated/graphql'
+import { GetPackNavigationGQL, ActivatePackNavigationNodeGQL, ToggleExpandPackNavigationNodeGQL } from '../../../generated/graphql'
 import { first, tap, map } from 'rxjs/operators'
 
 @Injectable({
@@ -11,7 +11,8 @@ import { first, tap, map } from 'rxjs/operators'
 export class GetPackNavigationApolloService implements GetPackNavigationService {
   constructor(
     private getPackNavigationGQL: GetPackNavigationGQL,
-    private expandNavNodeGQL: ExpandNavNodeGQL
+    private toggleExpandPackNavigationNodeGQL: ToggleExpandPackNavigationNodeGQL,
+    private activatePackNavigationNodeGQL: ActivatePackNavigationNodeGQL
     ) { }
 
   public getPackNavigation(input): Observable<any> {
@@ -23,14 +24,12 @@ export class GetPackNavigationApolloService implements GetPackNavigationService 
         )
   }
 
-  public expandNavNode(input): Observable<any> {
-    // tslint:disable-next-line:no-console
-    console.log('say cheese')
-    return  this.expandNavNodeGQL.mutate({input: '1'})
-    .pipe(
-      // tslint:disable-next-line:no-console
-      tap(r => console.log('expandNavNode', r))
-    )
+  public toggleExpandPackNavigationNode(input: {id: string, isExpanded: boolean}): Observable<any> {
+    return  this.toggleExpandPackNavigationNodeGQL.mutate({input})
+  }
+
+  public activatePackNavigationNode(input: {id: string, isActive: boolean}): Observable<any> {
+    return  this.activatePackNavigationNodeGQL.mutate({input})
   }
 
 }

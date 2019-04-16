@@ -13,7 +13,7 @@ export const resolvers: any = {
 		policies: async (obj: any, args: any, context: any, info: any) =>
 			await context.models.Lookups.getAll(context, TABLE.POLICY),
 		navigatorTree: async (obj: any, args: any, context: any, info: any) =>
-			await context.models.Lookups.getPackNavigation(context),
+			await context.models.Lookups.getPackNavigation(args, context),
 	},
 	Brief: {
 		securityClassification: async (obj: any, args: any, context: any, info: any) => 

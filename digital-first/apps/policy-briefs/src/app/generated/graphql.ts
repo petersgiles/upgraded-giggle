@@ -11,6 +11,11 @@ export type Scalars = {
   Upload: any
 }
 
+export type ActivatePackNavigationNodeInput = {
+  id?: Maybe<Scalars['ID']>
+  isActive?: Maybe<Scalars['Boolean']>
+}
+
 export type Brief = {
   id: Scalars['ID']
   title?: Maybe<Scalars['String']>
@@ -52,33 +57,27 @@ export enum CacheControlScope {
   Private = 'PRIVATE'
 }
 
-export type ClientMutationResponse = {
-  code: Scalars['String']
-  success: Scalars['Boolean']
-  message: Scalars['String']
-}
-
 export type Dlm = {
   id: Scalars['ID']
   title: Scalars['String']
 }
 
 export type Mutation = {
-  expandNavNode?: Maybe<ClientMutationResponse>
+  toggleExpandPackNavigationNode?: Maybe<Scalars['Boolean']>
+  activatePackNavigationNode?: Maybe<Scalars['Boolean']>
 }
 
-export type MutationExpandNavNodeArgs = {
-  input: Scalars['String']
+export type MutationToggleExpandPackNavigationNodeArgs = {
+  input: TogglePackNavigationNodeInput
 }
 
-export type NavigatorRefinementInput = {
-  text?: Maybe<Scalars['String']>
-  tags?: Maybe<Array<Maybe<Scalars['ID']>>>
+export type MutationActivatePackNavigationNodeArgs = {
+  input: ActivatePackNavigationNodeInput
 }
 
 export type NavigatorTreeNode = {
-  active?: Maybe<Scalars['Boolean']>
-  expanded?: Maybe<Scalars['Boolean']>
+  isActive?: Maybe<Scalars['Boolean']>
+  isExpanded?: Maybe<Scalars['Boolean']>
   id: Scalars['ID']
   caption?: Maybe<Scalars['String']>
   meta?: Maybe<Scalars['String']>
@@ -110,7 +109,7 @@ export type QueryBriefsArgs = {
 }
 
 export type QueryNavigatorTreeArgs = {
-  input?: Maybe<NavigatorRefinementInput>
+  id?: Maybe<Scalars['ID']>
 }
 
 export enum Role {
@@ -141,6 +140,11 @@ export type SubPolicy = {
   title: Scalars['String']
   policy?: Maybe<Policy>
   briefs?: Maybe<Array<Maybe<Brief>>>
+}
+
+export type TogglePackNavigationNodeInput = {
+  id?: Maybe<Scalars['ID']>
+  isExpanded?: Maybe<Scalars['Boolean']>
 }
 
 export type GetBriefByIdQueryVariables = {
@@ -197,7 +201,9 @@ export type GetBriefByIdQuery = { __typename?: 'Query' } & {
   >
 }
 
-export type GetPackNavigationQueryVariables = {}
+export type GetPackNavigationQueryVariables = {
+  id?: Maybe<Scalars['ID']>
+}
 
 export type GetPackNavigationQuery = { __typename?: 'Query' } & {
   navigatorTree: Maybe<
@@ -210,23 +216,29 @@ export type GetPackNavigationQuery = { __typename?: 'Query' } & {
           | 'parent'
           | 'colour'
           | 'order'
-          | 'active'
-          | 'expanded'
+          | 'isActive'
+          | 'isExpanded'
         >
       >
     >
   >
 }
 
-export type ExpandNavNodeMutationVariables = {
-  input: Scalars['String']
+export type ToggleExpandPackNavigationNodeMutationVariables = {
+  input: TogglePackNavigationNodeInput
 }
 
-export type ExpandNavNodeMutation = { __typename?: 'Mutation' } & {
-  expandNavNode: Maybe<
-    Pick<ClientMutationResponse, 'code' | 'success' | 'message'>
-  >
+export type ToggleExpandPackNavigationNodeMutation = {
+  __typename?: 'Mutation'
+} & Pick<Mutation, 'toggleExpandPackNavigationNode'>
+
+export type ActivatePackNavigationNodeMutationVariables = {
+  input: ActivatePackNavigationNodeInput
 }
+
+export type ActivatePackNavigationNodeMutation = {
+  __typename?: 'Mutation'
+} & Pick<Mutation, 'activatePackNavigationNode'>
 
 import gql from 'graphql-tag'
 import { Injectable } from '@angular/core'
@@ -293,15 +305,15 @@ export class GetBriefByIdGQL extends Apollo.Query<
   document = GetBriefByIdDocument
 }
 export const GetPackNavigationDocument = gql`
-  query GetPackNavigation {
-    navigatorTree {
+  query GetPackNavigation($id: ID) {
+    navigatorTree(id: $id) {
       id
       caption
       parent
       colour
       order
-      active @client
-      expanded @client
+      isActive @client
+      isExpanded @client
     }
   }
 `
@@ -316,23 +328,37 @@ export class GetPackNavigationGQL extends Apollo.Query<
   document = GetPackNavigationDocument
   client = 'packNavigation'
 }
-export const ExpandNavNodeDocument = gql`
-  mutation ExpandNavNode($input: String!) @client {
-    expandNavNode(input: $input) {
-      code
-      success
-      message
-    }
+export const ToggleExpandPackNavigationNodeDocument = gql`
+  mutation ToggleExpandPackNavigationNode(
+    $input: TogglePackNavigationNodeInput!
+  ) {
+    toggleExpandPackNavigationNode(input: $input) @client
   }
 `
 
 @Injectable({
   providedIn: 'root'
 })
-export class ExpandNavNodeGQL extends Apollo.Mutation<
-  ExpandNavNodeMutation,
-  ExpandNavNodeMutationVariables
+export class ToggleExpandPackNavigationNodeGQL extends Apollo.Mutation<
+  ToggleExpandPackNavigationNodeMutation,
+  ToggleExpandPackNavigationNodeMutationVariables
 > {
-  document = ExpandNavNodeDocument
-  client = 'packNavigation'
+  document = ToggleExpandPackNavigationNodeDocument
+}
+export const ActivatePackNavigationNodeDocument = gql`
+  mutation ActivatePackNavigationNode(
+    $input: ActivatePackNavigationNodeInput!
+  ) {
+    activatePackNavigationNode(input: $input) @client
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ActivatePackNavigationNodeGQL extends Apollo.Mutation<
+  ActivatePackNavigationNodeMutation,
+  ActivatePackNavigationNodeMutationVariables
+> {
+  document = ActivatePackNavigationNodeDocument
 }

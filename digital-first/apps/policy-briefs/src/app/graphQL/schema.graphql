@@ -3,17 +3,22 @@ directive @client on FIELD
 # import NavNode from "navigatorTree.graphql"
 
 type NavigatorTreeNode {
-    active: Boolean
-	expanded: Boolean
+	isActive: Boolean
+    isExpanded: Boolean
 }
 
-interface ClientMutationResponse {
-	code: String!
-	success: Boolean!
-	message: String!
+input ActivatePackNavigationNodeInput {
+	id: ID
+	isActive: Boolean
+}
+
+input TogglePackNavigationNodeInput {
+	id: ID
+	isExpanded: Boolean
 }
 
 type Mutation {
-    expandNavNode(input: String!): ClientMutationResponse
+    toggleExpandPackNavigationNode(input: TogglePackNavigationNodeInput!): Boolean
+	activatePackNavigationNode(input: ActivatePackNavigationNodeInput!): Boolean
 }
 

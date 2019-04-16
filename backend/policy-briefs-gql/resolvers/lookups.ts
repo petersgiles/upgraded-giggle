@@ -46,7 +46,7 @@ export class Lookups {
 		return result
 	}
 
-	async getPackNavigation(context: any): Promise<any> {
+	async getPackNavigation(args: any, context: any): Promise<any> {
 		let navigatorData: any[] = []
 
 		let policies = await this.knex(context)
@@ -61,13 +61,20 @@ export class Lookups {
 
 		navigatorData = [...policies, ...subpolicies]
 
+		if(args && args.id){
+			navigatorData = navigatorData.filter(p => p.id === args.id)
+		}
+
 		return navigatorData
 	}
 
 
 	public navigateTreeMap = (item: any, level?: any) => {
+		console.log(`🐤`, item)
+		let id = `${item.policy ? 'SUB': ''}${item.id}`
+
 		return {
-				id: item.id,
+				id: id,
 				parent: item.policy,
 				caption: item.title,
 				level: level,
