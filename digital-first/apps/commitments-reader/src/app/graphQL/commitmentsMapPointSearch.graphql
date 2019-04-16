@@ -1,0 +1,20 @@
+query CommitmentsMapPointSearch($commitmentWhere: WhereExpressionGraph) 
+{
+ commitmentMapPoints  (where: [$commitmentWhere])
+ { id
+   internalVersion,
+	 title,
+	 description
+    commitment {
+      ...CommitmentParts
+    }
+    mapPoint
+    {
+      id
+      placeId
+      title
+      latitude
+      longitude
+    }
+ }
+}

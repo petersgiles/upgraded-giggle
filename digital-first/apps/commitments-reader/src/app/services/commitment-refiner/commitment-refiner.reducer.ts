@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core'
-import { CommitmentPartsFragment } from '../../generated/graphql'
+import {
+  CommitmentPartsFragment,
+  CommitmentMapPointGraph
+} from '../../generated/graphql'
 import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
 import { environment } from '../../../environments/environment'
 import {
@@ -28,6 +31,7 @@ export interface RefinerState {
   refinerGroups: RefinerGroup[]
   selectedMapPoint: any
   mapPoints: any[]
+  commitmentMapPoints: CommitmentMapPointGraph[]
   mapPointsCommitments: CommitmentPartsFragment[]
   commitments: CommitmentPartsFragment[]
   columns: DataTableColumn[]
@@ -43,6 +47,7 @@ export const initialState: RefinerState = {
   sortDirection: null,
   selectedMapPoint: [],
   mapPoints: [],
+  commitmentMapPoints: [],
   mapPointsCommitments: [],
   commitments: [],
   columns: [
@@ -78,7 +83,14 @@ export class RefinerReducer {
       case RefinerActionTypes.LoadMapPointsCommitments: {
         return {
           ...state,
-          mapPointsCommitments: action.payload
+          commitmentMapPoints: action.payload
+        }
+      }
+
+      case RefinerActionTypes.GetCommitmentMapPointAll: {
+        return {
+          ...state,
+          commitmentMapPoints: action.payload
         }
       }
 
@@ -110,9 +122,17 @@ export class RefinerReducer {
         const expandedRefinerGroups = state.expandedRefinerGroups.filter(
           p => p !== action.payload.id
         )
+
+        console.log(
+          '👽',
+          `id group ${group} expanded store`,
+          expandedRefinerGroups
+        )
+
         if (refinerGroups[group].expanded) {
           expandedRefinerGroups.push(action.payload.id)
         }
+        console.log('👽', 'store : ', expandedRefinerGroups)
 
         return {
           ...state,
@@ -133,14 +153,17 @@ export class RefinerReducer {
           expandedRefinerGroups.push(item.groupId)
         }
 
+        console.log(expandedRefinerGroups)
+
         const refiner = refinerGroups[group].children.findIndex(
           p => p.id === item.id
         )
+        console.log('👽', 'group:', group, 'refiner', refiner)
 
         refinerGroups[group].children[refiner].selected = !refinerGroups[group]
           .children[refiner].selected
 
-        // console.log('store prior to filter', state.selectedRefiners)
+        console.log('store prior to filter', state.selectedRefiners)
 
         // if the item is not selected, then it has been unselected. Remove from store
         const selectedRefiners =
@@ -150,7 +173,7 @@ export class RefinerReducer {
               )
             : state.selectedRefiners
 
-        // console.log('store after filter', selectedRefiners)
+        console.log('store after filter', selectedRefiners)
 
         // if the item is selected. Add to store
         if (refinerGroups[group].children[refiner].selected) {
@@ -159,17 +182,21 @@ export class RefinerReducer {
             itemId: item.id
           }
           selectedRefiners.push(selectedItem)
-          //console.log('store after add', state.selectedRefiners)
         }
-        return {
+
+        const retVal = {
           ...state,
           expandedRefinerGroups: expandedRefinerGroups,
           selectedRefiners: selectedRefiners,
           refinerGroups: refinerGroups
         }
+
+        console.log(retVal)
+
+        return retVal
       }
     }
-
+    console.log('default case')
     return state
   }
 }

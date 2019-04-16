@@ -3,11 +3,16 @@ import { BehaviorSubject, Subject, Subscription, Observable, of } from 'rxjs'
 import {
   GetRefinerTagsGQL,
   CommitmentsMapPointSearchGQL,
+  CommitmentsMapPointSearchQuery,
   CommitmentPartsFragment,
   MapPointGraph,
   CommitmentRefinerGraph,
-  MapPointCommitmentsSearchGQL,
-  PlannerCommitmentsGQL
+  CommitmentsMapPointAllGQL,
+  CommitmentsMapPointAllQuery,
+  CommitmentMapPointGraph,
+  PlannerCommitmentsGQL,
+  WhereExpressionGraph,
+  ComparisonGraph
 } from '../../generated/graphql'
 import { first, map, tap, filter, switchMap } from 'rxjs/operators'
 import { environment } from '../../../environments/environment'
@@ -21,10 +26,10 @@ import {
   SelectRefiner,
   GetRefinedCommitments,
   LoadRefinedCommitments,
-  GetRefinedMapPoints,
+  GetCommitmentMapPointSearch,
   LoadRefinedMapPoints,
   SelectMapPoint,
-  GetMapPointsCommitments,
+  GetCommitmentMapPointAll,
   LoadMapPointsCommitments
 } from './commitment-refiner.actions'
 import {
@@ -53,6 +58,14 @@ export class CommitmentRefinerService implements OnDestroy {
   public mapPointCommitments$: Subject<
     CommitmentPartsFragment[]
   > = new Subject()
+
+  public commitmentsMapPointAll$: Subject<
+    CommitmentMapPointGraph[]
+  > = new Subject()
+  public commitmentsMapPointSearch$: Subject<
+    CommitmentMapPointGraph[]
+  > = new Subject()
+
   public commitments$: Subject<CommitmentPartsFragment[]> = new Subject()
   public refinerGroups$: BehaviorSubject<any[]> = new BehaviorSubject([])
   private actionSubscription$: Subscription
@@ -64,7 +77,7 @@ export class CommitmentRefinerService implements OnDestroy {
     private getRefinerTagsGQL: GetRefinerTagsGQL,
     private commitmentsSearchGQL: PlannerCommitmentsGQL,
     private commitmentsMapPointSearchGQL: CommitmentsMapPointSearchGQL,
-    private mapPointCommitmentsSearchGQL: MapPointCommitmentsSearchGQL
+    private commitmentsMapPointAllGQL: CommitmentsMapPointAllGQL
   ) {
     this.registerEffects()
 
@@ -112,7 +125,8 @@ export class CommitmentRefinerService implements OnDestroy {
       this.mapPoints$.next(store.mapPoints)
       this.commitments$.next(store.commitments)
       this.selectedRefinders$.next(store.selectedRefiners)
-      this.mapPointCommitments$.next(store.mapPointsCommitments)
+      this.commitmentsMapPointSearch$.next(store.commitmentMapPoints)
+      this.commitmentsMapPointAll$.next(store.commitmentMapPoints)
       this.refinerGroups$.next(store.refinerGroups)
     })
   }
@@ -127,13 +141,13 @@ export class CommitmentRefinerService implements OnDestroy {
       this.getRefinedCommitmentsEffect
     )
     this.refinerEffects.register(
-      RefinerActionTypes.GetRefinedMapPoints,
-      this.getRefinedMapPointsEffect
+      RefinerActionTypes.GetCommitmentMapPointSearch,
+      this.getCommitmentMapPointSearchEffect
     )
 
     this.refinerEffects.register(
-      RefinerActionTypes.GetMapPointsCommitments,
-      this.getMapPointsCommitmentsEffect
+      RefinerActionTypes.GetCommitmentMapPointAll,
+      this.getCommitmentMapPointAllEffect
     )
   }
 
@@ -145,7 +159,7 @@ export class CommitmentRefinerService implements OnDestroy {
     if (storeRefiners.find(find => find.groupId === groupId)) {
       const ids: number[] = []
       storeRefiners
-        .filter(find => find.groupId === groupId)
+        .filter(fltr => fltr.groupId === groupId)
         .map(i => {
           ids.push(i.itemId)
         })
@@ -168,22 +182,25 @@ export class CommitmentRefinerService implements OnDestroy {
     this.action$.next(new GetRefinedCommitments(payload))
   }
 
-  public getMapPageCommitments() {
+  public getCommitmentMapPointsAll() {
     const store = this.store$.getValue()
-    const payload: any = {
-      id: 1
+
+    const payload: CommitmentRefinerGraph = {
+      commitmentTypes: this.getItems(store.selectedRefiners, 1),
+      criticalDates: this.getItems(store.selectedRefiners, 2),
+      portfolioLookups: this.getItems(store.selectedRefiners, 3)
     }
 
-    this.action$.next(new GetMapPointsCommitments(payload))
+    this.action$.next(new GetCommitmentMapPointAll(payload))
   }
 
-  public getMapPage() {
+  public getCommitmentMapPointSearch() {
     const store = this.store$.getValue()
     const payload: any = {
       id: 1
     }
 
-    this.action$.next(new GetRefinedMapPoints(payload))
+    this.action$.next(new GetCommitmentMapPointSearch(payload))
   }
 
   public getPlannerPage() {
@@ -201,18 +218,40 @@ export class CommitmentRefinerService implements OnDestroy {
     this.storeSubscription$.unsubscribe()
   }
 
-  getMapPointsCommitmentsEffect = (
-    action: GetMapPointsCommitments
+  getCommitmentMapPointAllEffect = (
+    action: GetCommitmentMapPointAll
   ): Observable<RefinerAction> => {
-    // tslint:disable-next-line:no-console
     console.log(action)
 
-    return this.mapPointCommitmentsSearchGQL.fetch().pipe(
+    return this.commitmentsMapPointAllGQL.fetch().pipe(
       first(),
-      // tslint:disable-next-line:no-console
-      map((result: any) => result.data.commitments),
+      tap(result =>
+        console.log('👽', 'getCommitmentMapPointAllEffect Result', result)
+      ),
+      map((result: any) => result.data.commitmentMapPoints),
       map(result => new LoadMapPointsCommitments(result))
     )
+  }
+  getCommitmentMapPointSearchEffect = (
+    action: GetCommitmentMapPointSearch
+  ): Observable<RefinerAction> => {
+    // tslint:disable-next-line:no-console
+    const whereVal: WhereExpressionGraph = {
+      path: 'CommitmentId',
+      comparison: ComparisonGraph.Equal,
+      value: ['2']
+    }
+
+    return this.commitmentsMapPointSearchGQL
+      .fetch({ commitmentWhere: whereVal })
+      .pipe(
+        first(),
+        tap(result =>
+          console.log('👽', 'getCommitmentMapPointSearchEffect Result', result)
+        ),
+        map((result: any) => result.data.mappoints),
+        map(result => new LoadRefinedMapPoints(result))
+      )
   }
 
   // This is the comittments search
@@ -226,23 +265,6 @@ export class CommitmentRefinerService implements OnDestroy {
       map((result: any) => result.data.commitments),
       map(result => new LoadRefinedCommitments(result))
     )
-
-  getRefinedMapPointsEffect = (
-    action: GetRefinedMapPoints
-  ): Observable<RefinerAction> => {
-    // tslint:disable-next-line:no-console
-    console.log(action)
-
-    return this.commitmentsMapPointSearchGQL
-      .fetch({ refiner: action.payload })
-      .pipe(
-        first(),
-        // tslint:disable-next-line:no-console
-        tap(result => console.log('Get Refined MapPoint Result', result)),
-        map((result: any) => result.data.mappoints),
-        map(result => new LoadRefinedMapPoints(result))
-      )
-  }
 
   buildFilterMenu(...args: any): CRMenu[] {
     const refinerGroups = [
@@ -285,6 +307,8 @@ export class CommitmentRefinerService implements OnDestroy {
       []
     )
 
+    console.log(result)
+
     return result
   }
 
@@ -311,7 +335,6 @@ export class CommitmentRefinerService implements OnDestroy {
 
   public selectMapPoint(item: any): any {
     this.action$.next(new SelectMapPoint(item))
-    this.getMapPageCommitments()
   }
 
   public handleRefinerGroupSelected(item) {
@@ -321,7 +344,6 @@ export class CommitmentRefinerService implements OnDestroy {
   public handleRefinerSelected(item) {
     this.action$.next(new SelectRefiner(item))
     this.getOverviewPage()
-    this.getMapPage()
   }
 }
 interface CRMenu {

@@ -1594,16 +1594,75 @@ export type PlannerCommitmentsQuery = { __typename?: 'Query' } & {
   >
 }
 
-export type CommitmentsMapPointSearchQueryVariables = {}
+export type CommitmentsMapPointAllQueryVariables = {}
 
-export type CommitmentsMapPointSearchQuery = { __typename?: 'Query' } & {
-  mapPoints: Maybe<
+export type CommitmentsMapPointAllQuery = { __typename?: 'Query' } & {
+  commitmentMapPoints: Maybe<
     Array<
       Maybe<
-        { __typename?: 'MapPointGraph' } & Pick<
-          MapPointGraph,
-          'id' | 'placeId' | 'title' | 'latitude' | 'longitude'
-        >
+        { __typename?: 'CommitmentMapPointGraph' } & Pick<
+          CommitmentMapPointGraph,
+          'id' | 'internalVersion' | 'title' | 'description'
+        > & {
+            commitment: Maybe<
+              { __typename?: 'CommitmentGraph' } & Pick<
+                CommitmentGraph,
+                'id' | 'title' | 'politicalParty' | 'announcedBy'
+              > & {
+                  announcementType: Maybe<
+                    { __typename?: 'AnnouncementTypeGraph' } & Pick<
+                      AnnouncementTypeGraph,
+                      'id' | 'title'
+                    >
+                  >
+                  criticalDate: Maybe<
+                    { __typename?: 'CriticalDateGraph' } & Pick<
+                      CriticalDateGraph,
+                      'id' | 'title'
+                    >
+                  >
+                  portfolioLookup: Maybe<
+                    { __typename?: 'PortfolioLookupGraph' } & Pick<
+                      PortfolioLookupGraph,
+                      'id' | 'title'
+                    >
+                  >
+                }
+            >
+            mapPoint: Maybe<
+              { __typename?: 'MapPointGraph' } & Pick<
+                MapPointGraph,
+                'id' | 'placeId' | 'title' | 'latitude' | 'longitude'
+              >
+            >
+          }
+      >
+    >
+  >
+}
+
+export type CommitmentsMapPointSearchQueryVariables = {
+  commitmentWhere?: Maybe<WhereExpressionGraph>
+}
+
+export type CommitmentsMapPointSearchQuery = { __typename?: 'Query' } & {
+  commitmentMapPoints: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'CommitmentMapPointGraph' } & Pick<
+          CommitmentMapPointGraph,
+          'id' | 'internalVersion' | 'title' | 'description'
+        > & {
+            commitment: Maybe<
+              { __typename?: 'CommitmentGraph' } & CommitmentPartsFragment
+            >
+            mapPoint: Maybe<
+              { __typename?: 'MapPointGraph' } & Pick<
+                MapPointGraph,
+                'id' | 'placeId' | 'title' | 'latitude' | 'longitude'
+              >
+            >
+          }
       >
     >
   >
@@ -1642,18 +1701,6 @@ export type CommitmentPartsFragment = { __typename?: 'CommitmentGraph' } & Pick<
       >
     >
   }
-
-export type MapPointCommitmentsSearchQueryVariables = {}
-
-export type MapPointCommitmentsSearchQuery = { __typename?: 'Query' } & {
-  commitmentMapPoints: Maybe<
-    Array<
-      Maybe<
-        { __typename?: 'CommitmentMapPointGraph' } & CommitmentPartsFragment
-      >
-    >
-  >
-}
 
 export type GetRefinerTagsQueryVariables = {}
 
@@ -1745,16 +1792,71 @@ export class PlannerCommitmentsGQL extends Apollo.Query<
 > {
   document = PlannerCommitmentsDocument
 }
-export const CommitmentsMapPointSearchDocument = gql`
-  query CommitmentsMapPointSearch {
-    mapPoints {
+export const CommitmentsMapPointAllDocument = gql`
+  query CommitmentsMapPointAll {
+    commitmentMapPoints {
       id
-      placeId
+      internalVersion
       title
-      latitude
-      longitude
+      description
+      commitment {
+        id
+        title
+        politicalParty
+        announcedBy
+        announcementType {
+          id
+          title
+        }
+        criticalDate {
+          id
+          title
+        }
+        portfolioLookup {
+          id
+          title
+        }
+      }
+      mapPoint {
+        id
+        placeId
+        title
+        latitude
+        longitude
+      }
     }
   }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CommitmentsMapPointAllGQL extends Apollo.Query<
+  CommitmentsMapPointAllQuery,
+  CommitmentsMapPointAllQueryVariables
+> {
+  document = CommitmentsMapPointAllDocument
+}
+export const CommitmentsMapPointSearchDocument = gql`
+  query CommitmentsMapPointSearch($commitmentWhere: WhereExpressionGraph) {
+    commitmentMapPoints(where: [$commitmentWhere]) {
+      id
+      internalVersion
+      title
+      description
+      commitment {
+        ...CommitmentParts
+      }
+      mapPoint {
+        id
+        placeId
+        title
+        latitude
+        longitude
+      }
+    }
+  }
+  ${CommitmentPartsFragmentDoc}
 `
 
 @Injectable({
@@ -1783,24 +1885,6 @@ export class CommitmentsSearchGQL extends Apollo.Query<
   CommitmentsSearchQueryVariables
 > {
   document = CommitmentsSearchDocument
-}
-export const MapPointCommitmentsSearchDocument = gql`
-  query MapPointCommitmentsSearch {
-    commitmentMapPoints {
-      ...CommitmentParts
-    }
-  }
-  ${CommitmentPartsFragmentDoc}
-`
-
-@Injectable({
-  providedIn: 'root'
-})
-export class MapPointCommitmentsSearchGQL extends Apollo.Query<
-  MapPointCommitmentsSearchQuery,
-  MapPointCommitmentsSearchQueryVariables
-> {
-  document = MapPointCommitmentsSearchDocument
 }
 export const GetRefinerTagsDocument = gql`
   query GetRefinerTags {
