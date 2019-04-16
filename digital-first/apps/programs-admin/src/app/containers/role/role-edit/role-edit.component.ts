@@ -51,7 +51,11 @@ export class RoleEditComponent implements OnInit, OnDestroy {
     manageAccessControls: false,
     updateElectorateAdvice: false,
 
-    description: ['']
+    allowMessagePassThrough: false,
+    updateCommitments: false,
+    updateBriefCommitments: false,
+
+    description: ['', [Validators.required]]
   })
 
   ngOnInit() {
@@ -80,7 +84,10 @@ export class RoleEditComponent implements OnInit, OnDestroy {
           manageApiKeys: value.manageApiKeys,
           manageGroups: value.manageGroups,
           manageAccessControls: value.manageAccessControls,
-          updateElectorateAdvice: value.updateElectorateAdvice
+          updateElectorateAdvice: value.updateElectorateAdvice,
+          allowMessagePassThrough: value.allowMessagePassThrough,
+          updateCommitments: value.updateCommitments,
+          updateBriefCommitments: value.updateBriefCommitments
         })
       })
   }
@@ -121,6 +128,13 @@ export class RoleEditComponent implements OnInit, OnDestroy {
             ],
             updateElectorateAdvice: this.editRoleForm.value[
               'updateElectorateAdvice'
+            ],
+            allowMessagePassThrough: this.editRoleForm.value[
+              'allowMessagePassThrough'
+            ],
+            updateCommitments: this.editRoleForm.value['updateCommitments'],
+            updateBriefCommitments: this.editRoleForm.value[
+              'updateBriefCommitments'
             ]
           }
         },

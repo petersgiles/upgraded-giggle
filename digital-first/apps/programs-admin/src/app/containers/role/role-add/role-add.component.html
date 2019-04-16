@@ -57,6 +57,12 @@
                         </mdc-form-field>
                         <mdc-form-field>
                           <mdc-checkbox
+                            formControlName="allowMessagePassThrough"
+                          ></mdc-checkbox>
+                          <label>Allow Message Pass Through</label>
+                        </mdc-form-field>
+                        <mdc-form-field>
+                          <mdc-checkbox
                             formControlName="createAgency"
                           ></mdc-checkbox>
                           <label>Create Agency</label>
@@ -137,9 +143,15 @@
                         </mdc-form-field>
                         <mdc-form-field>
                           <mdc-checkbox
-                            formControlName="manageApiKeys"
+                            formControlName="updateBriefCommitments"
                           ></mdc-checkbox>
-                          <label>Manage Api Keys</label>
+                          <label>Update Brief Commitments</label>
+                        </mdc-form-field>
+                        <mdc-form-field>
+                          <mdc-checkbox
+                            formControlName="updateCommitments"
+                          ></mdc-checkbox>
+                          <label>Update Commitments</label>
                         </mdc-form-field>
                         <mdc-form-field>
                           <mdc-checkbox
