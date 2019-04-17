@@ -49,14 +49,14 @@ export class CommitmentPortfolioDataSharePointService
 
                 concatMap(portfolios =>
                   of({
-                    data: { commitmentPortfolios: mapPortfolios(portfolios) },
+                    data: { relatedPortfolios: mapPortfolios(portfolios) },
                     loading: false
                   })
                 )
               )
           } else {
             return of({
-              data: { commitmentPortfolios: [] },
+              data: { relatedPortfolios: [] },
               loading: false
             })
           }

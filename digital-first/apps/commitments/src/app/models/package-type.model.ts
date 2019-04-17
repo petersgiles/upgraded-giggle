@@ -5,6 +5,7 @@ export interface PackageType {
   colour?: string
   commitment?: string
   package?: string
+  refinerGroup?: string
 }
 
 export interface PackageTypesResult {
@@ -12,5 +13,5 @@ export interface PackageTypesResult {
 }
 
 export interface CommitmentPackageResult {
-  commitmentPackages: PackageType[]
+  relatedPackages: PackageType[]
 }

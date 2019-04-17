@@ -27,16 +27,6 @@ export const getAnnouncementTypeEntities = createSelector(
   arrayToHash
 )
 
-export const getAllThemeTypes = createSelector(
-  getCommitmentLookupState,
-  state => state.themeTypes
-)
-
-export const getThemeTypeEntities = createSelector(
-  getAllThemeTypes,
-  arrayToHash
-)
-
 export const getAllPackageTypes = createSelector(
   getCommitmentLookupState,
   state => state.packageTypes
@@ -117,16 +107,6 @@ export const getPackageEntities = createSelector(
   arrayToHash
 )
 
-export const getAllThemes = createSelector(
-  getCommitmentLookupState,
-  state => state.themes
-)
-
-export const getThemeEntities = createSelector(
-  getAllThemes,
-  arrayToHash
-)
-
 export const getAllWhoAnnouncedTypes = createSelector(
   getCommitmentLookupState,
   state => state.whoAnnouncedTypes
@@ -149,12 +129,21 @@ export const getStatusEntities = createSelector(
 
 export const getLookupCommitmentPortfolios = createSelector(
   getCommitmentLookupState,
-  state => state.commitmentPortfolios
+  state => state.relatedPortfolios
+)
+
+export const sortBy = (key: string | number) => (a: { [x: string]: number; }, b: { [x: string]: number; }) => (a[key] > b[key]) ? 1 : ((b[key] > a[key]) ? -1 : 0)
+
+export const getUniqueLookupCommitmentPortfolios = createSelector(
+  getCommitmentLookupState,
+  state => {
+    return (Array.from(state.relatedPortfolios.reduce((m, t) => m.set(t.title, t), new Map()).values())).sort(sortBy('title'))
+  }
 )
 
 export const getLookupCommitmentPackages = createSelector(
   getCommitmentLookupState,
-  state => state.commitmentPackages
+  state => state.relatedPackages
 )
 
 export const getLookupCommitmentElectorates = createSelector(

@@ -24,7 +24,13 @@ export enum CommitmentActionTypes {
   StoreCommitmentFailure = '[Commitment] Store Commitment Failure',
   AddContactToCommitment = '[Commitment] Add Contact To Commitment',
   RemoveContactFromCommitment = '[Commitment] Remove Contact From Commitment',
+  SetCostingRequired = '[Commitment] Set Costing Required',
+}
 
+export class SetCostingRequired implements Action {
+  readonly type = CommitmentActionTypes.SetCostingRequired
+
+  constructor(public payload: {commitment: number, costingRequired:boolean}) { }
 }
 
 export class AddContactToCommitment implements Action {
@@ -43,6 +49,7 @@ export class LoadCommitments implements Action {
   readonly type = CommitmentActionTypes.LoadCommitments
   constructor(public payload: DataResult<CommitmentsResult>) { }
 }
+
 export class AddCommitment implements Action {
   readonly type = CommitmentActionTypes.AddCommitment
 
@@ -139,3 +146,4 @@ export type CommitmentActions =
   | StoreCommitment
   | AddContactToCommitment
   | RemoveContactFromCommitment
+  | SetCostingRequired

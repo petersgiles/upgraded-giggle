@@ -19,14 +19,12 @@ export const mapCommitment = (commitment): Commitment => {
     announcementType: fromLookup(item.AnnouncementType),
     criticalDate: fromLookup(item.CriticalDate),
     commitmentType: fromLookup(item.CommitmentType),
-    themeType: fromLookup(item.ThemeType),
     packageType: fromLookup(item.PackageType),
     date: item.Date,
     announcedby: item.AnnouncedBy,
     portfolio: fromLookup(item.Portfolio),
     portfolios: [],
     packages: [],
-    themes: [],
     mapPoints: [],
     contacts: [],
     relatedContacts: []
@@ -37,3 +35,8 @@ export const mapCommitment = (commitment): Commitment => {
 
 export const mapCommitments = (commitments): Commitment[] =>
   commitments.map(mapCommitment)
+
+export const mapCostingRequiredAction = (item): any => ({
+  id: item.ID,
+  costingRequired: item.costingRequired
+})

@@ -23,7 +23,7 @@
         Agency:
       </dt>
       <dd>
-        {{ user.agency.title }}
+        {{ user.agency?.title || 'Not Applicable' }}
       </dd>
     </dl>
   </div>

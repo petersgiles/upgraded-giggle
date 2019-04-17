@@ -17,7 +17,7 @@ import { PackageType } from '../../models'
   styleUrls: ['./commitment-package.component.scss']
 })
 export class CommitmentPackageComponent implements OnInit, OnDestroy {
-  title = 'Related Package'
+  title = 'Related Packages and Funds'
   _commitment: number
   userOperation$: Observable<any>
   packageSubscription$: Subscription
