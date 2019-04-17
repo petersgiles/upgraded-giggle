@@ -18,7 +18,7 @@ import {
   PermissionChangedEvent,
   PermissionRow
 } from '../permission/permission.component'
-
+import { DateTimeFormat } from '../../date-time-format'
 type StatisticReport = StatisticReportDetailQuery['statisticReport']
 
 @Component({
@@ -44,12 +44,14 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
     private deleteAccessControlGql: DeleteAccessControlGQL,
     private updateAccessControlGql: UpdateAccessControlGQL,
     private router: Router,
-    public dialog: MdcDialog
+    public dialog: MdcDialog,
+    private dateTimeFormat: DateTimeFormat
   ) {}
 
   ngOnInit() {
     this.statisticReportId = this.route.snapshot.paramMap.get('id')
     this.statisticId = this.route.snapshot.paramMap.get('statisticId')
+
     this.reportSubscription$ = this.statisticReportGql
       .watch(
         { reportId: this.statisticReportId },
@@ -73,6 +75,11 @@ export class StatisticReportComponent implements OnInit, OnDestroy {
           this.permissionRows = []
         }
         this.latestVersion = this.report.latestVersion
+        if (this.latestVersion) {
+          this.latestVersion.dataDate = this.dateTimeFormat.formatDate(
+            this.latestVersion.dataDate
+          )
+        }
       })
   }
 

@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   OnDestroy,
   ChangeDetectorRef,
   ChangeDetectionStrategy
@@ -12,10 +11,15 @@ import {
 import { BehaviorSubject, Subscription } from 'rxjs'
 import { Router } from '@angular/router'
 import { multiFilter } from '../../core/graphqlhelper'
+import { DateTimeFormat } from '../../date-time-format'
+import { FormBuilder, Validators } from '@angular/forms'
+
 interface ProjectRow {
   id: string
   name: string
   submissionDate: string
+  dataDate: string
+  programName: string
 }
 
 @Component({
@@ -24,36 +28,56 @@ interface ProjectRow {
   styleUrls: ['./projects.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProjectsComponent implements OnDestroy, OnInit {
-  subscription$: Subscription
+export class ProjectsComponent implements OnDestroy {
+  subscriptions$: Subscription[] = []
   columns = [
     { prop: 'name', name: 'Project' },
-    { prop: 'submissionDate', name: 'Date' }
+    { prop: 'programName', name: 'Program' },
+    { prop: 'dataDate', name: 'Data date' },
+    { prop: 'submissionDate', name: 'Submission date' }
   ]
   filterProjects$: BehaviorSubject<ProjectRow[]>
   rows: ProjectRow[]
   allProjectsSearch: AllProjectsSearchQuery
-
+  formSubmitted = false
+  projectSearchForm = this.formBuilder.group({
+    searchText: [null, Validators.required]
+  })
   constructor(
     private searchProjectsGQL: AllProjectsSearchGQL,
     private changeDetector: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private dateTimeFormat: DateTimeFormat,
+    private formBuilder: FormBuilder
   ) {}
 
-  ngOnInit(): void {
-    this.subscription$ = this.searchProjectsGQL
-      .watch({}, { fetchPolicy: 'network-only' })
+  doSearch() {
+    this.formSubmitted = true
+    var searchText = this.projectSearchForm.value['searchText']
+    if (!searchText) {
+      return
+    }
+
+    const searchsubscription$ = this.searchProjectsGQL
+      .watch({ name: searchText }, { fetchPolicy: 'network-only' })
       .valueChanges.subscribe(value => {
         this.rows = value.data.projects.map(row => ({
           id: row.id,
           name: row.name,
-          submissionDate: row.programSubmission.timeStamp
+          submissionDate: this.dateTimeFormat.formatDateTime(
+            row.programSubmission.timeStamp
+          ),
+          dataDate: this.dateTimeFormat.formatDate(
+            row.programSubmission.dataDate
+          ),
+          programName: row.program.name
         }))
 
         this.filterProjects$ = new BehaviorSubject(this.rows)
 
         this.changeDetector.detectChanges()
       })
+    this.subscriptions$ = [...this.subscriptions$, searchsubscription$]
   }
 
   handleSelect(row) {
@@ -76,6 +100,13 @@ export class ProjectsComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy(): void {
-    this.subscription$.unsubscribe()
+    for (const subscription of this.subscriptions$) {
+      if (subscription && subscription.unsubscribe) {
+        subscription.unsubscribe()
+      }
+    }
+    if (this.filterProjects$ && this.filterProjects$.unsubscribe) {
+      this.filterProjects$.unsubscribe()
+    }
   }
 }

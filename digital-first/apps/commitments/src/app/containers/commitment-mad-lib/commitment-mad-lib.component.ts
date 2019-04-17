@@ -7,8 +7,7 @@ import { Subscription, Observable } from 'rxjs'
 import { DeliveryLocationService } from '../../reducers/commitment-delivery-location/commitment-delivery-location.service'
 import { Electorate } from '../../models'
 import { MapPoint } from '@digital-first/df-map'
-import { CommitmentPackageService } from '../../reducers/commitment-package/commitment-package.service';
-import { CommitmentThemeService } from '../../reducers/commitment-theme/commitment-theme.service';
+import { CommitmentPackageService } from '../../reducers/commitment-package/commitment-package.service'
 
 @Component({
   selector: 'digital-first-commitment-mad-lib',
@@ -16,10 +15,8 @@ import { CommitmentThemeService } from '../../reducers/commitment-theme/commitme
   styleUrls: ['./commitment-mad-lib.component.scss']
 })
 export class CommitmentMadLibComponent implements OnInit, OnDestroy {
-
   _commitment: Commitment
   commitmentPortfoliosSubscription$: Subscription
-  commitmentThemeSubscription$: Subscription
   commitmentPackageSubscription$: Subscription
   relatedPortfolios: Portfolio[]
   relatedPackages$: PackageType[]
@@ -41,7 +38,7 @@ export class CommitmentMadLibComponent implements OnInit, OnDestroy {
     private cpsservice: CommitmentPortfolioService,
     private dlsservice: DeliveryLocationService,
     private packageService: CommitmentPackageService
-    ) {}
+  ) {}
 
   ngOnInit() {
     this.commitmentPortfoliosSubscription$ = this.cpsservice.CommitmentPortfolios.subscribe(
@@ -55,7 +52,6 @@ export class CommitmentMadLibComponent implements OnInit, OnDestroy {
         this.relatedPackages$ = next || []
       }
     )
-
 
     this.mapPoint$ = this.dlsservice.MapPoints
     this.electorate$ = this.dlsservice.Electorates

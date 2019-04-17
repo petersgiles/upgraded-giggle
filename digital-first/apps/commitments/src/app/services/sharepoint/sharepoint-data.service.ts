@@ -6,24 +6,24 @@ import { SharepointJsomService } from '@df/sharepoint'
 import { AppDataService } from '../app-data.service'
 
 import {
-  mapCommitmentPortfolios, mapGroupPermissions,
+  mapCommitmentPortfolios, mapGroupPermissions, mapCommitmentPackages
 } from './sharepoint-data-maps'
 
 import {
   DataResult,
   CommitmentResult,
   CommitmentsResult,
-  ContactsResult,
+  Contact, ContactsResult,
   GroupPermissionsResult,
 } from '../../models'
 import { Commitment } from '../../reducers/commitment'
-import { arrayToHash } from '@digital-first/df-utils'
+import { arrayToHash } from '@df/utils'
 import { byIdQuery, byCommitmentIdQuery } from './caml'
 import { mapContacts, mapCommitmentContacts } from './contact'
-import { mapCommitment, mapCommitments } from './commitment'
+import { mapCommitment, mapCommitments, mapCostingRequiredAction } from './commitment'
 import { SPAppUserProfile } from '@df/sharepoint'
-import { mapPortfolios } from '../../reducers/commitment-lookup/sharepoint/maps'
-import { Contact } from '../../reducers/contact/contact.model'
+import { mapPortfolios, mapPackageTypes } from '../../reducers/commitment-lookup/sharepoint/maps'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -50,7 +50,6 @@ export class SharepointDataService implements AppDataService {
     const spCommitment = {
       WhoAnnouncedType: commitment.whoAnnouncedType,
       AnnouncementType: commitment.announcementType,
-      ThemeType: commitment.themeType,
       PackageType: commitment.packageType,
       CriticalDate: commitment.criticalDate,
       CommitmentType: commitment.commitmentType,
@@ -83,6 +82,30 @@ export class SharepointDataService implements AppDataService {
       )
   }
 
+  setCostingRequired = (payload: {commitment: number, costingRequired: boolean}): Observable<DataResult<{ commitment: number }>> => {
+
+    const spCommitment = {
+      CostingRequired:  payload.costingRequired,
+    }
+
+    return this.sharepoint
+    .storeItem({
+      listName: 'Commitment',
+      data: spCommitment,
+      id: payload.commitment
+    })
+    .pipe(
+      map(mapCostingRequiredAction),
+      concatMap((result: any) =>
+        of({
+          data: { commitment: result.id },
+          loading: false
+        })
+      )
+    )
+}
+
+
   getCommitment = (criteria: { id: any; }): Observable<DataResult<CommitmentResult>> =>
     forkJoin([
       this.sharepoint.getItems({
@@ -102,18 +125,27 @@ export class SharepointDataService implements AppDataService {
       this.sharepoint.getItems({
         listName: 'CommitmentPortfolio',
         viewXml: byCommitmentIdQuery(criteria)
+      }),
+      this.sharepoint.getItems({
+        listName: 'PackageType'
+      }),
+      this.sharepoint.getItems({
+        listName: 'CommitmentPackage',
+        viewXml: byCommitmentIdQuery(criteria)
       })
     ]).pipe(
-      concatMap(([spCommitment, spContacts, spCommitmentContacts, spPortfolios, spCommitmentPortfolios]) => {
+      concatMap(([spCommitment, spContacts, spCommitmentContacts, spPortfolios, spCommitmentPortfolios, spPackages, spCommitmentPackages]) => {
 
         const commitment = mapCommitment(spCommitment[0])
         const contacts = arrayToHash(mapContacts(spContacts))
         const commitmentContact = mapCommitmentContacts(spCommitmentContacts)
         const portfolios = arrayToHash(mapPortfolios(spPortfolios))
+        const packages = arrayToHash(mapPackageTypes(spPackages))
         const commitmentPortfolio = mapCommitmentPortfolios(spCommitmentPortfolios)
+        const commitmentPackage = mapCommitmentPackages(spCommitmentPackages)
         commitment.contacts = commitmentContact.map(c => ({ ...contacts[c.contact], ccid: c.id }))
         commitment.portfolios = commitmentPortfolio.map(c => ({ ...portfolios[c.portfolio] }))
-
+        commitment.packages = commitmentPackage.map(c => ({ ...packages[c.package] }))
         return of({
           data: { commitment: commitment },
           loading: false

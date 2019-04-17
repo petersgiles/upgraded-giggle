@@ -8,7 +8,7 @@ import { CommitmentDataService } from '../../services/commitment-data.service'
 
 import { Party } from '../../models/party.model'
 import { Portfolio } from '../../models/portfolio.model'
-import { Contact } from '../../reducers/contact/contact.model'
+import { Contact } from '../../models/contact.model'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 import { showSnackBar } from '../../dialogs/show-snack-bar'
 

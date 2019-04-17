@@ -79,7 +79,6 @@
           [commitmentTypes]="commitmentTypes$ | async"
           [portfolios]="portfolios$ | async"
           [packageTypes]="packageTypes$ | async"
-          [themeTypes]="themeTypes$ | async"
           [statuses] = "statuses$ | async"
           (onSubmitted)="handleUpdateCommitment($event)"
           (onCancelled)="handleCancelled($event)"
@@ -88,12 +87,6 @@
         </digital-first-commitment-edit-form>
       </ng-container>
     </digital-first-commitment-view-guard>
-
-    <digital-first-commitment-theme
-    *ngIf="commitment"
-    [commitment]="commitment?.id"
-    >
-  </digital-first-commitment-theme>
 
   <digital-first-commitment-package
   *ngIf="commitment"
@@ -107,8 +100,6 @@
     >
     </digital-first-commitment-delivery-location>
 
-
-
     <digital-first-commitment-contacts
       *ngIf="commitment"
       [commitment]="commitment?.id"
@@ -116,7 +107,7 @@
 
     <digital-first-commitment-costings
       *ngIf="commitment"
-      [commitment]="commitment?.id"
+      [commitmentId]="commitment?.id"
       [required]="commitment?.costingRequired"
     ></digital-first-commitment-costings>
 

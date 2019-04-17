@@ -1,5 +1,5 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity'
-import { Contact } from './contact.model'
+import { Contact } from '../../models/contact.model'
 import { ContactActions, ContactActionTypes } from './contact.actions'
 
 export interface State extends EntityState<Contact> {

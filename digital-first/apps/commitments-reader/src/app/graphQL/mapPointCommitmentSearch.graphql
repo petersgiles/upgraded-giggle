@@ -1,0 +1,5 @@
+query MapPointCommitmentsSearch {
+  commitmentMapPoints {
+   ...CommitmentParts
+  }
+}

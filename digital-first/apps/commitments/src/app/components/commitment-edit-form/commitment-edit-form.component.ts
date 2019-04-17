@@ -17,9 +17,8 @@ import { WhoAnnouncedType } from '../../models/who-announced-type.model'
 import { Subscription } from 'rxjs'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { CriticalDate } from '../../models/critical-date.model'
-import { ThemeType } from '../../models/theme-type.model'
 import { PackageType } from '../../models/package-type.model'
-import { Status } from '../../models/status.model';
+import { Status } from '../../models/status.model'
 
 @Component({
   selector: 'digital-first-commitment-edit-form',
@@ -42,21 +41,17 @@ export class CommitmentEditFormComponent implements OnDestroy {
 
   get statuses(): Status[] {
     let mappedStatuses = null
-    if(this._statuses)
-    {
-      mappedStatuses = this._statuses.map((status) => {
-      return {
-        ...status,
-        caption: status ? status.title : ''
-
-      }
-    })
+    if (this._statuses) {
+      mappedStatuses = this._statuses.map(status =>
+        ({
+          ...status,
+          caption: status ? status.title : ''
+        }))
     }
     return mappedStatuses
   }
 
   @Input() announcementTypes: AnnouncementType[]
-  @Input() themeTypes: ThemeType[]
   @Input() packageTypes: PackageType[]
   @Input() whoAnnouncedTypes: WhoAnnouncedType[]
   @Input() commitmentTypes: CommitmentType[]
@@ -69,8 +64,6 @@ export class CommitmentEditFormComponent implements OnDestroy {
   @Output() onSubmitted: EventEmitter<any> = new EventEmitter()
   @Output() onCancelled: EventEmitter<any> = new EventEmitter()
   @Output() onChanged: EventEmitter<Commitment> = new EventEmitter()
-
-
 
   form = this.fb.group({
     id: [],
@@ -157,7 +150,7 @@ export class CommitmentEditFormComponent implements OnDestroy {
   mapCommitment(commitment): any {
     const map: Commitment = {
       ...commitment,
-      date: moment(commitment.date).format(),
+      date: moment(commitment.date).format()
     }
     return map
   }

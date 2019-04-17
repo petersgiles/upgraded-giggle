@@ -102,14 +102,14 @@ export enum AccessRights {
 
 export type AgencyGraph = {
   agencyMapping?: Maybe<Array<Maybe<AgencyMappingGraph>>>
-  agencyMappings: Array<AgencyMappingGraph>
+  agencyMappings?: Maybe<Array<Maybe<AgencyMappingGraph>>>
   id: Scalars['Guid']
   metadata?: Maybe<Scalars['String']>
   portfolio?: Maybe<PortfolioGraph>
   portfolioId: Scalars['Guid']
   rowVersion: Scalars['String']
   title: Scalars['String']
-  users: Array<UserGraph>
+  users?: Maybe<Array<Maybe<UserGraph>>>
 }
 
 export type AgencyGraphAgencyMappingArgs = {
@@ -121,7 +121,25 @@ export type AgencyGraphAgencyMappingArgs = {
   take: Scalars['Int']
 }
 
+export type AgencyGraphAgencyMappingsArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
 export type AgencyGraphPortfolioArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type AgencyGraphUsersArgs = {
   id: Scalars['String']
   ids: Array<Maybe<Scalars['String']>>
   orderBy: Array<Maybe<OrderByGraph>>
@@ -294,6 +312,9 @@ export type CreateRoleInputGraph = {
   manageApiKeys?: Maybe<Scalars['Boolean']>
   manageGroups?: Maybe<Scalars['Boolean']>
   manageAccessControls?: Maybe<Scalars['Boolean']>
+  updateCommitments?: Maybe<Scalars['Boolean']>
+  updateBriefCommitments?: Maybe<Scalars['Boolean']>
+  allowMessagePassThrough?: Maybe<Scalars['Boolean']>
 }
 
 export type CreateStatisticAccessControlInputGraph = {
@@ -406,7 +427,7 @@ export type ElectorateAdviceGraphElectorateArgs = {
 
 export type ElectorateGraph = {
   advice?: Maybe<Array<Maybe<ElectorateAdviceGraph>>>
-  electorateAdvice: Array<ElectorateAdviceGraph>
+  electorateAdvice?: Maybe<Array<Maybe<ElectorateAdviceGraph>>>
   id: Scalars['Guid']
   member: Scalars['String']
   name: Scalars['String']
@@ -421,6 +442,15 @@ export type ElectorateGraph = {
 }
 
 export type ElectorateGraphAdviceArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ElectorateGraphElectorateAdviceArgs = {
   id: Scalars['String']
   ids: Array<Maybe<Scalars['String']>>
   orderBy: Array<Maybe<OrderByGraph>>
@@ -744,8 +774,7 @@ export type ProgramGraph = {
   name: Scalars['String']
   notes?: Maybe<Scalars['String']>
   programAccessControlList: ProgramAccessControlListGraph
-  programSubmission?: Maybe<Array<Maybe<ProgramSubmissionGraph>>>
-  programSubmissions: Array<ProgramSubmissionGraph>
+  programSubmissions?: Maybe<Array<Maybe<ProgramSubmissionGraph>>>
   projects?: Maybe<Array<Maybe<ProjectGraph>>>
   reports?: Maybe<Array<Maybe<ReportGraph>>>
   rowVersion: Scalars['String']
@@ -787,7 +816,7 @@ export type ProgramGraphElectoratesArgs = {
   take: Scalars['Int']
 }
 
-export type ProgramGraphProgramSubmissionArgs = {
+export type ProgramGraphProgramSubmissionsArgs = {
   id: Scalars['String']
   ids: Array<Maybe<Scalars['String']>>
   orderBy: Array<Maybe<OrderByGraph>>
@@ -843,31 +872,6 @@ export type ProgramSubmissionGraphProjectsArgs = {
   take: Scalars['Int']
 }
 
-export type ProjectElectorateGraph = {
-  electorate?: Maybe<ElectorateGraph>
-  electorateId: Scalars['Guid']
-  project?: Maybe<ProjectGraph>
-  projectId: Scalars['Guid']
-}
-
-export type ProjectElectorateGraphElectorateArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
-}
-
-export type ProjectElectorateGraphProjectArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
-}
-
 export type ProjectGraph = {
   committed: Scalars['UInt32']
   electorates?: Maybe<Array<Maybe<ElectorateGraph>>>
@@ -884,7 +888,6 @@ export type ProjectGraph = {
   programId: Scalars['Guid']
   programSubmission?: Maybe<ProgramSubmissionGraph>
   programSubmissionId: Scalars['Guid']
-  projectElectorates: Array<ProjectElectorateGraph>
   rowVersion: Scalars['String']
   sensitivities: Scalars['String']
   spent: Scalars['UInt32']
@@ -1261,11 +1264,20 @@ export type ReportGraph = {
   program: ProgramGraph
   programId: Scalars['Guid']
   reportAccessControlList: ReportAccessControlListGraph
-  reportVersions: Array<ReportVersionGraph>
+  reportVersions?: Maybe<Array<Maybe<ReportVersionGraph>>>
   rowVersion: Scalars['String']
 }
 
 export type ReportGraphAccessControlListArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ReportGraphReportVersionsArgs = {
   id: Scalars['String']
   ids: Array<Maybe<Scalars['String']>>
   orderBy: Array<Maybe<OrderByGraph>>
@@ -1279,7 +1291,7 @@ export type ReportVersionGraph = {
   id: Scalars['Guid']
   notes: Scalars['String']
   report?: Maybe<ReportGraph>
-  reportData: Array<ReportDataGraph>
+  reportData?: Maybe<Array<Maybe<ReportDataGraph>>>
   reportFormat?: Maybe<Scalars['String']>
   reportId: Scalars['Guid']
   rowVersion: Scalars['String']
@@ -1288,6 +1300,15 @@ export type ReportVersionGraph = {
 }
 
 export type ReportVersionGraphReportArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type ReportVersionGraphReportDataArgs = {
   id: Scalars['String']
   ids: Array<Maybe<Scalars['String']>>
   orderBy: Array<Maybe<OrderByGraph>>
@@ -1337,6 +1358,7 @@ export type RoleAccessControlGroupGraphRoleArgs = {
 export type RoleGraph = {
   adminLogin: Scalars['Boolean']
   allAgencyModifier: Scalars['Boolean']
+  allowMessagePassThrough: Scalars['Boolean']
   createAgency: Scalars['Boolean']
   createProgram: Scalars['Boolean']
   createProject: Scalars['Boolean']
@@ -1354,16 +1376,27 @@ export type RoleGraph = {
   manageGroups: Scalars['Boolean']
   rowVersion: Scalars['String']
   title: Scalars['String']
+  updateBriefCommitments: Scalars['Boolean']
+  updateCommitments: Scalars['Boolean']
   updateElectorateAdvice: Scalars['Boolean']
 }
 
 export type StateGraph = {
   abbreviation: Scalars['String']
-  electorates: Array<ElectorateGraph>
+  electorates?: Maybe<Array<Maybe<ElectorateGraph>>>
   id: Scalars['Guid']
   name: Scalars['String']
   population: Scalars['UInt32']
   rowVersion: Scalars['String']
+}
+
+export type StateGraphElectoratesArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
 }
 
 export type StatisticAccessControlListGraph = {
@@ -1384,26 +1417,6 @@ export type StatisticAccessControlListGraphAccessControlsArgs = {
 }
 
 export type StatisticAccessControlListGraphStatisticArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
-}
-
-export type StatisticDataGraph = {
-  data?: Maybe<Scalars['Json']>
-  id: Scalars['Guid']
-  markdown: Scalars['String']
-  sortOrder: Scalars['UInt32']
-  statisticReport: StatisticReportGraph
-  statisticReportId: Scalars['Guid']
-  statisticReportVersion?: Maybe<StatisticReportVersionGraph>
-  statisticReportVersionId: Scalars['Guid']
-}
-
-export type StatisticDataGraphStatisticReportVersionArgs = {
   id: Scalars['String']
   ids: Array<Maybe<Scalars['String']>>
   orderBy: Array<Maybe<OrderByGraph>>
@@ -1484,13 +1497,21 @@ export type StatisticReportGraph = {
   name: Scalars['String']
   notes?: Maybe<Scalars['String']>
   rowVersion: Scalars['String']
-  statistic: StatisticGraph
+  statistic?: Maybe<StatisticGraph>
   statisticId: Scalars['Guid']
   statisticReportAccessControlList: StatisticReportAccessControlListGraph
-  statisticReportVersions: Array<StatisticReportVersionGraph>
 }
 
 export type StatisticReportGraphAccessControlListArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type StatisticReportGraphStatisticArgs = {
   id: Scalars['String']
   ids: Array<Maybe<Scalars['String']>>
   orderBy: Array<Maybe<OrderByGraph>>
@@ -1507,7 +1528,6 @@ export type StatisticReportVersionGraph = {
   rowVersion: Scalars['String']
   schema: Scalars['String']
   statisticReport?: Maybe<StatisticReportGraph>
-  statisticReportData: Array<StatisticDataGraph>
   statisticReportId: Scalars['Guid']
   timestamp: Scalars['DateTimeOffset']
 }
@@ -1522,12 +1542,12 @@ export type StatisticReportVersionGraphStatisticReportArgs = {
 }
 
 export enum StringComparison {
-  Current_Culture = 'CURRENT_CULTURE',
-  Current_Culture_Ignore_Case = 'CURRENT_CULTURE_IGNORE_CASE',
-  Invariant_Culture = 'INVARIANT_CULTURE',
-  Invariant_Culture_Ignore_Case = 'INVARIANT_CULTURE_IGNORE_CASE',
+  CurrentCulture = 'CURRENT_CULTURE',
+  CurrentCultureIgnoreCase = 'CURRENT_CULTURE_IGNORE_CASE',
+  InvariantCulture = 'INVARIANT_CULTURE',
+  InvariantCultureIgnoreCase = 'INVARIANT_CULTURE_IGNORE_CASE',
   Ordinal = 'ORDINAL',
-  Ordinal_Ignore_Case = 'ORDINAL_IGNORE_CASE'
+  OrdinalIgnoreCase = 'ORDINAL_IGNORE_CASE'
 }
 
 export type UpdateAccessControlGroupInputGraph = {
@@ -1612,6 +1632,9 @@ export type UpdateRoleInputGraph = {
   manageApiKeys?: Maybe<Scalars['Boolean']>
   manageGroups?: Maybe<Scalars['Boolean']>
   manageAccessControls?: Maybe<Scalars['Boolean']>
+  updateCommitments?: Maybe<Scalars['Boolean']>
+  updateBriefCommitments?: Maybe<Scalars['Boolean']>
+  allowMessagePassThrough?: Maybe<Scalars['Boolean']>
 }
 
 export type UpdateStatisticInputGraph = {
@@ -2461,7 +2484,7 @@ export type ProjectQuery = { __typename?: 'Query' } & {
         programSubmission: Maybe<
           { __typename?: 'ProgramSubmissionGraph' } & Pick<
             ProgramSubmissionGraph,
-            'id' | 'timeStamp'
+            'id' | 'timeStamp' | 'dataDate'
           >
         >
       }
@@ -2484,7 +2507,9 @@ export type AllProjectsQuery = { __typename?: 'Query' } & {
   >
 }
 
-export type AllProjectsSearchQueryVariables = {}
+export type AllProjectsSearchQueryVariables = {
+  name?: Maybe<Scalars['String']>
+}
 
 export type AllProjectsSearchQuery = { __typename?: 'Query' } & {
   projects: Maybe<
@@ -2500,7 +2525,7 @@ export type AllProjectsSearchQuery = { __typename?: 'Query' } & {
             programSubmission: Maybe<
               { __typename?: 'ProgramSubmissionGraph' } & Pick<
                 ProgramSubmissionGraph,
-                'id' | 'timeStamp'
+                'id' | 'timeStamp' | 'dataDate'
               >
             >
           }
@@ -2602,6 +2627,9 @@ export type RoleQuery = { __typename?: 'Query' } & {
       | 'manageAccessControls'
       | 'manageGroups'
       | 'updateElectorateAdvice'
+      | 'updateCommitments'
+      | 'updateBriefCommitments'
+      | 'allowMessagePassThrough'
     >
   >
 }
@@ -4107,6 +4135,7 @@ export const ProjectDocument = gql`
       programSubmission {
         id
         timeStamp
+        dataDate
       }
     }
   }
@@ -4143,8 +4172,11 @@ export class AllProjectsGQL extends Apollo.Query<
   document = AllProjectsDocument
 }
 export const AllProjectsSearchDocument = gql`
-  query allProjectsSearch {
-    projects(orderBy: { path: "name" }) {
+  query allProjectsSearch($name: String) {
+    projects(
+      where: { path: "name", comparison: contains, value: [$name] }
+      orderBy: { path: "name" }
+    ) {
       id
       name
       program {
@@ -4154,6 +4186,7 @@ export const AllProjectsSearchDocument = gql`
       programSubmission {
         id
         timeStamp
+        dataDate
       }
     }
   }
@@ -4273,6 +4306,9 @@ export const RoleDocument = gql`
       manageAccessControls
       manageGroups
       updateElectorateAdvice
+      updateCommitments
+      updateBriefCommitments
+      allowMessagePassThrough
     }
   }
 `

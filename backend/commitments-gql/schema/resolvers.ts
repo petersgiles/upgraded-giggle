@@ -1,3 +1,5 @@
+import { logger } from "../../shared/logger";
+
 const arrayToHash = (array: any[], id: string = 'id') =>  (array || []).reduce((obj, item) =>  (obj[item[id]] = item , obj), {})
 
 var db = require('diskdb');
@@ -15,7 +17,6 @@ db.connect('./diskdb/commitments', [
   'commitment-portfolios',
   'commitment-statuses',
   'commitment-whoAnnouncedTypes',
-  'commitment-themeTypes',
   'commitment-packageTypes',
   'commitment-announcementTypes',
   'commitment-commitmentTypes',
@@ -24,13 +25,14 @@ db.connect('./diskdb/commitments', [
   'commitment-electorates',
   'commitment-commitment-portfolios',
   'commitment-commitment-packages',
-  'commitment-commitment-themes',
   'commitment-commitment-electorates',
   'commitment-related-commitments',
   'commitment-related-links',
   'commitment-subscriptions',
   'commitment-commitment-actions',
-  'commitment-group-permissions'
+  'commitment-group-permissions',
+  'commitment-related-portfolios',
+  'commitment-related-packages'
 ]);
 
 const commitmentSubscriptionTable = 'commitment-subscriptions';
@@ -60,14 +62,14 @@ export const resolvers = {
     commitmentActions: (obj: any, args: any, context: any, info: any) => {
       let set = db['commitment-commitment-actions'].find({ commitment: args.commitment })
       let found = set.map((c: any) => ({ ...c, id: c._id }))
-      console.log('commitmentActions => ', found, args)
+      logger.info('commitmentActions => ', found, args)
 
       return found
     },    
     commitmentMapPoints: (obj: any, args: any, context: any, info: any) => {
 
       let set = db['commitment-commitment-map-points'].find({ commitment: args.commitment })
-      console.log('commitment MapPoints => ', set)
+      logger.info('commitment MapPoints => ', set)
       let found = set
         .map(
           (f: any) => {
@@ -78,17 +80,14 @@ export const resolvers = {
             }
           }
         )
-      console.log('commitment MapPoints found => ', found)
-      // console.log('commitment => ', commitment, 'commitmentMapPoints => ', set, 'found => ', found)
+      logger.info('commitment MapPoints found => ', found)
+      // logger.info('commitment => ', commitment, 'commitmentMapPoints => ', set, 'found => ', found)
       return found
-
-
-
     },    
     mapPointCommitments: (obj: any, args: any, context: any, info: any) => {
 
       let set = db['commitment-commitment-map-points'].find({ mapPoint: args.mapPoint })
-      console.log('commitment MapPoints => ', set)
+      logger.info('commitment MapPoints => ', set)
       let found = set
         .map(
           (f: any) => {
@@ -99,7 +98,7 @@ export const resolvers = {
             }
           }
         )
-      console.log('MapPoint commitments => ', set, 'found => ', found)
+      logger.info('MapPoint commitments => ', set, 'found => ', found)
       return found
     },
     commitmentPortfolios: (obj: any, args: any, context: any, info: any) => {
@@ -113,13 +112,6 @@ export const resolvers = {
       // (commitment: ID!): [packages]
       let set = db['commitment-commitment-packages'].find({ commitment: args.commitment })
       let found = set.map((f: any) => db['commitment-packageTypes'].findOne({ id: f.package }))
-      return found
-
-    },
-    commitmentThemes: (obj: any, args: any, context: any, info: any) => {
-      // (commitment: ID!): [themes]
-      let set = db['commitment-commitment-themes'].find({ commitment: args.commitment })
-      let found = set.map((f: any) => db['commitment-themeTypes'].findOne({ id: f.theme }))
       return found
 
     },
@@ -140,10 +132,11 @@ export const resolvers = {
 
     },
     parties: () => db['commitment-parties'].find(),
-    portfolios: () => db['commitment-portfolios'].find(),
+    portfolios: () =>  {
+      return  db['commitment-portfolios'].find().filter((p: any) => (p.type || []))
+     },
     statuses: () => db['commitment-statuses'].find(),
     announcementTypes: () => db['commitment-announcementTypes'].find(),
-    themeTypes: () => db['commitment-themeTypes'].find(),
     packageTypes: () => db['commitment-packageTypes'].find(),
     criticalDates: () => db['commitment-critical-dates'].find(),
     commitmentTypes: () => db['commitment-commitmentTypes'].find(),
@@ -152,7 +145,7 @@ export const resolvers = {
       
       var mapPoints = arrayToHash(db['commitment-map-points'].find(), 'place_id')
       var commitments = arrayToHash(db['commitments'].find())
-      console.log('allCommitmentMapPoints', mapPoints, commitments)
+      logger.info('allCommitmentMapPoints', mapPoints, commitments)
       var found = db['commitment-commitment-map-points'].find().map((mp: any) =>({
         mapPoint: mapPoints[mp.mapPoint],
         commitment: commitments[mp.commitment],
@@ -175,6 +168,8 @@ export const resolvers = {
       var found = db['commitment-related-links'].find().map((c: any) => ({ ...c, id: c._id }))
       return found
     },
+    relatedPortfolios: () => db['commitment-related-portfolios'].find(),
+    relatedPackages: () => db['commitment-related-packages'].find(),
     locations: () => db['commitment-electorates'].find(),
     tags: () => db['commitment-tags'].find(),
   },
@@ -197,6 +192,20 @@ export const resolvers = {
       var author = db['commitment-contacts'].find({ username: args.author })
 
       const data = { ...args, author: author };
+      db.commitments.update(query, data, { multi: false, upsert: true });
+
+      return data;
+    },
+
+    setCostingRequired: (_root: any, args: any) => {
+
+      var id = args.id;
+      var query = {
+        id: id
+      }
+     
+      var commitment = db['commitments'].find({ id: id });
+      const data = { ...args, commitment: commitment };
       db.commitments.update(query, data, { multi: false, upsert: true });
 
       return data;
@@ -257,7 +266,7 @@ export const resolvers = {
       var cc = db['commitment-commitment-actions'].findOne({ commitment: args.commitment, _id: args.action });
       var result = db['commitment-commitment-actions'].remove({ _id: cc._id }, false);
       const c = db.commitments.findOne({ id: cc.commitment })
-      console.log('deleteCommitmentAction =>', result, c)
+      logger.info('deleteCommitmentAction =>', result, c)
       return c
     },
     storeCommitmentContact: (_root: any, args: any) => {
@@ -277,7 +286,7 @@ export const resolvers = {
       var cc = db['commitment-commitment-contacts'].findOne({ commitment: args.commitment, contact: args.contact });
       var result = db['commitment-commitment-contacts'].remove({ _id: cc._id }, false);
       const c = db.commitments.findOne({ id: cc.commitment })
-      console.log('deleteCommitmentContact =>', result, c)
+      logger.info('deleteCommitmentContact =>', result, c)
       return c
     },
     storeMapPoint: (_root: any, args: any) => {
@@ -312,7 +321,7 @@ export const resolvers = {
     storeRelatedLink: (_root: any, args: any) => {
       const data = { ...args };
 
-      console.log('storeRelatedLink', data)
+      logger.info('storeRelatedLink', data)
       const ccc = db['commitment-related-links'].findOne(data)
       if (!ccc) {
         db['commitment-related-links'].save([data]);
@@ -376,28 +385,9 @@ export const resolvers = {
     },
     deleteCommitmentPortfolio: (_root: any, args: any) => {
       var cc = db['commitment-commitment-portfolios'].findOne({ commitment: args.commitment, portfolio: args.portfolio });
-      console.log('deleteCommitmentPortfolio', cc, args)
+      logger.info('deleteCommitmentPortfolio', cc, args)
       var result = db['commitment-commitment-portfolios'].remove({ _id: cc._id }, false);
-      console.log('deleteCommitmentPortfolio result', result)
-      return db.commitments.findOne({ id: cc.commitment })
-    },
-    storeCommitmentTheme: (_root: any, args: any) => {
-      //(commitment: Int!, contact: Int!): Commitment,
-      const data = { ...args };
-      const found = db['commitment-commitment-themes'].findOne(data)
-      if (found) {
-        db['commitment-commitment-themes'].update({ _id: found._id }, data, { multi: false, upsert: true });
-      } else {
-        db['commitment-commitment-themes'].save([data]);
-      }
-
-      return db.commitments.findOne({ id: args.commitment })
-    },
-    deleteCommitmentTheme: (_root: any, args: any) => {
-      var cc = db['commitment-commitment-themes'].findOne({ commitment: args.commitment, theme: args.theme });
-      console.log('deleteCommitmentTheme', cc, args)
-      var result = db['commitment-commitment-themes'].remove({ _id: cc._id }, false);
-      console.log('deleteCommitmentTheme result', result)
+      logger.info('deleteCommitmentPortfolio result', result)
       return db.commitments.findOne({ id: cc.commitment })
     },
     storeCommitmentPackage: (_root: any, args: any) => {
@@ -450,9 +440,6 @@ export const resolvers = {
     packageType(commitment: any) {
       return db['commitment-packageTypes'].findOne({ id: commitment.packageType })
     },
-    themeType(commitment: any) {
-      return db['commitment-themeTypes'].findOne({ id: commitment.themeType })
-    },
     criticalDate(commitment: any) {
       return db['commitment-critical-dates'].findOne({ id: commitment.criticalDate })
     },
@@ -504,14 +491,14 @@ export const resolvers = {
             }
           }
         )
-      console.log('commitment MapPoints found => ', found)
-      // console.log('commitment => ', commitment, 'commitmentMapPoints => ', set, 'found => ', found)
+      logger.info('commitment MapPoints found => ', found)
+      // logger.info('commitment => ', commitment, 'commitmentMapPoints => ', set, 'found => ', found)
       return found
     },
     tags(commitment: any) {
       var found = db['commitment-tags'].find({ id: commitment.tags })
       if (found.length) {
-        // console.log('tags =>', found) 
+        // logger.info('tags =>', found) 
       }
       var tags = found.map((c: any) => ({ ...c, id: c._id }))
 
@@ -526,14 +513,14 @@ export const resolvers = {
   Contact: {
     portfolio(contact: any) {
       let found = db['commitment-portfolios'].findOne({ id: contact.portfolio })
-      // console.log('commitment-portfolios', { id: contact.portfolio }, found)
+      // logger.info('commitment-portfolios', { id: contact.portfolio }, found)
       return found
     }
   },
   CommitmentAction: {
     portfolio(action: any) {
       let found = db['commitment-portfolios'].findOne({ id: action.portfolio })
-      // console.log('commitment-portfolios', { id: contact.portfolio }, found)
+      // logger.info('commitment-portfolios', { id: contact.portfolio }, found)
       return found
     }
   }

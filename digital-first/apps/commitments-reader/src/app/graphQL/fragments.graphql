@@ -1,0 +1,19 @@
+fragment CommitmentParts on CommitmentGraph {
+  id
+  title
+  politicalParty
+  announcedBy
+  announcementType { 
+      id
+      title 
+    } 
+  criticalDate {
+      id
+      title
+  }
+  portfolioLookup {
+      id
+      title
+  }
+  
+}

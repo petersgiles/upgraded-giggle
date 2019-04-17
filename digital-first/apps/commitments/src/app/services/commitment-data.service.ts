@@ -8,7 +8,7 @@ import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
 
 import { Commitment } from '../reducers/commitment/commitment.model'
 
-import { Contact } from '../reducers/contact/contact.model'
+import { Contact } from '../models/contact.model'
 import {
   UnsubscribeFromCommitment, GetCommitmentSubscriptionForUser, SubscriptionActionFailure,
   SubscribeToCommitment
@@ -20,7 +20,8 @@ import {
   SetCurrentCommitment,
   StoreCommitment,
   AddContactToCommitment,
-  RemoveContactFromCommitment
+  RemoveContactFromCommitment,
+  SetCostingRequired
 } from '../reducers/commitment/commitment.actions'
 import { GetAllContacts, StoreContact } from '../reducers/contact/contact.actions'
 import { AddRefiner, RemoveRefiner, ClearAllRefiners, ExpandRefinerGroup, CollapseRefinerGroup, SetTextRefiner, SortByColumn } from '../reducers/commitment-overview/commitment-overview.actions'
@@ -35,6 +36,16 @@ import { DataTableConfig } from '@digital-first/df-datatable'
   providedIn: 'root'
 })
 export class CommitmentDataService {
+
+
+  setCostingRequired(commitment: number, costingRequired: boolean): any {
+    this.store.dispatch(new SetCostingRequired({
+      commitment, 
+      costingRequired
+    })
+    )
+  }
+
   sortByColumn($event: any): any {
   this.store.dispatch(new SortByColumn($event))
   }

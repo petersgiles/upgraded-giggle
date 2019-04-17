@@ -1,0 +1,14 @@
+type MapPoint {
+	place_id: String!
+	address: String!
+	latitude: Float!
+	longitude: Float!
+	commitments: [Commitment]
+}
+
+input MapPointInput {
+	place_id: String!
+	address: String!
+	latitude: Float!
+	longitude: Float!
+}

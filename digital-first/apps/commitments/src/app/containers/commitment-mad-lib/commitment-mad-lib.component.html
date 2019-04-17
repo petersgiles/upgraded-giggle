@@ -1,6 +1,9 @@
 <ng-container *ngIf="commitment">
   <h1>{{ commitment?.title }}</h1>
-
+  <p>
+    Status: <strong>{{ commitment.status?.title }}</strong
+    >.
+  </p>
   <p>
     Responsible Portfolio: <strong>{{ commitment.portfolio?.title }}</strong
     >.
@@ -82,6 +85,20 @@
         <span *ngIf="last"> and </span>
         <span *ngIf="!last">, </span>
       </ng-container><strong>{{ rp?.title }}</strong>
+
+    </ng-container>.
+  </p>
+
+  <p *ngIf="relatedThemes$?.length > 0">
+    Related Theme<span *ngIf="relatedThemes$?.length > 1"
+      >s</span
+    >:
+    <ng-container
+      *ngFor="let theme of relatedThemes$; index as index; last as last; first as first">
+      <ng-container *ngIf="!first">
+        <span *ngIf="last"> and </span>
+        <span *ngIf="!last">, </span>
+      </ng-container><strong>{{ theme?.title }}</strong>
 
     </ng-container>.
   </p>

@@ -13,7 +13,7 @@ export class CommitmentPortfolioDataApolloService implements CommitmentPortfolio
 
   getPortfoliosByCommitment = (commitment: any): Observable<DataResult<CommitmentPortfoliosResult>> =>
     callQuery<CommitmentPortfoliosResult>(this.apollo, { query: GET_COMMITMENT_PORTFOLIOS, variables: { commitment: commitment } }
-      , result => ({ data: {commitmentPortfolios: result.data.commitmentPortfolios } })
+      , result => ({ data: {relatedPortfolios: result.data.commitmentPortfolios } })
     )
 
   addPortfolioToCommitment = (variables: { commitment: any, portfolio: any }): Observable<DataResult<{ commitment: number }>> =>

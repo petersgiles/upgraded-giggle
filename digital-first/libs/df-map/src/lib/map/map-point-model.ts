@@ -1,6 +1,7 @@
 export interface MapPoint {
-    place_id: string,
+    place_id?: string,
     address: any,
-    latitude: number,
-    longitude: number
+    latitude?: number,
+    longitude?: number,
+    iconUrl?: string
 }

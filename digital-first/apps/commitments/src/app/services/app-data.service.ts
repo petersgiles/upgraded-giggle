@@ -31,16 +31,17 @@ export const OPERATION_DEFAULTS = {
   'costing': OPERATION_RIGHT_READ,
   'relatedLinks': OPERATION_RIGHT_READ,
   'relatedCommitments': OPERATION_RIGHT_READ,
-  'relatedPortfolios': OPERATION_RIGHT_WRITE,
-  'relatedPackages': OPERATION_RIGHT_WRITE,
-  'relatedThemes': OPERATION_RIGHT_WRITE,
-  'relatedStatuses': OPERATION_RIGHT_WRITE,
+  'relatedPortfolios': OPERATION_RIGHT_READ,
+  'relatedPackages': OPERATION_RIGHT_READ,
+  'relatedThemes': OPERATION_RIGHT_READ,
+  'relatedStatuses': OPERATION_RIGHT_READ,
   'discussion': OPERATION_RIGHT_WRITE, // Temporary Default
 }
 @Injectable({
   providedIn: 'root'
 })
 export abstract class AppDataService {
+  abstract setCostingRequired(payload: {commitment: number, costingRequired: boolean}):  Observable<any>
   abstract getCurrentUser(): Observable<any>
   abstract getCurrentUserOperations(roles: any): Observable<any>
   abstract storeCommitment(commitment: Commitment): Observable<any>

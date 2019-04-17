@@ -22,7 +22,7 @@ import {
 } from '../commitment/commitment.actions'
 import { DeliveryLocationDataService } from './commitment-delivery-location-data.service'
 import { DataResult, MapPointsResult } from '../../models'
-import { ElectoratesResult } from '../../models/location.model'
+import { CommitmentElectoratesResult } from '../../models/location.model'
 
 @Injectable()
 export class DeliveryLocationEffects {
@@ -113,7 +113,7 @@ export class DeliveryLocationEffects {
     switchMap((payload: any) =>
       this.service.getElectoratesByCommitment(payload.commitment).pipe(
         map(
-          (result: DataResult<ElectoratesResult>) => new LoadElectorates(result)
+          (result: DataResult<CommitmentElectoratesResult>) => new LoadElectorates(result)
         ),
         catchError(error => of(new DeliveryLocationsActionFailure(error)))
       )

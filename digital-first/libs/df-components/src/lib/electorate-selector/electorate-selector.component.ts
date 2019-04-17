@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core'
 import { FormControl } from '@angular/forms'
-import { sortBy } from '@digital-first/df-utils'
+import { sortBy } from '@df/utils'
 
 @Component({
   selector: 'digital-first-electorate-selector',

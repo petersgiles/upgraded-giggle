@@ -5,10 +5,9 @@ import { Comment } from '../commitment-discussion/comment.model'
 import { Electorate } from '../../models/location.model'
 import { CommitmentType } from '../../models/commitment-type.model'
 import { WhoAnnouncedType } from '../../models/who-announced-type.model'
-import { Contact } from '../contact/contact.model'
+import { Contact } from '../../models/contact.model'
 import { CriticalDate } from '../../models/critical-date.model'
 import { PackageType } from '../../models/package-type.model'
-import { ThemeType } from '../../models/theme-type.model'
 import { MapPoint } from '@digital-first/df-map'
 import { Status } from '../../models';
 
@@ -30,10 +29,8 @@ export interface Commitment {
   portfolio: Portfolio,
   criticalDate: CriticalDate,
   packageType: PackageType,
-  themeType: ThemeType,
   portfolios: Portfolio[],
   packages: PackageType[],
-  themes: ThemeType[],
   mapPoints: MapPoint[],
   contacts: Contact[],
   relatedContacts: Commitment[]

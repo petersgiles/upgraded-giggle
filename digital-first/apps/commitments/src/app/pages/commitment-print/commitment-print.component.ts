@@ -15,7 +15,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router'
 import { MdcDialog, MdcSnackbar } from '@angular-mdc/web'
 import { CommitmentDataService } from '../../services/commitment-data.service'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
-import { arrayToIndex } from '@digital-first/df-utils'
+import { arrayToIndex } from '@df/utils'
 import { map } from 'rxjs/operators'
 import { showSnackBar } from '../../dialogs/show-snack-bar'
 import { Location } from '@angular/common'
@@ -96,7 +96,6 @@ export class CommitmentPrintComponent implements OnInit {
     this.lookup.getAllLocations()
     this.lookup.getAllPartys()
     this.lookup.getAllPortfolios()
-    this.lookup.getAllThemeTypes()
     this.lookup.getAllPackageTypes()
 
     this.user$ = this.service.getCurrentUser()

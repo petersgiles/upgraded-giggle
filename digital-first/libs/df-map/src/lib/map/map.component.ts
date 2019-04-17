@@ -12,7 +12,7 @@ import {
 import { MapsAPILoader } from '@agm/core'
 import { FormControl } from '@angular/forms'
 import { MapPoint } from './map-point-model'
-import { getLatLngCenter } from '@digital-first/df-utils'
+import { getLatLngCenter } from '@df/utils'
 import { DataTableConfig } from '@digital-first/df-datatable'
 
 @Component({

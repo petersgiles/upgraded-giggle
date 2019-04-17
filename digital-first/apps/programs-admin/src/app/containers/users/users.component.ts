@@ -3,6 +3,7 @@ import { AllUsersSearchGQL } from '../../generated/graphql'
 import { BehaviorSubject, Subscription } from 'rxjs'
 import { Router } from '@angular/router'
 import { multiFilter } from '../../core/graphqlhelper'
+import { DateTimeFormat } from './../../date-time-format'
 
 interface UserRow {
   id: string
@@ -27,7 +28,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   constructor(
     private changeDetector: ChangeDetectorRef,
     private allUsersSearchGQL: AllUsersSearchGQL,
-    private router: Router
+    private router: Router,
+    private dateTimeFormat: DateTimeFormat
   ) {}
 
   add() {
@@ -56,7 +58,7 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.rows = value.data.users.map(row => ({
           id: row.id,
           emailAddress: row.emailAddress,
-          lastLogin: row.lastLogin
+          lastLogin: this.dateTimeFormat.formatDateTime(row.lastLogin)
         }))
 
         this.filterUsers$ = new BehaviorSubject(this.rows)

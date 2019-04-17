@@ -3,6 +3,10 @@ export interface Portfolio {
   title?: string
   icon?: string
   colour?: string
+  type?: string[]
+  commitment?: string
+  portfolio?: string
+  refinerGroup?: string
 }
 
 export interface PortfoliosResult {
@@ -10,5 +14,5 @@ export interface PortfoliosResult {
 }
 
 export interface CommitmentPortfoliosResult {
-  commitmentPortfolios: Portfolio[]
+  relatedPortfolios: Portfolio[]
 }
