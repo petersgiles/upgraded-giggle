@@ -8,7 +8,7 @@ if ($PSScriptRoot) {
 $pageOutputPath = "..\sharepoint\deploy\SitePages\$applicationName.aspx"
 $pageInputPath = "..\sharepoint\$applicationName\$applicationName.aspx"
 $pageContent = Get-Content -Path $pageInputPath
-$indexContent = Get-Content -Path ..\sharepoint\deploy\SiteAssets\apps\commitments\index.html 
+$indexContent = Get-Content -Path ..\sharepoint\deploy\SiteAssets\apps\$applicationName\index.html 
 
 function Generate-Links($content, $template, $regex, $token) {
     $links = ""
