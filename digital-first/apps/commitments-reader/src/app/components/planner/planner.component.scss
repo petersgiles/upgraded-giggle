@@ -115,3 +115,19 @@
 .mdc-slider__track-container {
   overflow: visible;
 }
+
+.colour-title {
+  width: 100%;
+  min-height: 45px;
+  max-height: 45px;
+  text-align: left;
+  padding: 10px 10px;
+  margin: 0 !important;
+}
+
+.b-list-colour {
+  padding: 0 !important;
+  > div {
+    padding: 0 !important;
+  }
+}

@@ -5,7 +5,7 @@
     "duration": 30,
     "durationUnit": "d",
     "icon": "b-fa b-fa-fw b-fa-podcast",
-    "color": "#1eae33"
+    "color": "ForestGreen"
   },
   {
     "id": "0002",
@@ -13,7 +13,7 @@
     "duration": 0,
     "durationUnit": "d",
     "icon": "b-fa b-fa-fw b-fa-users",
-    "color": "#669999"
+    "color": "CadetBlue"
   },
   {
     "id": "0003",
@@ -21,7 +21,7 @@
     "duration": 7,
     "durationUnit": "d",
     "icon": "b-fa b-fa-fw b-fa-file",
-    "color": "#008066"
+    "color": "Sienna"
   },
   {
     "id": "0004",
@@ -29,7 +29,7 @@
     "duration": 30,
     "durationUnit": "d",
     "icon": "b-fa b-fa-fw b-fa-book",
-    "color": "#00b38f"
+    "color": "DarkSlateGrey"
   },
   {
     "id": "0005",
@@ -37,7 +37,7 @@
     "duration": 0,
     "durationUnit": "d",
     "icon": "b-fa b-fa-fw b-fa-language",
-    "color": "#0d0d0d"
+    "color": "Black"
   },
   {
     "id": "0006",
@@ -45,7 +45,7 @@
     "duration": 0,
     "durationUnit": "d",
     "icon": "b-fa b-fa-fw b-fa-bullhorn",
-    "color": "#000033"
+    "color": "DarkRed"
   },
   {
     "id": "0007",
@@ -53,6 +53,6 @@
     "duration": 90,
     "durationUnit": "d",
     "icon": "b-fa b-fa-fw b-fa-eye",
-    "color": "#3d3d29"
+    "color": "FireBrick"
   }
 ]
