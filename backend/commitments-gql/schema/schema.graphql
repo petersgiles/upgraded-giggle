@@ -323,4 +323,5 @@ type CommitmentAction {
     deleteCommitmentPackage(commitment: ID!, package: ID!): Commitment,
     storeCommitmentSubscription(commitment: ID!, subscriber: ID!): Commitment,
     deleteCommitmentSubscription(commitment: ID!, subscriber: ID!): Commitment,
+    setCostingRequired(id: ID!, costingRequired: Boolean!): Commitment,
     }

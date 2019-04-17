@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnDestroy, ViewChild } from '@angular/core'
-import { MdcDialog } from '@angular-mdc/web'
+import { MdcDialog, MdcSnackbar } from '@angular-mdc/web'
 import { CommitmentActionService } from '../../reducers/commitment-action/commitment-action.service'
 import { Subscription, Observable } from 'rxjs'
 import { DataTableConfig } from '@digital-first/df-datatable'
@@ -36,7 +36,7 @@ export class CommitmentCostingsComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router, 
     public dialog: MdcDialog, 
-   // private snackbar: MdcSnackbar,
+    private snackbar: MdcSnackbar,
     private commitmentService: CommitmentDataService,
     private service: CommitmentActionService) {}
 
@@ -101,8 +101,8 @@ export class CommitmentCostingsComponent implements OnInit, OnDestroy {
     this.commitmentSubscription$ = this.commitmentService.Commitment.subscribe(
       next => {
         this.currCommitment = next
-      }/*,
-      error => showSnackBar(this.snackbar, error)*/
+      },
+      error => showSnackBar(this.snackbar, error)
     )
   }
 

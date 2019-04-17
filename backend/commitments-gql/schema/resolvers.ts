@@ -197,6 +197,20 @@ export const resolvers = {
       return data;
     },
 
+    setCostingRequired: (_root: any, args: any) => {
+
+      var id = args.id;
+      var query = {
+        id: id
+      }
+     
+      var commitment = db['commitments'].find({ id: id });
+      const data = { ...args, commitment: commitment };
+      db.commitments.update(query, data, { multi: false, upsert: true });
+
+      return data;
+    },
+
     addComment: (_root: any, args: any) => {
 
       const data = { ...args };

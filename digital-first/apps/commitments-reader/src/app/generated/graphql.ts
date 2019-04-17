@@ -35,6 +35,11 @@ export type CommitmentInput = {
   portfolio: Scalars['ID']
 }
 
+export type CostingRequiredInput = {
+  id?: Maybe<Scalars['ID']>
+  costingRequired: Scalars['Boolean']
+}
+
 export type CommitmentMapPointInput = {
   commitment?: Maybe<Scalars['ID']>
   mapPoint?: Maybe<Scalars['ID']>
@@ -70,6 +75,7 @@ export type Mutation = {
   deleteCommitment?: Maybe<Response>
   upsertTag?: Maybe<Response>
   deleteTag?: Maybe<Response>
+  setCostingRequired?: Maybe<Response>
 }
 
 export type MutationUpsertMapPointArgs = {
@@ -90,6 +96,10 @@ export type MutationDeleteCommitmentMapPointArgs = {
 
 export type MutationUpsertCommitmentArgs = {
   item: CommitmentInput
+}
+
+export type MutationUpdateCostingRequiredArgs = {
+  item: CostingRequiredInput
 }
 
 export type MutationDeleteCommitmentArgs = {
