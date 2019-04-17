@@ -8,8 +8,9 @@ export const environment = {
   version: require('../../../../package.json').version,
   datasource: {
     type: 'local',
-    dataServiceUrl: '//localhost:3008/graphql',
+    dataServiceUrl: '//localhost:3008/graphql'
   },
+  apiKey: '',
   assetsPath: '/assets'
 }
 

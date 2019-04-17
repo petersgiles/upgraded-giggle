@@ -1,4 +1,4 @@
-import { CommitmentRefinementInput } from '../../generated/graphql'
+import { CommitmentRefinerGraph } from '../../generated/graphql'
 
 export abstract class RefinerAction {
   type: string
@@ -40,7 +40,10 @@ export class LoadRefinerGroups implements RefinerAction {
 }
 export class GetRefinedCommitments implements RefinerAction {
   type = RefinerActionTypes.GetRefinedCommitments
-  constructor(public payload: CommitmentRefinementInput) {}
+
+  constructor(public payload: CommitmentRefinerGraph) {
+    console.log('🍓', payload)
+  }
 }
 
 export class LoadRefinedCommitments implements RefinerAction {
@@ -50,7 +53,7 @@ export class LoadRefinedCommitments implements RefinerAction {
 
 export class GetMapPointsCommitments implements RefinerAction {
   type = RefinerActionTypes.GetMapPointsCommitments
-  constructor(public payload: CommitmentRefinementInput) {}
+  constructor(public payload: any) {}
 }
 
 export class LoadMapPointsCommitments implements RefinerAction {

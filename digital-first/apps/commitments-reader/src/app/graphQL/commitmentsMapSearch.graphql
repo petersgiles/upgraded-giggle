@@ -1,7 +1,8 @@
-query CommitmentsMapPointSearch($input: CommitmentRefinementInput!) {
-  mappoints(input: $input) {
-    place_id
-    address
+query CommitmentsMapPointSearch {
+  mapPoints {
+    id
+    placeId
+    title
     latitude
     longitude
   }

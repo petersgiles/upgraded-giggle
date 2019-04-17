@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core'
 import { Observable, of } from 'rxjs'
-import { CommitmentPartsFragment, MapPoint } from '../../generated/graphql'
+import { CommitmentPartsFragment, MapPointGraph } from '../../generated/graphql'
 import { SettingsService } from '../../services/settings.service'
 import { Router } from '@angular/router'
-import { CommitmentRefinerService, DataTableColumn } from '../../services/commitment-refiner'
+import {
+  CommitmentRefinerService,
+  DataTableColumn
+} from '../../services/commitment-refiner'
 
 @Component({
   selector: 'digital-first-map-overview-page',
@@ -15,7 +18,7 @@ export class MapOverviewPageComponent implements OnInit {
   public longitude: number
 
   public zoom: number
-  public mapPoints$: Observable<MapPoint[]>
+  public mapPoints$: Observable<MapPointGraph[]>
   public mapPointCommitments$: Observable<CommitmentPartsFragment[]>
   public columns$: Observable<DataTableColumn[]>
 
