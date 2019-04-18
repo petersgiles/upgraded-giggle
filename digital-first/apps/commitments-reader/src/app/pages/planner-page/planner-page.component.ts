@@ -2,6 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core'
 import { tap, map } from 'rxjs/operators'
 import { CommitmentRefinerService } from '../../services/commitment-refiner'
 import { Observable, BehaviorSubject } from 'rxjs'
+import { CommitmentEvent } from '../../models/commitment-event.model'
+import { CommitmentGraph } from '../../generated/graphql'
+
 interface CommitmentRow {
   id: number
   title: string
@@ -17,43 +20,31 @@ interface CommitmentRow {
   styleUrls: ['./planner-page.component.scss']
 })
 export class PlannerPageComponent implements OnInit, OnDestroy {
-  commitmentsData$
+  public plannerCommitments$: Observable<CommitmentGraph[]>
+  public commitmentEvents$: BehaviorSubject<
+    CommitmentEvent[]
+  > = new BehaviorSubject([])
+
   constructor(private dataService: CommitmentRefinerService) {}
-  rows: CommitmentRow[]
-  filterCommitments$: BehaviorSubject<CommitmentRow[]>
 
   ngOnInit() {
-    this.commitmentsData$ = this.dataService.commitments$.pipe(
-      map(result => {
-        const commitments = []
-        result.forEach(c => commitments.push({ id: c.id, name: c.title }))
-        return commitments
-      })
-    )
-    this.getCommitments()
+    this.plannerCommitments$ = this.dataService.commitments$
+    if (JSON.parse(localStorage.getItem('commitmentEvents'))) {
+      this.commitmentEvents$.next(
+        JSON.parse(localStorage.getItem('commitmentEvents'))
+      )
+    }
     this.dataService.getRefinedCommitments()
   }
 
-  getCommitments() {
-    this.dataService.commitments$
-      .pipe(tap((result: any) => result))
-      .subscribe(value => {
-        this.rows = value.map(row => ({
-          id: row.id,
-          title: row.title,
-          politicalParty: row.politicalParty,
-          announcedBy: row.announcedBy,
-          announcementType: (row.announcementType || {}).title,
-          criticalDate: (row.criticalDate || {}).title,
-          portfolio: (row.portfolioLookup || {}).title
-        }))
-        console.log(value)
-        this.filterCommitments$ = new BehaviorSubject(this.rows)
-      })
-    this.dataService.getRefinedCommitments()
+  handelEventSaved($event: any) {
+    const events = this.commitmentEvents$.getValue()
+    // this is where upsert happening
+    // TODO Reload data from sharepoint
+    this.commitmentEvents$.next(events)
+    localStorage.setItem('commitmentEvents', JSON.stringify(events))
   }
-
-  ngOnDestroy(): void {
-    this.filterCommitments$.unsubscribe()
+  handelEventDeleted($event: any) {
+    // TODO Delete data from sharepoint then refresh current events
   }
 }

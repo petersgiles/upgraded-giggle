@@ -24,6 +24,11 @@ input CommitmentInput {
     portfolio: ID!
 }
 
+input CostingRequiredInput {
+	id: ID,
+    costingRequired: Boolean!
+}
+
 input CommitmentMapPointInput {
 	commitment: ID
     mapPoint: ID

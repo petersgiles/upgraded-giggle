@@ -15,13 +15,9 @@
         {{ zoomLevel.label }}
       </label>
     </div>
-
-    <!-- <label style="float:left">1 Week</label>
-    <label for="">Zoom Level ({{ currentZoomLevel.label }})</label>
-    <label style="float:right">3 Years</label> -->
   </div>
   <div id="planerButtons">
-    <button mdc-button outlined (click)="scrollToDate(startDate)">Today</button>
+    <button mdc-button outlined (click)="scrollToDate(today)">Today</button>
     <button mdc-button outlined (click)="scrollToDate(myEofyDate)">
       MYEFO
     </button>
@@ -32,16 +28,18 @@
   <scheduler
     #scheduler
     [rowHeight]="50"
-    [events]="events"
-    [resources]="commitments"
+    [events]="events$ | async"
+    [startDate]="startDate"
+    [endDate]="endDate"
+    [resources]="tempDate"
     [barMargin]="10"
     [columns]="columns"
     [featureConfig]="featureConfig"
-    [timeRanges]="timeRanges"
+    [timeRanges]="timeRanges$ | async"
     [eventRenderer]="eventRenderer"
     [zoomLevels]="zoomLevels"
     [zoomLevel]="currentZoomLevel.id"
-    (onSchedulerEvents)="handleEvent($event)"
+    [listeners]="listeners"
     eventColor="green"
     eventStyle="border"
   ></scheduler>

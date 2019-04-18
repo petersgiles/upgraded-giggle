@@ -8,7 +8,7 @@ import {
 } from '../../../generated/graphql'
 import { Subscription } from 'rxjs'
 import { map } from 'rxjs/operators'
-import { formatDateForTextField } from '../../../date-time-format'
+import { DateTimeFormat } from '../../../date-time-format'
 @Component({
   selector: 'digital-first-report-version-edit',
   templateUrl: './report-version-edit.component.html',
@@ -20,7 +20,8 @@ export class ReportVersionEditComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private reportVersionGQL: ReportVersionEditGQL,
-    private updateReportVersionGQL: UpdateReportVersionGQL
+    private updateReportVersionGQL: UpdateReportVersionGQL,
+    private dateTimeFormat: DateTimeFormat
   ) {}
   reportVersionId: string
   reportId: string
@@ -43,7 +44,7 @@ export class ReportVersionEditComponent implements OnInit, OnDestroy {
       .valueChanges.pipe(map(value => value.data.reportVersion))
       .subscribe(reportVersion => {
         this.reportVersionForm.patchValue({
-          dataDate: formatDateForTextField(reportVersion.dataDate),
+          dataDate: this.dateTimeFormat.formatDate(reportVersion.dataDate),
           notes: reportVersion.notes
         })
         this.rowVersion = reportVersion.rowVersion

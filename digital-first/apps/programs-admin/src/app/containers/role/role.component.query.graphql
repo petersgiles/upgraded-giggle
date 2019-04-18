@@ -20,5 +20,8 @@ query role($roleId: String!) {
     manageAccessControls
     manageGroups
     updateElectorateAdvice
+    updateCommitments
+    updateBriefCommitments
+    allowMessagePassThrough
   }
 }

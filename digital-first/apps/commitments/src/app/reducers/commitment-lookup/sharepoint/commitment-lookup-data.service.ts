@@ -6,7 +6,7 @@ import { concatMap, tap, map } from 'rxjs/operators'
 import { byCommitmentIdQuery } from '../../../services/sharepoint/caml'
 import { CommitmentLookupDataService } from '../commitment-lookup-data.service'
 import { mapWhoAnnouncedTypes, mapAnnouncementTypes, mapPortfolios, mapCriticalDates,
-  mapParties, mapCommitmentTypes, mapLocations, mapPackageTypes, mapThemeTypes, mapStatuses, 
+  mapParties, mapCommitmentTypes, mapLocations, mapPackageTypes, mapStatuses, 
   mapCommitmentPortfolios,  mapCommitmentPackages, mapCommitmentElectorates, 
   mapCommitmentContacts, mapCommitmentMapPoints, mapMapPoints, mapRelatedCommitments } from './maps'
 
@@ -32,17 +32,6 @@ export class CommitmentLookupDataSharePointService implements CommitmentLookupDa
       concatMap((result: any) =>
         of({
           data: { packageTypes: mapPackageTypes(result) },
-          loading: false,
-          error: null
-        }))
-    )
-}
-  filterThemeTypes(filter: any) {
-    return this.sharepoint.getItems({ listName: 'ThemeType' })
-    .pipe(
-      concatMap((result: any) =>
-        of({
-          data: { themeTypes: mapThemeTypes(result) },
           loading: false,
           error: null
         }))
@@ -131,7 +120,7 @@ export class CommitmentLookupDataSharePointService implements CommitmentLookupDa
       .pipe(
         concatMap((result: any) =>
           of({
-            data: { commitmentPortfolios: mapCommitmentPortfolios(result) },
+            data: { relatedPortfolios: mapCommitmentPortfolios(result) },
             loading: false,
             error: null
           }))
@@ -143,7 +132,7 @@ export class CommitmentLookupDataSharePointService implements CommitmentLookupDa
     .pipe(
       concatMap((result: any) =>
         of({
-          data: { commitmentPackages: mapCommitmentPackages(result) },
+          data: { relatedPackages: mapCommitmentPackages(result) },
           loading: false,
           error: null
         }))

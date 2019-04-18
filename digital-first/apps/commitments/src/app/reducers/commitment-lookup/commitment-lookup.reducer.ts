@@ -12,11 +12,10 @@ export interface State {
   parties: any[]
   portfolios: any[]
   whoAnnouncedTypes: any[]
-  themeTypes: any[]
   packageTypes: any[]
   statuses: any[]
-  commitmentPortfolios: any[]
-  commitmentPackages: any[]
+  relatedPortfolios: any[]
+  relatedPackages: any[]
   commitmentElectorates: any[]
   commitmentContacts: any[]
   commitmentMapPoints: any[]
@@ -32,11 +31,10 @@ export const initialState: State = {
   parties: [],
   portfolios: [],
   whoAnnouncedTypes: [],
-  themeTypes: [],
   packageTypes: [],
   statuses: [],
-  commitmentPortfolios: [],
-  commitmentPackages: [],
+  relatedPortfolios: [],
+  relatedPackages: [],
   commitmentElectorates: [],
   commitmentContacts: [],
   commitmentMapPoints: [],
@@ -98,13 +96,6 @@ export function reducer(
       }
     }
 
-    case CommitmentLookupsActionTypes.LoadThemeTypes: {
-      return {
-        ...state,
-        themeTypes: action.payload.data.themeTypes
-      }
-    }
-
     case CommitmentLookupsActionTypes.LoadPackageTypes: {
       const packageTypes = [...(action.payload.data.packageTypes || [])].sort(
         sortBy('title')
@@ -126,14 +117,14 @@ export function reducer(
     case CommitmentLookupsActionTypes.LoadAllCommitmentPortfolios: {
       return {
         ...state,
-        commitmentPortfolios: action.payload.data.commitmentPortfolios
+        relatedPortfolios: action.payload.data.relatedPortfolios
       }
     }
 
     case CommitmentLookupsActionTypes.LoadAllCommitmentPackages: {
       return {
         ...state,
-        commitmentPackages: action.payload.data.commitmentPackages
+        relatedPackages: action.payload.data.relatedPackages
       }
     }
 

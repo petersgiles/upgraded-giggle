@@ -23,7 +23,7 @@ export class CommitmentActionDataSharePointService
     variables: any
   ): Observable<DataResult<{ commitment: number }>> {
     const viewXml = byJoinTableQuery({
-      fieldA: { name: 'Commitment', id: variables.commitment },
+      fieldA: { name: 'Commitment', id: variables.commitment.id },
       fieldB: { name: 'ID', id: variables.action }
     })
 

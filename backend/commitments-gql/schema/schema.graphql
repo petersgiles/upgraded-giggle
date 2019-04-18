@@ -50,16 +50,6 @@ type WhoAnnouncedType {
     icon: String,
 }
 
-type ThemeType {
-    id: ID,
-    title: String,
-    description: String,
-    sortorder: String,
-    colour: String,
-    icon: String,
-    party: PoliticalParty,
-}
-
 type PackageType {
     id: ID,
     title: String,
@@ -166,11 +156,6 @@ type CommitmentAction {
     package: PackageType
   }
 
-  type CommitmentTheme {
-    commitment: Commitment,
-    theme: ThemeType
-  }
-
   type RelatedCommitment {
     commitment: ID,
     relatedTo: ID
@@ -183,6 +168,23 @@ type CommitmentAction {
     url: String
   }
 
+  type RelatedPortfolio {
+     id: ID,
+     commitment: String,
+     portfolio: String,
+     title: String,
+     refinerGroup: String
+  }
+
+  type RelatedPackage
+  {
+     id: ID,
+     commitment: String,
+     package: String,
+     title: String,
+     refinerGroup: String
+  }
+  
   type GroupPermission {
     id: ID,
     group: String,
@@ -211,7 +213,6 @@ type CommitmentAction {
     whoAnnouncedType: WhoAnnouncedType,
     announcementType: AnnouncementType,
     commitmentType: CommitmentType,
-    themeType: ThemeType,
     packageType: PackageType,
     portfolio: Portfolio,
     electorates: [Electorate],
@@ -230,7 +231,6 @@ type CommitmentAction {
     commitmentMapPoints(commitment: ID!): [MapPoint],
     commitmentPortfolios(commitment: ID!): [Portfolio],
     commitmentPackages(commitment: ID!): [PackageType],
-    commitmentThemes(commitment: ID!): [ThemeType],
     commitmentElectorates(commitment: ID!): [Electorate],
     commitmentRelatedCommitments(commitment: ID!): [Commitment],
     commitmentRelatedLinks(commitment: ID!): [RelatedLink],
@@ -240,10 +240,11 @@ type CommitmentAction {
     statuses: [Status],
     criticalDates: [CriticalDate],
     mapPoints: [MapPoint],
-    themeTypes: [ThemeType],
     packageTypes: [PackageType],
     relatedCommitment: [RelatedCommitment],
     relatedLinks: [RelatedLink],
+    relatedPortfolios: [RelatedPortfolio],
+    relatedPackages: [RelatedPackage],
     commitmentSubscription(commitment: ID!, user: ID!): [Subscription]
     announcementTypes: [AnnouncementType],
     commitmentTypes: [CommitmentType]
@@ -268,7 +269,6 @@ type CommitmentAction {
       costingRequired: Boolean,
       location: ID,
       whoAnnouncedType: ID,
-      themeType: ID,
       packageType: ID,
       announcementType: ID,
       criticalDate: ID,
@@ -319,10 +319,9 @@ type CommitmentAction {
     deleteRelatedLink(id: ID!): Commitment,
     storeCommitmentPortfolio(commitment: ID!, portfolio: ID!, primary: Boolean): Commitment,
     deleteCommitmentPortfolio(commitment: ID!, portfolio: ID!): Commitment,
-    storeCommitmentTheme(commitment: ID!, theme: ID!, primary: Boolean): Commitment,
-    deleteCommitmentTheme(commitment: ID!, theme: ID!): Commitment,
     storeCommitmentPackage(commitment: ID!, package: ID!, primary: Boolean): Commitment,
     deleteCommitmentPackage(commitment: ID!, package: ID!): Commitment,
     storeCommitmentSubscription(commitment: ID!, subscriber: ID!): Commitment,
     deleteCommitmentSubscription(commitment: ID!, subscriber: ID!): Commitment,
+    setCostingRequired(id: ID!, costingRequired: Boolean!): Commitment,
     }

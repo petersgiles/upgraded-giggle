@@ -1,6 +1,10 @@
 <div class="page">
   <section [mdcElevation]="5">
-    <digital-first-planner [commitments]="commitmentsData$ | async">
+    <digital-first-planner
+      [commitments]="plannerCommitments$ | async"
+      [events]="commitmentEvents$ | async"
+      (onEventSaved)="handelEventSaved($event)"
+    >
     </digital-first-planner>
   </section>
 </div>
