@@ -28,14 +28,14 @@
   <scheduler
     #scheduler
     [rowHeight]="50"
-    [events]="events$ | async"
+    [events]="events"
     [startDate]="startDate"
     [endDate]="endDate"
-    [resources]="tempDate"
+    [resources]="commitments"
     [barMargin]="10"
     [columns]="columns"
     [featureConfig]="featureConfig"
-    [timeRanges]="timeRanges$ | async"
+    [timeRanges]="externalEvents"
     [eventRenderer]="eventRenderer"
     [zoomLevels]="zoomLevels"
     [zoomLevel]="currentZoomLevel.id"

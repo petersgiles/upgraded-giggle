@@ -3,7 +3,10 @@
     <digital-first-planner
       [commitments]="plannerCommitments$ | async"
       [events]="commitmentEvents$ | async"
-      (onEventSaved)="handelEventSaved($event)"
+      [commitmentEventTypes]="commitmentEventTypes$ | async"
+      [externalEvents]="externalEvents$ | async"
+      (onEventSaved)="handleEventSaved($event)"
+      (onEventRemoved)="handleEventRemoved($event)"
     >
     </digital-first-planner>
   </section>

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { CommitmentGraph } from '../../generated/graphql'
-import { Observable, BehaviorSubject } from 'rxjs'
+import { Observable, BehaviorSubject, observable, of } from 'rxjs'
 import {
   CommitmentRefinerService,
   DataTableColumn
@@ -21,8 +21,7 @@ interface CommitmentRow {
   styleUrls: ['./overview-page.component.scss']
 })
 export class OverviewPageComponent implements OnInit, OnDestroy {
-  public commitmentsTableData$: Observable<CommitmentGraph[]>
-  filterCommitments$: BehaviorSubject<CommitmentRow[]>
+  filterCommitments$: Observable<CommitmentRow[]>
   rows: CommitmentRow[]
   public columns$: Observable<DataTableColumn[]>
   public count: number
@@ -31,28 +30,24 @@ export class OverviewPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.columns$ = this.dataService.columns$
-    this.commitmentsTableData$ = this.dataService.commitments$
-
-    this.commitmentsTableData$
-      .pipe(tap((result: any) => result))
-      .subscribe(value => {
-        this.rows = value.map(row => ({
-          id: row.id,
-          title: row.title,
-          politicalParty: row.politicalParty,
-          announcedBy: row.announcedBy,
-          announcementType: (row.announcementType || {}).title,
-          criticalDate: (row.criticalDate || {}).title,
-          portfolio: (row.portfolioLookup || {}).title
-        }))
-        this.filterCommitments$ = new BehaviorSubject(this.rows)
-      })
+    this.dataService.commitments$.subscribe(value => {
+      const rows = value.map(row => ({
+        id: row.id,
+        title: row.title,
+        politicalParty: row.politicalParty,
+        announcedBy: row.announcedBy,
+        announcementType: row.announcementType
+          ? row.announcementType.title
+          : '',
+        criticalDate: row.criticalDate ? row.criticalDate.title : '',
+        portfolio: row.portfolioLookup ? row.portfolioLookup.title : ''
+      }))
+      this.filterCommitments$ = of(rows)
+    })
     this.dataService.getRefinedCommitments()
   }
 
-  ngOnDestroy(): void {
-    this.filterCommitments$.unsubscribe()
-  }
+  ngOnDestroy(): void {}
 
   handleCommitmentsRowClicked($event) {}
 }
