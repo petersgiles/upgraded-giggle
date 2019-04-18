@@ -10,12 +10,8 @@ import {
 import { SchedulerComponent } from '../scheduler/scheduler.component'
 import { MdcSliderChange } from '@angular-mdc/web'
 import { DateHelper, EventModel } from 'bryntum-scheduler/scheduler.umd.js'
-import * as CommonEventTypes from './data/eventTypes.json'
 import * as ZoomLevels from './data/zoomLevels.json'
-import * as timeRanges from './data/timeRanges.json'
 import { webSafeColours } from './data/webSafeColours'
-import { BehaviorSubject } from 'rxjs'
-import { ExternalEvent } from '../../models/commitment-event.model'
 
 @Component({
   selector: 'digital-first-planner',
@@ -28,15 +24,15 @@ export class PlannerComponent implements OnInit {
   commitments: any[]
   @Input()
   events: any[]
+  @Input()
+  externalEvents: any[]
+  @Input()
+  commitmentEventTypes: any[]
+
   @Output()
   public onEventSaved: EventEmitter<any> = new EventEmitter()
   @Output()
   public onEventRemoved: EventEmitter<any> = new EventEmitter()
-
-  tempDate = [
-    { id: 'adfasdfa1212', name: 'Something needs to be here soon' },
-    { id: 'asdf21211', name: 'Brief History of Humankind' }
-  ]
 
   @ViewChild(SchedulerComponent) scheduler: SchedulerComponent
 
@@ -52,9 +48,7 @@ export class PlannerComponent implements OnInit {
   // TODO: set widths based on size of parent container
   // Setup data for scheduler
 
-  timeRanges$ = new BehaviorSubject<ExternalEvent[]>(timeRanges)
   zoomLevels = ZoomLevels
-  commonEventTypes = CommonEventTypes
   columns = [
     {
       text: 'Commitments',
@@ -128,7 +122,7 @@ export class PlannerComponent implements OnInit {
             items: me.populateExtraEventTypes(),
             listeners: {
               select: ({ source: combo, record }) => {
-                const eventType = this.commonEventTypes.find(
+                const eventType = this.commitmentEventTypes.find(
                   c => c.type === combo.value
                 )
                 if (eventType) {
@@ -196,7 +190,7 @@ export class PlannerComponent implements OnInit {
 
   populateExtraItems(me: any) {
     const extraItems = []
-    this.commonEventTypes.forEach(e => {
+    this.commitmentEventTypes.forEach(e => {
       extraItems.push({
         text: e.type,
         icon: e.icon,
@@ -221,7 +215,7 @@ export class PlannerComponent implements OnInit {
 
   populateExtraEventTypes() {
     const extraTypes = []
-    this.commonEventTypes.forEach(c => {
+    this.commitmentEventTypes.forEach(c => {
       extraTypes.push(c.type)
     })
     return extraTypes
