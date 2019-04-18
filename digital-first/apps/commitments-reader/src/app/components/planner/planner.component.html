@@ -28,18 +28,18 @@
   <scheduler
     #scheduler
     [rowHeight]="50"
-    [events]="events"
+    [events]="events$ | async"
     [startDate]="startDate"
     [endDate]="endDate"
     [resources]="tempDate"
     [barMargin]="10"
     [columns]="columns"
     [featureConfig]="featureConfig"
-    [timeRanges]="timeRanges"
+    [timeRanges]="timeRanges$ | async"
     [eventRenderer]="eventRenderer"
     [zoomLevels]="zoomLevels"
     [zoomLevel]="currentZoomLevel.id"
-    (onSchedulerEvents)="handleEvent($event)"
+    [listeners]="listeners"
     eventColor="green"
     eventStyle="border"
   ></scheduler>

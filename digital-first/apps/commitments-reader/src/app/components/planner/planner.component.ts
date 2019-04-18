@@ -3,17 +3,19 @@ import {
   ViewChild,
   ViewEncapsulation,
   Input,
-  OnInit
+  OnInit,
+  Output,
+  EventEmitter
 } from '@angular/core'
 import { SchedulerComponent } from '../scheduler/scheduler.component'
 import { MdcSliderChange } from '@angular-mdc/web'
-import {
-  DateHelper,
-  EventModel} from 'bryntum-scheduler/scheduler.umd.js'
+import { DateHelper, EventModel } from 'bryntum-scheduler/scheduler.umd.js'
 import * as CommonEventTypes from './data/eventTypes.json'
 import * as ZoomLevels from './data/zoomLevels.json'
 import * as timeRanges from './data/timeRanges.json'
 import { webSafeColours } from './data/webSafeColours'
+import { BehaviorSubject } from 'rxjs'
+import { ExternalEvent } from '../../models/commitment-event.model'
 
 @Component({
   selector: 'digital-first-planner',
@@ -24,6 +26,13 @@ import { webSafeColours } from './data/webSafeColours'
 export class PlannerComponent implements OnInit {
   @Input()
   commitments: any[]
+  @Input()
+  events: any[]
+  @Output()
+  public onEventSaved: EventEmitter<any> = new EventEmitter()
+  @Output()
+  public onEventRemoved: EventEmitter<any> = new EventEmitter()
+
   tempDate = [
     { id: 'adfasdfa1212', name: 'Something needs to be here soon' },
     { id: 'asdf21211', name: 'Brief History of Humankind' }
@@ -32,6 +41,7 @@ export class PlannerComponent implements OnInit {
   @ViewChild(SchedulerComponent) scheduler: SchedulerComponent
 
   featureConfig: Object
+  listeners: Object
 
   startDate = DateHelper.add(new Date(), -1, 'months')
   endDate = DateHelper.add(new Date(), 3, 'years')
@@ -41,8 +51,10 @@ export class PlannerComponent implements OnInit {
 
   // TODO: set widths based on size of parent container
   // Setup data for scheduler
-  events = []
 
+  timeRanges$ = new BehaviorSubject<ExternalEvent[]>(timeRanges)
+  zoomLevels = ZoomLevels
+  commonEventTypes = CommonEventTypes
   columns = [
     {
       text: 'Commitments',
@@ -51,10 +63,6 @@ export class PlannerComponent implements OnInit {
       editable: true
     }
   ]
-  timeRanges = timeRanges
-  zoomLevels = ZoomLevels
-  commonEventTypes = CommonEventTypes
-
   zoomSlider: any = {}
 
   get currentZoomLevel() {
@@ -70,8 +78,27 @@ export class PlannerComponent implements OnInit {
     this.zoomSlider.min = 0
     this.zoomSlider.max = this.zoomLevels.length - 1
     this.zoomSlider.levelId = 3
-    this.events = JSON.parse(localStorage.getItem('commitmentEvents'))
+    this.buildFeatureConfig(me)
+    this.buildEventListeners(me)
+  }
 
+  private buildEventListeners(me: this) {
+    this.listeners = {
+      afterEventSave({ source, eventRecord }) {
+        me.onEventSaved.emit(eventRecord.data)
+      },
+      beforeeventdelete({ source, eventRecord }) {
+        me.onEventRemoved.emit(eventRecord.data)
+      },
+      zoomchange({ column, level }) {
+        me.zoomSlider.levelId = level.id
+        me.scheduler.schedulerEngine.setTimeSpan(me.startDate, me.endDate)
+        me.scheduler.schedulerEngine.scrollToDate(me.today)
+      }
+    }
+  }
+
+  private buildFeatureConfig(me: this) {
     this.featureConfig = {
       timeRanges: {
         showCurrentTimeLine: true,
@@ -165,25 +192,6 @@ export class PlannerComponent implements OnInit {
       tplData.cls[eventRecord.eventColor] = true
     }
     return eventRecord.name
-  }
-
-  handleEvent(event: Event) {
-    switch (event.type) {
-      case 'zoomchange':
-        const level: any = (event as any).level
-        this.zoomSlider.levelId = level.id
-        this.scheduler.schedulerEngine.setTimeSpan(this.startDate, this.endDate)
-        this.scheduler.schedulerEngine.scrollToDate(this.today)
-        break
-      case 'aftereventsave':
-        localStorage.setItem(
-          'commitmentEvents',
-          JSON.stringify(this.scheduler.schedulerEngine.eventStore)
-        )
-        break
-      case 'beforeeventsave':
-        break
-    }
   }
 
   populateExtraItems(me: any) {
