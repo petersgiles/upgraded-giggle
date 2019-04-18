@@ -1,10 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { Observable, BehaviorSubject } from 'rxjs'
-import { first, map, tap, filter, switchMap } from 'rxjs/operators'
+import { tap } from 'rxjs/operators'
 import {
-  CommitmentPartsFragment,
-  MapPointGraph,
-  CommitmentMapPointGraph
+  CommitmentMapPointGraph,
+  CommitmentGraph
 } from '../../generated/graphql'
 import { SettingsService } from '../../services/settings.service'
 import { Router } from '@angular/router'
@@ -34,13 +33,14 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
   public longitude: number
 
   public zoom: number
-  public mapPoints: any[]
-  public mapPointCommitments$: Observable<CommitmentPartsFragment[]>
+  public mapPoints: any[] = []
   public columns$: Observable<DataTableColumn[]>
   public commitmentMapTableData$: Observable<CommitmentMapPointGraph[]>
   filterCommitmentMapPoints$: BehaviorSubject<CommitmentRow[]>
-  public commitmentsTableData$: Observable<CommitmentMapPointGraph[]>
   rows: CommitmentRow[]
+  public commitmentsTableData$: Observable<CommitmentGraph[]>
+  filterCommitments$: BehaviorSubject<CommitmentRow[]>
+
   constructor(
     private router: Router,
     private settings: SettingsService,
@@ -52,35 +52,38 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
     this.longitude = 133.8807
     this.zoom = 5
     this.columns$ = this.dataService.columns$
+    this.getCommitments()
+    this.dataService.getRefinedCommitments()
+  }
 
-    // this.mapPoints$ = this.dataService.mapPoints$
-    this.mapPointCommitments$ = this.dataService.mapPointCommitments$
-    this.commitmentMapTableData$ = this.dataService.commitmentsMapPointAll$
+  getCommitments() {
+    this.columns$ = this.dataService.columns$
+    this.commitmentsTableData$ = this.dataService.commitments$
 
-    this.commitmentMapTableData$
+    this.commitmentsTableData$
       .pipe(tap((result: any) => result))
       .subscribe(value => {
-        console.log(value)
-        this.rows = value.map(cmp => ({
-          id: cmp.commitment.id,
-          title: cmp.commitment.title,
-          politicalParty: cmp.commitment.politicalParty,
-          announcedBy: cmp.commitment.announcedBy,
-          announcementType: (cmp.commitment.announcementType || {}).title,
-          criticalDate: (cmp.commitment.criticalDate || {}).title,
-          portfolio: (cmp.commitment.portfolioLookup || {}).title,
-          mapPoint: cmp.mapPoint || {}
+        this.rows = value.map(row => ({
+          id: row.id,
+          title: row.title,
+          politicalParty: row.politicalParty,
+          announcedBy: row.announcedBy,
+          announcementType: (row.announcementType || {}).title,
+          criticalDate: (row.criticalDate || {}).title,
+          portfolio: (row.portfolioLookup || {}).title,
+          mapPoints: row.commitmentMapPoints.mapPoints || {}
         }))
 
-        this.filterCommitmentMapPoints$ = new BehaviorSubject(this.rows)
-        this.filterCommitmentMapPoints$
-          .pipe(tap((result: any) => result))
-          .subscribe(value1 => {
-            this.mapPoints = value1.map(item => item.mapPoint)
+        value.map(item => {
+          item.commitmentMapPoints.map(x => {
+            if (!this.mapPoints.find(fnd => fnd.id === x.id)) {
+              this.mapPoints.push(x.mapPoint)
+            }
           })
-        console.log(this.filterCommitmentMapPoints$)
+        })
+        this.filterCommitments$ = new BehaviorSubject(this.rows)
       })
-    this.dataService.getCommitmentMapPointsAll()
+    this.dataService.getRefinedCommitments()
   }
 
   handleRowClicked($event) {
@@ -97,6 +100,6 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.filterCommitmentMapPoints$.unsubscribe()
+    this.filterCommitments$.unsubscribe()
   }
 }

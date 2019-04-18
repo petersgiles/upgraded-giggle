@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
-import { CommitmentPartsFragment } from '../../generated/graphql'
+import { CommitmentGraph } from '../../generated/graphql'
 import { Observable, BehaviorSubject } from 'rxjs'
 import {
   CommitmentRefinerService,
@@ -21,7 +21,7 @@ interface CommitmentRow {
   styleUrls: ['./overview-page.component.scss']
 })
 export class OverviewPageComponent implements OnInit, OnDestroy {
-  public commitmentsTableData$: Observable<CommitmentPartsFragment[]>
+  public commitmentsTableData$: Observable<CommitmentGraph[]>
   filterCommitments$: BehaviorSubject<CommitmentRow[]>
   rows: CommitmentRow[]
   public columns$: Observable<DataTableColumn[]>
@@ -47,7 +47,7 @@ export class OverviewPageComponent implements OnInit, OnDestroy {
         }))
         this.filterCommitments$ = new BehaviorSubject(this.rows)
       })
-    this.dataService.getOverviewPage()
+    this.dataService.getRefinedCommitments()
   }
 
   ngOnDestroy(): void {

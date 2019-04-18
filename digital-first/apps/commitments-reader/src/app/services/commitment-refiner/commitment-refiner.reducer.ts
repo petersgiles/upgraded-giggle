@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import {
-  CommitmentPartsFragment,
-  CommitmentMapPointGraph
+  CommitmentMapPointGraph,
+  CommitmentGraph
 } from '../../generated/graphql'
 import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
 import { environment } from '../../../environments/environment'
@@ -32,11 +32,9 @@ export interface RefinerState {
   selectedMapPoint: any
   mapPoints: any[]
   commitmentMapPoints: CommitmentMapPointGraph[]
-  mapPointsCommitments: CommitmentPartsFragment[]
-  commitments: CommitmentPartsFragment[]
+  commitments: CommitmentGraph[]
   columns: DataTableColumn[]
 }
-const sortArray: string[] = [null, 'ASC', 'DESC']
 
 export const initialState: RefinerState = {
   refinerGroups: [],
@@ -48,7 +46,6 @@ export const initialState: RefinerState = {
   selectedMapPoint: [],
   mapPoints: [],
   commitmentMapPoints: [],
-  mapPointsCommitments: [],
   commitments: [],
   columns: [
     { prop: 'id', name: 'Id' },
@@ -123,16 +120,9 @@ export class RefinerReducer {
           p => p !== action.payload.id
         )
 
-        console.log(
-          '👽',
-          `id group ${group} expanded store`,
-          expandedRefinerGroups
-        )
-
         if (refinerGroups[group].expanded) {
           expandedRefinerGroups.push(action.payload.id)
         }
-        console.log('👽', 'store : ', expandedRefinerGroups)
 
         return {
           ...state,
@@ -153,17 +143,12 @@ export class RefinerReducer {
           expandedRefinerGroups.push(item.groupId)
         }
 
-        console.log(expandedRefinerGroups)
-
         const refiner = refinerGroups[group].children.findIndex(
           p => p.id === item.id
         )
-        console.log('👽', 'group:', group, 'refiner', refiner)
 
         refinerGroups[group].children[refiner].selected = !refinerGroups[group]
           .children[refiner].selected
-
-        console.log('store prior to filter', state.selectedRefiners)
 
         // if the item is not selected, then it has been unselected. Remove from store
         const selectedRefiners =
@@ -172,8 +157,6 @@ export class RefinerReducer {
                 p => p.groupId !== item.groupId && p.itemId !== item.itemId
               )
             : state.selectedRefiners
-
-        console.log('store after filter', selectedRefiners)
 
         // if the item is selected. Add to store
         if (refinerGroups[group].children[refiner].selected) {
@@ -191,12 +174,10 @@ export class RefinerReducer {
           refinerGroups: refinerGroups
         }
 
-        console.log(retVal)
-
         return retVal
       }
     }
-    console.log('default case')
+
     return state
   }
 }

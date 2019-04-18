@@ -46,22 +46,12 @@ export type AgencyGraph = {
   title: Scalars['String']
 }
 
-export type AgencyGraphPortfolioArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
-}
-
 export type AnnouncementTypeGraph = {
   colour: Scalars['String']
   commitments?: Maybe<Array<Maybe<CommitmentGraph>>>
   description: Scalars['String']
   icon: Scalars['String']
   id: Scalars['Int']
-  inactive: Scalars['Boolean']
   internalVersion: Scalars['UInt32']
   sortOrder: Scalars['Int']
   title: Scalars['String']
@@ -88,16 +78,27 @@ export type AppropriationGraph = {
   rowVersion: Scalars['String']
 }
 
-export type AppropriationGraphBudgetArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
+export type BriefCommitmentGraph = {
+  brief?: Maybe<BriefGraph>
+  briefId: Scalars['Guid']
+  commitment?: Maybe<CommitmentGraph>
+  commitmentId: Scalars['Int']
 }
 
-export type AppropriationGraphProgramArgs = {
+export type BriefGraph = {
+  briefCommitments?: Maybe<Array<Maybe<BriefCommitmentGraph>>>
+  id: Scalars['Guid']
+  internalVersion: Scalars['Int']
+  listId: Scalars['Guid']
+  listItemId: Scalars['Int']
+  reference: Scalars['String']
+  title: Scalars['String']
+  webId: Scalars['Guid']
+  webTitle: Scalars['String']
+  webUrl: Scalars['String']
+}
+
+export type BriefGraphBriefCommitmentsArgs = {
   id: Scalars['String']
   ids: Array<Maybe<Scalars['String']>>
   orderBy: Array<Maybe<OrderByGraph>>
@@ -139,29 +140,12 @@ export type CommitmentElectorateGraph = {
   title: Scalars['String']
 }
 
-export type CommitmentElectorateGraphCommitmentArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
-}
-
-export type CommitmentElectorateGraphElectorateArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
-}
-
 export type CommitmentGraph = {
   announcedBy?: Maybe<Scalars['String']>
   announcementType?: Maybe<AnnouncementTypeGraph>
   announcementTypeId?: Maybe<Scalars['Int']>
   bookType: Scalars['String']
+  briefCommitments?: Maybe<Array<Maybe<BriefCommitmentGraph>>>
   commitmentElectorates?: Maybe<Array<Maybe<CommitmentElectorateGraph>>>
   commitmentMapPoints?: Maybe<Array<Maybe<CommitmentMapPointGraph>>>
   commitmentPackageTypes?: Maybe<Array<Maybe<CommitmentPackageTypeGraph>>>
@@ -169,31 +153,23 @@ export type CommitmentGraph = {
     Array<Maybe<CommitmentPortfolioLookupGraph>>
   >
   commitmentType?: Maybe<CommitmentTypeGraph>
-  commitmentTypeId: Scalars['Int']
+  commitmentTypeId?: Maybe<Scalars['Int']>
   cost?: Maybe<Scalars['String']>
   criticalDate?: Maybe<CriticalDateGraph>
   criticalDateId?: Maybe<Scalars['Int']>
-  date: Scalars['DateTimeOffset']
+  date?: Maybe<Scalars['DateTimeOffset']>
   description: Scalars['String']
   id: Scalars['Int']
   internalVersion: Scalars['UInt32']
   politicalParty: Scalars['String']
   portfolioLookup?: Maybe<PortfolioLookupGraph>
   portfolioLookupId?: Maybe<Scalars['Int']>
-  status: Scalars['String']
+  status: StatusGraph
+  statusId?: Maybe<Scalars['Int']>
   title: Scalars['String']
 }
 
-export type CommitmentGraphAnnouncedByArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
-}
-
-export type CommitmentGraphAnnouncementTypeArgs = {
+export type CommitmentGraphBriefCommitmentsArgs = {
   id: Scalars['String']
   ids: Array<Maybe<Scalars['String']>>
   orderBy: Array<Maybe<OrderByGraph>>
@@ -238,33 +214,6 @@ export type CommitmentGraphCommitmentPortfolioLookupsArgs = {
   take: Scalars['Int']
 }
 
-export type CommitmentGraphCommitmentTypeArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
-}
-
-export type CommitmentGraphCriticalDateArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
-}
-
-export type CommitmentGraphPortfolioLookupArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
-}
-
 export type CommitmentMapPointGraph = {
   commitment?: Maybe<CommitmentGraph>
   commitmentId: Scalars['Int']
@@ -274,24 +223,6 @@ export type CommitmentMapPointGraph = {
   mapPoint?: Maybe<MapPointGraph>
   mapPointId: Scalars['Int']
   title: Scalars['String']
-}
-
-export type CommitmentMapPointGraphCommitmentArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
-}
-
-export type CommitmentMapPointGraphMapPointArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
 }
 
 export type CommitmentPackageTypeGraph = {
@@ -306,24 +237,6 @@ export type CommitmentPackageTypeGraph = {
   title: Scalars['String']
 }
 
-export type CommitmentPackageTypeGraphCommitmentArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
-}
-
-export type CommitmentPackageTypeGraphPackageTypeArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
-}
-
 export type CommitmentPortfolioLookupGraph = {
   commitment?: Maybe<CommitmentGraph>
   commitmentId: Scalars['Int']
@@ -334,24 +247,6 @@ export type CommitmentPortfolioLookupGraph = {
   portfolioLookupId: Scalars['Int']
   primaryPortfolio: Scalars['Boolean']
   title: Scalars['String']
-}
-
-export type CommitmentPortfolioLookupGraphCommitmentArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
-}
-
-export type CommitmentPortfolioLookupGraphPortfolioLookupArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
 }
 
 export type CommitmentRefinerGraph = {
@@ -366,7 +261,6 @@ export type CommitmentTypeGraph = {
   description: Scalars['String']
   icon: Scalars['String']
   id: Scalars['Int']
-  inactive: Scalars['Boolean']
   internalVersion: Scalars['UInt32']
   sortOrder: Scalars['Int']
   title: Scalars['String']
@@ -394,6 +288,11 @@ export enum ComparisonGraph {
   Like = 'like',
   NotEqual = 'notEqual',
   StartsWith = 'startsWith'
+}
+
+export type CreateBriefCommitmentInputGraph = {
+  briefId: Scalars['Guid']
+  commitmentId: Scalars['Int']
 }
 
 export type CreateElectorateAdviceGraph = {
@@ -487,7 +386,6 @@ export type CriticalDateGraph = {
   description: Scalars['String']
   icon: Scalars['String']
   id: Scalars['Int']
-  inactive: Scalars['Boolean']
   internalVersion: Scalars['UInt32']
   sortOrder: Scalars['Int']
   title: Scalars['String']
@@ -506,6 +404,11 @@ export type DeactivateElectorateAdviceGraph = {
   adviceId: Scalars['Guid']
 }
 
+export type DeleteBriefCommitmentInputGraph = {
+  briefId: Scalars['Guid']
+  commitmentId: Scalars['Int']
+}
+
 export type ElectorateAdviceGraph = {
   active: Scalars['Boolean']
   advice: Scalars['String']
@@ -514,15 +417,6 @@ export type ElectorateAdviceGraph = {
   electorateId: Scalars['Guid']
   id: Scalars['Guid']
   timestamp: Scalars['DateTimeOffset']
-}
-
-export type ElectorateAdviceGraphElectorateArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
 }
 
 export type ElectorateChartDataGraph = {
@@ -583,15 +477,6 @@ export type ElectorateGraphProjectsArgs = {
   take: Scalars['Int']
 }
 
-export type ElectorateGraphStateArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
-}
-
 export type MapPointGraph = {
   commitmentMapPoints?: Maybe<Array<Maybe<CommitmentMapPointGraph>>>
   description: Scalars['String']
@@ -623,6 +508,7 @@ export type ModifyElectorateAdviceGraph = {
 
 export type Mutation = {
   activateElectorateAdvice?: Maybe<MutationResultGraph>
+  createBriefCommitment?: Maybe<MutationResultGraph>
   createElectorateAdvice?: Maybe<MutationResultGraph>
   createElectorateBarchartReport?: Maybe<MutationResultGraph>
   createElectorateMarkdownReport?: Maybe<MutationResultGraph>
@@ -636,6 +522,7 @@ export type Mutation = {
   createStatisticElectorateTableReport?: Maybe<MutationResultGraph>
   createStatisticReport?: Maybe<MutationResultGraph>
   deactivateElectorateAdvice?: Maybe<MutationResultGraph>
+  deleteBriefCommitment?: Maybe<MutationResultGraph>
   modifyElectorateAdvice?: Maybe<MutationResultGraph>
   requestElectorateBrief?: Maybe<MutationResultGraph>
   testMessage?: Maybe<MutationResultGraph>
@@ -645,6 +532,12 @@ export type MutationActivateElectorateAdviceArgs = {
   messageId: Scalars['Guid']
   conversationId: Scalars['Guid']
   advice: ActivateElectorateAdviceGraph
+}
+
+export type MutationCreateBriefCommitmentArgs = {
+  messageId: Scalars['Guid']
+  conversationId: Scalars['Guid']
+  createBriefCommitment: CreateBriefCommitmentInputGraph
 }
 
 export type MutationCreateElectorateAdviceArgs = {
@@ -725,6 +618,12 @@ export type MutationDeactivateElectorateAdviceArgs = {
   advice: DeactivateElectorateAdviceGraph
 }
 
+export type MutationDeleteBriefCommitmentArgs = {
+  messageId: Scalars['Guid']
+  conversationId: Scalars['Guid']
+  deleteBriefCommitment: DeleteBriefCommitmentInputGraph
+}
+
 export type MutationModifyElectorateAdviceArgs = {
   messageId: Scalars['Guid']
   conversationId: Scalars['Guid']
@@ -762,7 +661,6 @@ export type PackageTypeGraph = {
   description: Scalars['String']
   icon: Scalars['String']
   id: Scalars['Int']
-  inactive: Scalars['Boolean']
   internalVersion: Scalars['UInt32']
   sortOrder: Scalars['Int']
   title: Scalars['String']
@@ -795,6 +693,7 @@ export type PortfolioGraphAgenciesArgs = {
 }
 
 export type PortfolioLookupGraph = {
+  agencyType: Scalars['String']
   colour: Scalars['String']
   commitmentPortfolioLookups?: Maybe<
     Array<Maybe<CommitmentPortfolioLookupGraph>>
@@ -802,7 +701,6 @@ export type PortfolioLookupGraph = {
   description: Scalars['String']
   icon: Scalars['String']
   id: Scalars['Int']
-  inactive: Scalars['Boolean']
   internalVersion: Scalars['UInt32']
   sortOrder: Scalars['Int']
   title: Scalars['String']
@@ -828,15 +726,6 @@ export type ProgramGraph = {
   programSubmissions?: Maybe<Array<Maybe<ProgramSubmissionGraph>>>
   projects?: Maybe<Array<Maybe<ProjectGraph>>>
   reports?: Maybe<Array<Maybe<ReportGraph>>>
-}
-
-export type ProgramGraphAgencyArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
 }
 
 export type ProgramGraphAppropriationsArgs = {
@@ -895,15 +784,6 @@ export type ProgramSubmissionGraph = {
   timeStamp: Scalars['DateTimeOffset']
 }
 
-export type ProgramSubmissionGraphProgramArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
-}
-
 export type ProgramSubmissionGraphProjectsArgs = {
   id: Scalars['String']
   ids: Array<Maybe<Scalars['String']>>
@@ -939,28 +819,12 @@ export type ProjectGraphElectoratesArgs = {
   take: Scalars['Int']
 }
 
-export type ProjectGraphProgramArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
-}
-
-export type ProjectGraphProgramSubmissionArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
-}
-
 export type Query = {
   agencies?: Maybe<Array<Maybe<AgencyGraph>>>
   agency?: Maybe<AgencyGraph>
   announcementTypes?: Maybe<Array<Maybe<AnnouncementTypeGraph>>>
+  briefCommitments?: Maybe<Array<Maybe<BriefCommitmentGraph>>>
+  briefs?: Maybe<Array<Maybe<BriefGraph>>>
   commitmentElectorates?: Maybe<Array<Maybe<CommitmentElectorateGraph>>>
   commitmentMapPoints?: Maybe<Array<Maybe<CommitmentMapPointGraph>>>
   commitmentPackageTypes?: Maybe<Array<Maybe<CommitmentPackageTypeGraph>>>
@@ -1011,6 +875,24 @@ export type QueryAgencyArgs = {
 }
 
 export type QueryAnnouncementTypesArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryBriefCommitmentsArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryBriefsArgs = {
   id: Scalars['String']
   ids: Array<Maybe<Scalars['String']>>
   orderBy: Array<Maybe<OrderByGraph>>
@@ -1270,15 +1152,6 @@ export type ReportDataGraph = {
   reportVersion?: Maybe<ReportVersionGraph>
 }
 
-export type ReportDataGraphReportVersionArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
-}
-
 export type ReportGraph = {
   data?: Maybe<ReportDataGraph>
   id: Scalars['Guid']
@@ -1293,15 +1166,6 @@ export type ReportGraph = {
 
 export type ReportGraphDataArgs = {
   electorate: Scalars['String']
-}
-
-export type ReportGraphProgramArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
 }
 
 export type ReportGraphReportVersionsArgs = {
@@ -1330,15 +1194,6 @@ export type ReportVersionGraph = {
 
 export type ReportVersionGraphElectorateDataArgs = {
   electorate: Scalars['String']
-}
-
-export type ReportVersionGraphReportArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
 }
 
 export type ReportVersionGraphReportDataArgs = {
@@ -1445,15 +1300,6 @@ export type StatisticDataGraph = {
   statisticReportVersionId: Scalars['Guid']
 }
 
-export type StatisticDataGraphStatisticReportVersionArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
-}
-
 export type StatisticGraph = {
   agency?: Maybe<AgencyGraph>
   agencyId?: Maybe<Scalars['Guid']>
@@ -1462,15 +1308,6 @@ export type StatisticGraph = {
   name: Scalars['String']
   rowVersion: Scalars['String']
   statisticReports?: Maybe<Array<Maybe<StatisticReportGraph>>>
-}
-
-export type StatisticGraphAgencyArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
 }
 
 export type StatisticGraphStatisticReportsArgs = {
@@ -1494,15 +1331,6 @@ export type StatisticReportGraph = {
 
 export type StatisticReportGraphDataArgs = {
   electorate: Scalars['String']
-}
-
-export type StatisticReportGraphStatisticArgs = {
-  id: Scalars['String']
-  ids: Array<Maybe<Scalars['String']>>
-  orderBy: Array<Maybe<OrderByGraph>>
-  where: Array<Maybe<WhereExpressionGraph>>
-  skip: Scalars['Int']
-  take: Scalars['Int']
 }
 
 export type StatisticReportGraphStatisticReportVersionsArgs = {
@@ -1534,7 +1362,19 @@ export type StatisticReportVersionGraphSchemaArgs = {
   electorate: Scalars['String']
 }
 
-export type StatisticReportVersionGraphStatisticReportArgs = {
+export type StatusGraph = {
+  colour: Scalars['String']
+  commitments?: Maybe<Array<Maybe<CommitmentGraph>>>
+  description: Scalars['String']
+  icon: Scalars['String']
+  id: Scalars['Int']
+  internalVersion: Scalars['UInt32']
+  publish: Scalars['Boolean']
+  sortOrder: Scalars['Int']
+  title: Scalars['String']
+}
+
+export type StatusGraphCommitmentsArgs = {
   id: Scalars['String']
   ids: Array<Maybe<Scalars['String']>>
   orderBy: Array<Maybe<OrderByGraph>>
@@ -1558,45 +1398,46 @@ export type WhereExpressionGraph = {
   case?: Maybe<StringComparison>
   value?: Maybe<Array<Maybe<Scalars['String']>>>
 }
-export type PlannerCommitmentsQueryVariables = {
-  refiner: CommitmentRefinerGraph
-}
+export type GetRefinerTagsQueryVariables = {}
 
-export type PlannerCommitmentsQuery = { __typename?: 'Query' } & {
-  commitments: Maybe<
+export type GetRefinerTagsQuery = { __typename?: 'Query' } & {
+  commitmentTypes: Maybe<
     Array<
       Maybe<
-        { __typename?: 'CommitmentGraph' } & Pick<
-          CommitmentGraph,
-          'id' | 'title' | 'politicalParty' | 'announcedBy'
-        > & {
-            announcementType: Maybe<
-              { __typename?: 'AnnouncementTypeGraph' } & Pick<
-                AnnouncementTypeGraph,
-                'id' | 'title'
-              >
-            >
-            criticalDate: Maybe<
-              { __typename?: 'CriticalDateGraph' } & Pick<
-                CriticalDateGraph,
-                'id' | 'title'
-              >
-            >
-            portfolioLookup: Maybe<
-              { __typename?: 'PortfolioLookupGraph' } & Pick<
-                PortfolioLookupGraph,
-                'id' | 'title'
-              >
-            >
-          }
+        { __typename?: 'CommitmentTypeGraph' } & Pick<
+          CommitmentTypeGraph,
+          'id' | 'title'
+        >
+      >
+    >
+  >
+  criticalDates: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'CriticalDateGraph' } & Pick<
+          CriticalDateGraph,
+          'id' | 'title'
+        >
+      >
+    >
+  >
+  portfolioLookups: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'PortfolioLookupGraph' } & Pick<
+          PortfolioLookupGraph,
+          'id' | 'title'
+        >
       >
     >
   >
 }
 
-export type CommitmentsMapPointAllQueryVariables = {}
+export type CommitmentsMapPointSearchQueryVariables = {
+  commitmentWhere?: Maybe<WhereExpressionGraph>
+}
 
-export type CommitmentsMapPointAllQuery = { __typename?: 'Query' } & {
+export type CommitmentsMapPointSearchQuery = { __typename?: 'Query' } & {
   commitmentMapPoints: Maybe<
     Array<
       Maybe<
@@ -1641,25 +1482,51 @@ export type CommitmentsMapPointAllQuery = { __typename?: 'Query' } & {
   >
 }
 
-export type CommitmentsMapPointSearchQueryVariables = {
-  commitmentWhere?: Maybe<WhereExpressionGraph>
+export type CommitmentsSearchQueryVariables = {
+  refiner: CommitmentRefinerGraph
 }
 
-export type CommitmentsMapPointSearchQuery = { __typename?: 'Query' } & {
-  commitmentMapPoints: Maybe<
+export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
+  commitments: Maybe<
     Array<
       Maybe<
-        { __typename?: 'CommitmentMapPointGraph' } & Pick<
-          CommitmentMapPointGraph,
-          'id' | 'internalVersion' | 'title' | 'description'
+        { __typename?: 'CommitmentGraph' } & Pick<
+          CommitmentGraph,
+          'id' | 'title' | 'politicalParty' | 'announcedBy'
         > & {
-            commitment: Maybe<
-              { __typename?: 'CommitmentGraph' } & CommitmentPartsFragment
+            announcementType: Maybe<
+              { __typename?: 'AnnouncementTypeGraph' } & Pick<
+                AnnouncementTypeGraph,
+                'id' | 'title'
+              >
             >
-            mapPoint: Maybe<
-              { __typename?: 'MapPointGraph' } & Pick<
-                MapPointGraph,
-                'id' | 'placeId' | 'title' | 'latitude' | 'longitude'
+            criticalDate: Maybe<
+              { __typename?: 'CriticalDateGraph' } & Pick<
+                CriticalDateGraph,
+                'id' | 'title'
+              >
+            >
+            portfolioLookup: Maybe<
+              { __typename?: 'PortfolioLookupGraph' } & Pick<
+                PortfolioLookupGraph,
+                'id' | 'title'
+              >
+            >
+            commitmentMapPoints: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'CommitmentMapPointGraph' } & Pick<
+                    CommitmentMapPointGraph,
+                    'id'
+                  > & {
+                      mapPoint: Maybe<
+                        { __typename?: 'MapPointGraph' } & Pick<
+                          MapPointGraph,
+                          'id' | 'placeId' | 'title' | 'latitude' | 'longitude'
+                        >
+                      >
+                    }
+                >
               >
             >
           }
@@ -1668,117 +1535,23 @@ export type CommitmentsMapPointSearchQuery = { __typename?: 'Query' } & {
   >
 }
 
-export type CommitmentsSearchQueryVariables = {
-  refiner: CommitmentRefinerGraph
-}
-
-export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
-  commitments: Maybe<
-    Array<Maybe<{ __typename?: 'CommitmentGraph' } & CommitmentPartsFragment>>
-  >
-}
-
-export type CommitmentPartsFragment = { __typename?: 'CommitmentGraph' } & Pick<
-  CommitmentGraph,
-  'id' | 'title' | 'politicalParty' | 'announcedBy'
-> & {
-    announcementType: Maybe<
-      { __typename?: 'AnnouncementTypeGraph' } & Pick<
-        AnnouncementTypeGraph,
-        'id' | 'title'
-      >
-    >
-    criticalDate: Maybe<
-      { __typename?: 'CriticalDateGraph' } & Pick<
-        CriticalDateGraph,
-        'id' | 'title'
-      >
-    >
-    portfolioLookup: Maybe<
-      { __typename?: 'PortfolioLookupGraph' } & Pick<
-        PortfolioLookupGraph,
-        'id' | 'title'
-      >
-    >
-  }
-
-export type GetRefinerTagsQueryVariables = {}
-
-export type GetRefinerTagsQuery = { __typename?: 'Query' } & {
-  commitmentTypes: Maybe<
-    Array<
-      Maybe<
-        { __typename?: 'CommitmentTypeGraph' } & Pick<
-          CommitmentTypeGraph,
-          'id' | 'title'
-        >
-      >
-    >
-  >
-  criticalDates: Maybe<
-    Array<
-      Maybe<
-        { __typename?: 'CriticalDateGraph' } & Pick<
-          CriticalDateGraph,
-          'id' | 'title'
-        >
-      >
-    >
-  >
-  portfolioLookups: Maybe<
-    Array<
-      Maybe<
-        { __typename?: 'PortfolioLookupGraph' } & Pick<
-          PortfolioLookupGraph,
-          'id' | 'title'
-        >
-      >
-    >
-  >
-}
-
 import gql from 'graphql-tag'
 import { Injectable } from '@angular/core'
 import * as Apollo from 'apollo-angular'
-export const CommitmentPartsFragmentDoc = gql`
-  fragment CommitmentParts on CommitmentGraph {
-    id
-    title
-    politicalParty
-    announcedBy
-    announcementType {
+
+export const GetRefinerTagsDocument = gql`
+  query GetRefinerTags {
+    commitmentTypes {
       id
       title
     }
-    criticalDate {
+    criticalDates {
       id
       title
     }
-    portfolioLookup {
+    portfolioLookups {
       id
       title
-    }
-  }
-`
-export const PlannerCommitmentsDocument = gql`
-  query PlannerCommitments($refiner: CommitmentRefinerGraph!) {
-    commitments(refiner: $refiner) {
-      id
-      title
-      politicalParty
-      announcedBy
-      announcementType {
-        id
-        title
-      }
-      criticalDate {
-        id
-        title
-      }
-      portfolioLookup {
-        id
-        title
-      }
     }
   }
 `
@@ -1786,15 +1559,15 @@ export const PlannerCommitmentsDocument = gql`
 @Injectable({
   providedIn: 'root'
 })
-export class PlannerCommitmentsGQL extends Apollo.Query<
-  PlannerCommitmentsQuery,
-  PlannerCommitmentsQueryVariables
+export class GetRefinerTagsGQL extends Apollo.Query<
+  GetRefinerTagsQuery,
+  GetRefinerTagsQueryVariables
 > {
-  document = PlannerCommitmentsDocument
+  document = GetRefinerTagsDocument
 }
-export const CommitmentsMapPointAllDocument = gql`
-  query CommitmentsMapPointAll {
-    commitmentMapPoints {
+export const CommitmentsMapPointSearchDocument = gql`
+  query CommitmentsMapPointSearch($commitmentWhere: WhereExpressionGraph) {
+    commitmentMapPoints(where: [$commitmentWhere]) {
       id
       internalVersion
       title
@@ -1831,37 +1604,6 @@ export const CommitmentsMapPointAllDocument = gql`
 @Injectable({
   providedIn: 'root'
 })
-export class CommitmentsMapPointAllGQL extends Apollo.Query<
-  CommitmentsMapPointAllQuery,
-  CommitmentsMapPointAllQueryVariables
-> {
-  document = CommitmentsMapPointAllDocument
-}
-export const CommitmentsMapPointSearchDocument = gql`
-  query CommitmentsMapPointSearch($commitmentWhere: WhereExpressionGraph) {
-    commitmentMapPoints(where: [$commitmentWhere]) {
-      id
-      internalVersion
-      title
-      description
-      commitment {
-        ...CommitmentParts
-      }
-      mapPoint {
-        id
-        placeId
-        title
-        latitude
-        longitude
-      }
-    }
-  }
-  ${CommitmentPartsFragmentDoc}
-`
-
-@Injectable({
-  providedIn: 'root'
-})
 export class CommitmentsMapPointSearchGQL extends Apollo.Query<
   CommitmentsMapPointSearchQuery,
   CommitmentsMapPointSearchQueryVariables
@@ -1871,10 +1613,34 @@ export class CommitmentsMapPointSearchGQL extends Apollo.Query<
 export const CommitmentsSearchDocument = gql`
   query CommitmentsSearch($refiner: CommitmentRefinerGraph!) {
     commitments(refiner: $refiner) {
-      ...CommitmentParts
+      id
+      title
+      politicalParty
+      announcedBy
+      announcementType {
+        id
+        title
+      }
+      criticalDate {
+        id
+        title
+      }
+      portfolioLookup {
+        id
+        title
+      }
+      commitmentMapPoints {
+        id
+        mapPoint {
+          id
+          placeId
+          title
+          latitude
+          longitude
+        }
+      }
     }
   }
-  ${CommitmentPartsFragmentDoc}
 `
 
 @Injectable({
@@ -1885,30 +1651,4 @@ export class CommitmentsSearchGQL extends Apollo.Query<
   CommitmentsSearchQueryVariables
 > {
   document = CommitmentsSearchDocument
-}
-export const GetRefinerTagsDocument = gql`
-  query GetRefinerTags {
-    commitmentTypes {
-      id
-      title
-    }
-    criticalDates {
-      id
-      title
-    }
-    portfolioLookups {
-      id
-      title
-    }
-  }
-`
-
-@Injectable({
-  providedIn: 'root'
-})
-export class GetRefinerTagsGQL extends Apollo.Query<
-  GetRefinerTagsQuery,
-  GetRefinerTagsQueryVariables
-> {
-  document = GetRefinerTagsDocument
 }

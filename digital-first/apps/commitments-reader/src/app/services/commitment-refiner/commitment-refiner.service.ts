@@ -3,16 +3,14 @@ import { BehaviorSubject, Subject, Subscription, Observable, of } from 'rxjs'
 import {
   GetRefinerTagsGQL,
   CommitmentsMapPointSearchGQL,
+  CommitmentsSearchGQL,
   CommitmentsMapPointSearchQuery,
-  CommitmentPartsFragment,
   MapPointGraph,
   CommitmentRefinerGraph,
-  CommitmentsMapPointAllGQL,
-  CommitmentsMapPointAllQuery,
   CommitmentMapPointGraph,
-  PlannerCommitmentsGQL,
   WhereExpressionGraph,
-  ComparisonGraph
+  ComparisonGraph,
+  CommitmentGraph
 } from '../../generated/graphql'
 import { first, map, tap, filter, switchMap } from 'rxjs/operators'
 import { environment } from '../../../environments/environment'
@@ -29,7 +27,6 @@ import {
   GetCommitmentMapPointSearch,
   LoadRefinedMapPoints,
   SelectMapPoint,
-  GetCommitmentMapPointAll,
   LoadMapPointsCommitments
 } from './commitment-refiner.actions'
 import {
@@ -39,6 +36,7 @@ import {
   RefinerReducer
 } from './commitment-refiner.reducer'
 import { RefinerEffects } from './commitment-refiner.effects'
+
 const DEBUG = !environment.production
 
 @Injectable({
@@ -55,10 +53,6 @@ export class CommitmentRefinerService implements OnDestroy {
   public mapPoints$: Subject<MapPointGraph[]> = new Subject()
   public selectedMapPoint$: Subject<any> = new Subject()
   public selectedRefinders$: Subject<any> = new Subject()
-  public mapPointCommitments$: Subject<
-    CommitmentPartsFragment[]
-  > = new Subject()
-
   public commitmentsMapPointAll$: Subject<
     CommitmentMapPointGraph[]
   > = new Subject()
@@ -66,7 +60,7 @@ export class CommitmentRefinerService implements OnDestroy {
     CommitmentMapPointGraph[]
   > = new Subject()
 
-  public commitments$: Subject<CommitmentPartsFragment[]> = new Subject()
+  public commitments$: Subject<CommitmentGraph[]> = new Subject()
   public refinerGroups$: BehaviorSubject<any[]> = new BehaviorSubject([])
   private actionSubscription$: Subscription
   private storeSubscription$: Subscription
@@ -75,9 +69,8 @@ export class CommitmentRefinerService implements OnDestroy {
     private refinerReducer: RefinerReducer,
     private refinerEffects: RefinerEffects,
     private getRefinerTagsGQL: GetRefinerTagsGQL,
-    private commitmentsSearchGQL: PlannerCommitmentsGQL,
-    private commitmentsMapPointSearchGQL: CommitmentsMapPointSearchGQL,
-    private commitmentsMapPointAllGQL: CommitmentsMapPointAllGQL
+    private commitmentsSearchGQL: CommitmentsSearchGQL,
+    private commitmentsMapPointSearchGQL: CommitmentsMapPointSearchGQL
   ) {
     this.registerEffects()
 
@@ -126,7 +119,6 @@ export class CommitmentRefinerService implements OnDestroy {
       this.commitments$.next(store.commitments)
       this.selectedRefinders$.next(store.selectedRefiners)
       this.commitmentsMapPointSearch$.next(store.commitmentMapPoints)
-      this.commitmentsMapPointAll$.next(store.commitmentMapPoints)
       this.refinerGroups$.next(store.refinerGroups)
     })
   }
@@ -143,11 +135,6 @@ export class CommitmentRefinerService implements OnDestroy {
     this.refinerEffects.register(
       RefinerActionTypes.GetCommitmentMapPointSearch,
       this.getCommitmentMapPointSearchEffect
-    )
-
-    this.refinerEffects.register(
-      RefinerActionTypes.GetCommitmentMapPointAll,
-      this.getCommitmentMapPointAllEffect
     )
   }
 
@@ -170,7 +157,7 @@ export class CommitmentRefinerService implements OnDestroy {
     return null
   }
 
-  public getOverviewPage() {
+  public getRefinedCommitments() {
     const store = this.store$.getValue()
 
     const payload: CommitmentRefinerGraph = {
@@ -180,18 +167,6 @@ export class CommitmentRefinerService implements OnDestroy {
     }
 
     this.action$.next(new GetRefinedCommitments(payload))
-  }
-
-  public getCommitmentMapPointsAll() {
-    const store = this.store$.getValue()
-
-    const payload: CommitmentRefinerGraph = {
-      commitmentTypes: this.getItems(store.selectedRefiners, 1),
-      criticalDates: this.getItems(store.selectedRefiners, 2),
-      portfolioLookups: this.getItems(store.selectedRefiners, 3)
-    }
-
-    this.action$.next(new GetCommitmentMapPointAll(payload))
   }
 
   public getCommitmentMapPointSearch() {
@@ -203,35 +178,11 @@ export class CommitmentRefinerService implements OnDestroy {
     this.action$.next(new GetCommitmentMapPointSearch(payload))
   }
 
-  public getPlannerPage() {
-    const store = this.store$.getValue()
-
-    const payload: any = {
-      id: 1
-    }
-
-    this.action$.next(new GetRefinedCommitments(payload))
-  }
-
   ngOnDestroy(): void {
     this.actionSubscription$.unsubscribe()
     this.storeSubscription$.unsubscribe()
   }
 
-  getCommitmentMapPointAllEffect = (
-    action: GetCommitmentMapPointAll
-  ): Observable<RefinerAction> => {
-    console.log(action)
-
-    return this.commitmentsMapPointAllGQL.fetch().pipe(
-      first(),
-      tap(result =>
-        console.log('👽', 'getCommitmentMapPointAllEffect Result', result)
-      ),
-      map((result: any) => result.data.commitmentMapPoints),
-      map(result => new LoadMapPointsCommitments(result))
-    )
-  }
   getCommitmentMapPointSearchEffect = (
     action: GetCommitmentMapPointSearch
   ): Observable<RefinerAction> => {
@@ -254,17 +205,21 @@ export class CommitmentRefinerService implements OnDestroy {
       )
   }
 
-  // This is the comittments search
+  // This is the committments search
   getRefinedCommitmentsEffect = (
     action: GetRefinedCommitments
-  ): Observable<RefinerAction> =>
-    this.commitmentsSearchGQL.fetch({ refiner: action.payload }).pipe(
+  ): Observable<RefinerAction> => {
+    console.log('🐈', action.payload)
+    return this.commitmentsSearchGQL.fetch({ refiner: action.payload }).pipe(
       first(),
       // tslint:disable-next-line:no-console
-
+      tap(result =>
+        console.log('👽', 'getRefinedCommitmentsEffect Result', result)
+      ),
       map((result: any) => result.data.commitments),
       map(result => new LoadRefinedCommitments(result))
     )
+  }
 
   buildFilterMenu(...args: any): CRMenu[] {
     const refinerGroups = [
@@ -307,11 +262,58 @@ export class CommitmentRefinerService implements OnDestroy {
       []
     )
 
-    console.log(result)
+    this.persistState(result)
 
     return result
   }
 
+  persistState(arr: any): any {
+    //TODO: Replace this abomination by storing whole nav in store
+
+    const store = this.store$.getValue()
+    const selectedRefiners: CommitmentRefinerGraph = {
+      commitmentTypes: this.getItems(store.selectedRefiners, 1),
+      criticalDates: this.getItems(store.selectedRefiners, 2),
+      portfolioLookups: this.getItems(store.selectedRefiners, 3)
+    }
+    const expandedRefinerGroups = store.expandedRefinerGroups
+
+    if (expandedRefinerGroups && expandedRefinerGroups.length >= 1) {
+      arr.forEach(element => {
+        if (expandedRefinerGroups.indexOf(element.groupId) !== -1) {
+          element.expanded = true
+          if (element.groupId === 1 && selectedRefiners.commitmentTypes) {
+            this.matchFilter(selectedRefiners.commitmentTypes, element.children)
+          }
+
+          if (element.groupId === 2 && selectedRefiners.criticalDates) {
+            this.matchFilter(selectedRefiners.criticalDates, element.children)
+          }
+
+          if (element.groupId === 3 && selectedRefiners.portfolioLookups) {
+            this.matchFilter(
+              selectedRefiners.portfolioLookups,
+              element.children
+            )
+          }
+        }
+      })
+    }
+
+    return arr
+  }
+
+  matchFilter(stateFilter: number[], children: CRMenu[]) {
+    if (stateFilter) {
+      stateFilter.forEach(selectedItem => {
+        children.forEach(itm => {
+          if (itm.id === selectedItem) {
+            itm.selected = true
+          }
+        })
+      })
+    }
+  }
   getRefinerGroupsEffect = (
     action: GetRefinerGroups
   ): Observable<RefinerAction> => {
@@ -343,7 +345,7 @@ export class CommitmentRefinerService implements OnDestroy {
 
   public handleRefinerSelected(item) {
     this.action$.next(new SelectRefiner(item))
-    this.getOverviewPage()
+    this.getRefinedCommitments()
   }
 }
 interface CRMenu {
