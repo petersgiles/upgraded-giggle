@@ -19,7 +19,7 @@ interface CommitmentRow {
   templateUrl: './planner-page.component.html',
   styleUrls: ['./planner-page.component.scss']
 })
-export class PlannerPageComponent implements OnInit, OnDestroy {
+export class PlannerPageComponent implements OnInit {
   public plannerCommitments$: Observable<CommitmentGraph[]>
   public commitmentEvents$: BehaviorSubject<
     CommitmentEvent[]
