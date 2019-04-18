@@ -6,7 +6,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { environment } from '../environments/environment'
 import { BrowserModule } from '@angular/platform-browser'
 import gql from 'graphql-tag'
-
+import { GetPackNavigationDocument } from './generated/graphql';
 
 @NgModule({
   imports: [BrowserModule, HttpClientModule, ApolloModule, HttpLinkModule],
@@ -30,58 +30,55 @@ export class GraphQLModule {
           link: new HttpLink(this.httpClient).create({
             uri: environment.datasources[key].dataServiceUrl
           }),
-
+          defaults: {},
           resolvers: {
             Mutation: {
               toggleExpandPackNavigationNode: (
                 _root,
                 variables,
-                { cache, getCacheKey }
+                { cache }
               ) => {
-                const id = getCacheKey({
-                  __typename: 'NavigatorTreeNode',
-                  id: variables.id
-                })
+                const query = GetPackNavigationDocument
 
-                 const query = gql`
-                query GetPackNavigation($id: ID) {
-                  navigatorTree(id: $id) {
-                    id
-                    caption
-                    parent
-                    colour
-                    order
-                    isActive @client
-                    isExpanded @client
-                  }
-                }
-              `
+                const nodes = cache.readQuery({ query })
 
-                const node = cache.readQuery({ query, id })
+                const node  = nodes.navigatorTree.find(p => p.id === variables.input.id)
+                node.isExpanded = !node.isExpanded
+
+                const data = {...nodes}
+
+                data.navigatorTree.filter(p => p.id !== node.id)
+                data.navigatorTree.push(node)
 
                 // tslint:disable-next-line: no-console
                 console.log(
                   `🐷 toggleExpandPackNavigationNode`,
-                  variables,
-                  cache,
-                  getCacheKey
+                  data
                 )
-                const data = { ...node, isExpanded: !node.isExpanded }
-                cache.writeData({ id, data })
-                return null
+
+                memoryCache.writeData({
+                  data: {
+                    navigatorTree: [],
+                    activeNavigatorTreeNode: null
+                  }
+                })
+                return true
               },
-              activatePackNavigationNode: (_, { input }, { cache, getCacheKey }
-                ) => {
-                  const id = getCacheKey({
-                    __typename: 'NavigatorTreeNode',
-                    id: input.id
-                  })
+              activatePackNavigationNode: (
+                _,
+                { input },
+                { cache, getCacheKey }
+              ) => {
+                const id = getCacheKey({
+                  __typename: 'NavigatorTreeNode',
+                  id: input.id
+                })
                 // tslint:disable-next-line: no-console
                 console.log(`🐷 activatePackNavigationNode`, input)
 
                 // you can also do cache.writeData({ data, id }) here if you prefer
                 cache.writeData({ data: { activeNavigatorTreeNode: id } })
-                return null
+                return true
               }
             },
             NavigatorTreeNode: {
@@ -103,6 +100,7 @@ export class GraphQLModule {
 
         memoryCache.writeData({
           data: {
+            navigatorTree: [],
             activeNavigatorTreeNode: null
           }
         })
