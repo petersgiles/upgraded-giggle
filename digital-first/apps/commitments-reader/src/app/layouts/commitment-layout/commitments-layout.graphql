@@ -1,23 +1,16 @@
 query GetRefinerTags {
-  refiners {
+ commitmentTypes {
     id
     title
-    expanded
-    selected
-    groupId
-    children {
-      id
-      title
-      expanded
-      selected
-      groupId
-      children {
-        id
-        title
-        groupId
-        expanded
-        selected
-      }
-    }
+}
+	criticalDates {
+    id
+    title
   }
+ portfolioLookups
+  {
+    id
+    title
+  }
+
 }

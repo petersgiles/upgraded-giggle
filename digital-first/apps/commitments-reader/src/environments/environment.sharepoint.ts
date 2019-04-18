@@ -7,5 +7,6 @@ export const environment = {
     type: 'sharepoint',
     dataServiceUrl: '//commitmentsreader.pakkianathan.com/graphql'
   },
+  apiKey: '',
   assetsPath: '/sites/commitments/SiteAssets/apps/commitments/assets'
 }

@@ -1,9 +1,19 @@
-fragment CommitmentParts on Commitment {
+fragment CommitmentParts on CommitmentGraph {
   id
   title
-  party
-  type
-  criticalDate
-  portfolio
-  announcedby
+  politicalParty
+  announcedBy
+  announcementType { 
+      id
+      title 
+    } 
+  criticalDate {
+      id
+      title
+  }
+  portfolioLookup {
+      id
+      title
+  }
+  
 }

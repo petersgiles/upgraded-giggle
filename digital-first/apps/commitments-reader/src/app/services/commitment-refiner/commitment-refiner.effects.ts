@@ -26,13 +26,6 @@ export class RefinerEffects {
   run(action: RefinerAction): Observable<any> {
     const effectList: Observable<any>[] = this.effects[action.type] || []
 
-    // tslint:disable-next-line:no-console
-    console.log(action.type, `Running ${effectList.length} effects`)
-
-    return concat(effectList).pipe(
-      map((func: any) => func(action)),
-      // tslint:disable-next-line:no-console
-      tap(results => console.log(results))
-    )
+    return concat(effectList).pipe(map((func: any) => func(action)))
   }
 }

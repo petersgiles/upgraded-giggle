@@ -43,7 +43,11 @@ export class RoleAddComponent implements OnInit {
     manageAccessControls: false,
     updateElectorateAdvice: false,
 
-    description: ['']
+    allowMessagePassThrough: false,
+    updateCommitments: false,
+    updateBriefCommitments: false,
+
+    description: ['', [Validators.required]]
   })
 
   ngOnInit() {}
@@ -69,6 +73,13 @@ export class RoleAddComponent implements OnInit {
             allAgencyModifier: this.addRoleForm.value['allAgencyModifier'],
             manageApiKeys: this.addRoleForm.value['manageApiKeys'],
             manageGroups: this.addRoleForm.value['manageGroups'],
+            allowMessagePassThrough: this.addRoleForm.value[
+              'allowMessagePassThrough'
+            ],
+            updateCommitments: this.addRoleForm.value['updateCommitments'],
+            updateBriefCommitments: this.addRoleForm.value[
+              'updateBriefCommitments'
+            ],
             manageAccessControls: this.addRoleForm.value[
               'manageAccessControls'
             ],

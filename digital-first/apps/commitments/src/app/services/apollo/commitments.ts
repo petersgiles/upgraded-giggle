@@ -267,3 +267,17 @@ export const GET_ALL_COMMITMENTS = gql`
   }
 }
 `
+
+export const SET_COSTING_REQUIRED = gql`
+ mutation SetCostingRequired(
+    $id: ID!, 
+    $costingRequired: Boolean!
+    ){
+    setCostingRequired(
+    id: $id
+    costingRequired: $costingRequired
+  ){
+    id
+  }
+  }
+`

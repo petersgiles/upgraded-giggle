@@ -49,6 +49,7 @@ export const getCommitmentActionsTableData = createSelector(
                     value: `${c.revenueType}`
                 }, {
                     truncate: 70,
+                    // type: 'unsafe',
                     value: `${c.description}`
                 }, {
                     truncate: 70,

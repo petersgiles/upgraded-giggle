@@ -7,5 +7,6 @@ export const environment = {
     type: 'graph',
     dataServiceUrl: '//localhost:3008/graphql'
   },
+  apiKey: '',
   assetsPath: '/assets'
 }

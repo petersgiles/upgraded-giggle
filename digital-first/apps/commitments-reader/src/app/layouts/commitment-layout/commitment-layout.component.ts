@@ -4,6 +4,8 @@ import { AppRouterService } from '../../services/app-router.service'
 import { CommitmentRefinerService } from '../../services/commitment-refiner/commitment-refiner.service'
 import { RefinerGroup } from '@digital-first/df-refiner'
 import { Observable } from 'rxjs'
+import { tap } from 'rxjs/operators'
+import { ConsoleService } from '@ng-select/ng-select/ng-select/console.service'
 
 @Component({
   selector: 'digital-first-commitment-layout',
@@ -55,7 +57,6 @@ export class CommitmentLayoutComponent
 
   ngOnInit() {
     this.refinerGroups$ = this.dataService.refinerGroups$
-
     this.appRouter.segments.subscribe(url => {
       const x = this.tabs.findIndex(p => p.id === url)
       this.activeTab = x
