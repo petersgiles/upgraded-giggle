@@ -1,15 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
-import { tap, map } from 'rxjs/operators'
 import { CommitmentRefinerService } from '../../services/commitment-refiner'
-import { Observable, Subject, BehaviorSubject, Subscription, of } from 'rxjs'
+import { Observable, BehaviorSubject, Subscription, of } from 'rxjs'
 import * as timeRanges from '../../components/planner/data/timeRanges.json'
 import * as CommonEventTypes from '../../components/planner/data/eventTypes.json'
-import {
-  CommitmentEvent,
-  CommitmentEventType,
-  ExternalEvent
-} from '../../models/commitment-event.model'
-import { CommitmentGraph } from '../../generated/graphql'
+import { EventSharepointDataService } from '../../services/commitment-event/sharepoint/commitment-event-sharepoint-data.service'
 
 @Component({
   selector: 'digital-first-planner-page',
@@ -27,22 +21,30 @@ export class PlannerPageComponent implements OnInit {
   public commitmentEventTypes$: BehaviorSubject<any> = new BehaviorSubject([])
 
   private plannerSubscription$: Subscription
-  constructor(private dataService: CommitmentRefinerService) {}
+  constructor(
+    private dataService: CommitmentRefinerService,
+    private sharePointDataService: EventSharepointDataService
+  ) {}
 
   ngOnInit() {
     this.dataService.commitments$.subscribe(commitments => {
-      const rows = commitments.map(c => ({
+      const filteredCommitments = commitments.map(c => ({
         id: c.id,
         name: c.title
       }))
-      this.plannerCommitments$ = of(rows)
+      this.plannerCommitments$ = of(filteredCommitments)
+      this.sharePointDataService
+        .getEventsByCommitments(filteredCommitments)
+        .subscribe(events => this.commitmentEvents$.next(events.data))
     })
-    if (JSON.parse(localStorage.getItem('commitmentEvents'))) {
-      this.commitmentEvents$.next(
-        JSON.parse(localStorage.getItem('commitmentEvents'))
-      )
-    }
-    this.commitmentEventTypes$.next(CommonEventTypes)
+
+    // this.sharePointDataService
+    //   .getEventTypes()
+    //   .subscribe(result => this.commitmentEventTypes$.next(result.data))
+    // this.sharePointDataService
+    //   .getExternalEvents()
+    //   .subscribe(result => this.externalEvents$.next(result.data))
+
     this.dataService.getRefinedCommitments()
   }
 
@@ -54,6 +56,7 @@ export class PlannerPageComponent implements OnInit {
     this.commitmentEvents$.next(events)
     localStorage.setItem('commitmentEvents', JSON.stringify(events))
   }
+
   handleEventRemoved($event: any) {
     const events = this.commitmentEvents$.getValue()
     this.commitmentEvents$.next(events.filter(e => e.id === $event.id))

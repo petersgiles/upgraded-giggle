@@ -8,7 +8,6 @@ export interface CommitmentEvent {
   eventCls: string
   startDate: Date
   endDate: Date
-  durationUnit: string
 }
 
 export interface CommitmentEventType {
