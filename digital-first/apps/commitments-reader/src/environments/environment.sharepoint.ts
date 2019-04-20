@@ -5,8 +5,8 @@ export const environment = {
   version: require('../../../../package.json').version,
   datasource: {
     type: 'sharepoint',
-    dataServiceUrl: '//commitmentsreader.pakkianathan.com/graphql'
+    dataServiceUrl: ''
   },
   apiKey: '',
-  assetsPath: '/sites/commitments/SiteAssets/apps/commitments/assets'
+  assetsPath: '/sites/commitments/SiteAssets/apps/commitments-reader/assets'
 }
