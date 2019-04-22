@@ -8,3 +8,9 @@
 agm-map {
   height: 60vh;
 }
+
+df-table {
+  -webkit-flex: 1 1 auto;
+  overflow-y: auto;
+  min-height: 100px;
+}

@@ -13,7 +13,7 @@ import {
 import { Scheduler } from 'bryntum-scheduler/scheduler.umd.js'
 import * as EnLocale from 'bryntum-scheduler/locales/scheduler.locale.en'
 @Component({
-// tslint:disable-next-line: component-selector
+  // tslint:disable-next-line: component-selector
   selector: 'scheduler',
   template: '<div></div>'
 })
@@ -80,7 +80,8 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
     'eventStore',
     'resourceStore',
     'assignmentStore',
-    'dependencyStore'
+    'dependencyStore',
+    'listeners'
   ]
 
   // Configs
@@ -101,7 +102,7 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() rowHeight = 150
   @Input() startDate: any
   @Input() viewPreset = 'hourAndDay'
-
+  @Input() listeners: Object
   @Input() crudManager: object
   @Input() eventStore: object
   @Input() resourceStore: object
@@ -162,22 +163,6 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
       config: any = {
         // Render scheduler to components element
         appendTo: this.elementRef.nativeElement.firstElementChild,
-
-        // Listeners, will relay events
-        listeners: {
-          catchAll(event) {
-            if (event.type === 'eventselectionchange') {
-              this.selectedEvent = event.selected.length
-                ? event.selected[0].name
-                : ''
-            }
-
-            this.onSchedulerEvents.emit(event)
-          },
-
-          thisObj: this
-        },
-
         features: this.featureConfig
       }
 
