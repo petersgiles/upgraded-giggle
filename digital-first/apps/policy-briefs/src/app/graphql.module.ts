@@ -2,11 +2,12 @@ import { NgModule } from '@angular/core'
 import { HttpClient, HttpClientModule } from '@angular/common/http'
 import { ApolloModule, Apollo } from 'apollo-angular'
 import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http'
+import { RestLink } from 'apollo-link-rest'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { environment } from '../environments/environment'
 import { BrowserModule } from '@angular/platform-browser'
 import gql from 'graphql-tag'
-import { GetPackNavigationDocument } from './generated/graphql';
+import { GetPackNavigationDocument } from './generated/graphql'
 
 @NgModule({
   imports: [BrowserModule, HttpClientModule, ApolloModule, HttpLinkModule],
@@ -23,6 +24,19 @@ export class GraphQLModule {
     `
 
     Object.keys(environment.datasources)
+      .filter(key => environment.datasources[key].type === 'sharepoint')
+      .forEach(key => {
+        const options = {
+          cache: memoryCache,
+          link: new RestLink({
+            uri: environment.datasources[key].dataServiceUrl
+          })
+        }
+
+        apollo.create(options, key)
+      })
+
+    Object.keys(environment.datasources)
       .filter(key => environment.datasources[key].type === 'apollo')
       .forEach(key => {
         const options = {
@@ -33,28 +47,23 @@ export class GraphQLModule {
           defaults: {},
           resolvers: {
             Mutation: {
-              toggleExpandPackNavigationNode: (
-                _root,
-                variables,
-                { cache }
-              ) => {
+              toggleExpandPackNavigationNode: (_root, variables, { cache }) => {
                 const query = GetPackNavigationDocument
 
                 const nodes = cache.readQuery({ query })
 
-                const node  = nodes.navigatorTree.find(p => p.id === variables.input.id)
+                const node = nodes.navigatorTree.find(
+                  p => p.id === variables.input.id
+                )
                 node.isExpanded = !node.isExpanded
 
-                const data = {...nodes}
+                const data = { ...nodes }
 
                 data.navigatorTree.filter(p => p.id !== node.id)
                 data.navigatorTree.push(node)
 
                 // tslint:disable-next-line: no-console
-                console.log(
-                  `🐷 toggleExpandPackNavigationNode`,
-                  data
-                )
+                console.log(`🐷 toggleExpandPackNavigationNode`, data)
 
                 memoryCache.writeData({
                   data: {
