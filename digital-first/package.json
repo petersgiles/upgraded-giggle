@@ -46,6 +46,7 @@
     "deploy:js:commitments-reader": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/commitments-reader' -AppName 'Commitments-Reader' -jsOnly",
     "sharepoint:build:commitments": "ng build commitments --configuration=sharepoint",
     "sharepoint:build:commitments-reader": "ng build commitments-reader --configuration=sharepoint",
+    "sharepoint:build:commitments-reader-prod": "ng build commitments-reader --configuration=sharepointprod",
     "sharepoint:build": "run-p sharepoint:build:*",
     "sharepoint:compile:commitments": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/Compile-Page.ps1 -applicationName 'commitments'",
     "sharepoint:compile:commitments-reader": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/Compile-Page.ps1 -applicationName 'commitments-reader'",
