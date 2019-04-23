@@ -31,7 +31,7 @@ const getPackNavigationServiceFactory = (
 ) => {
   let source = null
   if (settings.datasources) {
-    source = settings.datasources['packNavigation'].type
+    source = settings.datasources['default'].type
   }
 
   switch (source) {

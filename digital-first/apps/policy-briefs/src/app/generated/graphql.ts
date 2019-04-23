@@ -326,7 +326,6 @@ export class GetPackNavigationGQL extends Apollo.Query<
   GetPackNavigationQueryVariables
 > {
   document = GetPackNavigationDocument
-  client = 'packNavigation'
 }
 export const ToggleExpandPackNavigationNodeDocument = gql`
   mutation ToggleExpandPackNavigationNode(

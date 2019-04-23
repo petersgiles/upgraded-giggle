@@ -10,7 +10,7 @@ import { DfLayoutsModule, TitleLayoutService } from '@digital-first/df-layouts'
 import { HomeComponent } from './pages/home/home.component'
 import { AppFullLayoutService } from './app-full-layout.service'
 import { AppRoutingModule } from './app-routing.module'
-import { GraphQLModule } from './graphql.module'
+import { GraphQLModule } from './graphQL/graphql.module'
 import { DragDropModule } from '@angular/cdk/drag-drop'
 
 import {

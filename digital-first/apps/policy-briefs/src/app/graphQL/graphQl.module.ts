@@ -4,10 +4,11 @@ import { ApolloModule, Apollo } from 'apollo-angular'
 import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http'
 import { RestLink } from 'apollo-link-rest'
 import { InMemoryCache } from 'apollo-cache-inmemory'
-import { environment } from '../environments/environment'
+import { CachePersistor } from 'apollo-cache-persist'
+import { environment } from '../../environments/environment'
 import { BrowserModule } from '@angular/platform-browser'
 import gql from 'graphql-tag'
-import { GetPackNavigationDocument } from './generated/graphql'
+import { GetPackNavigationDocument } from '../generated/graphql'
 
 @NgModule({
   imports: [BrowserModule, HttpClientModule, ApolloModule, HttpLinkModule],
@@ -16,6 +17,11 @@ import { GetPackNavigationDocument } from './generated/graphql'
 export class GraphQLModule {
   constructor(apollo: Apollo, private httpClient: HttpClient) {
     const memoryCache = new InMemoryCache()
+
+    const persistor = new CachePersistor({
+      cache: memoryCache,
+      storage: window.localStorage
+    })
 
     const GET_ACTIVE_NAVIGATOR_TREE_NODE = gql`
       query GetActiveNavigatorTreeNode {
@@ -85,8 +91,9 @@ export class GraphQLModule {
                 // tslint:disable-next-line: no-console
                 console.log(`🐷 activatePackNavigationNode`, input)
 
-                // you can also do cache.writeData({ data, id }) here if you prefer
-                cache.writeData({ data: { activeNavigatorTreeNode: id } })
+                cache.writeData({ data: { activeNavigatorTreeNode: input.id } })
+     
+
                 return true
               }
             },
@@ -96,12 +103,26 @@ export class GraphQLModule {
                   query: GET_ACTIVE_NAVIGATOR_TREE_NODE
                 })
                 // tslint:disable-next-line: no-console
-                console.log(`🐯`, id, activeNodeId, activeNodeId === id)
+                console.log(
+                  `🐯 isActive `,
+                  id,
+                  activeNodeId,
+                  activeNodeId === id
+                )
                 return activeNodeId === id
               },
-              isExpanded: (obj: any, args: any, context: any, info: any) => {
-                console.log(`🦁`, obj, args, context, info)
-                return false
+              isExpanded: (obj: any, _, { cache}) => {
+
+                // const query = GetPackNavigationDocument
+
+                // const nodes = cache.readQuery({ query })
+
+                 const found = null //nodes.find(p => p.id === obj.id)
+
+
+                // tslint:disable-next-line: no-console
+                console.log(`🦁 isExpanded `, obj, cache)
+                return !!found
               }
             }
           }

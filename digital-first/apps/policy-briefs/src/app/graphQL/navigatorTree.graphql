@@ -1,5 +1,5 @@
 query GetPackNavigation($id: ID) {
-  navigatorTree(id: $id) @namedClient(name: "packNavigation") {
+  navigatorTree(id: $id) {
     id
     caption
     parent
@@ -9,7 +9,6 @@ query GetPackNavigation($id: ID) {
     isExpanded @client
   }
 }
-
 mutation ToggleExpandPackNavigationNode($input: TogglePackNavigationNodeInput!) {
   toggleExpandPackNavigationNode(input: $input) @client
 }

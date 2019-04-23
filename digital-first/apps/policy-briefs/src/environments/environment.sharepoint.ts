@@ -12,14 +12,6 @@ export const environment = {
     commitments: {
       type: 'apollo',
       dataServiceUrl: ''
-    },
-    brief: {
-      type: 'sharepoint',
-      dataServiceUrl: ''
-    },
-    packNavigation: {
-      type: 'sharepoint',
-      dataServiceUrl: ''
     }
   }
 }

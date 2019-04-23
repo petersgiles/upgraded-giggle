@@ -20,6 +20,7 @@ export class GetPackNavigationApolloService implements GetPackNavigationService 
     .watch()
       .valueChanges
         .pipe(
+          tap((result: any) => console.log(`🐸`, result.data.navigatorTree)),
           map((result: any) => result.data.navigatorTree)
         )
   }

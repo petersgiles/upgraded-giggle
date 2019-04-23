@@ -15,10 +15,6 @@ export const environment = {
     brief: {
       type: 'sharepoint',
       dataServiceUrl: 'http://vm-dev-lbs13/sites/redigb/_api/Web/'
-    },
-    packNavigation: {
-      type: 'apollo',
-      dataServiceUrl: '//localhost:3202/graphql'
     }
   }
 }
