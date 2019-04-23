@@ -1,4 +1,3 @@
-declare var require: any
 import * as packageJson from '../../../../package.json'
 
 export const environment = {
