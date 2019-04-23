@@ -39,6 +39,7 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
   rows: CommitmentRow[]
   public commitmentsTableData$: Observable<CommitmentGraph[]>
   filterCommitments$: Observable<CommitmentRow[]>
+  tableFilterCommitments$: Observable<CommitmentRow[]>
 
   constructor(
     private settings: SettingsService,
@@ -79,7 +80,7 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
       })
       this.filterCommitments$ = of(rows)
     })
-    this.dataService.getRefinedCommitments()
+    return this.filterCommitments$
   }
 
   handleRowClicked($event) {
