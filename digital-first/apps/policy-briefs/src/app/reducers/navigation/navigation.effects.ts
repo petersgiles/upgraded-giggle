@@ -11,15 +11,32 @@ import {
   GetNavigationsFailure
 } from './navigation.actions'
 import { NavigatorTreeNode } from '@df/components'
+import { arrayToHash } from '@df/utils';
 
 export const mapNavigationNode = (item): any => {
-  const parent = idFromLookup(item.Policy)
+  const policy = idFromLookup(item.Policy)
+  const subpolicy = idFromLookup(item.SubPolicy)
 
-  const id = parent ? `${parent}-${item.ID}` : `${item.ID}`
+  let id = item.ID
+  let parent = null
+
+  if (policy) {
+    id = [policy, item.ID].filter(p => !!p).join('-')
+    parent = `${policy}`
+  }
+
+  if (subpolicy) {
+    id = [policy, subpolicy, item.ID].filter(p => !!p).join('-')
+    parent = [policy, subpolicy].filter(p => !!p).join('-')
+  }
+
+  // tslint:disable-next-line: no-console
+  console.log(`🐢 `, id, parent, policy, subpolicy, item.ID)
+
   return {
     id: id,
     caption: item.Title,
-    parent: `${parent}`,
+    parent: parent,
     colour: item.Colour,
     order: item.SortOrder,
     active: false,
@@ -41,12 +58,31 @@ export class NavigationEffects {
       }),
       this.sharepoint.getItems({
         listName: 'SubPolicy'
+      }),
+      this.sharepoint.getItems({
+        listName: 'Brief'
       })
     ]).pipe(
-      map(([spPolicy, spSubPolicy]) => [
+      map(([spPolicy, spSubPolicy, spBrief]) => [
         ...mapNavigationNodes(spPolicy),
-        ...mapNavigationNodes(spSubPolicy)
+        ...mapNavigationNodes(spSubPolicy),
+        ...mapNavigationNodes(spBrief)
       ]),
+      map(nodes => {
+
+        const nodesHash = arrayToHash(nodes)
+
+        const colourised = nodes.reduce((acc, item, index, array) => {
+          if (!item.colour) {
+            item.colour = nodesHash[item.parent].colour
+          }
+
+          acc.push(item)
+          return acc
+        }, [])
+
+        return colourised
+      }),
       concatMap(result =>
         of({
           data: { nodes: result },
