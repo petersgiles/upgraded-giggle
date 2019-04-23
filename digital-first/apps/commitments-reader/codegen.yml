@@ -1,7 +1,6 @@
 schema:
   - https://localhost:52619/graphql:
-      headers:
-        ProgramsApiKey: '85femJw3mKfr909JyGTF9MUmGZ8='
+      headers        ProgramsApiKey: 'naHB00CkH22G3Cu596sLKTJ+0oI='
 documents:
   - ./apps/commitments-reader/**/*.graphql
 overwrite: true
