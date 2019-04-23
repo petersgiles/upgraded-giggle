@@ -3,7 +3,8 @@ import { Observable, BehaviorSubject } from 'rxjs'
 import { tap } from 'rxjs/operators'
 import {
   CommitmentMapPointGraph,
-  CommitmentGraph
+  CommitmentGraph,
+  MapPointGraph
 } from '../../generated/graphql'
 import { SettingsService } from '../../services/settings.service'
 import { Router } from '@angular/router'
@@ -31,7 +32,7 @@ interface CommitmentRow {
 export class MapOverviewPageComponent implements OnInit, OnDestroy {
   public latitude: number
   public longitude: number
-
+  public mapPointClicked: boolean
   public zoom: number
   public mapPoints: any[] = []
   public columns$: Observable<DataTableColumn[]>
@@ -40,6 +41,7 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
   rows: CommitmentRow[]
   public commitmentsTableData$: Observable<CommitmentGraph[]>
   filterCommitments$: BehaviorSubject<CommitmentRow[]>
+  tableFilterCommitments$: BehaviorSubject<CommitmentRow[]>
 
   constructor(
     private router: Router,
@@ -53,10 +55,11 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
     this.zoom = 5
     this.columns$ = this.dataService.columns$
     this.getCommitments()
+    this.tableFilterCommitments$ = null
     this.dataService.getRefinedCommitments()
   }
 
-  getCommitments() {
+  getCommitments(): BehaviorSubject<CommitmentRow[]> {
     this.columns$ = this.dataService.columns$
     this.commitmentsTableData$ = this.dataService.commitments$
 
@@ -77,13 +80,14 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
         value.map(item => {
           item.commitmentMapPoints.map(x => {
             if (!this.mapPoints.find(fnd => fnd.id === x.id)) {
+              x.mapPoint.iconUrl = this.getIcon()
               this.mapPoints.push(x.mapPoint)
             }
           })
         })
         this.filterCommitments$ = new BehaviorSubject(this.rows)
       })
-    this.dataService.getRefinedCommitments()
+    return this.filterCommitments$
   }
 
   handleRowClicked($event) {
@@ -92,11 +96,28 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
 
   handleMapPointSelected($event, mapPoint) {
     console.log($event, mapPoint)
-    this.dataService.selectMapPoint(mapPoint)
+    this.tableFilterCommitments$ = this.getCommitments()
+    //this.tableFilterCommitments$
+
+    //  this.dataService.selectMapPoint(mapPoint)
   }
 
-  getIcon(mapPoint) {
-    return `${this.settings.assetsPath}/${mapPoint.iconUrl || 'beachflag.png'}`
+  getIcon() {
+    const tempIconsToBeReplacedByPortfolio = [
+      'constructioncrane.png',
+      'jetfighter.png',
+      'powerlinepole.png',
+      'shipwreck.png',
+      'welding.png',
+      'beachflag.png'
+    ]
+    const index = Math.floor(
+      Math.random() * tempIconsToBeReplacedByPortfolio.length
+    )
+
+    return `${this.settings.assetsPath}/${
+      tempIconsToBeReplacedByPortfolio[index]
+    }`
   }
 
   ngOnDestroy(): void {

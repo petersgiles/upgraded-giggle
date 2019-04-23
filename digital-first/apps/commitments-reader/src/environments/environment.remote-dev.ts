@@ -8,6 +8,6 @@ export const environment = {
     dataServiceUrl: '//localhost:52619/graphql'
   },
   // developer's your API KEY here
-  apiKey: 'naHB00CkH22G3Cu596sLKTJ+0oI=',
+  apiKey: 'D967pGeq5IHUfJg9k/m5gWlS46g=',
   assetsPath: '/assets'
 }

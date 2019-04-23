@@ -169,7 +169,7 @@ export class CommitmentRefinerService implements OnDestroy {
     this.action$.next(new GetRefinedCommitments(payload))
   }
 
-  public getCommitmentMapPointSearch() {
+  public getCommitmentMapPointSearch(mapPoint: any) {
     const store = this.store$.getValue()
     const payload: any = {
       id: 1
@@ -268,7 +268,7 @@ export class CommitmentRefinerService implements OnDestroy {
   }
 
   persistState(arr: any): any {
-    //TODO: Replace this abomination by storing whole nav in store
+    //TODO: Replace this abomination by storing whole nav tree in store
 
     const store = this.store$.getValue()
     const selectedRefiners: CommitmentRefinerGraph = {
