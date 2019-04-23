@@ -1,11 +1,11 @@
-declare var require: any
+import * as packageJson from '../../../../package.json'
 
 export const environment = {
   production: true,
-  version: require('../../../../package.json').version,
+  version: packageJson.version,
   datasource: {
     type: 'graph',
-    dataServiceUrl: '//localhost:3008/graphql'
+    dataServiceUrl: '//#{ApiPath}/graphql',
   },
   apiKey: '',
   assetsPath: '/assets'
