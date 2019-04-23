@@ -12,14 +12,12 @@ import {
 import {
   discussionTree,
   statuslist,
-  navigatorData,
   baconIpsum
 } from './mock-data'
 import { toTree, sortBy } from '@df/utils'
-import { GetBriefByIdService } from '../../services/getBriefById/get-brief-by-id.service'
-import { GetPackNavigationService } from '../../services/getPackNavigation/get-pack-navigation.service'
-import { GetPackNavigationGQL } from '../../generated/graphql'
-
+import { Store, select } from '@ngrx/store'
+import * as fromNavigation from '../../reducers/navigation/navigation.reducer'
+import { GetNavigations } from '../../reducers/navigation/navigation.actions';
 const defaultBrief = {
   status: '1'
 }
@@ -31,9 +29,7 @@ const defaultBrief = {
 })
 export class BriefComponent implements OnInit, OnDestroy {
   public nodes$: Observable<any>
-  public navData$: BehaviorSubject<NavigatorTreeNode[]> = new BehaviorSubject(
-    []
-  )
+
   public briefHtml$: BehaviorSubject<string> = new BehaviorSubject(baconIpsum)
   public background$: BehaviorSubject<string> = new BehaviorSubject('#455a64')
   public documentStatusList$: BehaviorSubject<any>
@@ -55,45 +51,32 @@ export class BriefComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line:no-empty
   constructor(
     private fb: FormBuilder,
-    private getBriefByIdService: GetBriefByIdService,
-    private getPackNavigationService: GetPackNavigationService
+    private store: Store<fromNavigation.State>,
   ) {}
 
   ngOnInit() {
-    this.getPackNavigationService
-      .getPackNavigation()
-      .pipe(
-        // tslint:disable-next-line:no-console
-        tap(result => console.log('getPackNavigation', result))
-      )
-      .subscribe(nodes => this.navData$.next(nodes))
 
-    this.nodes$ = this.navData$.pipe(
-      map((nd: NavigatorTreeNode[]) =>
-        toTree((nd || []).sort(sortBy('order')), {
-          id: 'id',
-          parentId: 'parent',
-          children: 'children',
-          level: 'level'
-        })
-      )
+     this.nodes$ = this.store.pipe(
+      select(fromNavigation.selectNavigationNodeTreeState),
+      // tslint:disable-next-line: no-console
+      tap(result => console.log(`🌲 `, result))
     )
-
-    this.nodesSubscription$ = this.nodes$.subscribe(p => (this.tree = p))
 
     this.documentStatusList$ = new BehaviorSubject(statuslist)
 
-    this.form.patchValue(defaultBrief)
+    // this.form.patchValue(defaultBrief)
 
-    this.formValueChangeSubscription$ = this.form.valueChanges
-      .pipe(
-        debounceTime(3000),
-        distinctUntilChanged()
-      )
-      .subscribe(blurEvent => {
-        this.handleChange(blurEvent)
-        this.formValueChangeSubscription$.unsubscribe()
-      })
+    // this.formValueChangeSubscription$ = this.form.valueChanges
+    //   .pipe(
+    //     debounceTime(3000),
+    //     distinctUntilChanged()
+    //   )
+    //   .subscribe(blurEvent => {
+    //     this.handleChange(blurEvent)
+    //     this.formValueChangeSubscription$.unsubscribe()
+    //   })
+
+      this.store.dispatch(new GetNavigations())
   }
 
   public ngOnDestroy() {
@@ -101,8 +84,6 @@ export class BriefComponent implements OnInit, OnDestroy {
   }
 
   handleChange($event) {
-    const editedBrief = this.mapFormToBrief(this.form.value)
-
     // tslint:disable-next-line:no-console
     console.log('🐛 - handleChange', $event)
   }
@@ -127,24 +108,11 @@ export class BriefComponent implements OnInit, OnDestroy {
   public handleToggleExpandNavigatorNode($event) {
     // tslint:disable-next-line:no-console
     console.log(`🎯 -  handleToggleExpandNavigatorNode`, $event.node)
-
-    this.getPackNavigationService
-      .toggleExpandPackNavigationNode({
-        id: $event.node.id,
-        isExpanded: $event.node.isExpanded
-      })
-      .pipe(first())
-      .subscribe()
   }
 
   public handleSelectNavigatorNode(node) {
     // tslint:disable-next-line:no-console
     console.log(`🎯 -  HandleSelectNavigatorNode`, node)
-
-    this.getPackNavigationService
-      .activatePackNavigationNode({ id: node.id, isActive: node.isActive })
-      .pipe(first())
-      .subscribe()
   }
 
   public handleReplyToComment($event) {

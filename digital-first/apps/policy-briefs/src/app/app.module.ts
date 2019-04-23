@@ -10,7 +10,6 @@ import { DfLayoutsModule, TitleLayoutService } from '@digital-first/df-layouts'
 import { HomeComponent } from './pages/home/home.component'
 import { AppFullLayoutService } from './app-full-layout.service'
 import { AppRoutingModule } from './app-routing.module'
-import { GraphQLModule } from './graphQL/graphql.module'
 import { DragDropModule } from '@angular/cdk/drag-drop'
 
 import {
@@ -21,13 +20,29 @@ import {
   RefinerModule,
   AvatarModule
 } from '@df/components'
+
+import { EffectsModule } from '@ngrx/effects'
+import { StoreModule } from '@ngrx/store'
+import { NavigationEffects } from './reducers/navigation/navigation.effects'
+import { HttpClientModule, HttpClient } from '@angular/common/http'
 import { initApplication } from './app-init'
 import { PolicyBriefsDataService } from './services/policy-briefs-data.service'
 import { BriefComponent } from './pages/brief/brief.component'
 import { DfPagesModule } from '@digital-first/df-pages'
 import { DfPipesModule } from '@digital-first/df-pipes'
-import { getBriefByIdServiceProvider } from './services/getBriefById/get-brief-by-id.service'
-import { getPackNavigationServiceProvider } from './services/getPackNavigation/get-pack-navigation.service'
+import { RouterStateSerializer } from '@ngrx/router-store'
+
+import { metaReducers, reducers, CustomSerializer } from './reducers'
+import * as fromNavigation from './reducers/navigation/navigation.reducer'
+import * as fromUser from './reducers/user/user.reducer'
+import { AppEffects } from './reducers/app.effects'
+import { StoreDevtoolsModule } from '@ngrx/store-devtools'
+import { environment } from '../environments/environment'
+import { DfSharepointLibModule, SharepointJsomService } from '@df/sharepoint';
+import * as fromDiscussion from './reducers/discussion/discussion.reducer';
+import { DiscussionEffects } from './reducers/discussion/discussion.effects';
+import * as fromBrief from './reducers/brief/brief.reducer';
+import { BriefEffects } from './reducers/brief/brief.effects'
 
 const COMPONENTS = [AppComponent, HomeComponent, BriefComponent]
 
@@ -39,20 +54,36 @@ const ENTRYCOMPONENTS = []
   imports: [
     BrowserModule,
     FormsModule,
+    HttpClientModule,
     ReactiveFormsModule,
     NxModule.forRoot(),
-    GraphQLModule,
-    DfLayoutsModule,
+
     ButtonModule,
     PanelModule,
+
     RefinerModule,
     AvatarModule,
     DiscussionModule,
     DocumentModule,
     AppRoutingModule,
     DragDropModule,
+
+    DfSharepointLibModule,
+    DfLayoutsModule,
     DfPagesModule,
-    DfPipesModule
+    DfPipesModule,
+
+    StoreModule.forRoot(reducers, {
+      metaReducers: metaReducers
+    }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    StoreModule.forFeature('navigation', fromNavigation.reducer),
+    StoreModule.forFeature('user', fromUser.reducer),
+    StoreModule.forFeature('discussion', fromDiscussion.reducer),
+    StoreModule.forFeature('brief', fromBrief.reducer),
+
+    EffectsModule.forRoot([AppEffects]),
+    EffectsModule.forFeature([NavigationEffects, DiscussionEffects, BriefEffects]),
   ],
   providers: [
     WINDOW_PROVIDERS,
@@ -62,10 +93,15 @@ const ENTRYCOMPONENTS = []
       deps: [],
       multi: true
     },
+    SharepointJsomService,
     PolicyBriefsDataService,
     { provide: TitleLayoutService, useClass: AppFullLayoutService },
-    getBriefByIdServiceProvider,
-    getPackNavigationServiceProvider
+    /**
+     * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.
+     * A custom RouterStateSerializer is used to parse the `RouterStateSnapshot` provided
+     * by `@ngrx/router-store` to include only the desired pieces of the snapshot.
+     */
+    { provide: RouterStateSerializer, useClass: CustomSerializer }
   ],
   bootstrap: [AppComponent]
 })

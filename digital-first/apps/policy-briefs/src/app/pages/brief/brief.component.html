@@ -66,8 +66,11 @@
       </df-expander-panel>
     </section>
   </div>
-  <div class="brief-layout"><section>
+  <div class="brief-layout">
+    <section>
+      <pre>{{ this.nodes$ | async }}</pre>
       <p>Form Status: {{ form.status }}</p>
       <pre>{{ form.value | json }}</pre>
-  </section></div>
+    </section>
+  </div>
 </div>

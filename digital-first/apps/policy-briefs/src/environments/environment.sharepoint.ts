@@ -5,13 +5,9 @@ export const environment = {
   version: require('../../../../package.json').version,
   config: 'http://vm-dev-lbs13/sites/redigb/SiteAssets/apps/policy-briefs/assets/policy_briefs_config.txt',
   datasources: {
-    deck: {
+    default: {
       type: 'sharepoint',
-      dataServiceUrl: ''
-    },
-    commitments: {
-      type: 'apollo',
-      dataServiceUrl: ''
+      dataServiceUrl: 'http://vm-dev-lbs13/sites/redigb/_api/Web/'
     }
   }
 }
