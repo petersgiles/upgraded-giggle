@@ -9,15 +9,14 @@ import {
   tap,
   first
 } from 'rxjs/operators'
-import {
-  discussionTree,
-  statuslist,
-  baconIpsum
-} from './mock-data'
+import { discussionTree, statuslist, baconIpsum } from './mock-data'
 import { toTree, sortBy } from '@df/utils'
 import { Store, select } from '@ngrx/store'
 import * as fromNavigation from '../../reducers/navigation/navigation.reducer'
-import { GetNavigations } from '../../reducers/navigation/navigation.actions';
+import * as fromDiscussion from '../../reducers/discussion/discussion.reducer'
+
+import { GetNavigations } from '../../reducers/navigation/navigation.actions'
+import { GetDiscussion } from '../../reducers/discussion/discussion.actions';
 const defaultBrief = {
   status: '1'
 }
@@ -34,10 +33,8 @@ export class BriefComponent implements OnInit, OnDestroy {
   public background$: BehaviorSubject<string> = new BehaviorSubject('#455a64')
   public documentStatusList$: BehaviorSubject<any>
 
-  public comments$: BehaviorSubject<Comment[]> = new BehaviorSubject(
-    discussionTree
-  )
-  public activeComment$: BehaviorSubject<Comment> = new BehaviorSubject(null)
+  public comments$: Observable<any>
+  public activeComment$: Observable<any>
 
   public form = this.fb.group({
     status: [null]
@@ -51,15 +48,20 @@ export class BriefComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line:no-empty
   constructor(
     private fb: FormBuilder,
-    private store: Store<fromNavigation.State>,
+    private store: Store<fromNavigation.State>
   ) {}
 
   ngOnInit() {
-
-     this.nodes$ = this.store.pipe(
+    this.nodes$ = this.store.pipe(
       select(fromNavigation.selectNavigationNodeTreeState),
       // tslint:disable-next-line: no-console
       tap(result => console.log(`🌲 `, result))
+    )
+
+    this.comments$ = this.store.pipe(
+      select(fromDiscussion.selectCommentTreeState),
+      // tslint:disable-next-line: no-console
+      tap(result => console.log(`💬 `, result))
     )
 
     this.documentStatusList$ = new BehaviorSubject(statuslist)
@@ -76,7 +78,8 @@ export class BriefComponent implements OnInit, OnDestroy {
     //     this.formValueChangeSubscription$.unsubscribe()
     //   })
 
-      this.store.dispatch(new GetNavigations())
+    this.store.dispatch(new GetNavigations())
+    // this.store.dispatch(new GetDiscussion())
   }
 
   public ngOnDestroy() {

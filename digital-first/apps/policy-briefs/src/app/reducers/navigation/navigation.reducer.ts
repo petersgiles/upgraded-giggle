@@ -19,13 +19,10 @@ export function reducer(
   switch (action.type) {
     case NavigationActionTypes.LoadNavigations:
 
-      const nodes = action.payload.nodes.sort(sortBy('order')).map(
-        n => ({ ...n })
-      )
+      const nodes = JSON.parse(JSON.stringify(action.payload.nodes || [])).sort(sortBy('order'))
 
       // tslint:disable-next-line: no-console
       console.log(`🍄 LoadNavigations `, action.payload, nodes)
-
 
       const tree = toTree(nodes, {
         id: 'id',
