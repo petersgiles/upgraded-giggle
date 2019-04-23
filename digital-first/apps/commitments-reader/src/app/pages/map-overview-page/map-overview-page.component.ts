@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
-import { Observable, BehaviorSubject } from 'rxjs'
-import { tap } from 'rxjs/operators'
+import { Observable, BehaviorSubject, Subscription, of } from 'rxjs'
 import {
   CommitmentMapPointGraph,
   CommitmentGraph,
@@ -36,15 +35,12 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
   public zoom: number
   public mapPoints: any[] = []
   public columns$: Observable<DataTableColumn[]>
-  public commitmentMapTableData$: Observable<CommitmentMapPointGraph[]>
   filterCommitmentMapPoints$: BehaviorSubject<CommitmentRow[]>
   rows: CommitmentRow[]
   public commitmentsTableData$: Observable<CommitmentGraph[]>
-  filterCommitments$: BehaviorSubject<CommitmentRow[]>
-  tableFilterCommitments$: BehaviorSubject<CommitmentRow[]>
+  filterCommitments$: Observable<CommitmentRow[]>
 
   constructor(
-    private router: Router,
     private settings: SettingsService,
     private dataService: CommitmentRefinerService
   ) {}
@@ -59,35 +55,31 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
     this.dataService.getRefinedCommitments()
   }
 
-  getCommitments(): BehaviorSubject<CommitmentRow[]> {
-    this.columns$ = this.dataService.columns$
-    this.commitmentsTableData$ = this.dataService.commitments$
+  getCommitments() {
+    this.dataService.commitments$.subscribe(value => {
+      const rows = value.map(row => ({
+        id: row.id,
+        title: row.title,
+        politicalParty: row.politicalParty,
+        announcedBy: row.announcedBy,
+        announcementType: row.announcementType
+          ? row.announcementType.title
+          : '',
+        criticalDate: row.criticalDate ? row.criticalDate.title : '',
+        portfolio: row.portfolioLookup ? row.portfolioLookup.title : '',
+        mapPoints: []
+      }))
 
-    this.commitmentsTableData$
-      .pipe(tap((result: any) => result))
-      .subscribe(value => {
-        this.rows = value.map(row => ({
-          id: row.id,
-          title: row.title,
-          politicalParty: row.politicalParty,
-          announcedBy: row.announcedBy,
-          announcementType: (row.announcementType || {}).title,
-          criticalDate: (row.criticalDate || {}).title,
-          portfolio: (row.portfolioLookup || {}).title,
-          mapPoints: row.commitmentMapPoints.mapPoints || {}
-        }))
-
-        value.map(item => {
-          item.commitmentMapPoints.map(x => {
-            if (!this.mapPoints.find(fnd => fnd.id === x.id)) {
-              x.mapPoint.iconUrl = this.getIcon()
-              this.mapPoints.push(x.mapPoint)
-            }
-          })
+      value.map(item => {
+        item.commitmentMapPoints.map(x => {
+          if (!this.mapPoints.find(fnd => fnd.id === x.id)) {
+            this.mapPoints.push(x.mapPoint)
+          }
         })
-        this.filterCommitments$ = new BehaviorSubject(this.rows)
       })
-    return this.filterCommitments$
+      this.filterCommitments$ = of(rows)
+    })
+    this.dataService.getRefinedCommitments()
   }
 
   handleRowClicked($event) {
@@ -97,9 +89,6 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
   handleMapPointSelected($event, mapPoint) {
     console.log($event, mapPoint)
     this.tableFilterCommitments$ = this.getCommitments()
-    //this.tableFilterCommitments$
-
-    //  this.dataService.selectMapPoint(mapPoint)
   }
 
   getIcon() {
@@ -120,7 +109,5 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
     }`
   }
 
-  ngOnDestroy(): void {
-    this.filterCommitments$.unsubscribe()
-  }
+  ngOnDestroy(): void {}
 }
