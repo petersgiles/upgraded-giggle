@@ -9,19 +9,19 @@
         [zoomControl]="true"
       >
         <agm-marker
-          *ngFor="let mapPoint of (mapPoints$ | async)"
+          *ngFor="let mapPoint of mapPoints"
           style="text-shadow: 0px 0px 6.2px grey; background-color: blueviolet;"
           [latitude]="mapPoint.latitude"
           [longitude]="mapPoint.longitude"
-          [title]="mapPoint.address"
+          [title]="mapPoint.title"
           [iconUrl]="getIcon(mapPoint)"
           (markerClick)="handleMapPointSelected($event, mapPoint)"
         ></agm-marker>
       </agm-map>
     </div>
-    <div class="commitment-layout__row">
+    <div class="commitment-layout__row df-table">
       <df-data-table
-        [rows]="mapPointCommitments$ | async"
+        [rows]="filterCommitments$ | async"
         [columns]="columns$ | async"
         (onSelect)="handleRowClicked($event)"
       >

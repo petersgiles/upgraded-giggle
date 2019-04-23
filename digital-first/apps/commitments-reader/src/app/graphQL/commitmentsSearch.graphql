@@ -1,6 +1,33 @@
 
 query CommitmentsSearch($refiner: CommitmentRefinerGraph!) {
   commitments(refiner: $refiner) {
-   ...CommitmentParts
+    id
+  title
+  politicalParty
+  announcedBy
+  announcementType { 
+      id
+      title 
+    } 
+  criticalDate {
+      id
+      title
+  }
+  portfolioLookup {
+      id
+      title
+  }
+    commitmentMapPoints{
+
+      id 
+        mapPoint
+          {
+            id
+            placeId
+            title
+            latitude
+            longitude
+          }
+    }
   }
 }

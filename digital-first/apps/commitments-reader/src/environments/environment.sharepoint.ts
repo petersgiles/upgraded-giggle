@@ -1,12 +1,12 @@
-declare var require: any
+import * as packageJson from '../../../../package.json'
 
 export const environment = {
   production: false,
-  version: require('../../../../package.json').version,
+  version: packageJson.version,
   datasource: {
     type: 'sharepoint',
-    dataServiceUrl: '//commitmentsreader.pakkianathan.com/graphql'
+    dataServiceUrl: ''
   },
   apiKey: '',
-  assetsPath: '/sites/commitments/SiteAssets/apps/commitments/assets'
+  assetsPath: '/sites/commitments/SiteAssets/apps/commitments-reader/assets'
 }

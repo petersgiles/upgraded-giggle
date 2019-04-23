@@ -33,8 +33,9 @@ import { OverviewPageComponent } from './pages/overview-page/overview-page.compo
 import { MapOverviewPageComponent } from './pages/map-overview-page/map-overview-page.component'
 import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component'
 import { SchedulerComponent } from './components/scheduler/scheduler.component'
-import { CommitmentRefinerService } from './services/commitment-refiner/commitment-refiner.service'
 import { GetRefinerTagsGQL } from './generated/graphql'
+import { DfSharepointLibModule } from '@df/sharepoint'
+import { commitmentEventDataServiceProvider } from './services/commitment-event/commitment-event-data-service';
 
 const COMPONENTS = [
   AppComponent,
@@ -71,7 +72,8 @@ const COMPONENTS = [
     DfPipesModule,
     AppRoutingModule,
     MdcSliderModule,
-    MdcElevationModule
+    MdcElevationModule,
+    DfSharepointLibModule
   ],
   providers: [
     {
@@ -80,6 +82,7 @@ const COMPONENTS = [
       deps: [],
       multi: true
     },
+    commitmentEventDataServiceProvider,
     { provide: TitleLayoutService, useClass: AppFullLayoutService },
     {
       provide: APOLLO_OPTIONS,

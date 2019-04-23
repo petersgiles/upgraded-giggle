@@ -58,13 +58,13 @@
 
 .b-sch-timerange {
   &.timerange-sitting-senate {
-    @include timerange-transparent($color: #ffd7d7);
+    @include timerange-transparent($color: #d69d9d);
   }
   &.timerange-sitting-house {
-    @include timerange-transparent($color: #d8fbd8);
+    @include timerange-transparent($color: #a1ffa1);
   }
   &.timerange-sitting-both {
-    @include timerange-transparent($color: #d4eeff);
+    @include timerange-transparent($color: #4186b4);
   }
 }
 

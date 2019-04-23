@@ -1,0 +1,35 @@
+query CommitmentsMapPointSearch($commitmentWhere: WhereExpressionGraph) 
+{
+ commitmentMapPoints  (where: [$commitmentWhere])
+ { id
+   internalVersion,
+	 title,
+	 description
+            commitment {
+                id
+          title
+          politicalParty
+          announcedBy
+          announcementType { 
+              id
+              title 
+            } 
+          criticalDate {
+              id
+              title
+          }
+          portfolioLookup {
+              id
+              title
+          }
+    }
+    mapPoint
+    {
+      id
+      placeId
+      title
+      latitude
+      longitude
+    }
+ }
+}
