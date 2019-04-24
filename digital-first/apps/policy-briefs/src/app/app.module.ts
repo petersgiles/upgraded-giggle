@@ -38,13 +38,19 @@ import * as fromUser from './reducers/user/user.reducer'
 import { AppEffects } from './reducers/app.effects'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 import { environment } from '../environments/environment'
-import { DfSharepointLibModule, SharepointJsomService } from '@df/sharepoint';
-import * as fromDiscussion from './reducers/discussion/discussion.reducer';
-import { DiscussionEffects } from './reducers/discussion/discussion.effects';
-import * as fromBrief from './reducers/brief/brief.reducer';
+import { DfSharepointLibModule, SharepointJsomService } from '@df/sharepoint'
+import * as fromDiscussion from './reducers/discussion/discussion.reducer'
+import { DiscussionEffects } from './reducers/discussion/discussion.effects'
+import * as fromBrief from './reducers/brief/brief.reducer'
 import { BriefEffects } from './reducers/brief/brief.effects'
+import { BriefDocumentComponent } from './containers/brief-document/brief-document.component'
 
-const COMPONENTS = [AppComponent, HomeComponent, BriefComponent]
+const COMPONENTS = [
+  AppComponent,
+  HomeComponent,
+  BriefComponent,
+  BriefDocumentComponent
+]
 
 const ENTRYCOMPONENTS = []
 
@@ -83,7 +89,11 @@ const ENTRYCOMPONENTS = []
     StoreModule.forFeature('brief', fromBrief.reducer),
 
     EffectsModule.forRoot([AppEffects]),
-    EffectsModule.forFeature([NavigationEffects, DiscussionEffects, BriefEffects]),
+    EffectsModule.forFeature([
+      NavigationEffects,
+      BriefEffects,
+      DiscussionEffects
+    ])
   ],
   providers: [
     WINDOW_PROVIDERS,

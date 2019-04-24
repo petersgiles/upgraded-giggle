@@ -21,9 +21,6 @@ export function reducer(
 
       const nodes = JSON.parse(JSON.stringify(action.payload.nodes || [])).sort(sortBy('order'))
 
-      // tslint:disable-next-line: no-console
-      console.log(`🍄 LoadNavigations `, action.payload, nodes)
-
       const tree = toTree(nodes, {
         id: 'id',
         parentId: 'parent',

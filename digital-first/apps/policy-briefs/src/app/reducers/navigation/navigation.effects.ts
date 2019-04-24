@@ -11,30 +11,28 @@ import {
   GetNavigationsFailure
 } from './navigation.actions'
 import { NavigatorTreeNode } from '@df/components'
-import { arrayToHash } from '@df/utils';
+import { arrayToHash } from '@df/utils'
 
 export const mapNavigationNode = (item): any => {
   const policy = idFromLookup(item.Policy)
   const subpolicy = idFromLookup(item.SubPolicy)
 
-  let id = item.ID
+  let nodeId = item.ID
   let parent = null
 
   if (policy) {
-    id = [policy, item.ID].filter(p => !!p).join('-')
+    nodeId = [policy, item.ID].filter(p => !!p).join('-')
     parent = `${policy}`
   }
 
   if (subpolicy) {
-    id = [policy, subpolicy, item.ID].filter(p => !!p).join('-')
+    nodeId = [policy, subpolicy, item.ID].filter(p => !!p).join('-')
     parent = [policy, subpolicy].filter(p => !!p).join('-')
   }
 
-  // tslint:disable-next-line: no-console
-  console.log(`🐢 `, id, parent, policy, subpolicy, item.ID)
-
   return {
-    id: id,
+    id: nodeId,
+    briefId: item.ID,
     caption: item.Title,
     parent: parent,
     colour: item.Colour,
@@ -69,7 +67,7 @@ export class NavigationEffects {
         ...mapNavigationNodes(spBrief)
       ]),
       map(nodes => {
-
+        // this relies on the order of nodes i.e policy then subpolicy then brief
         const nodesHash = arrayToHash(nodes)
 
         const colourised = nodes.reduce((acc, item, index, array) => {

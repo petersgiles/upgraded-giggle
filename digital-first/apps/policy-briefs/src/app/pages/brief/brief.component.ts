@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
-import { BehaviorSubject, Subscription, Observable } from 'rxjs'
+import { BehaviorSubject, Subscription, Observable, EMPTY } from 'rxjs'
 import { FormBuilder } from '@angular/forms'
 import { DocumentStatus, NavigatorTreeNode } from '@df/components'
 import {
@@ -7,16 +7,19 @@ import {
   distinctUntilChanged,
   map,
   tap,
-  first
+  first,
+  switchMap
 } from 'rxjs/operators'
 import { discussionTree, statuslist, baconIpsum } from './mock-data'
 import { toTree, sortBy } from '@df/utils'
 import { Store, select } from '@ngrx/store'
 import * as fromNavigation from '../../reducers/navigation/navigation.reducer'
-import * as fromDiscussion from '../../reducers/discussion/discussion.reducer'
+import * as fromBrief from '../../reducers/brief/brief.reducer'
 
 import { GetNavigations } from '../../reducers/navigation/navigation.actions'
-import { GetDiscussion } from '../../reducers/discussion/discussion.actions';
+import { GetDiscussion } from '../../reducers/discussion/discussion.actions'
+import { ParamMap, ActivatedRoute, Router } from '@angular/router'
+import { SetActiveBrief } from '../../reducers/brief/brief.actions';
 const defaultBrief = {
   status: '1'
 }
@@ -29,7 +32,6 @@ const defaultBrief = {
 export class BriefComponent implements OnInit, OnDestroy {
   public nodes$: Observable<any>
 
-  public briefHtml$: BehaviorSubject<string> = new BehaviorSubject(baconIpsum)
   public background$: BehaviorSubject<string> = new BehaviorSubject('#455a64')
   public documentStatusList$: BehaviorSubject<any>
 
@@ -42,11 +44,16 @@ export class BriefComponent implements OnInit, OnDestroy {
 
   public formValueChangeSubscription$: Subscription
   public storyData: NavigatorTreeNode[]
-  public nodesSubscription$: Subscription
+
   public tree: any
+  selectId$: any
+  fileLeafRef$: Observable<any>;
+  brief$: Observable<any>;
 
   // tslint:disable-next-line:no-empty
   constructor(
+    private route: ActivatedRoute,
+    private router: Router,
     private fb: FormBuilder,
     private store: Store<fromNavigation.State>
   ) {}
@@ -59,12 +66,42 @@ export class BriefComponent implements OnInit, OnDestroy {
     )
 
     this.comments$ = this.store.pipe(
-      select(fromDiscussion.selectCommentTreeState),
+      select(fromBrief.selectDiscussionState),
+      // tslint:disable-next-line: no-console
+      tap(result => console.log(`👹 `, result))
+    )
+
+    this.documentStatusList$ = new BehaviorSubject(statuslist)
+
+    this.brief$ = this.store.pipe(
+      select(fromBrief.selectBriefState),
       // tslint:disable-next-line: no-console
       tap(result => console.log(`💬 `, result))
     )
 
-    this.documentStatusList$ = new BehaviorSubject(statuslist)
+    this.fileLeafRef$ = this.store.pipe(
+      select(fromBrief.selectFileLeafRefState),
+      // tslint:disable-next-line: no-console
+      tap(result => console.log(`💬 `, result))
+    )
+
+    this.selectId$ = this.route.paramMap
+      .pipe(
+        switchMap((params: ParamMap) => {
+
+          const activeBriefId =  params.get('id')
+          // tslint:disable-next-line: no-console
+          console.log(`🐢 `, activeBriefId)
+
+          this.store.dispatch(new SetActiveBrief({activeBriefId}))
+
+          return EMPTY
+        })
+      )
+      .subscribe()
+
+    this.store.dispatch(new GetNavigations())
+    // this.store.dispatch(new GetDiscussion())
 
     // this.form.patchValue(defaultBrief)
 
@@ -78,12 +115,10 @@ export class BriefComponent implements OnInit, OnDestroy {
     //     this.formValueChangeSubscription$.unsubscribe()
     //   })
 
-    this.store.dispatch(new GetNavigations())
-    // this.store.dispatch(new GetDiscussion())
   }
 
   public ngOnDestroy() {
-    this.nodesSubscription$.unsubscribe()
+
   }
 
   handleChange($event) {
@@ -114,8 +149,7 @@ export class BriefComponent implements OnInit, OnDestroy {
   }
 
   public handleSelectNavigatorNode(node) {
-    // tslint:disable-next-line:no-console
-    console.log(`🎯 -  HandleSelectNavigatorNode`, node)
+    this.router.navigate(['/', 'brief', node.data.briefId ])
   }
 
   public handleReplyToComment($event) {

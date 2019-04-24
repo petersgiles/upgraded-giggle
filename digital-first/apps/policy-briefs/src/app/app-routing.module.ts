@@ -24,6 +24,10 @@ const routes: Routes = [
       {
         path: '',
         component: BriefComponent
+      },
+      {
+        path: ':id',
+        component: BriefComponent
       }
     ]
   },
