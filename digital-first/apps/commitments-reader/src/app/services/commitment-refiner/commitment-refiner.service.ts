@@ -208,18 +208,12 @@ export class CommitmentRefinerService implements OnDestroy {
   // This is the committments search
   getRefinedCommitmentsEffect = (
     action: GetRefinedCommitments
-  ): Observable<RefinerAction> => {
-    console.log('🐈', action.payload)
-    return this.commitmentsSearchGQL.fetch({ refiner: action.payload }).pipe(
+  ): Observable<RefinerAction> =>
+    this.commitmentsSearchGQL.fetch({ refiner: action.payload }).pipe(
       first(),
-      // tslint:disable-next-line:no-console
-      tap(result =>
-        console.log('👽', 'getRefinedCommitmentsEffect Result', result)
-      ),
       map((result: any) => result.data.commitments),
       map(result => new LoadRefinedCommitments(result))
     )
-  }
 
   buildFilterMenu(...args: any): CRMenu[] {
     const refinerGroups = [
@@ -316,11 +310,8 @@ export class CommitmentRefinerService implements OnDestroy {
   }
   getRefinerGroupsEffect = (
     action: GetRefinerGroups
-  ): Observable<RefinerAction> => {
-    // tslint:disable-next-line:no-console
-    console.log(action)
-
-    return this.getRefinerTagsGQL.fetch({ input: {} }).pipe(
+  ): Observable<RefinerAction> =>
+    this.getRefinerTagsGQL.fetch({ input: {} }).pipe(
       first(),
       // tslint:disable-next-line:no-console
       tap(result => console.log('**** Get Refiner Groups Result', result)),
@@ -333,7 +324,6 @@ export class CommitmentRefinerService implements OnDestroy {
       ),
       map(result => new LoadRefinerGroups(result))
     )
-  }
 
   public selectMapPoint(item: any): any {
     this.action$.next(new SelectMapPoint(item))
