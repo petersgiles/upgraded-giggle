@@ -1,12 +1,9 @@
-query CommitmentsMapPointSearch($commitmentWhere: WhereExpressionGraph) 
+query CommitmentsMapPointSearch($refiner: CommitmentRefinerGraph!, $commitmentWhere: WhereExpressionGraph) 
 {
- commitmentMapPoints  (where: [$commitmentWhere])
- { id
-   internalVersion,
-	 title,
-	 description
-            commitment {
-                id
+ commitmentMapPoints(where: [$commitmentWhere])
+ {     
+     commitment(refiner: $refiner) {
+          id
           title
           politicalParty
           announcedBy
@@ -22,14 +19,6 @@ query CommitmentsMapPointSearch($commitmentWhere: WhereExpressionGraph)
               id
               title
           }
-    }
-    mapPoint
-    {
-      id
-      placeId
-      title
-      latitude
-      longitude
     }
  }
 }

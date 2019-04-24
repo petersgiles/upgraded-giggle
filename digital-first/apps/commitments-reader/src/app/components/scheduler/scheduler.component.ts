@@ -11,7 +11,7 @@ import {
 } from '@angular/core'
 
 import { Scheduler } from 'bryntum-scheduler/scheduler.umd.js'
-import * as EnLocale from 'bryntum-scheduler/locales/scheduler.locale.en'
+import * as AuLocael from 'bryntum-scheduler/locales/scheduler.locale.en'
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'scheduler',
@@ -108,7 +108,6 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() resourceStore: object
   @Input() dependencyStore: object
   @Input() assignmentStore: object
-
   // New ones that we have added
   @Input() zoomLevels: object[]
   @Input() zoomLevel: number
@@ -163,7 +162,8 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
       config: any = {
         // Render scheduler to components element
         appendTo: this.elementRef.nativeElement.firstElementChild,
-        features: this.featureConfig
+        features: this.featureConfig,
+        listeners: this.listeners
       }
 
     // Pass configs on to scheduler
@@ -188,7 +188,7 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     const engine = (this.schedulerEngine = new Scheduler(config))
-    engine.localeManager.locale = EnLocale
+    engine.localeManager.locale = AuLocael
     engine.zoomLevel = this.zoomLevel || engine.minZoomLevel
 
     // Relay events from eventStore and resourceStore, making them a bit easier to catch in your app.

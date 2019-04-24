@@ -21,14 +21,13 @@ import { webSafeColours } from './data/webSafeColours'
 })
 export class PlannerComponent implements OnInit {
   @Input()
-  commitments: any[]
+  commitments: any[] = []
   @Input()
-  events: any[]
+  events: any[] = []
   @Input()
   externalEvents: any[]
   @Input()
   commitmentEventTypes: any[]
-
   @Output()
   public onEventSaved: EventEmitter<any> = new EventEmitter()
   @Output()
@@ -38,7 +37,6 @@ export class PlannerComponent implements OnInit {
 
   featureConfig: Object
   listeners: Object
-
   startDate = DateHelper.add(new Date(), -1, 'months')
   endDate = DateHelper.add(new Date(), 3, 'years')
   today = new Date()
@@ -72,7 +70,7 @@ export class PlannerComponent implements OnInit {
     this.zoomSlider.min = 0
     this.zoomSlider.max = this.zoomLevels.length - 1
     this.zoomSlider.levelId = 3
-    this.buildFeatureConfig(me)
+    this.featureConfig = this.buildFeatureConfig(me)
     this.buildEventListeners(me)
   }
 
@@ -88,12 +86,17 @@ export class PlannerComponent implements OnInit {
         me.zoomSlider.levelId = level.id
         me.scheduler.schedulerEngine.setTimeSpan(me.startDate, me.endDate)
         me.scheduler.schedulerEngine.scrollToDate(me.today)
+      },
+      catchAll(event) {
+        if (event.action === 'remove' && event.type === 'eventschange') {
+          me.onEventRemoved.emit(event.records[0].data)
+        }
       }
     }
   }
 
   private buildFeatureConfig(me: this) {
-    this.featureConfig = {
+    return {
       timeRanges: {
         showCurrentTimeLine: true,
         showHeaderElements: false,
@@ -109,23 +112,25 @@ export class PlannerComponent implements OnInit {
         // Add extra widgets to the event editor
         extraWidgets: [
           {
-            type: 'text',
-            name: 'iconCls',
-            id: 'iconCls'
-          },
-          {
             type: 'combo',
             name: 'eventType',
-            id: 'eventType',
             label: 'Type',
             index: 2,
-            items: me.populateExtraEventTypes(),
+            editable: false,
+            valueField: 'id',
+            displayField: 'type',
+            placeHolder: 'Select Event Type',
+            items: me.commitmentEventTypes.map(c => ({
+              id: c.id,
+              type: c.type
+            })),
             listeners: {
               select: ({ source: combo, record }) => {
                 const eventType = this.commitmentEventTypes.find(
-                  c => c.type === combo.value
+                  c => c.id === combo.value
                 )
                 if (eventType) {
+                  // prefill event details based on the event type selected
                   const eventColor = combo.owner.widgets.find(
                     w => w.name === 'eventColor'
                   )
@@ -135,19 +140,18 @@ export class PlannerComponent implements OnInit {
                   const endDate = combo.owner.widgets.find(
                     w => w.name === 'endDate'
                   )
-                  const iconCls = combo.owner.widgets.find(
+                  const icon = combo.owner.widgets.find(
                     w => w.name === 'iconCls'
                   )
                   const name = combo.owner.widgets.find(w => w.name === 'name')
                   name.value = eventType.type
-                  record.iconCls = eventType.icon
                   eventColor.value = eventType.color
+                  icon.value = eventType.icon
                   endDate.value = DateHelper.add(
-                    startDate.value,
+                    new Date(startDate.value),
                     eventType.duration,
                     eventType.durationUnit
                   )
-                  iconCls.value = eventType.icon
                 }
               }
             }
@@ -164,6 +168,11 @@ export class PlannerComponent implements OnInit {
               `<h5 class='colour-title ${item.value}' style='background-color:${
                 item.value
               }'> ${item.text}</h5>`
+          },
+          {
+            type: 'text',
+            name: 'iconCls',
+            hidden: true
           }
         ]
       }
@@ -190,19 +199,19 @@ export class PlannerComponent implements OnInit {
 
   populateExtraItems(me: any) {
     const extraItems = []
-    this.commitmentEventTypes.forEach(e => {
+    this.commitmentEventTypes.map(e => {
       extraItems.push({
         text: e.type,
         icon: e.icon,
         onItem({ date, resourceRecord }) {
           const event = new EventModel({
-            id: crypto.getRandomValues(new Uint32Array(4)).join('-'),
             resourceId: resourceRecord.id,
             startDate: date,
             duration: e.duration,
             durationUnit: e.durationUnit,
+            endDate: DateHelper.add(date, e.duration, e.durationUnit),
             name: e.type,
-            eventType: e.type,
+            eventType: e.id,
             eventColor: e.color,
             iconCls: e.icon
           })
@@ -211,14 +220,6 @@ export class PlannerComponent implements OnInit {
       })
     })
     return extraItems
-  }
-
-  populateExtraEventTypes() {
-    const extraTypes = []
-    this.commitmentEventTypes.forEach(c => {
-      extraTypes.push(c.type)
-    })
-    return extraTypes
   }
 
   scrollToDate(date: Date) {
