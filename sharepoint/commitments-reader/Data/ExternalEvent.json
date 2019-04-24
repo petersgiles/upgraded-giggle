@@ -1,0 +1,14 @@
+[
+  {
+    "Title": "Both House Sitting",
+    "StartDate": "4/22/2019 12:00:00 AM",
+    "EndDate": "4/30/2019 12:00:00 AM",
+    "CssClass": "timerange-sitting-house"
+  },
+  {
+    "Title": "Policy development",
+    "StartDate": "12/2/2019 12:00 AM",
+    "EndDate": "12/6/2019 12:00 AM",
+    "CssClass": "timerange-sitting-both"
+  }
+]

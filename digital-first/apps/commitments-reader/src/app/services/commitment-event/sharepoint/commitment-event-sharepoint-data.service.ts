@@ -9,7 +9,8 @@ import {
   CommitmentEventType,
   ExternalEvent
 } from '../../../models/commitment-event.model'
-import { byCommitmentIdsQuery } from './caml'
+import { byCommitmentIdsQuery, byEventIdQuery } from './caml'
+
 import {
   mapCommitmentEvents,
   mapCommitmentEventTypes,
@@ -35,27 +36,80 @@ export class EventSharepointDataService implements CommitmentEventDataService {
     return this.sharepoint
       .getItems({ listName: 'CommitmentEvent', viewXml: viewXml })
       .pipe(
-        concatMap(events => of({ data: mapCommitmentEvents(events), loading: false }))
+        concatMap(events =>
+          of({ data: mapCommitmentEvents(events), loading: false })
+        )
+
       )
   }
 
   getEventTypes(): Observable<DataResult<CommitmentEventType[]>> {
     return this.sharepoint.getItems({ listName: 'CommitmentEventType' }).pipe(
-      concatMap((result: any) => of({
-        data: mapCommitmentEventTypes(result),
-        loading: false,
-        error: null
-      }))
+      concatMap((result: any) =>
+        of({
+          data: mapCommitmentEventTypes(result),
+          loading: false,
+          error: null
+        })
+      )
     )
   }
 
   getExternalEvents(): Observable<DataResult<ExternalEvent[]>> {
     return this.sharepoint.getItems({ listName: 'ExternalEvent' }).pipe(
-      concatMap((result: any) => of({
-        data: mapExternalEvents(result),
-        loading: false,
-        error: null
-      }))
+      concatMap((result: any) =>
+        of({
+          data: mapExternalEvents(result),
+          loading: false,
+          error: null
+        })
+      )
     )
+  }
+
+  storeEvent(payload: any): Observable<DataResult<any>> {
+    const spData = {
+      Title: payload.name,
+      CommitmentId: payload.resourceId,
+      StartDate: payload.startDate,
+      EndDate: payload.endDate,
+      EventType: payload.eventType,
+      CssClass: payload.eventCls,
+      Colour: payload.eventColor,
+      Icon: payload.iconClss
+    }
+    const existingEvent = parseInt(payload.id, 10) >= 0 // byrntum scheduler will auto assign an id starts wtih _generated
+    return this.sharepoint
+      .storeItem({
+        listName: 'CommitmentEvent',
+        data: spData,
+        id: existingEvent ? payload.id : null
+      })
+      .pipe(
+        concatMap(_ =>
+          of({
+            data: { name: payload.name },
+            loading: false
+          })
+        )
+      )
+  }
+
+  removeEvent(payload: any): Observable<DataResult<any>> {
+    return this.sharepoint
+      .removeItem({
+        listName: 'CommitmentEvent',
+        id: payload.id
+      })
+      .pipe(
+        concatMap(_ =>
+          of({
+            loading: false,
+            data: {
+              commitment: payload.id
+            }
+          })
+        )
+      )
   }
 }
