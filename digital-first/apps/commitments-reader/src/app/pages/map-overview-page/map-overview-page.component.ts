@@ -2,7 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core'
 import { Observable, BehaviorSubject, Subscription, of } from 'rxjs'
 import {
   CommitmentMapPointGraph,
-  CommitmentGraph
+  CommitmentGraph,
+  MapPointGraph
 } from '../../generated/graphql'
 import { SettingsService } from '../../services/settings.service'
 import { Router } from '@angular/router'
@@ -31,7 +32,7 @@ interface CommitmentRow {
 export class MapOverviewPageComponent implements OnInit, OnDestroy {
   public latitude: number
   public longitude: number
-
+  public mapPointClicked: boolean
   public zoom: number
   public mapPoints: any[] = []
   public columns$: Observable<DataTableColumn[]>
@@ -39,6 +40,7 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
   rows: CommitmentRow[]
   public commitmentsTableData$: Observable<CommitmentGraph[]>
   filterCommitments$: Observable<CommitmentRow[]>
+  tableFilterCommitments$: Observable<CommitmentRow[]>
 
   constructor(
     private settings: SettingsService,
@@ -51,6 +53,7 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
     this.zoom = 5
     this.columns$ = this.dataService.columns$
     this.getCommitments()
+    this.tableFilterCommitments$ = null
     this.dataService.getRefinedCommitments()
   }
 
@@ -78,7 +81,7 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
       })
       this.filterCommitments$ = of(rows)
     })
-    this.dataService.getRefinedCommitments()
+    return this.filterCommitments$
   }
 
   handleRowClicked($event) {
@@ -87,12 +90,25 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
 
   handleMapPointSelected($event, mapPoint) {
     console.log($event, mapPoint)
-    this.dataService.selectMapPoint(mapPoint)
+    this.tableFilterCommitments$ = this.getCommitments()
   }
 
-  getIcon(mapPoint) {
-    return `${this.settings.assetsPath}/${mapPoint.iconUrl || 'beachflag.png'}`
-  }
+  getIcon() {
+    const tempIconsToBeReplacedByPortfolio = [
+      'constructioncrane.png',
+      'jetfighter.png',
+      'powerlinepole.png',
+      'shipwreck.png',
+      'welding.png',
+      'beachflag.png'
+    ]
+    const index = Math.floor(
+      Math.random() * tempIconsToBeReplacedByPortfolio.length
+    )
 
+    return `${this.settings.assetsPath}/${
+      tempIconsToBeReplacedByPortfolio[index]
+    }`
+  }
   ngOnDestroy(): void {}
 }

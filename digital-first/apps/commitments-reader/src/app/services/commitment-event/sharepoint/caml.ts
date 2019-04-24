@@ -1,3 +1,4 @@
+
 export const byCommitmentIdsQuery = (criteria: []): string => {
   if (criteria.length === 0) {
     return null

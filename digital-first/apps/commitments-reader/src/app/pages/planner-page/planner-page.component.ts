@@ -1,16 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { CommitmentRefinerService } from '../../services/commitment-refiner'
-import { Observable, BehaviorSubject, Subscription, of } from 'rxjs'
-import * as timeRanges from '../../components/planner/data/timeRanges.json'
-import * as CommonEventTypes from '../../components/planner/data/eventTypes.json'
+import { Observable, Subscription, of } from 'rxjs'
 import { EventSharepointDataService } from '../../services/commitment-event/sharepoint/commitment-event-sharepoint-data.service'
 import {
   switchMap,
-  map,
-  withLatestFrom,
-  concatMap,
-  catchError
-} from 'rxjs/operators'
+  map} from 'rxjs/operators'
 
 @Component({
   selector: 'digital-first-planner-page',
@@ -23,6 +17,7 @@ export class PlannerPageComponent implements OnInit {
   public externalEvents$: Observable<any>
   public commitmentEventTypes$: Observable<any[]>
   public plannerSubscription: Subscription
+
   constructor(
     private dataService: CommitmentRefinerService,
     private sharePointDataService: EventSharepointDataService

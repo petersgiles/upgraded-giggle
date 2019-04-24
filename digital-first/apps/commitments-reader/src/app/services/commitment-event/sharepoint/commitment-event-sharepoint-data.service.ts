@@ -10,6 +10,7 @@ import {
   ExternalEvent
 } from '../../../models/commitment-event.model'
 import { byCommitmentIdsQuery, byEventIdQuery } from './caml'
+
 import {
   mapCommitmentEvents,
   mapCommitmentEventTypes,
@@ -38,6 +39,7 @@ export class EventSharepointDataService implements CommitmentEventDataService {
         concatMap(events =>
           of({ data: mapCommitmentEvents(events), loading: false })
         )
+
       )
   }
 
