@@ -46,9 +46,8 @@ function Import-ListData($context, $listName, $listData) {
     
 }
 
-
 $context = New-Object Microsoft.SharePoint.Client.ClientContext($webUrl)
-# HandleMixedModeWebApplication $context $binPath
+HandleMixedModeWebApplication $context $binPath
 
 $listsToImport = @("CommitmentEventType")
 foreach ($listToImport in $listsToImport) {
