@@ -10,16 +10,15 @@ export const mapCommitmentEvent = commitmentEvent => {
 
   const mapped = {
     id: item.ID,
-    resourceId: item.CommitmentID,
+    resourceId: item.CommitmentId,
     name: item.Title,
-    eventType: fromLookup(item.CommitmentEventType),
+    eventType: fromLookup(item.EventType).id,
     eventColor: item.Colour,
     iconCls: item.Icon,
     eventCls: item.CssClass,
     startDate: item.StartDate,
     endDate: item.EndDate
   }
-
   return mapped
 }
 
@@ -51,6 +50,7 @@ export const mapExternalEvent = externalEvent => {
     endDate: item.EndDate,
     cssClass: item.CssClass
   }
+  return mapped
 }
 
 export const mapExternalEvents = (externalEvents): ExternalEvent[] =>

@@ -7,10 +7,11 @@ export const environment = {
   production: false,
   version: require('../../../../package.json').version,
   datasource: {
-    type: 'local',
-    dataServiceUrl: '//localhost:3008/graphql'
+    type: 'graph',
+    dataServiceUrl: '//locahost:52619/graphql'
   },
-  apiKey: '',
+  // developer's your API KEY here
+  apiKey: 'gZjvQ4oxl8OgVY39uoEs5uZg31A=',
   assetsPath: '/assets'
 }
 
