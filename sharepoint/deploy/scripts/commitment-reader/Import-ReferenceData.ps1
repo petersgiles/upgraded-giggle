@@ -1,7 +1,7 @@
 Param(
     [string] $webUrl = "http://vm-dev-lbs13/sites/commitments-reader",
     $listsToImport = @("CommitmentEventType", "ExternalEvent"),
-    [string] $dataFolder = "$PSScriptRoot\..\..\ListData\commitments-reader",
+    [string] $dataFolder = "$PSScriptRoot\..\..\..\commitments-reader\Data\",
     [string] $binPath = "$PSScriptRoot\.."
 )
 
