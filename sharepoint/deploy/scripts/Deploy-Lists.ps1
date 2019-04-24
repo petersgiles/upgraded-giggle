@@ -1,6 +1,6 @@
 Param(
-    [string]$siteUrl = "https://lbs.cloud9.cabnet/sites/commitments/",
-    [string]$saveLocation = "$PSScriptRoot\..\..\commitments\ListDefinitions",
+    [string]$siteUrl = "https://lbs.cloud9.cabnet/sites/commitments-reader/",
+    [string]$saveLocation = "$PSScriptRoot\..\..\commitments-reader\ListDefinitions",
     [string] $binPath = "$PSScriptRoot"
 )
 
@@ -29,14 +29,13 @@ function Get-ListsToProcess($saveLocation) {
 Add-Type -Path "$binPath\Microsoft.SharePoint.Client.dll"
 Add-Type -Path "$binPath\Microsoft.SharePoint.Client.Runtime.dll"
 
-Write-Host "Deploying list schemas to $siteUrl"
-
+Write-Host "Deploying list schemas to $siteUrl from $saveLocation"
 
 $context = New-Object Microsoft.SharePoint.Client.ClientContext($siteUrl)
 HandleMixedModeWebApplication $context $binPath
 
 $listsAll = Get-ListsToProcess $saveLocation
-if($listAll -eq $null)
+if($listsAll -eq $null)
 {
     return
 }
