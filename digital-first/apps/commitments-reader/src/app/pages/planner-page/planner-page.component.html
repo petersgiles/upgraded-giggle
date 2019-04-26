@@ -2,7 +2,7 @@
   <section [mdcElevation]="5">
     <digital-first-planner
       *ngIf="(commitmentEventTypes$ | async)"
-      [commitments]="plannerCommitments$ | async"
+      [commitments]="filteredCommitments"
       [events]="commitmentEvents$ | async"
       [commitmentEventTypes]="commitmentEventTypes$ | async"
       [externalEvents]="externalEvents$ | async"

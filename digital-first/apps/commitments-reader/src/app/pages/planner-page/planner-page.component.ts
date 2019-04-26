@@ -10,7 +10,7 @@ import { switchMap, map, concatMap } from 'rxjs/operators'
   styleUrls: ['./planner-page.component.scss']
 })
 export class PlannerPageComponent implements OnInit {
-  public plannerCommitments$: Observable<any[]>
+  public filteredCommitments: any[]
   public commitmentEvents$: Observable<any[]>
   public externalEvents$: Observable<any>
   public commitmentEventTypes$: Observable<any[]>
@@ -26,7 +26,7 @@ export class PlannerPageComponent implements OnInit {
     this.commitmentsSubscription = this.dataService.commitments$.subscribe(
       result => {
         const commitments = result.map(c => ({ id: c.id, name: c.title }))
-        this.plannerCommitments$ = of(commitments)
+        this.filteredCommitments = commitments
         this.commitmentEvents$ = this.sharePointDataService
           .getEventsByCommitments(result)
           .pipe(map(events => events.data))
@@ -45,24 +45,24 @@ export class PlannerPageComponent implements OnInit {
   }
 
   handleEventSaved($event: any) {
-    this.commitmentEvents$ = this.sharePointDataService.storeEvent($event).pipe(
-      switchMap(() => this.plannerCommitments$),
-      switchMap(result =>
-        this.sharePointDataService
-          .getEventsByCommitments(result)
-          .pipe(map((events: any) => events.data))
+    this.commitmentEvents$ = this.sharePointDataService
+      .storeEvent($event)
+      .pipe(
+        switchMap(_ =>
+          this.sharePointDataService
+            .getEventsByCommitments(this.filteredCommitments)
+            .pipe(map((events: any) => events.data))
+        )
       )
-    )
   }
 
   handleEventRemoved($event: any) {
     this.commitmentEvents$ = this.sharePointDataService
       .removeEvent($event)
       .pipe(
-        switchMap(() => this.plannerCommitments$),
-        switchMap(result =>
+        switchMap(_ =>
           this.sharePointDataService
-            .getEventsByCommitments(result)
+            .getEventsByCommitments(this.filteredCommitments)
             .pipe(map((events: any) => events.data))
         )
       )
