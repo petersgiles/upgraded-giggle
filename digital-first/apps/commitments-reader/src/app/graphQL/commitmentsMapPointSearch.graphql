@@ -1,8 +1,11 @@
-query CommitmentsMapPointSearch($refiner: CommitmentRefinerGraph!, $commitmentWhere: WhereExpressionGraph) 
+query CommitmentsMapPointSearch($mapPointWhere: WhereExpressionGraph) 
 {
- commitmentMapPoints(where: [$commitmentWhere])
- {     
-     commitment(refiner: $refiner) {
+mapPoints (where: [$mapPointWhere]) {
+	id 
+	commitmentMapPoints
+	{
+		id
+	commitment {
           id
           title
           politicalParty
@@ -20,5 +23,6 @@ query CommitmentsMapPointSearch($refiner: CommitmentRefinerGraph!, $commitmentWh
               title
           }
     }
- }
+	}
+}
 }

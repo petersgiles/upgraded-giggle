@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core'
-import {
-  RefinerActionTypes,
-  RefinerAction} from './commitment-refiner.actions'
+import { RefinerActionTypes, RefinerAction } from './commitment-refiner.actions'
 import { Observable, concat } from 'rxjs'
 import { map } from 'rxjs/operators'
 
