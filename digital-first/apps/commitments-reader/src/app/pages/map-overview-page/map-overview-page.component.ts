@@ -17,7 +17,6 @@ import {
   CommitmentRefinerService,
   DataTableColumn
 } from '../../services/commitment-refiner'
-
 interface CommitmentRow {
   id: number
   title: string
@@ -28,7 +27,6 @@ interface CommitmentRow {
   portfolio?: string
   mapPoints?: any[]
 }
-
 @Component({
   selector: 'digital-first-map-overview-page',
   templateUrl: './map-overview-page.component.html',
@@ -63,7 +61,6 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
     this.zoom = 5
     this.columns$ = this.dataService.columns$
     this.getCommitments()
-
     this.dataService.getRefinedCommitments()
   }
 
@@ -94,7 +91,6 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
   }
 
   handleMapPointSelected(mapPoint) {
-    console.log(mapPoint)
     this.filterCommitmentMapPoints$ = null
     this.rows = []
     const whereVal: WhereExpressionGraph = {
@@ -128,7 +124,6 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
             this.rows.push(row)
           })
         )
-        console.log(this.rows)
         this.filterCommitmentMapPoints$ = new BehaviorSubject(this.rows)
         this.changeDetector.detectChanges()
       })
