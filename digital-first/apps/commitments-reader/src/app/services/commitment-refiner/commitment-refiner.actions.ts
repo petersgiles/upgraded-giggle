@@ -1,4 +1,5 @@
 import { CommitmentRefinerGraph } from '../../generated/graphql'
+import { Search } from 'bryntum-scheduler/scheduler.umd.js';
 
 export abstract class RefinerAction {
   type: string
@@ -11,7 +12,8 @@ export enum RefinerActionTypes {
   GetRefinedCommitments = '[RefinerActionTypes] GetRefinedCommitments',
   LoadRefinedCommitments = '[RefinerActionTypes] LoadRefinedCommitments',
   SelectRefinerGroup = '[RefinerActionTypes] SelectRefinerGroup',
-  SelectRefiner = '[RefinerActionTypes] SelectRefiner'
+  SelectRefiner = '[RefinerActionTypes] SelectRefiner',
+  SearchCommitments = '[RefinerActionTypes] SearchCommitments'
 }
 
 export class GetRefinerGroups implements RefinerAction {
@@ -39,6 +41,11 @@ export class SelectRefinerGroup implements RefinerAction {
   constructor(public payload: any) {}
 }
 
+export class SearchCommitments implements RefinerAction{
+  type = RefinerActionTypes.SearchCommitments
+  constructor(public payload: any) {}
+}
+
 export class SelectRefiner implements RefinerAction {
   type = RefinerActionTypes.SelectRefiner
   constructor(public payload: any) {}
@@ -51,3 +58,4 @@ export type RefinerServiceActions =
   | LoadRefinedCommitments
   | SelectRefinerGroup
   | SelectRefiner
+  | SearchCommitments
