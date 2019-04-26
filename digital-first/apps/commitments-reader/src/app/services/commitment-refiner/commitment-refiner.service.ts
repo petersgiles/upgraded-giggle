@@ -77,8 +77,6 @@ export class CommitmentRefinerService implements OnDestroy {
     this.actionSubscription$ = this.action$
       .pipe(
         filter(action => action !== null),
-        // tslint:disable-next-line:no-console
-        tap(result => console.log(result)),
         switchMap((action: RefinerServiceActions) => {
           if (!this.refinerEffects.hasEffect(action)) {
             this.store$.next(
@@ -89,8 +87,6 @@ export class CommitmentRefinerService implements OnDestroy {
           }
 
           return this.refinerEffects.run(action).pipe(
-            // tslint:disable-next-line:no-console
-            tap(result => console.log(result)),
             map((actions: RefinerServiceActions[]) => {
               if (DEBUG) {
                 // tslint:disable-next-line:no-console
@@ -197,9 +193,6 @@ export class CommitmentRefinerService implements OnDestroy {
       .fetch({ commitmentWhere: whereVal })
       .pipe(
         first(),
-        tap(result =>
-          console.log('👽', 'getCommitmentMapPointSearchEffect Result', result)
-        ),
         map((result: any) => result.data.mappoints),
         map(result => new LoadRefinedMapPoints(result))
       )
@@ -313,8 +306,6 @@ export class CommitmentRefinerService implements OnDestroy {
   ): Observable<RefinerAction> =>
     this.getRefinerTagsGQL.fetch({ input: {} }).pipe(
       first(),
-      // tslint:disable-next-line:no-console
-      tap(result => console.log('**** Get Refiner Groups Result', result)),
       map((result: any) =>
         this.buildFilterMenu(
           result.data.commitmentTypes,

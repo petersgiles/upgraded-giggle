@@ -9,17 +9,6 @@ import {
   DataTableColumn
 } from '../../services/commitment-refiner'
 
-interface CommitmentRow {
-  id: number
-  title: string
-  politicalParty: string
-  announcedBy: string
-  announcementType?: string
-  criticalDate?: string
-  portfolio?: string
-  mapPoints?: any[]
-}
-
 @Component({
   selector: 'digital-first-map-overview-page',
   templateUrl: './map-overview-page.component.html',
@@ -32,11 +21,7 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
   public zoom: number
   public mapPoints: any[] = []
   public columns$: Observable<DataTableColumn[]>
-  filterCommitmentMapPoints$: BehaviorSubject<CommitmentRow[]>
-  rows: CommitmentRow[]
-  public commitmentsTableData$: Observable<CommitmentGraph[]>
-  tableFilterCommitments$: Observable<CommitmentRow[]>
-
+  tableFilterCommitments: any[]
   subscription: Subscription
 
   constructor(
@@ -50,14 +35,13 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
     this.zoom = 5
     this.columns$ = this.dataService.columns$
     this.getCommitments()
-    this.tableFilterCommitments$ = null
     this.dataService.getRefinedCommitments()
   }
 
   getCommitments() {
     this.subscription = this.dataService.commitments$.subscribe(
       value => {
-      const rows = value.map(row => ({
+        this.tableFilterCommitments = value.map(row => ({
         id: row.id,
         title: row.title,
         politicalParty: row.politicalParty,
@@ -77,8 +61,6 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
           }
         })
       })
-
-      this.rows = rows
     })
   }
 
