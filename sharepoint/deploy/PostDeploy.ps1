@@ -2,7 +2,7 @@ param(
     [string]$SiteUrls = $OctopusParameters["SiteUrls"],
     [string]$AppName = $OctopusParameters["AppName"],
     [switch]$jsOnly,
-    [switch]$loadReferenceData
+    [bool]$LoadReferenceData = $OctopusParameters["LoadReferenceData"]
     
 )
 
@@ -20,8 +20,7 @@ foreach ($deploySiteUrl in $deploySites) {
     & .\scripts\BulkUploadSharePointCSOM.ps1 -Folder "SitePages" -DocLibName "Site Pages" -binPath $binPath -SiteUrl $deploySiteUrl -jsOnly:$jsOnly.IsPresent
     & .\scripts\Deploy-Lists.ps1 -saveLocation "ListDefinitions/$AppName" -binPath $binPath -SiteUrl $deploySiteUrl
     
-    if ($loadReferenceData.IsPresent) {
+    if ($LoadReferenceData) {
         & .\scripts\Import-ReferenceData.ps1 -dataFolder "ListData/$AppName" -binPath $binPath -SiteUrl $deploySiteUrl
-
     }
 }
