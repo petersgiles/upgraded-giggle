@@ -4,9 +4,6 @@ import {
   GetRefinerTagsGQL,
   CommitmentsSearchGQL,
   CommitmentRefinerGraph,
-  CommitmentMapPointGraph,
-  WhereExpressionGraph,
-  ComparisonGraph,
   CommitmentGraph
 } from '../../generated/graphql'
 import { first, map, tap, filter, switchMap } from 'rxjs/operators'
