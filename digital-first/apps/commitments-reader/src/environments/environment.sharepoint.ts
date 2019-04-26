@@ -5,8 +5,8 @@ export const environment = {
   version: packageJson.version,
   datasource: {
     type: 'sharepoint',
-    dataServiceUrl: '//programs.cloud9.cabnet/graphql'
+    dataServiceUrl: 'https://programs.cloud9.cabnet/graphql'
   },
-  apiKey: '',
+  apiKey: 'Ik5fbJkunTXPpLo/bjVC/aH1QMc=',
   assetsPath: '/sites/commitments/SiteAssets/apps/commitments-reader/assets'
 }
