@@ -16,7 +16,7 @@ export class PlannerPageComponent implements OnInit {
   public commitmentEventTypes$: Observable<any[]>
   public commitmentsSubscription: Subscription
   public eventTypesSubscription: Subscription
-
+  public readOnly: false
   constructor(
     private dataService: CommitmentRefinerService,
     private sharePointDataService: EventSharepointDataService

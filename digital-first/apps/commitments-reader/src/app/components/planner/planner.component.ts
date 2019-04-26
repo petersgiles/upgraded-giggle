@@ -28,6 +28,8 @@ export class PlannerComponent implements OnInit {
   externalEvents: any[]
   @Input()
   commitmentEventTypes: any[]
+  @Input()
+  readOnly: false
   @Output()
   public onEventSaved: EventEmitter<any> = new EventEmitter()
   @Output()
@@ -119,6 +121,18 @@ export class PlannerComponent implements OnInit {
       },
       eventEdit: {
         autoClose: false,
+        startDateConfig: {
+          editable: false
+        },
+        endDateConfig: {
+          editable: false
+        },
+        startTimeConfig: {
+          editable: false
+        },
+        endTimeConfig: {
+          editable: false
+        },
         // Add extra widgets to the event editor
         extraWidgets: [
           {
