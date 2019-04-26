@@ -101,7 +101,6 @@ export class PlannerComponent implements OnInit {
         if (event.action === 'remove' && event.type === 'eventschange') {
           me.onEventRemoved.emit(event.records[0].data)
         }
-        console.log(event)
       }
     }
   }

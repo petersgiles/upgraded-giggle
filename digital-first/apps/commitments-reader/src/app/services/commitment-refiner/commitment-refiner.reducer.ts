@@ -3,7 +3,7 @@ import {
   CommitmentMapPointGraph,
   CommitmentGraph
 } from '../../generated/graphql'
-import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
+import { RefinerGroup } from '@digital-first/df-refiner'
 import { environment } from '../../../environments/environment'
 import {
   RefinerActionTypes,
@@ -77,38 +77,10 @@ export class RefinerReducer {
         }
       }
 
-      case RefinerActionTypes.LoadMapPointsCommitments: {
-        return {
-          ...state,
-          commitmentMapPoints: action.payload
-        }
-      }
-
-      case RefinerActionTypes.GetCommitmentMapPointAll: {
-        return {
-          ...state,
-          commitmentMapPoints: action.payload
-        }
-      }
-
       case RefinerActionTypes.LoadRefinedCommitments: {
         return {
           ...state,
           commitments: action.payload
-        }
-      }
-
-      case RefinerActionTypes.LoadRefinedMapPoints: {
-        return {
-          ...state,
-          mapPoints: action.payload
-        }
-      }
-
-      case RefinerActionTypes.SelectMapPoint: {
-        return {
-          ...state,
-          selectedMapPoint: action.payload
         }
       }
 

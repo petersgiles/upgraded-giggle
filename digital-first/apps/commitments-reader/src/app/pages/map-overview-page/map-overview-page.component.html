@@ -15,13 +15,13 @@
           [longitude]="mapPoint.longitude"
           [title]="mapPoint.title"
           [iconUrl]="mapPoint.iconUrl"
-          (markerClick)="handleMapPointSelected($event, mapPoint)"
+          (markerClick)="handleMapPointSelected(mapPoint)"
         ></agm-marker>
       </agm-map>
     </div>
     <div class="commitment-layout__row df-table">
       <df-data-table
-        [rows]="tableFilterCommitments"
+        [rows]="filterCommitmentMapPoints$ | async"
         [columns]="columns$ | async"
       >
       </df-data-table>
