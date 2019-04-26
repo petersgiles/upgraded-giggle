@@ -1,7 +1,16 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
-import { Observable, BehaviorSubject, Subscription } from 'rxjs'
 import {
-  CommitmentGraph
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy
+} from '@angular/core'
+import { Observable, BehaviorSubject, Subscription } from 'rxjs'
+import { map } from 'rxjs/operators'
+import {
+  CommitmentsMapPointSearchGQL,
+  WhereExpressionGraph,
+  ComparisonGraph
 } from '../../generated/graphql'
 import { SettingsService } from '../../services/settings.service'
 import {
@@ -23,25 +32,29 @@ interface CommitmentRow {
 @Component({
   selector: 'digital-first-map-overview-page',
   templateUrl: './map-overview-page.component.html',
-  styleUrls: ['./map-overview-page.component.scss']
+  styleUrls: ['./map-overview-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MapOverviewPageComponent implements OnInit, OnDestroy {
   public latitude: number
   public longitude: number
-  public mapPointClicked: boolean
+
   public zoom: number
   public mapPoints: any[] = []
+  public mapPointSelectedCommitments: any[] = []
   public columns$: Observable<DataTableColumn[]>
-  filterCommitmentMapPoints$: BehaviorSubject<CommitmentRow[]>
-  rows: CommitmentRow[]
-  public commitmentsTableData$: Observable<CommitmentGraph[]>
-  tableFilterCommitments$: Observable<CommitmentRow[]>
+  public filterCommitmentMapPoints$: BehaviorSubject<CommitmentRow[]>
+  public filterCommitments$: Observable<CommitmentRow[]>
+  public rows: CommitmentRow[] = []
 
-  subscription: Subscription
+  subscription1: Subscription
+  subscription2: Subscription
 
   constructor(
     private settings: SettingsService,
-    private dataService: CommitmentRefinerService
+    private dataService: CommitmentRefinerService,
+    private commitmentsMapPointSearchGQL: CommitmentsMapPointSearchGQL,
+    private changeDetector: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -50,14 +63,14 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
     this.zoom = 5
     this.columns$ = this.dataService.columns$
     this.getCommitments()
-    this.tableFilterCommitments$ = null
+
     this.dataService.getRefinedCommitments()
   }
 
   getCommitments() {
-    this.subscription = this.dataService.commitments$.subscribe(
-      value => {
-      const rows = value.map(row => ({
+    // TODO: Trim this down to just map points
+    this.subscription1 = this.dataService.commitments$.subscribe(value => {
+      value.map(row => ({
         id: row.id,
         title: row.title,
         politicalParty: row.politicalParty,
@@ -77,29 +90,83 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
           }
         })
       })
-
-      this.rows = rows
     })
   }
 
-  getIcon() {
-    const tempIconsToBeReplacedByPortfolio = [
-      'constructioncrane.png',
-      'jetfighter.png',
-      'powerlinepole.png',
-      'shipwreck.png',
-      'welding.png',
-      'beachflag.png'
-    ]
-    const index = Math.floor(
-      Math.random() * tempIconsToBeReplacedByPortfolio.length
-    )
+  handleMapPointSelected(mapPoint) {
+    console.log(mapPoint)
+    this.filterCommitmentMapPoints$ = null
+    this.rows = []
+    const whereVal: WhereExpressionGraph = {
+      path: 'id',
+      comparison: ComparisonGraph.Equal,
+      value: [mapPoint.id.toString()]
+    }
 
-    return `${this.settings.assetsPath}/${
-      tempIconsToBeReplacedByPortfolio[index]
-    }`
+    this.subscription2 = this.commitmentsMapPointSearchGQL
+      .fetch({ mapPointWhere: whereVal }, { fetchPolicy: 'network-only' })
+      .pipe(map(value => value.data.mapPoints))
+      .subscribe(mapPoints => {
+        mapPoints.map(x =>
+          x.commitmentMapPoints.map(y => {
+            const row: CommitmentRow = {
+              id: y.commitment.id,
+              title: y.commitment.title,
+              politicalParty: y.commitment.politicalParty,
+              announcedBy: y.commitment.announcedBy,
+              announcementType: y.commitment.announcementType
+                ? y.commitment.announcementType.title
+                : '',
+              criticalDate: y.commitment.criticalDate
+                ? y.commitment.criticalDate.title
+                : '',
+              portfolio: y.commitment.portfolioLookup
+                ? y.commitment.portfolioLookup.title
+                : '',
+              mapPoints: []
+            }
+            this.rows.push(row)
+          })
+        )
+        console.log(this.rows)
+        this.filterCommitmentMapPoints$ = new BehaviorSubject(this.rows)
+        this.changeDetector.detectChanges()
+      })
+
+    // this.subscription2 = this.dataService.commitmentsMapPointSearch$.subscribe(
+    //   value => {
+    //     value.map(row => console.log(row))
+
+    //     //   ({
+    //     //   id: row.commitment.id,
+    //     //   title: row.commitment.title,
+    //     //   politicalParty: row.commitment.politicalParty,
+    //     //   announcedBy: row.commitment.announcedBy,
+    //     //   announcementType: row.commitment.announcementType
+    //     //     ? row.commitment.announcementType.title
+    //     //     : '',
+    //     //   criticalDate: row.commitment.criticalDate
+    //     //     ? row.commitment.criticalDate.title
+    //     //     : '',
+    //     //   portfolio: row.commitment.portfolioLookup
+    //     //     ? row.commitment.portfolioLookup.title
+    //     //     : ''
+    //     // }))
+    //     //   this.mapPointSelectedCommitments = rows
+    //   }
+    // )
+  }
+
+  getIcon() {
+    // This will be based on the commitments portfolio. Pete will provide graphics
+    return `${this.settings.assetsPath}/
+      beachflag.png
+    `
   }
   ngOnDestroy(): void {
-    this.subscription.unsubscribe()
+    this.subscription1.unsubscribe()
+    if (this.subscription2) {
+      this.subscription2.unsubscribe()
+    }
   }
 }

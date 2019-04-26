@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core'
-import {
-  RefinerActionTypes,
-  RefinerAction,
-  RefinerServiceActions
-} from './commitment-refiner.actions'
+import { RefinerActionTypes, RefinerAction } from './commitment-refiner.actions'
 import { Observable, concat } from 'rxjs'
-import { switchMap, tap, concatMap, map } from 'rxjs/operators'
+import { map } from 'rxjs/operators'
 
 @Injectable({
   providedIn: 'root'

@@ -9,6 +9,6 @@ export const environment = {
   },
   // developer's your API KEY here
 
-  apiKey: 'D967pGeq5IHUfJg9k/m5gWlS46g=',
+  apiKey: 'gZjvQ4oxl8OgVY39uoEs5uZg31A=',
   assetsPath: '/assets'
 }
