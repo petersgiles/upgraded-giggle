@@ -34,12 +34,11 @@ export class EventSharepointDataService implements CommitmentEventDataService {
     const commitmentIds = commitments.map(c => c.id)
     const viewXml = byCommitmentIdsQuery(commitmentIds)
     return this.sharepoint
-      .getItems({ listName: 'CommitmentEvent'})
+      .getItems({ listName: 'CommitmentEvent' })
       .pipe(
         concatMap(events =>
           of({ data: mapCommitmentEvents(events), loading: false })
         )
-
       )
   }
 
