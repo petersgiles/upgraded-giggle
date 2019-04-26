@@ -1,17 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
-import { Observable, BehaviorSubject, Subscription, of } from 'rxjs'
+import { Observable, BehaviorSubject, Subscription } from 'rxjs'
 import {
-  CommitmentMapPointGraph,
-  CommitmentGraph,
-  MapPointGraph
+  CommitmentGraph
 } from '../../generated/graphql'
 import { SettingsService } from '../../services/settings.service'
-import { Router } from '@angular/router'
 import {
   CommitmentRefinerService,
   DataTableColumn
 } from '../../services/commitment-refiner'
-
 
 interface CommitmentRow {
   id: number
@@ -39,8 +35,9 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
   filterCommitmentMapPoints$: BehaviorSubject<CommitmentRow[]>
   rows: CommitmentRow[]
   public commitmentsTableData$: Observable<CommitmentGraph[]>
-  filterCommitments$: Observable<CommitmentRow[]>
   tableFilterCommitments$: Observable<CommitmentRow[]>
+
+  subscription: Subscription
 
   constructor(
     private settings: SettingsService,
@@ -58,7 +55,8 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
   }
 
   getCommitments() {
-    this.dataService.commitments$.subscribe(value => {
+    this.subscription = this.dataService.commitments$.subscribe(
+      value => {
       const rows = value.map(row => ({
         id: row.id,
         title: row.title,
@@ -79,18 +77,9 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
           }
         })
       })
-      this.filterCommitments$ = of(rows)
+
+      this.rows = rows
     })
-    return this.filterCommitments$
-  }
-
-  handleRowClicked($event) {
-    console.log($event)
-  }
-
-  handleMapPointSelected($event, mapPoint) {
-    console.log($event, mapPoint)
-    this.tableFilterCommitments$ = this.getCommitments()
   }
 
   getIcon() {
@@ -110,5 +99,7 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
       tempIconsToBeReplacedByPortfolio[index]
     }`
   }
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe()
+  }
 }

@@ -36,12 +36,16 @@
   white-space: nowrap;
   padding: 4px;
   font-weight: 500;
+  -webkit-writing-mode: vertical-lr;
+  writing-mode: vertical-lr;
+  -ms-writing-mode: tb-lr; 
 }
 
 @mixin timerange-transparent($color) {
   background-color: $color;
   color: black;
   opacity: 0.5;
+  
 }
 
 @mixin timerange-striped($color) {

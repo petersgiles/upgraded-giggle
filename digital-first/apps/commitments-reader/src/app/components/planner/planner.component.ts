@@ -87,10 +87,21 @@ export class PlannerComponent implements OnInit {
         me.scheduler.schedulerEngine.setTimeSpan(me.startDate, me.endDate)
         me.scheduler.schedulerEngine.scrollToDate(me.today)
       },
+      eventResizeEnd({ changed, eventRecord }) {
+        if (changed) {
+          me.onEventSaved.emit(eventRecord.data)
+        }
+      },
+      aftereventdrop({ source, eventRecords, valid, context }) {
+        if (valid) {
+          me.onEventSaved.emit(eventRecords[0].data)
+        }
+      },
       catchAll(event) {
         if (event.action === 'remove' && event.type === 'eventschange') {
           me.onEventRemoved.emit(event.records[0].data)
         }
+        console.log(event)
       }
     }
   }
