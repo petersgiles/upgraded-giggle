@@ -11,7 +11,7 @@ import {
 } from '@angular/core'
 
 import { Scheduler } from 'bryntum-scheduler/scheduler.umd.js'
-import * as AuLocael from 'bryntum-scheduler/locales/scheduler.locale.en'
+import * as AuLocael from '../../../../../commitments-reader/src/app/components/scheduler/Au.locale.en.js'
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'scheduler',
@@ -111,7 +111,6 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
   // New ones that we have added
   @Input() zoomLevels: object[]
   @Input() zoomLevel: number
-
   // Config for all features
   @Input() featureConfig: any
 

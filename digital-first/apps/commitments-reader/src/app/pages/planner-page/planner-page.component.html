@@ -6,6 +6,7 @@
       [events]="commitmentEvents$ | async"
       [commitmentEventTypes]="commitmentEventTypes$ | async"
       [externalEvents]="externalEvents$ | async"
+      [readOnly] = "readOnly "
       (onEventSaved)="handleEventSaved($event)"
       (onEventRemoved)="handleEventRemoved($event)"
     >
