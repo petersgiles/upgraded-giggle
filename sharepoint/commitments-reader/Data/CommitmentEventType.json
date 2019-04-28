@@ -1,0 +1,51 @@
+[
+  {
+    "Title": "Policy development",
+    "Duration": 30,
+    "DurationUnit": "d",
+    "Icon": "b-fa b-fa-fw b-fa-podcast",
+    "Colour": "ForestGreen"
+  },
+  {
+    "Title": "Cabinet Meeting",
+    "Duration": 0,
+    "DurationUnit": "d",
+    "Icon": "b-fa b-fa-fw b-fa-users",
+    "Colour": "CadetBlue"
+  },
+  {
+    "Title": "Drafting the Explanatory Memorandum",
+    "Duration": 7,
+    "DurationUnit": "d",
+    "Icon": "b-fa b-fa-fw b-fa-file",
+    "Colour": "Sienna"
+  },
+  {
+    "Title": "Drafting legislative",
+    "Duration": 30,
+    "DurationUnit": "d",
+    "Icon": "b-fa b-fa-fw b-fa-book",
+    "Colour": "DarkSlateGrey"
+  },
+  {
+    "Title": "Legislative introduction",
+    "Duration": 0,
+    "DurationUnit": "d",
+    "Icon": "b-fa b-fa-fw b-fa-language",
+    "Colour": "Black"
+  },
+  {
+    "Title": "Announcement",
+    "Duration": 0,
+    "DurationUnit": "d",
+    "Icon": "b-fa b-fa-fw b-fa-bullhorn",
+    "Colour": "DarkRed"
+  },
+  {
+    "Title": "Review",
+    "Duration": 90,
+    "DurationUnit": "d",
+    "Icon": "b-fa b-fa-fw b-fa-eye",
+    "Colour": "FireBrick"
+  }
+]

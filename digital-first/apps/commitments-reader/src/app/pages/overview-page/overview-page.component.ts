@@ -1,11 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
-import { CommitmentGraph } from '../../generated/graphql'
-import { Observable, BehaviorSubject, observable, of } from 'rxjs'
+import { Observable, of } from 'rxjs'
 import {
   CommitmentRefinerService,
   DataTableColumn
 } from '../../services/commitment-refiner'
-import { tap } from 'rxjs/operators'
+
 interface CommitmentRow {
   id: number
   title: string

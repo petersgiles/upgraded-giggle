@@ -1,8 +1,8 @@
-declare var require: any
+import * as packageJson from '../../../../package.json'
 
 export const environment = {
   production: false,
-  version: require('../../../../package.json').version,
+  version: packageJson.version,
   datasource: {
     type: 'graph',
     dataServiceUrl: '//programs.cloud9.cabnet/graphql'

@@ -8,13 +8,13 @@ export type Scalars = {
   Float: number
   /** Guid */
   Guid: any
+  /** UInt32 */
+  UInt32: any
   /** The `DateTimeOffset` scalar type represents a date, time and offset from UTC.
    * `DateTimeOffset` expects timestamps to be formatted in accordance with the
    * [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard.
    */
   DateTimeOffset: any
-  /** UInt32 */
-  UInt32: any
   /** For passing untyped JSON */
   Json: any
   /** The `Date` scalar type represents a year, month and day in accordance with the
@@ -129,24 +129,13 @@ export type ColumnGraph = {
   label: Scalars['String']
 }
 
-export type CommitmentElectorateGraph = {
-  commitment?: Maybe<CommitmentGraph>
-  commitmentId: Scalars['Int']
-  description: Scalars['String']
-  electorate?: Maybe<ElectorateGraph>
-  electorateId: Scalars['Guid']
-  id: Scalars['Int']
-  internalVersion: Scalars['UInt32']
-  title: Scalars['String']
-}
-
 export type CommitmentGraph = {
   announcedBy?: Maybe<Scalars['String']>
   announcementType?: Maybe<AnnouncementTypeGraph>
   announcementTypeId?: Maybe<Scalars['Int']>
   bookType: Scalars['String']
   briefCommitments?: Maybe<Array<Maybe<BriefCommitmentGraph>>>
-  commitmentElectorates?: Maybe<Array<Maybe<CommitmentElectorateGraph>>>
+  commitmentLocations?: Maybe<Array<Maybe<CommitmentLocationGraph>>>
   commitmentMapPoints?: Maybe<Array<Maybe<CommitmentMapPointGraph>>>
   commitmentPackageTypes?: Maybe<Array<Maybe<CommitmentPackageTypeGraph>>>
   commitmentPortfolioLookups?: Maybe<
@@ -178,7 +167,7 @@ export type CommitmentGraphBriefCommitmentsArgs = {
   take: Scalars['Int']
 }
 
-export type CommitmentGraphCommitmentElectoratesArgs = {
+export type CommitmentGraphCommitmentLocationsArgs = {
   id: Scalars['String']
   ids: Array<Maybe<Scalars['String']>>
   orderBy: Array<Maybe<OrderByGraph>>
@@ -212,6 +201,17 @@ export type CommitmentGraphCommitmentPortfolioLookupsArgs = {
   where: Array<Maybe<WhereExpressionGraph>>
   skip: Scalars['Int']
   take: Scalars['Int']
+}
+
+export type CommitmentLocationGraph = {
+  commitment?: Maybe<CommitmentGraph>
+  commitmentId: Scalars['Int']
+  description: Scalars['String']
+  id: Scalars['Int']
+  internalVersion: Scalars['UInt32']
+  location?: Maybe<LocationGraph>
+  locationId: Scalars['Int']
+  title: Scalars['String']
 }
 
 export type CommitmentMapPointGraph = {
@@ -404,6 +404,15 @@ export type DeactivateElectorateAdviceGraph = {
   adviceId: Scalars['Guid']
 }
 
+export type DeckItemBriefSummaryGraph = {
+  briefId: Scalars['Guid']
+  commitmentCount: Scalars['Int']
+  recommendationCount: Scalars['Int']
+  reference: Scalars['String']
+  responseRecommendationCount: Scalars['Int']
+  title: Scalars['String']
+}
+
 export type DeleteBriefCommitmentInputGraph = {
   briefId: Scalars['Guid']
   commitmentId: Scalars['Int']
@@ -469,6 +478,25 @@ export type ElectorateGraphProgramsArgs = {
 }
 
 export type ElectorateGraphProjectsArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type LocationGraph = {
+  area: Scalars['String']
+  commitmentLocations?: Maybe<Array<Maybe<CommitmentLocationGraph>>>
+  description: Scalars['String']
+  id: Scalars['Int']
+  internalVersion: Scalars['UInt32']
+  state: Scalars['String']
+  title: Scalars['String']
+}
+
+export type LocationGraphCommitmentLocationsArgs = {
   id: Scalars['String']
   ids: Array<Maybe<Scalars['String']>>
   orderBy: Array<Maybe<OrderByGraph>>
@@ -825,7 +853,7 @@ export type Query = {
   announcementTypes?: Maybe<Array<Maybe<AnnouncementTypeGraph>>>
   briefCommitments?: Maybe<Array<Maybe<BriefCommitmentGraph>>>
   briefs?: Maybe<Array<Maybe<BriefGraph>>>
-  commitmentElectorates?: Maybe<Array<Maybe<CommitmentElectorateGraph>>>
+  commitmentLocations?: Maybe<Array<Maybe<CommitmentLocationGraph>>>
   commitmentMapPoints?: Maybe<Array<Maybe<CommitmentMapPointGraph>>>
   commitmentPackageTypes?: Maybe<Array<Maybe<CommitmentPackageTypeGraph>>>
   commitmentPortfolioLookups?: Maybe<
@@ -834,8 +862,10 @@ export type Query = {
   commitments?: Maybe<Array<Maybe<CommitmentGraph>>>
   commitmentTypes?: Maybe<Array<Maybe<CommitmentTypeGraph>>>
   criticalDates?: Maybe<Array<Maybe<CriticalDateGraph>>>
+  deckItemBriefSummary?: Maybe<Array<Maybe<DeckItemBriefSummaryGraph>>>
   electorate?: Maybe<ElectorateGraph>
   electorates?: Maybe<Array<Maybe<ElectorateGraph>>>
+  locations?: Maybe<Array<Maybe<LocationGraph>>>
   mapPoints?: Maybe<Array<Maybe<MapPointGraph>>>
   packageTypes?: Maybe<Array<Maybe<PackageTypeGraph>>>
   portfolioLookups?: Maybe<Array<Maybe<PortfolioLookupGraph>>>
@@ -901,7 +931,7 @@ export type QueryBriefsArgs = {
   take: Scalars['Int']
 }
 
-export type QueryCommitmentElectoratesArgs = {
+export type QueryCommitmentLocationsArgs = {
   id: Scalars['String']
   ids: Array<Maybe<Scalars['String']>>
   orderBy: Array<Maybe<OrderByGraph>>
@@ -965,6 +995,10 @@ export type QueryCriticalDatesArgs = {
   take: Scalars['Int']
 }
 
+export type QueryDeckItemBriefSummaryArgs = {
+  briefIds: Array<Maybe<Scalars['Guid']>>
+}
+
 export type QueryElectorateArgs = {
   id: Scalars['String']
   ids: Array<Maybe<Scalars['String']>>
@@ -975,6 +1009,15 @@ export type QueryElectorateArgs = {
 }
 
 export type QueryElectoratesArgs = {
+  id: Scalars['String']
+  ids: Array<Maybe<Scalars['String']>>
+  orderBy: Array<Maybe<OrderByGraph>>
+  where: Array<Maybe<WhereExpressionGraph>>
+  skip: Scalars['Int']
+  take: Scalars['Int']
+}
+
+export type QueryLocationsArgs = {
   id: Scalars['String']
   ids: Array<Maybe<Scalars['String']>>
   orderBy: Array<Maybe<OrderByGraph>>
@@ -1434,46 +1477,48 @@ export type GetRefinerTagsQuery = { __typename?: 'Query' } & {
 }
 
 export type CommitmentsMapPointSearchQueryVariables = {
-  commitmentWhere?: Maybe<WhereExpressionGraph>
+  mapPointWhere?: Maybe<WhereExpressionGraph>
 }
 
 export type CommitmentsMapPointSearchQuery = { __typename?: 'Query' } & {
-  commitmentMapPoints: Maybe<
+  mapPoints: Maybe<
     Array<
       Maybe<
-        { __typename?: 'CommitmentMapPointGraph' } & Pick<
-          CommitmentMapPointGraph,
-          'id' | 'internalVersion' | 'title' | 'description'
-        > & {
-            commitment: Maybe<
-              { __typename?: 'CommitmentGraph' } & Pick<
-                CommitmentGraph,
-                'id' | 'title' | 'politicalParty' | 'announcedBy'
-              > & {
-                  announcementType: Maybe<
-                    { __typename?: 'AnnouncementTypeGraph' } & Pick<
-                      AnnouncementTypeGraph,
-                      'id' | 'title'
-                    >
-                  >
-                  criticalDate: Maybe<
-                    { __typename?: 'CriticalDateGraph' } & Pick<
-                      CriticalDateGraph,
-                      'id' | 'title'
-                    >
-                  >
-                  portfolioLookup: Maybe<
-                    { __typename?: 'PortfolioLookupGraph' } & Pick<
-                      PortfolioLookupGraph,
-                      'id' | 'title'
-                    >
-                  >
-                }
-            >
-            mapPoint: Maybe<
-              { __typename?: 'MapPointGraph' } & Pick<
-                MapPointGraph,
-                'id' | 'placeId' | 'title' | 'latitude' | 'longitude'
+        { __typename?: 'MapPointGraph' } & Pick<MapPointGraph, 'id'> & {
+            commitmentMapPoints: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'CommitmentMapPointGraph' } & Pick<
+                    CommitmentMapPointGraph,
+                    'id'
+                  > & {
+                      commitment: Maybe<
+                        { __typename?: 'CommitmentGraph' } & Pick<
+                          CommitmentGraph,
+                          'id' | 'title' | 'politicalParty' | 'announcedBy'
+                        > & {
+                            announcementType: Maybe<
+                              { __typename?: 'AnnouncementTypeGraph' } & Pick<
+                                AnnouncementTypeGraph,
+                                'id' | 'title'
+                              >
+                            >
+                            criticalDate: Maybe<
+                              { __typename?: 'CriticalDateGraph' } & Pick<
+                                CriticalDateGraph,
+                                'id' | 'title'
+                              >
+                            >
+                            portfolioLookup: Maybe<
+                              { __typename?: 'PortfolioLookupGraph' } & Pick<
+                                PortfolioLookupGraph,
+                                'id' | 'title'
+                              >
+                            >
+                          }
+                      >
+                    }
+                >
               >
             >
           }
@@ -1566,36 +1611,29 @@ export class GetRefinerTagsGQL extends Apollo.Query<
   document = GetRefinerTagsDocument
 }
 export const CommitmentsMapPointSearchDocument = gql`
-  query CommitmentsMapPointSearch($commitmentWhere: WhereExpressionGraph) {
-    commitmentMapPoints(where: [$commitmentWhere]) {
+  query CommitmentsMapPointSearch($mapPointWhere: WhereExpressionGraph) {
+    mapPoints(where: [$mapPointWhere]) {
       id
-      internalVersion
-      title
-      description
-      commitment {
+      commitmentMapPoints {
         id
-        title
-        politicalParty
-        announcedBy
-        announcementType {
+        commitment {
           id
           title
+          politicalParty
+          announcedBy
+          announcementType {
+            id
+            title
+          }
+          criticalDate {
+            id
+            title
+          }
+          portfolioLookup {
+            id
+            title
+          }
         }
-        criticalDate {
-          id
-          title
-        }
-        portfolioLookup {
-          id
-          title
-        }
-      }
-      mapPoint {
-        id
-        placeId
-        title
-        latitude
-        longitude
       }
     }
   }

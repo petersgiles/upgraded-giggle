@@ -1,10 +1,12 @@
 <div class="page">
   <section [mdcElevation]="5">
     <digital-first-planner
-      [commitments]="plannerCommitments$ | async"
+      *ngIf="(commitmentEventTypes$ | async)"
+      [commitments]="filteredCommitments"
       [events]="commitmentEvents$ | async"
       [commitmentEventTypes]="commitmentEventTypes$ | async"
       [externalEvents]="externalEvents$ | async"
+      [readOnly] = "readOnly "
       (onEventSaved)="handleEventSaved($event)"
       (onEventRemoved)="handleEventRemoved($event)"
     >
