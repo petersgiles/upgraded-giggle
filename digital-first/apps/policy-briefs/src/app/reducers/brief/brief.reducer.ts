@@ -27,9 +27,6 @@ export function reducer(state = initialState, action: BriefActions): State {
   switch (action.type) {
     case BriefActionTypes.LoadBrief:
       const data = action.payload.data
-
-      // tslint:disable-next-line: no-console
-      console.log(`💬 `, data)
       return {
         ...state,
         ...data

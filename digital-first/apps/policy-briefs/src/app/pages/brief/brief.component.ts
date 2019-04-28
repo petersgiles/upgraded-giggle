@@ -76,14 +76,10 @@ export class BriefComponent implements OnInit, OnDestroy {
 
     this.brief$ = this.store.pipe(
       select(fromBrief.selectBriefState),
-      // tslint:disable-next-line: no-console
-      tap(result => console.log(`💬 `, result))
     )
 
     this.fileLeafRef$ = this.store.pipe(
       select(fromBrief.selectFileLeafRefState),
-      // tslint:disable-next-line: no-console
-      tap(result => console.log(`💬 `, result))
     )
 
     this.selectId$ = this.route.paramMap
@@ -91,8 +87,6 @@ export class BriefComponent implements OnInit, OnDestroy {
         switchMap((params: ParamMap) => {
 
           const activeBriefId =  params.get('id')
-          // tslint:disable-next-line: no-console
-          console.log(`🐢 `, activeBriefId)
 
           this.store.dispatch(new SetActiveBrief({activeBriefId}))
           this.store.dispatch(new GetDiscussion({activeBriefId}))

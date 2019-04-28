@@ -14,8 +14,7 @@ export class BriefDocumentComponent implements OnInit {
   @Input()
   set brief(value) {
     this._brief = value
-    // tslint:disable-next-line: no-console
-    console.log(`💥 set brief`, value)
+
     if (this._brief && this._brief.fileLeafRef) {
       // clear extension
       const fileLeafRef = this._brief.fileLeafRef
@@ -32,19 +31,13 @@ export class BriefDocumentComponent implements OnInit {
 
   public getBriefHtml(fileLeafRef) {
     const relativeUrl = `http://vm-dev-lbs13/sites/redigb/BriefHTML/${fileLeafRef}.aspx`
-    // tslint:disable-next-line: no-console
-    console.log(`🎈 set brief relativeUrl`, relativeUrl)
+
     return this.http
       .get(relativeUrl, { responseType: 'text' })
       .pipe(
-        first(),
-        // tslint:disable-next-line: no-console
-        tap(result => console.log(`🍺 `, result))
+        first()
       )
       .subscribe((html: string) => {
-        // tslint:disable-next-line: no-console
-        console.log(`☘️ set brief`, html)
-
         this.briefHtml$.next(html)
       })
   }

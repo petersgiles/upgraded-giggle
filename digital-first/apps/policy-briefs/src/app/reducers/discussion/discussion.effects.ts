@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 
-import { concatMap, map, catchError, switchMap } from 'rxjs/operators'
+import { concatMap, map, catchError, switchMap, tap } from 'rxjs/operators'
 import { EMPTY, of, forkJoin, Observable } from 'rxjs'
 import {
   DiscussionActionTypes,
@@ -70,7 +70,8 @@ export class DiscussionEffects {
     ofType(DiscussionActionTypes.GetDiscussion),
     map((action: GetDiscussion) => action),
     concatMap(action => this.getDiscussionNodes(action.payload.activeBriefId)),
-    /** An EMPTY observable only emits completion. Replace with your own observable API request */
+    // tslint:disable-next-line: no-console
+    tap(result => console.log(`🍺 `, result)),
     switchMap((result: { data: { nodes: any[] }; loading: boolean }) => [
       new LoadDiscussions({
         data: result.data.nodes,
