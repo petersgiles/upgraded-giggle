@@ -11,36 +11,51 @@ import {
   GetDiscussionFailure
 } from './discussion.actions'
 import { idFromLookup, fromUser, SharepointJsomService } from '@df/sharepoint'
+import { pickColor } from '../../utils/colour'
+import { byBriefIdQuery } from '../../services/sharepoint/caml';
 
-export const mapDiscusssionNode = (item): any => {
-  const parent = idFromLookup(item.Brief)
-  const author = fromUser(item.Author)
+export const mapComment = (item): any => {
+  const brief = idFromLookup(item.Brief)
+  const parent = idFromLookup(item.Parent)
+  const user = fromUser(item.Author)
+  const author = {
+    ...user,
+    color: pickColor(user.email)
+  }
+
   return {
     id: item.ID,
-    text: item.Comments1,
+    title: item.Title,
     created: item.Created,
+    text: item.Comments,
+    brief: brief,
     parent: parent,
     author: author
   }
 }
 
-export const mapDiscusssionNodes = (items): any[] =>
-  items.map(mapDiscusssionNode)
+export const mapComments = (items): any[] => (items || []).map(mapComment)
 
 @Injectable()
 export class DiscussionEffects {
   // 💬
 
-  getDiscussionNodes(): Observable<{
+  getDiscussionNodes(
+    briefId: string
+  ): Observable<{
     data: { nodes: any[] }
     loading: boolean
   }> {
+
+    const briefIdViewXml = byBriefIdQuery({ id: briefId })
+
     return forkJoin([
       this.sharepoint.getItems({
-        listName: 'Comment'
+        listName: 'Comment',
+        viewXml: briefIdViewXml
       })
     ]).pipe(
-      map(([spComments]) => [...mapDiscusssionNodes(spComments)]),
+      map(([spComments]) => [...mapComments(spComments)]),
       concatMap(result =>
         of({
           data: { nodes: result },
@@ -54,7 +69,7 @@ export class DiscussionEffects {
   loadDiscussions$ = this.actions$.pipe(
     ofType(DiscussionActionTypes.GetDiscussion),
     map((action: GetDiscussion) => action),
-    concatMap(_ => this.getDiscussionNodes()),
+    concatMap(action => this.getDiscussionNodes(action.payload.activeBriefId)),
     /** An EMPTY observable only emits completion. Replace with your own observable API request */
     switchMap((result: { data: { nodes: any[] }; loading: boolean }) => [
       new LoadDiscussions({

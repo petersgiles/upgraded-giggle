@@ -15,6 +15,7 @@ import { toTree, sortBy } from '@df/utils'
 import { Store, select } from '@ngrx/store'
 import * as fromNavigation from '../../reducers/navigation/navigation.reducer'
 import * as fromBrief from '../../reducers/brief/brief.reducer'
+import * as fromDiscussion from '../../reducers/discussion/discussion.reducer'
 
 import { GetNavigations } from '../../reducers/navigation/navigation.actions'
 import { GetDiscussion } from '../../reducers/discussion/discussion.actions'
@@ -66,7 +67,7 @@ export class BriefComponent implements OnInit, OnDestroy {
     )
 
     this.comments$ = this.store.pipe(
-      select(fromBrief.selectDiscussionState),
+      select(fromDiscussion.selectDiscussionState),
       // tslint:disable-next-line: no-console
       tap(result => console.log(`👹 `, result))
     )
@@ -94,6 +95,7 @@ export class BriefComponent implements OnInit, OnDestroy {
           console.log(`🐢 `, activeBriefId)
 
           this.store.dispatch(new SetActiveBrief({activeBriefId}))
+          this.store.dispatch(new GetDiscussion({activeBriefId}))
 
           return EMPTY
         })
@@ -101,19 +103,18 @@ export class BriefComponent implements OnInit, OnDestroy {
       .subscribe()
 
     this.store.dispatch(new GetNavigations())
-    // this.store.dispatch(new GetDiscussion())
 
-    // this.form.patchValue(defaultBrief)
+    this.form.patchValue(defaultBrief)
 
-    // this.formValueChangeSubscription$ = this.form.valueChanges
-    //   .pipe(
-    //     debounceTime(3000),
-    //     distinctUntilChanged()
-    //   )
-    //   .subscribe(blurEvent => {
-    //     this.handleChange(blurEvent)
-    //     this.formValueChangeSubscription$.unsubscribe()
-    //   })
+    this.formValueChangeSubscription$ = this.form.valueChanges
+      .pipe(
+        debounceTime(3000),
+        distinctUntilChanged()
+      )
+      .subscribe(blurEvent => {
+        this.handleChange(blurEvent)
+        this.formValueChangeSubscription$.unsubscribe()
+      })
 
   }
 

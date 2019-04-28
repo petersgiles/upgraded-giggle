@@ -13,7 +13,7 @@ export class LoadDiscussions implements Action {
 
 export class GetDiscussion implements Action {
   readonly type = DiscussionActionTypes.GetDiscussion
-  constructor(public payload: { briefId: any }) {}
+  constructor(public payload: { activeBriefId: string }) {}
 }
 
 export class GetDiscussionFailure implements Action {

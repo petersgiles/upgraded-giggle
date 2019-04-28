@@ -61,38 +61,6 @@ export const recommendedDirection = (item): any => {
 export const recommendedDirections = (items): any[] =>
   (items || []).map(recommendedDirection)
 
-export const hashCode = str => {
-  let hash = 0;
-  for (var i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  return hash;
-}
-
-export const pickColor = str =>
-  `hsl(${hashCode(str) % 360}, 100%, 80%)`
-
-export const mapComment = (item): any => {
-  const brief = idFromLookup(item.Brief)
-  const parent = idFromLookup(item.Parent)
-  const user = fromUser(item.Author)
-  const author = {
-    ...user,
-    color: pickColor(user.email)
-  }
-
-  return {
-    id: item.ID,
-    title: item.Title,
-    created: item.Created,
-    text: item.Comments,
-    brief: brief,
-    parent: parent,
-    author: author
-  }
-}
-
-export const mapComments = (items): any[] => (items || []).map(mapComment)
 
 export const mapAttachment = (item): any => {
   const brief = idFromLookup(item.Brief)
@@ -165,10 +133,6 @@ export class BriefEffects {
         viewXml: briefIdViewXml
       }),
       this.sharepoint.getItems({
-        listName: 'Comment',
-        viewXml: briefIdViewXml
-      }),
-      this.sharepoint.getItems({
         listName: 'BriefAttachments',
         viewXml: briefIdViewXml
       }),
@@ -178,13 +142,13 @@ export class BriefEffects {
       this.sharepoint.getItems({
         listName: 'BriefDivision'
       })
+
     ]).pipe(
       concatMap(
         ([
           spBrief,
           spRecommendedDirection,
           spRecommendations,
-          spComments,
           spBriefAttachments,
           spBriefStatus,
           spBriefDivision
@@ -193,10 +157,9 @@ export class BriefEffects {
             brief: mapBrief(spBrief[0]),
             directions: recommendedDirections(spRecommendedDirection),
             recommendations: mapRecommendations(spRecommendations),
-            comments: mapComments(spComments),
             attachments: mapAttachments(spBriefAttachments),
             statusLookups: mapLookups(spBriefStatus),
-            divisionLookups: mapLookups(spBriefDivision)
+            divisionLookups: mapLookups(spBriefDivision),
           }
           // tslint:disable-next-line:no-console
           console.log(`🙈 - brief`, data)
@@ -209,34 +172,7 @@ export class BriefEffects {
       )
     )
   }
-
-  getActiveBriefDocument(
-    briefId: string,
-    fileLeafRef: string
-  ): Observable<{
-    data: any
-    loading: boolean
-  }> {
-    return forkJoin([
-      this.sharepoint.getItems({
-        listName: 'Brief'
-      })
-    ]).pipe(
-      concatMap(([spBrief]) => {
-        const data = {
-          briefs: mapBrief(spBrief[0])
-        }
-        // tslint:disable-next-line:no-console
-        console.log(`🙈 - brief`, data)
-
-        return of({
-          data: data,
-          loading: false
-        })
-      })
-    )
-  }
-
+  
   @Effect()
   loadBriefs$ = this.actions$.pipe(
     ofType(BriefActionTypes.LoadBrief),
