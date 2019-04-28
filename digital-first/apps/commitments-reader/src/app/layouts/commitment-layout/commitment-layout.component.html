@@ -12,6 +12,8 @@
     <div class="app-layout__row--no-wrap">
       <digital-first-metadata-refiner
         [refinerGroups]="refinerGroups$ | async"
+        (onSearchCriteriaChanged)="handleTextRefinerChanged($event)"
+        (onClear)="handleTextRefinerChanged(null)"
         (onRefinerGroupSelected)="handleRefinerGroupSelected($event)"
         (onRefinerSelected)="handleRefinerSelected($event)"
       ></digital-first-metadata-refiner>

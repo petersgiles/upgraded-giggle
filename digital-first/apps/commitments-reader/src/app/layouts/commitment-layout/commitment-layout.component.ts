@@ -51,7 +51,9 @@ export class CommitmentLayoutComponent
   handleRefinerSelected($event) {
     this.dataService.handleRefinerSelected($event)
   }
-
+  handleTextRefinerChanged($event) {
+    this.dataService.handleTextRefinerChanged($event)
+  }
   ngAfterViewInit(): void {}
   ngOnDestroy(): void {}
 

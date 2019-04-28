@@ -102,7 +102,14 @@ export class RefinerReducer {
           refinerGroups: refinerGroups
         }
       }
+      case RefinerActionTypes.ChangeTextRefiner: {
+        const retVal = {
+          ...state,
+          textRefiner: action.payload
+        }
 
+        return retVal
+      }
       case RefinerActionTypes.SelectRefiner: {
         const item = action.payload
         const refinerGroups = [...state.refinerGroups]

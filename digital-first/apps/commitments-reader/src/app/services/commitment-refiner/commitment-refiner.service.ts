@@ -17,7 +17,8 @@ import {
   SelectRefinerGroup,
   SelectRefiner,
   GetRefinedCommitments,
-  LoadRefinedCommitments
+  LoadRefinedCommitments,
+  ChangeTextRefiner as ChangeTextRefiner
 } from './commitment-refiner.actions'
 import {
   RefinerState,
@@ -69,10 +70,6 @@ export class CommitmentRefinerService implements OnDestroy {
 
           return this.refinerEffects.run(action).pipe(
             map((actions: RefinerServiceActions[]) => {
-              if (DEBUG) {
-                // tslint:disable-next-line:no-console
-                console.log('RefinerServiceActions', actions)
-              }
               actions.forEach(a =>
                 this.store$.next(
                   this.refinerReducer.reduce(this.store$.getValue(), a)
@@ -85,11 +82,6 @@ export class CommitmentRefinerService implements OnDestroy {
       .subscribe()
 
     this.storeSubscription$ = this.store$.subscribe(store => {
-      if (DEBUG) {
-        // tslint:disable-next-line:no-console
-        console.log(store)
-      }
-
       this.columns$.next(store.columns)
       this.commitments$.next(store.commitments)
       this.selectedRefinders$.next(store.selectedRefiners)
@@ -134,6 +126,7 @@ export class CommitmentRefinerService implements OnDestroy {
       commitmentTypes: this.getItems(store.selectedRefiners, 1),
       criticalDates: this.getItems(store.selectedRefiners, 2),
       portfolioLookups: this.getItems(store.selectedRefiners, 3)
+      // TODO: textRefiner: store.textRefiner
     }
 
     this.action$.next(new GetRefinedCommitments(payload))
@@ -145,7 +138,19 @@ export class CommitmentRefinerService implements OnDestroy {
   ): Observable<RefinerAction> =>
     this.commitmentsSearchGQL.fetch({ refiner: action.payload }).pipe(
       first(),
-      map((result: any) => result.data.commitments),
+      map((result: any) => {
+        const store = this.store$.getValue()
+        if (store.textRefiner && store.textRefiner.length > 0) {
+          const refinedByTextRefiner = new RegExp(store.textRefiner, 'i')
+          return result.data.commitments.filter(
+            c =>
+              refinedByTextRefiner.test(c.title) ||
+              refinedByTextRefiner.test(c.portfolioLookup.title)
+          )
+        } else {
+          return result.data.commitments
+        }
+      }),
       map(result => new LoadRefinedCommitments(result))
     )
 
@@ -265,6 +270,12 @@ export class CommitmentRefinerService implements OnDestroy {
     this.action$.next(new SelectRefiner(item))
     this.getRefinedCommitments()
   }
+
+  public handleTextRefinerChanged(item) {
+    this.action$.next(new ChangeTextRefiner(item))
+    this.getRefinedCommitments()
+  }
+
   ngOnDestroy(): void {
     this.actionSubscription$.unsubscribe()
     this.storeSubscription$.unsubscribe()

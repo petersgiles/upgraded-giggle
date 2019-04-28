@@ -75,7 +75,7 @@ export class EventSharepointDataService implements CommitmentEventDataService {
       EventType: payload.eventType,
       CssClass: payload.eventCls,
       Colour: payload.eventColor,
-      Icon: payload.iconClss
+      Icon: payload.iconCls
     }
     const existingEvent = parseInt(payload.id, 10) >= 0 // byrntum scheduler will auto assign an id starts wtih _generated
     return this.sharepoint
