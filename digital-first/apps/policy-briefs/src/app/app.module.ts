@@ -31,21 +31,25 @@ import { PolicyBriefsDataService } from './services/policy-briefs-data.service'
 import { BriefComponent } from './pages/brief/brief.component'
 import { DfPagesModule } from '@digital-first/df-pages'
 import { DfPipesModule } from '@digital-first/df-pipes'
+import { DfThemeModule } from '@digital-first/df-theme';
+
 import { RouterStateSerializer } from '@ngrx/router-store'
+import { DfSharepointLibModule, SharepointJsomService } from '@df/sharepoint'
 
 import { metaReducers, reducers, CustomSerializer } from './reducers'
 import * as fromNavigation from './reducers/navigation/navigation.reducer'
 import * as fromUser from './reducers/user/user.reducer'
+import * as fromBrief from './reducers/brief/brief.reducer'
+import * as fromDiscussion from './reducers/discussion/discussion.reducer'
+import { environment } from '../environments/environment'
+
+import { DiscussionEffects } from './reducers/discussion/discussion.effects'
+import { BriefEffects } from './reducers/brief/brief.effects'
 import { AppEffects } from './reducers/app.effects'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
-import { environment } from '../environments/environment'
-import { DfSharepointLibModule, SharepointJsomService } from '@df/sharepoint'
-import * as fromDiscussion from './reducers/discussion/discussion.reducer'
-import { DiscussionEffects } from './reducers/discussion/discussion.effects'
-import * as fromBrief from './reducers/brief/brief.reducer'
-import { BriefEffects } from './reducers/brief/brief.effects'
+
 import { BriefDocumentComponent } from './containers/brief-document/brief-document.component'
-import { DfThemeModule } from '@digital-first/df-theme';
+
 
 const COMPONENTS = [
   AppComponent,

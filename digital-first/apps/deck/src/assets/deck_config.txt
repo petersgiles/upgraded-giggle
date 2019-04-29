@@ -1,10 +1,10 @@
 {
     "header": {
-        "title": "The Department of Bloop de Bloop - Yellow IGB",
+        "title": "The Department of Bloop de Bloop - IGB",
         "classification": "UNCLASSIFIED",
         "bookType": "red",
         "logo": {
-           "image": "assets/crest.png",
+           "image": "../../SiteAssets/apps/deck/assets/crest.png",
            "url": "/",
            "title": "Return to home page"
         },

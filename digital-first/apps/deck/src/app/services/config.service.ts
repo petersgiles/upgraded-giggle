@@ -44,7 +44,7 @@ const defaults: Config = {
   providedIn: 'root'
 })
 export class AppConfigService {
-  private _jsonURL = environment.production ? 'assets/config.json' : 'assets/config.prod.json'
+  private _jsonURL = environment.config
   _config: BehaviorSubject<Config> = new BehaviorSubject(defaults)
 
   constructor(private http: HttpClient) {

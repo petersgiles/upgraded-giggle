@@ -1,5 +1,0 @@
-query PlannerCommitments($input: CommitmentRefinementInput!) @namedClient(name: "commitments") {
-  commitments(input: $input) {
-    ...CommitmentParts
-  }
-}

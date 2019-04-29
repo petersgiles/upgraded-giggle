@@ -1,9 +1,0 @@
-fragment CommitmentParts on Commitment {
-  id
-  title
-  party
-  type
-  criticalDate
-  portfolio
-  announcedby
-}

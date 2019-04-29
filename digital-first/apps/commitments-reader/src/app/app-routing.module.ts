@@ -49,7 +49,7 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'components',
+        path: 'commitment',
         component: CommitmentLayoutComponent,
         children: [
           {

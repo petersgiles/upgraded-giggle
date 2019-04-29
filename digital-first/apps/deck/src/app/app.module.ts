@@ -23,18 +23,26 @@ import { HomeComponent } from './pages/home/home.component'
 import { AppFullLayoutService } from './app-full-layout.service'
 import { AppRoutingModule } from './app-routing.module'
 import { DeckDataService } from './services/deck-data.service'
-import { GraphQLModule } from './graphql.module'
 import { DragDropModule } from '@angular/cdk/drag-drop'
 import { DfDatatableModule } from '@digital-first/df-datatable'
 import { DfButtonsModule } from '@digital-first/df-buttons'
 import { DfMapModule } from '@digital-first/df-map'
 import { initApplication } from './app-init'
-import { LinkComponent } from './pages/link/link.component'
+import { StoreModule } from '@ngrx/store'
+import * as fromDeck from './reducers/deck/deck.reducer'
+import * as fromUser from './reducers/user/user.reducer'
+import { EffectsModule } from '@ngrx/effects'
+import { DeckEffects } from './reducers/deck/deck.effects'
+import { metaReducers, reducers, CustomSerializer } from './reducers'
+import { environment } from '../environments/environment'
+import { AppEffects } from './reducers/app.effects'
+import { RouterStateSerializer } from '@ngrx/router-store'
+import { StoreDevtoolsModule } from '@ngrx/store-devtools'
+import { HttpClientModule } from '@angular/common/http';
 
 const COMPONENTS = [
   AppComponent,
   HomeComponent,
-  LinkComponent,
   DialogAreYouSureComponent
 ]
 
@@ -46,9 +54,9 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
   imports: [
     BrowserModule,
     FormsModule,
+    HttpClientModule,
     ReactiveFormsModule,
     NxModule.forRoot(),
-    GraphQLModule,
     DeckModule,
     DfLoggingModule,
     DfComponentsModule,
@@ -64,7 +72,18 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     DfSharepointLibModule,
     DfPipesModule,
     AppRoutingModule,
-    DragDropModule
+    DragDropModule,
+    StoreModule.forRoot(reducers, {
+      metaReducers: metaReducers
+    }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    StoreModule.forFeature('deck', fromDeck.reducer),
+    StoreModule.forFeature('user', fromUser.reducer),
+
+    EffectsModule.forRoot([AppEffects]),
+    EffectsModule.forFeature([
+      DeckEffects
+    ])
   ],
   providers: [
     WINDOW_PROVIDERS,
@@ -75,7 +94,13 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
       multi: true
     },
     DeckDataService,
-    { provide: TitleLayoutService, useClass: AppFullLayoutService }
+    { provide: TitleLayoutService, useClass: AppFullLayoutService },
+        /**
+     * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.
+     * A custom RouterStateSerializer is used to parse the `RouterStateSnapshot` provided
+     * by `@ngrx/router-store` to include only the desired pieces of the snapshot.
+     */
+    { provide: RouterStateSerializer, useClass: CustomSerializer }
   ],
   bootstrap: [AppComponent]
 })

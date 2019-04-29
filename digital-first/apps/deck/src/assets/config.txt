@@ -1,7 +1,8 @@
 {
     "header": {
-        "title": "DECK - Production",
+        "title": "The Department of Bloop de Bloop - IGB",
         "classification": "UNCLASSIFIED",
+        "bookType": "red",
         "logo": {
            "image": "assets/crest.png",
            "url": "/",
