@@ -13,7 +13,13 @@ export enum RefinerActionTypes {
   SelectRefinerGroup = '[RefinerActionTypes] SelectRefinerGroup',
   SelectRefiner = '[RefinerActionTypes] SelectRefiner',
   SearchCommitments = '[RefinerActionTypes] SearchCommitments',
-  ChangeTextRefiner = '[RefinerActionTypes] ChangeTextRefiner'
+  ChangeTextRefiner = '[RefinerActionTypes] ChangeTextRefiner',
+  GetMapPoints = '[RefinerActionTypes] GetMapPoints'
+}
+
+export class GetMapPoints implements RefinerAction {
+  type = RefinerActionTypes.GetMapPoints
+  constructor(public payload: CommitmentRefinerGraph) {}
 }
 
 export class GetRefinerGroups implements RefinerAction {
@@ -53,7 +59,7 @@ export class SelectRefiner implements RefinerAction {
 
 export class ChangeTextRefiner implements RefinerAction {
   type = RefinerActionTypes.ChangeTextRefiner
-  constructor(public payload: string){}
+  constructor(public payload: string) {}
 }
 
 export type RefinerServiceActions =
@@ -65,3 +71,4 @@ export type RefinerServiceActions =
   | SelectRefiner
   | ChangeTextRefiner
   | SearchCommitments
+  | GetMapPoints
