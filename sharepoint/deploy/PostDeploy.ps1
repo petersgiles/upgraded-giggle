@@ -2,17 +2,17 @@ param(
     [string]$SiteUrls = $OctopusParameters["SiteUrls"],
     [string]$AppName = $OctopusParameters["AppName"],
     [switch]$jsOnly,
-    [string]$LoadReferenceData = $OctopusParameters["LoadReferenceData"]
-    
+    [string]$LoadReferenceData = $OctopusParameters["LoadReferenceData"],
+    [string]$SiteConfiguration = $OctopusParameters["SiteConfiguration"]
 )
 
 if ($PSScriptRoot) {
     Set-Location $PSScriptRoot
 }
 
-
 $binPath = (Get-Item "scripts").FullName
 $deploySites = $SiteUrls.Split(',')
+Write-Host "Site Configuration : $SiteConfiguration"
 
 foreach ($deploySiteUrl in $deploySites) {
     Write-Host "Deploying to URL $deploySiteUrl"
@@ -22,5 +22,14 @@ foreach ($deploySiteUrl in $deploySites) {
     
     if ($LoadReferenceData -eq 'True') {
         & .\scripts\Import-ReferenceData.ps1 -dataFolder "ListData/$AppName" -binPath $binPath -SiteUrl $deploySiteUrl
+    }
+
+    if((-not $null -eq $SiteConfiguration))
+    {
+        & .\scripts\Set-SiteConfiguration.ps1 - "ListData/$AppName" `
+        -binPath $binPath `
+        -SiteUrl $configuration `
+        -appName $AppName `
+        -configuration $SiteConfiguration
     }
 }

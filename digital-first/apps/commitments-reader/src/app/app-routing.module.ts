@@ -15,9 +15,8 @@ import { PlannerPageComponent } from './pages/planner-page/planner-page.componen
 import { CommitmentOverviewLayoutComponent } from './layouts/commitment-overview-layout/commitment-overview-layout.component'
 import { OverviewPageComponent } from './pages/overview-page/overview-page.component'
 import { MapOverviewPageComponent } from './pages/map-overview-page/map-overview-page.component'
-import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component';
-import { CommitmentComponent } from './containers/commitment/commitment.component'
-
+import { CommitmentDetailComponent } from './pages/commitment-detail/commitment-detail.component'
+import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component'
 const routes: Routes = [
   {
     path: '',
@@ -40,6 +39,10 @@ const routes: Routes = [
             component: OverviewPageComponent
           },
           {
+            path: 'commitmentdetail',
+            component: CommitmentDetailComponent
+          },
+          {
             path: 'map',
             component: MapOverviewPageComponent
           },
@@ -56,13 +59,14 @@ const routes: Routes = [
           {
             path: ':id',
             component: HomeComponent
-          }, {
+          },
+          {
             path: ':id/home',
             component: HomeComponent
           },
           {
             path: ':id/packages',
-            component:  CommitmentComponent 
+            component:  CommitmentDetailComponent 
           },
           {
             path: ':id/location',

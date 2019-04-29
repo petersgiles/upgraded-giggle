@@ -133,7 +133,9 @@ export class RefinerReducer {
         const selectedRefiners =
           item.selected === false
             ? state.selectedRefiners.filter(
-                p => p.groupId !== item.groupId && p.itemId !== item.itemId
+                p =>
+                  p.groupId !== item.groupId ||
+                  (p.groupId === item.groupId && p.itemId !== item.id)
               )
             : state.selectedRefiners
 
@@ -154,6 +156,13 @@ export class RefinerReducer {
         }
 
         return retVal
+      }
+
+      case RefinerActionTypes.GetMapPoints: {
+        return {
+          ...state,
+          mapPoints: action.payload
+        }
       }
     }
 

@@ -37,10 +37,9 @@ import { CommitmentOverviewLayoutComponent } from './layouts/commitment-overview
 import { SchedulerComponent } from './components/scheduler/scheduler.component'
 import { GetRefinerTagsGQL } from './generated/graphql'
 import { DfSharepointLibModule } from '@df/sharepoint'
-import { commitmentEventDataServiceProvider } from './services/commitment-event/commitment-event-data-service';
-import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component';
-import { CommitmentComponent } from './containers/commitment/commitment.component'
-
+import { commitmentEventDataServiceProvider } from './services/commitment-event/commitment-event-data-service'
+import { CommitmentDetailComponent } from './pages/commitment-detail/commitment-detail.component'
+import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component'
 const COMPONENTS = [
   AppComponent,
   HomeComponent,
@@ -51,11 +50,11 @@ const COMPONENTS = [
   CommitmentLayoutComponent,
   CommitmentOverviewLayoutComponent,
   SchedulerComponent,
-  CommitmentComponent 
+  CommitmentDetailComponent 
 ]
 
 @NgModule({
-  declarations: [...COMPONENTS],
+  declarations: [...COMPONENTS, CommitmentDetailComponent],
   imports: [
     BrowserModule,
     FormsModule,
@@ -118,6 +117,7 @@ const COMPONENTS = [
       deps: [HttpLink]
     }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: [CommitmentDetailComponent]
 })
 export class AppModule {}

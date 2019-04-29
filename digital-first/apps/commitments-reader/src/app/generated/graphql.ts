@@ -88,7 +88,7 @@ export type BriefCommitmentGraph = {
 export type BriefGraph = {
   briefCommitments?: Maybe<Array<Maybe<BriefCommitmentGraph>>>
   id: Scalars['Guid']
-  internalVersion: Scalars['Int']
+  internalVersion: Scalars['UInt32']
   listId: Scalars['Guid']
   listItemId: Scalars['Int']
   reference: Scalars['String']
@@ -975,6 +975,7 @@ export type QueryCommitmentsArgs = {
   skip: Scalars['Int']
   take: Scalars['Int']
   refiner: CommitmentRefinerGraph
+  bookType: Scalars['String']
 }
 
 export type QueryCommitmentTypesArgs = {
@@ -1441,6 +1442,50 @@ export type WhereExpressionGraph = {
   case?: Maybe<StringComparison>
   value?: Maybe<Array<Maybe<Scalars['String']>>>
 }
+export type GetCommitmentDetailQueryVariables = {
+  id: Scalars['String']
+}
+
+export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
+  commitments: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'CommitmentGraph' } & Pick<
+          CommitmentGraph,
+          | 'id'
+          | 'title'
+          | 'description'
+          | 'bookType'
+          | 'cost'
+          | 'date'
+          | 'politicalParty'
+          | 'statusId'
+          | 'announcedBy'
+        > & {
+            announcementType: Maybe<
+              { __typename?: 'AnnouncementTypeGraph' } & Pick<
+                AnnouncementTypeGraph,
+                'id' | 'title'
+              >
+            >
+            criticalDate: Maybe<
+              { __typename?: 'CriticalDateGraph' } & Pick<
+                CriticalDateGraph,
+                'id' | 'title'
+              >
+            >
+            portfolioLookup: Maybe<
+              { __typename?: 'PortfolioLookupGraph' } & Pick<
+                PortfolioLookupGraph,
+                'id' | 'title'
+              >
+            >
+          }
+      >
+    >
+  >
+}
+
 export type GetRefinerTagsQueryVariables = {}
 
 export type GetRefinerTagsQuery = { __typename?: 'Query' } & {
@@ -1471,6 +1516,39 @@ export type GetRefinerTagsQuery = { __typename?: 'Query' } & {
           PortfolioLookupGraph,
           'id' | 'title'
         >
+      >
+    >
+  >
+}
+
+export type CommitmentMapPointQueryVariables = {
+  refiner: CommitmentRefinerGraph
+  bookType: Scalars['String']
+}
+
+export type CommitmentMapPointQuery = { __typename?: 'Query' } & {
+  commitments: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'CommitmentGraph' } & Pick<CommitmentGraph, 'id'> & {
+            commitmentMapPoints: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'CommitmentMapPointGraph' } & Pick<
+                    CommitmentMapPointGraph,
+                    'id'
+                  > & {
+                      mapPoint: Maybe<
+                        { __typename?: 'MapPointGraph' } & Pick<
+                          MapPointGraph,
+                          'id' | 'placeId' | 'title' | 'latitude' | 'longitude'
+                        >
+                      >
+                    }
+                >
+              >
+            >
+          }
       >
     >
   >
@@ -1529,6 +1607,7 @@ export type CommitmentsMapPointSearchQuery = { __typename?: 'Query' } & {
 
 export type CommitmentsSearchQueryVariables = {
   refiner: CommitmentRefinerGraph
+  bookType: Scalars['String']
 }
 
 export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
@@ -1584,6 +1663,43 @@ import gql from 'graphql-tag'
 import { Injectable } from '@angular/core'
 import * as Apollo from 'apollo-angular'
 
+export const GetCommitmentDetailDocument = gql`
+  query getCommitmentDetail($id: String!) {
+    commitments(id: $id) {
+      id
+      title
+      description
+      bookType
+      cost
+      date
+      politicalParty
+      statusId
+      announcedBy
+      announcementType {
+        id
+        title
+      }
+      criticalDate {
+        id
+        title
+      }
+      portfolioLookup {
+        id
+        title
+      }
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class GetCommitmentDetailGQL extends Apollo.Query<
+  GetCommitmentDetailQuery,
+  GetCommitmentDetailQueryVariables
+> {
+  document = GetCommitmentDetailDocument
+}
 export const GetRefinerTagsDocument = gql`
   query GetRefinerTags {
     commitmentTypes {
@@ -1609,6 +1725,36 @@ export class GetRefinerTagsGQL extends Apollo.Query<
   GetRefinerTagsQueryVariables
 > {
   document = GetRefinerTagsDocument
+}
+export const CommitmentMapPointDocument = gql`
+  query CommitmentMapPoint(
+    $refiner: CommitmentRefinerGraph!
+    $bookType: String!
+  ) {
+    commitments(refiner: $refiner, bookType: $bookType) {
+      id
+      commitmentMapPoints {
+        id
+        mapPoint {
+          id
+          placeId
+          title
+          latitude
+          longitude
+        }
+      }
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CommitmentMapPointGQL extends Apollo.Query<
+  CommitmentMapPointQuery,
+  CommitmentMapPointQueryVariables
+> {
+  document = CommitmentMapPointDocument
 }
 export const CommitmentsMapPointSearchDocument = gql`
   query CommitmentsMapPointSearch($mapPointWhere: WhereExpressionGraph) {
@@ -1649,8 +1795,11 @@ export class CommitmentsMapPointSearchGQL extends Apollo.Query<
   document = CommitmentsMapPointSearchDocument
 }
 export const CommitmentsSearchDocument = gql`
-  query CommitmentsSearch($refiner: CommitmentRefinerGraph!) {
-    commitments(refiner: $refiner) {
+  query CommitmentsSearch(
+    $refiner: CommitmentRefinerGraph!
+    $bookType: String!
+  ) {
+    commitments(refiner: $refiner, bookType: $bookType) {
       id
       title
       politicalParty

@@ -4,7 +4,9 @@ import {
   GetRefinerTagsGQL,
   CommitmentsSearchGQL,
   CommitmentRefinerGraph,
-  CommitmentGraph
+  CommitmentGraph,
+  MapPointGraph,
+  CommitmentMapPointGQL
 } from '../../generated/graphql'
 import { first, map, tap, filter, switchMap } from 'rxjs/operators'
 import { environment } from '../../../environments/environment'
@@ -18,7 +20,8 @@ import {
   SelectRefiner,
   GetRefinedCommitments,
   LoadRefinedCommitments,
-  ChangeTextRefiner as ChangeTextRefiner
+  ChangeTextRefiner,
+  GetMapPoints
 } from './commitment-refiner.actions'
 import {
   RefinerState,
@@ -27,6 +30,8 @@ import {
   RefinerReducer
 } from './commitment-refiner.reducer'
 import { RefinerEffects } from './commitment-refiner.effects'
+import { AppConfigService } from '../app-config.service'
+import { getNgModuleDef } from '@angular/core/src/render3/definition'
 
 const DEBUG = !environment.production
 
@@ -44,6 +49,7 @@ export class CommitmentRefinerService implements OnDestroy {
   public selectedMapPoint$: Subject<any> = new Subject()
   public selectedRefinders$: Subject<any> = new Subject()
   public commitments$: Subject<CommitmentGraph[]> = new Subject()
+  public mapPoints$: Subject<MapPointGraph[]> = new Subject()
   public refinerGroups$: BehaviorSubject<any[]> = new BehaviorSubject([])
   private actionSubscription$: Subscription
   private storeSubscription$: Subscription
@@ -52,40 +58,46 @@ export class CommitmentRefinerService implements OnDestroy {
     private refinerReducer: RefinerReducer,
     private refinerEffects: RefinerEffects,
     private getRefinerTagsGQL: GetRefinerTagsGQL,
-    private commitmentsSearchGQL: CommitmentsSearchGQL
+    private commitmentsSearchGQL: CommitmentsSearchGQL,
+    private commitmentMapPointGQL: CommitmentMapPointGQL,
+    private appConfigService: AppConfigService
   ) {
-    this.registerEffects()
+    console.log('refiner service constructor')
+    appConfigService.init().subscribe(_ => {
+      this.registerEffects()
 
-    this.actionSubscription$ = this.action$
-      .pipe(
-        filter(action => action !== null),
-        switchMap((action: RefinerServiceActions) => {
-          if (!this.refinerEffects.hasEffect(action)) {
-            this.store$.next(
-              this.refinerReducer.reduce(this.store$.getValue(), action)
-            )
-
-            return of(null)
-          }
-
-          return this.refinerEffects.run(action).pipe(
-            map((actions: RefinerServiceActions[]) => {
-              actions.forEach(a =>
-                this.store$.next(
-                  this.refinerReducer.reduce(this.store$.getValue(), a)
-                )
+      this.actionSubscription$ = this.action$
+        .pipe(
+          filter(action => action !== null),
+          switchMap((action: RefinerServiceActions) => {
+            if (!this.refinerEffects.hasEffect(action)) {
+              this.store$.next(
+                this.refinerReducer.reduce(this.store$.getValue(), action)
               )
-            })
-          )
-        })
-      )
-      .subscribe()
 
-    this.storeSubscription$ = this.store$.subscribe(store => {
-      this.columns$.next(store.columns)
-      this.commitments$.next(store.commitments)
-      this.selectedRefinders$.next(store.selectedRefiners)
-      this.refinerGroups$.next(store.refinerGroups)
+              return of(null)
+            }
+
+            return this.refinerEffects.run(action).pipe(
+              map((actions: RefinerServiceActions[]) => {
+                actions.forEach(a =>
+                  this.store$.next(
+                    this.refinerReducer.reduce(this.store$.getValue(), a)
+                  )
+                )
+              })
+            )
+          })
+        )
+        .subscribe()
+
+      this.storeSubscription$ = this.store$.subscribe(store => {
+        this.columns$.next(store.columns)
+        this.commitments$.next(store.commitments)
+        this.selectedRefinders$.next(store.selectedRefiners)
+        this.refinerGroups$.next(store.refinerGroups)
+        this.mapPoints$.next(store.mapPoints)
+      })
     })
   }
 
@@ -97,6 +109,10 @@ export class CommitmentRefinerService implements OnDestroy {
     this.refinerEffects.register(
       RefinerActionTypes.GetRefinedCommitments,
       this.getRefinedCommitmentsEffect
+    )
+    this.refinerEffects.register(
+      RefinerActionTypes.GetMapPoints,
+      this.getMapPointsEffect
     )
   }
 
@@ -132,27 +148,64 @@ export class CommitmentRefinerService implements OnDestroy {
     this.action$.next(new GetRefinedCommitments(payload))
   }
 
+  public getMapPoints() {
+    console.log('WHAT IS REAL LIFE?')
+    const store = this.store$.getValue()
+
+    const payload: CommitmentRefinerGraph = {
+      commitmentTypes: this.getItems(store.selectedRefiners, 1),
+      criticalDates: this.getItems(store.selectedRefiners, 2),
+      portfolioLookups: this.getItems(store.selectedRefiners, 3)
+    }
+
+    this.action$.next(new GetMapPoints(payload))
+  }
+
   // This is the committments filter
   getRefinedCommitmentsEffect = (
     action: GetRefinedCommitments
   ): Observable<RefinerAction> =>
-    this.commitmentsSearchGQL.fetch({ refiner: action.payload }).pipe(
-      first(),
-      map((result: any) => {
-        const store = this.store$.getValue()
-        if (store.textRefiner && store.textRefiner.length > 0) {
-          const refinedByTextRefiner = new RegExp(store.textRefiner, 'i')
-          return result.data.commitments.filter(
-            c =>
-              refinedByTextRefiner.test(c.title) ||
-              refinedByTextRefiner.test(c.portfolioLookup.title)
-          )
-        } else {
-          return result.data.commitments
-        }
-      }),
-      map(result => new LoadRefinedCommitments(result))
-    )
+    this.commitmentsSearchGQL
+      .fetch({
+        refiner: action.payload,
+        bookType: this.appConfigService.getBookType()
+      })
+      .pipe(
+        first(),
+        map((result: any) => {
+          // Temp solution till we have graphql support for text refiner
+          const store = this.store$.getValue()
+          if (store.textRefiner && store.textRefiner.length > 0) {
+            const refinedByTextRefiner = new RegExp(store.textRefiner, 'i')
+            return result.data.commitments.filter(
+              c =>
+                refinedByTextRefiner.test(c.title) ||
+                refinedByTextRefiner.test(c.portfolioLookup.title)
+            )
+          } else {
+            return result.data.commitments
+          }
+        }),
+        map(result => new LoadRefinedCommitments(result))
+      )
+
+  getMapPointsEffect = (action: GetMapPoints): Observable<RefinerAction> =>
+    this.commitmentMapPointGQL
+      .fetch({
+        refiner: action.payload,
+        bookType: this.appConfigService.getBookType()
+      })
+      .pipe(
+        tap(_ => console.log('getting map points', _)),
+        first(),
+        map((result: any) =>
+          result.data.commitments
+            .map(cmp => cmp.commitmentMapPoints)
+            .filter(fltr => fltr.length > 0)
+            .map(x => x.map(y => y.mapPoint))
+        ),
+        map(anything => new GetMapPoints(anything))
+      )
 
   buildFilterMenu(...args: any): CRMenu[] {
     const refinerGroups = [
@@ -269,6 +322,7 @@ export class CommitmentRefinerService implements OnDestroy {
   public handleRefinerSelected(item) {
     this.action$.next(new SelectRefiner(item))
     this.getRefinedCommitments()
+    this.getMapPoints()
   }
 
   public handleTextRefinerChanged(item) {
