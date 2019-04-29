@@ -975,6 +975,7 @@ export type QueryCommitmentsArgs = {
   skip: Scalars['Int']
   take: Scalars['Int']
   refiner: CommitmentRefinerGraph
+  bookType: Scalars['String']
 }
 
 export type QueryCommitmentTypesArgs = {
@@ -1522,6 +1523,7 @@ export type GetRefinerTagsQuery = { __typename?: 'Query' } & {
 
 export type CommitmentMapPointQueryVariables = {
   refiner: CommitmentRefinerGraph
+  bookType: Scalars['String']
 }
 
 export type CommitmentMapPointQuery = { __typename?: 'Query' } & {
@@ -1605,6 +1607,7 @@ export type CommitmentsMapPointSearchQuery = { __typename?: 'Query' } & {
 
 export type CommitmentsSearchQueryVariables = {
   refiner: CommitmentRefinerGraph
+  bookType: Scalars['String']
 }
 
 export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
@@ -1724,8 +1727,11 @@ export class GetRefinerTagsGQL extends Apollo.Query<
   document = GetRefinerTagsDocument
 }
 export const CommitmentMapPointDocument = gql`
-  query CommitmentMapPoint($refiner: CommitmentRefinerGraph!) {
-    commitments(refiner: $refiner) {
+  query CommitmentMapPoint(
+    $refiner: CommitmentRefinerGraph!
+    $bookType: String!
+  ) {
+    commitments(refiner: $refiner, bookType: $bookType) {
       id
       commitmentMapPoints {
         id
@@ -1789,8 +1795,11 @@ export class CommitmentsMapPointSearchGQL extends Apollo.Query<
   document = CommitmentsMapPointSearchDocument
 }
 export const CommitmentsSearchDocument = gql`
-  query CommitmentsSearch($refiner: CommitmentRefinerGraph!) {
-    commitments(refiner: $refiner) {
+  query CommitmentsSearch(
+    $refiner: CommitmentRefinerGraph!
+    $bookType: String!
+  ) {
+    commitments(refiner: $refiner, bookType: $bookType) {
       id
       title
       politicalParty

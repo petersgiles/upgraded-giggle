@@ -46,8 +46,6 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
   public filterCommitments$: Observable<CommitmentRow[]>
   public rows: CommitmentRow[] = []
 
-  public mapPoints$: Observable<MapPointGraph[]>
-
   subscription1: Subscription
   subscription2: Subscription
   subscriptionRefiner: Subscription
@@ -70,41 +68,10 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
     this.dataService.getMapPoints()
   }
 
-  // getMapPointsOfCommitments() {
-  //   // TODO: Trim this down to just map points
-  //   this.mapPoints = []
-  //   this.dataService.commitments$.subscribe(value => {
-  //     value.map(row => ({
-  //       id: row.id,
-  //       title: row.title,
-  //       politicalParty: row.politicalParty,
-  //       announcedBy: row.announcedBy,
-  //       announcementType: row.announcementType
-  //         ? row.announcementType.title
-  //         : '',
-  //       criticalDate: row.criticalDate ? row.criticalDate.title : '',
-  //       portfolio: row.portfolioLookup ? row.portfolioLookup.title : '',
-  //       mapPoints: []
-  //     }))
-
-  //     value.map(item => {
-  //       item.commitmentMapPoints.map(x => {
-  //         if (!this.mapPoints.find(fnd => fnd.id === x.id)) {
-  //           this.mapPoints.push(x.mapPoint)
-  //         }
-  //       })
-  //     })
-  //     console.log(this.mapPoints.length)
-  //     this.changeDetector.detectChanges()
-  //   })
-  // }
-
   getMapPointsOfCommitments() {
+    console.log('WHAT IS EVEN GOING ON HERE?')
     this.dataService.mapPoints$.subscribe(value => {
-      const mapPoint = value.map(mp => {
-        return mp[0]
-      })
-      this.mapPoints$ = of(mapPoint)
+      this.mapPoints = value.map(mp => mp[0])
     })
   }
 

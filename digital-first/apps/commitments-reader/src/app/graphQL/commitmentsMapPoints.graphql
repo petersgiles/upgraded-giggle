@@ -1,15 +1,18 @@
-query CommitmentMapPoint($refiner: CommitmentRefinerGraph!) {
-commitments(refiner: $refiner) {
+query CommitmentMapPoint(
+  $refiner: CommitmentRefinerGraph!
+  $bookType: String!
+) {
+  commitments(refiner: $refiner, bookType: $bookType) {
+    id
+    commitmentMapPoints {
       id
-      commitmentMapPoints {
+      mapPoint {
         id
-        mapPoint {
-          id
-          placeId
-          title
-          latitude
-          longitude
-        }
+        placeId
+        title
+        latitude
+        longitude
       }
     }
+  }
 }
