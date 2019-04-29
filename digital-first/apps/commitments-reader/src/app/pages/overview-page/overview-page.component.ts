@@ -4,6 +4,7 @@ import {
   CommitmentRefinerService,
   DataTableColumn
 } from '../../services/commitment-refiner'
+import { Router } from '@angular/router';
 
 interface CommitmentRow {
   id: number
@@ -25,7 +26,7 @@ export class OverviewPageComponent implements OnInit, OnDestroy {
   public columns$: Observable<DataTableColumn[]>
   public count: number
 
-  constructor(private dataService: CommitmentRefinerService) {}
+  constructor(private dataService: CommitmentRefinerService,  private router: Router) {}
 
   ngOnInit() {
     this.columns$ = this.dataService.columns$
@@ -48,5 +49,7 @@ export class OverviewPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {}
 
-  handleCommitmentsRowClicked($event) {}
+  handleCommitmentsRowClicked(item) {
+    this.router.navigate(['/', 'components', item.id])
+  }
 }
