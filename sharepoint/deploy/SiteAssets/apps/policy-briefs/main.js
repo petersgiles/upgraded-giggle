@@ -2160,7 +2160,8 @@ var AppComponent = /** @class */ (function () {
     AppComponent = tslib_1.__decorate([
         core_1.Component({
             selector: 'digital-first-root',
-            template: '<router-outlet></router-outlet>'
+            template: '<router-outlet></router-outlet>',
+            changeDetection: core_1.ChangeDetectionStrategy.OnPush
         }),
         tslib_1.__metadata("design:paramtypes", [router_1.Router])
     ], AppComponent);
@@ -2389,7 +2390,7 @@ exports.BriefDocumentComponent = BriefDocumentComponent;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"app-page\">\r\n  <div class=\"brief-layout\">\r\n    <nav>\r\n      <df-pack-navigator\r\n        [nodes]=\"nodes$ | async\"\r\n        (onSelect)=\"handleSelectNavigatorNode($event)\"\r\n        (onMoveNode)=\"handleEvent($event, 'Move')\"\r\n        (onToggleExpand)=\"handleToggleExpandNavigatorNode($event)\"\r\n      ></df-pack-navigator>\r\n    </nav>\r\n    <section>\r\n      <df-expander-panel\r\n        title=\"Discussion\"\r\n        [background]=\"background$ | async\"\r\n        expanded=\"true\"\r\n      >\r\n        <df-discussion\r\n          [hostId]=\"'some-guid'\"\r\n          [comments]=\"comments$ | async\"\r\n          (onReplyToComment)=\"handleReplyToComment($event, 'onReplyToComment')\"\r\n          (onDeleteComment)=\"handleDeleteComment($event, 'onDeleteComment')\"\r\n          (onAddComment)=\"handleAddComment($event, 'onAddComment')\"\r\n        ></df-discussion>\r\n      </df-expander-panel>\r\n      <df-expander-panel *ngIf=\"(brief$ | async) as brief\"\r\n        [title]=\"brief.title\"\r\n        [background]=\"background$ | async\"\r\n        expandable=\"false\"\r\n        expanded=\"true\"\r\n      >\r\n        <ng-container panel-buttons>\r\n          <span class=\"brief-reference\">{{brief.reference}}</span>\r\n          <df-button\r\n            class=\"edit\"\r\n            title=\"Edit\"\r\n            icon=\"edit\"\r\n            [background]=\"background$ | async\"\r\n            (onClick)=\"handleEdit($event)\"\r\n          ></df-button>\r\n          <df-button\r\n            title=\"Subscribe\"\r\n            icon=\"add_alert\"\r\n            [background]=\"background$ | async\"\r\n            (onClick)=\"handleEdit($event)\"\r\n          ></df-button>\r\n          <df-button\r\n            title=\"Admin\"\r\n            icon=\"settings\"\r\n            [background]=\"background$ | async\"\r\n            (onClick)=\"handleEdit($event)\"\r\n          ></df-button>\r\n        </ng-container>\r\n        <div class=\"GhostWhite brief-document\">\r\n          <form [formGroup]=\"form\" (ngSubmit)=\"handleSubmit($event)\" autocomplete=\"off\">\r\n            <df-status-picker\r\n              [statuses]=\"documentStatusList$ | async\"\r\n              [formControlName]=\"'status'\"\r\n            >\r\n            </df-status-picker>\r\n            <div>\r\n                <div class=\"brief-protective-marking\"><strong>{{brief.securityClassification}} {{brief.dLM}}</strong></div>\r\n            </div>\r\n            <digital-first-brief-document [brief]=\"brief\"></digital-first-brief-document>\r\n          </form>\r\n        </div>\r\n      </df-expander-panel>\r\n    </section>\r\n  </div>\r\n  <div class=\"brief-layout\">\r\n    <section>\r\n      <pre>{{ this.nodes$ | async }}</pre>\r\n      <p>Form Status: {{ form.status }}</p>\r\n      <pre>{{ form.value | json }}</pre>\r\n    </section>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"app-page\">\r\n  <div class=\"brief-layout\">\r\n    <nav>\r\n      <df-pack-navigator\r\n        [nodes]=\"nodes$ | async\"\r\n        (onSelect)=\"handleSelectNavigatorNode($event)\"\r\n        (onMoveNode)=\"handleEvent($event, 'Move')\"\r\n        (onToggleExpand)=\"handleToggleExpandNavigatorNode($event)\"\r\n      ></df-pack-navigator>\r\n    </nav>\r\n    <section>\r\n      <df-expander-panel *ngIf=\"(brief$ | async) as brief\"\r\n        title=\"Discussion\"\r\n        [background]=\"background$ | async\"\r\n        expanded=\"true\"\r\n      >\r\n        <df-discussion\r\n          [hostId]=\"brief.id\"\r\n          [comments]=\"comments$ | async\"\r\n          [activeComment]=\"activeComment$ | async\"\r\n          (onReplyToComment)=\"handleReplyToComment($event, 'onReplyToComment')\"\r\n          (onDeleteComment)=\"handleRemoveComment($event, 'onRemoveComment')\"\r\n          (onAddComment)=\"handleAddComment($event, 'onAddComment')\"\r\n        ></df-discussion>\r\n      </df-expander-panel>\r\n      <df-expander-panel *ngIf=\"(brief$ | async) as brief\"\r\n        [title]=\"brief.title\"\r\n        [background]=\"background$ | async\"\r\n        expandable=\"false\"\r\n        expanded=\"true\"\r\n      >\r\n        <ng-container panel-buttons>\r\n          <span class=\"brief-reference\">{{brief.reference}}</span>\r\n          <df-button\r\n            class=\"edit\"\r\n            title=\"Edit\"\r\n            icon=\"edit\"\r\n            [background]=\"background$ | async\"\r\n            (onClick)=\"handleEdit($event)\"\r\n          ></df-button>\r\n          <df-button\r\n            title=\"Subscribe\"\r\n            icon=\"add_alert\"\r\n            [background]=\"background$ | async\"\r\n            (onClick)=\"handleEdit($event)\"\r\n          ></df-button>\r\n          <df-button\r\n            title=\"Admin\"\r\n            icon=\"settings\"\r\n            [background]=\"background$ | async\"\r\n            (onClick)=\"handleEdit($event)\"\r\n          ></df-button>\r\n        </ng-container>\r\n        <div class=\"GhostWhite brief-document\">\r\n          <form [formGroup]=\"form\" (ngSubmit)=\"handleSubmit($event)\" autocomplete=\"off\">\r\n            <df-status-picker\r\n              [statuses]=\"documentStatusList$ | async\"\r\n              [formControlName]=\"'status'\"\r\n            >\r\n            </df-status-picker>\r\n            <div>\r\n                <div class=\"brief-protective-marking\"><strong>{{brief.securityClassification}} {{brief.dLM}}</strong></div>\r\n            </div>\r\n            <digital-first-brief-document [brief]=\"brief\"></digital-first-brief-document>\r\n          </form>\r\n        </div>\r\n      </df-expander-panel>\r\n    </section>\r\n  </div>\r\n  <div class=\"brief-layout\">\r\n    <section>\r\n      <pre>{{ this.nodes$ | async }}</pre>\r\n      <p>Form Status: {{ form.status }}</p>\r\n      <pre>{{ form.value | json }}</pre>\r\n    </section>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -2454,6 +2455,7 @@ var BriefComponent = /** @class */ (function () {
         this.documentStatusList$ = new rxjs_1.BehaviorSubject(mock_data_1.statuslist);
         this.brief$ = this.store.pipe(store_1.select(fromBrief.selectBriefState));
         this.fileLeafRef$ = this.store.pipe(store_1.select(fromBrief.selectFileLeafRefState));
+        this.activeComment$ = this.store.pipe(store_1.select(fromDiscussion.selectActiveCommentState));
         this.selectId$ = this.route.paramMap
             .pipe(operators_1.switchMap(function (params) {
             var activeBriefId = params.get('id');
@@ -2496,17 +2498,26 @@ var BriefComponent = /** @class */ (function () {
     BriefComponent.prototype.handleSelectNavigatorNode = function (node) {
         this.router.navigate(['/', 'brief', node.data.briefId]);
     };
-    BriefComponent.prototype.handleReplyToComment = function ($event) {
+    BriefComponent.prototype.handleReplyToComment = function (comment) {
         // tslint:disable-next-line:no-console
-        console.log("\uD83D\uDCAC -  ReplyToComment", $event);
+        console.log("\uD83D\uDCAC -  ReplyToComment", comment);
+        this.store.dispatch(new discussion_actions_1.ReplyToComment({ activeComment: comment.id }));
     };
-    BriefComponent.prototype.handleDeleteComment = function ($event) {
+    BriefComponent.prototype.handleRemoveComment = function ($event) {
         // tslint:disable-next-line:no-console
-        console.log("\uD83D\uDCAC -  DeleteComment", $event);
+        console.log("\uD83D\uDCAC -  RemoveComment", $event);
+        this.store.dispatch(new discussion_actions_1.RemoveComment($event.id));
     };
     BriefComponent.prototype.handleAddComment = function ($event) {
+        var parent = $event.parent;
+        var newcomment = {
+            brief: $event.hostId,
+            text: $event.text,
+            parent: parent ? parent.id : null
+        };
         // tslint:disable-next-line:no-console
-        console.log("\uD83D\uDCAC -  AddComment", $event);
+        console.log("\uD83D\uDCAC -  AddComment", $event, newcomment);
+        this.store.dispatch(new discussion_actions_1.AddComment(newcomment));
     };
     BriefComponent.prototype.handleEvent = function ($event, action) {
         // tslint:disable-next-line:no-console
@@ -3210,6 +3221,9 @@ var DiscussionActionTypes;
     DiscussionActionTypes["GetDiscussion"] = "[Discussion] Get Discussion";
     DiscussionActionTypes["GetDiscussionFailure"] = "[Navigation] Get Discussion Failure";
     DiscussionActionTypes["LoadDiscussions"] = "[Discussion] Load Discussions";
+    DiscussionActionTypes["AddComment"] = "[Discussion] Add Comment";
+    DiscussionActionTypes["ReplyToComment"] = "[Discussion] Reply To Comment";
+    DiscussionActionTypes["RemoveComment"] = "[Discussion] Remove Comment";
 })(DiscussionActionTypes = exports.DiscussionActionTypes || (exports.DiscussionActionTypes = {}));
 var LoadDiscussions = /** @class */ (function () {
     function LoadDiscussions(payload) {
@@ -3235,6 +3249,30 @@ var GetDiscussionFailure = /** @class */ (function () {
     return GetDiscussionFailure;
 }());
 exports.GetDiscussionFailure = GetDiscussionFailure;
+var AddComment = /** @class */ (function () {
+    function AddComment(payload) {
+        this.payload = payload;
+        this.type = DiscussionActionTypes.AddComment;
+    }
+    return AddComment;
+}());
+exports.AddComment = AddComment;
+var ReplyToComment = /** @class */ (function () {
+    function ReplyToComment(payload) {
+        this.payload = payload;
+        this.type = DiscussionActionTypes.ReplyToComment;
+    }
+    return ReplyToComment;
+}());
+exports.ReplyToComment = ReplyToComment;
+var RemoveComment = /** @class */ (function () {
+    function RemoveComment(payload) {
+        this.payload = payload;
+        this.type = DiscussionActionTypes.RemoveComment;
+    }
+    return RemoveComment;
+}());
+exports.RemoveComment = RemoveComment;
 
 
 /***/ }),
@@ -3287,6 +3325,24 @@ var DiscussionEffects = /** @class */ (function () {
                 loading: result.loading
             })
         ]; }), operators_1.catchError(function (error) { return rxjs_1.of(new discussion_actions_1.GetDiscussionFailure(error)); }));
+        this.addComment$ = this.actions$.pipe(effects_1.ofType(discussion_actions_1.DiscussionActionTypes.AddComment), operators_1.map(function (action) { return action; }), operators_1.concatMap(function (action) { return _this.addComment(action.payload); }), 
+        // tslint:disable-next-line: no-console
+        operators_1.tap(function (result) { return console.log("\uD83C\uDF7A ", result); }), operators_1.switchMap(function (result) { return [
+            new discussion_actions_1.GetDiscussion({
+                activeBriefId: result.brief
+            })
+        ]; }), operators_1.catchError(function (error) { return rxjs_1.of(new discussion_actions_1.GetDiscussionFailure(error)); }));
+        this.removeComment$ = this.actions$.pipe(effects_1.ofType(discussion_actions_1.DiscussionActionTypes.RemoveComment), operators_1.map(function (action) { return action; }), 
+        // concatMap(action => this.getDiscussionNodes(action.payload.activeBriefId)),
+        // tslint:disable-next-line: no-console
+        operators_1.tap(function (result) { return console.log("\uD83C\uDF7A ", result); }), 
+        // switchMap((result: { data: { nodes: any[] }; loading: boolean }) => [
+        //   new LoadDiscussions({
+        //     data: result.data.nodes,
+        //     loading: result.loading
+        //   })
+        // ]),
+        operators_1.catchError(function (error) { return rxjs_1.of(new discussion_actions_1.GetDiscussionFailure(error)); }));
     }
     // 💬
     DiscussionEffects.prototype.getDiscussionNodes = function (briefId) {
@@ -3306,10 +3362,29 @@ var DiscussionEffects = /** @class */ (function () {
             });
         }));
     };
+    DiscussionEffects.prototype.addComment = function (comment) {
+        return this.sharepoint.storeItem({
+            listName: 'Comment',
+            data: {
+                Comments: comment.text,
+                Brief: comment.brief,
+                Parent: comment.parent
+            }
+        })
+            .pipe(operators_1.concatMap(function (_) { return rxjs_1.of({ brief: comment.brief }); }));
+    };
     tslib_1.__decorate([
         effects_1.Effect(),
         tslib_1.__metadata("design:type", Object)
     ], DiscussionEffects.prototype, "loadDiscussions$", void 0);
+    tslib_1.__decorate([
+        effects_1.Effect(),
+        tslib_1.__metadata("design:type", Object)
+    ], DiscussionEffects.prototype, "addComment$", void 0);
+    tslib_1.__decorate([
+        effects_1.Effect(),
+        tslib_1.__metadata("design:type", Object)
+    ], DiscussionEffects.prototype, "removeComment$", void 0);
     DiscussionEffects = tslib_1.__decorate([
         core_1.Injectable(),
         tslib_1.__metadata("design:paramtypes", [effects_1.Actions,
@@ -3340,11 +3415,19 @@ exports.initialState = {
     timeFormat: 'dateFormat',
     activeComment: null,
     comments: null,
-    discussion: null,
+    discussion: null
 };
 function reducer(state, action) {
     if (state === void 0) { state = exports.initialState; }
     switch (action.type) {
+        case discussion_actions_1.DiscussionActionTypes.ReplyToComment:
+            var activeComment = action.payload.activeComment;
+            // tslint:disable-next-line: no-console
+            console.log("\uD83D\uDC79 ", action.payload, activeComment);
+            if (activeComment === state.activeComment) {
+                activeComment = null;
+            }
+            return tslib_1.__assign({}, state, { activeComment: activeComment });
         case discussion_actions_1.DiscussionActionTypes.LoadDiscussions:
             var data = action.payload.data;
             var discussionNodes = JSON.parse(JSON.stringify(data || [])).sort(utils_1.sortBy('order'));

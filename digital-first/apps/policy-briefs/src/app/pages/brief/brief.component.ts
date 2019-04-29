@@ -18,7 +18,7 @@ import * as fromBrief from '../../reducers/brief/brief.reducer'
 import * as fromDiscussion from '../../reducers/discussion/discussion.reducer'
 
 import { GetNavigations } from '../../reducers/navigation/navigation.actions'
-import { GetDiscussion } from '../../reducers/discussion/discussion.actions'
+import { GetDiscussion, AddComment, RemoveComment, ReplyToComment } from '../../reducers/discussion/discussion.actions'
 import { ParamMap, ActivatedRoute, Router } from '@angular/router'
 import { SetActiveBrief } from '../../reducers/brief/brief.actions';
 const defaultBrief = {
@@ -80,6 +80,11 @@ export class BriefComponent implements OnInit, OnDestroy {
 
     this.fileLeafRef$ = this.store.pipe(
       select(fromBrief.selectFileLeafRefState),
+    )
+
+
+    this.activeComment$ = this.store.pipe(
+      select(fromDiscussion.selectActiveCommentState),
     )
 
     this.selectId$ = this.route.paramMap
@@ -147,17 +152,31 @@ export class BriefComponent implements OnInit, OnDestroy {
     this.router.navigate(['/', 'brief', node.data.briefId ])
   }
 
-  public handleReplyToComment($event) {
+  public handleReplyToComment(comment) {
     // tslint:disable-next-line:no-console
-    console.log(`💬 -  ReplyToComment`, $event)
+    console.log(`💬 -  ReplyToComment`, comment)
+    this.store.dispatch(new ReplyToComment({activeComment: comment.id}))
   }
-  public handleDeleteComment($event) {
+
+  public handleRemoveComment($event) {
     // tslint:disable-next-line:no-console
-    console.log(`💬 -  DeleteComment`, $event)
+    console.log(`💬 -  RemoveComment`, $event)
+    this.store.dispatch(new RemoveComment($event.id))
   }
+
   public handleAddComment($event) {
+
+    const parent = $event.parent
+    const newcomment = {
+      brief: $event.hostId,
+      text: $event.text,
+      parent: parent ? parent.id : null
+    }
+
     // tslint:disable-next-line:no-console
-    console.log(`💬 -  AddComment`, $event)
+    console.log(`💬 -  AddComment`, $event, newcomment)
+
+    this.store.dispatch(new AddComment(newcomment))
   }
 
   public handleEvent($event, action) {

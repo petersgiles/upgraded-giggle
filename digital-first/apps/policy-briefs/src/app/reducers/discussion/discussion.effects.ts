@@ -8,11 +8,13 @@ import {
   DiscussionActions,
   GetDiscussion,
   LoadDiscussions,
-  GetDiscussionFailure
+  GetDiscussionFailure,
+  AddComment,
+  RemoveComment
 } from './discussion.actions'
 import { idFromLookup, fromUser, SharepointJsomService } from '@df/sharepoint'
 import { pickColor } from '../../utils/colour'
-import { byBriefIdQuery } from '../../services/sharepoint/caml';
+import { byBriefIdQuery } from '../../services/sharepoint/caml'
 
 export const mapComment = (item): any => {
   const brief = idFromLookup(item.Brief)
@@ -46,7 +48,6 @@ export class DiscussionEffects {
     data: { nodes: any[] }
     loading: boolean
   }> {
-
     const briefIdViewXml = byBriefIdQuery({ id: briefId })
 
     return forkJoin([
@@ -65,6 +66,24 @@ export class DiscussionEffects {
     )
   }
 
+  addComment(comment: {
+    text: string
+    brief: string
+    parent: string
+  }): Observable<any> {
+    return this.sharepoint.storeItem({
+      listName: 'Comment',
+      data: {
+        Comments: comment.text,
+        Brief: comment.brief,
+        Parent: comment.parent
+      }
+    })
+    .pipe(
+      concatMap(_ => of({ brief: comment.brief }))
+    )
+  }
+
   @Effect()
   loadDiscussions$ = this.actions$.pipe(
     ofType(DiscussionActionTypes.GetDiscussion),
@@ -78,6 +97,37 @@ export class DiscussionEffects {
         loading: result.loading
       })
     ]),
+    catchError(error => of(new GetDiscussionFailure(error)))
+  )
+
+  @Effect()
+  addComment$ = this.actions$.pipe(
+    ofType(DiscussionActionTypes.AddComment),
+    map((action: AddComment) => action),
+    concatMap(action => this.addComment(action.payload)),
+    // tslint:disable-next-line: no-console
+    tap(result => console.log(`🍺 `, result)),
+    switchMap((result: { brief: string }) => [
+      new GetDiscussion({
+        activeBriefId: result.brief
+      })
+    ]),
+    catchError(error => of(new GetDiscussionFailure(error)))
+  )
+
+  @Effect()
+  removeComment$ = this.actions$.pipe(
+    ofType(DiscussionActionTypes.RemoveComment),
+    map((action: RemoveComment) => action),
+    // concatMap(action => this.getDiscussionNodes(action.payload.activeBriefId)),
+    // tslint:disable-next-line: no-console
+    tap(result => console.log(`🍺 `, result)),
+    // switchMap((result: { data: { nodes: any[] }; loading: boolean }) => [
+    //   new LoadDiscussions({
+    //     data: result.data.nodes,
+    //     loading: result.loading
+    //   })
+    // ]),
     catchError(error => of(new GetDiscussionFailure(error)))
   )
 

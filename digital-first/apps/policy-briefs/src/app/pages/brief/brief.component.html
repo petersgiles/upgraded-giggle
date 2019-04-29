@@ -9,16 +9,17 @@
       ></df-pack-navigator>
     </nav>
     <section>
-      <df-expander-panel
+      <df-expander-panel *ngIf="(brief$ | async) as brief"
         title="Discussion"
         [background]="background$ | async"
         expanded="true"
       >
         <df-discussion
-          [hostId]="'some-guid'"
+          [hostId]="brief.id"
           [comments]="comments$ | async"
+          [activeComment]="activeComment$ | async"
           (onReplyToComment)="handleReplyToComment($event, 'onReplyToComment')"
-          (onDeleteComment)="handleDeleteComment($event, 'onDeleteComment')"
+          (onDeleteComment)="handleRemoveComment($event, 'onRemoveComment')"
           (onAddComment)="handleAddComment($event, 'onAddComment')"
         ></df-discussion>
       </df-expander-panel>
