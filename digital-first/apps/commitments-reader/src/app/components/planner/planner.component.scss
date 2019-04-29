@@ -38,14 +38,13 @@
   font-weight: 500;
   -webkit-writing-mode: vertical-lr;
   writing-mode: vertical-lr;
-  -ms-writing-mode: tb-lr; 
+  -ms-writing-mode: tb-lr;
 }
 
 @mixin timerange-transparent($color) {
   background-color: $color;
   color: black;
   opacity: 0.5;
-  
 }
 
 @mixin timerange-striped($color) {
@@ -134,4 +133,7 @@
   > div {
     padding: 0 !important;
   }
+}
+.b-tool.b-icon:before {
+  color: #757575 !important;
 }
