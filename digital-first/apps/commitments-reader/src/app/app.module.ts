@@ -31,12 +31,11 @@ import { PlannerComponent } from './components/planner/planner.component'
 import { PlannerPageComponent } from './pages/planner-page/planner-page.component'
 import { OverviewPageComponent } from './pages/overview-page/overview-page.component'
 import { MapOverviewPageComponent } from './pages/map-overview-page/map-overview-page.component'
-import { CommitmentOverviewLayoutComponent } from './layouts/commitment-overview-layout/commitment-overview-layout.component'
+import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component'
 import { SchedulerComponent } from './components/scheduler/scheduler.component'
 import { GetRefinerTagsGQL } from './generated/graphql'
 import { DfSharepointLibModule } from '@df/sharepoint'
 import { commitmentEventDataServiceProvider } from './services/commitment-event/commitment-event-data-service';
-import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component';
 
 const COMPONENTS = [
   AppComponent,
@@ -46,7 +45,6 @@ const COMPONENTS = [
   OverviewPageComponent,
   MapOverviewPageComponent,
   CommitmentLayoutComponent,
-  CommitmentOverviewLayoutComponent,
   SchedulerComponent
 ]
 

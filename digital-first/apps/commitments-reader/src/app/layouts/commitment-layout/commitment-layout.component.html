@@ -4,25 +4,31 @@
     class="reader-card-article__title page_title_text"
     mdcHeadline5
   >
-    Commitment
+    Commitments
   </div>
 </div>
 <div class="layout-page">
   <section>
     <div class="app-layout__row--no-wrap">
-      <div>
-        <mdc-list-group subheader="Folders">
-          <mdc-list twoLine avatar class="app-list--custom">
-            <mdc-list-item *ngFor="let link of links" (click)="handleCommitmentNavigation(link)">
-              <mdc-icon mdcListItemGraphic>{{link.icon}}</mdc-icon>
-              <mdc-list-item-text [secondaryText]=" ">{{link.name}}</mdc-list-item-text>
-            </mdc-list-item>
-          </mdc-list>
-        </mdc-list-group>
-      </div>
+      <digital-first-metadata-refiner
+        [refinerGroups]="refinerGroups$ | async"
+        (onSearchCriteriaChanged)="handleTextRefinerChanged($event)"
+        (onClear)="handleTextRefinerChanged(null)"
+        (onRefinerGroupSelected)="handleRefinerGroupSelected($event)"
+        (onRefinerSelected)="handleRefinerSelected($event)"
+      ></digital-first-metadata-refiner>
       <div class="overview-outlet">
         <section>
-  
+          <mdc-tab-bar [activeTabIndex]="activeTab" useAutomaticActivation>
+            <mdc-tab-scroller>
+              <mdc-tab
+                *ngFor="let tab of tabs"
+                [label]="tab.label"
+                [icon]="tab.icon"
+                [routerLink]="tab.link"
+              ></mdc-tab>
+            </mdc-tab-scroller>
+          </mdc-tab-bar>
           <div class="app-layout__row--no-wrap">
             <router-outlet></router-outlet>
           </div>
