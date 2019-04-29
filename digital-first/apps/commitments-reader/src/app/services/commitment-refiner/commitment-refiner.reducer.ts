@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core'
 import {
   CommitmentMapPointGraph,
-  CommitmentGraph
+  CommitmentGraph,
+  MapPointGraph
 } from '../../generated/graphql'
 import { RefinerGroup } from '@digital-first/df-refiner'
 import { environment } from '../../../environments/environment'
@@ -30,7 +31,7 @@ export interface RefinerState {
   sortDirection: string
   refinerGroups: RefinerGroup[]
   selectedMapPoint: any
-  mapPoints: any[]
+  mapPoints: MapPointGraph[]
   commitmentMapPoints: CommitmentMapPointGraph[]
   commitments: CommitmentGraph[]
   columns: DataTableColumn[]
@@ -154,6 +155,12 @@ export class RefinerReducer {
         }
 
         return retVal
+      }
+      case RefinerActionTypes.GetMapPoints: {
+        return {
+          ...state,
+          mapPoints: action.payload
+        }
       }
     }
 

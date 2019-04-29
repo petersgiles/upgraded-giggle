@@ -4,7 +4,8 @@ import {
   GetRefinerTagsGQL,
   CommitmentsSearchGQL,
   CommitmentRefinerGraph,
-  CommitmentGraph
+  CommitmentGraph,
+  MapPointGraph
 } from '../../generated/graphql'
 import { first, map, tap, filter, switchMap } from 'rxjs/operators'
 import { environment } from '../../../environments/environment'
@@ -18,7 +19,8 @@ import {
   SelectRefiner,
   GetRefinedCommitments,
   LoadRefinedCommitments,
-  ChangeTextRefiner as ChangeTextRefiner
+  ChangeTextRefiner,
+  GetMapPoints
 } from './commitment-refiner.actions'
 import {
   RefinerState,
@@ -27,6 +29,7 @@ import {
   RefinerReducer
 } from './commitment-refiner.reducer'
 import { RefinerEffects } from './commitment-refiner.effects'
+import { getNgModuleDef } from '@angular/core/src/render3/definition'
 
 const DEBUG = !environment.production
 
@@ -44,6 +47,7 @@ export class CommitmentRefinerService implements OnDestroy {
   public selectedMapPoint$: Subject<any> = new Subject()
   public selectedRefinders$: Subject<any> = new Subject()
   public commitments$: Subject<CommitmentGraph[]> = new Subject()
+  public mapPoints$: Subject<MapPointGraph[]> = new Subject()
   public refinerGroups$: BehaviorSubject<any[]> = new BehaviorSubject([])
   private actionSubscription$: Subscription
   private storeSubscription$: Subscription
@@ -86,6 +90,7 @@ export class CommitmentRefinerService implements OnDestroy {
       this.commitments$.next(store.commitments)
       this.selectedRefinders$.next(store.selectedRefiners)
       this.refinerGroups$.next(store.refinerGroups)
+      this.mapPoints$.next(store.mapPoints)
     })
   }
 
@@ -152,6 +157,19 @@ export class CommitmentRefinerService implements OnDestroy {
         }
       }),
       map(result => new LoadRefinedCommitments(result))
+    )
+
+  getMapPointsEffect = (action: GetMapPoints): Observable<RefinerAction> =>
+    this.commitmentsSearchGQL.fetch({ refiner: action.payload }).pipe(
+      first(),
+      map((result: any) => {
+        result.map(item => {
+          item.commitmentMapPoints.map(mPnt => {
+            return mPnt
+          })
+        })
+      }),
+      map(result => new GetMapPoints())
     )
 
   buildFilterMenu(...args: any): CRMenu[] {
