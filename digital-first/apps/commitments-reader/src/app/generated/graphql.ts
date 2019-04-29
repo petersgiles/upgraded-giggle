@@ -88,7 +88,7 @@ export type BriefCommitmentGraph = {
 export type BriefGraph = {
   briefCommitments?: Maybe<Array<Maybe<BriefCommitmentGraph>>>
   id: Scalars['Guid']
-  internalVersion: Scalars['Int']
+  internalVersion: Scalars['UInt32']
   listId: Scalars['Guid']
   listItemId: Scalars['Int']
   reference: Scalars['String']
@@ -1441,6 +1441,50 @@ export type WhereExpressionGraph = {
   case?: Maybe<StringComparison>
   value?: Maybe<Array<Maybe<Scalars['String']>>>
 }
+export type GetCommitmentDetailQueryVariables = {
+  id: Scalars['String']
+}
+
+export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
+  commitments: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'CommitmentGraph' } & Pick<
+          CommitmentGraph,
+          | 'id'
+          | 'title'
+          | 'description'
+          | 'bookType'
+          | 'cost'
+          | 'date'
+          | 'politicalParty'
+          | 'statusId'
+          | 'announcedBy'
+        > & {
+            announcementType: Maybe<
+              { __typename?: 'AnnouncementTypeGraph' } & Pick<
+                AnnouncementTypeGraph,
+                'id' | 'title'
+              >
+            >
+            criticalDate: Maybe<
+              { __typename?: 'CriticalDateGraph' } & Pick<
+                CriticalDateGraph,
+                'id' | 'title'
+              >
+            >
+            portfolioLookup: Maybe<
+              { __typename?: 'PortfolioLookupGraph' } & Pick<
+                PortfolioLookupGraph,
+                'id' | 'title'
+              >
+            >
+          }
+      >
+    >
+  >
+}
+
 export type GetRefinerTagsQueryVariables = {}
 
 export type GetRefinerTagsQuery = { __typename?: 'Query' } & {
@@ -1584,6 +1628,43 @@ import gql from 'graphql-tag'
 import { Injectable } from '@angular/core'
 import * as Apollo from 'apollo-angular'
 
+export const GetCommitmentDetailDocument = gql`
+  query getCommitmentDetail($id: String!) {
+    commitments(id: $id) {
+      id
+      title
+      description
+      bookType
+      cost
+      date
+      politicalParty
+      statusId
+      announcedBy
+      announcementType {
+        id
+        title
+      }
+      criticalDate {
+        id
+        title
+      }
+      portfolioLookup {
+        id
+        title
+      }
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class GetCommitmentDetailGQL extends Apollo.Query<
+  GetCommitmentDetailQuery,
+  GetCommitmentDetailQueryVariables
+> {
+  document = GetCommitmentDetailDocument
+}
 export const GetRefinerTagsDocument = gql`
   query GetRefinerTags {
     commitmentTypes {

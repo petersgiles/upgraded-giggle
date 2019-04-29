@@ -1,0 +1,33 @@
+<div *ngIf="commitment; else loading" class="app-page">
+  <div>
+    <dl>
+      <dt>id:</dt>
+      <dd>{{ commitment.id }}</dd>
+      <dt>title:</dt>
+      <dd>{{ commitment.title }}</dd>
+
+      <dt>bookType:</dt>
+      <dd>{{ commitment.bookType }}</dd>
+      <dt>cost:</dt>
+      <dd>{{ commitment.cost }}</dd>
+      <dt>date:</dt>
+      <dd>{{ commitment.date }}</dd>
+      <dt>politicalParty:</dt>
+      <dd>{{ commitment.politicalParty }}</dd>
+      <dt>announcedBy:</dt>
+      <dd>{{ commitment.announcedBy }}</dd>
+      <dt>announcementType?:</dt>
+      <dd>{{ commitment.announcementType }}</dd>
+      <dt>criticalDate?:</dt>
+      <dd>{{ commitment.criticalDate }}</dd>
+      <dt>portfolio?:</dt>
+      <dd>{{ commitment.portfolio }}</dd>
+    </dl>
+  </div>
+
+  description:
+  <div [innerHtml]="commitment?.description | safeHtml"></div>
+</div>
+<ng-template #loading>
+  Loading...
+</ng-template>

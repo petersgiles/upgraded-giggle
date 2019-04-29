@@ -1,4 +1,4 @@
-query getCommitmentDetail($id, id) 
+query getCommitmentDetail($id: String!) 
 {
 commitments(id: $id) {
   id
@@ -24,3 +24,4 @@ commitments(id: $id) {
   }
 
   }
+}
