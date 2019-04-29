@@ -6,3 +6,5 @@ export interface DataResult<T> {
     networkStatus?: number
     stale?: boolean
   }
+
+  export { Commitment } from '../models/commitment.model'

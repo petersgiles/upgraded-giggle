@@ -14,6 +14,8 @@ import { DfThemeModule } from '@digital-first/df-theme'
 import { DfPagesModule } from '@digital-first/df-pages'
 import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfRefinerModule } from '@digital-first/df-refiner'
+import { DfMomentModule } from '@digital-first/df-moment'
+
 import {
   DialogAreYouSureComponent,
   DataTableModule,
@@ -37,6 +39,7 @@ import { GetRefinerTagsGQL } from './generated/graphql'
 import { DfSharepointLibModule } from '@df/sharepoint'
 import { commitmentEventDataServiceProvider } from './services/commitment-event/commitment-event-data-service';
 import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component';
+import { CommitmentComponent } from './containers/commitment/commitment.component'
 
 const COMPONENTS = [
   AppComponent,
@@ -47,7 +50,8 @@ const COMPONENTS = [
   MapOverviewPageComponent,
   CommitmentLayoutComponent,
   CommitmentOverviewLayoutComponent,
-  SchedulerComponent
+  SchedulerComponent,
+  CommitmentComponent 
 ]
 
 @NgModule({
@@ -75,7 +79,8 @@ const COMPONENTS = [
     AppRoutingModule,
     MdcSliderModule,
     MdcElevationModule,
-    DfSharepointLibModule
+    DfSharepointLibModule,
+    DfMomentModule
   ],
   providers: [
     {

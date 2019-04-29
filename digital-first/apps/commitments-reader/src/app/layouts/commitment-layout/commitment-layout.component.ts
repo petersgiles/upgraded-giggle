@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class CommitmentLayoutComponent implements OnInit {
 
-  public links:  [
+   links=  [
     { name: 'Commitment', icon: 'folder', route: 'home' },
     { name: 'Packages', icon: 'folder', route: 'packages' },
     { name: 'Location', icon: 'folder', route: 'location' }

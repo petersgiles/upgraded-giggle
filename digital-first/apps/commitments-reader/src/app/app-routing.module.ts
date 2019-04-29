@@ -16,6 +16,7 @@ import { CommitmentOverviewLayoutComponent } from './layouts/commitment-overview
 import { OverviewPageComponent } from './pages/overview-page/overview-page.component'
 import { MapOverviewPageComponent } from './pages/map-overview-page/map-overview-page.component'
 import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component';
+import { CommitmentComponent } from './containers/commitment/commitment.component'
 
 const routes: Routes = [
   {
@@ -61,7 +62,7 @@ const routes: Routes = [
           },
           {
             path: ':id/packages',
-            component: HomeComponent
+            component:  CommitmentComponent 
           },
           {
             path: ':id/location',
