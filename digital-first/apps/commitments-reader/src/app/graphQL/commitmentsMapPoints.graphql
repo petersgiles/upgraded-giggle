@@ -1,0 +1,15 @@
+query CommitmentMapPoint($refiner: CommitmentRefinerGraph!) {
+commitments(refiner: $refiner) {
+      id
+      commitmentMapPoints {
+        id
+        mapPoint {
+          id
+          placeId
+          title
+          latitude
+          longitude
+        }
+      }
+    }
+}
