@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core'
-import { CommitmentPartsFragment } from '../../generated/graphql'
-import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
+import {
+  CommitmentMapPointGraph,
+  CommitmentGraph
+} from '../../generated/graphql'
+import { RefinerGroup } from '@digital-first/df-refiner'
 import { environment } from '../../../environments/environment'
 import {
   RefinerActionTypes,
@@ -14,8 +17,13 @@ export interface DataTableColumn {
   name: string
 }
 
+export interface SelectedRefinerItem {
+  groupId: number
+  itemId: number
+}
+
 export interface RefinerState {
-  selectedRefiners: string[]
+  selectedRefiners: SelectedRefinerItem[]
   expandedRefinerGroups: (string | number)[]
   textRefiner: string
   sortColumn: string
@@ -23,11 +31,10 @@ export interface RefinerState {
   refinerGroups: RefinerGroup[]
   selectedMapPoint: any
   mapPoints: any[]
-  mapPointsCommitments: CommitmentPartsFragment[]
-  commitments: CommitmentPartsFragment[]
+  commitmentMapPoints: CommitmentMapPointGraph[]
+  commitments: CommitmentGraph[]
   columns: DataTableColumn[]
 }
-const sortArray: string[] = [null, 'ASC', 'DESC']
 
 export const initialState: RefinerState = {
   refinerGroups: [],
@@ -38,13 +45,13 @@ export const initialState: RefinerState = {
   sortDirection: null,
   selectedMapPoint: [],
   mapPoints: [],
-  mapPointsCommitments: [],
+  commitmentMapPoints: [],
   commitments: [],
   columns: [
     { prop: 'id', name: 'Id' },
     { prop: 'title', name: 'Title' },
     { prop: 'portfolio', name: 'Responsible Portfolio' },
-    { prop: 'type', name: 'Type of Commitment' },
+    { prop: 'announcementType', name: 'Type of Commitment' },
     { prop: 'criticalDate', name: 'Critical Date' }
   ]
 }
@@ -70,13 +77,6 @@ export class RefinerReducer {
         }
       }
 
-      case RefinerActionTypes.LoadMapPointsCommitments: {
-        return {
-          ...state,
-          mapPointsCommitments: action.payload
-        }
-      }
-
       case RefinerActionTypes.LoadRefinedCommitments: {
         return {
           ...state,
@@ -84,26 +84,14 @@ export class RefinerReducer {
         }
       }
 
-      case RefinerActionTypes.LoadRefinedMapPoints: {
-        return {
-          ...state,
-          mapPoints: action.payload
-        }
-      }
-
-      case RefinerActionTypes.SelectMapPoint : {
-        return {
-          ...state,
-          selectedMapPoint: action.payload
-        }
-      }
-
       case RefinerActionTypes.SelectRefinerGroup: {
-
         const refinerGroups = [...state.refinerGroups]
         const group = refinerGroups.findIndex(p => p.id === action.payload.id)
         refinerGroups[group].expanded = !refinerGroups[group].expanded
-        const expandedRefinerGroups = state.expandedRefinerGroups.filter(p => p !== action.payload.id)
+        const expandedRefinerGroups = state.expandedRefinerGroups.filter(
+          p => p !== action.payload.id
+        )
+
         if (refinerGroups[group].expanded) {
           expandedRefinerGroups.push(action.payload.id)
         }
@@ -114,15 +102,22 @@ export class RefinerReducer {
           refinerGroups: refinerGroups
         }
       }
+      case RefinerActionTypes.ChangeTextRefiner: {
+        const retVal = {
+          ...state,
+          textRefiner: action.payload
+        }
 
+        return retVal
+      }
       case RefinerActionTypes.SelectRefiner: {
-
         const item = action.payload
         const refinerGroups = [...state.refinerGroups]
         const group = refinerGroups.findIndex(p => p.id === item.groupId)
         refinerGroups[group].expanded = true
-
-        const expandedRefinerGroups = state.expandedRefinerGroups.filter(p => p !== item.groupId)
+        const expandedRefinerGroups = state.expandedRefinerGroups.filter(
+          p => p !== item.groupId
+        )
         if (refinerGroups[group].expanded) {
           expandedRefinerGroups.push(item.groupId)
         }
@@ -134,16 +129,31 @@ export class RefinerReducer {
         refinerGroups[group].children[refiner].selected = !refinerGroups[group]
           .children[refiner].selected
 
-        const selectedRefiners = state.selectedRefiners.filter(p => p !== item.id)
+        // if the item is not selected, then it has been unselected. Remove from store
+        const selectedRefiners =
+          item.selected === false
+            ? state.selectedRefiners.filter(
+                p => p.groupId !== item.groupId && p.itemId !== item.itemId
+              )
+            : state.selectedRefiners
+
+        // if the item is selected. Add to store
         if (refinerGroups[group].children[refiner].selected) {
-          selectedRefiners.push(item.id)
+          const selectedItem: SelectedRefinerItem = {
+            groupId: item.groupId,
+            itemId: item.id
+          }
+          selectedRefiners.push(selectedItem)
         }
-        return {
+
+        const retVal = {
           ...state,
           expandedRefinerGroups: expandedRefinerGroups,
           selectedRefiners: selectedRefiners,
           refinerGroups: refinerGroups
         }
+
+        return retVal
       }
     }
 

@@ -1,14 +1,13 @@
 schema:
-  - http://localhost:3008/graphql:
-      headers:
-        ProgramsApiKey: "peter.giles@pmc.gov.au"
+  - https://localhost:52619/graphql:
+      headers        ProgramsApiKey: 'gZjvQ4oxl8OgVY39uoEs5uZg31A='
 documents:
   - ./apps/commitments-reader/**/*.graphql
 overwrite: true
 config:
 generates:
   ./apps/commitments-reader/src/app/generated/graphql.ts:
-    config: { }
+    config: {}
     plugins:
       - typescript
       - typescript-operations

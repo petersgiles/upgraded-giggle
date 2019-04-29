@@ -3,14 +3,15 @@ import {
   ViewChild,
   ViewEncapsulation,
   Input,
-  OnInit
+  OnInit,
+  Output,
+  EventEmitter
 } from '@angular/core'
 import { SchedulerComponent } from '../scheduler/scheduler.component'
 import { MdcSliderChange } from '@angular-mdc/web'
-import { DateHelper, EventModel, Model } from 'bryntum-scheduler'
-import * as CommonEventTypes from './data/eventTypes.json'
+import { DateHelper, EventModel } from 'bryntum-scheduler/scheduler.umd.js'
 import * as ZoomLevels from './data/zoomLevels.json'
-import * as timeRanges from './data/timeRanges.json'
+import { webSafeColours } from './data/webSafeColours'
 
 @Component({
   selector: 'digital-first-planner',
@@ -20,35 +21,42 @@ import * as timeRanges from './data/timeRanges.json'
 })
 export class PlannerComponent implements OnInit {
   @Input()
-  commitments: any[]
+  commitments: any[] = []
+  @Input()
+  events: any[] = []
+  @Input()
+  externalEvents: any[]
+  @Input()
+  commitmentEventTypes: any[]
+  @Input()
+  readOnly: false
+  @Output()
+  public onEventSaved: EventEmitter<any> = new EventEmitter()
+  @Output()
+  public onEventRemoved: EventEmitter<any> = new EventEmitter()
 
   @ViewChild(SchedulerComponent) scheduler: SchedulerComponent
 
   featureConfig: Object
-
-  startDate = new Date()
-  //endDate = new Date('2022-6-1')
+  listeners: Object
+  startDate = DateHelper.add(new Date(), -1, 'months')
+  endDate = DateHelper.add(new Date(), 3, 'years')
+  today = new Date()
   // TODO: actually get this from the next MYEFO date
   myEofyDate = new Date('2019-12-10')
+
   // TODO: set widths based on size of parent container
-  // TODO: raise request to have these internally sorted
-  // TODO: infer id based on index
-
   // Setup data for scheduler
-  events = []
 
+  zoomLevels = ZoomLevels
   columns = [
     {
       text: 'Commitments',
       field: 'name',
       width: 250,
-      editable: false
+      editable: true
     }
   ]
-  timeRanges = timeRanges
-  zoomLevels = ZoomLevels
-  commonEventTypes = CommonEventTypes
-
   zoomSlider: any = {}
 
   get currentZoomLevel() {
@@ -63,10 +71,44 @@ export class PlannerComponent implements OnInit {
     const me = this
     this.zoomSlider.min = 0
     this.zoomSlider.max = this.zoomLevels.length - 1
-    this.zoomSlider.levelId = 5
-    this.events = JSON.parse(localStorage.getItem('commimentEvents'))
+    this.zoomSlider.levelId = 3
+    this.featureConfig = this.buildFeatureConfig(me)
+    this.buildEventListeners(me)
+  }
 
-    this.featureConfig = {
+  private buildEventListeners(me: this) {
+    this.listeners = {
+      afterEventSave({ source, eventRecord }) {
+        me.onEventSaved.emit(eventRecord.data)
+      },
+      beforeeventdelete({ source, eventRecord }) {
+        me.onEventRemoved.emit(eventRecord.data)
+      },
+      zoomchange({ column, level }) {
+        me.zoomSlider.levelId = level.id
+        me.scheduler.schedulerEngine.setTimeSpan(me.startDate, me.endDate)
+        me.scheduler.schedulerEngine.scrollToDate(me.today)
+      },
+      eventResizeEnd({ changed, eventRecord }) {
+        if (changed) {
+          me.onEventSaved.emit(eventRecord.data)
+        }
+      },
+      aftereventdrop({ source, eventRecords, valid, context }) {
+        if (valid) {
+          me.onEventSaved.emit(eventRecords[0].data)
+        }
+      },
+      catchAll(event) {
+        if (event.action === 'remove' && event.type === 'eventschange') {
+          me.onEventRemoved.emit(event.records[0].data)
+        }
+      }
+    }
+  }
+
+  private buildFeatureConfig(me: this) {
+    return {
       timeRanges: {
         showCurrentTimeLine: true,
         showHeaderElements: false,
@@ -78,15 +120,84 @@ export class PlannerComponent implements OnInit {
         extraItems: me.populateExtraItems(me)
       },
       eventEdit: {
+        autoClose: false,
+        startDateConfig: {
+          editable: false
+        },
+        endDateConfig: {
+          editable: false
+        },
+        startTimeConfig: {
+          editable: false
+        },
+        endTimeConfig: {
+          editable: false
+        },
         // Add extra widgets to the event editor
         extraWidgets: [
           {
             type: 'combo',
             name: 'eventType',
-            id: 'eventType',
             label: 'Type',
             index: 2,
-            items: me.populateExtraEventTypes()
+            editable: false,
+            valueField: 'id',
+            displayField: 'type',
+            placeHolder: 'Select Event Type',
+            items: me.commitmentEventTypes.map(c => ({
+              id: c.id,
+              type: c.type
+            })),
+            listeners: {
+              select: ({ source: combo, record }) => {
+                const eventType = this.commitmentEventTypes.find(
+                  c => c.id === combo.value
+                )
+                if (eventType) {
+                  // prefill event details based on the event type selected
+                  const eventColor = combo.owner.widgets.find(
+                    w => w.name === 'eventColor'
+                  )
+                  const startDate = combo.owner.widgets.find(
+                    w => w.name === 'startDate'
+                  )
+                  const endDate = combo.owner.widgets.find(
+                    w => w.name === 'endDate'
+                  )
+                  const icon = combo.owner.widgets.find(
+                    w => w.name === 'iconCls'
+                  )
+                  const name = combo.owner.widgets.find(w => w.name === 'name')
+                  name.value = eventType.type
+                  eventColor.value = eventType.color
+                  icon.value = eventType.icon
+                  endDate.value = DateHelper.add(
+                    new Date(startDate.value),
+                    eventType.duration,
+                    eventType.durationUnit
+                  )
+                }
+              }
+            }
+          },
+          {
+            type: 'combo',
+            listCls: 'b-list-colour',
+            editable: false,
+            label: 'Colour',
+            name: 'eventColor',
+            id: 'colour',
+            index: 3,
+            items: webSafeColours,
+            listItemTpl: item =>
+              `<h5 class='colour-title ${item.value}' style='background-color:${
+                item.value
+              }'> ${item.text}</h5>`
+          },
+          {
+            type: 'text',
+            name: 'iconCls',
+            hidden: true
           }
         ]
       }
@@ -104,58 +215,36 @@ export class PlannerComponent implements OnInit {
   eventRenderer({ eventRecord, tplData }) {
     if (eventRecord.isMilestone) {
       tplData.cls.milestone = true
-      tplData.style = `color:${eventRecord.eventColor}`
     }
-
+    if (eventRecord.eventColor) {
+      tplData.cls[eventRecord.eventColor] = true
+    }
     return eventRecord.name
-  }
-
-  handleEvent(event: Event) {
-    switch (event.type) {
-      case 'zoomchange':
-        const level: any = (event as any).level
-        this.zoomSlider.levelId = level.id
-        break
-      case 'aftereventsave':
-        localStorage.setItem(
-          'commimentEvents',
-          JSON.stringify(this.scheduler.schedulerEngine.events)
-        )
-    }
   }
 
   populateExtraItems(me: any) {
     const extraItems = []
-    this.commonEventTypes.forEach(e => {
+    this.commitmentEventTypes.map(e => {
       extraItems.push({
         text: e.type,
         icon: e.icon,
         onItem({ date, resourceRecord }) {
           const event = new EventModel({
-            id: crypto.getRandomValues(new Uint32Array(4)).join('-'), // As scheduler only gvies a common name in resourceEventModel[Number] manner so we need to use guid.
             resourceId: resourceRecord.id,
             startDate: date,
             duration: e.duration,
             durationUnit: e.durationUnit,
+            endDate: DateHelper.add(date, e.duration, e.durationUnit),
             name: e.type,
-            eventType: e.type,
+            eventType: e.id,
             eventColor: e.color,
             iconCls: e.icon
-            // TODO: work out how to use onBeforeSave() to set this stuff instead, so it can be used from within the widgets too
           })
           ;(me.scheduler.schedulerEngine as any).editEvent(event)
         }
       })
     })
     return extraItems
-  }
-
-  populateExtraEventTypes() {
-    const extraTypes = []
-    this.commonEventTypes.forEach(c => {
-      extraTypes.push(c.type)
-    })
-    return extraTypes
   }
 
   scrollToDate(date: Date) {

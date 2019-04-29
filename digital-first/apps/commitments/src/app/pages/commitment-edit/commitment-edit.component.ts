@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { Component, OnInit, OnDestroy, HostListener, ElementRef   } from '@angular/core'
 
 import { Router, ActivatedRoute, ParamMap } from '@angular/router'
 import { Observable, Subscription, of } from 'rxjs'
@@ -18,7 +18,7 @@ import { CriticalDate } from '../../models/critical-date.model'
 import { formatCommitmentTitle, formatCommitmentId } from '../../formatters'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 import { showSnackBar } from '../../dialogs/show-snack-bar'
-import { PackageType, ThemeType, Status } from '../../models'
+import { PackageType, Status } from '../../models'
 import { OPERATION_COMMITMENT } from '../../services/app-data.service'
 
 @Component({
@@ -29,6 +29,7 @@ import { OPERATION_COMMITMENT } from '../../services/app-data.service'
 export class CommitmentEditComponent implements OnInit, OnDestroy {
 
   commitment: Commitment
+  commitmentId: number
   commitmentSubscription$: Subscription
   commitmentEditExpandedPanelsSubscription$: Subscription
   activitySubscription$: Subscription
@@ -43,7 +44,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   commitmentContactsTableData$: Observable<DataTableConfig>
   commitmentCommitmentsTableData$: Observable<DataTableConfig>
 
-  themeTypes$: Observable<ThemeType[]>
   packageTypes$: Observable<PackageType[]>
   criticalDates$: Observable<CriticalDate[]>
   parties$: Observable<Party[]>
@@ -65,13 +65,37 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
   autoSaveSubscription$: Subscription
   userOperation$: Observable<any>
 
+  href: string
+  @HostListener('click', ['$event']) 
+  onMouseEnter(e: any) {
+    let anchorCollection = this.el.nativeElement.querySelectorAll('a')
+    for (let i = 0; i < anchorCollection.length; i++){
+      let el = anchorCollection[i]
+      let elRect = el.getBoundingClientRect()
+      let posX = elRect.left + elRect.width
+      let posY = elRect.top + elRect.height
+      let posOK = e.clientX <= posX && e.clientY <= posY && e.clientY >= elRect.top && e.clientY <= elRect.bottom
+      if (e.target !== 'a' && posOK) {
+        el.addEventListener('click', this.onClick.bind(this))
+        el.style.cursor = 'pointer'
+        this.href = el.href
+      }
+    }
+  }
+
+  onClick(e: any){
+    window.open(this.href)
+    return false
+  }
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MdcDialog,
     private snackbar: MdcSnackbar,
     private service: CommitmentDataService,
-    private lookup: CommitmentLookupService) { }
+    private lookup: CommitmentLookupService,
+    private el: ElementRef) { }
 
   ngOnInit(): void {
 
@@ -81,7 +105,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.announcementTypes$ = this.lookup.AnnouncementTypes
     this.criticalDates$ = this.lookup.CriticalDates
     this.commitmentTypes$ = this.lookup.CommitmentTypes
-    this.themeTypes$ = this.lookup.ThemeTypes
     this.packageTypes$ = this.lookup.PackageTypes
     this.parties$ = this.lookup.Parties
     this.portfolios$ = this.lookup.Portfolios
@@ -92,6 +115,7 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.commitmentSubscription$ = this.service.Commitment.subscribe(
       next => {
         this.commitment = next
+        this.commitmentId = this.commitment ? this.commitment.id : null
         this.selectedElectorateIds = this.commitment ? arrayToIndex(this.commitment.electorates) : []
       },
       error => showSnackBar(this.snackbar, error)
@@ -133,7 +157,6 @@ export class CommitmentEditComponent implements OnInit, OnDestroy {
     this.lookup.getAllLocations()
     this.lookup.getAllPartys()
     this.lookup.getAllPortfolios()
-    this.lookup.getAllThemeTypes()
     this.lookup.getAllPackageTypes()
     this.lookup.getAllStatuses()
 

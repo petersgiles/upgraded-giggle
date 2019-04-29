@@ -2,8 +2,8 @@ import { Injectable, OnInit, OnDestroy } from '@angular/core'
 import { environment } from '../environments/environment'
 import { DeckDataService } from './services/deck-data.service'
 import { Observable, of, Subscription, BehaviorSubject } from 'rxjs'
-import { SideBarItem, AppUserProfile, AppItem } from '@digital-first/df-layouts'
-import { AppConfigService, Config, App, Logo } from './services/config.service'
+import { SideBarItem, AppUserProfile } from '@digital-first/df-layouts'
+import { AppConfigService, App, Logo } from './services/config.service'
 
 @Injectable({
   providedIn: 'root'

@@ -3,18 +3,11 @@ declare var require: any
 export const environment = {
   production: true,
   version: require('../../../../package.json').version,
+  config: 'assets/deck_config.txt',
   datasources: {
-    deck: {
+    default: {
       type: 'sharepoint',
-      dataServiceUrl: ''
-    },
-    commitments: {
-      type: 'sharepoint',
-      dataServiceUrl: ''
-    },
-    brief: {
-      type: 'sharepoint',
-      dataServiceUrl: ''
+      dataServiceUrl: 'http://vm-dev-lbs13/sites/redigb/_api/Web/'
     }
   }
 }

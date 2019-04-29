@@ -1,5 +1,0 @@
-query MapPointCommitmentsSearch($input: CommitmentRefinementInput!) {
-  mapPointCommitments(input: $input) {
-   ...CommitmentParts
-  }
-}

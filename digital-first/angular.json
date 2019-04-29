@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/apps/policy-briefs",
+            "outputPath": "../sharepoint/deploy/SiteAssets/apps/policy-briefs",
             "index": "apps/policy-briefs/src/index.html",
             "main": "apps/policy-briefs/src/main.ts",
             "polyfills": "apps/policy-briefs/src/polyfills.ts",
@@ -388,7 +388,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/apps/deck",
+            "outputPath": "../sharepoint/deploy/SiteAssets/apps/deck",
             "index": "apps/deck/src/index.html",
             "main": "apps/deck/src/main.ts",
             "polyfills": "apps/deck/src/polyfills.ts",
@@ -1217,6 +1217,30 @@
                   "with": "apps/commitments-reader/src/environments/environment.sharepoint.ts"
                 }
               ]
+            },
+            "sharepointprod": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/commitments-reader/src/environments/environment.ts",
+                  "with": "apps/commitments-reader/src/environments/environment.sharepoint-prod.ts"
+                }
+              ]
+            },
+            "remote": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/commitments-reader/src/environments/environment.ts",
+                  "with": "apps/commitments-reader/src/environments/environment.remote.ts"
+                }
+              ]
+            },
+            "remotedev": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/commitments-reader/src/environments/environment.ts",
+                  "with": "apps/commitments-reader/src/environments/environment.remote-dev.ts"
+                }
+              ]
             }
           }
         },
@@ -1229,6 +1253,12 @@
           "configurations": {
             "production": {
               "browserTarget": "commitments-reader:build:production"
+            },
+            "remote": {
+              "browserTarget": "commitments-reader:build:remote"
+            },
+            "remotedev": {
+              "browserTarget": "commitments-reader:build:remotedev"
             }
           }
         },

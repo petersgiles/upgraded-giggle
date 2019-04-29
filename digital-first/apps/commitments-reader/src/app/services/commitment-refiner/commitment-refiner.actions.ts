@@ -1,4 +1,4 @@
-import { CommitmentRefinementInput } from '../../generated/graphql'
+import { CommitmentRefinerGraph } from '../../generated/graphql'
 
 export abstract class RefinerAction {
   type: string
@@ -8,25 +8,12 @@ export abstract class RefinerAction {
 export enum RefinerActionTypes {
   GetRefinerGroups = '[RefinerActionTypes] GetRefinerGroups',
   LoadRefinerGroups = '[RefinerActionTypes] LoadRefinerGroups',
-  GetRefinedMapPoints = '[RefinerActionTypes] GetRefinedMapPoints',
-  LoadRefinedMapPoints = '[RefinerActionTypes] LoadRefinedMapPoints',
   GetRefinedCommitments = '[RefinerActionTypes] GetRefinedCommitments',
   LoadRefinedCommitments = '[RefinerActionTypes] LoadRefinedCommitments',
-  GetMapPointsCommitments = '[RefinerActionTypes] GetMapPointsCommitments',
-  LoadMapPointsCommitments = '[RefinerActionTypes] LoadMapPointsCommitments',
   SelectRefinerGroup = '[RefinerActionTypes] SelectRefinerGroup',
   SelectRefiner = '[RefinerActionTypes] SelectRefiner',
-  SelectMapPoint = '[RefinerActionTypes] SelectMapPoint'
-}
-
-export class GetRefinedMapPoints implements RefinerAction {
-  type = RefinerActionTypes.GetRefinedMapPoints
-  constructor(public payload: any) {}
-}
-
-export class LoadRefinedMapPoints implements RefinerAction {
-  type = RefinerActionTypes.LoadRefinedMapPoints
-  constructor(public payload: any) {}
+  SearchCommitments = '[RefinerActionTypes] SearchCommitments',
+  ChangeTextRefiner = '[RefinerActionTypes] ChangeTextRefiner'
 }
 
 export class GetRefinerGroups implements RefinerAction {
@@ -40,7 +27,8 @@ export class LoadRefinerGroups implements RefinerAction {
 }
 export class GetRefinedCommitments implements RefinerAction {
   type = RefinerActionTypes.GetRefinedCommitments
-  constructor(public payload: CommitmentRefinementInput) {}
+
+  constructor(public payload: CommitmentRefinerGraph) {}
 }
 
 export class LoadRefinedCommitments implements RefinerAction {
@@ -48,17 +36,13 @@ export class LoadRefinedCommitments implements RefinerAction {
   constructor(public payload: any) {}
 }
 
-export class GetMapPointsCommitments implements RefinerAction {
-  type = RefinerActionTypes.GetMapPointsCommitments
-  constructor(public payload: CommitmentRefinementInput) {}
-}
-
-export class LoadMapPointsCommitments implements RefinerAction {
-  type = RefinerActionTypes.LoadMapPointsCommitments
-  constructor(public payload: any) {}
-}
 export class SelectRefinerGroup implements RefinerAction {
   type = RefinerActionTypes.SelectRefinerGroup
+  constructor(public payload: any) {}
+}
+
+export class SearchCommitments implements RefinerAction {
+  type = RefinerActionTypes.SearchCommitments
   constructor(public payload: any) {}
 }
 
@@ -66,9 +50,10 @@ export class SelectRefiner implements RefinerAction {
   type = RefinerActionTypes.SelectRefiner
   constructor(public payload: any) {}
 }
-export class SelectMapPoint implements RefinerAction {
-  type = RefinerActionTypes.SelectMapPoint
-  constructor(public payload: any) {}
+
+export class ChangeTextRefiner implements RefinerAction {
+  type = RefinerActionTypes.ChangeTextRefiner
+  constructor(public payload: string){}
 }
 
 export type RefinerServiceActions =
@@ -76,10 +61,7 @@ export type RefinerServiceActions =
   | LoadRefinerGroups
   | GetRefinedCommitments
   | LoadRefinedCommitments
-  | GetRefinedMapPoints
-  | LoadRefinedMapPoints
   | SelectRefinerGroup
   | SelectRefiner
-  | SelectMapPoint
-  | GetMapPointsCommitments
-  | LoadMapPointsCommitments
+  | ChangeTextRefiner
+  | SearchCommitments

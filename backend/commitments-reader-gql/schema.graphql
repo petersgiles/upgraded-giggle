@@ -3,9 +3,10 @@ scalar Date
 # import MutationResponse, MutationResponse from "schema/response.graphql"
 # import UserProfileRole, UserProfile from "schema/user-profiles.graphql"
 # import Tag, TagInput, Resolver from "schema/tags.graphql"
-# import Commitment, CommitmentInput, CommitmentMapPointInput from "schema/commitments.graphql"
+# import Commitment, CommitmentInput, CommitmentMapPointInput, CostingRequiredInput from "schema/commitments.graphql"
 # import MapPoint, MapPointInput from "schema/map-point.graphql"
 # import NavigableApplication, NavigableApplicationInput from "schema/navigation.graphql"
+
 
 # The "Query" type is the root of all GraphQL queries.
 type Query {
@@ -30,4 +31,5 @@ type Mutation {
 	deleteCommitment(id: ID!): Response
 	upsertTag(item: TagInput!): Response
 	deleteTag(id: ID!): Response
+	setCostingRequired(item: CostingRequiredInput!): Response
 }

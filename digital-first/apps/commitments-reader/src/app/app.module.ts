@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule, APP_INITIALIZER } from '@angular/core'
 import { NxModule } from '@nrwl/nx'
-import { HttpClientModule, HttpClient } from '@angular/common/http'
+import { HttpClientModule, HttpHeaders, HttpClient } from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { Apollo, APOLLO_OPTIONS, ApolloModule } from 'apollo-angular'
 import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http'
@@ -31,10 +31,12 @@ import { PlannerComponent } from './components/planner/planner.component'
 import { PlannerPageComponent } from './pages/planner-page/planner-page.component'
 import { OverviewPageComponent } from './pages/overview-page/overview-page.component'
 import { MapOverviewPageComponent } from './pages/map-overview-page/map-overview-page.component'
-import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component'
+import { CommitmentOverviewLayoutComponent } from './layouts/commitment-overview-layout/commitment-overview-layout.component'
 import { SchedulerComponent } from './components/scheduler/scheduler.component'
-import { CommitmentRefinerService } from './services/commitment-refiner/commitment-refiner.service'
 import { GetRefinerTagsGQL } from './generated/graphql'
+import { DfSharepointLibModule } from '@df/sharepoint'
+import { commitmentEventDataServiceProvider } from './services/commitment-event/commitment-event-data-service';
+import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component';
 
 const COMPONENTS = [
   AppComponent,
@@ -44,6 +46,7 @@ const COMPONENTS = [
   OverviewPageComponent,
   MapOverviewPageComponent,
   CommitmentLayoutComponent,
+  CommitmentOverviewLayoutComponent,
   SchedulerComponent
 ]
 
@@ -71,7 +74,8 @@ const COMPONENTS = [
     DfPipesModule,
     AppRoutingModule,
     MdcSliderModule,
-    MdcElevationModule
+    MdcElevationModule,
+    DfSharepointLibModule
   ],
   providers: [
     {
@@ -80,6 +84,7 @@ const COMPONENTS = [
       deps: [],
       multi: true
     },
+    commitmentEventDataServiceProvider,
     { provide: TitleLayoutService, useClass: AppFullLayoutService },
     {
       provide: APOLLO_OPTIONS,
@@ -96,9 +101,13 @@ const COMPONENTS = [
         return {
           cache: new InMemoryCache(),
           link: httpLink.create({
-            uri: environment.datasource.dataServiceUrl
+            method: 'GET',
+            uri: environment.datasource.dataServiceUrl,
+            headers: new HttpHeaders({
+              ProgramsApiKey: environment.apiKey
+            })
           }),
-          defaultOptions: defaultOptions
+          defaultOptions
         }
       },
       deps: [HttpLink]

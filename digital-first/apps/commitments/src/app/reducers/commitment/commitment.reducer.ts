@@ -25,16 +25,7 @@ export function reducer(
   action: CommitmentActions
 ): State {
   switch (action.type) {
-    case CommitmentActionTypes.AddCommitment: {
-
-      return adapter.addOne(action.payload.data.commitment, {
-        ...state,
-        loading: action.payload.loading,
-        saved: false,
-        error: action.payload.error
-      })
-    }
-
+  
     case CommitmentActionTypes.UpsertCommitment: {
       return adapter.upsertOne(action.payload.data.commitment, {
         ...state,

@@ -1,6 +1,33 @@
 
-query CommitmentsSearch($input: CommitmentRefinementInput!) {
-  commitments(input: $input) {
-   ...CommitmentParts
+query CommitmentsSearch($refiner: CommitmentRefinerGraph!) {
+  commitments(refiner: $refiner) {
+    id
+  title
+  politicalParty
+  announcedBy
+  announcementType { 
+      id
+      title 
+    } 
+  criticalDate {
+      id
+      title
+  }
+  portfolioLookup {
+      id
+      title
+  }
+    commitmentMapPoints{
+
+      id 
+        mapPoint
+          {
+            id
+            placeId
+            title
+            latitude
+            longitude
+          }
+    }
   }
 }

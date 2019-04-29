@@ -10,9 +10,10 @@ import {
   OnDestroy
 } from '@angular/core'
 
-import { Scheduler, Model } from 'bryntum-scheduler'
-import * as EnLocale from 'bryntum-scheduler/locales/scheduler.locale.en'
+import { Scheduler } from 'bryntum-scheduler/scheduler.umd.js'
+import * as AuLocael from '../../../../../commitments-reader/src/app/components/scheduler/Au.locale.en.js'
 @Component({
+  // tslint:disable-next-line: component-selector
   selector: 'scheduler',
   template: '<div></div>'
 })
@@ -79,12 +80,13 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
     'eventStore',
     'resourceStore',
     'assignmentStore',
-    'dependencyStore'
+    'dependencyStore',
+    'listeners'
   ]
 
   // Configs
-  @Input() autoHeight: boolean = false
-  @Input() barMargin: number = 5
+  @Input() autoHeight = false
+  @Input() barMargin = 5
   @Input() columns: object[]
   @Input() emptyText: string
   @Input() endDate: any
@@ -95,22 +97,20 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() eventStyle: string
   @Input() eventRenderer: any
   @Input() resources: object[]
-  @Input() readOnly: boolean = false
+  @Input() readOnly = false
   @Input() responsiveLevels: any
-  @Input() rowHeight: number = 150
+  @Input() rowHeight = 150
   @Input() startDate: any
-  @Input() viewPreset: string = 'hourAndDay'
-
+  @Input() viewPreset = 'hourAndDay'
+  @Input() listeners: Object
   @Input() crudManager: object
   @Input() eventStore: object
   @Input() resourceStore: object
   @Input() dependencyStore: object
   @Input() assignmentStore: object
-
   // New ones that we have added
   @Input() zoomLevels: object[]
   @Input() zoomLevel: number
-
   // Config for all features
   @Input() featureConfig: any
 
@@ -121,9 +121,9 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() cellEdit: boolean | object = true
   @Input() cellTooltip: boolean | object = true
   @Input() columnLines: boolean | object = true
-  @Input() columnPicker: boolean = true
-  @Input() columnReorder: boolean = true
-  @Input() columnResize: boolean = true
+  @Input() columnPicker = true
+  @Input() columnReorder = true
+  @Input() columnResize = true
   @Input() contextMenu: boolean | object
   @Input() dependencies: boolean | object = false
   @Input() eventDrag: boolean | object = true
@@ -148,7 +148,7 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() summary: boolean | object
   @Input() tree: boolean
 
-  @Output() selectedEvent: string = ''
+  @Output() selectedEvent = ''
   @Output() onSchedulerEvents = new EventEmitter<object>()
 
   constructor(element: ElementRef) {
@@ -161,23 +161,8 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
       config: any = {
         // Render scheduler to components element
         appendTo: this.elementRef.nativeElement.firstElementChild,
-
-        // Listeners, will relay events
-        listeners: {
-          catchAll(event) {
-            if (event.type === 'eventselectionchange') {
-              this.selectedEvent = event.selected.length
-                ? event.selected[0].name
-                : ''
-            }
-
-            this.onSchedulerEvents.emit(event)
-          },
-
-          thisObj: this
-        },
-
-        features: this.featureConfig
+        features: this.featureConfig,
+        listeners: this.listeners
       }
 
     // Pass configs on to scheduler
@@ -202,22 +187,9 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     const engine = (this.schedulerEngine = new Scheduler(config))
-    engine.localeManager.locale = EnLocale
-
-    // TODO: Raise bug with Brytum - setting start and end kills the app
-    // Set start and end date. If both are defined, use setTimeSpan
-    // if (this.startDate && this.endDate) {
-    //   console.log('setTimeSpan')
-    //   engine.setTimeSpan(this.startDate, this.endDate)
-    // } else if (this.startDate) {
-    //   console.log('startDate')
-    //   engine.startDate = this.startDate
-    // } else if (this.endDate) {
-    //   console.log('endDate')
-    //   engine.endDate = this.endDate
-    // }
-
+    engine.localeManager.locale = AuLocael
     engine.zoomLevel = this.zoomLevel || engine.minZoomLevel
+
     // Relay events from eventStore and resourceStore, making them a bit easier to catch in your app.
     // The events are prefixed with 'events' and 'resources', turning and 'add' event into either 'eventsAdd' or
     // 'resourcesAdd'

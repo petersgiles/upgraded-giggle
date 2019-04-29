@@ -2,12 +2,9 @@ import { Injectable, OnDestroy } from '@angular/core'
 import { BehaviorSubject, Subject, Subscription, Observable, of } from 'rxjs'
 import {
   GetRefinerTagsGQL,
-  CommitmentsMapPointSearchGQL,
   CommitmentsSearchGQL,
-  CommitmentPartsFragment,
-  MapPoint,
-  CommitmentRefinementInput,
-  MapPointCommitmentsSearchGQL
+  CommitmentRefinerGraph,
+  CommitmentGraph
 } from '../../generated/graphql'
 import { first, map, tap, filter, switchMap } from 'rxjs/operators'
 import { environment } from '../../../environments/environment'
@@ -21,11 +18,7 @@ import {
   SelectRefiner,
   GetRefinedCommitments,
   LoadRefinedCommitments,
-  GetRefinedMapPoints,
-  LoadRefinedMapPoints,
-  SelectMapPoint,
-  GetMapPointsCommitments,
-  LoadMapPointsCommitments
+  ChangeTextRefiner as ChangeTextRefiner
 } from './commitment-refiner.actions'
 import {
   RefinerState,
@@ -48,13 +41,9 @@ export class CommitmentRefinerService implements OnDestroy {
   private action$: BehaviorSubject<RefinerAction> = new BehaviorSubject(null)
 
   public columns$: Subject<DataTableColumn[]> = new Subject()
-  public mapPoints$: Subject<MapPoint[]> = new Subject()
   public selectedMapPoint$: Subject<any> = new Subject()
   public selectedRefinders$: Subject<any> = new Subject()
-  public mapPointCommitments$: Subject<
-    CommitmentPartsFragment[]
-  > = new Subject()
-  public commitments$: Subject<CommitmentPartsFragment[]> = new Subject()
+  public commitments$: Subject<CommitmentGraph[]> = new Subject()
   public refinerGroups$: BehaviorSubject<any[]> = new BehaviorSubject([])
   private actionSubscription$: Subscription
   private storeSubscription$: Subscription
@@ -63,17 +52,13 @@ export class CommitmentRefinerService implements OnDestroy {
     private refinerReducer: RefinerReducer,
     private refinerEffects: RefinerEffects,
     private getRefinerTagsGQL: GetRefinerTagsGQL,
-    private commitmentsSearchGQL: CommitmentsSearchGQL,
-    private commitmentsMapPointSearchGQL: CommitmentsMapPointSearchGQL,
-    private mapPointCommitmentsSearchGQL: MapPointCommitmentsSearchGQL
+    private commitmentsSearchGQL: CommitmentsSearchGQL
   ) {
     this.registerEffects()
 
     this.actionSubscription$ = this.action$
       .pipe(
         filter(action => action !== null),
-        // tslint:disable-next-line:no-console
-        tap(result => console.log(result)),
         switchMap((action: RefinerServiceActions) => {
           if (!this.refinerEffects.hasEffect(action)) {
             this.store$.next(
@@ -84,13 +69,7 @@ export class CommitmentRefinerService implements OnDestroy {
           }
 
           return this.refinerEffects.run(action).pipe(
-            // tslint:disable-next-line:no-console
-            tap(result => console.log(result)),
             map((actions: RefinerServiceActions[]) => {
-              if (DEBUG) {
-                // tslint:disable-next-line:no-console
-                console.log('RefinerServiceActions', actions)
-              }
               actions.forEach(a =>
                 this.store$.next(
                   this.refinerReducer.reduce(this.store$.getValue(), a)
@@ -103,17 +82,9 @@ export class CommitmentRefinerService implements OnDestroy {
       .subscribe()
 
     this.storeSubscription$ = this.store$.subscribe(store => {
-      if (DEBUG) {
-        // tslint:disable-next-line:no-console
-        console.log(store)
-      }
-
       this.columns$.next(store.columns)
-      this.selectedMapPoint$.next(store.selectedMapPoint)
-      this.mapPoints$.next(store.mapPoints)
       this.commitments$.next(store.commitments)
       this.selectedRefinders$.next(store.selectedRefiners)
-      this.mapPointCommitments$.next(store.mapPointsCommitments)
       this.refinerGroups$.next(store.refinerGroups)
     })
   }
@@ -127,136 +98,169 @@ export class CommitmentRefinerService implements OnDestroy {
       RefinerActionTypes.GetRefinedCommitments,
       this.getRefinedCommitmentsEffect
     )
-    this.refinerEffects.register(
-      RefinerActionTypes.GetRefinedMapPoints,
-      this.getRefinedMapPointsEffect
-    )
-
-    this.refinerEffects.register(
-      RefinerActionTypes.GetMapPointsCommitments,
-      this.getMapPointsCommitmentsEffect
-    )
-
   }
 
   public getLayoutPage() {
     this.action$.next(new GetRefinerGroups(null))
   }
 
-  public getOverviewPage() {
+  getItems(storeRefiners: any, groupId: any): number[] {
+    if (storeRefiners.find(find => find.groupId === groupId)) {
+      const ids: number[] = []
+      storeRefiners
+        .filter(fltr => fltr.groupId === groupId)
+        .map(i => {
+          ids.push(i.itemId)
+        })
+
+      return ids
+    }
+
+    return null
+  }
+
+  public getRefinedCommitments() {
     const store = this.store$.getValue()
 
-    const payload: CommitmentRefinementInput = {
-      text: null,
-      tags: [...store.selectedRefiners]
+    const payload: CommitmentRefinerGraph = {
+      commitmentTypes: this.getItems(store.selectedRefiners, 1),
+      criticalDates: this.getItems(store.selectedRefiners, 2),
+      portfolioLookups: this.getItems(store.selectedRefiners, 3)
+      // TODO: textRefiner: store.textRefiner
     }
 
     this.action$.next(new GetRefinedCommitments(payload))
   }
 
-  public getMapPageCommitments() {
-    const store = this.store$.getValue()
-    const payload: CommitmentRefinementInput = {
-      text: null,
-      mapPoints: [store.selectedMapPoint.place_id]
-    }
-
-    this.action$.next(new GetMapPointsCommitments(payload))
-  }
-
-  public getMapPage() {
-    const store = this.store$.getValue()
-
-    const payload: CommitmentRefinementInput = {
-      text: null,
-      tags: [...store.selectedRefiners]
-    }
-
-    this.action$.next(new GetRefinedMapPoints(payload))
-  }
-
-  public getPlannerPage() {
-    const store = this.store$.getValue()
-
-    const payload: CommitmentRefinementInput = {
-      text: null,
-      tags: [...store.selectedRefiners]
-    }
-
-    this.action$.next(new GetRefinedCommitments(payload))
-  }
-
-  ngOnDestroy(): void {
-    this.actionSubscription$.unsubscribe()
-    this.storeSubscription$.unsubscribe()
-  }
-
-  getMapPointsCommitmentsEffect = (
-    action: GetMapPointsCommitments
-  ): Observable<RefinerAction> => {
-    // tslint:disable-next-line:no-console
-    console.log(action)
-
-    return this.mapPointCommitmentsSearchGQL.fetch({ input: action.payload }).pipe(
-      first(),
-      // tslint:disable-next-line:no-console
-      tap(result => console.log('Get Map Points Commitments Result', result)),
-      map((result: any) => result.data.commitments),
-      map(result => new LoadMapPointsCommitments(result))
-    )
-  }
-
+  // This is the committments filter
   getRefinedCommitmentsEffect = (
     action: GetRefinedCommitments
-  ): Observable<RefinerAction> => {
-    // tslint:disable-next-line:no-console
-    console.log(action)
-
-    return this.commitmentsSearchGQL.fetch({ input: action.payload }).pipe(
+  ): Observable<RefinerAction> =>
+    this.commitmentsSearchGQL.fetch({ refiner: action.payload }).pipe(
       first(),
-      // tslint:disable-next-line:no-console
-      tap(result => console.log('Get Refined Commitment Result', result)),
-      map((result: any) => result.data.commitments),
+      map((result: any) => {
+        const store = this.store$.getValue()
+        if (store.textRefiner && store.textRefiner.length > 0) {
+          const refinedByTextRefiner = new RegExp(store.textRefiner, 'i')
+          return result.data.commitments.filter(
+            c =>
+              refinedByTextRefiner.test(c.title) ||
+              refinedByTextRefiner.test(c.portfolioLookup.title)
+          )
+        } else {
+          return result.data.commitments
+        }
+      }),
       map(result => new LoadRefinedCommitments(result))
     )
+
+  buildFilterMenu(...args: any): CRMenu[] {
+    const refinerGroups = [
+      {
+        id: 1,
+        group: 'commitmentTypes',
+        title: 'Commitment Types'
+      },
+      {
+        id: 2,
+        group: 'criticalDates',
+        title: 'Critical Date'
+      },
+      {
+        id: 3,
+        group: 'portfolioLookups',
+        title: 'Portfolios'
+      }
+    ]
+
+    const result: CRMenu[] = refinerGroups.reduce(
+      (acc: any, item: any, index: any, arr: any) => {
+        acc.push({
+          id: item.id,
+          title: item.title,
+          expanded: false,
+          selected: false,
+          groupId: item.id,
+          children: args[item.id - 1].map(p => ({
+            id: p.id,
+            title: p.title,
+            groupId: item.id,
+            expanded: false,
+            selected: false
+          }))
+        })
+
+        return acc
+      },
+      []
+    )
+
+    this.persistState(result)
+
+    return result
   }
 
-  getRefinedMapPointsEffect = (
-    action: GetRefinedMapPoints
-  ): Observable<RefinerAction> => {
-    // tslint:disable-next-line:no-console
-    console.log(action)
+  persistState(arr: any): any {
+    // TODO: Replace this abomination by storing whole nav tree in store
 
-    return this.commitmentsMapPointSearchGQL
-      .fetch({ input: action.payload })
-      .pipe(
-        first(),
-        // tslint:disable-next-line:no-console
-        tap(result => console.log('Get Refined MapPoint Result', result)),
-        map((result: any) => result.data.mappoints),
-        map(result => new LoadRefinedMapPoints(result))
-      )
+    const store = this.store$.getValue()
+    const selectedRefiners: CommitmentRefinerGraph = {
+      commitmentTypes: this.getItems(store.selectedRefiners, 1),
+      criticalDates: this.getItems(store.selectedRefiners, 2),
+      portfolioLookups: this.getItems(store.selectedRefiners, 3)
+    }
+    const expandedRefinerGroups = store.expandedRefinerGroups
+
+    if (expandedRefinerGroups && expandedRefinerGroups.length >= 1) {
+      arr.forEach(element => {
+        if (expandedRefinerGroups.indexOf(element.groupId) !== -1) {
+          element.expanded = true
+          if (element.groupId === 1 && selectedRefiners.commitmentTypes) {
+            this.matchFilter(selectedRefiners.commitmentTypes, element.children)
+          }
+
+          if (element.groupId === 2 && selectedRefiners.criticalDates) {
+            this.matchFilter(selectedRefiners.criticalDates, element.children)
+          }
+
+          if (element.groupId === 3 && selectedRefiners.portfolioLookups) {
+            this.matchFilter(
+              selectedRefiners.portfolioLookups,
+              element.children
+            )
+          }
+        }
+      })
+    }
+
+    return arr
   }
 
+  matchFilter(stateFilter: number[], children: CRMenu[]) {
+    if (stateFilter) {
+      stateFilter.forEach(selectedItem => {
+        children.forEach(itm => {
+          if (itm.id === selectedItem) {
+            itm.selected = true
+          }
+        })
+      })
+    }
+  }
   getRefinerGroupsEffect = (
     action: GetRefinerGroups
-  ): Observable<RefinerAction> => {
-    // tslint:disable-next-line:no-console
-    console.log(action)
-
-    return this.getRefinerTagsGQL.fetch({ input: {} }).pipe(
+  ): Observable<RefinerAction> =>
+    this.getRefinerTagsGQL.fetch({ input: {} }).pipe(
       first(),
-      // tslint:disable-next-line:no-console
-      tap(result => console.log('Get Refiner Groups Result', result)),
-      map((result: any) => result.data.refiners),
+      map((result: any) =>
+        this.buildFilterMenu(
+          result.data.commitmentTypes,
+          result.data.criticalDates,
+          result.data.portfolioLookups
+        )
+      ),
       map(result => new LoadRefinerGroups(result))
     )
-  }
-
-  public selectMapPoint(item: any): any {
-    this.action$.next(new SelectMapPoint(item))
-    this.getMapPageCommitments()
-  }
 
   public handleRefinerGroupSelected(item) {
     this.action$.next(new SelectRefinerGroup(item))
@@ -264,7 +268,24 @@ export class CommitmentRefinerService implements OnDestroy {
 
   public handleRefinerSelected(item) {
     this.action$.next(new SelectRefiner(item))
-    this.getOverviewPage()
-    this.getMapPage()
+    this.getRefinedCommitments()
   }
+
+  public handleTextRefinerChanged(item) {
+    this.action$.next(new ChangeTextRefiner(item))
+    this.getRefinedCommitments()
+  }
+
+  ngOnDestroy(): void {
+    this.actionSubscription$.unsubscribe()
+    this.storeSubscription$.unsubscribe()
+  }
+}
+interface CRMenu {
+  id: number
+  title: string
+  expanded: boolean
+  selected: boolean
+  groupId: number
+  children?: CRMenu[]
 }

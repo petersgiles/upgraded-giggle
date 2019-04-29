@@ -96,7 +96,6 @@ export class CommitmentPrintComponent implements OnInit {
     this.lookup.getAllLocations()
     this.lookup.getAllPartys()
     this.lookup.getAllPortfolios()
-    this.lookup.getAllThemeTypes()
     this.lookup.getAllPackageTypes()
 
     this.user$ = this.service.getCurrentUser()

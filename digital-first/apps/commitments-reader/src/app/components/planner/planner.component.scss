@@ -36,12 +36,16 @@
   white-space: nowrap;
   padding: 4px;
   font-weight: 500;
+  -webkit-writing-mode: vertical-lr;
+  writing-mode: vertical-lr;
+  -ms-writing-mode: tb-lr; 
 }
 
 @mixin timerange-transparent($color) {
   background-color: $color;
   color: black;
   opacity: 0.5;
+  
 }
 
 @mixin timerange-striped($color) {
@@ -58,13 +62,13 @@
 
 .b-sch-timerange {
   &.timerange-sitting-senate {
-    @include timerange-transparent($color: #ffd7d7);
+    @include timerange-transparent($color: #d69d9d);
   }
   &.timerange-sitting-house {
-    @include timerange-transparent($color: #d8fbd8);
+    @include timerange-transparent($color: #a1ffa1);
   }
   &.timerange-sitting-both {
-    @include timerange-transparent($color: #d4eeff);
+    @include timerange-transparent($color: #4186b4);
   }
 }
 
@@ -114,4 +118,20 @@
 
 .mdc-slider__track-container {
   overflow: visible;
+}
+
+.colour-title {
+  width: 100%;
+  min-height: 45px;
+  max-height: 45px;
+  text-align: left;
+  padding: 10px 10px;
+  margin: 0 !important;
+}
+
+.b-list-colour {
+  padding: 0 !important;
+  > div {
+    padding: 0 !important;
+  }
 }
