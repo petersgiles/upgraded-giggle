@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { BehaviorSubject, Subscription, Observable, EMPTY } from 'rxjs'
 import { FormBuilder } from '@angular/forms'
-import { DocumentStatus, NavigatorTreeNode } from '@df/components'
+import { DocumentStatus, NavigatorTreeNode, DialogAreYouSureComponent, ARE_YOU_SURE_ACCEPT } from '@df/components'
 import {
   debounceTime,
   distinctUntilChanged,
@@ -21,6 +21,7 @@ import { GetNavigations } from '../../reducers/navigation/navigation.actions'
 import { GetDiscussion, AddComment, RemoveComment, ReplyToComment } from '../../reducers/discussion/discussion.actions'
 import { ParamMap, ActivatedRoute, Router } from '@angular/router'
 import { SetActiveBrief } from '../../reducers/brief/brief.actions';
+import { MdcDialog } from '@angular-mdc/web';
 const defaultBrief = {
   status: '1'
 }
@@ -56,7 +57,8 @@ export class BriefComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
-    private store: Store<fromNavigation.State>
+    private store: Store<fromNavigation.State>,
+    public dialog: MdcDialog
   ) {}
 
   ngOnInit() {
@@ -161,7 +163,20 @@ export class BriefComponent implements OnInit, OnDestroy {
   public handleRemoveComment($event) {
     // tslint:disable-next-line:no-console
     console.log(`💬 -  RemoveComment`, $event)
-    this.store.dispatch(new RemoveComment($event.id))
+
+    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+      escapeToClose: true,
+      clickOutsideToClose: true
+    })
+
+    dialogRef
+      .afterClosed()
+      .pipe(first())
+      .subscribe(result => {
+        if (result === ARE_YOU_SURE_ACCEPT) {
+          this.store.dispatch(new RemoveComment({id: $event.id,  brief: $event.hostId}))
+        }
+      })
   }
 
   public handleAddComment($event) {

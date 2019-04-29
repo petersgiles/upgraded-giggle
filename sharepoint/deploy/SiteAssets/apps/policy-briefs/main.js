@@ -2217,13 +2217,17 @@ var discussion_effects_1 = __webpack_require__(/*! ./reducers/discussion/discuss
 var fromBrief = __webpack_require__(/*! ./reducers/brief/brief.reducer */ "./src/app/reducers/brief/brief.reducer.ts");
 var brief_effects_1 = __webpack_require__(/*! ./reducers/brief/brief.effects */ "./src/app/reducers/brief/brief.effects.ts");
 var brief_document_component_1 = __webpack_require__(/*! ./containers/brief-document/brief-document.component */ "./src/app/containers/brief-document/brief-document.component.ts");
+var df_theme_1 = __webpack_require__(/*! @digital-first/df-theme */ "../../libs/df-theme/src/index.ts");
 var COMPONENTS = [
     app_component_1.AppComponent,
     home_component_1.HomeComponent,
     brief_component_1.BriefComponent,
-    brief_document_component_1.BriefDocumentComponent
+    brief_document_component_1.BriefDocumentComponent,
+    components_1.DialogAreYouSureComponent
 ];
-var ENTRYCOMPONENTS = [];
+var ENTRYCOMPONENTS = [
+    components_1.DialogAreYouSureComponent
+];
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -2249,6 +2253,7 @@ var AppModule = /** @class */ (function () {
                 df_layouts_1.DfLayoutsModule,
                 df_pages_1.DfPagesModule,
                 df_pipes_1.DfPipesModule,
+                df_theme_1.DfThemeModule,
                 store_1.StoreModule.forRoot(reducers_1.reducers, {
                     metaReducers: reducers_1.metaReducers
                 }),
@@ -2354,7 +2359,7 @@ var BriefDocumentComponent = /** @class */ (function () {
     });
     BriefDocumentComponent.prototype.getBriefHtml = function (fileLeafRef) {
         var _this = this;
-        var relativeUrl = "http://vm-dev-lbs13/sites/redigb/BriefHTML/" + fileLeafRef + ".aspx";
+        var relativeUrl = _spPageContextInfo.webAbsoluteUrl + "/BriefHTML/" + fileLeafRef + ".aspx";
         return this.http
             .get(relativeUrl, { responseType: 'text' })
             .pipe(operators_1.first())
@@ -2419,6 +2424,7 @@ var tslib_1 = __webpack_require__(/*! tslib */ "../../node_modules/tslib/tslib.e
 var core_1 = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
 var rxjs_1 = __webpack_require__(/*! rxjs */ "../../node_modules/rxjs/_esm5/index.js");
 var forms_1 = __webpack_require__(/*! @angular/forms */ "../../node_modules/@angular/forms/fesm5/forms.js");
+var components_1 = __webpack_require__(/*! @df/components */ "../../node_modules/@df/components/fesm5/df-components.js");
 var operators_1 = __webpack_require__(/*! rxjs/operators */ "../../node_modules/rxjs/_esm5/operators/index.js");
 var mock_data_1 = __webpack_require__(/*! ./mock-data */ "./src/app/pages/brief/mock-data.ts");
 var store_1 = __webpack_require__(/*! @ngrx/store */ "../../node_modules/@ngrx/store/fesm5/store.js");
@@ -2429,16 +2435,18 @@ var navigation_actions_1 = __webpack_require__(/*! ../../reducers/navigation/nav
 var discussion_actions_1 = __webpack_require__(/*! ../../reducers/discussion/discussion.actions */ "./src/app/reducers/discussion/discussion.actions.ts");
 var router_1 = __webpack_require__(/*! @angular/router */ "../../node_modules/@angular/router/fesm5/router.js");
 var brief_actions_1 = __webpack_require__(/*! ../../reducers/brief/brief.actions */ "./src/app/reducers/brief/brief.actions.ts");
+var web_1 = __webpack_require__(/*! @angular-mdc/web */ "../../node_modules/@angular-mdc/web/esm5/web.es5.js");
 var defaultBrief = {
     status: '1'
 };
 var BriefComponent = /** @class */ (function () {
     // tslint:disable-next-line:no-empty
-    function BriefComponent(route, router, fb, store) {
+    function BriefComponent(route, router, fb, store, dialog) {
         this.route = route;
         this.router = router;
         this.fb = fb;
         this.store = store;
+        this.dialog = dialog;
         this.background$ = new rxjs_1.BehaviorSubject('#455a64');
         this.form = this.fb.group({
             status: [null]
@@ -2504,9 +2512,21 @@ var BriefComponent = /** @class */ (function () {
         this.store.dispatch(new discussion_actions_1.ReplyToComment({ activeComment: comment.id }));
     };
     BriefComponent.prototype.handleRemoveComment = function ($event) {
+        var _this = this;
         // tslint:disable-next-line:no-console
         console.log("\uD83D\uDCAC -  RemoveComment", $event);
-        this.store.dispatch(new discussion_actions_1.RemoveComment($event.id));
+        var dialogRef = this.dialog.open(components_1.DialogAreYouSureComponent, {
+            escapeToClose: true,
+            clickOutsideToClose: true
+        });
+        dialogRef
+            .afterClosed()
+            .pipe(operators_1.first())
+            .subscribe(function (result) {
+            if (result === components_1.ARE_YOU_SURE_ACCEPT) {
+                _this.store.dispatch(new discussion_actions_1.RemoveComment({ id: $event.id, brief: $event.hostId }));
+            }
+        });
     };
     BriefComponent.prototype.handleAddComment = function ($event) {
         var parent = $event.parent;
@@ -2532,7 +2552,8 @@ var BriefComponent = /** @class */ (function () {
         tslib_1.__metadata("design:paramtypes", [router_1.ActivatedRoute,
             router_1.Router,
             forms_1.FormBuilder,
-            store_1.Store])
+            store_1.Store,
+            web_1.MdcDialog])
     ], BriefComponent);
     return BriefComponent;
 }());
@@ -3317,6 +3338,9 @@ var DiscussionEffects = /** @class */ (function () {
         var _this = this;
         this.actions$ = actions$;
         this.sharepoint = sharepoint;
+        // return sharePointService.removeItem(
+        //   'Comment', commentId				
+        // );
         this.loadDiscussions$ = this.actions$.pipe(effects_1.ofType(discussion_actions_1.DiscussionActionTypes.GetDiscussion), operators_1.map(function (action) { return action; }), operators_1.concatMap(function (action) { return _this.getDiscussionNodes(action.payload.activeBriefId); }), 
         // tslint:disable-next-line: no-console
         operators_1.tap(function (result) { return console.log("\uD83C\uDF7A ", result); }), operators_1.switchMap(function (result) { return [
@@ -3332,17 +3356,13 @@ var DiscussionEffects = /** @class */ (function () {
                 activeBriefId: result.brief
             })
         ]; }), operators_1.catchError(function (error) { return rxjs_1.of(new discussion_actions_1.GetDiscussionFailure(error)); }));
-        this.removeComment$ = this.actions$.pipe(effects_1.ofType(discussion_actions_1.DiscussionActionTypes.RemoveComment), operators_1.map(function (action) { return action; }), 
-        // concatMap(action => this.getDiscussionNodes(action.payload.activeBriefId)),
+        this.removeComment$ = this.actions$.pipe(effects_1.ofType(discussion_actions_1.DiscussionActionTypes.RemoveComment), operators_1.map(function (action) { return action; }), operators_1.concatMap(function (action) { return _this.removeComment(action.payload); }), 
         // tslint:disable-next-line: no-console
-        operators_1.tap(function (result) { return console.log("\uD83C\uDF7A ", result); }), 
-        // switchMap((result: { data: { nodes: any[] }; loading: boolean }) => [
-        //   new LoadDiscussions({
-        //     data: result.data.nodes,
-        //     loading: result.loading
-        //   })
-        // ]),
-        operators_1.catchError(function (error) { return rxjs_1.of(new discussion_actions_1.GetDiscussionFailure(error)); }));
+        operators_1.tap(function (result) { return console.log("\uD83C\uDF7A ", result); }), operators_1.switchMap(function (result) { return [
+            new discussion_actions_1.GetDiscussion({
+                activeBriefId: result.brief
+            })
+        ]; }), operators_1.catchError(function (error) { return rxjs_1.of(new discussion_actions_1.GetDiscussionFailure(error)); }));
     }
     // 💬
     DiscussionEffects.prototype.getDiscussionNodes = function (briefId) {
@@ -3370,6 +3390,13 @@ var DiscussionEffects = /** @class */ (function () {
                 Brief: comment.brief,
                 Parent: comment.parent
             }
+        })
+            .pipe(operators_1.concatMap(function (_) { return rxjs_1.of({ brief: comment.brief }); }));
+    };
+    DiscussionEffects.prototype.removeComment = function (comment) {
+        return this.sharepoint.removeItem({
+            listName: 'Comment',
+            id: comment.id
         })
             .pipe(operators_1.concatMap(function (_) { return rxjs_1.of({ brief: comment.brief }); }));
     };

@@ -84,6 +84,23 @@ export class DiscussionEffects {
     )
   }
 
+  removeComment(comment: {
+    id: string,
+    brief: string
+  }): Observable<any> {
+    return this.sharepoint.removeItem({
+      listName: 'Comment',
+      id: comment.id
+    })
+    .pipe(
+      concatMap(_ => of({ brief: comment.brief }))
+    )
+  }
+
+  // return sharePointService.removeItem(
+  //   'Comment', commentId				
+  // );
+
   @Effect()
   loadDiscussions$ = this.actions$.pipe(
     ofType(DiscussionActionTypes.GetDiscussion),
@@ -119,15 +136,14 @@ export class DiscussionEffects {
   removeComment$ = this.actions$.pipe(
     ofType(DiscussionActionTypes.RemoveComment),
     map((action: RemoveComment) => action),
-    // concatMap(action => this.getDiscussionNodes(action.payload.activeBriefId)),
+    concatMap(action => this.removeComment(action.payload)),
     // tslint:disable-next-line: no-console
     tap(result => console.log(`🍺 `, result)),
-    // switchMap((result: { data: { nodes: any[] }; loading: boolean }) => [
-    //   new LoadDiscussions({
-    //     data: result.data.nodes,
-    //     loading: result.loading
-    //   })
-    // ]),
+    switchMap((result: { brief: string }) => [
+      new GetDiscussion({
+        activeBriefId: result.brief
+      })
+    ]),
     catchError(error => of(new GetDiscussionFailure(error)))
   )
 

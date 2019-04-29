@@ -3,6 +3,8 @@ import { Observable, BehaviorSubject } from 'rxjs'
 import { HttpClient } from '@angular/common/http'
 import { first, tap } from 'rxjs/operators'
 
+declare var _spPageContextInfo: any
+
 @Component({
   selector: 'digital-first-brief-document',
   templateUrl: './brief-document.component.html',
@@ -30,7 +32,7 @@ export class BriefDocumentComponent implements OnInit {
   }
 
   public getBriefHtml(fileLeafRef) {
-    const relativeUrl = `http://vm-dev-lbs13/sites/redigb/BriefHTML/${fileLeafRef}.aspx`
+    const relativeUrl = `${_spPageContextInfo.webAbsoluteUrl}/BriefHTML/${fileLeafRef}.aspx`
 
     return this.http
       .get(relativeUrl, { responseType: 'text' })

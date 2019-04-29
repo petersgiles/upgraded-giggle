@@ -18,7 +18,8 @@ import {
   ButtonModule,
   PanelModule,
   RefinerModule,
-  AvatarModule
+  AvatarModule,
+  DialogAreYouSureComponent
 } from '@df/components'
 
 import { EffectsModule } from '@ngrx/effects'
@@ -44,15 +45,19 @@ import { DiscussionEffects } from './reducers/discussion/discussion.effects'
 import * as fromBrief from './reducers/brief/brief.reducer'
 import { BriefEffects } from './reducers/brief/brief.effects'
 import { BriefDocumentComponent } from './containers/brief-document/brief-document.component'
+import { DfThemeModule } from '@digital-first/df-theme';
 
 const COMPONENTS = [
   AppComponent,
   HomeComponent,
   BriefComponent,
-  BriefDocumentComponent
+  BriefDocumentComponent,
+  DialogAreYouSureComponent
 ]
 
-const ENTRYCOMPONENTS = []
+const ENTRYCOMPONENTS = [
+  DialogAreYouSureComponent
+]
 
 @NgModule({
   declarations: [...COMPONENTS],
@@ -78,7 +83,7 @@ const ENTRYCOMPONENTS = []
     DfLayoutsModule,
     DfPagesModule,
     DfPipesModule,
-
+    DfThemeModule,
     StoreModule.forRoot(reducers, {
       metaReducers: metaReducers
     }),

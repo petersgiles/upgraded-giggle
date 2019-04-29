@@ -36,7 +36,7 @@ export class ReplyToComment implements Action {
 
 export class RemoveComment implements Action {
   readonly type = DiscussionActionTypes.RemoveComment
-  constructor(public payload: any) {}
+  constructor(public payload: { id: string, brief: string}) {}
 }
 
 export type DiscussionActions =
