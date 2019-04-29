@@ -5,7 +5,8 @@ import {
   CommitmentsSearchGQL,
   CommitmentRefinerGraph,
   CommitmentGraph,
-  MapPointGraph
+  MapPointGraph,
+  CommitmentMapPointGQL
 } from '../../generated/graphql'
 import { first, map, tap, filter, switchMap } from 'rxjs/operators'
 import { environment } from '../../../environments/environment'
@@ -56,7 +57,8 @@ export class CommitmentRefinerService implements OnDestroy {
     private refinerReducer: RefinerReducer,
     private refinerEffects: RefinerEffects,
     private getRefinerTagsGQL: GetRefinerTagsGQL,
-    private commitmentsSearchGQL: CommitmentsSearchGQL
+    private commitmentsSearchGQL: CommitmentsSearchGQL,
+    private commitmentMapPointGQL: CommitmentMapPointGQL
   ) {
     this.registerEffects()
 
@@ -103,6 +105,10 @@ export class CommitmentRefinerService implements OnDestroy {
       RefinerActionTypes.GetRefinedCommitments,
       this.getRefinedCommitmentsEffect
     )
+    this.refinerEffects.register(
+      RefinerActionTypes.GetMapPoints,
+      this.getMapPointsEffect
+    )
   }
 
   public getLayoutPage() {
@@ -137,6 +143,18 @@ export class CommitmentRefinerService implements OnDestroy {
     this.action$.next(new GetRefinedCommitments(payload))
   }
 
+  public getMapPoints() {
+    const store = this.store$.getValue()
+
+    const payload: CommitmentRefinerGraph = {
+      commitmentTypes: this.getItems(store.selectedRefiners, 1),
+      criticalDates: this.getItems(store.selectedRefiners, 2),
+      portfolioLookups: this.getItems(store.selectedRefiners, 3)
+    }
+
+    this.action$.next(new GetMapPoints(payload))
+  }
+
   // This is the committments filter
   getRefinedCommitmentsEffect = (
     action: GetRefinedCommitments
@@ -160,16 +178,15 @@ export class CommitmentRefinerService implements OnDestroy {
     )
 
   getMapPointsEffect = (action: GetMapPoints): Observable<RefinerAction> =>
-    this.commitmentsSearchGQL.fetch({ refiner: action.payload }).pipe(
+    this.commitmentMapPointGQL.fetch({ refiner: action.payload }).pipe(
       first(),
-      map((result: any) => {
-        result.map(item => {
-          item.commitmentMapPoints.map(mPnt => {
-            return mPnt
-          })
-        })
-      }),
-      map(result => new GetMapPoints(result))
+      map((result: any) =>
+        result.data.commitments
+          .map(cmp => cmp.commitmentMapPoints)
+          .filter(fltr => fltr.length > 0)
+          .map(x => x.map(y => y.mapPoint))
+      ),
+      map(anything => new GetMapPoints(anything))
     )
 
   buildFilterMenu(...args: any): CRMenu[] {
@@ -287,6 +304,7 @@ export class CommitmentRefinerService implements OnDestroy {
   public handleRefinerSelected(item) {
     this.action$.next(new SelectRefiner(item))
     this.getRefinedCommitments()
+    this.getMapPoints()
   }
 
   public handleTextRefinerChanged(item) {

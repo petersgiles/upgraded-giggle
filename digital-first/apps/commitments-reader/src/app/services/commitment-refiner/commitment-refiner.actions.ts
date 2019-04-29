@@ -14,8 +14,7 @@ export enum RefinerActionTypes {
   SelectRefiner = '[RefinerActionTypes] SelectRefiner',
   SearchCommitments = '[RefinerActionTypes] SearchCommitments',
   ChangeTextRefiner = '[RefinerActionTypes] ChangeTextRefiner',
-  GetMapPoints = '[RefinerActionTypes] GetMapPoints',
-  LoadMapPoints = ''
+  GetMapPoints = '[RefinerActionTypes] GetMapPoints'
 }
 
 export class GetMapPoints implements RefinerAction {

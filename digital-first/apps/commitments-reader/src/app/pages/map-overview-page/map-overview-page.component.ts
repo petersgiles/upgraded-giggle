@@ -67,6 +67,7 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
 
     this.getMapPointsOfCommitments()
     this.dataService.getRefinedCommitments()
+    this.dataService.getMapPoints()
   }
 
   // getMapPointsOfCommitments() {
@@ -100,9 +101,8 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
 
   getMapPointsOfCommitments() {
     this.dataService.mapPoints$.subscribe(value => {
-      console.log(value)
       const mapPoint = value.map(mp => {
-        return mp
+        return mp[0]
       })
       this.mapPoints$ = of(mapPoint)
     })

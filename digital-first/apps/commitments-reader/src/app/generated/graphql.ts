@@ -1520,6 +1520,38 @@ export type GetRefinerTagsQuery = { __typename?: 'Query' } & {
   >
 }
 
+export type CommitmentMapPointQueryVariables = {
+  refiner: CommitmentRefinerGraph
+}
+
+export type CommitmentMapPointQuery = { __typename?: 'Query' } & {
+  commitments: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'CommitmentGraph' } & Pick<CommitmentGraph, 'id'> & {
+            commitmentMapPoints: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'CommitmentMapPointGraph' } & Pick<
+                    CommitmentMapPointGraph,
+                    'id'
+                  > & {
+                      mapPoint: Maybe<
+                        { __typename?: 'MapPointGraph' } & Pick<
+                          MapPointGraph,
+                          'id' | 'placeId' | 'title' | 'latitude' | 'longitude'
+                        >
+                      >
+                    }
+                >
+              >
+            >
+          }
+      >
+    >
+  >
+}
+
 export type CommitmentsMapPointSearchQueryVariables = {
   mapPointWhere?: Maybe<WhereExpressionGraph>
 }
@@ -1690,6 +1722,33 @@ export class GetRefinerTagsGQL extends Apollo.Query<
   GetRefinerTagsQueryVariables
 > {
   document = GetRefinerTagsDocument
+}
+export const CommitmentMapPointDocument = gql`
+  query CommitmentMapPoint($refiner: CommitmentRefinerGraph!) {
+    commitments(refiner: $refiner) {
+      id
+      commitmentMapPoints {
+        id
+        mapPoint {
+          id
+          placeId
+          title
+          latitude
+          longitude
+        }
+      }
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CommitmentMapPointGQL extends Apollo.Query<
+  CommitmentMapPointQuery,
+  CommitmentMapPointQueryVariables
+> {
+  document = CommitmentMapPointDocument
 }
 export const CommitmentsMapPointSearchDocument = gql`
   query CommitmentsMapPointSearch($mapPointWhere: WhereExpressionGraph) {

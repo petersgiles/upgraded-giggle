@@ -9,7 +9,7 @@
         [zoomControl]="true"
       >
         <agm-marker
-          *ngFor="let mapPoint of (mapPoints | async)"
+          *ngFor="let mapPoint of (mapPoints$ | async)"
           style="text-shadow: 0px 0px 6.2px grey; background-color: blueviolet;"
           [latitude]="mapPoint.latitude"
           [longitude]="mapPoint.longitude"
