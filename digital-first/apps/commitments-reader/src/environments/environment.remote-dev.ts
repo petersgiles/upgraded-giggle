@@ -5,7 +5,7 @@ export const environment = {
   version: packageJson.version,
   datasource: {
     type: 'graph',
-    dataServiceUrl: '//localhost:52619/graphql'
+    dataServiceUrl: '//programs.cloud9.cabnet/graphql'
   },
   // developer's your API KEY here
 
