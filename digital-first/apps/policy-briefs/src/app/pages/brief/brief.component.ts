@@ -1,7 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { BehaviorSubject, Subscription, Observable, EMPTY } from 'rxjs'
 import { FormBuilder } from '@angular/forms'
-import { DocumentStatus, NavigatorTreeNode, DialogAreYouSureComponent, ARE_YOU_SURE_ACCEPT } from '@df/components'
+import {
+  DocumentStatus,
+  NavigatorTreeNode,
+  DialogAreYouSureComponent,
+  ARE_YOU_SURE_ACCEPT
+} from '@df/components'
 import {
   debounceTime,
   distinctUntilChanged,
@@ -17,11 +22,16 @@ import * as fromNavigation from '../../reducers/navigation/navigation.reducer'
 import * as fromBrief from '../../reducers/brief/brief.reducer'
 import * as fromDiscussion from '../../reducers/discussion/discussion.reducer'
 
-import { GetNavigations } from '../../reducers/navigation/navigation.actions'
-import { GetDiscussion, AddComment, RemoveComment, ReplyToComment } from '../../reducers/discussion/discussion.actions'
+import { GetNavigations, ToggleExpand } from '../../reducers/navigation/navigation.actions'
+import {
+  GetDiscussion,
+  AddComment,
+  RemoveComment,
+  ReplyToComment
+} from '../../reducers/discussion/discussion.actions'
 import { ParamMap, ActivatedRoute, Router } from '@angular/router'
-import { SetActiveBrief } from '../../reducers/brief/brief.actions';
-import { MdcDialog } from '@angular-mdc/web';
+import { SetActiveBrief } from '../../reducers/brief/brief.actions'
+import { MdcDialog } from '@angular-mdc/web'
 const defaultBrief = {
   status: '1'
 }
@@ -49,8 +59,8 @@ export class BriefComponent implements OnInit, OnDestroy {
 
   public tree: any
   selectId$: any
-  fileLeafRef$: Observable<any>;
-  brief$: Observable<any>;
+  fileLeafRef$: Observable<any>
+  brief$: Observable<any>
 
   // tslint:disable-next-line:no-empty
   constructor(
@@ -76,27 +86,23 @@ export class BriefComponent implements OnInit, OnDestroy {
 
     this.documentStatusList$ = new BehaviorSubject(statuslist)
 
-    this.brief$ = this.store.pipe(
-      select(fromBrief.selectBriefState),
-    )
+    this.brief$ = this.store.pipe(select(fromBrief.selectBriefState))
 
     this.fileLeafRef$ = this.store.pipe(
-      select(fromBrief.selectFileLeafRefState),
+      select(fromBrief.selectFileLeafRefState)
     )
 
-
     this.activeComment$ = this.store.pipe(
-      select(fromDiscussion.selectActiveCommentState),
+      select(fromDiscussion.selectActiveCommentState)
     )
 
     this.selectId$ = this.route.paramMap
       .pipe(
         switchMap((params: ParamMap) => {
+          const activeBriefId = params.get('id')
 
-          const activeBriefId =  params.get('id')
-
-          this.store.dispatch(new SetActiveBrief({activeBriefId}))
-          this.store.dispatch(new GetDiscussion({activeBriefId}))
+          this.store.dispatch(new SetActiveBrief({ activeBriefId }))
+          this.store.dispatch(new GetDiscussion({ activeBriefId }))
 
           return EMPTY
         })
@@ -116,12 +122,9 @@ export class BriefComponent implements OnInit, OnDestroy {
         this.handleChange(blurEvent)
         this.formValueChangeSubscription$.unsubscribe()
       })
-
   }
 
-  public ngOnDestroy() {
-
-  }
+  public ngOnDestroy() {}
 
   handleChange($event) {
     // tslint:disable-next-line:no-console
@@ -147,17 +150,21 @@ export class BriefComponent implements OnInit, OnDestroy {
 
   public handleToggleExpandNavigatorNode($event) {
     // tslint:disable-next-line:no-console
-    console.log(`🎯 -  handleToggleExpandNavigatorNode`, $event.node)
+    console.log(`🎯 -  handleToggleExpandNavigatorNode`, $event)
+
+    this.store.dispatch(
+      new ToggleExpand({ id: $event.node.data.id, expanded: $event.isExpanded  })
+    )
   }
 
   public handleSelectNavigatorNode(node) {
-    this.router.navigate(['/', 'brief', node.data.briefId ])
+    this.router.navigate(['/', 'brief', node.data.briefId])
   }
 
   public handleReplyToComment(comment) {
     // tslint:disable-next-line:no-console
     console.log(`💬 -  ReplyToComment`, comment)
-    this.store.dispatch(new ReplyToComment({activeComment: comment.id}))
+    this.store.dispatch(new ReplyToComment({ activeComment: comment.id }))
   }
 
   public handleRemoveComment($event) {
@@ -174,13 +181,14 @@ export class BriefComponent implements OnInit, OnDestroy {
       .pipe(first())
       .subscribe(result => {
         if (result === ARE_YOU_SURE_ACCEPT) {
-          this.store.dispatch(new RemoveComment({id: $event.id,  brief: $event.hostId}))
+          this.store.dispatch(
+            new RemoveComment({ id: $event.id, brief: $event.hostId })
+          )
         }
       })
   }
 
   public handleAddComment($event) {
-
     const parent = $event.parent
     const newcomment = {
       brief: $event.hostId,
@@ -194,8 +202,9 @@ export class BriefComponent implements OnInit, OnDestroy {
     this.store.dispatch(new AddComment(newcomment))
   }
 
-  public handleEvent($event, action) {
+  public handleToggleMoveNavigatorNode($event, action) {
     // tslint:disable-next-line:no-console
-    console.log(`🦍 - ${action}`, $event)
+    console.log(`🐹 - ${action}`, $event)
+
   }
 }
