@@ -12,6 +12,7 @@ import { MdcSliderChange } from '@angular-mdc/web'
 import { DateHelper, EventModel } from 'bryntum-scheduler/scheduler.umd.js'
 import * as ZoomLevels from './data/zoomLevels.json'
 import { webSafeColours } from './data/webSafeColours'
+import { FormControl } from '@angular/forms'
 
 @Component({
   selector: 'digital-first-planner',
@@ -30,11 +31,14 @@ export class PlannerComponent implements OnInit {
   commitmentEventTypes: any[]
   @Input()
   readOnly: false
+  @Input()
+  showKeyDates: boolean
   @Output()
   public onEventSaved: EventEmitter<any> = new EventEmitter()
   @Output()
   public onEventRemoved: EventEmitter<any> = new EventEmitter()
-
+  @Output()
+  public onToggleKeyDates: EventEmitter<boolean> = new EventEmitter()
   @ViewChild(SchedulerComponent) scheduler: SchedulerComponent
 
   featureConfig: Object
@@ -44,7 +48,6 @@ export class PlannerComponent implements OnInit {
   today = new Date()
   // TODO: actually get this from the next MYEFO date
   myEofyDate = new Date('2019-12-10')
-
   // TODO: set widths based on size of parent container
   // Setup data for scheduler
 
@@ -124,14 +127,22 @@ export class PlannerComponent implements OnInit {
         startDateConfig: {
           editable: false
         },
-        endDateConfig: {
-          editable: false
-        },
         startTimeConfig: {
-          editable: false
+          editable: false,
+          id: 'startTime'
+        },
+        endDateConfig: {
+          editable: false,
+          listeners: {
+            change: action => me.validateEventDateTimeRange(action)
+          }
         },
         endTimeConfig: {
-          editable: false
+          editable: false,
+          id: 'endTime',
+          listeners: {
+            change: action => me.validateEventDateTimeRange(action)
+          }
         },
         // Add extra widgets to the event editor
         extraWidgets: [
@@ -204,11 +215,48 @@ export class PlannerComponent implements OnInit {
     }
   }
 
+  validateEventDateTimeRange(action) {
+    const endTimeTooEarlyErrorMessage =
+      'End Time cannot be earlier than Start Time'
+    const endDateTooEarlyErrorMessage =
+      'End Date cannot be earlier than Start Date'
+
+    const startDate = action.source.owner.widgets.find(
+      c => c.name === 'startDate'
+    )
+    const endDate = action.source.owner.widgets.find(c => c.name === 'endDate')
+    const startTime = action.source.owner.widgets.find(
+      c => c.id === 'startTime'
+    )
+    const endTime = action.source.owner.widgets.find(c => c.id === 'endTime')
+    if (endTime.getErrors()) {
+      const errors = endTime.getErrors()
+      errors.forEach(error => {
+        endTime.clearError(error)
+      })
+    }
+    if (endDate.getErrors()) {
+      const errors = endDate.getErrors()
+      errors.forEach(error => {
+        endDate.clearError(error)
+      })
+    }
+
+    if (DateHelper.compare(startDate.value, endDate.value, '') === 1) {
+      endDate.setError(endDateTooEarlyErrorMessage)
+    } else if (
+      DateHelper.compare(startDate.value, endDate.value, '') === 0 &&
+      DateHelper.compare(startTime.value, endTime.value, '') === 1
+    ) {
+      endTime.setError(endTimeTooEarlyErrorMessage)
+    }
+  }
+
   onSliderInput(event: MdcSliderChange): void {
     this.resetSchedulerZoomLevel(event)
   }
 
-  private resetSchedulerZoomLevel(event: MdcSliderChange) {
+  resetSchedulerZoomLevel(event: MdcSliderChange) {
     this.zoomSlider.levelId = event.value
   }
 
@@ -249,5 +297,12 @@ export class PlannerComponent implements OnInit {
 
   scrollToDate(date: Date) {
     this.scheduler.schedulerEngine.scrollToDate(date, { block: 'center' })
+  }
+  toggleExternalEvents($event) {
+    if (this.showKeyDates) {
+      this.onToggleKeyDates.emit(false)
+    } else {
+      this.onToggleKeyDates.emit(true)
+    }
   }
 }

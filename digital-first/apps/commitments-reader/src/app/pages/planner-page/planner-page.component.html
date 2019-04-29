@@ -7,8 +7,10 @@
       [commitmentEventTypes]="commitmentEventTypes$ | async"
       [externalEvents]="externalEvents$ | async"
       [readOnly] = "readOnly "
+      [showKeyDates]="showKeyDates"
       (onEventSaved)="handleEventSaved($event)"
       (onEventRemoved)="handleEventRemoved($event)"
+      (onToggleKeyDates) = "handleToggleKeyDates($event)"
     >
     </digital-first-planner>
   </section>

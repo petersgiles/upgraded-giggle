@@ -139,6 +139,7 @@ export class CommitmentRefinerService implements OnDestroy {
     this.commitmentsSearchGQL.fetch({ refiner: action.payload }).pipe(
       first(),
       map((result: any) => {
+        // Temp solution till we have graphql support for text refiner
         const store = this.store$.getValue()
         if (store.textRefiner && store.textRefiner.length > 0) {
           const refinedByTextRefiner = new RegExp(store.textRefiner, 'i')
