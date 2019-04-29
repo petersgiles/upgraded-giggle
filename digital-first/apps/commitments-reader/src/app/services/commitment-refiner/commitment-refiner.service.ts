@@ -63,7 +63,7 @@ export class CommitmentRefinerService implements OnDestroy {
     private appConfigService: AppConfigService
   ) {
     console.log('refiner service constructor')
-    appConfigService.init().subscribe(_ => {
+  /*  appConfigService.init().subscribe(_ => {
       this.registerEffects()
 
       this.actionSubscription$ = this.action$
@@ -98,7 +98,7 @@ export class CommitmentRefinerService implements OnDestroy {
         this.refinerGroups$.next(store.refinerGroups)
         this.mapPoints$.next(store.mapPoints)
       })
-    })
+    })*/
   }
 
   private registerEffects() {
