@@ -9,8 +9,15 @@
 </div>
 <div class="layout-page">
   <section>
-    <div class="app-layout__row--no-wrap">
+    <div
+      class="app-layout__row--no-wrap"
+      style="
+    height: calc(80vh);
+    overflow-y: hidden;
+"
+    >
       <digital-first-metadata-refiner
+        style="overflow-y:auto"
         [refinerGroups]="refinerGroups$ | async"
         (onSearchCriteriaChanged)="handleTextRefinerChanged($event)"
         (onClear)="handleTextRefinerChanged(null)"
