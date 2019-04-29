@@ -183,6 +183,7 @@ export class PlannerComponent implements OnInit {
           {
             type: 'combo',
             listCls: 'b-list-colour',
+            editable: false,
             label: 'Colour',
             name: 'eventColor',
             id: 'colour',
