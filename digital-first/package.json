@@ -41,7 +41,7 @@
     "dep-graph": "./node_modules/.bin/nx dep-graph",
     "help": "./node_modules/.bin/nx help",
     "deploy:all": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/commitments' -AppName 'Commitments'",
-    "deploy:all:commitments-reader": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/commitments-reader' -AppName 'Commitments-Reader' -LoadReferenceData True",
+    "deploy:all:commitments-reader": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/commitments-reader' -AppName 'Commitments-Reader' -LoadReferenceData True -SiteConfiguration '{}'",
     "deploy:js": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/commitments' -AppName 'Commitments' -jsOnly",
     "deploy:js:commitments-reader": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/commitments-reader' -AppName 'Commitments-Reader' -jsOnly",
     "sharepoint:build:commitments": "ng build commitments --configuration=sharepoint",

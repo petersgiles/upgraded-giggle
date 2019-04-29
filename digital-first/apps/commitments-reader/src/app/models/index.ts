@@ -1,8 +1,3 @@
-
-export interface DataResult<T> {
-    data: T
-    loading?: any
-    error?: any
-    networkStatus?: number
-    stale?: boolean
-  }
+export * from './data-result.model'
+export * from './commitment-event.model'
+export * from './app-config.model'
