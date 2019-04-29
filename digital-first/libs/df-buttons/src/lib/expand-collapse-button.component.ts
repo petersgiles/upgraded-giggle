@@ -3,7 +3,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 @Component({
   selector: 'digital-first-expand-collapse-button',
   template: `
-  <a mdcIcon attr.aria-label="{{title}}" title="{{title}}" (click)="onChangeExpanded.emit(!expanded)">keyboard_arrow_{{expanded ? 'down' : 'right'}}</a>
+  <span mdcIcon attr.aria-label="{{title}}" title="{{title}}" (click)="onChangeExpanded.emit(!expanded)">keyboard_arrow_{{expanded ? 'down' : 'right'}}</span>
   `,
   styles: [`
   :host {
