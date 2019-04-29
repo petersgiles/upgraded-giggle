@@ -157,6 +157,13 @@ export class RefinerReducer {
 
         return retVal
       }
+
+      case RefinerActionTypes.GetMapPoints: {
+        return {
+          ...state,
+          mapPoints: action.payload
+        }
+      }
     }
 
     return state

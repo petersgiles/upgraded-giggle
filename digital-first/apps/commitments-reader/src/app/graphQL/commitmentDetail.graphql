@@ -1,27 +1,25 @@
-query getCommitmentDetail($id: String!) 
-{
-commitments(id: $id) {
-  id
-  title
-  description
-  bookType
-  cost 
-  date 
-  politicalParty
-  statusId
-  announcedBy
-  announcementType { 
-      id
-      title 
-    } 
-  criticalDate {
+query getCommitmentDetail($id: String!) {
+  commitments(id: $id) {
+    id
+    title
+    description
+    bookType
+    cost
+    date
+    politicalParty
+    statusId
+    announcedBy
+    announcementType {
       id
       title
-  }
-  portfolioLookup {
+    }
+    criticalDate {
       id
       title
-  }
-
+    }
+    portfolioLookup {
+      id
+      title
+    }
   }
 }
