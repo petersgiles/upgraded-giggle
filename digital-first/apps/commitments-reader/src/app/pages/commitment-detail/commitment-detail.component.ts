@@ -61,6 +61,7 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
             ? dbItem[0].portfolioLookup.title
             : ''
         }
+        this.commitment = commitment
       })
   }
 

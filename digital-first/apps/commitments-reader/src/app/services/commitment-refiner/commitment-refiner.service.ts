@@ -169,7 +169,7 @@ export class CommitmentRefinerService implements OnDestroy {
           })
         })
       }),
-      map(result => new GetMapPoints())
+      map(result => new GetMapPoints(result))
     )
 
   buildFilterMenu(...args: any): CRMenu[] {
