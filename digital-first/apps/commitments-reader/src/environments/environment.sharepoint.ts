@@ -7,6 +7,6 @@ export const environment = {
     type: 'sharepoint',
     dataServiceUrl: 'https://programs.cloud9.cabnet/graphql'
   },
-  apiKey: 'Ik5fbJkunTXPpLo/bjVC/aH1QMc=',
+  apiKey: 'KvMAs2tbscsOmzXzyrSfK67okrM=',
   assetsPath: '/sites/commitments/SiteAssets/apps/commitments-reader/assets'
 }

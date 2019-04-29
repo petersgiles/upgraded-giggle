@@ -17,6 +17,7 @@ export class PlannerPageComponent implements OnInit {
   public commitmentsSubscription: Subscription
   public eventTypesSubscription: Subscription
   public readOnly: false
+  public showKeyDates: boolean
   constructor(
     private dataService: CommitmentRefinerService,
     private sharePointDataService: EventSharepointDataService
@@ -33,15 +34,22 @@ export class PlannerPageComponent implements OnInit {
       }
     )
 
-    this.externalEvents$ = this.sharePointDataService
-      .getExternalEvents()
-      .pipe(map(result => result.data))
-
     this.eventTypesSubscription = this.sharePointDataService
       .getEventTypes()
       .subscribe(result => (this.commitmentEventTypes$ = of(result.data)))
 
     this.dataService.getRefinedCommitments()
+
+    this.showKeyDates =
+      !localStorage.getItem('showKeyDates') ||
+      localStorage.getItem('showKeyDates') === 'true'
+    if (this.showKeyDates) {
+      this.externalEvents$ = this.sharePointDataService
+        .getExternalEvents()
+        .pipe(map(result => result.data))
+    } else {
+      this.externalEvents$ = of([])
+    }
   }
 
   handleEventSaved($event: any) {
@@ -66,6 +74,20 @@ export class PlannerPageComponent implements OnInit {
             .pipe(map((events: any) => events.data))
         )
       )
+  }
+
+  handleToggleKeyDates($event) {
+    if ($event) {
+      this.externalEvents$ = this.sharePointDataService
+        .getExternalEvents()
+        .pipe(map(result => result.data))
+      this.showKeyDates = true
+      localStorage.setItem('showKeyDates', 'true')
+    } else {
+      this.externalEvents$ = of([])
+      this.showKeyDates = false
+      localStorage.setItem('showKeyDates', 'false')
+    }
   }
 
   ngOnDestroy(): void {

@@ -21,6 +21,13 @@
     <button mdc-button outlined (click)="scrollToDate(myEofyDate)">
       MYEFO
     </button>
+    <button
+      mdc-button
+      outlined
+      (click)="toggleExternalEvents($event)"
+    >
+      {{showKeyDates?"Hide Key Dates":"Show Key Dates"}}
+    </button>
   </div>
 </div>
 
@@ -40,7 +47,7 @@
     [zoomLevels]="zoomLevels"
     [zoomLevel]="currentZoomLevel.id"
     [listeners]="listeners"
-    [readOnly] ="readOnly"
+    [readOnly]="readOnly"
     eventColor="green"
     eventStyle="border"
   ></scheduler>
