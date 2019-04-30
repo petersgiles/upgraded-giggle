@@ -20,7 +20,7 @@ export abstract class CommitmentEventDataService {
     commitments: any
   ): Observable<DataResult<CommitmentEvent[]>>
   abstract getEventTypes(): Observable<DataResult<CommitmentEventType[]>>
-  abstract getExternalEvents(): Observable<DataResult<ExternalEvent[]>>
+  abstract getExternalEvents(externalEventTypes: any[]): Observable<DataResult<ExternalEvent[]>>
 }
 
 const commitmentEventDataServiceFactory = (

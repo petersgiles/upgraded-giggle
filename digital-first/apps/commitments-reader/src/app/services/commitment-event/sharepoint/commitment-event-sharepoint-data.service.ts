@@ -7,15 +7,16 @@ import { DataResult } from '../../../models'
 import {
   CommitmentEvent,
   CommitmentEventType,
-  ExternalEvent
+  ExternalEvent,
+  ExternalEventType
 } from '../../../models/commitment-event.model'
-import { byCommitmentIdsQuery, byEventIdQuery } from './caml'
+import { byCommitmentIdsQuery, byExternalEventTypeIdsQuery } from './caml'
 
 import {
   mapCommitmentEvents,
   mapCommitmentEventTypes,
-  mapExternalEvent,
-  mapExternalEvents
+  mapExternalEvents,
+  mapExternalEventTypes
 } from './mapping'
 import { CommitmentEventDataService } from '../commitment-event-data-service'
 
@@ -54,11 +55,32 @@ export class EventSharepointDataService implements CommitmentEventDataService {
     )
   }
 
-  getExternalEvents(): Observable<DataResult<ExternalEvent[]>> {
-    return this.sharepoint.getItems({ listName: 'ExternalEvent' }).pipe(
+  getExternalEvents(
+    externalEventTypes: any[]
+  ): Observable<DataResult<ExternalEvent[]>> {
+    const viewXml = byExternalEventTypeIdsQuery(externalEventTypes)
+    return forkJoin(
+      this.sharepoint.getItems({ listName: 'ExternalEvent', viewXml: viewXml }),
+      this.sharepoint.getItems({ listName: 'ExternalEventType' })
+    ).pipe(
+      concatMap(([externalEvents, eventTypes]) =>
+        of({
+          data: mapExternalEvents(
+            externalEvents,
+            eventTypes
+          ),
+          loading: false,
+          error: null
+        })
+      )
+    )
+  }
+
+  getExternalEventTypes(): Observable<DataResult<ExternalEventType[]>> {
+    return this.sharepoint.getItems({ listName: 'ExternalEventType' }).pipe(
       concatMap((result: any) =>
         of({
-          data: mapExternalEvents(result),
+          data: mapExternalEventTypes(result),
           loading: false,
           error: null
         })

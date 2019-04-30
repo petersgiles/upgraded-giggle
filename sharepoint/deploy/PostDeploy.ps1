@@ -1,10 +1,17 @@
 param(
-    [string]$SiteUrls = $OctopusParameters["SiteUrls"],
-    [string]$AppName = $OctopusParameters["AppName"],
+    [string]$SiteUrls = "http://vm-dev-lbs13/sites/commitments-reader-tim",
+    [string]$AppName = "commitments-reader",
     [switch]$jsOnly,
-    [string]$LoadReferenceData = $OctopusParameters["LoadReferenceData"],
-    [string]$SiteConfiguration = $OctopusParameters["SiteConfiguration"]
+    [string]$SiteConfiguration,
+    [string]$LoadReferenceData
 )
+
+if($OctopusParameters) {
+    $SiteUrls = $OctopusParameters["SiteUrls"]
+    $AppName = $OctopusParameters["AppName"]
+    $LoadReferenceData = $OctopusParameters["LoadReferenceData"]
+    $SiteConfiguration = $OctopusParameters["SiteConfiguration"]
+}
 
 if ($PSScriptRoot) {
     Set-Location $PSScriptRoot
@@ -21,15 +28,17 @@ foreach ($deploySiteUrl in $deploySites) {
     & .\scripts\Deploy-Lists.ps1 -saveLocation "ListDefinitions/$AppName" -binPath $binPath -SiteUrl $deploySiteUrl
     
     if ($LoadReferenceData -eq 'True') {
-        & .\scripts\Import-ReferenceData.ps1 -dataFolder "ListData/$AppName" -binPath $binPath -SiteUrl $deploySiteUrl
+        Write-Host "Loading reference data"
+        & .\scripts\ImportAll-ListDataFromXml.ps1 -importLocation "ListData/$AppName" -binPath $binPath -SiteUrl $deploySiteUrl
+     #   & .\scripts\Import-ReferenceData.ps1 -dataFolder "ListData/$AppName" -binPath $binPath -SiteUrl $deploySiteUrl
     }
+}
 
-    if((-not $null -eq $SiteConfiguration))
-    {
-        & .\scripts\Set-SiteConfiguration.ps1 - "ListData/$AppName" `
-        -binPath $binPath `
-        -SiteUrl $configuration `
-        -appName $AppName `
-        -configuration $SiteConfiguration
-    }
+if((-not $null -eq $SiteConfiguration))
+{
+    & .\scripts\Set-SiteConfiguration.ps1 - "ListData/$AppName" `
+    -binPath $binPath `
+    -SiteUrl $configuration `
+    -appName $AppName `
+    -configuration $SiteConfiguration
 }
