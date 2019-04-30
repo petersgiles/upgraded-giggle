@@ -1,4 +1,4 @@
-<Web Title="DF">
+<Web Title="LBS">
   <List Name="ExternalEventType" Type="List">
     <ListItem Title="House of Repsentative">
       <Field Type="Text" StaticName="Title" Value="House of Repsentative" />

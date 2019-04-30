@@ -1,4 +1,4 @@
-<Web Title="DF">
+<Web Title="LBS">
   <List Name="CommitmentEventType" Type="List">
     <ListItem Title="Policy development">
       <Field Type="Text" StaticName="Title" Value="Policy development" />

@@ -1,9 +1,9 @@
-<Web Title="DF">
+<Web Title="LBS">
   <List Name="ExternalEvent" Type="List">
     <ListItem Title="Supplementary Budget Estimates">
       <Field Type="Text" StaticName="Title" Value="Supplementary Budget Estimates" />
-      <Field Type="DateTime" StaticName="StartDate" Value="10/25/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="10/26/2019 12:00:00 AM" />
+      <Field Type="DateTime" StaticName="StartDate" Value="10/25/2019 11:00:00 AM" />
+      <Field Type="DateTime" StaticName="EndDate" Value="10/26/2019 11:00:00 AM" />
       <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-house" />
       <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
       <Field Type="Text" StaticName="ExternalId" Value="040000008200E00074C5B7101A82E0080000000050AD3D9FA590D401000000000000000010000000DB09E4B6156AB640A7A9B9E29B86B202" />
@@ -24,8 +24,8 @@
     </ListItem>
     <ListItem Title="Budget Estimates">
       <Field Type="Text" StaticName="Title" Value="Budget Estimates" />
-      <Field Type="DateTime" StaticName="StartDate" Value="4/5/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="4/6/2019 12:00:00 AM" />
+      <Field Type="DateTime" StaticName="StartDate" Value="4/5/2019 11:00:00 AM" />
+      <Field Type="DateTime" StaticName="EndDate" Value="4/6/2019 11:00:00 AM" />
       <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-house" />
       <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
       <Field Type="Text" StaticName="ExternalId" Value="040000008200E00074C5B7101A82E00800000000A0F145FEA490D4010000000000000000100000004196142AD0DB4444830578207343E621" />
@@ -35,8 +35,8 @@
     </ListItem>
     <ListItem Title="House Sitting Only, Budget Estimates">
       <Field Type="Text" StaticName="Title" Value="House Sitting Only, Budget Estimates" />
-      <Field Type="DateTime" StaticName="StartDate" Value="4/4/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="4/5/2019 12:00:00 AM" />
+      <Field Type="DateTime" StaticName="StartDate" Value="4/4/2019 11:00:00 AM" />
+      <Field Type="DateTime" StaticName="EndDate" Value="4/5/2019 11:00:00 AM" />
       <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-house" />
       <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
       <Field Type="Text" StaticName="ExternalId" Value="040000008200E00074C5B7101A82E0080000000070DD81D9A490D401000000000000000010000000C4E3B999CDFAEC4292F6E8765EA4FDDE" />
@@ -79,8 +79,8 @@
     </ListItem>
     <ListItem Title="Senate Sitting Only">
       <Field Type="Text" StaticName="Title" Value="Senate Sitting Only" />
-      <Field Type="DateTime" StaticName="StartDate" Value="11/11/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="11/15/2019 12:00:00 AM" />
+      <Field Type="DateTime" StaticName="StartDate" Value="11/11/2019 11:00:00 AM" />
+      <Field Type="DateTime" StaticName="EndDate" Value="11/15/2019 11:00:00 AM" />
       <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-senate" />
       <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
       <Field Type="Text" StaticName="ExternalId" Value="040000008200E00074C5B7101A82E00800000000206AE50E0187D401000000000000000010000000E52C68E71A33A24EA97569583C3850A7" />
@@ -90,8 +90,8 @@
     </ListItem>
     <ListItem Title="House Sitting Only, Supplementary Budget Estimates">
       <Field Type="Text" StaticName="Title" Value="House Sitting Only, Supplementary Budget Estimates" />
-      <Field Type="DateTime" StaticName="StartDate" Value="10/21/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="10/25/2019 12:00:00 AM" />
+      <Field Type="DateTime" StaticName="StartDate" Value="10/21/2019 11:00:00 AM" />
+      <Field Type="DateTime" StaticName="EndDate" Value="10/25/2019 11:00:00 AM" />
       <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-house" />
       <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
       <Field Type="Text" StaticName="ExternalId" Value="040000008200E00074C5B7101A82E00800000000A0BE06FB0087D401000000000000000010000000D924AF01CF578F42915C654E26B07EC1" />
@@ -277,8 +277,8 @@
     </ListItem>
     <ListItem Title="House Sitting Only">
       <Field Type="Text" StaticName="Title" Value="House Sitting Only" />
-      <Field Type="DateTime" StaticName="StartDate" Value="4/15/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="4/19/2019 12:00:00 AM" />
+      <Field Type="DateTime" StaticName="StartDate" Value="4/15/2019 10:00:00 AM" />
+      <Field Type="DateTime" StaticName="EndDate" Value="4/19/2019 10:00:00 AM" />
       <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-house" />
       <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
       <Field Type="Text" StaticName="ExternalId" Value="040000008200E00074C5B7101A82E008000000004095FFA5FF86D4010000000000000000100000005C9B570850798D4BAF20A5F72D262091" />
@@ -299,8 +299,8 @@
     </ListItem>
     <ListItem Title="Both Houses of Parliament Sitting, Budget">
       <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting, Budget" />
-      <Field Type="DateTime" StaticName="StartDate" Value="4/2/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="4/3/2019 12:00:00 AM" />
+      <Field Type="DateTime" StaticName="StartDate" Value="4/2/2019 11:00:00 AM" />
+      <Field Type="DateTime" StaticName="EndDate" Value="4/3/2019 11:00:00 AM" />
       <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
       <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
       <Field Type="Text" StaticName="ExternalId" Value="040000008200E00074C5B7101A82E0080000000090659789FF86D40100000000000000001000000091211FC7F9CCE6478B2CA45B7BBE578D" />
@@ -310,8 +310,8 @@
     </ListItem>
     <ListItem Title="House Sitting Only, Additional Estimates">
       <Field Type="Text" StaticName="Title" Value="House Sitting Only, Additional Estimates" />
-      <Field Type="DateTime" StaticName="StartDate" Value="2/18/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="2/22/2019 12:00:00 AM" />
+      <Field Type="DateTime" StaticName="StartDate" Value="2/18/2019 11:00:00 AM" />
+      <Field Type="DateTime" StaticName="EndDate" Value="2/22/2019 11:00:00 AM" />
       <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-house" />
       <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
       <Field Type="Text" StaticName="ExternalId" Value="040000008200E00074C5B7101A82E00800000000E0A44F6FFF86D4010000000000000000100000001082D2E1D497B241A16544AA234BC824" />
@@ -332,8 +332,8 @@
     </ListItem>
     <ListItem Title="Both Houses of Parliament Sitting (2/3 Senate Cut Off)">
       <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting (2/3 Senate Cut Off)" />
-      <Field Type="DateTime" StaticName="StartDate" Value="2/13/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="2/14/2019 12:00:00 AM" />
+      <Field Type="DateTime" StaticName="StartDate" Value="2/13/2019 11:00:00 AM" />
+      <Field Type="DateTime" StaticName="EndDate" Value="2/14/2019 11:00:00 AM" />
       <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
       <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
       <Field Type="Text" StaticName="ExternalId" Value="040000008200E00074C5B7101A82E008000000000039B74EFF86D4010000000000000000100000002ED2493138CCAE4C87EB645B619E16E1" />
@@ -343,8 +343,8 @@
     </ListItem>
     <ListItem Title="Both Houses of Parliament Sitting">
       <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting" />
-      <Field Type="DateTime" StaticName="StartDate" Value="2/12/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="2/13/2019 12:00:00 AM" />
+      <Field Type="DateTime" StaticName="StartDate" Value="2/12/2019 11:00:00 AM" />
+      <Field Type="DateTime" StaticName="EndDate" Value="2/13/2019 11:00:00 AM" />
       <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
       <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
       <Field Type="Text" StaticName="ExternalId" Value="040000008200E00074C5B7101A82E0080000000070D71631FF86D401000000000000000010000000B5FCF7D461F7644AAE4FB91FDCCD0DDE" />
@@ -352,362 +352,10 @@
       <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
       <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
     </ListItem>
-    <ListItem Title="Supplementary Budget Estimates">
-      <Field Type="Text" StaticName="Title" Value="Supplementary Budget Estimates" />
-      <Field Type="DateTime" StaticName="StartDate" Value="10/25/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="10/26/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-house" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Budget Estimates">
-      <Field Type="Text" StaticName="Title" Value="Budget Estimates" />
-      <Field Type="DateTime" StaticName="StartDate" Value="4/8/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="4/13/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-house" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Budget Estimates">
-      <Field Type="Text" StaticName="Title" Value="Budget Estimates" />
-      <Field Type="DateTime" StaticName="StartDate" Value="4/5/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="4/6/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-house" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="House Sitting Only, Budget Estimates">
-      <Field Type="Text" StaticName="Title" Value="House Sitting Only, Budget Estimates" />
-      <Field Type="DateTime" StaticName="StartDate" Value="4/4/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="4/5/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-house" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Both Houses of Parliament Sitting (2/3 Senate Cut Off)">
-      <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting (2/3 Senate Cut Off)" />
-      <Field Type="DateTime" StaticName="StartDate" Value="11/28/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="11/29/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Both Houses of Parliament Sitting">
-      <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting" />
-      <Field Type="DateTime" StaticName="StartDate" Value="12/2/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="12/6/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Both Houses of Parliament Sitting">
-      <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting" />
-      <Field Type="DateTime" StaticName="StartDate" Value="11/25/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="11/28/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Senate Sitting Only">
-      <Field Type="Text" StaticName="Title" Value="Senate Sitting Only" />
-      <Field Type="DateTime" StaticName="StartDate" Value="11/11/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="11/15/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-senate" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="House Sitting Only, Supplementary Budget Estimates">
-      <Field Type="Text" StaticName="Title" Value="House Sitting Only, Supplementary Budget Estimates" />
-      <Field Type="DateTime" StaticName="StartDate" Value="10/21/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="10/25/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-house" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Both Houses of Parliament Sitting (2/3 Senate Cut Off)">
-      <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting (2/3 Senate Cut Off)" />
-      <Field Type="DateTime" StaticName="StartDate" Value="10/16/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="10/17/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Both Houses of Parliament Sitting (2/3 Senate Cut Off)">
-      <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting (2/3 Senate Cut Off)" />
-      <Field Type="DateTime" StaticName="StartDate" Value="9/11/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="9/12/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Both Houses of Parliament Sitting">
-      <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting" />
-      <Field Type="DateTime" StaticName="StartDate" Value="10/17/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="10/18/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Both Houses of Parliament Sitting">
-      <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting" />
-      <Field Type="DateTime" StaticName="StartDate" Value="10/14/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="10/16/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Both Houses of Parliament Sitting">
-      <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting" />
-      <Field Type="DateTime" StaticName="StartDate" Value="9/12/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="9/13/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Both Houses of Parliament Sitting">
-      <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting" />
-      <Field Type="DateTime" StaticName="StartDate" Value="9/16/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="9/20/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Both Houses of Parliament Sitting">
-      <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting" />
-      <Field Type="DateTime" StaticName="StartDate" Value="9/9/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="9/11/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Both Houses of Parliament Sitting">
-      <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting" />
-      <Field Type="DateTime" StaticName="StartDate" Value="8/19/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="8/23/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Both Houses of Parliament Sitting">
-      <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting" />
-      <Field Type="DateTime" StaticName="StartDate" Value="8/12/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="8/16/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Both Houses of Parliament Sitting (2/3 Senate Cut Off)">
-      <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting (2/3 Senate Cut Off)" />
-      <Field Type="DateTime" StaticName="StartDate" Value="6/18/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="6/19/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Both Houses of Parliament Sitting">
-      <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting" />
-      <Field Type="DateTime" StaticName="StartDate" Value="6/24/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="6/28/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Both Houses of Parliament Sitting">
-      <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting" />
-      <Field Type="DateTime" StaticName="StartDate" Value="6/17/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="6/18/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Both Houses of Parliament Sitting">
-      <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting" />
-      <Field Type="DateTime" StaticName="StartDate" Value="6/19/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="6/21/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Both Houses of Parliament Sitting">
-      <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting" />
-      <Field Type="DateTime" StaticName="StartDate" Value="6/3/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="6/7/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Both Houses of Parliament Sitting">
-      <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting" />
-      <Field Type="DateTime" StaticName="StartDate" Value="5/28/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="5/31/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Both Houses of Parliament Sitting">
-      <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting" />
-      <Field Type="DateTime" StaticName="StartDate" Value="5/13/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="5/17/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="House Sitting Only">
-      <Field Type="Text" StaticName="Title" Value="House Sitting Only" />
-      <Field Type="DateTime" StaticName="StartDate" Value="4/15/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="4/19/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-house" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Both Houses of Parliament Sitting (2/3 Senate Cut Off)">
-      <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting (2/3 Senate Cut Off)" />
-      <Field Type="DateTime" StaticName="StartDate" Value="4/3/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="4/4/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Both Houses of Parliament Sitting, Budget">
-      <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting, Budget" />
-      <Field Type="DateTime" StaticName="StartDate" Value="4/2/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="4/3/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="House Sitting Only, Additional Estimates">
-      <Field Type="Text" StaticName="Title" Value="House Sitting Only, Additional Estimates" />
-      <Field Type="DateTime" StaticName="StartDate" Value="2/18/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="2/22/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-house" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Both Houses of Parliament Sitting">
-      <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting" />
-      <Field Type="DateTime" StaticName="StartDate" Value="2/14/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="2/15/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Both Houses of Parliament Sitting (2/3 Senate Cut Off)">
-      <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting (2/3 Senate Cut Off)" />
-      <Field Type="DateTime" StaticName="StartDate" Value="2/13/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="2/14/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
-    <ListItem Title="Both Houses of Parliament Sitting">
-      <Field Type="Text" StaticName="Title" Value="Both Houses of Parliament Sitting" />
-      <Field Type="DateTime" StaticName="StartDate" Value="2/12/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="2/13/2019 12:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
-      <Field Type="Text" StaticName="Location" Value="Parliament House, CANBERRA, ACT 2600" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
-    </ListItem>
     <ListItem Title="Nick's Travel">
       <Field Type="Text" StaticName="Title" Value="Nick's Travel" />
-      <Field Type="DateTime" StaticName="StartDate" Value="5/3/2019 12:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="5/5/2019 12:00:00 AM" />
+      <Field Type="DateTime" StaticName="StartDate" Value="5/3/2019 10:00:00 AM" />
+      <Field Type="DateTime" StaticName="EndDate" Value="5/5/2019 10:00:00 AM" />
       <Field Type="Text" StaticName="CssClass" />
       <Field Type="Text" StaticName="Location" />
       <Field Type="Text" StaticName="ExternalId" />
