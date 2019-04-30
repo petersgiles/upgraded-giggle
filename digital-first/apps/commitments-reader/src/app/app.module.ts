@@ -49,6 +49,7 @@ import { AppEffects } from './reducers/app.effects'
 import { RouterStateSerializer } from '@ngrx/router-store'
 import * as fromCommitmentDetail from './reducers/commitment-detail/commitment-detail.reducer'
 import { CommitmentDetailEffects } from './reducers/commitment-detail/commitment-detail.effects'
+import { RouterEffects } from './reducers/router.effects'
 
 const COMPONENTS = [
   AppComponent,
@@ -90,7 +91,6 @@ const COMPONENTS = [
     MdcSliderModule,
     MdcElevationModule,
     DfSharepointLibModule,
-    SharepointJsomService,
     StoreModule.forRoot(reducers, {
       metaReducers: metaReducers
     }),
@@ -99,7 +99,7 @@ const COMPONENTS = [
     StoreModule.forFeature('user', fromUser.reducer),
     StoreModule.forFeature('commitmentDetail', fromCommitmentDetail.reducer),
 
-    EffectsModule.forRoot([AppEffects]),
+    EffectsModule.forRoot([AppEffects, RouterEffects]),
     EffectsModule.forFeature([CommitmentDetailEffects])
   ],
   providers: [
@@ -110,6 +110,7 @@ const COMPONENTS = [
       multi: true
     },
     commitmentEventDataServiceProvider,
+    SharepointJsomService,
     { provide: TitleLayoutService, useClass: AppFullLayoutService },
     {
       provide: APOLLO_OPTIONS,

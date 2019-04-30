@@ -65,7 +65,7 @@ const routes: Routes = [
             component: HomeComponent
           },
           {
-            path: ':id/packages',
+            path: 'commitmentDetail/:id',
             component:  CommitmentDetailComponent 
           },
           {

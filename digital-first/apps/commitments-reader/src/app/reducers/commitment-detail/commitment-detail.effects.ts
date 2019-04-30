@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-
-import { concatMap } from 'rxjs/operators';
+import { concatMap, filter, switchMap } from 'rxjs/operators'
+import { RouteChange, CHANGE, ofRoute } from '../router.actions'
 import { EMPTY } from 'rxjs';
-import { CommitmentDetailActionTypes, CommitmentDetailActions } from './commitment-detail.actions';
-
+import { CommitmentDetailActionTypes, CommitmentDetailActions, LoadCommitmentDetails } from './commitment-detail.actions';
+import {CommitmentDetailService } from './commitment-detail.service'
+//import { Observable } from 'apollo-link';
+//getCurrentUser
 
 @Injectable()
 export class CommitmentDetailEffects {
@@ -17,7 +19,17 @@ export class CommitmentDetailEffects {
     concatMap(() => EMPTY)
   );
 
+  @Effect()
+  commitmentDetailsRouted$ = this.actions$.pipe(
+    ofType(CHANGE),
+    filter((routeChangeAction: RouteChange) => routeChangeAction.payload.path === 'commitment/:id'),
+     concatMap((action) => this.commitmentDetailService.getCurrentUser({action}))
+    //new LoadCommitmentActions({ actions: result.data.commitmentActions })),
+  )
 
-  constructor(private actions$: Actions<CommitmentDetailActions>) {}
+  
+  @Effect() pizzaRouted = this.actions$.pipe(ofRoute('commitmentDetail/:id'))
+
+  constructor(private actions$: Actions<CommitmentDetailActions>, private commitmentDetailService: CommitmentDetailService) {}
 
 }
