@@ -1,0 +1,154 @@
+import { Injectable } from '@angular/core'
+import { Actions, Effect, ofType } from '@ngrx/effects'
+
+import { concatMap, map, catchError, switchMap, tap } from 'rxjs/operators'
+import { EMPTY, of, forkJoin, Observable } from 'rxjs'
+import {
+  DiscussionActionTypes,
+  DiscussionActions,
+  GetDiscussion,
+  LoadDiscussions,
+  GetDiscussionFailure,
+  AddComment,
+  RemoveComment
+} from './discussion.actions'
+import { idFromLookup, fromUser, SharepointJsomService } from '@df/sharepoint'
+import { pickColor } from '../../utils/colour'
+import { byBriefIdQuery } from '../../services/sharepoint/caml'
+
+export const mapComment = (item): any => {
+  const brief = idFromLookup(item.Brief)
+  const parent = idFromLookup(item.Parent)
+  const user = fromUser(item.Author)
+  const author = {
+    ...user,
+    color: pickColor(user.email)
+  }
+
+  return {
+    id: item.ID,
+    title: item.Title,
+    created: item.Created,
+    text: item.Comments,
+    brief: brief,
+    parent: parent,
+    author: author
+  }
+}
+
+export const mapComments = (items): any[] => (items || []).map(mapComment)
+
+@Injectable()
+export class DiscussionEffects {
+  // 💬
+
+  getDiscussionNodes(
+    briefId: string
+  ): Observable<{
+    data: { nodes: any[] }
+    loading: boolean
+  }> {
+    const briefIdViewXml = byBriefIdQuery({ id: briefId })
+
+    return forkJoin([
+      this.sharepoint.getItems({
+        listName: 'Comment',
+        viewXml: briefIdViewXml
+      })
+    ]).pipe(
+      map(([spComments]) => [...mapComments(spComments)]),
+      concatMap(result =>
+        of({
+          data: { nodes: result },
+          loading: false
+        })
+      )
+    )
+  }
+
+  addComment(comment: {
+    text: string
+    brief: string
+    parent: string
+  }): Observable<any> {
+    return this.sharepoint.storeItem({
+      listName: 'Comment',
+      data: {
+        Comments: comment.text,
+        Brief: comment.brief,
+        Parent: comment.parent
+      }
+    })
+    .pipe(
+      concatMap(_ => of({ brief: comment.brief }))
+    )
+  }
+
+  removeComment(comment: {
+    id: string,
+    brief: string
+  }): Observable<any> {
+    return this.sharepoint.removeItem({
+      listName: 'Comment',
+      id: comment.id
+    })
+    .pipe(
+      concatMap(_ => of({ brief: comment.brief }))
+    )
+  }
+
+  // return sharePointService.removeItem(
+  //   'Comment', commentId				
+  // );
+
+  @Effect()
+  loadDiscussions$ = this.actions$.pipe(
+    ofType(DiscussionActionTypes.GetDiscussion),
+    map((action: GetDiscussion) => action),
+    concatMap(action => this.getDiscussionNodes(action.payload.activeBriefId)),
+    // tslint:disable-next-line: no-console
+    tap(result => console.log(`🍺 `, result)),
+    switchMap((result: { data: { nodes: any[] }; loading: boolean }) => [
+      new LoadDiscussions({
+        data: result.data.nodes,
+        loading: result.loading
+      })
+    ]),
+    catchError(error => of(new GetDiscussionFailure(error)))
+  )
+
+  @Effect()
+  addComment$ = this.actions$.pipe(
+    ofType(DiscussionActionTypes.AddComment),
+    map((action: AddComment) => action),
+    concatMap(action => this.addComment(action.payload)),
+    // tslint:disable-next-line: no-console
+    tap(result => console.log(`🍺 `, result)),
+    switchMap((result: { brief: string }) => [
+      new GetDiscussion({
+        activeBriefId: result.brief
+      })
+    ]),
+    catchError(error => of(new GetDiscussionFailure(error)))
+  )
+
+  @Effect()
+  removeComment$ = this.actions$.pipe(
+    ofType(DiscussionActionTypes.RemoveComment),
+    map((action: RemoveComment) => action),
+    concatMap(action => this.removeComment(action.payload)),
+    // tslint:disable-next-line: no-console
+    tap(result => console.log(`🍺 `, result)),
+    switchMap((result: { brief: string }) => [
+      new GetDiscussion({
+        activeBriefId: result.brief
+      })
+    ]),
+    catchError(error => of(new GetDiscussionFailure(error)))
+  )
+
+  constructor(
+    private actions$: Actions<DiscussionActions>,
+    private sharepoint: SharepointJsomService
+  ) {}
+}

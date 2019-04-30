@@ -1,0 +1,19 @@
+scalar Date
+
+# import MutationResponse, MutationResponse from "schema/response.graphql"
+# import UserProfileRole, UserProfile from "schema/user-profiles.graphql"
+# import Tag, TagInput, Resolver from "schema/tags.graphql"
+# import Brief from "schema/briefs.graphql"
+
+# The "Query" type is the root of all GraphQL queries.
+type Query {
+	brief(id: ID!): Brief
+	briefs(input: BriefRefinementInput): [Brief]
+	policies: [Policy]
+	navigatorTree(id: ID): [NavigatorTreeNode]
+}
+
+# The mutation root type, used to define all mutations.
+# type Mutation {
+
+# }

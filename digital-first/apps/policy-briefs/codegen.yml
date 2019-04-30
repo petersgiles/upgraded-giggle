@@ -1,0 +1,18 @@
+schema:
+  - ./apps/policy-briefs/src/app/graphQL/schema.graphql:
+  - http://localhost:3202/graphql:
+      headers:
+        ProgramsApiKey: "peter.giles@pmc.gov.au"
+  
+documents:
+  - ./apps/policy-briefs/**/*.graphql
+overwrite: true
+config:
+generates:
+  ./apps/policy-briefs/src/app/generated/graphql.ts:
+    config: { }
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-apollo-angular
+require: []

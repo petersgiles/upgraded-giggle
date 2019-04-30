@@ -34,11 +34,21 @@ import { MapOverviewPageComponent } from './pages/map-overview-page/map-overview
 import { CommitmentOverviewLayoutComponent } from './layouts/commitment-overview-layout/commitment-overview-layout.component'
 import { SchedulerComponent } from './components/scheduler/scheduler.component'
 import { GetRefinerTagsGQL } from './generated/graphql'
-import { DfSharepointLibModule } from '@df/sharepoint'
 import { commitmentEventDataServiceProvider } from './services/commitment-event/commitment-event-data-service'
 import { CommitmentDetailComponent } from './pages/commitment-detail/commitment-detail.component'
 import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component'
-import { appConfigServiceProvider } from './services/app-config.service';
+import { appConfigServiceProvider } from './services/app-config.service'
+import { DfSharepointLibModule, SharepointJsomService } from '@df/sharepoint'
+import * as fromUser from './reducers/user/user.reducer'
+import { EffectsModule } from '@ngrx/effects'
+import { StoreModule } from '@ngrx/store'
+import { StoreDevtoolsModule } from '@ngrx/store-devtools'
+import { metaReducers, reducers, CustomSerializer } from './reducers'
+import { AppEffects } from './reducers/app.effects'
+import { RouterStateSerializer } from '@ngrx/router-store'
+import * as fromCommitmentDetail from './reducers/commitment-detail/commitment-detail.reducer'
+import { CommitmentDetailEffects } from './reducers/commitment-detail/commitment-detail.effects'
+
 const COMPONENTS = [
   AppComponent,
   HomeComponent,
@@ -56,6 +66,7 @@ const COMPONENTS = [
   imports: [
     BrowserModule,
     FormsModule,
+
     ReactiveFormsModule,
     ApolloModule,
     AgmCoreModule.forRoot({
@@ -76,7 +87,18 @@ const COMPONENTS = [
     AppRoutingModule,
     MdcSliderModule,
     MdcElevationModule,
-    DfSharepointLibModule
+    DfSharepointLibModule,
+    SharepointJsomService,
+    StoreModule.forRoot(reducers, {
+      metaReducers: metaReducers
+    }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+
+    StoreModule.forFeature('user', fromUser.reducer),
+    StoreModule.forFeature('commitmentDetail', fromCommitmentDetail.reducer),
+
+    EffectsModule.forRoot([AppEffects]),
+    EffectsModule.forFeature([CommitmentDetailEffects])
   ],
   providers: [
     {
@@ -113,7 +135,13 @@ const COMPONENTS = [
         }
       },
       deps: [HttpLink]
-    }
+    },
+    /**
+     * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.
+     * A custom RouterStateSerializer is used to parse the `RouterStateSnapshot` provided
+     * by `@ngrx/router-store` to include only the desired pieces of the snapshot.
+     */
+    { provide: RouterStateSerializer, useClass: CustomSerializer }
   ],
   bootstrap: [AppComponent],
   exports: [CommitmentDetailComponent]
