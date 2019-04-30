@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects'
 
 import { concatMap, catchError, switchMap, tap, map } from 'rxjs/operators'
 import { EMPTY, of, Observable, forkJoin } from 'rxjs'
-import { DeckActionTypes, DeckActions, GetDeckItemsFailure, LoadDeck, GetDeckItems } from './deck.actions'
+import { DeckActionTypes, DeckActions, GetDeckItemsFailure, LoadDeck, GetDeckItems, AddDeckItem, RemoveDeckItem, UpdateDeckItem } from './deck.actions'
 import { SharepointJsomService, idFromLookup } from '@df/sharepoint';
 import { byParentIdQuery } from '../../services/sharepoint/caml'
 
@@ -25,6 +25,17 @@ export class DeckEffects {
     return this.sharepoint.storeItem({
       listName: DECK_ITEM_LIST_NAME,
       data: {  }
+    })
+    .pipe(
+      concatMap(_ => of({ }))
+    )
+  }
+
+  updateDeckItem = (deckItem: any): Observable<any> => {
+    return this.sharepoint.storeItem({
+      listName: DECK_ITEM_LIST_NAME,
+      data: {  },
+      id: deckItem.id
     })
     .pipe(
       concatMap(_ => of({ }))
@@ -84,22 +95,49 @@ export class DeckEffects {
   @Effect()
   addDeckItem$ = this.actions$.pipe(
     ofType(DeckActionTypes.AddDeckItem),
-    /** An EMPTY observable only emits completion. Replace with your own observable API request */
-    concatMap(() => EMPTY)
+    map((action: AddDeckItem) => action),
+    concatMap(action => this.addDeckItem(action.payload)),
+    // tslint:disable-next-line: no-console
+    tap(result => console.log(`🍺 `, result)),
+    switchMap((result: { data: any; loading: boolean }) => [
+      new LoadDeck({
+        data: result.data,
+        loading: result.loading
+      })
+    ]),
+    catchError(error => of(new GetDeckItemsFailure(error)))
   )
 
   @Effect()
   removeDeckItem$ = this.actions$.pipe(
     ofType(DeckActionTypes.RemoveDeckItem),
-    /** An EMPTY observable only emits completion. Replace with your own observable API request */
-    concatMap(() => EMPTY)
+    map((action: RemoveDeckItem) => action),
+    concatMap(action => this.removeDeckItem(action.payload)),
+    // tslint:disable-next-line: no-console
+    tap(result => console.log(`🍺 `, result)),
+    switchMap((result: { data: any; loading: boolean }) => [
+      new LoadDeck({
+        data: result.data,
+        loading: result.loading
+      })
+    ]),
+    catchError(error => of(new GetDeckItemsFailure(error)))
   )
 
   @Effect()
   updateDeckItem$ = this.actions$.pipe(
     ofType(DeckActionTypes.UpdateDeckItem),
-    /** An EMPTY observable only emits completion. Replace with your own observable API request */
-    concatMap(() => EMPTY)
+    map((action: UpdateDeckItem) => action),
+    concatMap(action => this.updateDeckItem(action.payload)),
+    // tslint:disable-next-line: no-console
+    tap(result => console.log(`🍺 `, result)),
+    switchMap((result: { data: any; loading: boolean }) => [
+      new LoadDeck({
+        data: result.data,
+        loading: result.loading
+      })
+    ]),
+    catchError(error => of(new GetDeckItemsFailure(error)))
   )
 
   constructor(private actions$: Actions<DeckActions>,
