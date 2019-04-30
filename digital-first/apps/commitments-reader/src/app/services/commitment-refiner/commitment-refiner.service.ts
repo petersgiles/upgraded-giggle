@@ -62,7 +62,6 @@ export class CommitmentRefinerService implements OnDestroy {
     private commitmentMapPointGQL: CommitmentMapPointGQL,
     private appConfigService: AppConfigService
   ) {
-    console.log('refiner service constructor')
     appConfigService.init().subscribe(_ => {
       this.registerEffects()
 
@@ -142,14 +141,12 @@ export class CommitmentRefinerService implements OnDestroy {
       commitmentTypes: this.getItems(store.selectedRefiners, 1),
       criticalDates: this.getItems(store.selectedRefiners, 2),
       portfolioLookups: this.getItems(store.selectedRefiners, 3)
-      // TODO: textRefiner: store.textRefiner
     }
 
     this.action$.next(new GetRefinedCommitments(payload))
   }
 
   public getMapPoints() {
-    console.log('WHAT IS REAL LIFE?')
     const store = this.store$.getValue()
 
     const payload: CommitmentRefinerGraph = {
@@ -300,9 +297,7 @@ export class CommitmentRefinerService implements OnDestroy {
       })
     }
   }
-  getRefinerGroupsEffect = (
-    action: GetRefinerGroups
-  ): Observable<RefinerAction> =>
+  getRefinerGroupsEffect = (): Observable<RefinerAction> =>
     this.getRefinerTagsGQL.fetch({ input: {} }).pipe(
       first(),
       map((result: any) =>

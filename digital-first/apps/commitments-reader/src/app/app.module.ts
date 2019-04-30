@@ -1,9 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule, APP_INITIALIZER } from '@angular/core'
-import { NxModule } from '@nrwl/nx'
 import { HttpClientModule, HttpHeaders, HttpClient } from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { Apollo, APOLLO_OPTIONS, ApolloModule } from 'apollo-angular'
+import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular'
 import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { MdcSliderModule, MdcElevationModule } from '@angular-mdc/web'
@@ -15,12 +14,12 @@ import { DfPagesModule } from '@digital-first/df-pages'
 import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfRefinerModule } from '@digital-first/df-refiner'
 import {
-  DialogAreYouSureComponent,
   DataTableModule,
   PanelModule,
   ButtonModule,
   DialogsModule
 } from '@df/components'
+import { NgSelectModule } from '@ng-select/ng-select'
 import { AppFullLayoutService } from './app-full-layout.service'
 import { environment } from '../environments/environment'
 import { initApplication } from './app-init'
@@ -33,7 +32,6 @@ import { OverviewPageComponent } from './pages/overview-page/overview-page.compo
 import { MapOverviewPageComponent } from './pages/map-overview-page/map-overview-page.component'
 import { CommitmentOverviewLayoutComponent } from './layouts/commitment-overview-layout/commitment-overview-layout.component'
 import { SchedulerComponent } from './components/scheduler/scheduler.component'
-import { GetRefinerTagsGQL } from './generated/graphql'
 import { DfSharepointLibModule } from '@df/sharepoint'
 import { commitmentEventDataServiceProvider } from './services/commitment-event/commitment-event-data-service'
 import { CommitmentDetailComponent } from './pages/commitment-detail/commitment-detail.component'
@@ -75,7 +73,8 @@ const COMPONENTS = [
     AppRoutingModule,
     MdcSliderModule,
     MdcElevationModule,
-    DfSharepointLibModule
+    DfSharepointLibModule,
+    NgSelectModule
   ],
   providers: [
     {

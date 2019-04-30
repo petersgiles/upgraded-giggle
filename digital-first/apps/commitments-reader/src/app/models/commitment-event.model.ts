@@ -1,6 +1,6 @@
 export interface CommitmentEvent {
   id: string
-  resourceId: string  // to match Bryntum Scheduler name convention
+  resourceId: string // to match Bryntum Scheduler name convention
   name: string
   eventType: string
   eventColor: string
@@ -23,5 +23,12 @@ export interface ExternalEvent {
   name: string
   startDate: Date
   endDate: Date
+  cls: string
+  eventTypeId: string
+}
+
+export interface ExternalEventType {
+  id: string
+  name: string
   cssClass: string
 }
