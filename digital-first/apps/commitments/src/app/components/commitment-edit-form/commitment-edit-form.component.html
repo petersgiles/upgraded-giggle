@@ -2,7 +2,7 @@
   <form [formGroup]="form" (ngSubmit)="handleSubmit($event)" autocomplete="off">
     <fieldset [attr.disabled]="busy ? '' : null">
       <input type="hidden" formControlName="id" />
-
+      <input type="hidden" formControlName="costingRequired" />
       <div class="form-layout__row">
         <df-status-picker [statuses]="statuses" formControlName="status"></df-status-picker>
       </div>
@@ -102,10 +102,6 @@
           step="any"
         ></mdc-text-field>
 
-        <mdc-form-field>
-          <mdc-checkbox formControlName="costingRequired"></mdc-checkbox>
-          <label>Official Costing Required</label>
-        </mdc-form-field>
       </div>
 
       <div class="form-layout__row-with-button" *ngIf="showSubmit">
