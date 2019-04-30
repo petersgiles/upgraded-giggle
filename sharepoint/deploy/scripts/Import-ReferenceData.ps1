@@ -1,5 +1,5 @@
 Param(
-    [string] $SiteUrl = "http://vm-dev-lbs13/sites/commitments-reader",
+    [string] $SiteUrl = "http://vm-dev-lbs13/sites/commitments-reader-tim",
     [string] $dataFolder = "$PSScriptRoot\..\..\commitments-reader\Data\",
     [string] $binPath = "$PSScriptRoot"
 )
@@ -77,7 +77,7 @@ function Import-ListData($context, $listImportConfig, $listData) {
     Write-Host "Importing list data $listName -> $SiteUrl"
     
     $list = $context.Web.Lists.GetByTitle($listName)
-    $query = [Microsoft.SharePoint.Client.CamlQuery]::CreateAllItemsQuery(100)
+    $query = [Microsoft.SharePoint.Client.CamlQuery]::CreateAllItemsQuery()
     $listItems = $list.GetItems($query)
     $context.Load($listItems)
     $context.ExecuteQuery()
