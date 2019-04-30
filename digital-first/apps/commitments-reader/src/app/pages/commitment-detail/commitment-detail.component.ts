@@ -39,7 +39,10 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
 
   loadCommitment(id: string) {
     this.commitmentSubscription$ = this.getCommitmentDetailGQL
-      .watch({ id: id }, { fetchPolicy: 'network-only' })
+      .watch(
+        { id: id, bookType: this.appConfigService.getBookType() },
+        { fetchPolicy: 'network-only' }
+      )
       .valueChanges.pipe(map(value => value.data.commitments))
       .subscribe(dbItem => {
         const commitment: ICommitment = {
