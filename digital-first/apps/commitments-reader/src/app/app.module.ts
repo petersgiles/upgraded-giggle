@@ -38,6 +38,7 @@ import { DfSharepointLibModule } from '@df/sharepoint'
 import { commitmentEventDataServiceProvider } from './services/commitment-event/commitment-event-data-service'
 import { CommitmentDetailComponent } from './pages/commitment-detail/commitment-detail.component'
 import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component'
+import { appConfigServiceProvider } from './services/app-config.service';
 const COMPONENTS = [
   AppComponent,
   HomeComponent,
@@ -84,6 +85,7 @@ const COMPONENTS = [
       deps: [],
       multi: true
     },
+    appConfigServiceProvider,
     commitmentEventDataServiceProvider,
     { provide: TitleLayoutService, useClass: AppFullLayoutService },
     {
