@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core'
-import { Router } from '@angular/router'
+import { Router, ActivationEnd } from '@angular/router'
 import { Location } from '@angular/common'
 
 import { Effect, Actions, ofType } from '@ngrx/effects'
 import * as RouterActions from './router.actions'
 
 import { tap, map, filter } from 'rxjs/operators'
+
 import { Store } from '@ngrx/store';
 
 @Injectable()
@@ -16,7 +17,7 @@ export class RouterEffects {
     private location: Location,
     private store: Store<any>
   ) {
-    //this.listenToRouter();
+    this.listenToRouter();
   }
 
   @Effect({ dispatch: false })
@@ -29,13 +30,24 @@ export class RouterEffects {
 
   @Effect({ dispatch: false })
   navigateBack$ = this.actions$
-    .pipe(ofType(RouterActions.BACK))
-    .pipe(tap(() => this.location.back()))
+    .pipe(ofType(RouterActions.BACK),
+    tap(() => this.location.back()))
 
   @Effect({ dispatch: false })
   navigateForward$ = this.actions$
-    .pipe(ofType(RouterActions.FORWARD))
-    .pipe(tap(() => this.location.forward()))
+    .pipe(ofType(RouterActions.FORWARD),
+    tap(() => this.location.forward()))
 
-
+    private listenToRouter() {
+      this.router.events.pipe(
+          filter(event => event instanceof ActivationEnd)
+      ).subscribe((event: ActivationEnd) =>
+          this.store.dispatch(new RouterActions.RouteChange({
+              params: { ...event.snapshot.params },
+              path: event.snapshot.routeConfig.path
+          }))
+      );
+  }
 }
+
+
