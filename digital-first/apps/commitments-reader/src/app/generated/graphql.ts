@@ -407,10 +407,13 @@ export type DeactivateElectorateAdviceGraph = {
 export type DeckItemBriefSummaryGraph = {
   briefId: Scalars['Guid']
   commitmentCount: Scalars['Int']
+  listItemId: Scalars['Int']
   recommendationCount: Scalars['Int']
   reference: Scalars['String']
   responseRecommendationCount: Scalars['Int']
   title: Scalars['String']
+  webTitle: Scalars['String']
+  webUrl: Scalars['String']
 }
 
 export type DeleteBriefCommitmentInputGraph = {
@@ -1444,6 +1447,7 @@ export type WhereExpressionGraph = {
 }
 export type GetCommitmentDetailQueryVariables = {
   id: Scalars['String']
+  bookType: Scalars['String']
 }
 
 export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
@@ -1664,8 +1668,8 @@ import { Injectable } from '@angular/core'
 import * as Apollo from 'apollo-angular'
 
 export const GetCommitmentDetailDocument = gql`
-  query getCommitmentDetail($id: String!) {
-    commitments(id: $id) {
+  query getCommitmentDetail($id: String!, $bookType: String!) {
+    commitments(id: $id, bookType: $bookType) {
       id
       title
       description
