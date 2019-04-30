@@ -37,6 +37,7 @@ import { GetRefinerTagsGQL } from './generated/graphql'
 import { commitmentEventDataServiceProvider } from './services/commitment-event/commitment-event-data-service'
 import { CommitmentDetailComponent } from './pages/commitment-detail/commitment-detail.component'
 import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component'
+import { appConfigServiceProvider } from './services/app-config.service'
 import { DfSharepointLibModule, SharepointJsomService } from '@df/sharepoint'
 import * as fromUser from './reducers/user/user.reducer'
 import { EffectsModule } from '@ngrx/effects'
@@ -106,6 +107,7 @@ const COMPONENTS = [
       deps: [],
       multi: true
     },
+    appConfigServiceProvider,
     commitmentEventDataServiceProvider,
     { provide: TitleLayoutService, useClass: AppFullLayoutService },
     {
