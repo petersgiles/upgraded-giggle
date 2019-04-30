@@ -3,7 +3,7 @@ import { GetCommitmentDetailGQL } from '../../generated/graphql'
 import { Subscription } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { ActivatedRoute } from '@angular/router'
-
+import { AppConfigService } from '../../services/app-config.service'
 interface ICommitment {
   id: number
   title: string
@@ -27,41 +27,47 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   public commitment: ICommitment
   constructor(
     private getCommitmentDetailGQL: GetCommitmentDetailGQL,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private appConfigService: AppConfigService
   ) {}
 
   ngOnInit() {
     let id: string = this.route.snapshot.paramMap.get('id')
     // override for setup
-    id = '15'
+    id = '106'
     this.loadCommitment(id)
   }
 
   loadCommitment(id: string) {
     this.commitmentSubscription$ = this.getCommitmentDetailGQL
-      .watch({ id: id }, { fetchPolicy: 'network-only' })
+      .watch(
+        { id: id, bookType: this.appConfigService.getBookType() },
+        { fetchPolicy: 'network-only' }
+      )
       .valueChanges.pipe(map(value => value.data.commitments))
       .subscribe(dbItem => {
-        const commitment: ICommitment = {
-          id: dbItem[0].id,
-          title: dbItem[0].title,
-          description: dbItem[0].description,
-          bookType: dbItem[0].bookType,
-          cost: dbItem[0].cost,
-          date: dbItem[0].date,
-          politicalParty: dbItem[0].politicalParty,
-          announcedBy: dbItem[0].announcedBy,
-          announcementType: dbItem[0].announcementType
-            ? dbItem[0].announcementType.title
-            : '',
-          criticalDate: dbItem[0].criticalDate
-            ? dbItem[0].criticalDate.title
-            : '',
-          portfolio: dbItem[0].portfolioLookup
-            ? dbItem[0].portfolioLookup.title
-            : ''
+        if (dbItem) {
+          const commitment: ICommitment = {
+            id: dbItem[0].id,
+            title: dbItem[0].title,
+            description: dbItem[0].description,
+            bookType: dbItem[0].bookType,
+            cost: dbItem[0].cost,
+            date: dbItem[0].date,
+            politicalParty: dbItem[0].politicalParty,
+            announcedBy: dbItem[0].announcedBy,
+            announcementType: dbItem[0].announcementType
+              ? dbItem[0].announcementType.title
+              : '',
+            criticalDate: dbItem[0].criticalDate
+              ? dbItem[0].criticalDate.title
+              : '',
+            portfolio: dbItem[0].portfolioLookup
+              ? dbItem[0].portfolioLookup.title
+              : ''
+          }
+          this.commitment = commitment
         }
-        this.commitment = commitment
       })
   }
 

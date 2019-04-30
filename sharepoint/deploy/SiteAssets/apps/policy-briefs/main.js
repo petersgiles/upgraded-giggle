@@ -1,9 +1,9 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["main"],{
 
 /***/ "../../libs/df-components/src/index.ts":
-/*!*************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-components/src/index.ts ***!
-  \*************************************************************************************/
+/*!***************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-components/src/index.ts ***!
+  \***************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31,9 +31,9 @@ exports.InfoComponent = info_component_1.InfoComponent;
 /***/ }),
 
 /***/ "../../libs/df-components/src/lib/avatar/avatar.component.html":
-/*!*************************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-components/src/lib/avatar/avatar.component.html ***!
-  \*************************************************************************************************************/
+/*!***************************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-components/src/lib/avatar/avatar.component.html ***!
+  \***************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -42,20 +42,20 @@ module.exports = "<div class=\"avatar\"\r\n     *ngIf=\"props\"\r\n     [style.b
 /***/ }),
 
 /***/ "../../libs/df-components/src/lib/avatar/avatar.component.scss":
-/*!*************************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-components/src/lib/avatar/avatar.component.scss ***!
-  \*************************************************************************************************************/
+/*!***************************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-components/src/lib/avatar/avatar.component.scss ***!
+  \***************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".avatar {\n  text-align: center;\n  overflow: hidden; }\n  .avatar img {\n    vertical-align: top; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxpYnMvZGYtY29tcG9uZW50cy9zcmMvbGliL2F2YXRhci9DOlxcVXNlcnNcXGFwZ2lsZXNcXENvZGVcXERGLUNsaWVudFxcZGlnaXRhbC1maXJzdC9saWJzXFxkZi1jb21wb25lbnRzXFxzcmNcXGxpYlxcYXZhdGFyXFxhdmF0YXIuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSxrQkFBbUI7RUFDbkIsZ0JBQW1CLEVBQUE7RUFGdkI7SUFLTSxtQkFBbUIsRUFBQSIsImZpbGUiOiJsaWJzL2RmLWNvbXBvbmVudHMvc3JjL2xpYi9hdmF0YXIvYXZhdGFyLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmF2YXRhciB7XHJcbiAgICB0ZXh0LWFsaWduIDogY2VudGVyO1xyXG4gICAgb3ZlcmZsb3cgICA6IGhpZGRlbjtcclxuICBcclxuICAgIGltZyB7XHJcbiAgICAgIHZlcnRpY2FsLWFsaWduOiB0b3A7XHJcbiAgICB9XHJcbiAgfSJdfQ== */"
+module.exports = ".avatar {\n  text-align: center;\n  overflow: hidden; }\n  .avatar img {\n    vertical-align: top; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxpYnMvZGYtY29tcG9uZW50cy9zcmMvbGliL2F2YXRhci9DOlxcVXNlcnNcXGFqa2l0c29uXFxyZXBvc1xcREYtQ2xpZW50XFxkaWdpdGFsLWZpcnN0L2xpYnNcXGRmLWNvbXBvbmVudHNcXHNyY1xcbGliXFxhdmF0YXJcXGF2YXRhci5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLGtCQUFtQjtFQUNuQixnQkFBbUIsRUFBQTtFQUZ2QjtJQUtNLG1CQUFtQixFQUFBIiwiZmlsZSI6ImxpYnMvZGYtY29tcG9uZW50cy9zcmMvbGliL2F2YXRhci9hdmF0YXIuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuYXZhdGFyIHtcclxuICAgIHRleHQtYWxpZ24gOiBjZW50ZXI7XHJcbiAgICBvdmVyZmxvdyAgIDogaGlkZGVuO1xyXG4gIFxyXG4gICAgaW1nIHtcclxuICAgICAgdmVydGljYWwtYWxpZ246IHRvcDtcclxuICAgIH1cclxuICB9Il19 */"
 
 /***/ }),
 
 /***/ "../../libs/df-components/src/lib/avatar/avatar.component.ts":
-/*!***********************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-components/src/lib/avatar/avatar.component.ts ***!
-  \***********************************************************************************************************/
+/*!*************************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-components/src/lib/avatar/avatar.component.ts ***!
+  \*************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -210,9 +210,9 @@ exports.AvatarComponent = AvatarComponent;
 /***/ }),
 
 /***/ "../../libs/df-components/src/lib/busy.component.ts":
-/*!**************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-components/src/lib/busy.component.ts ***!
-  \**************************************************************************************************/
+/*!****************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-components/src/lib/busy.component.ts ***!
+  \****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -256,9 +256,9 @@ exports.BusyComponent = BusyComponent;
 /***/ }),
 
 /***/ "../../libs/df-components/src/lib/contact-card/contact-card.component.html":
-/*!*************************************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-components/src/lib/contact-card/contact-card.component.html ***!
-  \*************************************************************************************************************************/
+/*!***************************************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-components/src/lib/contact-card/contact-card.component.html ***!
+  \***************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -267,20 +267,20 @@ module.exports = "<mdc-card class=\"contact-card\">\r\n  <mdc-card-primary-actio
 /***/ }),
 
 /***/ "../../libs/df-components/src/lib/contact-card/contact-card.component.scss":
-/*!*************************************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-components/src/lib/contact-card/contact-card.component.scss ***!
-  \*************************************************************************************************************************/
+/*!***************************************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-components/src/lib/contact-card/contact-card.component.scss ***!
+  \***************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".contact-card {\n  margin: 8px; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxpYnMvZGYtY29tcG9uZW50cy9zcmMvbGliL2NvbnRhY3QtY2FyZC9DOlxcVXNlcnNcXGFwZ2lsZXNcXENvZGVcXERGLUNsaWVudFxcZGlnaXRhbC1maXJzdC9saWJzXFxkZi1jb21wb25lbnRzXFxzcmNcXGxpYlxcY29udGFjdC1jYXJkXFxjb250YWN0LWNhcmQuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSxXQUFXLEVBQUEiLCJmaWxlIjoibGlicy9kZi1jb21wb25lbnRzL3NyYy9saWIvY29udGFjdC1jYXJkL2NvbnRhY3QtY2FyZC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5jb250YWN0LWNhcmQgeyBcclxuICAgIG1hcmdpbjogOHB4O1xyXG59Il19 */"
+module.exports = ".contact-card {\n  margin: 8px; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxpYnMvZGYtY29tcG9uZW50cy9zcmMvbGliL2NvbnRhY3QtY2FyZC9DOlxcVXNlcnNcXGFqa2l0c29uXFxyZXBvc1xcREYtQ2xpZW50XFxkaWdpdGFsLWZpcnN0L2xpYnNcXGRmLWNvbXBvbmVudHNcXHNyY1xcbGliXFxjb250YWN0LWNhcmRcXGNvbnRhY3QtY2FyZC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLFdBQVcsRUFBQSIsImZpbGUiOiJsaWJzL2RmLWNvbXBvbmVudHMvc3JjL2xpYi9jb250YWN0LWNhcmQvY29udGFjdC1jYXJkLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmNvbnRhY3QtY2FyZCB7IFxyXG4gICAgbWFyZ2luOiA4cHg7XHJcbn0iXX0= */"
 
 /***/ }),
 
 /***/ "../../libs/df-components/src/lib/contact-card/contact-card.component.ts":
-/*!***********************************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-components/src/lib/contact-card/contact-card.component.ts ***!
-  \***********************************************************************************************************************/
+/*!*************************************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-components/src/lib/contact-card/contact-card.component.ts ***!
+  \*************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -319,9 +319,9 @@ exports.ContactCardComponent = ContactCardComponent;
 /***/ }),
 
 /***/ "../../libs/df-components/src/lib/df-components.module.ts":
-/*!********************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-components/src/lib/df-components.module.ts ***!
-  \********************************************************************************************************/
+/*!**********************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-components/src/lib/df-components.module.ts ***!
+  \**********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -376,9 +376,9 @@ exports.DfComponentsModule = DfComponentsModule;
 /***/ }),
 
 /***/ "../../libs/df-components/src/lib/electorate-selector/electorate-selector.component.html":
-/*!***************************************************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-components/src/lib/electorate-selector/electorate-selector.component.html ***!
-  \***************************************************************************************************************************************/
+/*!*****************************************************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-components/src/lib/electorate-selector/electorate-selector.component.html ***!
+  \*****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -387,20 +387,20 @@ module.exports = "<div class=\"form-content\">\r\n  <div class=\"form-layout__ro
 /***/ }),
 
 /***/ "../../libs/df-components/src/lib/electorate-selector/electorate-selector.component.scss":
-/*!***************************************************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-components/src/lib/electorate-selector/electorate-selector.component.scss ***!
-  \***************************************************************************************************************************************/
+/*!*****************************************************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-components/src/lib/electorate-selector/electorate-selector.component.scss ***!
+  \*****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ":host .mdc-select {\n  width: 100%;\n  width: -webkit-fill-available; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxpYnMvZGYtY29tcG9uZW50cy9zcmMvbGliL2VsZWN0b3JhdGUtc2VsZWN0b3IvQzpcXFVzZXJzXFxhcGdpbGVzXFxDb2RlXFxERi1DbGllbnRcXGRpZ2l0YWwtZmlyc3QvbGlic1xcZGYtY29tcG9uZW50c1xcc3JjXFxsaWJcXGVsZWN0b3JhdGUtc2VsZWN0b3JcXGVsZWN0b3JhdGUtc2VsZWN0b3IuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFFUSxXQUFVO0VBQ1YsNkJBQTZCLEVBQUEiLCJmaWxlIjoibGlicy9kZi1jb21wb25lbnRzL3NyYy9saWIvZWxlY3RvcmF0ZS1zZWxlY3Rvci9lbGVjdG9yYXRlLXNlbGVjdG9yLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiOmhvc3Qge1xyXG4gICAgLm1kYy1zZWxlY3Qge1xyXG4gICAgICAgIHdpZHRoOjEwMCU7XHJcbiAgICAgICAgd2lkdGg6IC13ZWJraXQtZmlsbC1hdmFpbGFibGU7XHJcbiAgICB9XHJcbn1cclxuICAiXX0= */"
+module.exports = ":host .mdc-select {\n  width: 100%;\n  width: -webkit-fill-available; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxpYnMvZGYtY29tcG9uZW50cy9zcmMvbGliL2VsZWN0b3JhdGUtc2VsZWN0b3IvQzpcXFVzZXJzXFxhamtpdHNvblxccmVwb3NcXERGLUNsaWVudFxcZGlnaXRhbC1maXJzdC9saWJzXFxkZi1jb21wb25lbnRzXFxzcmNcXGxpYlxcZWxlY3RvcmF0ZS1zZWxlY3RvclxcZWxlY3RvcmF0ZS1zZWxlY3Rvci5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUVRLFdBQVU7RUFDViw2QkFBNkIsRUFBQSIsImZpbGUiOiJsaWJzL2RmLWNvbXBvbmVudHMvc3JjL2xpYi9lbGVjdG9yYXRlLXNlbGVjdG9yL2VsZWN0b3JhdGUtc2VsZWN0b3IuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyI6aG9zdCB7XHJcbiAgICAubWRjLXNlbGVjdCB7XHJcbiAgICAgICAgd2lkdGg6MTAwJTtcclxuICAgICAgICB3aWR0aDogLXdlYmtpdC1maWxsLWF2YWlsYWJsZTtcclxuICAgIH1cclxufVxyXG4gICJdfQ== */"
 
 /***/ }),
 
 /***/ "../../libs/df-components/src/lib/electorate-selector/electorate-selector.component.ts":
-/*!*************************************************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-components/src/lib/electorate-selector/electorate-selector.component.ts ***!
-  \*************************************************************************************************************************************/
+/*!***************************************************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-components/src/lib/electorate-selector/electorate-selector.component.ts ***!
+  \***************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -469,9 +469,9 @@ exports.ElectorateSelectorComponent = ElectorateSelectorComponent;
 /***/ }),
 
 /***/ "../../libs/df-components/src/lib/electorate-selector/index.ts":
-/*!*************************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-components/src/lib/electorate-selector/index.ts ***!
-  \*************************************************************************************************************/
+/*!***************************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-components/src/lib/electorate-selector/index.ts ***!
+  \***************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -485,9 +485,9 @@ tslib_1.__exportStar(__webpack_require__(/*! ./electorate-selector.component */ 
 /***/ }),
 
 /***/ "../../libs/df-components/src/lib/info/info.component.html":
-/*!*********************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-components/src/lib/info/info.component.html ***!
-  \*********************************************************************************************************/
+/*!***********************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-components/src/lib/info/info.component.html ***!
+  \***********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -496,20 +496,20 @@ module.exports = "<div class=\"df-card-info\">\r\n  <div class=\"df-card-info-ro
 /***/ }),
 
 /***/ "../../libs/df-components/src/lib/info/info.component.scss":
-/*!*********************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-components/src/lib/info/info.component.scss ***!
-  \*********************************************************************************************************/
+/*!***********************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-components/src/lib/info/info.component.scss ***!
+  \***********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".df-card-info {\n  margin: 5px 15px;\n  padding: 5px 15px; }\n\n.df-card-info-row {\n  display: flex; }\n\n.df-card-info-body {\n  font-style: italic;\n  color: lightgrey; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxpYnMvZGYtY29tcG9uZW50cy9zcmMvbGliL2luZm8vQzpcXFVzZXJzXFxhcGdpbGVzXFxDb2RlXFxERi1DbGllbnRcXGRpZ2l0YWwtZmlyc3QvbGlic1xcZGYtY29tcG9uZW50c1xcc3JjXFxsaWJcXGluZm9cXGluZm8uY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQ0E7RUFDSSxnQkFBZ0I7RUFDaEIsaUJBQWlCLEVBQUE7O0FBRXJCO0VBQ0ksYUFBYSxFQUFBOztBQUVqQjtFQUNJLGtCQUFrQjtFQUNsQixnQkFBZ0IsRUFBQSIsImZpbGUiOiJsaWJzL2RmLWNvbXBvbmVudHMvc3JjL2xpYi9pbmZvL2luZm8uY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJcclxuLmRmLWNhcmQtaW5mbyB7XHJcbiAgICBtYXJnaW46IDVweCAxNXB4O1xyXG4gICAgcGFkZGluZzogNXB4IDE1cHg7XHJcbn1cclxuLmRmLWNhcmQtaW5mby1yb3cge1xyXG4gICAgZGlzcGxheTogZmxleDtcclxufVxyXG4uZGYtY2FyZC1pbmZvLWJvZHkge1xyXG4gICAgZm9udC1zdHlsZTogaXRhbGljO1xyXG4gICAgY29sb3I6IGxpZ2h0Z3JleTtcclxufSJdfQ== */"
+module.exports = ".df-card-info {\n  margin: 5px 15px;\n  padding: 5px 15px; }\n\n.df-card-info-row {\n  display: flex; }\n\n.df-card-info-body {\n  font-style: italic;\n  color: lightgrey; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxpYnMvZGYtY29tcG9uZW50cy9zcmMvbGliL2luZm8vQzpcXFVzZXJzXFxhamtpdHNvblxccmVwb3NcXERGLUNsaWVudFxcZGlnaXRhbC1maXJzdC9saWJzXFxkZi1jb21wb25lbnRzXFxzcmNcXGxpYlxcaW5mb1xcaW5mby5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFDQTtFQUNJLGdCQUFnQjtFQUNoQixpQkFBaUIsRUFBQTs7QUFFckI7RUFDSSxhQUFhLEVBQUE7O0FBRWpCO0VBQ0ksa0JBQWtCO0VBQ2xCLGdCQUFnQixFQUFBIiwiZmlsZSI6ImxpYnMvZGYtY29tcG9uZW50cy9zcmMvbGliL2luZm8vaW5mby5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIlxyXG4uZGYtY2FyZC1pbmZvIHtcclxuICAgIG1hcmdpbjogNXB4IDE1cHg7XHJcbiAgICBwYWRkaW5nOiA1cHggMTVweDtcclxufVxyXG4uZGYtY2FyZC1pbmZvLXJvdyB7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG59XHJcbi5kZi1jYXJkLWluZm8tYm9keSB7XHJcbiAgICBmb250LXN0eWxlOiBpdGFsaWM7XHJcbiAgICBjb2xvcjogbGlnaHRncmV5O1xyXG59Il19 */"
 
 /***/ }),
 
 /***/ "../../libs/df-components/src/lib/info/info.component.ts":
-/*!*******************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-components/src/lib/info/info.component.ts ***!
-  \*******************************************************************************************************/
+/*!*********************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-components/src/lib/info/info.component.ts ***!
+  \*********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -539,9 +539,9 @@ exports.InfoComponent = InfoComponent;
 /***/ }),
 
 /***/ "../../libs/df-components/src/lib/page-title.component.ts":
-/*!********************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-components/src/lib/page-title.component.ts ***!
-  \********************************************************************************************************/
+/*!**********************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-components/src/lib/page-title.component.ts ***!
+  \**********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -593,9 +593,9 @@ exports.PageTitleComponent = PageTitleComponent;
 /***/ }),
 
 /***/ "../../libs/df-components/src/lib/related-artifacts/related-artifacts.component.html":
-/*!***********************************************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-components/src/lib/related-artifacts/related-artifacts.component.html ***!
-  \***********************************************************************************************************************************/
+/*!*************************************************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-components/src/lib/related-artifacts/related-artifacts.component.html ***!
+  \*************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -604,20 +604,20 @@ module.exports = "<mdc-list twoLine dense>\r\n  <mdc-list-item *ngFor=\"let link
 /***/ }),
 
 /***/ "../../libs/df-components/src/lib/related-artifacts/related-artifacts.component.scss":
-/*!***********************************************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-components/src/lib/related-artifacts/related-artifacts.component.scss ***!
-  \***********************************************************************************************************************************/
+/*!*************************************************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-components/src/lib/related-artifacts/related-artifacts.component.scss ***!
+  \*************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ":host {\n  min-width: 50%;\n  width: 100%;\n  width: -webkit-fill-available;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-start; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxpYnMvZGYtY29tcG9uZW50cy9zcmMvbGliL3JlbGF0ZWQtYXJ0aWZhY3RzL0M6XFxVc2Vyc1xcYXBnaWxlc1xcQ29kZVxcREYtQ2xpZW50XFxkaWdpdGFsLWZpcnN0L2xpYnNcXGRmLWNvbXBvbmVudHNcXHNyY1xcbGliXFxyZWxhdGVkLWFydGlmYWN0c1xccmVsYXRlZC1hcnRpZmFjdHMuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSxjQUFjO0VBQ2QsV0FBVTtFQUNWLDZCQUE2QjtFQUM3QixhQUFhO0VBQ2Isc0JBQXNCO0VBQ3RCLDJCQUEyQixFQUFBIiwiZmlsZSI6ImxpYnMvZGYtY29tcG9uZW50cy9zcmMvbGliL3JlbGF0ZWQtYXJ0aWZhY3RzL3JlbGF0ZWQtYXJ0aWZhY3RzLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiOmhvc3Qge1xyXG4gICAgbWluLXdpZHRoOiA1MCU7XHJcbiAgICB3aWR0aDoxMDAlO1xyXG4gICAgd2lkdGg6IC13ZWJraXQtZmlsbC1hdmFpbGFibGU7XHJcbiAgICBkaXNwbGF5OiBmbGV4OyBcclxuICAgIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XHJcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IGZsZXgtc3RhcnQ7XHJcbn0gIl19 */"
+module.exports = ":host {\n  min-width: 50%;\n  width: 100%;\n  width: -webkit-fill-available;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-start; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxpYnMvZGYtY29tcG9uZW50cy9zcmMvbGliL3JlbGF0ZWQtYXJ0aWZhY3RzL0M6XFxVc2Vyc1xcYWpraXRzb25cXHJlcG9zXFxERi1DbGllbnRcXGRpZ2l0YWwtZmlyc3QvbGlic1xcZGYtY29tcG9uZW50c1xcc3JjXFxsaWJcXHJlbGF0ZWQtYXJ0aWZhY3RzXFxyZWxhdGVkLWFydGlmYWN0cy5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLGNBQWM7RUFDZCxXQUFVO0VBQ1YsNkJBQTZCO0VBQzdCLGFBQWE7RUFDYixzQkFBc0I7RUFDdEIsMkJBQTJCLEVBQUEiLCJmaWxlIjoibGlicy9kZi1jb21wb25lbnRzL3NyYy9saWIvcmVsYXRlZC1hcnRpZmFjdHMvcmVsYXRlZC1hcnRpZmFjdHMuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyI6aG9zdCB7XHJcbiAgICBtaW4td2lkdGg6IDUwJTtcclxuICAgIHdpZHRoOjEwMCU7XHJcbiAgICB3aWR0aDogLXdlYmtpdC1maWxsLWF2YWlsYWJsZTtcclxuICAgIGRpc3BsYXk6IGZsZXg7IFxyXG4gICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuICAgIGp1c3RpZnktY29udGVudDogZmxleC1zdGFydDtcclxufSAiXX0= */"
 
 /***/ }),
 
 /***/ "../../libs/df-components/src/lib/related-artifacts/related-artifacts.component.ts":
-/*!*********************************************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-components/src/lib/related-artifacts/related-artifacts.component.ts ***!
-  \*********************************************************************************************************************************/
+/*!***********************************************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-components/src/lib/related-artifacts/related-artifacts.component.ts ***!
+  \***********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -667,9 +667,9 @@ exports.RelatedArtifactsComponent = RelatedArtifactsComponent;
 /***/ }),
 
 /***/ "../../libs/df-layouts/src/index.ts":
-/*!**********************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-layouts/src/index.ts ***!
-  \**********************************************************************************/
+/*!************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-layouts/src/index.ts ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -688,9 +688,9 @@ tslib_1.__exportStar(__webpack_require__(/*! ./lib/df-layouts.module */ "../../l
 /***/ }),
 
 /***/ "../../libs/df-layouts/src/lib/df-layouts.module.ts":
-/*!**************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-layouts/src/lib/df-layouts.module.ts ***!
-  \**************************************************************************************************/
+/*!****************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-layouts/src/lib/df-layouts.module.ts ***!
+  \****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -733,9 +733,9 @@ exports.DfLayoutsModule = DfLayoutsModule;
 /***/ }),
 
 /***/ "../../libs/df-layouts/src/lib/full-layout/full-layout.component.html":
-/*!********************************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-layouts/src/lib/full-layout/full-layout.component.html ***!
-  \********************************************************************************************************************/
+/*!**********************************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-layouts/src/lib/full-layout/full-layout.component.html ***!
+  \**********************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -744,20 +744,20 @@ module.exports = "<mdc-top-app-bar class=\"app-top-app-bar\" #topAppBar fixed pr
 /***/ }),
 
 /***/ "../../libs/df-layouts/src/lib/full-layout/full-layout.component.scss":
-/*!********************************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-layouts/src/lib/full-layout/full-layout.component.scss ***!
-  \********************************************************************************************************************/
+/*!**********************************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-layouts/src/lib/full-layout/full-layout.component.scss ***!
+  \**********************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".protective-marking {\n  justify-content: center; }\n\n.protective-marking-row {\n  height: 20px; }\n\n.notification {\n  justify-content: center; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxpYnMvZGYtbGF5b3V0cy9zcmMvbGliL2Z1bGwtbGF5b3V0L0M6XFxVc2Vyc1xcYXBnaWxlc1xcQ29kZVxcREYtQ2xpZW50XFxkaWdpdGFsLWZpcnN0L2xpYnNcXGRmLWxheW91dHNcXHNyY1xcbGliXFxmdWxsLWxheW91dFxcZnVsbC1sYXlvdXQuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSx1QkFBdUIsRUFBQTs7QUFHM0I7RUFDSSxZQUFZLEVBQUE7O0FBR2hCO0VBQ0ksdUJBQXVCLEVBQUEiLCJmaWxlIjoibGlicy9kZi1sYXlvdXRzL3NyYy9saWIvZnVsbC1sYXlvdXQvZnVsbC1sYXlvdXQuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIucHJvdGVjdGl2ZS1tYXJraW5nIHtcclxuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xyXG59XHJcblxyXG4ucHJvdGVjdGl2ZS1tYXJraW5nLXJvdyB7XHJcbiAgICBoZWlnaHQ6IDIwcHg7XHJcbn1cclxuXHJcbi5ub3RpZmljYXRpb24ge1xyXG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbn1cclxuIl19 */"
+module.exports = ".protective-marking {\n  justify-content: center; }\n\n.protective-marking-row {\n  height: 20px; }\n\n.notification {\n  justify-content: center; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxpYnMvZGYtbGF5b3V0cy9zcmMvbGliL2Z1bGwtbGF5b3V0L0M6XFxVc2Vyc1xcYWpraXRzb25cXHJlcG9zXFxERi1DbGllbnRcXGRpZ2l0YWwtZmlyc3QvbGlic1xcZGYtbGF5b3V0c1xcc3JjXFxsaWJcXGZ1bGwtbGF5b3V0XFxmdWxsLWxheW91dC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLHVCQUF1QixFQUFBOztBQUczQjtFQUNJLFlBQVksRUFBQTs7QUFHaEI7RUFDSSx1QkFBdUIsRUFBQSIsImZpbGUiOiJsaWJzL2RmLWxheW91dHMvc3JjL2xpYi9mdWxsLWxheW91dC9mdWxsLWxheW91dC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5wcm90ZWN0aXZlLW1hcmtpbmcge1xyXG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbn1cclxuXHJcbi5wcm90ZWN0aXZlLW1hcmtpbmctcm93IHtcclxuICAgIGhlaWdodDogMjBweDtcclxufVxyXG5cclxuLm5vdGlmaWNhdGlvbiB7XHJcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcclxufVxyXG4iXX0= */"
 
 /***/ }),
 
 /***/ "../../libs/df-layouts/src/lib/full-layout/full-layout.component.ts":
-/*!******************************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-layouts/src/lib/full-layout/full-layout.component.ts ***!
-  \******************************************************************************************************************/
+/*!********************************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-layouts/src/lib/full-layout/full-layout.component.ts ***!
+  \********************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -868,9 +868,9 @@ exports.FullLayoutComponent = FullLayoutComponent;
 /***/ }),
 
 /***/ "../../libs/df-layouts/src/lib/full-layout/full-layout.service.ts":
-/*!****************************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-layouts/src/lib/full-layout/full-layout.service.ts ***!
-  \****************************************************************************************************************/
+/*!******************************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-layouts/src/lib/full-layout/full-layout.service.ts ***!
+  \******************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -962,9 +962,9 @@ exports.FullLayoutService = FullLayoutService;
 /***/ }),
 
 /***/ "../../libs/df-layouts/src/lib/simple-layout/simple-layout.component.ts":
-/*!**********************************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-layouts/src/lib/simple-layout/simple-layout.component.ts ***!
-  \**********************************************************************************************************************/
+/*!************************************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-layouts/src/lib/simple-layout/simple-layout.component.ts ***!
+  \************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -993,9 +993,9 @@ exports.SimpleLayoutComponent = SimpleLayoutComponent;
 /***/ }),
 
 /***/ "../../libs/df-layouts/src/lib/title-layout/title-layout.component.html":
-/*!**********************************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-layouts/src/lib/title-layout/title-layout.component.html ***!
-  \**********************************************************************************************************************/
+/*!************************************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-layouts/src/lib/title-layout/title-layout.component.html ***!
+  \************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1004,20 +1004,20 @@ module.exports = "<mdc-top-app-bar class=\"app-top-app-bar\" #topAppBar fixed pr
 /***/ }),
 
 /***/ "../../libs/df-layouts/src/lib/title-layout/title-layout.component.scss":
-/*!**********************************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-layouts/src/lib/title-layout/title-layout.component.scss ***!
-  \**********************************************************************************************************************/
+/*!************************************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-layouts/src/lib/title-layout/title-layout.component.scss ***!
+  \************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".mdc-top-app-bar__section {\n  width: 33%; }\n\n.protective-marking {\n  justify-content: center; }\n\n.protective-marking-row {\n  height: 20px; }\n\n.notification {\n  justify-content: center; }\n\n.mdc-menu {\n  width: 250px; }\n\n.app-version {\n  padding: 4px 16px;\n  font-size: 12px; }\n\n.nav-list {\n  padding: 4px;\n  margin: 0;\n  display: flex;\n  flex-direction: row;\n  align-items: center; }\n\n.nav-list .nav-button {\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    justify-content: center;\n    width: 80px;\n    height: 100%;\n    color: #687381;\n    font-size: 12px;\n    font-weight: 500;\n    text-decoration: none;\n    transition: all linear 0.05s;\n    -webkit-transition: all linear 0.05s;\n    -moz-transition: all linear 0.05s; }\n\n.nav-list .nav-button-anchor {\n    color: #424242;\n    text-decoration: none; }\n\n.nav-list .nav-button-icon {\n    padding: 8px;\n    font-size: 48px; }\n\n.nav-list .nav-button-text {\n    width: 100%;\n    text-align: center; }\n\n.nowrap {\n  flex-wrap: nowrap; }\n\n.wrap {\n  flex-wrap: wrap; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxpYnMvZGYtbGF5b3V0cy9zcmMvbGliL3RpdGxlLWxheW91dC9DOlxcVXNlcnNcXGFwZ2lsZXNcXENvZGVcXERGLUNsaWVudFxcZGlnaXRhbC1maXJzdC9saWJzXFxkZi1sYXlvdXRzXFxzcmNcXGxpYlxcdGl0bGUtbGF5b3V0XFx0aXRsZS1sYXlvdXQuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxVQUFVLEVBQUE7O0FBR1o7RUFDRSx1QkFBdUIsRUFBQTs7QUFHekI7RUFDRSxZQUFZLEVBQUE7O0FBR2Q7RUFDRSx1QkFBdUIsRUFBQTs7QUFHekI7RUFDRSxZQUFZLEVBQUE7O0FBR2Q7RUFDRSxpQkFBaUI7RUFDakIsZUFBZSxFQUFBOztBQUdqQjtFQUNFLFlBQVk7RUFDWixTQUFTO0VBQ1QsYUFBYTtFQUNiLG1CQUFtQjtFQUNuQixtQkFBbUIsRUFBQTs7QUFMckI7SUFTSSxhQUFhO0lBQ2IsbUJBQW1CO0lBQ25CLG1CQUFtQjtJQUNuQix1QkFBdUI7SUFDdkIsV0FBVztJQUNYLFlBQVk7SUFDWixjQUF5QjtJQUN6QixlQUFlO0lBQ2YsZ0JBQWdCO0lBQ2hCLHFCQUFxQjtJQUNyQiw0QkFBNEI7SUFDNUIsb0NBQW9DO0lBQ3BDLGlDQUFpQyxFQUFBOztBQXJCckM7SUF5QkksY0FBc0I7SUFDMUIscUJBQXFCLEVBQUE7O0FBMUJyQjtJQThCSSxZQUFZO0lBQ1osZUFBZSxFQUFBOztBQS9CbkI7SUFtQ0ksV0FBVztJQUNYLGtCQUFrQixFQUFBOztBQU10QjtFQUVFLGlCQUFpQixFQUFBOztBQUduQjtFQUVFLGVBQWUsRUFBQSIsImZpbGUiOiJsaWJzL2RmLWxheW91dHMvc3JjL2xpYi90aXRsZS1sYXlvdXQvdGl0bGUtbGF5b3V0LmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLm1kYy10b3AtYXBwLWJhcl9fc2VjdGlvbiB7XHJcbiAgd2lkdGg6IDMzJTtcclxufVxyXG5cclxuLnByb3RlY3RpdmUtbWFya2luZyB7XHJcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbn1cclxuXHJcbi5wcm90ZWN0aXZlLW1hcmtpbmctcm93IHtcclxuICBoZWlnaHQ6IDIwcHg7XHJcbn1cclxuXHJcbi5ub3RpZmljYXRpb24ge1xyXG4gIGp1c3RpZnktY29udGVudDogY2VudGVyO1xyXG59XHJcblxyXG4ubWRjLW1lbnUge1xyXG4gIHdpZHRoOiAyNTBweDtcclxufVxyXG5cclxuLmFwcC12ZXJzaW9uIHtcclxuICBwYWRkaW5nOiA0cHggMTZweDtcclxuICBmb250LXNpemU6IDEycHg7XHJcbn1cclxuXHJcbi5uYXYtbGlzdCB7XHJcbiAgcGFkZGluZzogNHB4O1xyXG4gIG1hcmdpbjogMDtcclxuICBkaXNwbGF5OiBmbGV4O1xyXG4gIGZsZXgtZGlyZWN0aW9uOiByb3c7XHJcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuXHJcblxyXG4gIC5uYXYtYnV0dG9ue1xyXG4gICAgZGlzcGxheTogZmxleDtcclxuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XHJcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xyXG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbiAgICB3aWR0aDogODBweDtcclxuICAgIGhlaWdodDogMTAwJTtcclxuICAgIGNvbG9yOiByZ2IoMTA0LCAxMTUsIDEyOSk7XHJcbiAgICBmb250LXNpemU6IDEycHg7XHJcbiAgICBmb250LXdlaWdodDogNTAwO1xyXG4gICAgdGV4dC1kZWNvcmF0aW9uOiBub25lO1xyXG4gICAgdHJhbnNpdGlvbjogYWxsIGxpbmVhciAwLjA1cztcclxuICAgIC13ZWJraXQtdHJhbnNpdGlvbjogYWxsIGxpbmVhciAwLjA1cztcclxuICAgIC1tb3otdHJhbnNpdGlvbjogYWxsIGxpbmVhciAwLjA1cztcclxuICB9XHJcblxyXG4gIC5uYXYtYnV0dG9uLWFuY2hvciB7XHJcbiAgICBjb2xvcjogcmdiKDY2LCA2NiwgNjYpO1xyXG50ZXh0LWRlY29yYXRpb246IG5vbmU7XHJcbiAgfVxyXG5cclxuICAubmF2LWJ1dHRvbi1pY29uIHtcclxuICAgIHBhZGRpbmc6IDhweDtcclxuICAgIGZvbnQtc2l6ZTogNDhweDtcclxuICB9XHJcblxyXG4gIC5uYXYtYnV0dG9uLXRleHQge1xyXG4gICAgd2lkdGg6IDEwMCU7XHJcbiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XHJcbiAgfVxyXG5cclxuXHJcbn1cclxuXHJcbi5ub3dyYXAge1xyXG4gIC13ZWJraXQtZmxleC13cmFwOiBub3dyYXA7XHJcbiAgZmxleC13cmFwOiBub3dyYXA7XHJcbn1cclxuXHJcbi53cmFwIHtcclxuICAtd2Via2l0LWZsZXgtd3JhcDogd3JhcDtcclxuICBmbGV4LXdyYXA6IHdyYXA7XHJcbn1cclxuIl19 */"
+module.exports = ".mdc-top-app-bar__section {\n  width: 33%; }\n\n.protective-marking {\n  justify-content: center; }\n\n.protective-marking-row {\n  height: 20px; }\n\n.notification {\n  justify-content: center; }\n\n.mdc-menu {\n  width: 250px; }\n\n.app-version {\n  padding: 4px 16px;\n  font-size: 12px; }\n\n.nav-list {\n  padding: 4px;\n  margin: 0;\n  display: flex;\n  flex-direction: row;\n  align-items: center; }\n\n.nav-list .nav-button {\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    justify-content: center;\n    width: 80px;\n    height: 100%;\n    color: #687381;\n    font-size: 12px;\n    font-weight: 500;\n    text-decoration: none;\n    transition: all linear 0.05s;\n    -webkit-transition: all linear 0.05s;\n    -moz-transition: all linear 0.05s; }\n\n.nav-list .nav-button-anchor {\n    color: #424242;\n    text-decoration: none; }\n\n.nav-list .nav-button-icon {\n    padding: 8px;\n    font-size: 48px; }\n\n.nav-list .nav-button-text {\n    width: 100%;\n    text-align: center; }\n\n.nowrap {\n  flex-wrap: nowrap; }\n\n.wrap {\n  flex-wrap: wrap; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxpYnMvZGYtbGF5b3V0cy9zcmMvbGliL3RpdGxlLWxheW91dC9DOlxcVXNlcnNcXGFqa2l0c29uXFxyZXBvc1xcREYtQ2xpZW50XFxkaWdpdGFsLWZpcnN0L2xpYnNcXGRmLWxheW91dHNcXHNyY1xcbGliXFx0aXRsZS1sYXlvdXRcXHRpdGxlLWxheW91dC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLFVBQVUsRUFBQTs7QUFHWjtFQUNFLHVCQUF1QixFQUFBOztBQUd6QjtFQUNFLFlBQVksRUFBQTs7QUFHZDtFQUNFLHVCQUF1QixFQUFBOztBQUd6QjtFQUNFLFlBQVksRUFBQTs7QUFHZDtFQUNFLGlCQUFpQjtFQUNqQixlQUFlLEVBQUE7O0FBR2pCO0VBQ0UsWUFBWTtFQUNaLFNBQVM7RUFDVCxhQUFhO0VBQ2IsbUJBQW1CO0VBQ25CLG1CQUFtQixFQUFBOztBQUxyQjtJQVNJLGFBQWE7SUFDYixtQkFBbUI7SUFDbkIsbUJBQW1CO0lBQ25CLHVCQUF1QjtJQUN2QixXQUFXO0lBQ1gsWUFBWTtJQUNaLGNBQXlCO0lBQ3pCLGVBQWU7SUFDZixnQkFBZ0I7SUFDaEIscUJBQXFCO0lBQ3JCLDRCQUE0QjtJQUM1QixvQ0FBb0M7SUFDcEMsaUNBQWlDLEVBQUE7O0FBckJyQztJQXlCSSxjQUFzQjtJQUMxQixxQkFBcUIsRUFBQTs7QUExQnJCO0lBOEJJLFlBQVk7SUFDWixlQUFlLEVBQUE7O0FBL0JuQjtJQW1DSSxXQUFXO0lBQ1gsa0JBQWtCLEVBQUE7O0FBTXRCO0VBRUUsaUJBQWlCLEVBQUE7O0FBR25CO0VBRUUsZUFBZSxFQUFBIiwiZmlsZSI6ImxpYnMvZGYtbGF5b3V0cy9zcmMvbGliL3RpdGxlLWxheW91dC90aXRsZS1sYXlvdXQuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIubWRjLXRvcC1hcHAtYmFyX19zZWN0aW9uIHtcclxuICB3aWR0aDogMzMlO1xyXG59XHJcblxyXG4ucHJvdGVjdGl2ZS1tYXJraW5nIHtcclxuICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcclxufVxyXG5cclxuLnByb3RlY3RpdmUtbWFya2luZy1yb3cge1xyXG4gIGhlaWdodDogMjBweDtcclxufVxyXG5cclxuLm5vdGlmaWNhdGlvbiB7XHJcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbn1cclxuXHJcbi5tZGMtbWVudSB7XHJcbiAgd2lkdGg6IDI1MHB4O1xyXG59XHJcblxyXG4uYXBwLXZlcnNpb24ge1xyXG4gIHBhZGRpbmc6IDRweCAxNnB4O1xyXG4gIGZvbnQtc2l6ZTogMTJweDtcclxufVxyXG5cclxuLm5hdi1saXN0IHtcclxuICBwYWRkaW5nOiA0cHg7XHJcbiAgbWFyZ2luOiAwO1xyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbiAgZmxleC1kaXJlY3Rpb246IHJvdztcclxuICBhbGlnbi1pdGVtczogY2VudGVyO1xyXG5cclxuXHJcbiAgLm5hdi1idXR0b257XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgZmxleC1kaXJlY3Rpb246IHJvdztcclxuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XHJcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcclxuICAgIHdpZHRoOiA4MHB4O1xyXG4gICAgaGVpZ2h0OiAxMDAlO1xyXG4gICAgY29sb3I6IHJnYigxMDQsIDExNSwgMTI5KTtcclxuICAgIGZvbnQtc2l6ZTogMTJweDtcclxuICAgIGZvbnQtd2VpZ2h0OiA1MDA7XHJcbiAgICB0ZXh0LWRlY29yYXRpb246IG5vbmU7XHJcbiAgICB0cmFuc2l0aW9uOiBhbGwgbGluZWFyIDAuMDVzO1xyXG4gICAgLXdlYmtpdC10cmFuc2l0aW9uOiBhbGwgbGluZWFyIDAuMDVzO1xyXG4gICAgLW1vei10cmFuc2l0aW9uOiBhbGwgbGluZWFyIDAuMDVzO1xyXG4gIH1cclxuXHJcbiAgLm5hdi1idXR0b24tYW5jaG9yIHtcclxuICAgIGNvbG9yOiByZ2IoNjYsIDY2LCA2Nik7XHJcbnRleHQtZGVjb3JhdGlvbjogbm9uZTtcclxuICB9XHJcblxyXG4gIC5uYXYtYnV0dG9uLWljb24ge1xyXG4gICAgcGFkZGluZzogOHB4O1xyXG4gICAgZm9udC1zaXplOiA0OHB4O1xyXG4gIH1cclxuXHJcbiAgLm5hdi1idXR0b24tdGV4dCB7XHJcbiAgICB3aWR0aDogMTAwJTtcclxuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcclxuICB9XHJcblxyXG5cclxufVxyXG5cclxuLm5vd3JhcCB7XHJcbiAgLXdlYmtpdC1mbGV4LXdyYXA6IG5vd3JhcDtcclxuICBmbGV4LXdyYXA6IG5vd3JhcDtcclxufVxyXG5cclxuLndyYXAge1xyXG4gIC13ZWJraXQtZmxleC13cmFwOiB3cmFwO1xyXG4gIGZsZXgtd3JhcDogd3JhcDtcclxufVxyXG4iXX0= */"
 
 /***/ }),
 
 /***/ "../../libs/df-layouts/src/lib/title-layout/title-layout.component.ts":
-/*!********************************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-layouts/src/lib/title-layout/title-layout.component.ts ***!
-  \********************************************************************************************************************/
+/*!**********************************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-layouts/src/lib/title-layout/title-layout.component.ts ***!
+  \**********************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1104,9 +1104,9 @@ exports.TitleLayoutComponent = TitleLayoutComponent;
 /***/ }),
 
 /***/ "../../libs/df-layouts/src/lib/title-layout/title-layout.service.ts":
-/*!******************************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-layouts/src/lib/title-layout/title-layout.service.ts ***!
-  \******************************************************************************************************************/
+/*!********************************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-layouts/src/lib/title-layout/title-layout.service.ts ***!
+  \********************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1204,9 +1204,9 @@ exports.TitleLayoutService = TitleLayoutService;
 /***/ }),
 
 /***/ "../../libs/df-pages/src/index.ts":
-/*!********************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-pages/src/index.ts ***!
-  \********************************************************************************/
+/*!**********************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-pages/src/index.ts ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1224,9 +1224,9 @@ tslib_1.__exportStar(__webpack_require__(/*! ./lib/df-pages.module */ "../../lib
 /***/ }),
 
 /***/ "../../libs/df-pages/src/lib/df-pages.module.ts":
-/*!**********************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-pages/src/lib/df-pages.module.ts ***!
-  \**********************************************************************************************/
+/*!************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-pages/src/lib/df-pages.module.ts ***!
+  \************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1264,9 +1264,9 @@ exports.DfPagesModule = DfPagesModule;
 /***/ }),
 
 /***/ "../../libs/df-pages/src/lib/error-page-not-found/error-page-not-found.component.ts":
-/*!**********************************************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-pages/src/lib/error-page-not-found/error-page-not-found.component.ts ***!
-  \**********************************************************************************************************************************/
+/*!************************************************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-pages/src/lib/error-page-not-found/error-page-not-found.component.ts ***!
+  \************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1294,9 +1294,9 @@ exports.ErrorPageNotFoundComponent = ErrorPageNotFoundComponent;
 /***/ }),
 
 /***/ "../../libs/df-pages/src/lib/error-server/error-server.component.ts":
-/*!******************************************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-pages/src/lib/error-server/error-server.component.ts ***!
-  \******************************************************************************************************************/
+/*!********************************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-pages/src/lib/error-server/error-server.component.ts ***!
+  \********************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1324,9 +1324,9 @@ exports.ErrorServerComponent = ErrorServerComponent;
 /***/ }),
 
 /***/ "../../libs/df-pipes/src/index.ts":
-/*!********************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-pipes/src/index.ts ***!
-  \********************************************************************************/
+/*!**********************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-pipes/src/index.ts ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1340,9 +1340,9 @@ tslib_1.__exportStar(__webpack_require__(/*! ./lib/df-pipes.module */ "../../lib
 /***/ }),
 
 /***/ "../../libs/df-pipes/src/lib/df-pipes.module.ts":
-/*!**********************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-pipes/src/lib/df-pipes.module.ts ***!
-  \**********************************************************************************************/
+/*!************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-pipes/src/lib/df-pipes.module.ts ***!
+  \************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1382,9 +1382,9 @@ exports.DfPipesModule = DfPipesModule;
 /***/ }),
 
 /***/ "../../libs/df-pipes/src/lib/nice-name.pipe.ts":
-/*!*********************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-pipes/src/lib/nice-name.pipe.ts ***!
-  \*********************************************************************************************/
+/*!***********************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-pipes/src/lib/nice-name.pipe.ts ***!
+  \***********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1419,9 +1419,9 @@ exports.NiceNamePipe = NiceNamePipe;
 /***/ }),
 
 /***/ "../../libs/df-pipes/src/lib/safe-html.pipe.ts":
-/*!*********************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-pipes/src/lib/safe-html.pipe.ts ***!
-  \*********************************************************************************************/
+/*!***********************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-pipes/src/lib/safe-html.pipe.ts ***!
+  \***********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1454,9 +1454,9 @@ exports.SafeHtmlPipe = SafeHtmlPipe;
 /***/ }),
 
 /***/ "../../libs/df-pipes/src/lib/split-case.pipe.ts":
-/*!**********************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-pipes/src/lib/split-case.pipe.ts ***!
-  \**********************************************************************************************/
+/*!************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-pipes/src/lib/split-case.pipe.ts ***!
+  \************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1487,9 +1487,9 @@ exports.SplitCasePipe = SplitCasePipe;
 /***/ }),
 
 /***/ "../../libs/df-pipes/src/lib/truncate.pipe.ts":
-/*!********************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-pipes/src/lib/truncate.pipe.ts ***!
-  \********************************************************************************************/
+/*!**********************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-pipes/src/lib/truncate.pipe.ts ***!
+  \**********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1519,9 +1519,9 @@ exports.TruncatePipe = TruncatePipe;
 /***/ }),
 
 /***/ "../../libs/df-theme/src/index.ts":
-/*!********************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-theme/src/index.ts ***!
-  \********************************************************************************/
+/*!**********************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-theme/src/index.ts ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1535,9 +1535,9 @@ tslib_1.__exportStar(__webpack_require__(/*! ./lib/df-theme.module */ "../../lib
 /***/ }),
 
 /***/ "../../libs/df-theme/src/lib/df-theme.module.ts":
-/*!**********************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/libs/df-theme/src/lib/df-theme.module.ts ***!
-  \**********************************************************************************************/
+/*!************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/libs/df-theme/src/lib/df-theme.module.ts ***!
+  \************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1594,9 +1594,9 @@ exports.DfThemeModule = DfThemeModule;
 /***/ }),
 
 /***/ "../../node_modules/moment/locale sync recursive ^\\.\\/.*$":
-/*!**********************************************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/node_modules/moment/locale sync ^\.\/.*$ ***!
-  \**********************************************************************************************/
+/*!************************************************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/node_modules/moment/locale sync ^\.\/.*$ ***!
+  \************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1881,9 +1881,9 @@ webpackContext.id = "../../node_modules/moment/locale sync recursive ^\\.\\/.*$"
 /***/ }),
 
 /***/ "../../package.json":
-/*!******************************************************************!*\
-  !*** C:/Users/apgiles/Code/DF-Client/digital-first/package.json ***!
-  \******************************************************************/
+/*!********************************************************************!*\
+  !*** C:/Users/ajkitson/repos/DF-Client/digital-first/package.json ***!
+  \********************************************************************/
 /*! exports provided: name, version, commit-hash, license, scripts, private, dependencies, devDependencies, default */
 /***/ (function(module) {
 
@@ -2204,20 +2204,20 @@ var policy_briefs_data_service_1 = __webpack_require__(/*! ./services/policy-bri
 var brief_component_1 = __webpack_require__(/*! ./pages/brief/brief.component */ "./src/app/pages/brief/brief.component.ts");
 var df_pages_1 = __webpack_require__(/*! @digital-first/df-pages */ "../../libs/df-pages/src/index.ts");
 var df_pipes_1 = __webpack_require__(/*! @digital-first/df-pipes */ "../../libs/df-pipes/src/index.ts");
+var df_theme_1 = __webpack_require__(/*! @digital-first/df-theme */ "../../libs/df-theme/src/index.ts");
 var router_store_1 = __webpack_require__(/*! @ngrx/router-store */ "../../node_modules/@ngrx/router-store/fesm5/router-store.js");
+var sharepoint_1 = __webpack_require__(/*! @df/sharepoint */ "../../node_modules/@df/sharepoint/fesm5/df-sharepoint.js");
 var reducers_1 = __webpack_require__(/*! ./reducers */ "./src/app/reducers/index.ts");
 var fromNavigation = __webpack_require__(/*! ./reducers/navigation/navigation.reducer */ "./src/app/reducers/navigation/navigation.reducer.ts");
 var fromUser = __webpack_require__(/*! ./reducers/user/user.reducer */ "./src/app/reducers/user/user.reducer.ts");
+var fromBrief = __webpack_require__(/*! ./reducers/brief/brief.reducer */ "./src/app/reducers/brief/brief.reducer.ts");
+var fromDiscussion = __webpack_require__(/*! ./reducers/discussion/discussion.reducer */ "./src/app/reducers/discussion/discussion.reducer.ts");
+var environment_1 = __webpack_require__(/*! ../environments/environment */ "./src/environments/environment.ts");
+var discussion_effects_1 = __webpack_require__(/*! ./reducers/discussion/discussion.effects */ "./src/app/reducers/discussion/discussion.effects.ts");
+var brief_effects_1 = __webpack_require__(/*! ./reducers/brief/brief.effects */ "./src/app/reducers/brief/brief.effects.ts");
 var app_effects_1 = __webpack_require__(/*! ./reducers/app.effects */ "./src/app/reducers/app.effects.ts");
 var store_devtools_1 = __webpack_require__(/*! @ngrx/store-devtools */ "../../node_modules/@ngrx/store-devtools/fesm5/store-devtools.js");
-var environment_1 = __webpack_require__(/*! ../environments/environment */ "./src/environments/environment.ts");
-var sharepoint_1 = __webpack_require__(/*! @df/sharepoint */ "../../node_modules/@df/sharepoint/fesm5/df-sharepoint.js");
-var fromDiscussion = __webpack_require__(/*! ./reducers/discussion/discussion.reducer */ "./src/app/reducers/discussion/discussion.reducer.ts");
-var discussion_effects_1 = __webpack_require__(/*! ./reducers/discussion/discussion.effects */ "./src/app/reducers/discussion/discussion.effects.ts");
-var fromBrief = __webpack_require__(/*! ./reducers/brief/brief.reducer */ "./src/app/reducers/brief/brief.reducer.ts");
-var brief_effects_1 = __webpack_require__(/*! ./reducers/brief/brief.effects */ "./src/app/reducers/brief/brief.effects.ts");
 var brief_document_component_1 = __webpack_require__(/*! ./containers/brief-document/brief-document.component */ "./src/app/containers/brief-document/brief-document.component.ts");
-var df_theme_1 = __webpack_require__(/*! @digital-first/df-theme */ "../../libs/df-theme/src/index.ts");
 var COMPONENTS = [
     app_component_1.AppComponent,
     home_component_1.HomeComponent,
@@ -2406,7 +2406,7 @@ module.exports = "<div class=\"app-page\">\r\n  <div class=\"brief-layout\">\r\n
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ":host {\n  width: 100%;\n  width: -webkit-fill-available;\n  display: flex;\n  flex-direction: column; }\n\ndf-button.edit {\n  min-width: 80px; }\n\ndf-status-picker {\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n\n.brief-protective-marking {\n  color: red;\n  width: 100%;\n  text-align: center; }\n\n.brief-reference {\n  min-width: 170px;\n  width: 170px;\n  padding-right: 20px;\n  text-align: right; }\n\n.brief-document {\n  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);\n  background-color: white !important;\n  color: #424242 !important;\n  padding: 5px 64px;\n  width: calc(100% - 128px);\n  overflow-x: hidden; }\n\n.brief-layout {\n  display: flex;\n  flex-direction: row; }\n\n.brief-layout nav {\n    padding: 6px;\n    width: 350px;\n    display: flex;\n    flex-direction: column; }\n\n.brief-layout section {\n    width: 100%;\n    display: flex;\n    flex-direction: column; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImFwcHMvcG9saWN5LWJyaWVmcy9zcmMvYXBwL3BhZ2VzL2JyaWVmL0M6XFxVc2Vyc1xcYXBnaWxlc1xcQ29kZVxcREYtQ2xpZW50XFxkaWdpdGFsLWZpcnN0L2FwcHNcXHBvbGljeS1icmllZnNcXHNyY1xcYXBwXFxwYWdlc1xcYnJpZWZcXGJyaWVmLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsV0FBVztFQUNYLDZCQUE2QjtFQUM3QixhQUFhO0VBQ2Isc0JBQXNCLEVBQUE7O0FBR3hCO0VBQ0UsZUFBZSxFQUFBOztBQUdqQjtFQUNJLGFBQWE7RUFDYixzQkFBc0I7RUFDdEIsbUJBQW1CLEVBQUE7O0FBR3ZCO0VBQ0ksVUFBVTtFQUNWLFdBQVc7RUFDWCxrQkFDSixFQUFBOztBQUVBO0VBQ0UsZ0JBQWdCO0VBQ2hCLFlBQVk7RUFDWixtQkFBbUI7RUFDbkIsaUJBQWlCLEVBQUE7O0FBR25CO0VBQ0UsZ0hBQ21DO0VBQ25DLGtDQUErQztFQUMvQyx5QkFBaUM7RUFFakMsaUJBQWlCO0VBQ2pCLHlCQUF5QjtFQUN6QixrQkFBa0IsRUFBQTs7QUFHcEI7RUFDRSxhQUFhO0VBQ2IsbUJBQW1CLEVBQUE7O0FBRnJCO0lBS0ksWUFBWTtJQUNaLFlBQVk7SUFDWixhQUFhO0lBQ2Isc0JBQXNCLEVBQUE7O0FBUjFCO0lBWUksV0FBVztJQUNYLGFBQWE7SUFDYixzQkFBc0IsRUFBQSIsImZpbGUiOiJhcHBzL3BvbGljeS1icmllZnMvc3JjL2FwcC9wYWdlcy9icmllZi9icmllZi5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIjpob3N0IHtcclxuICB3aWR0aDogMTAwJTtcclxuICB3aWR0aDogLXdlYmtpdC1maWxsLWF2YWlsYWJsZTtcclxuICBkaXNwbGF5OiBmbGV4O1xyXG4gIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XHJcbn1cclxuXHJcbmRmLWJ1dHRvbi5lZGl0IHtcclxuICBtaW4td2lkdGg6IDgwcHg7XHJcbn1cclxuXHJcbmRmLXN0YXR1cy1waWNrZXIge1xyXG4gICAgZGlzcGxheTogZmxleDtcclxuICAgIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XHJcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xyXG59XHJcblxyXG4uYnJpZWYtcHJvdGVjdGl2ZS1tYXJraW5nIHtcclxuICAgIGNvbG9yOiByZWQ7IFxyXG4gICAgd2lkdGg6IDEwMCU7IFxyXG4gICAgdGV4dC1hbGlnbjogY2VudGVyXHJcbn1cclxuXHJcbi5icmllZi1yZWZlcmVuY2Uge1xyXG4gIG1pbi13aWR0aDogMTcwcHg7XHJcbiAgd2lkdGg6IDE3MHB4O1xyXG4gIHBhZGRpbmctcmlnaHQ6IDIwcHg7XHJcbiAgdGV4dC1hbGlnbjogcmlnaHQ7XHJcbn1cclxuXHJcbi5icmllZi1kb2N1bWVudCB7XHJcbiAgYm94LXNoYWRvdzogMCA0cHggNXB4IDAgcmdiYSgwLCAwLCAwLCAwLjE0KSwgMCAxcHggMTBweCAwIHJnYmEoMCwgMCwgMCwgMC4xMiksXHJcbiAgICAwIDJweCA0cHggLTFweCByZ2JhKDAsIDAsIDAsIDAuMik7XHJcbiAgYmFja2dyb3VuZC1jb2xvcjogcmdiKDI1NSwgMjU1LCAyNTUpICFpbXBvcnRhbnQ7XHJcbiAgY29sb3I6IHJnYig2NiwgNjYsIDY2KSAhaW1wb3J0YW50O1xyXG5cclxuICBwYWRkaW5nOiA1cHggNjRweDtcclxuICB3aWR0aDogY2FsYygxMDAlIC0gMTI4cHgpO1xyXG4gIG92ZXJmbG93LXg6IGhpZGRlbjtcclxufVxyXG5cclxuLmJyaWVmLWxheW91dCB7XHJcbiAgZGlzcGxheTogZmxleDtcclxuICBmbGV4LWRpcmVjdGlvbjogcm93O1xyXG5cclxuICBuYXYge1xyXG4gICAgcGFkZGluZzogNnB4O1xyXG4gICAgd2lkdGg6IDM1MHB4O1xyXG4gICAgZGlzcGxheTogZmxleDtcclxuICAgIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XHJcbiAgfVxyXG5cclxuICBzZWN0aW9uIHtcclxuICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgZGlzcGxheTogZmxleDtcclxuICAgIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XHJcbiAgfVxyXG59XHJcbiJdfQ== */"
+module.exports = ":host {\n  width: 100%;\n  width: -webkit-fill-available;\n  display: flex;\n  flex-direction: column; }\n\ndf-button.edit {\n  min-width: 80px; }\n\ndf-status-picker {\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n\n.brief-protective-marking {\n  color: red;\n  width: 100%;\n  text-align: center; }\n\n.brief-reference {\n  min-width: 170px;\n  width: 170px;\n  padding-right: 20px;\n  text-align: right; }\n\n.brief-document {\n  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);\n  background-color: white !important;\n  color: #424242 !important;\n  padding: 5px 64px;\n  width: calc(100% - 128px);\n  overflow-x: hidden; }\n\n.brief-layout {\n  display: flex;\n  flex-direction: row; }\n\n.brief-layout nav {\n    padding: 6px;\n    width: 350px;\n    display: flex;\n    flex-direction: column; }\n\n.brief-layout section {\n    width: 100%;\n    display: flex;\n    flex-direction: column; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImFwcHMvcG9saWN5LWJyaWVmcy9zcmMvYXBwL3BhZ2VzL2JyaWVmL0M6XFxVc2Vyc1xcYWpraXRzb25cXHJlcG9zXFxERi1DbGllbnRcXGRpZ2l0YWwtZmlyc3QvYXBwc1xccG9saWN5LWJyaWVmc1xcc3JjXFxhcHBcXHBhZ2VzXFxicmllZlxcYnJpZWYuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxXQUFXO0VBQ1gsNkJBQTZCO0VBQzdCLGFBQWE7RUFDYixzQkFBc0IsRUFBQTs7QUFHeEI7RUFDRSxlQUFlLEVBQUE7O0FBR2pCO0VBQ0ksYUFBYTtFQUNiLHNCQUFzQjtFQUN0QixtQkFBbUIsRUFBQTs7QUFHdkI7RUFDSSxVQUFVO0VBQ1YsV0FBVztFQUNYLGtCQUNKLEVBQUE7O0FBRUE7RUFDRSxnQkFBZ0I7RUFDaEIsWUFBWTtFQUNaLG1CQUFtQjtFQUNuQixpQkFBaUIsRUFBQTs7QUFHbkI7RUFDRSxnSEFDbUM7RUFDbkMsa0NBQStDO0VBQy9DLHlCQUFpQztFQUVqQyxpQkFBaUI7RUFDakIseUJBQXlCO0VBQ3pCLGtCQUFrQixFQUFBOztBQUdwQjtFQUNFLGFBQWE7RUFDYixtQkFBbUIsRUFBQTs7QUFGckI7SUFLSSxZQUFZO0lBQ1osWUFBWTtJQUNaLGFBQWE7SUFDYixzQkFBc0IsRUFBQTs7QUFSMUI7SUFZSSxXQUFXO0lBQ1gsYUFBYTtJQUNiLHNCQUFzQixFQUFBIiwiZmlsZSI6ImFwcHMvcG9saWN5LWJyaWVmcy9zcmMvYXBwL3BhZ2VzL2JyaWVmL2JyaWVmLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiOmhvc3Qge1xyXG4gIHdpZHRoOiAxMDAlO1xyXG4gIHdpZHRoOiAtd2Via2l0LWZpbGwtYXZhaWxhYmxlO1xyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbiAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxufVxyXG5cclxuZGYtYnV0dG9uLmVkaXQge1xyXG4gIG1pbi13aWR0aDogODBweDtcclxufVxyXG5cclxuZGYtc3RhdHVzLXBpY2tlciB7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XHJcbn1cclxuXHJcbi5icmllZi1wcm90ZWN0aXZlLW1hcmtpbmcge1xyXG4gICAgY29sb3I6IHJlZDsgXHJcbiAgICB3aWR0aDogMTAwJTsgXHJcbiAgICB0ZXh0LWFsaWduOiBjZW50ZXJcclxufVxyXG5cclxuLmJyaWVmLXJlZmVyZW5jZSB7XHJcbiAgbWluLXdpZHRoOiAxNzBweDtcclxuICB3aWR0aDogMTcwcHg7XHJcbiAgcGFkZGluZy1yaWdodDogMjBweDtcclxuICB0ZXh0LWFsaWduOiByaWdodDtcclxufVxyXG5cclxuLmJyaWVmLWRvY3VtZW50IHtcclxuICBib3gtc2hhZG93OiAwIDRweCA1cHggMCByZ2JhKDAsIDAsIDAsIDAuMTQpLCAwIDFweCAxMHB4IDAgcmdiYSgwLCAwLCAwLCAwLjEyKSxcclxuICAgIDAgMnB4IDRweCAtMXB4IHJnYmEoMCwgMCwgMCwgMC4yKTtcclxuICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSkgIWltcG9ydGFudDtcclxuICBjb2xvcjogcmdiKDY2LCA2NiwgNjYpICFpbXBvcnRhbnQ7XHJcblxyXG4gIHBhZGRpbmc6IDVweCA2NHB4O1xyXG4gIHdpZHRoOiBjYWxjKDEwMCUgLSAxMjhweCk7XHJcbiAgb3ZlcmZsb3cteDogaGlkZGVuO1xyXG59XHJcblxyXG4uYnJpZWYtbGF5b3V0IHtcclxuICBkaXNwbGF5OiBmbGV4O1xyXG4gIGZsZXgtZGlyZWN0aW9uOiByb3c7XHJcblxyXG4gIG5hdiB7XHJcbiAgICBwYWRkaW5nOiA2cHg7XHJcbiAgICB3aWR0aDogMzUwcHg7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuICB9XHJcblxyXG4gIHNlY3Rpb24ge1xyXG4gICAgd2lkdGg6IDEwMCU7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuICB9XHJcbn1cclxuIl19 */"
 
 /***/ }),
 
@@ -4090,6 +4090,13 @@ exports.environment = {
         }
     }
 };
+/*
+ * In development mode, for easier debugging, you can ignore zone related error
+ * stack frames such as `zone.run`/`zoneDelegate.invokeTask` by importing the
+ * below file. Don't forget to comment it out in production mode
+ * because it will have a performance impact when errors are thrown
+ */
+// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
 
 
 /***/ }),
@@ -4125,7 +4132,7 @@ platform_browser_dynamic_1.platformBrowserDynamic()
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\apgiles\Code\DF-Client\digital-first\apps\policy-briefs\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! C:\Users\ajkitson\repos\DF-Client\digital-first\apps\policy-briefs\src\main.ts */"./src/main.ts");
 
 
 /***/ })
