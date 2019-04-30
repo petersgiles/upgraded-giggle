@@ -32,13 +32,15 @@ export class PlannerComponent implements OnInit {
   @Input()
   readOnly: false
   @Input()
-  showKeyDates: boolean
+  externalEventTypes: any[]
+  @Input()
+  selectedExternalEventTypes: any
   @Output()
   public onEventSaved: EventEmitter<any> = new EventEmitter()
   @Output()
   public onEventRemoved: EventEmitter<any> = new EventEmitter()
   @Output()
-  public onToggleKeyDates: EventEmitter<boolean> = new EventEmitter()
+  public onExternalEventTypeChange: EventEmitter<any> = new EventEmitter()
   @ViewChild(SchedulerComponent) scheduler: SchedulerComponent
 
   featureConfig: Object
@@ -46,10 +48,6 @@ export class PlannerComponent implements OnInit {
   startDate = DateHelper.add(new Date(), -1, 'months')
   endDate = DateHelper.add(new Date(), 3, 'years')
   today = new Date()
-  // TODO: actually get this from the next MYEFO date
-  myEofyDate = new Date('2019-12-10')
-  // TODO: set widths based on size of parent container
-  // Setup data for scheduler
 
   zoomLevels = ZoomLevels
   columns = [
@@ -298,11 +296,7 @@ export class PlannerComponent implements OnInit {
   scrollToDate(date: Date) {
     this.scheduler.schedulerEngine.scrollToDate(date, { block: 'center' })
   }
-  toggleExternalEvents($event) {
-    if (this.showKeyDates) {
-      this.onToggleKeyDates.emit(false)
-    } else {
-      this.onToggleKeyDates.emit(true)
-    }
+  handleChangeExternalType($event) {
+    this.onExternalEventTypeChange.emit(this.selectedExternalEventTypes)
   }
 }
