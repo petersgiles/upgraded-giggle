@@ -1,25 +1,22 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { provideMockActions } from '@ngrx/effects/testing';
-import { Observable } from 'rxjs';
+import { TestBed, inject } from '@angular/core/testing'
+import { provideMockActions } from '@ngrx/effects/testing'
+import { Observable } from 'rxjs'
 
-import { DeckEffects } from './deck.effects';
+import { DeckEffects } from './deck.effects'
 
 describe('DeckEffects', () => {
-  let actions$: Observable<any>;
-  let effects: DeckEffects;
+  let actions$: Observable<any>
+  let effects: DeckEffects
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        DeckEffects,
-        provideMockActions(() => actions$)
-      ]
-    });
+      providers: [DeckEffects, provideMockActions(() => actions$)]
+    })
 
-    effects = TestBed.get(DeckEffects);
-  });
+    effects = TestBed.get(DeckEffects)
+  })
 
   it('should be created', () => {
-    expect(effects).toBeTruthy();
-  });
-});
+    expect(effects).toBeTruthy()
+  })
+})

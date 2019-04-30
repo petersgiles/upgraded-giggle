@@ -6,6 +6,7 @@ import * as packageJson from '../../../../package.json'
 export const environment = {
   production: false,
   version: packageJson.version,
+  config: 'assets/commitment_reader_config.txt',
   datasource: {
     type: 'graph',
     dataServiceUrl: '//localhost:52619/graphql'

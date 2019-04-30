@@ -32,11 +32,6 @@ export class AppFullLayoutService {
         caption: 'Deck (Home)',
         icon: 'home',
         routerLink: ['/']
-      },
-      {
-        caption: 'Link Artifacts',
-        icon: 'link',
-        routerLink: ['/', 'link']
       }
     ])
   }

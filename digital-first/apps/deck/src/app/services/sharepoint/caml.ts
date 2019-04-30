@@ -34,12 +34,12 @@ const orDSet = set.reduce((acc, item) => {
 return `<View><Query><Where>${orDSet}</Where></Query></View>`
 }
 
-export const byBriefIdQuery = (criteria: { id: any }) => `
+export const byParentIdQuery = (criteria: { id: any }) => `
 <View>
   <Query>
       <Where>
       <Eq>
-          <FieldRef Name='Brief' LookupId='True' />
+          <FieldRef Name='Parent' LookupId='True' />
           <Value Type='Lookup'>${criteria.id}</Value>
       </Eq>
       </Where>
