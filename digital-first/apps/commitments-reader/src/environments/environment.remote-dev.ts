@@ -6,7 +6,7 @@ export const environment = {
   config: 'assets/commitment_reader_config.txt',
   datasource: {
     type: 'graph',
-    dataServiceUrl: '//programs.cloud9.cabnet/graphql'
+    dataServiceUrl: 'https://localhost:52619'
   },
   // developer's your API KEY here
 
