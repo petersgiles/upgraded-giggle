@@ -1,4 +1,3 @@
-
 export const byCommitmentIdsQuery = (criteria: []): string => {
   if (criteria.length === 0) {
     return null
@@ -23,6 +22,32 @@ export const byCommitmentIdsQuery = (criteria: []): string => {
   }, [])[0]
 
   return `<View><Query><Where>${orDSet}</Where></Query></View>`
+}
+
+export const byExternalEventTypeIdsQuery = (criteria: any): string => {
+  if (criteria.length === 0) {
+    return null
+  } else {
+    const set = criteria.map(
+      id =>
+        `<Eq><FieldRef Name='ExternalEventType' LookupId='True'/><Value Type='Lookup'>${id}</Value></Eq>`
+    )
+
+    const orDSet = set.reduce((acc, item) => {
+      let last = acc.pop()
+
+      if (last) {
+        last = `<Or>${item}${last}</Or>`
+      } else {
+        last = item
+      }
+
+      acc.push(last)
+      return acc
+    }, [])[0]
+
+    return `<View><Query><Where>${orDSet}</Where></Query></View>`
+  }
 }
 
 export const byEventIdQuery = (criteria: any): string => {

@@ -21,7 +21,7 @@
   }
 
   > #planerButtons {
-    flex: 0.4;
+    flex: 0.8;
     display: flex;
     padding-right: 20px;
     > button {
@@ -69,6 +69,18 @@
   &.timerange-sitting-both {
     @include timerange-transparent($color: #4186b4);
   }
+  &.timerange-overseas-travel {
+    @include timerange-transparent($color: #13ca41);
+  }
+  &.timerange-incoming-govt-visit {
+    @include timerange-transparent($color: #616e77ab);
+  }
+  &.timerange-other {
+    @include timerange-transparent($color: #1a2730);
+  }
+  &.timerange-announcements {
+    @include timerange-transparent($color: #8b6ef7);
+  }
 }
 
 .b-sch-event {
@@ -100,10 +112,11 @@
 .b-grid.b-timelinebase.b-scheduler,
 #scheduler-container {
   width: calc(100vw - 280px);
+  height: calc(100vh - 285px);
 }
 
 .b-grid-body-container.b-widget-scroller {
-  height: calc(100vh - 370px) !important;
+  height: calc(100%) !important;
 }
 
 .mdc-slider__pin-value-marker {
