@@ -4,7 +4,7 @@ import { Router, NavigationEnd } from '@angular/router'
 import { takeUntil, filter, delay, tap, concatMap } from 'rxjs/operators'
 import { TitleLayoutService } from './title-layout.service'
 import { MdcTopAppBar } from '@angular-mdc/web'
-import { AppUserProfile, SideBarItem } from '../models'
+import { AppUserProfile, SideBarItem, AppItem } from '../models'
 
 @Component({
   selector: 'digital-first-title-layout',
@@ -19,9 +19,11 @@ export class TitleLayoutComponent implements OnInit, OnDestroy {
   sidebarItems$: Observable<SideBarItem[]>
   notification$: Observable<string>
   open$: Observable<boolean>
+  logo$: Observable<any>
 
   @ViewChild('topAppBar') topAppBar: MdcTopAppBar
-
+  appItems$: Observable<AppItem[]>
+  bookType$: Observable<string>
   constructor(
     private router: Router,
     private ngZone: NgZone,
@@ -51,9 +53,10 @@ export class TitleLayoutComponent implements OnInit, OnDestroy {
     this.service.profile.subscribe(p => {
       this._profile = p
     })
-
+    this.logo$ = this.service.logo$
+    this.bookType$ = this.service.bookType$
     this.sidebarItems$ = this.service.sidebarItems$
-
+    this.appItems$ = this.service.appItems$
     this.notification$ = this.service.notification$.pipe(
       concatMap(result =>
         result ? of(result.message) : of(null).pipe(delay(2750))

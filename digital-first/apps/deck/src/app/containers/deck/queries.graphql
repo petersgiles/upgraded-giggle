@@ -1,7 +1,0 @@
-query GetDeckItems($id: ID) {
-  deckItems(parent: $id){
-    id
-    title
-    parent
-  }
-}
