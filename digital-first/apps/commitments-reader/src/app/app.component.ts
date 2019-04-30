@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core'
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core'
 import { NavigationEnd, ActivatedRoute, Router } from '@angular/router'
 import { AppRouterService } from './services/app-router.service'
 
@@ -6,11 +6,10 @@ import { AppRouterService } from './services/app-router.service'
   selector: 'digital-first-root',
   template: '<router-outlet></router-outlet>'
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'Commitments Reader'
   constructor(private router: Router, private appRouter: AppRouterService) {}
 
-  ngAfterViewInit(): void {}
   ngOnDestroy(): void {}
 
   ngOnInit() {

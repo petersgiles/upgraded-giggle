@@ -1,11 +1,17 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
-import { DeckItem, CardType } from '@df/components'
+import { Component, OnInit, OnDestroy, Injectable } from '@angular/core'
+import {
+  DeckItem,
+  DeckHelper,
+  CardType,
+  DialogAreYouSureComponent,
+  DeckItemMedia
+} from '@df/components'
 import { ActivatedRoute, ParamMap } from '@angular/router'
-import { map, first, switchMap } from 'rxjs/operators'
+import { map, first } from 'rxjs/operators'
 import { Observable, BehaviorSubject } from 'rxjs'
-import { GetDeckItemsGQL } from '../../generated/graphql'
-import { ApolloQueryResult } from 'apollo-client';
-import { Query } from 'apollo-angular';
+import { MdcDialog } from '@angular-mdc/web'
+
+import { _FEATURE_CONFIGS } from '@ngrx/store/src/tokens'
 
 @Component({
   selector: 'digital-first-home',
@@ -13,36 +19,37 @@ import { Query } from 'apollo-angular';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  constructor(private route: ActivatedRoute, private getDeckItems: GetDeckItemsGQL) {}
 
-  public cards$: BehaviorSubject<DeckItem[]> = new BehaviorSubject(null)
+  constructor(private route: ActivatedRoute, private dialog: MdcDialog) {}
+
   public parent$: BehaviorSubject<string> = new BehaviorSubject(null)
+  public selectedCard$: BehaviorSubject<DeckItem> = new BehaviorSubject(null)
+  public cardTypes$: BehaviorSubject<string[]> = new BehaviorSubject(
+    Object.keys(CardType).map(ct => CardType[ct] as string)
+  )
   public grandParent$: Observable<DeckItem>
-  public displayCards$: Observable<DeckItem[]>
+  public eligibleParents$: Observable<{ id: string; title: string }[]>
+  public cards$: Observable<DeckItem[]>
+
 
   ngOnInit() {
-
-    // this.displayCards$ = this.parent$
-    // .pipe(
-    //   switchMap(parent =>
-    //     this.getDeckItems
-    //     .fetch({ id: parent }, { fetchPolicy: 'network-only' })
-    //     // .pipe(
-    //     //   map((result: ApolloQueryResult<Query) => [])
-    //     //   )
-    //   ))
-
     this.route.paramMap
       .pipe(
         first(),
-        map((params: ParamMap) => +params.get('parent')))
-        .subscribe((parent: any) => this.parent$.next(parent))
-
+        map((params: ParamMap) => +params.get('parent'))
+      )
+      .subscribe((parent: any) => this.parent$.next(parent))
   }
 
   ngOnDestroy(): void {}
 
-  cards: DeckItem[]
+  handleSubmitted($event: DeckItem) {}
 
-  handleAddItemDialog() {}
+  handleCancel($event) {}
+
+  handleAction($event) {}
+
+  handleEdit($event) {}
+
+  handleGoBack($event) {}
 }

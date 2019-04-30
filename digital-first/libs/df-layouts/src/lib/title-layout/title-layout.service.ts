@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { of, Observable } from 'rxjs'
-import { AppUserProfile, SideBarItem } from '../models'
+import { AppUserProfile, SideBarItem, AppItem } from '../models'
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +28,14 @@ export class TitleLayoutService {
     throw new Error('Method not implemented.')
   }
 
+  get bookType$(): Observable<string> {
+    return of('')
+  }
+
+  get appItems$(): Observable<AppItem[]> {
+    return of([])
+  }
+
   get sidebarItems$(): Observable<SideBarItem[]> {
     return of([])
   }
@@ -35,6 +43,12 @@ export class TitleLayoutService {
   get notification$(): Observable<any> { return of(null) }
 
   get protectiveMarking$(): Observable<any> { return of(null) }
+
+  get logo$(): Observable<any> { return of({
+    'image': 'assets/crest.png',
+    'url': '/',
+    'title': 'configure me'
+  }) }
 
   constructor() { }
 

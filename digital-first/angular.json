@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/apps/policy-briefs",
+            "outputPath": "../sharepoint/deploy/SiteAssets/apps/policy-briefs",
             "index": "apps/policy-briefs/src/index.html",
             "main": "apps/policy-briefs/src/main.ts",
             "polyfills": "apps/policy-briefs/src/polyfills.ts",
@@ -388,7 +388,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/apps/deck",
+            "outputPath": "../sharepoint/deploy/SiteAssets/apps/deck",
             "index": "apps/deck/src/index.html",
             "main": "apps/deck/src/main.ts",
             "polyfills": "apps/deck/src/polyfills.ts",
