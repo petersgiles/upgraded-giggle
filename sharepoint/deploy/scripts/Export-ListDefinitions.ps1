@@ -1,6 +1,6 @@
 Param(
-    [string]$webUrl = "http://vm-dev-lbs13/sites/commitments/",
-    [string]$saveLocation = "$PSSCRIPTROOT\..\..\commitments\ListDefinitions"
+    [string]$webUrl = "http://vm-dev-lbs13/sites/commitments-reader-ning/",
+    [string]$saveLocation = "$PSSCRIPTROOT\..\..\commitments-reader\ListDefinitions"
 )
 
 $binPath = "$PSScriptRoot" 

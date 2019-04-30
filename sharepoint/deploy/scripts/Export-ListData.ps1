@@ -1,7 +1,7 @@
 ﻿param (
     [string] $webUrl = "http://vm-dev-lbs13/sites/commitments/",
    [string] $listName = "PackageType",
-   [string] $binPath = "$PSScriptRoot"
+   [string] $binPath = "$PSScriptRoot",
    [string] $exportPath = "$PSScriptRoot\..\..\commitments\Data"
 )
 
