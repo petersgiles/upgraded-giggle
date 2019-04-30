@@ -23,10 +23,6 @@ $spacing-xs: 4px;
 $spacing-md: 8px;
 $spacing-lg: 16px;
 
-@import "./scss/color-web-safe";
-@import "./scss/cards";
-@import "./scss/deck";
-
 ngx-wig {
     flex-grow: 1;
     margin-left: .3em;

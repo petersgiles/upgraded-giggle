@@ -1,120 +1,141 @@
 /* app/server.ts */
 
 // Import everything from express and assign it to the express variable
-import { ApolloServer } from 'apollo-server-express'
-import * as path from 'path' // normalize the paths : http://stackoverflow.com/questions/9756567/do-you-need-to-use-path-join-in-node-js
-import * as bodyParser from 'body-parser' // pull information from HTML POST (express4)
-import * as methodOverride from 'method-override' // simulate DELETE and PUT (express4)
-import * as compression from 'compression'
-import * as helmet from 'helmet' // Security
-import * as express from 'express'
-import * as morgan from 'morgan'
-import * as knex from 'knex'
+import { ApolloServer } from "apollo-server-express";
+import * as path from "path"; // normalize the paths : http://stackoverflow.com/questions/9756567/do-you-need-to-use-path-join-in-node-js
+import * as bodyParser from "body-parser"; // pull information from HTML POST (express4)
+import * as methodOverride from "method-override"; // simulate DELETE and PUT (express4)
+import * as compression from "compression";
+import * as helmet from "helmet"; // Security
+import * as express from "express";
+import * as morgan from "morgan";
+import * as knex from "knex";
+import * as fs from "fs";
+import * as https from "https";
+import * as http from "http";
+import { logger } from "../shared/logger";
+import { importSchema } from "graphql-import";
+import { DeckItem } from "./resolvers";
+import { HomeController, BriefApiController } from "./controllers";
+import { allowCrossDomain } from "../shared/cors";
+import {
+  getById,
+  getByAll,
+  upsert,
+  remove,
+  getByParent
+} from "../shared/resolvers";
+import { DeckItemAction } from "./resolvers/deck-item-action";
 
-import { logger } from '../shared/logger'
-import { importSchema } from 'graphql-import'
-import { DeckItem } from './resolvers'
-import { HomeController } from './controllers'
-import { allowCrossDomain } from '../shared/cors'
-import { createDB } from './sqllite-schema';
-
-const typeDefs = importSchema('./deck-gql/schema.graphql')
+const typeDefs = importSchema("./deck-gql/schema.graphql");
 
 const sqlDB = knex({
-	client: 'sqlite3',
-	connection: { filename: './db/deck.db' },
-	useNullAsDefault: true,
-})
+  client: "sqlite3",
+  connection: { filename: "./deck-gql/db/dev.sqlite3" },
+  useNullAsDefault: true
+});
 
-createDB(sqlDB)
+sqlDB.on("query", function(queryData: any) {
+  logger.info(`🕳️ - ${JSON.stringify(queryData)}`);
+});
 
 class SqlConnector {
-	connection: any
-	constructor(connection: knex) {
-		this.connection = connection
-	}
-	closeConnection() {
-		this.connection.close()
-	}
-	collection(collectionName: any) {
-		return this.connection.collection(collectionName)
-	}
+  connection: any;
+  constructor(connection: knex) {
+    this.connection = connection;
+  }
+  closeConnection() {
+    this.connection.close();
+  }
+  collection(collectionName: any) {
+    return this.connection.collection(collectionName);
+  }
 }
 
-const app: express.Application = express()
-const port: number = 3002
+const app: express.Application = express();
+const port: number = 3002;
+const configurations: any = {
+  // Note: You may need sudo to run on port 443
+  production: { ssl: true, port: 443, hostname: "localhost" },
+  development: { ssl: true, port: port, hostname: "localhost" }
+};
+const environment = process.env.NODE_ENV || "development";
+const config: any = configurations[environment];
 
-app.use(allowCrossDomain)
-app.use(helmet())
-app.use(morgan('combined'))
-app.use(express.json())
-app.use(express.static(path.join(process.cwd(), 'deck-gql', 'public')))
-app.use('/home', HomeController)
+app.use(allowCrossDomain);
+app.use(helmet());
+app.use(morgan("combined"));
+app.use(express.json());
+app.use(express.static(path.join(process.cwd(), "deck-gql", "public")));
+app.use("/home", HomeController);
+app.use("/brief-api", BriefApiController);
 
 // app.use(function(req: any, res: any, next: any){
 //   logger.error('404 page requested');
 //   res.status(404).send('This page does not exist!');
 // });
 
+let ResolverModels = {
+  DeckItem: "DeckItem",
+  DeckItemAction: "DeckItemAction"
+};
+
 export const resolvers = {
-	Query: {
-		deckItem: async (obj: any, args: any, context: any, info: any) => {
-			let result = await context.models.DeckItem.getById(args.id, context)
-			console.log('deckItem', result)
-			return result
-		},
-		deckItems: async (obj: any, args: any, context: any, info: any) => {
-      let result = await context.models.DeckItem.getByParent(args.parent, context)
-			console.log('deckItems', result)
-			return result
-		},
-	},
-	Mutation: {
-		upsertDeckItem: async (obj: any, args: any, context: any, info: any) => {
-      let result = await context.models.DeckItem.upsert(args, context)
-        .then((res: any) => {
-          let result: any = {
-            success: true,
-            error: null,
-          }
+  Query: {
+    deckItem: async (obj: any, args: any, context: any, info: any) =>
+      getById(ResolverModels.DeckItem, obj, args, context, info),
+    deckItems: async (obj: any, args: any, context: any, info: any) =>
+      getByParent(ResolverModels.DeckItem, obj, args, context, info)
+  },
+  Mutation: {
+    upsertDeckItem: async (obj: any, args: any, context: any, info: any) =>
+      upsert(ResolverModels.DeckItem, obj, args, context, info),
+    deleteDeckItem: async (obj: any, args: any, context: any, info: any) =>
+      remove(ResolverModels.DeckItem, obj, args, context, info)
+  },
+  DeckItem: {
+    actions: async (obj: any, args: any, context: any, info: any) =>
+      getByParent(ResolverModels.DeckItemAction, null, obj, context, null)
+  }
+};
 
-			  	return result
-      })
-      
-      return result
-		},
-		deleteDeckItem: async (obj: any, args: any, context: any, info: any) => {
-      let result = await context.models.DeckItem.delete(args.id, context)
-      .then((res: any) => {
-				let result: any = {
-					success: true,
-					error: null,
-				}
-				return result
-      })
-      return result
-		},
-	},
+const apollo = new ApolloServer({
+  typeDefs,
+  resolvers: resolvers,
+  context: {
+    connectors: {
+      sql: new SqlConnector(sqlDB)
+    },
+    models: {
+      DeckItem: new DeckItem({ db: "sql" }),
+      DeckItemAction: new DeckItemAction({ db: "sql" })
+    }
+  }
+});
+
+apollo.applyMiddleware({ app: app }); // app is from an existing express app
+
+// Create the HTTPS or HTTP server, per configuration
+var server: any;
+if (config.ssl) {
+  // Assumes certificates are in .ssl folder from package root. Make sure the files
+  // are secured.
+  server = https.createServer(
+    {
+      key: fs.readFileSync(`./../ssl/${environment}/server.key`),
+      cert: fs.readFileSync(`./../ssl/${environment}/server.crt`)
+    },
+    app
+  );
+} else {
+  server = http.createServer(app);
 }
+// Add subscription support
+apollo.installSubscriptionHandlers(server)
 
-const server = new ApolloServer({
-	typeDefs,
-	resolvers: resolvers,
-	context: {
-		connectors: {
-			sql: new SqlConnector(sqlDB),
-		},
-		models: {
-			DeckItem: new DeckItem({ db: 'sql' }),
-		},
-	},
-})
-
-server.applyMiddleware({ app: app }) // app is from an existing express app
-
-app.listen({ port: port }, () => {
-	logger.info(`${path.join(process.cwd(), 'public')}`)
-	logger.info(
-		`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`
-	)
-})
+server.listen({ port: config.port }, () =>
+  console.log(
+    '🚀 Server ready at',
+    `http${config.ssl ? 's' : ''}://${config.hostname}:${config.port}${apollo.graphqlPath}`
+  )
+)

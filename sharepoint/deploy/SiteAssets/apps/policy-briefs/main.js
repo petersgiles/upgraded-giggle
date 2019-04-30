@@ -1887,7 +1887,7 @@ webpackContext.id = "../../node_modules/moment/locale sync recursive ^\\.\\/.*$"
 /*! exports provided: name, version, commit-hash, license, scripts, private, dependencies, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"digital-first","version":"0.0.0","commit-hash":"-------","license":"MIT","scripts":{"ng":"ng","start:commitments":"ng serve commitments --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --live-reload true","start:programs-admin":"ng serve programs-admin --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --live-reload true","start:commitments-reader":"ng serve commitments-reader","start:policy-briefs":"ng serve policy-briefs","start:deck":"ng serve deck --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --live-reload true","start:commitments-reader-remote":"ng serve commitments-reader --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --configuration=remote --live-reload true","start:commitments-reader-remote-dev":"ng serve commitments-reader --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --configuration=remotedev --live-reload true","generate-graphql:deck":"gql-gen --config ./apps/deck/codegen.yml","generate-graphql:commitments-reader":"gql-gen --config ./apps/commitments-reader/codegen.yml","generate-graphql:programs-admin":"gql-gen --config ./apps/programs-admin/codegen.yml","generate-graphql:policy-briefs":"gql-gen --config ./apps/policy-briefs/codegen.yml","test:programs-admin":"ng test programs-admin","testwatch:programs-admin":"ng test programs-admin --watch","build":"ng build","build:all":"run-p build:programs-admin sharepoint:build:commitments sharepoint:build:commitments-reader","build:programs-admin":"ng build programs-admin --c9onfiguration=production","build:commitments-reader":"ng build commitments-reader --configuration=production","build:policy-briefs":"ng build policy-briefs --configuration=production","build:deck":"ng build deck --configuration=production","build:commitments-reader-remote":"ng build commitments-reader --configuration=remote","build:commitments-reader-remote-dev":"ng build commitments-reader --configuration=remotedev","test":"ng test","lint":"./node_modules/.bin/nx lint && ng lint","e2e":"ng e2e","affected:apps":"./node_modules/.bin/nx affected:apps","affected:libs":"./node_modules/.bin/nx affected:libs","affected:build":"./node_modules/.bin/nx affected:build","affected:e2e":"./node_modules/.bin/nx affected:e2e","affected:test":"./node_modules/.bin/nx affected:test","affected:lint":"./node_modules/.bin/nx affected:lint","affected:dep-graph":"./node_modules/.bin/nx affected:dep-graph","format":"./node_modules/.bin/nx format:write","format:write":"./node_modules/.bin/nx format:write","format:check":"./node_modules/.bin/nx format:check","update":"ng update @nrwl/schematics","update-npm":"npx npm-check -u","update:check":"ng update","workspace-schematic":"./node_modules/.bin/nx workspace-schematic","dep-graph":"./node_modules/.bin/nx dep-graph","help":"./node_modules/.bin/nx help","deploy:all:policy-briefs":"@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/redigb' -AppName 'Policy-Briefs'","deploy:js:policy-briefs":"@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/redigb' -AppName 'Policy-Briefs' -jsOnly","deploy:all":"@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/commitments' -AppName 'Commitments'","sharepoint:build:commitments":"ng build commitments --configuration=sharepoint","sharepoint:build:commitments-reader":"ng build commitments-reader --configuration=sharepoint","sharepoint:build:policy-briefs":"ng build policy-briefs --configuration=sharepoint","deploy:all:commitments-reader":"@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/commitments-reader' -AppName 'Commitments-Reader' -LoadReferenceData True","deploy:js":"@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/commitments' -AppName 'Commitments' -jsOnly","deploy:js:commitments-reader":"@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/commitments-reader' -AppName 'Commitments-Reader' -jsOnly","sharepoint:build:commitments-reader-prod":"ng build commitments-reader --configuration=sharepointprod","sharepoint:build":"run-p sharepoint:build:*","sharepoint:compile:policy-briefs":"@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/policy-briefs/Compile-Page.ps1","sharepoint:compile:commitments":"@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/Compile-Page.ps1 -applicationName 'commitments'","sharepoint:compile:commitments-reader":"@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/Compile-Page.ps1 -applicationName 'commitments-reader'","sharepoint:compile":"run-p sharepoint:compile:*","sharepoint:copyListDefinitions:commitments":"cpx ../sharepoint/commitments/ListDefinitions/*.* ../sharepoint/deploy/ListDefinitions/commitments","sharepoint:copyListDefinitions:commitments-reader":"cpx ../sharepoint/commitments-reader/ListDefinitions/*.* ../sharepoint/deploy/ListDefinitions/commitments-reader","sharepoint:copyListDefinitions:policy-briefs":"cpx ../sharepoint/policy-briefs/ListDefinitions/*.* ../sharepoint/deploy/ListDefinitions/policy-briefs","sharepoint:copyListDefinitions":"run-p sharepoint:copyListDefinitions:*","sharepoint:copyListData:commitments":"cpx ../sharepoint/commitments/Data/*.* ../sharepoint/deploy/ListData/commitments","sharepoint:copyListData:commitments-reader":"cpx ../sharepoint/commitments-reader/Data/*.* ../sharepoint/deploy/ListData/commitments-reader","sharepoint:copyListData:policy-briefs":"cpx ../sharepoint/policy-briefs/Data/*.* ../sharepoint/deploy/ListData/policy-briefs","sharepoint:copyListData":"run-p sharepoint:copyListData:*","sp:deploy:commitments":"run-s sharepoint:build:commitments sharepoint:compile:commitments sharepoint:copyListDefinitions:commitments sharepoint:copyListData:commitments deploy:js","sp:deploy:policy-briefs":"run-s sharepoint:build:policy-briefs sharepoint:compile:policy-briefs deploy:all:policy-briefs","sharepoint:build:deck":"ng build deck --configuration=sharepoint","sharepoint:compile:deck":"@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deck/Compile-Page.ps1","sharepoint:copyListDefinitions:deck":"cpx ../sharepoint/deck/ListDefinitions/*.* ../sharepoint/deploy/ListDefinitions/deck","sharepoint:copyListData:deck":"cpx ../sharepoint/deck/Data/*.* ../sharepoint/deploy/ListData/deck","sp:deploy:deck":"run-s sharepoint:build:deck sharepoint:compile:deck sharepoint:copyListDefinitions:deck sharepoint:copyListData:deck deploy:js","sp:deploy:commitments-reader":"run-s sharepoint:build:commitments-reader sharepoint:compile:commitments-reader sharepoint:copyListDefinitions:commitments-reader sharepoint:copyListData:commitments-reader deploy:all:commitments-reader","sp:deploy":"run-s sharepoint:* deploy:js","sp:all":"run-s sharepoint:* deploy:all"},"private":true,"dependencies":{"@agm/core":"^1.0.0-beta.5","@angular-mdc/theme":"^0.44.0","@angular-mdc/web":"^0.44.0","@angular/animations":"^7.2.13","@angular/cdk":"^7.3.7","@angular/common":"^7.2.13","@angular/compiler":"^7.2.13","@angular/core":"^7.2.13","@angular/forms":"^7.2.13","@angular/http":"^7.2.13","@angular/platform-browser":"^7.2.13","@angular/platform-browser-dynamic":"^7.2.13","@angular/router":"^7.2.13","@auth0/angular-jwt":"^2.1.0","@df/components":"^0.2.31306","@df/sharepoint":"0.0.29205","@df/utils":"0.0.29505","@dsuite/programs-manager-messages":"^1.0.31053","@material/animation":"^1.0.0","@material/base":"^1.0.0","@material/button":"^1.1.1","@material/card":"^1.1.1","@material/dialog":"^1.1.1","@material/drawer":"^1.1.1","@material/elevation":"^1.1.0","@material/floating-label":"^1.1.0","@material/line-ripple":"^1.1.0","@material/menu":"^1.1.1","@material/menu-surface":"^1.1.1","@material/notched-outline":"^1.1.1","@material/ripple":"^1.1.0","@material/rtl":"^0.42.0","@material/select":"^1.1.1","@material/shape":"^1.1.1","@material/tabs":"^1.0.1","@material/theme":"^1.1.0","@material/typography":"^1.0.0","@mdi/angular-material":"^3.6.95","@mdi/font":"^3.6.95","@ng-select/ng-select":"^2.17.0","@ngrx/effects":"^7.4.0","@ngrx/entity":"^7.4.0","@ngrx/router-store":"^7.4.0","@ngrx/store":"^7.4.0","@nrwl/nx":"^7.8.1","@swimlane/ngx-datatable":"^14.0.0","@types/jest":"^24.0.11","angular-tree-component":"^8.3.0","apollo-angular":"^1.5.0","apollo-angular-link-http":"^1.6.0","apollo-cache-inmemory":"^1.5.1","apollo-cache-persist":"^0.1.1","apollo-client":"^2.5.1","apollo-link":"^1.2.11","apollo-link-debounce":"^2.1.0","apollo-link-error":"^1.1.10","apollo-link-rest":"^0.7.2","bryntum-scheduler":"^2.0.31372","chart.js":"^2.8.0","classlist.js":"^1.1.20150312","codemirror":"^5.45.0","core-js":"^2.6.5","createjs-module":"^0.8.3","file-saver":"^2.0.1","graphql":"^14.2.1","graphql-anywhere":"^4.2.1","graphql-tag":"^2.10.1","highlightjs":"^9.12.0","indefinite":"^2.2.1","jquery":"^3.4.0","jspdf":"^1.5.3","localforage":"^1.7.3","markdown-it":"^8.4.2","marked":"^0.6.1","moment":"^2.24.0","ng2-charts":"^1.6.0","ngrx-store-localstorage":"^7.0.0","ngx-cookie-service":"^2.1.0","ngx-file-drop":"^6.0.0","ngx-markdown":"^7.1.5","ngx-wig":"^1.6.0","pdfmake":"^0.1.54","plantuml-encoder":"^1.2.5","punycode":"^2.1.1","raphael":"^2.2.8","rxjs":"^6.4.0","squire-rte":"^1.9.0","terser":"^3.17.0","to-mark":"^1.1.5","tslib":"^1.9.3","tui-chart":"^3.6.2","tui-code-snippet":"^1.5.1","tui-editor":"^1.4.0","typeface-roboto":"0.0.54","web-animations-js":"^2.3.1","x2js":"^3.2.6","xlsx":"^0.14.1","zone.js":"^0.8.29"},"devDependencies":{"@angular-devkit/build-angular":"^0.13.5","@angular/cli":"^7.3.8","@angular/compiler-cli":"^7.2.13","@angular/language-service":"^7.2.13","@graphql-codegen/cli":"^1.0.7","@graphql-codegen/typescript":"^1.0.7","@graphql-codegen/typescript-apollo-angular":"^1.0.7","@graphql-codegen/typescript-operations":"^1.0.7","@ngrx/schematics":"^7.4.0","@ngrx/store-devtools":"^7.4.0","@nrwl/builders":"^7.8.1","@nrwl/schematics":"^7.8.1","@types/googlemaps":"^3.30.19","@types/jasmine":"^3.3.12","@types/jasminewd2":"^2.0.6","@types/jquery":"^3.3.29","@types/node":"^11.13.4","codelyzer":"~4.5.0","cpx":"^1.5.0","jasmine-core":"^3.4.0","jasmine-marbles":"0.4.1","jasmine-spec-reporter":"~4.2.1","jest":"^24.7.1","jest-preset-angular":"^7.1.0","karma":"^4.1.0","karma-chrome-launcher":"~2.2.0","karma-coverage-istanbul-reporter":"^2.0.5","karma-jasmine":"~2.0.1","karma-jasmine-html-reporter":"^1.4.0","ngrx-store-freeze":"0.2.4","prettier":"^1.17.0","protractor":"^5.4.2","ts-node":"^8.1.0","tslint":"^5.16.0","typescript":"3.2.4"}};
+module.exports = {"name":"digital-first","version":"0.0.0","commit-hash":"-------","license":"MIT","scripts":{"ng":"ng","start:commitments":"ng serve commitments --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --live-reload true","start:programs-admin":"ng serve programs-admin --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --live-reload true","start:commitments-reader":"ng serve commitments-reader","start:policy-briefs":"ng serve policy-briefs","start:deck":"ng serve deck --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --live-reload true","start:commitments-reader-remote":"ng serve commitments-reader --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --configuration=remote --live-reload true","start:commitments-reader-remote-dev":"ng serve commitments-reader --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --configuration=remotedev --live-reload true","generate-graphql:deck":"gql-gen --config ./apps/deck/codegen.yml","generate-graphql:commitments-reader":"gql-gen --config ./apps/commitments-reader/codegen.yml","generate-graphql:programs-admin":"gql-gen --config ./apps/programs-admin/codegen.yml","generate-graphql:policy-briefs":"gql-gen --config ./apps/policy-briefs/codegen.yml","test:programs-admin":"ng test programs-admin","testwatch:programs-admin":"ng test programs-admin --watch","build":"ng build","build:all":"run-p build:programs-admin sharepoint:build:commitments sharepoint:build:commitments-reader","build:programs-admin":"ng build programs-admin --c9onfiguration=production","build:commitments-reader":"ng build commitments-reader --configuration=production","build:policy-briefs":"ng build policy-briefs --configuration=production","build:deck":"ng build deck --configuration=production","build:commitments-reader-remote":"ng build commitments-reader --configuration=remote","build:commitments-reader-remote-dev":"ng build commitments-reader --configuration=remotedev","test":"ng test","lint":"./node_modules/.bin/nx lint && ng lint","e2e":"ng e2e","affected:apps":"./node_modules/.bin/nx affected:apps","affected:libs":"./node_modules/.bin/nx affected:libs","affected:build":"./node_modules/.bin/nx affected:build","affected:e2e":"./node_modules/.bin/nx affected:e2e","affected:test":"./node_modules/.bin/nx affected:test","affected:lint":"./node_modules/.bin/nx affected:lint","affected:dep-graph":"./node_modules/.bin/nx affected:dep-graph","format":"./node_modules/.bin/nx format:write","format:write":"./node_modules/.bin/nx format:write","format:check":"./node_modules/.bin/nx format:check","update":"ng update @nrwl/schematics","update-npm":"npx npm-check -u","update:check":"ng update","workspace-schematic":"./node_modules/.bin/nx workspace-schematic","dep-graph":"./node_modules/.bin/nx dep-graph","help":"./node_modules/.bin/nx help","deploy:all:policy-briefs":"@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/redigb' -AppName 'Policy-Briefs'","deploy:js:policy-briefs":"@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/redigb' -AppName 'Policy-Briefs' -jsOnly","deploy:all":"@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/commitments' -AppName 'Commitments'","sharepoint:build:commitments":"ng build commitments --configuration=sharepoint","sharepoint:build:commitments-reader":"ng build commitments-reader --configuration=sharepoint","sharepoint:build:policy-briefs":"ng build policy-briefs --configuration=sharepoint","deploy:all:commitments-reader":"@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/commitments-reader' -AppName 'Commitments-Reader' -LoadReferenceData True","deploy:js":"@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/commitments' -AppName 'Commitments' -jsOnly","deploy:js:commitments-reader":"@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/commitments-reader' -AppName 'Commitments-Reader' -jsOnly","sharepoint:build:commitments-reader-prod":"ng build commitments-reader --configuration=sharepointprod","sharepoint:build":"run-p sharepoint:build:*","sharepoint:compile:policy-briefs":"@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/policy-briefs/Compile-Page.ps1","sharepoint:compile:commitments":"@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/Compile-Page.ps1 -applicationName 'commitments'","sharepoint:compile:commitments-reader":"@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/Compile-Page.ps1 -applicationName 'commitments-reader'","sharepoint:compile":"run-p sharepoint:compile:*","sharepoint:copyListDefinitions:commitments":"cpx ../sharepoint/commitments/ListDefinitions/*.* ../sharepoint/deploy/ListDefinitions/commitments","sharepoint:copyListDefinitions:commitments-reader":"cpx ../sharepoint/commitments-reader/ListDefinitions/*.* ../sharepoint/deploy/ListDefinitions/commitments-reader","sharepoint:copyListDefinitions:policy-briefs":"cpx ../sharepoint/policy-briefs/ListDefinitions/*.* ../sharepoint/deploy/ListDefinitions/policy-briefs","sharepoint:copyListDefinitions":"run-p sharepoint:copyListDefinitions:*","sharepoint:copyListData:commitments":"cpx ../sharepoint/commitments/Data/*.* ../sharepoint/deploy/ListData/commitments","sharepoint:copyListData:commitments-reader":"cpx ../sharepoint/commitments-reader/Data/*.* ../sharepoint/deploy/ListData/commitments-reader","sharepoint:copyListData:policy-briefs":"cpx ../sharepoint/policy-briefs/Data/*.* ../sharepoint/deploy/ListData/policy-briefs","sharepoint:copyListData":"run-p sharepoint:copyListData:*","sp:deploy:commitments":"run-s sharepoint:build:commitments sharepoint:compile:commitments sharepoint:copyListDefinitions:commitments sharepoint:copyListData:commitments deploy:js","sp:deploy:policy-briefs":"run-s sharepoint:build:policy-briefs sharepoint:compile:policy-briefs deploy:all:policy-briefs","sharepoint:build:deck":"ng build deck --configuration=sharepoint","sharepoint:compile:deck":"@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deck/Compile-Page.ps1","sharepoint:copyListDefinitions:deck":"cpx ../sharepoint/deck/ListDefinitions/*.* ../sharepoint/deploy/ListDefinitions/deck","sharepoint:copyListData:deck":"cpx ../sharepoint/deck/Data/*.* ../sharepoint/deploy/ListData/deck","sp:deploy:deck":"run-s sharepoint:build:deck sharepoint:compile:deck sharepoint:copyListDefinitions:deck sharepoint:copyListData:deck deploy:js","sp:deploy:commitments-reader":"run-s sharepoint:build:commitments-reader sharepoint:compile:commitments-reader sharepoint:copyListDefinitions:commitments-reader sharepoint:copyListData:commitments-reader deploy:all:commitments-reader","sp:deploy":"run-s sharepoint:* deploy:js","sp:all":"run-s sharepoint:* deploy:all"},"private":true,"dependencies":{"@agm/core":"^1.0.0-beta.5","@angular-mdc/theme":"^0.44.0","@angular-mdc/web":"^0.44.0","@angular/animations":"^7.2.13","@angular/cdk":"^7.3.7","@angular/common":"^7.2.13","@angular/compiler":"^7.2.13","@angular/core":"^7.2.13","@angular/forms":"^7.2.13","@angular/http":"^7.2.13","@angular/platform-browser":"^7.2.13","@angular/platform-browser-dynamic":"^7.2.13","@angular/router":"^7.2.13","@auth0/angular-jwt":"^2.1.0","@df/components":"^0.2.32014","@df/sharepoint":"0.0.29205","@df/utils":"0.0.29505","@dsuite/programs-manager-messages":"^1.0.31053","@material/animation":"^1.0.0","@material/base":"^1.0.0","@material/button":"^1.1.1","@material/card":"^1.1.1","@material/dialog":"^1.1.1","@material/drawer":"^1.1.1","@material/elevation":"^1.1.0","@material/floating-label":"^1.1.0","@material/line-ripple":"^1.1.0","@material/menu":"^1.1.1","@material/menu-surface":"^1.1.1","@material/notched-outline":"^1.1.1","@material/ripple":"^1.1.0","@material/rtl":"^0.42.0","@material/select":"^1.1.1","@material/shape":"^1.1.1","@material/tabs":"^1.0.1","@material/theme":"^1.1.0","@material/typography":"^1.0.0","@mdi/angular-material":"^3.6.95","@mdi/font":"^3.6.95","@ng-select/ng-select":"^2.17.0","@ngrx/effects":"^7.4.0","@ngrx/entity":"^7.4.0","@ngrx/router-store":"^7.4.0","@ngrx/store":"^7.4.0","@nrwl/nx":"^7.8.1","@swimlane/ngx-datatable":"^14.0.0","@types/jest":"^24.0.11","angular-tree-component":"^8.3.0","apollo-angular":"^1.5.0","apollo-angular-link-http":"^1.6.0","apollo-cache-inmemory":"^1.5.1","apollo-cache-persist":"^0.1.1","apollo-client":"^2.5.1","apollo-link":"^1.2.11","apollo-link-debounce":"^2.1.0","apollo-link-error":"^1.1.10","apollo-link-rest":"^0.7.2","bryntum-scheduler":"^2.0.31372","chart.js":"^2.8.0","classlist.js":"^1.1.20150312","codemirror":"^5.45.0","core-js":"^2.6.5","createjs-module":"^0.8.3","file-saver":"^2.0.1","graphql":"^14.2.1","graphql-anywhere":"^4.2.1","graphql-tag":"^2.10.1","highlightjs":"^9.12.0","indefinite":"^2.2.1","jquery":"^3.4.0","jspdf":"^1.5.3","localforage":"^1.7.3","markdown-it":"^8.4.2","marked":"^0.6.1","moment":"^2.24.0","ng2-charts":"^1.6.0","ngrx-store-localstorage":"^7.0.0","ngx-cookie-service":"^2.1.0","ngx-file-drop":"^6.0.0","ngx-markdown":"^7.1.5","ngx-wig":"^1.6.0","pdfmake":"^0.1.54","plantuml-encoder":"^1.2.5","punycode":"^2.1.1","raphael":"^2.2.8","rxjs":"^6.4.0","squire-rte":"^1.9.0","terser":"^3.17.0","to-mark":"^1.1.5","tslib":"^1.9.3","tui-chart":"^3.6.2","tui-code-snippet":"^1.5.1","tui-editor":"^1.4.0","typeface-roboto":"0.0.54","web-animations-js":"^2.3.1","x2js":"^3.2.6","xlsx":"^0.14.1","zone.js":"^0.8.29"},"devDependencies":{"@angular-devkit/build-angular":"^0.13.5","@angular/cli":"^7.3.8","@angular/compiler-cli":"^7.2.13","@angular/language-service":"^7.2.13","@graphql-codegen/cli":"^1.0.7","@graphql-codegen/typescript":"^1.0.7","@graphql-codegen/typescript-apollo-angular":"^1.0.7","@graphql-codegen/typescript-operations":"^1.0.7","@ngrx/schematics":"^7.4.0","@ngrx/store-devtools":"^7.4.0","@nrwl/builders":"^7.8.1","@nrwl/schematics":"^7.8.1","@types/googlemaps":"^3.30.19","@types/jasmine":"^3.3.12","@types/jasminewd2":"^2.0.6","@types/jquery":"^3.3.29","@types/node":"^11.13.4","codelyzer":"~4.5.0","cpx":"^1.5.0","jasmine-core":"^3.4.0","jasmine-marbles":"0.4.1","jasmine-spec-reporter":"~4.2.1","jest":"^24.7.1","jest-preset-angular":"^7.1.0","karma":"^4.1.0","karma-chrome-launcher":"~2.2.0","karma-coverage-istanbul-reporter":"^2.0.5","karma-jasmine":"~2.0.1","karma-jasmine-html-reporter":"^1.4.0","ngrx-store-freeze":"0.2.4","prettier":"^1.17.0","protractor":"^5.4.2","ts-node":"^8.1.0","tslint":"^5.16.0","typescript":"3.2.4"}};
 
 /***/ }),
 
@@ -2160,7 +2160,8 @@ var AppComponent = /** @class */ (function () {
     AppComponent = tslib_1.__decorate([
         core_1.Component({
             selector: 'digital-first-root',
-            template: '<router-outlet></router-outlet>'
+            template: '<router-outlet></router-outlet>',
+            changeDetection: core_1.ChangeDetectionStrategy.OnPush
         }),
         tslib_1.__metadata("design:paramtypes", [router_1.Router])
     ], AppComponent);
@@ -2216,13 +2217,17 @@ var discussion_effects_1 = __webpack_require__(/*! ./reducers/discussion/discuss
 var fromBrief = __webpack_require__(/*! ./reducers/brief/brief.reducer */ "./src/app/reducers/brief/brief.reducer.ts");
 var brief_effects_1 = __webpack_require__(/*! ./reducers/brief/brief.effects */ "./src/app/reducers/brief/brief.effects.ts");
 var brief_document_component_1 = __webpack_require__(/*! ./containers/brief-document/brief-document.component */ "./src/app/containers/brief-document/brief-document.component.ts");
+var df_theme_1 = __webpack_require__(/*! @digital-first/df-theme */ "../../libs/df-theme/src/index.ts");
 var COMPONENTS = [
     app_component_1.AppComponent,
     home_component_1.HomeComponent,
     brief_component_1.BriefComponent,
-    brief_document_component_1.BriefDocumentComponent
+    brief_document_component_1.BriefDocumentComponent,
+    components_1.DialogAreYouSureComponent
 ];
-var ENTRYCOMPONENTS = [];
+var ENTRYCOMPONENTS = [
+    components_1.DialogAreYouSureComponent
+];
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -2248,6 +2253,7 @@ var AppModule = /** @class */ (function () {
                 df_layouts_1.DfLayoutsModule,
                 df_pages_1.DfPagesModule,
                 df_pipes_1.DfPipesModule,
+                df_theme_1.DfThemeModule,
                 store_1.StoreModule.forRoot(reducers_1.reducers, {
                     metaReducers: reducers_1.metaReducers
                 }),
@@ -2353,7 +2359,7 @@ var BriefDocumentComponent = /** @class */ (function () {
     });
     BriefDocumentComponent.prototype.getBriefHtml = function (fileLeafRef) {
         var _this = this;
-        var relativeUrl = "http://vm-dev-lbs13/sites/redigb/BriefHTML/" + fileLeafRef + ".aspx";
+        var relativeUrl = _spPageContextInfo.webAbsoluteUrl + "/BriefHTML/" + fileLeafRef + ".aspx";
         return this.http
             .get(relativeUrl, { responseType: 'text' })
             .pipe(operators_1.first())
@@ -2389,7 +2395,7 @@ exports.BriefDocumentComponent = BriefDocumentComponent;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"app-page\">\r\n  <div class=\"brief-layout\">\r\n    <nav>\r\n      <df-pack-navigator\r\n        [nodes]=\"nodes$ | async\"\r\n        (onSelect)=\"handleSelectNavigatorNode($event)\"\r\n        (onMoveNode)=\"handleEvent($event, 'Move')\"\r\n        (onToggleExpand)=\"handleToggleExpandNavigatorNode($event)\"\r\n      ></df-pack-navigator>\r\n    </nav>\r\n    <section>\r\n      <df-expander-panel\r\n        title=\"Discussion\"\r\n        [background]=\"background$ | async\"\r\n        expanded=\"true\"\r\n      >\r\n        <df-discussion\r\n          [hostId]=\"'some-guid'\"\r\n          [comments]=\"comments$ | async\"\r\n          (onReplyToComment)=\"handleReplyToComment($event, 'onReplyToComment')\"\r\n          (onDeleteComment)=\"handleDeleteComment($event, 'onDeleteComment')\"\r\n          (onAddComment)=\"handleAddComment($event, 'onAddComment')\"\r\n        ></df-discussion>\r\n      </df-expander-panel>\r\n      <df-expander-panel *ngIf=\"(brief$ | async) as brief\"\r\n        [title]=\"brief.title\"\r\n        [background]=\"background$ | async\"\r\n        expandable=\"false\"\r\n        expanded=\"true\"\r\n      >\r\n        <ng-container panel-buttons>\r\n          <span class=\"brief-reference\">{{brief.reference}}</span>\r\n          <df-button\r\n            class=\"edit\"\r\n            title=\"Edit\"\r\n            icon=\"edit\"\r\n            [background]=\"background$ | async\"\r\n            (onClick)=\"handleEdit($event)\"\r\n          ></df-button>\r\n          <df-button\r\n            title=\"Subscribe\"\r\n            icon=\"add_alert\"\r\n            [background]=\"background$ | async\"\r\n            (onClick)=\"handleEdit($event)\"\r\n          ></df-button>\r\n          <df-button\r\n            title=\"Admin\"\r\n            icon=\"settings\"\r\n            [background]=\"background$ | async\"\r\n            (onClick)=\"handleEdit($event)\"\r\n          ></df-button>\r\n        </ng-container>\r\n        <div class=\"GhostWhite brief-document\">\r\n          <form [formGroup]=\"form\" (ngSubmit)=\"handleSubmit($event)\" autocomplete=\"off\">\r\n            <df-status-picker\r\n              [statuses]=\"documentStatusList$ | async\"\r\n              [formControlName]=\"'status'\"\r\n            >\r\n            </df-status-picker>\r\n            <div>\r\n                <div class=\"brief-protective-marking\"><strong>{{brief.securityClassification}} {{brief.dLM}}</strong></div>\r\n            </div>\r\n            <digital-first-brief-document [brief]=\"brief\"></digital-first-brief-document>\r\n          </form>\r\n        </div>\r\n      </df-expander-panel>\r\n    </section>\r\n  </div>\r\n  <div class=\"brief-layout\">\r\n    <section>\r\n      <pre>{{ this.nodes$ | async }}</pre>\r\n      <p>Form Status: {{ form.status }}</p>\r\n      <pre>{{ form.value | json }}</pre>\r\n    </section>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"app-page\">\r\n  <div class=\"brief-layout\">\r\n    <nav>\r\n      <df-pack-navigator\r\n        [nodes]=\"nodes$ | async\"\r\n        (onSelect)=\"handleSelectNavigatorNode($event)\"\r\n        (onMoveNode)=\"handleToggleMoveNavigatorNode($event, 'Move')\"\r\n        (onToggleExpand)=\"handleToggleExpandNavigatorNode($event)\"\r\n      ></df-pack-navigator>\r\n    </nav>\r\n    <section>\r\n      <df-expander-panel *ngIf=\"(brief$ | async) as brief\"\r\n        title=\"Discussion\"\r\n        [background]=\"background$ | async\"\r\n        expanded=\"true\"\r\n      >\r\n        <df-discussion\r\n          [hostId]=\"brief.id\"\r\n          [comments]=\"comments$ | async\"\r\n          [activeComment]=\"activeComment$ | async\"\r\n          (onReplyToComment)=\"handleReplyToComment($event, 'onReplyToComment')\"\r\n          (onDeleteComment)=\"handleRemoveComment($event, 'onRemoveComment')\"\r\n          (onAddComment)=\"handleAddComment($event, 'onAddComment')\"\r\n        ></df-discussion>\r\n      </df-expander-panel>\r\n      <df-expander-panel *ngIf=\"(brief$ | async) as brief\"\r\n        [title]=\"brief.title\"\r\n        [background]=\"background$ | async\"\r\n        expandable=\"false\"\r\n        expanded=\"true\"\r\n      >\r\n        <ng-container panel-buttons>\r\n          <span class=\"brief-reference\">{{brief.reference}}</span>\r\n          <df-button\r\n            class=\"edit\"\r\n            title=\"Edit\"\r\n            icon=\"edit\"\r\n            [background]=\"background$ | async\"\r\n            (onClick)=\"handleEdit($event)\"\r\n          ></df-button>\r\n          <df-button\r\n            title=\"Subscribe\"\r\n            icon=\"add_alert\"\r\n            [background]=\"background$ | async\"\r\n            (onClick)=\"handleEdit($event)\"\r\n          ></df-button>\r\n          <df-button\r\n            title=\"Admin\"\r\n            icon=\"settings\"\r\n            [background]=\"background$ | async\"\r\n            (onClick)=\"handleEdit($event)\"\r\n          ></df-button>\r\n        </ng-container>\r\n        <div class=\"GhostWhite brief-document\">\r\n          <form [formGroup]=\"form\" (ngSubmit)=\"handleSubmit($event)\" autocomplete=\"off\">\r\n            <df-status-picker\r\n              [statuses]=\"documentStatusList$ | async\"\r\n              [formControlName]=\"'status'\"\r\n            >\r\n            </df-status-picker>\r\n            <div>\r\n                <div class=\"brief-protective-marking\"><strong>{{brief.securityClassification}} {{brief.dLM}}</strong></div>\r\n            </div>\r\n            <digital-first-brief-document [brief]=\"brief\"></digital-first-brief-document>\r\n          </form>\r\n        </div>\r\n      </df-expander-panel>\r\n    </section>\r\n  </div>\r\n  <div class=\"brief-layout\">\r\n    <section>\r\n      <pre>{{ this.nodes$ | async }}</pre>\r\n      <p>Form Status: {{ form.status }}</p>\r\n      <pre>{{ form.value | json }}</pre>\r\n    </section>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -2418,6 +2424,7 @@ var tslib_1 = __webpack_require__(/*! tslib */ "../../node_modules/tslib/tslib.e
 var core_1 = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
 var rxjs_1 = __webpack_require__(/*! rxjs */ "../../node_modules/rxjs/_esm5/index.js");
 var forms_1 = __webpack_require__(/*! @angular/forms */ "../../node_modules/@angular/forms/fesm5/forms.js");
+var components_1 = __webpack_require__(/*! @df/components */ "../../node_modules/@df/components/fesm5/df-components.js");
 var operators_1 = __webpack_require__(/*! rxjs/operators */ "../../node_modules/rxjs/_esm5/operators/index.js");
 var mock_data_1 = __webpack_require__(/*! ./mock-data */ "./src/app/pages/brief/mock-data.ts");
 var store_1 = __webpack_require__(/*! @ngrx/store */ "../../node_modules/@ngrx/store/fesm5/store.js");
@@ -2428,16 +2435,18 @@ var navigation_actions_1 = __webpack_require__(/*! ../../reducers/navigation/nav
 var discussion_actions_1 = __webpack_require__(/*! ../../reducers/discussion/discussion.actions */ "./src/app/reducers/discussion/discussion.actions.ts");
 var router_1 = __webpack_require__(/*! @angular/router */ "../../node_modules/@angular/router/fesm5/router.js");
 var brief_actions_1 = __webpack_require__(/*! ../../reducers/brief/brief.actions */ "./src/app/reducers/brief/brief.actions.ts");
+var web_1 = __webpack_require__(/*! @angular-mdc/web */ "../../node_modules/@angular-mdc/web/esm5/web.es5.js");
 var defaultBrief = {
     status: '1'
 };
 var BriefComponent = /** @class */ (function () {
     // tslint:disable-next-line:no-empty
-    function BriefComponent(route, router, fb, store) {
+    function BriefComponent(route, router, fb, store, dialog) {
         this.route = route;
         this.router = router;
         this.fb = fb;
         this.store = store;
+        this.dialog = dialog;
         this.background$ = new rxjs_1.BehaviorSubject('#455a64');
         this.form = this.fb.group({
             status: [null]
@@ -2454,6 +2463,7 @@ var BriefComponent = /** @class */ (function () {
         this.documentStatusList$ = new rxjs_1.BehaviorSubject(mock_data_1.statuslist);
         this.brief$ = this.store.pipe(store_1.select(fromBrief.selectBriefState));
         this.fileLeafRef$ = this.store.pipe(store_1.select(fromBrief.selectFileLeafRefState));
+        this.activeComment$ = this.store.pipe(store_1.select(fromDiscussion.selectActiveCommentState));
         this.selectId$ = this.route.paramMap
             .pipe(operators_1.switchMap(function (params) {
             var activeBriefId = params.get('id');
@@ -2471,8 +2481,7 @@ var BriefComponent = /** @class */ (function () {
             _this.formValueChangeSubscription$.unsubscribe();
         });
     };
-    BriefComponent.prototype.ngOnDestroy = function () {
-    };
+    BriefComponent.prototype.ngOnDestroy = function () { };
     BriefComponent.prototype.handleChange = function ($event) {
         // tslint:disable-next-line:no-console
         console.log('🐛 - handleChange', $event);
@@ -2491,26 +2500,48 @@ var BriefComponent = /** @class */ (function () {
     };
     BriefComponent.prototype.handleToggleExpandNavigatorNode = function ($event) {
         // tslint:disable-next-line:no-console
-        console.log("\uD83C\uDFAF -  handleToggleExpandNavigatorNode", $event.node);
+        console.log("\uD83C\uDFAF -  handleToggleExpandNavigatorNode", $event);
+        this.store.dispatch(new navigation_actions_1.ToggleExpand({ id: $event.node.data.id, expanded: $event.isExpanded }));
     };
     BriefComponent.prototype.handleSelectNavigatorNode = function (node) {
         this.router.navigate(['/', 'brief', node.data.briefId]);
     };
-    BriefComponent.prototype.handleReplyToComment = function ($event) {
+    BriefComponent.prototype.handleReplyToComment = function (comment) {
         // tslint:disable-next-line:no-console
-        console.log("\uD83D\uDCAC -  ReplyToComment", $event);
+        console.log("\uD83D\uDCAC -  ReplyToComment", comment);
+        this.store.dispatch(new discussion_actions_1.ReplyToComment({ activeComment: comment.id }));
     };
-    BriefComponent.prototype.handleDeleteComment = function ($event) {
+    BriefComponent.prototype.handleRemoveComment = function ($event) {
+        var _this = this;
         // tslint:disable-next-line:no-console
-        console.log("\uD83D\uDCAC -  DeleteComment", $event);
+        console.log("\uD83D\uDCAC -  RemoveComment", $event);
+        var dialogRef = this.dialog.open(components_1.DialogAreYouSureComponent, {
+            escapeToClose: true,
+            clickOutsideToClose: true
+        });
+        dialogRef
+            .afterClosed()
+            .pipe(operators_1.first())
+            .subscribe(function (result) {
+            if (result === components_1.ARE_YOU_SURE_ACCEPT) {
+                _this.store.dispatch(new discussion_actions_1.RemoveComment({ id: $event.id, brief: $event.hostId }));
+            }
+        });
     };
     BriefComponent.prototype.handleAddComment = function ($event) {
+        var parent = $event.parent;
+        var newcomment = {
+            brief: $event.hostId,
+            text: $event.text,
+            parent: parent ? parent.id : null
+        };
         // tslint:disable-next-line:no-console
-        console.log("\uD83D\uDCAC -  AddComment", $event);
+        console.log("\uD83D\uDCAC -  AddComment", $event, newcomment);
+        this.store.dispatch(new discussion_actions_1.AddComment(newcomment));
     };
-    BriefComponent.prototype.handleEvent = function ($event, action) {
+    BriefComponent.prototype.handleToggleMoveNavigatorNode = function ($event, action) {
         // tslint:disable-next-line:no-console
-        console.log("\uD83E\uDD8D - " + action, $event);
+        console.log("\uD83D\uDC39 - " + action, $event);
     };
     BriefComponent = tslib_1.__decorate([
         core_1.Component({
@@ -2521,7 +2552,8 @@ var BriefComponent = /** @class */ (function () {
         tslib_1.__metadata("design:paramtypes", [router_1.ActivatedRoute,
             router_1.Router,
             forms_1.FormBuilder,
-            store_1.Store])
+            store_1.Store,
+            web_1.MdcDialog])
     ], BriefComponent);
     return BriefComponent;
 }());
@@ -3210,6 +3242,9 @@ var DiscussionActionTypes;
     DiscussionActionTypes["GetDiscussion"] = "[Discussion] Get Discussion";
     DiscussionActionTypes["GetDiscussionFailure"] = "[Navigation] Get Discussion Failure";
     DiscussionActionTypes["LoadDiscussions"] = "[Discussion] Load Discussions";
+    DiscussionActionTypes["AddComment"] = "[Discussion] Add Comment";
+    DiscussionActionTypes["ReplyToComment"] = "[Discussion] Reply To Comment";
+    DiscussionActionTypes["RemoveComment"] = "[Discussion] Remove Comment";
 })(DiscussionActionTypes = exports.DiscussionActionTypes || (exports.DiscussionActionTypes = {}));
 var LoadDiscussions = /** @class */ (function () {
     function LoadDiscussions(payload) {
@@ -3235,6 +3270,30 @@ var GetDiscussionFailure = /** @class */ (function () {
     return GetDiscussionFailure;
 }());
 exports.GetDiscussionFailure = GetDiscussionFailure;
+var AddComment = /** @class */ (function () {
+    function AddComment(payload) {
+        this.payload = payload;
+        this.type = DiscussionActionTypes.AddComment;
+    }
+    return AddComment;
+}());
+exports.AddComment = AddComment;
+var ReplyToComment = /** @class */ (function () {
+    function ReplyToComment(payload) {
+        this.payload = payload;
+        this.type = DiscussionActionTypes.ReplyToComment;
+    }
+    return ReplyToComment;
+}());
+exports.ReplyToComment = ReplyToComment;
+var RemoveComment = /** @class */ (function () {
+    function RemoveComment(payload) {
+        this.payload = payload;
+        this.type = DiscussionActionTypes.RemoveComment;
+    }
+    return RemoveComment;
+}());
+exports.RemoveComment = RemoveComment;
 
 
 /***/ }),
@@ -3279,12 +3338,29 @@ var DiscussionEffects = /** @class */ (function () {
         var _this = this;
         this.actions$ = actions$;
         this.sharepoint = sharepoint;
+        // return sharePointService.removeItem(
+        //   'Comment', commentId				
+        // );
         this.loadDiscussions$ = this.actions$.pipe(effects_1.ofType(discussion_actions_1.DiscussionActionTypes.GetDiscussion), operators_1.map(function (action) { return action; }), operators_1.concatMap(function (action) { return _this.getDiscussionNodes(action.payload.activeBriefId); }), 
         // tslint:disable-next-line: no-console
         operators_1.tap(function (result) { return console.log("\uD83C\uDF7A ", result); }), operators_1.switchMap(function (result) { return [
             new discussion_actions_1.LoadDiscussions({
                 data: result.data.nodes,
                 loading: result.loading
+            })
+        ]; }), operators_1.catchError(function (error) { return rxjs_1.of(new discussion_actions_1.GetDiscussionFailure(error)); }));
+        this.addComment$ = this.actions$.pipe(effects_1.ofType(discussion_actions_1.DiscussionActionTypes.AddComment), operators_1.map(function (action) { return action; }), operators_1.concatMap(function (action) { return _this.addComment(action.payload); }), 
+        // tslint:disable-next-line: no-console
+        operators_1.tap(function (result) { return console.log("\uD83C\uDF7A ", result); }), operators_1.switchMap(function (result) { return [
+            new discussion_actions_1.GetDiscussion({
+                activeBriefId: result.brief
+            })
+        ]; }), operators_1.catchError(function (error) { return rxjs_1.of(new discussion_actions_1.GetDiscussionFailure(error)); }));
+        this.removeComment$ = this.actions$.pipe(effects_1.ofType(discussion_actions_1.DiscussionActionTypes.RemoveComment), operators_1.map(function (action) { return action; }), operators_1.concatMap(function (action) { return _this.removeComment(action.payload); }), 
+        // tslint:disable-next-line: no-console
+        operators_1.tap(function (result) { return console.log("\uD83C\uDF7A ", result); }), operators_1.switchMap(function (result) { return [
+            new discussion_actions_1.GetDiscussion({
+                activeBriefId: result.brief
             })
         ]; }), operators_1.catchError(function (error) { return rxjs_1.of(new discussion_actions_1.GetDiscussionFailure(error)); }));
     }
@@ -3306,10 +3382,36 @@ var DiscussionEffects = /** @class */ (function () {
             });
         }));
     };
+    DiscussionEffects.prototype.addComment = function (comment) {
+        return this.sharepoint.storeItem({
+            listName: 'Comment',
+            data: {
+                Comments: comment.text,
+                Brief: comment.brief,
+                Parent: comment.parent
+            }
+        })
+            .pipe(operators_1.concatMap(function (_) { return rxjs_1.of({ brief: comment.brief }); }));
+    };
+    DiscussionEffects.prototype.removeComment = function (comment) {
+        return this.sharepoint.removeItem({
+            listName: 'Comment',
+            id: comment.id
+        })
+            .pipe(operators_1.concatMap(function (_) { return rxjs_1.of({ brief: comment.brief }); }));
+    };
     tslib_1.__decorate([
         effects_1.Effect(),
         tslib_1.__metadata("design:type", Object)
     ], DiscussionEffects.prototype, "loadDiscussions$", void 0);
+    tslib_1.__decorate([
+        effects_1.Effect(),
+        tslib_1.__metadata("design:type", Object)
+    ], DiscussionEffects.prototype, "addComment$", void 0);
+    tslib_1.__decorate([
+        effects_1.Effect(),
+        tslib_1.__metadata("design:type", Object)
+    ], DiscussionEffects.prototype, "removeComment$", void 0);
     DiscussionEffects = tslib_1.__decorate([
         core_1.Injectable(),
         tslib_1.__metadata("design:paramtypes", [effects_1.Actions,
@@ -3340,11 +3442,19 @@ exports.initialState = {
     timeFormat: 'dateFormat',
     activeComment: null,
     comments: null,
-    discussion: null,
+    discussion: null
 };
 function reducer(state, action) {
     if (state === void 0) { state = exports.initialState; }
     switch (action.type) {
+        case discussion_actions_1.DiscussionActionTypes.ReplyToComment:
+            var activeComment = action.payload.activeComment;
+            // tslint:disable-next-line: no-console
+            console.log("\uD83D\uDC79 ", action.payload, activeComment);
+            if (activeComment === state.activeComment) {
+                activeComment = null;
+            }
+            return tslib_1.__assign({}, state, { activeComment: activeComment });
         case discussion_actions_1.DiscussionActionTypes.LoadDiscussions:
             var data = action.payload.data;
             var discussionNodes = JSON.parse(JSON.stringify(data || [])).sort(utils_1.sortBy('order'));
@@ -3390,7 +3500,7 @@ var ngrx_store_freeze_1 = __webpack_require__(/*! ngrx-store-freeze */ "../../no
 var ngrx_store_localstorage_1 = __webpack_require__(/*! ngrx-store-localstorage */ "../../node_modules/ngrx-store-localstorage/dist/index.js");
 function localStorageSyncReducer(reducer) {
     return ngrx_store_localstorage_1.localStorageSync({
-        keys: [{ auth: ['status'] }, { user: ['drawerOpen'] }],
+        keys: [{ auth: ['status'] }, { user: ['drawerOpen'] }, { navigation: ['expandedNodes'] }],
         rehydrate: true
     })(reducer);
 }
@@ -3441,6 +3551,7 @@ var NavigationActionTypes;
     NavigationActionTypes["GetNavigations"] = "[Navigation] Get Navigations";
     NavigationActionTypes["GetNavigationsFailure"] = "[Navigation] Get Navigations Failure";
     NavigationActionTypes["LoadNavigations"] = "[Navigation] Load Navigations";
+    NavigationActionTypes["ToggleExpand"] = "[Navigation] Toggle Expand";
 })(NavigationActionTypes = exports.NavigationActionTypes || (exports.NavigationActionTypes = {}));
 var GetNavigations = /** @class */ (function () {
     function GetNavigations() {
@@ -3449,6 +3560,14 @@ var GetNavigations = /** @class */ (function () {
     return GetNavigations;
 }());
 exports.GetNavigations = GetNavigations;
+var ToggleExpand = /** @class */ (function () {
+    function ToggleExpand(payload) {
+        this.payload = payload;
+        this.type = NavigationActionTypes.ToggleExpand;
+    }
+    return ToggleExpand;
+}());
+exports.ToggleExpand = ToggleExpand;
 var GetNavigationsFailure = /** @class */ (function () {
     function GetNavigationsFailure(payload) {
         this.payload = payload;
@@ -3588,20 +3707,20 @@ var store_1 = __webpack_require__(/*! @ngrx/store */ "../../node_modules/@ngrx/s
 var utils_1 = __webpack_require__(/*! @df/utils */ "../../node_modules/@df/utils/fesm5/df-utils.js");
 exports.initialState = {
     navigationNodes: null,
-    navigationTree: null
+    navigationTree: null,
+    expandedNodes: []
 };
 function reducer(state, action) {
     if (state === void 0) { state = exports.initialState; }
     switch (action.type) {
+        case navigation_actions_1.NavigationActionTypes.ToggleExpand:
+            var expandedNodes = state.expandedNodes.filter(function (n) { return n !== action.payload.id; });
+            if (action.payload.expanded) {
+                expandedNodes.push(action.payload.id);
+            }
+            return tslib_1.__assign({}, state, { expandedNodes: expandedNodes });
         case navigation_actions_1.NavigationActionTypes.LoadNavigations:
-            var nodes = JSON.parse(JSON.stringify(action.payload.nodes || [])).sort(utils_1.sortBy('order'));
-            var tree = utils_1.toTree(nodes, {
-                id: 'id',
-                parentId: 'parent',
-                children: 'children',
-                level: 'level'
-            });
-            return tslib_1.__assign({}, state, { navigationNodes: action.payload.nodes, navigationTree: tree });
+            return tslib_1.__assign({}, state, { navigationNodes: action.payload.nodes });
         default:
             return state;
     }
@@ -3609,7 +3728,21 @@ function reducer(state, action) {
 exports.reducer = reducer;
 exports.navigationState = store_1.createFeatureSelector('navigation');
 exports.selectNavigationNodeState = store_1.createSelector(exports.navigationState, function (state) { return state.navigationNodes; });
-exports.selectNavigationNodeTreeState = store_1.createSelector(exports.navigationState, function (state) { return state.navigationTree; });
+exports.selectExpandedNavigationNodeState = store_1.createSelector(exports.navigationState, function (state) { return state.expandedNodes; });
+exports.selectNavigationNodeTreeState = store_1.createSelector(exports.selectNavigationNodeState, exports.selectExpandedNavigationNodeState, function (nodes, expanded) {
+    var sortedNodes = (nodes || [])
+        .map(function (p) { return (tslib_1.__assign({}, p, { expanded: expanded.includes(p.id) })); })
+        .sort(utils_1.sortBy('order'));
+    var tree = utils_1.toTree(sortedNodes, {
+        id: 'id',
+        parentId: 'parent',
+        children: 'children',
+        level: 'level'
+    });
+    // tslint:disable-next-line:no-console
+    console.log("\uD83D\uDC19 -  selectNavigationNodeTreeState", sortedNodes, tree);
+    return tree;
+});
 
 
 /***/ }),

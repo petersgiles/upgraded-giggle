@@ -1,0 +1,86 @@
+
+type NavigatorTreeNode {
+    id: ID!
+    caption: String
+    meta: String
+    parent: String
+    colour: String
+    order: Int
+	children: [NavigatorTreeNode]
+}
+
+type SecurityClassification {
+	id: ID!
+	title: String!
+}
+
+type DLM {
+	id: ID!
+	title: String!
+}
+
+type SharePointUser {
+	account: String
+	name: String
+	eMail: String
+	mobileNumber: String
+	aboutMe: String
+	picture: String
+	department: String
+	jobTitle: String
+	sIPAddress: String
+}
+
+type BriefDivision {
+	id: ID!
+	title: String!
+}
+
+type BriefStatus {
+	id: ID!
+	title: String!
+}
+
+type SubPolicy {
+	id: ID!
+	title: String!
+	policy: Policy
+	briefs: [Brief]
+}
+
+type Policy {
+	id: ID!
+	title: String!
+	subPolicies: [SubPolicy]
+}
+
+type Brief {
+	id: ID!
+	title: String
+	reference: String
+	notify: String
+	policyDirection: String
+	created: Date
+	dueDate: Date
+	modified: Date
+	sortOrder: Int
+	securityClassification: SecurityClassification
+	dLM: DLM
+	policy: Policy
+	subPolicy: SubPolicy
+	briefStatus: BriefStatus
+	briefDivision: BriefDivision
+	contactOfficer: SharePointUser
+	createdBy: SharePointUser
+	modifiedBy: SharePointUser
+}
+
+input BriefRefinementInput {
+    text: String,
+    tags: [ID]
+}
+
+input NavigatorRefinementInput {
+	text: String,
+    tags: [ID]
+}

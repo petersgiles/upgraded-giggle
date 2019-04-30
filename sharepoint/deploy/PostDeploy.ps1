@@ -1,10 +1,19 @@
 param(
-    [string]$SiteUrls = $OctopusParameters["SiteUrls"],
-    [string]$AppName = $OctopusParameters["AppName"],
+    [string]$SiteUrls,
+    [string]$AppName,
     [switch]$jsOnly,
-    [string]$LoadReferenceData = $OctopusParameters["LoadReferenceData"],
-    [string]$SiteConfiguration = $OctopusParameters["SiteConfiguration"]
+    [string]$SiteConfiguration,
+    [string]$LoadReferenceData
 )
+
+if($OctopusParameters) {
+    $SiteUrls = $OctopusParameters["SiteUrls"]
+    $AppName = $OctopusParameters["AppName"]
+    $LoadReferenceData = $OctopusParameters["LoadReferenceData"]
+    $SiteConfiguration = $OctopusParameters["SiteConfiguration"]
+}
+
+Write-Output "Server Urls $SiteUrls" 
 
 if ($PSScriptRoot) {
     Set-Location $PSScriptRoot

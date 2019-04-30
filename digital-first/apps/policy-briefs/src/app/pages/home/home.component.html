@@ -1,0 +1,19 @@
+<div class="app-page">
+  <section>
+    <df-expander-panel
+      title="Home"
+      [background]="background$ | async"
+      [expandable]="false"
+    >
+      <ng-container panel-buttons>
+        <df-button
+          title="Add Item"
+          [background]="background$ | async"
+          (onClick)="handleEvent($event, 'Add Item Clicked')"
+        ></df-button>
+      </ng-container>
+    </df-expander-panel>
+
+    <p>Home</p>
+  </section>
+</div>
