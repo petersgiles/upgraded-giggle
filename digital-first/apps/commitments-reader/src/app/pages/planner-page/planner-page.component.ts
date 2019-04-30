@@ -10,19 +10,22 @@ import { switchMap, map, concatMap } from 'rxjs/operators'
   styleUrls: ['./planner-page.component.scss']
 })
 export class PlannerPageComponent implements OnInit {
-  public filteredCommitments: any[]
   public commitmentEvents$: Observable<any[]>
   public externalEvents$: Observable<any>
   public commitmentEventTypes$: Observable<any[]>
-  public commitmentsSubscription: Subscription
-  public eventTypesSubscription: Subscription
+  public filteredCommitments: any[]
+
+  public externalEventTypes$: Observable<any[]>
+  public selectedExternalEventTypes: any
   public readOnly: false
-  public showKeyDates: boolean
+  public commitmentsSubscription: Subscription
+  public spReferenceDataSubscription: Subscription
   constructor(
     private dataService: CommitmentRefinerService,
     private sharePointDataService: EventSharepointDataService
   ) {}
 
+  selectedExternalEventTypesKey = 'SelectedExternalEventTypes'
   ngOnInit() {
     this.commitmentsSubscription = this.dataService.commitments$.subscribe(
       result => {
@@ -34,18 +37,29 @@ export class PlannerPageComponent implements OnInit {
       }
     )
 
-    this.eventTypesSubscription = this.sharePointDataService
+    this.spReferenceDataSubscription = this.sharePointDataService
       .getEventTypes()
       .subscribe(result => (this.commitmentEventTypes$ = of(result.data)))
 
+    this.externalEventTypes$ = this.sharePointDataService
+      .getExternalEventTypes()
+      .pipe(concatMap(result => of(result.data)))
+
     this.dataService.getRefinedCommitments()
 
-    this.showKeyDates =
-      !localStorage.getItem('showKeyDates') ||
-      localStorage.getItem('showKeyDates') === 'true'
-    if (this.showKeyDates) {
+    this.getExternalEvents()
+  }
+
+  private getExternalEvents() {
+    this.selectedExternalEventTypes =
+      localStorage.getItem(this.selectedExternalEventTypesKey) &&
+      JSON.parse(localStorage.getItem(this.selectedExternalEventTypesKey))
+    if (
+      this.selectedExternalEventTypes &&
+      this.selectedExternalEventTypes.length > 0
+    ) {
       this.externalEvents$ = this.sharePointDataService
-        .getExternalEvents()
+        .getExternalEvents(this.selectedExternalEventTypes)
         .pipe(map(result => result.data))
     } else {
       this.externalEvents$ = of([])
@@ -76,22 +90,16 @@ export class PlannerPageComponent implements OnInit {
       )
   }
 
-  handleToggleKeyDates($event) {
-    if ($event) {
-      this.externalEvents$ = this.sharePointDataService
-        .getExternalEvents()
-        .pipe(map(result => result.data))
-      this.showKeyDates = true
-      localStorage.setItem('showKeyDates', 'true')
-    } else {
-      this.externalEvents$ = of([])
-      this.showKeyDates = false
-      localStorage.setItem('showKeyDates', 'false')
-    }
+  handleExternalEventChange($event) {
+    localStorage.setItem(
+      this.selectedExternalEventTypesKey,
+      JSON.stringify($event)
+    )
+    this.getExternalEvents()
   }
 
   ngOnDestroy(): void {
-    this.eventTypesSubscription.unsubscribe()
+    this.spReferenceDataSubscription.unsubscribe()
     this.commitmentsSubscription.unsubscribe()
   }
 }

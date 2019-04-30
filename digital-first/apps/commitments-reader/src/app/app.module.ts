@@ -1,9 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule, APP_INITIALIZER } from '@angular/core'
-import { NxModule } from '@nrwl/nx'
 import { HttpClientModule, HttpHeaders, HttpClient } from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { Apollo, APOLLO_OPTIONS, ApolloModule } from 'apollo-angular'
+import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular'
 import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { MdcSliderModule, MdcElevationModule } from '@angular-mdc/web'
@@ -15,12 +14,12 @@ import { DfPagesModule } from '@digital-first/df-pages'
 import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfRefinerModule } from '@digital-first/df-refiner'
 import {
-  DialogAreYouSureComponent,
   DataTableModule,
   PanelModule,
   ButtonModule,
   DialogsModule
 } from '@df/components'
+import { NgSelectModule } from '@ng-select/ng-select'
 import { AppFullLayoutService } from './app-full-layout.service'
 import { environment } from '../environments/environment'
 import { initApplication } from './app-init'
@@ -44,6 +43,7 @@ import { EffectsModule } from '@ngrx/effects'
 import { StoreModule } from '@ngrx/store'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 import { metaReducers, reducers, CustomSerializer } from './reducers'
+import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component';
 import { AppEffects } from './reducers/app.effects'
 import { RouterStateSerializer } from '@ngrx/router-store'
 import * as fromCommitmentDetail from './reducers/commitment-detail/commitment-detail.reducer'
@@ -88,6 +88,7 @@ const COMPONENTS = [
     MdcSliderModule,
     MdcElevationModule,
     DfSharepointLibModule,
+    NgSelectModule,
     StoreModule.forRoot(reducers, {
       metaReducers: metaReducers
     }),
