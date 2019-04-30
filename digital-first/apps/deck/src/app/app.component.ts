@@ -7,7 +7,7 @@ import { AppRouterService } from './services/app-router.service'
   template: '<router-outlet></router-outlet>'
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = 'Commitments Reader'
+  title = 'Deck'
   constructor(private router: Router, private appRouter: AppRouterService) {}
 
   ngOnDestroy(): void {}

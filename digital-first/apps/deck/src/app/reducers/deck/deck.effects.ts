@@ -16,8 +16,32 @@ export const mapDeckItem = (item): any => {
 
 export const mapDeckItems = (items): any[] => (items || []).map(mapDeckItem)
 
+const DECK_ITEM_LIST_NAME = 'DeckItem'
+
 @Injectable()
 export class DeckEffects {
+
+  addDeckItem = (deckItem: any): Observable<any> => {
+    return this.sharepoint.storeItem({
+      listName: DECK_ITEM_LIST_NAME,
+      data: {  }
+    })
+    .pipe(
+      concatMap(_ => of({ }))
+    )
+  }
+
+  removeDeckItem = (deckItem: {
+    id: string
+  }): Observable<any> => {
+    return this.sharepoint.removeItem({
+      listName: DECK_ITEM_LIST_NAME,
+      id: deckItem.id
+    })
+    .pipe(
+      concatMap(_ => of({  }))
+    )
+  }
 
   getDeckItems = (parent): Observable<{
     data: any,
@@ -27,7 +51,7 @@ export class DeckEffects {
 
     return forkJoin([
       this.sharepoint.getItems({
-        listName: 'DeckItem',
+        listName: DECK_ITEM_LIST_NAME,
         viewXml: parentIdViewXml
       })
     ]).pipe(
