@@ -58,7 +58,7 @@ export class LocalAppConfigService implements AppConfigService {
   public getBookType = () => {
     // tslint:disable-next-line:no-console
     console.log('getting booktype', this.config.bookType)
-    return of('red')
+    return this.config && this.config.bookType
   }
 }
 
