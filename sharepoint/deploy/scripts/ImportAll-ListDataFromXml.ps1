@@ -148,6 +148,7 @@ $configurationFile = "$importLocation/Import-Config.psd1"
 
 if (-not ($MyInvocation.InvocationName -eq '.')) {
     $context = New-Object Microsoft.SharePoint.Client.ClientContext($SiteUrl)
+    HandleMixedModeWebApplication $context $binPath
     Populate-ListsInWeb $context $importLocation    
 }
 
