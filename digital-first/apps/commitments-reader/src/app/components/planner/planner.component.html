@@ -17,17 +17,23 @@
     </div>
   </div>
   <div id="planerButtons">
-    <button mdc-button outlined (click)="scrollToDate(today)">Today</button>
-    <button mdc-button outlined (click)="scrollToDate(myEofyDate)">
-      MYEFO
-    </button>
-    <button
-      mdc-button
-      outlined
-      (click)="toggleExternalEvents($event)"
-    >
-      {{showKeyDates?"Hide Key Dates":"Show Key Dates"}}
-    </button>
+    <!-- <button mdc-button outlined (click)="scrollToDate(today)">Today</button> -->
+    <mdc-form-field fluid>
+      <ng-select
+        appendTo="body"
+        [items]="externalEventTypes"
+        bindValue="id"
+        bindLabel="name"
+        placeholder="Select Key Date Type"
+        [multiple]="true"
+        (change)="handleChangeExternalType($event)"
+        [clearable]="false"
+        [hideSelected]="true"
+        [virtualScroll]="true"
+        [(ngModel)]="selectedExternalEventTypes"
+      >
+      </ng-select>
+    </mdc-form-field>
   </div>
 </div>
 

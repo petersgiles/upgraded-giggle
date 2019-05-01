@@ -7,6 +7,12 @@
             )
         }
         @{
+            Name = "ExternalEventType"
+            Keys =  @(
+                "Title"
+            )
+        }
+        @{
             Name = "ExternalEvent"
             Keys =  @(
                 "Title"
