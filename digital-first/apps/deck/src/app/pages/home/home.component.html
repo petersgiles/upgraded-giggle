@@ -1,19 +1,13 @@
 <div class="app-page">
   <section> 
-    <digital-first-page-title [title]="'Deck'">
-      <digital-first-navigation-item-button
-        *ngIf="(grandParent$ | async) as gp"
-        (onNavigate)="handleGoBack(gp)"
-        [title]="gp.title"
-      ></digital-first-navigation-item-button>
-    </digital-first-page-title>
     <df-deck
+      [allowMutate]="false"
       [cardTypes]="cardTypes$ | async"
-      [cards]="cards$ | async" 
+      [cards]="deckItems$ | async" 
       [parent]="parent$ | async"
       [eligibleParents]="eligibleParents$ | async"
       [readOnly]="false"
-      [selectedCard]="selectedCard$ | async"
+      [selectedCard]="selectedCard"
       (onSubmitted)="handleSubmitted($event)"
       (onAction)="handleAction($event)"
       (onEdit)="handleEdit($event)"

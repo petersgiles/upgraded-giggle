@@ -1,13 +1,16 @@
 import { Action } from '@ngrx/store'
+import { DeckItem } from '@df/components';
 
 export enum DeckActionTypes {
   LoadDeck = '[Deck] Load Deck',
   GetDeckItems = '[Deck] Get DeckItems',
   GetDeckItemsFailure = '[Deck] Get DeckItems Failure',
+  EditDeckItem = '[Deck] EditDeckItem',
   AddDeckItem = '[Deck] AddDeckItem',
   UpdateDeckItem = '[Deck] UpdateDeckItem',
   RemoveDeckItem = '[Deck] RemoveDeckItem',
   SetActiveParent = '[Deck] SetActiveParent',
+  GoBack= '[Deck] GoBack',
   SetSelectedDeckItem = '[Deck] SetSelectedDeckItem'
 }
 
@@ -21,14 +24,19 @@ export class GetDeckItems implements Action {
   constructor(public payload?: { parent: string }) {}
 }
 
+export class EditDeckItem implements Action {
+  readonly type = DeckActionTypes.EditDeckItem
+  constructor(public payload: DeckItem) {}
+}
+
 export class AddDeckItem implements Action {
   readonly type = DeckActionTypes.AddDeckItem
-  constructor(public payload: any) {}
+  constructor(public payload: DeckItem) {}
 }
 
 export class UpdateDeckItem implements Action {
   readonly type = DeckActionTypes.UpdateDeckItem
-  constructor(public payload: any) {}
+  constructor(public payload: DeckItem) {}
 }
 
 export class RemoveDeckItem implements Action {
@@ -39,6 +47,10 @@ export class RemoveDeckItem implements Action {
 export class GetDeckItemsFailure implements Action {
   readonly type = DeckActionTypes.GetDeckItemsFailure
   constructor(public payload: any) {}
+}
+
+export class GoBack implements Action {
+  readonly type = DeckActionTypes.GoBack
 }
 
 export class SetActiveParent implements Action {
@@ -60,3 +72,5 @@ export type DeckActions =
   | RemoveDeckItem
   | SetActiveParent
   | SetSelectedDeckItem
+  | GoBack
+  | EditDeckItem
