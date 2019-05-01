@@ -16,18 +16,40 @@
       </label>
     </div>
   </div>
-  <div id="planerButtons">
+  <div class="planerButtons">
     <button mdc-button outlined (click)="scrollToDate(today)">Today</button>
-    <button mdc-button outlined (click)="scrollToDate(myEofyDate)">
-      MYEFO
-    </button>
+  </div>
+  <div class="planerMenus" mdcMenuSurfaceAnchor #externalEventsAnchor>
     <button
       mdc-button
       outlined
-      (click)="toggleExternalEvents($event)"
+      (click)="dfExternalEvents.open = !dfExternalEvents.open"
     >
-      {{showKeyDates?"Hide Key Dates":"Show Key Dates"}}
+      Select Key Date Types
     </button>
+    <mdc-menu-surface #dfExternalEvents [anchorElement]="externalEventsAnchor">
+      <div class="buttons">
+        <button mdc-button (click)="handelSelectAllExternalEvents(true)">
+          Select all
+        </button>
+        <button mdc-button (click)="handelSelectAllExternalEvents(false)">
+          Clear
+        </button>
+      </div>
+      <mdc-list-divider></mdc-list-divider>
+      <mdc-list class="mdc-list">
+        <mdc-list-item *ngFor="let type of externalEventTypes"
+          ><mdc-form-field>
+            <mdc-checkbox
+              [value]="type.id"
+              [checked]="checkIfExternalTypeSelected(type.id)"
+              (change)="externalEventTypeChange.next($event)"
+            ></mdc-checkbox>
+            <label>{{ type.name }}</label>
+          </mdc-form-field></mdc-list-item
+        >
+      </mdc-list>
+    </mdc-menu-surface>
   </div>
 </div>
 

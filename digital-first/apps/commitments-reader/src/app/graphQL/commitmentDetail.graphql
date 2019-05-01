@@ -12,6 +12,42 @@ query getCommitmentDetail(
     politicalParty
     statusId
     announcedBy
+    commitmentLocations 
+  		{ 	id
+    			description
+      		location { id 
+            				 title 
+                     area 
+                     description 
+            				 state 
+          						}
+    	}
+    commitmentPackageTypes {
+      	id
+      	packageType { id 
+          						title 
+          						description 
+          						colour 
+          						sortOrder 
+          						icon 
+        							}
+    }     
+    commitmentPortfolioLookups  { 
+      id 
+      title 
+      description 
+      primaryPortfolio 
+    }
+
+    commitmentMapPoints {
+
+        mapPoint{
+              		id 
+              		description
+        				}
+
+    }
+
     announcementType {
       id
       title

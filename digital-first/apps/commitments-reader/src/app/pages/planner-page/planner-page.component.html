@@ -1,16 +1,17 @@
 <div class="page">
   <section [mdcElevation]="5">
     <digital-first-planner
-      *ngIf="(commitmentEventTypes$ | async)"
+      *ngIf="(commitmentEventTypes$ | async) && (externalEventTypes$ | async)"
       [commitments]="filteredCommitments"
       [events]="commitmentEvents$ | async"
       [commitmentEventTypes]="commitmentEventTypes$ | async"
       [externalEvents]="externalEvents$ | async"
-      [readOnly] = "readOnly "
-      [showKeyDates]="showKeyDates"
+      [externalEventTypes]="externalEventTypes$ | async"
+      [selectedExternalEventTypes]="selectedExternalEventTypes"
+      [readOnly]="readOnly"
       (onEventSaved)="handleEventSaved($event)"
       (onEventRemoved)="handleEventRemoved($event)"
-      (onToggleKeyDates) = "handleToggleKeyDates($event)"
+      (onExternalEventTypeChange)="handleExternalEventChange($event)"
     >
     </digital-first-planner>
   </section>

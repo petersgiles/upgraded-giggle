@@ -1,0 +1,36 @@
+<Web Title="LBS">
+  <List Name="ExternalEventType" Type="List">
+    <ListItem Title="House of Repsentative">
+      <Field Type="Text" StaticName="Title" Value="House of Repsentative" />
+      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-house" />
+    </ListItem>
+    <ListItem Title="Senate">
+      <Field Type="Text" StaticName="Title" Value="Senate" />
+      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-senate" />
+    </ListItem>
+    <ListItem Title="Both Houses">
+      <Field Type="Text" StaticName="Title" Value="Both Houses" />
+      <Field Type="Text" StaticName="CssClass" Value="timerange-sitting-both" />
+    </ListItem>
+    <ListItem Title="Overseas travel">
+      <Field Type="Text" StaticName="Title" Value="Overseas travel" />
+      <Field Type="Text" StaticName="CssClass" Value="timerange-overseas-travel" />
+    </ListItem>
+    <ListItem Title="Incoming Head of Govt visit">
+      <Field Type="Text" StaticName="Title" Value="Incoming Head of Govt visit" />
+      <Field Type="Text" StaticName="CssClass" Value="timerange-incoming-govt-visit" />
+    </ListItem>
+    <ListItem Title="Other Key events">
+      <Field Type="Text" StaticName="Title" Value="Other Key events" />
+      <Field Type="Text" StaticName="CssClass" Value="timerange-other" />
+    </ListItem>
+    <ListItem Title="Other Key dates">
+      <Field Type="Text" StaticName="Title" Value="Other Key dates" />
+      <Field Type="Text" StaticName="CssClass" Value="timerange-other" />
+    </ListItem>
+    <ListItem Title="Announcements">
+      <Field Type="Text" StaticName="Title" Value="Announcements" />
+      <Field Type="Text" StaticName="CssClass" Value="timerange-announcements" />
+    </ListItem>
+  </List>
+</Web>

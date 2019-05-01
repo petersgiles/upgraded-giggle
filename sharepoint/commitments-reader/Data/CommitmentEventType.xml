@@ -1,0 +1,53 @@
+<Web Title="LBS">
+  <List Name="CommitmentEventType" Type="List">
+    <ListItem Title="Policy development">
+      <Field Type="Text" StaticName="Title" Value="Policy development" />
+      <Field Type="Choice" StaticName="DurationUnit" Value="d" />
+      <Field Type="Text" StaticName="Icon" Value="b-fa b-fa-fw b-fa-podcast" />
+      <Field Type="Text" StaticName="Colour" Value="ForestGreen" />
+      <Field Type="Number" StaticName="Duration" Value="30" />
+    </ListItem>
+    <ListItem Title="Cabinet Meeting">
+      <Field Type="Text" StaticName="Title" Value="Cabinet Meeting" />
+      <Field Type="Choice" StaticName="DurationUnit" Value="d" />
+      <Field Type="Text" StaticName="Icon" Value="b-fa b-fa-fw b-fa-users" />
+      <Field Type="Text" StaticName="Colour" Value="CadetBlue" />
+      <Field Type="Number" StaticName="Duration" Value="0" />
+    </ListItem>
+    <ListItem Title="Drafting the Explanatory Memorandum">
+      <Field Type="Text" StaticName="Title" Value="Drafting the Explanatory Memorandum" />
+      <Field Type="Choice" StaticName="DurationUnit" Value="d" />
+      <Field Type="Text" StaticName="Icon" Value="b-fa b-fa-fw b-fa-file" />
+      <Field Type="Text" StaticName="Colour" Value="Sienna" />
+      <Field Type="Number" StaticName="Duration" Value="7" />
+    </ListItem>
+    <ListItem Title="Drafting legislative">
+      <Field Type="Text" StaticName="Title" Value="Drafting legislative" />
+      <Field Type="Choice" StaticName="DurationUnit" Value="d" />
+      <Field Type="Text" StaticName="Icon" Value="b-fa b-fa-fw b-fa-book" />
+      <Field Type="Text" StaticName="Colour" Value="DarkSlateGrey" />
+      <Field Type="Number" StaticName="Duration" Value="30" />
+    </ListItem>
+    <ListItem Title="Legislative introduction">
+      <Field Type="Text" StaticName="Title" Value="Legislative introduction" />
+      <Field Type="Choice" StaticName="DurationUnit" Value="d" />
+      <Field Type="Text" StaticName="Icon" Value="b-fa b-fa-fw b-fa-language" />
+      <Field Type="Text" StaticName="Colour" Value="Black" />
+      <Field Type="Number" StaticName="Duration" Value="0" />
+    </ListItem>
+    <ListItem Title="Announcement">
+      <Field Type="Text" StaticName="Title" Value="Announcement" />
+      <Field Type="Choice" StaticName="DurationUnit" Value="d" />
+      <Field Type="Text" StaticName="Icon" Value="b-fa b-fa-fw b-fa-bullhorn" />
+      <Field Type="Text" StaticName="Colour" Value="DarkRed" />
+      <Field Type="Number" StaticName="Duration" Value="0" />
+    </ListItem>
+    <ListItem Title="Review">
+      <Field Type="Text" StaticName="Title" Value="Review" />
+      <Field Type="Choice" StaticName="DurationUnit" Value="d" />
+      <Field Type="Text" StaticName="Icon" Value="b-fa b-fa-fw b-fa-eye" />
+      <Field Type="Text" StaticName="Colour" Value="FireBrick" />
+      <Field Type="Number" StaticName="Duration" Value="90" />
+    </ListItem>
+  </List>
+</Web>

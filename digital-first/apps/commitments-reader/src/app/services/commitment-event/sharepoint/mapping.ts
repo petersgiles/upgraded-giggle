@@ -2,7 +2,8 @@ import { fromLookup } from '@df/sharepoint'
 import {
   CommitmentEvent,
   CommitmentEventType,
-  ExternalEvent
+  ExternalEvent,
+  ExternalEventType
 } from '../../../models/commitment-event.model'
 
 export const mapCommitmentEvent = commitmentEvent => {
@@ -41,16 +42,34 @@ export const mapCommitmentEventTypes = (
   commitmentEventTypes
 ): CommitmentEventType[] => commitmentEventTypes.map(mapCommitmentEventType)
 
-export const mapExternalEvent = externalEvent => {
+export const mapExternalEvent = (externalEvent, externalEventTypes: any[]) => {
   const item: any = externalEvent
   const mapped = {
     name: item.Title,
     startDate: item.StartDate,
     endDate: item.EndDate,
-    cls: item.CssClass
+    cls: externalEventTypes.filter(
+      e => e.ID === fromLookup(item.ExternalEventType).id
+    )[0].CssClass,
+    eventTypeId: fromLookup(item.ExternalEventType).id
   }
   return mapped
 }
 
-export const mapExternalEvents = (externalEvents): ExternalEvent[] =>
-  externalEvents.map(mapExternalEvent)
+export const mapExternalEvents = (
+  externalEvents,
+  externalEventTypes: any[]
+): ExternalEvent[] =>
+  externalEvents.map((c: any) => mapExternalEvent(c, externalEventTypes))
+
+export const mapExternalEventType = externalEventType => {
+  const item: any = externalEventType
+  const mapped = {
+    name: item.Title,
+    id: item.ID
+  }
+  return mapped
+}
+
+export const mapExternalEventTypes = (externalEvents): ExternalEventType[] =>
+  externalEvents.map(mapExternalEventType)
