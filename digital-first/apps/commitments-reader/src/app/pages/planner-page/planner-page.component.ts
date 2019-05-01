@@ -16,7 +16,7 @@ export class PlannerPageComponent implements OnInit {
   public filteredCommitments: any[]
 
   public externalEventTypes$: Observable<any[]>
-  public selectedExternalEventTypes: any
+  public selectedExternalEventTypes: any[]
   public readOnly: false
   public commitmentsSubscription: Subscription
   public spReferenceDataSubscription: Subscription
@@ -52,8 +52,9 @@ export class PlannerPageComponent implements OnInit {
 
   private getExternalEvents() {
     this.selectedExternalEventTypes =
-      localStorage.getItem(this.selectedExternalEventTypesKey) &&
-      JSON.parse(localStorage.getItem(this.selectedExternalEventTypesKey))
+      (localStorage.getItem(this.selectedExternalEventTypesKey) &&
+        JSON.parse(localStorage.getItem(this.selectedExternalEventTypesKey))) ||
+      []
     if (
       this.selectedExternalEventTypes &&
       this.selectedExternalEventTypes.length > 0

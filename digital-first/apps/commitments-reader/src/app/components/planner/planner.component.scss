@@ -4,7 +4,7 @@
   align-items: center;
 
   > #zoom {
-    flex: 0.8;
+    flex: 1.2;
     margin: 0 25px 10px;
     padding-top: 20px;
     scroll-behavior: auto;
@@ -20,13 +20,30 @@
     }
   }
 
-  > #planerButtons {
-    flex: 0.8;
+  > .planerButtons {
+    flex: 0.2;
     display: flex;
     padding-right: 20px;
     > button {
       flex: 1;
       margin: 10px;
+    }
+  }
+  > .planerMenus {
+    flex: 0.3;
+    display: flex;
+    padding-right: 20px;
+    > button {
+      flex: 1;
+      margin: 10px;
+    }
+    .buttons {
+      display: flex;
+      flex-direction: row;
+      margin: 10px;
+      > button {
+        flex: 0.5;
+      }
     }
   }
 }
@@ -80,6 +97,9 @@
   }
   &.timerange-announcements {
     @include timerange-transparent($color: #8b6ef7);
+  }
+  &.timerange-budget {
+    @include timerange-transparent($color: #05410a);
   }
 }
 
