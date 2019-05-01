@@ -97,6 +97,7 @@ export class CommitmentRefinerService implements OnDestroy {
         this.refinerGroups$.next(store.refinerGroups)
         this.mapPoints$.next(store.mapPoints)
       })
+      this.action$.next(new GetRefinerGroups(null))
     })
   }
 
@@ -193,7 +194,6 @@ export class CommitmentRefinerService implements OnDestroy {
         bookType: this.appConfigService.getBookType()
       })
       .pipe(
-        tap(_ => console.log('getting map points', _)),
         first(),
         map((result: any) =>
           result.data.commitments

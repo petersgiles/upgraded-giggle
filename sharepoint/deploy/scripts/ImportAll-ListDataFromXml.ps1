@@ -1,5 +1,5 @@
 Param(
-    $SiteUrl = "http://vm-dev-lbs13/sites/commitments-reader-tim",  
+    $SiteUrl = "http://vm-dev-lbs13/sites/commitments-reader-tim", 
     $importLocation = "$PSScriptRoot\..\..\commitments-reader\Data\",
     [string] $binPath = "$PSScriptRoot"
 
@@ -60,11 +60,7 @@ Function Populate-ListItem($context, $list, $listItem, $listItemData) {
     $context.ExecuteQuery()
 }
 
-function ComputeHash-ForItem {
-    param (
-        $listItem,
-        $fields
-    )
+function ComputeHash-ForItem ($listItem, $fields) {
     $stringToHash = New-Object System.Text.StringBuilder
     foreach ($field in $fields) {
         $fieldValue = $listItem[$field]
@@ -76,13 +72,10 @@ function ComputeHash-ForItem {
     $computedStringToHash
 }
 
-function ComputeHash-ForRow {
-    param(
-        $listItemData
-    )
+function ComputeHash-ForRow ($listItemData, $hashKeys) {
     $stringToHash = New-Object System.Text.StringBuilder
     $hashFields = @("Title")
-    $fieldsToHash = $listItemData.Field | ? { $_.StaticName -in $hashFields }
+    $fieldsToHash = $listItemData.Field | ? { $_.StaticName -in $hashKeys }
     foreach ($fieldData in $fieldsToHash) {
         if (-not $null -eq $fieldData) {
             $fieldValue = Get-FieldData($fieldData)
@@ -93,26 +86,26 @@ function ComputeHash-ForRow {
     (Get-StringHash $computedStringToHash "MD5")
 }
 
-function ComputeHash-ExistingData($listItems) {
-    $hashFields = @("Title")
+function ComputeHash-ExistingData($listItems, $hashKeys) {
     $listHash = @{ }
     foreach ($listItem in $listItems) {
-        $hashValue, $stringHashed = ComputeHash-ForItem $listItem $hashFields
+        $hashValue, $stringHashed = ComputeHash-ForItem $listItem $hashKeys
         $listHash[$hashValue] = $listItem.Id
     }
 
     return $listHash
 }
 
-Function Populate-List($context, $list, $listData) {
+Function Populate-List($context, $importConfig, $list, $listData) {
     $query = [Microsoft.SharePoint.Client.CamlQuery]::CreateAllItemsQuery()
     $listItems = $list.GetItems($query)
     $context.Load($listItems)
     $context.ExecuteQuery()
+    $hashFields = $importConfig.HashKeys
 
-    $listHash = ComputeHash-ExistingData($listItems)
+    $listHash = ComputeHash-ExistingData $listItems $hashFields
     foreach ($listItemData in $listData.ListItem) {
-        $hashForRow = ComputeHash-ForRow $listItemData
+        $hashForRow = ComputeHash-ForRow $listItemData $hashFields
         if (-not $null -eq $listHash[$hashForRow]) {
             $listItem = $list.GetItemById($listHash[$hashForRow])
             $context.Load($listItem)
@@ -121,26 +114,32 @@ Function Populate-List($context, $list, $listData) {
         else {
             $itemCreationInfo = New-Object Microsoft.SharePoint.Client.ListItemCreationInformation
             $listItem = $list.AddItem($itemCreationInfo)
-          
         }           
         Populate-ListItem $context $list $listItem $listItemData 
     }
 }
 
-Function Populate-ListFromXml($context, $listXmlPath) {
+Function Populate-ListFromXml($context, $importConfig) {
+    $listXmlPath = Join-Path $importLocation "$($listImport.Name).xml"
+
+    if(-not (Test-Path $listXmlPath))
+    {
+        Write-Error("Import file $listXmlPath not found")
+        return
+    }
     $listData = [xml] (Get-Content $listXmlPath -Encoding UTF8)
     $spList = $context.Web.Lists.GetByTitle($listData.Web.List.Name)
     $context.Load($spList)
     $context.ExecuteQuery()
 
-    Populate-List $context $spList $listData.Web.List
+    Populate-List $context $importConfig $spList $listData.Web.List
 }
 
 Function Populate-ListsInWeb($context, $importLocation) {
     $listsToImport = Import-PowerShellDataFile $configurationFile
     foreach ($listImport in $listsToImport.Lists) {
         Write-Host "Importing data into list $($listImport.Name)"
-        Populate-ListFromXml $context (Get-Item (Join-Path $importLocation "$($listImport.Name).xml"))
+        Populate-ListFromXml $context  $listImport
     }
 }
 
