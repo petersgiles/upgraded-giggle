@@ -1559,49 +1559,41 @@ export type CommitmentMapPointQuery = { __typename?: 'Query' } & {
 }
 
 export type CommitmentsMapPointSearchQueryVariables = {
-  mapPointWhere?: Maybe<WhereExpressionGraph>
+  commitmentMapPointsWhere?: Maybe<WhereExpressionGraph>
 }
 
 export type CommitmentsMapPointSearchQuery = { __typename?: 'Query' } & {
-  mapPoints: Maybe<
+  commitmentMapPoints: Maybe<
     Array<
       Maybe<
-        { __typename?: 'MapPointGraph' } & Pick<MapPointGraph, 'id'> & {
-            commitmentMapPoints: Maybe<
-              Array<
-                Maybe<
-                  { __typename?: 'CommitmentMapPointGraph' } & Pick<
-                    CommitmentMapPointGraph,
-                    'id'
-                  > & {
-                      commitment: Maybe<
-                        { __typename?: 'CommitmentGraph' } & Pick<
-                          CommitmentGraph,
-                          'id' | 'title' | 'politicalParty' | 'announcedBy'
-                        > & {
-                            announcementType: Maybe<
-                              { __typename?: 'AnnouncementTypeGraph' } & Pick<
-                                AnnouncementTypeGraph,
-                                'id' | 'title'
-                              >
-                            >
-                            criticalDate: Maybe<
-                              { __typename?: 'CriticalDateGraph' } & Pick<
-                                CriticalDateGraph,
-                                'id' | 'title'
-                              >
-                            >
-                            portfolioLookup: Maybe<
-                              { __typename?: 'PortfolioLookupGraph' } & Pick<
-                                PortfolioLookupGraph,
-                                'id' | 'title'
-                              >
-                            >
-                          }
-                      >
-                    }
-                >
-              >
+        { __typename?: 'CommitmentMapPointGraph' } & Pick<
+          CommitmentMapPointGraph,
+          'id'
+        > & {
+            commitment: Maybe<
+              { __typename?: 'CommitmentGraph' } & Pick<
+                CommitmentGraph,
+                'id' | 'title' | 'politicalParty' | 'announcedBy'
+              > & {
+                  announcementType: Maybe<
+                    { __typename?: 'AnnouncementTypeGraph' } & Pick<
+                      AnnouncementTypeGraph,
+                      'id' | 'title'
+                    >
+                  >
+                  criticalDate: Maybe<
+                    { __typename?: 'CriticalDateGraph' } & Pick<
+                      CriticalDateGraph,
+                      'id' | 'title'
+                    >
+                  >
+                  portfolioLookup: Maybe<
+                    { __typename?: 'PortfolioLookupGraph' } & Pick<
+                      PortfolioLookupGraph,
+                      'id' | 'title'
+                    >
+                  >
+                }
             >
           }
       >
@@ -1761,28 +1753,27 @@ export class CommitmentMapPointGQL extends Apollo.Query<
   document = CommitmentMapPointDocument
 }
 export const CommitmentsMapPointSearchDocument = gql`
-  query CommitmentsMapPointSearch($mapPointWhere: WhereExpressionGraph) {
-    mapPoints(where: [$mapPointWhere]) {
+  query CommitmentsMapPointSearch(
+    $commitmentMapPointsWhere: WhereExpressionGraph
+  ) {
+    commitmentMapPoints(where: [$commitmentMapPointsWhere]) {
       id
-      commitmentMapPoints {
+      commitment {
         id
-        commitment {
+        title
+        politicalParty
+        announcedBy
+        announcementType {
           id
           title
-          politicalParty
-          announcedBy
-          announcementType {
-            id
-            title
-          }
-          criticalDate {
-            id
-            title
-          }
-          portfolioLookup {
-            id
-            title
-          }
+        }
+        criticalDate {
+          id
+          title
+        }
+        portfolioLookup {
+          id
+          title
         }
       }
     }

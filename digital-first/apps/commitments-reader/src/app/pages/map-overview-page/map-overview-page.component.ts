@@ -5,13 +5,12 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy
 } from '@angular/core'
-import { Observable, BehaviorSubject, Subscription, of } from 'rxjs'
+import { Observable, BehaviorSubject, Subscription } from 'rxjs'
 import { map } from 'rxjs/operators'
 import {
   CommitmentsMapPointSearchGQL,
   WhereExpressionGraph,
-  ComparisonGraph,
-  MapPointGraph
+  ComparisonGraph
 } from '../../generated/graphql'
 import { SettingsService } from '../../services/settings.service'
 import {
@@ -26,7 +25,6 @@ interface CommitmentRow {
   announcementType?: string
   criticalDate?: string
   portfolio?: string
-  mapPoints?: any[]
 }
 @Component({
   selector: 'digital-first-map-overview-page',
@@ -40,15 +38,12 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
 
   public zoom: number
   public mapPoints: any[] = []
-  public mapPointSelectedCommitments: any[] = []
   public columns$: Observable<DataTableColumn[]>
   public filterCommitmentMapPoints$: BehaviorSubject<CommitmentRow[]>
   public filterCommitments$: Observable<CommitmentRow[]>
   public rows: CommitmentRow[] = []
 
-  subscription1: Subscription
-  subscription2: Subscription
-  subscriptionRefiner: Subscription
+  subscriptionMapPointSelection: Subscription
 
   constructor(
     private settings: SettingsService,
@@ -69,7 +64,6 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
   }
 
   getMapPointsOfCommitments() {
-    console.log('WHAT IS EVEN GOING ON HERE?')
     this.dataService.mapPoints$.subscribe(value => {
       this.mapPoints = value.map(mp => mp[0])
     })
@@ -79,36 +73,39 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
     this.filterCommitmentMapPoints$ = null
     this.rows = []
     const whereVal: WhereExpressionGraph = {
-      path: 'id',
+      path: 'mapPointId',
       comparison: ComparisonGraph.Equal,
       value: [mapPoint.id.toString()]
     }
 
-    this.subscription2 = this.commitmentsMapPointSearchGQL
-      .fetch({ mapPointWhere: whereVal }, { fetchPolicy: 'network-only' })
-      .pipe(map(value => value.data.mapPoints))
-      .subscribe(mapPoints => {
-        mapPoints.map(x =>
-          x.commitmentMapPoints.map(dbItem => {
+    this.subscriptionMapPointSelection = this.commitmentsMapPointSearchGQL
+      .fetch(
+        { commitmentMapPointsWhere: whereVal },
+        { fetchPolicy: 'network-only' }
+      )
+      .pipe(map(value => value.data.commitmentMapPoints))
+      .subscribe(commitmentMapPoints => {
+        commitmentMapPoints
+          .map(cmp => cmp.commitment)
+          .map(commitment => {
             const row: CommitmentRow = {
-              id: dbItem.commitment.id,
-              title: dbItem.commitment.title,
-              politicalParty: dbItem.commitment.politicalParty,
-              announcedBy: dbItem.commitment.announcedBy,
-              announcementType: dbItem.commitment.announcementType
-                ? dbItem.commitment.announcementType.title
+              id: commitment.id,
+              title: commitment.title,
+              politicalParty: commitment.politicalParty,
+              announcedBy: commitment.announcedBy,
+              announcementType: commitment.announcementType
+                ? commitment.announcementType.title
                 : '',
-              criticalDate: dbItem.commitment.criticalDate
-                ? dbItem.commitment.criticalDate.title
+              criticalDate: commitment.criticalDate
+                ? commitment.criticalDate.title
                 : '',
-              portfolio: dbItem.commitment.portfolioLookup
-                ? dbItem.commitment.portfolioLookup.title
-                : '',
-              mapPoints: []
+              portfolio: commitment.portfolioLookup
+                ? commitment.portfolioLookup.title
+                : ''
             }
             this.rows.push(row)
           })
-        )
+
         this.filterCommitmentMapPoints$ = new BehaviorSubject(this.rows)
         this.changeDetector.detectChanges()
       })
@@ -121,9 +118,8 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
     `
   }
   ngOnDestroy(): void {
-    // this.subscription1.unsubscribe()
-    if (this.subscription2) {
-      this.subscription2.unsubscribe()
+    if (this.subscriptionMapPointSelection) {
+      this.subscriptionMapPointSelection.unsubscribe()
     }
   }
 }
