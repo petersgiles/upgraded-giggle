@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, OnDestroy } from '@angular/core'
 import { CommitmentRefinerService } from '../../services/commitment-refiner'
 import { Observable, Subscription, of } from 'rxjs'
 import { EventSharepointDataService } from '../../services/commitment-event/sharepoint/commitment-event-sharepoint-data.service'
@@ -9,7 +9,7 @@ import { switchMap, map, concatMap } from 'rxjs/operators'
   templateUrl: './planner-page.component.html',
   styleUrls: ['./planner-page.component.scss']
 })
-export class PlannerPageComponent implements OnInit {
+export class PlannerPageComponent implements OnInit, OnDestroy {
   public commitmentEvents$: Observable<any[]>
   public externalEvents$: Observable<any>
   public commitmentEventTypes$: Observable<any[]>
