@@ -28,7 +28,7 @@ export class CommitmentDetailEffects {
   )
 
   
-  @Effect() pizzaRouted = this.actions$.pipe(ofRoute('commitmentDetail/:id'))
+  @Effect() commitmentRouted = this.actions$.pipe(ofRoute('commitmentDetail/:id'))
 
   constructor(private actions$: Actions<CommitmentDetailActions>, private commitmentDetailService: CommitmentDetailService) {}
 

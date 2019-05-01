@@ -17,6 +17,7 @@ import { OverviewPageComponent } from './pages/overview-page/overview-page.compo
 import { MapOverviewPageComponent } from './pages/map-overview-page/map-overview-page.component'
 import { CommitmentDetailComponent } from './pages/commitment-detail/commitment-detail.component'
 import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component'
+import {  CommitmentPackageComponent } from './pages/commitment-packages/commitment-package.component'
 const routes: Routes = [
   {
     path: '',
@@ -38,10 +39,10 @@ const routes: Routes = [
             path: 'overview',
             component: OverviewPageComponent
           },
-          {
+          /* {
             path: 'commitmentdetail',
             component: CommitmentDetailComponent
-          },
+          }, */
           {
             path: 'map',
             component: MapOverviewPageComponent
@@ -56,21 +57,21 @@ const routes: Routes = [
         path: 'commitment',
         component: CommitmentLayoutComponent,
         children: [
-          {
+           {
             path: ':id',
-            component: HomeComponent
+            component: CommitmentDetailComponent
+          }, 
+           {
+            path: 'commitmentDetail',
+            component: CommitmentDetailComponent
           },
           {
             path: ':id/home',
-            component: HomeComponent
+            component: CommitmentDetailComponent
           },
           {
-            path: 'commitmentDetail/:id',
-            component:  CommitmentDetailComponent 
-          },
-          {
-            path: ':id/location',
-            component: HomeComponent
+            path: ':id/packages',
+            component:  CommitmentPackageComponent
           }
         ]
       }

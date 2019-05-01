@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { ActivatedRoute } from '@angular/router'
 import { AppConfigService } from '../../services/app-config.service'
+import * as indef from 'indefinite'
+
 interface ICommitment {
   id: number
   title: string
@@ -73,5 +75,12 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.commitmentSubscription$.unsubscribe()
+  }
+
+  public getIndefiniteArticle(term) {
+    if (term) {
+      return indef(term)
+    }
+    return term
   }
 }

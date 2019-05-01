@@ -21,6 +21,10 @@ export class CommitmentLayoutComponent implements OnInit {
 
 
   handleCommitmentNavigation(link){
-    this.router.navigate(['/', 'components', '1', link.route])
+   // this.router.navigate(['commitment', 'commitmentDetail', '1', link.route])
+   if(link.name === 'Packages')
+   this.router.navigate(['commitment',106, 'packages'])
+   //else
+  //  this.router.navigate(['commitment', 'commitmentDetail'])
   }
 }

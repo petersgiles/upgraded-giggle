@@ -14,7 +14,7 @@ import { DfThemeModule } from '@digital-first/df-theme'
 import { DfPagesModule } from '@digital-first/df-pages'
 import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfRefinerModule } from '@digital-first/df-refiner'
-import { DfMomentModule } from '@digital-first/df-moment'
+import { DfMomentModule, DateFormatPipe } from '@digital-first/df-moment'
 
 import {
   DialogAreYouSureComponent,
@@ -51,6 +51,7 @@ import { RouterStateSerializer } from '@ngrx/router-store'
 import * as fromCommitmentDetail from './reducers/commitment-detail/commitment-detail.reducer'
 import { CommitmentDetailEffects } from './reducers/commitment-detail/commitment-detail.effects'
 import { RouterEffects } from './reducers/router.effects'
+import { CommitmentPackageComponent } from './pages/commitment-packages/commitment-package.component'
 
 const COMPONENTS = [
   AppComponent,
@@ -62,7 +63,8 @@ const COMPONENTS = [
   CommitmentLayoutComponent,
   CommitmentOverviewLayoutComponent,
   SchedulerComponent,
-  CommitmentDetailComponent 
+  CommitmentDetailComponent,
+  CommitmentPackageComponent 
 ]
 
 @NgModule({
@@ -92,6 +94,7 @@ const COMPONENTS = [
     MdcSliderModule,
     MdcElevationModule,
     DfSharepointLibModule,
+    DfMomentModule,
     StoreModule.forRoot(reducers, {
       metaReducers: metaReducers
     }),
@@ -113,6 +116,7 @@ const COMPONENTS = [
     appConfigServiceProvider,
     commitmentEventDataServiceProvider,
     SharepointJsomService,
+    DateFormatPipe,
     { provide: TitleLayoutService, useClass: AppFullLayoutService },
     {
       provide: APOLLO_OPTIONS,

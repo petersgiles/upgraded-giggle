@@ -50,6 +50,6 @@ export class OverviewPageComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   handleCommitmentsRowClicked(item) {
-    this.router.navigate(['/', 'components', item.id])
+    this.router.navigate(['/', 'commitment', item.id])
   }
 }
