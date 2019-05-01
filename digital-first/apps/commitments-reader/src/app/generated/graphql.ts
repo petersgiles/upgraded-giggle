@@ -47,10 +47,10 @@ export type AgencyGraph = {
 }
 
 export type AnnouncementTypeGraph = {
-  colour: Scalars['String']
+  colour?: Maybe<Scalars['String']>
   commitments?: Maybe<Array<Maybe<CommitmentGraph>>>
-  description: Scalars['String']
-  icon: Scalars['String']
+  description?: Maybe<Scalars['String']>
+  icon?: Maybe<Scalars['String']>
   id: Scalars['Int']
   internalVersion: Scalars['UInt32']
   sortOrder: Scalars['Int']
@@ -147,13 +147,13 @@ export type CommitmentGraph = {
   criticalDate?: Maybe<CriticalDateGraph>
   criticalDateId?: Maybe<Scalars['Int']>
   date?: Maybe<Scalars['DateTimeOffset']>
-  description: Scalars['String']
+  description?: Maybe<Scalars['String']>
   id: Scalars['Int']
   internalVersion: Scalars['UInt32']
   politicalParty: Scalars['String']
   portfolioLookup?: Maybe<PortfolioLookupGraph>
   portfolioLookupId?: Maybe<Scalars['Int']>
-  status: StatusGraph
+  status?: Maybe<StatusGraph>
   statusId?: Maybe<Scalars['Int']>
   title: Scalars['String']
 }
@@ -206,7 +206,7 @@ export type CommitmentGraphCommitmentPortfolioLookupsArgs = {
 export type CommitmentLocationGraph = {
   commitment?: Maybe<CommitmentGraph>
   commitmentId: Scalars['Int']
-  description: Scalars['String']
+  description?: Maybe<Scalars['String']>
   id: Scalars['Int']
   internalVersion: Scalars['UInt32']
   location?: Maybe<LocationGraph>
@@ -217,7 +217,7 @@ export type CommitmentLocationGraph = {
 export type CommitmentMapPointGraph = {
   commitment?: Maybe<CommitmentGraph>
   commitmentId: Scalars['Int']
-  description: Scalars['String']
+  description?: Maybe<Scalars['String']>
   id: Scalars['Int']
   internalVersion: Scalars['UInt32']
   mapPoint?: Maybe<MapPointGraph>
@@ -228,7 +228,7 @@ export type CommitmentMapPointGraph = {
 export type CommitmentPackageTypeGraph = {
   commitment?: Maybe<CommitmentGraph>
   commitmentId: Scalars['Int']
-  description: Scalars['String']
+  description?: Maybe<Scalars['String']>
   id: Scalars['Int']
   internalVersion: Scalars['UInt32']
   packageType?: Maybe<PackageTypeGraph>
@@ -240,7 +240,7 @@ export type CommitmentPackageTypeGraph = {
 export type CommitmentPortfolioLookupGraph = {
   commitment?: Maybe<CommitmentGraph>
   commitmentId: Scalars['Int']
-  description: Scalars['String']
+  description?: Maybe<Scalars['String']>
   id: Scalars['Int']
   internalVersion: Scalars['UInt32']
   portfolioLookup?: Maybe<PortfolioLookupGraph>
@@ -256,10 +256,10 @@ export type CommitmentRefinerGraph = {
 }
 
 export type CommitmentTypeGraph = {
-  colour: Scalars['String']
+  colour?: Maybe<Scalars['String']>
   commitments?: Maybe<Array<Maybe<CommitmentGraph>>>
-  description: Scalars['String']
-  icon: Scalars['String']
+  description?: Maybe<Scalars['String']>
+  icon?: Maybe<Scalars['String']>
   id: Scalars['Int']
   internalVersion: Scalars['UInt32']
   sortOrder: Scalars['Int']
@@ -381,10 +381,10 @@ export type CreateStatisticReportGraph = {
 }
 
 export type CriticalDateGraph = {
-  colour: Scalars['String']
+  colour?: Maybe<Scalars['String']>
   commitments?: Maybe<Array<Maybe<CommitmentGraph>>>
-  description: Scalars['String']
-  icon: Scalars['String']
+  description?: Maybe<Scalars['String']>
+  icon?: Maybe<Scalars['String']>
   id: Scalars['Int']
   internalVersion: Scalars['UInt32']
   sortOrder: Scalars['Int']
@@ -492,7 +492,7 @@ export type ElectorateGraphProjectsArgs = {
 export type LocationGraph = {
   area: Scalars['String']
   commitmentLocations?: Maybe<Array<Maybe<CommitmentLocationGraph>>>
-  description: Scalars['String']
+  description?: Maybe<Scalars['String']>
   id: Scalars['Int']
   internalVersion: Scalars['UInt32']
   state: Scalars['String']
@@ -510,7 +510,7 @@ export type LocationGraphCommitmentLocationsArgs = {
 
 export type MapPointGraph = {
   commitmentMapPoints?: Maybe<Array<Maybe<CommitmentMapPointGraph>>>
-  description: Scalars['String']
+  description?: Maybe<Scalars['String']>
   id: Scalars['Int']
   internalVersion: Scalars['UInt32']
   latitude: Scalars['Float']
@@ -687,10 +687,10 @@ export type OrderByGraph = {
 }
 
 export type PackageTypeGraph = {
-  colour: Scalars['String']
+  colour?: Maybe<Scalars['String']>
   commitmentPackageTypes?: Maybe<Array<Maybe<CommitmentPackageTypeGraph>>>
-  description: Scalars['String']
-  icon: Scalars['String']
+  description?: Maybe<Scalars['String']>
+  icon?: Maybe<Scalars['String']>
   id: Scalars['Int']
   internalVersion: Scalars['UInt32']
   sortOrder: Scalars['Int']
@@ -725,12 +725,12 @@ export type PortfolioGraphAgenciesArgs = {
 
 export type PortfolioLookupGraph = {
   agencyType: Scalars['String']
-  colour: Scalars['String']
+  colour?: Maybe<Scalars['String']>
   commitmentPortfolioLookups?: Maybe<
     Array<Maybe<CommitmentPortfolioLookupGraph>>
   >
-  description: Scalars['String']
-  icon: Scalars['String']
+  description?: Maybe<Scalars['String']>
+  icon?: Maybe<Scalars['String']>
   id: Scalars['Int']
   internalVersion: Scalars['UInt32']
   sortOrder: Scalars['Int']
@@ -1410,10 +1410,10 @@ export type StatisticReportVersionGraphSchemaArgs = {
 }
 
 export type StatusGraph = {
-  colour: Scalars['String']
+  colour?: Maybe<Scalars['String']>
   commitments?: Maybe<Array<Maybe<CommitmentGraph>>>
-  description: Scalars['String']
-  icon: Scalars['String']
+  description?: Maybe<Scalars['String']>
+  icon?: Maybe<Scalars['String']>
   id: Scalars['Int']
   internalVersion: Scalars['UInt32']
   publish: Scalars['Boolean']
@@ -1466,6 +1466,69 @@ export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
           | 'statusId'
           | 'announcedBy'
         > & {
+            commitmentLocations: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'CommitmentLocationGraph' } & Pick<
+                    CommitmentLocationGraph,
+                    'id' | 'description'
+                  > & {
+                      location: Maybe<
+                        { __typename?: 'LocationGraph' } & Pick<
+                          LocationGraph,
+                          'id' | 'title' | 'area' | 'description' | 'state'
+                        >
+                      >
+                    }
+                >
+              >
+            >
+            commitmentPackageTypes: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'CommitmentPackageTypeGraph' } & Pick<
+                    CommitmentPackageTypeGraph,
+                    'id'
+                  > & {
+                      packageType: Maybe<
+                        { __typename?: 'PackageTypeGraph' } & Pick<
+                          PackageTypeGraph,
+                          | 'id'
+                          | 'title'
+                          | 'description'
+                          | 'colour'
+                          | 'sortOrder'
+                          | 'icon'
+                        >
+                      >
+                    }
+                >
+              >
+            >
+            commitmentPortfolioLookups: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'CommitmentPortfolioLookupGraph' } & Pick<
+                    CommitmentPortfolioLookupGraph,
+                    'id' | 'title' | 'description' | 'primaryPortfolio'
+                  >
+                >
+              >
+            >
+            commitmentMapPoints: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'CommitmentMapPointGraph' } & {
+                    mapPoint: Maybe<
+                      { __typename?: 'MapPointGraph' } & Pick<
+                        MapPointGraph,
+                        'id' | 'description'
+                      >
+                    >
+                  }
+                >
+              >
+            >
             announcementType: Maybe<
               { __typename?: 'AnnouncementTypeGraph' } & Pick<
                 AnnouncementTypeGraph,
@@ -1671,6 +1734,40 @@ export const GetCommitmentDetailDocument = gql`
       politicalParty
       statusId
       announcedBy
+      commitmentLocations {
+        id
+        description
+        location {
+          id
+          title
+          area
+          description
+          state
+        }
+      }
+      commitmentPackageTypes {
+        id
+        packageType {
+          id
+          title
+          description
+          colour
+          sortOrder
+          icon
+        }
+      }
+      commitmentPortfolioLookups {
+        id
+        title
+        description
+        primaryPortfolio
+      }
+      commitmentMapPoints {
+        mapPoint {
+          id
+          description
+        }
+      }
       announcementType {
         id
         title
