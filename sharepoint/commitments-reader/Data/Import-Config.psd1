@@ -2,13 +2,19 @@
     Lists = @(
         @{
             Name = "CommitmentEventType"
-            Keys =  @(
+            HashKeys =  @(
+                "Title"
+            )
+        }
+        @{
+            Name = "ExternalEventType"
+            HashKeys =  @(
                 "Title"
             )
         }
         @{
             Name = "ExternalEvent"
-            Keys =  @(
+            HashKeys =  @(
                 "Title"
             )
         }

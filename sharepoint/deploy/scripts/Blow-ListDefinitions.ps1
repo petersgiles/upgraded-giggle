@@ -1,12 +1,11 @@
 ﻿Param(
     [string]$webUrl = "https://briefs.internal.pmc.gov.au/",
     [string]$saveLocation = "D:\Comments",
-    [string]$isInitialBlow = $true,
-    [string]$updateSubsites = $false,
+    [bool]$isInitialBlow = $true,
+    [bool]$updateSubsites = $false,
     $listsToProcess,
     [string]$binPath = "C:\Program Files\Common Files\microsoft shared\Web Server Extensions\16\ISAPI"    
 )
-
 
 .$PSScriptRoot\ClientContext-MixedAuth.ps1
 function TryGet-List([string]$title) {
@@ -49,7 +48,6 @@ function Import-ListDefinition([string]$jsonFilePath) {
         $ctx.ExecuteQuery()
     }           
 
-    $listType = $list.GetType()
     $props = $listObject.PSObject.Properties | ? { $_.Name -ne "Fields" -and $_.Name -ne "EventReceivers" }
     Apply-Properties -object $list -properties $props    
 
@@ -65,7 +63,7 @@ function Import-ListDefinition([string]$jsonFilePath) {
         $listField = $listFields | ? { $_.InternalName -eq $field.InternalName }        
         if (!$listField) {
             Write-Verbose "Adding field $($field.InternalName)"
-            $outnull = $listFields.AddFieldAsXml($field.SchemaXml, $false, [Microsoft.SharePoint.Client.AddFieldOptions]::DefaultValue)            
+            $listFields.AddFieldAsXml($field.SchemaXml, $false, [Microsoft.SharePoint.Client.AddFieldOptions]::DefaultValue) | Out-Null        
         }        
     }
     $list.Update()
