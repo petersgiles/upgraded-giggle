@@ -50,7 +50,15 @@ import { RouterStateSerializer } from '@ngrx/router-store'
 import * as fromCommitmentDetail from './reducers/commitment-detail/commitment-detail.reducer'
 import { CommitmentDetailEffects } from './reducers/commitment-detail/commitment-detail.effects'
 import { RouterEffects } from './reducers/router.effects'
-import { CommitmentPackageComponent } from './pages/commitment-packages/commitment-package.component'
+import { CommitmentPackageComponent } from './pages/commitment-packages/commitment-package.component';
+import * as fromRefiner from './reducers/refiner/refiner.reducer';
+import { RefinerEffects } from './reducers/refiner/refiner.effects';
+import * as fromOverview from './reducers/overview/overview.reducer';
+import { OverviewEffects } from './reducers/overview/overview.effects';
+import * as fromMap from './reducers/map/map.reducer';
+import { MapEffects } from './reducers/map/map.effects';
+import * as fromPlanner from './reducers/planner/planner.reducer';
+import { PlannerEffects } from './reducers/planner/planner.effects'
 
 const COMPONENTS = [
   AppComponent,
@@ -102,9 +110,14 @@ const COMPONENTS = [
 
     StoreModule.forFeature('user', fromUser.reducer),
     StoreModule.forFeature('commitmentDetail', fromCommitmentDetail.reducer),
+    StoreModule.forFeature('refiner', fromRefiner.reducer),
+    StoreModule.forFeature('overview', fromOverview.reducer),
+    StoreModule.forFeature('map', fromMap.reducer),
+    StoreModule.forFeature('planner', fromPlanner.reducer),
 
     EffectsModule.forRoot([AppEffects, RouterEffects]),
-    EffectsModule.forFeature([CommitmentDetailEffects])
+    EffectsModule.forFeature([CommitmentDetailEffects, RefinerEffects, OverviewEffects, MapEffects, PlannerEffects])
+
   ],
   providers: [
     {
