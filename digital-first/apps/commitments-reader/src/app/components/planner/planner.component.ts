@@ -5,14 +5,18 @@ import {
   Input,
   OnInit,
   Output,
-  EventEmitter
+  EventEmitter,
+  OnDestroy
 } from '@angular/core'
 import { SchedulerComponent } from '../scheduler/scheduler.component'
 import { MdcSliderChange } from '@angular-mdc/web'
 import { DateHelper, EventModel } from 'bryntum-scheduler/scheduler.umd.js'
 import * as ZoomLevels from './data/zoomLevels.json'
 import { webSafeColours } from './data/webSafeColours'
-import { FormControl } from '@angular/forms'
+import { Subscription } from 'apollo-client/util/Observable'
+import { Subject } from 'rxjs'
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms'
 
 @Component({
   selector: 'digital-first-planner',
@@ -20,7 +24,7 @@ import { FormControl } from '@angular/forms'
   styleUrls: ['./planner.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class PlannerComponent implements OnInit {
+export class PlannerComponent implements OnInit, OnDestroy {
   @Input()
   commitments: any[] = []
   @Input()
@@ -34,7 +38,7 @@ export class PlannerComponent implements OnInit {
   @Input()
   externalEventTypes: any[]
   @Input()
-  selectedExternalEventTypes: any
+  selectedExternalEventTypes: any[]
   @Output()
   public onEventSaved: EventEmitter<any> = new EventEmitter()
   @Output()
@@ -48,8 +52,15 @@ export class PlannerComponent implements OnInit {
   startDate = DateHelper.add(new Date(), -1, 'months')
   endDate = DateHelper.add(new Date(), 3, 'years')
   today = new Date()
-
   zoomLevels = ZoomLevels
+  zoomSlider: any = {}
+  get currentZoomLevel() {
+    return (
+      this.zoomLevels &&
+      this.zoomSlider &&
+      this.zoomLevels.find(_ => _.id === this.zoomSlider.levelId)
+    )
+  }
   columns = [
     {
       text: 'Commitments',
@@ -58,16 +69,26 @@ export class PlannerComponent implements OnInit {
       editable: true
     }
   ]
-  zoomSlider: any = {}
 
-  get currentZoomLevel() {
+  get isAllExternalEventTypesSelected() {
+    const selectedExternalEventTypesString = JSON.stringify(
+      this.selectedExternalEventTypes.sort()
+    )
+    const externalEventTypesString = this.externalEventTypes
+      ? JSON.stringify(this.externalEventTypes.map(et => et.id).sort())
+      : ''
+    return selectedExternalEventTypesString === externalEventTypesString
+  }
+  get isNoneExternalEventTypesSelected() {
     return (
-      this.zoomLevels &&
-      this.zoomSlider &&
-      this.zoomLevels.find(_ => _.id === this.zoomSlider.levelId)
+      !this.handelSelectAllExternalEvents ||
+      this.handelSelectAllExternalEvents.length === 0
     )
   }
+  externalEventTypeChangeEventSubscription: Subscription
+  externalEventTypeChange: Subject<any> = new Subject()
 
+  constructor(private fb: FormBuilder) {}
   ngOnInit() {
     const me = this
     this.zoomSlider.min = 0
@@ -75,17 +96,33 @@ export class PlannerComponent implements OnInit {
     this.zoomSlider.levelId = 3
     this.featureConfig = this.buildFeatureConfig(me)
     this.buildEventListeners(me)
+
+    this.externalEventTypeChangeEventSubscription = this.externalEventTypeChange
+      .pipe(debounceTime(100))
+      .subscribe(event => {
+        if (event.checked) {
+          this.selectedExternalEventTypes.push(event.source.value)
+        } else {
+          const types = this.selectedExternalEventTypes
+          if (types.find(t => t === event.source.value)) {
+            this.selectedExternalEventTypes = types.filter(
+              t => t !== event.source.value
+            )
+          }
+        }
+        this.onExternalEventTypeChange.emit(this.selectedExternalEventTypes)
+      })
   }
 
   private buildEventListeners(me: this) {
     this.listeners = {
-      afterEventSave({ source, eventRecord }) {
+      afterEventSave({ eventRecord }) {
         me.onEventSaved.emit(eventRecord.data)
       },
-      beforeeventdelete({ source, eventRecord }) {
+      beforeeventdelete({ eventRecord }) {
         me.onEventRemoved.emit(eventRecord.data)
       },
-      zoomchange({ column, level }) {
+      zoomchange({ level }) {
         me.zoomSlider.levelId = level.id
         me.scheduler.schedulerEngine.setTimeSpan(me.startDate, me.endDate)
         me.scheduler.schedulerEngine.scrollToDate(me.today)
@@ -95,7 +132,7 @@ export class PlannerComponent implements OnInit {
           me.onEventSaved.emit(eventRecord.data)
         }
       },
-      aftereventdrop({ source, eventRecords, valid, context }) {
+      aftereventdrop({ eventRecords, valid }) {
         if (valid) {
           me.onEventSaved.emit(eventRecords[0].data)
         }
@@ -158,7 +195,7 @@ export class PlannerComponent implements OnInit {
               type: c.type
             })),
             listeners: {
-              select: ({ source: combo, record }) => {
+              select: ({ source: combo }) => {
                 const eventType = this.commitmentEventTypes.find(
                   c => c.id === combo.value
                 )
@@ -267,7 +304,6 @@ export class PlannerComponent implements OnInit {
     }
     return eventRecord.name
   }
-
   populateExtraItems(me: any) {
     const extraItems = []
     this.commitmentEventTypes.map(e => {
@@ -296,7 +332,22 @@ export class PlannerComponent implements OnInit {
   scrollToDate(date: Date) {
     this.scheduler.schedulerEngine.scrollToDate(date, { block: 'center' })
   }
-  handleChangeExternalType($event) {
+
+  /* Start handling external event types changes*/
+  handleChangeExternalType() {
     this.onExternalEventTypeChange.emit(this.selectedExternalEventTypes)
+  }
+  handelSelectAllExternalEvents(selectAll: boolean) {
+    this.selectedExternalEventTypes = selectAll
+      ? this.externalEventTypes.map(c => c.id)
+      : []
+    this.onExternalEventTypeChange.emit(this.selectedExternalEventTypes)
+  }
+  checkIfExternalTypeSelected(id: any): boolean {
+    return this.selectedExternalEventTypes.find(t => t === id)
+  }
+  /* End handling external event types changes*/
+  ngOnDestroy(): void {
+    this.externalEventTypeChangeEventSubscription.unsubscribe()
   }
 }
