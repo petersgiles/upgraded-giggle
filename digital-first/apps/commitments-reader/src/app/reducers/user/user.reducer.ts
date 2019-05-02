@@ -1,6 +1,5 @@
-
-import { UserActions, UserActionTypes } from './user.actions';
-import { AppActions, AppActionTypes } from '../app.actions';
+import { UserActions, UserActionTypes } from './user.actions'
+import { AppActions, AppActionTypes } from '../app/app.actions'
 
 export interface State {
   currentUser
@@ -12,7 +11,7 @@ export const initialState: State = {
   currentUser: null,
   drawerOpen: false,
   operations: {}
-};
+}
 
 export function reducer(
   state = initialState,
@@ -43,7 +42,7 @@ export function reducer(
               ...(components || []).reduce(
                 (componentRights: any, component: any) => {
                   componentRights[component] = item.rights
-                   return componentRights
+                  return componentRights
                 },
                 acc[item.group] || {}
               )
@@ -53,7 +52,6 @@ export function reducer(
           {}
         )
       }
-
 
       return {
         ...state,

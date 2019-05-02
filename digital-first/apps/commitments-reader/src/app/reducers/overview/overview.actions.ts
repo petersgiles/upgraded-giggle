@@ -3,6 +3,10 @@ import { Action } from '@ngrx/store';
 export enum OverviewActionTypes {
   LoadOverviews = '[Overview] Load Overviews',
   
+
+  
+  GetRefinedCommitments = '[RefinerActionTypes] GetRefinedCommitments',
+  LoadRefinedCommitments = '[RefinerActionTypes] LoadRefinedCommitments',
   
 }
 

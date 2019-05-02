@@ -3,7 +3,6 @@ import { GetCommitmentDetailGQL } from '../../generated/graphql'
 import { Subscription } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { ActivatedRoute } from '@angular/router'
-import { AppConfigService } from '../../services/app-config.service'
 import * as indef from 'indefinite'
 
 interface ICommitment {
@@ -29,8 +28,7 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   public commitment: ICommitment
   constructor(
     private getCommitmentDetailGQL: GetCommitmentDetailGQL,
-    private route: ActivatedRoute,
-    private appConfigService: AppConfigService
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -43,7 +41,7 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   loadCommitment(id: string) {
     this.commitmentSubscription$ = this.getCommitmentDetailGQL
       .watch(
-        { id: id, bookType: this.appConfigService.getBookType() },
+        { id: id, bookType: 'red' },
         { fetchPolicy: 'network-only' }
       )
       .valueChanges.pipe(map(value => value.data.commitments))

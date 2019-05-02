@@ -2,8 +2,7 @@ import { Action } from '@ngrx/store';
 
 export enum MapActionTypes {
   LoadMaps = '[Map] Load Maps',
-  
-  
+  GetMapPoints = '[RefinerActionTypes] GetMapPoints'
 }
 
 export class LoadMaps implements Action {
