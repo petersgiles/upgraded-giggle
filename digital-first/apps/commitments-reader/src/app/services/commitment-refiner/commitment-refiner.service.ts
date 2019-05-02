@@ -58,7 +58,8 @@ export class CommitmentRefinerService implements OnDestroy {
     private refinerEffects: RefinerEffects,
     private getRefinerTagsGQL: GetRefinerTagsGQL,
     private commitmentsSearchGQL: CommitmentsSearchGQL,
-    private commitmentMapPointGQL: CommitmentMapPointGQL
+    private commitmentMapPointGQL: CommitmentMapPointGQL,
+    private store: Store<any>
   ) { }
 
   private registerEffects() {
