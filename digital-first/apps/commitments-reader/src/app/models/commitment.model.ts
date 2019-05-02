@@ -17,22 +17,40 @@ export interface Commitment {
   //party: Party,
   description: string,
  // status: Status,
+  bookType: string,
   cost: string,
-  costingRequired: boolean,
+  costingRequired?: boolean,
+  criticalDate?: string,
+  date: string,
+  politicalParty: string,
+  announcedBy: string,
   //location: Electorate,
   //electorates: Electorate[],
   //whoAnnouncedType: WhoAnnouncedType
-  //announcementType: AnnouncementType,
+  announcementType: string,
   //commitmentType: CommitmentType,
-  date: any,
-  announcedby: string,
-  //portfolio: Portfolio,
+
+  portfolio: string,
   //criticalDate: CriticalDate,
   //packageType: PackageType,
   //portfolios: Portfolio[],
   //packages: PackageType[],
   //mapPoints: MapPoint[],
   //contacts: Contact[],
-  relatedContacts: Commitment[]
+  //relatedContacts: Commitment[]
   discussion?: Comment[]
+}
+
+interface ICommitment {
+  id: number
+  title: string
+  description: string
+  bookType: string
+  cost: string
+  date: string
+  politicalParty: string
+  announcedBy: string
+  announcementType?: string
+  criticalDate?: string
+  portfolio?: string
 }

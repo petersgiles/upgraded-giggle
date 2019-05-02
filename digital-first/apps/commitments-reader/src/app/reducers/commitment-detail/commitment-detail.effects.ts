@@ -1,23 +1,29 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { concatMap, filter, switchMap } from 'rxjs/operators'
+import { concatMap, filter, switchMap, map } from 'rxjs/operators'
 import { RouteChange, CHANGE, ofRoute } from '../router.actions'
 import { EMPTY } from 'rxjs';
-import { CommitmentDetailActionTypes, CommitmentDetailActions, LoadCommitmentDetails } from './commitment-detail.actions';
+import { CommitmentDetailActionTypes, CommitmentDetailActions } from './commitment-detail.actions';
 import {CommitmentDetailService } from './commitment-detail.service'
-//import { Observable } from 'apollo-link';
-//getCurrentUser
+import { Commitment } from '../../models/commitment.model'
 
 @Injectable()
 export class CommitmentDetailEffects {
 
+  @Effect()
+  loadCommitments$ = this.actions$.pipe(
+    ofType(CommitmentDetailActionTypes.LoadCommitments),
+    /** An EMPTY observable only emits completion. Replace with your own observable API request */
+    concatMap(() => EMPTY)
+  )
+
 
   @Effect()
   loadCommitmentDetails$ = this.actions$.pipe(
-    ofType(CommitmentDetailActionTypes.LoadCommitmentDetails),
-    /** An EMPTY observable only emits completion. Replace with your own observable API request */
-    concatMap(() => EMPTY)
-  );
+    ofType(CommitmentDetailActionTypes.LoadCommitments),
+    concatMap(result => this.commitmentDetailService.getCurrentUser({result})),
+    switchMap((commitments: Commitment[]) => {return commitments})
+  )
 
   @Effect()
   commitmentDetailsRouted$ = this.actions$.pipe(

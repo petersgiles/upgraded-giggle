@@ -1,4 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core'
+import { Store} from '@ngrx/store'
 import { BehaviorSubject, Subject, Subscription, Observable, of } from 'rxjs'
 import {
   GetRefinerTagsGQL,
@@ -61,7 +62,7 @@ export class CommitmentRefinerService implements OnDestroy {
     private commitmentsSearchGQL: CommitmentsSearchGQL,
     private commitmentMapPointGQL: CommitmentMapPointGQL,
     private appConfigService: AppConfigService,
-
+    private store: Store<any>
   ) {
     appConfigService.init().subscribe(_ => {
       this.registerEffects()
@@ -182,6 +183,7 @@ export class CommitmentRefinerService implements OnDestroy {
                 refinedByTextRefiner.test(c.portfolioLookup.title)
             )
           } else {
+            this.store.dispatch(new LoadRefinedCommitments(result.data.commitments))
             return result.data.commitments
           }
         }),

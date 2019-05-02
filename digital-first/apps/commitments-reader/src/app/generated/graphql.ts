@@ -1447,7 +1447,6 @@ export type WhereExpressionGraph = {
 }
 export type GetCommitmentDetailQueryVariables = {
   id: Scalars['String']
-  bookType: Scalars['String']
 }
 
 export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
@@ -1723,8 +1722,8 @@ import { Injectable } from '@angular/core'
 import * as Apollo from 'apollo-angular'
 
 export const GetCommitmentDetailDocument = gql`
-  query getCommitmentDetail($id: String!, $bookType: String!) {
-    commitments(id: $id, bookType: $bookType) {
+  query getCommitmentDetail($id: String!) {
+    commitments(id: $id) {
       id
       title
       description

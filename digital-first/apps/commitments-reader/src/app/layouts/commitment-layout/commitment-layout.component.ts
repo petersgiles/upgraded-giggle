@@ -24,7 +24,7 @@ export class CommitmentLayoutComponent implements OnInit {
    // this.router.navigate(['commitment', 'commitmentDetail', '1', link.route])
    if(link.name === 'Packages')
    this.router.navigate(['commitment',106, 'packages'])
-   //else
-  //  this.router.navigate(['commitment', 'commitmentDetail'])
+ // else
+    //this.router.navigate(['commitment', 'commitmentDetail'])
   }
 }

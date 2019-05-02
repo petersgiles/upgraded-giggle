@@ -59,10 +59,10 @@ const routes: Routes = [
         children: [
            {
             path: ':id',
-            component: CommitmentDetailComponent
+            redirectTo: ':id/detail', pathMatch: 'full'
           }, 
            {
-            path: 'commitmentDetail',
+            path: ':id/detail',
             component: CommitmentDetailComponent
           },
           {
