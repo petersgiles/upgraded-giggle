@@ -41,40 +41,7 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   }
 
   loadCommitment(id: string) {
-<<<<<<< HEAD
     this.commitmentSubscription$ = this.commitmentDetailService.LoadCommitment(id)
-=======
-    this.commitmentSubscription$ = this.getCommitmentDetailGQL
-      .watch(
-        { id: id, bookType: 'red' },
-        { fetchPolicy: 'network-only' }
-      )
-      .valueChanges.pipe(map(value => value.data.commitments))
-      .subscribe(dbItem => {
-        if (dbItem) {
-          const commitment: ICommitment = {
-            id: dbItem[0].id,
-            title: dbItem[0].title,
-            description: dbItem[0].description,
-            bookType: dbItem[0].bookType,
-            cost: dbItem[0].cost,
-            date: dbItem[0].date,
-            politicalParty: dbItem[0].politicalParty,
-            announcedBy: dbItem[0].announcedBy,
-            announcementType: dbItem[0].announcementType
-              ? dbItem[0].announcementType.title
-              : '',
-            criticalDate: dbItem[0].criticalDate
-              ? dbItem[0].criticalDate.title
-              : '',
-            portfolio: dbItem[0].portfolioLookup
-              ? dbItem[0].portfolioLookup.title
-              : ''
-          }
-          this.commitment = commitment
-        }
-      })
->>>>>>> 4eadbe17399e9c816436f13f1ca06811f4249b4e
   }
 
   ngOnDestroy(): void {
