@@ -7,7 +7,7 @@ import { AppConfigService } from '../../services/app-config.service'
 import { CommitmentDetailService } from '../../reducers/commitment-detail/commitment-detail.service'
 import * as indef from 'indefinite'
 import { Commitment } from '../../models/commitment.model'
-import { getCommitmentDetailsState, CommitmentDetailsState } from '../../reducers/commitment-detail/commitment-detail.reducer'
+import { CommitmentDetailsState } from '../../reducers/commitment-detail/commitment-detail.reducer'
 import { getCommitment } from '../../reducers/commitment-detail'
 
 @Component({
