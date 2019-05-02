@@ -6,7 +6,9 @@ import { RefinerGroup } from '@digital-first/df-refiner'
 import { Observable } from 'rxjs'
 import { tap } from 'rxjs/operators'
 import { ConsoleService } from '@ng-select/ng-select/ng-select/console.service'
-
+import * as fromRefiner from '../../reducers/refiner/refiner.reducer'
+import { Store, select } from '@ngrx/store';
+import { SelectRefinerGroup, SelectRefiner, ChangeTextRefiner, GetRefinerGroups } from '../../reducers/refiner/refiner.actions';
 @Component({
   selector: 'digital-first-commitment-overview-layout',
   templateUrl: './commitment-overview-layout.component.html',
@@ -41,29 +43,34 @@ export class CommitmentOverviewLayoutComponent
 
   constructor(
     private appRouter: AppRouterService,
-    private dataService: CommitmentRefinerService
+    private store: Store<fromRefiner.State>
   ) {}
 
   handleRefinerGroupSelected($event) {
-    this.dataService.handleRefinerGroupSelected($event)
+    this.store.dispatch(new SelectRefinerGroup($event))
   }
 
   handleRefinerSelected($event) {
-    this.dataService.handleRefinerSelected($event)
+    this.store.dispatch(new SelectRefiner($event))
   }
   handleTextRefinerChanged($event) {
-    this.dataService.handleTextRefinerChanged($event)
+    this.store.dispatch(new ChangeTextRefiner($event))
   }
   ngAfterViewInit(): void {
   }
   ngOnDestroy(): void {}
 
   ngOnInit() {
-  //  this.refinerGroups$ = this.dataService.refinerGroups$
+    this.refinerGroups$ = this.store.pipe(
+      select(fromRefiner.selectRefinerGroups),
+      // tslint:disable-next-line: no-console
+      tap(result => console.log(`👹 `, result))
+    )
+
     this.appRouter.segments.subscribe(url => {
       const x = this.tabs.findIndex(p => p.id === url)
       this.activeTab = x
-      this.dataService.getLayoutPage()
+      this.store.dispatch(new GetRefinerGroups(null))
     })
   }
 }

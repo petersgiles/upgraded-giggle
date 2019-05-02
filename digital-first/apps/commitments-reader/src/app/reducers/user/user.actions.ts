@@ -21,7 +21,7 @@ export class GetUserOperations implements Action {
 export class SetUserOperations implements Action {
   readonly type = UserActionTypes.SetUserOperations
 
-  constructor(public payload: any) { }
+  constructor(public payload: { data: { groupPermissions: any}}) { }
 }
 
 export type UserActions =

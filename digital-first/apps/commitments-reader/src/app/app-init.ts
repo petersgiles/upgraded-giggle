@@ -1,5 +1,8 @@
-export function initApplication(): Function {
-  return () =>
+
+import { SettingsService } from './services/settings.service'
+
+export const initApplication = (settings: SettingsService) =>
+  () =>
     new Promise(resolve => {
       // tslint:disable-next-line:no-console
       // store.pipe(select(fromRoot.getLoggedIn)).subscribe(isLoggedIn => {
@@ -14,4 +17,3 @@ export function initApplication(): Function {
 
       resolve(true)
     })
-}

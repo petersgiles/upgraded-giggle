@@ -5,6 +5,10 @@ import { Observable } from 'rxjs'
   providedIn: 'root'
 })
 export abstract class AppDataService {
+  abstract getBusy(): Observable<boolean>
+  abstract get Notification()
+  abstract setDrawState(appdrawerOpen: any): any
+  abstract getDrawState(): Observable<boolean>
   abstract getCurrentUser(): Observable<any>
-  abstract getCurrentUserOperations(roles: any): Observable<any>
+  abstract getCurrentUserOperations(roles: {groupPermissions: any}): Observable<any>
 }

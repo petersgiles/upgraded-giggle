@@ -31,8 +31,6 @@ import {
   RefinerReducer
 } from './commitment-refiner.reducer'
 import { RefinerEffects } from './commitment-refiner.effects'
-import { AppConfigService } from '../app-config.service'
-import { getNgModuleDef } from '@angular/core/src/render3/definition'
 
 const DEBUG = !environment.production
 
@@ -60,48 +58,8 @@ export class CommitmentRefinerService implements OnDestroy {
     private refinerEffects: RefinerEffects,
     private getRefinerTagsGQL: GetRefinerTagsGQL,
     private commitmentsSearchGQL: CommitmentsSearchGQL,
-    private commitmentMapPointGQL: CommitmentMapPointGQL,
-    private appConfigService: AppConfigService,
-    private store: Store<any>
-  ) {
-    appConfigService.init().subscribe(_ => {
-      this.registerEffects()
-
-      this.actionSubscription$ = this.action$
-        .pipe(
-          filter(action => action !== null),
-          switchMap((action: RefinerServiceActions) => {
-            if (!this.refinerEffects.hasEffect(action)) {
-              this.store$.next(
-                this.refinerReducer.reduce(this.store$.getValue(), action)
-              )
-
-              return of(null)
-            }
-
-            return this.refinerEffects.run(action).pipe(
-              map((actions: RefinerServiceActions[]) => {
-                actions.forEach(a =>
-                  this.store$.next(
-                    this.refinerReducer.reduce(this.store$.getValue(), a)
-                  )
-                )
-              })
-            )
-          })
-        )
-        .subscribe()
-
-      this.storeSubscription$ = this.store$.subscribe(store => {
-        this.columns$.next(store.columns)
-        this.commitments$.next(store.commitments)
-        this.selectedRefinders$.next(store.selectedRefiners)
-        this.refinerGroups$.next(store.refinerGroups)
-        this.mapPoints$.next(store.mapPoints)
-      })
-      this.action$.next(new GetRefinerGroups(null))
-    })
-  }
+    private commitmentMapPointGQL: CommitmentMapPointGQL
+  ) { }
 
   private registerEffects() {
     this.refinerEffects.register(
@@ -118,9 +76,9 @@ export class CommitmentRefinerService implements OnDestroy {
     )
   }
 
-  public getLayoutPage() {
-    this.action$.next(new GetRefinerGroups(null))
-  }
+  // public getLayoutPage() {
+  //   this.action$.next(new GetRefinerGroups(null))
+  // }
 
   getItems(storeRefiners: any, groupId: any): number[] {
     if (storeRefiners.find(find => find.groupId === groupId)) {
@@ -168,7 +126,7 @@ export class CommitmentRefinerService implements OnDestroy {
     this.commitmentsSearchGQL
       .fetch({
         refiner: action.payload,
-        bookType: this.appConfigService.getBookType()
+        bookType: 'red'
       })
       .pipe(
         first(),
@@ -194,7 +152,7 @@ export class CommitmentRefinerService implements OnDestroy {
     this.commitmentMapPointGQL
       .fetch({
         refiner: action.payload,
-        bookType: this.appConfigService.getBookType()
+        bookType: 'red'
       })
       .pipe(
         first(),
