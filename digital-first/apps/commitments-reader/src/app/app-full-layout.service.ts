@@ -16,7 +16,7 @@ export class AppFullLayoutService {
   }
 
   get title(): string {
-    return 'Election Commitments'
+    return 'Commitments'
   }
 
   get sidebarItems$(): Observable<SideBarItem[]> {
