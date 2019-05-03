@@ -20,24 +20,28 @@ export class AppFullLayoutService {
   }
 
   get sidebarItems$(): Observable<SideBarItem[]> {
-    return of([{
-      caption: 'Home',
-      icon: 'home',
-      routerLink: ['/']
-    },    {
-      caption: 'Map',
-      icon: 'map',
-      routerLink: ['/map']
-    },    {
-      caption: 'Overview',
-      icon: 'home',
-      routerLink: ['/overview']
-    },    {
-      caption: 'Planner',
-      icon: 'home',
-      routerLink: ['/planner']
-    }
-  ])
+    return of([
+      {
+        caption: 'Home',
+        icon: 'home',
+        routerLink: ['/']
+      },
+      {
+        caption: 'Map',
+        icon: 'map',
+        routerLink: ['/map']
+      },
+      {
+        caption: 'Overview',
+        icon: 'home',
+        routerLink: ['/overview']
+      },
+      {
+        caption: 'Planner',
+        icon: 'home',
+        routerLink: ['/planner']
+      }
+    ])
   }
 
   get drawerStyle(): 'permanent' | 'dismissible' | 'modal' {
@@ -56,15 +60,16 @@ export class AppFullLayoutService {
     return this.service.Notification
   }
 
-  get protectiveMarking$(): Observable<any> { return of('UNCLASSIFIED') }
+  get protectiveMarking$(): Observable<any> {
+    return of(null)
+  }
 
-  get open$(): Observable<boolean>  {
+  get open$(): Observable<boolean> {
     return this.service.getBusy()
   }
 
   get profile(): Observable<AppUserProfile> {
     return this.service.getCurrentUser()
   }
-  constructor(private service: CommitmentDataService) {
-  }
+  constructor(private service: CommitmentDataService) {}
 }
