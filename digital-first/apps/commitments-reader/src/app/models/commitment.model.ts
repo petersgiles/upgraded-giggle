@@ -27,10 +27,10 @@ export interface Commitment {
   //location: Electorate,
   //electorates: Electorate[],
   //whoAnnouncedType: WhoAnnouncedType
-  announcementType: string,
+  announcementType?: string,
   //commitmentType: CommitmentType,
 
-  portfolio: string,
+  portfolio?: string,
   //criticalDate: CriticalDate,
   //packageType: PackageType,
   //portfolios: Portfolio[],

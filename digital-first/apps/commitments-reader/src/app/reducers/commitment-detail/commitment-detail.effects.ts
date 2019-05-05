@@ -18,12 +18,12 @@ export class CommitmentDetailEffects {
   )
 
 
-  @Effect()
+ /*  @Effect()
   loadCommitmentDetails$ = this.actions$.pipe(
     ofType(CommitmentDetailActionTypes.LoadCommitments),
     concatMap(result => this.commitmentDetailService.getCurrentUser({result})),
     switchMap((commitments: Commitment[]) => {return commitments})
-  )
+  ) */
 
   @Effect()
   commitmentDetailsRouted$ = this.actions$.pipe(

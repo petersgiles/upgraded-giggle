@@ -4,16 +4,32 @@ import { createFeatureSelector, createSelector } from '@ngrx/store'
 
 export interface State {
   refinerGroups: any[]
+  commitments: any[]
   expandedRefinerGroups: number[]
   selectedRefiners: any[]
   textRefiner: string
+  columns: [
+    { prop: 'id', name: 'Id' },
+    { prop: 'title', name: 'Title' },
+    { prop: 'portfolio', name: 'Responsible Portfolio' },
+    { prop: 'announcementType', name: 'Type of Commitment' },
+    { prop: 'criticalDate', name: 'Critical Date' }
+  ]
 }
 
 export const initialState: State = {
   refinerGroups: [],
+  commitments: [],
   expandedRefinerGroups: [],
   selectedRefiners: [],
-  textRefiner: null
+  textRefiner: null,
+  columns: [
+    { prop: 'id', name: 'Id' },
+    { prop: 'title', name: 'Title' },
+    { prop: 'portfolio', name: 'Responsible Portfolio' },
+    { prop: 'announcementType', name: 'Type of Commitment' },
+    { prop: 'criticalDate', name: 'Critical Date' }
+  ]
 }
 
 export function reducer(state = initialState, action: RefinerActions): State {
@@ -40,6 +56,14 @@ export function reducer(state = initialState, action: RefinerActions): State {
       return {
         ...state,
         expandedRefinerGroups: groups
+      }
+    }
+
+    case RefinerActionTypes.LoadRefinedCommitments: {
+      return {
+        ...state,
+        commitments: action.payload.data.commitments,
+        columns: initialState.columns
       }
     }
 
@@ -82,6 +106,16 @@ export const selectRefinerGroupsState = createSelector(
   (state: State) => state.refinerGroups
 )
 
+export const selectRefinedCommitmentsState = createSelector(
+  refinerState,
+  (state: State) => state.commitments
+)
+
+export const selectRefinedCommitmentsColumnsState = createSelector(
+  refinerState,
+  (state: State) => state.columns
+)
+
 export const selectRefinerGroups = createSelector(
   selectRefinerGroupsState,
   selectExpandedRefinerGroupsState,
@@ -92,5 +126,16 @@ export const selectRefinerGroups = createSelector(
       ...g,
       expanded: (expanded || []).includes(g.groupId)
     }))
-  }
-)
+  })
+
+  export const selectRefinerCommitmentItems = createSelector(
+    selectRefinedCommitmentsState,
+    selectRefinedCommitmentsColumnsState,
+    (commitments: any, columns: any) => {
+      return ([
+        commitments,
+        columns
+      ]
+      
+  )})
+

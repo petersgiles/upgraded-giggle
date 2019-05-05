@@ -7,8 +7,8 @@ import { Observable } from 'rxjs'
 import { tap } from 'rxjs/operators'
 import { ConsoleService } from '@ng-select/ng-select/ng-select/console.service'
 import * as fromRefiner from '../../reducers/refiner/refiner.reducer'
-import { Store, select } from '@ngrx/store';
-import { SelectRefinerGroup, SelectRefiner, ChangeTextRefiner, GetRefinerGroups } from '../../reducers/refiner/refiner.actions';
+import { Store, select } from '@ngrx/store'
+import { SelectRefinerGroup, SelectRefiner, ChangeTextRefiner, GetRefinerGroups, GetRefinedCommitments } from '../../reducers/refiner/refiner.actions';
 @Component({
   selector: 'digital-first-commitment-overview-layout',
   templateUrl: './commitment-overview-layout.component.html',
@@ -71,6 +71,7 @@ export class CommitmentOverviewLayoutComponent
       const x = this.tabs.findIndex(p => p.id === url)
       this.activeTab = x
       this.store.dispatch(new GetRefinerGroups(null))
+      this.store.dispatch(new GetRefinedCommitments(null))
     })
   }
 }

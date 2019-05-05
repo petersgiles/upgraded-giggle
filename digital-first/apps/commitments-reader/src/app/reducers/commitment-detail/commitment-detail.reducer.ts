@@ -22,19 +22,8 @@ export function reducer(state = initialState, action: CommitmentDetailActions): 
   
       return state
 
-    case CommitmentDetailActionTypes.LoadCommitments:
-      return handleCommitments(state, action)
-
     default:
       return state
-  }
-
-  function handleCommitments(state: CommitmentDetailsState, action){
-    
-    return{
-      ...state,
-      commitments: action.payload
-    }
   }
 }
 

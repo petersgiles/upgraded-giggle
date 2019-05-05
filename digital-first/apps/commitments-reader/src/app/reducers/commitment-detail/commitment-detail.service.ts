@@ -20,9 +20,9 @@ export class CommitmentDetailService {
   }
 
   LoadCommitment(id){
-   return this.getCommitmentDetailGQL
+       return this.getCommitmentDetailGQL
       .watch(
-        { id: id },
+        { id: id, bookType: "1" },
         { fetchPolicy: 'network-only' }
       )
       .valueChanges.pipe(map(value => value.data.commitments))
@@ -37,15 +37,15 @@ export class CommitmentDetailService {
             date: dbItem[0].date,
             politicalParty: dbItem[0].politicalParty,
             announcedBy: dbItem[0].announcedBy,
-            announcementType: dbItem[0].announcementType
-              ? dbItem[0].announcementType.title
-              : '',
-            criticalDate: dbItem[0].criticalDate
-              ? dbItem[0].criticalDate.title
-              : '',
-            portfolio: dbItem[0].portfolioLookup
-              ? dbItem[0].portfolioLookup.title
-              : ''
+           // announcementType: dbItem[0].announcementType,
+             // ? dbItem[0].announcementType.title
+            //  : '',
+           // criticalDate: dbItem[0].criticalDate,
+            //  ? dbItem[0].criticalDate.title
+            //  : '',
+          //  portfolio: dbItem[0].portfolioLookup,
+             // ? dbItem[0].portfolioLookup.title
+             // : ''
           }
         }
       })
