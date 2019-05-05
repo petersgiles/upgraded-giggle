@@ -8,7 +8,9 @@ export enum RefinerActionTypes {
   SelectRefinerGroup = '[RefinerActionTypes] SelectRefinerGroup',
   SelectRefiner = '[RefinerActionTypes] SelectRefiner',
   SearchCommitments = '[RefinerActionTypes] SearchCommitments',
-  ChangeTextRefiner = '[RefinerActionTypes] ChangeTextRefiner'
+  ChangeTextRefiner = '[RefinerActionTypes] ChangeTextRefiner',
+  GetRefinedCommitments = '[RefinerActionTypes] GetRefinedCommitments',
+  LoadRefinedCommitments = '[RefinerActionTypes] LoadRefinedCommitments'
 }
 
 export class SelectRefinerGroup implements Action {
@@ -41,6 +43,17 @@ export class LoadRefinerGroups implements Action {
   constructor(public payload: any) {}
 }
 
+export class GetRefinedCommitments implements Action {
+  type = RefinerActionTypes.GetRefinedCommitments
+
+  constructor(public payload: any) {}
+}
+
+export class LoadRefinedCommitments implements Action {
+  type = RefinerActionTypes.LoadRefinedCommitments
+  constructor(public payload: any) {}
+}
+
 export class GetRefinersFailure implements Action {
   type = RefinerActionTypes.GetRefinersFailure
   constructor(public payload: any) {}
@@ -48,6 +61,8 @@ export class GetRefinersFailure implements Action {
 export type RefinerActions =
     GetRefinerGroups
   | LoadRefinerGroups
+  | GetRefinedCommitments
+  | LoadRefinedCommitments
   | SelectRefinerGroup
   | SelectRefiner
   | SearchCommitments

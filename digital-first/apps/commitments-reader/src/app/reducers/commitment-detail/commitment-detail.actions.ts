@@ -3,7 +3,7 @@ import { RouteChange } from '../router.actions'
 
 export enum CommitmentDetailActionTypes {
   LoadCommitmentDetails = '[CommitmentDetail] Load CommitmentDetails',
-  
+  LoadCommitments = '[RefinerActionTypes] LoadRefinedCommitments',
   
 }
 
@@ -14,5 +14,12 @@ export class LoadCommitmentDetails implements Action {
    //new LoadCommitmentActions({ actions: result.data.commitmentActions })),
 }
 
+export class LoadCommitments implements Action {
+  type = CommitmentDetailActionTypes.LoadCommitments
+  constructor(public payload: any) {}
+}
 
-export type CommitmentDetailActions = LoadCommitmentDetails;
+
+export type CommitmentDetailActions = 
+LoadCommitments
+|LoadCommitmentDetails

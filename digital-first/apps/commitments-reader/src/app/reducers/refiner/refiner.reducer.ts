@@ -4,16 +4,32 @@ import { createFeatureSelector, createSelector } from '@ngrx/store'
 
 export interface State {
   refinerGroups: any[]
+  commitments: any[]
   expandedRefinerGroups: number[]
   selectedRefiners: any[]
   textRefiner: string
+  columns: [
+    { prop: 'id'; name: 'Id' },
+    { prop: 'title'; name: 'Title' },
+    { prop: 'portfolio'; name: 'Responsible Portfolio' },
+    { prop: 'announcementType'; name: 'Type of Commitment' },
+    { prop: 'criticalDate'; name: 'Critical Date' }
+  ]
 }
 
 export const initialState: State = {
   refinerGroups: [],
+  commitments: [],
   expandedRefinerGroups: [],
   selectedRefiners: [],
-  textRefiner: null
+  textRefiner: null,
+  columns: [
+    { prop: 'id', name: 'Id' },
+    { prop: 'title', name: 'Title' },
+    { prop: 'portfolio', name: 'Responsible Portfolio' },
+    { prop: 'announcementType', name: 'Type of Commitment' },
+    { prop: 'criticalDate', name: 'Critical Date' }
+  ]
 }
 
 export function reducer(state = initialState, action: RefinerActions): State {
@@ -45,6 +61,14 @@ export function reducer(state = initialState, action: RefinerActions): State {
       }
     }
 
+    case RefinerActionTypes.LoadRefinedCommitments: {
+      return {
+        ...state,
+        commitments: action.payload.data.commitments,
+        columns: initialState.columns
+      }
+    }
+
     case RefinerActionTypes.ChangeTextRefiner: {
       const retVal = {
         ...state,
@@ -56,22 +80,17 @@ export function reducer(state = initialState, action: RefinerActions): State {
     case RefinerActionTypes.SelectRefiner: {
       const selected = action.payload
       let selectedRefiners: any[] = [...state.selectedRefiners]
-///.findIndex(s => s.id === r.id && s.groupId === r.groupId) > -1 }
-      if (
-        (state.selectedRefiners || []).includes(
-          p => p.group === selected.group && p.id === selected.id
-        )
-      ) {
+
+      const isSelected = selectedRefiners.findIndex(s => s.id === selected.id && s.groupId === selected.groupId) > -1
+
+      if (isSelected) {
         selectedRefiners = [...state.selectedRefiners].filter(
-          p => p.group === selected.group && p.id === selected.id
+          p => p.groupId !== selected.groupId && p.id !== selected.id
         )
       } else {
         selectedRefiners = [...state.selectedRefiners]
         selectedRefiners.push(action.payload)
       }
-
-      // tslint:disable-next-line: no-console
-      console.log(`🐸 `, selectedRefiners, selected)
 
       return {
         ...state,
@@ -106,23 +125,41 @@ export const selectRefinerGroupsState = createSelector(
   (state: State) => state.refinerGroups
 )
 
+export const selectRefinedCommitmentsState = createSelector(
+  refinerState,
+  (state: State) => state.commitments
+)
+
+export const selectRefinedCommitmentsColumnsState = createSelector(
+  refinerState,
+  (state: State) => state.columns
+)
+
 export const selectRefinerGroups = createSelector(
   selectRefinerGroupsState,
   selectExpandedRefinerGroupsState,
   selectSelectedRefinersState,
   (groups: any[], expanded: any[], selected: any[]) => {
-    // tslint:disable-next-line: no-console
-    console.log(groups, expanded, selected)
     const rgs = (groups || []).map(g => ({
       ...g,
       expanded: (expanded || []).includes(g.groupId),
-      children: (g.children || []).map(r => {
-        // tslint:disable-next-line: no-console
-        console.log(`🐊 `, r, selected)
-        return { ...r, selected: (selected || []).findIndex(s => s.id === r.id && s.groupId === r.groupId) > -1 }
-      })
+      children: (g.children || []).map(r => ({
+          ...r,
+          selected:
+            (selected || []).findIndex(
+              s => s.id === r.id && s.groupId === r.groupId
+            ) > -1
+        }))
     }))
 
     return rgs
+  }
+)
+
+export const selectRefinerCommitmentItems = createSelector(
+  selectRefinedCommitmentsState,
+  selectRefinedCommitmentsColumnsState,
+  (commitments: any, columns: any) => {
+    return [commitments, columns]
   }
 )

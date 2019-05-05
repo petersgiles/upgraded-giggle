@@ -1,10 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { Observable, of } from 'rxjs'
+import { withLatestFrom, map, filter } from 'rxjs/operators'
 import {
   CommitmentRefinerService,
   DataTableColumn
 } from '../../services/commitment-refiner'
 import { Router } from '@angular/router';
+import { Store, select } from '@ngrx/store'
+//import * as fromRefiner from '../../reducers/refiner'
+import * as fromRefiner from '../../reducers/refiner/refiner.reducer'
 
 interface CommitmentRow {
   id: number
@@ -26,26 +30,38 @@ export class OverviewPageComponent implements OnInit, OnDestroy {
   public columns$: Observable<DataTableColumn[]>
   public count: number
 
-  constructor(private dataService: CommitmentRefinerService,  private router: Router) {}
+  constructor(private dataService: CommitmentRefinerService,  private router: Router, private store: Store<any>) {
+   
+  }
 
   ngOnInit() {
     this.columns$ = this.dataService.columns$
-    this.dataService.commitments$.subscribe(value => {
-      const rows = value.map(row => ({
+
+    this.store.pipe(
+      select(fromRefiner.selectRefinerCommitmentItems)).subscribe(
+        ([data, cols]) => {
+          if(data && data.length){
+            this.handleCommitments(data, cols)
+          }
+        })
+  }
+
+  handleCommitments(data, cols) {
+      this.columns$ = of(cols)
+      const rows = data.map(row => ({
         id: row.id,
         title: row.title,
         politicalParty: row.politicalParty,
         announcedBy: row.announcedBy,
-        announcementType: row.announcementType
+       announcementType: row.announcementType
           ? row.announcementType.title
           : '',
         criticalDate: row.criticalDate ? row.criticalDate.title : '',
-        portfolio: row.portfolioLookup ? row.portfolioLookup.title : ''
+        portfolio: row.portfolioLookup ? row.portfolioLookup.title : '' 
       }))
       this.filterCommitments$ = of(rows)
-    })
-    this.dataService.getRefinedCommitments()
   }
+
 
   ngOnDestroy(): void {}
 

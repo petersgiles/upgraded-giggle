@@ -3,8 +3,13 @@ import { Actions, Effect, ofType } from '@ngrx/effects'
 
 import { concatMap, switchMap, first, catchError, map } from 'rxjs/operators'
 import { EMPTY, of } from 'rxjs'
-import { RefinerActionTypes, RefinerActions, GetRefinersFailure, LoadRefinerGroups } from './refiner.actions'
-import { GetRefinerTagsGQL } from '../../generated/graphql'
+import { RefinerActionTypes, RefinerActions, GetRefinersFailure, LoadRefinerGroups, LoadRefinedCommitments } from './refiner.actions'
+import { GetRefinerTagsGQL,   
+  CommitmentsSearchGQL,
+  CommitmentRefinerGraph,
+  CommitmentGraph,
+  MapPointGraph,
+  CommitmentMapPointGQL } from '../../generated/graphql'
 import { CRMenu } from './refiner.models'
 import { buildRefiner } from './refiner-utils'
 
@@ -34,8 +39,29 @@ export class RefinerEffects {
     catchError(error => of(new GetRefinersFailure(error)))
   )
 
+  @Effect()
+  getRefinedCommitments$ = this.actions$.pipe(
+    ofType(RefinerActionTypes.GetRefinedCommitments),
+    /** An EMPTY observable only emits completion. Replace with your own observable API request */
+    switchMap(() => this.getRefinedCommitmentsGQL
+      .fetch({ refiner: {commitmentTypes: [], criticalDates: [], portfolioLookups: []},
+        bookType: 'red' })
+      .pipe(
+        first(),
+        switchMap((result: any) => {
+         
+          return of(result)
+        }),
+        map(result => new LoadRefinedCommitments(result))
+      )
+    ),
+    catchError(error => of(new GetRefinersFailure(error)))
+  )
+
+
   constructor(
     private actions$: Actions<RefinerActions>,
-    private getRefinerTagsGQL: GetRefinerTagsGQL
+    private getRefinerTagsGQL: GetRefinerTagsGQL,
+    private getRefinedCommitmentsGQL: CommitmentsSearchGQL
   ) {}
 }
