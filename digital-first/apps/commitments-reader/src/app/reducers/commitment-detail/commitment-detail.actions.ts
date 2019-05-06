@@ -26,7 +26,6 @@ export class LoadCommitmentDetails implements Action {
   constructor(public payload: { path: string }) {}
 }
 
-<<<<<<< HEAD
 export class GetDetailedCommitment implements Action {
   type = CommitmentDetailActionTypes.GetDetailedCommitment
   constructor(public payload: {commitment: Commitment}) {}
@@ -38,6 +37,3 @@ GetDetailedCommitment
 |LoadCommitmentDetails
 |LoadDetailedCommitment
 |LoadCommitments
-=======
-export type CommitmentDetailActions = LoadCommitmentDetails
->>>>>>> 9c4a9565d64fef95825577ce89ae8b9f0b5c95d7
