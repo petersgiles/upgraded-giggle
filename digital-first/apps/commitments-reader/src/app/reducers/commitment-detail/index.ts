@@ -5,5 +5,5 @@ import * as fromReducer from './commitment-detail.reducer'
 export const getCommitmentDetailsState = createFeatureSelector('commitmentDetail')
 export const getCommitment = createSelector(
     getCommitmentDetailsState,
-    (state: fromReducer.CommitmentDetailsState) => state.commitments
+    (state: fromReducer.CommitmentDetailsState) => state.commitment
   )

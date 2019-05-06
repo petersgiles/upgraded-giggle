@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { concatMap, filter, switchMap, map } from 'rxjs/operators'
 import { RouteChange, CHANGE, ofRoute } from '../router.actions'
-import { EMPTY } from 'rxjs';
-import { CommitmentDetailActionTypes, CommitmentDetailActions } from './commitment-detail.actions';
+import { EMPTY, of } from 'rxjs';
+import { CommitmentDetailActionTypes, CommitmentDetailActions, LoadDetailedCommitment, GetDetailedCommitment } from './commitment-detail.actions';
 import {CommitmentDetailService } from './commitment-detail.service'
 import { Commitment } from '../../models/commitment.model'
 
@@ -18,12 +18,15 @@ export class CommitmentDetailEffects {
   )
 
 
- /*  @Effect()
+   @Effect()
   loadCommitmentDetails$ = this.actions$.pipe(
-    ofType(CommitmentDetailActionTypes.LoadCommitments),
-    concatMap(result => this.commitmentDetailService.getCurrentUser({result})),
-    switchMap((commitments: Commitment[]) => {return commitments})
-  ) */
+    ofType(CommitmentDetailActionTypes.GetDetailedCommitment),
+    switchMap((result: any) => {
+         
+      return of(result)
+    }),
+    map(result => new LoadDetailedCommitment(result))
+  ) 
 
   @Effect()
   commitmentDetailsRouted$ = this.actions$.pipe(

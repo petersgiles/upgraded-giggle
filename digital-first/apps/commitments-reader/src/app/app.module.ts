@@ -14,7 +14,8 @@ import { DfPagesModule } from '@digital-first/df-pages'
 import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfRefinerModule } from '@digital-first/df-refiner'
 import { DfMomentModule, DateFormatPipe } from '@digital-first/df-moment'
-
+import { DfButtonsModule } from '@digital-first/df-buttons'
+import { DfComponentsModule } from '@digital-first/df-components'
 
 import {
   DataTableModule,
@@ -108,6 +109,8 @@ const COMPONENTS = [
     MdcElevationModule,
     DfSharepointLibModule,
     DfMomentModule,
+    DfButtonsModule,
+    DfComponentsModule,
     NgSelectModule,
     StoreModule.forRoot(reducers, {
       metaReducers: metaReducers

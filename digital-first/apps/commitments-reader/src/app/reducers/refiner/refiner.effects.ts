@@ -42,7 +42,6 @@ export class RefinerEffects {
   @Effect()
   getRefinedCommitments$ = this.actions$.pipe(
     ofType(RefinerActionTypes.GetRefinedCommitments),
-    /** An EMPTY observable only emits completion. Replace with your own observable API request */
     switchMap(() => this.getRefinedCommitmentsGQL
       .fetch({ refiner: {commitmentTypes: [], criticalDates: [], portfolioLookups: []},
         bookType: 'red' })

@@ -3,12 +3,14 @@ import { Injectable } from '@angular/core'
 import { GetCommitmentDetailGQL } from '../../generated/graphql'
 import { map, takeUntil, filter } from 'rxjs/operators'
 import { Commitment } from '../../models/commitment.model'
+import { Store } from '@ngrx/store'
+import { GetDetailedCommitment } from './commitment-detail.actions'
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommitmentDetailService {
-  constructor(private getCommitmentDetailGQL: GetCommitmentDetailGQL) {}
+  constructor(private getCommitmentDetailGQL: GetCommitmentDetailGQL, private store: Store<any>) {}
 
   get Notification(): Observable<string> {
     return of(null)
@@ -47,6 +49,7 @@ export class CommitmentDetailService {
              // ? dbItem[0].portfolioLookup.title
              // : ''
           }
+         this.store.dispatch(new GetDetailedCommitment({commitment}))
         }
       })
   }

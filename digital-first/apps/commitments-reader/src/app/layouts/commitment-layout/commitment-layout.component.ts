@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store'
+import { Back } from '../../reducers/router.actions'
 
 @Component({
   selector: 'digital-first-commitment-layout',
@@ -14,11 +16,18 @@ export class CommitmentLayoutComponent implements OnInit {
     { name: 'Location', icon: 'folder', route: 'location' }
   ]
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private store: Store<any>) { }
 
   ngOnInit() {
   }
 
+  getTitle(commitment) {
+    return 'Commitment'
+  }
+
+  handleGoBack($event) {
+    this.store.dispatch(new Back());
+  }
 
   handleCommitmentNavigation(link){
    // this.router.navigate(['commitment', 'commitmentDetail', '1', link.route])
