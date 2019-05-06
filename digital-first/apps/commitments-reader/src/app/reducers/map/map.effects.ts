@@ -1,23 +1,71 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
-import { concatMap } from 'rxjs/operators';
+import {
+  concatMap,
+  switchMap,
+  first,
+  map,
+  catchError,
+  withLatestFrom,
+  tap
+} from 'rxjs/operators'
+import { of } from 'rxjs'
 import { EMPTY } from 'rxjs';
-import { MapActionTypes, MapActions } from './map.actions';
-
+import { MapActionTypes, MapActions, LoadMapPoints, GetMapPointsFailure } from './map.actions';
+import * as fromRoot from '../../reducers'
+import { Config } from '../../services/config.service'
+import { Store } from '@ngrx/store'
+import { MapPointSearchGQL } from '../../generated/graphql';
 
 @Injectable()
 export class MapEffects {
 
 
   @Effect()
-  loadMaps$ = this.actions$.pipe(
-    ofType(MapActionTypes.LoadMaps),
-    /** An EMPTY observable only emits completion. Replace with your own observable API request */
-    concatMap(() => EMPTY)
-  );
+  getRefinedCommitments$ = this.actions$.pipe(
+    ofType(MapActionTypes.GetRefinedMapPoints),
+    withLatestFrom(this.store$),
+    // tslint:disable-next-line: no-console
+    map(([_, s]) => {
+      const store = <any>s
+      const config: Config = store.app.config
+      const bookType = config.header.bookType
+      const selectedRefiners: any = store.refiner.selectedRefiners
 
+      const selectedRefinerGroup = selectedRefiners.reduce(
+        (acc, item) => {
+          acc[item.group].push(item.id)
+          return acc
+        },
+        {
+          commitmentTypes: [],
+          criticalDates: [],
+          portfolioLookups: []
+        }
+      )
 
-  constructor(private actions$: Actions<MapActions>) {}
+      // tslint:disable-next-line: no-console
+      console.log(`🐲 `, store, selectedRefiners, selectedRefinerGroup, config, bookType)
+
+      return {
+        refiner: selectedRefinerGroup,
+        bookType: bookType
+      }
+    }),
+    switchMap(config => 
+      this.mapPointSearchGQL.fetch(config).pipe(
+        first(),
+        concatMap(result => [new LoadMapPoints(result)])
+      )
+    ),
+    catchError(error => of(new GetMapPointsFailure(error)))
+  )
+
+  constructor(
+    private actions$: Actions<MapActions>,
+    private store$: Store<fromRoot.State>,
+    private mapPointSearchGQL: MapPointSearchGQL
+    ) {}
 
 }

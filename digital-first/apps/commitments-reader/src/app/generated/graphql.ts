@@ -1492,39 +1492,6 @@ export type GetRefinerTagsQuery = { __typename?: 'Query' } & {
   >
 }
 
-export type CommitmentMapPointQueryVariables = {
-  refiner: CommitmentRefinerGraph
-  bookType: Scalars['String']
-}
-
-export type CommitmentMapPointQuery = { __typename?: 'Query' } & {
-  commitments: Maybe<
-    Array<
-      Maybe<
-        { __typename?: 'CommitmentGraph' } & Pick<CommitmentGraph, 'id'> & {
-            commitmentMapPoints: Maybe<
-              Array<
-                Maybe<
-                  { __typename?: 'CommitmentMapPointGraph' } & Pick<
-                    CommitmentMapPointGraph,
-                    'id'
-                  > & {
-                      mapPoint: Maybe<
-                        { __typename?: 'MapPointGraph' } & Pick<
-                          MapPointGraph,
-                          'id' | 'placeId' | 'title' | 'latitude' | 'longitude'
-                        >
-                      >
-                    }
-                >
-              >
-            >
-          }
-      >
-    >
-  >
-}
-
 export type CommitmentsMapPointSearchQueryVariables = {
   commitmentMapPointsWhere?: Maybe<WhereExpressionGraph>
 }
@@ -1622,6 +1589,39 @@ export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
   >
 }
 
+export type MapPointSearchQueryVariables = {
+  refiner: CommitmentRefinerGraph
+  bookType: Scalars['String']
+}
+
+export type MapPointSearchQuery = { __typename?: 'Query' } & {
+  commitments: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'CommitmentGraph' } & Pick<CommitmentGraph, 'id'> & {
+            commitmentMapPoints: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'CommitmentMapPointGraph' } & Pick<
+                    CommitmentMapPointGraph,
+                    'id'
+                  > & {
+                      mapPoint: Maybe<
+                        { __typename?: 'MapPointGraph' } & Pick<
+                          MapPointGraph,
+                          'id' | 'placeId' | 'title' | 'latitude' | 'longitude'
+                        >
+                      >
+                    }
+                >
+              >
+            >
+          }
+      >
+    >
+  >
+}
+
 import gql from 'graphql-tag'
 import { Injectable } from '@angular/core'
 import * as Apollo from 'apollo-angular'
@@ -1676,36 +1676,6 @@ export class GetRefinerTagsGQL extends Apollo.Query<
   GetRefinerTagsQueryVariables
 > {
   document = GetRefinerTagsDocument
-}
-export const CommitmentMapPointDocument = gql`
-  query CommitmentMapPoint(
-    $refiner: CommitmentRefinerGraph!
-    $bookType: String!
-  ) {
-    commitments(refiner: $refiner, bookType: $bookType) {
-      id
-      commitmentMapPoints {
-        id
-        mapPoint {
-          id
-          placeId
-          title
-          latitude
-          longitude
-        }
-      }
-    }
-  }
-`
-
-@Injectable({
-  providedIn: 'root'
-})
-export class CommitmentMapPointGQL extends Apollo.Query<
-  CommitmentMapPointQuery,
-  CommitmentMapPointQueryVariables
-> {
-  document = CommitmentMapPointDocument
 }
 export const CommitmentsMapPointSearchDocument = gql`
   query CommitmentsMapPointSearch(
@@ -1788,4 +1758,31 @@ export class CommitmentsSearchGQL extends Apollo.Query<
   CommitmentsSearchQueryVariables
 > {
   document = CommitmentsSearchDocument
+}
+export const MapPointSearchDocument = gql`
+  query MapPointSearch($refiner: CommitmentRefinerGraph!, $bookType: String!) {
+    commitments(refiner: $refiner, bookType: $bookType) {
+      id
+      commitmentMapPoints {
+        id
+        mapPoint {
+          id
+          placeId
+          title
+          latitude
+          longitude
+        }
+      }
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class MapPointSearchGQL extends Apollo.Query<
+  MapPointSearchQuery,
+  MapPointSearchQueryVariables
+> {
+  document = MapPointSearchDocument
 }

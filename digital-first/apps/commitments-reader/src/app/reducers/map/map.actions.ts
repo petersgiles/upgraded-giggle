@@ -1,13 +1,24 @@
-import { Action } from '@ngrx/store';
+import { Action } from '@ngrx/store'
 
 export enum MapActionTypes {
-  LoadMaps = '[Map] Load Maps',
-  GetMapPoints = '[RefinerActionTypes] GetMapPoints'
+  LoadMapPoints = '[Map] Load Maps',
+  GetRefinedMapPoints = '[Map] GetRefinedMapPoints',
+  GetMapPointsFailure = '[Map] GetMapPointsFailure'
 }
 
-export class LoadMaps implements Action {
-  readonly type = MapActionTypes.LoadMaps;
+export class LoadMapPoints implements Action {
+  readonly type = MapActionTypes.LoadMapPoints
+  constructor(public payload: any) {}
 }
 
+export class GetRefinedMapPoints implements Action {
+  readonly type = MapActionTypes.GetRefinedMapPoints
+  constructor(public payload: any) {}
+}
 
-export type MapActions = LoadMaps;
+export class GetMapPointsFailure implements Action {
+  type = MapActionTypes.GetMapPointsFailure
+  constructor(public payload: any) {}
+}
+
+export type MapActions = LoadMapPoints | GetRefinedMapPoints | GetMapPointsFailure

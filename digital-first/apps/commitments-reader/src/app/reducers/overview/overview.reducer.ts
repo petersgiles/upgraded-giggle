@@ -19,8 +19,7 @@ export const initialState: State = {
 }
 
 export function reducer(state = initialState, action: OverviewActions): State {
-  // tslint:disable-next-line: no-console
-  console.log(`🐨 `, action)
+
   switch (action.type) {
     case OverviewActionTypes.LoadRefinedCommitments: {
       return {

@@ -6,17 +6,18 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core'
 import { Observable, BehaviorSubject, Subscription } from 'rxjs'
-import { map } from 'rxjs/operators'
-import {
-  CommitmentsMapPointSearchGQL,
-  WhereExpressionGraph,
-  ComparisonGraph
-} from '../../generated/graphql'
 import { SettingsService } from '../../services/settings.service'
 // import {
 //   CommitmentRefinerService
 // } from '../../services/commitment-refiner'
-import { DataTableColumn } from '../../models/data-table-column';
+import { DataTableColumn } from '../../models/data-table-column'
+import { Router } from '@angular/router'
+import { select, Store } from '@ngrx/store'
+import * as fromMap from '../../reducers/map/map.reducer'
+import { GetMapPointsFailure, GetRefinedMapPoints } from '../../reducers/map/map.actions';
+import { MapPoint } from '@digital-first/df-map';
+
+
 interface CommitmentRow {
   id: number
   title: string
@@ -39,28 +40,26 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
   public zoom: number
   public mapPoints: any[] = []
   public columns$: Observable<DataTableColumn[]>
-  public filterCommitmentMapPoints$: BehaviorSubject<CommitmentRow[]>
+  public filteredMapPoints$: Observable<MapPoint[]>
   public filterCommitments$: Observable<CommitmentRow[]>
-  public rows: CommitmentRow[] = []
 
-  subscriptionMapPointSelection: Subscription
 
   constructor(
     private settings: SettingsService,
-    // private dataService: CommitmentRefinerService,
-    private commitmentsMapPointSearchGQL: CommitmentsMapPointSearchGQL,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private router: Router, private store: Store<fromMap.State>
   ) {}
 
   ngOnInit() {
     this.latitude = -27.698
     this.longitude = 133.8807
     this.zoom = 5
-    // this.columns$ = this.dataService.columns$
-
-    this.getMapPointsOfCommitments()
-    // this.dataService.getRefinedCommitments()
-    // this.dataService.getMapPoints()
+    this.mapPoints = []
+    
+    this.filteredMapPoints$ = this.store.pipe(
+      select(fromMap.selectRefinedMapPointsState)
+    )
+    this.store.dispatch(new GetRefinedMapPoints(null))
   }
 
   getMapPointsOfCommitments() {
@@ -70,45 +69,45 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
   }
 
   handleMapPointSelected(mapPoint) {
-    this.filterCommitmentMapPoints$ = null
-    this.rows = []
-    const whereVal: WhereExpressionGraph = {
-      path: 'mapPointId',
-      comparison: ComparisonGraph.Equal,
-      value: [mapPoint.id.toString()]
-    }
+    // this.filterCommitmentMapPoints$ = null
+    // this.rows = []
+    // const whereVal: WhereExpressionGraph = {
+    //   path: 'mapPointId',
+    //   comparison: ComparisonGraph.Equal,
+    //   value: [mapPoint.id.toString()]
+    // }
 
-    this.subscriptionMapPointSelection = this.commitmentsMapPointSearchGQL
-      .fetch(
-        { commitmentMapPointsWhere: whereVal },
-        { fetchPolicy: 'network-only' }
-      )
-      .pipe(map(value => value.data.commitmentMapPoints))
-      .subscribe(commitmentMapPoints => {
-        commitmentMapPoints
-          .map(cmp => cmp.commitment)
-          .map(commitment => {
-            const row: CommitmentRow = {
-              id: commitment.id,
-              title: commitment.title,
-              politicalParty: commitment.politicalParty,
-              announcedBy: commitment.announcedBy,
-              announcementType: commitment.announcementType
-                ? commitment.announcementType.title
-                : '',
-              criticalDate: commitment.criticalDate
-                ? commitment.criticalDate.title
-                : '',
-              portfolio: commitment.portfolioLookup
-                ? commitment.portfolioLookup.title
-                : ''
-            }
-            this.rows.push(row)
-          })
+    // this.subscriptionMapPointSelection = this.commitmentsMapPointSearchGQL
+    //   .fetch(
+    //     { commitmentMapPointsWhere: whereVal },
+    //     { fetchPolicy: 'network-only' }
+    //   )
+    //   .pipe(map(value => value.data.commitmentMapPoints))
+    //   .subscribe(commitmentMapPoints => {
+    //     commitmentMapPoints
+    //       .map(cmp => cmp.commitment)
+    //       .map(commitment => {
+    //         const row: CommitmentRow = {
+    //           id: commitment.id,
+    //           title: commitment.title,
+    //           politicalParty: commitment.politicalParty,
+    //           announcedBy: commitment.announcedBy,
+    //           announcementType: commitment.announcementType
+    //             ? commitment.announcementType.title
+    //             : '',
+    //           criticalDate: commitment.criticalDate
+    //             ? commitment.criticalDate.title
+    //             : '',
+    //           portfolio: commitment.portfolioLookup
+    //             ? commitment.portfolioLookup.title
+    //             : ''
+    //         }
+    //         this.rows.push(row)
+    //       })
 
-        this.filterCommitmentMapPoints$ = new BehaviorSubject(this.rows)
-        this.changeDetector.detectChanges()
-      })
+    //     this.filterCommitmentMapPoints$ = new BehaviorSubject(this.rows)
+    //     this.changeDetector.detectChanges()
+    //   })
   }
 
   getIcon() {
@@ -118,8 +117,6 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
     `
   }
   ngOnDestroy(): void {
-    if (this.subscriptionMapPointSelection) {
-      this.subscriptionMapPointSelection.unsubscribe()
-    }
+
   }
 }
