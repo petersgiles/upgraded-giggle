@@ -33,15 +33,21 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy/*, AfterView
         withLatestFrom(this.store.select(selectFilteredCommitmentsState))
       )
       .subscribe(([params, commitments]) => {
-        let commitment = commitments.find(commitment => commitment.id === params.id)
+       // let commitment = commitments.find(commitment => commitment.id === params.id)
         this.commitmentDetailService.LoadCommitment(params.id)
       })
 
       this.commitmentSubscription$ = this.store.pipe(select(getCommitment))
       .subscribe((commitment) => {
+        //this.commitment = commitment
+      })
+  
+
+      this.commitmentSubscription$ = this.store.pipe(select(getCommitment))
+      .subscribe((commitment) => {
         this.commitment = commitment
       })
-  }
+    }
 
  /*  ngAfterViewInit(){
     this.commitmentSubscription$ = this.store.pipe(select(getCommitment))
