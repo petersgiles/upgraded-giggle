@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { Subscription } from 'rxjs'
-import { map, takeUntil, filter, withLatestFrom } from 'rxjs/operators'
+import { map, takeUntil, filter, withLatestFrom, first } from 'rxjs/operators'
 import { ActivatedRoute } from '@angular/router'
 //import { AppConfigService } from '../../services/app-config.service'
 import { CommitmentDetailService } from '../../reducers/commitment-detail/commitment-detail.service'
@@ -21,15 +21,14 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   public commitment: Commitment
   constructor(
     private activatedRoute: ActivatedRoute,
-    //private appConfigService: AppConfigService,
     private commitmentDetailService: CommitmentDetailService,
     private store: Store<CommitmentDetailsState>
   ) {}
-//  .flatMap(state => state.commitments)
+
   ngOnInit() {
     this.activatedRoute.params
       .pipe(
-        //takeUntil(this.destroyed)
+        first(),
         filter(params => !!params.id),
         withLatestFrom(this.store.select(getCommitment))
       )

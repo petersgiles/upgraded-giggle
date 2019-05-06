@@ -25,7 +25,6 @@ import {
 import { NgSelectModule } from '@ng-select/ng-select'
 import { AppFullLayoutService } from './app-full-layout.service'
 import { environment } from '../environments/environment'
-import { initApplication } from './app-init'
 
 import { AppComponent } from './app.component'
 import { HomeComponent } from './pages/home/home.component'
@@ -65,6 +64,8 @@ import { SettingsService } from './services/settings.service'
 import { appDataServiceProvider } from './services/commitment-data.service'
 
 import { CommitmentPackageComponent } from './pages/commitment-packages/commitment-package.component'
+import { initApplication } from './app-init';
+
 
 const COMPONENTS = [
   AppComponent,
@@ -117,11 +118,10 @@ const COMPONENTS = [
     StoreModule.forFeature('app', fromApp.reducer),
     StoreModule.forFeature('user', fromUser.reducer),
     StoreModule.forFeature('refiner', fromRefiner.reducer),
-
-    StoreModule.forFeature('commitmentDetail', fromCommitmentDetail.reducer),
     StoreModule.forFeature('overview', fromOverview.reducer),
     StoreModule.forFeature('map', fromMap.reducer),
     StoreModule.forFeature('planner', fromPlanner.reducer),
+    StoreModule.forFeature('commitmentDetail', fromCommitmentDetail.reducer),
 
     EffectsModule.forRoot([RouterEffects]),
     EffectsModule.forFeature([
@@ -129,15 +129,15 @@ const COMPONENTS = [
       RefinerEffects,
       OverviewEffects,
       MapEffects,
-      CommitmentDetailEffects,
-      PlannerEffects
+      PlannerEffects,
+      CommitmentDetailEffects
     ])
   ],
   providers: [
     {
       provide: APP_INITIALIZER,
       useFactory: initApplication,
-      deps: [SettingsService],
+      deps: [Store, SettingsService],
       multi: true
     },
     appDataServiceProvider,

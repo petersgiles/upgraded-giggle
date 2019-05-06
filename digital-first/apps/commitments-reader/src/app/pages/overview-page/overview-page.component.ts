@@ -1,14 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { Observable, of } from 'rxjs'
 import { withLatestFrom, map, filter } from 'rxjs/operators'
-import {
-  CommitmentRefinerService,
-  DataTableColumn
-} from '../../services/commitment-refiner'
-import { Router } from '@angular/router';
+
+import { Router } from '@angular/router'
 import { Store, select } from '@ngrx/store'
-//import * as fromRefiner from '../../reducers/refiner'
-import * as fromRefiner from '../../reducers/refiner/refiner.reducer'
+
+import * as fromOverview from '../../reducers/overview/overview.reducer'
+import { DataTableColumn } from '../../models/data-table-column'
 
 interface CommitmentRow {
   id: number
@@ -30,38 +28,16 @@ export class OverviewPageComponent implements OnInit, OnDestroy {
   public columns$: Observable<DataTableColumn[]>
   public count: number
 
-  constructor(private dataService: CommitmentRefinerService,  private router: Router, private store: Store<any>) {
-   
-  }
+  constructor(private router: Router, private store: Store<fromOverview.State>) {}
 
   ngOnInit() {
-    this.columns$ = this.dataService.columns$
-
-    this.store.pipe(
-      select(fromRefiner.selectRefinerCommitmentItems)).subscribe(
-        ([data, cols]) => {
-          if(data && data.length){
-            this.handleCommitments(data, cols)
-          }
-        })
+    this.columns$ = this.store.pipe(
+      select(fromOverview.selectRefinedCommitmentsColumnsState)
+    )
+    this.filterCommitments$ = this.store.pipe(
+      select(fromOverview.selectRefinedCommitmentsState)
+    )
   }
-
-  handleCommitments(data, cols) {
-      this.columns$ = of(cols)
-      const rows = data.map(row => ({
-        id: row.id,
-        title: row.title,
-        politicalParty: row.politicalParty,
-        announcedBy: row.announcedBy,
-       announcementType: row.announcementType
-          ? row.announcementType.title
-          : '',
-        criticalDate: row.criticalDate ? row.criticalDate.title : '',
-        portfolio: row.portfolioLookup ? row.portfolioLookup.title : '' 
-      }))
-      this.filterCommitments$ = of(rows)
-  }
-
 
   ngOnDestroy(): void {}
 

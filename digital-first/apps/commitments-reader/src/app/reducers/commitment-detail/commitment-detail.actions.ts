@@ -1,25 +1,12 @@
-import { Action } from '@ngrx/store';
-import { RouteChange } from '../router.actions'
+import { Action } from '@ngrx/store'
 
 export enum CommitmentDetailActionTypes {
-  LoadCommitmentDetails = '[CommitmentDetail] Load CommitmentDetails',
-  LoadCommitments = '[RefinerActionTypes] LoadRefinedCommitments',
-  
+  LoadCommitmentDetails = '[CommitmentDetail] Load CommitmentDetails'
 }
 
 export class LoadCommitmentDetails implements Action {
-  readonly type = CommitmentDetailActionTypes.LoadCommitmentDetails;
-  constructor(public payload: {path: string}) { }
-  //constructor(public payload: { actions: any[] }) { }
-   //new LoadCommitmentActions({ actions: result.data.commitmentActions })),
+  readonly type = CommitmentDetailActionTypes.LoadCommitmentDetails
+  constructor(public payload: { path: string }) {}
 }
 
-export class LoadCommitments implements Action {
-  type = CommitmentDetailActionTypes.LoadCommitments
-  constructor(public payload: any) {}
-}
-
-
-export type CommitmentDetailActions = 
-LoadCommitments
-|LoadCommitmentDetails
+export type CommitmentDetailActions = LoadCommitmentDetails

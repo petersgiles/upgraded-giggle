@@ -27,10 +27,12 @@ export const buildRefiner = (...args: any): CRMenu[] => {
           expanded: false,
           selected: false,
           groupId: item.id,
+          group: item.group,
           children: args[item.id - 1].map(p => ({
             id: p.id,
             title: p.title,
             groupId: item.id,
+            group: item.group,
             expanded: false,
             selected: false
           }))

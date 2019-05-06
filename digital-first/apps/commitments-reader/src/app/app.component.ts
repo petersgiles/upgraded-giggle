@@ -18,18 +18,12 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'Commitments Reader'
   constructor(
     private router: Router,
-    private appRouter: AppRouterService,
-    private settings: SettingsService,
-    private store: Store<fromRoot.State>
+    private appRouter: AppRouterService
   ) {}
 
   ngOnDestroy(): void {}
 
   ngOnInit() {
-    this.store.dispatch(
-      new StartAppInitialiser({ environment: this.settings.environment })
-    )
-
     this.router.events.subscribe(events => {
       if (events instanceof NavigationEnd) {
         this.appRouter.segments.next(events.url)
