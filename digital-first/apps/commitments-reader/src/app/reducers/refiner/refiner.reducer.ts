@@ -1,19 +1,35 @@
 import { RefinerActions, RefinerActionTypes } from './refiner.actions'
 import { createFeatureSelector, createSelector } from '@ngrx/store'
+import { multiFilter } from '@df/utils'
 
 export interface State {
   refinerGroups: any[]
   expandedRefinerGroups: number[]
   selectedRefiners: any[]
   textRefiner: string
-
 }
 
 export const initialState: State = {
   refinerGroups: [],
   expandedRefinerGroups: [],
   selectedRefiners: [],
-  textRefiner: null,
+  textRefiner: null
+}
+
+const antiFilter = (array, filters) => {
+  const filterKeys = Object.keys(filters)
+  // filters all elements passing the criteria
+  return array.filter(item =>
+    filterKeys.every(key => {
+      if (!filters[key].length) {
+        return true
+      }
+
+            // tslint:disable-next-line: no-console
+            console.log(`🦄 filters`, key, filters[key])
+      return filters[key].filter(item[key])
+    })
+  )
 }
 
 export function reducer(state = initialState, action: RefinerActions): State {
@@ -42,7 +58,6 @@ export function reducer(state = initialState, action: RefinerActions): State {
       }
     }
 
-
     case RefinerActionTypes.ChangeTextRefiner: {
       const retVal = {
         ...state,
@@ -51,18 +66,21 @@ export function reducer(state = initialState, action: RefinerActions): State {
 
       return retVal
     }
+
     case RefinerActionTypes.SelectRefiner: {
       const selected = action.payload
       let selectedRefiners: any[] = [...state.selectedRefiners]
 
-      const isSelected = selectedRefiners.findIndex(s => s.id === selected.id && s.groupId === selected.groupId) > -1
+      const filter = {
+        id: [selected.id],
+        groupId: [selected.groupId]
+      }
+
+      const isSelected = multiFilter(selectedRefiners, filter).length > 0
 
       if (isSelected) {
-        selectedRefiners = [...state.selectedRefiners].filter(
-          p => p.groupId !== selected.groupId && p.id !== selected.id
-        )
+        selectedRefiners = selectedRefiners.filter(item => !(item.groupId === selected.groupId && item.id === selected.id))
       } else {
-        selectedRefiners = [...state.selectedRefiners]
         selectedRefiners.push(action.payload)
       }
 
@@ -108,12 +126,12 @@ export const selectRefinerGroups = createSelector(
       ...g,
       expanded: (expanded || []).includes(g.groupId),
       children: (g.children || []).map(r => ({
-          ...r,
-          selected:
-            (selected || []).findIndex(
-              s => s.id === r.id && s.groupId === r.groupId
-            ) > -1
-        }))
+        ...r,
+        selected:
+          (selected || []).findIndex(
+            s => s.id === r.id && s.groupId === r.groupId
+          ) > -1
+      }))
     }))
 
     return rgs

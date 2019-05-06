@@ -48,7 +48,7 @@ export const selectRefinedCommitmentsColumnsState = createSelector(
 export const selectFilteredCommitmentsState = createSelector(
   selectRefinedCommitmentsState,
   commitments =>
-    (commitments || []).map(row => ({
+    (commitments || []).map(row =>  ({
       id: row.id,
       title: row.title,
       politicalParty: row.politicalParty,
