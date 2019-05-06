@@ -1,14 +1,22 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core'
 
 import { AppRouterService } from '../../services/app-router.service'
-import { CommitmentRefinerService } from '../../services/commitment-refiner/commitment-refiner.service'
 import { RefinerGroup } from '@digital-first/df-refiner'
-import { Observable } from 'rxjs'
+import { Observable, Subscription } from 'rxjs'
 import { tap } from 'rxjs/operators'
-import { ConsoleService } from '@ng-select/ng-select/ng-select/console.service'
+
 import * as fromRefiner from '../../reducers/refiner/refiner.reducer'
+import * as fromRoot from '../../reducers'
+
 import { Store, select } from '@ngrx/store'
-import { SelectRefinerGroup, SelectRefiner, ChangeTextRefiner, GetRefinerGroups, GetRefinedCommitments } from '../../reducers/refiner/refiner.actions';
+import {
+  SelectRefinerGroup,
+  SelectRefiner,
+  ChangeTextRefiner,
+  GetRefinerGroups
+} from '../../reducers/refiner/refiner.actions'
+import { GetRefinedCommitments } from '../../reducers/overview/overview.actions';
+
 @Component({
   selector: 'digital-first-commitment-overview-layout',
   templateUrl: './commitment-overview-layout.component.html',
@@ -39,11 +47,12 @@ export class CommitmentOverviewLayoutComponent
   ]
   urlSubscription: any
   selectId$: any
-  refinerGroups$: Observable<RefinerGroup[]>
+  refinerGroupsSubscription$: Subscription
+  refinerGroups: RefinerGroup[]
 
   constructor(
     private appRouter: AppRouterService,
-    private store: Store<fromRefiner.State>
+    private store: Store<fromRoot.State>
   ) {}
 
   handleRefinerGroupSelected($event) {
@@ -53,25 +62,31 @@ export class CommitmentOverviewLayoutComponent
   handleRefinerSelected($event) {
     this.store.dispatch(new SelectRefiner($event))
   }
+
   handleTextRefinerChanged($event) {
     this.store.dispatch(new ChangeTextRefiner($event))
   }
-  ngAfterViewInit(): void {
-  }
-  ngOnDestroy(): void {}
+
+  ngAfterViewInit(): void {}
 
   ngOnInit() {
-    this.refinerGroups$ = this.store.pipe(
+    this.refinerGroupsSubscription$ = this.store.pipe(
       select(fromRefiner.selectRefinerGroups),
       // tslint:disable-next-line: no-console
       tap(result => console.log(`👹 `, result))
-    )
+    ).subscribe(next => {
+      this.refinerGroups = next
+      this.store.dispatch(new GetRefinedCommitments(null))
+    })
 
     this.appRouter.segments.subscribe(url => {
       const x = this.tabs.findIndex(p => p.id === url)
       this.activeTab = x
       this.store.dispatch(new GetRefinerGroups(null))
-      this.store.dispatch(new GetRefinedCommitments(null))
     })
+  }
+
+  ngOnDestroy(): void {
+    this.refinerGroupsSubscription$.unsubscribe()
   }
 }

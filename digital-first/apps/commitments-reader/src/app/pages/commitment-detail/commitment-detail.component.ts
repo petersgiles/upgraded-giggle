@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core'
 import { Store, select } from '@ngrx/store'
 import { Subscription, Subject } from 'rxjs'
 import { takeUntil, filter, withLatestFrom } from 'rxjs/operators'
+=======
+import { Component, OnInit, OnDestroy } from '@angular/core'
+import { Store } from '@ngrx/store'
+import { Subscription } from 'rxjs'
+import { map, takeUntil, filter, withLatestFrom, first } from 'rxjs/operators'
+>>>>>>> 9c4a9565d64fef95825577ce89ae8b9f0b5c95d7
 import { ActivatedRoute } from '@angular/router'
 import { CommitmentDetailService } from '../../reducers/commitment-detail/commitment-detail.service'
 import * as indef from 'indefinite'
@@ -21,11 +28,10 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy/*, AfterView
   public commitment: Commitment
   constructor(
     private activatedRoute: ActivatedRoute,
-    //private appConfigService: AppConfigService,
     private commitmentDetailService: CommitmentDetailService,
     private store: Store<CommitmentDetailsState>
   ) { }
-  //  .flatMap(state => state.commitments)
+
   ngOnInit() {
     this.activatedRoute.params
       .pipe(

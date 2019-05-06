@@ -36,7 +36,6 @@ export class CommitmentDetailEffects {
     //new LoadCommitmentActions({ actions: result.data.commitmentActions })),
   )
 
-  
   @Effect() commitmentRouted = this.actions$.pipe(ofRoute('commitmentDetail/:id'))
 
   constructor(private actions$: Actions<CommitmentDetailActions>, private commitmentDetailService: CommitmentDetailService) {}

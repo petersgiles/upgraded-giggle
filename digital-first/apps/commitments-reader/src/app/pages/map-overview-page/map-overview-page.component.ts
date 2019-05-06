@@ -13,10 +13,10 @@ import {
   ComparisonGraph
 } from '../../generated/graphql'
 import { SettingsService } from '../../services/settings.service'
-import {
-  CommitmentRefinerService,
-  DataTableColumn
-} from '../../services/commitment-refiner'
+// import {
+//   CommitmentRefinerService
+// } from '../../services/commitment-refiner'
+import { DataTableColumn } from '../../models/data-table-column';
 interface CommitmentRow {
   id: number
   title: string
@@ -47,7 +47,7 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private settings: SettingsService,
-    private dataService: CommitmentRefinerService,
+    // private dataService: CommitmentRefinerService,
     private commitmentsMapPointSearchGQL: CommitmentsMapPointSearchGQL,
     private changeDetector: ChangeDetectorRef
   ) {}
@@ -56,17 +56,17 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
     this.latitude = -27.698
     this.longitude = 133.8807
     this.zoom = 5
-    this.columns$ = this.dataService.columns$
+    // this.columns$ = this.dataService.columns$
 
     this.getMapPointsOfCommitments()
-    this.dataService.getRefinedCommitments()
-    this.dataService.getMapPoints()
+    // this.dataService.getRefinedCommitments()
+    // this.dataService.getMapPoints()
   }
 
   getMapPointsOfCommitments() {
-    this.dataService.mapPoints$.subscribe(value => {
-      this.mapPoints = value.map(mp => mp[0])
-    })
+    // this.dataService.mapPoints$.subscribe(value => {
+    //   this.mapPoints = value.map(mp => mp[0])
+    // })
   }
 
   handleMapPointSelected(mapPoint) {

@@ -22,12 +22,11 @@ export class LoadDetailedCommitment implements Action {
 }
 
 export class LoadCommitmentDetails implements Action {
-  readonly type = CommitmentDetailActionTypes.LoadCommitmentDetails;
-  constructor(public payload: {path: string}) { }
-  //constructor(public payload: { actions: any[] }) { }
-   //new LoadCommitmentActions({ actions: result.data.commitmentActions })),
+  readonly type = CommitmentDetailActionTypes.LoadCommitmentDetails
+  constructor(public payload: { path: string }) {}
 }
 
+<<<<<<< HEAD
 export class GetDetailedCommitment implements Action {
   type = CommitmentDetailActionTypes.GetDetailedCommitment
   constructor(public payload: {commitment: Commitment}) {}
@@ -39,3 +38,6 @@ GetDetailedCommitment
 |LoadCommitmentDetails
 |LoadDetailedCommitment
 |LoadCommitments
+=======
+export type CommitmentDetailActions = LoadCommitmentDetails
+>>>>>>> 9c4a9565d64fef95825577ce89ae8b9f0b5c95d7
