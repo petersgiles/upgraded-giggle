@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
-import { Store } from '@ngrx/store'
-import { Subscription } from 'rxjs'
-import { map, takeUntil, filter, withLatestFrom, first } from 'rxjs/operators'
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core'
+import { Store, select } from '@ngrx/store'
+import { Subscription, Subject } from 'rxjs'
+import { takeUntil, filter, withLatestFrom, first } from 'rxjs/operators'
 import { ActivatedRoute } from '@angular/router'
 //import { AppConfigService } from '../../services/app-config.service'
 import { CommitmentDetailService } from '../../reducers/commitment-detail/commitment-detail.service'
@@ -9,6 +9,7 @@ import * as indef from 'indefinite'
 import { Commitment } from '../../models/commitment.model'
 import { CommitmentDetailsState } from '../../reducers/commitment-detail/commitment-detail.reducer'
 import { getCommitment } from '../../reducers/commitment-detail'
+import { selectFilteredCommitmentsState } from '../../reducers/overview/overview.reducer'
 
 @Component({
   selector: 'digital-first-commitment-detail',
@@ -30,13 +31,17 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
       .pipe(
         first(),
         filter(params => !!params.id),
-        withLatestFrom(this.store.select(getCommitment))
+        withLatestFrom(this.store.select(selectFilteredCommitmentsState))
       )
-      .subscribe(([params, commitments]) => 
-        {
-          this.loadCommitment(params.id)
-          
-        })
+      .subscribe(([params, commitments]) => {
+       // let commitment = commitments.find(commitment => commitment.id === params.id)
+        this.commitmentDetailService.LoadCommitment(params.id)
+      })
+
+      this.commitmentSubscription$ = this.store.pipe(select(getCommitment))
+      .subscribe((commitment) => {
+        //this.commitment = commitment
+      })
   }
 
   loadCommitment(id: string) {

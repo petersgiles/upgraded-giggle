@@ -1,7 +1,9 @@
 import { Action } from '@ngrx/store'
+import { Commitment } from '../../models'
 
 export enum CommitmentDetailActionTypes {
-  LoadCommitmentDetails = '[CommitmentDetail] Load CommitmentDetails'
+  LoadCommitmentDetails = '[CommitmentDetail] Load CommitmentDetails',
+  GetDetailedCommitment = "GetDetailedCommitment"
 }
 
 export class LoadCommitmentDetails implements Action {
@@ -9,4 +11,14 @@ export class LoadCommitmentDetails implements Action {
   constructor(public payload: { path: string }) {}
 }
 
-export type CommitmentDetailActions = LoadCommitmentDetails
+export class GetDetailedCommitment implements Action {
+  type = CommitmentDetailActionTypes.GetDetailedCommitment
+  constructor(public payload: {commitment: Commitment}) {}
+}
+
+
+export type CommitmentDetailActions = 
+GetDetailedCommitment
+|LoadCommitmentDetails
+//|LoadDetailedCommitment
+//|LoadCommitments
