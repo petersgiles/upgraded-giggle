@@ -19,8 +19,6 @@ export function initApplication(
       store
         .select((state: any) => state.app.config)
         .pipe(
-           // tslint:disable-next-line: no-console
-          tap(config =>  console.log(`🦄 Filter`, config)),
           filter(config => config !== null),
           first()
         )

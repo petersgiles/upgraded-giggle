@@ -19,8 +19,7 @@ export const initialState: State = {
 }
 
 export function reducer(state = initialState, action: OverviewActions): State {
-  // tslint:disable-next-line: no-console
-  console.log(`🐨 `, action)
+
   switch (action.type) {
     case OverviewActionTypes.LoadRefinedCommitments: {
       return {
@@ -48,7 +47,7 @@ export const selectRefinedCommitmentsColumnsState = createSelector(
 export const selectFilteredCommitmentsState = createSelector(
   selectRefinedCommitmentsState,
   commitments =>
-    (commitments || []).map(row => ({
+    (commitments || []).map(row =>  ({
       id: row.id,
       title: row.title,
       politicalParty: row.politicalParty,

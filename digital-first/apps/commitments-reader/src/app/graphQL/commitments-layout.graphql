@@ -1,17 +1,14 @@
 query GetRefinerTags {
-
   commitmentTypes {
-      id
-      title
+    id
+    title
   }
-    criticalDates {
-      id
-      title
-    }
-  portfolioLookups
-    {
-      id
-      title
-    }
-
+  criticalDates {
+    id
+    title
+  }
+  portfolioLookups {
+    id
+    title
+  }
 }

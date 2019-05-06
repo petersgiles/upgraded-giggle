@@ -1,4 +1,4 @@
-query CommitmentMapPoint(
+query MapPointSearch(
   $refiner: CommitmentRefinerGraph!
   $bookType: String!
 ) {

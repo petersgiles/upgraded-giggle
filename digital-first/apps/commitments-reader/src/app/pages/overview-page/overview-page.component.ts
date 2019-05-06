@@ -35,7 +35,7 @@ export class OverviewPageComponent implements OnInit, OnDestroy {
       select(fromOverview.selectRefinedCommitmentsColumnsState)
     )
     this.filterCommitments$ = this.store.pipe(
-      select(fromOverview.selectRefinedCommitmentsState)
+      select(fromOverview.selectFilteredCommitmentsState)
     )
   }
 
