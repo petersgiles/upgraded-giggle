@@ -35,7 +35,7 @@ export class OverviewEffects {
       const bookType = config.header.bookType
       const selectedRefiners: any = store.refiner.selectedRefiners
 
-      const selectedRefinerGroup = selectedRefiners.reduce(
+     /*  const selectedRefinerGroup = selectedRefiners.reduce(
         (acc, item) => {
           acc[item.group].push(item.id)
           return acc
@@ -46,12 +46,16 @@ export class OverviewEffects {
           portfolioLookups: []
         }
       )
-
+ */
       // tslint:disable-next-line: no-console
-      console.log(`🐲 `, store, selectedRefiners, selectedRefinerGroup, config, bookType)
+      //console.log(`🐲 `, store, selectedRefiners, selectedRefinerGroup, config, bookType)
 
       return {
-        refiner: selectedRefinerGroup,
+        refiner: {
+          commitmentTypes: [],
+          criticalDates: [],
+          portfolioLookups: []
+        },
         bookType: bookType
       }
     }),
