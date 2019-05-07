@@ -20,7 +20,7 @@
     "testwatch:programs-admin": "ng test programs-admin --watch",
     "build": "ng build",
     "build:all": "run-p build:programs-admin sharepoint:build:commitments sharepoint:build:commitments-reader",
-    "build:programs-admin": "ng build programs-admin --c9onfiguration=production",
+    "build:programs-admin": "ng build programs-admin --configuration=production",
     "build:commitments-reader": "ng build commitments-reader --configuration=production",
     "build:policy-briefs": "ng build policy-briefs --configuration=production",
     "build:deck": "ng build deck --configuration=production",
