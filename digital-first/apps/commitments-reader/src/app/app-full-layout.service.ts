@@ -31,8 +31,23 @@ export class AppFullLayoutService {
     return of([
       {
         caption: 'Home',
-        icon: 'format_bold',
+        icon: 'home',
         routerLink: ['/']
+      },
+      {
+        caption: 'Map',
+        icon: 'map',
+        routerLink: ['/map']
+      },
+      {
+        caption: 'Overview',
+        icon: 'home',
+        routerLink: ['/overview']
+      },
+      {
+        caption: 'Planner',
+        icon: 'home',
+        routerLink: ['/planner']
       }
     ])
   }

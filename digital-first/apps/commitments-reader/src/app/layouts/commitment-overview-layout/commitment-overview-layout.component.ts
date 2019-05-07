@@ -16,6 +16,7 @@ import {
   GetRefinerGroups
 } from '../../reducers/refiner/refiner.actions'
 import { GetRefinedCommitments } from '../../reducers/overview/overview.actions';
+import { GetRefinedMapPoints } from '../../reducers/map/map.actions';
 
 @Component({
   selector: 'digital-first-commitment-overview-layout',
@@ -77,11 +78,12 @@ export class CommitmentOverviewLayoutComponent
     ).subscribe(next => {
       this.refinerGroups = next
       this.store.dispatch(new GetRefinedCommitments(null))
+      this.store.dispatch(new GetRefinedMapPoints(null))
     })
 
     this.appRouter.segments.subscribe(url => {
-      const x = this.tabs.findIndex(p => p.id === url)
-      this.activeTab = x
+      const tab = this.tabs.findIndex(p => p.id === url)
+      this.activeTab = tab
       this.store.dispatch(new GetRefinerGroups(null))
     })
   }

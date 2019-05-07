@@ -13,7 +13,7 @@ export const initialState: State = {
     { prop: 'id', name: 'Id' },
     { prop: 'title', name: 'Title' },
     { prop: 'portfolio', name: 'Responsible Portfolio' },
-    { prop: 'announcementType', name: 'Type of Commitment' },
+    { prop: 'commitmentType', name: 'Type of Commitment' },
     { prop: 'criticalDate', name: 'Critical Date' }
   ]
 }
@@ -50,9 +50,7 @@ export const selectFilteredCommitmentsState = createSelector(
     (commitments || []).map(row =>  ({
       id: row.id,
       title: row.title,
-      politicalParty: row.politicalParty,
-      announcedBy: row.announcedBy,
-      announcementType: row.announcementType ? row.announcementType.title : '',
+      commitmentType: row.commitmentType ? row.commitmentType.title : '',
       criticalDate: row.criticalDate ? row.criticalDate.title : '',
       portfolio: row.portfolioLookup ? row.portfolioLookup.title : ''
     }))

@@ -1620,11 +1620,15 @@ export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
       Maybe<
         { __typename?: 'CommitmentGraph' } & Pick<
           CommitmentGraph,
+<<<<<<< HEAD
           'id' | 'title' | 'bookType' | 'politicalParty' | 'announcedBy'
+=======
+          'id' | 'title'
+>>>>>>> 242b35e2fce58ded20891e8ca8723f8594a7b884
         > & {
-            announcementType: Maybe<
-              { __typename?: 'AnnouncementTypeGraph' } & Pick<
-                AnnouncementTypeGraph,
+            commitmentType: Maybe<
+              { __typename?: 'CommitmentTypeGraph' } & Pick<
+                CommitmentTypeGraph,
                 'id' | 'title'
               >
             >
@@ -1640,53 +1644,55 @@ export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
                 'id' | 'title'
               >
             >
-            commitmentMapPoints: Maybe<
-              Array<
-                Maybe<
-                  { __typename?: 'CommitmentMapPointGraph' } & Pick<
-                    CommitmentMapPointGraph,
-                    'id'
-                  > & {
-                      mapPoint: Maybe<
-                        { __typename?: 'MapPointGraph' } & Pick<
-                          MapPointGraph,
-                          'id' | 'placeId' | 'title' | 'latitude' | 'longitude'
-                        >
-                      >
-                    }
-                >
-              >
-            >
           }
       >
     >
   >
 }
 
-export type MapPointSearchQueryVariables = {
+export type MapPointsSearchQueryVariables = {
   refiner: CommitmentRefinerGraph
   bookType: Scalars['String']
 }
 
-export type MapPointSearchQuery = { __typename?: 'Query' } & {
-  commitments: Maybe<
+export type MapPointsSearchQuery = { __typename?: 'Query' } & {
+  mapPoints: Maybe<
     Array<
       Maybe<
-        { __typename?: 'CommitmentGraph' } & Pick<CommitmentGraph, 'id'> & {
+        { __typename?: 'MapPointGraph' } & Pick<
+          MapPointGraph,
+          'id' | 'title' | 'placeId' | 'latitude' | 'longitude'
+        > & {
             commitmentMapPoints: Maybe<
               Array<
                 Maybe<
-                  { __typename?: 'CommitmentMapPointGraph' } & Pick<
-                    CommitmentMapPointGraph,
-                    'id'
-                  > & {
-                      mapPoint: Maybe<
-                        { __typename?: 'MapPointGraph' } & Pick<
-                          MapPointGraph,
-                          'id' | 'placeId' | 'title' | 'latitude' | 'longitude'
-                        >
-                      >
-                    }
+                  { __typename?: 'CommitmentMapPointGraph' } & {
+                    commitment: Maybe<
+                      { __typename?: 'CommitmentGraph' } & Pick<
+                        CommitmentGraph,
+                        'id' | 'title' | 'portfolioLookupId'
+                      > & {
+                          commitmentType: Maybe<
+                            { __typename?: 'CommitmentTypeGraph' } & Pick<
+                              CommitmentTypeGraph,
+                              'id' | 'title'
+                            >
+                          >
+                          criticalDate: Maybe<
+                            { __typename?: 'CriticalDateGraph' } & Pick<
+                              CriticalDateGraph,
+                              'id' | 'title'
+                            >
+                          >
+                          portfolioLookup: Maybe<
+                            { __typename?: 'PortfolioLookupGraph' } & Pick<
+                              PortfolioLookupGraph,
+                              'id' | 'title'
+                            >
+                          >
+                        }
+                    >
+                  }
                 >
               >
             >
@@ -1834,10 +1840,14 @@ export const CommitmentsSearchDocument = gql`
     commitments(refiner: $refiner, bookType: $bookType) {
       id
       title
+<<<<<<< HEAD
       bookType
       politicalParty
       announcedBy
       announcementType {
+=======
+      commitmentType {
+>>>>>>> 242b35e2fce58ded20891e8ca8723f8594a7b884
         id
         title
       }
@@ -1848,16 +1858,6 @@ export const CommitmentsSearchDocument = gql`
       portfolioLookup {
         id
         title
-      }
-      commitmentMapPoints {
-        id
-        mapPoint {
-          id
-          placeId
-          title
-          latitude
-          longitude
-        }
       }
     }
   }
@@ -1872,18 +1872,31 @@ export class CommitmentsSearchGQL extends Apollo.Query<
 > {
   document = CommitmentsSearchDocument
 }
-export const MapPointSearchDocument = gql`
-  query MapPointSearch($refiner: CommitmentRefinerGraph!, $bookType: String!) {
-    commitments(refiner: $refiner, bookType: $bookType) {
+export const MapPointsSearchDocument = gql`
+  query MapPointsSearch($refiner: CommitmentRefinerGraph!, $bookType: String!) {
+    mapPoints(refiner: $refiner, bookType: $bookType) {
       id
+      title
+      placeId
+      latitude
+      longitude
       commitmentMapPoints {
-        id
-        mapPoint {
+        commitment {
           id
-          placeId
           title
-          latitude
-          longitude
+          commitmentType {
+            id
+            title
+          }
+          criticalDate {
+            id
+            title
+          }
+          portfolioLookup {
+            id
+            title
+          }
+          portfolioLookupId
         }
       }
     }
@@ -1893,9 +1906,9 @@ export const MapPointSearchDocument = gql`
 @Injectable({
   providedIn: 'root'
 })
-export class MapPointSearchGQL extends Apollo.Query<
-  MapPointSearchQuery,
-  MapPointSearchQueryVariables
+export class MapPointsSearchGQL extends Apollo.Query<
+  MapPointsSearchQuery,
+  MapPointsSearchQueryVariables
 > {
-  document = MapPointSearchDocument
+  document = MapPointsSearchDocument
 }

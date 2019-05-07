@@ -17,15 +17,5 @@ query CommitmentsSearch($refiner: CommitmentRefinerGraph!, $bookType: String!) {
       id
       title
     }
-    commitmentMapPoints {
-      id
-      mapPoint {
-        id
-        placeId
-        title
-        latitude
-        longitude
-      }
-    }
   }
 }
