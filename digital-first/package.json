@@ -95,8 +95,8 @@
     "@angular/platform-browser-dynamic": "^7.2.13",
     "@angular/router": "^7.2.13",
     "@auth0/angular-jwt": "^2.1.0",
-    "@df/components": "^0.2.32014",
-    "@df/graphql-programs": "^1.0.32639",
+    "@df/components": "^0.2.32781",
+    "@df/graphql-programs": "^1.0.32696",
     "@df/sharepoint": "0.0.29205",
     "@df/utils": "0.0.29505",
     "@dsuite/programs-manager-messages": "^1.0.31053",
@@ -179,7 +179,9 @@
     "web-animations-js": "^2.3.1",
     "x2js": "^3.2.6",
     "xlsx": "^0.14.1",
-    "zone.js": "^0.8.29"
+    "zone.js": "^0.8.29",
+    "ang-jsoneditor": "^1.7.4",
+    "jsoneditor": "^5.32.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.13.5",
