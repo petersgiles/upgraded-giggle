@@ -1141,6 +1141,8 @@ export type QueryMapPointsArgs = {
   where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
   skip?: Maybe<Scalars['Int']>
   take?: Maybe<Scalars['Int']>
+  refiner?: Maybe<CommitmentRefinerGraph>
+  bookType?: Maybe<Scalars['String']>
 }
 
 export type QueryPackageTypesArgs = {
@@ -1451,7 +1453,79 @@ export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
           | 'politicalParty'
           | 'statusId'
           | 'announcedBy'
-        >
+        > & {
+            commitmentType: Maybe<
+              { __typename?: 'CommitmentTypeGraph' } & Pick<
+                CommitmentTypeGraph,
+                'id' | 'title'
+              >
+            >
+            announcementType: Maybe<
+              { __typename?: 'AnnouncementTypeGraph' } & Pick<
+                AnnouncementTypeGraph,
+                'id' | 'title'
+              >
+            >
+            portfolioLookup: Maybe<
+              { __typename?: 'PortfolioLookupGraph' } & Pick<
+                PortfolioLookupGraph,
+                'id' | 'title'
+              >
+            >
+            status: Maybe<
+              { __typename?: 'StatusGraph' } & Pick<StatusGraph, 'id' | 'title'>
+            >
+            criticalDate: Maybe<
+              { __typename?: 'CriticalDateGraph' } & Pick<
+                CriticalDateGraph,
+                'id' | 'title'
+              >
+            >
+            commitmentLocations: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'CommitmentLocationGraph' } & Pick<
+                    CommitmentLocationGraph,
+                    'commitmentId'
+                  > & {
+                      location: Maybe<
+                        { __typename?: 'LocationGraph' } & Pick<
+                          LocationGraph,
+                          'id' | 'state' | 'title'
+                        >
+                      >
+                    }
+                >
+              >
+            >
+            commitmentPackageTypes: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'CommitmentPackageTypeGraph' } & Pick<
+                    CommitmentPackageTypeGraph,
+                    'id'
+                  >
+                >
+              >
+            >
+            commitmentPortfolioLookups: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'CommitmentPortfolioLookupGraph' } & Pick<
+                    CommitmentPortfolioLookupGraph,
+                    'commitmentId'
+                  > & {
+                      portfolioLookup: Maybe<
+                        { __typename?: 'PortfolioLookupGraph' } & Pick<
+                          PortfolioLookupGraph,
+                          'id' | 'title'
+                        >
+                      >
+                    }
+                >
+              >
+            >
+          }
       >
     >
   >
@@ -1546,7 +1620,7 @@ export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
       Maybe<
         { __typename?: 'CommitmentGraph' } & Pick<
           CommitmentGraph,
-          'id' | 'title' | 'politicalParty' | 'announcedBy'
+          'id' | 'title' | 'bookType' | 'politicalParty' | 'announcedBy'
         > & {
             announcementType: Maybe<
               { __typename?: 'AnnouncementTypeGraph' } & Pick<
@@ -1638,6 +1712,44 @@ export const GetCommitmentDetailDocument = gql`
       politicalParty
       statusId
       announcedBy
+      commitmentType {
+        id
+        title
+      }
+      announcementType {
+        id
+        title
+      }
+      portfolioLookup {
+        id
+        title
+      }
+      status {
+        id
+        title
+      }
+      criticalDate {
+        id
+        title
+      }
+      commitmentLocations {
+        commitmentId
+        location {
+          id
+          state
+          title
+        }
+      }
+      commitmentPackageTypes {
+        id
+      }
+      commitmentPortfolioLookups {
+        commitmentId
+        portfolioLookup {
+          id
+          title
+        }
+      }
     }
   }
 `
@@ -1722,6 +1834,7 @@ export const CommitmentsSearchDocument = gql`
     commitments(refiner: $refiner, bookType: $bookType) {
       id
       title
+      bookType
       politicalParty
       announcedBy
       announcementType {

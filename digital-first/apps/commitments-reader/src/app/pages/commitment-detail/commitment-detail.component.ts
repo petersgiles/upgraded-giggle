@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core'
 import { Store, select } from '@ngrx/store'
-import { Subscription, Subject } from 'rxjs'
+import { Subscription, Subject, Observable, of } from 'rxjs'
 import { takeUntil, filter, withLatestFrom } from 'rxjs/operators'
 import { ActivatedRoute } from '@angular/router'
 import { CommitmentDetailService } from '../../reducers/commitment-detail/commitment-detail.service'
@@ -9,14 +9,18 @@ import { Commitment } from '../../models/commitment.model'
 import { CommitmentDetailsState } from '../../reducers/commitment-detail/commitment-detail.reducer'
 import { getCommitment } from '../../reducers/commitment-detail'
 import { selectFilteredCommitmentsState } from '../../reducers/overview/overview.reducer'
+import { CommitmentLocation } from '../../models/commitment.model'
+import { Config } from '../../services/config.service'
 
 @Component({
   selector: 'digital-first-commitment-detail',
   templateUrl: './commitment-detail.component.html',
   styleUrls: ['./commitment-detail.component.scss']
 })
-export class CommitmentDetailComponent implements OnInit, OnDestroy/*, AfterViewInit*/ {
+export class CommitmentDetailComponent implements OnInit, OnDestroy {
   commitmentSubscription$: Subscription
+  electorate$: Observable<CommitmentLocation[]>
+  
   private readonly destroyed = new Subject<void>();
   public commitment: Commitment
   constructor(
@@ -26,6 +30,7 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy/*, AfterView
   ) { }
 
   ngOnInit() {
+  
     this.activatedRoute.params
       .pipe(
         takeUntil(this.destroyed),
@@ -33,28 +38,18 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy/*, AfterView
         withLatestFrom(this.store.select(selectFilteredCommitmentsState))
       )
       .subscribe(([params, commitments]) => {
-       // let commitment = commitments.find(commitment => commitment.id === params.id)
+        let commitment = commitments.find(commitment => commitment.id.toString() === params.id)
         this.commitmentDetailService.LoadCommitment(params.id)
       })
 
-      this.commitmentSubscription$ = this.store.pipe(select(getCommitment))
-      .subscribe((commitment) => {
-        //this.commitment = commitment
-      })
-  
-
-      this.commitmentSubscription$ = this.store.pipe(select(getCommitment))
+      this.commitmentSubscription$ = this.store.pipe(select(getCommitment),
+      filter(res => !!res)
+      )
       .subscribe((commitment) => {
         this.commitment = commitment
+        this.electorate$ = of(this.commitment.electorates)
       })
     }
-
- /*  ngAfterViewInit(){
-    this.commitmentSubscription$ = this.store.pipe(select(getCommitment))
-    .subscribe((commitment) => {
-      this.commitment = commitment
-    })
-  } */
 
   ngOnDestroy(): void {
     this.commitmentSubscription$.unsubscribe()

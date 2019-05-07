@@ -2,6 +2,7 @@ query CommitmentsSearch($refiner: CommitmentRefinerGraph!, $bookType: String!) {
   commitments(refiner: $refiner, bookType: $bookType) {
     id
     title
+    bookType
     politicalParty
     announcedBy
     announcementType {

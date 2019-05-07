@@ -1,11 +1,6 @@
 
 import { CommitmentDetailActions, CommitmentDetailActionTypes } from './commitment-detail.actions'
 import { Commitment } from '../../models/commitment.model'
-import {
-  createSelector,
-  createFeatureSelector,
-  ActionReducerMap,
-} from '@ngrx/store';
 
 export interface CommitmentDetailsState {
  commitment: Commitment

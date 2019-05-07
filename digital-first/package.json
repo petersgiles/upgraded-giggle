@@ -96,7 +96,7 @@
     "@angular/router": "^7.2.13",
     "@auth0/angular-jwt": "^2.1.0",
     "@df/components": "^0.2.32014",
-    "@df/graphql-programs": "^1.0.32310",
+    "@df/graphql-programs": "^1.0.32639",
     "@df/sharepoint": "0.0.29205",
     "@df/utils": "0.0.29505",
     "@dsuite/programs-manager-messages": "^1.0.31053",
