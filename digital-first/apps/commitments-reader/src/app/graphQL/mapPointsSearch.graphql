@@ -1,17 +1,14 @@
-query MapPointSearch(
-  $refiner: CommitmentRefinerGraph!
-  $bookType: String!
-) {
-  commitments(refiner: $refiner, bookType: $bookType) {
+query MapPointsSearch($refiner: CommitmentRefinerGraph!, $bookType: String!) {
+  mapPoints(refiner: $refiner, bookType: $bookType) {
     id
+    title
+    placeId
+    latitude
+    longitude
     commitmentMapPoints {
       id
-      mapPoint {
-        id
-        placeId
-        title
-        latitude
-        longitude
+      commitment {
+        portfolioLookupId
       }
     }
   }

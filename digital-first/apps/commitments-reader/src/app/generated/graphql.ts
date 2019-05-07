@@ -1141,6 +1141,8 @@ export type QueryMapPointsArgs = {
   where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
   skip?: Maybe<Scalars['Int']>
   take?: Maybe<Scalars['Int']>
+  refiner?: Maybe<CommitmentRefinerGraph>
+  bookType?: Maybe<Scalars['String']>
 }
 
 export type QueryPackageTypesArgs = {
@@ -1589,16 +1591,19 @@ export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
   >
 }
 
-export type MapPointSearchQueryVariables = {
+export type MapPointsSearchQueryVariables = {
   refiner: CommitmentRefinerGraph
   bookType: Scalars['String']
 }
 
-export type MapPointSearchQuery = { __typename?: 'Query' } & {
-  commitments: Maybe<
+export type MapPointsSearchQuery = { __typename?: 'Query' } & {
+  mapPoints: Maybe<
     Array<
       Maybe<
-        { __typename?: 'CommitmentGraph' } & Pick<CommitmentGraph, 'id'> & {
+        { __typename?: 'MapPointGraph' } & Pick<
+          MapPointGraph,
+          'id' | 'title' | 'placeId' | 'latitude' | 'longitude'
+        > & {
             commitmentMapPoints: Maybe<
               Array<
                 Maybe<
@@ -1606,10 +1611,10 @@ export type MapPointSearchQuery = { __typename?: 'Query' } & {
                     CommitmentMapPointGraph,
                     'id'
                   > & {
-                      mapPoint: Maybe<
-                        { __typename?: 'MapPointGraph' } & Pick<
-                          MapPointGraph,
-                          'id' | 'placeId' | 'title' | 'latitude' | 'longitude'
+                      commitment: Maybe<
+                        { __typename?: 'CommitmentGraph' } & Pick<
+                          CommitmentGraph,
+                          'portfolioLookupId'
                         >
                       >
                     }
@@ -1759,18 +1764,18 @@ export class CommitmentsSearchGQL extends Apollo.Query<
 > {
   document = CommitmentsSearchDocument
 }
-export const MapPointSearchDocument = gql`
-  query MapPointSearch($refiner: CommitmentRefinerGraph!, $bookType: String!) {
-    commitments(refiner: $refiner, bookType: $bookType) {
+export const MapPointsSearchDocument = gql`
+  query MapPointsSearch($refiner: CommitmentRefinerGraph!, $bookType: String!) {
+    mapPoints(refiner: $refiner, bookType: $bookType) {
       id
+      title
+      placeId
+      latitude
+      longitude
       commitmentMapPoints {
         id
-        mapPoint {
-          id
-          placeId
-          title
-          latitude
-          longitude
+        commitment {
+          portfolioLookupId
         }
       }
     }
@@ -1780,9 +1785,9 @@ export const MapPointSearchDocument = gql`
 @Injectable({
   providedIn: 'root'
 })
-export class MapPointSearchGQL extends Apollo.Query<
-  MapPointSearchQuery,
-  MapPointSearchQueryVariables
+export class MapPointsSearchGQL extends Apollo.Query<
+  MapPointsSearchQuery,
+  MapPointsSearchQueryVariables
 > {
-  document = MapPointSearchDocument
+  document = MapPointsSearchDocument
 }

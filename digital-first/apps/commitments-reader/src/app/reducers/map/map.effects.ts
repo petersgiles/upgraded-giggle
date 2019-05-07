@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Injectable } from '@angular/core'
+import { Actions, Effect, ofType } from '@ngrx/effects'
 
 import {
   concatMap,
@@ -10,18 +10,20 @@ import {
   withLatestFrom,
   tap
 } from 'rxjs/operators'
-import { of } from 'rxjs'
-import { EMPTY } from 'rxjs';
-import { MapActionTypes, MapActions, LoadMapPoints, GetMapPointsFailure } from './map.actions';
+import { of, EMPTY } from 'rxjs'
+import {
+  MapActionTypes,
+  MapActions,
+  LoadMapPoints,
+  GetMapPointsFailure
+} from './map.actions'
 import * as fromRoot from '../../reducers'
 import { Config } from '../../services/config.service'
 import { Store } from '@ngrx/store'
-import { MapPointSearchGQL } from '../../generated/graphql';
+import { MapPointsSearchGQL } from '../../generated/graphql'
 
 @Injectable()
 export class MapEffects {
-
-
   @Effect()
   getRefinedCommitments$ = this.actions$.pipe(
     ofType(MapActionTypes.GetRefinedMapPoints),
@@ -46,14 +48,21 @@ export class MapEffects {
       )
 
       // tslint:disable-next-line: no-console
-      console.log(`🐲 `, store, selectedRefiners, selectedRefinerGroup, config, bookType)
+      console.log(
+        `🐲 `,
+        store,
+        selectedRefiners,
+        selectedRefinerGroup,
+        config,
+        bookType
+      )
 
       return {
         refiner: selectedRefinerGroup,
         bookType: bookType
       }
     }),
-    switchMap(config => 
+    switchMap(config =>
       this.mapPointSearchGQL.fetch(config).pipe(
         first(),
         concatMap(result => [new LoadMapPoints(result)])
@@ -65,7 +74,6 @@ export class MapEffects {
   constructor(
     private actions$: Actions<MapActions>,
     private store$: Store<fromRoot.State>,
-    private mapPointSearchGQL: MapPointSearchGQL
-    ) {}
-
+    private mapPointSearchGQL: MapPointsSearchGQL
+  ) {}
 }

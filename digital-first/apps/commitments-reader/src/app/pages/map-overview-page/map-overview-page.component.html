@@ -9,12 +9,12 @@
         [zoomControl]="true"
       >
         <agm-marker
-          *ngFor="let mapPoint of mapPoints"
+          *ngFor="let mapPoint of filteredMapPoints$ | async"
           style="text-shadow: 0px 0px 6.2px grey; background-color: blueviolet;"
           [latitude]="mapPoint.latitude"
           [longitude]="mapPoint.longitude"
           [title]="mapPoint.title"
-          [iconUrl]="mapPoint.iconUrl"
+          [iconUrl]="getIcon(mapPoint)"
           (markerClick)="handleMapPointSelected(mapPoint)"
         ></agm-marker>
       </agm-map>

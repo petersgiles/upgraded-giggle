@@ -14,9 +14,11 @@ import { DataTableColumn } from '../../models/data-table-column'
 import { Router } from '@angular/router'
 import { select, Store } from '@ngrx/store'
 import * as fromMap from '../../reducers/map/map.reducer'
-import { GetMapPointsFailure, GetRefinedMapPoints } from '../../reducers/map/map.actions';
-import { MapPoint } from '@digital-first/df-map';
-
+import {
+  GetMapPointsFailure,
+  GetRefinedMapPoints
+} from '../../reducers/map/map.actions'
+import { MapPoint } from '@digital-first/df-map'
 
 interface CommitmentRow {
   id: number
@@ -43,11 +45,11 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
   public filteredMapPoints$: Observable<MapPoint[]>
   public filterCommitments$: Observable<CommitmentRow[]>
 
-
   constructor(
     private settings: SettingsService,
     private changeDetector: ChangeDetectorRef,
-    private router: Router, private store: Store<fromMap.State>
+    private router: Router,
+    private store: Store<fromMap.State>
   ) {}
 
   ngOnInit() {
@@ -55,11 +57,10 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
     this.longitude = 133.8807
     this.zoom = 5
     this.mapPoints = []
-    
+
     this.filteredMapPoints$ = this.store.pipe(
       select(fromMap.selectRefinedMapPointsState)
     )
-    this.store.dispatch(new GetRefinedMapPoints(null))
   }
 
   getMapPointsOfCommitments() {
@@ -76,7 +77,6 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
     //   comparison: ComparisonGraph.Equal,
     //   value: [mapPoint.id.toString()]
     // }
-
     // this.subscriptionMapPointSelection = this.commitmentsMapPointSearchGQL
     //   .fetch(
     //     { commitmentMapPointsWhere: whereVal },
@@ -104,19 +104,15 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
     //         }
     //         this.rows.push(row)
     //       })
-
     //     this.filterCommitmentMapPoints$ = new BehaviorSubject(this.rows)
     //     this.changeDetector.detectChanges()
     //   })
   }
 
-  getIcon() {
-    // This will be based on the commitments portfolio. Pete will provide graphics
-    return `${this.settings.assetsPath}/
-      beachflag.png
-    `
-  }
-  ngOnDestroy(): void {
 
+  getIcon(mapPoint) {
+    return `${this.settings.assetsPath}/mapicons/${mapPoint.iconUrl || 'beachflag.png'}`
   }
+
+  ngOnDestroy(): void {}
 }
