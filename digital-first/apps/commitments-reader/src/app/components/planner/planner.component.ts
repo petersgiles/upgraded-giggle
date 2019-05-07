@@ -123,9 +123,10 @@ export class PlannerComponent implements OnInit, OnDestroy {
         me.onEventRemoved.emit(eventRecord.data)
       },
       zoomchange({ level }) {
+        const currentCenterDate = me.scheduler.schedulerEngine.viewportCenterDate
         me.zoomSlider.levelId = level.id
         me.scheduler.schedulerEngine.setTimeSpan(me.startDate, me.endDate)
-        me.scheduler.schedulerEngine.scrollToDate(me.today)
+        me.scheduler.schedulerEngine.scrollToDate(currentCenterDate)
       },
       eventResizeEnd({ changed, eventRecord }) {
         if (changed) {

@@ -32,5 +32,9 @@
       <Field Type="Text" StaticName="Title" Value="Announcements" />
       <Field Type="Text" StaticName="CssClass" Value="timerange-announcements" />
     </ListItem>
+    <ListItem Title="Budget">
+      <Field Type="Text" StaticName="Title" Value="Budget" />
+      <Field Type="Text" StaticName="CssClass" Value="timerange-budget" />
+    </ListItem>
   </List>
 </Web>
