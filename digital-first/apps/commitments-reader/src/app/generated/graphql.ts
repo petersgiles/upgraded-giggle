@@ -1548,11 +1548,11 @@ export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
       Maybe<
         { __typename?: 'CommitmentGraph' } & Pick<
           CommitmentGraph,
-          'id' | 'title' | 'politicalParty' | 'announcedBy'
+          'id' | 'title'
         > & {
-            announcementType: Maybe<
-              { __typename?: 'AnnouncementTypeGraph' } & Pick<
-                AnnouncementTypeGraph,
+            commitmentType: Maybe<
+              { __typename?: 'CommitmentTypeGraph' } & Pick<
+                CommitmentTypeGraph,
                 'id' | 'title'
               >
             >
@@ -1566,23 +1566,6 @@ export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
               { __typename?: 'PortfolioLookupGraph' } & Pick<
                 PortfolioLookupGraph,
                 'id' | 'title'
-              >
-            >
-            commitmentMapPoints: Maybe<
-              Array<
-                Maybe<
-                  { __typename?: 'CommitmentMapPointGraph' } & Pick<
-                    CommitmentMapPointGraph,
-                    'id'
-                  > & {
-                      mapPoint: Maybe<
-                        { __typename?: 'MapPointGraph' } & Pick<
-                          MapPointGraph,
-                          'id' | 'placeId' | 'title' | 'latitude' | 'longitude'
-                        >
-                      >
-                    }
-                >
               >
             >
           }
@@ -1607,17 +1590,33 @@ export type MapPointsSearchQuery = { __typename?: 'Query' } & {
             commitmentMapPoints: Maybe<
               Array<
                 Maybe<
-                  { __typename?: 'CommitmentMapPointGraph' } & Pick<
-                    CommitmentMapPointGraph,
-                    'id'
-                  > & {
-                      commitment: Maybe<
-                        { __typename?: 'CommitmentGraph' } & Pick<
-                          CommitmentGraph,
-                          'portfolioLookupId'
-                        >
-                      >
-                    }
+                  { __typename?: 'CommitmentMapPointGraph' } & {
+                    commitment: Maybe<
+                      { __typename?: 'CommitmentGraph' } & Pick<
+                        CommitmentGraph,
+                        'id' | 'title' | 'portfolioLookupId'
+                      > & {
+                          commitmentType: Maybe<
+                            { __typename?: 'CommitmentTypeGraph' } & Pick<
+                              CommitmentTypeGraph,
+                              'id' | 'title'
+                            >
+                          >
+                          criticalDate: Maybe<
+                            { __typename?: 'CriticalDateGraph' } & Pick<
+                              CriticalDateGraph,
+                              'id' | 'title'
+                            >
+                          >
+                          portfolioLookup: Maybe<
+                            { __typename?: 'PortfolioLookupGraph' } & Pick<
+                              PortfolioLookupGraph,
+                              'id' | 'title'
+                            >
+                          >
+                        }
+                    >
+                  }
                 >
               >
             >
@@ -1727,9 +1726,7 @@ export const CommitmentsSearchDocument = gql`
     commitments(refiner: $refiner, bookType: $bookType) {
       id
       title
-      politicalParty
-      announcedBy
-      announcementType {
+      commitmentType {
         id
         title
       }
@@ -1740,16 +1737,6 @@ export const CommitmentsSearchDocument = gql`
       portfolioLookup {
         id
         title
-      }
-      commitmentMapPoints {
-        id
-        mapPoint {
-          id
-          placeId
-          title
-          latitude
-          longitude
-        }
       }
     }
   }
@@ -1773,8 +1760,21 @@ export const MapPointsSearchDocument = gql`
       latitude
       longitude
       commitmentMapPoints {
-        id
         commitment {
+          id
+          title
+          commitmentType {
+            id
+            title
+          }
+          criticalDate {
+            id
+            title
+          }
+          portfolioLookup {
+            id
+            title
+          }
           portfolioLookupId
         }
       }

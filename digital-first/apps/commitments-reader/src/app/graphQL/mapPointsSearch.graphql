@@ -6,8 +6,21 @@ query MapPointsSearch($refiner: CommitmentRefinerGraph!, $bookType: String!) {
     latitude
     longitude
     commitmentMapPoints {
-      id
       commitment {
+        id
+        title
+        commitmentType {
+          id
+          title
+        }
+        criticalDate {
+          id
+          title
+        }
+        portfolioLookup {
+          id
+          title
+        }
         portfolioLookupId
       }
     }

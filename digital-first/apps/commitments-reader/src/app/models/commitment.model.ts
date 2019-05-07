@@ -54,3 +54,11 @@ interface ICommitment {
   criticalDate?: string
   portfolio?: string
 }
+
+export interface CommitmentRow {
+  id: number
+  title: string
+  announcementType?: string
+  criticalDate?: string
+  portfolio?: string
+}

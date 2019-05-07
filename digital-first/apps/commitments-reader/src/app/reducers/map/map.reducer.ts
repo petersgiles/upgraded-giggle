@@ -1,11 +1,12 @@
 import { MapActions, MapActionTypes } from './map.actions'
 import { createFeatureSelector, createSelector } from '@ngrx/store'
+import { DataTableColumn } from '../../models/data-table-column'
 
 const portfolioIcons = {
   99: `Group.png`,
   1: `AgricultureAndWaterResources.png`,
   2: `AGs.png`,
-  3: `CommunicationsAndTheArts.png`,
+  3: `CommunicationAndTheArts.png`,
   4: `Defence.png`,
   5: `EducationAndTraining.png`,
   6: `Environment.png`,
@@ -26,15 +27,11 @@ const portfolioIcons = {
 }
 
 export interface State {
-  selectedMapPoint: []
   mapPoints: []
-  mapPointCommitments: []
 }
 
 export const initialState: State = {
-  selectedMapPoint: [],
-  mapPoints: [],
-  mapPointCommitments: []
+  mapPoints: []
 }
 
 export function reducer(state = initialState, action: MapActions): State {
@@ -53,9 +50,6 @@ export function reducer(state = initialState, action: MapActions): State {
           }
           return id
         }, null)
-
-        // tslint:disable-next-line: no-console
-        console.log(`📍 `, portfolio)
 
         return {
           ...m,

@@ -47,16 +47,6 @@ export class MapEffects {
         }
       )
 
-      // tslint:disable-next-line: no-console
-      console.log(
-        `🐲 `,
-        store,
-        selectedRefiners,
-        selectedRefinerGroup,
-        config,
-        bookType
-      )
-
       return {
         refiner: selectedRefinerGroup,
         bookType: bookType
