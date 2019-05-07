@@ -1,10 +1,10 @@
 {
     "header": {
-        "title": "The Department of Bloop de Bloop - IGB",
+        "title": "Commitments",
         "classification": "UNCLASSIFIED",
         "bookType": "red",
         "logo": {
-           "image": "../../SiteAssets/apps/policy-briefs/assets/crest.png",
+           "image": "assets/crest.png",
            "url": "/",
            "title": "Return to home page"
         },
@@ -12,24 +12,24 @@
             {
               "caption": "Dashboard",
               "icon": "dashboard",
-              "url": "//vm-dev-lbs13/sites/redigb/SitePages/deck.aspx/deck"
+              "url": "SitePages/deck.aspx/deck"
             },  {
               "caption": "Activity",
               "icon": "timeline",
-              "url": "//vm-dev-lbs13/sites/redigb/SitePages/index.aspx/recent"
+              "url": "SitePages/index.aspx/recent"
             },  {
               "caption": "Alerts",
               "icon": "notifications",
-              "url": "//vm-dev-lbs13/sites/redigb/SitePages/index.aspx/notifications"
+              "url": "SitePages/index.aspx/notifications"
             }, {
               "caption": "Permissions",
               "icon": "how_to_reg",
-              "url": "//vm-dev-lbs13/sites/redigb/_layouts/15/user.aspx",
+              "url": "_layouts/15/user.aspx",
               "target": "_blank"
             },  {
               "caption": "Admin",
               "icon": "settings",
-              "url": "//vm-dev-lbs13/sites/redigb/SitePages/admin.aspx/admin"
+              "url": "/SitePages/admin.aspx/admin"
             }
           ]
     }

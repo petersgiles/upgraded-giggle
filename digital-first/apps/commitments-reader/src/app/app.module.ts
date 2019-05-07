@@ -13,6 +13,9 @@ import { DfThemeModule } from '@digital-first/df-theme'
 import { DfPagesModule } from '@digital-first/df-pages'
 import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfRefinerModule } from '@digital-first/df-refiner'
+import { DfMomentModule, DateFormatPipe } from '@digital-first/df-moment'
+
+
 import {
   DataTableModule,
   PanelModule,
@@ -22,7 +25,6 @@ import {
 import { NgSelectModule } from '@ng-select/ng-select'
 import { AppFullLayoutService } from './app-full-layout.service'
 import { environment } from '../environments/environment'
-import { initApplication } from './app-init'
 
 import { AppComponent } from './app.component'
 import { HomeComponent } from './pages/home/home.component'
@@ -32,22 +34,38 @@ import { OverviewPageComponent } from './pages/overview-page/overview-page.compo
 import { MapOverviewPageComponent } from './pages/map-overview-page/map-overview-page.component'
 import { CommitmentOverviewLayoutComponent } from './layouts/commitment-overview-layout/commitment-overview-layout.component'
 import { SchedulerComponent } from './components/scheduler/scheduler.component'
-import { GetRefinerTagsGQL } from './generated/graphql'
 import { commitmentEventDataServiceProvider } from './services/commitment-event/commitment-event-data-service'
 import { CommitmentDetailComponent } from './pages/commitment-detail/commitment-detail.component'
-import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component'
-import { appConfigServiceProvider } from './services/app-config.service'
-import { DfSharepointLibModule } from '@df/sharepoint'
+import { DfSharepointLibModule, SharepointJsomService } from '@df/sharepoint'
 import * as fromUser from './reducers/user/user.reducer'
 import { EffectsModule } from '@ngrx/effects'
-import { StoreModule } from '@ngrx/store'
+import { StoreModule, Store } from '@ngrx/store'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 import { metaReducers, reducers, CustomSerializer } from './reducers'
 import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component';
-import { AppEffects } from './reducers/app.effects'
 import { RouterStateSerializer } from '@ngrx/router-store'
+
+import * as fromRefiner from './reducers/refiner/refiner.reducer'
+import * as fromOverview from './reducers/overview/overview.reducer'
+import * as fromMap from './reducers/map/map.reducer'
+import * as fromPlanner from './reducers/planner/planner.reducer'
+import * as fromApp from './reducers/app/app.reducer'
 import * as fromCommitmentDetail from './reducers/commitment-detail/commitment-detail.reducer'
+
+import { AppEffects } from './reducers/app/app.effects'
 import { CommitmentDetailEffects } from './reducers/commitment-detail/commitment-detail.effects'
+import { RouterEffects } from './reducers/router.effects'
+import { RefinerEffects } from './reducers/refiner/refiner.effects'
+import { OverviewEffects } from './reducers/overview/overview.effects'
+import { MapEffects } from './reducers/map/map.effects'
+import { PlannerEffects } from './reducers/planner/planner.effects'
+
+import { SettingsService } from './services/settings.service'
+import { appDataServiceProvider } from './services/commitment-data.service'
+
+import { CommitmentPackageComponent } from './pages/commitment-packages/commitment-package.component'
+import { initApplication } from './app-init';
+
 
 const COMPONENTS = [
   AppComponent,
@@ -58,7 +76,9 @@ const COMPONENTS = [
   MapOverviewPageComponent,
   CommitmentLayoutComponent,
   CommitmentOverviewLayoutComponent,
-  SchedulerComponent
+  SchedulerComponent,
+  CommitmentDetailComponent,
+  CommitmentPackageComponent
 ]
 
 @NgModule({
@@ -88,27 +108,42 @@ const COMPONENTS = [
     MdcSliderModule,
     MdcElevationModule,
     DfSharepointLibModule,
+    DfMomentModule,
     NgSelectModule,
     StoreModule.forRoot(reducers, {
       metaReducers: metaReducers
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
 
+    StoreModule.forFeature('app', fromApp.reducer),
     StoreModule.forFeature('user', fromUser.reducer),
+    StoreModule.forFeature('refiner', fromRefiner.reducer),
+    StoreModule.forFeature('overview', fromOverview.reducer),
+    StoreModule.forFeature('map', fromMap.reducer),
+    StoreModule.forFeature('planner', fromPlanner.reducer),
     StoreModule.forFeature('commitmentDetail', fromCommitmentDetail.reducer),
 
-    EffectsModule.forRoot([AppEffects]),
-    EffectsModule.forFeature([CommitmentDetailEffects])
+    EffectsModule.forRoot([RouterEffects]),
+    EffectsModule.forFeature([
+      AppEffects,
+      RefinerEffects,
+      OverviewEffects,
+      MapEffects,
+      PlannerEffects,
+      CommitmentDetailEffects
+    ])
   ],
   providers: [
     {
       provide: APP_INITIALIZER,
       useFactory: initApplication,
-      deps: [],
+      deps: [Store, SettingsService],
       multi: true
     },
-    appConfigServiceProvider,
+    appDataServiceProvider,
     commitmentEventDataServiceProvider,
+    SharepointJsomService,
+    DateFormatPipe,
     { provide: TitleLayoutService, useClass: AppFullLayoutService },
     {
       provide: APOLLO_OPTIONS,

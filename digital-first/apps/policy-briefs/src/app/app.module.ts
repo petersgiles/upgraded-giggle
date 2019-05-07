@@ -12,6 +12,7 @@ import { AppFullLayoutService } from './app-full-layout.service'
 import { AppRoutingModule } from './app-routing.module'
 import { DragDropModule } from '@angular/cdk/drag-drop'
 
+
 import {
   DocumentModule,
   DiscussionModule,
@@ -97,7 +98,7 @@ const ENTRYCOMPONENTS = [
     StoreModule.forFeature('discussion', fromDiscussion.reducer),
     StoreModule.forFeature('brief', fromBrief.reducer),
 
-    EffectsModule.forRoot([AppEffects]),
+    EffectsModule.forRoot([AppEffects, RouterEffects]),
     EffectsModule.forFeature([
       NavigationEffects,
       BriefEffects,

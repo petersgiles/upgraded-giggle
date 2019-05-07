@@ -1,5 +1,5 @@
-query getCommitmentDetail($id: String!) {
-  commitments(id: $id) {
+query getCommitmentDetail($id: String!, $bookType: String!) {
+  commitments(id: $id, bookType: $bookType) {
     id
     title
     description
@@ -9,17 +9,5 @@ query getCommitmentDetail($id: String!) {
     politicalParty
     statusId
     announcedBy
-    announcementType {
-      id
-      title
-    }
-    criticalDate {
-      id
-      title
-    }
-    portfolioLookup {
-      id
-      title
-    }
   }
 }

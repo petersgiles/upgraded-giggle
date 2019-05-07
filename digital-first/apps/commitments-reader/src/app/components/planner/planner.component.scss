@@ -4,7 +4,7 @@
   align-items: center;
 
   > #zoom {
-    flex: 0.8;
+    flex: 1.2;
     margin: 0 25px 10px;
     padding-top: 20px;
     scroll-behavior: auto;
@@ -20,13 +20,30 @@
     }
   }
 
-  > #planerButtons {
-    flex: 0.8;
+  > .planerButtons {
+    flex: 0.2;
     display: flex;
     padding-right: 20px;
     > button {
       flex: 1;
       margin: 10px;
+    }
+  }
+  > .planerMenus {
+    flex: 0.3;
+    display: flex;
+    padding-right: 20px;
+    > button {
+      flex: 1;
+      margin: 10px;
+    }
+    .buttons {
+      display: flex;
+      flex-direction: row;
+      margin: 10px;
+      > button {
+        flex: 0.5;
+      }
     }
   }
 }
@@ -35,6 +52,7 @@
   background: #fff;
   white-space: nowrap;
   padding: 4px;
+  font-size: 0.45em !important;
   font-weight: 500;
   -webkit-writing-mode: vertical-lr;
   writing-mode: vertical-lr;
@@ -70,16 +88,19 @@
     @include timerange-transparent($color: #4186b4);
   }
   &.timerange-overseas-travel {
-    @include timerange-transparent($color: #13ca41);
+    @include timerange-transparent($color: #de9ff7);
   }
   &.timerange-incoming-govt-visit {
-    @include timerange-transparent($color: #616e77ab);
+    @include timerange-transparent($color: #1dc4bbab);
   }
   &.timerange-other {
-    @include timerange-transparent($color: #1a2730);
+    @include timerange-transparent($color: #fcdb93);
   }
   &.timerange-announcements {
-    @include timerange-transparent($color: #8b6ef7);
+    @include timerange-transparent($color: #98cf73);
+  }
+  &.timerange-budget {
+    @include timerange-transparent($color: #144abe);
   }
 }
 

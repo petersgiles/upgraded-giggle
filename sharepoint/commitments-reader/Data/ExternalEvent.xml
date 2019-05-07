@@ -352,16 +352,5 @@
       <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" />
       <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" />
     </ListItem>
-    <ListItem Title="Nick's Travel">
-      <Field Type="Text" StaticName="Title" Value="Nick's Travel" />
-      <Field Type="DateTime" StaticName="StartDate" Value="5/3/2019 10:00:00 AM" />
-      <Field Type="DateTime" StaticName="EndDate" Value="5/5/2019 10:00:00 AM" />
-      <Field Type="Text" StaticName="CssClass" />
-      <Field Type="Text" StaticName="Location" />
-      <Field Type="Text" StaticName="ExternalId" />
-      <Field Type="Lookup" StaticName="ExternalEventType" LookupList="ExternalEventType" LookupField="Title" IsDependentLookup="False" Value="Other Key events" LookupFieldType="Text" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_ID" LookupList="ExternalEventType" LookupField="Title" IsDependentLookup="True" Value="Other Key events" LookupFieldType="Text" />
-      <Field Type="Lookup" StaticName="ExternalEventType_x003a_CssClass" LookupList="ExternalEventType" LookupField="CssClass" IsDependentLookup="True" Value="timerange-other" LookupFieldType="Text" />
-    </ListItem>
   </List>
 </Web>

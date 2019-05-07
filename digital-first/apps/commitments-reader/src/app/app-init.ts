@@ -1,17 +1,32 @@
-export function initApplication(): Function {
+import { SettingsService } from './services/settings.service'
+import {
+  StartAppInitialiser,
+  FinishAppInitialiser
+} from './reducers/app/app.actions'
+import { environment } from '../environments/environment'
+import { Store } from '@ngrx/store'
+import * as fromRoot from './reducers'
+import { first, filter, tap } from 'rxjs/operators'
+
+export function initApplication(
+  store: Store<fromRoot.State>,
+  settings: SettingsService
+): Function {
   return () =>
     new Promise(resolve => {
-      // tslint:disable-next-line:no-console
-      // store.pipe(select(fromRoot.getLoggedIn)).subscribe(isLoggedIn => {
-      //   if (isLoggedIn) {
+      store.dispatch(new StartAppInitialiser({ environment: environment }))
 
-      //     // tslint:disable-next-line:no-console
-      //     console.log('user is logged in, start auto token refresh')
-
-      //     store.dispatch(new StartAutoTokenRefresh())
-      //   }
-      // })
-
-      resolve(true)
+      store
+        .select((state: any) => state.app.config)
+        .pipe(
+          filter(config => config !== null),
+          first()
+        )
+        .subscribe(result => {
+          // tslint:disable-next-line: no-console
+          console.log(`🦄 App Initialised`, result)
+          store.dispatch(new FinishAppInitialiser())
+          resolve(true)
+        })
     })
 }

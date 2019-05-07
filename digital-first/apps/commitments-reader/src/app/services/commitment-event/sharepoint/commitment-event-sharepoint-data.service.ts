@@ -47,7 +47,9 @@ export class EventSharepointDataService implements CommitmentEventDataService {
     return this.sharepoint.getItems({ listName: 'CommitmentEventType' }).pipe(
       concatMap((result: any) =>
         of({
-          data: mapCommitmentEventTypes(result),
+          data: mapCommitmentEventTypes(result).sort((a, b) =>
+            a.type < b.type ? -1 : 1
+          ),
           loading: false,
           error: null
         })
@@ -65,10 +67,7 @@ export class EventSharepointDataService implements CommitmentEventDataService {
     ).pipe(
       concatMap(([externalEvents, eventTypes]) =>
         of({
-          data: mapExternalEvents(
-            externalEvents,
-            eventTypes
-          ),
+          data: mapExternalEvents(externalEvents, eventTypes),
           loading: false,
           error: null
         })
@@ -80,7 +79,9 @@ export class EventSharepointDataService implements CommitmentEventDataService {
     return this.sharepoint.getItems({ listName: 'ExternalEventType' }).pipe(
       concatMap((result: any) =>
         of({
-          data: mapExternalEventTypes(result),
+          data: mapExternalEventTypes(result).sort((a, b) =>
+            a.name < b.name ? -1 : 1
+          ),
           loading: false,
           error: null
         })

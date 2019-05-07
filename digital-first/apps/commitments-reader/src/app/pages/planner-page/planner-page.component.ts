@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core'
-import { CommitmentRefinerService } from '../../services/commitment-refiner'
+import { Component, OnInit, OnDestroy } from '@angular/core'
+// import { CommitmentRefinerService } from '../../services/commitment-refiner'
 import { Observable, Subscription, of } from 'rxjs'
 import { EventSharepointDataService } from '../../services/commitment-event/sharepoint/commitment-event-sharepoint-data.service'
 import { switchMap, map, concatMap } from 'rxjs/operators'
@@ -9,33 +9,33 @@ import { switchMap, map, concatMap } from 'rxjs/operators'
   templateUrl: './planner-page.component.html',
   styleUrls: ['./planner-page.component.scss']
 })
-export class PlannerPageComponent implements OnInit {
+export class PlannerPageComponent implements OnInit, OnDestroy {
   public commitmentEvents$: Observable<any[]>
   public externalEvents$: Observable<any>
   public commitmentEventTypes$: Observable<any[]>
   public filteredCommitments: any[]
 
   public externalEventTypes$: Observable<any[]>
-  public selectedExternalEventTypes: any
+  public selectedExternalEventTypes: any[]
   public readOnly: false
   public commitmentsSubscription: Subscription
   public spReferenceDataSubscription: Subscription
   constructor(
-    private dataService: CommitmentRefinerService,
+    // private dataService: CommitmentRefinerService,
     private sharePointDataService: EventSharepointDataService
   ) {}
 
   selectedExternalEventTypesKey = 'SelectedExternalEventTypes'
   ngOnInit() {
-    this.commitmentsSubscription = this.dataService.commitments$.subscribe(
-      result => {
-        const commitments = result.map(c => ({ id: c.id, name: c.title }))
-        this.filteredCommitments = commitments
-        this.commitmentEvents$ = this.sharePointDataService
-          .getEventsByCommitments(result)
-          .pipe(map(events => events.data))
-      }
-    )
+    // this.commitmentsSubscription = this.dataService.commitments$.subscribe(
+    //   result => {
+    //     const commitments = result.map(c => ({ id: c.id, name: c.title }))
+    //     this.filteredCommitments = commitments
+    //     this.commitmentEvents$ = this.sharePointDataService
+    //       .getEventsByCommitments(result)
+    //       .pipe(map(events => events.data))
+    //   }
+    // )
 
     this.spReferenceDataSubscription = this.sharePointDataService
       .getEventTypes()
@@ -45,15 +45,16 @@ export class PlannerPageComponent implements OnInit {
       .getExternalEventTypes()
       .pipe(concatMap(result => of(result.data)))
 
-    this.dataService.getRefinedCommitments()
+    // this.dataService.getRefinedCommitments()
 
     this.getExternalEvents()
   }
 
   private getExternalEvents() {
     this.selectedExternalEventTypes =
-      localStorage.getItem(this.selectedExternalEventTypesKey) &&
-      JSON.parse(localStorage.getItem(this.selectedExternalEventTypesKey))
+      (localStorage.getItem(this.selectedExternalEventTypesKey) &&
+        JSON.parse(localStorage.getItem(this.selectedExternalEventTypesKey))) ||
+      []
     if (
       this.selectedExternalEventTypes &&
       this.selectedExternalEventTypes.length > 0

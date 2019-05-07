@@ -16,24 +16,40 @@
       </label>
     </div>
   </div>
-  <div id="planerButtons">
-    <!-- <button mdc-button outlined (click)="scrollToDate(today)">Today</button> -->
-    <mdc-form-field fluid>
-      <ng-select
-        appendTo="body"
-        [items]="externalEventTypes"
-        bindValue="id"
-        bindLabel="name"
-        placeholder="Select Key Date Type"
-        [multiple]="true"
-        (change)="handleChangeExternalType($event)"
-        [clearable]="false"
-        [hideSelected]="true"
-        [virtualScroll]="true"
-        [(ngModel)]="selectedExternalEventTypes"
-      >
-      </ng-select>
-    </mdc-form-field>
+  <div class="planerButtons">
+    <button mdc-button outlined (click)="scrollToDate(today)">Today</button>
+  </div>
+  <div class="planerMenus" mdcMenuSurfaceAnchor #externalEventsAnchor>
+    <button
+      mdc-button
+      outlined
+      (click)="dfExternalEvents.open = !dfExternalEvents.open"
+    >
+      Select Key Date Types
+    </button>
+    <mdc-menu-surface #dfExternalEvents [anchorElement]="externalEventsAnchor">
+      <div class="buttons">
+        <button mdc-button (click)="handelSelectAllExternalEvents(true)">
+          Select all
+        </button>
+        <button mdc-button (click)="handelSelectAllExternalEvents(false)">
+          Clear
+        </button>
+      </div>
+      <mdc-list-divider></mdc-list-divider>
+      <mdc-list class="mdc-list">
+        <mdc-list-item *ngFor="let type of externalEventTypes"
+          ><mdc-form-field>
+            <mdc-checkbox
+              [value]="type.id"
+              [checked]="checkIfExternalTypeSelected(type.id)"
+              (change)="externalEventTypeChange.next($event)"
+            ></mdc-checkbox>
+            <label>{{ type.name }}</label>
+          </mdc-form-field></mdc-list-item
+        >
+      </mdc-list>
+    </mdc-menu-surface>
   </div>
 </div>
 

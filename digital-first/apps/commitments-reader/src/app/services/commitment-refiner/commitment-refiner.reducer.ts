@@ -1,171 +1,163 @@
-import { Injectable } from '@angular/core'
-import {
-  CommitmentMapPointGraph,
-  CommitmentGraph
-} from '../../generated/graphql'
-import { RefinerGroup } from '@digital-first/df-refiner'
+// import { Injectable } from '@angular/core'
+// import {
+//   CommitmentMapPointGraph,
+//   CommitmentGraph
+// } from '../../generated/graphql'
+// import { RefinerGroup } from '@digital-first/df-refiner'
 import { environment } from '../../../environments/environment'
-import {
-  RefinerActionTypes,
-  RefinerServiceActions
-} from './commitment-refiner.actions'
+// import {
+//   RefinerActionTypes,
+//   RefinerServiceActions
+// } from './commitment-refiner.actions'
+// import { DataTableColumn } from '../../models/data-table-column';
+// import { SelectedRefinerItem } from '../../models/selected-refiner-item';
 
 const DEBUG = !environment.production
 
-export interface DataTableColumn {
-  prop: string
-  name: string
-}
+// export interface RefinerState {
+//   selectedRefiners: SelectedRefinerItem[]
+//   expandedRefinerGroups: (string | number)[]
+//   textRefiner: string
+//   sortColumn: string
+//   sortDirection: string
+//   refinerGroups: RefinerGroup[]
+//   selectedMapPoint: any
+//   mapPoints: any[]
+//   commitmentMapPoints: CommitmentMapPointGraph[]
+//   commitments: CommitmentGraph[]
+//   columns: DataTableColumn[]
+// }
 
-export interface SelectedRefinerItem {
-  groupId: number
-  itemId: number
-}
+// export const initialState: RefinerState = {
+//   refinerGroups: [],
+//   expandedRefinerGroups: [],
+//   selectedRefiners: [],
+//   textRefiner: null,
+//   sortColumn: null,
+//   sortDirection: null,
+//   selectedMapPoint: [],
+//   mapPoints: [],
+//   commitmentMapPoints: [],
+//   commitments: [],
+//   columns: [
+//     { prop: 'id', name: 'Id' },
+//     { prop: 'title', name: 'Title' },
+//     { prop: 'portfolio', name: 'Responsible Portfolio' },
+//     { prop: 'announcementType', name: 'Type of Commitment' },
+//     { prop: 'criticalDate', name: 'Critical Date' }
+//   ]
+// }
 
-export interface RefinerState {
-  selectedRefiners: SelectedRefinerItem[]
-  expandedRefinerGroups: (string | number)[]
-  textRefiner: string
-  sortColumn: string
-  sortDirection: string
-  refinerGroups: RefinerGroup[]
-  selectedMapPoint: any
-  mapPoints: any[]
-  commitmentMapPoints: CommitmentMapPointGraph[]
-  commitments: CommitmentGraph[]
-  columns: DataTableColumn[]
-}
+// @Injectable({
+//   providedIn: 'root'
+// })
+// export class RefinerReducer {
+//   public reduce = (
+//     state: RefinerState,
+//     action: RefinerServiceActions
+//   ): RefinerState => {
+//     if (DEBUG) {
+//       // tslint:disable-next-line:no-console
+//       console.log('reduce', action)
+//     }
 
-export const initialState: RefinerState = {
-  refinerGroups: [],
-  expandedRefinerGroups: [],
-  selectedRefiners: [],
-  textRefiner: null,
-  sortColumn: null,
-  sortDirection: null,
-  selectedMapPoint: [],
-  mapPoints: [],
-  commitmentMapPoints: [],
-  commitments: [],
-  columns: [
-    { prop: 'id', name: 'Id' },
-    { prop: 'title', name: 'Title' },
-    { prop: 'portfolio', name: 'Responsible Portfolio' },
-    { prop: 'announcementType', name: 'Type of Commitment' },
-    { prop: 'criticalDate', name: 'Critical Date' }
-  ]
-}
+//     switch (action.type) {
+//       case RefinerActionTypes.LoadRefinerGroups: {
+//         return {
+//           ...state,
+//           refinerGroups: action.payload
+//         }
+//       }
 
-@Injectable({
-  providedIn: 'root'
-})
-export class RefinerReducer {
-  public reduce = (
-    state: RefinerState,
-    action: RefinerServiceActions
-  ): RefinerState => {
-    if (DEBUG) {
-      // tslint:disable-next-line:no-console
-      console.log('reduce', action)
-    }
+//       case RefinerActionTypes.LoadRefinedCommitments: {
+//         return {
+//           ...state,
+//           commitments: action.payload
+//         }
+//       }
 
-    switch (action.type) {
-      case RefinerActionTypes.LoadRefinerGroups: {
-        return {
-          ...state,
-          refinerGroups: action.payload
-        }
-      }
+//       case RefinerActionTypes.SelectRefinerGroup: {
+//         const refinerGroups = [...state.refinerGroups]
+//         const group = refinerGroups.findIndex(p => p.id === action.payload.id)
+//         refinerGroups[group].expanded = !refinerGroups[group].expanded
+//         const expandedRefinerGroups = state.expandedRefinerGroups.filter(
+//           p => p !== action.payload.id
+//         )
 
-      case RefinerActionTypes.LoadRefinedCommitments: {
-        return {
-          ...state,
-          commitments: action.payload
-        }
-      }
+//         if (refinerGroups[group].expanded) {
+//           expandedRefinerGroups.push(action.payload.id)
+//         }
 
-      case RefinerActionTypes.SelectRefinerGroup: {
-        const refinerGroups = [...state.refinerGroups]
-        const group = refinerGroups.findIndex(p => p.id === action.payload.id)
-        refinerGroups[group].expanded = !refinerGroups[group].expanded
-        const expandedRefinerGroups = state.expandedRefinerGroups.filter(
-          p => p !== action.payload.id
-        )
+//         return {
+//           ...state,
+//           expandedRefinerGroups: expandedRefinerGroups,
+//           refinerGroups: refinerGroups
+//         }
+//       }
+//       case RefinerActionTypes.ChangeTextRefiner: {
+//         const retVal = {
+//           ...state,
+//           textRefiner: action.payload
+//         }
 
-        if (refinerGroups[group].expanded) {
-          expandedRefinerGroups.push(action.payload.id)
-        }
+//         return retVal
+//       }
+//       case RefinerActionTypes.SelectRefiner: {
+//         const item = action.payload
+//         const refinerGroups = [...state.refinerGroups]
+//         const group = refinerGroups.findIndex(p => p.id === item.groupId)
+//         refinerGroups[group].expanded = true
+//         const expandedRefinerGroups = state.expandedRefinerGroups.filter(
+//           p => p !== item.groupId
+//         )
+//         if (refinerGroups[group].expanded) {
+//           expandedRefinerGroups.push(item.groupId)
+//         }
 
-        return {
-          ...state,
-          expandedRefinerGroups: expandedRefinerGroups,
-          refinerGroups: refinerGroups
-        }
-      }
-      case RefinerActionTypes.ChangeTextRefiner: {
-        const retVal = {
-          ...state,
-          textRefiner: action.payload
-        }
+//         const refiner = refinerGroups[group].children.findIndex(
+//           p => p.id === item.id
+//         )
 
-        return retVal
-      }
-      case RefinerActionTypes.SelectRefiner: {
-        const item = action.payload
-        const refinerGroups = [...state.refinerGroups]
-        const group = refinerGroups.findIndex(p => p.id === item.groupId)
-        refinerGroups[group].expanded = true
-        const expandedRefinerGroups = state.expandedRefinerGroups.filter(
-          p => p !== item.groupId
-        )
-        if (refinerGroups[group].expanded) {
-          expandedRefinerGroups.push(item.groupId)
-        }
+//         refinerGroups[group].children[refiner].selected = !refinerGroups[group]
+//           .children[refiner].selected
 
-        const refiner = refinerGroups[group].children.findIndex(
-          p => p.id === item.id
-        )
+//         // if the item is not selected, then it has been unselected. Remove from store
+//         const selectedRefiners =
+//           item.selected === false
+//             ? state.selectedRefiners.filter(
+//                 p =>
+//                   p.groupId !== item.groupId ||
+//                   (p.groupId === item.groupId && p.itemId !== item.id)
+//               )
+//             : state.selectedRefiners
 
-        refinerGroups[group].children[refiner].selected = !refinerGroups[group]
-          .children[refiner].selected
+//         // if the item is selected. Add to store
+//         if (refinerGroups[group].children[refiner].selected) {
+//           const selectedItem: SelectedRefinerItem = {
+//             groupId: item.groupId,
+//             itemId: item.id
+//           }
+//           selectedRefiners.push(selectedItem)
+//         }
 
-        // if the item is not selected, then it has been unselected. Remove from store
-        const selectedRefiners =
-          item.selected === false
-            ? state.selectedRefiners.filter(
-                p =>
-                  p.groupId !== item.groupId ||
-                  (p.groupId === item.groupId && p.itemId !== item.id)
-              )
-            : state.selectedRefiners
+//         const retVal = {
+//           ...state,
+//           expandedRefinerGroups: expandedRefinerGroups,
+//           selectedRefiners: selectedRefiners,
+//           refinerGroups: refinerGroups
+//         }
 
-        // if the item is selected. Add to store
-        if (refinerGroups[group].children[refiner].selected) {
-          const selectedItem: SelectedRefinerItem = {
-            groupId: item.groupId,
-            itemId: item.id
-          }
-          selectedRefiners.push(selectedItem)
-        }
+//         return retVal
+//       }
 
-        const retVal = {
-          ...state,
-          expandedRefinerGroups: expandedRefinerGroups,
-          selectedRefiners: selectedRefiners,
-          refinerGroups: refinerGroups
-        }
+//       case RefinerActionTypes.GetMapPoints: {
+//         return {
+//           ...state,
+//           mapPoints: action.payload
+//         }
+//       }
+//     }
 
-        return retVal
-      }
-
-      case RefinerActionTypes.GetMapPoints: {
-        return {
-          ...state,
-          mapPoints: action.payload
-        }
-      }
-    }
-
-    return state
-  }
-}
+//     return state
+//   }
+// }

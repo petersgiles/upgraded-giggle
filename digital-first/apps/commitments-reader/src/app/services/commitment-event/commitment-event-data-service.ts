@@ -11,6 +11,7 @@ import {
 import { EventSharepointDataService } from './sharepoint/commitment-event-sharepoint-data.service'
 import { SettingsService } from '../settings.service'
 import { SharepointJsomService } from '@df/sharepoint'
+import { EventDevelopDataService } from './develop/commitment-event-develop-data.service';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +37,7 @@ const commitmentEventDataServiceFactory = (
     case 'sharepoint':
       return new EventSharepointDataService(sharepointlib)
     default:
-      return new EventSharepointDataService(sharepointlib)
+      return new EventDevelopDataService()
   }
 }
 

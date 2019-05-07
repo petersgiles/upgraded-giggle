@@ -1,20 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { Observable, of } from 'rxjs'
-import {
-  CommitmentRefinerService,
-  DataTableColumn
-} from '../../services/commitment-refiner'
-import { Router } from '@angular/router';
+import { withLatestFrom, map, filter, tap } from 'rxjs/operators'
 
-interface CommitmentRow {
-  id: number
-  title: string
-  politicalParty: string
-  announcedBy: string
-  announcementType?: string
-  criticalDate?: string
-  portfolio?: string
-}
+import { Router } from '@angular/router'
+import { Store, select } from '@ngrx/store'
+
+import * as fromOverview from '../../reducers/overview/overview.reducer'
+import { DataTableColumn } from '../../models/data-table-column'
+import { CommitmentRow } from '../../models/commitment.model';
+
 @Component({
   selector: 'digital-first-overview-page',
   templateUrl: './overview-page.component.html',
@@ -26,30 +20,23 @@ export class OverviewPageComponent implements OnInit, OnDestroy {
   public columns$: Observable<DataTableColumn[]>
   public count: number
 
-  constructor(private dataService: CommitmentRefinerService,  private router: Router) {}
+  constructor(
+    private router: Router,
+    private store: Store<fromOverview.State>
+  ) {}
 
   ngOnInit() {
-    this.columns$ = this.dataService.columns$
-    this.dataService.commitments$.subscribe(value => {
-      const rows = value.map(row => ({
-        id: row.id,
-        title: row.title,
-        politicalParty: row.politicalParty,
-        announcedBy: row.announcedBy,
-        announcementType: row.announcementType
-          ? row.announcementType.title
-          : '',
-        criticalDate: row.criticalDate ? row.criticalDate.title : '',
-        portfolio: row.portfolioLookup ? row.portfolioLookup.title : ''
-      }))
-      this.filterCommitments$ = of(rows)
-    })
-    this.dataService.getRefinedCommitments()
+    this.columns$ = this.store
+      .pipe(select(fromOverview.selectRefinedCommitmentsColumnsState))
+      
+    this.filterCommitments$ = this.store.pipe(
+      select(fromOverview.selectFilteredCommitmentsState)
+    ).pipe(tap(commitments => console.log(`🐲 `, commitments)))
   }
 
   ngOnDestroy(): void {}
 
   handleCommitmentsRowClicked(item) {
-    this.router.navigate(['/', 'components', item.id])
+    this.router.navigate(['/', 'commitment', item.id])
   }
 }

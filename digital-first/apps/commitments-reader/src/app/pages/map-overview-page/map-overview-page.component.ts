@@ -5,29 +5,18 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy
 } from '@angular/core'
-import { Observable, BehaviorSubject, Subscription, of } from 'rxjs'
-import { map } from 'rxjs/operators'
-import {
-  CommitmentsMapPointSearchGQL,
-  WhereExpressionGraph,
-  ComparisonGraph,
-  MapPointGraph
-} from '../../generated/graphql'
+import { Observable, BehaviorSubject, Subscription } from 'rxjs'
 import { SettingsService } from '../../services/settings.service'
-import {
-  CommitmentRefinerService,
-  DataTableColumn
-} from '../../services/commitment-refiner'
-interface CommitmentRow {
-  id: number
-  title: string
-  politicalParty: string
-  announcedBy: string
-  announcementType?: string
-  criticalDate?: string
-  portfolio?: string
-  mapPoints?: any[]
-}
+// import {
+//   CommitmentRefinerService
+// } from '../../services/commitment-refiner'
+import { DataTableColumn } from '../../models/data-table-column'
+import { Router } from '@angular/router'
+import { select, Store } from '@ngrx/store'
+import * as fromMap from '../../reducers/map/map.reducer'
+import { MapPoint } from '@digital-first/df-map'
+import { CommitmentRow } from '../../models/commitment.model'
+
 @Component({
   selector: 'digital-first-map-overview-page',
   templateUrl: './map-overview-page.component.html',
@@ -37,93 +26,58 @@ interface CommitmentRow {
 export class MapOverviewPageComponent implements OnInit, OnDestroy {
   public latitude: number
   public longitude: number
-
   public zoom: number
-  public mapPoints: any[] = []
-  public mapPointSelectedCommitments: any[] = []
-  public columns$: Observable<DataTableColumn[]>
-  public filterCommitmentMapPoints$: BehaviorSubject<CommitmentRow[]>
-  public filterCommitments$: Observable<CommitmentRow[]>
-  public rows: CommitmentRow[] = []
-
-  subscription1: Subscription
-  subscription2: Subscription
-  subscriptionRefiner: Subscription
+  public columns = [
+    { prop: 'id', name: 'Id' },
+    { prop: 'title', name: 'Title' },
+    { prop: 'portfolio', name: 'Responsible Portfolio' },
+    { prop: 'commitmentType', name: 'Type of Commitment' },
+    { prop: 'criticalDate', name: 'Critical Date' }
+  ]
+  public filteredMapPoints$: Observable<MapPoint[]>
+  public selectedMapPointCommitments$: BehaviorSubject<
+    CommitmentRow[]
+  > = new BehaviorSubject(null)
 
   constructor(
     private settings: SettingsService,
-    private dataService: CommitmentRefinerService,
-    private commitmentsMapPointSearchGQL: CommitmentsMapPointSearchGQL,
-    private changeDetector: ChangeDetectorRef
+    private router: Router,
+    private store: Store<fromMap.State>
   ) {}
 
   ngOnInit() {
     this.latitude = -27.698
     this.longitude = 133.8807
     this.zoom = 5
-    this.columns$ = this.dataService.columns$
 
-    this.getMapPointsOfCommitments()
-    this.dataService.getRefinedCommitments()
-    this.dataService.getMapPoints()
-  }
-
-  getMapPointsOfCommitments() {
-    console.log('WHAT IS EVEN GOING ON HERE?')
-    this.dataService.mapPoints$.subscribe(value => {
-      this.mapPoints = value.map(mp => mp[0])
-    })
+    this.filteredMapPoints$ = this.store.pipe(
+      select(fromMap.selectRefinedMapPointsState)
+    )
   }
 
   handleMapPointSelected(mapPoint) {
-    this.filterCommitmentMapPoints$ = null
-    this.rows = []
-    const whereVal: WhereExpressionGraph = {
-      path: 'id',
-      comparison: ComparisonGraph.Equal,
-      value: [mapPoint.id.toString()]
-    }
+    const commitments = (
+      mapPoint.commitmentMapPoints.map(p => p.commitment) || []
+    ).map(row => ({
+      id: row.id,
+      title: row.title,
+      portfolio: row.portfolioLookup ? row.portfolioLookup.title : '',
+      commitmentType: row.commitmentType ? row.commitmentType.title : '',
+      criticalDate: row.criticalDate ? row.criticalDate.title : ''
+    }))
 
-    this.subscription2 = this.commitmentsMapPointSearchGQL
-      .fetch({ mapPointWhere: whereVal }, { fetchPolicy: 'network-only' })
-      .pipe(map(value => value.data.mapPoints))
-      .subscribe(mapPoints => {
-        mapPoints.map(x =>
-          x.commitmentMapPoints.map(dbItem => {
-            const row: CommitmentRow = {
-              id: dbItem.commitment.id,
-              title: dbItem.commitment.title,
-              politicalParty: dbItem.commitment.politicalParty,
-              announcedBy: dbItem.commitment.announcedBy,
-              announcementType: dbItem.commitment.announcementType
-                ? dbItem.commitment.announcementType.title
-                : '',
-              criticalDate: dbItem.commitment.criticalDate
-                ? dbItem.commitment.criticalDate.title
-                : '',
-              portfolio: dbItem.commitment.portfolioLookup
-                ? dbItem.commitment.portfolioLookup.title
-                : '',
-              mapPoints: []
-            }
-            this.rows.push(row)
-          })
-        )
-        this.filterCommitmentMapPoints$ = new BehaviorSubject(this.rows)
-        this.changeDetector.detectChanges()
-      })
+    console.log(`🐲 `, commitments)
+    this.selectedMapPointCommitments$.next(commitments)
   }
 
-  getIcon() {
-    // This will be based on the commitments portfolio. Pete will provide graphics
-    return `${this.settings.assetsPath}/
-      beachflag.png
-    `
+  getIcon(mapPoint) {
+    return `${this.settings.assetsPath}/mapicons/${mapPoint.iconUrl ||
+      'beachflag.png'}`
   }
-  ngOnDestroy(): void {
-    // this.subscription1.unsubscribe()
-    if (this.subscription2) {
-      this.subscription2.unsubscribe()
-    }
+
+  handleCommitmentsRowClicked(item) {
+    this.router.navigate(['/', 'commitment', item.id])
   }
+
+  ngOnDestroy(): void {}
 }
