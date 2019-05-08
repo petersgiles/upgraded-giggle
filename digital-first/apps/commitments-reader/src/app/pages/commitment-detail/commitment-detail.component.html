@@ -1,4 +1,4 @@
-<ng-container *ngIf="commitment">
+<ng-container *ngIf="(commitment$ | async) as commitment">
   <h1>{{ commitment?.title }}</h1>
   <p>
     Status: <strong>{{ commitment.status }}</strong>.
@@ -37,10 +37,10 @@
     <strong>{{ getIndefiniteArticle(commitment.announcementType) }}</strong>.
   </p>
 
-  <p *ngIf="(electorate$ | async)?.length > 0">
-    Delivery Location<span *ngIf="(electorate$ | async)?.length > 1">s</span>:
+  <p *ngIf="commitment.electorates as electorates">
+    Delivery Location<span *ngIf="electorates?.length > 1">s</span>:
     <ng-container *ngFor="
-        let location of electorate$ | async;
+        let location of electorates;
         index as index;
         last as last;
         first as first
@@ -51,10 +51,10 @@
     </ng-container>.
   </p>
 
-  <p *ngIf="(mapPoint$ | async)?.length > 0">
-    Delivery Address<span *ngIf="(mapPoint$ | async)?.length > 1">es</span>:
+  <p *ngIf="commitment.mapPoint as mapPoints">
+    Delivery Address<span *ngIf="mapPoints?.length > 1">es</span>:
     <ng-container *ngFor="
-        let mapPoint of mapPoint$ | async;
+        let mapPoint of mapPoints;
         index as index;
         last as last;
         first as first
