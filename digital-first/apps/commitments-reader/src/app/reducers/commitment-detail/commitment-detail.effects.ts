@@ -25,8 +25,33 @@ export class CommitmentDetailEffects {
          
       return of(result)
     }),
+    map((action: any) => action.payload),
     map(result => new LoadDetailedCommitment(result))
   ) 
+
+  @Effect()
+  updatePMOHandlingAdvice$ = this.actions$
+    .pipe(
+      ofType(CommitmentDetailActionTypes.UpdatePMOHandlingAdvice),
+      map((action: any) => action.payload),
+      switchMap((value: any) => 
+        {
+          return this.commitmentDetailService.updateHandlingAdvice(value, 'PMO')
+          .pipe( map((result: Commitment) => new LoadDetailedCommitment({commitment: result}))
+          )}  
+    ))
+
+  @Effect()
+  updatePMCHandlingAdvice$ = this.actions$
+    .pipe(
+      ofType(CommitmentDetailActionTypes.UpdatePMCHandlingAdvice),
+      map((action: any) => action.payload),
+      switchMap((value: any) => 
+        {
+          return this.commitmentDetailService.updateHandlingAdvice(value, 'PMC')
+          .pipe( map((result: Commitment) => new LoadDetailedCommitment({commitment: result}))
+          )}  
+    ))
 
   @Effect()
   commitmentDetailsRouted$ = this.actions$.pipe(

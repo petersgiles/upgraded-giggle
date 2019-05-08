@@ -20,10 +20,10 @@ export function reducer(state = initialState, action: CommitmentDetailActions): 
 
     case CommitmentDetailActionTypes.LoadDetailedCommitment:
      if(action.payload){
-       let result = action.payload
+
        return {
         ...state,
-        commitment: result.payload.commitment,
+        commitment: action.payload.commitment,
         loaded: true
       }
      }

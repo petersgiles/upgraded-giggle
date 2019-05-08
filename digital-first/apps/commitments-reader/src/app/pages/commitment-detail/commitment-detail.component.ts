@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core'
+import { Component, OnInit, OnDestroy,  ChangeDetectionStrategy } from '@angular/core'
 import { Store, select } from '@ngrx/store'
 import { Subscription, Subject, Observable, of } from 'rxjs'
 import { takeUntil, filter, withLatestFrom } from 'rxjs/operators'
@@ -8,25 +8,50 @@ import * as indef from 'indefinite'
 import { Commitment } from '../../models/commitment.model'
 import { CommitmentDetailsState } from '../../reducers/commitment-detail/commitment-detail.reducer'
 import { getCommitment } from '../../reducers/commitment-detail'
-import { selectFilteredCommitmentsState } from '../../reducers/overview/overview.reducer'
 import { CommitmentLocation } from '../../models/commitment.model'
+import * as fromRoot from '../../reducers'
 import { Config } from '../../services/config.service'
+import {UpdatePMOHandlingAdvice, UpdatePMCHandlingAdvice } from '../../reducers/commitment-detail/commitment-detail.actions'
 
 @Component({
   selector: 'digital-first-commitment-detail',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './commitment-detail.component.html',
   styleUrls: ['./commitment-detail.component.scss']
 })
+
 export class CommitmentDetailComponent implements OnInit, OnDestroy {
+
+ 
+    dropdownPosition: 'top' | 'bottom' = 'bottom';
+    pmcitems = [
+        { value: 1, label: 'Economic update' },
+        { value: 2, label: 'Cabinet' },
+        { value: 3, label: 'Minister to write back to Prime Minister' },
+        { value: 4, label: 'Minister to implement' }
+    ];
+
+    pmoitems = [
+      { value: 1, label: 'Economic update' },
+      { value: 2, label: 'Cabinet' },
+      { value: 3, label: 'Minister to write back to Prime Minister' },
+      { value: 4, label: 'Minister to implement' }
+  ];
+
   commitmentSubscription$: Subscription
   electorate$: Observable<CommitmentLocation[]>
   
   private readonly destroyed = new Subject<void>();
-  public commitment: Commitment
+  public _commitment: Commitment
+  get commitment() {
+    if(this._commitment)
+      return this._commitment
+  }
   constructor(
     private activatedRoute: ActivatedRoute,
     private commitmentDetailService: CommitmentDetailService,
-    private store: Store<CommitmentDetailsState>
+    private store: Store<CommitmentDetailsState>,
+    private store$: Store<fromRoot.State>
   ) { }
 
   ngOnInit() {
@@ -35,18 +60,19 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroyed),
         filter(params => !!params.id),
-        withLatestFrom(this.store.select(selectFilteredCommitmentsState))
+        withLatestFrom(this.store$)
       )
-      .subscribe(([params, commitments]) => {
-        let commitment = commitments.find(commitment => commitment.id.toString() === params.id)
-        this.commitmentDetailService.LoadCommitment(params.id)
+      .subscribe(([params, s]) => {
+        const store = <any>s
+        const config: Config = store.app.config
+        this.commitmentDetailService.LoadCommitment(params.id,config.header.bookType)
       })
 
       this.commitmentSubscription$ = this.store.pipe(select(getCommitment),
       filter(res => !!res)
       )
       .subscribe((commitment) => {
-        this.commitment = commitment
+        this._commitment = commitment
         this.electorate$ = of(this.commitment.electorates)
       })
     }
@@ -55,6 +81,14 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
     this.commitmentSubscription$.unsubscribe()
     this.destroyed.next();
     this.destroyed.complete();
+  }
+
+  onPMOChange(event){
+    this.store.dispatch(new UpdatePMOHandlingAdvice({label: event.label, commitmentId: this.commitment.id}))
+  }
+
+  onPMCChange(event){
+    this.store.dispatch(new UpdatePMCHandlingAdvice({label: event.label, commitmentId: this.commitment.id}))
   }
 
   public getIndefiniteArticle(term) {

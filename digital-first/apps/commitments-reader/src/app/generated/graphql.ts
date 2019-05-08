@@ -1620,11 +1620,7 @@ export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
       Maybe<
         { __typename?: 'CommitmentGraph' } & Pick<
           CommitmentGraph,
-<<<<<<< HEAD
           'id' | 'title' | 'bookType' | 'politicalParty' | 'announcedBy'
-=======
-          'id' | 'title'
->>>>>>> 242b35e2fce58ded20891e8ca8723f8594a7b884
         > & {
             commitmentType: Maybe<
               { __typename?: 'CommitmentTypeGraph' } & Pick<
@@ -1840,14 +1836,10 @@ export const CommitmentsSearchDocument = gql`
     commitments(refiner: $refiner, bookType: $bookType) {
       id
       title
-<<<<<<< HEAD
       bookType
       politicalParty
       announcedBy
       announcementType {
-=======
-      commitmentType {
->>>>>>> 242b35e2fce58ded20891e8ca8723f8594a7b884
         id
         title
       }
