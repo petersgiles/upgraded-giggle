@@ -68,20 +68,21 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
       .subscribe((params) => {
         this.commitmentDetailService.LoadCommitment(params.id,this.bookType)
       })
+
+      this.commitment$.subscribe(commitment => {this.commitment = commitment})
     }
 
   ngOnDestroy(): void {
-    this.commitmentSubscription$.unsubscribe()
     this.destroyed.next();
     this.destroyed.complete();
   }
 
   onPMOChange(event){
-    //this.store.dispatch(new UpdatePMOHandlingAdvice({label: event.label, commitmentId: this.commitment.id}))
+    this.store.dispatch(new UpdatePMOHandlingAdvice({label: event.label, commitmentId: this.commitment.id}))
   }
 
   onPMCChange(event){
-   // this.store.dispatch(new UpdatePMCHandlingAdvice({label: event.label, commitmentId: this.commitment.id}))
+    this.store.dispatch(new UpdatePMCHandlingAdvice({label: event.label, commitmentId: this.commitment.id}))
   }
 
   public getIndefiniteArticle(term) {
