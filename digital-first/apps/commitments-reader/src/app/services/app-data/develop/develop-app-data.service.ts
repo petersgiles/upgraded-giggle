@@ -1,13 +1,10 @@
 import { Observable, of } from 'rxjs'
-import { Injectable } from '@angular/core'
-import { AppDataService, ROLE_VISITORS, ROLE_MEMBERS } from '../app-data.service';
-import { AppUserProfile } from '@digital-first/df-layouts';
+import { AppDataService } from '../app-data.service'
+import { AppUserProfile } from '@digital-first/df-layouts'
+import { ROLE_VISITORS, ROLE_MEMBERS } from '../app-operations'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class DevelopAppDataService implements AppDataService {
-  getCurrentUserOperations(roles: { groupPermissions: any}): Observable<any> {
+  getCurrentUserOperations(roles: { groupPermissions: any }): Observable<any> {
     return of(null)
   }
   get UserOperation(): Observable<any> {
@@ -33,7 +30,6 @@ export class DevelopAppDataService implements AppDataService {
   }
 
   getCurrentUser(): Observable<AppUserProfile> {
-
     const userprofile = {
       userid: 0,
       login: 'guest',
@@ -43,9 +39,6 @@ export class DevelopAppDataService implements AppDataService {
       roles: [ROLE_VISITORS, ROLE_MEMBERS]
     }
 
-    return of(
-      userprofile
-    )
+    return of(userprofile)
   }
 }
-

@@ -43,7 +43,7 @@ import { EffectsModule } from '@ngrx/effects'
 import { StoreModule, Store } from '@ngrx/store'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 import { metaReducers, reducers, CustomSerializer } from './reducers'
-import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component';
+import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component'
 import { RouterStateSerializer } from '@ngrx/router-store'
 
 import * as fromRefiner from './reducers/refiner/refiner.reducer'
@@ -63,11 +63,9 @@ import { PlannerEffects } from './reducers/planner/planner.effects'
 
 import { SettingsService } from './services/settings.service'
 
-
 import { CommitmentPackageComponent } from './pages/commitment-packages/commitment-package.component'
-import { initApplication } from './app-init';
-import { appDataServiceProvider } from './services/app-data/app-data.service';
-
+import { initApplication } from './app-init'
+import { appDataServiceProvider } from './services/app-data/app-data.service.factory'
 
 const COMPONENTS = [
   AppComponent,

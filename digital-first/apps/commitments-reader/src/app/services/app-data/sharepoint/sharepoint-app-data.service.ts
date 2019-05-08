@@ -3,9 +3,6 @@ import { Injectable } from '@angular/core'
 import { AppDataService } from '../app-data.service'
 import { SharepointJsomService, SPAppUserProfile } from '@df/sharepoint'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class SharePointAppDataService implements AppDataService {
   getCurrentUserOperations(roles: { groupPermissions: any }): Observable<any> {
     return of(null)
