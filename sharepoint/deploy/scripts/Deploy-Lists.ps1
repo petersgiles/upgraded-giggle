@@ -30,6 +30,10 @@ function Get-ListsToProcess($saveLocation) {
 Add-Type -Path "$binPath\Microsoft.SharePoint.Client.dll"
 Add-Type -Path "$binPath\Microsoft.SharePoint.Client.Runtime.dll"
 
+if(-not (Test-Path $saveLocation))
+{
+    return
+}
 Write-Host "Deploying list schemas to $siteUrl from $saveLocation"
 
 $context = New-Object Microsoft.SharePoint.Client.ClientContext($siteUrl)

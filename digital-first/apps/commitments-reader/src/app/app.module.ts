@@ -36,14 +36,13 @@ import { CommitmentOverviewLayoutComponent } from './layouts/commitment-overview
 import { SchedulerComponent } from './components/scheduler/scheduler.component'
 import { commitmentEventDataServiceProvider } from './services/commitment-event/commitment-event-data-service'
 import { CommitmentDetailComponent } from './pages/commitment-detail/commitment-detail.component'
-import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component'
 import { DfSharepointLibModule, SharepointJsomService } from '@df/sharepoint'
 import * as fromUser from './reducers/user/user.reducer'
 import { EffectsModule } from '@ngrx/effects'
 import { StoreModule, Store } from '@ngrx/store'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 import { metaReducers, reducers, CustomSerializer } from './reducers'
-import { AppEffects } from './reducers/app/app.effects'
+import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component';
 import { RouterStateSerializer } from '@ngrx/router-store'
 
 import * as fromRefiner from './reducers/refiner/refiner.reducer'
@@ -53,6 +52,7 @@ import * as fromPlanner from './reducers/planner/planner.reducer'
 import * as fromApp from './reducers/app/app.reducer'
 import * as fromCommitmentDetail from './reducers/commitment-detail/commitment-detail.reducer'
 
+import { AppEffects } from './reducers/app/app.effects'
 import { CommitmentDetailEffects } from './reducers/commitment-detail/commitment-detail.effects'
 import { RouterEffects } from './reducers/router.effects'
 import { RefinerEffects } from './reducers/refiner/refiner.effects'
