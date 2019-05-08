@@ -96,7 +96,7 @@
     "@angular/router": "^7.2.13",
     "@auth0/angular-jwt": "^2.1.0",
     "@df/components": "^0.2.32781",
-    "@df/graphql-programs": "^1.0.32696",
+    "@df/graphql-programs": "^1.0.32870",
     "@df/sharepoint": "0.0.29205",
     "@df/utils": "0.0.29505",
     "@dsuite/programs-manager-messages": "^1.0.31053",
@@ -129,6 +129,7 @@
     "@nrwl/nx": "^7.8.1",
     "@swimlane/ngx-datatable": "^14.0.0",
     "@types/jest": "^24.0.11",
+    "ang-jsoneditor": "^1.7.4",
     "angular-tree-component": "^8.3.0",
     "apollo-angular": "^1.5.0",
     "apollo-angular-link-http": "^1.6.0",
@@ -152,6 +153,7 @@
     "highlightjs": "^9.12.0",
     "indefinite": "^2.2.1",
     "jquery": "^3.4.0",
+    "jsoneditor": "^5.32.2",
     "jspdf": "^1.5.3",
     "localforage": "^1.7.3",
     "markdown-it": "^8.4.2",
@@ -179,9 +181,7 @@
     "web-animations-js": "^2.3.1",
     "x2js": "^3.2.6",
     "xlsx": "^0.14.1",
-    "zone.js": "^0.8.29",
-    "ang-jsoneditor": "^1.7.4",
-    "jsoneditor": "^5.32.2"
+    "zone.js": "^0.8.29"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.13.5",

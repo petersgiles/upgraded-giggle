@@ -71,6 +71,10 @@ export type BriefCommitmentGraph = {
 
 export type BriefGraph = {
   briefCommitments?: Maybe<Array<Maybe<BriefCommitmentGraph>>>
+  briefRecommendations?: Maybe<Array<Maybe<BriefRecommendationGraph>>>
+  recommendationCount?: Maybe<Scalars['Int']>
+  commitmentCount?: Maybe<Scalars['Int']>
+  responseRecommendationCount?: Maybe<Scalars['Int']>
   id: Scalars['Guid']
   webUrl: Scalars['String']
   listId: Scalars['Guid']
@@ -89,6 +93,29 @@ export type BriefGraphBriefCommitmentsArgs = {
   where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
   skip?: Maybe<Scalars['Int']>
   take?: Maybe<Scalars['Int']>
+}
+
+export type BriefGraphBriefRecommendationsArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+}
+
+export type BriefRecommendationGraph = {
+  brief?: Maybe<BriefGraph>
+  id: Scalars['Guid']
+  webUrl: Scalars['String']
+  listId: Scalars['Guid']
+  listItemId: Scalars['Int']
+  webTitle: Scalars['String']
+  internalVersion: Scalars['UInt32']
+  webId: Scalars['Guid']
+  title: Scalars['String']
+  hasResponse: Scalars['Boolean']
+  briefId: Scalars['Guid']
 }
 
 export type BudgetGraph = {
@@ -237,6 +264,7 @@ export type CommitmentRefinerGraph = {
   commitmentTypes?: Maybe<Array<Maybe<Scalars['Int']>>>
   criticalDates?: Maybe<Array<Maybe<Scalars['Int']>>>
   portfolioLookups?: Maybe<Array<Maybe<Scalars['Int']>>>
+  deckItems?: Maybe<Array<Maybe<Scalars['Guid']>>>
 }
 
 export type CommitmentTypeGraph = {
@@ -388,7 +416,15 @@ export type DeactivateElectorateAdviceGraph = {
   adviceId: Scalars['Guid']
 }
 
-export type DeckItemBriefSummaryGraph = {
+export type DeckItemBriefSummaryBriefGraph = {
+  brief?: Maybe<BriefGraph>
+  deckItemBriefSummary?: Maybe<DeckItemBriefSummaryGraph>
+  id: Scalars['Guid']
+  briefId: Scalars['Guid']
+  deckItemBriefSummaryId: Scalars['Guid']
+}
+
+export type DeckItemBriefSummaryContentGraph = {
   briefId: Scalars['Guid']
   title: Scalars['String']
   reference: Scalars['String']
@@ -398,6 +434,44 @@ export type DeckItemBriefSummaryGraph = {
   webUrl: Scalars['String']
   webTitle: Scalars['String']
   listItemId: Scalars['Int']
+}
+
+export type DeckItemBriefSummaryGraph = {
+  deckItemBriefSummaryBriefs?: Maybe<
+    Array<Maybe<DeckItemBriefSummaryBriefGraph>>
+  >
+  briefs?: Maybe<Array<Maybe<BriefGraph>>>
+  id: Scalars['Guid']
+  webUrl: Scalars['String']
+  listId: Scalars['Guid']
+  listItemId: Scalars['Int']
+  internalVersion: Scalars['UInt32']
+  webTitle: Scalars['String']
+  webId: Scalars['Guid']
+  title: Scalars['String']
+  colour: Scalars['String']
+  actions: Scalars['String']
+  size: Scalars['Int']
+  sortOrder: Scalars['Int']
+  parentId?: Maybe<Scalars['Int']>
+}
+
+export type DeckItemBriefSummaryGraphDeckItemBriefSummaryBriefsArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+}
+
+export type DeckItemBriefSummaryGraphBriefsArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
 }
 
 export type DeleteBriefCommitmentInputGraph = {
@@ -848,7 +922,9 @@ export type Query = {
   programs?: Maybe<Array<Maybe<ProgramGraph>>>
   project?: Maybe<ProjectGraph>
   projects?: Maybe<Array<Maybe<ProjectGraph>>>
-  deckItemBriefSummary?: Maybe<Array<Maybe<DeckItemBriefSummaryGraph>>>
+  deckItemBriefSummaryContent?: Maybe<
+    Array<Maybe<DeckItemBriefSummaryContentGraph>>
+  >
   report?: Maybe<ReportGraph>
   reports?: Maybe<Array<Maybe<ReportGraph>>>
   statisticReport?: Maybe<StatisticReportGraph>
@@ -873,6 +949,8 @@ export type Query = {
   portfolioLookups?: Maybe<Array<Maybe<PortfolioLookupGraph>>>
   briefs?: Maybe<Array<Maybe<BriefGraph>>>
   briefCommitments?: Maybe<Array<Maybe<BriefCommitmentGraph>>>
+  deckItemBriefSummaries?: Maybe<Array<Maybe<DeckItemBriefSummaryGraph>>>
+  deckItemBriefSummary?: Maybe<DeckItemBriefSummaryGraph>
 }
 
 export type QueryAgencyArgs = {
@@ -975,7 +1053,7 @@ export type QueryProjectsArgs = {
   electorate?: Maybe<Scalars['String']>
 }
 
-export type QueryDeckItemBriefSummaryArgs = {
+export type QueryDeckItemBriefSummaryContentArgs = {
   briefIds?: Maybe<Array<Maybe<Scalars['Guid']>>>
 }
 
@@ -1173,6 +1251,25 @@ export type QueryBriefsArgs = {
 }
 
 export type QueryBriefCommitmentsArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+}
+
+export type QueryDeckItemBriefSummariesArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+  webId?: Maybe<Scalars['Guid']>
+}
+
+export type QueryDeckItemBriefSummaryArgs = {
   id?: Maybe<Scalars['String']>
   ids?: Maybe<Array<Maybe<Scalars['String']>>>
   orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
