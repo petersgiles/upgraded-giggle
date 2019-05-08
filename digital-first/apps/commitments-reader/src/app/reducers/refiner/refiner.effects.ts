@@ -21,9 +21,7 @@ export class RefinerEffects {
         first(),
         switchMap((result: any) => {
           const refiners: CRMenu[] = buildRefiner(
-            result.data.commitmentTypes,
-            result.data.criticalDates,
-            result.data.portfolioLookups
+            result.data
           )
           // tslint:disable-next-line: no-console
           console.log(`🐷 getRefinerGroups$ `, refiners)

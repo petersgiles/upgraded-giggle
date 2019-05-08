@@ -51,7 +51,7 @@ export class LoadRefinerGroups implements Action {
 
 export class SetRefinerFromQueryString implements Action {
   type = RefinerActionTypes.SetRefinerFromQueryString
-  constructor(public payload: {refiner: {id: string, groupId: string}[]}) {}
+  constructor(public payload: {refiner: {id: string, group: string}[]}) {}
 }
 
 export class GetRefinersFailure implements Action {

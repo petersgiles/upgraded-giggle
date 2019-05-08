@@ -17,8 +17,6 @@ export const initialState: State = {
 }
 
 export function reducer(state = initialState, action: RefinerActions): State {
-// tslint:disable-next-line: no-console
-  console.log(`🐷 reducer$ `, action)
   switch (action.type) {
 
     case RefinerActionTypes.ClearRefiners:
@@ -36,13 +34,13 @@ export function reducer(state = initialState, action: RefinerActions): State {
     case RefinerActionTypes.SelectRefinerGroup: {
       let groups: number[] = []
 
-      if (state.expandedRefinerGroups.includes(action.payload.groupId)) {
+      if (state.expandedRefinerGroups.includes(action.payload.group)) {
         groups = state.expandedRefinerGroups.filter(
-          p => p !== action.payload.groupId
+          p => p !== action.payload.group
         )
       } else {
         groups = [...state.expandedRefinerGroups]
-        groups.push(action.payload.groupId)
+        groups.push(action.payload.group)
       }
 
       return {
@@ -76,7 +74,7 @@ export function reducer(state = initialState, action: RefinerActions): State {
 
       const filter = {
         id: [selected.id],
-        groupId: [selected.groupId]
+        group: [selected.group]
       }
 
       const isSelected = multiFilter(selectedRefiners, filter).length > 0
@@ -84,12 +82,12 @@ export function reducer(state = initialState, action: RefinerActions): State {
       if (isSelected) {
         selectedRefiners = selectedRefiners.filter(
           item =>
-            !(item.groupId === selected.groupId && item.id === selected.id)
+            !(item.group === selected.group && item.id === selected.id)
         )
       } else {
         selectedRefiners.push({
           id: action.payload.id,
-          groupId: action.payload.groupId
+          group: action.payload.group
         })
       }
 
@@ -133,12 +131,12 @@ export const selectRefinerGroups = createSelector(
   (groups: any[], expanded: any[], selected: any[]) => {
     const rgs = (groups || []).map(g => ({
       ...g,
-      expanded: (expanded || []).includes(g.groupId),
+      expanded: (expanded || []).includes(g.group),
       children: (g.children || []).map(r => ({
         ...r,
         selected:
           (selected || []).findIndex(
-            s => s.id === r.id && s.groupId === r.groupId
+            s => s.id === r.id && s.group === r.group
           ) > -1
       }))
     }))
