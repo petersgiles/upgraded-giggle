@@ -3,8 +3,7 @@ import { environment } from '../environments/environment'
 import { Observable, of, Subscription, BehaviorSubject } from 'rxjs'
 import { SideBarItem, AppUserProfile } from '@digital-first/df-layouts'
 import { AppConfigService, App, Logo } from './services/config.service'
-import { CommitmentDataService } from './services/commitment-data.service'
-import { AppDataService } from './services/app-data.service'
+import { AppDataService } from './services/app-data/app-data.service'
 
 @Injectable({
   providedIn: 'root'

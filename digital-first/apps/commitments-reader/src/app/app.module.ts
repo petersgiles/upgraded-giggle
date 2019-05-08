@@ -62,10 +62,11 @@ import { MapEffects } from './reducers/map/map.effects'
 import { PlannerEffects } from './reducers/planner/planner.effects'
 
 import { SettingsService } from './services/settings.service'
-import { appDataServiceProvider } from './services/commitment-data.service'
+
 
 import { CommitmentPackageComponent } from './pages/commitment-packages/commitment-package.component'
 import { initApplication } from './app-init';
+import { appDataServiceProvider } from './services/app-data/app-data.service';
 
 
 const COMPONENTS = [

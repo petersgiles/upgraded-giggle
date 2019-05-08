@@ -1,12 +1,13 @@
 import { Observable, of } from 'rxjs'
 import { Injectable } from '@angular/core'
-import { AppDataService } from './app-data.service';
+import { AppDataService } from '../app-data.service'
+import { SharepointJsomService, SPAppUserProfile } from '@df/sharepoint'
 
 @Injectable({
   providedIn: 'root'
 })
-export class CommitmentDataService implements AppDataService {
-  getCurrentUserOperations(roles: { groupPermissions: any}): Observable<any> {
+export class SharePointAppDataService implements AppDataService {
+  getCurrentUserOperations(roles: { groupPermissions: any }): Observable<any> {
     return of(null)
   }
   get UserOperation(): Observable<any> {
@@ -23,23 +24,15 @@ export class CommitmentDataService implements AppDataService {
     return of(false)
   }
 
-  constructor() {}
-
   // Notification
 
   get Notification(): Observable<string> {
     return of(null)
   }
 
-  getCurrentUser(): Observable<any> {
-    return of({roles:[]})
+  getCurrentUser(): Observable<SPAppUserProfile> {
+    return this.sharepoint.getCurrentUser()
   }
-}
 
-const appDataServiceFactory = () => new CommitmentDataService()
-
-export let appDataServiceProvider = {
-  provide: AppDataService,
-  useFactory: appDataServiceFactory,
-  deps: []
+  constructor(private sharepoint: SharepointJsomService) {}
 }

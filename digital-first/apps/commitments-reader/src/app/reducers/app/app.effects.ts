@@ -4,7 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects'
 import { Observable } from 'rxjs'
 import { map, concatMap, tap } from 'rxjs/operators'
 import { Action } from '@ngrx/store'
-import { AppDataService } from '../../services/app-data.service'
+import { AppDataService } from '../../services/app-data/app-data.service'
 import {
   AppActionTypes,
   StartAppInitialiser,
