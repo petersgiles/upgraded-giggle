@@ -1,6 +1,6 @@
 import { Observable, of } from 'rxjs'
 import { Injectable } from '@angular/core'
-import { GetCommitmentDetailGQL } from '../../generated/graphql'
+import { GetCommitmentDetailGQL, BookType } from '../../generated/graphql'
 import { map, takeUntil, filter } from 'rxjs/operators'
 import { Commitment } from '../../models/commitment.model'
 
@@ -19,12 +19,9 @@ export class CommitmentDetailService {
     return commitments
   }
 
-  LoadCommitment(id){
-       return this.getCommitmentDetailGQL
-      .watch(
-        { id: id, bookType: "1" },
-        { fetchPolicy: 'network-only' }
-      )
+  LoadCommitment(id) {
+    return this.getCommitmentDetailGQL
+      .watch({ id: id, bookType: BookType.Red }, { fetchPolicy: 'network-only' })
       .valueChanges.pipe(map(value => value.data.commitments))
       .subscribe(dbItem => {
         if (dbItem) {
@@ -36,16 +33,16 @@ export class CommitmentDetailService {
             cost: dbItem[0].cost,
             date: dbItem[0].date,
             politicalParty: dbItem[0].politicalParty,
-            announcedBy: dbItem[0].announcedBy,
-           // announcementType: dbItem[0].announcementType,
-             // ? dbItem[0].announcementType.title
+            announcedBy: dbItem[0].announcedBy
+            // announcementType: dbItem[0].announcementType,
+            // ? dbItem[0].announcementType.title
             //  : '',
-           // criticalDate: dbItem[0].criticalDate,
+            // criticalDate: dbItem[0].criticalDate,
             //  ? dbItem[0].criticalDate.title
             //  : '',
-          //  portfolio: dbItem[0].portfolioLookup,
-             // ? dbItem[0].portfolioLookup.title
-             // : ''
+            //  portfolio: dbItem[0].portfolioLookup,
+            // ? dbItem[0].portfolioLookup.title
+            // : ''
           }
         }
       })

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable, BehaviorSubject } from 'rxjs'
 import { environment } from '../../environments/environment.prod'
+import { BookType } from '../generated/graphql';
 
 export interface Logo {
   image: string
@@ -19,7 +20,7 @@ export interface App {
 export interface Header {
   title?: string
   classification?: string
-  bookType?: string
+  bookType?: BookType
   logo?: Logo
   apps?: App[]
 }
