@@ -1,6 +1,6 @@
 Param(
     [string]$siteUrl = "http://vm-dev-lbs13/sites/commitments-reader-tim/",
-    [string]$saveLocation = "$PSScriptRoot\..\..\commitments-reader\ListDefinitions",
+    [string]$saveLocation = "$PSScriptRoot\..\..\deck\ListDefinitions",
     [string]$binPath = "$PSScriptRoot",
     [bool]$forceListUpdate = $false
 )
@@ -38,6 +38,10 @@ Write-Host "Deploying list schemas to $siteUrl from $saveLocation"
 
 $context = New-Object Microsoft.SharePoint.Client.ClientContext($siteUrl)
 HandleMixedModeWebApplication $context $binPath
+
+if((Test-Path $saveLocation)) {
+    return
+}
 
 $listsAll = Get-ListsToProcess $saveLocation
 if ($null -eq $listsAll) {
