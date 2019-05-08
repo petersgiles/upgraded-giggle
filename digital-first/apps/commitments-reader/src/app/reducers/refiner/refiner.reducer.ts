@@ -16,24 +16,15 @@ export const initialState: State = {
   textRefiner: null
 }
 
-const antiFilter = (array, filters) => {
-  const filterKeys = Object.keys(filters)
-  // filters all elements passing the criteria
-  return array.filter(item =>
-    filterKeys.every(key => {
-      if (!filters[key].length) {
-        return true
-      }
-
-            // tslint:disable-next-line: no-console
-            console.log(`🦄 filters`, key, filters[key])
-      return filters[key].filter(item[key])
-    })
-  )
-}
-
 export function reducer(state = initialState, action: RefinerActions): State {
   switch (action.type) {
+
+    case RefinerActionTypes.ClearRefiners:
+      return {
+        ...state,
+        selectedRefiners: []
+      }
+
     case RefinerActionTypes.LoadRefinerGroups:
       return {
         ...state,
@@ -43,13 +34,13 @@ export function reducer(state = initialState, action: RefinerActions): State {
     case RefinerActionTypes.SelectRefinerGroup: {
       let groups: number[] = []
 
-      if (state.expandedRefinerGroups.includes(action.payload.groupId)) {
+      if (state.expandedRefinerGroups.includes(action.payload.group)) {
         groups = state.expandedRefinerGroups.filter(
-          p => p !== action.payload.groupId
+          p => p !== action.payload.group
         )
       } else {
         groups = [...state.expandedRefinerGroups]
-        groups.push(action.payload.groupId)
+        groups.push(action.payload.group)
       }
 
       return {
@@ -67,21 +58,37 @@ export function reducer(state = initialState, action: RefinerActions): State {
       return retVal
     }
 
+    case RefinerActionTypes.SetRefinerFromQueryString: {
+
+      const selectedRefiners = action.payload.refiner
+ 
+      return {
+        ...state,
+        selectedRefiners: selectedRefiners
+      }
+    }
+
     case RefinerActionTypes.SelectRefiner: {
       const selected = action.payload
       let selectedRefiners: any[] = [...state.selectedRefiners]
 
       const filter = {
         id: [selected.id],
-        groupId: [selected.groupId]
+        group: [selected.group]
       }
 
       const isSelected = multiFilter(selectedRefiners, filter).length > 0
 
       if (isSelected) {
-        selectedRefiners = selectedRefiners.filter(item => !(item.groupId === selected.groupId && item.id === selected.id))
+        selectedRefiners = selectedRefiners.filter(
+          item =>
+            !(item.group === selected.group && item.id === selected.id)
+        )
       } else {
-        selectedRefiners.push(action.payload)
+        selectedRefiners.push({
+          id: action.payload.id,
+          group: action.payload.group
+        })
       }
 
       return {
@@ -124,12 +131,12 @@ export const selectRefinerGroups = createSelector(
   (groups: any[], expanded: any[], selected: any[]) => {
     const rgs = (groups || []).map(g => ({
       ...g,
-      expanded: (expanded || []).includes(g.groupId),
+      expanded: (expanded || []).includes(g.group),
       children: (g.children || []).map(r => ({
         ...r,
         selected:
           (selected || []).findIndex(
-            s => s.id === r.id && s.groupId === r.groupId
+            s => s.id === r.id && s.group === r.group
           ) > -1
       }))
     }))

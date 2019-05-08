@@ -3,7 +3,6 @@ export interface CRMenu {
   title: string
   expanded: boolean
   selected: boolean
-  groupId: number
   group: string,
   children?: CRMenu[]
 }

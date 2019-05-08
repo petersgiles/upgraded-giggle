@@ -21,6 +21,7 @@ import { CommitmentsSearchGQL } from '../../generated/graphql'
 import * as fromRoot from '../../reducers'
 import { Config } from '../../services/config.service'
 import { Store } from '@ngrx/store'
+import { refinerMap } from '../../models'
 
 @Injectable()
 export class OverviewEffects {
@@ -48,7 +49,13 @@ export class OverviewEffects {
       )
 
       // tslint:disable-next-line: no-console
-      console.log(`🐲 `, store, selectedRefiners, selectedRefinerGroup, config, bookType)
+      console.log(`🐲 `, store, selectedRefiners)
+      // tslint:disable-next-line: no-console
+      console.log(`🐲 selectedRefinerGroup `, selectedRefinerGroup)
+      // tslint:disable-next-line: no-console
+      console.log(`🐲 config `, config)
+      // tslint:disable-next-line: no-console
+      console.log(`🐲 bookType `, bookType)
 
       return {
         refiner: selectedRefinerGroup,
