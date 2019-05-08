@@ -12,6 +12,10 @@ export const REFINER_GROUP_MAP = [
   {
     group: 'portfolioLookups',
     title: 'Portfolios'
+  },
+  {
+    group: 'deckItemBriefSummaries',
+    title: 'Theme'
   }
 ]
 

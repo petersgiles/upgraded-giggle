@@ -44,7 +44,8 @@ export class OverviewEffects {
         {
           commitmentTypes: [],
           criticalDates: [],
-          portfolioLookups: []
+          portfolioLookups: [],
+          deckItemBriefSummaries: []
         }
       )
 
