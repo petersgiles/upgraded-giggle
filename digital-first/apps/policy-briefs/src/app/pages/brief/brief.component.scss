@@ -1,0 +1,58 @@
+:host {
+  width: 100%;
+  width: -webkit-fill-available;
+  display: flex;
+  flex-direction: column;
+}
+
+df-button.edit {
+  min-width: 80px;
+}
+
+df-status-picker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.brief-protective-marking {
+    color: red; 
+    width: 100%; 
+    text-align: center
+}
+
+.brief-reference {
+  min-width: 170px;
+  width: 170px;
+  padding-right: 20px;
+  text-align: right;
+}
+
+.brief-document {
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12),
+    0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  background-color: rgb(255, 255, 255) !important;
+  color: rgb(66, 66, 66) !important;
+
+  padding: 5px 64px;
+  width: calc(100% - 128px);
+  overflow-x: hidden;
+}
+
+.brief-layout {
+  display: flex;
+  flex-direction: row;
+
+  nav {
+    padding: 6px;
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+}

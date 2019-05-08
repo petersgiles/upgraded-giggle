@@ -1,0 +1,28 @@
+query MapPointsSearch($refiner: CommitmentRefinerGraph!, $bookType: BookType!) {
+  mapPoints(refiner: $refiner, bookType: $bookType) {
+    id
+    title
+    placeId
+    latitude
+    longitude
+    commitmentMapPoints {
+      commitment {
+        id
+        title
+        commitmentType {
+          id
+          title
+        }
+        criticalDate {
+          id
+          title
+        }
+        portfolioLookup {
+          id
+          title
+        }
+        portfolioLookupId
+      }
+    }
+  }
+}

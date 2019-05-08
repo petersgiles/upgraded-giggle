@@ -1,28 +1,57 @@
 import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
-import { HomeComponent } from './containers/home/home.component'
-import { FullLayoutComponent, SimpleLayoutComponent } from '@digital-first/df-layouts'
+
+import {
+  SimpleLayoutComponent,
+  TitleLayoutComponent
+} from '@digital-first/df-layouts'
+import {
+  ErrorPageNotFoundComponent,
+  ErrorServerComponent
+} from '@digital-first/df-pages'
+
+import { BriefComponent } from './pages/brief/brief.component'
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'brief', pathMatch: 'full' },
   {
-    path: 'home',
-    component: FullLayoutComponent,
+    path: 'brief',
+    component: TitleLayoutComponent,
     data: {
-      title: 'Home'
+      title: 'Brief'
     },
     children: [
       {
         path: '',
-        component: HomeComponent,
+        component: BriefComponent
+      },
+      {
+        path: ':id',
+        component: BriefComponent
       }
     ]
   },
-  { path: '**', redirectTo: 'home' }
+  {
+    path: 'pages',
+    component: SimpleLayoutComponent,
+    data: {
+      title: 'Pages'
+    },
+    children: [
+      {
+        path: '404',
+        component: ErrorPageNotFoundComponent
+      },
+      {
+        path: '500',
+        component: ErrorServerComponent
+      }
+    ]
+  },
+  { path: '**', redirectTo: 'pages/404' }
 ]
-
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

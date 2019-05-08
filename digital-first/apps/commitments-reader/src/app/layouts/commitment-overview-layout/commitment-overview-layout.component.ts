@@ -1,9 +1,26 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core'
 
 import { AppRouterService } from '../../services/app-router.service'
-import { CommitmentRefinerService } from '../../services/commitment-refiner/commitment-refiner.service'
 import { RefinerGroup } from '@digital-first/df-refiner'
-import { Observable } from 'rxjs'
+import { Observable, Subscription } from 'rxjs'
+import { tap } from 'rxjs/operators'
+
+import * as fromRefiner from '../../reducers/refiner/refiner.reducer'
+import * as fromRoot from '../../reducers'
+
+import { Store, select } from '@ngrx/store'
+import {
+  SelectRefinerGroup,
+  SelectRefiner,
+  ChangeTextRefiner,
+  GetRefinerGroups,
+  SetRefinerFromQueryString
+} from '../../reducers/refiner/refiner.actions'
+
+import { GetRefinedCommitments } from '../../reducers/overview/overview.actions'
+import { GetRefinedMapPoints } from '../../reducers/map/map.actions'
+import { ActivatedRoute, Router } from '@angular/router'
+
 
 @Component({
   selector: 'digital-first-commitment-overview-layout',
@@ -35,33 +52,84 @@ export class CommitmentOverviewLayoutComponent
   ]
   urlSubscription: any
   selectId$: any
-  refinerGroups$: Observable<RefinerGroup[]>
+  refinerGroupsSubscription$: Subscription
+  queryParamsSubscription$: Subscription
+  refinerGroups: RefinerGroup[]
+  queryParamsRefiner: { id: string; group: string }[]
 
   constructor(
+    private route: ActivatedRoute,
+    private router: Router,
     private appRouter: AppRouterService,
-    private dataService: CommitmentRefinerService
+    private store: Store<fromRoot.State>
   ) {}
 
   handleRefinerGroupSelected($event) {
-    this.dataService.handleRefinerGroupSelected($event)
+    this.store.dispatch(new SelectRefinerGroup($event))
   }
 
   handleRefinerSelected($event) {
-    this.dataService.handleRefinerSelected($event)
+    this.store.dispatch(new SelectRefiner($event))
   }
+
   handleTextRefinerChanged($event) {
-    this.dataService.handleTextRefinerChanged($event)
+    this.store.dispatch(new ChangeTextRefiner($event))
   }
-  ngAfterViewInit(): void {
-  }
-  ngOnDestroy(): void {}
+
+  ngAfterViewInit(): void {}
 
   ngOnInit() {
-    this.refinerGroups$ = this.dataService.refinerGroups$
-    this.appRouter.segments.subscribe(url => {
-      const x = this.tabs.findIndex(p => p.id === url)
-      this.activeTab = x
-      this.dataService.getLayoutPage()
+    this.queryParamsSubscription$ = this.route.queryParams.subscribe(params => {
+      if (params && params.refiner) {
+        this.queryParamsRefiner = JSON.parse(params.refiner)
+        // tslint:disable-next-line: no-console
+        console.log(`👹 this.queryParamsRefiner`, this.queryParamsRefiner)
+        this.store.dispatch(
+          new SetRefinerFromQueryString({ refiner: this.queryParamsRefiner })
+        )
+      }
     })
+
+    this.store
+      .pipe(select(fromRefiner.selectSelectedRefinersState))
+      .subscribe(next => {
+        let queryParams = {}
+        if (next && next.length > 0) {
+          queryParams = { refiner: JSON.stringify(next) }
+        }
+        // tslint:disable-next-line: no-console
+        console.log(`👹 selectSelectedRefinersState`, next)
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: queryParams,
+          queryParamsHandling: 'merge'
+        })
+      })
+
+    this.refinerGroupsSubscription$ = this.store
+      .pipe(
+        select(fromRefiner.selectRefinerGroups),
+        // tslint:disable-next-line: no-console
+        tap(result => console.log(`👹 `, result))
+      )
+      .subscribe(next => {
+        this.refinerGroups = next
+        this.store.dispatch(new GetRefinedCommitments(null))
+        this.store.dispatch(new GetRefinedMapPoints(null))
+      })
+
+    this.appRouter.segments.subscribe(url => {
+      const tab = this.tabs.findIndex(p => p.id === url)
+      this.activeTab = tab
+      this.store.dispatch(new GetRefinerGroups(null))
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.refinerGroupsSubscription$.unsubscribe()
+
+    if (this.queryParamsSubscription$) {
+      this.queryParamsSubscription$.unsubscribe()
+    }
   }
 }

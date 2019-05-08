@@ -1,16 +1,21 @@
 import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
 import { HomeComponent } from './pages/home/home.component'
+
 import {
-  FullLayoutComponent,
-  SimpleLayoutComponent
+  SimpleLayoutComponent,
+  TitleLayoutComponent
 } from '@digital-first/df-layouts'
+import {
+  ErrorPageNotFoundComponent,
+  ErrorServerComponent
+} from '@digital-first/df-pages'
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'deck', pathMatch: 'full' },
   {
-    path: 'home',
-    component: FullLayoutComponent,
+    path: 'deck',
+    component: TitleLayoutComponent,
     data: {
       title: 'Home'
     },
@@ -18,15 +23,32 @@ const routes: Routes = [
       {
         path: '',
         component: HomeComponent
-      },  {
+      },
+      {
         path: ':parent',
         component: HomeComponent
       }
     ]
   },
-  { path: '**', redirectTo: 'home' }
+  {
+    path: 'pages',
+    component: SimpleLayoutComponent,
+    data: {
+      title: 'Pages'
+    },
+    children: [
+      {
+        path: '404',
+        component: ErrorPageNotFoundComponent
+      },
+      {
+        path: '500',
+        component: ErrorServerComponent
+      }
+    ]
+  },
+  { path: '**', redirectTo: 'pages/404' }
 ]
-
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]

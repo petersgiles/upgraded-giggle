@@ -1,10 +1,8 @@
-query CommitmentsSearch($refiner: CommitmentRefinerGraph!, $bookType: String!) {
+query CommitmentsSearch($refiner: CommitmentRefinerGraph!, $bookType: BookType!) {
   commitments(refiner: $refiner, bookType: $bookType) {
     id
     title
-    politicalParty
-    announcedBy
-    announcementType {
+    commitmentType {
       id
       title
     }
@@ -15,16 +13,6 @@ query CommitmentsSearch($refiner: CommitmentRefinerGraph!, $bookType: String!) {
     portfolioLookup {
       id
       title
-    }
-    commitmentMapPoints {
-      id
-      mapPoint {
-        id
-        placeId
-        title
-        latitude
-        longitude
-      }
     }
   }
 }

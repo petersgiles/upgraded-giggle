@@ -5,6 +5,13 @@ export interface SideBarItem {
   divider?: boolean
 }
 
+export interface AppItem {
+  caption?: string
+  url?: any[] | string
+  icon?: string
+  target?: string
+}
+
 export interface AppUserProfile {
   name: string
   roles?: any

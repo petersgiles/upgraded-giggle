@@ -6,9 +6,12 @@ declare var require: any
 export const environment = {
   production: false,
   version: require('../../../../package.json').version,
-  datasource: {
-    type: 'local',
-    dataServiceUrl: '//localhost:3001/graphql',
+  config: '/assets/deck.txt',
+  datasources: {
+    default: {
+      type: 'sharepoint',
+      dataServiceUrl: 'http://vm-dev-lbs13/sites/redigb/_api/Web/'
+    }
   }
 }
 

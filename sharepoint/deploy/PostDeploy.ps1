@@ -1,13 +1,12 @@
 param(
-    [string]$SiteUrls = "http://vm-dev-lbs13/sites/commitments-reader-tim",
-    [string]$AppName = "commitments-reader",
+    [string]$SiteUrls,
+    [string]$AppName,
     [switch]$jsOnly,
     [string]$SiteConfiguration,
-    [string]$LoadReferenceData,
-    [string]$ForceSchemaUpdate
+    [string]$LoadReferenceData
 )
 
-if ($OctopusParameters) {
+if($OctopusParameters) {
     $SiteUrls = $OctopusParameters["SiteUrls"]
     $AppName = $OctopusParameters["AppName"]
     $LoadReferenceData = $OctopusParameters["LoadReferenceData"]

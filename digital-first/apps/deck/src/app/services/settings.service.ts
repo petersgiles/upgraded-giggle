@@ -12,7 +12,7 @@ export class SettingsService {
     return environment
   }
 
-  get datasource(): any {
-    return environment.datasource
+  get datasources(): any {
+    return environment.datasources
   }
 }

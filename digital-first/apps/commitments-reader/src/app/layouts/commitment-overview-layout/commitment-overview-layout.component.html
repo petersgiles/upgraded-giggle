@@ -6,7 +6,7 @@
     >
       <digital-first-metadata-refiner
         style="overflow-y:auto"
-        [refinerGroups]="refinerGroups$ | async"
+        [refinerGroups]="refinerGroups"
         (onSearchCriteriaChanged)="handleTextRefinerChanged($event)"
         (onClear)="handleTextRefinerChanged(null)"
         (onRefinerGroupSelected)="handleRefinerGroupSelected($event)"
