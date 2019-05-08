@@ -21,6 +21,7 @@ import { CommitmentsSearchGQL } from '../../generated/graphql'
 import * as fromRoot from '../../reducers'
 import { Config } from '../../services/config.service'
 import { Store } from '@ngrx/store'
+import { refinerMap } from '../../models';
 
 @Injectable()
 export class OverviewEffects {
@@ -37,7 +38,7 @@ export class OverviewEffects {
 
       const selectedRefinerGroup = selectedRefiners.reduce(
         (acc, item) => {
-          acc[item.group].push(item.id)
+          acc[refinerMap[item.groupId]].push(item.id)
           return acc
         },
         {

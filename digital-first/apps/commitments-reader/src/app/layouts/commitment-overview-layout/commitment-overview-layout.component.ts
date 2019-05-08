@@ -13,10 +13,12 @@ import {
   SelectRefinerGroup,
   SelectRefiner,
   ChangeTextRefiner,
-  GetRefinerGroups
+  GetRefinerGroups,
+  SetRefinerFromQueryString
 } from '../../reducers/refiner/refiner.actions'
-import { GetRefinedCommitments } from '../../reducers/overview/overview.actions';
-import { GetRefinedMapPoints } from '../../reducers/map/map.actions';
+import { GetRefinedCommitments } from '../../reducers/overview/overview.actions'
+import { GetRefinedMapPoints } from '../../reducers/map/map.actions'
+import { ActivatedRoute, Router } from '@angular/router'
 
 @Component({
   selector: 'digital-first-commitment-overview-layout',
@@ -49,9 +51,13 @@ export class CommitmentOverviewLayoutComponent
   urlSubscription: any
   selectId$: any
   refinerGroupsSubscription$: Subscription
+  queryParamsSubscription$: Subscription
   refinerGroups: RefinerGroup[]
+  queryParamsRefiner: { id: string; groupId: string }[]
 
   constructor(
+    private route: ActivatedRoute,
+    private router: Router,
     private appRouter: AppRouterService,
     private store: Store<fromRoot.State>
   ) {}
@@ -71,15 +77,27 @@ export class CommitmentOverviewLayoutComponent
   ngAfterViewInit(): void {}
 
   ngOnInit() {
-    this.refinerGroupsSubscription$ = this.store.pipe(
-      select(fromRefiner.selectRefinerGroups),
-      // tslint:disable-next-line: no-console
-      tap(result => console.log(`👹 `, result))
-    ).subscribe(next => {
-      this.refinerGroups = next
-      this.store.dispatch(new GetRefinedCommitments(null))
-      this.store.dispatch(new GetRefinedMapPoints(null))
+    this.queryParamsSubscription$ = this.route.queryParams.subscribe(params => {
+      if (params && params.refiner) {
+        this.queryParamsRefiner = JSON.parse(params.refiner)
+        console.log(`👹 this.queryParamsRefiner`, this.queryParamsRefiner)
+        this.store.dispatch(
+          new SetRefinerFromQueryString({refiner: this.queryParamsRefiner})
+        )
+      }
     })
+
+    this.refinerGroupsSubscription$ = this.store
+      .pipe(
+        select(fromRefiner.selectRefinerGroups),
+        // tslint:disable-next-line: no-console
+        tap(result => console.log(`👹 `, result))
+      )
+      .subscribe(next => {
+        this.refinerGroups = next
+        this.store.dispatch(new GetRefinedCommitments(null))
+        this.store.dispatch(new GetRefinedMapPoints(null))
+      })
 
     this.appRouter.segments.subscribe(url => {
       const tab = this.tabs.findIndex(p => p.id === url)
@@ -90,5 +108,9 @@ export class CommitmentOverviewLayoutComponent
 
   ngOnDestroy(): void {
     this.refinerGroupsSubscription$.unsubscribe()
+
+    if (this.queryParamsSubscription$) {
+      this.queryParamsSubscription$.unsubscribe()
+    }
   }
 }

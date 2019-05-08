@@ -16,24 +16,17 @@ export const initialState: State = {
   textRefiner: null
 }
 
-const antiFilter = (array, filters) => {
-  const filterKeys = Object.keys(filters)
-  // filters all elements passing the criteria
-  return array.filter(item =>
-    filterKeys.every(key => {
-      if (!filters[key].length) {
-        return true
+export function reducer(state = initialState, action: RefinerActions): State {
+// tslint:disable-next-line: no-console
+  console.log(`🐷 reducer$ `, action)
+  switch (action.type) {
+
+    case RefinerActionTypes.ClearRefiners:
+      return {
+        ...state,
+        selectedRefiners: []
       }
 
-            // tslint:disable-next-line: no-console
-            console.log(`🦄 filters`, key, filters[key])
-      return filters[key].filter(item[key])
-    })
-  )
-}
-
-export function reducer(state = initialState, action: RefinerActions): State {
-  switch (action.type) {
     case RefinerActionTypes.LoadRefinerGroups:
       return {
         ...state,
@@ -67,6 +60,16 @@ export function reducer(state = initialState, action: RefinerActions): State {
       return retVal
     }
 
+    case RefinerActionTypes.SetRefinerFromQueryString: {
+
+      const selectedRefiners = action.payload.refiner
+ 
+      return {
+        ...state,
+        selectedRefiners: selectedRefiners
+      }
+    }
+
     case RefinerActionTypes.SelectRefiner: {
       const selected = action.payload
       let selectedRefiners: any[] = [...state.selectedRefiners]
@@ -79,9 +82,15 @@ export function reducer(state = initialState, action: RefinerActions): State {
       const isSelected = multiFilter(selectedRefiners, filter).length > 0
 
       if (isSelected) {
-        selectedRefiners = selectedRefiners.filter(item => !(item.groupId === selected.groupId && item.id === selected.id))
+        selectedRefiners = selectedRefiners.filter(
+          item =>
+            !(item.groupId === selected.groupId && item.id === selected.id)
+        )
       } else {
-        selectedRefiners.push(action.payload)
+        selectedRefiners.push({
+          id: action.payload.id,
+          groupId: action.payload.groupId
+        })
       }
 
       return {
