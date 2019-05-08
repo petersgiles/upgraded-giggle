@@ -11,7 +11,9 @@ import { getCommitment } from '../../reducers/commitment-detail'
 import { CommitmentLocation } from '../../models/commitment.model'
 import * as fromRoot from '../../reducers'
 import { Config } from '../../services/config.service'
+import * as appSelectors from '../../reducers/app'
 import {UpdatePMOHandlingAdvice, UpdatePMCHandlingAdvice } from '../../reducers/commitment-detail/commitment-detail.actions'
+import { BookType } from '../../generated/graphql';
 
 @Component({
   selector: 'digital-first-commitment-detail',
@@ -40,7 +42,7 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
 
   commitmentSubscription$: Subscription
   electorate$: Observable<CommitmentLocation[]>
-  
+  bookType: string
   private readonly destroyed = new Subject<void>();
   public _commitment: Commitment
   get commitment() {
@@ -56,16 +58,20 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
   
+    this.store.pipe(select(appSelectors.App.selectAppBookTypeState))
+    .subscribe(bookType => {
+        this.bookType = bookType
+    })
     this.activatedRoute.params
       .pipe(
         takeUntil(this.destroyed),
-        filter(params => !!params.id),
-        withLatestFrom(this.store$)
+        filter(params => !!params.id)//,
+        //withLatestFrom(this.store$)
       )
-      .subscribe(([params, s]) => {
-        const store = <any>s
-        const config: Config = store.app.config
-        this.commitmentDetailService.LoadCommitment(params.id,config.header.bookType)
+      .subscribe((params) => {
+        //const store = <any>s
+       // const config: Config = store.app.config
+        this.commitmentDetailService.LoadCommitment(params.id,this.bookType)
       })
 
       this.commitmentSubscription$ = this.store.pipe(select(getCommitment),
