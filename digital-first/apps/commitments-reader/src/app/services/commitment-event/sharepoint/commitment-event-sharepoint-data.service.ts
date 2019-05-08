@@ -27,12 +27,12 @@ export class EventSharepointDataService implements CommitmentEventDataService {
   constructor(private sharepoint: SharepointJsomService) {}
 
   getEventsByCommitments(
-    commitments: any
+    payload: any
   ): Observable<DataResult<CommitmentEvent[]>> {
-    if (!commitments || commitments.length === 0) {
+    if (!payload.commitments || payload.commitments.length === 0) {
       return of()
     }
-    const commitmentIds = commitments.map(c => c.id)
+    const commitmentIds = payload.commitments.map(c => c.id)
     const viewXml = byCommitmentIdsQuery(commitmentIds)
     return this.sharepoint
       .getItems({ listName: 'CommitmentEvent' })
@@ -43,18 +43,26 @@ export class EventSharepointDataService implements CommitmentEventDataService {
       )
   }
 
-  getEventTypes(): Observable<DataResult<CommitmentEventType[]>> {
-    return this.sharepoint.getItems({ listName: 'CommitmentEventType' }).pipe(
-      concatMap((result: any) =>
-        of({
-          data: mapCommitmentEventTypes(result).sort((a, b) =>
-            a.type < b.type ? -1 : 1
-          ),
-          loading: false,
-          error: null
-        })
+  getEventTypes(config: any): Observable<DataResult<CommitmentEventType[]>> {
+    if (config && config.isReadOnly) {
+      return of({
+        data: [],
+        loadding: false,
+        error: null
+      })
+    } else {
+      return this.sharepoint.getItems({ listName: 'CommitmentEventType' }).pipe(
+        concatMap((result: any) =>
+          of({
+            data: mapCommitmentEventTypes(result).sort((a, b) =>
+              a.type < b.type ? -1 : 1
+            ),
+            loading: false,
+            error: null
+          })
+        )
       )
-    )
+    }
   }
 
   getExternalEvents(
@@ -75,42 +83,55 @@ export class EventSharepointDataService implements CommitmentEventDataService {
     )
   }
 
-  getExternalEventTypes(): Observable<DataResult<ExternalEventType[]>> {
-    return this.sharepoint.getItems({ listName: 'ExternalEventType' }).pipe(
-      concatMap((result: any) =>
-        of({
-          data: mapExternalEventTypes(result).sort((a, b) =>
-            a.name < b.name ? -1 : 1
-          ),
-          loading: false,
-          error: null
-        })
+  getExternalEventTypes(
+    config: any
+  ): Observable<DataResult<ExternalEventType[]>> {
+    if (config && config.isReadOnly) {
+      return of({
+        data: [],
+        loadding: false,
+        error: null
+      })
+    } else {
+      return this.sharepoint.getItems({ listName: 'ExternalEventType' }).pipe(
+        concatMap((result: any) =>
+          of({
+            data: mapExternalEventTypes(result).sort((a, b) =>
+              a.name < b.name ? -1 : 1
+            ),
+            loading: false,
+            error: null
+          })
+        )
       )
-    )
+    }
   }
 
   storeEvent(payload: any): Observable<DataResult<any>> {
-    const spData = {
-      Title: payload.name,
-      CommitmentId: payload.resourceId,
-      StartDate: payload.startDate,
-      EndDate: payload.endDate,
-      EventType: payload.eventType,
-      CssClass: payload.eventCls,
-      Colour: payload.eventColor,
-      Icon: payload.iconCls
+    if (payload.config && payload.config.isReadOnly) {
+      throw Error('You do not have permission to add event')
     }
-    const existingEvent = parseInt(payload.id, 10) >= 0 // byrntum scheduler will auto assign an id starts wtih _generated
+    const spData = {
+      Title: payload.data.name,
+      CommitmentId: payload.data.resourceId,
+      StartDate: payload.data.startDate,
+      EndDate: payload.data.endDate,
+      EventType: payload.data.eventType,
+      CssClass: payload.data.eventCls,
+      Colour: payload.data.eventColor,
+      Icon: payload.data.iconCls
+    }
+    const existingEvent = parseInt(payload.data.id, 10) >= 0 // byrntum scheduler will auto assign an id starts wtih _generated
     return this.sharepoint
       .storeItem({
         listName: 'CommitmentEvent',
         data: spData,
-        id: existingEvent ? payload.id : null
+        id: existingEvent ? payload.data.id : null
       })
       .pipe(
         concatMap(_ =>
           of({
-            data: { name: payload.name },
+            data: { name: payload.data.name },
             loading: false
           })
         )
@@ -118,10 +139,13 @@ export class EventSharepointDataService implements CommitmentEventDataService {
   }
 
   removeEvent(payload: any): Observable<DataResult<any>> {
+    if (payload.config && payload.config.isReadOnly) {
+      throw Error('You do not have permission to delete event')
+    }
     return this.sharepoint
       .removeItem({
         listName: 'CommitmentEvent',
-        id: payload.id
+        id: payload.data.id
       })
       .pipe(
         concatMap(_ =>

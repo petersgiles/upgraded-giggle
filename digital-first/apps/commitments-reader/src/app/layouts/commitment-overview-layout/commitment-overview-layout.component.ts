@@ -16,9 +16,11 @@ import {
   GetRefinerGroups,
   SetRefinerFromQueryString
 } from '../../reducers/refiner/refiner.actions'
+
 import { GetRefinedCommitments } from '../../reducers/overview/overview.actions'
 import { GetRefinedMapPoints } from '../../reducers/map/map.actions'
 import { ActivatedRoute, Router } from '@angular/router'
+
 
 @Component({
   selector: 'digital-first-commitment-overview-layout',

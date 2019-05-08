@@ -1,4 +1,4 @@
-query GetRefinerTags($webId: Guid) {
+query GetRefinerTags($webId: Guid!) {
   commitmentTypes {
     id
     title

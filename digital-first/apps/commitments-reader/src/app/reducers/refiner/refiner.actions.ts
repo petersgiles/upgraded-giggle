@@ -58,6 +58,7 @@ export class GetRefinersFailure implements Action {
   type = RefinerActionTypes.GetRefinersFailure
   constructor(public payload: any) {}
 }
+
 export type RefinerActions =
     GetRefinerGroups
   | LoadRefinerGroups

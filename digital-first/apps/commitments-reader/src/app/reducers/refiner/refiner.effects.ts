@@ -2,19 +2,32 @@ import { Injectable } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 import * as fromRoot from '../../reducers'
 import { Config } from '../../services/config.service'
-import { switchMap, first, catchError, map, tap, withLatestFrom } from 'rxjs/operators'
+import {
+  switchMap,
+  first,
+  catchError,
+  map,
+  tap,
+  withLatestFrom
+} from 'rxjs/operators'
 import { of, EMPTY } from 'rxjs'
-import { RefinerActionTypes, RefinerActions, GetRefinersFailure, LoadRefinerGroups, SetRefinerFromQueryString, ClearRefiners, SelectRefiner } from './refiner.actions'
+import {
+  RefinerActionTypes,
+  RefinerActions,
+  GetRefinersFailure,
+  LoadRefinerGroups,
+  SetRefinerFromQueryString,
+  ClearRefiners,
+  SelectRefiner
+} from './refiner.actions'
 import { GetRefinerTagsGQL } from '../../generated/graphql'
 import { CRMenu } from './refiner.models'
 import { buildRefiner } from './refiner-utils'
-import { AppConfigService } from '../../services/config.service';
-import { Store } from '@ngrx/store';
 
-
+import { AppConfigService } from '../../services/config.service'
+import { Store } from '@ngrx/store'
 @Injectable()
 export class RefinerEffects {
-
   @Effect()
   getRefinerGroups$ = this.actions$.pipe(
     ofType(RefinerActionTypes.GetRefinerGroups),
@@ -22,23 +35,17 @@ export class RefinerEffects {
     switchMap(([_, s]) => {
       const store = <any>s
       const config: Config = store.app.config
-      return this.getRefinerTagsGQL
-      .fetch({ webId: config.webId  })
-      .pipe(
+      return this.getRefinerTagsGQL.fetch({ webId: config.webId }).pipe(
         first(),
         switchMap((result: any) => {
-          const refiners: CRMenu[] = buildRefiner(
-            result.data
-          )
+          const refiners: CRMenu[] = buildRefiner(result.data)
           // tslint:disable-next-line: no-console
           console.log(`🐷 getRefinerGroups$ `, refiners)
           return of(refiners)
         }),
-        switchMap(result => [
-          new LoadRefinerGroups(result)
-        ])
-      )}
-    ),
+        switchMap(result => [new LoadRefinerGroups(result)])
+      )
+    }),
     catchError(error => of(new GetRefinersFailure(error)))
   )
 

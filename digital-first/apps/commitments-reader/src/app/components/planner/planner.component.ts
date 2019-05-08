@@ -39,12 +39,19 @@ export class PlannerComponent implements OnInit, OnDestroy {
   externalEventTypes: any[]
   @Input()
   selectedExternalEventTypes: any[]
+  @Input()
+  zoomLevel: any = 3
+  @Input()
+  centerDate: Date
   @Output()
   public onEventSaved: EventEmitter<any> = new EventEmitter()
   @Output()
   public onEventRemoved: EventEmitter<any> = new EventEmitter()
   @Output()
   public onExternalEventTypeChange: EventEmitter<any> = new EventEmitter()
+  @Output()
+  public onZoomLevelChange: EventEmitter<any> = new EventEmitter()
+
   @ViewChild(SchedulerComponent) scheduler: SchedulerComponent
 
   featureConfig: Object
@@ -93,7 +100,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
     const me = this
     this.zoomSlider.min = 0
     this.zoomSlider.max = this.zoomLevels.length - 1
-    this.zoomSlider.levelId = 3
+    this.zoomSlider.levelId = this.zoomLevel
     this.featureConfig = this.buildFeatureConfig(me)
     this.buildEventListeners(me)
 
@@ -123,10 +130,15 @@ export class PlannerComponent implements OnInit, OnDestroy {
         me.onEventRemoved.emit(eventRecord.data)
       },
       zoomchange({ level }) {
-        const currentCenterDate = me.scheduler.schedulerEngine.viewportCenterDate
+        const currentCenterDate =
+          me.scheduler.schedulerEngine.viewportCenterDate
         me.zoomSlider.levelId = level.id
         me.scheduler.schedulerEngine.setTimeSpan(me.startDate, me.endDate)
         me.scheduler.schedulerEngine.scrollToDate(currentCenterDate)
+        me.onZoomLevelChange.emit({
+          zoomLevel: level.id,
+          currentCenterDate: currentCenterDate
+        })
       },
       eventResizeEnd({ changed, eventRecord }) {
         if (changed) {
@@ -348,6 +360,10 @@ export class PlannerComponent implements OnInit, OnDestroy {
     return this.selectedExternalEventTypes.find(t => t === id)
   }
   /* End handling external event types changes*/
+
+  ngAfterViewInit(): void {
+    this.scheduler.schedulerEngine.scrollToDate(this.centerDate)
+  }
   ngOnDestroy(): void {
     this.externalEventTypeChangeEventSubscription.unsubscribe()
   }
