@@ -36,7 +36,5 @@ export class AppComponent implements OnInit, OnDestroy {
         this.appRouter.segments.next(events.url)
       }
     })
-
-
   }
 }

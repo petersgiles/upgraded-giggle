@@ -80,12 +80,29 @@ export class CommitmentOverviewLayoutComponent
     this.queryParamsSubscription$ = this.route.queryParams.subscribe(params => {
       if (params && params.refiner) {
         this.queryParamsRefiner = JSON.parse(params.refiner)
+        // tslint:disable-next-line: no-console
         console.log(`👹 this.queryParamsRefiner`, this.queryParamsRefiner)
         this.store.dispatch(
-          new SetRefinerFromQueryString({refiner: this.queryParamsRefiner})
+          new SetRefinerFromQueryString({ refiner: this.queryParamsRefiner })
         )
       }
     })
+
+    this.store
+      .pipe(select(fromRefiner.selectSelectedRefinersState))
+      .subscribe(next => {
+        let queryParams = {}
+        if (next && next.length > 0) {
+          queryParams = { refiner: JSON.stringify(next) }
+        }
+        // tslint:disable-next-line: no-console
+        console.log(`👹 selectSelectedRefinersState`, next)
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: queryParams,
+          queryParamsHandling: 'merge'
+        })
+      })
 
     this.refinerGroupsSubscription$ = this.store
       .pipe(
