@@ -1,4 +1,4 @@
-query CommitmentsSearch($refiner: CommitmentRefinerGraph!, $bookType: String!) {
+query CommitmentsSearch($refiner: CommitmentRefinerGraph!, $bookType: BookType!) {
   commitments(refiner: $refiner, bookType: $bookType) {
     id
     title

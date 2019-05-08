@@ -25,12 +25,14 @@ export interface Header {
 }
 
 export interface Config {
+  webId: string,
   header: Header
 }
 
 const defaults: Config = {
+    'webId': null,
     'header': {
-        'title': 'Deck',
+        'title': 'Unconfigured Application',
         'classification': 'UNCLASSIFIED',
         'logo': {
            'image': 'assets/crest.png',
