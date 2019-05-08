@@ -21,11 +21,15 @@ export abstract class CommitmentEventDataService {
   abstract getEventsByCommitments(
     commitments: any
   ): Observable<DataResult<CommitmentEvent[]>>
-  abstract getEventTypes(): Observable<DataResult<CommitmentEventType[]>>
+  abstract getEventTypes(
+    config: any
+  ): Observable<DataResult<CommitmentEventType[]>>
   abstract getExternalEvents(
     externalEventTypes: any[]
   ): Observable<DataResult<ExternalEvent[]>>
-  abstract getExternalEventTypes(): Observable<DataResult<ExternalEventType[]>>
+  abstract getExternalEventTypes(
+    config: any
+  ): Observable<DataResult<ExternalEventType[]>>
   abstract storeEvent(payload: any): Observable<DataResult<any>>
   abstract removeEvent(payload: any): Observable<DataResult<any>>
 }

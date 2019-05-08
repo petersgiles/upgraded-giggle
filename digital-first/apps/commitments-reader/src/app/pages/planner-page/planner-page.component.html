@@ -6,11 +6,14 @@
       [commitmentEventTypes]="commitmentEventTypes$ | async"
       [externalEvents]="externalEvents$ | async"
       [externalEventTypes]="externalEventTypes$ | async"
-      [selectedExternalEventTypes]="selectedExternalEventTypes"
-      [readOnly]="readOnly"
+      [selectedExternalEventTypes]="selectedExternalEventTypes$ | async"
+      [readOnly]="readOnly$ | async"
+      [zoomLevel]="zoomLevel$ | async"
+      [centerDate]="centerDate$ | async"
       (onEventSaved)="handleEventSaved($event)"
       (onEventRemoved)="handleEventRemoved($event)"
       (onExternalEventTypeChange)="handleExternalEventChange($event)"
+      (onZoomLevelChange)="handelZoomLevelChange($event)"
     >
     </digital-first-planner>
   </section>

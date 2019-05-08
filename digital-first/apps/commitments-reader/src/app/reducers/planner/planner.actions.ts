@@ -1,9 +1,9 @@
 import { Action } from '@ngrx/store'
+import { plannerState } from './planner.reducer'
 
 export enum PlannerActionTypes {
   GetPlannerData = '[Planner] GetPlannerData',
   GetPlannerDataFailure = '[Planner] GetPlannerDataFailure',
-  LoadRefinedCommitments = '[Planner] LoadRefinedCommitments',
   GetCommitmentEvents = '[Planner] GetCommitmentEvents',
   LoadCommitmentEvents = '[Planner] LoadCommitmentEvents',
   GetCommitmentEventsFailure = '[Planner] GetCommitmentEventsFailure',
@@ -11,7 +11,7 @@ export enum PlannerActionTypes {
   GetEventReferenceData = '[Planner] GetEventReferenceData',
   LoadExternalEventTypes = '[Planner] LoadExternalEventTypes',
   LoadEventTypes = '[Planner] LoadEventTypes',
-  GetEventReferenceDataFailure = '[Planner] GetEventReferenceData',
+  GetEventReferenceDataFailure = '[Planner] GetEventReferenceDataFailure',
 
   GetExternalEvents = '[Planner] GetExternalEvents',
   LoadExternalEvents = '[Planner] LoadExternalEvents',
@@ -24,7 +24,11 @@ export enum PlannerActionTypes {
   RemoveCommitmentEventFailure = '[Planner] RemoveCommitmentEventFailure',
 
   StoreSelectedExternalEventTypes = '[Planner] StoreSelectedExternalEventTypes',
-  StoreSelectedExternalEventTypesFailure = '[Planner] StoreSelectedExternalEventTypesFailure'
+  LoadSelectedExternalEventTypes = '[Planner] LoadSelectedExternalEventTypes',
+  StoreSelectedExternalEventTypesFailure = '[Planner] StoreSelectedExternalEventTypesFailure',
+
+  StoreSchedulerState = '[Planner] StoreSchedulerState',
+  LoadPlannerPermission = '[Planner] LoadPlannerPermission'
 }
 
 export class GetPlannerData implements Action {
@@ -35,10 +39,7 @@ export class GetPlannerDataFailure implements Action {
   readonly type = PlannerActionTypes.GetPlannerDataFailure
   constructor(public payload: any) {}
 }
-export class LoadRefinedCommitments implements Action {
-  readonly type = PlannerActionTypes.LoadRefinedCommitments
-  constructor(public payload: any) {}
-}
+
 export class GetCommitmentEvents implements Action {
   readonly type = PlannerActionTypes.GetCommitmentEvents
   constructor(public payload: any) {}
@@ -106,15 +107,26 @@ export class StoreSelectedExternalEventTypes implements Action {
   readonly type = PlannerActionTypes.StoreSelectedExternalEventTypes
   constructor(public payload: any) {}
 }
-
+export class LoadSelectedExternalEventTypes implements Action {
+  readonly type = PlannerActionTypes.LoadSelectedExternalEventTypes
+  constructor(public payload: any) {}
+}
 export class StoreSelectedExternalEventTypesFailure implements Action {
   readonly type = PlannerActionTypes.StoreSelectedExternalEventTypesFailure
   constructor(public payload: any) {}
 }
 
+export class StoreSchedulerState implements Action {
+  readonly type = PlannerActionTypes.StoreSchedulerState
+  constructor(public payload: any) {}
+}
+
+export class LoadPlannerPermission implements Action {
+  readonly type = PlannerActionTypes.LoadPlannerPermission
+  constructor(public payload: any) {}
+}
 export type PlannerActions =
   | GetPlannerData
-  | LoadRefinedCommitments
   | GetCommitmentEvents
   | GetCommitmentEventsFailure
   | LoadCommitmentEvents
@@ -131,4 +143,7 @@ export type PlannerActions =
   | RemoveCommitmentEvent
   | RemoveCommitmentEventFailure
   | StoreSelectedExternalEventTypes
+  | LoadSelectedExternalEventTypes
   | StoreSelectedExternalEventTypesFailure
+  | StoreSchedulerState
+  | LoadPlannerPermission

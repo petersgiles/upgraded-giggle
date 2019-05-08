@@ -42,7 +42,7 @@
           ><mdc-form-field>
             <mdc-checkbox
               [value]="type.id"
-              
+              [checked]="checkIfExternalTypeSelected(type.id)"
               (change)="externalEventTypeChange.next($event)"
             ></mdc-checkbox>
             <label>{{ type.name }}</label>

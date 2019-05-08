@@ -8,6 +8,9 @@ export interface State {
   externalEvents: any[]
   externalEventTypes: any[]
   selectedExternalEeventTypes: any[]
+  schedulerZoomLevel: number
+  schedulerCenterDate: Date
+  isReadonly: boolean
 }
 
 export const initialState: State = {
@@ -16,16 +19,14 @@ export const initialState: State = {
   eventTypes: [],
   externalEvents: [],
   externalEventTypes: [],
-  selectedExternalEeventTypes: []
+  selectedExternalEeventTypes: [],
+  schedulerZoomLevel: 3,
+  schedulerCenterDate: new Date(),
+  isReadonly: true
 }
 
 export function reducer(state = initialState, action: PlannerActions): State {
   switch (action.type) {
-    case PlannerActionTypes.LoadRefinedCommitments:
-      return {
-        ...state,
-        commitments: action.payload
-      }
     case PlannerActionTypes.LoadCommitmentEvents:
       return {
         ...state,
@@ -46,16 +47,28 @@ export function reducer(state = initialState, action: PlannerActions): State {
         ...state,
         eventTypes: action.payload.data
       }
+    case PlannerActionTypes.StoreSchedulerState:
+      return {
+        ...state,
+        schedulerZoomLevel: action.payload.zoomLevel,
+        schedulerCenterDate: action.payload.currentCenterDate
+      }
+    case PlannerActionTypes.LoadPlannerPermission:
+      return {
+        ...state,
+        isReadonly: action.payload.isReadonly
+      }
+    case PlannerActionTypes.LoadSelectedExternalEventTypes:
+      return {
+        ...state,
+        selectedExternalEeventTypes: action.payload
+      }
     default:
       return state
   }
 }
 
 export const plannerState = createFeatureSelector<State>('planner')
-export const selectRefinedCommitmentsState = createSelector(
-  plannerState,
-  (state: State) => state.commitments.map(c => ({ id: c.id, name: c.title }))
-)
 export const selectEventTypesState = createSelector(
   plannerState,
   (state: State) => state.eventTypes
@@ -68,3 +81,20 @@ export const selectExternalEventTypesState = createSelector(
   plannerState,
   (state: State) => state.externalEventTypes
 )
+export const selectSelectedExternalEventTypesState = createSelector(
+  plannerState,
+  (state: State) => state.selectedExternalEeventTypes
+)
+export const selectSchedulerZoomLevelState = createSelector(
+  plannerState,
+  (state: State) => state.schedulerZoomLevel
+)
+export const selectSchedulerCenterDateState = createSelector(
+  plannerState,
+  (state: State) => state.schedulerCenterDate
+)
+export const plannerPermissionState = createSelector(
+  plannerState,
+  (state: State) => state.isReadonly
+)
+
