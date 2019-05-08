@@ -7,7 +7,6 @@ import { RefinerActionTypes, RefinerActions, GetRefinersFailure, LoadRefinerGrou
 import { GetRefinerTagsGQL } from '../../generated/graphql'
 import { CRMenu } from './refiner.models'
 import { buildRefiner } from './refiner-utils'
-import { GetRefinedCommitments } from '../overview/overview.actions';
 
 @Injectable()
 export class RefinerEffects {

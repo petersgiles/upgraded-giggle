@@ -1,8 +1,7 @@
 <div class="page">
   <section [mdcElevation]="5">
     <digital-first-planner
-      *ngIf="(commitmentEventTypes$ | async) && (externalEventTypes$ | async)"
-      [commitments]="filteredCommitments"
+      [commitments]="filteredCommitments$ | async"
       [events]="commitmentEvents$ | async"
       [commitmentEventTypes]="commitmentEventTypes$ | async"
       [externalEvents]="externalEvents$ | async"

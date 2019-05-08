@@ -35,8 +35,6 @@ export const initialState: State = {
 }
 
 export function reducer(state = initialState, action: MapActions): State {
-
-
   switch (action.type) {
     case MapActionTypes.LoadMapPoints:
       const mapPoints = action.payload.data.mapPoints.map(m => {

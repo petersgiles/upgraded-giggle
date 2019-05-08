@@ -17,6 +17,7 @@ import {
 } from '../../reducers/refiner/refiner.actions'
 import { GetRefinedCommitments } from '../../reducers/overview/overview.actions';
 import { GetRefinedMapPoints } from '../../reducers/map/map.actions';
+import { GetPlannerData } from '../../reducers/planner/planner.actions';
 
 @Component({
   selector: 'digital-first-commitment-overview-layout',
