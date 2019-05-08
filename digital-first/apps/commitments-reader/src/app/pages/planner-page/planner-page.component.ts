@@ -39,9 +39,8 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
     this.filteredCommitments$ = this.plannerStore.pipe(
       select(fromPlanner.selectRefinedCommitmentsState)
     )
-    
-    this.externalEventTypes$ = of([{ id: '1', name: 'Ext' }])
-    this.commitmentEventTypes$ = of(['ext'])
+    this.externalEventTypes$ = of([])
+    this.commitmentEventTypes$ = of([])
   }
 
   handleEventSaved($event: any) {

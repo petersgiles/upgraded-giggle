@@ -17,7 +17,11 @@ import {
   GetCommitmentEvents,
   LoadExternalEvents,
   LoadCommitmentEvents,
-  LoadRefinedCommitments
+  LoadRefinedCommitments,
+  LoadEventTypes,
+  LoadExternalEventTypes,
+  GetCommitmentEventsFailure,
+  GetEventReferenceDataFailure
 } from './planner.actions'
 import { Store } from '@ngrx/store'
 import * as fromRoot from '../../reducers'
@@ -32,7 +36,6 @@ export class PlannerEffects {
       const rootStore = <any>s
       const refinedCommitments = rootStore.overview.commitments
       const appConfig = rootStore.app.config
-      console.log(refinedCommitments)
       return {
         commitments: refinedCommitments
         // TODO: Add readonly flag here
@@ -40,7 +43,7 @@ export class PlannerEffects {
     }),
     switchMap(config => [
       new LoadRefinedCommitments(config.commitments),
-      // new GetCommitmentEvents(config)
+      new GetCommitmentEvents(config)
     ]),
     catchError(error => of(new GetPlannerDataFailure(error)))
   )
@@ -52,9 +55,39 @@ export class PlannerEffects {
       this.commitmentEventDataService
         .getEventsByCommitments(action.payload.commitments)
         .pipe(concatMap(data => [new LoadCommitmentEvents(data)]))
-    )
+    ),
+    catchError(error => of(new GetCommitmentEventsFailure(error)))
   )
 
+  @Effect()
+  getEventsReferenceData$ = this.actions$.pipe(
+    ofType(PlannerActionTypes.GetEventReferenceData),
+    withLatestFrom(),
+    withLatestFrom(this.rootStore$),
+    map(([_, s]) => {
+      const rootStore = <any>s
+      const appConfig = rootStore.app.config
+      return appConfig
+    }),
+    switchMap(config => {
+      if (config.isReadonly) {
+        return [
+          new LoadEventTypes({ data: [] }),
+          new LoadExternalEventTypes({ data: [] })
+        ]
+      } else {
+        return [
+          this.commitmentEventDataService
+            .getEventTypes()
+            .pipe(switchMap(data => [new LoadEventTypes(data)])),
+          this.commitmentEventDataService
+            .getExternalEventTypes()
+            .pipe(switchMap(data => [new LoadExternalEventTypes(data)]))
+        ]
+      }
+    }),
+    catchError(error => of(new GetEventReferenceDataFailure(error)))
+  )
   constructor(
     private actions$: Actions<PlannerActions>,
     private rootStore$: Store<fromRoot.State>,
