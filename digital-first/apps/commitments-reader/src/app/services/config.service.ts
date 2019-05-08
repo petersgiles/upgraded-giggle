@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable, BehaviorSubject } from 'rxjs'
 import { environment } from '../../environments/environment.prod'
+import { BookType } from '../generated/graphql';
 
 export interface Logo {
   image: string
@@ -19,18 +20,20 @@ export interface App {
 export interface Header {
   title?: string
   classification?: string
-  bookType?: string
+  bookType?: BookType
   logo?: Logo
   apps?: App[]
 }
 
 export interface Config {
+  webId: string,
   header: Header
 }
 
 const defaults: Config = {
+    'webId': null,
     'header': {
-        'title': 'Deck',
+        'title': 'Unconfigured Application',
         'classification': 'UNCLASSIFIED',
         'logo': {
            'image': 'assets/crest.png',

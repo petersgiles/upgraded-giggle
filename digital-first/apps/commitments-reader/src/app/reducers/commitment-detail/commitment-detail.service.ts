@@ -1,10 +1,16 @@
 import { Observable, of } from 'rxjs'
 import { Injectable } from '@angular/core'
+<<<<<<< HEAD
 import { GetCommitmentDetailGQL } from '../../generated/graphql'
 import { map } from 'rxjs/operators'
 import { Commitment, CommitmentLocation, MapPoint } from '../../models/commitment.model'
 import { Store } from '@ngrx/store'
 import { GetDetailedCommitment } from './commitment-detail.actions'
+=======
+import { GetCommitmentDetailGQL, BookType } from '../../generated/graphql'
+import { map, takeUntil, filter } from 'rxjs/operators'
+import { Commitment } from '../../models/commitment.model'
+>>>>>>> a3c3c20b5a1f34bb4cd71127165fb0a5b958a920
 
 @Injectable({
   providedIn: 'root'

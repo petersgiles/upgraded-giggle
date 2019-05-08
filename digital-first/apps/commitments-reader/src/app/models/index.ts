@@ -11,3 +11,10 @@ export interface DataResult<T> {
 export * from './data-result.model'
 export * from './commitment-event.model'
 export * from './app-config.model'
+
+
+export const refinerMap = {
+  1: 'commitmentTypes',
+  2: 'criticalDates',
+  3: 'portfolioLookups'
+}

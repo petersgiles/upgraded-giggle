@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
-import { Observable, BehaviorSubject } from 'rxjs'
+import { HttpClient, HttpErrorResponse } from '@angular/common/http'
+import { Observable, BehaviorSubject, throwError } from 'rxjs'
 import { environment } from '../../environments/environment.prod'
+import { SettingsService } from './settings.service'
+import { catchError } from 'rxjs/operators'
+
+declare var _spPageContextInfo: any
 
 export interface Logo {
   image: string
@@ -29,34 +33,54 @@ export interface Config {
 }
 
 const defaults: Config = {
-    'header': {
-        'title': 'Deck',
-        'classification': 'UNCLASSIFIED',
-        'logo': {
-           'image': 'assets/crest.png',
-           'url': '/'
-        },
-        'apps': []
-    }
+  header: {
+    title: 'Deck',
+    classification: 'UNCLASSIFIED',
+    logo: {
+      image: 'assets/crest.png',
+      url: '/'
+    },
+    apps: []
+  }
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppConfigService {
-  private _jsonURL = environment.config
+  private _jsonURL
   _config: BehaviorSubject<Config> = new BehaviorSubject(defaults)
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private settings: SettingsService) {
     this.getJSON().subscribe(data => {
       this._config.next(data)
       // tslint:disable-next-line:no-console
-      console.log(data)
+      console.log(`🐵 app config changed => `, data)
     })
   }
 
   public getJSON(): Observable<any> {
-    return this.http.get(this._jsonURL)
+
+    this._jsonURL = this.settings.environment.config
+
+    if (_spPageContextInfo) {
+      this._jsonURL = `${_spPageContextInfo.webAbsoluteUrl}${
+        this.settings.environment.config
+      }`
+    }
+
+    // tslint:disable-next-line:no-console
+    console.log(`🐵 config url => `, this._jsonURL)
+
+    // tslint:disable-next-line:no-console
+    console.log(`🤔 getting config from here => `, this._jsonURL)
+    return this.http.get(this._jsonURL).pipe(
+      catchError((err: HttpErrorResponse) => {
+        // tslint:disable-next-line:no-console
+        console.log(`💥 error => `, this._jsonURL, err)
+        return throwError(err)
+      })
+    )
   }
 
   public get config(): Observable<Config> {
