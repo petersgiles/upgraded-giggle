@@ -16,7 +16,7 @@ export const mapGroupPermissions = (items): any[] => items.map(mapGroupPermissio
 
 export class SharePointAppDataService implements AppDataService {
   getCurrentUserOperations(roles: any): Observable<DataResult<GroupPermissionsResult>> {
-    return this.sharepoint.getItems({ listName: 'GroupPermission' })
+    return this.sharepoint.getItems({ listName: 'CommitmentsReaderGroupPermission' })
       .pipe(
         concatMap((result: any) =>
           of({
