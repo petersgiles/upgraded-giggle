@@ -171,3 +171,7 @@
 .b-tool.b-icon:before {
   color: #757575 !important;
 }
+.external-event-type-item:hover{
+  background:transparent;
+  background-color: green($color: #000000)
+}
