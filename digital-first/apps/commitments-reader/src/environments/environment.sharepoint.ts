@@ -2,6 +2,7 @@ import * as packageJson from '../../../../package.json'
 
 export const environment = {
   production: false,
+  host: 'sharepoint',
   version: packageJson.version,
   config: '/AppConfig/commitment_delivery_config.txt',
   datasource: {
