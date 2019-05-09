@@ -25,7 +25,7 @@ import { MapPointsSearchGQL } from '../../generated/graphql'
 @Injectable()
 export class MapEffects {
   @Effect()
-  getRefinedCommitments$ = this.actions$.pipe(
+  getRefinedMapPoints$ = this.actions$.pipe(
     ofType(MapActionTypes.GetRefinedMapPoints),
     withLatestFrom(this.store$),
     // tslint:disable-next-line: no-console
@@ -43,7 +43,8 @@ export class MapEffects {
         {
           commitmentTypes: [],
           criticalDates: [],
-          portfolioLookups: []
+          portfolioLookups: [],
+          deckItemBriefSummaries: []
         }
       )
 

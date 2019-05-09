@@ -1,8 +1,10 @@
 {
+    "webId": "4A13D758-7E0B-4554-9ED0-C3B49EEA112E",
     "header": {
-        "title": "Commitments",
-        "classification": "UNCLASSIFIED",
+        "title": "Delivery Module",
+        "classification": "",
         "bookType": "red",
+        "bookColour":"#e54430",
         "logo": {
            "image": "assets/crest.png",
            "url": "/",

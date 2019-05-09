@@ -1,21 +1,18 @@
-
-import { AppActions, AppActionTypes } from './app.actions';
-import { AppConfig } from '../../models';
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { AppActions, AppActionTypes } from './app.actions'
+import { AppConfig } from '../../models'
+import { createFeatureSelector, createSelector } from '@ngrx/store'
 
 export interface State {
-  config: AppConfig
+  config: any//AppConfig
 }
 
 export const initialState: State = {
   config: null
-};
+}
 
 export function reducer(state = initialState, action: AppActions): State {
   switch (action.type) {
-
     case AppActionTypes.LoadAppConfiguration:
-
       return {
         ...state,
         config: action.payload
@@ -35,5 +32,5 @@ export const selectAppConfigState = createSelector(
 
 export const selectAppBookTypeState = createSelector(
   selectAppConfigState,
-  (config) => config.bookType
+  config => config.header.bookType
 )

@@ -62,6 +62,12 @@ export type AppropriationGraph = {
   budgetId: Scalars['Guid']
 }
 
+export enum BookType {
+  None = 'None',
+  Blue = 'Blue',
+  Red = 'Red'
+}
+
 export type BriefCommitmentGraph = {
   brief?: Maybe<BriefGraph>
   commitment?: Maybe<CommitmentGraph>
@@ -71,6 +77,13 @@ export type BriefCommitmentGraph = {
 
 export type BriefGraph = {
   briefCommitments?: Maybe<Array<Maybe<BriefCommitmentGraph>>>
+  briefRecommendations?: Maybe<Array<Maybe<BriefRecommendationGraph>>>
+  deckItemBriefSummaryBriefs?: Maybe<
+    Array<Maybe<DeckItemBriefSummaryBriefGraph>>
+  >
+  recommendationCount?: Maybe<Scalars['Int']>
+  commitmentCount?: Maybe<Scalars['Int']>
+  responseRecommendationCount?: Maybe<Scalars['Int']>
   id: Scalars['Guid']
   webUrl: Scalars['String']
   listId: Scalars['Guid']
@@ -89,6 +102,38 @@ export type BriefGraphBriefCommitmentsArgs = {
   where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
   skip?: Maybe<Scalars['Int']>
   take?: Maybe<Scalars['Int']>
+}
+
+export type BriefGraphBriefRecommendationsArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+}
+
+export type BriefGraphDeckItemBriefSummaryBriefsArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+}
+
+export type BriefRecommendationGraph = {
+  brief?: Maybe<BriefGraph>
+  id: Scalars['Guid']
+  webUrl: Scalars['String']
+  listId: Scalars['Guid']
+  listItemId: Scalars['Int']
+  webTitle: Scalars['String']
+  internalVersion: Scalars['UInt32']
+  webId: Scalars['Guid']
+  title: Scalars['String']
+  hasResponse: Scalars['Boolean']
+  briefId: Scalars['Guid']
 }
 
 export type BudgetGraph = {
@@ -114,7 +159,7 @@ export type ColumnGraph = {
 }
 
 export type CommitmentGraph = {
-  bookType: Scalars['String']
+  bookType?: Maybe<BookType>
   cost?: Maybe<Scalars['String']>
   description?: Maybe<Scalars['String']>
   commitmentLocations?: Maybe<Array<Maybe<CommitmentLocationGraph>>>
@@ -122,6 +167,12 @@ export type CommitmentGraph = {
   commitmentPackageTypes?: Maybe<Array<Maybe<CommitmentPackageTypeGraph>>>
   commitmentPortfolioLookups?: Maybe<
     Array<Maybe<CommitmentPortfolioLookupGraph>>
+  >
+  pmcHandlingAdviceCommitments?: Maybe<
+    Array<Maybe<PmcHandlingAdviceCommitmentGraph>>
+  >
+  pmoHandlingAdviceCommitments?: Maybe<
+    Array<Maybe<PmoHandlingAdviceCommitmentGraph>>
   >
   briefCommitments?: Maybe<Array<Maybe<BriefCommitmentGraph>>>
   announcedBy?: Maybe<Scalars['String']>
@@ -170,6 +221,24 @@ export type CommitmentGraphCommitmentPackageTypesArgs = {
 }
 
 export type CommitmentGraphCommitmentPortfolioLookupsArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+}
+
+export type CommitmentGraphPmcHandlingAdviceCommitmentsArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+}
+
+export type CommitmentGraphPmoHandlingAdviceCommitmentsArgs = {
   id?: Maybe<Scalars['String']>
   ids?: Maybe<Array<Maybe<Scalars['String']>>>
   orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
@@ -237,6 +306,8 @@ export type CommitmentRefinerGraph = {
   commitmentTypes?: Maybe<Array<Maybe<Scalars['Int']>>>
   criticalDates?: Maybe<Array<Maybe<Scalars['Int']>>>
   portfolioLookups?: Maybe<Array<Maybe<Scalars['Int']>>>
+  deckItemBriefSummaries?: Maybe<Array<Maybe<Scalars['Guid']>>>
+  text?: Maybe<Scalars['String']>
 }
 
 export type CommitmentTypeGraph = {
@@ -388,7 +459,15 @@ export type DeactivateElectorateAdviceGraph = {
   adviceId: Scalars['Guid']
 }
 
-export type DeckItemBriefSummaryGraph = {
+export type DeckItemBriefSummaryBriefGraph = {
+  brief?: Maybe<BriefGraph>
+  deckItemBriefSummary?: Maybe<DeckItemBriefSummaryGraph>
+  id: Scalars['Guid']
+  briefId: Scalars['Guid']
+  deckItemBriefSummaryId: Scalars['Guid']
+}
+
+export type DeckItemBriefSummaryContentGraph = {
   briefId: Scalars['Guid']
   title: Scalars['String']
   reference: Scalars['String']
@@ -398,6 +477,44 @@ export type DeckItemBriefSummaryGraph = {
   webUrl: Scalars['String']
   webTitle: Scalars['String']
   listItemId: Scalars['Int']
+}
+
+export type DeckItemBriefSummaryGraph = {
+  deckItemBriefSummaryBriefs?: Maybe<
+    Array<Maybe<DeckItemBriefSummaryBriefGraph>>
+  >
+  briefs?: Maybe<Array<Maybe<BriefGraph>>>
+  id: Scalars['Guid']
+  webUrl: Scalars['String']
+  listId: Scalars['Guid']
+  listItemId: Scalars['Int']
+  internalVersion: Scalars['UInt32']
+  webTitle: Scalars['String']
+  webId: Scalars['Guid']
+  title: Scalars['String']
+  colour: Scalars['String']
+  actions: Scalars['String']
+  size: Scalars['Int']
+  sortOrder: Scalars['Int']
+  parentId?: Maybe<Scalars['Int']>
+}
+
+export type DeckItemBriefSummaryGraphDeckItemBriefSummaryBriefsArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+}
+
+export type DeckItemBriefSummaryGraphBriefsArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
 }
 
 export type DeleteBriefCommitmentInputGraph = {
@@ -465,6 +582,38 @@ export type ElectorateGraphProgramsArgs = {
 }
 
 export type ElectorateGraphProjectsArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+}
+
+export type HandlingAdviceGraph = {
+  pmcHandlingAdviceCommitments?: Maybe<
+    Array<Maybe<PmcHandlingAdviceCommitmentGraph>>
+  >
+  pmoHandlingAdviceCommitments?: Maybe<
+    Array<Maybe<PmoHandlingAdviceCommitmentGraph>>
+  >
+  id: Scalars['Guid']
+  title: Scalars['String']
+  sortOrder: Scalars['Int']
+  colour: Scalars['String']
+  icon: Scalars['String']
+}
+
+export type HandlingAdviceGraphPmcHandlingAdviceCommitmentsArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+}
+
+export type HandlingAdviceGraphPmoHandlingAdviceCommitmentsArgs = {
   id?: Maybe<Scalars['String']>
   ids?: Maybe<Array<Maybe<Scalars['String']>>>
   orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
@@ -692,6 +841,20 @@ export type PackageTypeGraphCommitmentPackageTypesArgs = {
   take?: Maybe<Scalars['Int']>
 }
 
+export type PmcHandlingAdviceCommitmentGraph = {
+  handlingAdvice?: Maybe<HandlingAdviceGraph>
+  commitment?: Maybe<CommitmentGraph>
+  commitmentId: Scalars['Int']
+  handlingAdviceId: Scalars['Guid']
+}
+
+export type PmoHandlingAdviceCommitmentGraph = {
+  handlingAdvice?: Maybe<HandlingAdviceGraph>
+  commitment?: Maybe<CommitmentGraph>
+  commitmentId: Scalars['Int']
+  handlingAdviceId: Scalars['Guid']
+}
+
 export type PortfolioGraph = {
   rowVersion: Scalars['String']
   metadata?: Maybe<Scalars['String']>
@@ -848,7 +1011,9 @@ export type Query = {
   programs?: Maybe<Array<Maybe<ProgramGraph>>>
   project?: Maybe<ProjectGraph>
   projects?: Maybe<Array<Maybe<ProjectGraph>>>
-  deckItemBriefSummary?: Maybe<Array<Maybe<DeckItemBriefSummaryGraph>>>
+  deckItemBriefSummaryContent?: Maybe<
+    Array<Maybe<DeckItemBriefSummaryContentGraph>>
+  >
   report?: Maybe<ReportGraph>
   reports?: Maybe<Array<Maybe<ReportGraph>>>
   statisticReport?: Maybe<StatisticReportGraph>
@@ -871,8 +1036,20 @@ export type Query = {
   mapPoints?: Maybe<Array<Maybe<MapPointGraph>>>
   packageTypes?: Maybe<Array<Maybe<PackageTypeGraph>>>
   portfolioLookups?: Maybe<Array<Maybe<PortfolioLookupGraph>>>
+  portfolioLookup?: Maybe<PortfolioLookupGraph>
   briefs?: Maybe<Array<Maybe<BriefGraph>>>
+  brief?: Maybe<BriefGraph>
   briefCommitments?: Maybe<Array<Maybe<BriefCommitmentGraph>>>
+  briefCommitment?: Maybe<BriefCommitmentGraph>
+  deckItemBriefSummaries?: Maybe<Array<Maybe<DeckItemBriefSummaryGraph>>>
+  deckItemBriefSummary?: Maybe<DeckItemBriefSummaryGraph>
+  handlingAdvices?: Maybe<Array<Maybe<HandlingAdviceGraph>>>
+  pmcHandlingAdviceCommitments?: Maybe<
+    Array<Maybe<PmcHandlingAdviceCommitmentGraph>>
+  >
+  pmoHandlingAdviceCommitments?: Maybe<
+    Array<Maybe<PmoHandlingAdviceCommitmentGraph>>
+  >
 }
 
 export type QueryAgencyArgs = {
@@ -975,7 +1152,7 @@ export type QueryProjectsArgs = {
   electorate?: Maybe<Scalars['String']>
 }
 
-export type QueryDeckItemBriefSummaryArgs = {
+export type QueryDeckItemBriefSummaryContentArgs = {
   briefIds?: Maybe<Array<Maybe<Scalars['Guid']>>>
 }
 
@@ -1068,7 +1245,7 @@ export type QueryCommitmentsArgs = {
   skip?: Maybe<Scalars['Int']>
   take?: Maybe<Scalars['Int']>
   refiner?: Maybe<CommitmentRefinerGraph>
-  bookType?: Maybe<Scalars['String']>
+  bookType: BookType
 }
 
 export type QueryCommitmentLocationsArgs = {
@@ -1142,7 +1319,7 @@ export type QueryMapPointsArgs = {
   skip?: Maybe<Scalars['Int']>
   take?: Maybe<Scalars['Int']>
   refiner?: Maybe<CommitmentRefinerGraph>
-  bookType?: Maybe<Scalars['String']>
+  bookType: BookType
 }
 
 export type QueryPackageTypesArgs = {
@@ -1163,6 +1340,15 @@ export type QueryPortfolioLookupsArgs = {
   take?: Maybe<Scalars['Int']>
 }
 
+export type QueryPortfolioLookupArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+}
+
 export type QueryBriefsArgs = {
   id?: Maybe<Scalars['String']>
   ids?: Maybe<Array<Maybe<Scalars['String']>>>
@@ -1172,7 +1358,71 @@ export type QueryBriefsArgs = {
   take?: Maybe<Scalars['Int']>
 }
 
+export type QueryBriefArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+}
+
 export type QueryBriefCommitmentsArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+}
+
+export type QueryBriefCommitmentArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+}
+
+export type QueryDeckItemBriefSummariesArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+  webId: Scalars['Guid']
+}
+
+export type QueryDeckItemBriefSummaryArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+}
+
+export type QueryHandlingAdvicesArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+}
+
+export type QueryPmcHandlingAdviceCommitmentsArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+}
+
+export type QueryPmoHandlingAdviceCommitmentsArgs = {
   id?: Maybe<Scalars['String']>
   ids?: Maybe<Array<Maybe<Scalars['String']>>>
   orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
@@ -1435,7 +1685,7 @@ export type WhereExpressionGraph = {
 }
 export type GetCommitmentDetailQueryVariables = {
   id: Scalars['String']
-  bookType: Scalars['String']
+  bookType: BookType
 }
 
 export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
@@ -1453,13 +1703,87 @@ export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
           | 'politicalParty'
           | 'statusId'
           | 'announcedBy'
-        >
+        > & {
+            commitmentType: Maybe<
+              { __typename?: 'CommitmentTypeGraph' } & Pick<
+                CommitmentTypeGraph,
+                'id' | 'title'
+              >
+            >
+            announcementType: Maybe<
+              { __typename?: 'AnnouncementTypeGraph' } & Pick<
+                AnnouncementTypeGraph,
+                'id' | 'title'
+              >
+            >
+            portfolioLookup: Maybe<
+              { __typename?: 'PortfolioLookupGraph' } & Pick<
+                PortfolioLookupGraph,
+                'id' | 'title'
+              >
+            >
+            status: Maybe<
+              { __typename?: 'StatusGraph' } & Pick<StatusGraph, 'id' | 'title'>
+            >
+            criticalDate: Maybe<
+              { __typename?: 'CriticalDateGraph' } & Pick<
+                CriticalDateGraph,
+                'id' | 'title'
+              >
+            >
+            commitmentLocations: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'CommitmentLocationGraph' } & Pick<
+                    CommitmentLocationGraph,
+                    'commitmentId'
+                  > & {
+                      location: Maybe<
+                        { __typename?: 'LocationGraph' } & Pick<
+                          LocationGraph,
+                          'id' | 'state' | 'title'
+                        >
+                      >
+                    }
+                >
+              >
+            >
+            commitmentPackageTypes: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'CommitmentPackageTypeGraph' } & Pick<
+                    CommitmentPackageTypeGraph,
+                    'id'
+                  >
+                >
+              >
+            >
+            commitmentPortfolioLookups: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'CommitmentPortfolioLookupGraph' } & Pick<
+                    CommitmentPortfolioLookupGraph,
+                    'commitmentId'
+                  > & {
+                      portfolioLookup: Maybe<
+                        { __typename?: 'PortfolioLookupGraph' } & Pick<
+                          PortfolioLookupGraph,
+                          'id' | 'title'
+                        >
+                      >
+                    }
+                >
+              >
+            >
+          }
       >
     >
   >
 }
 
-export type GetRefinerTagsQueryVariables = {}
+export type GetRefinerTagsQueryVariables = {
+  webId: Scalars['Guid']
+}
 
 export type GetRefinerTagsQuery = { __typename?: 'Query' } & {
   commitmentTypes: Maybe<
@@ -1492,46 +1816,13 @@ export type GetRefinerTagsQuery = { __typename?: 'Query' } & {
       >
     >
   >
-}
-
-export type CommitmentsMapPointSearchQueryVariables = {
-  commitmentMapPointsWhere?: Maybe<WhereExpressionGraph>
-}
-
-export type CommitmentsMapPointSearchQuery = { __typename?: 'Query' } & {
-  commitmentMapPoints: Maybe<
+  deckItemBriefSummaries: Maybe<
     Array<
       Maybe<
-        { __typename?: 'CommitmentMapPointGraph' } & Pick<
-          CommitmentMapPointGraph,
-          'id'
-        > & {
-            commitment: Maybe<
-              { __typename?: 'CommitmentGraph' } & Pick<
-                CommitmentGraph,
-                'id' | 'title' | 'politicalParty' | 'announcedBy'
-              > & {
-                  announcementType: Maybe<
-                    { __typename?: 'AnnouncementTypeGraph' } & Pick<
-                      AnnouncementTypeGraph,
-                      'id' | 'title'
-                    >
-                  >
-                  criticalDate: Maybe<
-                    { __typename?: 'CriticalDateGraph' } & Pick<
-                      CriticalDateGraph,
-                      'id' | 'title'
-                    >
-                  >
-                  portfolioLookup: Maybe<
-                    { __typename?: 'PortfolioLookupGraph' } & Pick<
-                      PortfolioLookupGraph,
-                      'id' | 'title'
-                    >
-                  >
-                }
-            >
-          }
+        { __typename?: 'DeckItemBriefSummaryGraph' } & Pick<
+          DeckItemBriefSummaryGraph,
+          'id' | 'title'
+        >
       >
     >
   >
@@ -1539,7 +1830,7 @@ export type CommitmentsMapPointSearchQuery = { __typename?: 'Query' } & {
 
 export type CommitmentsSearchQueryVariables = {
   refiner: CommitmentRefinerGraph
-  bookType: Scalars['String']
+  bookType: BookType
 }
 
 export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
@@ -1548,11 +1839,11 @@ export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
       Maybe<
         { __typename?: 'CommitmentGraph' } & Pick<
           CommitmentGraph,
-          'id' | 'title'
+          'id' | 'title' | 'bookType' | 'politicalParty' | 'announcedBy'
         > & {
-            commitmentType: Maybe<
-              { __typename?: 'CommitmentTypeGraph' } & Pick<
-                CommitmentTypeGraph,
+            announcementType: Maybe<
+              { __typename?: 'AnnouncementTypeGraph' } & Pick<
+                AnnouncementTypeGraph,
                 'id' | 'title'
               >
             >
@@ -1576,7 +1867,7 @@ export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
 
 export type MapPointsSearchQueryVariables = {
   refiner: CommitmentRefinerGraph
-  bookType: Scalars['String']
+  bookType: BookType
 }
 
 export type MapPointsSearchQuery = { __typename?: 'Query' } & {
@@ -1631,7 +1922,7 @@ import { Injectable } from '@angular/core'
 import * as Apollo from 'apollo-angular'
 
 export const GetCommitmentDetailDocument = gql`
-  query getCommitmentDetail($id: String!, $bookType: String!) {
+  query getCommitmentDetail($id: String!, $bookType: BookType!) {
     commitments(id: $id, bookType: $bookType) {
       id
       title
@@ -1642,6 +1933,44 @@ export const GetCommitmentDetailDocument = gql`
       politicalParty
       statusId
       announcedBy
+      commitmentType {
+        id
+        title
+      }
+      announcementType {
+        id
+        title
+      }
+      portfolioLookup {
+        id
+        title
+      }
+      status {
+        id
+        title
+      }
+      criticalDate {
+        id
+        title
+      }
+      commitmentLocations {
+        commitmentId
+        location {
+          id
+          state
+          title
+        }
+      }
+      commitmentPackageTypes {
+        id
+      }
+      commitmentPortfolioLookups {
+        commitmentId
+        portfolioLookup {
+          id
+          title
+        }
+      }
     }
   }
 `
@@ -1656,7 +1985,7 @@ export class GetCommitmentDetailGQL extends Apollo.Query<
   document = GetCommitmentDetailDocument
 }
 export const GetRefinerTagsDocument = gql`
-  query GetRefinerTags {
+  query GetRefinerTags($webId: Guid!) {
     commitmentTypes {
       id
       title
@@ -1666,6 +1995,10 @@ export const GetRefinerTagsDocument = gql`
       title
     }
     portfolioLookups {
+      id
+      title
+    }
+    deckItemBriefSummaries(webId: $webId) {
       id
       title
     }
@@ -1681,52 +2014,18 @@ export class GetRefinerTagsGQL extends Apollo.Query<
 > {
   document = GetRefinerTagsDocument
 }
-export const CommitmentsMapPointSearchDocument = gql`
-  query CommitmentsMapPointSearch(
-    $commitmentMapPointsWhere: WhereExpressionGraph
-  ) {
-    commitmentMapPoints(where: [$commitmentMapPointsWhere]) {
-      id
-      commitment {
-        id
-        title
-        politicalParty
-        announcedBy
-        announcementType {
-          id
-          title
-        }
-        criticalDate {
-          id
-          title
-        }
-        portfolioLookup {
-          id
-          title
-        }
-      }
-    }
-  }
-`
-
-@Injectable({
-  providedIn: 'root'
-})
-export class CommitmentsMapPointSearchGQL extends Apollo.Query<
-  CommitmentsMapPointSearchQuery,
-  CommitmentsMapPointSearchQueryVariables
-> {
-  document = CommitmentsMapPointSearchDocument
-}
 export const CommitmentsSearchDocument = gql`
   query CommitmentsSearch(
     $refiner: CommitmentRefinerGraph!
-    $bookType: String!
+    $bookType: BookType!
   ) {
     commitments(refiner: $refiner, bookType: $bookType) {
       id
       title
-      commitmentType {
+      bookType
+      politicalParty
+      announcedBy
+      announcementType {
         id
         title
       }
@@ -1752,7 +2051,10 @@ export class CommitmentsSearchGQL extends Apollo.Query<
   document = CommitmentsSearchDocument
 }
 export const MapPointsSearchDocument = gql`
-  query MapPointsSearch($refiner: CommitmentRefinerGraph!, $bookType: String!) {
+  query MapPointsSearch(
+    $refiner: CommitmentRefinerGraph!
+    $bookType: BookType!
+  ) {
     mapPoints(refiner: $refiner, bookType: $bookType) {
       id
       title

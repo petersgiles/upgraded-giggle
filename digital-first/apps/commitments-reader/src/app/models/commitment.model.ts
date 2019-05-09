@@ -1,22 +1,19 @@
-/*import { Party } from '../../models/party.model'
-import { AnnouncementType } from '../../models/announcement-type.model'
-import { Portfolio } from '../../models/portfolio.model'
-import { Comment } from '../commitment-discussion/comment.model'
-import { Electorate } from '../../models/location.model'
-import { CommitmentType } from '../../models/commitment-type.model'
-import { WhoAnnouncedType } from '../../models/who-announced-type.model'
-import { Contact } from '../../models/contact.model'
-import { CriticalDate } from '../../models/critical-date.model'
-import { PackageType } from '../../models/package-type.model'
-import { MapPoint } from '@digital-first/df-map'
-import { Status } from '../../models';*/
+export interface CommitmentLocation{
+  id: number,
+  state: string,
+  title: string
+}
+
+export interface MapPoint{
+  id: number,
+  title: string
+}
 
 export interface Commitment {
-  id: number
+  id: number,
   title: string,
-  //party: Party,
   description: string,
- // status: Status,
+  status: string,
   bookType: string,
   cost: string,
   costingRequired?: boolean,
@@ -24,18 +21,19 @@ export interface Commitment {
   date: string,
   politicalParty: string,
   announcedBy: string,
+  PMOHandlingAdvice?: string,
+  PMCHandlingAdvice?: string,
   //location: Electorate,
-  //electorates: Electorate[],
+  electorates?: CommitmentLocation[],
   //whoAnnouncedType: WhoAnnouncedType
   announcementType?: string,
-  //commitmentType: CommitmentType,
-
+  commitmentType: string,
+  mapPoints?: MapPoint[],
   portfolio?: string,
-  //criticalDate: CriticalDate,
   //packageType: PackageType,
   //portfolios: Portfolio[],
   //packages: PackageType[],
-  //mapPoints: MapPoint[],
+ 
   //contacts: Contact[],
   //relatedContacts: Commitment[]
   discussion?: Comment[]

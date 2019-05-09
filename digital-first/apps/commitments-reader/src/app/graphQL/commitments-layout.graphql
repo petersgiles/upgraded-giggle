@@ -1,4 +1,4 @@
-query GetRefinerTags {
+query GetRefinerTags($webId: Guid!) {
   commitmentTypes {
     id
     title
@@ -8,6 +8,10 @@ query GetRefinerTags {
     title
   }
   portfolioLookups {
+    id
+    title
+  }
+  deckItemBriefSummaries(webId: $webId) {
     id
     title
   }

@@ -1,4 +1,4 @@
-query MapPointsSearch($refiner: CommitmentRefinerGraph!, $bookType: String!) {
+query MapPointsSearch($refiner: CommitmentRefinerGraph!, $bookType: BookType!) {
   mapPoints(refiner: $refiner, bookType: $bookType) {
     id
     title

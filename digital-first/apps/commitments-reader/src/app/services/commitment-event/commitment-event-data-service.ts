@@ -6,12 +6,13 @@ import { DataResult } from '../../models'
 import {
   CommitmentEvent,
   CommitmentEventType,
-  ExternalEvent
+  ExternalEvent,
+  ExternalEventType
 } from '../../models/commitment-event.model'
 import { EventSharepointDataService } from './sharepoint/commitment-event-sharepoint-data.service'
 import { SettingsService } from '../settings.service'
 import { SharepointJsomService } from '@df/sharepoint'
-import { EventDevelopDataService } from './develop/commitment-event-develop-data.service';
+import { EventDevelopDataService } from './develop/commitment-event-develop-data.service'
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +21,17 @@ export abstract class CommitmentEventDataService {
   abstract getEventsByCommitments(
     commitments: any
   ): Observable<DataResult<CommitmentEvent[]>>
-  abstract getEventTypes(): Observable<DataResult<CommitmentEventType[]>>
-  abstract getExternalEvents(externalEventTypes: any[]): Observable<DataResult<ExternalEvent[]>>
+  abstract getEventTypes(
+    config: any
+  ): Observable<DataResult<CommitmentEventType[]>>
+  abstract getExternalEvents(
+    externalEventTypes: any[]
+  ): Observable<DataResult<ExternalEvent[]>>
+  abstract getExternalEventTypes(
+    config: any
+  ): Observable<DataResult<ExternalEventType[]>>
+  abstract storeEvent(payload: any): Observable<DataResult<any>>
+  abstract removeEvent(payload: any): Observable<DataResult<any>>
 }
 
 const commitmentEventDataServiceFactory = (

@@ -1,12 +1,6 @@
-<div class="page_title">
-  <div
-    #discussion
-    class="reader-card-article__title page_title_text"
-    mdcHeadline5
-  >
-    Commitment
-  </div>
-</div>
+<digital-first-page-title [title]="getTitle()">
+  <digital-first-navigation-item-button (onNavigate)="handleGoBack($event)"></digital-first-navigation-item-button>
+</digital-first-page-title>
 <div class="layout-page">
   <section>
     <div class="app-layout__row--no-wrap">

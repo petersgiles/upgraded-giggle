@@ -8,8 +8,15 @@ export enum RefinerActionTypes {
   SelectRefinerGroup = '[RefinerActionTypes] SelectRefinerGroup',
   SelectRefiner = '[RefinerActionTypes] SelectRefiner',
   SearchCommitments = '[RefinerActionTypes] SearchCommitments',
+  SetRefinerFromQueryString = '[RefinerActionTypes] SetRefinerFromQueryString',
+  ClearRefiners = '[RefinerActionTypes] ClearRefiners',
   ChangeTextRefiner = '[RefinerActionTypes] ChangeTextRefiner',
 
+}
+
+export class ClearRefiners implements Action {
+  type = RefinerActionTypes.ClearRefiners
+  constructor(public payload: any) {}
 }
 
 export class SelectRefinerGroup implements Action {
@@ -41,10 +48,17 @@ export class LoadRefinerGroups implements Action {
   type = RefinerActionTypes.LoadRefinerGroups
   constructor(public payload: any) {}
 }
+
+export class SetRefinerFromQueryString implements Action {
+  type = RefinerActionTypes.SetRefinerFromQueryString
+  constructor(public payload: {refiner: {id: string, group: string}[], text?: string}) {}
+}
+
 export class GetRefinersFailure implements Action {
   type = RefinerActionTypes.GetRefinersFailure
   constructor(public payload: any) {}
 }
+
 export type RefinerActions =
     GetRefinerGroups
   | LoadRefinerGroups
@@ -53,3 +67,5 @@ export type RefinerActions =
   | SearchCommitments
   | ChangeTextRefiner
   | GetRefinersFailure
+  | ClearRefiners
+  | SetRefinerFromQueryString
