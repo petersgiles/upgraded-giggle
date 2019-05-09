@@ -66,7 +66,8 @@ import { SettingsService } from './services/settings.service'
 import { CommitmentPackageComponent } from './pages/commitment-packages/commitment-package.component'
 import { initApplication } from './app-init'
 import { appDataServiceProvider } from './services/app-data/app-data.service.factory'
-import { configServiceProvider } from './services/config/config.service.factory';
+import { configServiceProvider } from './services/config/config.service.factory'
+import { GraphQLModule } from './graphQL/graphQl.module'
 
 const COMPONENTS = [
   AppComponent,
@@ -96,6 +97,7 @@ const COMPONENTS = [
     }),
     HttpClientModule,
     HttpLinkModule,
+    GraphQLModule,
     DataTableModule,
     PanelModule,
     ButtonModule,
@@ -150,31 +152,6 @@ const COMPONENTS = [
     SharepointJsomService,
     DateFormatPipe,
     { provide: TitleLayoutService, useClass: AppFullLayoutService },
-    {
-      provide: APOLLO_OPTIONS,
-      useFactory(httpLink: HttpLink) {
-        const defaultOptions = {
-          watchQuery: {
-            errorPolicy: 'ignore'
-          },
-          query: {
-            errorPolicy: 'all'
-          }
-        }
-
-        return {
-          cache: new InMemoryCache(),
-          link: httpLink.create({
-            uri: environment.datasource.dataServiceUrl,
-            headers: new HttpHeaders({
-              ProgramsApiKey: environment.apiKey
-            })
-          }),
-          defaultOptions
-        }
-      },
-      deps: [HttpLink]
-    },
     /**
      * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.
      * A custom RouterStateSerializer is used to parse the `RouterStateSnapshot` provided
