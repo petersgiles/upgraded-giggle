@@ -69,7 +69,7 @@ export class EventDevelopDataService implements CommitmentEventDataService {
     const existingId = payload.data.id
     let events = this.getEventDataFromLocalStorage()
     if (existingId.indexOf('_generated') < 0) {
-      events = events.filter(e => e.id === existingId)
+      events = events.filter(e => e.id !== existingId)
       events.push(payload.data)
     } else {
       let event = JSON.parse(JSON.stringify(payload.data))
@@ -89,7 +89,7 @@ export class EventDevelopDataService implements CommitmentEventDataService {
       throw Error('You do not have permission to add event')
     }
     let events = this.getEventDataFromLocalStorage()
-    events = events.filter(e => e.id === payload.data.id)
+    events = events.filter(e => e.id !== payload.data.id)
     this.writeEventDataToLocalStorage(events)
     return of({
       data: events,
