@@ -1,6 +1,13 @@
 import { UserActions, UserActionTypes } from './user.actions'
 import { AppActions, AppActionTypes } from '../app/app.actions'
 import { createFeatureSelector, createSelector } from '@ngrx/store'
+<<<<<<< HEAD
+=======
+import {
+  OPERATION_DEFAULTS,
+  OPERATION_RIGHTS_PRECEDENT
+} from '../../services/app-data/app-operations'
+>>>>>>> 6f3983e561b7a48d7c5b2fa602d1e733a9f20544
 
 export interface UserState {
   currentUser

@@ -1,0 +1,24 @@
+<div class="page">
+    <section *ngIf="(profile$ | async) as profile">
+        <mdc-card class="app-card" >
+            <mdc-card-primary-action>
+              <mdc-card-media class="app-card__media--16-9" wide></mdc-card-media>
+              <div class="app-card__primary">
+                <h2 class="app-card__title" mdcHeadline6>{{profile.name}}</h2>
+                <h3 class="app-card__subtitle" mdcSubtitle2>{{profile.email}}</h3>
+              </div>
+            </mdc-card-primary-action>
+            <mdc-list-divider></mdc-list-divider>
+            <mdc-ripple class="demo-card-article">
+              <h2 class="app-card-article__title" mdcHeadline5>Roles</h2>
+              <p class="app-card-article__snippet" mdcBody2 *ngFor="let role of profile.roles">
+                {{role}}
+              </p>
+            </mdc-ripple>
+          </mdc-card>
+    </section>
+  </div>
+  
+
+
+

@@ -50,6 +50,11 @@ export class TitleLayoutService {
     'title': 'configure me'
   }) }
 
+
+  public handleAvatarClicked($event){
+
+  }
+  
   constructor() { }
 
 }

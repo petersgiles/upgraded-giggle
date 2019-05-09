@@ -11,12 +11,6 @@
       <span>{{ protectiveMarking$ | async | uppercase }}</span>
     </mdc-top-app-bar-section>
     <mdc-top-app-bar-section align="end">
-      <mdc-icon
-        *ngIf="(sidebarItems$ | async)?.length > 0"
-        mdcTopAppBarActionItem
-        (click)="profileMenu.open = !profileMenu.open"
-        >apps</mdc-icon
-      >
 
       <digital-first-avatar
         [name]="profile?.name"
@@ -24,9 +18,18 @@
         [displayType]="profile?.displayType"
         [size]="profile?.size"
         [background]="profile?.background"
+        (click)="handleAvatarClicked($event)"
       >
       </digital-first-avatar>
 
+      <mdc-icon
+        *ngIf="(sidebarItems$ | async)?.length > 0"
+        mdcTopAppBarActionItem
+        (click)="profileMenu.open = !profileMenu.open"
+        >apps</mdc-icon
+      >
+
+      
       <div mdcMenuSurfaceAnchor #menuAnchor>
         <mdc-menu #profileMenu [anchorElement]="menuAnchor">
           <div class="nav-list wrap">
@@ -53,6 +56,8 @@
           <div class="app-version">Version {{ version }} {{bookType$ | async}}</div>
         </mdc-menu>
       </div>
+
+
     </mdc-top-app-bar-section>
   </mdc-top-app-bar-row>
 </mdc-top-app-bar>
