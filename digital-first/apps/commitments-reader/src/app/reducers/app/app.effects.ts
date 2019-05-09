@@ -43,7 +43,7 @@ export class AppEffects {
   @Effect()
   getAppConfiguration$: Observable<Action> = this.actions$.pipe(
     ofType(AppActionTypes.GetAppConfiguration),
-    concatMap(_ => this.configService.getJSON().pipe(
+    concatMap(_ => this.configService.config.pipe(
     // tslint:disable-next-line: no-console
     tap(r => console.log(`🦄 `, r)),
     concatMap((config: any) => [new LoadAppConfiguration(config)])
