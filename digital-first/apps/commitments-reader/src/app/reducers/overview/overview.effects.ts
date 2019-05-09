@@ -19,9 +19,8 @@ import {
 } from './overview.actions'
 import { CommitmentsSearchGQL } from '../../generated/graphql'
 import * as fromRoot from '../../reducers'
-import { Config } from '../../services/config.service'
 import { Store } from '@ngrx/store'
-import { refinerMap } from '../../models'
+import { Config } from '../../services/config/config-model'
 
 @Injectable()
 export class OverviewEffects {
@@ -48,16 +47,6 @@ export class OverviewEffects {
           deckItemBriefSummaries: []
         }
       )
-
-      // tslint:disable-next-line: no-console
-      console.log(`🐲 `, store, selectedRefiners)
-      // tslint:disable-next-line: no-console
-      console.log(`🐲 selectedRefinerGroup `, selectedRefinerGroup)
-      // tslint:disable-next-line: no-console
-      console.log(`🐲 config `, config)
-      // tslint:disable-next-line: no-console
-      console.log(`🐲 bookType `, bookType)
-
       return {
         refiner: selectedRefinerGroup,
         bookType: bookType

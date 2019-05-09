@@ -18,14 +18,14 @@ import {
   GetMapPointsFailure
 } from './map.actions'
 import * as fromRoot from '../../reducers'
-import { Config } from '../../services/config.service'
+import { Config } from '../../services/config/config-model'
 import { Store } from '@ngrx/store'
 import { MapPointsSearchGQL } from '../../generated/graphql'
 
 @Injectable()
 export class MapEffects {
   @Effect()
-  getRefinedCommitments$ = this.actions$.pipe(
+  getRefinedMapPoints$ = this.actions$.pipe(
     ofType(MapActionTypes.GetRefinedMapPoints),
     withLatestFrom(this.store$),
     // tslint:disable-next-line: no-console
@@ -43,7 +43,8 @@ export class MapEffects {
         {
           commitmentTypes: [],
           criticalDates: [],
-          portfolioLookups: []
+          portfolioLookups: [],
+          deckItemBriefSummaries: []
         }
       )
 

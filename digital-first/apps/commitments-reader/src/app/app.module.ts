@@ -66,6 +66,7 @@ import { SettingsService } from './services/settings.service'
 import { CommitmentPackageComponent } from './pages/commitment-packages/commitment-package.component'
 import { initApplication } from './app-init'
 import { appDataServiceProvider } from './services/app-data/app-data.service.factory'
+import { configServiceProvider } from './services/config/config.service.factory';
 
 const COMPONENTS = [
   AppComponent,
@@ -136,6 +137,7 @@ const COMPONENTS = [
     ])
   ],
   providers: [
+    SettingsService,
     {
       provide: APP_INITIALIZER,
       useFactory: initApplication,
@@ -143,6 +145,7 @@ const COMPONENTS = [
       multi: true
     },
     appDataServiceProvider,
+    configServiceProvider,
     commitmentEventDataServiceProvider,
     SharepointJsomService,
     DateFormatPipe,

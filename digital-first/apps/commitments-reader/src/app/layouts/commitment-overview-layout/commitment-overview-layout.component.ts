@@ -56,7 +56,7 @@ export class CommitmentOverviewLayoutComponent
   queryParamsSubscription$: Subscription
   refinerGroups: RefinerGroup[]
   queryParamsRefiner: { id: string; group: string }[]
-
+  
   constructor(
     private route: ActivatedRoute,
     private router: Router,

@@ -29,23 +29,23 @@ export class EventDevelopDataService implements CommitmentEventDataService {
   }
 
   getEventTypes(config: any): Observable<DataResult<CommitmentEventType[]>> {
-    console.log(config)
     return of({ data: eventTypes })
   }
 
   getExternalEvents(
     externalEventTypes: any[]
   ): Observable<DataResult<ExternalEvent[]>> {
+    const types = externalEventTypes
     const data = externalEvents
       .map(e => ({
         name: e.name,
         cls: e.cls,
         startDate: DateHelper.parse(e.startDate, 'yyyy/MM/dd'),
         endDate: DateHelper.parse(e.endDate, 'yyyy/MM/dd'),
-        eventTypeId: Math.random.toString()
+        eventTypeId: e.eventTypeId
       }))
       .filter(
-        c => externalEventTypes.filter(e => e.id === c.eventTypeId).length > 0
+        c => types.filter(e => e.id === c.eventTypeId).length > 0
       )
     return of({
       data: data
