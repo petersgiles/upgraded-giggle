@@ -137,6 +137,7 @@ const COMPONENTS = [
     ])
   ],
   providers: [
+    SettingsService,
     {
       provide: APP_INITIALIZER,
       useFactory: initApplication,
