@@ -42,6 +42,10 @@ export class TitleLayoutComponent implements OnInit, OnDestroy {
     return this._profile
   }
 
+  public handleAvatarClicked($event){
+    this.service.handleAvatarClicked($event)
+  }
+
   ngOnInit() {
     this.router.events
       .pipe(

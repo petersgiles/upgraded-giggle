@@ -67,7 +67,8 @@ import { CommitmentPackageComponent } from './pages/commitment-packages/commitme
 import { initApplication } from './app-init'
 import { appDataServiceProvider } from './services/app-data/app-data.service.factory'
 import { configServiceProvider } from './services/config/config.service.factory'
-import { GraphQLModule } from './graphQL/graphQl.module'
+import { GraphQLModule } from './graphQL/graphQl.module';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component'
 
 const COMPONENTS = [
   AppComponent,
@@ -84,7 +85,7 @@ const COMPONENTS = [
 ]
 
 @NgModule({
-  declarations: [...COMPONENTS, CommitmentDetailComponent],
+  declarations: [...COMPONENTS, CommitmentDetailComponent, UserProfileComponent],
   imports: [
     BrowserModule,
     FormsModule,

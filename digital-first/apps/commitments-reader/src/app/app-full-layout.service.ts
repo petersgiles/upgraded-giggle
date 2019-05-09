@@ -5,6 +5,7 @@ import { SideBarItem, AppUserProfile } from '@digital-first/df-layouts'
 import { AppConfigService } from './services/config/config.service'
 import { AppDataService } from './services/app-data/app-data.service'
 import { App, Logo } from './services/config/config-model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -52,6 +53,10 @@ export class AppFullLayoutService {
     ])
   }
 
+  public handleAvatarClicked($event){
+    this.router.navigate(['/userprofile'])
+  }
+
   get drawerStyle(): 'permanent' | 'dismissible' | 'modal' {
     return 'dismissible'
   }
@@ -77,6 +82,7 @@ export class AppFullLayoutService {
   }
 
   constructor(
+    private router: Router,
     private service: AppDataService,
     private configuration: AppConfigService
   ) {
