@@ -5,9 +5,9 @@ import { AppConfigService } from './config.service'
 import { DevelopConfigService } from './develop/develop-config.service'
 import { SharePointConfigService } from './sharepoint/sharepoint-config.service'
 
-const configServiceFactory = (settings: SettingsService, http: HttpClient) => {
+const configServiceFactory = (settings: SettingsService, http: HttpClient, sharepoint: SharepointJsomService) => {
   if (settings.host === 'sharepoint') {
-    return new SharePointConfigService(http, settings)
+    return new SharePointConfigService(http, settings, sharepoint)
   }
   return new DevelopConfigService(http, settings)
 }
@@ -15,5 +15,5 @@ const configServiceFactory = (settings: SettingsService, http: HttpClient) => {
 export let configServiceProvider = {
   provide: AppConfigService,
   useFactory: configServiceFactory,
-  deps: [SettingsService, HttpClient]
+  deps: [SettingsService, HttpClient, SharepointJsomService]
 }
