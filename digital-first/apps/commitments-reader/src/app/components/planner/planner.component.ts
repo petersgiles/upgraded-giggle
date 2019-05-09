@@ -61,13 +61,6 @@ export class PlannerComponent implements OnInit, OnDestroy {
   today = new Date()
   zoomLevels = ZoomLevels
   zoomSlider: any = {}
-  get currentZoomLevel() {
-    return (
-      this.zoomLevels &&
-      this.zoomSlider &&
-      this.zoomLevels.find(_ => _.id === this.zoomSlider.levelId)
-    )
-  }
   columns = [
     {
       text: 'Commitments',
@@ -107,17 +100,16 @@ export class PlannerComponent implements OnInit, OnDestroy {
     this.externalEventTypeChangeEventSubscription = this.externalEventTypeChange
       .pipe(debounceTime(100))
       .subscribe(event => {
+        // deep copy this array from store
+        let types = JSON.parse(JSON.stringify(this.selectedExternalEventTypes))
         if (event.checked) {
-          this.selectedExternalEventTypes.push(event.source.value)
+          types.push(event.source.value)
         } else {
-          const types = this.selectedExternalEventTypes
           if (types.find(t => t === event.source.value)) {
-            this.selectedExternalEventTypes = types.filter(
-              t => t !== event.source.value
-            )
+            types = types.filter(t => t !== event.source.value)
           }
         }
-        this.onExternalEventTypeChange.emit(this.selectedExternalEventTypes)
+        this.onExternalEventTypeChange.emit(types)
       })
   }
 
@@ -128,17 +120,6 @@ export class PlannerComponent implements OnInit, OnDestroy {
       },
       beforeeventdelete({ eventRecord }) {
         me.onEventRemoved.emit(eventRecord.data)
-      },
-      zoomchange({ level }) {
-        const currentCenterDate =
-          me.scheduler.schedulerEngine.viewportCenterDate
-        me.zoomSlider.levelId = level.id
-        me.scheduler.schedulerEngine.setTimeSpan(me.startDate, me.endDate)
-        me.scheduler.schedulerEngine.scrollToDate(currentCenterDate)
-        me.onZoomLevelChange.emit({
-          zoomLevel: level.id,
-          currentCenterDate: currentCenterDate
-        })
       },
       eventResizeEnd({ changed, eventRecord }) {
         if (changed) {
@@ -301,11 +282,13 @@ export class PlannerComponent implements OnInit, OnDestroy {
   }
 
   onSliderInput(event: MdcSliderChange): void {
-    this.resetSchedulerZoomLevel(event)
-  }
-
-  resetSchedulerZoomLevel(event: MdcSliderChange) {
-    this.zoomSlider.levelId = event.value
+    const currentCenterDate = this.scheduler.schedulerEngine.viewportCenterDate
+    this.scheduler.schedulerEngine.setTimeSpan(this.startDate, this.endDate)
+    this.scheduler.schedulerEngine.scrollToDate(currentCenterDate)
+    this.onZoomLevelChange.emit({
+      zoomLevel: event.value,
+      currentCenterDate: currentCenterDate
+    })
   }
 
   eventRenderer({ eventRecord, tplData }) {
