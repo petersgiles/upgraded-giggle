@@ -7,7 +7,7 @@ export const environment = {
   config: '/AppConfig/commitment_delivery_config.txt',
   datasource: {
     type: 'graph',
-    dataServiceUrl: '//#{ApiPath}/graphql'
+    dataServiceUrl: 'https://programs.cloud9.cabnet/graphql'
   },
   eventDatasource: 'sharepoint',
   apiKey: 'KvMAs2tbscsOmzXzyrSfK67okrM=',
