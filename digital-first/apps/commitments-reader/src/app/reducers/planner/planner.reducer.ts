@@ -8,7 +8,7 @@ export interface State {
   externalEvents: any[]
   externalEventTypes: any[]
   selectedExternalEeventTypes: any[]
-  schedulerZoomLevel: number
+  schedulerZoomLevel: any
   schedulerCenterDate: Date
   isReadonly: boolean
 }
