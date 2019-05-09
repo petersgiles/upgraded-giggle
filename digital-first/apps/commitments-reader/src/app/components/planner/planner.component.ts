@@ -343,10 +343,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
     return this.selectedExternalEventTypes.find(t => t === id)
   }
   /* End handling external event types changes*/
-
-  ngAfterViewInit(): void {
-    this.scheduler.schedulerEngine.scrollToDate(this.centerDate)
-  }
+  
   ngOnDestroy(): void {
     this.externalEventTypeChangeEventSubscription.unsubscribe()
   }
