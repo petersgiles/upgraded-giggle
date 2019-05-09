@@ -12,6 +12,10 @@ export class SettingsService {
     return environment
   }
 
+  get host(): any {
+    return environment.host
+  }
+
   get datasource(): any {
     return environment.datasource
   }

@@ -5,6 +5,7 @@ import * as packageJson from '../../../../package.json'
 
 export const environment = {
   production: false,
+  host: 'local',
   version: packageJson.version,
   config: 'assets/commitment_delivery_config.txt',
   datasource: {

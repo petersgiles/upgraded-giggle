@@ -5,15 +5,11 @@ import { AppConfigService } from './config.service'
 import { DevelopConfigService } from './develop/develop-config.service'
 import { SharePointConfigService } from './sharepoint/sharepoint-config.service'
 
-declare var _spPageContextInfo: any
-
 const configServiceFactory = (settings: SettingsService, http: HttpClient) => {
-  if (typeof _spPageContextInfo === 'undefined') {
-    return new DevelopConfigService(http, settings)
+  if (settings.host === 'sharepoint') {
+    return new SharePointConfigService(http, settings)
   }
-
-  return new SharePointConfigService(http, settings)
-
+  return new DevelopConfigService(http, settings)
 }
 
 export let configServiceProvider = {
