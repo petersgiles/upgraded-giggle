@@ -21,11 +21,15 @@ import { DateHelper } from 'bryntum-scheduler/scheduler.umd.js'
 })
 export class EventDevelopDataService implements CommitmentEventDataService {
   constructor() {}
-
+  private COMMITMENT_DATA_KEY = 'commitmentEvents'
   getEventsByCommitments(
     commitments: any
   ): Observable<DataResult<CommitmentEvent[]>> {
-    return EMPTY
+    return of({
+      data: this.getEventDataFromLocalStorage(),
+      loading: false,
+      error: null
+    })
   }
 
   getEventTypes(config: any): Observable<DataResult<CommitmentEventType[]>> {
@@ -44,9 +48,7 @@ export class EventDevelopDataService implements CommitmentEventDataService {
         endDate: DateHelper.parse(e.endDate, 'yyyy/MM/dd'),
         eventTypeId: e.eventTypeId
       }))
-      .filter(
-        c => types.filter(e => e.id === c.eventTypeId).length > 0
-      )
+      .filter(c => types.filter(e => e === c.eventTypeId).length > 0)
     return of({
       data: data
     })
@@ -61,12 +63,52 @@ export class EventDevelopDataService implements CommitmentEventDataService {
   }
 
   storeEvent(payload: any): Observable<DataResult<any>> {
-    // write to local storage
-    return EMPTY
+    if (payload.config && payload.config.isReadOnly) {
+      throw Error('You do not have permission to add event')
+    }
+    const existingId = payload.data.id
+    let events = this.getEventDataFromLocalStorage()
+    if (existingId.indexOf('_generated') < 0) {
+      events = events.filter(e => e.id === existingId)
+      events.push(payload.data)
+    } else {
+      let event = JSON.parse(JSON.stringify(payload.data))
+      event.id = Math.random().toString()
+      events.push(event)
+    }
+    this.writeEventDataToLocalStorage(events)
+    return of({
+      data: events,
+      loading: false,
+      error: null
+    })
   }
 
   removeEvent(payload: any): Observable<DataResult<any>> {
-    // remove from local storage
-    return EMPTY
+    if (payload.config && payload.config.isReadOnly) {
+      throw Error('You do not have permission to add event')
+    }
+    let events = this.getEventDataFromLocalStorage()
+    events = events.filter(e => e.id === payload.data.id)
+    this.writeEventDataToLocalStorage(events)
+    return of({
+      data: events,
+      loading: false,
+      error: null
+    })
+  }
+
+  private getEventDataFromLocalStorage() {
+    const dataInLocalStorage = localStorage.getItem(this.COMMITMENT_DATA_KEY)
+    if (dataInLocalStorage) {
+      return JSON.parse(dataInLocalStorage)
+    } else {
+      const events: any[] = []
+      return events
+    }
+  }
+
+  private writeEventDataToLocalStorage(events: any[]) {
+    localStorage.setItem(this.COMMITMENT_DATA_KEY, JSON.stringify(events))
   }
 }

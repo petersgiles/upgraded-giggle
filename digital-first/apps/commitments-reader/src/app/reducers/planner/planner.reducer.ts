@@ -69,6 +69,10 @@ export function reducer(state = initialState, action: PlannerActions): State {
 }
 
 export const plannerState = createFeatureSelector<State>('planner')
+export const selectEventsState = createSelector(
+  plannerState,
+  (state: State) => state.events
+)
 export const selectEventTypesState = createSelector(
   plannerState,
   (state: State) => state.eventTypes

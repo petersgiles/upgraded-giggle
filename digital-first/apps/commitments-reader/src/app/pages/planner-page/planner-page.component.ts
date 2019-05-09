@@ -51,6 +51,9 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
     this.externalEventTypes$ = this.plannerStore.pipe(
       select(fromPlanner.selectExternalEventTypesState)
     )
+    this.commitmentEvents$ = this.plannerStore.pipe(
+      select(fromPlanner.selectEventsState)
+    )
     this.commitmentEventTypes$ = this.plannerStore.pipe(
       select(fromPlanner.selectEventTypesState)
     )
