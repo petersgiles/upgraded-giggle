@@ -8,9 +8,12 @@ export enum PlannerActionTypes {
   GetCommitmentEventsFailure = '[Planner] GetCommitmentEventsFailure',
 
   GetEventReferenceData = '[Planner] GetEventReferenceData',
+  GetEventTypes = '[Planner] GetEventTypes',
+  GetEventTypesFailure = '[Planner] GetEventTypesFailure',
   LoadExternalEventTypes = '[Planner] LoadExternalEventTypes',
   LoadEventTypes = '[Planner] LoadEventTypes',
-  GetEventReferenceDataFailure = '[Planner] GetEventReferenceDataFailure',
+  GetExternalEventTypes = '[Planner] GetExternalEventTypes',
+  GetExternalEventTypesFailure = '[Planner] GetExternalEventTypesFailure',
 
   GetExternalEvents = '[Planner] GetExternalEvents',
   LoadExternalEvents = '[Planner] LoadExternalEvents',
@@ -64,11 +67,22 @@ export class LoadExternalEventTypes implements Action {
   readonly type = PlannerActionTypes.LoadExternalEventTypes
   constructor(public payload: any) {}
 }
-export class GetEventReferenceDataFailure implements Action {
-  readonly type = PlannerActionTypes.GetEventReferenceDataFailure
+export class GetExternalEventTypes implements Action {
+  readonly type = PlannerActionTypes.GetExternalEventTypes
   constructor(public payload: any) {}
 }
-
+export class GetExternalEventTypesFailure implements Action {
+  readonly type = PlannerActionTypes.GetExternalEventTypesFailure
+  constructor(public payload: any) {}
+}
+export class GetEventTypes implements Action {
+  readonly type = PlannerActionTypes.GetEventTypes
+  constructor(public payload: any) {}
+}
+export class GetEventTypesFailure implements Action {
+  readonly type = PlannerActionTypes.GetEventTypesFailure
+  constructor(public payload: any) {}
+}
 export class GetExternalEvents implements Action {
   readonly type = PlannerActionTypes.GetExternalEvents
   constructor(public payload: any) {}
@@ -134,7 +148,10 @@ export type PlannerActions =
   | LoadExternalEvents
   | GetExternalEventsFailure
   | GetEventReferenceData
-  | GetEventReferenceDataFailure
+  | GetEventTypes
+  | GetEventTypesFailure
+  | GetExternalEventTypes
+  | GetExternalEventTypesFailure
   | LoadEventTypes
   | LoadExternalEventTypes
   | StoreCommitmentEvent

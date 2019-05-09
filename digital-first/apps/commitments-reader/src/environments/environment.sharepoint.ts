@@ -9,6 +9,7 @@ export const environment = {
     type: 'graph',
     dataServiceUrl: '//#{ApiPath}/graphql'
   },
+  eventDatasource: 'sharepoint',
   apiKey: 'KvMAs2tbscsOmzXzyrSfK67okrM=',
   assetsPath: '/sites/commitments/SiteAssets/apps/commitments-reader/assets'
 }

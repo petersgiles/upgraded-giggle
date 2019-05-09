@@ -20,12 +20,14 @@ import {
   LoadEventTypes,
   LoadExternalEventTypes,
   GetCommitmentEventsFailure,
-  GetEventReferenceDataFailure,
-  StoreSelectedExternalEventTypes,
   LoadPlannerPermission,
   GetExternalEvents,
   GetExternalEventsFailure,
-  LoadSelectedExternalEventTypes
+  LoadSelectedExternalEventTypes,
+  GetEventTypes,
+  GetExternalEventTypes,
+  GetEventTypesFailure,
+  GetExternalEventTypesFailure
 } from './planner.actions'
 import { Store } from '@ngrx/store'
 import * as fromRoot from '../../reducers'
@@ -74,26 +76,45 @@ export class PlannerEffects {
   @Effect()
   getEventsReferenceData$ = this.actions$.pipe(
     ofType(PlannerActionTypes.GetEventReferenceData),
+    switchMap(_ => [new GetEventTypes(null), new GetExternalEventTypes(null)]),
+  )
+
+  @Effect()
+  getEventTypes$ = this.actions$.pipe(
+    ofType(PlannerActionTypes.GetEventTypes),
     withLatestFrom(this.rootStore$),
     map(([_, s]) => {
       const rootStore = <any>s
       const appConfig = rootStore.app.config
       return appConfig
     }),
-    switchMap(config => {
-      const actions = []
-      this.commitmentEventDataService
-        .getEventTypes(config)
-        .pipe(switchMap(data => [new LoadEventTypes(data)]))
-        .forEach(c => actions.push(c))
-      this.commitmentEventDataService
-        .getExternalEventTypes(config)
-        .pipe(switchMap(data => [new LoadExternalEventTypes(data)]))
-        .forEach(c => actions.push(c))
-      return actions
-    }),
-    catchError(error => of(new GetEventReferenceDataFailure(error)))
+    switchMap(config =>
+      this.commitmentEventDataService.getEventTypes(config).pipe(
+        first(),
+        concatMap(data => [new LoadEventTypes(data)])
+      )
+    ),
+    catchError(error => of(new GetEventTypesFailure(error)))
   )
+
+  @Effect()
+  getExternalEventTypes$ = this.actions$.pipe(
+    ofType(PlannerActionTypes.GetExternalEventTypes),
+    withLatestFrom(this.rootStore$),
+    map(([_, s]) => {
+      const rootStore = <any>s
+      const appConfig = rootStore.app.config
+      return appConfig
+    }),
+    switchMap(config =>
+      this.commitmentEventDataService.getExternalEventTypes(config).pipe(
+        first(),
+        concatMap(data => [new LoadExternalEventTypes(data)])
+      )
+    ),
+    catchError(error => of(new GetExternalEventTypesFailure(error)))
+  )
+
   @Effect()
   getExternalEvents$ = this.actions$.pipe(
     ofType(PlannerActionTypes.GetExternalEvents),
@@ -111,7 +132,7 @@ export class PlannerEffects {
     switchMap(selectedExternalEeventTypes =>
       this.commitmentEventDataService
         .getExternalEvents(selectedExternalEeventTypes)
-        .pipe(switchMap(data => [new LoadExternalEvents(data)]))
+        .pipe(concatMap(data => [new LoadExternalEvents(data)]))
     ),
     catchError(error => of(new GetExternalEventsFailure(error)))
   )
@@ -130,7 +151,7 @@ export class PlannerEffects {
     switchMap(config =>
       this.commitmentEventDataService
         .storeEvent(config)
-        .pipe(switchMap(result => [new GetCommitmentEvents(null)]))
+        .pipe(concatMap(result => [new GetCommitmentEvents(null)]))
     )
   )
 
@@ -149,7 +170,7 @@ export class PlannerEffects {
     switchMap(config =>
       this.commitmentEventDataService
         .removeEvent(config)
-        .pipe(switchMap(result => [new GetCommitmentEvents(null)]))
+        .pipe(concatMap(result => [new GetCommitmentEvents(null)]))
     )
   )
 

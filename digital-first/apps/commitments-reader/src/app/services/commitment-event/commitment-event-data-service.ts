@@ -39,8 +39,8 @@ const commitmentEventDataServiceFactory = (
   sharepointlib: SharepointJsomService
 ) => {
   let source = null
-  if (settings.datasource) {
-    source = settings.datasource.type
+  if (settings.eventDatasource) {
+    source = settings.eventDatasource
   }
 
   switch (source) {
