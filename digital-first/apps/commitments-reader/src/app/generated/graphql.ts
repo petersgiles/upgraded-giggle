@@ -50,6 +50,14 @@ export type AnnouncementTypeGraphCommitmentsArgs = {
   take?: Maybe<Scalars['Int']>
 }
 
+export type ApplyCommitmentDisplayOrderGraph = {
+  webId: Scalars['Guid']
+  book?: Maybe<DisplayOrderBookType>
+  first?: Maybe<Scalars['UInt32']>
+  middle: Scalars['UInt32']
+  last?: Maybe<Scalars['UInt32']>
+}
+
 export type AppropriationGraph = {
   rowVersion: Scalars['String']
   program?: Maybe<ProgramGraph>
@@ -168,12 +176,8 @@ export type CommitmentGraph = {
   commitmentPortfolioLookups?: Maybe<
     Array<Maybe<CommitmentPortfolioLookupGraph>>
   >
-  pmcHandlingAdviceCommitments?: Maybe<
-    Array<Maybe<PmcHandlingAdviceCommitmentGraph>>
-  >
-  pmoHandlingAdviceCommitments?: Maybe<
-    Array<Maybe<PmoHandlingAdviceCommitmentGraph>>
-  >
+  pmcHandlingAdvice?: Maybe<HandlingAdviceGraph>
+  pmoHandlingAdvice?: Maybe<HandlingAdviceGraph>
   briefCommitments?: Maybe<Array<Maybe<BriefCommitmentGraph>>>
   announcedBy?: Maybe<Scalars['String']>
   status?: Maybe<StatusGraph>
@@ -221,24 +225,6 @@ export type CommitmentGraphCommitmentPackageTypesArgs = {
 }
 
 export type CommitmentGraphCommitmentPortfolioLookupsArgs = {
-  id?: Maybe<Scalars['String']>
-  ids?: Maybe<Array<Maybe<Scalars['String']>>>
-  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
-  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
-  skip?: Maybe<Scalars['Int']>
-  take?: Maybe<Scalars['Int']>
-}
-
-export type CommitmentGraphPmcHandlingAdviceCommitmentsArgs = {
-  id?: Maybe<Scalars['String']>
-  ids?: Maybe<Array<Maybe<Scalars['String']>>>
-  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
-  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
-  skip?: Maybe<Scalars['Int']>
-  take?: Maybe<Scalars['Int']>
-}
-
-export type CommitmentGraphPmoHandlingAdviceCommitmentsArgs = {
   id?: Maybe<Scalars['String']>
   ids?: Maybe<Array<Maybe<Scalars['String']>>>
   orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
@@ -346,7 +332,9 @@ export enum ComparisonGraph {
 }
 
 export type CreateBriefCommitmentInputGraph = {
-  briefId: Scalars['Guid']
+  webId: Scalars['Guid']
+  listId: Scalars['Guid']
+  listItemId: Scalars['Int']
   commitmentId: Scalars['Int']
 }
 
@@ -518,8 +506,15 @@ export type DeckItemBriefSummaryGraphBriefsArgs = {
 }
 
 export type DeleteBriefCommitmentInputGraph = {
-  briefId: Scalars['Guid']
+  webId: Scalars['Guid']
+  listId: Scalars['Guid']
+  listItemId: Scalars['Int']
   commitmentId: Scalars['Int']
+}
+
+export enum DisplayOrderBookType {
+  Blue = 'Blue',
+  Red = 'Red'
 }
 
 export type ElectorateAdviceGraph = {
@@ -687,7 +682,10 @@ export type Mutation = {
   createStateBarchartReport?: Maybe<MutationResultGraph>
   createElectorateMarkdownReport?: Maybe<MutationResultGraph>
   createStateMarkdownReport?: Maybe<MutationResultGraph>
+  applyCommitmentDisplayOrder?: Maybe<MutationResultGraph>
   requestElectorateBrief?: Maybe<MutationResultGraph>
+  updatePmcHandlingAdviceCommitment?: Maybe<MutationResultGraph>
+  updatePmoHandlingAdviceCommitment?: Maybe<MutationResultGraph>
   createBriefCommitment?: Maybe<MutationResultGraph>
   deleteBriefCommitment?: Maybe<MutationResultGraph>
 }
@@ -790,10 +788,32 @@ export type MutationCreateStateMarkdownReportArgs = {
   stateMarkdownReport?: Maybe<CreateStateMarkdownReportGraph>
 }
 
+export type MutationApplyCommitmentDisplayOrderArgs = {
+  messageId: Scalars['Guid']
+  conversationId?: Maybe<Scalars['Guid']>
+  applyCommitmentDisplayOrder?: Maybe<ApplyCommitmentDisplayOrderGraph>
+}
+
 export type MutationRequestElectorateBriefArgs = {
   messageId: Scalars['Guid']
   conversationId?: Maybe<Scalars['Guid']>
   requestElectorateBrief?: Maybe<RequestElectorateBriefGraph>
+}
+
+export type MutationUpdatePmcHandlingAdviceCommitmentArgs = {
+  messageId: Scalars['Guid']
+  conversationId?: Maybe<Scalars['Guid']>
+  updatePmcHandlingAdviceCommitment?: Maybe<
+    UpdatePmcHandlingAdviceCommitmentGraph
+  >
+}
+
+export type MutationUpdatePmoHandlingAdviceCommitmentArgs = {
+  messageId: Scalars['Guid']
+  conversationId?: Maybe<Scalars['Guid']>
+  updatePmoHandlingAdviceCommitment?: Maybe<
+    UpdatePmoHandlingAdviceCommitmentGraph
+  >
 }
 
 export type MutationCreateBriefCommitmentArgs = {
@@ -1677,12 +1697,36 @@ export enum StringComparison {
   OrdinalIgnoreCase = 'ORDINAL_IGNORE_CASE'
 }
 
+export type UpdatePmcHandlingAdviceCommitmentGraph = {
+  commitmentId: Scalars['Int']
+  handlingAdviceId?: Maybe<Scalars['Guid']>
+}
+
+export type UpdatePmoHandlingAdviceCommitmentGraph = {
+  commitmentId: Scalars['Int']
+  handlingAdviceId?: Maybe<Scalars['Guid']>
+}
+
 export type WhereExpressionGraph = {
   path: Scalars['String']
   comparison?: Maybe<ComparisonGraph>
   case?: Maybe<StringComparison>
   value?: Maybe<Array<Maybe<Scalars['String']>>>
 }
+export type ApplyCommitmentDisplayOrderMutationVariables = {
+  applyCommitmentDisplayOrder: ApplyCommitmentDisplayOrderGraph
+  messageId: Scalars['Guid']
+  conversationId: Scalars['Guid']
+}
+
+export type ApplyCommitmentDisplayOrderMutation = {
+  __typename?: 'Mutation'
+} & {
+  applyCommitmentDisplayOrder: Maybe<
+    { __typename?: 'MutationResultGraph' } & Pick<MutationResultGraph, 'id'>
+  >
+}
+
 export type GetCommitmentDetailQueryVariables = {
   id: Scalars['String']
   bookType: BookType
@@ -1917,10 +1961,63 @@ export type MapPointsSearchQuery = { __typename?: 'Query' } & {
   >
 }
 
+export type UpdatePmcHandlingAdviceCommitmentMutationVariables = {
+  updatePmcHandlingAdviceCommitment: UpdatePmcHandlingAdviceCommitmentGraph
+  messageId: Scalars['Guid']
+  conversationId: Scalars['Guid']
+}
+
+export type UpdatePmcHandlingAdviceCommitmentMutation = {
+  __typename?: 'Mutation'
+} & {
+  updatePmcHandlingAdviceCommitment: Maybe<
+    { __typename?: 'MutationResultGraph' } & Pick<MutationResultGraph, 'id'>
+  >
+}
+
+export type UpdatePmoHandlingAdviceCommitmentMutationVariables = {
+  updatePmoHandlingAdviceCommitment: UpdatePmoHandlingAdviceCommitmentGraph
+  messageId: Scalars['Guid']
+  conversationId: Scalars['Guid']
+}
+
+export type UpdatePmoHandlingAdviceCommitmentMutation = {
+  __typename?: 'Mutation'
+} & {
+  updatePmoHandlingAdviceCommitment: Maybe<
+    { __typename?: 'MutationResultGraph' } & Pick<MutationResultGraph, 'id'>
+  >
+}
+
 import gql from 'graphql-tag'
 import { Injectable } from '@angular/core'
 import * as Apollo from 'apollo-angular'
 
+export const ApplyCommitmentDisplayOrderDocument = gql`
+  mutation ApplyCommitmentDisplayOrder(
+    $applyCommitmentDisplayOrder: ApplyCommitmentDisplayOrderGraph!
+    $messageId: Guid!
+    $conversationId: Guid!
+  ) {
+    applyCommitmentDisplayOrder(
+      applyCommitmentDisplayOrder: $applyCommitmentDisplayOrder
+      messageId: $messageId
+      conversationId: $conversationId
+    ) {
+      id
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ApplyCommitmentDisplayOrderGQL extends Apollo.Mutation<
+  ApplyCommitmentDisplayOrderMutation,
+  ApplyCommitmentDisplayOrderMutationVariables
+> {
+  document = ApplyCommitmentDisplayOrderDocument
+}
 export const GetCommitmentDetailDocument = gql`
   query getCommitmentDetail($id: String!, $bookType: BookType!) {
     commitments(id: $id, bookType: $bookType) {
@@ -2092,4 +2189,54 @@ export class MapPointsSearchGQL extends Apollo.Query<
   MapPointsSearchQueryVariables
 > {
   document = MapPointsSearchDocument
+}
+export const UpdatePmcHandlingAdviceCommitmentDocument = gql`
+  mutation UpdatePmcHandlingAdviceCommitment(
+    $updatePmcHandlingAdviceCommitment: UpdatePmcHandlingAdviceCommitmentGraph!
+    $messageId: Guid!
+    $conversationId: Guid!
+  ) {
+    updatePmcHandlingAdviceCommitment(
+      updatePmcHandlingAdviceCommitment: $updatePmcHandlingAdviceCommitment
+      messageId: $messageId
+      conversationId: $conversationId
+    ) {
+      id
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdatePmcHandlingAdviceCommitmentGQL extends Apollo.Mutation<
+  UpdatePmcHandlingAdviceCommitmentMutation,
+  UpdatePmcHandlingAdviceCommitmentMutationVariables
+> {
+  document = UpdatePmcHandlingAdviceCommitmentDocument
+}
+export const UpdatePmoHandlingAdviceCommitmentDocument = gql`
+  mutation UpdatePmoHandlingAdviceCommitment(
+    $updatePmoHandlingAdviceCommitment: UpdatePmoHandlingAdviceCommitmentGraph!
+    $messageId: Guid!
+    $conversationId: Guid!
+  ) {
+    updatePmoHandlingAdviceCommitment(
+      updatePmoHandlingAdviceCommitment: $updatePmoHandlingAdviceCommitment
+      messageId: $messageId
+      conversationId: $conversationId
+    ) {
+      id
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdatePmoHandlingAdviceCommitmentGQL extends Apollo.Mutation<
+  UpdatePmoHandlingAdviceCommitmentMutation,
+  UpdatePmoHandlingAdviceCommitmentMutationVariables
+> {
+  document = UpdatePmoHandlingAdviceCommitmentDocument
 }

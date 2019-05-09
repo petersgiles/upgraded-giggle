@@ -111,6 +111,7 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
   // New ones that we have added
   @Input() zoomLevels: object[]
   @Input() zoomLevel: number
+  @Input() centerDate: any
   // Config for all features
   @Input() featureConfig: any
 
@@ -193,7 +194,7 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
     // Relay events from eventStore and resourceStore, making them a bit easier to catch in your app.
     // The events are prefixed with 'events' and 'resources', turning and 'add' event into either 'eventsAdd' or
     // 'resourcesAdd'
-
+    engine.scrollToDate(this.centerDate)
     engine.eventStore.relayAll(engine, 'events')
     engine.resourceStore.relayAll(engine, 'resources')
   }
