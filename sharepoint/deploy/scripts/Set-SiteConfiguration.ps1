@@ -1,20 +1,48 @@
 ﻿Param(
     $binPath = "$PSScriptRoot",
-    $appName = "commitments",
+    $appName = "commitments-reader",
     $configuration = @"
     {
         "sites":[ 
            {
-                "siteUrl": "http://vm-dev-lbs13/sites/commitments-reader/",
+                "siteUrl": "http://vm-dev-lbs13/sites/commitments-reader-tim/",
                 "config": {
-                            "bookType": "blue"
-                    }
-            },
-            {
-                "siteUrl": "http://vm-dev-lbs13/sites/commitments/",
-                "config": {
-                            "bookType": "red"
-                    }
+                    "header": {
+                        "title": "Delivery Module",
+                        "classification": "",
+                        "bookType": "red",
+                        "bookColour":"#e54430",
+                        "logo": {
+                           "image": "assets/crest.png",
+                           "url": "/",
+                           "title": "Return to home page"
+                        },
+                        "apps": [
+                            {
+                              "caption": "Dashboard",
+                              "icon": "dashboard",
+                              "url": "SitePages/deck.aspx/deck"
+                            },  {
+                              "caption": "Activity",
+                              "icon": "timeline",
+                              "url": "SitePages/index.aspx/recent"
+                            },  {
+                              "caption": "Alerts",
+                              "icon": "notifications",
+                              "url": "SitePages/index.aspx/notifications"
+                            }, {
+                              "caption": "Permissions",
+                              "icon": "how_to_reg",
+                              "url": "_layouts/15/user.aspx",
+                              "target": "_blank"
+                            },  {
+                              "caption": "Admin",
+                              "icon": "settings",
+                              "url": "/SitePages/admin.aspx/admin"
+                            }
+                          ]
+                    },
+                    "bookType": "red"                    }
             }
         ]
     }
