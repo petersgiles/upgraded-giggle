@@ -1977,15 +1977,9 @@ export type MapPointsSearchQuery = { __typename?: 'Query' } & {
 }
 
 export type UpdatePmcHandlingAdviceCommitmentMutationVariables = {
-<<<<<<< HEAD
   messageId: Scalars['Guid']
   conversationId?: Maybe<Scalars['Guid']>
   data: UpdatePmcHandlingAdviceCommitmentGraph
-=======
-  updatePmcHandlingAdviceCommitment: UpdatePmcHandlingAdviceCommitmentGraph
-  messageId: Scalars['Guid']
-  conversationId: Scalars['Guid']
->>>>>>> 9c0ac17738477caf2d8e06094a08fd3b6f9f2608
 }
 
 export type UpdatePmcHandlingAdviceCommitmentMutation = {
@@ -1997,15 +1991,9 @@ export type UpdatePmcHandlingAdviceCommitmentMutation = {
 }
 
 export type UpdatePmoHandlingAdviceCommitmentMutationVariables = {
-<<<<<<< HEAD
   messageId: Scalars['Guid']
   conversationId?: Maybe<Scalars['Guid']>
   data: UpdatePmoHandlingAdviceCommitmentGraph
-=======
-  updatePmoHandlingAdviceCommitment: UpdatePmoHandlingAdviceCommitmentGraph
-  messageId: Scalars['Guid']
-  conversationId: Scalars['Guid']
->>>>>>> 9c0ac17738477caf2d8e06094a08fd3b6f9f2608
 }
 
 export type UpdatePmoHandlingAdviceCommitmentMutation = {
@@ -2236,7 +2224,6 @@ export class MapPointsSearchGQL extends Apollo.Query<
   document = MapPointsSearchDocument
 }
 export const UpdatePmcHandlingAdviceCommitmentDocument = gql`
-<<<<<<< HEAD
   mutation updatePmcHandlingAdviceCommitment(
     $messageId: Guid!
     $conversationId: Guid
@@ -2246,17 +2233,6 @@ export const UpdatePmcHandlingAdviceCommitmentDocument = gql`
       messageId: $messageId
       conversationId: $conversationId
       updatePmcHandlingAdviceCommitment: $data
-=======
-  mutation UpdatePmcHandlingAdviceCommitment(
-    $updatePmcHandlingAdviceCommitment: UpdatePmcHandlingAdviceCommitmentGraph!
-    $messageId: Guid!
-    $conversationId: Guid!
-  ) {
-    updatePmcHandlingAdviceCommitment(
-      updatePmcHandlingAdviceCommitment: $updatePmcHandlingAdviceCommitment
-      messageId: $messageId
-      conversationId: $conversationId
->>>>>>> 9c0ac17738477caf2d8e06094a08fd3b6f9f2608
     ) {
       id
     }
@@ -2273,7 +2249,6 @@ export class UpdatePmcHandlingAdviceCommitmentGQL extends Apollo.Mutation<
   document = UpdatePmcHandlingAdviceCommitmentDocument
 }
 export const UpdatePmoHandlingAdviceCommitmentDocument = gql`
-<<<<<<< HEAD
   mutation updatePmoHandlingAdviceCommitment(
     $messageId: Guid!
     $conversationId: Guid
@@ -2283,17 +2258,6 @@ export const UpdatePmoHandlingAdviceCommitmentDocument = gql`
       messageId: $messageId
       conversationId: $conversationId
       updatePmoHandlingAdviceCommitment: $data
-=======
-  mutation UpdatePmoHandlingAdviceCommitment(
-    $updatePmoHandlingAdviceCommitment: UpdatePmoHandlingAdviceCommitmentGraph!
-    $messageId: Guid!
-    $conversationId: Guid!
-  ) {
-    updatePmoHandlingAdviceCommitment(
-      updatePmoHandlingAdviceCommitment: $updatePmoHandlingAdviceCommitment
-      messageId: $messageId
-      conversationId: $conversationId
->>>>>>> 9c0ac17738477caf2d8e06094a08fd3b6f9f2608
     ) {
       id
     }

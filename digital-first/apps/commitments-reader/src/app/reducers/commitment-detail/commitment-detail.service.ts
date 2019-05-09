@@ -87,7 +87,9 @@ commitment: Commitment
       {}
     )
     .pipe(first())
-    .subscribe(value => {})
+    .subscribe(value => {
+      console.log('value 1', value)
+    })
 }
 
 updatePmoHandlingAdviceCommitment(pmcItem: any) {
@@ -104,7 +106,9 @@ updatePmoHandlingAdviceCommitment(pmcItem: any) {
       {}
     )
     .pipe(first())
-    .subscribe(value => {})
+    .subscribe(value => {
+      console.log('value', value)
+    })
 }
 
   getHandlingAdvices(){
