@@ -1713,6 +1713,20 @@ export type WhereExpressionGraph = {
   case?: Maybe<StringComparison>
   value?: Maybe<Array<Maybe<Scalars['String']>>>
 }
+export type ApplyCommitmentDisplayOrderMutationVariables = {
+  applyCommitmentDisplayOrder: ApplyCommitmentDisplayOrderGraph
+  messageId: Scalars['Guid']
+  conversationId: Scalars['Guid']
+}
+
+export type ApplyCommitmentDisplayOrderMutation = {
+  __typename?: 'Mutation'
+} & {
+  applyCommitmentDisplayOrder: Maybe<
+    { __typename?: 'MutationResultGraph' } & Pick<MutationResultGraph, 'id'>
+  >
+}
+
 export type GetCommitmentDetailQueryVariables = {
   id: Scalars['String']
   bookType: BookType
@@ -1947,10 +1961,63 @@ export type MapPointsSearchQuery = { __typename?: 'Query' } & {
   >
 }
 
+export type UpdatePmcHandlingAdviceCommitmentMutationVariables = {
+  updatePmcHandlingAdviceCommitment: UpdatePmcHandlingAdviceCommitmentGraph
+  messageId: Scalars['Guid']
+  conversationId: Scalars['Guid']
+}
+
+export type UpdatePmcHandlingAdviceCommitmentMutation = {
+  __typename?: 'Mutation'
+} & {
+  updatePmcHandlingAdviceCommitment: Maybe<
+    { __typename?: 'MutationResultGraph' } & Pick<MutationResultGraph, 'id'>
+  >
+}
+
+export type UpdatePmoHandlingAdviceCommitmentMutationVariables = {
+  updatePmoHandlingAdviceCommitment: UpdatePmoHandlingAdviceCommitmentGraph
+  messageId: Scalars['Guid']
+  conversationId: Scalars['Guid']
+}
+
+export type UpdatePmoHandlingAdviceCommitmentMutation = {
+  __typename?: 'Mutation'
+} & {
+  updatePmoHandlingAdviceCommitment: Maybe<
+    { __typename?: 'MutationResultGraph' } & Pick<MutationResultGraph, 'id'>
+  >
+}
+
 import gql from 'graphql-tag'
 import { Injectable } from '@angular/core'
 import * as Apollo from 'apollo-angular'
 
+export const ApplyCommitmentDisplayOrderDocument = gql`
+  mutation ApplyCommitmentDisplayOrder(
+    $applyCommitmentDisplayOrder: ApplyCommitmentDisplayOrderGraph!
+    $messageId: Guid!
+    $conversationId: Guid!
+  ) {
+    applyCommitmentDisplayOrder(
+      applyCommitmentDisplayOrder: $applyCommitmentDisplayOrder
+      messageId: $messageId
+      conversationId: $conversationId
+    ) {
+      id
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ApplyCommitmentDisplayOrderGQL extends Apollo.Mutation<
+  ApplyCommitmentDisplayOrderMutation,
+  ApplyCommitmentDisplayOrderMutationVariables
+> {
+  document = ApplyCommitmentDisplayOrderDocument
+}
 export const GetCommitmentDetailDocument = gql`
   query getCommitmentDetail($id: String!, $bookType: BookType!) {
     commitments(id: $id, bookType: $bookType) {
@@ -2122,4 +2189,54 @@ export class MapPointsSearchGQL extends Apollo.Query<
   MapPointsSearchQueryVariables
 > {
   document = MapPointsSearchDocument
+}
+export const UpdatePmcHandlingAdviceCommitmentDocument = gql`
+  mutation UpdatePmcHandlingAdviceCommitment(
+    $updatePmcHandlingAdviceCommitment: UpdatePmcHandlingAdviceCommitmentGraph!
+    $messageId: Guid!
+    $conversationId: Guid!
+  ) {
+    updatePmcHandlingAdviceCommitment(
+      updatePmcHandlingAdviceCommitment: $updatePmcHandlingAdviceCommitment
+      messageId: $messageId
+      conversationId: $conversationId
+    ) {
+      id
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdatePmcHandlingAdviceCommitmentGQL extends Apollo.Mutation<
+  UpdatePmcHandlingAdviceCommitmentMutation,
+  UpdatePmcHandlingAdviceCommitmentMutationVariables
+> {
+  document = UpdatePmcHandlingAdviceCommitmentDocument
+}
+export const UpdatePmoHandlingAdviceCommitmentDocument = gql`
+  mutation UpdatePmoHandlingAdviceCommitment(
+    $updatePmoHandlingAdviceCommitment: UpdatePmoHandlingAdviceCommitmentGraph!
+    $messageId: Guid!
+    $conversationId: Guid!
+  ) {
+    updatePmoHandlingAdviceCommitment(
+      updatePmoHandlingAdviceCommitment: $updatePmoHandlingAdviceCommitment
+      messageId: $messageId
+      conversationId: $conversationId
+    ) {
+      id
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdatePmoHandlingAdviceCommitmentGQL extends Apollo.Mutation<
+  UpdatePmoHandlingAdviceCommitmentMutation,
+  UpdatePmoHandlingAdviceCommitmentMutationVariables
+> {
+  document = UpdatePmoHandlingAdviceCommitmentDocument
 }

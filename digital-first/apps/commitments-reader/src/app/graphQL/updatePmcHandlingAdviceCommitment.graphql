@@ -1,0 +1,13 @@
+mutation UpdatePmcHandlingAdviceCommitment(
+  $updatePmcHandlingAdviceCommitment: UpdatePmcHandlingAdviceCommitmentGraph!,
+  $messageId: Guid!,
+  $conversationId: Guid!
+  ) {
+  updatePmcHandlingAdviceCommitment(
+    updatePmcHandlingAdviceCommitment:$updatePmcHandlingAdviceCommitment,
+    messageId: $messageId,
+    conversationId:  $conversationId
+  ) {
+    id
+  }
+}
