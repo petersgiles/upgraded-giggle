@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store'
-import { plannerState } from './planner.reducer'
 
 export enum PlannerActionTypes {
   GetPlannerData = '[Planner] GetPlannerData',
