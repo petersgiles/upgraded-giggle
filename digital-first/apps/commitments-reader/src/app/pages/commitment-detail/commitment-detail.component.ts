@@ -1,16 +1,17 @@
 import { Component, OnInit, OnDestroy,  ChangeDetectionStrategy } from '@angular/core'
 import { Store, select } from '@ngrx/store'
 import { Subscription, Subject, Observable, of } from 'rxjs'
-import { takeUntil, filter, debounceTime} from 'rxjs/operators'
+import { takeUntil, filter} from 'rxjs/operators'
 import { ActivatedRoute } from '@angular/router'
 import { CommitmentDetailService } from '../../reducers/commitment-detail/commitment-detail.service'
 import * as indef from 'indefinite'
 import { Commitment } from '../../models/commitment.model'
 import { CommitmentDetailsState } from '../../reducers/commitment-detail/commitment-detail.reducer'
-import { getCommitment } from '../../reducers/commitment-detail'
+import { getCommitment, getHandlingAdvice } from '../../reducers/commitment-detail'
 import { CommitmentLocation } from '../../models/commitment.model'
 import * as appSelectors from '../../reducers/app'
 import {UpdatePMOHandlingAdvice, UpdatePMCHandlingAdvice } from '../../reducers/commitment-detail/commitment-detail.actions'
+
 
 
 @Component({
@@ -41,10 +42,10 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   commitmentSubscription$: Subscription
   electorate$: Observable<CommitmentLocation[]>
   bookType: string
-  private readonly destroyed = new Subject<void>();
+  private readonly destroyed = new Subject<void>()
   commitment: Commitment
-  commitment$: Observable<Commitment>;
- 
+  commitment$: Observable<Commitment>
+  handlingAdvice$: Observable<any>
   constructor(
     private activatedRoute: ActivatedRoute,
     private commitmentDetailService: CommitmentDetailService,
@@ -54,6 +55,7 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   ngOnInit() {
   
     this.commitment$ = this.store.pipe(select(getCommitment))
+    this.handlingAdvice$ = this.store.pipe(select(getHandlingAdvice))
     
     this.store.pipe(select(appSelectors.App.selectAppBookTypeState))
     .subscribe(bookType => {
@@ -67,6 +69,7 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
       )
       .subscribe((params) => {
         this.commitmentDetailService.LoadCommitment(params.id,this.bookType)
+        this.commitmentDetailService.getHandlingAdvices()
       })
 
       this.commitment$.subscribe(commitment => {this.commitment = commitment})
@@ -78,11 +81,13 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   }
 
   onPMOChange(event){
-    this.store.dispatch(new UpdatePMOHandlingAdvice({label: event.label, commitmentId: this.commitment.id}))
+    this.commitmentDetailService.updatePmoHandlingAdviceCommitment({label: event.value, commitmentId: this.commitment.id})
+    //this.store.dispatch(new UpdatePMOHandlingAdvice({label: event.value, commitmentId: this.commitment.id}))
   }
 
   onPMCChange(event){
-    this.store.dispatch(new UpdatePMCHandlingAdvice({label: event.label, commitmentId: this.commitment.id}))
+    this.commitmentDetailService.updatePmcHandlingAdviceCommitment({label: event.value, commitmentId: this.commitment.id})
+    //this.store.dispatch(new UpdatePMCHandlingAdvice({label: event.value, commitmentId: this.commitment.id}))
   }
 
   public getIndefiniteArticle(term) {

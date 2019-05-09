@@ -1,0 +1,7 @@
+mutation updatePmoHandlingAdviceCommitment($messageId: Guid!, $conversationId: Guid, $data: UpdatePmoHandlingAdviceCommitmentGraph!) {
+ updatePmoHandlingAdviceCommitment( messageId: $messageId, conversationId: $conversationId, updatePmoHandlingAdviceCommitment: $data) {
+   id
+}
+
+}
+

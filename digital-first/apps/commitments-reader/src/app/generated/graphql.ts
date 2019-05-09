@@ -688,6 +688,8 @@ export type Mutation = {
   createElectorateMarkdownReport?: Maybe<MutationResultGraph>
   createStateMarkdownReport?: Maybe<MutationResultGraph>
   requestElectorateBrief?: Maybe<MutationResultGraph>
+  updatePmcHandlingAdviceCommitment?: Maybe<MutationResultGraph>
+  updatePmoHandlingAdviceCommitment?: Maybe<MutationResultGraph>
   createBriefCommitment?: Maybe<MutationResultGraph>
   deleteBriefCommitment?: Maybe<MutationResultGraph>
 }
@@ -794,6 +796,22 @@ export type MutationRequestElectorateBriefArgs = {
   messageId: Scalars['Guid']
   conversationId?: Maybe<Scalars['Guid']>
   requestElectorateBrief?: Maybe<RequestElectorateBriefGraph>
+}
+
+export type MutationUpdatePmcHandlingAdviceCommitmentArgs = {
+  messageId: Scalars['Guid']
+  conversationId?: Maybe<Scalars['Guid']>
+  updatePmcHandlingAdviceCommitment?: Maybe<
+    UpdatePmcHandlingAdviceCommitmentGraph
+  >
+}
+
+export type MutationUpdatePmoHandlingAdviceCommitmentArgs = {
+  messageId: Scalars['Guid']
+  conversationId?: Maybe<Scalars['Guid']>
+  updatePmoHandlingAdviceCommitment?: Maybe<
+    UpdatePmoHandlingAdviceCommitmentGraph
+  >
 }
 
 export type MutationCreateBriefCommitmentArgs = {
@@ -1677,6 +1695,16 @@ export enum StringComparison {
   OrdinalIgnoreCase = 'ORDINAL_IGNORE_CASE'
 }
 
+export type UpdatePmcHandlingAdviceCommitmentGraph = {
+  commitmentId: Scalars['Int']
+  handlingAdviceId?: Maybe<Scalars['Guid']>
+}
+
+export type UpdatePmoHandlingAdviceCommitmentGraph = {
+  commitmentId: Scalars['Int']
+  handlingAdviceId?: Maybe<Scalars['Guid']>
+}
+
 export type WhereExpressionGraph = {
   path: Scalars['String']
   comparison?: Maybe<ComparisonGraph>
@@ -1884,9 +1912,9 @@ export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
           CommitmentGraph,
           'id' | 'title' | 'bookType' | 'politicalParty' | 'announcedBy'
         > & {
-            commitmentType: Maybe<
-              { __typename?: 'CommitmentTypeGraph' } & Pick<
-                CommitmentTypeGraph,
+            announcementType: Maybe<
+              { __typename?: 'AnnouncementTypeGraph' } & Pick<
+                AnnouncementTypeGraph,
                 'id' | 'title'
               >
             >
@@ -1903,6 +1931,21 @@ export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
               >
             >
           }
+      >
+    >
+  >
+}
+
+export type GetHandlingAdvicesQueryVariables = {}
+
+export type GetHandlingAdvicesQuery = { __typename?: 'Query' } & {
+  handlingAdvices: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'HandlingAdviceGraph' } & Pick<
+          HandlingAdviceGraph,
+          'id' | 'title'
+        >
       >
     >
   >
@@ -1957,6 +2000,34 @@ export type MapPointsSearchQuery = { __typename?: 'Query' } & {
           }
       >
     >
+  >
+}
+
+export type UpdatePmcHandlingAdviceCommitmentMutationVariables = {
+  messageId: Scalars['Guid']
+  conversationId?: Maybe<Scalars['Guid']>
+  data: UpdatePmcHandlingAdviceCommitmentGraph
+}
+
+export type UpdatePmcHandlingAdviceCommitmentMutation = {
+  __typename?: 'Mutation'
+} & {
+  updatePmcHandlingAdviceCommitment: Maybe<
+    { __typename?: 'MutationResultGraph' } & Pick<MutationResultGraph, 'id'>
+  >
+}
+
+export type UpdatePmoHandlingAdviceCommitmentMutationVariables = {
+  messageId: Scalars['Guid']
+  conversationId?: Maybe<Scalars['Guid']>
+  data: UpdatePmoHandlingAdviceCommitmentGraph
+}
+
+export type UpdatePmoHandlingAdviceCommitmentMutation = {
+  __typename?: 'Mutation'
+} & {
+  updatePmoHandlingAdviceCommitment: Maybe<
+    { __typename?: 'MutationResultGraph' } & Pick<MutationResultGraph, 'id'>
   >
 }
 
@@ -2130,6 +2201,24 @@ export class CommitmentsSearchGQL extends Apollo.Query<
 > {
   document = CommitmentsSearchDocument
 }
+export const GetHandlingAdvicesDocument = gql`
+  query getHandlingAdvices {
+    handlingAdvices {
+      id
+      title
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class GetHandlingAdvicesGQL extends Apollo.Query<
+  GetHandlingAdvicesQuery,
+  GetHandlingAdvicesQueryVariables
+> {
+  document = GetHandlingAdvicesDocument
+}
 export const MapPointsSearchDocument = gql`
   query MapPointsSearch(
     $refiner: CommitmentRefinerGraph!
@@ -2172,4 +2261,54 @@ export class MapPointsSearchGQL extends Apollo.Query<
   MapPointsSearchQueryVariables
 > {
   document = MapPointsSearchDocument
+}
+export const UpdatePmcHandlingAdviceCommitmentDocument = gql`
+  mutation updatePmcHandlingAdviceCommitment(
+    $messageId: Guid!
+    $conversationId: Guid
+    $data: UpdatePmcHandlingAdviceCommitmentGraph!
+  ) {
+    updatePmcHandlingAdviceCommitment(
+      messageId: $messageId
+      conversationId: $conversationId
+      updatePmcHandlingAdviceCommitment: $data
+    ) {
+      id
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdatePmcHandlingAdviceCommitmentGQL extends Apollo.Mutation<
+  UpdatePmcHandlingAdviceCommitmentMutation,
+  UpdatePmcHandlingAdviceCommitmentMutationVariables
+> {
+  document = UpdatePmcHandlingAdviceCommitmentDocument
+}
+export const UpdatePmoHandlingAdviceCommitmentDocument = gql`
+  mutation updatePmoHandlingAdviceCommitment(
+    $messageId: Guid!
+    $conversationId: Guid
+    $data: UpdatePmoHandlingAdviceCommitmentGraph!
+  ) {
+    updatePmoHandlingAdviceCommitment(
+      messageId: $messageId
+      conversationId: $conversationId
+      updatePmoHandlingAdviceCommitment: $data
+    ) {
+      id
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdatePmoHandlingAdviceCommitmentGQL extends Apollo.Mutation<
+  UpdatePmoHandlingAdviceCommitmentMutation,
+  UpdatePmoHandlingAdviceCommitmentMutationVariables
+> {
+  document = UpdatePmoHandlingAdviceCommitmentDocument
 }

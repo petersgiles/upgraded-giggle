@@ -8,7 +8,9 @@ export enum CommitmentDetailActionTypes {
   GetDetailedCommitment = '[CommitmentDetail] GetDetailedCommitment',
   LoadDetailedCommitment = '[CommitmentDetail] LoadDetailedCommitment',
   UpdatePMOHandlingAdvice = '[CommitmentDetail] UpdatePMOAdvice',
-  UpdatePMCHandlingAdvice = '[CommitmentDetail] UpdatePMCAdvice'
+  UpdatePMCHandlingAdvice = '[CommitmentDetail] UpdatePMCAdvice',
+  GetHandlingAdvices = '[CommitmentDetail] GetHandlingAdvices',
+  LoadHandlingAdvices = '[CommitmentDetail] LoadHandlingAdvices'
 }
 
 export class LoadCommitments implements Action {
@@ -31,21 +33,33 @@ export class LoadDetailedCommitment implements Action {
   constructor(public payload: {commitment: Commitment}) { }
 }
 
-export class LoadCommitmentDetails implements Action {
+/* export class LoadCommitmentDetails implements Action {
   readonly type = CommitmentDetailActionTypes.LoadCommitmentDetails
   constructor(public payload: { path: string }) {}
 }
-
+ */
 export class GetDetailedCommitment implements Action {
   type = CommitmentDetailActionTypes.GetDetailedCommitment
   constructor(public payload: {commitment: Commitment}) {}
 }
 
+export class GetHandlingAdvices implements Action {
+  type = CommitmentDetailActionTypes.GetHandlingAdvices
+  constructor(public payload: {advices: any}) {}
+}
+
+export class LoadHandlingAdvices implements Action {
+  type = CommitmentDetailActionTypes.LoadHandlingAdvices
+  constructor(public payload: {advices: any}) {}
+}
+
+
 
 export type CommitmentDetailActions = 
 GetDetailedCommitment
-|LoadCommitmentDetails
 |LoadDetailedCommitment
 |LoadCommitments
 |UpdatePMOHandlingAdvice
 |UpdatePMCHandlingAdvice
+|GetHandlingAdvices
+|LoadHandlingAdvices

@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { concatMap, filter, switchMap, map } from 'rxjs/operators'
 import { RouteChange, CHANGE, ofRoute } from '../router.actions'
 import { EMPTY, of } from 'rxjs';
-import { CommitmentDetailActionTypes, CommitmentDetailActions, LoadDetailedCommitment, GetDetailedCommitment } from './commitment-detail.actions';
+import { CommitmentDetailActionTypes, CommitmentDetailActions, LoadDetailedCommitment, LoadHandlingAdvices } from './commitment-detail.actions';
 import {CommitmentDetailService } from './commitment-detail.service'
 import { Commitment } from '../../models/commitment.model'
 
@@ -30,13 +30,43 @@ export class CommitmentDetailEffects {
   ) 
 
   @Effect()
+  loadHandlinfAdvices$ = this.actions$.pipe(
+    ofType(CommitmentDetailActionTypes.GetHandlingAdvices),
+    switchMap((result: any) => {
+         
+      return of(result)
+    }),
+    map((action: any) => action.payload),
+    map(result => new LoadHandlingAdvices(result))
+  ) 
+
+  @Effect()
+  updatePMOHandlingAdvice$ = this.actions$
+    .pipe(
+      ofType(CommitmentDetailActionTypes.UpdatePMOHandlingAdvice),
+      map((action: any) => action.payload),
+      switchMap((value: any) => [this.commitmentDetailService.updatePmoHandlingAdviceCommitment(value)]
+ 
+    ))
+
+    @Effect()
+  updatePMCHandlingAdvice$ = this.actions$
+    .pipe(
+      ofType(CommitmentDetailActionTypes.UpdatePMCHandlingAdvice),
+      map((action: any) => action.payload),
+      switchMap((value: any) => [this.commitmentDetailService.updatePmcHandlingAdviceCommitment(value)]
+ 
+    ))
+
+
+  /*@Effect()
   updatePMOHandlingAdvice$ = this.actions$
     .pipe(
       ofType(CommitmentDetailActionTypes.UpdatePMOHandlingAdvice),
       map((action: any) => action.payload),
       switchMap((value: any) => 
         {
-          return this.commitmentDetailService.updateHandlingAdvice(value, 'PMO')
+          return this.commitmentDetailService.updatePmoHandlingAdviceCommitment(value)
           .pipe( map((result: Commitment) => new LoadDetailedCommitment({commitment: result}))
           )}  
     ))
@@ -48,10 +78,10 @@ export class CommitmentDetailEffects {
       map((action: any) => action.payload),
       switchMap((value: any) => 
         {
-          return this.commitmentDetailService.updateHandlingAdvice(value, 'PMC')
+          return this.commitmentDetailService.updatePmcHandlingAdviceCommitment(value)
           .pipe( map((result: Commitment) => new LoadDetailedCommitment({commitment: result}))
           )}  
-    ))
+    ))*/
 
   @Effect()
   commitmentDetailsRouted$ = this.actions$.pipe(
