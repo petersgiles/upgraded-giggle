@@ -5,8 +5,7 @@ import { environment } from '../../environments/environment'
   providedIn: 'root'
 })
 export class SettingsService {
-
-  constructor() { }
+  constructor() {}
 
   get environment(): any {
     return environment
@@ -19,7 +18,9 @@ export class SettingsService {
   get datasource(): any {
     return environment.datasource
   }
-
+  get eventDatasource(): any {
+    return environment.eventDatasource
+  }
   get assetsPath(): any {
     return environment.assetsPath
   }
