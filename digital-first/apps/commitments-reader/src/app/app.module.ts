@@ -165,7 +165,6 @@ const COMPONENTS = [
         return {
           cache: new InMemoryCache(),
           link: httpLink.create({
-            method: 'GET',
             uri: environment.datasource.dataServiceUrl,
             headers: new HttpHeaders({
               ProgramsApiKey: environment.apiKey
