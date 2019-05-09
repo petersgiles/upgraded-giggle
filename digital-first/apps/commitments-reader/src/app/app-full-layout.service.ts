@@ -2,8 +2,9 @@ import { Injectable, OnInit, OnDestroy } from '@angular/core'
 import { environment } from '../environments/environment'
 import { Observable, of, Subscription, BehaviorSubject } from 'rxjs'
 import { SideBarItem, AppUserProfile } from '@digital-first/df-layouts'
-import { AppConfigService, App, Logo } from './services/config.service'
+import { AppConfigService } from './services/config/config.service'
 import { AppDataService } from './services/app-data/app-data.service'
+import { App, Logo } from './services/config/config-model';
 
 @Injectable({
   providedIn: 'root'

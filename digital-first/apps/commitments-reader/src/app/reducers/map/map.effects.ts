@@ -18,7 +18,7 @@ import {
   GetMapPointsFailure
 } from './map.actions'
 import * as fromRoot from '../../reducers'
-import { Config } from '../../services/config.service'
+import { Config } from '../../services/config/config-model'
 import { Store } from '@ngrx/store'
 import { MapPointsSearchGQL } from '../../generated/graphql'
 

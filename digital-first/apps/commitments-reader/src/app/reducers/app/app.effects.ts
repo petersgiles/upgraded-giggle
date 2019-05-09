@@ -14,10 +14,9 @@ import {
 import {
   UserActionTypes,
   GetUserOperations,
-  SetUserOperations,
-  SetCurrentUser
+  SetUserOperations
 } from '../user/user.actions'
-import { AppConfigService } from '../../services/config.service'
+import { AppConfigService } from '../../services/config/config.service'
 
 @Injectable()
 export class AppEffects {
