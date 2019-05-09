@@ -1713,6 +1713,20 @@ export type WhereExpressionGraph = {
   case?: Maybe<StringComparison>
   value?: Maybe<Array<Maybe<Scalars['String']>>>
 }
+export type ApplyCommitmentDisplayOrderMutationVariables = {
+  applyCommitmentDisplayOrder: ApplyCommitmentDisplayOrderGraph
+  messageId: Scalars['Guid']
+  conversationId: Scalars['Guid']
+}
+
+export type ApplyCommitmentDisplayOrderMutation = {
+  __typename?: 'Mutation'
+} & {
+  applyCommitmentDisplayOrder: Maybe<
+    { __typename?: 'MutationResultGraph' } & Pick<MutationResultGraph, 'id'>
+  >
+}
+
 export type GetCommitmentDetailQueryVariables = {
   id: Scalars['String']
   bookType: BookType
@@ -1963,9 +1977,15 @@ export type MapPointsSearchQuery = { __typename?: 'Query' } & {
 }
 
 export type UpdatePmcHandlingAdviceCommitmentMutationVariables = {
+<<<<<<< HEAD
   messageId: Scalars['Guid']
   conversationId?: Maybe<Scalars['Guid']>
   data: UpdatePmcHandlingAdviceCommitmentGraph
+=======
+  updatePmcHandlingAdviceCommitment: UpdatePmcHandlingAdviceCommitmentGraph
+  messageId: Scalars['Guid']
+  conversationId: Scalars['Guid']
+>>>>>>> 9c0ac17738477caf2d8e06094a08fd3b6f9f2608
 }
 
 export type UpdatePmcHandlingAdviceCommitmentMutation = {
@@ -1977,9 +1997,15 @@ export type UpdatePmcHandlingAdviceCommitmentMutation = {
 }
 
 export type UpdatePmoHandlingAdviceCommitmentMutationVariables = {
+<<<<<<< HEAD
   messageId: Scalars['Guid']
   conversationId?: Maybe<Scalars['Guid']>
   data: UpdatePmoHandlingAdviceCommitmentGraph
+=======
+  updatePmoHandlingAdviceCommitment: UpdatePmoHandlingAdviceCommitmentGraph
+  messageId: Scalars['Guid']
+  conversationId: Scalars['Guid']
+>>>>>>> 9c0ac17738477caf2d8e06094a08fd3b6f9f2608
 }
 
 export type UpdatePmoHandlingAdviceCommitmentMutation = {
@@ -1994,6 +2020,31 @@ import gql from 'graphql-tag'
 import { Injectable } from '@angular/core'
 import * as Apollo from 'apollo-angular'
 
+export const ApplyCommitmentDisplayOrderDocument = gql`
+  mutation ApplyCommitmentDisplayOrder(
+    $applyCommitmentDisplayOrder: ApplyCommitmentDisplayOrderGraph!
+    $messageId: Guid!
+    $conversationId: Guid!
+  ) {
+    applyCommitmentDisplayOrder(
+      applyCommitmentDisplayOrder: $applyCommitmentDisplayOrder
+      messageId: $messageId
+      conversationId: $conversationId
+    ) {
+      id
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ApplyCommitmentDisplayOrderGQL extends Apollo.Mutation<
+  ApplyCommitmentDisplayOrderMutation,
+  ApplyCommitmentDisplayOrderMutationVariables
+> {
+  document = ApplyCommitmentDisplayOrderDocument
+}
 export const GetCommitmentDetailDocument = gql`
   query getCommitmentDetail($id: String!, $bookType: BookType!) {
     commitments(id: $id, bookType: $bookType) {
@@ -2185,6 +2236,7 @@ export class MapPointsSearchGQL extends Apollo.Query<
   document = MapPointsSearchDocument
 }
 export const UpdatePmcHandlingAdviceCommitmentDocument = gql`
+<<<<<<< HEAD
   mutation updatePmcHandlingAdviceCommitment(
     $messageId: Guid!
     $conversationId: Guid
@@ -2194,6 +2246,17 @@ export const UpdatePmcHandlingAdviceCommitmentDocument = gql`
       messageId: $messageId
       conversationId: $conversationId
       updatePmcHandlingAdviceCommitment: $data
+=======
+  mutation UpdatePmcHandlingAdviceCommitment(
+    $updatePmcHandlingAdviceCommitment: UpdatePmcHandlingAdviceCommitmentGraph!
+    $messageId: Guid!
+    $conversationId: Guid!
+  ) {
+    updatePmcHandlingAdviceCommitment(
+      updatePmcHandlingAdviceCommitment: $updatePmcHandlingAdviceCommitment
+      messageId: $messageId
+      conversationId: $conversationId
+>>>>>>> 9c0ac17738477caf2d8e06094a08fd3b6f9f2608
     ) {
       id
     }
@@ -2210,6 +2273,7 @@ export class UpdatePmcHandlingAdviceCommitmentGQL extends Apollo.Mutation<
   document = UpdatePmcHandlingAdviceCommitmentDocument
 }
 export const UpdatePmoHandlingAdviceCommitmentDocument = gql`
+<<<<<<< HEAD
   mutation updatePmoHandlingAdviceCommitment(
     $messageId: Guid!
     $conversationId: Guid
@@ -2219,6 +2283,17 @@ export const UpdatePmoHandlingAdviceCommitmentDocument = gql`
       messageId: $messageId
       conversationId: $conversationId
       updatePmoHandlingAdviceCommitment: $data
+=======
+  mutation UpdatePmoHandlingAdviceCommitment(
+    $updatePmoHandlingAdviceCommitment: UpdatePmoHandlingAdviceCommitmentGraph!
+    $messageId: Guid!
+    $conversationId: Guid!
+  ) {
+    updatePmoHandlingAdviceCommitment(
+      updatePmoHandlingAdviceCommitment: $updatePmoHandlingAdviceCommitment
+      messageId: $messageId
+      conversationId: $conversationId
+>>>>>>> 9c0ac17738477caf2d8e06094a08fd3b6f9f2608
     ) {
       id
     }

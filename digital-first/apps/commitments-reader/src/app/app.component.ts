@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs'
   template: '<router-outlet></router-outlet>'
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = 'Commitments Reader'
+  title = 'Delivery Module'
   queryParamsSubscription: Subscription
   constructor(
     private route: ActivatedRoute,
