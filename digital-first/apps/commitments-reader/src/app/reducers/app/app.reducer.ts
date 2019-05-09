@@ -3,7 +3,7 @@ import { AppConfig } from '../../models'
 import { createFeatureSelector, createSelector } from '@ngrx/store'
 
 export interface State {
-  config: AppConfig
+  config: any//AppConfig
 }
 
 export const initialState: State = {
@@ -32,5 +32,5 @@ export const selectAppConfigState = createSelector(
 
 export const selectAppBookTypeState = createSelector(
   selectAppConfigState,
-  config => config.bookType
+  config => config.header.bookType
 )

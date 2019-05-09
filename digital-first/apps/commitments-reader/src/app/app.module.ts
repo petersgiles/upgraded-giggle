@@ -14,7 +14,8 @@ import { DfPagesModule } from '@digital-first/df-pages'
 import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfRefinerModule } from '@digital-first/df-refiner'
 import { DfMomentModule, DateFormatPipe } from '@digital-first/df-moment'
-
+import { DfButtonsModule } from '@digital-first/df-buttons'
+import { DfComponentsModule } from '@digital-first/df-components'
 
 import {
   DataTableModule,
@@ -42,7 +43,7 @@ import { EffectsModule } from '@ngrx/effects'
 import { StoreModule, Store } from '@ngrx/store'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 import { metaReducers, reducers, CustomSerializer } from './reducers'
-import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component';
+import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component'
 import { RouterStateSerializer } from '@ngrx/router-store'
 
 import * as fromRefiner from './reducers/refiner/refiner.reducer'
@@ -61,11 +62,10 @@ import { MapEffects } from './reducers/map/map.effects'
 import { PlannerEffects } from './reducers/planner/planner.effects'
 
 import { SettingsService } from './services/settings.service'
-import { appDataServiceProvider } from './services/commitment-data.service'
 
 import { CommitmentPackageComponent } from './pages/commitment-packages/commitment-package.component'
-import { initApplication } from './app-init';
-
+import { initApplication } from './app-init'
+import { appDataServiceProvider } from './services/app-data/app-data.service.factory'
 
 const COMPONENTS = [
   AppComponent,
@@ -109,6 +109,8 @@ const COMPONENTS = [
     MdcElevationModule,
     DfSharepointLibModule,
     DfMomentModule,
+    DfButtonsModule,
+    DfComponentsModule,
     NgSelectModule,
     StoreModule.forRoot(reducers, {
       metaReducers: metaReducers

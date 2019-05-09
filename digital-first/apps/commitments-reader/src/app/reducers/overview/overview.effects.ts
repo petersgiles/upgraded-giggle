@@ -49,14 +49,14 @@ export class OverviewEffects {
         }
       )
 
-      // tslint:disable-next-line: no-console
-      console.log(`🐲 `, store, selectedRefiners)
-      // tslint:disable-next-line: no-console
-      console.log(`🐲 selectedRefinerGroup `, selectedRefinerGroup)
-      // tslint:disable-next-line: no-console
-      console.log(`🐲 config `, config)
-      // tslint:disable-next-line: no-console
-      console.log(`🐲 bookType `, bookType)
+      // // tslint:disable-next-line: no-console
+      // console.log(`🐲 `, store, selectedRefiners)
+      // // tslint:disable-next-line: no-console
+      // console.log(`🐲 selectedRefinerGroup `, selectedRefinerGroup)
+      // // tslint:disable-next-line: no-console
+      // console.log(`🐲 config `, config)
+      // // tslint:disable-next-line: no-console
+      // console.log(`🐲 bookType `, bookType)
 
       return {
         refiner: selectedRefinerGroup,

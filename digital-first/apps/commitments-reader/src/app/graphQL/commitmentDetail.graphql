@@ -9,5 +9,48 @@ query getCommitmentDetail($id: String!, $bookType: BookType!) {
     politicalParty
     statusId
     announcedBy
+    commitmentType{
+      id
+      title
+    }
+    
+   announcementType { 
+      id
+      title 
+    }
+     portfolioLookup {
+      id
+      title
   }
+    status{
+       id
+      title 
+    }
+    criticalDate{
+      id
+      title
+    }
+    commitmentLocations{
+      commitmentId
+      location
+      {
+        id
+        state
+        title
+      }
+    }
+     commitmentPackageTypes{
+      id
+     
+    }
+    commitmentPortfolioLookups{
+      commitmentId
+      portfolioLookup{
+        id
+        title
+      }
+      
+    }
+  }
+ 
 }

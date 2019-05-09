@@ -1703,7 +1703,79 @@ export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
           | 'politicalParty'
           | 'statusId'
           | 'announcedBy'
-        >
+        > & {
+            commitmentType: Maybe<
+              { __typename?: 'CommitmentTypeGraph' } & Pick<
+                CommitmentTypeGraph,
+                'id' | 'title'
+              >
+            >
+            announcementType: Maybe<
+              { __typename?: 'AnnouncementTypeGraph' } & Pick<
+                AnnouncementTypeGraph,
+                'id' | 'title'
+              >
+            >
+            portfolioLookup: Maybe<
+              { __typename?: 'PortfolioLookupGraph' } & Pick<
+                PortfolioLookupGraph,
+                'id' | 'title'
+              >
+            >
+            status: Maybe<
+              { __typename?: 'StatusGraph' } & Pick<StatusGraph, 'id' | 'title'>
+            >
+            criticalDate: Maybe<
+              { __typename?: 'CriticalDateGraph' } & Pick<
+                CriticalDateGraph,
+                'id' | 'title'
+              >
+            >
+            commitmentLocations: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'CommitmentLocationGraph' } & Pick<
+                    CommitmentLocationGraph,
+                    'commitmentId'
+                  > & {
+                      location: Maybe<
+                        { __typename?: 'LocationGraph' } & Pick<
+                          LocationGraph,
+                          'id' | 'state' | 'title'
+                        >
+                      >
+                    }
+                >
+              >
+            >
+            commitmentPackageTypes: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'CommitmentPackageTypeGraph' } & Pick<
+                    CommitmentPackageTypeGraph,
+                    'id'
+                  >
+                >
+              >
+            >
+            commitmentPortfolioLookups: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'CommitmentPortfolioLookupGraph' } & Pick<
+                    CommitmentPortfolioLookupGraph,
+                    'commitmentId'
+                  > & {
+                      portfolioLookup: Maybe<
+                        { __typename?: 'PortfolioLookupGraph' } & Pick<
+                          PortfolioLookupGraph,
+                          'id' | 'title'
+                        >
+                      >
+                    }
+                >
+              >
+            >
+          }
       >
     >
   >
@@ -1756,49 +1828,6 @@ export type GetRefinerTagsQuery = { __typename?: 'Query' } & {
   >
 }
 
-export type CommitmentsMapPointSearchQueryVariables = {
-  commitmentMapPointsWhere?: Maybe<WhereExpressionGraph>
-}
-
-export type CommitmentsMapPointSearchQuery = { __typename?: 'Query' } & {
-  commitmentMapPoints: Maybe<
-    Array<
-      Maybe<
-        { __typename?: 'CommitmentMapPointGraph' } & Pick<
-          CommitmentMapPointGraph,
-          'id'
-        > & {
-            commitment: Maybe<
-              { __typename?: 'CommitmentGraph' } & Pick<
-                CommitmentGraph,
-                'id' | 'title' | 'politicalParty' | 'announcedBy'
-              > & {
-                  announcementType: Maybe<
-                    { __typename?: 'AnnouncementTypeGraph' } & Pick<
-                      AnnouncementTypeGraph,
-                      'id' | 'title'
-                    >
-                  >
-                  criticalDate: Maybe<
-                    { __typename?: 'CriticalDateGraph' } & Pick<
-                      CriticalDateGraph,
-                      'id' | 'title'
-                    >
-                  >
-                  portfolioLookup: Maybe<
-                    { __typename?: 'PortfolioLookupGraph' } & Pick<
-                      PortfolioLookupGraph,
-                      'id' | 'title'
-                    >
-                  >
-                }
-            >
-          }
-      >
-    >
-  >
-}
-
 export type CommitmentsSearchQueryVariables = {
   refiner: CommitmentRefinerGraph
   bookType: BookType
@@ -1810,11 +1839,11 @@ export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
       Maybe<
         { __typename?: 'CommitmentGraph' } & Pick<
           CommitmentGraph,
-          'id' | 'title'
+          'id' | 'title' | 'bookType' | 'politicalParty' | 'announcedBy'
         > & {
-            commitmentType: Maybe<
-              { __typename?: 'CommitmentTypeGraph' } & Pick<
-                CommitmentTypeGraph,
+            announcementType: Maybe<
+              { __typename?: 'AnnouncementTypeGraph' } & Pick<
+                AnnouncementTypeGraph,
                 'id' | 'title'
               >
             >
@@ -1904,6 +1933,44 @@ export const GetCommitmentDetailDocument = gql`
       politicalParty
       statusId
       announcedBy
+      commitmentType {
+        id
+        title
+      }
+      announcementType {
+        id
+        title
+      }
+      portfolioLookup {
+        id
+        title
+      }
+      status {
+        id
+        title
+      }
+      criticalDate {
+        id
+        title
+      }
+      commitmentLocations {
+        commitmentId
+        location {
+          id
+          state
+          title
+        }
+      }
+      commitmentPackageTypes {
+        id
+      }
+      commitmentPortfolioLookups {
+        commitmentId
+        portfolioLookup {
+          id
+          title
+        }
+      }
     }
   }
 `
@@ -1947,43 +2014,6 @@ export class GetRefinerTagsGQL extends Apollo.Query<
 > {
   document = GetRefinerTagsDocument
 }
-export const CommitmentsMapPointSearchDocument = gql`
-  query CommitmentsMapPointSearch(
-    $commitmentMapPointsWhere: WhereExpressionGraph
-  ) {
-    commitmentMapPoints(where: [$commitmentMapPointsWhere]) {
-      id
-      commitment {
-        id
-        title
-        politicalParty
-        announcedBy
-        announcementType {
-          id
-          title
-        }
-        criticalDate {
-          id
-          title
-        }
-        portfolioLookup {
-          id
-          title
-        }
-      }
-    }
-  }
-`
-
-@Injectable({
-  providedIn: 'root'
-})
-export class CommitmentsMapPointSearchGQL extends Apollo.Query<
-  CommitmentsMapPointSearchQuery,
-  CommitmentsMapPointSearchQueryVariables
-> {
-  document = CommitmentsMapPointSearchDocument
-}
 export const CommitmentsSearchDocument = gql`
   query CommitmentsSearch(
     $refiner: CommitmentRefinerGraph!
@@ -1992,7 +2022,10 @@ export const CommitmentsSearchDocument = gql`
     commitments(refiner: $refiner, bookType: $bookType) {
       id
       title
-      commitmentType {
+      bookType
+      politicalParty
+      announcedBy
+      announcementType {
         id
         title
       }
