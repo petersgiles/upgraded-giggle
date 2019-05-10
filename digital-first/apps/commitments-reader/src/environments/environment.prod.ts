@@ -4,7 +4,7 @@ export const environment = {
   production: true,
   host: 'local',
   version: packageJson.version,
-  config: 'assets/commitment_delivery_config.txt',
+  config: '/assets/commitments-reader.txt',
   datasource: {
     type: 'graph',
     dataServiceUrl: '//#{ApiPath}/graphql',

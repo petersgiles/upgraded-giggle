@@ -1,5 +1,10 @@
 import { UserActions, UserActionTypes } from './user.actions'
 import { AppActions, AppActionTypes } from '../app/app.actions'
+import { createFeatureSelector, createSelector } from '@ngrx/store'
+import {
+  OPERATION_DEFAULTS,
+  OPERATION_RIGHTS_PRECEDENT
+} from '../../services/app-data/app-operations'
 
 export interface State {
   currentUser
@@ -63,6 +68,68 @@ export function reducer(
       return state
   }
 }
-export const getOperations = (state: State) => state.operations
-export const getCurrentUser = (state: State) => state.currentUser
-export const getDrawerOpen = (state: State) => state.drawerOpen
+
+export const userState = createFeatureSelector<State>('user')
+
+export const getOperations = createSelector(
+  userState,
+  (state: State) => state.operations
+)
+
+export const getCurrentUser = createSelector(
+  userState,
+  (state: State) => state.currentUser
+)
+export const getDrawerOpen = createSelector(
+  userState,
+  (state: State) => state.drawerOpen
+)
+
+export const getCurrentUserOperations = createSelector(
+  getCurrentUser,
+  getOperations,
+  (user, operations) => {
+    if (!user || !operations || !user.roles) {
+      return {
+        ...OPERATION_DEFAULTS
+      }
+    }
+
+    const rights = Object.keys(OPERATION_DEFAULTS).reduce(
+      (acc: any, componentName: any) => {
+        const operationsRights = user.roles.reduce(
+          (rightsAcc: any, group: any) => {
+            const groupComponents = operations[group]
+            if (groupComponents && groupComponents[componentName]) {
+              rightsAcc.push(groupComponents[componentName])
+            }
+            return rightsAcc
+          },
+          []
+        )
+
+        const orderedRights = operationsRights.sort((left: any, right: any) =>
+          OPERATION_RIGHTS_PRECEDENT.indexOf(left) >
+          OPERATION_RIGHTS_PRECEDENT.indexOf(right)
+            ? 1
+            : -1
+        )
+        acc[componentName] = orderedRights[0]
+        return acc
+      },
+      {}
+    )
+
+    const finalRights = Object.keys(rights).reduce((a, i) => {
+      if (rights[i]) {
+        a[i] = rights[i]
+      }
+      return a
+    }, {})
+
+    return {
+      ...OPERATION_DEFAULTS,
+      ...finalRights
+    }
+  }
+)

@@ -42,9 +42,8 @@ foreach ($deploySiteUrl in $deploySites) {
 }
 
 if ((-not $null -eq $SiteConfiguration)) {
-    & .\scripts\Set-SiteConfiguration.ps1 - "ListData/$AppName" `
+    & .\scripts\Set-SiteConfiguration.ps1 `
         -binPath $binPath `
-        -SiteUrl $configuration `
         -appName $AppName `
         -configuration $SiteConfiguration
 }

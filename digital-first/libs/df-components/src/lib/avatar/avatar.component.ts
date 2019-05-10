@@ -37,7 +37,7 @@ export class AvatarComponent implements OnInit, OnChanges {
   letter = '?'
 
   @Input('defaultProtocol') defaultProtocol: string = null
-
+  
   fontSize = 49
   fontColor = '#FFFFFF'
   props: any = null

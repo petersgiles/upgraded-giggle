@@ -93,17 +93,21 @@ export class CommitmentOverviewLayoutComponent
     this.store
       .pipe(select(fromRefiner.selectSelectedRefinersState))
       .subscribe(next => {
-        let queryParams = {}
-        if (next && next.length > 0) {
-          queryParams = { refiner: JSON.stringify(next) }
-        }
         // tslint:disable-next-line: no-console
         console.log(`👹 selectSelectedRefinersState`, next)
-        this.router.navigate([], {
-          relativeTo: this.route,
-          queryParams: queryParams,
-          queryParamsHandling: 'merge'
-        })
+        if (next && next.length > 0) {
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { refiner: JSON.stringify(next) },
+            queryParamsHandling: 'merge'
+          })
+        } else {
+          this.router.navigate([], {
+            relativeTo: this.route
+          })
+        }
+
+
       })
 
     this.refinerGroupsSubscription$ = this.store
