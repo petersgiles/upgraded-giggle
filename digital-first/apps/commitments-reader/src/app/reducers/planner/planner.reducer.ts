@@ -23,7 +23,7 @@ export const initialState: State = {
   selectedExternalEeventTypes: [],
   schedulerZoomLevel: 3,
   schedulerCenterDate: new Date(),
-  isReadonly: true,
+  isReadonly: false,
   error: {}
 }
 

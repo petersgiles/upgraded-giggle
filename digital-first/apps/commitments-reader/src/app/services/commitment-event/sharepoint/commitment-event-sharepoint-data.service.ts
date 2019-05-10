@@ -29,9 +29,12 @@ export class EventSharepointDataService implements CommitmentEventDataService {
   getEventsByCommitments(
     payload: any
   ): Observable<DataResult<CommitmentEvent[]>> {
-    if (!payload || payload.commitments || payload.commitments.length === 0) {
+    if (!payload || !payload.commitments || payload.commitments.length === 0) {
       return of()
     }
+
+    // TODO: check if user has hide permission then return empty
+
     const commitmentIds = payload.commitments.map(c => c.id)
     const viewXml = byCommitmentIdsQuery(commitmentIds)
     return this.sharepoint
@@ -42,7 +45,7 @@ export class EventSharepointDataService implements CommitmentEventDataService {
   }
 
   getEventTypes(config: any): Observable<DataResult<CommitmentEventType[]>> {
-    if (config && config.isReadOnly) {
+    if (config && config.readonly) {
       return of({
         data: [],
         loadding: false,
@@ -85,27 +88,19 @@ export class EventSharepointDataService implements CommitmentEventDataService {
   getExternalEventTypes(
     config: any
   ): Observable<DataResult<ExternalEventType[]>> {
-    if (config && config.isReadOnly) {
-      return of({
-        data: [],
-        loadding: false,
+    return this.sharepoint.getItems({ listName: 'ExternalEventType' }).pipe(
+      map((result: any) => ({
+        data: mapExternalEventTypes(result).sort((a, b) =>
+          a.name < b.name ? -1 : 1
+        ),
+        loading: false,
         error: null
-      })
-    } else {
-      return this.sharepoint.getItems({ listName: 'ExternalEventType' }).pipe(
-        concatMap((result: any) => of({
-          data: mapExternalEventTypes(result).sort((a, b) =>
-            a.name < b.name ? -1 : 1
-          ),
-          loading: false,
-          error: null
-        }))
-      )
-    }
+      }))
+    )
   }
 
   storeEvent(payload: any): Observable<DataResult<any>> {
-    if (payload.config && payload.config.isReadOnly) {
+    if (payload && payload.readonly) {
       throw Error('You do not have permission to add event')
     }
     const spData = {
@@ -134,7 +129,7 @@ export class EventSharepointDataService implements CommitmentEventDataService {
   }
 
   removeEvent(payload: any): Observable<DataResult<any>> {
-    if (payload.config && payload.config.isReadOnly) {
+    if (payload && payload.readonly) {
       throw Error('You do not have permission to delete event')
     }
     return this.sharepoint
