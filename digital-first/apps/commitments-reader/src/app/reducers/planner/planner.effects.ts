@@ -7,7 +7,9 @@ import {
   catchError,
   first,
   withLatestFrom,
-  concatMap
+  concatMap,
+  mergeAll,
+  mergeMap
 } from 'rxjs/operators'
 import {
   PlannerActionTypes,
@@ -128,7 +130,7 @@ export class PlannerEffects {
         data: action.payload
       }
     }),
-    concatMap(config =>
+    mergeMap(config =>
       this.commitmentEventDataService
         .removeEvent(config)
         .pipe(map(result => new GetCommitmentEvents(null)))

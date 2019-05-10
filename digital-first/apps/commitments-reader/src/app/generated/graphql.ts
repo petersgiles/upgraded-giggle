@@ -2024,8 +2024,8 @@ export class ApplyCommitmentDisplayOrderGQL extends Apollo.Mutation<
   document = ApplyCommitmentDisplayOrderDocument
 }
 export const GetCommitmentDetailDocument = gql`
-  query getCommitmentDetail($id: String!, $bookType: BookType!) {
-    commitments(id: $id, book: $bookType) {
+  query getCommitmentDetail($id: String!, $book: BookType!) {
+    commitments(id: $id, book: $book) {
       id
       title
       description
@@ -2153,11 +2153,8 @@ export class CommitmentsSearchGQL extends Apollo.Query<
   document = CommitmentsSearchDocument
 }
 export const MapPointsSearchDocument = gql`
-  query MapPointsSearch(
-    $refiner: CommitmentRefinerGraph!
-    $bookType: BookType!
-  ) {
-    mapPoints(refiner: $refiner, book: $bookType) {
+  query MapPointsSearch($refiner: CommitmentRefinerGraph!, $book: BookType!) {
+    mapPoints(refiner: $refiner, book: $book) {
       id
       title
       placeId
