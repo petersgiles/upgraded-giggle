@@ -26,7 +26,7 @@ commitment: Commitment
   LoadCommitment(id, bookType){
        return this.getCommitmentDetailGQL
       .watch(
-        { id: id, bookType: bookType },
+        { id: id, book: bookType },
         { fetchPolicy: 'network-only' }
       )
       .valueChanges.pipe(map(value => value.data.commitments))

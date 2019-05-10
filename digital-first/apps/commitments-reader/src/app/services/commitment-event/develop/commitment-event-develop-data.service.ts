@@ -23,7 +23,7 @@ export class EventDevelopDataService implements CommitmentEventDataService {
   constructor() {}
   private COMMITMENT_DATA_KEY = 'commitmentEvents'
   getEventsByCommitments(
-    commitments: any
+    config: any
   ): Observable<DataResult<CommitmentEvent[]>> {
     return of({
       data: this.getEventDataFromLocalStorage(),
@@ -32,7 +32,10 @@ export class EventDevelopDataService implements CommitmentEventDataService {
     })
   }
 
-  getEventTypes(config: any): Observable<DataResult<CommitmentEventType[]>> {
+  getEventTypes(payload: any): Observable<DataResult<CommitmentEventType[]>> {
+    if (payload && payload.readonly) {
+      return of({ data: [] })
+    }
     return of({ data: eventTypes })
   }
 
@@ -63,7 +66,7 @@ export class EventDevelopDataService implements CommitmentEventDataService {
   }
 
   storeEvent(payload: any): Observable<DataResult<any>> {
-    if (payload.config && payload.config.isReadOnly) {
+    if (payload && payload.isReadOnly) {
       throw Error('You do not have permission to add event')
     }
     const existingId = payload.data.id
@@ -85,7 +88,7 @@ export class EventDevelopDataService implements CommitmentEventDataService {
   }
 
   removeEvent(payload: any): Observable<DataResult<any>> {
-    if (payload.config && payload.config.isReadOnly) {
+    if (payload && payload.readonly) {
       throw Error('You do not have permission to add event')
     }
     let events = this.getEventDataFromLocalStorage()

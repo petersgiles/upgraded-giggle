@@ -1,7 +1,6 @@
 import { Action } from '@ngrx/store'
 
 export enum PlannerActionTypes {
-  GetPlannerData = '[Planner] GetPlannerData',
   GetCommitmentEvents = '[Planner] GetCommitmentEvents',
   LoadCommitmentEvents = '[Planner] LoadCommitmentEvents',
   ErrorInPlanner = '[Planner] ErrorInPlanner',
@@ -21,11 +20,6 @@ export enum PlannerActionTypes {
 
   StoreSchedulerState = '[Planner] StoreSchedulerState',
   LoadPlannerPermission = '[Planner] LoadPlannerPermission'
-}
-
-export class GetPlannerData implements Action {
-  readonly type = PlannerActionTypes.GetPlannerData
-  constructor(public payload: any) {}
 }
 
 export class GetCommitmentEvents implements Action {
@@ -100,7 +94,6 @@ export class ErrorInPlanner implements Action {
   constructor(public payload: any) {}
 }
 export type PlannerActions =
-  | GetPlannerData
   | GetCommitmentEvents
   | LoadCommitmentEvents
   | GetExternalEvents

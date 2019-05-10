@@ -5,7 +5,9 @@ import {
   map,
   switchMap,
   catchError,
-  first
+  first,
+  withLatestFrom,
+  concatMap
 } from 'rxjs/operators'
 import {
   PlannerActionTypes,
@@ -19,7 +21,8 @@ import {
   LoadSelectedExternalEventTypes,
   GetEventTypes,
   GetExternalEventTypes,
-  ErrorInPlanner
+  ErrorInPlanner,
+  GetExternalEvents
 } from './planner.actions'
 import { Store } from '@ngrx/store'
 import * as fromRoot from '../../reducers'
@@ -27,21 +30,21 @@ import { CommitmentEventDataService } from '../../services/commitment-event/comm
 @Injectable()
 export class PlannerEffects {
   @Effect()
-  getPlannerData$ = this.actions$.pipe(
-    ofType(PlannerActionTypes.GetPlannerData),
-    switchMap(action => [
-      new GetCommitmentEvents(action.payload),
-      new LoadPlannerPermission({ isReadonly: false })
-    ]),
-    catchError(error => [new ErrorInPlanner(error)])
-  )
-
-  @Effect()
   getCommitmentsEvents$ = this.actions$.pipe(
     ofType(PlannerActionTypes.GetCommitmentEvents),
-    switchMap(action =>
+    withLatestFrom(this.rootStore$),
+    map(([action, store]) => {
+      const rootStore = <any>store
+      return {
+        commitments: action.payload
+          ? action.payload
+          : rootStore.overview.commitments,
+        readonly: rootStore.user.readonly
+      }
+    }),
+    switchMap(payload =>
       this.commitmentEventDataService
-        .getEventsByCommitments(action.payload)
+        .getEventsByCommitments(payload)
         .pipe(map(data => new LoadCommitmentEvents(data)))
     ),
     catchError(error => [new ErrorInPlanner(error)])
@@ -50,15 +53,25 @@ export class PlannerEffects {
   @Effect()
   getEventsReferenceData$ = this.actions$.pipe(
     ofType(PlannerActionTypes.GetEventReferenceData),
-    switchMap(_ => [new GetEventTypes(null), new GetExternalEventTypes(null)])
+    switchMap(config => [
+      new GetEventTypes(null),
+      new GetExternalEventTypes(null)
+    ])
   )
 
   @Effect()
   getEventTypes$ = this.actions$.pipe(
     ofType(PlannerActionTypes.GetEventTypes),
-    switchMap(action =>
+    withLatestFrom(this.rootStore$),
+    map(([_, store]) => {
+      const rootStore = <any>store
+      return {
+        readonly: rootStore.user.readonly
+      }
+    }),
+    switchMap(config =>
       this.commitmentEventDataService
-        .getEventTypes(action.payload)
+        .getEventTypes(config)
         .pipe(map(data => new LoadEventTypes(data)))
     ),
     catchError(error => [new ErrorInPlanner(error)])
@@ -88,27 +101,48 @@ export class PlannerEffects {
   @Effect()
   storeCommitmentEvent$ = this.actions$.pipe(
     ofType(PlannerActionTypes.StoreCommitmentEvent),
-    switchMap(action =>
+    withLatestFrom(this.rootStore$),
+    map(([action, store]) => {
+      const rootStore = <any>store
+      return {
+        readonly: rootStore.user.readonly,
+        data: action.payload
+      }
+    }),
+    concatMap(config =>
       this.commitmentEventDataService
-        .storeEvent(action)
+        .storeEvent(config)
         .pipe(map(result => new GetCommitmentEvents(null)))
-    )
+    ),
+    catchError(error => [new ErrorInPlanner(error)])
   )
 
   @Effect()
   removeCommitmentEvent$ = this.actions$.pipe(
     ofType(PlannerActionTypes.RemoveCommitmentEvent),
-    switchMap(action =>
+    withLatestFrom(this.rootStore$),
+    map(([action, store]) => {
+      const rootStore = <any>store
+      return {
+        readonly: rootStore.user,
+        data: action.payload
+      }
+    }),
+    concatMap(config =>
       this.commitmentEventDataService
-        .removeEvent(action.payload)
+        .removeEvent(config)
         .pipe(map(result => new GetCommitmentEvents(null)))
-    )
+    ),
+    catchError(error => [new ErrorInPlanner(error)])
   )
 
   @Effect()
   storeSelectedExternalEventTypes$ = this.actions$.pipe(
     ofType(PlannerActionTypes.StoreSelectedExternalEventTypes),
-    switchMap(action => [new LoadSelectedExternalEventTypes(action.payload)])
+    switchMap(action => [
+      new LoadSelectedExternalEventTypes(action.payload),
+      new GetExternalEvents(action.payload)
+    ])
   )
 
   constructor(
