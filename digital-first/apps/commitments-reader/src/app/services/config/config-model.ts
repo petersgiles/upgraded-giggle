@@ -22,12 +22,12 @@ export interface Header {
 }
 
 export interface Config {
-  webId: string,
+  siteId: string,
   header: Header
 }
 
 export const defaults: Config = {
-    'webId': null,
+    'siteId': null,
     'header': {
         'title': 'Unconfigured Application',
         'classification': 'UNCLASSIFIED',

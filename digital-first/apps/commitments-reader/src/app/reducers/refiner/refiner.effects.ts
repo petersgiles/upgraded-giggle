@@ -31,7 +31,7 @@ export class RefinerEffects {
     switchMap(([_, s]) => {
       const store = <any>s
       const config: Config = store.app.config
-      return this.getRefinerTagsGQL.fetch({ webId: config.webId }).pipe(
+      return this.getRefinerTagsGQL.fetch({ siteId: config.siteId }).pipe(
         first(),
         switchMap((result: any) => {
           const refiners: CRMenu[] = buildRefiner(result.data)

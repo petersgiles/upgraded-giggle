@@ -36,13 +36,13 @@ export class SharePointConfigService {
     private settings: SettingsService,
     private sharepoint: SharepointJsomService
   ) {
-    forkJoin([this.getJSON(), this.getWebId()])
+    forkJoin([this.getJSON(), sharepoint.getSiteId()])
       .pipe(
         // tslint:disable-next-line: no-console
-        tap(result => console.log(`🐵 app config and webId got => `, result))
+        tap(result => console.log(`🐵 app config and siteId got => `, result))
       )
-      .subscribe(([data, webId]) => {
-        data.webId = webId
+      .subscribe(([data, siteId]) => {
+        data.siteId = siteId
         this._config.next(data)
         // tslint:disable-next-line:no-console
         console.log(`🐵 app config changed => `, data)
@@ -74,20 +74,5 @@ export class SharePointConfigService {
 
   public get config(): Observable<Config> {
     return this._config
-  }
-
-  public getWebId(): Observable<string> {
-    const context = SP.ClientContext.get_current()
-    const web = context.get_web()
-    context.load(web)
-
-    return executeQueryAsObservable(context).pipe(
-      map(_ => {
-        const id = web.get_id().toString()
-        // tslint:disable-next-line:no-console
-        console.log(`💥 id => `, id)
-        return id
-      })
-    )
   }
 }

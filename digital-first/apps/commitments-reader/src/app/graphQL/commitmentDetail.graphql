@@ -3,7 +3,7 @@ query getCommitmentDetail($id: String!, $book: BookType!) {
     id
     title
     description
-    bookType
+    bookType: book
     cost
     date
     politicalParty

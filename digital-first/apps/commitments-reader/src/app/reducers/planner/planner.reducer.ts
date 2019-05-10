@@ -11,6 +11,7 @@ export interface State {
   schedulerZoomLevel: any
   schedulerCenterDate: Date
   isReadonly: boolean
+  error: any
 }
 
 export const initialState: State = {
@@ -22,7 +23,8 @@ export const initialState: State = {
   selectedExternalEeventTypes: [],
   schedulerZoomLevel: 3,
   schedulerCenterDate: new Date(),
-  isReadonly: true
+  isReadonly: true,
+  error: {}
 }
 
 export function reducer(state = initialState, action: PlannerActions): State {
@@ -63,6 +65,11 @@ export function reducer(state = initialState, action: PlannerActions): State {
         ...state,
         selectedExternalEeventTypes: action.payload
       }
+    case PlannerActionTypes.ErrorInPlanner:
+      return {
+        ...state,
+        error: action.payload
+      }
     default:
       return state
   }
@@ -97,8 +104,11 @@ export const selectSchedulerCenterDateState = createSelector(
   plannerState,
   (state: State) => state.schedulerCenterDate
 )
-export const plannerPermissionState = createSelector(
+export const selectPlannerPermissionState = createSelector(
   plannerState,
   (state: State) => state.isReadonly
 )
-
+export const selectPlannerErrortate = createSelector(
+  plannerState,
+  (state: State) => state.error
+)

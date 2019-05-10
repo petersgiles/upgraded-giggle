@@ -43,7 +43,7 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
       .subscribe(_ => this.plannerStore.dispatch(new GetPlannerData(null)))
 
     this.plannerStore.dispatch(new GetEventReferenceData(null))
-    this.plannerStore.dispatch(new GetExternalEvents(null))
+    this.plannerStore.dispatch(new GetExternalEvents([]))
 
     this.filteredCommitments$ = this.plannerStore
       .pipe(select(fromOverview.selectRefinedCommitmentsState))
@@ -61,7 +61,7 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
       select(fromPlanner.selectSelectedExternalEventTypesState)
     )
     this.readOnly$ = this.plannerStore.pipe(
-      select(fromPlanner.plannerPermissionState)
+      select(fromPlanner.selectPlannerPermissionState)
     )
     this.externalEvents$ = this.plannerStore.pipe(
       select(fromPlanner.selectExternalEventsState)
@@ -71,6 +71,12 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
     )
     this.zoomLevel$ = this.plannerStore.pipe(
       select(fromPlanner.selectSchedulerZoomLevelState)
+    )
+
+    this.commitmentsSubscription.add(
+      this.plannerStore
+        .pipe(select(fromPlanner.selectPlannerErrortate))
+        .subscribe(error => console.log(error))
     )
   }
 
@@ -83,6 +89,7 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
   }
 
   handleExternalEventChange($event) {
+    this.plannerStore.dispatch(new GetExternalEvents($event))
     this.plannerStore.dispatch(new StoreSelectedExternalEventTypes($event))
   }
   handelZoomLevelChange($event) {

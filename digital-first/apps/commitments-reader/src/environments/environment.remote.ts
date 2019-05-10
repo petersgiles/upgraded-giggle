@@ -9,7 +9,7 @@ export const environment = {
     type: 'graph',
     dataServiceUrl: '//programs.cloud9.cabnet/graphql'
   },
-  eventDatasource:'sharepoint',
+  eventDatasource:'local',
   // user "Mustang Sally" on Cloud9
   apiKey: '1PARfaAtmMKPkda2GKa9a2mUOW8=',
   assetsPath: '/assets'
