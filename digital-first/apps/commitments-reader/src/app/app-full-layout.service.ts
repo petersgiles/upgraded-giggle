@@ -4,8 +4,8 @@ import { Observable, of, Subscription, BehaviorSubject } from 'rxjs'
 import { SideBarItem, AppUserProfile } from '@digital-first/df-layouts'
 import { AppConfigService } from './services/config/config.service'
 import { AppDataService } from './services/app-data/app-data.service'
-import { App, Logo } from './services/config/config-model';
-import { Router } from '@angular/router';
+import { App, Logo } from './services/config/config-model'
+import { Router } from '@angular/router'
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +16,7 @@ export class AppFullLayoutService {
 
   appItems$: BehaviorSubject<App[]> = new BehaviorSubject(null)
   bookType$: BehaviorSubject<string> = new BehaviorSubject(null)
+  bookColour$: BehaviorSubject<string> = new BehaviorSubject(null)
   configSubscription$: Subscription
   logo$: BehaviorSubject<Logo> = new BehaviorSubject(null)
   protectiveMarking$: BehaviorSubject<string> = new BehaviorSubject(null)
@@ -53,7 +54,7 @@ export class AppFullLayoutService {
     ])
   }
 
-  public handleAvatarClicked($event){
+  public handleAvatarClicked($event) {
     this.router.navigate(['/userprofile'])
   }
 
@@ -93,6 +94,7 @@ export class AppFullLayoutService {
 
       this.appItems$.next(c.header.apps)
       this.bookType$.next(c.header.bookType)
+      this.bookColour$.next(c.header.bookColour)
       this.logo$.next(c.header.logo)
       this.protectiveMarking$.next(c.header.classification)
     })

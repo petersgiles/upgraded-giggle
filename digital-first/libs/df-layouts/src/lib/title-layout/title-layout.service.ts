@@ -32,6 +32,10 @@ export class TitleLayoutService {
     return of('')
   }
 
+  get bookColour$(): Observable<string> {
+    return of('')
+  }
+
   get appItems$(): Observable<AppItem[]> {
     return of([])
   }
