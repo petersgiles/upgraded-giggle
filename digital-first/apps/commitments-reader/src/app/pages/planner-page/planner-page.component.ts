@@ -43,7 +43,7 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
       .subscribe(_ => this.plannerStore.dispatch(new GetPlannerData(null)))
 
     this.plannerStore.dispatch(new GetEventReferenceData(null))
-    this.plannerStore.dispatch(new GetExternalEvents(null))
+    this.plannerStore.dispatch(new GetExternalEvents([]))
 
     this.filteredCommitments$ = this.plannerStore
       .pipe(select(fromOverview.selectRefinedCommitmentsState))
@@ -83,6 +83,7 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
   }
 
   handleExternalEventChange($event) {
+    this.plannerStore.dispatch(new GetExternalEvents($event))
     this.plannerStore.dispatch(new StoreSelectedExternalEventTypes($event))
   }
   handelZoomLevelChange($event) {

@@ -37,9 +37,7 @@ export class EventSharepointDataService implements CommitmentEventDataService {
     return this.sharepoint
       .getItems({ listName: 'CommitmentEvent' })
       .pipe(
-        concatMap(events =>
-          of({ data: mapCommitmentEvents(events), loading: false })
-        )
+        map(events => ({ data: mapCommitmentEvents(events), loading: false }))
       )
   }
 
@@ -52,15 +50,13 @@ export class EventSharepointDataService implements CommitmentEventDataService {
       })
     } else {
       return this.sharepoint.getItems({ listName: 'CommitmentEventType' }).pipe(
-        concatMap((result: any) =>
-          of({
-            data: mapCommitmentEventTypes(result).sort((a, b) =>
-              a.type < b.type ? -1 : 1
-            ),
-            loading: false,
-            error: null
-          })
-        )
+        map((result: any) => ({
+          data: mapCommitmentEventTypes(result).sort((a, b) =>
+            a.type < b.type ? -1 : 1
+          ),
+          loading: false,
+          error: null
+        }))
       )
     }
   }
@@ -68,18 +64,21 @@ export class EventSharepointDataService implements CommitmentEventDataService {
   getExternalEvents(
     externalEventTypes: any[]
   ): Observable<DataResult<ExternalEvent[]>> {
+    if (!externalEventTypes || externalEventTypes.length === 0) {
+      return of({
+        data: []
+      })
+    }
     const viewXml = byExternalEventTypeIdsQuery(externalEventTypes)
-    return forkJoin(
+    return forkJoin([
       this.sharepoint.getItems({ listName: 'ExternalEvent', viewXml: viewXml }),
       this.sharepoint.getItems({ listName: 'ExternalEventType' })
-    ).pipe(
-      concatMap(([externalEvents, eventTypes]) =>
-        of({
-          data: mapExternalEvents(externalEvents, eventTypes),
-          loading: false,
-          error: null
-        })
-      )
+    ]).pipe(
+      map(([externalEvents, eventTypes]) => ({
+        data: mapExternalEvents(externalEvents, eventTypes),
+        loading: false,
+        error: null
+      }))
     )
   }
 
@@ -94,15 +93,13 @@ export class EventSharepointDataService implements CommitmentEventDataService {
       })
     } else {
       return this.sharepoint.getItems({ listName: 'ExternalEventType' }).pipe(
-        concatMap((result: any) =>
-          of({
-            data: mapExternalEventTypes(result).sort((a, b) =>
-              a.name < b.name ? -1 : 1
-            ),
-            loading: false,
-            error: null
-          })
-        )
+        concatMap((result: any) => of({
+          data: mapExternalEventTypes(result).sort((a, b) =>
+            a.name < b.name ? -1 : 1
+          ),
+          loading: false,
+          error: null
+        }))
       )
     }
   }
@@ -129,12 +126,10 @@ export class EventSharepointDataService implements CommitmentEventDataService {
         id: existingEvent ? payload.data.id : null
       })
       .pipe(
-        concatMap(_ =>
-          of({
-            data: { name: payload.data.name },
-            loading: false
-          })
-        )
+        map(_ => ({
+          data: { name: payload.data.name },
+          loading: false
+        }))
       )
   }
 
@@ -148,14 +143,12 @@ export class EventSharepointDataService implements CommitmentEventDataService {
         id: payload.data.id
       })
       .pipe(
-        concatMap(_ =>
-          of({
-            loading: false,
-            data: {
-              commitment: payload.id
-            }
-          })
-        )
+        map(_ => ({
+          loading: false,
+          data: {
+            commitment: payload.id
+          }
+        }))
       )
   }
 }
