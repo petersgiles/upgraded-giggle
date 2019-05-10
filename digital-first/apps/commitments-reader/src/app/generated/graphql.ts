@@ -1735,7 +1735,7 @@ export type ApplyCommitmentDisplayOrderMutation = {
 
 export type GetCommitmentDetailQueryVariables = {
   id: Scalars['String']
-  bookType: BookType
+  book: BookType
 }
 
 export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
@@ -1916,7 +1916,7 @@ export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
 
 export type MapPointsSearchQueryVariables = {
   refiner: CommitmentRefinerGraph
-  bookType: BookType
+  book: BookType
 }
 
 export type MapPointsSearchQuery = { __typename?: 'Query' } & {
