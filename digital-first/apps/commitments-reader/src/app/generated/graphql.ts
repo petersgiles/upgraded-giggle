@@ -52,10 +52,10 @@ export type AnnouncementTypeGraphCommitmentsArgs = {
 
 export type ApplyCommitmentDisplayOrderGraph = {
   webId: Scalars['Guid']
+  siteId: Scalars['Guid']
   book?: Maybe<DisplayOrderBookType>
-  first?: Maybe<Scalars['UInt32']>
-  middle: Scalars['UInt32']
-  last?: Maybe<Scalars['UInt32']>
+  parent?: Maybe<Scalars['UInt32']>
+  target: Scalars['UInt32']
 }
 
 export type AppropriationGraph = {
@@ -101,6 +101,7 @@ export type BriefGraph = {
   webId: Scalars['Guid']
   title: Scalars['String']
   reference: Scalars['String']
+  siteId: Scalars['Guid']
 }
 
 export type BriefGraphBriefCommitmentsArgs = {
@@ -142,6 +143,7 @@ export type BriefRecommendationGraph = {
   title: Scalars['String']
   hasResponse: Scalars['Boolean']
   briefId: Scalars['Guid']
+  siteId: Scalars['Guid']
 }
 
 export type BudgetGraph = {
@@ -167,7 +169,8 @@ export type ColumnGraph = {
 }
 
 export type CommitmentGraph = {
-  bookType?: Maybe<BookType>
+  book: BookType
+  bookType: Scalars['String']
   cost?: Maybe<Scalars['String']>
   description?: Maybe<Scalars['String']>
   commitmentLocations?: Maybe<Array<Maybe<CommitmentLocationGraph>>>
@@ -333,6 +336,7 @@ export enum ComparisonGraph {
 
 export type CreateBriefCommitmentInputGraph = {
   webId: Scalars['Guid']
+  siteId: Scalars['Guid']
   listId: Scalars['Guid']
   listItemId: Scalars['Int']
   commitmentId: Scalars['Int']
@@ -485,6 +489,7 @@ export type DeckItemBriefSummaryGraph = {
   size: Scalars['Int']
   sortOrder: Scalars['Int']
   parentId?: Maybe<Scalars['Int']>
+  siteId: Scalars['Guid']
 }
 
 export type DeckItemBriefSummaryGraphDeckItemBriefSummaryBriefsArgs = {
@@ -1265,7 +1270,8 @@ export type QueryCommitmentsArgs = {
   skip?: Maybe<Scalars['Int']>
   take?: Maybe<Scalars['Int']>
   refiner?: Maybe<CommitmentRefinerGraph>
-  bookType: BookType
+  bookType?: Maybe<Scalars['String']>
+  book?: Maybe<BookType>
 }
 
 export type QueryCommitmentLocationsArgs = {
@@ -1339,7 +1345,7 @@ export type QueryMapPointsArgs = {
   skip?: Maybe<Scalars['Int']>
   take?: Maybe<Scalars['Int']>
   refiner?: Maybe<CommitmentRefinerGraph>
-  bookType: BookType
+  book: BookType
 }
 
 export type QueryPackageTypesArgs = {
@@ -1412,7 +1418,7 @@ export type QueryDeckItemBriefSummariesArgs = {
   where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
   skip?: Maybe<Scalars['Int']>
   take?: Maybe<Scalars['Int']>
-  webId: Scalars['Guid']
+  siteId: Scalars['Guid']
 }
 
 export type QueryDeckItemBriefSummaryArgs = {
@@ -1741,13 +1747,12 @@ export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
           | 'id'
           | 'title'
           | 'description'
-          | 'bookType'
           | 'cost'
           | 'date'
           | 'politicalParty'
           | 'statusId'
           | 'announcedBy'
-        > & {
+        > & { bookType: CommitmentGraph['book'] } & {
             commitmentType: Maybe<
               { __typename?: 'CommitmentTypeGraph' } & Pick<
                 CommitmentTypeGraph,
@@ -1826,7 +1831,7 @@ export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
 }
 
 export type GetRefinerTagsQueryVariables = {
-  webId: Scalars['Guid']
+  siteId: Scalars['Guid']
 }
 
 export type GetRefinerTagsQuery = { __typename?: 'Query' } & {
@@ -1883,8 +1888,8 @@ export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
       Maybe<
         { __typename?: 'CommitmentGraph' } & Pick<
           CommitmentGraph,
-          'id' | 'title' | 'bookType' | 'politicalParty' | 'announcedBy'
-        > & {
+          'id' | 'title' | 'politicalParty' | 'announcedBy'
+        > & { bookType: CommitmentGraph['book'] } & {
             announcementType: Maybe<
               { __typename?: 'AnnouncementTypeGraph' } & Pick<
                 AnnouncementTypeGraph,
@@ -2020,11 +2025,11 @@ export class ApplyCommitmentDisplayOrderGQL extends Apollo.Mutation<
 }
 export const GetCommitmentDetailDocument = gql`
   query getCommitmentDetail($id: String!, $bookType: BookType!) {
-    commitments(id: $id, bookType: $bookType) {
+    commitments(id: $id, book: $bookType) {
       id
       title
       description
-      bookType
+      bookType: book
       cost
       date
       politicalParty
@@ -2082,7 +2087,7 @@ export class GetCommitmentDetailGQL extends Apollo.Query<
   document = GetCommitmentDetailDocument
 }
 export const GetRefinerTagsDocument = gql`
-  query GetRefinerTags($webId: Guid!) {
+  query GetRefinerTags($siteId: Guid!) {
     commitmentTypes {
       id
       title
@@ -2095,7 +2100,7 @@ export const GetRefinerTagsDocument = gql`
       id
       title
     }
-    deckItemBriefSummaries(webId: $webId) {
+    deckItemBriefSummaries(siteId: $siteId) {
       id
       title
     }
@@ -2116,10 +2121,10 @@ export const CommitmentsSearchDocument = gql`
     $refiner: CommitmentRefinerGraph!
     $bookType: BookType!
   ) {
-    commitments(refiner: $refiner, bookType: $bookType) {
+    commitments(refiner: $refiner, book: $bookType) {
       id
       title
-      bookType
+      bookType: book
       politicalParty
       announcedBy
       announcementType {
@@ -2152,7 +2157,7 @@ export const MapPointsSearchDocument = gql`
     $refiner: CommitmentRefinerGraph!
     $bookType: BookType!
   ) {
-    mapPoints(refiner: $refiner, bookType: $bookType) {
+    mapPoints(refiner: $refiner, book: $bookType) {
       id
       title
       placeId

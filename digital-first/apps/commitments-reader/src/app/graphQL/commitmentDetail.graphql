@@ -1,9 +1,9 @@
 query getCommitmentDetail($id: String!, $bookType: BookType!) {
-  commitments(id: $id, bookType: $bookType) {
+  commitments(id: $id, book: $bookType) {
     id
     title
     description
-    bookType
+    bookType: book
     cost
     date
     politicalParty

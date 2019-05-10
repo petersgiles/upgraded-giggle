@@ -1,4 +1,4 @@
-query GetRefinerTags($webId: Guid!) {
+query GetRefinerTags($siteId: Guid!) {
   commitmentTypes {
     id
     title
@@ -11,7 +11,7 @@ query GetRefinerTags($webId: Guid!) {
     id
     title
   }
-  deckItemBriefSummaries(webId: $webId) {
+  deckItemBriefSummaries(siteId: $siteId) {
     id
     title
   }

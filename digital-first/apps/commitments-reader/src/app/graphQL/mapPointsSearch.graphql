@@ -1,5 +1,5 @@
 query MapPointsSearch($refiner: CommitmentRefinerGraph!, $bookType: BookType!) {
-  mapPoints(refiner: $refiner, bookType: $bookType) {
+  mapPoints(refiner: $refiner, book: $bookType) {
     id
     title
     placeId
