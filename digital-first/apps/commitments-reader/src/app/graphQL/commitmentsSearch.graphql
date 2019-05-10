@@ -1,8 +1,8 @@
 query CommitmentsSearch($refiner: CommitmentRefinerGraph!, $bookType: BookType!) {
-  commitments(refiner: $refiner, bookType: $bookType) {
+  commitments(refiner: $refiner, book: $bookType) {
     id
     title
-    bookType
+    bookType: book
     politicalParty
     announcedBy
     announcementType {
