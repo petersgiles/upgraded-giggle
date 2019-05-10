@@ -6,6 +6,13 @@ import { SharePointAppDataService } from './sharepoint/sharepoint-app-data.servi
 import { DevelopAppDataService } from './develop/develop-app-data.service'
 import { SettingsService } from '../settings.service'
 
+export const OPERATION_PMO = 'pmohandlingadvice'
+export const OPERATION_PMC = 'pmchandlingadvice'
+
+export const OPERATION_RIGHT_READ = 'read'
+export const OPERATION_RIGHT_WRITE = 'write'
+export const OPERATION_RIGHT_HIDE = 'hide'
+
 @Injectable({
   providedIn: 'root'
 })

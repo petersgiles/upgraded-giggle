@@ -6,6 +6,8 @@ import { Store } from '@ngrx/store'
 import { GetDetailedCommitment, GetHandlingAdvices } from './commitment-detail.actions'
 import { GetCommitmentDetailGQL, GetHandlingAdvicesGQL, UpdatePmcHandlingAdviceCommitmentGQL, UpdatePmoHandlingAdviceCommitmentGQL } from '../../generated/graphql'
 import { map} from 'rxjs/operators'
+import * as fromRoot from '../user'
+import { select } from '@ngrx/store'
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +25,13 @@ export class CommitmentDetailService {
     return of(null)
   }
 
+  get UserOperation(): Observable<any> {
+    return this.store.pipe(
+        select(fromRoot.User.getCurrentUserOperations),
+
+    )
+}
+
   getCurrentUser(action): Observable<any> {
     let commitments = action.result.payload
     return commitments
@@ -31,7 +40,7 @@ commitment: Commitment
   LoadCommitment(id, bookType){
        return this.getCommitmentDetailGQL
       .watch(
-        { id: id, bookType: bookType },
+        { id: id, book: bookType },
         { fetchPolicy: 'network-only' }
       )
       .valueChanges.pipe(map(value => value.data.commitments))

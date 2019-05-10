@@ -1729,7 +1729,7 @@ export type ApplyCommitmentDisplayOrderMutation = {
 
 export type GetCommitmentDetailQueryVariables = {
   id: Scalars['String']
-  bookType: BookType
+  book: BookType
 }
 
 export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
@@ -1874,7 +1874,7 @@ export type GetRefinerTagsQuery = { __typename?: 'Query' } & {
 
 export type CommitmentsSearchQueryVariables = {
   refiner: CommitmentRefinerGraph
-  bookType: BookType
+  book: BookType
 }
 
 export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
@@ -1926,7 +1926,7 @@ export type GetHandlingAdvicesQuery = { __typename?: 'Query' } & {
 
 export type MapPointsSearchQueryVariables = {
   refiner: CommitmentRefinerGraph
-  bookType: BookType
+  book: BookType
 }
 
 export type MapPointsSearchQuery = { __typename?: 'Query' } & {
@@ -2034,8 +2034,8 @@ export class ApplyCommitmentDisplayOrderGQL extends Apollo.Mutation<
   document = ApplyCommitmentDisplayOrderDocument
 }
 export const GetCommitmentDetailDocument = gql`
-  query getCommitmentDetail($id: String!, $bookType: BookType!) {
-    commitments(id: $id, bookType: $bookType) {
+  query getCommitmentDetail($id: String!, $book: BookType!) {
+    commitments(id: $id, bookType: $book) {
       id
       title
       description
@@ -2127,11 +2127,8 @@ export class GetRefinerTagsGQL extends Apollo.Query<
   document = GetRefinerTagsDocument
 }
 export const CommitmentsSearchDocument = gql`
-  query CommitmentsSearch(
-    $refiner: CommitmentRefinerGraph!
-    $bookType: BookType!
-  ) {
-    commitments(refiner: $refiner, bookType: $bookType) {
+  query CommitmentsSearch($refiner: CommitmentRefinerGraph!, $book: BookType!) {
+    commitments(refiner: $refiner, bookType: $book) {
       id
       title
       bookType
@@ -2181,11 +2178,8 @@ export class GetHandlingAdvicesGQL extends Apollo.Query<
   document = GetHandlingAdvicesDocument
 }
 export const MapPointsSearchDocument = gql`
-  query MapPointsSearch(
-    $refiner: CommitmentRefinerGraph!
-    $bookType: BookType!
-  ) {
-    mapPoints(refiner: $refiner, bookType: $bookType) {
+  query MapPointsSearch($refiner: CommitmentRefinerGraph!, $book: BookType!) {
+    mapPoints(refiner: $refiner, bookType: $book) {
       id
       title
       placeId

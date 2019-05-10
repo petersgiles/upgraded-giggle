@@ -19,6 +19,7 @@ export function reducer(
   action: UserActions | AppActions
 ): State {
   switch (action.type) {
+    
     case UserActionTypes.SetCurrentUser: {
       return {
         ...state,

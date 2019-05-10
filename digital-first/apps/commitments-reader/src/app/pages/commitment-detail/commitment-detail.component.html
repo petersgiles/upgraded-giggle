@@ -96,23 +96,28 @@
     <hr />
     <div [innerHtml]="commitment?.description | safeHtml"></div>
   </ng-container>
+
+  
   <ng-container>
     <hr />
     <div id="selectors">
-      <div class="selection">
-      <p>PM&C Handling Advice</p>
-        <ng-select [dropdownPosition]="'top'"  [items]="handlingAdvice$ | async"
-          (change)="onPMCChange($event)">
-        </ng-select>
-      </div>
-      <div class="selection">
-        <p>PMO Handling Advice</p>
-        <ng-select [dropdownPosition]="'top'"  [items]="handlingAdvice$ | async"
-          (change)="onPMOChange($event)">
-        </ng-select>
-      </div>
+      <digital-first-commitment-view-guard [operation]="getPMCRight(userOperation$ | async)">
+        <div class="selection">
+          <p>PM&C Handling Advice</p>
+          <ng-select [dropdownPosition]="'top'" [items]="handlingAdvice$ | async" (change)="onPMCChange($event)">
+          </ng-select>
+        </div>
+      </digital-first-commitment-view-guard>
+      <digital-first-commitment-view-guard [operation]="getPMORight(userOperation$ | async)">
+        <div class="selection">
+          <p>PMO Handling Advice</p>
+          <ng-select [dropdownPosition]="'top'" [items]="handlingAdvice$ | async" (change)="onPMOChange($event)">
+          </ng-select>
+        </div>
+      </digital-first-commitment-view-guard>
     </div>
   </ng-container>
+
 </ng-container>
 
 

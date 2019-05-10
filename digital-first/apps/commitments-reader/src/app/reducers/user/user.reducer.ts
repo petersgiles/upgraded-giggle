@@ -1,13 +1,10 @@
-import { UserActions, UserActionTypes } from './user.actions'
+import { UserActions, UserActionTypes, GetCurrentUser } from './user.actions'
 import { AppActions, AppActionTypes } from '../app/app.actions'
 import { createFeatureSelector, createSelector } from '@ngrx/store'
-<<<<<<< HEAD
-=======
 import {
   OPERATION_DEFAULTS,
   OPERATION_RIGHTS_PRECEDENT
 } from '../../services/app-data/app-operations'
->>>>>>> 6f3983e561b7a48d7c5b2fa602d1e733a9f20544
 
 export interface UserState {
   currentUser
@@ -26,6 +23,7 @@ export function reducer(
   action: UserActions | AppActions
 ): UserState {
   switch (action.type) {
+
     case UserActionTypes.SetCurrentUser: {
       return {
         ...state,
@@ -82,10 +80,14 @@ export const getUserCurrentUser = createSelector(
   getCurrentUser
 )
 
-export const getCurrentUserOperations = createSelector(
+export const getUserCurrentOperations = createSelector(
   userState,
+  getOperations
+)
+
+export const getCurrentUserOperations = createSelector(
   getUserCurrentUser,
-  getOperations,
+  getUserCurrentOperations,
   (user, operations) => {
     if (!user || !operations || !user.roles) {
       return {

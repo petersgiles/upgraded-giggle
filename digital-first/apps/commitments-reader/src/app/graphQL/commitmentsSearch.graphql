@@ -1,5 +1,5 @@
-query CommitmentsSearch($refiner: CommitmentRefinerGraph!, $bookType: BookType!) {
-  commitments(refiner: $refiner, bookType: $bookType) {
+query CommitmentsSearch($refiner: CommitmentRefinerGraph!, $book: BookType!) {
+  commitments(refiner: $refiner, bookType: $book) {
     id
     title
     bookType
