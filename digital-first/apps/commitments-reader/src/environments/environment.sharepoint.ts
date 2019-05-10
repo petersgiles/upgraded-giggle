@@ -4,7 +4,7 @@ export const environment = {
   production: false,
   host: 'sharepoint',
   version: packageJson.version,
-  config: '/AppConfig/commitments-reader.txt',
+  config: '/AppConfig/commitment_delivery_config.txt',
   datasource: {
     type: 'graph',
     dataServiceUrl: 'https://programs.cloud9.cabnet/graphql'

@@ -11,7 +11,7 @@ export interface State {
   schedulerZoomLevel: any
   schedulerCenterDate: Date
   isReadonly: boolean
-  error: string
+  error: any
 }
 
 export const initialState: State = {
@@ -24,7 +24,7 @@ export const initialState: State = {
   schedulerZoomLevel: 3,
   schedulerCenterDate: new Date(),
   isReadonly: true,
-  error: ''
+  error: {}
 }
 
 export function reducer(state = initialState, action: PlannerActions): State {
@@ -104,7 +104,11 @@ export const selectSchedulerCenterDateState = createSelector(
   plannerState,
   (state: State) => state.schedulerCenterDate
 )
-export const plannerPermissionState = createSelector(
+export const selectPlannerPermissionState = createSelector(
   plannerState,
   (state: State) => state.isReadonly
+)
+export const selectPlannerErrortate = createSelector(
+  plannerState,
+  (state: State) => state.error
 )

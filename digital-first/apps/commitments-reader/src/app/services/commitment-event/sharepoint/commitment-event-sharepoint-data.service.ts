@@ -29,7 +29,7 @@ export class EventSharepointDataService implements CommitmentEventDataService {
   getEventsByCommitments(
     payload: any
   ): Observable<DataResult<CommitmentEvent[]>> {
-    if (!payload.commitments || payload.commitments.length === 0) {
+    if (!payload || payload.commitments || payload.commitments.length === 0) {
       return of()
     }
     const commitmentIds = payload.commitments.map(c => c.id)
