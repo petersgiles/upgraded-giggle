@@ -29,6 +29,7 @@ import {
 import { Store } from '@ngrx/store'
 import * as fromRoot from '../../reducers'
 import { CommitmentEventDataService } from '../../services/commitment-event/commitment-event-data-service'
+import { of } from 'rxjs'
 @Injectable()
 export class PlannerEffects {
   @Effect()
@@ -130,18 +131,20 @@ export class PlannerEffects {
         data: action.payload
       }
     }),
-    mergeMap(config =>
-      this.commitmentEventDataService
-        .removeEvent(config)
-        .pipe(map(result => new GetCommitmentEvents(null)))
-    ),
-    catchError(error => [new ErrorInPlanner(error)])
+    concatMap(config =>
+      this.commitmentEventDataService.removeEvent(config).pipe(
+        map(
+          result => new GetCommitmentEvents(null),
+          catchError(error => [new ErrorInPlanner(error)])
+        )
+      )
+    )
   )
 
   @Effect()
   storeSelectedExternalEventTypes$ = this.actions$.pipe(
     ofType(PlannerActionTypes.StoreSelectedExternalEventTypes),
-    switchMap(action => [
+    concatMap(action => [
       new LoadSelectedExternalEventTypes(action.payload),
       new GetExternalEvents(action.payload)
     ])
