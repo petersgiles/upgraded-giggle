@@ -13,6 +13,16 @@ query getCommitmentDetail($id: String!, $book: BookType!) {
       id
       title
     }
+
+    pmcHandlingAdvice{
+      id
+      title
+    }
+
+    pmoHandlingAdvice{
+      id
+      title
+    }
     
    announcementType { 
       id

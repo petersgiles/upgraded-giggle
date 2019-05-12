@@ -1759,6 +1759,18 @@ export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
                 'id' | 'title'
               >
             >
+            pmcHandlingAdvice: Maybe<
+              { __typename?: 'HandlingAdviceGraph' } & Pick<
+                HandlingAdviceGraph,
+                'id' | 'title'
+              >
+            >
+            pmoHandlingAdvice: Maybe<
+              { __typename?: 'HandlingAdviceGraph' } & Pick<
+                HandlingAdviceGraph,
+                'id' | 'title'
+              >
+            >
             announcementType: Maybe<
               { __typename?: 'AnnouncementTypeGraph' } & Pick<
                 AnnouncementTypeGraph,
@@ -2051,6 +2063,14 @@ export const GetCommitmentDetailDocument = gql`
       statusId
       announcedBy
       commitmentType {
+        id
+        title
+      }
+      pmcHandlingAdvice {
+        id
+        title
+      }
+      pmoHandlingAdvice {
         id
         title
       }

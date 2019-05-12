@@ -69,14 +69,37 @@
     Critical date: <strong> {{ commitment.criticalDate }}</strong>.
   </p>
 
-  <p *ngIf="commitment.PMOHandlingAdvice">
-      PMO advice handler: <strong>{{ commitment.PMOHandlingAdvice }}</strong>
-  </p>
+  <digital-first-commitment-view-guard [operation]="getPMORight(userOperation$ | async)">
+    <ng-container operation-type="write">
+      <p *ngIf="commitment.PMOHandlingAdvice">
+        PMO advice handler: <strong>{{ commitment.PMOHandlingAdvice }}</strong>
+      </p>
+    </ng-container>
+  </digital-first-commitment-view-guard>
 
-  <p *ngIf="commitment.PMCHandlingAdvice">
-      PM&C advice handler: <strong>{{ commitment.PMCHandlingAdvice }}</strong>
-  </p>
+  <digital-first-commitment-view-guard [operation]="getPMORight(userOperation$ | async)">
+    <ng-container operation-type="read">
+      <p *ngIf="commitment.PMOHandlingAdvice">
+        PMO advice handler: <strong>{{ commitment.PMOHandlingAdvice }}</strong>
+      </p>
+    </ng-container>
+  </digital-first-commitment-view-guard>
 
+  <digital-first-commitment-view-guard [operation]="getPMCRight(userOperation$ | async)">
+    <ng-container operation-type="write">
+      <p *ngIf="commitment.PMCHandlingAdvice">
+        PM&C advice handler: <strong>{{ commitment.PMCHandlingAdvice }}</strong>
+      </p>
+    </ng-container>
+  </digital-first-commitment-view-guard>
+
+  <digital-first-commitment-view-guard [operation]="getPMCRight(userOperation$ | async)">
+    <ng-container operation-type="read">
+      <p *ngIf="commitment.PMCHandlingAdvice">
+        PM&C advice handler: <strong>{{ commitment.PMCHandlingAdvice }}</strong>
+      </p>
+    </ng-container>
+  </digital-first-commitment-view-guard>
 
   <p *ngIf="relatedPackages$?.length > 0">
     Related Package<span *ngIf="relatedPackages$?.length > 1">s</span>:
