@@ -1777,12 +1777,6 @@ export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
                 'id' | 'title'
               >
             >
-            portfolioLookup: Maybe<
-              { __typename?: 'PortfolioLookupGraph' } & Pick<
-                PortfolioLookupGraph,
-                'id' | 'title'
-              >
-            >
             status: Maybe<
               { __typename?: 'StatusGraph' } & Pick<StatusGraph, 'id' | 'title'>
             >
@@ -2075,10 +2069,6 @@ export const GetCommitmentDetailDocument = gql`
         title
       }
       announcementType {
-        id
-        title
-      }
-      portfolioLookup {
         id
         title
       }

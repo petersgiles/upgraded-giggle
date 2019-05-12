@@ -67,14 +67,14 @@ commitment: Commitment
             criticalDate: dbItem[0].criticalDate
               ? dbItem[0].criticalDate.title
               : '',
-            portfolio: dbItem[0].portfolioLookup
+           /*  portfolio: dbItem[0].portfolioLookup
               ? dbItem[0].portfolioLookup.title
-              : '',
+              : '', */
             electorates: this.handleElectorates(dbItem[0].commitmentLocations),
-            PMCHandlingAdvice: dbItem[0].pmcHandlingAdvice ? dbItem[0].pmcHandlingAdvice.title
+           /*  PMCHandlingAdvice: dbItem[0].pmcHandlingAdvice ? dbItem[0].pmcHandlingAdvice.title
             : '',
             PMOHandlingAdvice: dbItem[0].pmoHandlingAdvice ? dbItem[0].pmoHandlingAdvice.title
-            : ''
+            : '' */
            // mapPoints: this.handleMapPoints(dbItem[0].commitmentMapPoints)
           
           }
