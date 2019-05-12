@@ -51,7 +51,7 @@
     "sharepoint:build:commitments": "ng build commitments --configuration=sharepoint",
     "sharepoint:build:commitments-reader": "ng build commitments-reader --configuration=sharepoint",
     "sharepoint:build:policy-briefs": "ng build policy-briefs --configuration=sharepoint",
-    "deploy:all:commitments-reader": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/commitments-reader-valdis' -AppName 'Commitments-Reader' -LoadReferenceData True",
+    "deploy:all:commitments-reader": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/commitments-reader' -AppName 'Commitments-Reader' -LoadReferenceData True",
     "deploy:js": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/commitments' -AppName 'Commitments' -jsOnly",
     "deploy:js:commitments-reader": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/commitments-reader' -AppName 'Commitments-Reader' -jsOnly",
     "sharepoint:build:commitments-reader-prod": "ng build commitments-reader --configuration=sharepointprod",

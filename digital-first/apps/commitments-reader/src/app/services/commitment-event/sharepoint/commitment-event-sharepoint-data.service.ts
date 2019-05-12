@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 
 import { Observable, of, forkJoin } from 'rxjs'
-import { concatMap, map, tap } from 'rxjs/operators'
+import { concatMap, map, tap, concat } from 'rxjs/operators'
 import { SharepointJsomService } from '@df/sharepoint'
 import { DataResult } from '../../../models'
 import {
@@ -34,7 +34,6 @@ export class EventSharepointDataService implements CommitmentEventDataService {
     }
 
     // TODO: check if user has hide permission then return empty
-
     const commitmentIds = payload.commitments.map(c => c.id)
     const viewXml = byCommitmentIdsQuery(commitmentIds)
     return this.sharepoint
@@ -77,11 +76,13 @@ export class EventSharepointDataService implements CommitmentEventDataService {
       this.sharepoint.getItems({ listName: 'ExternalEvent', viewXml: viewXml }),
       this.sharepoint.getItems({ listName: 'ExternalEventType' })
     ]).pipe(
-      map(([externalEvents, eventTypes]) => ({
-        data: mapExternalEvents(externalEvents, eventTypes),
-        loading: false,
-        error: null
-      }))
+      concatMap(([externalEvents, eventTypes]) =>
+        of({
+          data: mapExternalEvents(externalEvents, eventTypes),
+          loading: false,
+          error: null
+        })
+      )
     )
   }
 
@@ -100,9 +101,9 @@ export class EventSharepointDataService implements CommitmentEventDataService {
   }
 
   storeEvent(payload: any): Observable<DataResult<any>> {
-    if (payload && payload.readonly) {
-      throw Error('You do not have permission to add event')
-    }
+    // if (payload && payload.readonly) {
+    //   throw Error('You do not have permission to add event')
+    // }
     const spData = {
       Title: payload.data.name,
       CommitmentId: payload.data.resourceId,
@@ -129,9 +130,9 @@ export class EventSharepointDataService implements CommitmentEventDataService {
   }
 
   removeEvent(payload: any): Observable<DataResult<any>> {
-    if (payload && payload.readonly) {
-      throw Error('You do not have permission to delete event')
-    }
+    // if (payload && payload.readonly) {
+    //   throw Error('You do not have permission to delete event')
+    // }
     return this.sharepoint
       .removeItem({
         listName: 'CommitmentEvent',

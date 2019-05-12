@@ -1,4 +1,4 @@
-import { BookType } from '../../generated/graphql';
+import { BookType } from '../../generated/graphql'
 
 export interface Logo {
   image: string
@@ -17,24 +17,25 @@ export interface Header {
   title?: string
   classification?: string
   bookType?: BookType
+  bookColour?: string
   logo?: Logo
   apps?: App[]
 }
 
 export interface Config {
-  siteId: string,
+  siteId: string
   header: Header
 }
 
 export const defaults: Config = {
-    'siteId': null,
-    'header': {
-        'title': 'Unconfigured Application',
-        'classification': 'UNCLASSIFIED',
-        'logo': {
-           'image': 'assets/crest.png',
-           'url': '/'
-        },
-        'apps': []
-    }
+  siteId: null,
+  header: {
+    title: 'Unconfigured Application',
+    classification: 'UNCLASSIFIED',
+    logo: {
+      image: 'assets/crest.png',
+      url: '/'
+    },
+    apps: []
+  }
 }
