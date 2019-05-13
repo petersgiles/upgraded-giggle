@@ -28,69 +28,36 @@ const executeQueryAsObservable = context =>
   providedIn: 'root'
 })
 export class SharePointConfigService {
-  private _jsonURL
-  _config: BehaviorSubject<Config> = new BehaviorSubject(defaults)
+
 
   constructor(
     private http: HttpClient,
     private settings: SettingsService,
     private sharepoint: SharepointJsomService
-  ) {
-    // forkJoin([this.getJSON(), sharepoint.getWebId(), sharepoint.getSiteId()])
-    //   .pipe(
-    //     // tslint:disable-next-line: no-console
-    //     tap(result => console.log(`🐵 app config and siteId got => `, result))
-    //   )
-    //   .subscribe(([data, webId, siteId]) => {
-    //     data.webId = webId
-    //     data.siteId = siteId
-    //     this._config.next(data)
-    //     // tslint:disable-next-line:no-console
-    //     console.log(`🐵 app config changed => `, data)
-    //   })
-  }
+  ) {}
 
   public getJSON(): Observable<any> {
-    this._jsonURL = this.settings.environment.config
+    let jsonURL = this.settings.environment.config
 
     if (_spPageContextInfo) {
-      this._jsonURL = `${_spPageContextInfo.webAbsoluteUrl}${
+      jsonURL = `${_spPageContextInfo.webAbsoluteUrl}${
         this.settings.environment.config
       }`
     }
 
-    // tslint:disable-next-line:no-console
-    console.log(`🐵 config url => `, this._jsonURL)
-
-    // tslint:disable-next-line:no-console
-    console.log(`🤔 getting config from here => `, this._jsonURL)
     return forkJoin([
-      this.http.get(this._jsonURL),
+      this.http.get(jsonURL),
       this.sharepoint.getWebId(),
       this.sharepoint.getSiteId()
     ]).pipe(
-      // tslint:disable-next-line: no-console
-      tap(result => console.log(`🐵 app config and siteId got => `, result)),
       concatMap((result: any) => {
-        // tslint:disable-next-line:no-console
-        console.log(`🤔 result => `, result)
         const [data, webId, siteId] = result
         data.webId = webId
         data.siteId = siteId
-        this._config.next(data)
-
-        return this._config
+        return data
       }),
 
-      catchError((err: HttpErrorResponse) => {
-        // tslint:disable-next-line:no-console
-        console.log(`💥 error => `, this._jsonURL, err)
-        return throwError(err)
-      })
+      catchError((err: HttpErrorResponse) => throwError(err))
     )
-  }
-
-  public get config(): Observable<Config> {
-    return this._config
   }
 }

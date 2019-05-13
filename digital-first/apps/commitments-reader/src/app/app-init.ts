@@ -18,16 +18,14 @@ export function initApplication(
   return () =>
     new Promise(resolve => {
       store.dispatch(new StartAppInitialiser({ environment: environment }))
-      
+
       store
         .select((state: any) => state.app.config)
         .pipe(
           filter(config => config !== null),
           first()
         )
-        .subscribe(result => {
-          // tslint:disable-next-line: no-console
-          console.log(`🦄 App Initialised`, result)
+        .subscribe(_ => {
           store.dispatch(new FinishAppInitialiser())
           store.dispatch(new GetCurrentUser('Get User'))
           resolve(true)

@@ -82,8 +82,6 @@ export class CommitmentOverviewLayoutComponent
     this.queryParamsSubscription$ = this.route.queryParams.subscribe(params => {
       if (params && params.refiner) {
         this.queryParamsRefiner = JSON.parse(params.refiner)
-        // tslint:disable-next-line: no-console
-        console.log(`👹 this.queryParamsRefiner`, this.queryParamsRefiner)
         this.store.dispatch(
           new SetRefinerFromQueryString({ refiner: this.queryParamsRefiner })
         )
@@ -93,8 +91,6 @@ export class CommitmentOverviewLayoutComponent
     this.store
       .pipe(select(fromRefiner.selectSelectedRefinersState))
       .subscribe(next => {
-        // tslint:disable-next-line: no-console
-        console.log(`👹 selectSelectedRefinersState`, next)
         if (next && next.length > 0) {
           this.router.navigate([], {
             relativeTo: this.route,
@@ -113,8 +109,6 @@ export class CommitmentOverviewLayoutComponent
     this.refinerGroupsSubscription$ = this.store
       .pipe(
         select(fromRefiner.selectRefinerGroups),
-        // tslint:disable-next-line: no-console
-        tap(result => console.log(`👹 `, result))
       )
       .subscribe(next => {
         this.refinerGroups = next

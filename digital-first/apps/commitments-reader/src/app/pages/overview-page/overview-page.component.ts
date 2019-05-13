@@ -32,7 +32,6 @@ export class OverviewPageComponent implements OnInit, OnDestroy {
 
     this.filterCommitments$ = this.store
       .pipe(select(fromOverview.selectFilteredCommitmentsState))
-      .pipe(tap(commitments => console.log(`🐲 `, commitments)))
 
     this.errorSubscription = this.store
       .pipe(select(fromOverview.selectErrorInOverviewState))

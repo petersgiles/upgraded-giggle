@@ -56,10 +56,7 @@ export class SharePointAppDataService implements AppDataService {
   }
 
   getCurrentUser(): Observable<SPAppUserProfile> {
-    return this.sharepoint.getCurrentUser().pipe(
-      // tslint:disable-next-line: no-console
-      tap(result => console.log(`💌 getCurrentUser `, result)),
-    )
+    return this.sharepoint.getCurrentUser()
   }
 
   constructor(private sharepoint: SharepointJsomService) {}

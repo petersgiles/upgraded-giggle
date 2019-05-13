@@ -2,15 +2,10 @@ import {
   Component,
   OnInit,
   OnDestroy,
-  ChangeDetectorRef,
   ChangeDetectionStrategy
 } from '@angular/core'
 import { Observable, BehaviorSubject, Subscription } from 'rxjs'
 import { SettingsService } from '../../services/settings.service'
-// import {
-//   CommitmentRefinerService
-// } from '../../services/commitment-refiner'
-import { DataTableColumn } from '../../models/data-table-column'
 import { Router } from '@angular/router'
 import { select, Store } from '@ngrx/store'
 import * as fromMap from '../../reducers/map/map.reducer'
@@ -66,7 +61,6 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
       criticalDate: row.criticalDate ? row.criticalDate.title : ''
     }))
 
-    console.log(`🐲 `, commitments)
     this.selectedMapPointCommitments$.next(commitments)
   }
 

@@ -11,35 +11,12 @@ import { Config, defaults } from '../config-model'
   providedIn: 'root'
 })
 export class DevelopConfigService {
-  private _jsonURL
-  _config: BehaviorSubject<Config> = new BehaviorSubject(defaults)
 
-  constructor(private http: HttpClient, private settings: SettingsService) {
-    this.getJSON().subscribe(data => {
-      this._config.next(data)
-      // tslint:disable-next-line:no-console
-      console.log(`🐵 app config changed => `, data)
-    })
-  }
+  constructor(private http: HttpClient, private settings: SettingsService) { }
 
   public getJSON(): Observable<any> {
-    this._jsonURL = this.settings.environment.config
-
-    // tslint:disable-next-line:no-console
-    console.log(`🐵 config url => `, this._jsonURL)
-
-    // tslint:disable-next-line:no-console
-    console.log(`🤔 getting config from here => `, this._jsonURL)
-    return this.http.get(this._jsonURL).pipe(
-      catchError((err: HttpErrorResponse) => {
-        // tslint:disable-next-line:no-console
-        console.log(`💥 error => `, this._jsonURL, err)
-        return throwError(err)
-      })
+    return this.http.get(this.settings.environment.config).pipe(
+      catchError((err: HttpErrorResponse) => throwError(err))
     )
-  }
-
-  public get config(): Observable<Config> {
-    return this._config
   }
 }

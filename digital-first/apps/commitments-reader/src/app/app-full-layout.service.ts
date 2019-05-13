@@ -6,6 +6,8 @@ import { AppConfigService } from './services/config/config.service'
 import { AppDataService } from './services/app-data/app-data.service'
 import { App, Logo } from './services/config/config-model'
 import { Router } from '@angular/router'
+import * as fromApp from './reducers/app/app.reducer'
+import { Store, select } from '@ngrx/store';
 
 @Injectable({
   providedIn: 'root'
@@ -85,18 +87,19 @@ export class AppFullLayoutService {
   constructor(
     private router: Router,
     private service: AppDataService,
-    private configuration: AppConfigService
+    private store: Store<fromApp.State>
   ) {
-    this.configSubscription$ = this.configuration.config.subscribe(c => {
-      // tslint:disable-next-line:no-console
-      console.log(c)
-      this._title = c.header.title
+    this.configSubscription$ = this.store.pipe(
+      select(fromApp.selectAppConfigState)
+    ).subscribe(config => {
 
-      this.appItems$.next(c.header.apps)
-      this.bookType$.next(c.header.bookType)
-      this.bookColour$.next(c.header.bookColour)
-      this.logo$.next(c.header.logo)
-      this.protectiveMarking$.next(c.header.classification)
+      this._title = config.header.title
+
+      this.appItems$.next(config.header.apps)
+      this.bookType$.next(config.header.bookType)
+      this.bookColour$.next(config.header.bookColour)
+      this.logo$.next(config.header.logo)
+      this.protectiveMarking$.next(config.header.classification)
     })
   }
 }

@@ -7,31 +7,31 @@ export class DevelopAppDataService implements AppDataService {
   getCurrentUserOperations(roles: { groupPermissions: any }): Observable<any> {
     return of([
       {
-        "group": "ROLE_OWNERS",
-        "component": [
-          "pmohandlingadvice",
-          "pmchandlingadvice"
+        'group': 'ROLE_OWNERS',
+        'component': [
+          'pmohandlingadvice',
+          'pmchandlingadvice'
         ],
-        "rights": "write",
-        "_id": "0bc5e6f9dd0a4ef795999be061aadb05"
+        'rights': 'write',
+        '_id': '0bc5e6f9dd0a4ef795999be061aadb05'
       },
       {
-        "group": "ROLE_MEMBERS",
-        "component": [
-          "pmohandlingadvice",
-          "pmchandlingadvice"
+        'group': 'ROLE_MEMBERS',
+        'component': [
+          'pmohandlingadvice',
+          'pmchandlingadvice'
         ],
-        "rights": "read",
-        "_id": "6ef1141ebbca4724b1a8eb6fa4285df1"
+        'rights': 'read',
+        '_id': '6ef1141ebbca4724b1a8eb6fa4285df1'
       },
       {
-        "group": "ROLE_VISITORS",
-        "component": [
-          "pmohandlingadvice",
-          "pmchandlingadvice"
+        'group': 'ROLE_VISITORS',
+        'component': [
+          'pmohandlingadvice',
+          'pmchandlingadvice'
         ],
-        "rights": "hide",
-        "_id": "c17ab6bf8c694f6ab26ab4e22a68796f"
+        'rights': 'hide',
+        '_id': 'c17ab6bf8c694f6ab26ab4e22a68796f'
       }
     ]
     )
