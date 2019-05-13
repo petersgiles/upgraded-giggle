@@ -76,10 +76,6 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
       .pipe(select(fromPlanner.selectPlannerErrortate))
       // TODO: send to seq
       .subscribe(error => console.log(error))
-
-    this.plannerStore
-      .pipe(select(fromUser.getCurrentUser))
-      .pipe(tap(result => console.log(result)))
   }
 
   handleEventSaved($event: any) {
