@@ -21,7 +21,8 @@ import {
   GetDetailedCommitmentFailure,
   GetHandlingAdvicesFailure,
   UpdatePMCHandlingAdviceFailure,
-  UpdatePMOHandlingAdviceFailure
+  UpdatePMOHandlingAdviceFailure,
+  GetHandlingAdvices
 } from './commitment-detail.actions'
 
 import {
@@ -123,7 +124,8 @@ export class CommitmentDetailEffects {
         // tslint:disable-next-line: no-console
         tap(result => console.log(`🤡 getCommitmentDetailGQL`, result)),
         concatMap(result => [
-          new LoadDetailedCommitment(mapCommentDetail(result))
+          new LoadDetailedCommitment(mapCommentDetail(result)),
+          new GetHandlingAdvices(null)
         ])
       )
     ),
@@ -142,7 +144,6 @@ export class CommitmentDetailEffects {
       const webId = config.webId
       const siteId = config.siteId
       return {
-        id: action.payload.id,
         book: bookType,
         webId: [webId],
         siteId: [siteId]
@@ -157,7 +158,11 @@ export class CommitmentDetailEffects {
         concatMap(advices => [new LoadHandlingAdvices({ advices })])
       )
     ),
-    catchError(error => of(new GetHandlingAdvicesFailure(error)))
+    catchError(error => {
+      // tslint:disable-next-line: no-console
+      console.log(`🤢 GetHandlingAdvicesFailure`, error)
+      return of(new GetHandlingAdvicesFailure(error))
+    })
   )
 
   @Effect()
@@ -214,8 +219,6 @@ export class CommitmentDetailEffects {
     catchError(error => of(new UpdatePMCHandlingAdviceFailure(error)))
   )
 }
-
-
 
 //     this.updatePmcHandlingAdviceCommitmentGQL
 //       .mutate(

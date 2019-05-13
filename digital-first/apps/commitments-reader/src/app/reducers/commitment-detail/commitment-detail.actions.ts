@@ -53,7 +53,7 @@ export class GetDetailedCommitment implements Action {
 
 export class GetHandlingAdvices implements Action {
   type = CommitmentDetailActionTypes.GetHandlingAdvices
-  constructor(public payload: { advices: any }) {}
+  constructor(public payload: any ) {}
 }
 
 export class LoadHandlingAdvices implements Action {

@@ -5,6 +5,9 @@ import { takeUntil, filter, map} from 'rxjs/operators'
 import { ActivatedRoute } from '@angular/router'
 import * as indef from 'indefinite'
 import * as fromDetail from '../../reducers/commitment-detail/commitment-detail.reducer'
+import * as fromUser from '../../reducers/user/user.reducer'
+
+
 import { Commitment } from '../../models/commitment.model'
 import { CommitmentLocation } from '../../models/commitment.model'
 import { OPERATION_PMO, OPERATION_PMC } from '../../services/app-data/app-data.service'
@@ -35,13 +38,17 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    // this.userOperation$ = this.commitmentDetailService.UserOperation
+    this.userOperation$ = this.store.pipe(
+      select(fromUser.getCurrentUserOperations)
+    )
 
     this.commitment$ = this.store.pipe(
       select(fromDetail.getDetailedCommitmentState)
     )
 
-    this.handlingAdvices$ = this.store.pipe(select(fromDetail.getHandlingAdvicesState))
+    this.handlingAdvices$ = this.store.pipe(
+      select(fromDetail.getHandlingAdvicesState)
+    )
 
     this.activatedRoute.params
       .pipe(
@@ -50,7 +57,6 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
       )
       .subscribe((params: any) => {
         this.store.dispatch(new GetDetailedCommitment({id: params.id}))
-        this.store.dispatch(new GetHandlingAdvices(null))
       })
 
       //  this.store.pipe(select(fromDetail.getPMOUpdatedState))
