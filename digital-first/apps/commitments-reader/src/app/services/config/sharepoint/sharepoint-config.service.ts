@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Observable, BehaviorSubject, throwError, forkJoin, from } from 'rxjs'
 
 import { SettingsService } from '../../settings.service'
-import { catchError, tap, map } from 'rxjs/operators'
+import { catchError, tap, map, concatMap } from 'rxjs/operators'
 
 declare var _spPageContextInfo: any
 
@@ -36,18 +36,18 @@ export class SharePointConfigService {
     private settings: SettingsService,
     private sharepoint: SharepointJsomService
   ) {
-    forkJoin([this.getJSON(), sharepoint.getWebId(), sharepoint.getSiteId()])
-      .pipe(
-        // tslint:disable-next-line: no-console
-        tap(result => console.log(`🐵 app config and siteId got => `, result))
-      )
-      .subscribe(([data, webId, siteId]) => {
-        data.webId = webId
-        data.siteId = siteId
-        this._config.next(data)
-        // tslint:disable-next-line:no-console
-        console.log(`🐵 app config changed => `, data)
-      })
+    // forkJoin([this.getJSON(), sharepoint.getWebId(), sharepoint.getSiteId()])
+    //   .pipe(
+    //     // tslint:disable-next-line: no-console
+    //     tap(result => console.log(`🐵 app config and siteId got => `, result))
+    //   )
+    //   .subscribe(([data, webId, siteId]) => {
+    //     data.webId = webId
+    //     data.siteId = siteId
+    //     this._config.next(data)
+    //     // tslint:disable-next-line:no-console
+    //     console.log(`🐵 app config changed => `, data)
+    //   })
   }
 
   public getJSON(): Observable<any> {
@@ -64,7 +64,24 @@ export class SharePointConfigService {
 
     // tslint:disable-next-line:no-console
     console.log(`🤔 getting config from here => `, this._jsonURL)
-    return this.http.get(this._jsonURL).pipe(
+    return forkJoin([
+      this.http.get(this._jsonURL),
+      this.sharepoint.getWebId(),
+      this.sharepoint.getSiteId()
+    ]).pipe(
+      // tslint:disable-next-line: no-console
+      tap(result => console.log(`🐵 app config and siteId got => `, result)),
+      concatMap((result: any) => {
+        // tslint:disable-next-line:no-console
+        console.log(`🤔 result => `, result)
+        const [data, webId, siteId] = result
+        data.webId = webId
+        data.siteId = siteId
+        this._config.next(data)
+
+        return this._config
+      }),
+
       catchError((err: HttpErrorResponse) => {
         // tslint:disable-next-line:no-console
         console.log(`💥 error => `, this._jsonURL, err)
