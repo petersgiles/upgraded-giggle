@@ -59,7 +59,10 @@ export class MapEffects {
         concatMap(result => [new LoadMapPoints(result)])
       )
     ),
-    catchError(error => of(new GetMapPointsFailure(error)))
+    catchError(error => {
+      // tslint:disable-next-line: no-console
+      console.log(`💥 error => `, error)
+      return of(new GetMapPointsFailure(error))})
   )
 
   constructor(

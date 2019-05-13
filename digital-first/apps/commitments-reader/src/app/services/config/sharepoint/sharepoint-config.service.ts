@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
-import { Observable, BehaviorSubject, throwError, forkJoin, from } from 'rxjs'
+import { Observable, BehaviorSubject, throwError, forkJoin, from, of } from 'rxjs'
 
 import { SettingsService } from '../../settings.service'
 import { catchError, tap, map, concatMap } from 'rxjs/operators'
@@ -54,7 +54,7 @@ export class SharePointConfigService {
         const [data, webId, siteId] = result
         data.webId = webId
         data.siteId = siteId
-        return data
+        return of(data)
       }),
 
       catchError((err: HttpErrorResponse) => throwError(err))

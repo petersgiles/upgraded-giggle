@@ -4,7 +4,7 @@ import { AppUserProfile } from '@digital-first/df-layouts'
 import { ROLE_VISITORS, ROLE_MEMBERS, ROLE_OWNERS } from '../app-operations'
 
 export class DevelopAppDataService implements AppDataService {
-  getCurrentUserOperations(roles: { groupPermissions: any }): Observable<any> {
+  getCurrentUserOperations(): Observable<any> {
     return of([
       {
         'group': 'ROLE_OWNERS',

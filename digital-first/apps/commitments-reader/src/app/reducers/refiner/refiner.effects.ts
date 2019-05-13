@@ -40,7 +40,10 @@ export class RefinerEffects {
         switchMap(result => [new LoadRefinerGroups(result)])
       )
     }),
-    catchError(error => of(new GetRefinersFailure(error)))
+    catchError(error => {
+      // tslint:disable-next-line: no-console
+      console.log(`💥 error => `, error)
+      return of(new GetRefinersFailure(error))})
   )
 
   constructor(

@@ -63,8 +63,6 @@ const mapHandlingadvice = (item): any => {
 }
 
 const mapCommitmentDetail = (item): any => {
-
-
   const mapResult = {
     id: item.id,
     title: item.title,
@@ -116,19 +114,24 @@ export class CommitmentDetailEffects {
         siteId: [siteId]
       }
     }),
-
     switchMap(config =>
-      this.getCommitmentDetailGQL.fetch(config, { fetchPolicy: 'network-only' }).pipe(
-        first(),
-        map(result => result.data.commitments[0]),
-        map(mapCommitmentDetail),
-        concatMap(result => [
-          new LoadDetailedCommitment(result),
-          new GetHandlingAdvices(null)
-        ])
-      )
+      this.getCommitmentDetailGQL
+        .fetch(config, { fetchPolicy: 'network-only' })
+        .pipe(
+          first(),
+          map(result => result.data.commitments[0]),
+          map(mapCommitmentDetail),
+          concatMap(result => [
+            new LoadDetailedCommitment(result),
+            new GetHandlingAdvices(null)
+          ])
+        )
     ),
-    catchError(error => of(new GetDetailedCommitmentFailure(error)))
+    catchError(error => {
+      // tslint:disable-next-line: no-console
+      console.log(`💥 error => `, error)
+      return of(new GetDetailedCommitmentFailure(error))
+    })
   )
 
   @Effect()
@@ -149,14 +152,19 @@ export class CommitmentDetailEffects {
       }
     }),
     switchMap(config =>
-      this.getHandlingAdvicesGQL.fetch(config, { fetchPolicy: 'network-only' }).pipe(
-        first(),
-        map(result => result.data.handlingAdvices),
-        concatMap(advices => [new LoadHandlingAdvices({ advices })])
-      )
+      this.getHandlingAdvicesGQL
+        .fetch(config, { fetchPolicy: 'network-only' })
+        .pipe(
+          first(),
+          map(result => result.data.handlingAdvices),
+          concatMap(advices => [new LoadHandlingAdvices({ advices })])
+        )
     ),
-    catchError(error =>
-      of(new GetHandlingAdvicesFailure(error)))
+    catchError(error => {
+      // tslint:disable-next-line: no-console
+      console.log(`💥 error => `, error)
+      return of(new GetHandlingAdvicesFailure(error))
+    })
   )
 
   @Effect()
@@ -183,17 +191,23 @@ export class CommitmentDetailEffects {
       }
     }),
     switchMap(config =>
-      this.updatePmoHandlingAdviceCommitmentGQL.mutate(config, { fetchPolicy: 'no-cache' }).pipe(
-        first(),
-        map(response => response.data.updatePmoHandlingAdviceCommitment.id),
-        concatMap(response => [
-          new SetPMOHandlingAdviceResult({
-            handlingAdviceId: config.data.handlingAdviceId
-          })
-        ])
-      )
+      this.updatePmoHandlingAdviceCommitmentGQL
+        .mutate(config, { fetchPolicy: 'no-cache' })
+        .pipe(
+          first(),
+          map(response => response.data.updatePmoHandlingAdviceCommitment.id),
+          concatMap(response => [
+            new SetPMOHandlingAdviceResult({
+              handlingAdviceId: config.data.handlingAdviceId
+            })
+          ])
+        )
     ),
-    catchError(error => of(new UpdatePMOHandlingAdviceFailure(error)))
+    catchError(error => {
+      // tslint:disable-next-line: no-console
+      console.log(`💥 error => `, error)
+      return of(new UpdatePMOHandlingAdviceFailure(error))
+    })
   )
 
   @Effect()
@@ -219,17 +233,22 @@ export class CommitmentDetailEffects {
       }
     }),
     switchMap(config =>
-      this.updatePmcHandlingAdviceCommitmentGQL.mutate(config, { fetchPolicy: 'no-cache' }).pipe(
-        first(),
-        map(response => response.data.updatePmcHandlingAdviceCommitment.id),
-        concatMap(response => [
-          new SetPMCHandlingAdviceResult({
-            handlingAdviceId: config.data.handlingAdviceId
-          })
-        ])
-      )
+      this.updatePmcHandlingAdviceCommitmentGQL
+        .mutate(config, { fetchPolicy: 'no-cache' })
+        .pipe(
+          first(),
+          map(response => response.data.updatePmcHandlingAdviceCommitment.id),
+          concatMap(response => [
+            new SetPMCHandlingAdviceResult({
+              handlingAdviceId: config.data.handlingAdviceId
+            })
+          ])
+        )
     ),
-    catchError(error =>
-      of(new UpdatePMCHandlingAdviceFailure(error)))
+    catchError(error => {
+      // tslint:disable-next-line: no-console
+      console.log(`💥 error => `, error)
+      return of(new UpdatePMCHandlingAdviceFailure(error))
+    })
   )
 }

@@ -58,7 +58,10 @@ export class OverviewEffects {
         concatMap(result => [new LoadRefinedCommitments(result)])
       )
     ),
-    catchError(error => of(new GetRefinedCommitmentsFailure(error)))
+    catchError(error => {
+      // tslint:disable-next-line: no-console
+      console.log(`💥 error => `, error)
+      return of(new GetRefinedCommitmentsFailure(error))})
   )
 
   constructor(
