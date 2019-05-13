@@ -34,7 +34,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
   @Input()
   commitmentEventTypes: any[]
   @Input()
-  readOnly: false
+  readonly: true
   @Input()
   externalEventTypes: any[]
   @Input()
@@ -42,7 +42,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
   @Input()
   zoomLevel: any = 3
   @Input()
-  centerDate: Date
+  centerDate: Date 
   @Output()
   public onEventSaved: EventEmitter<any> = new EventEmitter()
   @Output()

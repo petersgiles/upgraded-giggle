@@ -13,7 +13,6 @@ import * as fromRoot from '../user'
 })
 
 export class CommitmentDetailService {
-  
   constructor(private getCommitmentDetailGQL: GetCommitmentDetailGQL, 
     private getHandlingAdvicesGQL: GetHandlingAdvicesGQL, 
     private updatePmcHandlingAdviceCommitmentGQL: UpdatePmcHandlingAdviceCommitmentGQL, 

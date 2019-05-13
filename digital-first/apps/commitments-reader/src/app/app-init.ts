@@ -18,7 +18,6 @@ export function initApplication(
   return () =>
     new Promise(resolve => {
       store.dispatch(new StartAppInitialiser({ environment: environment }))
-      
       store
         .select((state: any) => state.app.config)
         .pipe(

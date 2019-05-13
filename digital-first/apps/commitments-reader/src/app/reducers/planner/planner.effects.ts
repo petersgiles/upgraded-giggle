@@ -30,6 +30,10 @@ import { Store } from '@ngrx/store'
 import * as fromRoot from '../../reducers'
 import { CommitmentEventDataService } from '../../services/commitment-event/commitment-event-data-service'
 import { of } from 'rxjs'
+import {
+  OPERATION_PLANNER,
+  OPERATION_RIGHT_WRITE
+} from '../../services/app-data/app-operations'
 @Injectable()
 export class PlannerEffects {
   @Effect()
@@ -58,7 +62,8 @@ export class PlannerEffects {
     ofType(PlannerActionTypes.GetEventReferenceData),
     switchMap(config => [
       new GetEventTypes(null),
-      new GetExternalEventTypes(null)
+      new GetExternalEventTypes(null),
+      new GetExternalEvents([])
     ])
   )
 
@@ -94,9 +99,18 @@ export class PlannerEffects {
   @Effect()
   getExternalEvents$ = this.actions$.pipe(
     ofType(PlannerActionTypes.GetExternalEvents),
-    switchMap(action =>
+    withLatestFrom(this.rootStore$),
+    map(([action, store]) => {
+      const rootStore = <any>store
+      if (!action.payload && action.payload.length > 0) {
+        return action.payload
+      } else {
+        return rootStore.planner.selectedExternalEeventTypes
+      }
+    }),
+    switchMap(selectedExternalEventTypes =>
       this.commitmentEventDataService
-        .getExternalEvents(action.payload)
+        .getExternalEvents(selectedExternalEventTypes)
         .pipe(map(data => new LoadExternalEvents(data)))
     ),
     catchError(error => [new ErrorInPlanner(error)])
@@ -132,12 +146,14 @@ export class PlannerEffects {
       }
     }),
     concatMap(config =>
-      this.commitmentEventDataService.removeEvent(config).pipe(
-        map(
-          result => new GetCommitmentEvents(null),
-          catchError(error => [new ErrorInPlanner(error)])
+      this.commitmentEventDataService
+        .removeEvent(config)
+        .pipe(
+          map(
+            result => new GetCommitmentEvents(null),
+            catchError(error => [new ErrorInPlanner(error)])
+          )
         )
-      )
     )
   )
 
@@ -148,6 +164,28 @@ export class PlannerEffects {
       new LoadSelectedExternalEventTypes(action.payload),
       new GetExternalEvents(action.payload)
     ])
+  )
+
+  @Effect()
+  getPlannerPermission$ = this.actions$.pipe(
+    ofType(PlannerActionTypes.GetPlannerPermission),
+    withLatestFrom(this.rootStore$),
+    map(([action, store]) => {
+      const rootStore = <any>store
+      const user = rootStore.user.currentUser
+      const operations = rootStore.user.operations
+      if (user && user.isSiteAdmin) {
+        return false
+      } else if (
+        operations &&
+        operations[OPERATION_PLANNER] === OPERATION_RIGHT_WRITE
+      ) {
+        return false
+      } else {
+        return true
+      }
+    }),
+    map(readonly => new LoadPlannerPermission(readonly))
   )
 
   constructor(

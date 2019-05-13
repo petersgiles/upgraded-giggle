@@ -7,12 +7,11 @@ import { CommitmentDetailService } from '../../reducers/commitment-detail/commit
 import * as indef from 'indefinite'
 import { Commitment } from '../../models/commitment.model'
 import { CommitmentDetailsState } from '../../reducers/commitment-detail/commitment-detail.reducer'
-//import { CommitmentDetail } from '../../reducers/commitment-detail'
 import { getCommitment, getHandlingAdvice, getPMOUpdatedState, getPMCUpdatedState } from '../../reducers/commitment-detail'
 import { CommitmentLocation } from '../../models/commitment.model'
 import * as appSelectors from '../../reducers/app'
 
-import { OPERATION_PMO, OPERATION_PMC } from '../../services/app-data/app-data.service'
+import { OPERATION_PMO_HANDLING_ADVICE,OPERATION_PMC_HANDLING_ADVICE } from '../../services/app-data/app-operations'
 
 
 @Component({
@@ -79,11 +78,11 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   }
 
   getPMORight(operations: any) {
-    return operations[OPERATION_PMO]
+    return operations[OPERATION_PMO_HANDLING_ADVICE]
   }
 
   getPMCRight(operations: any) {
-    return operations[OPERATION_PMC]
+    return operations[OPERATION_PMC_HANDLING_ADVICE]
   }
 
   onPMOChange(event){

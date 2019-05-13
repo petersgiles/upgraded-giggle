@@ -41,7 +41,7 @@ export class UserEffects {
         .pipe(concatMap((result: any) => [new SetUserOperations({data: { groupPermissions: result}})]))
     )
   )
-
+    
   constructor(
     private actions$: Actions,
     private appDataService: AppDataService

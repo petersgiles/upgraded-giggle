@@ -72,7 +72,7 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
     'eventStyle',
     'eventRenderer',
     'resources',
-    'readOnly',
+    'readonly',
     'rowHeight',
     'responsiveLevels',
     'viewPreset',
@@ -97,7 +97,7 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() eventStyle: string
   @Input() eventRenderer: any
   @Input() resources: object[]
-  @Input() readOnly = false
+  @Input() readonly = true
   @Input() responsiveLevels: any
   @Input() rowHeight = 150
   @Input() startDate: any
@@ -194,9 +194,12 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
     // Relay events from eventStore and resourceStore, making them a bit easier to catch in your app.
     // The events are prefixed with 'events' and 'resources', turning and 'add' event into either 'eventsAdd' or
     // 'resourcesAdd'
-    engine.scrollToDate(this.centerDate)
+    if (this.centerDate) {
+      engine.scrollToDate(this.centerDate)
+    }
     engine.eventStore.relayAll(engine, 'events')
     engine.resourceStore.relayAll(engine, 'resources')
+    engine.readOnly = this.readonly
   }
 
   ngOnChanges(changes: SimpleChanges) {

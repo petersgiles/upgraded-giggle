@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 // import { CommitmentRefinerService } from '../../services/commitment-refiner'
-import { Observable, Subscription, of } from 'rxjs'
-import { map, tap } from 'rxjs/operators'
+import { Observable, Subscription, of, concat } from 'rxjs'
+import { map, tap, concatMap, withLatestFrom } from 'rxjs/operators'
 import * as fromPlanner from '../../reducers/planner/planner.reducer'
 import * as fromOverview from '../../reducers/overview/overview.reducer'
 import * as fromUser from '../../reducers/user/user.reducer'
@@ -13,8 +13,13 @@ import {
   GetExternalEvents,
   StoreSelectedExternalEventTypes,
   StoreSchedulerState,
-  GetCommitmentEvents
+  GetCommitmentEvents,
+  GetPlannerPermission
 } from '../../reducers/planner/planner.actions'
+import {
+  OPERATION_RIGHT_WRITE,
+  OPERATION_PLANNER
+} from '../../services/app-data/app-operations'
 @Component({
   selector: 'digital-first-planner-page',
   templateUrl: './planner-page.component.html',
@@ -27,15 +32,19 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
   public filteredCommitments$: Observable<any[]>
   public externalEventTypes$: Observable<any[]>
   public selectedExternalEventTypes$: Observable<any[]>
-  public readOnly$: Observable<boolean>
+  public readonly$: Observable<boolean>
   public zoomLevel$: Observable<any>
   public centerDate$: Observable<any>
   public commitmentsSubscription: Subscription
   public errorStateSubscription: Subscription
 
-  constructor(private plannerStore: Store<fromPlanner.State>) {}
+  constructor(
+    private plannerStore: Store<fromPlanner.State>,
+    private overViewStore: Store<fromOverview.State>,
+    private userStore: Store<fromUser.UserState>
+  ) {}
   ngOnInit() {
-    this.filteredCommitments$ = this.plannerStore
+    this.filteredCommitments$ = this.overViewStore
       .pipe(select(fromOverview.selectRefinedCommitmentsState))
       .pipe(map(data => data.map(c => ({ id: c.id, name: c.title }))))
 
@@ -45,8 +54,8 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
       }
     )
     this.plannerStore.dispatch(new GetEventReferenceData(null))
-    this.plannerStore.dispatch(new GetExternalEvents([]))
-
+    this.plannerStore.dispatch(new GetPlannerPermission(null))
+    
     this.externalEventTypes$ = this.plannerStore.pipe(
       select(fromPlanner.selectExternalEventTypesState)
     )
@@ -59,7 +68,7 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
     this.selectedExternalEventTypes$ = this.plannerStore.pipe(
       select(fromPlanner.selectSelectedExternalEventTypesState)
     )
-    this.readOnly$ = this.plannerStore.pipe(
+    this.readonly$ = this.plannerStore.pipe(
       select(fromPlanner.selectPlannerPermissionState)
     )
     this.externalEvents$ = this.plannerStore.pipe(
