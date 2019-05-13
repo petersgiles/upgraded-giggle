@@ -8,7 +8,7 @@ import * as fromDetail from '../../reducers/commitment-detail/commitment-detail.
 import { Commitment } from '../../models/commitment.model'
 import { CommitmentLocation } from '../../models/commitment.model'
 import { OPERATION_PMO, OPERATION_PMC } from '../../services/app-data/app-data.service'
-import { GetDetailedCommitment, GetHandlingAdvices } from '../../reducers/commitment-detail/commitment-detail.actions';
+import { GetDetailedCommitment, GetHandlingAdvices, UpdatePMOHandlingAdvice, UpdatePMCHandlingAdvice } from '../../reducers/commitment-detail/commitment-detail.actions';
 
 @Component({
   selector: 'digital-first-commitment-detail',
@@ -49,12 +49,8 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
         filter(params => !!params.id)
       )
       .subscribe((params: any) => {
-
         this.store.dispatch(new GetDetailedCommitment({id: params.id}))
         this.store.dispatch(new GetHandlingAdvices(null))
-
-        // this.commitmentDetailService.LoadCommitment(params.id,this.bookType)
-        // this.commitmentDetailService.getHandlingAdvices()
       })
 
       //  this.store.pipe(select(fromDetail.getPMOUpdatedState))
@@ -66,8 +62,6 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
       // .subscribe(pmcUpdate => {
       //   this.pmcHandlingAdvice = pmcUpdate
       // })
- 
-      // this.commitment$.subscribe(commitment => {this.commitment = commitment})
     }
 
   ngOnDestroy(): void {
@@ -83,12 +77,12 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
     return operations[OPERATION_PMC]
   }
 
-  onPMOChange(event){
-    // this.commitmentDetailService.updatePmoHandlingAdviceCommitment({value: event.value, commitmentId: this.commitment.id, label: event.label})
+  onPMOChange(event) {
+    this.store.dispatch(new UpdatePMOHandlingAdvice({commitmentId: this.commitment.id, handlingAdviceId: event.value}))
   }
 
   onPMCChange(event){
-    // this.commitmentDetailService.updatePmcHandlingAdviceCommitment({value: event.value, commitmentId: this.commitment.id, label: event.label})
+    this.store.dispatch(new UpdatePMCHandlingAdvice({commitmentId: this.commitment.id, handlingAdviceId: event.value}))
   }
 
   public getIndefiniteArticle(term) {

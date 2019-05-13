@@ -10,7 +10,9 @@ export enum CommitmentDetailActionTypes {
   GetDetailedCommitmentFailure = '[Overview] GetDetailedCommitmentFailure',
   LoadDetailedCommitment = '[CommitmentDetail] LoadDetailedCommitment',
   UpdatePMOHandlingAdvice = '[CommitmentDetail] UpdatePMOAdvice',
+  UpdatePMOHandlingAdviceFailure = '[CommitmentDetail] UpdatePMOHandlingAdviceFailure',
   UpdatePMCHandlingAdvice = '[CommitmentDetail] UpdatePMCAdvice',
+  UpdatePMCHandlingAdviceFailure = '[CommitmentDetail] UpdatePMCHandlingAdviceFailure',
   GetHandlingAdvices = '[CommitmentDetail] GetHandlingAdvices',
   LoadHandlingAdvices = '[CommitmentDetail] LoadHandlingAdvices',
   GetHandlingAdvicesFailure = '[CommitmentDetail] GetHandlingAdvicesFailure',
@@ -25,13 +27,13 @@ export class LoadCommitments implements Action {
 
 export class UpdatePMOHandlingAdvice implements Action {
   type = CommitmentDetailActionTypes.UpdatePMOHandlingAdvice
-  constructor(public payload: { label: string; commitmentId: number }) {}
+  constructor(public payload: { handlingAdviceId: string; commitmentId: number }) {}
 }
 
 export class UpdatePMCHandlingAdvice implements Action {
   ws
   type = CommitmentDetailActionTypes.UpdatePMCHandlingAdvice
-  constructor(public payload: { label: string; commitmentId: number }) {}
+  constructor(public payload: { handlingAdviceId: string; commitmentId: number }) {}
 }
 
 export class LoadDetailedCommitment implements Action {
@@ -80,6 +82,16 @@ export class GetHandlingAdvicesFailure implements Action {
   constructor(public payload: any) {}
 }
 
+export class UpdatePMOHandlingAdviceFailure implements Action {
+  type = CommitmentDetailActionTypes.UpdatePMOHandlingAdviceFailure
+  constructor(public payload: any) {}
+}
+
+export class UpdatePMCHandlingAdviceFailure implements Action {
+  type = CommitmentDetailActionTypes.UpdatePMCHandlingAdviceFailure
+  constructor(public payload: any) {}
+}
+
 
 export type CommitmentDetailActions =
   | GetDetailedCommitment
@@ -93,4 +105,6 @@ export type CommitmentDetailActions =
   | SetPMCHandlingAdviceResult
   | GetDetailedCommitmentFailure
   | GetHandlingAdvicesFailure
+  | UpdatePMOHandlingAdviceFailure
+  | UpdatePMCHandlingAdviceFailure
 

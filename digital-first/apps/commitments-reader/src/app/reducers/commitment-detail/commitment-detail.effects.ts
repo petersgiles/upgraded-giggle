@@ -19,7 +19,9 @@ import {
   LoadDetailedCommitment,
   LoadHandlingAdvices,
   GetDetailedCommitmentFailure,
-  GetHandlingAdvicesFailure
+  GetHandlingAdvicesFailure,
+  UpdatePMCHandlingAdviceFailure,
+  UpdatePMOHandlingAdviceFailure
 } from './commitment-detail.actions'
 
 import {
@@ -30,7 +32,24 @@ import {
 } from '../../generated/graphql'
 import { Config } from '../../services/config/config-model'
 import { Store } from '@ngrx/store'
-import { Commitment } from '../../models'
+
+const generateUUID = () => {
+  // Public Domain/MIT
+  let d = new Date().getTime()
+  if (
+    typeof performance !== 'undefined' &&
+    typeof performance.now === 'function'
+  ) {
+    d += performance.now() //use high-precision timer if available
+  }
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    // tslint:disable-next-line: no-bitwise
+    const r = (d + Math.random() * 16) % 16 | 0
+    d = Math.floor(d / 16)
+    // tslint:disable-next-line: no-bitwise
+    return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16)
+  })
+}
 
 const mapCommentDetail = (item): any => {
   // tslint:disable-next-line: no-console
@@ -39,7 +58,7 @@ const mapCommentDetail = (item): any => {
   const mapResult = {
     id: item.id,
     title: item.title,
-    description: item.description,
+    description: item.description
     // bookType: item.bookType,
     // cost: item.cost,
     // date: item.date,
@@ -114,6 +133,21 @@ export class CommitmentDetailEffects {
   @Effect()
   getHandlingAdvices$ = this.actions$.pipe(
     ofType(CommitmentDetailActionTypes.GetHandlingAdvices),
+    withLatestFrom(this.store$),
+    map(([a, s]) => {
+      const store = <any>s
+      const action = <any>a
+      const config: Config = store.app.config
+      const bookType = config.header.bookType
+      const webId = config.webId
+      const siteId = config.siteId
+      return {
+        id: action.payload.id,
+        book: bookType,
+        webId: [webId],
+        siteId: [siteId]
+      }
+    }),
     switchMap(config =>
       this.getHandlingAdvicesGQL.fetch(config).pipe(
         first(),
@@ -125,7 +159,84 @@ export class CommitmentDetailEffects {
     ),
     catchError(error => of(new GetHandlingAdvicesFailure(error)))
   )
+
+  @Effect()
+  updatePMOHandlingAdvice$ = this.actions$.pipe(
+    ofType(CommitmentDetailActionTypes.UpdatePMOHandlingAdvice),
+    withLatestFrom(this.store$),
+    map(([a, s]) => {
+      const store = <any>s
+      const action = <any>a
+      const config: Config = store.app.config
+      const webId = config.webId
+      const siteId = config.siteId
+      return {
+        messageId: generateUUID(),
+        conversationId: generateUUID(),
+        data: {
+          commitmentId: action.payload.commitmentId,
+          handlingAdviceId: action.payload.handlingAdviceId,
+          webId: [webId],
+          siteId: [siteId]
+        }
+      }
+    }),
+    switchMap(config =>
+      this.updatePmoHandlingAdviceCommitmentGQL.mutate(config, {})
+    ),
+    catchError(error => of(new UpdatePMOHandlingAdviceFailure(error)))
+  )
+
+  @Effect()
+  updatePMCHandlingAdvice$ = this.actions$.pipe(
+    ofType(CommitmentDetailActionTypes.UpdatePMCHandlingAdvice),
+    withLatestFrom(this.store$),
+    map(([a, s]) => {
+      const store = <any>s
+      const action = <any>a
+      const config: Config = store.app.config
+      const webId = config.webId
+      const siteId = config.siteId
+      return {
+        messageId: generateUUID(),
+        conversationId: generateUUID(),
+        data: {
+          commitmentId: action.payload.commitmentId,
+          handlingAdviceId: action.payload.handlingAdviceId,
+          webId: [webId],
+          siteId: [siteId]
+        }
+      }
+    }),
+    switchMap(config =>
+      this.updatePmcHandlingAdviceCommitmentGQL.mutate(config, {})
+    ),
+    catchError(error => of(new UpdatePMCHandlingAdviceFailure(error)))
+  )
 }
+
+
+
+//     this.updatePmcHandlingAdviceCommitmentGQL
+//       .mutate(
+//         {
+//           messageId: this.generateUUID(),
+//           conversationId: this.generateUUID(),
+//           data: {
+//             commitmentId: pmcItem.commitmentId,
+//             handlingAdviceId: pmcItem.value
+//           }
+//         },
+//         {}
+//       )
+//       .pipe(first())
+//       .subscribe(value => {
+//         if (value.data.updatePmcHandlingAdviceCommitment.id) {
+//           this.store.dispatch(
+//             new SetPMCHandlingAdviceResult({ res: pmcItem.label })
+//           )
+//         }
+//       })
 
 //  @Effect()
 // loadCommitmentDetails$ = this.actions$.pipe(
