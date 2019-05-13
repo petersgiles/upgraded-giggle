@@ -5,11 +5,8 @@ import {
   map,
   switchMap,
   catchError,
-  first,
   withLatestFrom,
-  concatMap,
-  mergeAll,
-  mergeMap
+  concatMap
 } from 'rxjs/operators'
 import {
   PlannerActionTypes,
@@ -29,10 +26,11 @@ import {
 import { Store } from '@ngrx/store'
 import * as fromRoot from '../../reducers'
 import { CommitmentEventDataService } from '../../services/commitment-event/commitment-event-data-service'
-import { of } from 'rxjs'
 import {
   OPERATION_PLANNER,
-  OPERATION_RIGHT_WRITE
+  OPERATION_RIGHT_WRITE,
+  OPERATION_RIGHT_READ,
+  OPERATION_RIGHT_HIDE
 } from '../../services/app-data/app-operations'
 @Injectable()
 export class PlannerEffects {
@@ -42,11 +40,12 @@ export class PlannerEffects {
     withLatestFrom(this.rootStore$),
     map(([action, store]) => {
       const rootStore = <any>store
+      const currentUserPlannerOperation = PlannerOpearationHelper(rootStore)
       return {
         commitments: action.payload
           ? action.payload
           : rootStore.overview.commitments,
-        readonly: rootStore.user.readonly
+        currentUserPlannerOperation: currentUserPlannerOperation
       }
     }),
     switchMap(payload =>
@@ -60,7 +59,7 @@ export class PlannerEffects {
   @Effect()
   getEventsReferenceData$ = this.actions$.pipe(
     ofType(PlannerActionTypes.GetEventReferenceData),
-    switchMap(config => [
+    switchMap(() => [
       new GetEventTypes(null),
       new GetExternalEventTypes(null),
       new GetExternalEvents([])
@@ -73,8 +72,9 @@ export class PlannerEffects {
     withLatestFrom(this.rootStore$),
     map(([_, store]) => {
       const rootStore = <any>store
+      const currentUserPlannerOperation = PlannerOpearationHelper(rootStore)
       return {
-        readonly: rootStore.user.readonly
+        currentUserPlannerOperation: currentUserPlannerOperation
       }
     }),
     switchMap(config =>
@@ -88,9 +88,17 @@ export class PlannerEffects {
   @Effect()
   getExternalEventTypes$ = this.actions$.pipe(
     ofType(PlannerActionTypes.GetExternalEventTypes),
-    switchMap(action =>
+    withLatestFrom(this.rootStore$),
+    map(([_, store]) => {
+      const rootStore = <any>store
+      const currentUserPlannerOperation = PlannerOpearationHelper(rootStore)
+      return {
+        currentUserPlannerOperation: currentUserPlannerOperation
+      }
+    }),
+    switchMap(config =>
       this.commitmentEventDataService
-        .getExternalEventTypes(action.payload)
+        .getExternalEventTypes(config)
         .pipe(map(data => new LoadExternalEventTypes(data)))
     ),
     catchError(error => [new ErrorInPlanner(error)])
@@ -102,15 +110,18 @@ export class PlannerEffects {
     withLatestFrom(this.rootStore$),
     map(([action, store]) => {
       const rootStore = <any>store
-      if (!action.payload && action.payload.length > 0) {
-        return action.payload
-      } else {
-        return rootStore.planner.selectedExternalEeventTypes
+      const currentUserPlannerOperation = PlannerOpearationHelper(rootStore)
+      return {
+        currentUserPlannerOperation: currentUserPlannerOperation,
+        selectedExternalTypes:
+          action.payload && action.payload.length > 0
+            ? action.payload
+            : rootStore.planner.selectedExternalEeventTypes
       }
     }),
-    switchMap(selectedExternalEventTypes =>
+    switchMap(config =>
       this.commitmentEventDataService
-        .getExternalEvents(selectedExternalEventTypes)
+        .getExternalEvents(config)
         .pipe(map(data => new LoadExternalEvents(data)))
     ),
     catchError(error => [new ErrorInPlanner(error)])
@@ -121,15 +132,16 @@ export class PlannerEffects {
     withLatestFrom(this.rootStore$),
     map(([action, store]) => {
       const rootStore = <any>store
+      const currentUserPlannerOperation = PlannerOpearationHelper(rootStore)
       return {
-        readonly: rootStore.user.readonly,
+        currentUserPlannerOperation: currentUserPlannerOperation,
         data: action.payload
       }
     }),
     concatMap(config =>
       this.commitmentEventDataService
         .storeEvent(config)
-        .pipe(map(result => new GetCommitmentEvents(null)))
+        .pipe(map(() => new GetCommitmentEvents(null)))
     ),
     catchError(error => [new ErrorInPlanner(error)])
   )
@@ -140,8 +152,9 @@ export class PlannerEffects {
     withLatestFrom(this.rootStore$),
     map(([action, store]) => {
       const rootStore = <any>store
+      const currentUserPlannerOperation = PlannerOpearationHelper(rootStore)
       return {
-        readonly: rootStore.user,
+        currentUserPlannerOperation: currentUserPlannerOperation,
         data: action.payload
       }
     }),
@@ -150,7 +163,7 @@ export class PlannerEffects {
         .removeEvent(config)
         .pipe(
           map(
-            result => new GetCommitmentEvents(null),
+            () => new GetCommitmentEvents(null),
             catchError(error => [new ErrorInPlanner(error)])
           )
         )
@@ -170,20 +183,10 @@ export class PlannerEffects {
   getPlannerPermission$ = this.actions$.pipe(
     ofType(PlannerActionTypes.GetPlannerPermission),
     withLatestFrom(this.rootStore$),
-    map(([action, store]) => {
+    map(([_, store]) => {
       const rootStore = <any>store
-      const user = rootStore.user.currentUser
-      const operations = rootStore.user.operations
-      if (user && user.isSiteAdmin) {
-        return false
-      } else if (
-        operations &&
-        operations[OPERATION_PLANNER] === OPERATION_RIGHT_WRITE
-      ) {
-        return false
-      } else {
-        return true
-      }
+      const plannerOperation = PlannerOpearationHelper(rootStore)
+      return plannerOperation === 'read' || plannerOperation === 'hide'
     }),
     map(readonly => new LoadPlannerPermission(readonly))
   )
@@ -193,4 +196,25 @@ export class PlannerEffects {
     private rootStore$: Store<fromRoot.State>,
     private commitmentEventDataService: CommitmentEventDataService
   ) {}
+}
+
+export function PlannerOpearationHelper(rootStore: any) {
+  if (rootStore.user) {
+    const user = rootStore.user.currentUser
+    const operations = rootStore.user.operations
+    if (user && user.isSiteAdmin) {
+      return OPERATION_RIGHT_WRITE
+    } else if (operations) {
+      if (operations[OPERATION_PLANNER] === OPERATION_RIGHT_WRITE) {
+        return OPERATION_RIGHT_WRITE
+      } else if (
+        operations &&
+        operations[OPERATION_PLANNER] === OPERATION_RIGHT_WRITE
+      ) {
+        return OPERATION_RIGHT_READ
+      } else {
+        return OPERATION_RIGHT_HIDE
+      }
+    }
+  }
 }

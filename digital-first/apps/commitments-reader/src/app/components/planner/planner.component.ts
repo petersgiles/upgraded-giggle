@@ -10,7 +10,7 @@ import {
 } from '@angular/core'
 import { SchedulerComponent } from '../scheduler/scheduler.component'
 import { MdcSliderChange } from '@angular-mdc/web'
-import { DateHelper, EventModel } from 'bryntum-scheduler/scheduler.umd.js'
+import { DateHelper, EventModel } from 'bryntum-scheduler/scheduler.umd.min.js'
 import * as ZoomLevels from './data/zoomLevels.json'
 import { webSafeColours } from './data/webSafeColours'
 import { Subscription } from 'apollo-client/util/Observable'
@@ -32,7 +32,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
   @Input()
   externalEvents: any[]
   @Input()
-  commitmentEventTypes: any[]
+  eventTypes: any[]
   @Input()
   readonly: true
   @Input()
@@ -184,13 +184,13 @@ export class PlannerComponent implements OnInit, OnDestroy {
             valueField: 'id',
             displayField: 'type',
             placeHolder: 'Select Event Type',
-            items: me.commitmentEventTypes.map(c => ({
+            items: me.eventTypes.map(c => ({
               id: c.id,
               type: c.type
             })),
             listeners: {
               select: ({ source: combo }) => {
-                const eventType = this.commitmentEventTypes.find(
+                const eventType = this.eventTypes.find(
                   c => c.id === combo.value
                 )
                 if (eventType) {
@@ -302,7 +302,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
   }
   populateExtraItems(me: any) {
     const extraItems = []
-    this.commitmentEventTypes.map(e => {
+    this.eventTypes.map(e => {
       extraItems.push({
         text: e.type,
         icon: e.icon,

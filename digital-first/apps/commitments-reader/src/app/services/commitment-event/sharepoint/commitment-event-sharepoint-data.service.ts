@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 
-import { Observable, of, forkJoin } from 'rxjs'
+import { Observable, of, forkJoin, EMPTY } from 'rxjs'
 import { concatMap, map, tap, concat } from 'rxjs/operators'
 import { SharepointJsomService } from '@df/sharepoint'
 import { DataResult } from '../../../models'
@@ -19,18 +19,32 @@ import {
   mapExternalEventTypes
 } from './mapping'
 import { CommitmentEventDataService } from '../commitment-event-data-service'
+import {
+  OPERATION_RIGHT_HIDE,
+  OPERATION_RIGHT_WRITE,
+  OPERATION_RIGHT_READ
+} from '../../app-data/app-operations'
+import { empty } from 'apollo-link'
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventSharepointDataService implements CommitmentEventDataService {
+  WRITE = OPERATION_RIGHT_WRITE
+  READ = OPERATION_RIGHT_READ
+  HIDE = OPERATION_RIGHT_HIDE
+
   constructor(private sharepoint: SharepointJsomService) {}
 
   getEventsByCommitments(
     payload: any
   ): Observable<DataResult<CommitmentEvent[]>> {
-    if (!payload || !payload.commitments || payload.commitments.length === 0) {
-      return of()
+    if (
+      !payload ||
+      payload.currentUserPlannerOperation === this.HIDE ||
+      (!payload.commitments && payload.commitments.length === 0)
+    ) {
+      return EMPTY
     }
 
     // TODO: check if user has hide permission then return empty
@@ -43,8 +57,8 @@ export class EventSharepointDataService implements CommitmentEventDataService {
       )
   }
 
-  getEventTypes(config: any): Observable<DataResult<CommitmentEventType[]>> {
-    if (config && config.readonly) {
+  getEventTypes(payload: any): Observable<DataResult<CommitmentEventType[]>> {
+    if (!payload || payload.currentUserPlannerOperation !== this.WRITE) {
       return of({
         data: [],
         loadding: false,
@@ -63,15 +77,17 @@ export class EventSharepointDataService implements CommitmentEventDataService {
     }
   }
 
-  getExternalEvents(
-    externalEventTypes: any[]
-  ): Observable<DataResult<ExternalEvent[]>> {
-    if (!externalEventTypes || externalEventTypes.length === 0) {
-      return of({
-        data: []
-      })
+  getExternalEvents(payload: any): Observable<DataResult<ExternalEvent[]>> {
+    if (!payload || payload.currentUserPlannerOperation === this.HIDE) {
+      return EMPTY
     }
-    const viewXml = byExternalEventTypeIdsQuery(externalEventTypes)
+    if (
+      !payload.selectedExternalTypes ||
+      payload.selectedExternalTypes.length === 0
+    ) {
+      return EMPTY
+    }
+    const viewXml = byExternalEventTypeIdsQuery(payload.selectedExternalTypes)
     return forkJoin([
       this.sharepoint.getItems({ listName: 'ExternalEvent', viewXml: viewXml }),
       this.sharepoint.getItems({ listName: 'ExternalEventType' })
@@ -101,9 +117,9 @@ export class EventSharepointDataService implements CommitmentEventDataService {
   }
 
   storeEvent(payload: any): Observable<DataResult<any>> {
-    // if (payload && payload.readonly) {
-    //   throw Error('You do not have permission to add event')
-    // }
+    if (!payload || payload.currentUserPlannerOperation !== this.WRITE) {
+      return EMPTY
+    }
     const spData = {
       Title: payload.data.name,
       CommitmentId: payload.data.resourceId,
@@ -130,9 +146,9 @@ export class EventSharepointDataService implements CommitmentEventDataService {
   }
 
   removeEvent(payload: any): Observable<DataResult<any>> {
-    // if (payload && payload.readonly) {
-    //   throw Error('You do not have permission to delete event')
-    // }
+    if (!payload || payload.currentUserPlannerOperation !== this.WRITE) {
+      return EMPTY
+    }
     return this.sharepoint
       .removeItem({
         listName: 'CommitmentEvent',

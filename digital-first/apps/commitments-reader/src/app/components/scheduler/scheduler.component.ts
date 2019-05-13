@@ -10,7 +10,7 @@ import {
   OnDestroy
 } from '@angular/core'
 
-import { Scheduler } from 'bryntum-scheduler/scheduler.umd.js'
+import { Scheduler } from 'bryntum-scheduler/scheduler.umd.min.js'
 import * as AuLocael from '../../../../../commitments-reader/src/app/components/scheduler/Au.locale.en.min.js'
 @Component({
   // tslint:disable-next-line: component-selector
@@ -117,37 +117,6 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
 
   //Features
   @Input() timeRanges: object[]
-
-  // Old, bad conflated features/featureconfig
-  @Input() cellEdit: boolean | object = true
-  @Input() cellTooltip: boolean | object = true
-  @Input() columnLines: boolean | object = true
-  @Input() columnPicker = true
-  @Input() columnReorder = true
-  @Input() columnResize = true
-  @Input() contextMenu: boolean | object
-  @Input() dependencies: boolean | object = false
-  @Input() eventDrag: boolean | object = true
-  @Input() eventContextMenu: boolean | object = true
-  @Input() eventDragCreate: boolean | object = true
-  @Input() eventEdit: boolean | object = true
-  @Input() eventFilter: boolean | object = true
-  @Input() eventResize: boolean | object = true
-  @Input() eventTooltip: boolean | object = true
-  @Input() filter: boolean | object
-  @Input() filterBar: boolean | object
-  @Input() group: boolean | object | string = true
-  @Input() groupSummary: boolean | object
-  @Input() headerContextMenu: boolean | object
-  @Input() labels: boolean | object
-  @Input() nonWorkingTime: boolean
-  @Input() regionResize: boolean
-  @Input() search: boolean
-  @Input() scheduleTooltip: boolean | object = true
-  @Input() sort: boolean | object | string = true
-  @Input() stripe: boolean
-  @Input() summary: boolean | object
-  @Input() tree: boolean
 
   @Output() selectedEvent = ''
   @Output() onSchedulerEvents = new EventEmitter<object>()

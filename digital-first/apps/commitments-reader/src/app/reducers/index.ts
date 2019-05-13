@@ -23,7 +23,13 @@ export function localStorageSyncReducer(
       { auth: ['status'] },
       { user: ['drawerOpen'] },
       { refiner: ['expandedRefinerGroups', 'selectedRefiners'] },
-      { planner: ['selectedExternalEeventTypes'] }
+      {
+        planner: [
+          'selectedExternalEeventTypes',
+          'schedulerZoomLevel',
+          'schedulerCenterDate'
+        ]
+      }
     ],
     rehydrate: true
   })(reducer)

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 // import { CommitmentRefinerService } from '../../services/commitment-refiner'
-import { Observable, Subscription, of, concat } from 'rxjs'
-import { map, tap, concatMap, withLatestFrom } from 'rxjs/operators'
+import { Observable, Subscription } from 'rxjs'
+import { map } from 'rxjs/operators'
 import * as fromPlanner from '../../reducers/planner/planner.reducer'
 import * as fromOverview from '../../reducers/overview/overview.reducer'
 import * as fromUser from '../../reducers/user/user.reducer'
@@ -10,16 +10,11 @@ import {
   GetEventReferenceData,
   StoreCommitmentEvent,
   RemoveCommitmentEvent,
-  GetExternalEvents,
   StoreSelectedExternalEventTypes,
   StoreSchedulerState,
   GetCommitmentEvents,
   GetPlannerPermission
 } from '../../reducers/planner/planner.actions'
-import {
-  OPERATION_RIGHT_WRITE,
-  OPERATION_PLANNER
-} from '../../services/app-data/app-operations'
 @Component({
   selector: 'digital-first-planner-page',
   templateUrl: './planner-page.component.html',
@@ -28,7 +23,7 @@ import {
 export class PlannerPageComponent implements OnInit, OnDestroy {
   public commitmentEvents$: Observable<any[]>
   public externalEvents$: Observable<any>
-  public commitmentEventTypes$: Observable<any[]>
+  public eventTypes$: Observable<any[]>
   public filteredCommitments$: Observable<any[]>
   public externalEventTypes$: Observable<any[]>
   public selectedExternalEventTypes$: Observable<any[]>
@@ -40,8 +35,7 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private plannerStore: Store<fromPlanner.State>,
-    private overViewStore: Store<fromOverview.State>,
-    private userStore: Store<fromUser.UserState>
+    private overViewStore: Store<fromOverview.State>
   ) {}
   ngOnInit() {
     this.filteredCommitments$ = this.overViewStore
@@ -53,16 +47,21 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
         this.plannerStore.dispatch(new GetCommitmentEvents(filteredCommitments))
       }
     )
-    this.plannerStore.dispatch(new GetEventReferenceData(null))
-    this.plannerStore.dispatch(new GetPlannerPermission(null))
-    
+
+    this.plannerStore
+      .pipe(select(fromUser.getCurrentUserOperations))
+      .subscribe(result => {
+        this.plannerStore.dispatch(new GetEventReferenceData(null))
+        this.plannerStore.dispatch(new GetPlannerPermission(null))
+      })
+
     this.externalEventTypes$ = this.plannerStore.pipe(
       select(fromPlanner.selectExternalEventTypesState)
     )
     this.commitmentEvents$ = this.plannerStore.pipe(
       select(fromPlanner.selectEventsState)
     )
-    this.commitmentEventTypes$ = this.plannerStore.pipe(
+    this.eventTypes$ = this.plannerStore.pipe(
       select(fromPlanner.selectEventTypesState)
     )
     this.selectedExternalEventTypes$ = this.plannerStore.pipe(
