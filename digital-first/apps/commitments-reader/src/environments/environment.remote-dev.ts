@@ -10,6 +10,7 @@ export const environment = {
     dataServiceUrl: 'https://localhost:52619/graphql'
   },
   eventDatasource:'local',
+  appConfigDataSource: 'local',
   // developer's your API KEY here
 
   apiKey: 'gZjvQ4oxl8OgVY39uoEs5uZg31A=',

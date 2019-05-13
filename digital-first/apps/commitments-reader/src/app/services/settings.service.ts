@@ -22,7 +22,9 @@ export class SettingsService {
   get eventDatasource(): any {
     return environment.eventDatasource
   }
-
+  get appConfigDataSource(): any {
+    return environment.appConfigDataSource
+  }
   get assetsPath(): any {
     return environment.assetsPath
   }
