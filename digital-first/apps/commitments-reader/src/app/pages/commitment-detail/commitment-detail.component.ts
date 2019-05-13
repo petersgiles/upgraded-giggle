@@ -59,15 +59,15 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
         this.store.dispatch(new GetDetailedCommitment({id: params.id}))
       })
 
-      //  this.store.pipe(select(fromDetail.getPMOUpdatedState))
-      //   .subscribe(pmoUpdate => {
-      //   this.pmoHandlingAdvice = pmoUpdate
-      // })
+       this.store.pipe(select(fromDetail.getPMOUpdatedState))
+        .subscribe(pmoUpdate => {
+        this.pmoHandlingAdvice = pmoUpdate
+      })
 
-      // this.store.pipe(select(fromDetail.getPMCUpdatedState))
-      // .subscribe(pmcUpdate => {
-      //   this.pmcHandlingAdvice = pmcUpdate
-      // })
+      this.store.pipe(select(fromDetail.getPMCUpdatedState))
+      .subscribe(pmcUpdate => {
+        this.pmcHandlingAdvice = pmcUpdate
+      })
     }
 
   ngOnDestroy(): void {
@@ -83,12 +83,18 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
     return operations[OPERATION_PMC]
   }
 
-  onPMOChange(event) {
-    this.store.dispatch(new UpdatePMOHandlingAdvice({commitmentId: this.commitment.id, handlingAdviceId: event.value}))
+  onPMOChange($event) {
+
+  console.log(`🤕`, $event)
+
+    this.store.dispatch(new UpdatePMOHandlingAdvice({handlingAdviceId: $event.value}))
   }
 
-  onPMCChange(event){
-    this.store.dispatch(new UpdatePMCHandlingAdvice({commitmentId: this.commitment.id, handlingAdviceId: event.value}))
+  onPMCChange($event){
+
+    console.log(`🤕`, $event)
+
+    this.store.dispatch(new UpdatePMCHandlingAdvice({handlingAdviceId: $event.value}))
   }
 
   public getIndefiniteArticle(term) {

@@ -23,8 +23,8 @@ query getCommitmentDetail(
       webId
       siteId
       handlingAdvice {
-        id
-        title
+        value: id
+        label: title
       }
     }
     pmoHandlingAdviceCommitments (where:
@@ -36,8 +36,8 @@ query getCommitmentDetail(
       webId
       siteId
       handlingAdvice {
-        id
-        title
+         value: id
+         label: title
       }
     }
     commitmentType {

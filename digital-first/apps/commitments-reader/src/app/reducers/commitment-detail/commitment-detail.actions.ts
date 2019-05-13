@@ -27,13 +27,13 @@ export class LoadCommitments implements Action {
 
 export class UpdatePMOHandlingAdvice implements Action {
   type = CommitmentDetailActionTypes.UpdatePMOHandlingAdvice
-  constructor(public payload: { handlingAdviceId: string; commitmentId: number }) {}
+  constructor(public payload: { handlingAdviceId: string }) {}
 }
 
 export class UpdatePMCHandlingAdvice implements Action {
   ws
   type = CommitmentDetailActionTypes.UpdatePMCHandlingAdvice
-  constructor(public payload: { handlingAdviceId: string; commitmentId: number }) {}
+  constructor(public payload: { handlingAdviceId: string }) {}
 }
 
 export class LoadDetailedCommitment implements Action {

@@ -123,9 +123,10 @@
           <p>PMC Handling Advice</p>
           <ng-select
             [items]="handlingAdvices$ | async"
+            bindValue="value"
             bindLabel="label"
             autofocus
-            [(ngModel)]="pmcHandlingAdvice"
+            [ngModel]="commitment.pmcHandlingAdvice"
             (change)="onPMCChange($event)"
           >
           </ng-select>
@@ -141,9 +142,10 @@
             <p>PMO Handling Advice</p>
             <ng-select
               [items]="handlingAdvices$ | async"
+              bindValue="value"
               bindLabel="label"
               autofocus
-              [(ngModel)]="pmoHandlingAdvice"
+              [ngModel]="commitment.pmoHandlingAdvice"
               (change)="onPMOChange($event)"
             >
             </ng-select>

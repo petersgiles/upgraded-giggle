@@ -1794,10 +1794,10 @@ export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
                     'webId' | 'siteId'
                   > & {
                       handlingAdvice: Maybe<
-                        { __typename?: 'HandlingAdviceGraph' } & Pick<
-                          HandlingAdviceGraph,
-                          'id' | 'title'
-                        >
+                        { __typename?: 'HandlingAdviceGraph' } & {
+                          value: HandlingAdviceGraph['id']
+                          label: HandlingAdviceGraph['title']
+                        }
                       >
                     }
                 >
@@ -1811,10 +1811,10 @@ export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
                     'webId' | 'siteId'
                   > & {
                       handlingAdvice: Maybe<
-                        { __typename?: 'HandlingAdviceGraph' } & Pick<
-                          HandlingAdviceGraph,
-                          'id' | 'title'
-                        >
+                        { __typename?: 'HandlingAdviceGraph' } & {
+                          value: HandlingAdviceGraph['id']
+                          label: HandlingAdviceGraph['title']
+                        }
                       >
                     }
                 >
@@ -1994,10 +1994,10 @@ export type GetHandlingAdvicesQuery = { __typename?: 'Query' } & {
   handlingAdvices: Maybe<
     Array<
       Maybe<
-        { __typename?: 'HandlingAdviceGraph' } & Pick<
-          HandlingAdviceGraph,
-          'id' | 'title'
-        >
+        { __typename?: 'HandlingAdviceGraph' } & {
+          value: HandlingAdviceGraph['id']
+          label: HandlingAdviceGraph['title']
+        }
       >
     >
   >
@@ -2138,8 +2138,8 @@ export const GetCommitmentDetailDocument = gql`
         webId
         siteId
         handlingAdvice {
-          id
-          title
+          value: id
+          label: title
         }
       }
       pmoHandlingAdviceCommitments(
@@ -2151,8 +2151,8 @@ export const GetCommitmentDetailDocument = gql`
         webId
         siteId
         handlingAdvice {
-          id
-          title
+          value: id
+          label: title
         }
       }
       commitmentType {
@@ -2276,8 +2276,8 @@ export class CommitmentsSearchGQL extends Apollo.Query<
 export const GetHandlingAdvicesDocument = gql`
   query getHandlingAdvices {
     handlingAdvices {
-      id
-      title
+      value: id
+      label: title
     }
   }
 `

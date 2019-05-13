@@ -22,7 +22,9 @@ import {
   GetHandlingAdvicesFailure,
   UpdatePMCHandlingAdviceFailure,
   UpdatePMOHandlingAdviceFailure,
-  GetHandlingAdvices
+  GetHandlingAdvices,
+  SetPMOHandlingAdviceResult,
+  SetPMCHandlingAdviceResult
 } from './commitment-detail.actions'
 
 import {
@@ -52,33 +54,35 @@ const generateUUID = () => {
   })
 }
 
-const mapCommentDetail = (item): any => {
+const mapHandlingadvice = (item): any => {
+  if (item && item[0]) {
+    const handlingAdvice = item[0].handlingAdvice
+    return handlingAdvice.value
+  }
+  return null
+}
+
+const mapCommitmentDetail = (item): any => {
   // tslint:disable-next-line: no-console
   console.log(`🤡 item`, item)
 
   const mapResult = {
     id: item.id,
     title: item.title,
-    description: item.description
-    // bookType: item.bookType,
-    // cost: item.cost,
-    // date: item.date,
-    // politicalParty: item.politicalParty,
-    // announcedBy: item.announcedBy,
-    // commitmentType: item.commitmentType ? item.commitmentType.title : '',
-    // status: item.status ? item.status.title : '',
-    // announcementType: item.announcementType
-    //   ? item.announcementType.title
-    //   : '',
-    // criticalDate: item.criticalDate ? item.criticalDate.title : '',
-    // portfolio: item.portfolioLookup ? item.portfolioLookup.title : '',
+    description: item.description,
+    bookType: item.bookType,
+    cost: item.cost,
+    date: item.date,
+    politicalParty: item.politicalParty,
+    announcedBy: item.announcedBy,
+    commitmentType: item.commitmentType ? item.commitmentType.title : '',
+    status: item.status ? item.status.title : '',
+    announcementType: item.announcementType ? item.announcementType.title : '',
+    criticalDate: item.criticalDate ? item.criticalDate.title : '',
+    portfolio: item.portfolioLookup ? item.portfolioLookup.title : '',
     // electorates: this.handleElectorates(item.commitmentLocations)
-    // PMCHandlingAdvice: item.pmcHandlingAdvice
-    //   ? item.pmcHandlingAdvice.title
-    //   : '',
-    // PMOHandlingAdvice: item.pmoHandlingAdvice
-    //   ? item.pmoHandlingAdvice.title
-    //   : ''
+    pmcHandlingAdvice: mapHandlingadvice(item.pmcHandlingAdviceCommitments),
+    pmoHandlingAdvice: mapHandlingadvice(item.pmoHandlingAdviceCommitments)
   }
   console.log(`🤡 item`, mapResult)
   return mapResult
@@ -119,12 +123,12 @@ export class CommitmentDetailEffects {
         first(),
         map(result => result.data.commitments[0]),
         // tslint:disable-next-line: no-console
-        tap(result => console.log(`🤡 getCommitmentDetailGQL`, result)),
-        map(mapCommentDetail),
+        tap(result => console.log(`🤡 getCommitmentDetailGQL_1`, result)),
+        map(mapCommitmentDetail),
         // tslint:disable-next-line: no-console
-        tap(result => console.log(`🤡 getCommitmentDetailGQL`, result)),
+        tap(result => console.log(`🤡 getCommitmentDetailGQL_2`, result)),
         concatMap(result => [
-          new LoadDetailedCommitment(mapCommentDetail(result)),
+          new LoadDetailedCommitment(result),
           new GetHandlingAdvices(null)
         ])
       )
@@ -175,19 +179,29 @@ export class CommitmentDetailEffects {
       const config: Config = store.app.config
       const webId = config.webId
       const siteId = config.siteId
+
+      const commitmentId = store.commitmentDetail.commitment.id
       return {
         messageId: generateUUID(),
         conversationId: generateUUID(),
         data: {
-          commitmentId: action.payload.commitmentId,
+          commitmentId: commitmentId,
           handlingAdviceId: action.payload.handlingAdviceId,
-          webId: [webId],
-          siteId: [siteId]
+          webId: webId,
+          siteId: siteId
         }
       }
     }),
     switchMap(config =>
-      this.updatePmoHandlingAdviceCommitmentGQL.mutate(config, {})
+      this.updatePmoHandlingAdviceCommitmentGQL.mutate(config, {}).pipe(
+        first(),
+        map(response => response.data.updatePmoHandlingAdviceCommitment.id),
+        concatMap(response => [
+          new SetPMOHandlingAdviceResult({
+            handlingAdviceId: config.data.handlingAdviceId
+          })
+        ])
+      )
     ),
     catchError(error => of(new UpdatePMOHandlingAdviceFailure(error)))
   )
@@ -202,21 +216,33 @@ export class CommitmentDetailEffects {
       const config: Config = store.app.config
       const webId = config.webId
       const siteId = config.siteId
+      const commitmentId = store.commitmentDetail.commitment.id
       return {
         messageId: generateUUID(),
         conversationId: generateUUID(),
         data: {
-          commitmentId: action.payload.commitmentId,
+          commitmentId: commitmentId,
           handlingAdviceId: action.payload.handlingAdviceId,
-          webId: [webId],
-          siteId: [siteId]
+          webId: webId,
+          siteId: siteId
         }
       }
     }),
     switchMap(config =>
-      this.updatePmcHandlingAdviceCommitmentGQL.mutate(config, {})
+      this.updatePmcHandlingAdviceCommitmentGQL.mutate(config, {}).pipe(
+        first(),
+        map(response => response.data.updatePmcHandlingAdviceCommitment.id),
+        concatMap(response => [
+          new SetPMCHandlingAdviceResult({
+            handlingAdviceId: config.data.handlingAdviceId
+          })
+        ])
+      )
     ),
-    catchError(error => of(new UpdatePMCHandlingAdviceFailure(error)))
+    catchError(error => {
+      console.log(`UpdatePMCHandlingAdviceFailure`, error)
+      return of(new UpdatePMCHandlingAdviceFailure(error))
+    })
   )
 }
 

@@ -1,82 +1,98 @@
-
-import { CommitmentDetailActions, CommitmentDetailActionTypes } from './commitment-detail.actions'
+import {
+  CommitmentDetailActions,
+  CommitmentDetailActionTypes
+} from './commitment-detail.actions'
 import { createFeatureSelector, createSelector } from '@ngrx/store'
 import { Commitment } from '../../models/commitment.model'
 
 export interface State {
- commitment: Commitment
- loaded: boolean
- handlingAdvices: []
- PMOUpdateLoaded: boolean
- PMCUpdateLoaded: boolean
- PMOHandlingAdvice: any
- PMCHandlingAdvice: any
+  commitment: Commitment
+  loaded: boolean
+  handlingAdvices: []
+  PMOUpdateLoaded: boolean
+  PMCUpdateLoaded: boolean
+  PMOHandlingAdvice: any
+  PMCHandlingAdvice: any
 }
 
 export const initialState: State = {
- commitment: null,
- loaded: false,
- handlingAdvices: [],
- PMOUpdateLoaded: false,
- PMCUpdateLoaded: false,
- PMOHandlingAdvice: null,
- PMCHandlingAdvice: null
+  commitment: null,
+  loaded: false,
+  handlingAdvices: [],
+  PMOUpdateLoaded: false,
+  PMCUpdateLoaded: false,
+  PMOHandlingAdvice: null,
+  PMCHandlingAdvice: null
 }
 
-export function reducer(state = initialState, action: CommitmentDetailActions): State {
+export function reducer(
+  state = initialState,
+  action: CommitmentDetailActions
+): State {
   switch (action.type) {
-
     case CommitmentDetailActionTypes.LoadCommitmentDetails:
-    return state
+      return state
 
     case CommitmentDetailActionTypes.LoadDetailedCommitment:
-
-    console.log(`🤡 LoadDetailedCommitment`, action)
-       return {
+      console.log(`🤡 LoadDetailedCommitment`, action)
+      return {
         ...state,
         commitment: action.payload,
         loaded: true
       }
 
-     case CommitmentDetailActionTypes.LoadHandlingAdvices:
-
-     console.log(`🤡 LoadHandlingAdvices`, action)
-       return {
+    case CommitmentDetailActionTypes.LoadHandlingAdvices:
+      console.log(`🤡 LoadHandlingAdvices`, action)
+      return {
         ...state,
         handlingAdvices: action.payload.advices,
         loaded: true
       }
- 
-     case CommitmentDetailActionTypes.SetPMCHandlingAdviceResult:
-
-      return{
-        ...state,
-        PMCUpdateLoaded: true,
-        PMCHandlingAdvice: action.payload.res
-      }
 
     case CommitmentDetailActionTypes.SetPMOHandlingAdviceResult:
-
-      return{
+      const pmocommitment = JSON.parse(JSON.stringify(state.commitment))
+      pmocommitment.pmoHandlingAdvice = action.payload.handlingAdviceId
+      return {
         ...state,
         PMOUpdateLoaded: true,
-        PMOHandlingAdvice: action.payload.res
+        commitment: pmocommitment
+      }
+
+    case CommitmentDetailActionTypes.SetPMCHandlingAdviceResult:
+      const pmccommitment = JSON.parse(JSON.stringify(state.commitment))
+      pmccommitment.pmcHandlingAdvice = action.payload.handlingAdviceId
+      return {
+        ...state,
+        PMCUpdateLoaded: true,
+        commitment: pmccommitment
       }
     default:
       return state
   }
 }
 
-export const commitmentDetailState = createFeatureSelector<State>('commitmentDetail')
+export const commitmentDetailState = createFeatureSelector<State>(
+  'commitmentDetail'
+)
 
 export const getDetailedCommitmentState = createSelector(
   commitmentDetailState,
-  (state) => state.commitment
+  state => state.commitment
 )
 
 export const getHandlingAdvicesState = createSelector(
   commitmentDetailState,
-  (state) => state.handlingAdvices
+  state => state.handlingAdvices
+)
+
+export const getPMOUpdatedState = createSelector(
+  commitmentDetailState,
+  state => state.PMOHandlingAdvice
+)
+
+export const getPMCUpdatedState = createSelector(
+  commitmentDetailState,
+  state => state.PMCHandlingAdvice
 )
 
 /*export const getHandlingAdvicesState = (state: CommitmentDetailsState) => state.handlingAdvices
