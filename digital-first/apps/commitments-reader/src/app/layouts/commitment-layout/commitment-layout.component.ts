@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Store, select } from '@ngrx/store'
-import { Back, Go } from '../../reducers/router.actions'
+import { select, Store } from '@ngrx/store'
+import { Back } from '../../reducers/router.actions'
 import { Commitment } from '../../models'
-import { CommitmentDetailsState } from '../../reducers/commitment-detail/commitment-detail.reducer'
-//import { CommitmentDetail } from '../../reducers/commitment-detail'
-import { getCommitment } from '../../reducers/commitment-detail'
 
+import * as fromDetail from '../../reducers/commitment-detail/commitment-detail.reducer'
 @Component({
   selector: 'digital-first-commitment-layout',
   templateUrl: './commitment-layout.component.html',
@@ -14,20 +12,12 @@ import { getCommitment } from '../../reducers/commitment-detail'
 })
 export class CommitmentLayoutComponent implements OnInit {
 
-   links=  [
-    { name: 'Commitment', icon: 'folder', route: 'detail' },
-    { name: 'Packages', icon: 'folder', route: 'packages' },
-    { name: 'Location', icon: 'folder', route: 'location' }
-  ]
  commitment: Commitment
-  constructor(private router: Router, private activateRoute: ActivatedRoute, private store: Store<CommitmentDetailsState>) { }
+  constructor(private router: Router,
+    private activateRoute: ActivatedRoute,
+    private store: Store<fromDetail.State>) { }
 
-  ngOnInit() {
-     this.store.pipe(select(getCommitment))
-    .subscribe((commitment) => {
-      this.commitment = commitment
-    })
-  }
+  ngOnInit() { }
 
   getTitle(commitment) {
     return 'Commitment'
@@ -38,11 +28,6 @@ export class CommitmentLayoutComponent implements OnInit {
   }
 
   handleCommitmentNavigation(link){
-   /*  this.store.dispatch(new Go({
-      path: ['commitment', this.commitment.id, link.route]
-    }));  */
-
       this.router.navigate(['commitment', this.commitment.id, link.route], { relativeTo: this.activateRoute })
-    
   }
 }

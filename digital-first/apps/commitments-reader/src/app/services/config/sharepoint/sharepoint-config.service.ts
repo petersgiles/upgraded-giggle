@@ -36,12 +36,13 @@ export class SharePointConfigService {
     private settings: SettingsService,
     private sharepoint: SharepointJsomService
   ) {
-    forkJoin([this.getJSON(), sharepoint.getSiteId()])
+    forkJoin([this.getJSON(), sharepoint.getWebId(), sharepoint.getSiteId()])
       .pipe(
         // tslint:disable-next-line: no-console
         tap(result => console.log(`🐵 app config and siteId got => `, result))
       )
-      .subscribe(([data, siteId]) => {
+      .subscribe(([data, webId, siteId]) => {
+        data.webId = webId
         data.siteId = siteId
         this._config.next(data)
         // tslint:disable-next-line:no-console

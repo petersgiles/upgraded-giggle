@@ -20,7 +20,7 @@
       <span>{{ protectiveMarking$ | async | uppercase }}</span>
     </mdc-top-app-bar-section>
     <mdc-top-app-bar-section align="end">
-      <digital-first-avatar
+      <digital-first-avatar *ngIf="profile"
         [name]="profile?.name"
         [email]="profile?.email"
         [displayType]="profile?.displayType"

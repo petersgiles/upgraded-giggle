@@ -179,8 +179,12 @@ export type CommitmentGraph = {
   commitmentPortfolioLookups?: Maybe<
     Array<Maybe<CommitmentPortfolioLookupGraph>>
   >
-  pmcHandlingAdvice?: Maybe<HandlingAdviceGraph>
-  pmoHandlingAdvice?: Maybe<HandlingAdviceGraph>
+  pmcHandlingAdviceCommitments?: Maybe<
+    Array<Maybe<PmcHandlingAdviceCommitmentGraph>>
+  >
+  pmoHandlingAdviceCommitments?: Maybe<
+    Array<Maybe<PmoHandlingAdviceCommitmentGraph>>
+  >
   briefCommitments?: Maybe<Array<Maybe<BriefCommitmentGraph>>>
   announcedBy?: Maybe<Scalars['String']>
   status?: Maybe<StatusGraph>
@@ -228,6 +232,24 @@ export type CommitmentGraphCommitmentPackageTypesArgs = {
 }
 
 export type CommitmentGraphCommitmentPortfolioLookupsArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+}
+
+export type CommitmentGraphPmcHandlingAdviceCommitmentsArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+}
+
+export type CommitmentGraphPmoHandlingAdviceCommitmentsArgs = {
   id?: Maybe<Scalars['String']>
   ids?: Maybe<Array<Maybe<Scalars['String']>>>
   orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
@@ -513,6 +535,7 @@ export type DeckItemBriefSummaryGraphBriefsArgs = {
 export type DeleteBriefCommitmentInputGraph = {
   webId: Scalars['Guid']
   listId: Scalars['Guid']
+  siteId: Scalars['Guid']
   listItemId: Scalars['Int']
   commitmentId: Scalars['Int']
 }
@@ -869,6 +892,8 @@ export type PackageTypeGraphCommitmentPackageTypesArgs = {
 export type PmcHandlingAdviceCommitmentGraph = {
   handlingAdvice?: Maybe<HandlingAdviceGraph>
   commitment?: Maybe<CommitmentGraph>
+  webId: Scalars['Guid']
+  siteId: Scalars['Guid']
   commitmentId: Scalars['Int']
   handlingAdviceId: Scalars['Guid']
 }
@@ -876,6 +901,8 @@ export type PmcHandlingAdviceCommitmentGraph = {
 export type PmoHandlingAdviceCommitmentGraph = {
   handlingAdvice?: Maybe<HandlingAdviceGraph>
   commitment?: Maybe<CommitmentGraph>
+  webId: Scalars['Guid']
+  siteId: Scalars['Guid']
   commitmentId: Scalars['Int']
   handlingAdviceId: Scalars['Guid']
 }
@@ -1706,11 +1733,15 @@ export enum StringComparison {
 export type UpdatePmcHandlingAdviceCommitmentGraph = {
   commitmentId: Scalars['Int']
   handlingAdviceId?: Maybe<Scalars['Guid']>
+  webId: Scalars['Guid']
+  siteId: Scalars['Guid']
 }
 
 export type UpdatePmoHandlingAdviceCommitmentGraph = {
   commitmentId: Scalars['Int']
   handlingAdviceId?: Maybe<Scalars['Guid']>
+  webId: Scalars['Guid']
+  siteId: Scalars['Guid']
 }
 
 export type WhereExpressionGraph = {
@@ -1736,6 +1767,8 @@ export type ApplyCommitmentDisplayOrderMutation = {
 export type GetCommitmentDetailQueryVariables = {
   id: Scalars['String']
   book: BookType
+  webId?: Maybe<Array<Maybe<Scalars['String']>>>
+  siteId?: Maybe<Array<Maybe<Scalars['String']>>>
 }
 
 export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
@@ -1753,21 +1786,43 @@ export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
           | 'statusId'
           | 'announcedBy'
         > & { bookType: CommitmentGraph['book'] } & {
+            pmcHandlingAdviceCommitments: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'PmcHandlingAdviceCommitmentGraph' } & Pick<
+                    PmcHandlingAdviceCommitmentGraph,
+                    'webId' | 'siteId'
+                  > & {
+                      handlingAdvice: Maybe<
+                        { __typename?: 'HandlingAdviceGraph' } & Pick<
+                          HandlingAdviceGraph,
+                          'id' | 'title'
+                        >
+                      >
+                    }
+                >
+              >
+            >
+            pmoHandlingAdviceCommitments: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'PmoHandlingAdviceCommitmentGraph' } & Pick<
+                    PmoHandlingAdviceCommitmentGraph,
+                    'webId' | 'siteId'
+                  > & {
+                      handlingAdvice: Maybe<
+                        { __typename?: 'HandlingAdviceGraph' } & Pick<
+                          HandlingAdviceGraph,
+                          'id' | 'title'
+                        >
+                      >
+                    }
+                >
+              >
+            >
             commitmentType: Maybe<
               { __typename?: 'CommitmentTypeGraph' } & Pick<
                 CommitmentTypeGraph,
-                'id' | 'title'
-              >
-            >
-            pmcHandlingAdvice: Maybe<
-              { __typename?: 'HandlingAdviceGraph' } & Pick<
-                HandlingAdviceGraph,
-                'id' | 'title'
-              >
-            >
-            pmoHandlingAdvice: Maybe<
-              { __typename?: 'HandlingAdviceGraph' } & Pick<
-                HandlingAdviceGraph,
                 'id' | 'title'
               >
             >
@@ -2058,7 +2113,12 @@ export class ApplyCommitmentDisplayOrderGQL extends Apollo.Mutation<
   document = ApplyCommitmentDisplayOrderDocument
 }
 export const GetCommitmentDetailDocument = gql`
-  query getCommitmentDetail($id: String!, $book: BookType!) {
+  query getCommitmentDetail(
+    $id: String!
+    $book: BookType!
+    $webId: [String]
+    $siteId: [String]
+  ) {
     commitments(id: $id, book: $book) {
       id
       title
@@ -2069,20 +2129,44 @@ export const GetCommitmentDetailDocument = gql`
       politicalParty
       statusId
       announcedBy
+      pmcHandlingAdviceCommitments(
+        where: [
+          { path: "webId", comparison: equal, value: $webId }
+          { path: "siteId", comparison: equal, value: $siteId }
+        ]
+      ) {
+        webId
+        siteId
+        handlingAdvice {
+          id
+          title
+        }
+      }
+      pmoHandlingAdviceCommitments(
+        where: [
+          { path: "webId", comparison: equal, value: $webId }
+          { path: "siteId", comparison: equal, value: $siteId }
+        ]
+      ) {
+        webId
+        siteId
+        handlingAdvice {
+          id
+          title
+        }
+      }
       commitmentType {
         id
         title
       }
-      pmcHandlingAdvice {
+      announcementType {
         id
         title
       }
-      pmoHandlingAdvice {
+      portfolioLookup {
         id
         title
       }
-      announcementType {id title}
-      portfolioLookup {id title}
       status {
         id
         title

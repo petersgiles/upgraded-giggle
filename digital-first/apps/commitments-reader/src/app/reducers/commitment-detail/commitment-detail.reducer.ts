@@ -3,7 +3,7 @@ import { CommitmentDetailActions, CommitmentDetailActionTypes } from './commitme
 import { createFeatureSelector, createSelector } from '@ngrx/store'
 import { Commitment } from '../../models/commitment.model'
 
-export interface CommitmentDetailsState {
+export interface State {
  commitment: Commitment
  loaded: boolean
  handlingAdvices: []
@@ -13,7 +13,7 @@ export interface CommitmentDetailsState {
  PMCHandlingAdvice: any
 }
 
-export const initialState: CommitmentDetailsState = {
+export const initialState: State = {
  commitment: null,
  loaded: false,
  handlingAdvices: [],
@@ -23,61 +23,67 @@ export const initialState: CommitmentDetailsState = {
  PMCHandlingAdvice: null
 }
 
-export function reducer(state = initialState, action: CommitmentDetailActions): CommitmentDetailsState {
+export function reducer(state = initialState, action: CommitmentDetailActions): State {
   switch (action.type) {
 
     case CommitmentDetailActionTypes.LoadCommitmentDetails:
     return state
 
     case CommitmentDetailActionTypes.LoadDetailedCommitment:
-     if(action.payload){
 
+    console.log(`🤡 LoadDetailedCommitment`, action)
        return {
         ...state,
-        commitment: action.payload.commitment,
+        commitment: action.payload,
         loaded: true
       }
-     }
-     case CommitmentDetailActionTypes.LoadHandlingAdvices:
-     if(action.payload){
 
+     case CommitmentDetailActionTypes.LoadHandlingAdvices:
+
+     console.log(`🤡 LoadHandlingAdvices`, action)
        return {
         ...state,
         handlingAdvices: action.payload.advices,
         loaded: true
       }
-     }
-
+ 
      case CommitmentDetailActionTypes.SetPMCHandlingAdviceResult:
-     if(action.payload){
+
       return{
         ...state,
         PMCUpdateLoaded: true,
         PMCHandlingAdvice: action.payload.res
       }
-    }
 
     case CommitmentDetailActionTypes.SetPMOHandlingAdviceResult:
-    if(action.payload){
+
       return{
         ...state,
         PMOUpdateLoaded: true,
         PMOHandlingAdvice: action.payload.res
       }
-    }
-     
-
     default:
       return state
   }
 }
+
+export const commitmentDetailState = createFeatureSelector<State>('commitmentDetail')
+
+export const getDetailedCommitmentState = createSelector(
+  commitmentDetailState,
+  (state) => state.commitment
+)
+
+export const getHandlingAdvicesState = createSelector(
+  commitmentDetailState,
+  (state) => state.handlingAdvices
+)
 
 /*export const getHandlingAdvicesState = (state: CommitmentDetailsState) => state.handlingAdvices
 //export const getCommitmentState = (state: CommitmentDetailsState) => state.commitment
 export const getPMOUpdateState = (state: CommitmentDetailsState) => state.PMOUpdateLoaded
 export const getPMCUpdateState = (state: CommitmentDetailsState) => state.PMCUpdateLoaded
 
-export const commitmentDetailState = createFeatureSelector<CommitmentDetailsState>('CommitmentDetail')
 
 
 export const getCommitmentState = createSelector(
