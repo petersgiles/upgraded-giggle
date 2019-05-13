@@ -12,10 +12,10 @@ export const initialState: State = {
   commitments: [],
   columns: [
     { prop: 'id', name: 'Id' },
-    { prop: 'displayOrder', name: 'DisplayOrder' },
+    // { prop: 'displayOrder', name: 'DisplayOrder' },
     { prop: 'title', name: 'Title' },
     { prop: 'portfolio', name: 'Responsible Portfolio' },
-    { prop: 'commitmentType', name: 'Type of Commitment' },
+    // { prop: 'commitmentType', name: 'Type of Commitment' },
     { prop: 'criticalDate', name: 'Critical Date' }
   ],
   error: {}
