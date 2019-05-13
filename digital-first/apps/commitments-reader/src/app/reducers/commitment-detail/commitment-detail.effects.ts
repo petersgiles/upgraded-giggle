@@ -32,7 +32,7 @@ import { Config } from '../../services/config/config-model'
 import { Store } from '@ngrx/store'
 import { Commitment } from '../../models'
 
-const mapCommentDetail = (item): any => {
+const mapCommitmentDetail = (item): any => {
   // tslint:disable-next-line: no-console
   console.log(`🤡 item`, item)
 
@@ -40,18 +40,18 @@ const mapCommentDetail = (item): any => {
     id: item.id,
     title: item.title,
     description: item.description,
-    // bookType: item.bookType,
-    // cost: item.cost,
-    // date: item.date,
-    // politicalParty: item.politicalParty,
-    // announcedBy: item.announcedBy,
-    // commitmentType: item.commitmentType ? item.commitmentType.title : '',
-    // status: item.status ? item.status.title : '',
-    // announcementType: item.announcementType
-    //   ? item.announcementType.title
-    //   : '',
-    // criticalDate: item.criticalDate ? item.criticalDate.title : '',
-    // portfolio: item.portfolioLookup ? item.portfolioLookup.title : '',
+     bookType: item.bookType,
+     cost: item.cost,
+     date: item.date,
+     politicalParty: item.politicalParty,
+     announcedBy: item.announcedBy,
+     commitmentType: item.commitmentType ? item.commitmentType.title : '',
+     status: item.status ? item.status.title : '',
+     announcementType: item.announcementType
+       ? item.announcementType.title
+       : '',
+     criticalDate: item.criticalDate ? item.criticalDate.title : '',
+     portfolio: item.portfolioLookup ? item.portfolioLookup.title : ''//,
     // electorates: this.handleElectorates(item.commitmentLocations)
     // PMCHandlingAdvice: item.pmcHandlingAdvice
     //   ? item.pmcHandlingAdvice.title
@@ -99,12 +99,12 @@ export class CommitmentDetailEffects {
         first(),
         map(result => result.data.commitments[0]),
         // tslint:disable-next-line: no-console
-        tap(result => console.log(`🤡 getCommitmentDetailGQL`, result)),
-        map(mapCommentDetail),
+        tap(result => console.log(`🤡 getCommitmentDetailGQL_1`, result)),
+        map(mapCommitmentDetail),
         // tslint:disable-next-line: no-console
-        tap(result => console.log(`🤡 getCommitmentDetailGQL`, result)),
+        tap(result => console.log(`🤡 getCommitmentDetailGQL_2`, result)),
         concatMap(result => [
-          new LoadDetailedCommitment(mapCommentDetail(result))
+          new LoadDetailedCommitment(result)
         ])
       )
     ),
