@@ -119,7 +119,7 @@ export class CommitmentDetailEffects {
     }),
 
     switchMap(config =>
-      this.getCommitmentDetailGQL.fetch(config).pipe(
+      this.getCommitmentDetailGQL.fetch(config, { fetchPolicy: 'network-only' }).pipe(
         first(),
         map(result => result.data.commitments[0]),
         // tslint:disable-next-line: no-console
@@ -154,7 +154,7 @@ export class CommitmentDetailEffects {
       }
     }),
     switchMap(config =>
-      this.getHandlingAdvicesGQL.fetch(config).pipe(
+      this.getHandlingAdvicesGQL.fetch(config, { fetchPolicy: 'network-only' }).pipe(
         first(),
         map(result => result.data.handlingAdvices),
         // tslint:disable-next-line: no-console
@@ -193,7 +193,7 @@ export class CommitmentDetailEffects {
       }
     }),
     switchMap(config =>
-      this.updatePmoHandlingAdviceCommitmentGQL.mutate(config, {}).pipe(
+      this.updatePmoHandlingAdviceCommitmentGQL.mutate(config, { fetchPolicy: 'no-cache' }).pipe(
         first(),
         map(response => response.data.updatePmoHandlingAdviceCommitment.id),
         concatMap(response => [
@@ -229,7 +229,7 @@ export class CommitmentDetailEffects {
       }
     }),
     switchMap(config =>
-      this.updatePmcHandlingAdviceCommitmentGQL.mutate(config, {}).pipe(
+      this.updatePmcHandlingAdviceCommitmentGQL.mutate(config, { fetchPolicy: 'no-cache' }).pipe(
         first(),
         map(response => response.data.updatePmcHandlingAdviceCommitment.id),
         concatMap(response => [

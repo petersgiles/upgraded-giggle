@@ -52,7 +52,6 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
 
     this.activatedRoute.params
       .pipe(
-        takeUntil(this.destroyed),
         filter(params => !!params.id)
       )
       .subscribe((params: any) => {
@@ -84,16 +83,10 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   }
 
   onPMOChange($event) {
-
-  console.log(`🤕`, $event)
-
     this.store.dispatch(new UpdatePMOHandlingAdvice({handlingAdviceId: $event.value}))
   }
 
   onPMCChange($event){
-
-    console.log(`🤕`, $event)
-
     this.store.dispatch(new UpdatePMCHandlingAdvice({handlingAdviceId: $event.value}))
   }
 
