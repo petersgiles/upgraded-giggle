@@ -11,7 +11,7 @@ import {
 } from '@angular/core'
 
 import { Scheduler } from 'bryntum-scheduler/scheduler.umd.js'
-import * as AuLocael from '../../../../../commitments-reader/src/app/components/scheduler/Au.locale.en.js'
+import * as AuLocael from '../../../../../commitments-reader/src/app/components/scheduler/Au.locale.en.min.js'
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'scheduler',
