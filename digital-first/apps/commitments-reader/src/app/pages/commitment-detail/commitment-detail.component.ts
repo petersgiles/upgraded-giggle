@@ -1,19 +1,16 @@
-import { Component, OnInit, OnDestroy,  ChangeDetectionStrategy, Input } from '@angular/core'
+import { Component, OnInit, OnDestroy,  ChangeDetectionStrategy } from '@angular/core'
 import { Store, select } from '@ngrx/store'
-import { Subscription, Subject, Observable, of } from 'rxjs'
-import { takeUntil, filter, map} from 'rxjs/operators'
+import { Subscription, Subject, Observable } from 'rxjs'
+import { takeUntil, filter} from 'rxjs/operators'
 import { ActivatedRoute } from '@angular/router'
 import * as indef from 'indefinite'
 import * as fromDetail from '../../reducers/commitment-detail/commitment-detail.reducer'
 import { Commitment } from '../../models/commitment.model'
 
-import { CommitmentDetailsState } from '../../reducers/commitment-detail/commitment-detail.reducer'
-import { getCommitment, getHandlingAdvice, getPMOUpdatedState, getPMCUpdatedState } from '../../reducers/commitment-detail'
 import { CommitmentLocation } from '../../models/commitment.model'
-import * as appSelectors from '../../reducers/app'
 
 import { OPERATION_PMO_HANDLING_ADVICE,OPERATION_PMC_HANDLING_ADVICE } from '../../services/app-data/app-operations'
-import { GetDetailedCommitment, GetHandlingAdvices } from '../../reducers/commitment-detail/commitment-detail.actions';
+import { GetDetailedCommitment, GetHandlingAdvices } from '../../reducers/commitment-detail/commitment-detail.actions'
 
 @Component({
   selector: 'digital-first-commitment-detail',
@@ -88,11 +85,11 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
     return operations[OPERATION_PMC_HANDLING_ADVICE]
   }
 
-  onPMOChange(event){
+  onPMOChange(){
     // this.commitmentDetailService.updatePmoHandlingAdviceCommitment({value: event.value, commitmentId: this.commitment.id, label: event.label})
   }
 
-  onPMCChange(event){
+  onPMCChange(){
     // this.commitmentDetailService.updatePmcHandlingAdviceCommitment({value: event.value, commitmentId: this.commitment.id, label: event.label})
   }
 
