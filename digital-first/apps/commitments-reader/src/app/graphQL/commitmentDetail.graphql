@@ -25,14 +25,11 @@ query getCommitmentDetail($id: String!, $book: BookType!) {
       id
       title
     }
-    status{
-       id
-      title 
-    }
-    criticalDate {
+    portfolioLookup {
       id
       title
-    }
+    }status {id title}
+    criticalDate {id title}
     commitmentLocations {
       commitmentId
       location {

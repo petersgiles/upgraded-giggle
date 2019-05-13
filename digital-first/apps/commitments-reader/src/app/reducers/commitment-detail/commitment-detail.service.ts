@@ -2,12 +2,11 @@ import { Observable, of } from 'rxjs'
 import { first } from 'rxjs/operators'
 import { Injectable } from '@angular/core'
 import { Commitment, CommitmentLocation, MapPoint, HandlingAdvices } from '../../models/commitment.model'
-import { Store } from '@ngrx/store'
-import { GetDetailedCommitment, GetHandlingAdvices } from './commitment-detail.actions'
+import { Store, select } from '@ngrx/store'
+import { GetDetailedCommitment, GetHandlingAdvices, SetPMCHandlingAdviceResult, SetPMOHandlingAdviceResult } from './commitment-detail.actions'
 import { GetCommitmentDetailGQL, GetHandlingAdvicesGQL, UpdatePmcHandlingAdviceCommitmentGQL, UpdatePmoHandlingAdviceCommitmentGQL } from '../../generated/graphql'
 import { map} from 'rxjs/operators'
 import * as fromRoot from '../user'
-import { select } from '@ngrx/store'
 
 @Injectable({
   providedIn: 'root'
@@ -67,19 +66,21 @@ commitment: Commitment
             criticalDate: dbItem[0].criticalDate
               ? dbItem[0].criticalDate.title
               : '',
-           /*  portfolio: dbItem[0].portfolioLookup
+            portfolio: dbItem[0].portfolioLookup
               ? dbItem[0].portfolioLookup.title
-              : '', */
+              : '',
             electorates: this.handleElectorates(dbItem[0].commitmentLocations),
-           /*  PMCHandlingAdvice: dbItem[0].pmcHandlingAdvice ? dbItem[0].pmcHandlingAdvice.title
+            PMCHandlingAdvice: dbItem[0].pmcHandlingAdvice ? dbItem[0].pmcHandlingAdvice.title
             : '',
             PMOHandlingAdvice: dbItem[0].pmoHandlingAdvice ? dbItem[0].pmoHandlingAdvice.title
-            : '' */
+            : ''
            // mapPoints: this.handleMapPoints(dbItem[0].commitmentMapPoints)
           
           }
 
          this.store.dispatch(new GetDetailedCommitment({commitment}))
+         this.store.dispatch(new SetPMOHandlingAdviceResult({res: commitment.PMOHandlingAdvice}))
+         this.store.dispatch(new SetPMCHandlingAdviceResult({res: commitment.PMCHandlingAdvice}))
         }
       })
   }
@@ -94,33 +95,37 @@ commitment: Commitment
         conversationId: this.generateUUID(),
         data: {
           commitmentId: pmcItem.commitmentId,
-          handlingAdviceId: pmcItem.label
+          handlingAdviceId: pmcItem.value
         }
       },
       {}
     )
     .pipe(first())
     .subscribe(value => {
-      console.log('value 1', value)
+      if(value.data.updatePmcHandlingAdviceCommitment.id){
+          this.store.dispatch(new SetPMCHandlingAdviceResult({res: pmcItem.label}))
+      }
     })
 }
 
-updatePmoHandlingAdviceCommitment(pmcItem: any) {
+updatePmoHandlingAdviceCommitment(pmoItem: any) {
   this.updatePmoHandlingAdviceCommitmentGQL
     .mutate(
       {
         messageId: this.generateUUID(),
         conversationId: this.generateUUID(),
         data: {
-          commitmentId: pmcItem.commitmentId,
-          handlingAdviceId: pmcItem.label
+          commitmentId: pmoItem.commitmentId,
+          handlingAdviceId: pmoItem.value
         }
       },
       {}
     )
     .pipe(first())
     .subscribe(value => {
-      console.log('value', value)
+      if(value.data.updatePmoHandlingAdviceCommitment.id){
+        this.store.dispatch(new SetPMOHandlingAdviceResult({res: pmoItem.label}))
+      }
     })
 }
 

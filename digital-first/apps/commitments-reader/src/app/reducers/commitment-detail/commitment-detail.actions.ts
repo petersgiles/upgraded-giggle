@@ -10,7 +10,9 @@ export enum CommitmentDetailActionTypes {
   UpdatePMOHandlingAdvice = '[CommitmentDetail] UpdatePMOAdvice',
   UpdatePMCHandlingAdvice = '[CommitmentDetail] UpdatePMCAdvice',
   GetHandlingAdvices = '[CommitmentDetail] GetHandlingAdvices',
-  LoadHandlingAdvices = '[CommitmentDetail] LoadHandlingAdvices'
+  LoadHandlingAdvices = '[CommitmentDetail] LoadHandlingAdvices',
+  SetPMOHandlingAdviceResult = '[CommitmentDetail] SetPMOHandlingAdviceResult',
+  SetPMCHandlingAdviceResult = '[CommitmentDetail] SetPMCHandlingAdviceResult'
 }
 
 export class LoadCommitments implements Action {
@@ -53,6 +55,17 @@ export class LoadHandlingAdvices implements Action {
   constructor(public payload: {advices: any}) {}
 }
 
+export class SetPMOHandlingAdviceResult implements Action {
+  type = CommitmentDetailActionTypes.SetPMOHandlingAdviceResult
+  constructor(public payload: any) {}
+}
+
+export class SetPMCHandlingAdviceResult implements Action {
+  type = CommitmentDetailActionTypes.SetPMCHandlingAdviceResult
+  constructor(public payload: any) {}
+}
+
+
 
 
 export type CommitmentDetailActions = 
@@ -63,3 +76,5 @@ GetDetailedCommitment
 |UpdatePMCHandlingAdvice
 |GetHandlingAdvices
 |LoadHandlingAdvices
+|SetPMOHandlingAdviceResult
+|SetPMCHandlingAdviceResult

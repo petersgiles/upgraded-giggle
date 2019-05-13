@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy,  ChangeDetectionStrategy } from '@angular/core'
+import { Component, OnInit, OnDestroy,  ChangeDetectionStrategy, Input } from '@angular/core'
 import { Store, select } from '@ngrx/store'
 import { Subscription, Subject, Observable, of } from 'rxjs'
 import { takeUntil, filter, map} from 'rxjs/operators'
@@ -7,7 +7,8 @@ import { CommitmentDetailService } from '../../reducers/commitment-detail/commit
 import * as indef from 'indefinite'
 import { Commitment } from '../../models/commitment.model'
 import { CommitmentDetailsState } from '../../reducers/commitment-detail/commitment-detail.reducer'
-import { getCommitment, getHandlingAdvice } from '../../reducers/commitment-detail'
+//import { CommitmentDetail } from '../../reducers/commitment-detail'
+import { getCommitment, getHandlingAdvice, getPMOUpdatedState, getPMCUpdatedState } from '../../reducers/commitment-detail'
 import { CommitmentLocation } from '../../models/commitment.model'
 import * as appSelectors from '../../reducers/app'
 
@@ -30,6 +31,8 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   commitment: Commitment
   commitment$: Observable<Commitment>
   handlingAdvice$: Observable<any>
+  pmoHandlingAdvice: string
+  pmcHandlingAdvice: string
   constructor(
     private activatedRoute: ActivatedRoute,
     private commitmentDetailService: CommitmentDetailService,
@@ -38,9 +41,7 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userOperation$ = this.commitmentDetailService.UserOperation
-   /*  this.userOperation$.subscribe(map(val => {
-      console.log('user',val )
-    })) */
+
     this.commitment$ = this.store.pipe(select(getCommitment))
     this.handlingAdvice$ = this.store.pipe(select(getHandlingAdvice))
     
@@ -59,6 +60,16 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
         this.commitmentDetailService.getHandlingAdvices()
       })
 
+       this.store.pipe(select(getPMOUpdatedState))
+      .subscribe(pmoUpdate => {
+        this.pmoHandlingAdvice = pmoUpdate
+      })
+
+      this.store.pipe(select(getPMCUpdatedState))
+      .subscribe(pmcUpdate => {
+        this.pmcHandlingAdvice = pmcUpdate
+      })
+ 
       this.commitment$.subscribe(commitment => {this.commitment = commitment})
     }
 
@@ -76,11 +87,11 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   }
 
   onPMOChange(event){
-    this.commitmentDetailService.updatePmoHandlingAdviceCommitment({label: event.value, commitmentId: this.commitment.id})
+    this.commitmentDetailService.updatePmoHandlingAdviceCommitment({value: event.value, commitmentId: this.commitment.id, label: event.label})
   }
 
   onPMCChange(event){
-    this.commitmentDetailService.updatePmcHandlingAdviceCommitment({label: event.value, commitmentId: this.commitment.id})
+    this.commitmentDetailService.updatePmcHandlingAdviceCommitment({value: event.value, commitmentId: this.commitment.id, label: event.label})
   }
 
   public getIndefiniteArticle(term) {

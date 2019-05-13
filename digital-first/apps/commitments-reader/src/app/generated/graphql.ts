@@ -513,7 +513,6 @@ export type DeckItemBriefSummaryGraphBriefsArgs = {
 export type DeleteBriefCommitmentInputGraph = {
   webId: Scalars['Guid']
   listId: Scalars['Guid']
-  siteId: Scalars['Guid']
   listItemId: Scalars['Int']
   commitmentId: Scalars['Int']
 }
@@ -1778,6 +1777,12 @@ export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
                 'id' | 'title'
               >
             >
+            portfolioLookup: Maybe<
+              { __typename?: 'PortfolioLookupGraph' } & Pick<
+                PortfolioLookupGraph,
+                'id' | 'title'
+              >
+            >
             status: Maybe<
               { __typename?: 'StatusGraph' } & Pick<StatusGraph, 'id' | 'title'>
             >
@@ -2076,10 +2081,8 @@ export const GetCommitmentDetailDocument = gql`
         id
         title
       }
-      announcementType {
-        id
-        title
-      }
+      announcementType {id title}
+      portfolioLookup {id title}
       status {
         id
         title

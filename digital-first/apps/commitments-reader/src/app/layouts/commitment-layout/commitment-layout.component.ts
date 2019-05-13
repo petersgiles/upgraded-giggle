@@ -4,6 +4,7 @@ import { Store, select } from '@ngrx/store'
 import { Back, Go } from '../../reducers/router.actions'
 import { Commitment } from '../../models'
 import { CommitmentDetailsState } from '../../reducers/commitment-detail/commitment-detail.reducer'
+//import { CommitmentDetail } from '../../reducers/commitment-detail'
 import { getCommitment } from '../../reducers/commitment-detail'
 
 @Component({

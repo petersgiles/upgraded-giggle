@@ -23,7 +23,7 @@ export function createApollo(httpLink: HttpLink) {
   // N.B. endpoint is configured to only allow queries via 'GET' and mutations via 'POST'
   const httpQueryLink = httpLink.create({
     uri: environment.datasource.dataServiceUrl,
-    method: 'GET',
+    method: 'POST',
     headers: new HttpHeaders({
       ProgramsApiKey: environment.apiKey
     })
