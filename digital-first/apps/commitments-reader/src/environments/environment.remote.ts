@@ -10,6 +10,7 @@ export const environment = {
     dataServiceUrl: '//programs.cloud9.cabnet/graphql'
   },
   eventDatasource:'local',
+  appConfigDataSource: 'local',
   // user "Mustang Sally" on Cloud9
   apiKey: 'gZjvQ4oxl8OgVY39uoEs5uZg31A=',
   assetsPath: '/assets'

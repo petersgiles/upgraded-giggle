@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 // import { CommitmentRefinerService } from '../../services/commitment-refiner'
 import { Observable, Subscription, of } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { map, tap } from 'rxjs/operators'
 import * as fromPlanner from '../../reducers/planner/planner.reducer'
 import * as fromOverview from '../../reducers/overview/overview.reducer'
+import * as fromUser from '../../reducers/user/user.reducer'
 import { Store, select } from '@ngrx/store'
 import {
   GetEventReferenceData,
@@ -73,7 +74,12 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
 
     this.errorStateSubscription = this.plannerStore
       .pipe(select(fromPlanner.selectPlannerErrortate))
+      // TODO: send to seq
       .subscribe(error => console.log(error))
+
+    this.plannerStore
+      .pipe(select(fromUser.getCurrentUser))
+      .pipe(tap(result => console.log(result)))
   }
 
   handleEventSaved($event: any) {

@@ -10,6 +10,7 @@ export const environment = {
     dataServiceUrl: '//#{ApiPath}/graphql',
   },
   eventDatasource:'sharepoint',
+  appConfigDataSource: 'sharepoint',
   apiKey: '#{ApiKey}',
   assetsPath: '/assets'
 }
