@@ -116,37 +116,44 @@
     </ng-container>
     <hr />
 
-    <!-- <div id="selectors">
+    <div id="selectors">
       <div class="selection">
-    <digital-first-commitment-view-guard [operation]="getPMCRight(userOperation$ | async)">
-      <ng-container operation-type="write">
-          <p>PMC Handling Advice</p>
-          <ng-select  
-          [items]="handlingAdvices$ | async" 
-          bindLabel="label"
-          autofocus
-          [(ngModel)]="pmcHandlingAdvice"
-          (change)="onPMCChange($event)">
-          </ng-select>
-      </ng-container>
-    </digital-first-commitment-view-guard>
-  </div>
-  <div class="selection">
-    <digital-first-commitment-view-guard [operation]="getPMORight(userOperation$ | async)">
+        <!-- <digital-first-commitment-view-guard [operation]="getPMCRight(userOperation$ | async)"> -->
         <ng-container operation-type="write">
-            <p>PMO Handling Advice</p>
-            <ng-select [dropdownPosition]="'top'" 
-            [items]="handlingAdvices$ | async" 
+          <p>PMC Handling Advice</p>
+          <ng-select
+            [items]="handlingAdvices$ | async"
+            bindValue="value"
             bindLabel="label"
             autofocus
-            [(ngModel)]="pmoHandlingAdvice"
-            (change)="onPMOChange($event)">
-            </ng-select>
+            [ngModel]="commitment.pmcHandlingAdvice"
+            (change)="onPMCChange($event)"
+          >
+          </ng-select>
         </ng-container>
-      </digital-first-commitment-view-guard>
-    </div>
-  </div>
+        <!-- </digital-first-commitment-view-guard> -->
+      </div>
 
+      <div class="selection">
+        <!-- <digital-first-commitment-view-guard
+          [operation]="getPMORight(userOperation$ | async)"
+        > -->
+          <ng-container operation-type="write">
+            <p>PMO Handling Advice</p>
+            <ng-select
+              [items]="handlingAdvices$ | async"
+              bindValue="value"
+              bindLabel="label"
+              autofocus
+              [ngModel]="commitment.pmoHandlingAdvice"
+              (change)="onPMOChange($event)"
+            >
+            </ng-select>
+          </ng-container>
+        <!-- </digital-first-commitment-view-guard> -->
+      </div>
+    </div>
+    <!-- 
   <div id="selectors">
     <digital-first-commitment-view-guard [operation]="getPMORight(userOperation$ | async)">
       <ng-container operation-type="hide">

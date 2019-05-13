@@ -1,16 +1,30 @@
-import { Component, OnInit, OnDestroy,  ChangeDetectionStrategy } from '@angular/core'
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy
+} from '@angular/core'
 import { Store, select } from '@ngrx/store'
 import { Subscription, Subject, Observable } from 'rxjs'
-import { takeUntil, filter} from 'rxjs/operators'
+import { takeUntil, filter } from 'rxjs/operators'
 import { ActivatedRoute } from '@angular/router'
 import * as indef from 'indefinite'
 import * as fromDetail from '../../reducers/commitment-detail/commitment-detail.reducer'
+import * as fromUser from '../../reducers/user/user.reducer'
+
 import { Commitment } from '../../models/commitment.model'
 
 import { CommitmentLocation } from '../../models/commitment.model'
-
-import { OPERATION_PMO_HANDLING_ADVICE,OPERATION_PMC_HANDLING_ADVICE } from '../../services/app-data/app-operations'
-import { GetDetailedCommitment, GetHandlingAdvices } from '../../reducers/commitment-detail/commitment-detail.actions'
+import {
+  OPERATION_PMO_HANDLING_ADVICE,
+  OPERATION_PMC_HANDLING_ADVICE
+} from '../../services/app-data/app-operations'
+import {
+  GetDetailedCommitment,
+  GetHandlingAdvices,
+  UpdatePMOHandlingAdvice,
+  UpdatePMCHandlingAdvice
+} from '../../reducers/commitment-detail/commitment-detail.actions'
 
 @Component({
   selector: 'digital-first-commitment-detail',
@@ -18,7 +32,6 @@ import { GetDetailedCommitment, GetHandlingAdvices } from '../../reducers/commit
   templateUrl: './commitment-detail.component.html',
   styleUrls: ['./commitment-detail.component.scss']
 })
-
 export class CommitmentDetailComponent implements OnInit, OnDestroy {
   userOperation$: Observable<any>
   commitmentSubscription$: Subscription
@@ -34,16 +47,20 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   constructor(
     private activatedRoute: ActivatedRoute,
     private store: Store<fromDetail.State>
-  ) { }
+  ) {}
 
   ngOnInit() {
-    // this.userOperation$ = this.commitmentDetailService.UserOperation
+    this.userOperation$ = this.store.pipe(
+      select(fromUser.getCurrentUserOperations)
+    )
 
     this.commitment$ = this.store.pipe(
       select(fromDetail.getDetailedCommitmentState)
     )
 
-    this.handlingAdvices$ = this.store.pipe(select(fromDetail.getHandlingAdvicesState))
+    this.handlingAdvices$ = this.store.pipe(
+      select(fromDetail.getHandlingAdvicesState)
+    )
 
     this.activatedRoute.params
       .pipe(
@@ -51,30 +68,25 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
         filter(params => !!params.id)
       )
       .subscribe((params: any) => {
-
-        this.store.dispatch(new GetDetailedCommitment({id: params.id}))
-        this.store.dispatch(new GetHandlingAdvices(null))
-
-        // this.commitmentDetailService.LoadCommitment(params.id,this.bookType)
-        // this.commitmentDetailService.getHandlingAdvices()
+        this.store.dispatch(new GetDetailedCommitment({ id: params.id }))
       })
 
-      //  this.store.pipe(select(fromDetail.getPMOUpdatedState))
-      //   .subscribe(pmoUpdate => {
-      //   this.pmoHandlingAdvice = pmoUpdate
-      // })
+    this.store
+      .pipe(select(fromDetail.getPMOUpdatedState))
+      .subscribe(pmoUpdate => {
+        this.pmoHandlingAdvice = pmoUpdate
+      })
 
-      // this.store.pipe(select(fromDetail.getPMCUpdatedState))
-      // .subscribe(pmcUpdate => {
-      //   this.pmcHandlingAdvice = pmcUpdate
-      // })
- 
-      // this.commitment$.subscribe(commitment => {this.commitment = commitment})
-    }
+    this.store
+      .pipe(select(fromDetail.getPMCUpdatedState))
+      .subscribe(pmcUpdate => {
+        this.pmcHandlingAdvice = pmcUpdate
+      })
+  }
 
   ngOnDestroy(): void {
-    this.destroyed.next();
-    this.destroyed.complete();
+    this.destroyed.next()
+    this.destroyed.complete()
   }
 
   getPMORight(operations: any) {
@@ -85,12 +97,20 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
     return operations[OPERATION_PMC_HANDLING_ADVICE]
   }
 
-  onPMOChange(){
-    // this.commitmentDetailService.updatePmoHandlingAdviceCommitment({value: event.value, commitmentId: this.commitment.id, label: event.label})
+  onPMOChange($event) {
+    console.log(`🤕`, $event)
+
+    this.store.dispatch(
+      new UpdatePMOHandlingAdvice({ handlingAdviceId: $event.value })
+    )
   }
 
-  onPMCChange(){
-    // this.commitmentDetailService.updatePmcHandlingAdviceCommitment({value: event.value, commitmentId: this.commitment.id, label: event.label})
+  onPMCChange($event) {
+    console.log(`🤕`, $event)
+
+    this.store.dispatch(
+      new UpdatePMCHandlingAdvice({ handlingAdviceId: $event.value })
+    )
   }
 
   public getIndefiniteArticle(term) {

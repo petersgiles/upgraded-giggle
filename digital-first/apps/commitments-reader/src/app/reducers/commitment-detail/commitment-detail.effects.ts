@@ -19,7 +19,12 @@ import {
   LoadDetailedCommitment,
   LoadHandlingAdvices,
   GetDetailedCommitmentFailure,
-  GetHandlingAdvicesFailure
+  GetHandlingAdvicesFailure,
+  UpdatePMCHandlingAdviceFailure,
+  UpdatePMOHandlingAdviceFailure,
+  GetHandlingAdvices,
+  SetPMOHandlingAdviceResult,
+  SetPMCHandlingAdviceResult
 } from './commitment-detail.actions'
 
 import {
@@ -30,7 +35,32 @@ import {
 } from '../../generated/graphql'
 import { Config } from '../../services/config/config-model'
 import { Store } from '@ngrx/store'
-import { Commitment } from '../../models'
+
+const generateUUID = () => {
+  // Public Domain/MIT
+  let d = new Date().getTime()
+  if (
+    typeof performance !== 'undefined' &&
+    typeof performance.now === 'function'
+  ) {
+    d += performance.now() //use high-precision timer if available
+  }
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    // tslint:disable-next-line: no-bitwise
+    const r = (d + Math.random() * 16) % 16 | 0
+    d = Math.floor(d / 16)
+    // tslint:disable-next-line: no-bitwise
+    return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16)
+  })
+}
+
+const mapHandlingadvice = (item): any => {
+  if (item && item[0]) {
+    const handlingAdvice = item[0].handlingAdvice
+    return handlingAdvice.value
+  }
+  return null
+}
 
 const mapCommitmentDetail = (item): any => {
   // tslint:disable-next-line: no-console
@@ -40,25 +70,19 @@ const mapCommitmentDetail = (item): any => {
     id: item.id,
     title: item.title,
     description: item.description,
-     bookType: item.bookType,
-     cost: item.cost,
-     date: item.date,
-     politicalParty: item.politicalParty,
-     announcedBy: item.announcedBy,
-     commitmentType: item.commitmentType ? item.commitmentType.title : '',
-     status: item.status ? item.status.title : '',
-     announcementType: item.announcementType
-       ? item.announcementType.title
-       : '',
-     criticalDate: item.criticalDate ? item.criticalDate.title : '',
-     portfolio: item.portfolioLookup ? item.portfolioLookup.title : ''//,
+    bookType: item.bookType,
+    cost: item.cost,
+    date: item.date,
+    politicalParty: item.politicalParty,
+    announcedBy: item.announcedBy,
+    commitmentType: item.commitmentType ? item.commitmentType.title : '',
+    status: item.status ? item.status.title : '',
+    announcementType: item.announcementType ? item.announcementType.title : '',
+    criticalDate: item.criticalDate ? item.criticalDate.title : '',
+    portfolio: item.portfolioLookup ? item.portfolioLookup.title : '',
     // electorates: this.handleElectorates(item.commitmentLocations)
-    // PMCHandlingAdvice: item.pmcHandlingAdvice
-    //   ? item.pmcHandlingAdvice.title
-    //   : '',
-    // PMOHandlingAdvice: item.pmoHandlingAdvice
-    //   ? item.pmoHandlingAdvice.title
-    //   : ''
+    pmcHandlingAdvice: mapHandlingadvice(item.pmcHandlingAdviceCommitments),
+    pmoHandlingAdvice: mapHandlingadvice(item.pmoHandlingAdviceCommitments)
   }
   console.log(`🤡 item`, mapResult)
   return mapResult
@@ -104,7 +128,8 @@ export class CommitmentDetailEffects {
         // tslint:disable-next-line: no-console
         tap(result => console.log(`🤡 getCommitmentDetailGQL_2`, result)),
         concatMap(result => [
-          new LoadDetailedCommitment(result)
+          new LoadDetailedCommitment(result),
+          new GetHandlingAdvices(null)
         ])
       )
     ),
@@ -114,6 +139,20 @@ export class CommitmentDetailEffects {
   @Effect()
   getHandlingAdvices$ = this.actions$.pipe(
     ofType(CommitmentDetailActionTypes.GetHandlingAdvices),
+    withLatestFrom(this.store$),
+    map(([a, s]) => {
+      const store = <any>s
+      const action = <any>a
+      const config: Config = store.app.config
+      const bookType = config.header.bookType
+      const webId = config.webId
+      const siteId = config.siteId
+      return {
+        book: bookType,
+        webId: [webId],
+        siteId: [siteId]
+      }
+    }),
     switchMap(config =>
       this.getHandlingAdvicesGQL.fetch(config).pipe(
         first(),
@@ -123,9 +162,110 @@ export class CommitmentDetailEffects {
         concatMap(advices => [new LoadHandlingAdvices({ advices })])
       )
     ),
-    catchError(error => of(new GetHandlingAdvicesFailure(error)))
+    catchError(error => {
+      // tslint:disable-next-line: no-console
+      console.log(`🤢 GetHandlingAdvicesFailure`, error)
+      return of(new GetHandlingAdvicesFailure(error))
+    })
+  )
+
+  @Effect()
+  updatePMOHandlingAdvice$ = this.actions$.pipe(
+    ofType(CommitmentDetailActionTypes.UpdatePMOHandlingAdvice),
+    withLatestFrom(this.store$),
+    map(([a, s]) => {
+      const store = <any>s
+      const action = <any>a
+      const config: Config = store.app.config
+      const webId = config.webId
+      const siteId = config.siteId
+
+      const commitmentId = store.commitmentDetail.commitment.id
+      return {
+        messageId: generateUUID(),
+        conversationId: generateUUID(),
+        data: {
+          commitmentId: commitmentId,
+          handlingAdviceId: action.payload.handlingAdviceId,
+          webId: webId,
+          siteId: siteId
+        }
+      }
+    }),
+    switchMap(config =>
+      this.updatePmoHandlingAdviceCommitmentGQL.mutate(config, {}).pipe(
+        first(),
+        map(response => response.data.updatePmoHandlingAdviceCommitment.id),
+        concatMap(response => [
+          new SetPMOHandlingAdviceResult({
+            handlingAdviceId: config.data.handlingAdviceId
+          })
+        ])
+      )
+    ),
+    catchError(error => of(new UpdatePMOHandlingAdviceFailure(error)))
+  )
+
+  @Effect()
+  updatePMCHandlingAdvice$ = this.actions$.pipe(
+    ofType(CommitmentDetailActionTypes.UpdatePMCHandlingAdvice),
+    withLatestFrom(this.store$),
+    map(([a, s]) => {
+      const store = <any>s
+      const action = <any>a
+      const config: Config = store.app.config
+      const webId = config.webId
+      const siteId = config.siteId
+      const commitmentId = store.commitmentDetail.commitment.id
+      return {
+        messageId: generateUUID(),
+        conversationId: generateUUID(),
+        data: {
+          commitmentId: commitmentId,
+          handlingAdviceId: action.payload.handlingAdviceId,
+          webId: webId,
+          siteId: siteId
+        }
+      }
+    }),
+    switchMap(config =>
+      this.updatePmcHandlingAdviceCommitmentGQL.mutate(config, {}).pipe(
+        first(),
+        map(response => response.data.updatePmcHandlingAdviceCommitment.id),
+        concatMap(response => [
+          new SetPMCHandlingAdviceResult({
+            handlingAdviceId: config.data.handlingAdviceId
+          })
+        ])
+      )
+    ),
+    catchError(error => {
+      console.log(`UpdatePMCHandlingAdviceFailure`, error)
+      return of(new UpdatePMCHandlingAdviceFailure(error))
+    })
   )
 }
+
+//     this.updatePmcHandlingAdviceCommitmentGQL
+//       .mutate(
+//         {
+//           messageId: this.generateUUID(),
+//           conversationId: this.generateUUID(),
+//           data: {
+//             commitmentId: pmcItem.commitmentId,
+//             handlingAdviceId: pmcItem.value
+//           }
+//         },
+//         {}
+//       )
+//       .pipe(first())
+//       .subscribe(value => {
+//         if (value.data.updatePmcHandlingAdviceCommitment.id) {
+//           this.store.dispatch(
+//             new SetPMCHandlingAdviceResult({ res: pmcItem.label })
+//           )
+//         }
+//       })
 
 //  @Effect()
 // loadCommitmentDetails$ = this.actions$.pipe(
