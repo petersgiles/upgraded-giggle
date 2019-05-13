@@ -40,8 +40,14 @@ export function reducer(
 
     case UserActionTypes.SetUserOperations: {
       let ops = {}
+
       if (action.payload.data && action.payload.data.groupPermissions) {
-        ops = action.payload.data.groupPermissions.reduce(
+
+// tslint:disable-next-line: no-console
+console.log(`💌 SetUserOperations `, action)
+
+        const groupPermissions = JSON.parse(JSON.stringify(action.payload.data.groupPermissions))
+        ops = (groupPermissions || []).reduce(
           (acc: any, item: any) => {
             const components = item.component
             acc[item.group] = {

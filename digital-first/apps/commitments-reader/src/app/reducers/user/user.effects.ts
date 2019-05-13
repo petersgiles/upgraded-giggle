@@ -20,15 +20,14 @@ export class UserEffects {
   getCurrentUser$ = this.actions$
   .pipe(
     ofType(UserActionTypes.GetCurrentUser),
-    switchMap((value: any) => 
-      {
-        return this.appDataService.getCurrentUser()
+    switchMap((value: any) =>
+        this.appDataService.getCurrentUser()
         .pipe(
           concatMap((user: any) => [
               new SetCurrentUser(user),
               new GetUserOperations(user.roles)
             ]
-          ))}  
+          ))  
   ))
  
   @Effect()
@@ -38,7 +37,7 @@ export class UserEffects {
     concatMap((roles: any) =>
       this.appDataService
         .getCurrentUserOperations(roles)
-        .pipe(concatMap((result: any) => [new SetUserOperations({data: { groupPermissions: result}})]))
+        .pipe(concatMap((result: any) => [new SetUserOperations(result)]))
     )
   )
 

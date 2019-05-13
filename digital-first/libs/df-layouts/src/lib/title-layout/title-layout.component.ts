@@ -55,7 +55,9 @@ export class TitleLayoutComponent implements OnInit, OnDestroy {
       )
       .subscribe(_ => {})
 
-    this.service.profile.subscribe(p => {
+    this.service.profile
+    .pipe(tap(result => console.log(`🍚 profile`, result)))
+    .subscribe(p => {
       this._profile = p
     })
     this.logo$ = this.service.logo$

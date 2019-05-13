@@ -1,4 +1,9 @@
-query getCommitmentDetail($id: String!, $book: BookType!) {
+query getCommitmentDetail(
+  $id: String!, 
+  $book: BookType!, 
+  $webId: [String],
+  $siteId: [String]
+  ) {
   commitments(id: $id, book: $book) {
     id
     title
@@ -9,27 +14,52 @@ query getCommitmentDetail($id: String!, $book: BookType!) {
     politicalParty
     statusId
     announcedBy
+    pmcHandlingAdviceCommitments (where:
+    [
+      {path: "webId", comparison: equal, value: $webId}
+      {path: "siteId", comparison: equal, value: $siteId}
+    ]
+  ) {
+      webId
+      siteId
+      handlingAdvice {
+        id
+        title
+      }
+    }
+    pmoHandlingAdviceCommitments (where:
+    [
+      {path: "webId", comparison: equal, value: $webId}
+      {path: "siteId", comparison: equal, value: $siteId}
+    ]
+  ) {
+      webId
+      siteId
+      handlingAdvice {
+        id
+        title
+      }
+    }
     commitmentType {
       id
       title
     }
-    pmcHandlingAdvice {
-      id
-      title
-    }
-    pmoHandlingAdvice {
-      id
-      title
-    }
-   announcementType { 
+    announcementType {
       id
       title
     }
     portfolioLookup {
       id
       title
-    }status {id title}
-    criticalDate {id title}
+    }
+    status {
+      id
+      title
+    }
+    criticalDate {
+      id
+      title
+    }
     commitmentLocations {
       commitmentId
       location {

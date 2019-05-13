@@ -3,17 +3,12 @@ import { Store, select } from '@ngrx/store'
 import { Subscription, Subject, Observable, of } from 'rxjs'
 import { takeUntil, filter, map} from 'rxjs/operators'
 import { ActivatedRoute } from '@angular/router'
-import { CommitmentDetailService } from '../../reducers/commitment-detail/commitment-detail.service'
 import * as indef from 'indefinite'
+import * as fromDetail from '../../reducers/commitment-detail/commitment-detail.reducer'
 import { Commitment } from '../../models/commitment.model'
-import { CommitmentDetailsState } from '../../reducers/commitment-detail/commitment-detail.reducer'
-//import { CommitmentDetail } from '../../reducers/commitment-detail'
-import { getCommitment, getHandlingAdvice, getPMOUpdatedState, getPMCUpdatedState } from '../../reducers/commitment-detail'
 import { CommitmentLocation } from '../../models/commitment.model'
-import * as appSelectors from '../../reducers/app'
-
 import { OPERATION_PMO, OPERATION_PMC } from '../../services/app-data/app-data.service'
-
+import { GetDetailedCommitment, GetHandlingAdvices } from '../../reducers/commitment-detail/commitment-detail.actions';
 
 @Component({
   selector: 'digital-first-commitment-detail',
@@ -30,47 +25,49 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   private readonly destroyed = new Subject<void>()
   commitment: Commitment
   commitment$: Observable<Commitment>
-  handlingAdvice$: Observable<any>
+  handlingAdvices$: Observable<any>
   pmoHandlingAdvice: string
   pmcHandlingAdvice: string
+
   constructor(
     private activatedRoute: ActivatedRoute,
-    private commitmentDetailService: CommitmentDetailService,
-    private store: Store<CommitmentDetailsState>
+    private store: Store<fromDetail.State>
   ) { }
 
   ngOnInit() {
-    this.userOperation$ = this.commitmentDetailService.UserOperation
+    // this.userOperation$ = this.commitmentDetailService.UserOperation
 
-    this.commitment$ = this.store.pipe(select(getCommitment))
-    this.handlingAdvice$ = this.store.pipe(select(getHandlingAdvice))
-    
-    this.store.pipe(select(appSelectors.App.selectAppBookTypeState))
-    .subscribe(bookType => {
-        this.bookType = bookType
-    })
+    this.commitment$ = this.store.pipe(
+      select(fromDetail.getDetailedCommitmentState)
+    )
+
+    this.handlingAdvices$ = this.store.pipe(select(fromDetail.getHandlingAdvicesState))
 
     this.activatedRoute.params
       .pipe(
         takeUntil(this.destroyed),
         filter(params => !!params.id)
       )
-      .subscribe((params) => {
-        this.commitmentDetailService.LoadCommitment(params.id,this.bookType)
-        this.commitmentDetailService.getHandlingAdvices()
+      .subscribe((params: any) => {
+
+        this.store.dispatch(new GetDetailedCommitment({id: params.id}))
+        this.store.dispatch(new GetHandlingAdvices(null))
+
+        // this.commitmentDetailService.LoadCommitment(params.id,this.bookType)
+        // this.commitmentDetailService.getHandlingAdvices()
       })
 
-       this.store.pipe(select(getPMOUpdatedState))
-      .subscribe(pmoUpdate => {
-        this.pmoHandlingAdvice = pmoUpdate
-      })
+      //  this.store.pipe(select(fromDetail.getPMOUpdatedState))
+      //   .subscribe(pmoUpdate => {
+      //   this.pmoHandlingAdvice = pmoUpdate
+      // })
 
-      this.store.pipe(select(getPMCUpdatedState))
-      .subscribe(pmcUpdate => {
-        this.pmcHandlingAdvice = pmcUpdate
-      })
+      // this.store.pipe(select(fromDetail.getPMCUpdatedState))
+      // .subscribe(pmcUpdate => {
+      //   this.pmcHandlingAdvice = pmcUpdate
+      // })
  
-      this.commitment$.subscribe(commitment => {this.commitment = commitment})
+      // this.commitment$.subscribe(commitment => {this.commitment = commitment})
     }
 
   ngOnDestroy(): void {
@@ -87,11 +84,11 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   }
 
   onPMOChange(event){
-    this.commitmentDetailService.updatePmoHandlingAdviceCommitment({value: event.value, commitmentId: this.commitment.id, label: event.label})
+    // this.commitmentDetailService.updatePmoHandlingAdviceCommitment({value: event.value, commitmentId: this.commitment.id, label: event.label})
   }
 
   onPMCChange(event){
-    this.commitmentDetailService.updatePmcHandlingAdviceCommitment({value: event.value, commitmentId: this.commitment.id, label: event.label})
+    // this.commitmentDetailService.updatePmcHandlingAdviceCommitment({value: event.value, commitmentId: this.commitment.id, label: event.label})
   }
 
   public getIndefiniteArticle(term) {
