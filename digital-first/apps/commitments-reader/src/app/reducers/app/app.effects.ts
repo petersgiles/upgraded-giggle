@@ -1,22 +1,20 @@
-import { Injectable } from '@angular/core'
+import { Injectable, Inject } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 
 import { Observable } from 'rxjs'
-import { map, concatMap, tap } from 'rxjs/operators'
+import { map, concatMap, tap, switchMap } from 'rxjs/operators'
 import { Action } from '@ngrx/store'
 import { AppDataService } from '../../services/app-data/app-data.service'
 import {
   AppActionTypes,
   StartAppInitialiser,
   GetAppConfiguration,
-  LoadAppConfiguration
+  LoadAppConfiguration,
 } from './app.actions'
-import {
-  UserActionTypes,
-  GetUserOperations,
-  SetUserOperations
-} from '../user/user.actions'
+
 import { AppConfigService } from '../../services/config/config.service'
+
+
 
 @Injectable()
 export class AppEffects {
@@ -25,19 +23,10 @@ export class AppEffects {
     ofType(AppActionTypes.StartAppInitialiser),
     map((action: StartAppInitialiser) => action.payload.environment),
     // tslint:disable-next-line: no-console
-    tap(result => console.log(result)),
-    concatMap((environment: any) => [new GetAppConfiguration()])
-  )
-
-  @Effect()
-  getUserOperations$: Observable<Action> = this.actions$.pipe(
-    ofType(UserActionTypes.GetUserOperations),
-    map((action: GetUserOperations) => action.payload),
-    concatMap((roles: any) =>
-      this.service
-        .getCurrentUserOperations(roles)
-        .pipe(concatMap((result: any) => [new SetUserOperations(result)]))
-    )
+    tap(result => console.log('env',result)),
+    concatMap((environment: any) => [
+      new GetAppConfiguration()
+    ])
   )
 
   @Effect()
@@ -51,9 +40,10 @@ export class AppEffects {
 
   )
 
+
   constructor(
     private actions$: Actions,
     private service: AppDataService,
-    private configService: AppConfigService
-  ) {}
+    private configService: AppConfigService,
+  ) { }
 }

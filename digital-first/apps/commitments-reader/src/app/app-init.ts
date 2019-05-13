@@ -3,6 +3,9 @@ import {
   StartAppInitialiser,
   FinishAppInitialiser
 } from './reducers/app/app.actions'
+import {
+  GetCurrentUser
+} from './reducers/user/user.actions'
 import { environment } from '../environments/environment'
 import { Store } from '@ngrx/store'
 import * as fromRoot from './reducers'
@@ -15,7 +18,7 @@ export function initApplication(
   return () =>
     new Promise(resolve => {
       store.dispatch(new StartAppInitialiser({ environment: environment }))
-
+      
       store
         .select((state: any) => state.app.config)
         .pipe(
@@ -26,6 +29,7 @@ export function initApplication(
           // tslint:disable-next-line: no-console
           console.log(`🦄 App Initialised`, result)
           store.dispatch(new FinishAppInitialiser())
+          store.dispatch(new GetCurrentUser('Get User'))
           resolve(true)
         })
     })

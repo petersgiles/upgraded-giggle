@@ -69,14 +69,37 @@
     Critical date: <strong> {{ commitment.criticalDate }}</strong>.
   </p>
 
-  <p *ngIf="commitment.PMOHandlingAdvice">
-      PMO advice handler: <strong>{{ commitment.PMOHandlingAdvice }}</strong>
-  </p>
+  <digital-first-commitment-view-guard [operation]="getPMORight(userOperation$ | async)">
+    <ng-container operation-type="write">
+      <p *ngIf="commitment.PMOHandlingAdvice">
+        PMO advice handler: <strong>{{ commitment.PMOHandlingAdvice }}</strong>
+      </p>
+    </ng-container>
+  </digital-first-commitment-view-guard>
 
-  <p *ngIf="commitment.PMCHandlingAdvice">
-      PM&C advice handler: <strong>{{ commitment.PMCHandlingAdvice }}</strong>
-  </p>
+  <digital-first-commitment-view-guard [operation]="getPMORight(userOperation$ | async)">
+    <ng-container operation-type="read">
+      <p *ngIf="commitment.PMOHandlingAdvice">
+        PMO advice handler: <strong>{{ commitment.PMOHandlingAdvice }}</strong>
+      </p>
+    </ng-container>
+  </digital-first-commitment-view-guard>
 
+  <digital-first-commitment-view-guard [operation]="getPMCRight(userOperation$ | async)">
+    <ng-container operation-type="write">
+      <p *ngIf="commitment.PMCHandlingAdvice">
+        PM&C advice handler: <strong>{{ commitment.PMCHandlingAdvice }}</strong>
+      </p>
+    </ng-container>
+  </digital-first-commitment-view-guard>
+
+  <digital-first-commitment-view-guard [operation]="getPMCRight(userOperation$ | async)">
+    <ng-container operation-type="read">
+      <p *ngIf="commitment.PMCHandlingAdvice">
+        PM&C advice handler: <strong>{{ commitment.PMCHandlingAdvice }}</strong>
+      </p>
+    </ng-container>
+  </digital-first-commitment-view-guard>
 
   <p *ngIf="relatedPackages$?.length > 0">
     Related Package<span *ngIf="relatedPackages$?.length > 1">s</span>:
@@ -96,23 +119,66 @@
     <hr />
     <div [innerHtml]="commitment?.description | safeHtml"></div>
   </ng-container>
-  <ng-container>
-    <hr />
-    <div id="selectors">
-      <div class="selection">
-      <p>PM&C Handling Advice</p>
-        <ng-select [dropdownPosition]="'top'"  [items]="pmcitems"
-          (change)="onPMCChange($event)">
-        </ng-select>
-      </div>
-      <div class="selection">
-        <p>PMO Handling Advice</p>
-        <ng-select [dropdownPosition]="'top'"  [items]="pmoitems"
-          (change)="onPMOChange($event)">
-        </ng-select>
-      </div>
+  <hr />
+  
+  <div id="selectors">
+    <digital-first-commitment-view-guard [operation]="getPMORight(userOperation$ | async)">
+      <ng-container operation-type="write">
+  
+        <div class="selection">
+          <p>PMO Handling Advice</p>
+          <ng-select [dropdownPosition]="'top'" [items]="handlingAdvice$ | async" (change)="onPMOChange($event)">
+          </ng-select>
+        </div>
+      </ng-container>
+    </digital-first-commitment-view-guard>
+    <digital-first-commitment-view-guard [operation]="getPMCRight(userOperation$ | async)">
+        <ng-container operation-type="write">
+    
+          <div class="selection">
+            <p>PMC Handling Advice</p>
+            <ng-select [dropdownPosition]="'top'" [items]="handlingAdvice$ | async" (change)="onPMCChange($event)">
+            </ng-select>
+          </div>
+        </ng-container>
+      </digital-first-commitment-view-guard>
+  </div>
+
+  <div id="selectors">
+      <digital-first-commitment-view-guard [operation]="getPMORight(userOperation$ | async)">
+        <ng-container operation-type="read">
+    
+          <div class="selection">
+            <p>PMO Handling Advice</p>
+            <ng-select [dropdownPosition]="'top'" [items]="handlingAdvice$ | async" (change)="onPMOChange($event)">
+            </ng-select>
+          </div>
+        </ng-container>
+      </digital-first-commitment-view-guard>
+      <digital-first-commitment-view-guard [operation]="getPMCRight(userOperation$ | async)">
+          <ng-container operation-type="read">
+      
+            <div class="selection">
+              <p>PMC Handling Advice</p>
+              <ng-select [dropdownPosition]="'top'" [items]="handlingAdvice$ | async" (change)="onPMCChange($event)">
+              </ng-select>
+            </div>
+          </ng-container>
+        </digital-first-commitment-view-guard>
     </div>
-  </ng-container>
+
+    <div id="selectors">
+        <digital-first-commitment-view-guard [operation]="getPMORight(userOperation$ | async)">
+          <ng-container operation-type="hide">
+          </ng-container>
+        </digital-first-commitment-view-guard>
+        <digital-first-commitment-view-guard [operation]="getPMCRight(userOperation$ | async)">
+            <ng-container operation-type="hide">
+            </ng-container>
+        </digital-first-commitment-view-guard>
+      </div>
+  
+
 </ng-container>
 
 

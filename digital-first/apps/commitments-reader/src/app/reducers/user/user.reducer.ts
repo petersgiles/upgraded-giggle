@@ -1,4 +1,4 @@
-import { UserActions, UserActionTypes } from './user.actions'
+import { UserActions, UserActionTypes, GetCurrentUser } from './user.actions'
 import { AppActions, AppActionTypes } from '../app/app.actions'
 import { createFeatureSelector, createSelector } from '@ngrx/store'
 import {
@@ -6,13 +6,13 @@ import {
   OPERATION_RIGHTS_PRECEDENT
 } from '../../services/app-data/app-operations'
 
-export interface State {
+export interface UserState {
   currentUser
   drawerOpen
   operations
 }
 
-export const initialState: State = {
+export const initialState: UserState = {
   currentUser: null,
   drawerOpen: false,
   operations: {}
@@ -21,8 +21,9 @@ export const initialState: State = {
 export function reducer(
   state = initialState,
   action: UserActions | AppActions
-): State {
+): UserState {
   switch (action.type) {
+
     case UserActionTypes.SetCurrentUser: {
       return {
         ...state,
@@ -68,26 +69,25 @@ export function reducer(
       return state
   }
 }
+export const getOperations = (state: UserState) => state.operations
+export const getCurrentUser = (state: UserState) => state.currentUser
+export const getDrawerOpen = (state: UserState) => state.drawerOpen
 
-export const userState = createFeatureSelector<State>('user')
+export const userState = createFeatureSelector<UserState>('user')
 
-export const getOperations = createSelector(
+export const getUserCurrentUser = createSelector(
   userState,
-  (state: State) => state.operations
+  getCurrentUser
 )
 
-export const getCurrentUser = createSelector(
+export const getUserCurrentOperations = createSelector(
   userState,
-  (state: State) => state.currentUser
-)
-export const getDrawerOpen = createSelector(
-  userState,
-  (state: State) => state.drawerOpen
+  getOperations
 )
 
 export const getCurrentUserOperations = createSelector(
-  getCurrentUser,
-  getOperations,
+  getUserCurrentUser,
+  getUserCurrentOperations,
   (user, operations) => {
     if (!user || !operations || !user.roles) {
       return {
@@ -95,36 +95,27 @@ export const getCurrentUserOperations = createSelector(
       }
     }
 
-    const rights = Object.keys(OPERATION_DEFAULTS).reduce(
-      (acc: any, componentName: any) => {
-        const operationsRights = user.roles.reduce(
-          (rightsAcc: any, group: any) => {
+    const rights = Object.keys(OPERATION_DEFAULTS).reduce((acc: any, componentName: any) => {
+
+        const operationsRights = user.roles.reduce((rightsAcc: any, group: any) => {
             const groupComponents = operations[group]
             if (groupComponents && groupComponents[componentName]) {
-              rightsAcc.push(groupComponents[componentName])
+                rightsAcc.push(groupComponents[componentName])
             }
             return rightsAcc
-          },
-          []
-        )
+        }, [])
 
         const orderedRights = operationsRights.sort((left: any, right: any) =>
-          OPERATION_RIGHTS_PRECEDENT.indexOf(left) >
-          OPERATION_RIGHTS_PRECEDENT.indexOf(right)
-            ? 1
-            : -1
-        )
+            OPERATION_RIGHTS_PRECEDENT.indexOf(left) > OPERATION_RIGHTS_PRECEDENT.indexOf(right) ? 1 : -1)
         acc[componentName] = orderedRights[0]
         return acc
-      },
-      {}
-    )
+    }, {})
 
     const finalRights = Object.keys(rights).reduce((a, i) => {
-      if (rights[i]) {
-        a[i] = rights[i]
-      }
-      return a
+        if (rights[i]) {
+            a[i] =  rights[i]
+        }
+        return a
     }, {})
 
     return {

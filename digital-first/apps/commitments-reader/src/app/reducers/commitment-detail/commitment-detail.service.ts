@@ -1,22 +1,36 @@
 import { Observable, of } from 'rxjs'
+import { first } from 'rxjs/operators'
 import { Injectable } from '@angular/core'
-import { Commitment, CommitmentLocation, MapPoint } from '../../models/commitment.model'
+import { Commitment, CommitmentLocation, MapPoint, HandlingAdvices } from '../../models/commitment.model'
 import { Store } from '@ngrx/store'
-import { GetDetailedCommitment } from './commitment-detail.actions'
-import { GetCommitmentDetailGQL, BookType } from '../../generated/graphql'
-import { map, takeUntil, filter } from 'rxjs/operators'
-
+import { GetDetailedCommitment, GetHandlingAdvices } from './commitment-detail.actions'
+import { GetCommitmentDetailGQL, GetHandlingAdvicesGQL, UpdatePmcHandlingAdviceCommitmentGQL, UpdatePmoHandlingAdviceCommitmentGQL } from '../../generated/graphql'
+import { map} from 'rxjs/operators'
+import * as fromRoot from '../user'
+import { select } from '@ngrx/store'
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class CommitmentDetailService {
   
-  constructor(private getCommitmentDetailGQL: GetCommitmentDetailGQL, private store: Store<any>) {}
+  constructor(private getCommitmentDetailGQL: GetCommitmentDetailGQL, 
+    private getHandlingAdvicesGQL: GetHandlingAdvicesGQL, 
+    private updatePmcHandlingAdviceCommitmentGQL: UpdatePmcHandlingAdviceCommitmentGQL, 
+    private updatePmoHandlingAdviceCommitmentGQL: UpdatePmoHandlingAdviceCommitmentGQL,
+    private store: Store<any>) {}
 
   get Notification(): Observable<string> {
     return of(null)
   }
+
+  get UserOperation(): Observable<any> {
+    return this.store.pipe(
+        select(fromRoot.User.getCurrentUserOperations),
+
+    )
+}
 
   getCurrentUser(action): Observable<any> {
     let commitments = action.result.payload
@@ -32,7 +46,6 @@ commitment: Commitment
       .valueChanges.pipe(map(value => value.data.commitments))
       .subscribe(dbItem => {
         if (dbItem) {
-          
           const commitment: Commitment = {
             id: dbItem[0].id,
             title: dbItem[0].title,
@@ -58,6 +71,10 @@ commitment: Commitment
               ? dbItem[0].portfolioLookup.title
               : '',
             electorates: this.handleElectorates(dbItem[0].commitmentLocations),
+            PMCHandlingAdvice: dbItem[0].pmcHandlingAdvice ? dbItem[0].pmcHandlingAdvice.title
+            : '',
+            PMOHandlingAdvice: dbItem[0].pmoHandlingAdvice ? dbItem[0].pmoHandlingAdvice.title
+            : ''
            // mapPoints: this.handleMapPoints(dbItem[0].commitmentMapPoints)
           
           }
@@ -66,6 +83,62 @@ commitment: Commitment
         }
       })
   }
+
+
+
+  updatePmcHandlingAdviceCommitment(pmcItem: any) {
+  this.updatePmcHandlingAdviceCommitmentGQL
+    .mutate(
+      {
+        messageId: this.generateUUID(),
+        conversationId: this.generateUUID(),
+        data: {
+          commitmentId: pmcItem.commitmentId,
+          handlingAdviceId: pmcItem.label
+        }
+      },
+      {}
+    )
+    .pipe(first())
+    .subscribe(value => {
+      console.log('value 1', value)
+    })
+}
+
+updatePmoHandlingAdviceCommitment(pmcItem: any) {
+  this.updatePmoHandlingAdviceCommitmentGQL
+    .mutate(
+      {
+        messageId: this.generateUUID(),
+        conversationId: this.generateUUID(),
+        data: {
+          commitmentId: pmcItem.commitmentId,
+          handlingAdviceId: pmcItem.label
+        }
+      },
+      {}
+    )
+    .pipe(first())
+    .subscribe(value => {
+      console.log('value', value)
+    })
+}
+
+  getHandlingAdvices(){
+    return this.getHandlingAdvicesGQL
+    .watch(
+      { fetchPolicy: 'network-only' }
+    )
+    .valueChanges.pipe(map(value => value.data.handlingAdvices))
+    .subscribe(dbItem => {
+      if (dbItem) {
+        const advices = dbItem.map(item => ({value: item.id, label: item.title}),
+      )
+      this.store.dispatch(new GetHandlingAdvices({advices}))
+    }
+    })
+  }
+
 
   updateHandlingAdvice(value: any, agency: string): Observable<any> {
      const commitment = {
@@ -125,4 +198,16 @@ commitment: Commitment
     }
     return commitmentLoation
   }
+
+  generateUUID() { // Public Domain/MIT
+    var d = new Date().getTime();
+    if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
+        d += performance.now(); //use high-precision timer if available
+    }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+}
 }

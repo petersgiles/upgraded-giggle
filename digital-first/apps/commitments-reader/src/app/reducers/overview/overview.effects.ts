@@ -49,7 +49,7 @@ export class OverviewEffects {
       )
       return {
         refiner: selectedRefinerGroup,
-        bookType: bookType
+        book: bookType
       }
     }),
     switchMap(config =>

@@ -1,16 +1,17 @@
 import { Component, OnInit, OnDestroy,  ChangeDetectionStrategy } from '@angular/core'
 import { Store, select } from '@ngrx/store'
 import { Subscription, Subject, Observable, of } from 'rxjs'
-import { takeUntil, filter, debounceTime} from 'rxjs/operators'
+import { takeUntil, filter, map} from 'rxjs/operators'
 import { ActivatedRoute } from '@angular/router'
 import { CommitmentDetailService } from '../../reducers/commitment-detail/commitment-detail.service'
 import * as indef from 'indefinite'
 import { Commitment } from '../../models/commitment.model'
 import { CommitmentDetailsState } from '../../reducers/commitment-detail/commitment-detail.reducer'
-import { getCommitment } from '../../reducers/commitment-detail'
+import { getCommitment, getHandlingAdvice } from '../../reducers/commitment-detail'
 import { CommitmentLocation } from '../../models/commitment.model'
 import * as appSelectors from '../../reducers/app'
-import {UpdatePMOHandlingAdvice, UpdatePMCHandlingAdvice } from '../../reducers/commitment-detail/commitment-detail.actions'
+
+import { OPERATION_PMO, OPERATION_PMC } from '../../services/app-data/app-data.service'
 
 
 @Component({
@@ -21,30 +22,14 @@ import {UpdatePMOHandlingAdvice, UpdatePMCHandlingAdvice } from '../../reducers/
 })
 
 export class CommitmentDetailComponent implements OnInit, OnDestroy {
-
- 
-    dropdownPosition: 'top' | 'bottom' = 'bottom';
-    pmcitems = [
-        { value: 1, label: 'Economic update' },
-        { value: 2, label: 'Cabinet' },
-        { value: 3, label: 'Minister to write back to Prime Minister' },
-        { value: 4, label: 'Minister to implement' }
-    ];
-
-    pmoitems = [
-      { value: 1, label: 'Economic update' },
-      { value: 2, label: 'Cabinet' },
-      { value: 3, label: 'Minister to write back to Prime Minister' },
-      { value: 4, label: 'Minister to implement' }
-  ];
-
+  userOperation$: Observable<any>
   commitmentSubscription$: Subscription
   electorate$: Observable<CommitmentLocation[]>
   bookType: string
-  private readonly destroyed = new Subject<void>();
+  private readonly destroyed = new Subject<void>()
   commitment: Commitment
-  commitment$: Observable<Commitment>;
- 
+  commitment$: Observable<Commitment>
+  handlingAdvice$: Observable<any>
   constructor(
     private activatedRoute: ActivatedRoute,
     private commitmentDetailService: CommitmentDetailService,
@@ -52,8 +37,12 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-  
+    this.userOperation$ = this.commitmentDetailService.UserOperation
+   /*  this.userOperation$.subscribe(map(val => {
+      console.log('user',val )
+    })) */
     this.commitment$ = this.store.pipe(select(getCommitment))
+    this.handlingAdvice$ = this.store.pipe(select(getHandlingAdvice))
     
     this.store.pipe(select(appSelectors.App.selectAppBookTypeState))
     .subscribe(bookType => {
@@ -67,21 +56,31 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
       )
       .subscribe((params) => {
         this.commitmentDetailService.LoadCommitment(params.id,this.bookType)
+        this.commitmentDetailService.getHandlingAdvices()
       })
+
+      this.commitment$.subscribe(commitment => {this.commitment = commitment})
     }
 
   ngOnDestroy(): void {
-    this.commitmentSubscription$.unsubscribe()
     this.destroyed.next();
     this.destroyed.complete();
   }
 
+  getPMORight(operations: any) {
+    return operations[OPERATION_PMO]
+  }
+
+  getPMCRight(operations: any) {
+    return operations[OPERATION_PMC]
+  }
+
   onPMOChange(event){
-    //this.store.dispatch(new UpdatePMOHandlingAdvice({label: event.label, commitmentId: this.commitment.id}))
+    this.commitmentDetailService.updatePmoHandlingAdviceCommitment({label: event.value, commitmentId: this.commitment.id})
   }
 
   onPMCChange(event){
-   // this.store.dispatch(new UpdatePMCHandlingAdvice({label: event.label, commitmentId: this.commitment.id}))
+    this.commitmentDetailService.updatePmcHandlingAdviceCommitment({label: event.value, commitmentId: this.commitment.id})
   }
 
   public getIndefiniteArticle(term) {

@@ -60,3 +60,8 @@ export interface CommitmentRow {
   criticalDate?: string
   portfolio?: string
 }
+
+export interface HandlingAdvices{
+  value: any
+  label: string
+}

@@ -513,6 +513,7 @@ export type DeckItemBriefSummaryGraphBriefsArgs = {
 export type DeleteBriefCommitmentInputGraph = {
   webId: Scalars['Guid']
   listId: Scalars['Guid']
+  siteId: Scalars['Guid']
   listItemId: Scalars['Int']
   commitmentId: Scalars['Int']
 }
@@ -1759,6 +1760,18 @@ export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
                 'id' | 'title'
               >
             >
+            pmcHandlingAdvice: Maybe<
+              { __typename?: 'HandlingAdviceGraph' } & Pick<
+                HandlingAdviceGraph,
+                'id' | 'title'
+              >
+            >
+            pmoHandlingAdvice: Maybe<
+              { __typename?: 'HandlingAdviceGraph' } & Pick<
+                HandlingAdviceGraph,
+                'id' | 'title'
+              >
+            >
             announcementType: Maybe<
               { __typename?: 'AnnouncementTypeGraph' } & Pick<
                 AnnouncementTypeGraph,
@@ -1803,7 +1816,14 @@ export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
                   { __typename?: 'CommitmentPackageTypeGraph' } & Pick<
                     CommitmentPackageTypeGraph,
                     'id'
-                  >
+                  > & {
+                      packageType: Maybe<
+                        { __typename?: 'PackageTypeGraph' } & Pick<
+                          PackageTypeGraph,
+                          'id' | 'title'
+                        >
+                      >
+                    }
                 >
               >
             >
@@ -1879,7 +1899,7 @@ export type GetRefinerTagsQuery = { __typename?: 'Query' } & {
 
 export type CommitmentsSearchQueryVariables = {
   refiner: CommitmentRefinerGraph
-  bookType: BookType
+  book: BookType
 }
 
 export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
@@ -1909,6 +1929,21 @@ export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
               >
             >
           }
+      >
+    >
+  >
+}
+
+export type GetHandlingAdvicesQueryVariables = {}
+
+export type GetHandlingAdvicesQuery = { __typename?: 'Query' } & {
+  handlingAdvices: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'HandlingAdviceGraph' } & Pick<
+          HandlingAdviceGraph,
+          'id' | 'title'
+        >
       >
     >
   >
@@ -1967,9 +2002,9 @@ export type MapPointsSearchQuery = { __typename?: 'Query' } & {
 }
 
 export type UpdatePmcHandlingAdviceCommitmentMutationVariables = {
-  updatePmcHandlingAdviceCommitment: UpdatePmcHandlingAdviceCommitmentGraph
   messageId: Scalars['Guid']
-  conversationId: Scalars['Guid']
+  conversationId?: Maybe<Scalars['Guid']>
+  data: UpdatePmcHandlingAdviceCommitmentGraph
 }
 
 export type UpdatePmcHandlingAdviceCommitmentMutation = {
@@ -1981,9 +2016,9 @@ export type UpdatePmcHandlingAdviceCommitmentMutation = {
 }
 
 export type UpdatePmoHandlingAdviceCommitmentMutationVariables = {
-  updatePmoHandlingAdviceCommitment: UpdatePmoHandlingAdviceCommitmentGraph
   messageId: Scalars['Guid']
-  conversationId: Scalars['Guid']
+  conversationId?: Maybe<Scalars['Guid']>
+  data: UpdatePmoHandlingAdviceCommitmentGraph
 }
 
 export type UpdatePmoHandlingAdviceCommitmentMutation = {
@@ -2039,6 +2074,14 @@ export const GetCommitmentDetailDocument = gql`
         id
         title
       }
+      pmcHandlingAdvice {
+        id
+        title
+      }
+      pmoHandlingAdvice {
+        id
+        title
+      }
       announcementType {
         id
         title
@@ -2065,6 +2108,10 @@ export const GetCommitmentDetailDocument = gql`
       }
       commitmentPackageTypes {
         id
+        packageType {
+          id
+          title
+        }
       }
       commitmentPortfolioLookups {
         commitmentId
@@ -2117,11 +2164,8 @@ export class GetRefinerTagsGQL extends Apollo.Query<
   document = GetRefinerTagsDocument
 }
 export const CommitmentsSearchDocument = gql`
-  query CommitmentsSearch(
-    $refiner: CommitmentRefinerGraph!
-    $bookType: BookType!
-  ) {
-    commitments(refiner: $refiner, book: $bookType) {
+  query CommitmentsSearch($refiner: CommitmentRefinerGraph!, $book: BookType!) {
+    commitments(refiner: $refiner, book: $book) {
       id
       title
       bookType: book
@@ -2151,6 +2195,24 @@ export class CommitmentsSearchGQL extends Apollo.Query<
   CommitmentsSearchQueryVariables
 > {
   document = CommitmentsSearchDocument
+}
+export const GetHandlingAdvicesDocument = gql`
+  query getHandlingAdvices {
+    handlingAdvices {
+      id
+      title
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class GetHandlingAdvicesGQL extends Apollo.Query<
+  GetHandlingAdvicesQuery,
+  GetHandlingAdvicesQueryVariables
+> {
+  document = GetHandlingAdvicesDocument
 }
 export const MapPointsSearchDocument = gql`
   query MapPointsSearch($refiner: CommitmentRefinerGraph!, $book: BookType!) {
@@ -2193,15 +2255,15 @@ export class MapPointsSearchGQL extends Apollo.Query<
   document = MapPointsSearchDocument
 }
 export const UpdatePmcHandlingAdviceCommitmentDocument = gql`
-  mutation UpdatePmcHandlingAdviceCommitment(
-    $updatePmcHandlingAdviceCommitment: UpdatePmcHandlingAdviceCommitmentGraph!
+  mutation updatePmcHandlingAdviceCommitment(
     $messageId: Guid!
-    $conversationId: Guid!
+    $conversationId: Guid
+    $data: UpdatePmcHandlingAdviceCommitmentGraph!
   ) {
     updatePmcHandlingAdviceCommitment(
-      updatePmcHandlingAdviceCommitment: $updatePmcHandlingAdviceCommitment
       messageId: $messageId
       conversationId: $conversationId
+      updatePmcHandlingAdviceCommitment: $data
     ) {
       id
     }
@@ -2218,15 +2280,15 @@ export class UpdatePmcHandlingAdviceCommitmentGQL extends Apollo.Mutation<
   document = UpdatePmcHandlingAdviceCommitmentDocument
 }
 export const UpdatePmoHandlingAdviceCommitmentDocument = gql`
-  mutation UpdatePmoHandlingAdviceCommitment(
-    $updatePmoHandlingAdviceCommitment: UpdatePmoHandlingAdviceCommitmentGraph!
+  mutation updatePmoHandlingAdviceCommitment(
     $messageId: Guid!
-    $conversationId: Guid!
+    $conversationId: Guid
+    $data: UpdatePmoHandlingAdviceCommitmentGraph!
   ) {
     updatePmoHandlingAdviceCommitment(
-      updatePmoHandlingAdviceCommitment: $updatePmoHandlingAdviceCommitment
       messageId: $messageId
       conversationId: $conversationId
+      updatePmoHandlingAdviceCommitment: $data
     ) {
       id
     }

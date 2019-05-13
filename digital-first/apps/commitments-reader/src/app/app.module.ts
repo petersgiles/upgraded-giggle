@@ -54,6 +54,7 @@ import * as fromApp from './reducers/app/app.reducer'
 import * as fromCommitmentDetail from './reducers/commitment-detail/commitment-detail.reducer'
 
 import { AppEffects } from './reducers/app/app.effects'
+import { UserEffects } from './reducers/user/user.effects'
 import { CommitmentDetailEffects } from './reducers/commitment-detail/commitment-detail.effects'
 import { RouterEffects } from './reducers/router.effects'
 import { RefinerEffects } from './reducers/refiner/refiner.effects'
@@ -69,6 +70,7 @@ import { appDataServiceProvider } from './services/app-data/app-data.service.fac
 import { configServiceProvider } from './services/config/config.service.factory'
 import { GraphQLModule } from './graphQL/graphQl.module';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component'
+import { CommitmentViewGuardComponent } from './pages/commitment-view-guard/commitment-view-guard.component'
 
 const COMPONENTS = [
   AppComponent,
@@ -81,7 +83,8 @@ const COMPONENTS = [
   CommitmentOverviewLayoutComponent,
   SchedulerComponent,
   CommitmentDetailComponent,
-  CommitmentPackageComponent
+  CommitmentPackageComponent,
+  CommitmentViewGuardComponent
 ]
 
 @NgModule({
@@ -132,6 +135,7 @@ const COMPONENTS = [
     EffectsModule.forRoot([RouterEffects]),
     EffectsModule.forFeature([
       AppEffects,
+      UserEffects,
       RefinerEffects,
       OverviewEffects,
       MapEffects,
@@ -148,6 +152,7 @@ const COMPONENTS = [
       multi: true
     },
     appDataServiceProvider,
+   // SharePointAppDataService,
     configServiceProvider,
     commitmentEventDataServiceProvider,
     SharepointJsomService,

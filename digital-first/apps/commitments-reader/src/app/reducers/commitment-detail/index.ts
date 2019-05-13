@@ -7,3 +7,8 @@ export const getCommitment = createSelector(
     getCommitmentDetailsState,
     (state: fromReducer.CommitmentDetailsState) => state.commitment
   )
+
+  export const getHandlingAdvice = createSelector(
+    getCommitmentDetailsState,
+    (state: fromReducer.CommitmentDetailsState) => state.handlingAdvices
+  )
