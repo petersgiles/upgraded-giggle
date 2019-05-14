@@ -58,7 +58,7 @@ export class EventSharepointDataService implements CommitmentEventDataService {
   }
 
   getEventTypes(payload: any): Observable<DataResult<CommitmentEventType[]>> {
-    if (!payload || payload.currentUserPlannerOperation !== this.WRITE) {
+    if (!payload || payload !== this.WRITE) {
       return of({
         data: [],
         loadding: false,
@@ -78,16 +78,21 @@ export class EventSharepointDataService implements CommitmentEventDataService {
   }
 
   getExternalEvents(payload: any): Observable<DataResult<ExternalEvent[]>> {
-    if (!payload || payload.currentUserPlannerOperation === this.HIDE) {
-      return EMPTY
-    }
     if (
-      !payload.selectedExternalTypes ||
-      payload.selectedExternalTypes.length === 0
+      !payload ||
+      payload.permission === this.HIDE ||
+      !payload.selectedExternalEventTypes ||
+      payload.selectedExternalEventTypes.length === 0
     ) {
-      return EMPTY
+      return of({
+        data: [],
+        loadding: false,
+        error: null
+      })
     }
-    const viewXml = byExternalEventTypeIdsQuery(payload.selectedExternalTypes)
+    const viewXml = byExternalEventTypeIdsQuery(
+      payload.selectedExternalEventTypes
+    )
     return forkJoin([
       this.sharepoint.getItems({ listName: 'ExternalEvent', viewXml: viewXml }),
       this.sharepoint.getItems({ listName: 'ExternalEventType' })
@@ -103,8 +108,15 @@ export class EventSharepointDataService implements CommitmentEventDataService {
   }
 
   getExternalEventTypes(
-    config: any
+    payload: any
   ): Observable<DataResult<ExternalEventType[]>> {
+    if (!payload || payload === this.HIDE) {
+      return of({
+        data: [],
+        loadding: false,
+        error: null
+      })
+    }
     return this.sharepoint.getItems({ listName: 'ExternalEventType' }).pipe(
       map((result: any) => ({
         data: mapExternalEventTypes(result).sort((a, b) =>
@@ -117,8 +129,12 @@ export class EventSharepointDataService implements CommitmentEventDataService {
   }
 
   storeEvent(payload: any): Observable<DataResult<any>> {
-    if (!payload || payload.currentUserPlannerOperation !== this.WRITE) {
-      return EMPTY
+    if (!payload || payload !== this.WRITE) {
+      return of({
+        data: [],
+        loadding: false,
+        error: null
+      })
     }
     const spData = {
       Title: payload.data.name,
@@ -146,8 +162,12 @@ export class EventSharepointDataService implements CommitmentEventDataService {
   }
 
   removeEvent(payload: any): Observable<DataResult<any>> {
-    if (!payload || payload.currentUserPlannerOperation !== this.WRITE) {
-      return EMPTY
+    if (!payload || payload !== this.WRITE) {
+      return of({
+        data: [],
+        loadding: false,
+        error: null
+      })
     }
     return this.sharepoint
       .removeItem({

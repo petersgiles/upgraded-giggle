@@ -16,7 +16,6 @@ import {
   LoadCommitmentEvents,
   LoadEventTypes,
   LoadExternalEventTypes,
-  LoadPlannerPermission,
   LoadSelectedExternalEventTypes,
   GetEventTypes,
   GetExternalEventTypes,
@@ -37,17 +36,6 @@ export class PlannerEffects {
   @Effect()
   getCommitmentsEvents$ = this.actions$.pipe(
     ofType(PlannerActionTypes.GetCommitmentEvents),
-    withLatestFrom(this.rootStore$),
-    map(([action, store]) => {
-      const rootStore = <any>store
-      const currentUserPlannerOperation = PlannerOpearationHelper(rootStore)
-      return {
-        commitments: action.payload
-          ? action.payload
-          : rootStore.overview.commitments,
-        currentUserPlannerOperation: currentUserPlannerOperation
-      }
-    }),
     switchMap(payload =>
       this.commitmentEventDataService
         .getEventsByCommitments(payload)
@@ -59,120 +47,81 @@ export class PlannerEffects {
   @Effect()
   getEventsReferenceData$ = this.actions$.pipe(
     ofType(PlannerActionTypes.GetEventReferenceData),
-    switchMap(() => [
-      new GetEventTypes(null),
-      new GetExternalEventTypes(null),
-      new GetExternalEvents([])
+    switchMap(action => [
+      new GetEventTypes(action.payload),
+      new GetExternalEventTypes(action.payload),
+      new GetExternalEvents({
+        permission: action.payload,
+        selectedExternalEventTypes: []
+      })
     ])
   )
 
   @Effect()
   getEventTypes$ = this.actions$.pipe(
     ofType(PlannerActionTypes.GetEventTypes),
-    withLatestFrom(this.rootStore$),
-    map(([_, store]) => {
-      const rootStore = <any>store
-      const currentUserPlannerOperation = PlannerOpearationHelper(rootStore)
-      return {
-        currentUserPlannerOperation: currentUserPlannerOperation
-      }
-    }),
-    switchMap(config =>
+    switchMap(action =>
       this.commitmentEventDataService
-        .getEventTypes(config)
+        .getEventTypes(action.payload)
         .pipe(map(data => new LoadEventTypes(data)))
     ),
     catchError(error => {
       // tslint:disable-next-line: no-console
       console.log(`💥 error => `, error)
-      return [new ErrorInPlanner(error)]})
+      return [new ErrorInPlanner(error)]
+    })
   )
 
   @Effect()
   getExternalEventTypes$ = this.actions$.pipe(
     ofType(PlannerActionTypes.GetExternalEventTypes),
-    withLatestFrom(this.rootStore$),
-    map(([_, store]) => {
-      const rootStore = <any>store
-      const currentUserPlannerOperation = PlannerOpearationHelper(rootStore)
-      return {
-        currentUserPlannerOperation: currentUserPlannerOperation
-      }
-    }),
-    switchMap(config =>
+    switchMap(action =>
       this.commitmentEventDataService
-        .getExternalEventTypes(config)
+        .getExternalEventTypes(action.payload)
         .pipe(map(data => new LoadExternalEventTypes(data)))
     ),
     catchError(error => {
       // tslint:disable-next-line: no-console
       console.log(`💥 error => `, error)
-      return [new ErrorInPlanner(error)]})
+      return [new ErrorInPlanner(error)]
+    })
   )
 
   @Effect()
   getExternalEvents$ = this.actions$.pipe(
     ofType(PlannerActionTypes.GetExternalEvents),
-    withLatestFrom(this.rootStore$),
-    map(([action, store]) => {
-      const rootStore = <any>store
-      const currentUserPlannerOperation = PlannerOpearationHelper(rootStore)
-      return {
-        currentUserPlannerOperation: currentUserPlannerOperation,
-        selectedExternalTypes:
-          action.payload && action.payload.length > 0
-            ? action.payload
-            : rootStore.planner.selectedExternalEeventTypes
-      }
-    }),
-    switchMap(config =>
+    switchMap(action =>
       this.commitmentEventDataService
-        .getExternalEvents(config)
+        .getExternalEvents(action.payload)
         .pipe(map(data => new LoadExternalEvents(data)))
     ),
     catchError(error => {
       // tslint:disable-next-line: no-console
       console.log(`💥 error => `, error)
-      return [new ErrorInPlanner(error)]})
+      return [new ErrorInPlanner(error)]
+    })
   )
   @Effect()
   storeCommitmentEvent$ = this.actions$.pipe(
     ofType(PlannerActionTypes.StoreCommitmentEvent),
-    withLatestFrom(this.rootStore$),
-    map(([action, store]) => {
-      const rootStore = <any>store
-      const currentUserPlannerOperation = PlannerOpearationHelper(rootStore)
-      return {
-        currentUserPlannerOperation: currentUserPlannerOperation,
-        data: action.payload
-      }
-    }),
-    concatMap(config =>
+    concatMap(action =>
       this.commitmentEventDataService
-        .storeEvent(config)
+        .storeEvent(action.payload)
         .pipe(map(() => new GetCommitmentEvents(null)))
     ),
     catchError(error => {
       // tslint:disable-next-line: no-console
       console.log(`💥 error => `, error)
-      return [new ErrorInPlanner(error)]})
+      return [new ErrorInPlanner(error)]
+    })
   )
 
   @Effect()
   removeCommitmentEvent$ = this.actions$.pipe(
     ofType(PlannerActionTypes.RemoveCommitmentEvent),
-    withLatestFrom(this.rootStore$),
-    map(([action, store]) => {
-      const rootStore = <any>store
-      const currentUserPlannerOperation = PlannerOpearationHelper(rootStore)
-      return {
-        currentUserPlannerOperation: currentUserPlannerOperation,
-        data: action.payload
-      }
-    }),
-    concatMap(config =>
+    concatMap(action =>
       this.commitmentEventDataService
-        .removeEvent(config)
+        .removeEvent(action.payload)
         .pipe(
           map(
             () => new GetCommitmentEvents(null),
@@ -186,21 +135,8 @@ export class PlannerEffects {
   storeSelectedExternalEventTypes$ = this.actions$.pipe(
     ofType(PlannerActionTypes.StoreSelectedExternalEventTypes),
     concatMap(action => [
-      new LoadSelectedExternalEventTypes(action.payload),
-      new GetExternalEvents(action.payload)
+      new LoadSelectedExternalEventTypes(action.payload)
     ])
-  )
-
-  @Effect()
-  getPlannerPermission$ = this.actions$.pipe(
-    ofType(PlannerActionTypes.GetPlannerPermission),
-    withLatestFrom(this.rootStore$),
-    map(([_, store]) => {
-      const rootStore = <any>store
-      const plannerOperation = PlannerOpearationHelper(rootStore)
-      return plannerOperation === 'read' || plannerOperation === 'hide'
-    }),
-    map(readonly => new LoadPlannerPermission(readonly))
   )
 
   constructor(
@@ -210,7 +146,7 @@ export class PlannerEffects {
   ) {}
 }
 
-export function PlannerOpearationHelper(rootStore: any) {
+export function plannerOperationHelper(rootStore: any) {
   if (rootStore.user) {
     const user = rootStore.user.currentUser
     const operations = rootStore.user.operations

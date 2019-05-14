@@ -1,5 +1,6 @@
 import { PlannerActions, PlannerActionTypes } from './planner.actions'
 import { createSelector, createFeatureSelector } from '@ngrx/store'
+import { OPERATION_RIGHT_WRITE } from '../../services/app-data/app-operations';
 
 export interface State {
   commitments: any[]
@@ -10,7 +11,7 @@ export interface State {
   selectedExternalEeventTypes: any[]
   schedulerZoomLevel: any
   schedulerCenterDate: Date
-  isReadonly: boolean
+  readonly: boolean
   error: any
 }
 
@@ -23,7 +24,7 @@ export const initialState: State = {
   selectedExternalEeventTypes: [],
   schedulerZoomLevel: 3,
   schedulerCenterDate: new Date(),
-  isReadonly: true,
+  readonly: true,
   error: {}
 }
 
@@ -55,15 +56,16 @@ export function reducer(state = initialState, action: PlannerActions): State {
         schedulerZoomLevel: action.payload.zoomLevel,
         schedulerCenterDate: action.payload.currentCenterDate
       }
-    case PlannerActionTypes.LoadPlannerPermission:
-      return {
-        ...state,
-        isReadonly: action.payload
-      }
     case PlannerActionTypes.LoadSelectedExternalEventTypes:
       return {
         ...state,
         selectedExternalEeventTypes: action.payload
+      }
+    case PlannerActionTypes.SetPlannerPermission:
+      const WRITE = OPERATION_RIGHT_WRITE
+      return {
+        ...state,
+        readonly: action.payload !== WRITE
       }
     case PlannerActionTypes.ErrorInPlanner:
       return {
@@ -106,7 +108,7 @@ export const selectSchedulerCenterDateState = createSelector(
 )
 export const selectPlannerPermissionState = createSelector(
   plannerState,
-  (state: State) => state.isReadonly
+  (state: State) => state.readonly
 )
 export const selectPlannerErrortate = createSelector(
   plannerState,

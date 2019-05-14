@@ -35,7 +35,7 @@ export class EventDevelopDataService implements CommitmentEventDataService {
   ): Observable<DataResult<CommitmentEvent[]>> {
     if (
       !payload ||
-      payload.currentUserPlannerOperation === this.HIDE ||
+      payload.permission === this.HIDE ||
       (!payload.commitments && payload.commitments.length === 0)
     ) {
       return of({ data: [] })
@@ -48,8 +48,7 @@ export class EventDevelopDataService implements CommitmentEventDataService {
   }
 
   getEventTypes(payload: any): Observable<DataResult<CommitmentEventType[]>> {
-    console.log('test' + payload)
-    if (!payload || payload.currentUserPlannerOperation !== this.WRITE) {
+    if (!payload || payload !== this.WRITE) {
       return of({
         data: [],
         loadding: false,
@@ -60,10 +59,19 @@ export class EventDevelopDataService implements CommitmentEventDataService {
   }
 
   getExternalEvents(payload: any): Observable<DataResult<ExternalEvent[]>> {
-    if (!payload || payload.currentUserPlannerOperation === this.HIDE) {
-      return of({ data: [] })
+    if (
+      !payload ||
+      payload.permission === this.HIDE ||
+      !payload.selectedExternalEventTypes ||
+      payload.selectedExternalEventTypes.length === 0
+    ) {
+      return of({
+        data: [],
+        loadding: false,
+        error: null
+      })
     }
-    const types = payload.selectedExternalTypes
+    const types = payload.selectedExternalEventTypes
     const data = externalEvents
       .map(e => ({
         name: e.name,
@@ -81,7 +89,7 @@ export class EventDevelopDataService implements CommitmentEventDataService {
   getExternalEventTypes(
     payload: any
   ): Observable<DataResult<ExternalEventType[]>> {
-    if (!payload || payload.currentUserPlannerOperation === this.HIDE) {
+    if (!payload || payload === this.HIDE) {
       return of({ data: [] })
     }
     return of({
@@ -90,8 +98,12 @@ export class EventDevelopDataService implements CommitmentEventDataService {
   }
 
   storeEvent(payload: any): Observable<DataResult<any>> {
-    if (!payload || payload.currentUserPlannerOperation !== this.WRITE) {
-      return of()
+    if (!payload || payload !== this.WRITE) {
+      return of({
+        data: [],
+        loadding: false,
+        error: null
+      })
     }
     const existingId = payload.data.id
     let events = this.getEventDataFromLocalStorage()
@@ -99,7 +111,7 @@ export class EventDevelopDataService implements CommitmentEventDataService {
       events = events.filter(e => e.id !== existingId)
       events.push(payload.data)
     } else {
-      let event = JSON.parse(JSON.stringify(payload.data))
+      const event = JSON.parse(JSON.stringify(payload.data))
       event.id = Math.random().toString()
       events.push(event)
     }
@@ -112,11 +124,12 @@ export class EventDevelopDataService implements CommitmentEventDataService {
   }
 
   removeEvent(payload: any): Observable<DataResult<any>> {
-    if (
-      !payload ||
-      payload.currentUserPlannerOperation !== OPERATION_RIGHT_WRITE
-    ) {
-      return of()
+    if (!payload || payload !== this.WRITE) {
+      return of({
+        data: [],
+        loadding: false,
+        error: null
+      })
     }
     let events = this.getEventDataFromLocalStorage()
     events = events.filter(e => e.id !== payload.data.id)
