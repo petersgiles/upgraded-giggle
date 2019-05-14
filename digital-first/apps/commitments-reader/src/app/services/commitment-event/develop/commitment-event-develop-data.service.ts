@@ -14,7 +14,7 @@ import * as externalEvents from './data/timeRanges.json'
 import * as externalEventTypes from './data/externalEventType.json'
 
 import { CommitmentEventDataService } from '../commitment-event-data-service'
-import { DateHelper } from 'bryntum-scheduler/scheduler.umd.min.js'
+import { DateHelper } from 'bryntum-scheduler/scheduler.umd.js'
 import {
   OPERATION_RIGHT_HIDE,
   OPERATION_RIGHT_WRITE,

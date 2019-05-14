@@ -10,7 +10,7 @@ import {
 } from '@angular/core'
 import { SchedulerComponent } from '../scheduler/scheduler.component'
 import { MdcSliderChange } from '@angular-mdc/web'
-import { DateHelper, EventModel } from 'bryntum-scheduler/scheduler.umd.min.js'
+import { DateHelper, EventModel } from 'bryntum-scheduler/scheduler.umd.js'
 import * as ZoomLevels from './data/zoomLevels.json'
 import { webSafeColours } from './data/webSafeColours'
 import { Subscription } from 'apollo-client/util/Observable'
