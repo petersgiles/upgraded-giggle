@@ -139,5 +139,7 @@ export const getUserCurrentUserPlannerPermission = createSelector(
   getUserCurrentUser,
   getUserCurrentUserOperations,
   (user, operations) =>
-    user.isSiteAdmin ? OPERATION_RIGHT_WRITE : operations[OPERATION_PLANNER]
+    user && user.isSiteAdmin
+      ? OPERATION_RIGHT_WRITE
+      : operations[OPERATION_PLANNER]
 )
