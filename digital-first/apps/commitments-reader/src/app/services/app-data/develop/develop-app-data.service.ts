@@ -2,38 +2,40 @@ import { Observable, of, from} from 'rxjs'
 import { AppDataService } from '../app-data.service'
 import { AppUserProfile } from '@digital-first/df-layouts'
 import { ROLE_VISITORS, ROLE_MEMBERS, ROLE_OWNERS } from '../app-operations'
+import { DataResult, GroupPermissionsResult } from '../../../models'
 
 export class DevelopAppDataService implements AppDataService {
-  getCurrentUserOperations(roles: { groupPermissions: any }): Observable<any> {
-    return of([
-      {
-        "group": "ROLE_OWNERS",
-        "component": [
-          "pmohandlingadvice",
-          "pmchandlingadvice"
-        ],
-        "rights": "write",
-        "_id": "0bc5e6f9dd0a4ef795999be061aadb05"
-      },
-      {
-        "group": "ROLE_MEMBERS",
-        "component": [
-          "pmohandlingadvice",
-          "pmchandlingadvice"
-        ],
-        "rights": "read",
-        "_id": "6ef1141ebbca4724b1a8eb6fa4285df1"
-      },
-      {
-        "group": "ROLE_VISITORS",
-        "component": [
-          "pmohandlingadvice",
-          "pmchandlingadvice"
-        ],
-        "rights": "hide",
-        "_id": "c17ab6bf8c694f6ab26ab4e22a68796f"
-      }
-    ]
+ data = [
+    {
+      "group": "ROLE_OWNERS",
+      "component": [
+        "pmohandlingadvice",
+        "pmchandlingadvice"
+      ],
+      "rights": "write",
+      "id": "0bc5e6f9dd0a4ef795999be061aadb05"
+    },
+    {
+      "group": "ROLE_MEMBERS",
+      "component": [
+        "pmohandlingadvice",
+        "pmchandlingadvice"
+      ],
+      "rights": "read",
+      "id": "6ef1141ebbca4724b1a8eb6fa4285df1"
+    },
+    {
+      "group": "ROLE_VISITORS",
+      "component": [
+        "pmohandlingadvice",
+        "pmchandlingadvice"
+      ],
+      "rights": "hide",
+      "id": "c17ab6bf8c694f6ab26ab4e22a68796f"
+    }
+  ]
+  getCurrentUserOperations(roles: { groupPermissions: any }):Observable<any> {
+    return of({data: {groupPermissions: this.data}}
     )
   }
   get UserOperation(): Observable<any> {
@@ -65,7 +67,7 @@ export class DevelopAppDataService implements AppDataService {
       isSiteAdmin: true,
       systemUserKey: 'guest',
       name: 'Guest User',
-      roles: [ROLE_OWNERS]
+      roles: [ROLE_MEMBERS]
     }
 
     return of(userprofile)

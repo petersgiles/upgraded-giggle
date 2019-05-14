@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy,  ChangeDetectionStrategy, Input } from '@angular/core'
 import { Store, select } from '@ngrx/store'
 import { Subscription, Subject, Observable, of } from 'rxjs'
-import { takeUntil, filter, map} from 'rxjs/operators'
+import { filter} from 'rxjs/operators'
 import { ActivatedRoute } from '@angular/router'
 import * as indef from 'indefinite'
 import * as fromDetail from '../../reducers/commitment-detail/commitment-detail.reducer'
@@ -11,7 +11,7 @@ import * as fromUser from '../../reducers/user/user.reducer'
 import { Commitment } from '../../models/commitment.model'
 import { CommitmentLocation } from '../../models/commitment.model'
 import { OPERATION_PMO, OPERATION_PMC } from '../../services/app-data/app-data.service'
-import { GetDetailedCommitment, GetHandlingAdvices, UpdatePMOHandlingAdvice, UpdatePMCHandlingAdvice } from '../../reducers/commitment-detail/commitment-detail.actions';
+import { GetDetailedCommitment,  UpdatePMOHandlingAdvice, UpdatePMCHandlingAdvice } from '../../reducers/commitment-detail/commitment-detail.actions';
 
 @Component({
   selector: 'digital-first-commitment-detail',
@@ -21,6 +21,7 @@ import { GetDetailedCommitment, GetHandlingAdvices, UpdatePMOHandlingAdvice, Upd
 })
 
 export class CommitmentDetailComponent implements OnInit, OnDestroy {
+
   userOperation$: Observable<any>
   commitmentSubscription$: Subscription
   electorate$: Observable<CommitmentLocation[]>
@@ -29,8 +30,6 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   commitment: Commitment
   commitment$: Observable<Commitment>
   handlingAdvices$: Observable<any>
-  pmoHandlingAdvice: string
-  pmcHandlingAdvice: string
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -57,16 +56,6 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
       .subscribe((params: any) => {
         this.store.dispatch(new GetDetailedCommitment({id: params.id}))
       })
-
-       this.store.pipe(select(fromDetail.getPMOUpdatedState))
-        .subscribe(pmoUpdate => {
-        this.pmoHandlingAdvice = pmoUpdate
-      })
-
-      this.store.pipe(select(fromDetail.getPMCUpdatedState))
-      .subscribe(pmcUpdate => {
-        this.pmcHandlingAdvice = pmcUpdate
-      })
     }
 
   ngOnDestroy(): void {
@@ -92,8 +81,9 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
 
   public getIndefiniteArticle(term) {
     if (term) {
-      return indef(term)
+      const indefArticle = indef(term).substring(0,indef(term).indexOf(term)-1) + ' '
+      return indefArticle
     }
-    return term
+    return ' '
   }
 }

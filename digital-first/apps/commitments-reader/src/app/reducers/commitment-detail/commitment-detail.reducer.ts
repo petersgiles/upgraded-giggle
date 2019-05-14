@@ -34,7 +34,6 @@ export function reducer(
       return state
 
     case CommitmentDetailActionTypes.LoadDetailedCommitment:
-      console.log(`🤡 LoadDetailedCommitment`, action)
       return {
         ...state,
         commitment: action.payload,
@@ -42,7 +41,6 @@ export function reducer(
       }
 
     case CommitmentDetailActionTypes.LoadHandlingAdvices:
-      console.log(`🤡 LoadHandlingAdvices`, action)
       return {
         ...state,
         handlingAdvices: action.payload.advices,
@@ -51,7 +49,7 @@ export function reducer(
 
     case CommitmentDetailActionTypes.SetPMOHandlingAdviceResult:
       const pmocommitment = JSON.parse(JSON.stringify(state.commitment))
-      pmocommitment.pmoHandlingAdvice = action.payload.handlingAdviceId
+      pmocommitment.pmoHandlingAdvice = action.payload.handlingAdvices
       return {
         ...state,
         PMOUpdateLoaded: true,
@@ -60,7 +58,7 @@ export function reducer(
 
     case CommitmentDetailActionTypes.SetPMCHandlingAdviceResult:
       const pmccommitment = JSON.parse(JSON.stringify(state.commitment))
-      pmccommitment.pmcHandlingAdvice = action.payload.handlingAdviceId
+      pmccommitment.pmcHandlingAdvice = action.payload.handlingAdvices
       return {
         ...state,
         PMCUpdateLoaded: true,
@@ -95,36 +93,3 @@ export const getPMCUpdatedState = createSelector(
   state => state.PMCHandlingAdvice
 )
 
-/*export const getHandlingAdvicesState = (state: CommitmentDetailsState) => state.handlingAdvices
-//export const getCommitmentState = (state: CommitmentDetailsState) => state.commitment
-export const getPMOUpdateState = (state: CommitmentDetailsState) => state.PMOUpdateLoaded
-export const getPMCUpdateState = (state: CommitmentDetailsState) => state.PMCUpdateLoaded
-
-
-
-export const getCommitmentState = createSelector(
-  commitmentDetailState,
-  (state: CommitmentDetailsState) => state.commitment
-)
-
-export const getCommitment = createSelector(
-  getCommitmentState,
-  (commitment) => {
-    return commitment
-  }
-)
-
-  export const getHandlingAdvice = createSelector(
-    commitmentDetailState,
-    getHandlingAdvicesState
-  )
-
-export const getPMOUpdatedState = createSelector(
-  commitmentDetailState,
-  getPMOUpdateState
-)
-
-export const getPMCUpdatedState = createSelector(
-  commitmentDetailState,
-  getPMCUpdateState
-)*/

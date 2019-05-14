@@ -9,6 +9,11 @@ export interface MapPoint{
   title: string
 }
 
+export interface HandlingAdvices{
+  value: any
+  label: string
+}
+
 export interface Commitment {
   id: number,
   title: string,
@@ -21,8 +26,8 @@ export interface Commitment {
   date: string,
   politicalParty: string,
   announcedBy: string,
-  PMOHandlingAdvice?: string,
-  PMCHandlingAdvice?: string,
+  PMOHandlingAdvice?: HandlingAdvices,
+  PMCHandlingAdvice?: HandlingAdvices,
   //location: Electorate,
   electorates?: CommitmentLocation[],
   //whoAnnouncedType: WhoAnnouncedType
