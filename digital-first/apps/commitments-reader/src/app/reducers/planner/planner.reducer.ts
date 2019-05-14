@@ -23,7 +23,7 @@ export const initialState: State = {
   selectedExternalEeventTypes: [],
   schedulerZoomLevel: 3,
   schedulerCenterDate: new Date(),
-  isReadonly: false,
+  isReadonly: true,
   error: {}
 }
 
@@ -58,7 +58,7 @@ export function reducer(state = initialState, action: PlannerActions): State {
     case PlannerActionTypes.LoadPlannerPermission:
       return {
         ...state,
-        isReadonly: action.payload.isReadonly
+        isReadonly: action.payload
       }
     case PlannerActionTypes.LoadSelectedExternalEventTypes:
       return {

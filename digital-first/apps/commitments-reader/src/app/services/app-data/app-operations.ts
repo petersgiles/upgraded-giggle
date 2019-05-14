@@ -6,6 +6,7 @@ export const ROLE_VISITORS = 'ROLE_VISITORS'
 
 export const OPERATION_PMO_HANDLING_ADVICE = 'pmohandlingadvice'
 export const OPERATION_PMC_HANDLING_ADVICE = 'pmchandlingadvice'
+export const OPERATION_PLANNER = 'planner'
 
 export const OPERATION_RIGHT_READ = 'read'
 export const OPERATION_RIGHT_WRITE = 'write'

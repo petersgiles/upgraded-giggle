@@ -1,8 +1,4 @@
-import {
-  ActionReducer,
-  ActionReducerMap,
-  MetaReducer
-} from '@ngrx/store'
+import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store'
 
 import { environment } from '../../environments/environment'
 
@@ -23,7 +19,18 @@ export function localStorageSyncReducer(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
   return localStorageSync({
-    keys: [{ auth: ['status'] }, { user: ['drawerOpen'] },  { refiner: ['expandedRefinerGroups', 'selectedRefiners'] }],
+    keys: [
+      { auth: ['status'] },
+      { user: ['drawerOpen'] },
+      { refiner: ['expandedRefinerGroups', 'selectedRefiners'] },
+      {
+        planner: [
+          'selectedExternalEeventTypes',
+          'schedulerZoomLevel',
+          'schedulerCenterDate'
+        ]
+      }
+    ],
     rehydrate: true
   })(reducer)
 }
