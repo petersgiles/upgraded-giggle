@@ -35,7 +35,7 @@ export class AppEffects {
     concatMap(_ => {
       // tslint:disable-next-line: no-console
       console.log(`getAppConfiguration`)
-      return this.configService.getJSON().pipe(
+      return this.configService.getConfig().pipe(
         // tslint:disable-next-line: no-console
         tap((config: any) => console.log(`🐵 config => `, config)),
         concatMap((config: any) => [new LoadAppConfiguration(config)])

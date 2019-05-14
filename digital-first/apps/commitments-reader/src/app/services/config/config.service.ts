@@ -4,5 +4,5 @@ import { Observable } from 'rxjs'
   providedIn: 'root'
 })
 export abstract class AppConfigService {
-  abstract getJSON(): Observable<any>
+  abstract getConfig(): Observable<any>
 }

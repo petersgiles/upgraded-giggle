@@ -36,7 +36,7 @@ export class SharePointConfigService {
     private sharepoint: SharepointJsomService
   ) {}
 
-  public getJSON(): Observable<any> {
+  public getConfig(): Observable<any> {
     let jsonURL = this.settings.environment.config
 
     if (_spPageContextInfo) {

@@ -27,7 +27,7 @@ export function initApplication(
         )
         .subscribe(_ => {
           store.dispatch(new FinishAppInitialiser())
-          store.dispatch(new GetCurrentUser('Get User'))
+          store.dispatch(new GetCurrentUser(null))
           resolve(true)
         })
     })

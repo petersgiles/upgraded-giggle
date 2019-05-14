@@ -14,7 +14,7 @@ export class DevelopConfigService {
 
   constructor(private http: HttpClient, private settings: SettingsService) { }
 
-  public getJSON(): Observable<any> {
+  public getConfig(): Observable<any> {
     return this.http.get(this.settings.environment.config).pipe(
       catchError((err: HttpErrorResponse) => throwError(err))
     )
