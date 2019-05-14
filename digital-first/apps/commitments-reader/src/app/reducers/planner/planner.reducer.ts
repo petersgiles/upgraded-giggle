@@ -1,6 +1,6 @@
 import { PlannerActions, PlannerActionTypes } from './planner.actions'
 import { createSelector, createFeatureSelector } from '@ngrx/store'
-import { OPERATION_RIGHT_WRITE } from '../../services/app-data/app-operations';
+import { OPERATION_RIGHT_WRITE } from '../../services/app-data/app-operations'
 
 export interface State {
   commitments: any[]
@@ -8,10 +8,11 @@ export interface State {
   eventTypes: any[]
   externalEvents: any[]
   externalEventTypes: any[]
-  selectedExternalEeventTypes: any[]
+  selectedExternalEventTypes: any[]
   schedulerZoomLevel: any
   schedulerCenterDate: Date
   readonly: boolean
+  permission: string
   error: any
 }
 
@@ -21,10 +22,11 @@ export const initialState: State = {
   eventTypes: [],
   externalEvents: [],
   externalEventTypes: [],
-  selectedExternalEeventTypes: [],
+  selectedExternalEventTypes: [],
   schedulerZoomLevel: 3,
   schedulerCenterDate: new Date(),
   readonly: true,
+  permission: 'hide',
   error: {}
 }
 
@@ -59,13 +61,14 @@ export function reducer(state = initialState, action: PlannerActions): State {
     case PlannerActionTypes.LoadSelectedExternalEventTypes:
       return {
         ...state,
-        selectedExternalEeventTypes: action.payload
+        selectedExternalEventTypes: action.payload
       }
     case PlannerActionTypes.SetPlannerPermission:
       const WRITE = OPERATION_RIGHT_WRITE
       return {
         ...state,
-        readonly: action.payload !== WRITE
+        readonly: action.payload !== WRITE,
+        permission: action.payload
       }
     case PlannerActionTypes.ErrorInPlanner:
       return {
@@ -96,7 +99,7 @@ export const selectExternalEventTypesState = createSelector(
 )
 export const selectSelectedExternalEventTypesState = createSelector(
   plannerState,
-  (state: State) => state.selectedExternalEeventTypes
+  (state: State) => state.selectedExternalEventTypes
 )
 export const selectSchedulerZoomLevelState = createSelector(
   plannerState,

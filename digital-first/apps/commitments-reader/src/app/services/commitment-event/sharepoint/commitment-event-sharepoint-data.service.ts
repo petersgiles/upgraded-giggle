@@ -41,10 +41,10 @@ export class EventSharepointDataService implements CommitmentEventDataService {
   ): Observable<DataResult<CommitmentEvent[]>> {
     if (
       !payload ||
-      payload.currentUserPlannerOperation === this.HIDE ||
+      payload.permission === this.HIDE ||
       (!payload.commitments && payload.commitments.length === 0)
     ) {
-      return EMPTY
+      return of({ data: [], loadding: false, error: null })
     }
 
     // TODO: check if user has hide permission then return empty
@@ -129,7 +129,7 @@ export class EventSharepointDataService implements CommitmentEventDataService {
   }
 
   storeEvent(payload: any): Observable<DataResult<any>> {
-    if (!payload || payload !== this.WRITE) {
+    if (!payload || payload.permission !== this.WRITE) {
       return of({
         data: [],
         loadding: false,
@@ -162,7 +162,7 @@ export class EventSharepointDataService implements CommitmentEventDataService {
   }
 
   removeEvent(payload: any): Observable<DataResult<any>> {
-    if (!payload || payload !== this.WRITE) {
+    if (!payload || payload.permission !== this.WRITE) {
       return of({
         data: [],
         loadding: false,

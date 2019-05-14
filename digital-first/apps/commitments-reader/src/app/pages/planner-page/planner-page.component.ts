@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 // import { CommitmentRefinerService } from '../../services/commitment-refiner'
-import { Observable, Subscription } from 'rxjs'
+import { Observable, Subscription, of } from 'rxjs'
 import {
   map,
   concat,
   concatMap,
   combineLatest,
-  withLatestFrom
+  withLatestFrom,
+  tap
 } from 'rxjs/operators'
 import * as fromPlanner from '../../reducers/planner/planner.reducer'
 import * as fromOverview from '../../reducers/overview/overview.reducer'
@@ -34,7 +35,7 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
   public eventTypes$: Observable<any[]>
   public filteredCommitments$: Observable<any[]>
   public externalEventTypes$: Observable<any[]>
-  public selectedExternalEventTypes$: Observable<any[]>
+  public selectedExternalEventTypes$: Observable<any[]> = of([])
   public readonly$: Observable<boolean>
   public zoomLevel$: Observable<any>
   public centerDate$: Observable<any>
@@ -70,9 +71,14 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
         .subscribe(permission => {
           this.plannerStore.dispatch(new GetEventReferenceData(permission))
           this.plannerStore.dispatch(new SetPlannerPermission(permission))
+          this.plannerStore.dispatch(
+            new GetExternalEvents({
+              permission: permission,
+              selectedExternalEventTypes: null
+            })
+          )
         })
     )
-
     this.externalEventTypes$ = this.plannerStore.pipe(
       select(fromPlanner.selectExternalEventTypesState)
     )
@@ -105,35 +111,19 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
   }
 
   handleEventSaved($event: any) {
-    this.plannerStore
-      .pipe(select(fromUser.getUserCurrentUserPlannerPermission))
-      .pipe(
-        concatMap(permission => [
-          this.plannerStore.dispatch(
-            new StoreCommitmentEvent({ data: $event, permission: permission })
-          )
-        ])
-      )
+    this.plannerStore.dispatch(new StoreCommitmentEvent({ data: $event }))
   }
 
   handleEventRemoved($event: any) {
-    this.plannerStore
-      .pipe(select(fromUser.getUserCurrentUserPlannerPermission))
-      .pipe(
-        concatMap(permission => [
-          this.plannerStore.dispatch(
-            new RemoveCommitmentEvent({ data: $event, permission: permission })
-          )
-        ])
-      )
+    this.plannerStore.dispatch(new RemoveCommitmentEvent({ data: $event }))
   }
 
   handleExternalEventChange($event) {
     this.plannerStore.dispatch(new StoreSelectedExternalEventTypes($event))
     this.plannerStore.dispatch(
       new GetExternalEvents({
-        selectedExternalEventTypes: $event,
-        permission: ''
+        permission: '',
+        selectedExternalEventTypes: $event
       })
     )
   }

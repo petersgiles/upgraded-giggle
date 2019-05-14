@@ -98,7 +98,7 @@ export class EventDevelopDataService implements CommitmentEventDataService {
   }
 
   storeEvent(payload: any): Observable<DataResult<any>> {
-    if (!payload || payload !== this.WRITE) {
+    if (!payload || payload.permission !== this.WRITE) {
       return of({
         data: [],
         loadding: false,
@@ -111,7 +111,7 @@ export class EventDevelopDataService implements CommitmentEventDataService {
       events = events.filter(e => e.id !== existingId)
       events.push(payload.data)
     } else {
-      const event = JSON.parse(JSON.stringify(payload.data))
+      let event = JSON.parse(JSON.stringify(payload.data))
       event.id = Math.random().toString()
       events.push(event)
     }
@@ -124,7 +124,7 @@ export class EventDevelopDataService implements CommitmentEventDataService {
   }
 
   removeEvent(payload: any): Observable<DataResult<any>> {
-    if (!payload || payload !== this.WRITE) {
+    if (!payload || payload.permission !== this.WRITE) {
       return of({
         data: [],
         loadding: false,
