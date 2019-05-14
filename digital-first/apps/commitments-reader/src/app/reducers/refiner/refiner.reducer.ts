@@ -129,7 +129,8 @@ export const selectRefinerGroups = createSelector(
   selectRefinerGroupsState,
   selectExpandedRefinerGroupsState,
   selectSelectedRefinersState,
-  (groups: any[], expanded: any[], selected: any[]) => {
+  selectTextRefinerState,
+  (groups: any[], expanded: any[], selected: any[], text: String) => {
     const rgs = (groups || []).map(g => ({
       ...g,
       expanded: (expanded || []).includes(g.group),

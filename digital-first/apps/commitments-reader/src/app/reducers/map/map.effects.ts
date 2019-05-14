@@ -34,6 +34,7 @@ export class MapEffects {
       const config: Config = store.app.config
       const bookType = config.header.bookType
       const selectedRefiners: any = store.refiner.selectedRefiners
+      const textRefiner: any = store.refiner.textRefiner
 
       const selectedRefinerGroup = selectedRefiners.reduce(
         (acc, item) => {
@@ -44,9 +45,14 @@ export class MapEffects {
           commitmentTypes: [],
           criticalDates: [],
           portfolioLookups: [],
-          deckItemBriefSummaries: []
+          deckItemBriefSummaries: [],
+          text: null
         }
       )
+
+      if(textRefiner){
+        selectedRefinerGroup.text = textRefiner
+      }
 
       return {
         refiner: selectedRefinerGroup,
