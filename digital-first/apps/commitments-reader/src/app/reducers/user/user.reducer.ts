@@ -3,7 +3,9 @@ import { AppActions, AppActionTypes } from '../app/app.actions'
 import { createFeatureSelector, createSelector } from '@ngrx/store'
 import {
   OPERATION_DEFAULTS,
-  OPERATION_RIGHTS_PRECEDENT
+  OPERATION_RIGHTS_PRECEDENT,
+  OPERATION_PLANNER,
+  OPERATION_RIGHT_WRITE
 } from '../../services/app-data/app-operations'
 
 export interface UserState {
@@ -23,7 +25,6 @@ export function reducer(
   action: UserActions | AppActions
 ): UserState {
   switch (action.type) {
-
     case UserActionTypes.SetCurrentUser: {
       return {
         ...state,
@@ -42,23 +43,22 @@ export function reducer(
       let ops = {}
 
       if (action.payload.data && action.payload.data.groupPermissions) {
-        const groupPermissions = JSON.parse(JSON.stringify(action.payload.data.groupPermissions))
-        ops = (groupPermissions || []).reduce(
-          (acc: any, item: any) => {
-            const components = item.component
-            acc[item.group] = {
-              ...(components || []).reduce(
-                (componentRights: any, component: any) => {
-                  componentRights[component] = item.rights
-                  return componentRights
-                },
-                acc[item.group] || {}
-              )
-            }
-            return acc
-          },
-          {}
+        const groupPermissions = JSON.parse(
+          JSON.stringify(action.payload.data.groupPermissions)
         )
+        ops = (groupPermissions || []).reduce((acc: any, item: any) => {
+          const components = item.component
+          acc[item.group] = {
+            ...(components || []).reduce(
+              (componentRights: any, component: any) => {
+                componentRights[component] = item.rights
+                return componentRights
+              },
+              acc[item.group] || {}
+            )
+          }
+          return acc
+        }, {})
       }
 
       return {
@@ -82,42 +82,50 @@ export const getUserCurrentUser = createSelector(
   getCurrentUser
 )
 
-export const getUserCurrentOperations = createSelector(
+export const getUserCurrentUserPermissions = createSelector(
   userState,
   getOperations
 )
 
-export const getCurrentUserOperations = createSelector(
+export const getUserCurrentUserOperations = createSelector(
   getUserCurrentUser,
-  getUserCurrentOperations,
+  getUserCurrentUserPermissions,
   (user, operations) => {
     if (!user || !operations || !user.roles) {
       return {
         ...OPERATION_DEFAULTS
       }
     }
-
-    const rights = Object.keys(OPERATION_DEFAULTS).reduce((acc: any, componentName: any) => {
-
-        const operationsRights = user.roles.reduce((rightsAcc: any, group: any) => {
+    const rights = Object.keys(OPERATION_DEFAULTS).reduce(
+      (acc: any, componentName: any) => {
+        const operationsRights = user.roles.reduce(
+          (rightsAcc: any, group: any) => {
             const groupComponents = operations[group]
             if (groupComponents && groupComponents[componentName]) {
-                rightsAcc.push(groupComponents[componentName])
+              rightsAcc.push(groupComponents[componentName])
             }
             return rightsAcc
-        }, [])
+          },
+          []
+        )
 
         const orderedRights = operationsRights.sort((left: any, right: any) =>
-            OPERATION_RIGHTS_PRECEDENT.indexOf(left) > OPERATION_RIGHTS_PRECEDENT.indexOf(right) ? 1 : -1)
+          OPERATION_RIGHTS_PRECEDENT.indexOf(left) >
+          OPERATION_RIGHTS_PRECEDENT.indexOf(right)
+            ? 1
+            : -1
+        )
         acc[componentName] = orderedRights[0]
         return acc
-    }, {})
+      },
+      {}
+    )
 
     const finalRights = Object.keys(rights).reduce((a, i) => {
-        if (rights[i]) {
-            a[i] =  rights[i]
-        }
-        return a
+      if (rights[i]) {
+        a[i] = rights[i]
+      }
+      return a
     }, {})
 
     return {
@@ -125,4 +133,13 @@ export const getCurrentUserOperations = createSelector(
       ...finalRights
     }
   }
+)
+
+export const getUserCurrentUserPlannerPermission = createSelector(
+  getUserCurrentUser,
+  getUserCurrentUserOperations,
+  (user, operations) =>
+    user && user.isSiteAdmin
+      ? OPERATION_RIGHT_WRITE
+      : operations[OPERATION_PLANNER]
 )

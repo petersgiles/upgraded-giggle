@@ -1,16 +1,18 @@
 import { Component, OnInit, Input } from '@angular/core'
-import { OPERATION_RIGHT_WRITE, OPERATION_RIGHT_READ, OPERATION_RIGHT_HIDE } from  '../../services/app-data/app-data.service'
+import {
+  OPERATION_RIGHT_WRITE,
+  OPERATION_RIGHT_READ,
+  OPERATION_RIGHT_HIDE
+} from '../../services/app-data/app-operations'
 @Component({
   selector: 'digital-first-commitment-view-guard',
   templateUrl: './commitment-view-guard.component.html',
   styles: [``]
 })
 export class CommitmentViewGuardComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   @Input()
   operation

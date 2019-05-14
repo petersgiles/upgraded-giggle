@@ -15,16 +15,31 @@ import * as externalEventTypes from './data/externalEventType.json'
 
 import { CommitmentEventDataService } from '../commitment-event-data-service'
 import { DateHelper } from 'bryntum-scheduler/scheduler.umd.js'
+import {
+  OPERATION_RIGHT_HIDE,
+  OPERATION_RIGHT_WRITE,
+  OPERATION_RIGHT_READ
+} from '../../app-data/app-operations'
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventDevelopDataService implements CommitmentEventDataService {
+  WRITE = OPERATION_RIGHT_WRITE
+  READ = OPERATION_RIGHT_READ
+  HIDE = OPERATION_RIGHT_HIDE
   constructor() {}
   private COMMITMENT_DATA_KEY = 'commitmentEvents'
   getEventsByCommitments(
-    config: any
+    payload: any
   ): Observable<DataResult<CommitmentEvent[]>> {
+    if (
+      !payload ||
+      payload.permission === this.HIDE ||
+      (!payload.commitments && payload.commitments.length === 0)
+    ) {
+      return of({ data: [] })
+    }
     return of({
       data: this.getEventDataFromLocalStorage(),
       loading: false,
@@ -33,16 +48,30 @@ export class EventDevelopDataService implements CommitmentEventDataService {
   }
 
   getEventTypes(payload: any): Observable<DataResult<CommitmentEventType[]>> {
-    if (payload && payload.readonly) {
-      return of({ data: [] })
+    if (!payload || payload !== this.WRITE) {
+      return of({
+        data: [],
+        loadding: false,
+        error: null
+      })
     }
     return of({ data: eventTypes })
   }
 
-  getExternalEvents(
-    externalEventTypes: any[]
-  ): Observable<DataResult<ExternalEvent[]>> {
-    const types = externalEventTypes
+  getExternalEvents(payload: any): Observable<DataResult<ExternalEvent[]>> {
+    if (
+      !payload ||
+      payload.permission === this.HIDE ||
+      !payload.selectedExternalEventTypes ||
+      payload.selectedExternalEventTypes.length === 0
+    ) {
+      return of({
+        data: [],
+        loadding: false,
+        error: null
+      })
+    }
+    const types = payload.selectedExternalEventTypes
     const data = externalEvents
       .map(e => ({
         name: e.name,
@@ -58,16 +87,23 @@ export class EventDevelopDataService implements CommitmentEventDataService {
   }
 
   getExternalEventTypes(
-    config: any
+    payload: any
   ): Observable<DataResult<ExternalEventType[]>> {
+    if (!payload || payload === this.HIDE) {
+      return of({ data: [] })
+    }
     return of({
       data: externalEventTypes
     })
   }
 
   storeEvent(payload: any): Observable<DataResult<any>> {
-    if (payload && payload.isReadOnly) {
-      throw Error('You do not have permission to add event')
+    if (!payload || payload.permission !== this.WRITE) {
+      return of({
+        data: [],
+        loadding: false,
+        error: null
+      })
     }
     const existingId = payload.data.id
     let events = this.getEventDataFromLocalStorage()
@@ -88,8 +124,12 @@ export class EventDevelopDataService implements CommitmentEventDataService {
   }
 
   removeEvent(payload: any): Observable<DataResult<any>> {
-    if (payload && payload.readonly) {
-      throw Error('You do not have permission to add event')
+    if (!payload || payload.permission !== this.WRITE) {
+      return of({
+        data: [],
+        loadding: false,
+        error: null
+      })
     }
     let events = this.getEventDataFromLocalStorage()
     events = events.filter(e => e.id !== payload.data.id)
