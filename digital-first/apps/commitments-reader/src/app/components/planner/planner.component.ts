@@ -70,21 +70,6 @@ export class PlannerComponent implements OnInit, OnDestroy {
     }
   ]
 
-  get isAllExternalEventTypesSelected() {
-    const selectedExternalEventTypesString = JSON.stringify(
-      this.selectedExternalEventTypes.sort()
-    )
-    const externalEventTypesString = this.externalEventTypes
-      ? JSON.stringify(this.externalEventTypes.map(et => et.id).sort())
-      : ''
-    return selectedExternalEventTypesString === externalEventTypesString
-  }
-  get isNoneExternalEventTypesSelected() {
-    return (
-      !this.handelSelectAllExternalEvents ||
-      this.handelSelectAllExternalEvents.length === 0
-    )
-  }
   externalEventTypeChangeEventSubscription: Subscription
   externalEventTypeChange: Subject<any> = new Subject()
 

@@ -1,5 +1,4 @@
 import { Observable, of } from 'rxjs'
-import { Injectable } from '@angular/core'
 import { AppDataService } from '../app-data.service'
 import {
   SharepointJsomService,

@@ -36,7 +36,7 @@ export class PlannerEffects {
   @Effect()
   getCommitmentsEvents$ = this.actions$.pipe(
     ofType(PlannerActionTypes.GetCommitmentEvents),
-    switchMap(action =>
+    concatMap(action =>
       this.commitmentEventDataService
         .getEventsByCommitments(action.payload)
         .pipe(map(data => new LoadCommitmentEvents(data)))
@@ -47,7 +47,7 @@ export class PlannerEffects {
   @Effect()
   getEventsReferenceData$ = this.actions$.pipe(
     ofType(PlannerActionTypes.GetEventReferenceData),
-    switchMap(action => [
+    concatMap(action => [
       new GetEventTypes(action.payload),
       new GetExternalEventTypes(action.payload)
     ])
@@ -56,7 +56,7 @@ export class PlannerEffects {
   @Effect()
   getEventTypes$ = this.actions$.pipe(
     ofType(PlannerActionTypes.GetEventTypes),
-    switchMap(action =>
+    concatMap(action =>
       this.commitmentEventDataService
         .getEventTypes(action.payload)
         .pipe(map(data => new LoadEventTypes(data)))
@@ -71,7 +71,7 @@ export class PlannerEffects {
   @Effect()
   getExternalEventTypes$ = this.actions$.pipe(
     ofType(PlannerActionTypes.GetExternalEventTypes),
-    switchMap(action =>
+    concatMap(action =>
       this.commitmentEventDataService
         .getExternalEventTypes(action.payload)
         .pipe(map(data => new LoadExternalEventTypes(data)))
@@ -103,7 +103,7 @@ export class PlannerEffects {
         }
       }
     }),
-    switchMap(payload =>
+    concatMap(payload =>
       this.commitmentEventDataService
         .getExternalEvents(payload)
         .pipe(map(data => new LoadExternalEvents(data)))
@@ -122,13 +122,20 @@ export class PlannerEffects {
       const rootStore = <any>root
       return {
         permission: rootStore.planner.permission,
-        data: action.payload.data
+        data: action.payload.data,
+        commitments: rootStore.overview.commitments
       }
     }),
     concatMap(payload =>
-      this.commitmentEventDataService
-        .storeEvent(payload)
-        .pipe(map(() => new GetCommitmentEvents(payload.permission)))
+      this.commitmentEventDataService.storeEvent(payload).pipe(
+        map(
+          () =>
+            new GetCommitmentEvents({
+              permission: payload.permission,
+              commitments: payload.commitments
+            })
+        )
+      )
     ),
     catchError(error => {
       // tslint:disable-next-line: no-console
@@ -145,18 +152,21 @@ export class PlannerEffects {
       const rootStore = <any>root
       return {
         permission: rootStore.planner.permission,
-        data: action.payload.data
+        data: action.payload.data,
+        commitments: rootStore.overview.commitments
       }
     }),
     concatMap(payload =>
-      this.commitmentEventDataService
-        .removeEvent(payload)
-        .pipe(
-          map(
-            () => new GetCommitmentEvents(payload.permission),
-            catchError(error => [new ErrorInPlanner(error)])
-          )
+      this.commitmentEventDataService.removeEvent(payload).pipe(
+        map(
+          () =>
+            new GetCommitmentEvents({
+              permission: payload.permission,
+              commitments: payload.commitments
+            }),
+          catchError(error => [new ErrorInPlanner(error)])
         )
+      )
     )
   )
 
@@ -171,25 +181,4 @@ export class PlannerEffects {
     private rootStore$: Store<fromRoot.State>,
     private commitmentEventDataService: CommitmentEventDataService
   ) {}
-}
-
-export function plannerOperationHelper(rootStore: any) {
-  if (rootStore.user) {
-    const user = rootStore.user.currentUser
-    const operations = rootStore.user.operations
-    if (user && user.isSiteAdmin) {
-      return OPERATION_RIGHT_WRITE
-    } else if (operations) {
-      if (operations[OPERATION_PLANNER] === OPERATION_RIGHT_WRITE) {
-        return OPERATION_RIGHT_WRITE
-      } else if (
-        operations &&
-        operations[OPERATION_PLANNER] === OPERATION_RIGHT_WRITE
-      ) {
-        return OPERATION_RIGHT_READ
-      } else {
-        return OPERATION_RIGHT_HIDE
-      }
-    }
-  }
 }
