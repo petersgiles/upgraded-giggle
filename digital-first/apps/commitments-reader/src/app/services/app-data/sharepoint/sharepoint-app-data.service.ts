@@ -36,21 +36,10 @@ export class SharePointAppDataService implements AppDataService {
   get UserOperation(): Observable<any> {
     return of(null)
   }
-  getDrawState(): Observable<boolean> {
-    return of(false)
-  }
-  setDrawState(appdrawerOpen: any): any {
-    return of(false)
-  }
+
 
   getBusy(): Observable<boolean> {
     return of(false)
-  }
-
-  // Notification
-
-  get Notification(): Observable<string> {
-    return of(null)
   }
 
   getCurrentUser(): Observable<SPAppUserProfile> {

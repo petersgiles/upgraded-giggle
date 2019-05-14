@@ -35,6 +35,7 @@ import {
 } from '../../generated/graphql'
 import { Config } from '../../services/config/config-model'
 import { Store } from '@ngrx/store'
+import { AppNotification, ClearAppNotification } from '../app/app.actions';
 
 const generateUUID = () => {
   // Public Domain/MIT
@@ -199,7 +200,9 @@ export class CommitmentDetailEffects {
           concatMap(response => [
             new SetPMOHandlingAdviceResult({
               handlingAdviceId: config.data.handlingAdviceId
-            })
+            }),
+            new AppNotification({message: `PMO Handling Advice Saved`}),
+            new ClearAppNotification()
           ])
         )
     ),
