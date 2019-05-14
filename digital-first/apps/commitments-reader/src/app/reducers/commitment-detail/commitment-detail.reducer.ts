@@ -9,20 +9,12 @@ export interface State {
   commitment: Commitment
   loaded: boolean
   handlingAdvices: []
-  PMOUpdateLoaded: boolean
-  PMCUpdateLoaded: boolean
-  PMOHandlingAdvice: any
-  PMCHandlingAdvice: any
 }
 
 export const initialState: State = {
   commitment: null,
   loaded: false,
-  handlingAdvices: [],
-  PMOUpdateLoaded: false,
-  PMCUpdateLoaded: false,
-  PMOHandlingAdvice: null,
-  PMCHandlingAdvice: null
+  handlingAdvices: []
 }
 
 export function reducer(
@@ -52,7 +44,6 @@ export function reducer(
       pmocommitment.pmoHandlingAdvice = action.payload.handlingAdvices
       return {
         ...state,
-        PMOUpdateLoaded: true,
         commitment: pmocommitment
       }
 
@@ -61,7 +52,6 @@ export function reducer(
       pmccommitment.pmcHandlingAdvice = action.payload.handlingAdvices
       return {
         ...state,
-        PMCUpdateLoaded: true,
         commitment: pmccommitment
       }
     default:
@@ -83,13 +73,4 @@ export const getHandlingAdvicesState = createSelector(
   state => state.handlingAdvices
 )
 
-export const getPMOUpdatedState = createSelector(
-  commitmentDetailState,
-  state => state.PMOHandlingAdvice
-)
-
-export const getPMCUpdatedState = createSelector(
-  commitmentDetailState,
-  state => state.PMCHandlingAdvice
-)
 

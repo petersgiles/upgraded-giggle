@@ -16,7 +16,34 @@ export const environment = {
   appConfigDataSource: 'local',
   // developer's your API KEY here
   apiKey: '1PARfaAtmMKPkda2GKa9a2mUOW8=',
-  assetsPath: '/assets'
+  assetsPath: '/assets',
+  // datasources: {
+  //   data: {
+  //     type: 'api',
+  //     dataServiceUrl: 'https://localhost:52619/graphql',
+  //     apiKey: 'gZjvQ4oxl8OgVY39uoEs5uZg31A=',
+  //   },
+  //   config: {
+  //     type: 'app',
+  //     uri: '/assets/commitments-reader.txt',
+  //     apiKey: null,
+  //   },
+  //   event: {
+  //     type: 'graph',
+  //     uri: 'https://localhost:52619',
+  //     apiKey: 'gZjvQ4oxl8OgVY39uoEs5uZg31A=',
+  //   },
+  //   assets: {
+  //     type: 'app',
+  //     uri: '/assets',
+  //     apiKey: 'gZjvQ4oxl8OgVY39uoEs5uZg31A=',
+  //   },
+  //   error: {
+  //     type: 'api',
+  //     uri: 'https://localhost:52619',
+  //     apiKey: 'gZjvQ4oxl8OgVY39uoEs5uZg31A=',
+  //   },
+  // },
 }
 
 /*

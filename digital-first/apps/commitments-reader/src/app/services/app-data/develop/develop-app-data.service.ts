@@ -1,4 +1,4 @@
-import { Observable, of, from} from 'rxjs'
+import { Observable, of, from } from 'rxjs'
 import { AppDataService } from '../app-data.service'
 import { AppUserProfile } from '@digital-first/df-layouts'
 import { ROLE_VISITORS, ROLE_MEMBERS, ROLE_OWNERS } from '../app-operations'

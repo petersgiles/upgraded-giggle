@@ -145,7 +145,7 @@
     "apollo-link-debounce": "^2.1.0",
     "apollo-link-error": "^1.1.10",
     "apollo-link-rest": "^0.7.2",
-    "bryntum-scheduler": "^2.0.31372",
+    "bryntum-scheduler": "^2.0.33474",
     "chart.js": "^2.8.0",
     "classlist.js": "^1.1.20150312",
     "codemirror": "^5.45.0",

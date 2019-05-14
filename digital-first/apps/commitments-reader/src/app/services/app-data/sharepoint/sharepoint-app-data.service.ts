@@ -20,9 +20,7 @@ export const mapGroupPermissions = (items): any[] =>
   items.map(mapGroupPermission)
 
 export class SharePointAppDataService implements AppDataService {
-  getCurrentUserOperations(
-    roles: any
-  ): Observable<DataResult<GroupPermissionsResult>> {
+  getCurrentUserOperations(): Observable<DataResult<GroupPermissionsResult>> {
     return this.sharepoint
       .getItems({ listName: 'CommitmentsReaderGroupPermission' })
       .pipe(
@@ -56,10 +54,7 @@ export class SharePointAppDataService implements AppDataService {
   }
 
   getCurrentUser(): Observable<SPAppUserProfile> {
-    return this.sharepoint.getCurrentUser().pipe(
-      // tslint:disable-next-line: no-console
-      tap(result => console.log(`💌 getCurrentUser `, result)),
-    )
+    return this.sharepoint.getCurrentUser()
   }
 
   constructor(private sharepoint: SharepointJsomService) {}

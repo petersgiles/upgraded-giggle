@@ -7,7 +7,8 @@ export enum AppActionTypes {
   ClearAppNotification = '[App] Clear AppNotification',
   SetLayoutDrawState = '[App] Set Layout Draw State',
   GetAppConfiguration = '[App] Get App Configuration',
-  LoadAppConfiguration = '[App] Load App Configuration'
+  LoadAppConfiguration = '[App] Load App Configuration',
+  LoadAppConfigurationError = '[App] Load App Configuration'
 }
 
 export class StartAppInitialiser implements Action {
@@ -42,6 +43,11 @@ export class SetLayoutDrawState implements Action {
   constructor(public state: boolean) {}
 }
 
+export class LoadAppConfigurationError implements Action {
+  readonly type = AppActionTypes.LoadAppConfigurationError
+  constructor(public payload) {}
+}
+
 export type AppActions =
   | StartAppInitialiser
   | FinishAppInitialiser
@@ -50,3 +56,4 @@ export type AppActions =
   | SetLayoutDrawState
   | GetAppConfiguration
   | LoadAppConfiguration
+  | LoadAppConfigurationError

@@ -2,11 +2,9 @@ import { Injectable } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 import {
   concatMap,
-  filter,
   switchMap,
   map,
   withLatestFrom,
-  tap,
   catchError,
   first
 } from 'rxjs/operators'
@@ -128,7 +126,6 @@ export class CommitmentDetailEffects {
         siteId: [siteId]
       }
     }),
-
     switchMap(config =>
       this.getCommitmentDetailGQL.fetch(config, { fetchPolicy: 'network-only' }).pipe(
         first(),
@@ -140,7 +137,9 @@ export class CommitmentDetailEffects {
         ])
       )
     ),
-    catchError(error => of(new GetDetailedCommitmentFailure(error)))
+    catchError(error => {
+      return of(new GetDetailedCommitmentFailure(error))
+    })
   )
 
   @Effect()
@@ -208,7 +207,9 @@ export class CommitmentDetailEffects {
         ])
       )
     ),
-    catchError(error => of(new UpdatePMOHandlingAdviceFailure(error)))
+    catchError(error => {
+      return of(new UpdatePMOHandlingAdviceFailure(error))
+    })
   )
 
   @Effect()
