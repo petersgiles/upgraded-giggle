@@ -77,7 +77,10 @@ export class PlannerEffects {
         .getEventTypes(config)
         .pipe(map(data => new LoadEventTypes(data)))
     ),
-    catchError(error => [new ErrorInPlanner(error)])
+    catchError(error => {
+      // tslint:disable-next-line: no-console
+      console.log(`💥 error => `, error)
+      return [new ErrorInPlanner(error)]})
   )
 
   @Effect()
@@ -88,7 +91,10 @@ export class PlannerEffects {
         .getExternalEventTypes(action.payload)
         .pipe(map(data => new LoadExternalEventTypes(data)))
     ),
-    catchError(error => [new ErrorInPlanner(error)])
+    catchError(error => {
+      // tslint:disable-next-line: no-console
+      console.log(`💥 error => `, error)
+      return [new ErrorInPlanner(error)]})
   )
 
   @Effect()
@@ -99,7 +105,10 @@ export class PlannerEffects {
         .getExternalEvents(action.payload)
         .pipe(map(data => new LoadExternalEvents(data)))
     ),
-    catchError(error => [new ErrorInPlanner(error)])
+    catchError(error => {
+      // tslint:disable-next-line: no-console
+      console.log(`💥 error => `, error)
+      return [new ErrorInPlanner(error)]})
   )
   @Effect()
   storeCommitmentEvent$ = this.actions$.pipe(
@@ -117,7 +126,10 @@ export class PlannerEffects {
         .storeEvent(config)
         .pipe(map(result => new GetCommitmentEvents(null)))
     ),
-    catchError(error => [new ErrorInPlanner(error)])
+    catchError(error => {
+      // tslint:disable-next-line: no-console
+      console.log(`💥 error => `, error)
+      return [new ErrorInPlanner(error)]})
   )
 
   @Effect()

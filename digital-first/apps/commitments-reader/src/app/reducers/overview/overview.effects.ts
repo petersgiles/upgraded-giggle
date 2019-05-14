@@ -34,6 +34,7 @@ export class OverviewEffects {
       const config: Config = store.app.config
       const bookType = config.header.bookType
       const selectedRefiners: any = store.refiner.selectedRefiners
+      const textRefiner: any = store.refiner.textRefiner
 
       const selectedRefinerGroup = selectedRefiners.reduce(
         (acc, item) => {
@@ -44,9 +45,15 @@ export class OverviewEffects {
           commitmentTypes: [],
           criticalDates: [],
           portfolioLookups: [],
-          deckItemBriefSummaries: []
+          deckItemBriefSummaries: [],
+          text: null
         }
       )
+
+      if(textRefiner){
+        selectedRefinerGroup.text = textRefiner
+      }
+
       return {
         refiner: selectedRefinerGroup,
         book: bookType
@@ -58,7 +65,10 @@ export class OverviewEffects {
         concatMap(result => [new LoadRefinedCommitments(result)])
       )
     ),
-    catchError(error => of(new GetRefinedCommitmentsFailure(error)))
+    catchError(error => {
+      // tslint:disable-next-line: no-console
+      console.log(`💥 error => `, error)
+      return of(new GetRefinedCommitmentsFailure(error))})
   )
 
   constructor(

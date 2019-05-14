@@ -22,15 +22,9 @@ import { GetDetailedCommitment, GetHandlingAdvices, UpdatePMOHandlingAdvice, Upd
 
 export class CommitmentDetailComponent implements OnInit, OnDestroy {
   userOperation$: Observable<any>
-  commitmentSubscription$: Subscription
   electorate$: Observable<CommitmentLocation[]>
-  bookType: string
-  private readonly destroyed = new Subject<void>()
-  commitment: Commitment
   commitment$: Observable<Commitment>
   handlingAdvices$: Observable<any>
-  pmoHandlingAdvice: string
-  pmcHandlingAdvice: string
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -57,21 +51,10 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
       .subscribe((params: any) => {
         this.store.dispatch(new GetDetailedCommitment({id: params.id}))
       })
-
-       this.store.pipe(select(fromDetail.getPMOUpdatedState))
-        .subscribe(pmoUpdate => {
-        this.pmoHandlingAdvice = pmoUpdate
-      })
-
-      this.store.pipe(select(fromDetail.getPMCUpdatedState))
-      .subscribe(pmcUpdate => {
-        this.pmcHandlingAdvice = pmcUpdate
-      })
     }
 
   ngOnDestroy(): void {
-    this.destroyed.next();
-    this.destroyed.complete();
+
   }
 
   getPMORight(operations: any) {

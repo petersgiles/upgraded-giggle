@@ -42,10 +42,6 @@ export function reducer(
       let ops = {}
 
       if (action.payload.data && action.payload.data.groupPermissions) {
-
-// tslint:disable-next-line: no-console
-console.log(`💌 SetUserOperations `, action)
-
         const groupPermissions = JSON.parse(JSON.stringify(action.payload.data.groupPermissions))
         ops = (groupPermissions || []).reduce(
           (acc: any, item: any) => {

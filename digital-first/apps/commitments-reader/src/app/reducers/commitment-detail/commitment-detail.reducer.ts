@@ -9,20 +9,12 @@ export interface State {
   commitment: Commitment
   loaded: boolean
   handlingAdvices: []
-  PMOUpdateLoaded: boolean
-  PMCUpdateLoaded: boolean
-  PMOHandlingAdvice: any
-  PMCHandlingAdvice: any
 }
 
 export const initialState: State = {
   commitment: null,
   loaded: false,
-  handlingAdvices: [],
-  PMOUpdateLoaded: false,
-  PMCUpdateLoaded: false,
-  PMOHandlingAdvice: null,
-  PMCHandlingAdvice: null
+  handlingAdvices: []
 }
 
 export function reducer(
@@ -34,7 +26,6 @@ export function reducer(
       return state
 
     case CommitmentDetailActionTypes.LoadDetailedCommitment:
-      console.log(`🤡 LoadDetailedCommitment`, action)
       return {
         ...state,
         commitment: action.payload,
@@ -42,7 +33,6 @@ export function reducer(
       }
 
     case CommitmentDetailActionTypes.LoadHandlingAdvices:
-      console.log(`🤡 LoadHandlingAdvices`, action)
       return {
         ...state,
         handlingAdvices: action.payload.advices,
@@ -54,7 +44,6 @@ export function reducer(
       pmocommitment.pmoHandlingAdvice = action.payload.handlingAdviceId
       return {
         ...state,
-        PMOUpdateLoaded: true,
         commitment: pmocommitment
       }
 
@@ -63,7 +52,6 @@ export function reducer(
       pmccommitment.pmcHandlingAdvice = action.payload.handlingAdviceId
       return {
         ...state,
-        PMCUpdateLoaded: true,
         commitment: pmccommitment
       }
     default:
@@ -84,47 +72,3 @@ export const getHandlingAdvicesState = createSelector(
   commitmentDetailState,
   state => state.handlingAdvices
 )
-
-export const getPMOUpdatedState = createSelector(
-  commitmentDetailState,
-  state => state.PMOHandlingAdvice
-)
-
-export const getPMCUpdatedState = createSelector(
-  commitmentDetailState,
-  state => state.PMCHandlingAdvice
-)
-
-/*export const getHandlingAdvicesState = (state: CommitmentDetailsState) => state.handlingAdvices
-//export const getCommitmentState = (state: CommitmentDetailsState) => state.commitment
-export const getPMOUpdateState = (state: CommitmentDetailsState) => state.PMOUpdateLoaded
-export const getPMCUpdateState = (state: CommitmentDetailsState) => state.PMCUpdateLoaded
-
-
-
-export const getCommitmentState = createSelector(
-  commitmentDetailState,
-  (state: CommitmentDetailsState) => state.commitment
-)
-
-export const getCommitment = createSelector(
-  getCommitmentState,
-  (commitment) => {
-    return commitment
-  }
-)
-
-  export const getHandlingAdvice = createSelector(
-    commitmentDetailState,
-    getHandlingAdvicesState
-  )
-
-export const getPMOUpdatedState = createSelector(
-  commitmentDetailState,
-  getPMOUpdateState
-)
-
-export const getPMCUpdatedState = createSelector(
-  commitmentDetailState,
-  getPMCUpdateState
-)*/
