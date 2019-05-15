@@ -56,7 +56,7 @@ export class CommitmentOverviewLayoutComponent
   queryParamsSubscription$: Subscription
   refinerGroups: RefinerGroup[]
   queryParamsRefiner: { id: string; group: string }[]
-
+  
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -82,8 +82,6 @@ export class CommitmentOverviewLayoutComponent
     this.queryParamsSubscription$ = this.route.queryParams.subscribe(params => {
       if (params && params.refiner) {
         this.queryParamsRefiner = JSON.parse(params.refiner)
-        // tslint:disable-next-line: no-console
-        console.log(`👹 this.queryParamsRefiner`, this.queryParamsRefiner)
         this.store.dispatch(
           new SetRefinerFromQueryString({ refiner: this.queryParamsRefiner })
         )
@@ -93,24 +91,24 @@ export class CommitmentOverviewLayoutComponent
     this.store
       .pipe(select(fromRefiner.selectSelectedRefinersState))
       .subscribe(next => {
-        let queryParams = {}
         if (next && next.length > 0) {
-          queryParams = { refiner: JSON.stringify(next) }
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { refiner: JSON.stringify(next) },
+            queryParamsHandling: 'merge'
+          })
+        } else {
+          this.router.navigate([], {
+            relativeTo: this.route
+          })
         }
-        // tslint:disable-next-line: no-console
-        console.log(`👹 selectSelectedRefinersState`, next)
-        this.router.navigate([], {
-          relativeTo: this.route,
-          queryParams: queryParams,
-          queryParamsHandling: 'merge'
-        })
+
+
       })
 
     this.refinerGroupsSubscription$ = this.store
       .pipe(
         select(fromRefiner.selectRefinerGroups),
-        // tslint:disable-next-line: no-console
-        tap(result => console.log(`👹 `, result))
       )
       .subscribe(next => {
         this.refinerGroups = next

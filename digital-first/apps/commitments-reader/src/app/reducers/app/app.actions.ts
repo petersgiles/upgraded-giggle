@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store'
+import { NotificationMessage } from './app.model';
 
 export enum AppActionTypes {
   StartAppInitialiser = '[App] Start App Initialiser',
@@ -7,7 +8,8 @@ export enum AppActionTypes {
   ClearAppNotification = '[App] Clear AppNotification',
   SetLayoutDrawState = '[App] Set Layout Draw State',
   GetAppConfiguration = '[App] Get App Configuration',
-  LoadAppConfiguration = '[App] Load App Configuration'
+  LoadAppConfiguration = '[App] Load App Configuration',
+  LoadAppConfigurationError = '[App] Load App Configuration'
 }
 
 export class StartAppInitialiser implements Action {
@@ -30,7 +32,7 @@ export class FinishAppInitialiser implements Action {
 
 export class AppNotification implements Action {
   readonly type = AppActionTypes.AppNotification
-  constructor(public payload: { message: string; code?: string; data?: any }) {}
+  constructor(public payload: NotificationMessage) {}
 }
 
 export class ClearAppNotification implements Action {
@@ -42,6 +44,11 @@ export class SetLayoutDrawState implements Action {
   constructor(public state: boolean) {}
 }
 
+export class LoadAppConfigurationError implements Action {
+  readonly type = AppActionTypes.LoadAppConfigurationError
+  constructor(public payload) {}
+}
+
 export type AppActions =
   | StartAppInitialiser
   | FinishAppInitialiser
@@ -50,3 +57,4 @@ export type AppActions =
   | SetLayoutDrawState
   | GetAppConfiguration
   | LoadAppConfiguration
+  | LoadAppConfigurationError

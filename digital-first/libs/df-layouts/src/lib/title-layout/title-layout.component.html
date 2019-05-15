@@ -1,16 +1,35 @@
 <mdc-top-app-bar class="app-top-app-bar" #topAppBar fixed prominent="false">
   <mdc-top-app-bar-row>
+    <div
+      class="bookColour"
+      [style.background]="(bookColour$ | async)"
+    ></div>
     <mdc-top-app-bar-section align="start" title="{{ title }}">
-      <a *ngIf="(logo$ | async) as logo" [href]="logo.url" [title]="logo.title">
+      <a *ngIf="logo$ | async as logo" [href]="logo.url" [title]="logo.title">
         <img [src]="logo.image" alt=""
       /></a>
 
-      <mdc-icon *ngIf="!(logo$ | async)" mdcTopAppBarActionItem [routerLink]="['/']">home</mdc-icon>
+      <mdc-icon
+        *ngIf="!(logo$ | async)"
+        mdcTopAppBarActionItem
+        [routerLink]="['/']"
+        >home</mdc-icon
+      >
     </mdc-top-app-bar-section>
     <mdc-top-app-bar-section align="center" class="protective-marking">
       <span>{{ protectiveMarking$ | async | uppercase }}</span>
     </mdc-top-app-bar-section>
     <mdc-top-app-bar-section align="end">
+      <digital-first-avatar *ngIf="profile"
+        [name]="profile?.name"
+        [email]="profile?.email"
+        [displayType]="profile?.displayType"
+        [size]="profile?.size"
+        [background]="profile?.background"
+        (click)="handleAvatarClicked($event)"
+      >
+      </digital-first-avatar>
+
       <mdc-icon
         *ngIf="(sidebarItems$ | async)?.length > 0"
         mdcTopAppBarActionItem
@@ -18,20 +37,16 @@
         >apps</mdc-icon
       >
 
-      <digital-first-avatar
-        [name]="profile?.name"
-        [email]="profile?.email"
-        [displayType]="profile?.displayType"
-        [size]="profile?.size"
-        [background]="profile?.background"
-      >
-      </digital-first-avatar>
-
       <div mdcMenuSurfaceAnchor #menuAnchor>
         <mdc-menu #profileMenu [anchorElement]="menuAnchor">
           <div class="nav-list wrap">
-            <div *ngFor="let item of (appItems$ | async)" class="nav-button">
-              <a *ngIf="item.url" [href]="item.url" class="nav-button-anchor" target="item.target">
+            <div *ngFor="let item of appItems$ | async" class="nav-button">
+              <a
+                *ngIf="item.url"
+                [href]="item.url"
+                class="nav-button-anchor"
+                target="item.target"
+              >
                 <span class="nav-button-icon material-icons">{{
                   item.icon
                 }}</span>
@@ -42,7 +57,7 @@
 
           <mdc-list>
             <a
-              *ngFor="let item of (sidebarItems$ | async)"
+              *ngFor="let item of sidebarItems$ | async"
               mdc-list-item
               [routerLink]="item.routerLink"
             >
@@ -50,7 +65,9 @@
             </a>
           </mdc-list>
 
-          <div class="app-version">Version {{ version }} {{bookType$ | async}}</div>
+          <div class="app-version">
+            Version {{ version }} {{ bookType$ | async }}
+          </div>
         </mdc-menu>
       </div>
     </mdc-top-app-bar-section>

@@ -11,7 +11,7 @@ import {
 } from '@angular/core'
 
 import { Scheduler } from 'bryntum-scheduler/scheduler.umd.js'
-import * as AuLocael from '../../../../../commitments-reader/src/app/components/scheduler/Au.locale.en.js'
+import * as AuLocael from '../../../../../commitments-reader/src/app/components/scheduler/Au.locale.en.min.js'
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'scheduler',
@@ -72,7 +72,7 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
     'eventStyle',
     'eventRenderer',
     'resources',
-    'readOnly',
+    'readonly',
     'rowHeight',
     'responsiveLevels',
     'viewPreset',
@@ -97,7 +97,7 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() eventStyle: string
   @Input() eventRenderer: any
   @Input() resources: object[]
-  @Input() readOnly = false
+  @Input() readonly = true
   @Input() responsiveLevels: any
   @Input() rowHeight = 150
   @Input() startDate: any
@@ -111,42 +111,12 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
   // New ones that we have added
   @Input() zoomLevels: object[]
   @Input() zoomLevel: number
+  @Input() centerDate: any
   // Config for all features
   @Input() featureConfig: any
 
   //Features
   @Input() timeRanges: object[]
-
-  // Old, bad conflated features/featureconfig
-  @Input() cellEdit: boolean | object = true
-  @Input() cellTooltip: boolean | object = true
-  @Input() columnLines: boolean | object = true
-  @Input() columnPicker = true
-  @Input() columnReorder = true
-  @Input() columnResize = true
-  @Input() contextMenu: boolean | object
-  @Input() dependencies: boolean | object = false
-  @Input() eventDrag: boolean | object = true
-  @Input() eventContextMenu: boolean | object = true
-  @Input() eventDragCreate: boolean | object = true
-  @Input() eventEdit: boolean | object = true
-  @Input() eventFilter: boolean | object = true
-  @Input() eventResize: boolean | object = true
-  @Input() eventTooltip: boolean | object = true
-  @Input() filter: boolean | object
-  @Input() filterBar: boolean | object
-  @Input() group: boolean | object | string = true
-  @Input() groupSummary: boolean | object
-  @Input() headerContextMenu: boolean | object
-  @Input() labels: boolean | object
-  @Input() nonWorkingTime: boolean
-  @Input() regionResize: boolean
-  @Input() search: boolean
-  @Input() scheduleTooltip: boolean | object = true
-  @Input() sort: boolean | object | string = true
-  @Input() stripe: boolean
-  @Input() summary: boolean | object
-  @Input() tree: boolean
 
   @Output() selectedEvent = ''
   @Output() onSchedulerEvents = new EventEmitter<object>()
@@ -189,13 +159,21 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
     const engine = (this.schedulerEngine = new Scheduler(config))
     engine.localeManager.locale = AuLocael
     engine.zoomLevel = this.zoomLevel || engine.minZoomLevel
-
+    if (this.startDate) {
+      engine.startDate = this.startDate
+    }
+    if (this.endDate) {
+      engine.endDate = this.endDate
+    }
     // Relay events from eventStore and resourceStore, making them a bit easier to catch in your app.
     // The events are prefixed with 'events' and 'resources', turning and 'add' event into either 'eventsAdd' or
     // 'resourcesAdd'
-
+    if (this.centerDate) {
+      engine.scrollToDate(this.centerDate)
+    }
     engine.eventStore.relayAll(engine, 'events')
     engine.resourceStore.relayAll(engine, 'resources')
+    engine.readOnly = this.readonly
   }
 
   ngOnChanges(changes: SimpleChanges) {

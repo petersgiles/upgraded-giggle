@@ -1,12 +1,15 @@
-<ng-container *ngIf="(commitment$ | async) as commitment">
-  <h1>{{ commitment?.title }}</h1>
-  <p>
-    Status: <strong>{{ commitment.status }}</strong>.
-  </p>
-  <p>
-    Responsible Portfolio: <strong>{{ commitment.portfolio }}</strong>.
-  </p>
-  <!-- <p *ngIf="relatedPortfolios?.length > 0">
+<div class="indent">
+  <ng-container *ngIf="commitment$ | async as commitment">
+    <h1>{{ commitment?.title }}</h1>
+    <p>
+      Status: <strong>{{ commitment.status }}</strong
+      >.
+    </p>
+    <p>
+      Responsible Portfolio: <strong>{{ commitment.portfolio }}</strong
+      >.
+    </p>
+    <!-- <p *ngIf="relatedPortfolios?.length > 0">
     Related Portfolio<span *ngIf="relatedPortfolios?.length > 1"
       >s</span
     >:
@@ -19,39 +22,47 @@
 
     </ng-container>.
   </p> -->
-  <p>
-    Announced by the
-    <strong>{{ commitment.announcedBy }}</strong> of
-    <strong>{{ commitment.politicalParty }}</strong> on
-    <strong>{{ commitment.date | amDateFormat: 'LL' }}</strong>.
-  </p>
+    <p>
+      Announced by the
+      <strong>{{ commitment.announcedBy }}</strong> of
+      <strong>{{ commitment.politicalParty }}</strong> on
+      <strong>{{ commitment.date | amDateFormat: 'LL' }}</strong
+      >.
+    </p>
 
-  <p>
-    This is
-    <strong>{{ getIndefiniteArticle(commitment.commitmentTyp) }}</strong>
-    commitment
-    <ng-container *ngIf="!commitment?.cost">
-      with <strong>no</strong> specified party funding</ng-container>
-    <ng-container *ngIf="commitment.cost">that the party announced requires funding of
-      <strong>{{ commitment.cost }}</strong></ng-container>. It was announced via
-    <strong>{{ getIndefiniteArticle(commitment.announcementType) }}</strong>.
-  </p>
+    <p>
+      This is
+      <strong>{{ getIndefiniteArticle(commitment.commitmentTyp) }}</strong>
+      commitment
+      <ng-container *ngIf="!commitment?.cost">
+        with <strong>no</strong> specified party funding</ng-container
+      >
+      <ng-container *ngIf="commitment.cost"
+        >that the party announced requires funding of
+        <strong>{{ commitment.cost }}</strong></ng-container
+      >. It was announced via
+      <strong>{{ getIndefiniteArticle(commitment.announcementType) }}</strong
+      >.
+    </p>
 
-  <p *ngIf="commitment.electorates as electorates">
-    Delivery Location<span *ngIf="electorates?.length > 1">s</span>:
-    <ng-container *ngFor="
-        let location of electorates;
-        index as index;
-        last as last;
-        first as first
-      ">
-      <ng-container *ngIf="!first">
-        <span *ngIf="last"> and </span>
-        <span *ngIf="!last">, </span> </ng-container><strong>{{ location?.title }}</strong>
-    </ng-container>.
-  </p>
+    <p *ngIf="commitment.electorates as electorates">
+      Delivery Location<span *ngIf="electorates?.length > 1">s</span>:
+      <ng-container
+        *ngFor="
+          let location of electorates;
+          index as index;
+          last as last;
+          first as first
+        "
+      >
+        <ng-container *ngIf="!first">
+          <span *ngIf="last"> and </span>
+          <span *ngIf="!last">, </span> </ng-container
+        ><strong>{{ location?.title }}</strong> </ng-container
+      >.
+    </p>
 
-  <p *ngIf="commitment.mapPoint as mapPoints">
+    <!-- <p *ngIf="commitment.mapPoint as mapPoints">
     Delivery Address<span *ngIf="mapPoints?.length > 1">es</span>:
     <ng-container *ngFor="
         let mapPoint of mapPoints;
@@ -63,22 +74,29 @@
         <span *ngIf="last"> and </span>
         <span *ngIf="!last">, </span> </ng-container><strong>{{ mapPoint?.address }}</strong>
     </ng-container>.
-  </p>
+  </p> -->
 
-  <p>
-    Critical date: <strong> {{ commitment.criticalDate }}</strong>.
-  </p>
+    <p>
+      Critical date: <strong> {{ commitment.criticalDate }}</strong
+      >.
+    </p>
+    <!-- <digital-first-commitment-view-guard [operation]="getPMCRight(userOperation$ | async)">
+      <ng-container operation-type="read">
+        <p *ngIf="commitment.PMCHandlingAdvice">
+          PM&C advice handler: <strong>{{ commitment.PMCHandlingAdvice }}</strong>
+        </p>
+      </ng-container>
+    </digital-first-commitment-view-guard> -->
 
-  <p *ngIf="commitment.PMOHandlingAdvice">
-      PMO advice handler: <strong>{{ commitment.PMOHandlingAdvice }}</strong>
-  </p>
+    <!-- <digital-first-commitment-view-guard [operation]="getPMORight(userOperation$ | async)">
+    <ng-container operation-type="read">
+      <p *ngIf="commitment.PMOHandlingAdvice">
+        PMO advice handler: <strong>{{ commitment.PMOHandlingAdvice }}</strong>
+      </p>
+    </ng-container>
+  </digital-first-commitment-view-guard> -->
 
-  <p *ngIf="commitment.PMCHandlingAdvice">
-      PM&C advice handler: <strong>{{ commitment.PMCHandlingAdvice }}</strong>
-  </p>
-
-
-  <p *ngIf="relatedPackages$?.length > 0">
+    <!-- <p *ngIf="relatedPackages$?.length > 0">
     Related Package<span *ngIf="relatedPackages$?.length > 1">s</span>:
     <ng-container *ngFor="
         let rp of relatedPackages$;
@@ -90,31 +108,77 @@
         <span *ngIf="last"> and </span>
         <span *ngIf="!last">, </span> </ng-container><strong>{{ rp?.title }}</strong>
     </ng-container>.
-  </p>
+  </p> -->
 
-  <ng-container *ngIf="commitment.description">
+    <ng-container *ngIf="commitment.description">
+      <hr />
+      <div [innerHtml]="commitment?.description | safeHtml"></div>
+    </ng-container>
     <hr />
-    <div [innerHtml]="commitment?.description | safeHtml"></div>
-  </ng-container>
-  <ng-container>
-    <hr />
+
     <div id="selectors">
       <div class="selection">
-      <p>PM&C Handling Advice</p>
-        <ng-select [dropdownPosition]="'top'"  [items]="pmcitems"
-          (change)="onPMCChange($event)">
-        </ng-select>
+        <!-- <digital-first-commitment-view-guard [operation]="getPMCRight(userOperation$ | async)"> -->
+        <ng-container operation-type="write">
+          <p>PMC Handling Advice</p>
+          <ng-select
+            [items]="handlingAdvices$ | async"
+            bindValue="value"
+            bindLabel="label"
+            autofocus
+            [ngModel]="commitment.pmcHandlingAdvice"
+            (change)="onPMCChange($event)"
+          >
+          </ng-select>
+        </ng-container>
+        <!-- </digital-first-commitment-view-guard> -->
       </div>
+
       <div class="selection">
-        <p>PMO Handling Advice</p>
-        <ng-select [dropdownPosition]="'top'"  [items]="pmoitems"
-          (change)="onPMOChange($event)">
-        </ng-select>
+        <!-- <digital-first-commitment-view-guard
+          [operation]="getPMORight(userOperation$ | async)"
+        > -->
+          <ng-container operation-type="write">
+            <p>PMO Handling Advice</p>
+            <ng-select
+              [items]="handlingAdvices$ | async"
+              bindValue="value"
+              bindLabel="label"
+              autofocus
+              [ngModel]="commitment.pmoHandlingAdvice"
+              (change)="onPMOChange($event)"
+            >
+            </ng-select>
+          </ng-container>
+        <!-- </digital-first-commitment-view-guard> -->
       </div>
     </div>
-  </ng-container>
-</ng-container>
+    <!-- 
+  <div id="selectors">
+    <digital-first-commitment-view-guard [operation]="getPMORight(userOperation$ | async)">
+      <ng-container operation-type="hide">
+      </ng-container>
+    </digital-first-commitment-view-guard>
+    <digital-first-commitment-view-guard [operation]="getPMCRight(userOperation$ | async)">
+        <ng-container operation-type="hide">
+        </ng-container>
+    </digital-first-commitment-view-guard>
+  </div>
 
+
+    <div id="selectors">
+        <digital-first-commitment-view-guard [operation]="getPMORight(userOperation$ | async)">
+          <ng-container operation-type="hide">
+          </ng-container>
+        </digital-first-commitment-view-guard>
+        <digital-first-commitment-view-guard [operation]="getPMCRight(userOperation$ | async)">
+            <ng-container operation-type="hide">
+            </ng-container>
+        </digital-first-commitment-view-guard>
+      </div>
+   -->
+  </ng-container>
+</div>
 
 <ng-template #loading>
   Loading...

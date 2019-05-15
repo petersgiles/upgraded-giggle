@@ -1,68 +1,256 @@
-import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { concatMap, filter, switchMap, map } from 'rxjs/operators'
+import { Injectable } from '@angular/core'
+import { Actions, Effect, ofType } from '@ngrx/effects'
+import {
+  concatMap,
+  filter,
+  switchMap,
+  map,
+  withLatestFrom,
+  tap,
+  catchError,
+  first
+} from 'rxjs/operators'
 import { RouteChange, CHANGE, ofRoute } from '../router.actions'
-import { EMPTY, of } from 'rxjs';
-import { CommitmentDetailActionTypes, CommitmentDetailActions, LoadDetailedCommitment, GetDetailedCommitment } from './commitment-detail.actions';
-import {CommitmentDetailService } from './commitment-detail.service'
-import { Commitment } from '../../models/commitment.model'
+import * as fromRoot from '../../reducers'
+import { EMPTY, of } from 'rxjs'
+import {
+  CommitmentDetailActionTypes,
+  CommitmentDetailActions,
+  LoadDetailedCommitment,
+  LoadHandlingAdvices,
+  GetDetailedCommitmentFailure,
+  GetHandlingAdvicesFailure,
+  UpdatePMCHandlingAdviceFailure,
+  UpdatePMOHandlingAdviceFailure,
+  GetHandlingAdvices,
+  SetPMOHandlingAdviceResult,
+  SetPMCHandlingAdviceResult
+} from './commitment-detail.actions'
+
+import {
+  GetCommitmentDetailGQL,
+  GetHandlingAdvicesGQL,
+  UpdatePmcHandlingAdviceCommitmentGQL,
+  UpdatePmoHandlingAdviceCommitmentGQL
+} from '../../generated/graphql'
+import { Config } from '../../services/config/config-model'
+import { Store } from '@ngrx/store'
+import { AppNotification, ClearAppNotification } from '../app/app.actions'
+import { generateGUID } from '../../utils'
+
+const mapHandlingadvice = (item): any => {
+  if (item && item[0]) {
+    const handlingAdvice = item[0].handlingAdvice
+    return handlingAdvice.value
+  }
+  return null
+}
+
+const mapCommitmentDetail = (item): any => {
+  const mapResult = {
+    id: item.id,
+    title: item.title,
+    description: item.description,
+    bookType: item.bookType,
+    cost: item.cost,
+    date: item.date,
+    politicalParty: item.politicalParty,
+    announcedBy: item.announcedBy,
+    commitmentType: item.commitmentType ? item.commitmentType.title : '',
+    status: item.status ? item.status.title : '',
+    announcementType: item.announcementType ? item.announcementType.title : '',
+    criticalDate: item.criticalDate ? item.criticalDate.title : '',
+    portfolio: item.portfolioLookup ? item.portfolioLookup.title : '',
+    // electorates: this.handleElectorates(item.commitmentLocations)
+    pmcHandlingAdvice: mapHandlingadvice(item.pmcHandlingAdviceCommitments),
+    pmoHandlingAdvice: mapHandlingadvice(item.pmoHandlingAdviceCommitments)
+  }
+
+  return mapResult
+}
 
 @Injectable()
 export class CommitmentDetailEffects {
+  constructor(
+    private actions$: Actions<CommitmentDetailActions>,
+    private store$: Store<fromRoot.State>,
+    private getCommitmentDetailGQL: GetCommitmentDetailGQL,
+    private getHandlingAdvicesGQL: GetHandlingAdvicesGQL,
+    private updatePmcHandlingAdviceCommitmentGQL: UpdatePmcHandlingAdviceCommitmentGQL,
+    private updatePmoHandlingAdviceCommitmentGQL: UpdatePmoHandlingAdviceCommitmentGQL
+  ) {}
 
   @Effect()
-  loadCommitments$ = this.actions$.pipe(
-    ofType(CommitmentDetailActionTypes.LoadCommitments),
-    /** An EMPTY observable only emits completion. Replace with your own observable API request */
-    concatMap(() => EMPTY)
-  )
-
-
-   @Effect()
   loadCommitmentDetails$ = this.actions$.pipe(
     ofType(CommitmentDetailActionTypes.GetDetailedCommitment),
-    switchMap((result: any) => {
-         
-      return of(result)
+    withLatestFrom(this.store$),
+    map(([a, s]) => {
+      const store = <any>s
+      const action = <any>a
+      const config: Config = store.app.config
+      const bookType = config.header.bookType
+      const webId = config.webId
+      const siteId = config.siteId
+      return {
+        id: action.payload.id,
+        book: bookType,
+        webId: [webId],
+        siteId: [siteId]
+      }
     }),
-    map((action: any) => action.payload),
-    map(result => new LoadDetailedCommitment(result))
-  ) 
-
-  @Effect()
-  updatePMOHandlingAdvice$ = this.actions$
-    .pipe(
-      ofType(CommitmentDetailActionTypes.UpdatePMOHandlingAdvice),
-      map((action: any) => action.payload),
-      switchMap((value: any) => 
-        {
-          return this.commitmentDetailService.updateHandlingAdvice(value, 'PMO')
-          .pipe( map((result: Commitment) => new LoadDetailedCommitment({commitment: result}))
-          )}  
-    ))
-
-  @Effect()
-  updatePMCHandlingAdvice$ = this.actions$
-    .pipe(
-      ofType(CommitmentDetailActionTypes.UpdatePMCHandlingAdvice),
-      map((action: any) => action.payload),
-      switchMap((value: any) => 
-        {
-          return this.commitmentDetailService.updateHandlingAdvice(value, 'PMC')
-          .pipe( map((result: Commitment) => new LoadDetailedCommitment({commitment: result}))
-          )}  
-    ))
-
-  @Effect()
-  commitmentDetailsRouted$ = this.actions$.pipe(
-    ofType(CHANGE),
-    filter((routeChangeAction: RouteChange) => routeChangeAction.payload.path === 'commitment/:id'),
-     concatMap((action) => this.commitmentDetailService.getCurrentUser({action}))
-    //new LoadCommitmentActions({ actions: result.data.commitmentActions })),
+    switchMap(config =>
+      this.getCommitmentDetailGQL
+        .fetch(config, { fetchPolicy: 'network-only' })
+        .pipe(
+          first(),
+          map(result => result.data.commitments[0]),
+          map(mapCommitmentDetail),
+          concatMap(result => [
+            new LoadDetailedCommitment(result),
+            new GetHandlingAdvices(null)
+          ])
+        )
+    ),
+    catchError(error => {
+      // tslint:disable-next-line: no-console
+      console.log(`💥 error => `, error)
+      return of(new GetDetailedCommitmentFailure(error))
+    })
   )
 
-  @Effect() commitmentRouted = this.actions$.pipe(ofRoute('commitmentDetail/:id'))
+  @Effect()
+  getHandlingAdvices$ = this.actions$.pipe(
+    ofType(CommitmentDetailActionTypes.GetHandlingAdvices),
+    withLatestFrom(this.store$),
+    map(([a, s]) => {
+      const store = <any>s
+      const action = <any>a
+      const config: Config = store.app.config
+      const bookType = config.header.bookType
+      const webId = config.webId
+      const siteId = config.siteId
+      return {
+        book: bookType,
+        webId: [webId],
+        siteId: [siteId]
+      }
+    }),
+    switchMap(config =>
+      this.getHandlingAdvicesGQL
+        .fetch(config, { fetchPolicy: 'network-only' })
+        .pipe(
+          first(),
+          map(result => result.data.handlingAdvices),
+          concatMap(advices => [new LoadHandlingAdvices({ advices })])
+        )
+    ),
+    catchError(error => {
+      // tslint:disable-next-line: no-console
+      console.log(`💥 error => `, error)
+      return of(new GetHandlingAdvicesFailure(error))
+    })
+  )
 
-  constructor(private actions$: Actions<CommitmentDetailActions>, private commitmentDetailService: CommitmentDetailService) {}
+  @Effect()
+  updatePMOHandlingAdvice$ = this.actions$.pipe(
+    ofType(CommitmentDetailActionTypes.UpdatePMOHandlingAdvice),
+    withLatestFrom(this.store$),
+    map(([a, s]) => {
+      const store = <any>s
+      const action = <any>a
+      const config: Config = store.app.config
+      const webId = config.webId
+      const siteId = config.siteId
 
+      const commitmentId = store.commitmentDetail.commitment.id
+      return {
+        messageId: generateGUID(),
+        conversationId: generateGUID(),
+        data: {
+          commitmentId: commitmentId,
+          handlingAdviceId: action.payload.handlingAdviceId,
+          webId: webId,
+          siteId: siteId,
+          test: null
+        }
+      }
+    }),
+    switchMap(config =>
+      this.updatePmoHandlingAdviceCommitmentGQL
+        .mutate(config, { fetchPolicy: 'no-cache' })
+        .pipe(
+          first(),
+          map(response => response.data.updatePmoHandlingAdviceCommitment.id),
+          concatMap(response => [
+            new SetPMOHandlingAdviceResult({
+              handlingAdviceId: config.data.handlingAdviceId
+            }),
+            new AppNotification({ message: `PMO Handling Advice Saved` }),
+            new ClearAppNotification()
+          ]),
+          catchError(error => {
+            // tslint:disable-next-line: no-console
+            console.log(`💥 error => `, error)
+            return of(new UpdatePMOHandlingAdviceFailure(error))
+          })
+        )
+    )
+  )
+
+  @Effect()
+  updatePMOHandlingAdviceFailure$ = this.actions$.pipe(
+    ofType(CommitmentDetailActionTypes.UpdatePMOHandlingAdviceFailure),
+    switchMap((error: any) => {
+      let message = 'an error occured'
+
+      if (error.payload.networkError) {
+        message = `${message} - ${error.payload.networkError.message}`
+      }
+      return [
+        new AppNotification({ message: message }),
+        new ClearAppNotification()
+      ]
+    })
+  )
+  @Effect()
+  updatePMCHandlingAdvice$ = this.actions$.pipe(
+    ofType(CommitmentDetailActionTypes.UpdatePMCHandlingAdvice),
+    withLatestFrom(this.store$),
+    map(([a, s]) => {
+      const store = <any>s
+      const action = <any>a
+      const config: Config = store.app.config
+      const webId = config.webId
+      const siteId = config.siteId
+      const commitmentId = store.commitmentDetail.commitment.id
+      return {
+        messageId: generateGUID(),
+        conversationId: generateGUID(),
+        data: {
+          commitmentId: commitmentId,
+          handlingAdviceId: action.payload.handlingAdviceId,
+          webId: webId,
+          siteId: siteId
+        }
+      }
+    }),
+    switchMap(config =>
+      this.updatePmcHandlingAdviceCommitmentGQL
+        .mutate(config, { fetchPolicy: 'no-cache' })
+        .pipe(
+          first(),
+          map(response => response.data.updatePmcHandlingAdviceCommitment.id),
+          concatMap(response => [
+            new SetPMCHandlingAdviceResult({
+              handlingAdviceId: config.data.handlingAdviceId
+            })
+          ])
+        )
+    ),
+    catchError(error => {
+      // tslint:disable-next-line: no-console
+      console.log(`💥 error => `, error)
+      return of(new UpdatePMCHandlingAdviceFailure(error))
+    })
+  )
 }

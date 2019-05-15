@@ -32,9 +32,9 @@ export class PlannerComponent implements OnInit, OnDestroy {
   @Input()
   externalEvents: any[]
   @Input()
-  commitmentEventTypes: any[]
+  eventTypes: any[]
   @Input()
-  readOnly: false
+  readonly: true
   @Input()
   externalEventTypes: any[]
   @Input()
@@ -42,7 +42,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
   @Input()
   zoomLevel: any = 3
   @Input()
-  centerDate: Date
+  centerDate: Date 
   @Output()
   public onEventSaved: EventEmitter<any> = new EventEmitter()
   @Output()
@@ -61,13 +61,6 @@ export class PlannerComponent implements OnInit, OnDestroy {
   today = new Date()
   zoomLevels = ZoomLevels
   zoomSlider: any = {}
-  get currentZoomLevel() {
-    return (
-      this.zoomLevels &&
-      this.zoomSlider &&
-      this.zoomLevels.find(_ => _.id === this.zoomSlider.levelId)
-    )
-  }
   columns = [
     {
       text: 'Commitments',
@@ -77,21 +70,6 @@ export class PlannerComponent implements OnInit, OnDestroy {
     }
   ]
 
-  get isAllExternalEventTypesSelected() {
-    const selectedExternalEventTypesString = JSON.stringify(
-      this.selectedExternalEventTypes.sort()
-    )
-    const externalEventTypesString = this.externalEventTypes
-      ? JSON.stringify(this.externalEventTypes.map(et => et.id).sort())
-      : ''
-    return selectedExternalEventTypesString === externalEventTypesString
-  }
-  get isNoneExternalEventTypesSelected() {
-    return (
-      !this.handelSelectAllExternalEvents ||
-      this.handelSelectAllExternalEvents.length === 0
-    )
-  }
   externalEventTypeChangeEventSubscription: Subscription
   externalEventTypeChange: Subject<any> = new Subject()
 
@@ -107,17 +85,16 @@ export class PlannerComponent implements OnInit, OnDestroy {
     this.externalEventTypeChangeEventSubscription = this.externalEventTypeChange
       .pipe(debounceTime(100))
       .subscribe(event => {
+        // deep copy this array from store
+        let types = JSON.parse(JSON.stringify(this.selectedExternalEventTypes))
         if (event.checked) {
-          this.selectedExternalEventTypes.push(event.source.value)
+          types.push(event.source.value)
         } else {
-          const types = this.selectedExternalEventTypes
           if (types.find(t => t === event.source.value)) {
-            this.selectedExternalEventTypes = types.filter(
-              t => t !== event.source.value
-            )
+            types = types.filter(t => t !== event.source.value)
           }
         }
-        this.onExternalEventTypeChange.emit(this.selectedExternalEventTypes)
+        this.onExternalEventTypeChange.emit(types)
       })
   }
 
@@ -128,17 +105,6 @@ export class PlannerComponent implements OnInit, OnDestroy {
       },
       beforeeventdelete({ eventRecord }) {
         me.onEventRemoved.emit(eventRecord.data)
-      },
-      zoomchange({ level }) {
-        const currentCenterDate =
-          me.scheduler.schedulerEngine.viewportCenterDate
-        me.zoomSlider.levelId = level.id
-        me.scheduler.schedulerEngine.setTimeSpan(me.startDate, me.endDate)
-        me.scheduler.schedulerEngine.scrollToDate(currentCenterDate)
-        me.onZoomLevelChange.emit({
-          zoomLevel: level.id,
-          currentCenterDate: currentCenterDate
-        })
       },
       eventResizeEnd({ changed, eventRecord }) {
         if (changed) {
@@ -203,13 +169,13 @@ export class PlannerComponent implements OnInit, OnDestroy {
             valueField: 'id',
             displayField: 'type',
             placeHolder: 'Select Event Type',
-            items: me.commitmentEventTypes.map(c => ({
+            items: me.eventTypes.map(c => ({
               id: c.id,
               type: c.type
             })),
             listeners: {
               select: ({ source: combo }) => {
-                const eventType = this.commitmentEventTypes.find(
+                const eventType = this.eventTypes.find(
                   c => c.id === combo.value
                 )
                 if (eventType) {
@@ -301,11 +267,13 @@ export class PlannerComponent implements OnInit, OnDestroy {
   }
 
   onSliderInput(event: MdcSliderChange): void {
-    this.resetSchedulerZoomLevel(event)
-  }
-
-  resetSchedulerZoomLevel(event: MdcSliderChange) {
-    this.zoomSlider.levelId = event.value
+    const currentCenterDate = this.scheduler.schedulerEngine.viewportCenterDate
+    this.scheduler.schedulerEngine.setTimeSpan(this.startDate, this.endDate)
+    this.scheduler.schedulerEngine.scrollToDate(currentCenterDate)
+    this.onZoomLevelChange.emit({
+      zoomLevel: event.value,
+      currentCenterDate: currentCenterDate
+    })
   }
 
   eventRenderer({ eventRecord, tplData }) {
@@ -319,7 +287,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
   }
   populateExtraItems(me: any) {
     const extraItems = []
-    this.commitmentEventTypes.map(e => {
+    this.eventTypes.map(e => {
       extraItems.push({
         text: e.type,
         icon: e.icon,
@@ -360,10 +328,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
     return this.selectedExternalEventTypes.find(t => t === id)
   }
   /* End handling external event types changes*/
-
-  ngAfterViewInit(): void {
-    this.scheduler.schedulerEngine.scrollToDate(this.centerDate)
-  }
+  
   ngOnDestroy(): void {
     this.externalEventTypeChangeEventSubscription.unsubscribe()
   }

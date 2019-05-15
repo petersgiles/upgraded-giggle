@@ -1,5 +1,5 @@
 {
-    "webId": "4A13D758-7E0B-4554-9ED0-C3B49EEA112E",
+    "siteId": "4A13D758-7E0B-4554-9ED0-C3B49EEA112E",
     "header": {
         "title": "Delivery Module",
         "classification": "",

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
-import { Observable, of } from 'rxjs'
+import { Observable, of, Subscription } from 'rxjs'
 import { withLatestFrom, map, filter, tap } from 'rxjs/operators'
 
 import { Router } from '@angular/router'
@@ -7,7 +7,7 @@ import { Store, select } from '@ngrx/store'
 
 import * as fromOverview from '../../reducers/overview/overview.reducer'
 import { DataTableColumn } from '../../models/data-table-column'
-import { CommitmentRow } from '../../models/commitment.model';
+import { CommitmentRow } from '../../models/commitment.model'
 
 @Component({
   selector: 'digital-first-overview-page',
@@ -19,19 +19,23 @@ export class OverviewPageComponent implements OnInit, OnDestroy {
   rows: CommitmentRow[]
   public columns$: Observable<DataTableColumn[]>
   public count: number
-
+  public errorSubscription: Subscription
   constructor(
     private router: Router,
     private store: Store<fromOverview.State>
   ) {}
 
   ngOnInit() {
-    this.columns$ = this.store
-      .pipe(select(fromOverview.selectRefinedCommitmentsColumnsState))
-      
-    this.filterCommitments$ = this.store.pipe(
-      select(fromOverview.selectFilteredCommitmentsState)
-    ).pipe(tap(commitments => console.log(`🐲 `, commitments)))
+    this.columns$ = this.store.pipe(
+      select(fromOverview.selectRefinedCommitmentsColumnsState)
+    )
+
+    this.filterCommitments$ = this.store
+      .pipe(select(fromOverview.selectFilteredCommitmentsState))
+
+    this.errorSubscription = this.store
+      .pipe(select(fromOverview.selectErrorInOverviewState))
+      .subscribe(error => console.log(error))
   }
 
   ngOnDestroy(): void {}

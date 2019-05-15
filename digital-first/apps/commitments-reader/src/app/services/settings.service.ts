@@ -5,17 +5,26 @@ import { environment } from '../../environments/environment'
   providedIn: 'root'
 })
 export class SettingsService {
-
-  constructor() { }
+  constructor() {}
 
   get environment(): any {
     return environment
+  }
+
+  get host(): any {
+    return environment.host
   }
 
   get datasource(): any {
     return environment.datasource
   }
 
+  get eventDatasource(): any {
+    return environment.eventDatasource
+  }
+  get appConfigDataSource(): any {
+    return environment.appConfigDataSource
+  }
   get assetsPath(): any {
     return environment.assetsPath
   }

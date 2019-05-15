@@ -2,164 +2,178 @@ import { Injectable } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 
 import {
-  concatMap,
-  withLatestFrom,
   map,
   switchMap,
   catchError,
-  first
+  withLatestFrom,
+  concatMap
 } from 'rxjs/operators'
-import { EMPTY, of } from 'rxjs'
 import {
   PlannerActionTypes,
   PlannerActions,
-  GetPlannerDataFailure,
   GetCommitmentEvents,
   LoadExternalEvents,
   LoadCommitmentEvents,
   LoadEventTypes,
   LoadExternalEventTypes,
-  GetCommitmentEventsFailure,
-  GetEventReferenceDataFailure,
-  StoreSelectedExternalEventTypes,
-  LoadPlannerPermission,
-  GetExternalEvents,
-  GetExternalEventsFailure,
-  LoadSelectedExternalEventTypes
+  LoadSelectedExternalEventTypes,
+  GetEventTypes,
+  GetExternalEventTypes,
+  ErrorInPlanner,
+  GetExternalEvents
 } from './planner.actions'
 import { Store } from '@ngrx/store'
 import * as fromRoot from '../../reducers'
 import { CommitmentEventDataService } from '../../services/commitment-event/commitment-event-data-service'
+import {
+  OPERATION_PLANNER,
+  OPERATION_RIGHT_WRITE,
+  OPERATION_RIGHT_READ,
+  OPERATION_RIGHT_HIDE
+} from '../../services/app-data/app-operations'
 @Injectable()
 export class PlannerEffects {
   @Effect()
-  getPlannerData$ = this.actions$.pipe(
-    ofType(PlannerActionTypes.GetPlannerData),
-    withLatestFrom(this.rootStore$),
-    map(([_, s]) => {
-      const rootStore = <any>s
-      const refinedCommitments = rootStore.overview.commitments
-      const appConfig = rootStore.app.config
-      return {
-        commitments: refinedCommitments,
-        appConfig: appConfig
-      }
-    }),
-    switchMap(config => [
-      new GetCommitmentEvents(config),
-      new LoadPlannerPermission(config.appConfig)
-    ]),
-    catchError(error => of(new GetPlannerDataFailure(error)))
-  )
-
-  @Effect()
   getCommitmentsEvents$ = this.actions$.pipe(
     ofType(PlannerActionTypes.GetCommitmentEvents),
-    withLatestFrom(this.rootStore$),
-    map(([action, s]) => {
-      const rootStore = <any>s
-      const refinedCommitments = rootStore.overview.commitments
-      return {
-        commitments: refinedCommitments
-      }
-    }),
-    switchMap(config =>
+    concatMap(action =>
       this.commitmentEventDataService
-        .getEventsByCommitments(config)
-        .pipe(concatMap(data => [new LoadCommitmentEvents(data)]))
+        .getEventsByCommitments(action.payload)
+        .pipe(map(data => new LoadCommitmentEvents(data)))
     ),
-    catchError(error => of(new GetCommitmentEventsFailure(error)))
+    catchError(error => [new ErrorInPlanner(error)])
   )
 
   @Effect()
   getEventsReferenceData$ = this.actions$.pipe(
     ofType(PlannerActionTypes.GetEventReferenceData),
-    withLatestFrom(this.rootStore$),
-    map(([_, s]) => {
-      const rootStore = <any>s
-      const appConfig = rootStore.app.config
-      return appConfig
-    }),
-    switchMap(config => {
-      const actions = []
-      this.commitmentEventDataService
-        .getEventTypes(config)
-        .pipe(switchMap(data => [new LoadEventTypes(data)]))
-        .forEach(c => actions.push(c))
-      this.commitmentEventDataService
-        .getExternalEventTypes(config)
-        .pipe(switchMap(data => [new LoadExternalEventTypes(data)]))
-        .forEach(c => actions.push(c))
-      return actions
-    }),
-    catchError(error => of(new GetEventReferenceDataFailure(error)))
+    concatMap(action => [
+      new GetEventTypes(action.payload),
+      new GetExternalEventTypes(action.payload)
+    ])
   )
+
+  @Effect()
+  getEventTypes$ = this.actions$.pipe(
+    ofType(PlannerActionTypes.GetEventTypes),
+    concatMap(action =>
+      this.commitmentEventDataService
+        .getEventTypes(action.payload)
+        .pipe(map(data => new LoadEventTypes(data)))
+    ),
+    catchError(error => {
+      // tslint:disable-next-line: no-console
+      console.log(`💥 error => `, error)
+      return [new ErrorInPlanner(error)]
+    })
+  )
+
+  @Effect()
+  getExternalEventTypes$ = this.actions$.pipe(
+    ofType(PlannerActionTypes.GetExternalEventTypes),
+    concatMap(action =>
+      this.commitmentEventDataService
+        .getExternalEventTypes(action.payload)
+        .pipe(map(data => new LoadExternalEventTypes(data)))
+    ),
+    catchError(error => {
+      // tslint:disable-next-line: no-console
+      console.log(`💥 error => `, error)
+      return [new ErrorInPlanner(error)]
+    })
+  )
+
   @Effect()
   getExternalEvents$ = this.actions$.pipe(
     ofType(PlannerActionTypes.GetExternalEvents),
     withLatestFrom(this.rootStore$),
-    map(([action, s]) => {
-      const rootStore = <any>s
-      const selectedExternalEeventTypes =
-        rootStore.planner.selectedExternalEeventTypes
-      if (action.payload) {
-        return action.payload
+    map(([action, root]) => {
+      const rootStore = <any>root
+      const selectedExternalEventTypes =
+        rootStore.planner.selectedExternalEventTypes
+      if (action.payload.selectedExternalEventTypes) {
+        return {
+          permission: action.payload.permission,
+          selectedExternalEventTypes: action.payload.selectedExternalEventTypes
+        }
       } else {
-        return selectedExternalEeventTypes
+        return {
+          permission: action.payload.permission,
+          selectedExternalEventTypes: selectedExternalEventTypes
+        }
       }
     }),
-    switchMap(selectedExternalEeventTypes =>
+    concatMap(payload =>
       this.commitmentEventDataService
-        .getExternalEvents(selectedExternalEeventTypes)
-        .pipe(switchMap(data => [new LoadExternalEvents(data)]))
+        .getExternalEvents(payload)
+        .pipe(map(data => new LoadExternalEvents(data)))
     ),
-    catchError(error => of(new GetExternalEventsFailure(error)))
+    catchError(error => {
+      // tslint:disable-next-line: no-console
+      console.log(`💥 error => `, error)
+      return [new ErrorInPlanner(error)]
+    })
   )
   @Effect()
   storeCommitmentEvent$ = this.actions$.pipe(
     ofType(PlannerActionTypes.StoreCommitmentEvent),
     withLatestFrom(this.rootStore$),
-    map(([action, s]) => {
-      const rootStore = <any>s
-      const appConfig = rootStore.app.config
+    map(([action, root]) => {
+      const rootStore = <any>root
       return {
-        appConfig: appConfig,
-        data: action.payload
+        permission: rootStore.planner.permission,
+        data: action.payload.data,
+        commitments: rootStore.overview.commitments
       }
     }),
-    switchMap(config =>
-      this.commitmentEventDataService
-        .storeEvent(config)
-        .pipe(switchMap(result => [new GetCommitmentEvents(null)]))
-    )
+    concatMap(payload =>
+      this.commitmentEventDataService.storeEvent(payload).pipe(
+        map(
+          () =>
+            new GetCommitmentEvents({
+              permission: payload.permission,
+              commitments: payload.commitments
+            })
+        )
+      )
+    ),
+    catchError(error => {
+      // tslint:disable-next-line: no-console
+      console.log(`💥 error => `, error)
+      return [new ErrorInPlanner(error)]
+    })
   )
 
   @Effect()
   removeCommitmentEvent$ = this.actions$.pipe(
     ofType(PlannerActionTypes.RemoveCommitmentEvent),
     withLatestFrom(this.rootStore$),
-    map(([action, s]) => {
-      const rootStore = <any>s
-      const appConfig = rootStore.app.config
+    map(([action, root]) => {
+      const rootStore = <any>root
       return {
-        appConfig: appConfig,
-        data: action.payload
+        permission: rootStore.planner.permission,
+        data: action.payload.data,
+        commitments: rootStore.overview.commitments
       }
     }),
-    switchMap(config =>
-      this.commitmentEventDataService
-        .removeEvent(config)
-        .pipe(switchMap(result => [new GetCommitmentEvents(null)]))
+    concatMap(payload =>
+      this.commitmentEventDataService.removeEvent(payload).pipe(
+        map(
+          () =>
+            new GetCommitmentEvents({
+              permission: payload.permission,
+              commitments: payload.commitments
+            }),
+          catchError(error => [new ErrorInPlanner(error)])
+        )
+      )
     )
   )
 
   @Effect()
   storeSelectedExternalEventTypes$ = this.actions$.pipe(
     ofType(PlannerActionTypes.StoreSelectedExternalEventTypes),
-    switchMap(action => [
-      new LoadSelectedExternalEventTypes(action.payload),
-      new GetExternalEvents(action.payload)
-    ])
+    concatMap(action => [new LoadSelectedExternalEventTypes(action.payload)])
   )
 
   constructor(

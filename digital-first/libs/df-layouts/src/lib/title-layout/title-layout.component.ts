@@ -24,6 +24,7 @@ export class TitleLayoutComponent implements OnInit, OnDestroy {
   @ViewChild('topAppBar') topAppBar: MdcTopAppBar
   appItems$: Observable<AppItem[]>
   bookType$: Observable<string>
+  bookColour$: Observable<string>
   constructor(
     private router: Router,
     private ngZone: NgZone,
@@ -42,6 +43,10 @@ export class TitleLayoutComponent implements OnInit, OnDestroy {
     return this._profile
   }
 
+  public handleAvatarClicked($event) {
+    this.service.handleAvatarClicked($event)
+  }
+
   ngOnInit() {
     this.router.events
       .pipe(
@@ -50,11 +55,14 @@ export class TitleLayoutComponent implements OnInit, OnDestroy {
       )
       .subscribe(_ => {})
 
-    this.service.profile.subscribe(p => {
+    this.service.profile
+    .pipe(tap(result => console.log(`🍚 profile`, result)))
+    .subscribe(p => {
       this._profile = p
     })
     this.logo$ = this.service.logo$
     this.bookType$ = this.service.bookType$
+    this.bookColour$ = this.service.bookColour$
     this.sidebarItems$ = this.service.sidebarItems$
     this.appItems$ = this.service.appItems$
     this.notification$ = this.service.notification$.pipe(

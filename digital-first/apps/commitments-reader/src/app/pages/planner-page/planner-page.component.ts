@@ -1,21 +1,29 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 // import { CommitmentRefinerService } from '../../services/commitment-refiner'
 import { Observable, Subscription, of } from 'rxjs'
-import { EventSharepointDataService } from '../../services/commitment-event/sharepoint/commitment-event-sharepoint-data.service'
-import { switchMap, map, concatMap, tap } from 'rxjs/operators'
+import {
+  map,
+  concat,
+  concatMap,
+  combineLatest,
+  withLatestFrom,
+  tap
+} from 'rxjs/operators'
 import * as fromPlanner from '../../reducers/planner/planner.reducer'
 import * as fromOverview from '../../reducers/overview/overview.reducer'
+import * as fromUser from '../../reducers/user/user.reducer'
 import { Store, select } from '@ngrx/store'
 import {
-  GetPlannerData,
-  PlannerActionTypes,
   GetEventReferenceData,
   StoreCommitmentEvent,
   RemoveCommitmentEvent,
-  GetExternalEvents,
   StoreSelectedExternalEventTypes,
-  StoreSchedulerState
+  StoreSchedulerState,
+  GetCommitmentEvents,
+  SetPlannerPermission,
+  GetExternalEvents
 } from '../../reducers/planner/planner.actions'
+
 @Component({
   selector: 'digital-first-planner-page',
   templateUrl: './planner-page.component.html',
@@ -24,43 +32,68 @@ import {
 export class PlannerPageComponent implements OnInit, OnDestroy {
   public commitmentEvents$: Observable<any[]>
   public externalEvents$: Observable<any>
-  public commitmentEventTypes$: Observable<any[]>
+  public eventTypes$: Observable<any[]>
   public filteredCommitments$: Observable<any[]>
   public externalEventTypes$: Observable<any[]>
   public selectedExternalEventTypes$: Observable<any[]>
-  public readOnly$: Observable<boolean>
+  public readonly$: Observable<boolean>
   public zoomLevel$: Observable<any>
   public centerDate$: Observable<any>
   public commitmentsSubscription: Subscription
+  public userPermissionSubscription: Subscription
+  public errorStateSubscription: Subscription
 
   constructor(
     private plannerStore: Store<fromPlanner.State>,
-    private overviewStore: Store<fromOverview.State>
+    private overViewStore: Store<fromOverview.State>,
+    private userStore: Store<fromUser.UserState>
   ) {}
-
-  selectedExternalEventTypesKey = 'SelectedExternalEventTypes'
   ngOnInit() {
-    this.commitmentsSubscription = this.overviewStore
-      .pipe(select(fromOverview.selectRefinedCommitmentsState))
-      .subscribe(_ => this.plannerStore.dispatch(new GetPlannerData(null)))
-
-    this.plannerStore.dispatch(new GetEventReferenceData(null))
-    this.plannerStore.dispatch(new GetExternalEvents(null))
-
-    this.filteredCommitments$ = this.plannerStore
+    this.filteredCommitments$ = this.overViewStore
       .pipe(select(fromOverview.selectRefinedCommitmentsState))
       .pipe(map(data => data.map(c => ({ id: c.id, name: c.title }))))
+
+    this.commitmentsSubscription = this.userStore
+      .pipe(
+        select(fromUser.getUserCurrentUserPlannerPermission),
+        withLatestFrom(this.filteredCommitments$)
+      )
+      .subscribe(([permission, filteredCommitments]) => {
+        this.plannerStore.dispatch(
+          new GetCommitmentEvents({
+            commitments: filteredCommitments,
+            permission: permission
+          })
+        )
+      })
+
+    this.userPermissionSubscription = this.userStore
+      .pipe(select(fromUser.getUserCurrentUserPlannerPermission))
+      .subscribe(permission => {
+        this.plannerStore.dispatch(new GetEventReferenceData(permission))
+        this.plannerStore.dispatch(new SetPlannerPermission(permission))
+        this.plannerStore.dispatch(
+          new GetExternalEvents({
+            permission: permission,
+            selectedExternalEventTypes: null
+          })
+        )
+      })
+
     this.externalEventTypes$ = this.plannerStore.pipe(
       select(fromPlanner.selectExternalEventTypesState)
     )
-    this.commitmentEventTypes$ = this.plannerStore.pipe(
+    this.commitmentEvents$ = this.plannerStore.pipe(
+      select(fromPlanner.selectEventsState)
+    )
+    this.eventTypes$ = this.plannerStore.pipe(
       select(fromPlanner.selectEventTypesState)
     )
     this.selectedExternalEventTypes$ = this.plannerStore.pipe(
       select(fromPlanner.selectSelectedExternalEventTypesState)
     )
-    this.readOnly$ = this.plannerStore.pipe(
-      select(fromPlanner.plannerPermissionState)
+    this.readonly$ = this.plannerStore.pipe(
+      select(fromPlanner.selectPlannerPermissionState)
     )
     this.externalEvents$ = this.plannerStore.pipe(
       select(fromPlanner.selectExternalEventsState)
@@ -71,23 +104,36 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
     this.zoomLevel$ = this.plannerStore.pipe(
       select(fromPlanner.selectSchedulerZoomLevelState)
     )
+
+    this.errorStateSubscription = this.plannerStore
+      .pipe(select(fromPlanner.selectPlannerErrortate))
+      // TODO: send to seq
+      .subscribe(error => console.log(error))
   }
 
   handleEventSaved($event: any) {
-    this.plannerStore.dispatch(new StoreCommitmentEvent($event))
+    this.plannerStore.dispatch(new StoreCommitmentEvent({ data: $event }))
   }
 
   handleEventRemoved($event: any) {
-    this.plannerStore.dispatch(new RemoveCommitmentEvent($event))
+    this.plannerStore.dispatch(new RemoveCommitmentEvent({ data: $event }))
   }
 
   handleExternalEventChange($event) {
     this.plannerStore.dispatch(new StoreSelectedExternalEventTypes($event))
+    this.plannerStore.dispatch(
+      new GetExternalEvents({
+        permission: '',
+        selectedExternalEventTypes: $event
+      })
+    )
   }
   handelZoomLevelChange($event) {
     this.plannerStore.dispatch(new StoreSchedulerState($event))
   }
   ngOnDestroy(): void {
     this.commitmentsSubscription.unsubscribe()
+    this.userPermissionSubscription.unsubscribe()
+    this.errorStateSubscription.unsubscribe()
   }
 }

@@ -5,6 +5,7 @@ import { DataTableColumn } from '../../models/data-table-column'
 export interface State {
   commitments: any[]
   columns: DataTableColumn[]
+  error: any
 }
 
 export const initialState: State = {
@@ -13,13 +14,13 @@ export const initialState: State = {
     { prop: 'id', name: 'Id' },
     { prop: 'title', name: 'Title' },
     { prop: 'portfolio', name: 'Responsible Portfolio' },
-    { prop: 'commitmentType', name: 'Type of Commitment' },
+    // { prop: 'commitmentType', name: 'Type of Commitment' },
     { prop: 'criticalDate', name: 'Critical Date' }
-  ]
+  ],
+  error: {}
 }
 
 export function reducer(state = initialState, action: OverviewActions): State {
-
   switch (action.type) {
     case OverviewActionTypes.LoadRefinedCommitments: {
       return {
@@ -27,6 +28,11 @@ export function reducer(state = initialState, action: OverviewActions): State {
         commitments: action.payload.data.commitments
       }
     }
+    case OverviewActionTypes.GetRefinedCommitmentsFailure:
+      return {
+        ...state,
+        error: action.payload
+      }
 
     default:
       return state
@@ -47,11 +53,15 @@ export const selectRefinedCommitmentsColumnsState = createSelector(
 export const selectFilteredCommitmentsState = createSelector(
   selectRefinedCommitmentsState,
   commitments =>
-    (commitments || []).map(row =>  ({
+    (commitments || []).map(row => ({
       id: row.id,
       title: row.title,
       commitmentType: row.commitmentType ? row.commitmentType.title : '',
       criticalDate: row.criticalDate ? row.criticalDate.title : '',
       portfolio: row.portfolioLookup ? row.portfolioLookup.title : ''
     }))
+)
+export const selectErrorInOverviewState = createSelector(
+  overviewState,
+  (state: State) => state.error
 )

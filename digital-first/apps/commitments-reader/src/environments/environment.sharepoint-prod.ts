@@ -2,13 +2,15 @@ import * as packageJson from '../../../../package.json'
 
 export const environment = {
   production: true,
+  host: 'sharepoint',
   version: packageJson.version,
-  config: 'assets/commitment_delivery_config.txt',
+  config: '/AppConfig/commitments-reader.txt',
   datasource: {
     type: 'graph',
-    dataServiceUrl: '//#{ApiPath}/graphql',
+    dataServiceUrl: '//#{ApiPath}/graphql'
   },
+  eventDatasource: 'sharepoint',
+  appConfigDataSource: 'sharepoint',
   apiKey: '#{ApiKey}',
-
-  assetsPath: '/assets'
+  assetsPath: '../../SiteAssets/apps/commitments-reader/assets'
 }

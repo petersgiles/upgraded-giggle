@@ -27,7 +27,7 @@
     >
       Select Key Date Types
     </button>
-    <mdc-menu-surface #dfExternalEvents [anchorElement]="externalEventsAnchor">
+    <mdc-menu-surface style="min-width: 250px" #dfExternalEvents [anchorElement]="externalEventsAnchor">
       <div class="buttons">
         <button mdc-button (click)="handelSelectAllExternalEvents(true)">
           Select all
@@ -37,8 +37,8 @@
         </button>
       </div>
       <mdc-list-divider></mdc-list-divider>
-      <mdc-list class="mdc-list">
-        <mdc-list-item *ngFor="let type of externalEventTypes"
+      <mdc-list class="mdc-list mdc-list--dense">
+        <mdc-list-item class='external-event-type-item' *ngFor="let type of externalEventTypes"
           ><mdc-form-field>
             <mdc-checkbox
               [value]="type.id"
@@ -67,9 +67,10 @@
     [timeRanges]="externalEvents"
     [eventRenderer]="eventRenderer"
     [zoomLevels]="zoomLevels"
-    [zoomLevel]="currentZoomLevel.id"
+    [zoomLevel]="zoomLevel"
     [listeners]="listeners"
-    [readOnly]="readOnly"
+    [readonly]="readonly"
+    [centerDate] = "centerDate"
     eventColor="green"
     eventStyle="border"
   ></scheduler>

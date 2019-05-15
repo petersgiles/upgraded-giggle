@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 
-import { Observable, of, forkJoin } from 'rxjs'
-import { concatMap, map, tap } from 'rxjs/operators'
+import { Observable, of, forkJoin, EMPTY } from 'rxjs'
+import { concatMap, map, tap, concat } from 'rxjs/operators'
 import { SharepointJsomService } from '@df/sharepoint'
 import { DataResult } from '../../../models'
 import {
@@ -19,32 +19,46 @@ import {
   mapExternalEventTypes
 } from './mapping'
 import { CommitmentEventDataService } from '../commitment-event-data-service'
+import {
+  OPERATION_RIGHT_HIDE,
+  OPERATION_RIGHT_WRITE,
+  OPERATION_RIGHT_READ
+} from '../../app-data/app-operations'
+import { empty } from 'apollo-link'
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventSharepointDataService implements CommitmentEventDataService {
+  WRITE = OPERATION_RIGHT_WRITE
+  READ = OPERATION_RIGHT_READ
+  HIDE = OPERATION_RIGHT_HIDE
+
   constructor(private sharepoint: SharepointJsomService) {}
 
   getEventsByCommitments(
     payload: any
   ): Observable<DataResult<CommitmentEvent[]>> {
-    if (!payload.commitments || payload.commitments.length === 0) {
-      return of()
+    if (
+      !payload ||
+      payload.permission === this.HIDE ||
+      (!payload.commitments && payload.commitments.length === 0)
+    ) {
+      return of({ data: [], loadding: false, error: null })
     }
+
+    // TODO: check if user has hide permission then return empty
     const commitmentIds = payload.commitments.map(c => c.id)
     const viewXml = byCommitmentIdsQuery(commitmentIds)
     return this.sharepoint
       .getItems({ listName: 'CommitmentEvent' })
       .pipe(
-        concatMap(events =>
-          of({ data: mapCommitmentEvents(events), loading: false })
-        )
+        map(events => ({ data: mapCommitmentEvents(events), loading: false }))
       )
   }
 
-  getEventTypes(config: any): Observable<DataResult<CommitmentEventType[]>> {
-    if (config && config.isReadOnly) {
+  getEventTypes(payload: any): Observable<DataResult<CommitmentEventType[]>> {
+    if (!payload || payload !== this.WRITE) {
       return of({
         data: [],
         loadding: false,
@@ -52,27 +66,37 @@ export class EventSharepointDataService implements CommitmentEventDataService {
       })
     } else {
       return this.sharepoint.getItems({ listName: 'CommitmentEventType' }).pipe(
-        concatMap((result: any) =>
-          of({
-            data: mapCommitmentEventTypes(result).sort((a, b) =>
-              a.type < b.type ? -1 : 1
-            ),
-            loading: false,
-            error: null
-          })
-        )
+        map((result: any) => ({
+          data: mapCommitmentEventTypes(result).sort((a, b) =>
+            a.type < b.type ? -1 : 1
+          ),
+          loading: false,
+          error: null
+        }))
       )
     }
   }
 
-  getExternalEvents(
-    externalEventTypes: any[]
-  ): Observable<DataResult<ExternalEvent[]>> {
-    const viewXml = byExternalEventTypeIdsQuery(externalEventTypes)
-    return forkJoin(
+  getExternalEvents(payload: any): Observable<DataResult<ExternalEvent[]>> {
+    if (
+      !payload ||
+      payload.permission === this.HIDE ||
+      !payload.selectedExternalEventTypes ||
+      payload.selectedExternalEventTypes.length === 0
+    ) {
+      return of({
+        data: [],
+        loadding: false,
+        error: null
+      })
+    }
+    const viewXml = byExternalEventTypeIdsQuery(
+      payload.selectedExternalEventTypes
+    )
+    return forkJoin([
       this.sharepoint.getItems({ listName: 'ExternalEvent', viewXml: viewXml }),
       this.sharepoint.getItems({ listName: 'ExternalEventType' })
-    ).pipe(
+    ]).pipe(
       concatMap(([externalEvents, eventTypes]) =>
         of({
           data: mapExternalEvents(externalEvents, eventTypes),
@@ -84,32 +108,33 @@ export class EventSharepointDataService implements CommitmentEventDataService {
   }
 
   getExternalEventTypes(
-    config: any
+    payload: any
   ): Observable<DataResult<ExternalEventType[]>> {
-    if (config && config.isReadOnly) {
+    if (!payload || payload === this.HIDE) {
       return of({
         data: [],
         loadding: false,
         error: null
       })
-    } else {
-      return this.sharepoint.getItems({ listName: 'ExternalEventType' }).pipe(
-        concatMap((result: any) =>
-          of({
-            data: mapExternalEventTypes(result).sort((a, b) =>
-              a.name < b.name ? -1 : 1
-            ),
-            loading: false,
-            error: null
-          })
-        )
-      )
     }
+    return this.sharepoint.getItems({ listName: 'ExternalEventType' }).pipe(
+      map((result: any) => ({
+        data: mapExternalEventTypes(result).sort((a, b) =>
+          a.name < b.name ? -1 : 1
+        ),
+        loading: false,
+        error: null
+      }))
+    )
   }
 
   storeEvent(payload: any): Observable<DataResult<any>> {
-    if (payload.config && payload.config.isReadOnly) {
-      throw Error('You do not have permission to add event')
+    if (!payload || payload.permission !== this.WRITE) {
+      return of({
+        data: [],
+        loadding: false,
+        error: null
+      })
     }
     const spData = {
       Title: payload.data.name,
@@ -129,18 +154,20 @@ export class EventSharepointDataService implements CommitmentEventDataService {
         id: existingEvent ? payload.data.id : null
       })
       .pipe(
-        concatMap(_ =>
-          of({
-            data: { name: payload.data.name },
-            loading: false
-          })
-        )
+        map(_ => ({
+          data: { name: payload.data.name },
+          loading: false
+        }))
       )
   }
 
   removeEvent(payload: any): Observable<DataResult<any>> {
-    if (payload.config && payload.config.isReadOnly) {
-      throw Error('You do not have permission to delete event')
+    if (!payload || payload.permission !== this.WRITE) {
+      return of({
+        data: [],
+        loadding: false,
+        error: null
+      })
     }
     return this.sharepoint
       .removeItem({
@@ -148,14 +175,12 @@ export class EventSharepointDataService implements CommitmentEventDataService {
         id: payload.data.id
       })
       .pipe(
-        concatMap(_ =>
-          of({
-            loading: false,
-            data: {
-              commitment: payload.id
-            }
-          })
-        )
+        map(_ => ({
+          loading: false,
+          data: {
+            commitment: payload.id
+          }
+        }))
       )
   }
 }

@@ -19,9 +19,8 @@ import {
 } from './overview.actions'
 import { CommitmentsSearchGQL } from '../../generated/graphql'
 import * as fromRoot from '../../reducers'
-import { Config } from '../../services/config.service'
 import { Store } from '@ngrx/store'
-import { refinerMap } from '../../models'
+import { Config } from '../../services/config/config-model'
 
 @Injectable()
 export class OverviewEffects {
@@ -35,6 +34,7 @@ export class OverviewEffects {
       const config: Config = store.app.config
       const bookType = config.header.bookType
       const selectedRefiners: any = store.refiner.selectedRefiners
+      const textRefiner: any = store.refiner.textRefiner
 
       const selectedRefinerGroup = selectedRefiners.reduce(
         (acc, item) => {
@@ -45,22 +45,18 @@ export class OverviewEffects {
           commitmentTypes: [],
           criticalDates: [],
           portfolioLookups: [],
-          deckItemBriefSummaries: []
+          deckItemBriefSummaries: [],
+          text: null
         }
       )
 
-      // // tslint:disable-next-line: no-console
-      // console.log(`🐲 `, store, selectedRefiners)
-      // // tslint:disable-next-line: no-console
-      // console.log(`🐲 selectedRefinerGroup `, selectedRefinerGroup)
-      // // tslint:disable-next-line: no-console
-      // console.log(`🐲 config `, config)
-      // // tslint:disable-next-line: no-console
-      // console.log(`🐲 bookType `, bookType)
+      if(textRefiner){
+        selectedRefinerGroup.text = textRefiner
+      }
 
       return {
         refiner: selectedRefinerGroup,
-        bookType: bookType
+        book: bookType
       }
     }),
     switchMap(config =>
@@ -69,7 +65,10 @@ export class OverviewEffects {
         concatMap(result => [new LoadRefinedCommitments(result)])
       )
     ),
-    catchError(error => of(new GetRefinedCommitmentsFailure(error)))
+    catchError(error => {
+      // tslint:disable-next-line: no-console
+      console.log(`💥 error => `, error)
+      return of(new GetRefinedCommitmentsFailure(error))})
   )
 
   constructor(

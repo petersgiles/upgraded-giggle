@@ -50,6 +50,14 @@ export type AnnouncementTypeGraphCommitmentsArgs = {
   take?: Maybe<Scalars['Int']>
 }
 
+export type ApplyCommitmentDisplayOrderGraph = {
+  webId: Scalars['Guid']
+  siteId: Scalars['Guid']
+  book?: Maybe<DisplayOrderBookType>
+  parent?: Maybe<Scalars['UInt32']>
+  target: Scalars['UInt32']
+}
+
 export type AppropriationGraph = {
   rowVersion: Scalars['String']
   program?: Maybe<ProgramGraph>
@@ -93,6 +101,7 @@ export type BriefGraph = {
   webId: Scalars['Guid']
   title: Scalars['String']
   reference: Scalars['String']
+  siteId: Scalars['Guid']
 }
 
 export type BriefGraphBriefCommitmentsArgs = {
@@ -134,6 +143,7 @@ export type BriefRecommendationGraph = {
   title: Scalars['String']
   hasResponse: Scalars['Boolean']
   briefId: Scalars['Guid']
+  siteId: Scalars['Guid']
 }
 
 export type BudgetGraph = {
@@ -159,7 +169,8 @@ export type ColumnGraph = {
 }
 
 export type CommitmentGraph = {
-  bookType?: Maybe<BookType>
+  book: BookType
+  bookType: Scalars['String']
   cost?: Maybe<Scalars['String']>
   description?: Maybe<Scalars['String']>
   commitmentLocations?: Maybe<Array<Maybe<CommitmentLocationGraph>>>
@@ -346,7 +357,10 @@ export enum ComparisonGraph {
 }
 
 export type CreateBriefCommitmentInputGraph = {
-  briefId: Scalars['Guid']
+  webId: Scalars['Guid']
+  siteId: Scalars['Guid']
+  listId: Scalars['Guid']
+  listItemId: Scalars['Int']
   commitmentId: Scalars['Int']
 }
 
@@ -497,6 +511,7 @@ export type DeckItemBriefSummaryGraph = {
   size: Scalars['Int']
   sortOrder: Scalars['Int']
   parentId?: Maybe<Scalars['Int']>
+  siteId: Scalars['Guid']
 }
 
 export type DeckItemBriefSummaryGraphDeckItemBriefSummaryBriefsArgs = {
@@ -518,8 +533,16 @@ export type DeckItemBriefSummaryGraphBriefsArgs = {
 }
 
 export type DeleteBriefCommitmentInputGraph = {
-  briefId: Scalars['Guid']
+  webId: Scalars['Guid']
+  listId: Scalars['Guid']
+  siteId: Scalars['Guid']
+  listItemId: Scalars['Int']
   commitmentId: Scalars['Int']
+}
+
+export enum DisplayOrderBookType {
+  Blue = 'Blue',
+  Red = 'Red'
 }
 
 export type ElectorateAdviceGraph = {
@@ -624,9 +647,9 @@ export type HandlingAdviceGraphPmoHandlingAdviceCommitmentsArgs = {
 
 export type LocationGraph = {
   description?: Maybe<Scalars['String']>
+  state?: Maybe<Scalars['String']>
+  area?: Maybe<Scalars['String']>
   commitmentLocations?: Maybe<Array<Maybe<CommitmentLocationGraph>>>
-  state: Scalars['String']
-  area: Scalars['String']
   id: Scalars['Int']
   internalVersion: Scalars['UInt32']
   title: Scalars['String']
@@ -687,7 +710,10 @@ export type Mutation = {
   createStateBarchartReport?: Maybe<MutationResultGraph>
   createElectorateMarkdownReport?: Maybe<MutationResultGraph>
   createStateMarkdownReport?: Maybe<MutationResultGraph>
+  applyCommitmentDisplayOrder?: Maybe<MutationResultGraph>
   requestElectorateBrief?: Maybe<MutationResultGraph>
+  updatePmcHandlingAdviceCommitment?: Maybe<MutationResultGraph>
+  updatePmoHandlingAdviceCommitment?: Maybe<MutationResultGraph>
   createBriefCommitment?: Maybe<MutationResultGraph>
   deleteBriefCommitment?: Maybe<MutationResultGraph>
 }
@@ -790,10 +816,32 @@ export type MutationCreateStateMarkdownReportArgs = {
   stateMarkdownReport?: Maybe<CreateStateMarkdownReportGraph>
 }
 
+export type MutationApplyCommitmentDisplayOrderArgs = {
+  messageId: Scalars['Guid']
+  conversationId?: Maybe<Scalars['Guid']>
+  applyCommitmentDisplayOrder?: Maybe<ApplyCommitmentDisplayOrderGraph>
+}
+
 export type MutationRequestElectorateBriefArgs = {
   messageId: Scalars['Guid']
   conversationId?: Maybe<Scalars['Guid']>
   requestElectorateBrief?: Maybe<RequestElectorateBriefGraph>
+}
+
+export type MutationUpdatePmcHandlingAdviceCommitmentArgs = {
+  messageId: Scalars['Guid']
+  conversationId?: Maybe<Scalars['Guid']>
+  updatePmcHandlingAdviceCommitment?: Maybe<
+    UpdatePmcHandlingAdviceCommitmentGraph
+  >
+}
+
+export type MutationUpdatePmoHandlingAdviceCommitmentArgs = {
+  messageId: Scalars['Guid']
+  conversationId?: Maybe<Scalars['Guid']>
+  updatePmoHandlingAdviceCommitment?: Maybe<
+    UpdatePmoHandlingAdviceCommitmentGraph
+  >
 }
 
 export type MutationCreateBriefCommitmentArgs = {
@@ -844,6 +892,8 @@ export type PackageTypeGraphCommitmentPackageTypesArgs = {
 export type PmcHandlingAdviceCommitmentGraph = {
   handlingAdvice?: Maybe<HandlingAdviceGraph>
   commitment?: Maybe<CommitmentGraph>
+  webId: Scalars['Guid']
+  siteId: Scalars['Guid']
   commitmentId: Scalars['Int']
   handlingAdviceId: Scalars['Guid']
 }
@@ -851,6 +901,8 @@ export type PmcHandlingAdviceCommitmentGraph = {
 export type PmoHandlingAdviceCommitmentGraph = {
   handlingAdvice?: Maybe<HandlingAdviceGraph>
   commitment?: Maybe<CommitmentGraph>
+  webId: Scalars['Guid']
+  siteId: Scalars['Guid']
   commitmentId: Scalars['Int']
   handlingAdviceId: Scalars['Guid']
 }
@@ -1245,7 +1297,8 @@ export type QueryCommitmentsArgs = {
   skip?: Maybe<Scalars['Int']>
   take?: Maybe<Scalars['Int']>
   refiner?: Maybe<CommitmentRefinerGraph>
-  bookType: BookType
+  bookType?: Maybe<Scalars['String']>
+  book?: Maybe<BookType>
 }
 
 export type QueryCommitmentLocationsArgs = {
@@ -1319,7 +1372,7 @@ export type QueryMapPointsArgs = {
   skip?: Maybe<Scalars['Int']>
   take?: Maybe<Scalars['Int']>
   refiner?: Maybe<CommitmentRefinerGraph>
-  bookType: BookType
+  book: BookType
 }
 
 export type QueryPackageTypesArgs = {
@@ -1392,7 +1445,7 @@ export type QueryDeckItemBriefSummariesArgs = {
   where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
   skip?: Maybe<Scalars['Int']>
   take?: Maybe<Scalars['Int']>
-  webId: Scalars['Guid']
+  siteId: Scalars['Guid']
 }
 
 export type QueryDeckItemBriefSummaryArgs = {
@@ -1677,15 +1730,45 @@ export enum StringComparison {
   OrdinalIgnoreCase = 'ORDINAL_IGNORE_CASE'
 }
 
+export type UpdatePmcHandlingAdviceCommitmentGraph = {
+  commitmentId: Scalars['Int']
+  handlingAdviceId?: Maybe<Scalars['Guid']>
+  webId: Scalars['Guid']
+  siteId: Scalars['Guid']
+}
+
+export type UpdatePmoHandlingAdviceCommitmentGraph = {
+  commitmentId: Scalars['Int']
+  handlingAdviceId?: Maybe<Scalars['Guid']>
+  webId: Scalars['Guid']
+  siteId: Scalars['Guid']
+}
+
 export type WhereExpressionGraph = {
   path: Scalars['String']
   comparison?: Maybe<ComparisonGraph>
   case?: Maybe<StringComparison>
   value?: Maybe<Array<Maybe<Scalars['String']>>>
 }
+export type ApplyCommitmentDisplayOrderMutationVariables = {
+  applyCommitmentDisplayOrder: ApplyCommitmentDisplayOrderGraph
+  messageId: Scalars['Guid']
+  conversationId: Scalars['Guid']
+}
+
+export type ApplyCommitmentDisplayOrderMutation = {
+  __typename?: 'Mutation'
+} & {
+  applyCommitmentDisplayOrder: Maybe<
+    { __typename?: 'MutationResultGraph' } & Pick<MutationResultGraph, 'id'>
+  >
+}
+
 export type GetCommitmentDetailQueryVariables = {
   id: Scalars['String']
-  bookType: BookType
+  book: BookType
+  webId?: Maybe<Array<Maybe<Scalars['String']>>>
+  siteId?: Maybe<Array<Maybe<Scalars['String']>>>
 }
 
 export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
@@ -1697,13 +1780,46 @@ export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
           | 'id'
           | 'title'
           | 'description'
-          | 'bookType'
           | 'cost'
           | 'date'
           | 'politicalParty'
           | 'statusId'
           | 'announcedBy'
-        > & {
+        > & { bookType: CommitmentGraph['book'] } & {
+            pmcHandlingAdviceCommitments: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'PmcHandlingAdviceCommitmentGraph' } & Pick<
+                    PmcHandlingAdviceCommitmentGraph,
+                    'webId' | 'siteId'
+                  > & {
+                      handlingAdvice: Maybe<
+                        { __typename?: 'HandlingAdviceGraph' } & {
+                          value: HandlingAdviceGraph['id']
+                          label: HandlingAdviceGraph['title']
+                        }
+                      >
+                    }
+                >
+              >
+            >
+            pmoHandlingAdviceCommitments: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'PmoHandlingAdviceCommitmentGraph' } & Pick<
+                    PmoHandlingAdviceCommitmentGraph,
+                    'webId' | 'siteId'
+                  > & {
+                      handlingAdvice: Maybe<
+                        { __typename?: 'HandlingAdviceGraph' } & {
+                          value: HandlingAdviceGraph['id']
+                          label: HandlingAdviceGraph['title']
+                        }
+                      >
+                    }
+                >
+              >
+            >
             commitmentType: Maybe<
               { __typename?: 'CommitmentTypeGraph' } & Pick<
                 CommitmentTypeGraph,
@@ -1741,7 +1857,7 @@ export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
                       location: Maybe<
                         { __typename?: 'LocationGraph' } & Pick<
                           LocationGraph,
-                          'id' | 'state' | 'title'
+                          'id' | 'title'
                         >
                       >
                     }
@@ -1754,7 +1870,14 @@ export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
                   { __typename?: 'CommitmentPackageTypeGraph' } & Pick<
                     CommitmentPackageTypeGraph,
                     'id'
-                  >
+                  > & {
+                      packageType: Maybe<
+                        { __typename?: 'PackageTypeGraph' } & Pick<
+                          PackageTypeGraph,
+                          'id' | 'title'
+                        >
+                      >
+                    }
                 >
               >
             >
@@ -1782,7 +1905,7 @@ export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
 }
 
 export type GetRefinerTagsQueryVariables = {
-  webId: Scalars['Guid']
+  siteId: Scalars['Guid']
 }
 
 export type GetRefinerTagsQuery = { __typename?: 'Query' } & {
@@ -1830,7 +1953,7 @@ export type GetRefinerTagsQuery = { __typename?: 'Query' } & {
 
 export type CommitmentsSearchQueryVariables = {
   refiner: CommitmentRefinerGraph
-  bookType: BookType
+  book: BookType
 }
 
 export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
@@ -1839,8 +1962,8 @@ export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
       Maybe<
         { __typename?: 'CommitmentGraph' } & Pick<
           CommitmentGraph,
-          'id' | 'title' | 'bookType' | 'politicalParty' | 'announcedBy'
-        > & {
+          'id' | 'title' | 'politicalParty' | 'announcedBy'
+        > & { bookType: CommitmentGraph['book'] } & {
             announcementType: Maybe<
               { __typename?: 'AnnouncementTypeGraph' } & Pick<
                 AnnouncementTypeGraph,
@@ -1865,9 +1988,24 @@ export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
   >
 }
 
+export type GetHandlingAdvicesQueryVariables = {}
+
+export type GetHandlingAdvicesQuery = { __typename?: 'Query' } & {
+  handlingAdvices: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'HandlingAdviceGraph' } & {
+          value: HandlingAdviceGraph['id']
+          label: HandlingAdviceGraph['title']
+        }
+      >
+    >
+  >
+}
+
 export type MapPointsSearchQueryVariables = {
   refiner: CommitmentRefinerGraph
-  bookType: BookType
+  book: BookType
 }
 
 export type MapPointsSearchQuery = { __typename?: 'Query' } & {
@@ -1917,22 +2055,106 @@ export type MapPointsSearchQuery = { __typename?: 'Query' } & {
   >
 }
 
+export type UpdatePmcHandlingAdviceCommitmentMutationVariables = {
+  messageId: Scalars['Guid']
+  conversationId?: Maybe<Scalars['Guid']>
+  data: UpdatePmcHandlingAdviceCommitmentGraph
+}
+
+export type UpdatePmcHandlingAdviceCommitmentMutation = {
+  __typename?: 'Mutation'
+} & {
+  updatePmcHandlingAdviceCommitment: Maybe<
+    { __typename?: 'MutationResultGraph' } & Pick<MutationResultGraph, 'id'>
+  >
+}
+
+export type UpdatePmoHandlingAdviceCommitmentMutationVariables = {
+  messageId: Scalars['Guid']
+  conversationId?: Maybe<Scalars['Guid']>
+  data: UpdatePmoHandlingAdviceCommitmentGraph
+}
+
+export type UpdatePmoHandlingAdviceCommitmentMutation = {
+  __typename?: 'Mutation'
+} & {
+  updatePmoHandlingAdviceCommitment: Maybe<
+    { __typename?: 'MutationResultGraph' } & Pick<MutationResultGraph, 'id'>
+  >
+}
+
 import gql from 'graphql-tag'
 import { Injectable } from '@angular/core'
 import * as Apollo from 'apollo-angular'
 
+export const ApplyCommitmentDisplayOrderDocument = gql`
+  mutation ApplyCommitmentDisplayOrder(
+    $applyCommitmentDisplayOrder: ApplyCommitmentDisplayOrderGraph!
+    $messageId: Guid!
+    $conversationId: Guid!
+  ) {
+    applyCommitmentDisplayOrder(
+      applyCommitmentDisplayOrder: $applyCommitmentDisplayOrder
+      messageId: $messageId
+      conversationId: $conversationId
+    ) {
+      id
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ApplyCommitmentDisplayOrderGQL extends Apollo.Mutation<
+  ApplyCommitmentDisplayOrderMutation,
+  ApplyCommitmentDisplayOrderMutationVariables
+> {
+  document = ApplyCommitmentDisplayOrderDocument
+}
 export const GetCommitmentDetailDocument = gql`
-  query getCommitmentDetail($id: String!, $bookType: BookType!) {
-    commitments(id: $id, bookType: $bookType) {
+  query getCommitmentDetail(
+    $id: String!
+    $book: BookType!
+    $webId: [String]
+    $siteId: [String]
+  ) {
+    commitments(id: $id, book: $book) {
       id
       title
       description
-      bookType
+      bookType: book
       cost
       date
       politicalParty
       statusId
       announcedBy
+      pmcHandlingAdviceCommitments(
+        where: [
+          { path: "webId", comparison: equal, value: $webId }
+          { path: "siteId", comparison: equal, value: $siteId }
+        ]
+      ) {
+        webId
+        siteId
+        handlingAdvice {
+          value: id
+          label: title
+        }
+      }
+      pmoHandlingAdviceCommitments(
+        where: [
+          { path: "webId", comparison: equal, value: $webId }
+          { path: "siteId", comparison: equal, value: $siteId }
+        ]
+      ) {
+        webId
+        siteId
+        handlingAdvice {
+          value: id
+          label: title
+        }
+      }
       commitmentType {
         id
         title
@@ -1957,12 +2179,15 @@ export const GetCommitmentDetailDocument = gql`
         commitmentId
         location {
           id
-          state
           title
         }
       }
       commitmentPackageTypes {
         id
+        packageType {
+          id
+          title
+        }
       }
       commitmentPortfolioLookups {
         commitmentId
@@ -1985,7 +2210,7 @@ export class GetCommitmentDetailGQL extends Apollo.Query<
   document = GetCommitmentDetailDocument
 }
 export const GetRefinerTagsDocument = gql`
-  query GetRefinerTags($webId: Guid!) {
+  query GetRefinerTags($siteId: Guid!) {
     commitmentTypes {
       id
       title
@@ -1998,7 +2223,7 @@ export const GetRefinerTagsDocument = gql`
       id
       title
     }
-    deckItemBriefSummaries(webId: $webId) {
+    deckItemBriefSummaries(siteId: $siteId) {
       id
       title
     }
@@ -2015,14 +2240,11 @@ export class GetRefinerTagsGQL extends Apollo.Query<
   document = GetRefinerTagsDocument
 }
 export const CommitmentsSearchDocument = gql`
-  query CommitmentsSearch(
-    $refiner: CommitmentRefinerGraph!
-    $bookType: BookType!
-  ) {
-    commitments(refiner: $refiner, bookType: $bookType) {
+  query CommitmentsSearch($refiner: CommitmentRefinerGraph!, $book: BookType!) {
+    commitments(refiner: $refiner, book: $book) {
       id
       title
-      bookType
+      bookType: book
       politicalParty
       announcedBy
       announcementType {
@@ -2050,12 +2272,27 @@ export class CommitmentsSearchGQL extends Apollo.Query<
 > {
   document = CommitmentsSearchDocument
 }
+export const GetHandlingAdvicesDocument = gql`
+  query getHandlingAdvices {
+    handlingAdvices {
+      value: id
+      label: title
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class GetHandlingAdvicesGQL extends Apollo.Query<
+  GetHandlingAdvicesQuery,
+  GetHandlingAdvicesQueryVariables
+> {
+  document = GetHandlingAdvicesDocument
+}
 export const MapPointsSearchDocument = gql`
-  query MapPointsSearch(
-    $refiner: CommitmentRefinerGraph!
-    $bookType: BookType!
-  ) {
-    mapPoints(refiner: $refiner, bookType: $bookType) {
+  query MapPointsSearch($refiner: CommitmentRefinerGraph!, $book: BookType!) {
+    mapPoints(refiner: $refiner, book: $book) {
       id
       title
       placeId
@@ -2092,4 +2329,54 @@ export class MapPointsSearchGQL extends Apollo.Query<
   MapPointsSearchQueryVariables
 > {
   document = MapPointsSearchDocument
+}
+export const UpdatePmcHandlingAdviceCommitmentDocument = gql`
+  mutation updatePmcHandlingAdviceCommitment(
+    $messageId: Guid!
+    $conversationId: Guid
+    $data: UpdatePmcHandlingAdviceCommitmentGraph!
+  ) {
+    updatePmcHandlingAdviceCommitment(
+      messageId: $messageId
+      conversationId: $conversationId
+      updatePmcHandlingAdviceCommitment: $data
+    ) {
+      id
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdatePmcHandlingAdviceCommitmentGQL extends Apollo.Mutation<
+  UpdatePmcHandlingAdviceCommitmentMutation,
+  UpdatePmcHandlingAdviceCommitmentMutationVariables
+> {
+  document = UpdatePmcHandlingAdviceCommitmentDocument
+}
+export const UpdatePmoHandlingAdviceCommitmentDocument = gql`
+  mutation updatePmoHandlingAdviceCommitment(
+    $messageId: Guid!
+    $conversationId: Guid
+    $data: UpdatePmoHandlingAdviceCommitmentGraph!
+  ) {
+    updatePmoHandlingAdviceCommitment(
+      messageId: $messageId
+      conversationId: $conversationId
+      updatePmoHandlingAdviceCommitment: $data
+    ) {
+      id
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UpdatePmoHandlingAdviceCommitmentGQL extends Apollo.Mutation<
+  UpdatePmoHandlingAdviceCommitmentMutation,
+  UpdatePmoHandlingAdviceCommitmentMutationVariables
+> {
+  document = UpdatePmoHandlingAdviceCommitmentDocument
 }

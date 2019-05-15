@@ -15,58 +15,143 @@ import * as externalEventTypes from './data/externalEventType.json'
 
 import { CommitmentEventDataService } from '../commitment-event-data-service'
 import { DateHelper } from 'bryntum-scheduler/scheduler.umd.js'
+import {
+  OPERATION_RIGHT_HIDE,
+  OPERATION_RIGHT_WRITE,
+  OPERATION_RIGHT_READ
+} from '../../app-data/app-operations'
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventDevelopDataService implements CommitmentEventDataService {
+  WRITE = OPERATION_RIGHT_WRITE
+  READ = OPERATION_RIGHT_READ
+  HIDE = OPERATION_RIGHT_HIDE
   constructor() {}
-
+  private COMMITMENT_DATA_KEY = 'commitmentEvents'
   getEventsByCommitments(
-    commitments: any
+    payload: any
   ): Observable<DataResult<CommitmentEvent[]>> {
-    return EMPTY
+    if (
+      !payload ||
+      payload.permission === this.HIDE ||
+      (!payload.commitments && payload.commitments.length === 0)
+    ) {
+      return of({ data: [] })
+    }
+    return of({
+      data: this.getEventDataFromLocalStorage(),
+      loading: false,
+      error: null
+    })
   }
 
-  getEventTypes(config: any): Observable<DataResult<CommitmentEventType[]>> {
-    console.log(config)
+  getEventTypes(payload: any): Observable<DataResult<CommitmentEventType[]>> {
+    if (!payload || payload !== this.WRITE) {
+      return of({
+        data: [],
+        loadding: false,
+        error: null
+      })
+    }
     return of({ data: eventTypes })
   }
 
-  getExternalEvents(
-    externalEventTypes: any[]
-  ): Observable<DataResult<ExternalEvent[]>> {
+  getExternalEvents(payload: any): Observable<DataResult<ExternalEvent[]>> {
+    if (
+      !payload ||
+      payload.permission === this.HIDE ||
+      !payload.selectedExternalEventTypes ||
+      payload.selectedExternalEventTypes.length === 0
+    ) {
+      return of({
+        data: [],
+        loadding: false,
+        error: null
+      })
+    }
+    const types = payload.selectedExternalEventTypes
     const data = externalEvents
       .map(e => ({
         name: e.name,
         cls: e.cls,
         startDate: DateHelper.parse(e.startDate, 'yyyy/MM/dd'),
         endDate: DateHelper.parse(e.endDate, 'yyyy/MM/dd'),
-        eventTypeId: Math.random.toString()
+        eventTypeId: e.eventTypeId
       }))
-      .filter(
-        c => externalEventTypes.filter(e => e.id === c.eventTypeId).length > 0
-      )
+      .filter(c => types.filter(e => e === c.eventTypeId).length > 0)
     return of({
       data: data
     })
   }
 
   getExternalEventTypes(
-    config: any
+    payload: any
   ): Observable<DataResult<ExternalEventType[]>> {
+    if (!payload || payload === this.HIDE) {
+      return of({ data: [] })
+    }
     return of({
       data: externalEventTypes
     })
   }
 
   storeEvent(payload: any): Observable<DataResult<any>> {
-    // write to local storage
-    return EMPTY
+    if (!payload || payload.permission !== this.WRITE) {
+      return of({
+        data: [],
+        loadding: false,
+        error: null
+      })
+    }
+    const existingId = payload.data.id
+    let events = this.getEventDataFromLocalStorage()
+    if (existingId.indexOf('_generated') < 0) {
+      events = events.filter(e => e.id !== existingId)
+      events.push(payload.data)
+    } else {
+      let event = JSON.parse(JSON.stringify(payload.data))
+      event.id = Math.random().toString()
+      events.push(event)
+    }
+    this.writeEventDataToLocalStorage(events)
+    return of({
+      data: events,
+      loading: false,
+      error: null
+    })
   }
 
   removeEvent(payload: any): Observable<DataResult<any>> {
-    // remove from local storage
-    return EMPTY
+    if (!payload || payload.permission !== this.WRITE) {
+      return of({
+        data: [],
+        loadding: false,
+        error: null
+      })
+    }
+    let events = this.getEventDataFromLocalStorage()
+    events = events.filter(e => e.id !== payload.data.id)
+    this.writeEventDataToLocalStorage(events)
+    return of({
+      data: events,
+      loading: false,
+      error: null
+    })
+  }
+
+  private getEventDataFromLocalStorage() {
+    const dataInLocalStorage = localStorage.getItem(this.COMMITMENT_DATA_KEY)
+    if (dataInLocalStorage) {
+      return JSON.parse(dataInLocalStorage)
+    } else {
+      const events: any[] = []
+      return events
+    }
+  }
+
+  private writeEventDataToLocalStorage(events: any[]) {
+    localStorage.setItem(this.COMMITMENT_DATA_KEY, JSON.stringify(events))
   }
 }

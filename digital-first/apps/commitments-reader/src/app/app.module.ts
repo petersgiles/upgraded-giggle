@@ -2,9 +2,8 @@ import { BrowserModule } from '@angular/platform-browser'
 import { NgModule, APP_INITIALIZER } from '@angular/core'
 import { HttpClientModule, HttpHeaders, HttpClient } from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular'
-import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http'
-import { InMemoryCache } from 'apollo-cache-inmemory'
+import { ApolloModule } from 'apollo-angular'
+import { HttpLinkModule } from 'apollo-angular-link-http'
 import { MdcSliderModule, MdcElevationModule } from '@angular-mdc/web'
 import { AgmCoreModule } from '@agm/core'
 import { AppRoutingModule } from './app-routing.module'
@@ -54,6 +53,7 @@ import * as fromApp from './reducers/app/app.reducer'
 import * as fromCommitmentDetail from './reducers/commitment-detail/commitment-detail.reducer'
 
 import { AppEffects } from './reducers/app/app.effects'
+import { UserEffects } from './reducers/user/user.effects'
 import { CommitmentDetailEffects } from './reducers/commitment-detail/commitment-detail.effects'
 import { RouterEffects } from './reducers/router.effects'
 import { RefinerEffects } from './reducers/refiner/refiner.effects'
@@ -66,6 +66,10 @@ import { SettingsService } from './services/settings.service'
 import { CommitmentPackageComponent } from './pages/commitment-packages/commitment-package.component'
 import { initApplication } from './app-init'
 import { appDataServiceProvider } from './services/app-data/app-data.service.factory'
+import { configServiceProvider } from './services/config/config.service.factory'
+import { GraphQLModule } from './graphQL/graphQl.module';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component'
+import { CommitmentViewGuardComponent } from './pages/commitment-view-guard/commitment-view-guard.component'
 
 const COMPONENTS = [
   AppComponent,
@@ -78,11 +82,12 @@ const COMPONENTS = [
   CommitmentOverviewLayoutComponent,
   SchedulerComponent,
   CommitmentDetailComponent,
-  CommitmentPackageComponent
+  CommitmentPackageComponent,
+  CommitmentViewGuardComponent
 ]
 
 @NgModule({
-  declarations: [...COMPONENTS, CommitmentDetailComponent],
+  declarations: [...COMPONENTS, CommitmentDetailComponent, UserProfileComponent],
   imports: [
     BrowserModule,
     FormsModule,
@@ -95,6 +100,7 @@ const COMPONENTS = [
     }),
     HttpClientModule,
     HttpLinkModule,
+    GraphQLModule,
     DataTableModule,
     PanelModule,
     ButtonModule,
@@ -128,6 +134,7 @@ const COMPONENTS = [
     EffectsModule.forRoot([RouterEffects]),
     EffectsModule.forFeature([
       AppEffects,
+      UserEffects,
       RefinerEffects,
       OverviewEffects,
       MapEffects,
@@ -136,6 +143,7 @@ const COMPONENTS = [
     ])
   ],
   providers: [
+    SettingsService,
     {
       provide: APP_INITIALIZER,
       useFactory: initApplication,
@@ -143,36 +151,12 @@ const COMPONENTS = [
       multi: true
     },
     appDataServiceProvider,
+   // SharePointAppDataService,
+    configServiceProvider,
     commitmentEventDataServiceProvider,
     SharepointJsomService,
     DateFormatPipe,
     { provide: TitleLayoutService, useClass: AppFullLayoutService },
-    {
-      provide: APOLLO_OPTIONS,
-      useFactory(httpLink: HttpLink) {
-        const defaultOptions = {
-          watchQuery: {
-            errorPolicy: 'ignore'
-          },
-          query: {
-            errorPolicy: 'all'
-          }
-        }
-
-        return {
-          cache: new InMemoryCache(),
-          link: httpLink.create({
-            method: 'GET',
-            uri: environment.datasource.dataServiceUrl,
-            headers: new HttpHeaders({
-              ProgramsApiKey: environment.apiKey
-            })
-          }),
-          defaultOptions
-        }
-      },
-      deps: [HttpLink]
-    },
     /**
      * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.
      * A custom RouterStateSerializer is used to parse the `RouterStateSnapshot` provided
