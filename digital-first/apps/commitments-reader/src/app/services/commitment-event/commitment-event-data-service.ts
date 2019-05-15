@@ -19,16 +19,16 @@ import { EventDevelopDataService } from './develop/commitment-event-develop-data
 })
 export abstract class CommitmentEventDataService {
   abstract getEventsByCommitments(
-    commitments: any
+    payload: any
   ): Observable<DataResult<CommitmentEvent[]>>
   abstract getEventTypes(
-    config: any
+    payload: any
   ): Observable<DataResult<CommitmentEventType[]>>
   abstract getExternalEvents(
-    externalEventTypes: any[]
+    payload: any
   ): Observable<DataResult<ExternalEvent[]>>
   abstract getExternalEventTypes(
-    config: any
+    payload: any
   ): Observable<DataResult<ExternalEventType[]>>
   abstract storeEvent(payload: any): Observable<DataResult<any>>
   abstract removeEvent(payload: any): Observable<DataResult<any>>

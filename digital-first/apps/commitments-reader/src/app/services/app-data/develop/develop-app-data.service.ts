@@ -1,4 +1,4 @@
-import { Observable, of, from} from 'rxjs'
+import { Observable, of, from } from 'rxjs'
 import { AppDataService } from '../app-data.service'
 import { AppUserProfile } from '@digital-first/df-layouts'
 import { ROLE_VISITORS, ROLE_MEMBERS, ROLE_OWNERS } from '../app-operations'
@@ -33,8 +33,7 @@ export class DevelopAppDataService implements AppDataService {
         'rights': 'hide',
         '_id': 'c17ab6bf8c694f6ab26ab4e22a68796f'
       }
-    ]
-    )
+    ])
   }
   get UserOperation(): Observable<any> {
     return of(null)

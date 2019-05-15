@@ -17,9 +17,8 @@ export enum PlannerActionTypes {
   RemoveCommitmentEvent = '[Planner] RemoveCommitmentEvent',
   StoreSelectedExternalEventTypes = '[Planner] StoreSelectedExternalEventTypes',
   LoadSelectedExternalEventTypes = '[Planner] LoadSelectedExternalEventTypes',
-
-  StoreSchedulerState = '[Planner] StoreSchedulerState',
-  LoadPlannerPermission = '[Planner] LoadPlannerPermission'
+  SetPlannerPermission = '[Planner] SetPlannerPermission',
+  StoreSchedulerState = '[Planner] StoreSchedulerState'
 }
 
 export class GetCommitmentEvents implements Action {
@@ -83,9 +82,8 @@ export class StoreSchedulerState implements Action {
   readonly type = PlannerActionTypes.StoreSchedulerState
   constructor(public payload: any) {}
 }
-
-export class LoadPlannerPermission implements Action {
-  readonly type = PlannerActionTypes.LoadPlannerPermission
+export class SetPlannerPermission implements Action {
+  readonly type = PlannerActionTypes.SetPlannerPermission
   constructor(public payload: any) {}
 }
 
@@ -108,5 +106,5 @@ export type PlannerActions =
   | StoreSelectedExternalEventTypes
   | LoadSelectedExternalEventTypes
   | StoreSchedulerState
-  | LoadPlannerPermission
+  | SetPlannerPermission
   | ErrorInPlanner
