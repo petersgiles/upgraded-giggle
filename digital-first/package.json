@@ -82,7 +82,10 @@
     "sp:all": "run-s sharepoint:* deploy:all",
     "sp:pete:deploy": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/DevDeploy.ps1 -SiteUrl 'http://vm-dev-lbs13/sites/commitments-reader-pete' -AppName 'DeckX'",
     "sp:pete:build": "run-s sharepoint:build:deck sharepoint:compile:deck",
-    "sp:pete": "run-s sp:pete:build sp:pete:deploy"
+    "sp:pete": "run-s sp:pete:build sp:pete:deploy",
+    "sp:pete-delivery:deploy": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/DevDeploy.ps1 -SiteUrl 'http://vm-dev-lbs13/sites/lbsMk1-pete' -AppName 'Commitments-Reader'",
+    "sp:pete-delivery:build": "run-s sharepoint:build:commitments-reader sharepoint:compile:commitments-reader",
+    "sp:pete-delivery": "run-s sp:pete-delivery:build sp:pete-delivery:deploy"
   },
   "private": true,
   "dependencies": {
