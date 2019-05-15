@@ -2,7 +2,7 @@ import { Observable, of, from } from 'rxjs'
 import { AppDataService } from '../app-data.service'
 import { AppUserProfile } from '@digital-first/df-layouts'
 import { ROLE_VISITORS, ROLE_MEMBERS, ROLE_OWNERS } from '../app-operations'
-import { DataResult, GroupPermissionsResult } from '../../../models'
+
 
 export class DevelopAppDataService implements AppDataService {
  data = [
@@ -34,7 +34,7 @@ export class DevelopAppDataService implements AppDataService {
       "id": "c17ab6bf8c694f6ab26ab4e22a68796f"
     }
   ]
-  getCurrentUserOperations(roles: { groupPermissions: any }):Observable<any> {
+  getCurrentUserOperations():Observable<any> {
     return of({data: {groupPermissions: this.data}}
     )
   }
@@ -67,7 +67,7 @@ export class DevelopAppDataService implements AppDataService {
       isSiteAdmin: true,
       systemUserKey: 'guest',
       name: 'Guest User',
-      roles: [ROLE_MEMBERS]
+      roles: [ROLE_OWNERS]
     }
 
     return of(userprofile)

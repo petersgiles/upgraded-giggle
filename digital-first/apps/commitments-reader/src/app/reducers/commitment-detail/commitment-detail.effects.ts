@@ -67,13 +67,6 @@ const mapElectorates = (commitmentLocations) => {
      return commitmentLoation
   } 
 
-const mapHandlingadvice = (item): any => {
-  if (!item.length) {
-    return  {label: '', value: ''}
-  }
-  return item[0].handlingAdvice
-}
-
 const mapCommitmentDetail = (item): any => {
   const mapResult = {
     id: item.id,
@@ -90,8 +83,8 @@ const mapCommitmentDetail = (item): any => {
     criticalDate: item.criticalDate ? item.criticalDate.title : '',
     portfolio: item.portfolioLookup ? item.portfolioLookup.title : '',
     electorates: mapElectorates(item.commitmentLocations),
-    pmcHandlingAdvice: mapHandlingadvice(item.pmcHandlingAdviceCommitments),
-    pmoHandlingAdvice: mapHandlingadvice(item.pmoHandlingAdviceCommitments)
+    pmcHandlingAdvice: item.pmcHandlingAdviceCommitments.length ? item.pmcHandlingAdviceCommitments.handlingAdvice : {value: '', label: ''},
+    pmoHandlingAdvice: item.pmoHandlingAdviceCommitments.length ? item.pmoHandlingAdviceCommitments.handlingAdvice : {value: '', label: ''}
     
   }
   return mapResult
@@ -190,19 +183,19 @@ export class CommitmentDetailEffects {
         data: {
           commitmentId: commitmentId,
           handlingAdviceId: action.payload.handlingAdviceId,
-          handlingAdvices: handlingAdvices.find(item => { item.value === action.payload.handlingAdviceId}),
           webId: webId,
           siteId: siteId
-        }
+        },
+        handlingAdvice: handlingAdvices.find(item => { return item.value === action.payload.handlingAdviceId})
       }
     }),
     switchMap(config =>
-      this.updatePmoHandlingAdviceCommitmentGQL.mutate(config, { fetchPolicy: 'no-cache' }).pipe(
+      this.updatePmoHandlingAdviceCommitmentGQL.mutate(config, { fetchPolicy: 'no-cache', errorPolicy: 'all' }).pipe(
         first(),
         map(response => response.data.updatePmoHandlingAdviceCommitment.id),
         concatMap(response => [
           new SetPMOHandlingAdviceResult({
-           handlingAdvices: config.data.handlingAdvices
+           handlingAdvices: config.handlingAdvice
           })
         ])
       )
@@ -222,6 +215,7 @@ export class CommitmentDetailEffects {
       const config: Config = store.app.config
       const webId = config.webId
       const siteId = config.siteId
+
       const commitmentId = store.commitmentDetail.commitment.id
       const handlingAdvices = store.commitmentDetail.handlingAdvices
       return {
@@ -230,19 +224,20 @@ export class CommitmentDetailEffects {
         data: {
           commitmentId: commitmentId,
           handlingAdviceId: action.payload.handlingAdviceId,
-          handlingAdvices: handlingAdvices.find(item => { item.value === action.payload.handlingAdviceId}),
           webId: webId,
-          siteId: siteId
-        }
+          siteId: siteId,
+          test: 'test'
+        },
+        handlingAdvice: handlingAdvices.find(item => { return item.value === action.payload.handlingAdviceId})
       }
     }),
     switchMap(config =>
-      this.updatePmcHandlingAdviceCommitmentGQL.mutate(config, { fetchPolicy: 'no-cache' }).pipe(
+      this.updatePmcHandlingAdviceCommitmentGQL.mutate(config, { fetchPolicy: 'no-cache', errorPolicy: 'all' }).pipe(
         first(),
         map(response => response.data.updatePmcHandlingAdviceCommitment.id),
         concatMap(response => [
           new SetPMCHandlingAdviceResult({
-            handlingAdvices: config.data.handlingAdvices
+           handlingAdvices: config.handlingAdvice
           })
         ])
       )

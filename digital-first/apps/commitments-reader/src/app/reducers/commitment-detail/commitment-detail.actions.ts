@@ -31,7 +31,6 @@ export class UpdatePMOHandlingAdvice implements Action {
 }
 
 export class UpdatePMCHandlingAdvice implements Action {
-  ws
   type = CommitmentDetailActionTypes.UpdatePMCHandlingAdvice
   constructor(public payload: { handlingAdviceId: string }) {}
 }
