@@ -34,24 +34,8 @@ import {
 import { Config } from '../../services/config/config-model'
 import { Store } from '@ngrx/store'
 import { CommitmentLocation } from '../../models/commitment.model';
-
-const generateUUID = () => {
-  // Public Domain/MIT
-  let d = new Date().getTime()
-  if (
-    typeof performance !== 'undefined' &&
-    typeof performance.now === 'function'
-  ) {
-    d += performance.now() //use high-precision timer if available
-  }
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-    // tslint:disable-next-line: no-bitwise
-    const r = (d + Math.random() * 16) % 16 | 0
-    d = Math.floor(d / 16)
-    // tslint:disable-next-line: no-bitwise
-    return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16)
-  })
-}
+import { AppNotification, ClearAppNotification } from '../app/app.actions'
+import { generateGUID } from '../../utils'
 
 const mapElectorates = (commitmentLocations) => {
      let commitmentLoation: CommitmentLocation[] = []
@@ -178,8 +162,8 @@ export class CommitmentDetailEffects {
       const commitmentId = store.commitmentDetail.commitment.id
       const handlingAdvices = store.commitmentDetail.handlingAdvices
       return {
-        messageId: generateUUID(),
-        conversationId: generateUUID(),
+        messageId: generateGUID(),
+        conversationId: generateGUID(),
         data: {
           commitmentId: commitmentId,
           handlingAdviceId: action.payload.handlingAdviceId,
@@ -197,14 +181,30 @@ export class CommitmentDetailEffects {
           new SetPMOHandlingAdviceResult({
            handlingAdvices: config.handlingAdvice
           })
-        ])
+        ]),
+        catchError(error => {
+          return of(new UpdatePMOHandlingAdviceFailure(error))
+        })
       )
-    ),
-    catchError(error => {
-      return of(new UpdatePMOHandlingAdviceFailure(error))
-    })
+    )
   )
 
+  @Effect()
+  updatePMOHandlingAdviceFailure$ = this.actions$.pipe(
+    ofType(CommitmentDetailActionTypes.UpdatePMOHandlingAdviceFailure),
+    switchMap((error: any) => {
+      let message = 'an error occured'
+
+      if (error.payload.networkError) {
+        message = `${message} - ${error.payload.networkError.message}`
+      }
+      return [
+        new AppNotification({ message: message }),
+        new ClearAppNotification()
+      ]
+    })
+  )
+  
   @Effect()
   updatePMCHandlingAdvice$ = this.actions$.pipe(
     ofType(CommitmentDetailActionTypes.UpdatePMCHandlingAdvice),
@@ -219,8 +219,8 @@ export class CommitmentDetailEffects {
       const commitmentId = store.commitmentDetail.commitment.id
       const handlingAdvices = store.commitmentDetail.handlingAdvices
       return {
-        messageId: generateUUID(),
-        conversationId: generateUUID(),
+        messageId: generateGUID(),
+        conversationId: generateGUID(),
         data: {
           commitmentId: commitmentId,
           handlingAdviceId: action.payload.handlingAdviceId,

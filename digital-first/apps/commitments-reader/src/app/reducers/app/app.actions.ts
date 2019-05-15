@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store'
+import { NotificationMessage } from './app.model';
 
 export enum AppActionTypes {
   StartAppInitialiser = '[App] Start App Initialiser',
@@ -31,7 +32,7 @@ export class FinishAppInitialiser implements Action {
 
 export class AppNotification implements Action {
   readonly type = AppActionTypes.AppNotification
-  constructor(public payload: { message: string; code?: string; data?: any }) {}
+  constructor(public payload: NotificationMessage) {}
 }
 
 export class ClearAppNotification implements Action {

@@ -1,20 +1,33 @@
 import { AppActions, AppActionTypes } from './app.actions'
-import { AppConfig } from '../../models'
 import { createFeatureSelector, createSelector } from '@ngrx/store'
+import { Config } from '../../services/config/config-model'
+import { NotificationMessage } from './app.model'
 
 export interface State {
-  config: any//AppConfig
+  config: Config
+  notification: NotificationMessage
 }
 
 export const initialState: State = {
-  config: null
+  config: null,
+  notification: null
 }
 
 export function reducer(state = initialState, action: AppActions): State {
   switch (action.type) {
-    case AppActionTypes.LoadAppConfiguration:
+    case AppActionTypes.AppNotification:
+      return {
+        ...state,
+        notification: action.payload
+      }
 
-    
+    case AppActionTypes.ClearAppNotification:
+      return {
+        ...state,
+        notification: null
+      }
+
+    case AppActionTypes.LoadAppConfiguration:
       return {
         ...state,
         config: action.payload
@@ -36,8 +49,12 @@ export const selectAppBookTypeState = createSelector(
   selectAppConfigState,
   config => config.header.bookType
 )
-export const selectAppBookColuor = createSelector(
+export const selectAppBookColour = createSelector(
   selectAppConfigState,
   config => config.header.bookColour
 )
 
+export const selectNotification = createSelector(
+  appState,
+  (state: State) => state.notification
+)

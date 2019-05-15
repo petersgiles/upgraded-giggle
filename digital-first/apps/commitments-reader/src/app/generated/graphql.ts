@@ -1857,7 +1857,7 @@ export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
                       location: Maybe<
                         { __typename?: 'LocationGraph' } & Pick<
                           LocationGraph,
-                          'id' | 'state' | 'title'
+                          'id' | 'title'
                         >
                       >
                     }
@@ -2179,7 +2179,6 @@ export const GetCommitmentDetailDocument = gql`
         commitmentId
         location {
           id
-          state
           title
         }
       }

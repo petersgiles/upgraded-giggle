@@ -64,7 +64,6 @@ query getCommitmentDetail(
       commitmentId
       location {
         id
-        state
         title
       }
     }

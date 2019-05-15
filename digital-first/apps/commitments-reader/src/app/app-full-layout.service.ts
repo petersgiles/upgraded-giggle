@@ -7,6 +7,7 @@ import { App, Logo } from './services/config/config-model'
 import { Router } from '@angular/router'
 import * as fromApp from './reducers/app/app.reducer'
 import { Store, select } from '@ngrx/store';
+import { NotificationMessage } from './reducers/app/app.model';
 
 @Injectable({
   providedIn: 'root'
@@ -64,15 +65,17 @@ export class AppFullLayoutService {
   }
 
   get drawOpen$(): Observable<boolean> {
-    return this.service.getDrawState()
+    return of(null)
   }
 
   setDrawState(appdrawerOpen: any): any {
-    return this.service.setDrawState(appdrawerOpen)
+    return null
   }
 
-  get notification$(): Observable<string> {
-    return this.service.Notification
+  get notification$(): Observable<NotificationMessage> {
+    return this.store.pipe(
+      select(fromApp.selectNotification)
+    )
   }
 
   get open$(): Observable<boolean> {

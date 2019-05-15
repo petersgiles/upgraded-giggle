@@ -38,6 +38,7 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   electorate$: Observable<CommitmentLocation[]>
   commitment$: Observable<Commitment>
   handlingAdvices$: Observable<any>
+  commitmentSub$: Subscription;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -52,6 +53,9 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
     this.commitment$ = this.store.pipe(
       select(fromDetail.getDetailedCommitmentState)
     )
+
+
+    this.commitmentSub$ =  this.commitment$.subscribe(c => console.log(`🦃`, c))
 
     this.handlingAdvices$ = this.store.pipe(
       select(fromDetail.getHandlingAdvicesState)
