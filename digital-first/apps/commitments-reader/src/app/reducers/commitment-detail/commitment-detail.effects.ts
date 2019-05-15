@@ -163,8 +163,7 @@ export class CommitmentDetailEffects {
           commitmentId: commitmentId,
           handlingAdviceId: action.payload.handlingAdviceId,
           webId: webId,
-          siteId: siteId,
-          test: null
+          siteId: siteId
         }
       }
     }),
