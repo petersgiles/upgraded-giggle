@@ -1,7 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 // import { CommitmentRefinerService } from '../../services/commitment-refiner'
-import { Observable, Subscription } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { Observable, Subscription, of } from 'rxjs'
+import {
+  map,
+  concat,
+  concatMap,
+  combineLatest,
+  withLatestFrom,
+  tap
+} from 'rxjs/operators'
 import * as fromPlanner from '../../reducers/planner/planner.reducer'
 import * as fromOverview from '../../reducers/overview/overview.reducer'
 import * as fromUser from '../../reducers/user/user.reducer'
@@ -13,8 +20,10 @@ import {
   StoreSelectedExternalEventTypes,
   StoreSchedulerState,
   GetCommitmentEvents,
-  GetPlannerPermission
+  SetPlannerPermission,
+  GetExternalEvents
 } from '../../reducers/planner/planner.actions'
+
 @Component({
   selector: 'digital-first-planner-page',
   templateUrl: './planner-page.component.html',
@@ -31,28 +40,44 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
   public zoomLevel$: Observable<any>
   public centerDate$: Observable<any>
   public commitmentsSubscription: Subscription
+  public userPermissionSubscription: Subscription
   public errorStateSubscription: Subscription
 
   constructor(
     private plannerStore: Store<fromPlanner.State>,
-    private overViewStore: Store<fromOverview.State>
+    private overViewStore: Store<fromOverview.State>,
+    private userStore: Store<fromUser.UserState>
   ) {}
   ngOnInit() {
     this.filteredCommitments$ = this.overViewStore
       .pipe(select(fromOverview.selectRefinedCommitmentsState))
       .pipe(map(data => data.map(c => ({ id: c.id, name: c.title }))))
 
-    this.commitmentsSubscription = this.filteredCommitments$.subscribe(
-      filteredCommitments => {
-        this.plannerStore.dispatch(new GetCommitmentEvents(filteredCommitments))
-      }
-    )
+    this.commitmentsSubscription = this.userStore
+      .pipe(
+        select(fromUser.getUserCurrentUserPlannerPermission),
+        withLatestFrom(this.filteredCommitments$)
+      )
+      .subscribe(([permission, filteredCommitments]) => {
+        this.plannerStore.dispatch(
+          new GetCommitmentEvents({
+            commitments: filteredCommitments,
+            permission: permission
+          })
+        )
+      })
 
-    this.plannerStore
-      .pipe(select(fromUser.getCurrentUserOperations))
-      .subscribe(result => {
-        this.plannerStore.dispatch(new GetEventReferenceData(null))
-        this.plannerStore.dispatch(new GetPlannerPermission(null))
+    this.userPermissionSubscription = this.userStore
+      .pipe(select(fromUser.getUserCurrentUserPlannerPermission))
+      .subscribe(permission => {
+        this.plannerStore.dispatch(new GetEventReferenceData(permission))
+        this.plannerStore.dispatch(new SetPlannerPermission(permission))
+        this.plannerStore.dispatch(
+          new GetExternalEvents({
+            permission: permission,
+            selectedExternalEventTypes: null
+          })
+        )
       })
 
     this.externalEventTypes$ = this.plannerStore.pipe(
@@ -87,21 +112,28 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
   }
 
   handleEventSaved($event: any) {
-    this.plannerStore.dispatch(new StoreCommitmentEvent($event))
+    this.plannerStore.dispatch(new StoreCommitmentEvent({ data: $event }))
   }
 
   handleEventRemoved($event: any) {
-    this.plannerStore.dispatch(new RemoveCommitmentEvent($event))
+    this.plannerStore.dispatch(new RemoveCommitmentEvent({ data: $event }))
   }
 
   handleExternalEventChange($event) {
     this.plannerStore.dispatch(new StoreSelectedExternalEventTypes($event))
+    this.plannerStore.dispatch(
+      new GetExternalEvents({
+        permission: '',
+        selectedExternalEventTypes: $event
+      })
+    )
   }
   handelZoomLevelChange($event) {
     this.plannerStore.dispatch(new StoreSchedulerState($event))
   }
   ngOnDestroy(): void {
     this.commitmentsSubscription.unsubscribe()
+    this.userPermissionSubscription.unsubscribe()
     this.errorStateSubscription.unsubscribe()
   }
 }

@@ -46,7 +46,7 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userOperation$ = this.store.pipe(
-      select(fromUser.getCurrentUserOperations)
+      select(fromUser.getUserCurrentUserOperations)
     )
 
     this.commitment$ = this.store.pipe(

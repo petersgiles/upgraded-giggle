@@ -159,7 +159,12 @@ export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
     const engine = (this.schedulerEngine = new Scheduler(config))
     engine.localeManager.locale = AuLocael
     engine.zoomLevel = this.zoomLevel || engine.minZoomLevel
-
+    if (this.startDate) {
+      engine.startDate = this.startDate
+    }
+    if (this.endDate) {
+      engine.endDate = this.endDate
+    }
     // Relay events from eventStore and resourceStore, making them a bit easier to catch in your app.
     // The events are prefixed with 'events' and 'resources', turning and 'add' event into either 'eventsAdd' or
     // 'resourcesAdd'

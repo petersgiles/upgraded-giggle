@@ -25,7 +25,7 @@ export function localStorageSyncReducer(
       { refiner: ['expandedRefinerGroups', 'selectedRefiners'] },
       {
         planner: [
-          'selectedExternalEeventTypes',
+          'selectedExternalEventTypes',
           'schedulerZoomLevel',
           'schedulerCenterDate'
         ]
