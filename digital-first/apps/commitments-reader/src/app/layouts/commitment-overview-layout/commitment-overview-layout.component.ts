@@ -14,7 +14,8 @@ import {
   SelectRefiner,
   ChangeTextRefiner,
   GetRefinerGroups,
-  SetRefinerFromQueryString
+  SetRefinerFromQueryString,
+  ClearRefiners
 } from '../../reducers/refiner/refiner.actions'
 
 import { GetRefinedCommitments } from '../../reducers/overview/overview.actions'
@@ -74,6 +75,10 @@ export class CommitmentOverviewLayoutComponent
 
   handleTextRefinerChanged($event) {
     this.store.dispatch(new ChangeTextRefiner($event))
+  }
+
+  handleClearRefiners($event) {
+    this.store.dispatch(new ClearRefiners($event))
   }
 
   ngAfterViewInit(): void {}

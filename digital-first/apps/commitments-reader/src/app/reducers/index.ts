@@ -22,7 +22,6 @@ export function localStorageSyncReducer(
     keys: [
       { auth: ['status'] },
       { user: ['drawerOpen'] },
-      { refiner: ['expandedRefinerGroups', 'selectedRefiners'] },
       {
         planner: [
           'selectedExternalEventTypes',

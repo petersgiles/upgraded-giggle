@@ -74,7 +74,6 @@ function ComputeHash-ForItem ($listItem, $fields) {
 
 function ComputeHash-ForRow ($listItemData, $hashKeys) {
     $stringToHash = New-Object System.Text.StringBuilder
-    $hashFields = @("Title")
     $fieldsToHash = $listItemData.Field | ? { $_.StaticName -in $hashKeys }
     foreach ($fieldData in $fieldsToHash) {
         if (-not $null -eq $fieldData) {
@@ -144,6 +143,10 @@ Function Populate-ListsInWeb($context, $importLocation) {
 }
 
 $configurationFile = "$importLocation/Import-Config.psd1"
+
+if(-not (Test-Path $configurationFile)) {
+    return
+}
 
 if (-not ($MyInvocation.InvocationName -eq '.')) {
     $context = New-Object Microsoft.SharePoint.Client.ClientContext($SiteUrl)
