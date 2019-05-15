@@ -4,17 +4,21 @@ import {
 } from './commitment-detail.actions'
 import { createFeatureSelector, createSelector } from '@ngrx/store'
 import { Commitment } from '../../models/commitment.model'
+import { generateGUID } from '../../utils'
+import { NotificationMessage } from '../app/app.model';
 
 export interface State {
   commitment: Commitment
   loaded: boolean
   handlingAdvices: []
+  errors: NotificationMessage[]
 }
 
 export const initialState: State = {
   commitment: null,
   loaded: false,
-  handlingAdvices: []
+  handlingAdvices: [],
+  errors: null
 }
 
 export function reducer(
@@ -47,6 +51,12 @@ export function reducer(
         commitment: pmocommitment
       }
 
+    case CommitmentDetailActionTypes.UpdatePMOHandlingAdviceFailure:
+      return {
+        ...state,
+        errors: [{ message: 'Could not update PMO Handling Advice', code: '400',  data: {field:'PMOHandlingAdvice', error: action.payload}}]
+      }
+
     case CommitmentDetailActionTypes.SetPMCHandlingAdviceResult:
       const pmccommitment = JSON.parse(JSON.stringify(state.commitment))
       pmccommitment.pmcHandlingAdvice = action.payload.handlingAdviceId
@@ -63,7 +73,12 @@ export const commitmentDetailState = createFeatureSelector<State>(
   'commitmentDetail'
 )
 
-export const getDetailedCommitmentState = createSelector(
+export const getErrorState = createSelector(
+  commitmentDetailState,
+  state => state.errors
+)
+
+export const getCommitmentState = createSelector(
   commitmentDetailState,
   state => state.commitment
 )
@@ -71,4 +86,14 @@ export const getDetailedCommitmentState = createSelector(
 export const getHandlingAdvicesState = createSelector(
   commitmentDetailState,
   state => state.handlingAdvices
+)
+
+export const getDetailedCommitmentState = createSelector(
+  getCommitmentState,
+  getErrorState,
+  (commitment, errors) => {
+    const detail = { ...commitment, errors }
+    console.log(`🙈 `, detail)
+    return detail
+  }
 )
