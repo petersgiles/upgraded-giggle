@@ -8,7 +8,7 @@
         style="overflow-y:auto"
         [refinerGroups]="refinerGroups"
         (onSearchCriteriaChanged)="handleTextRefinerChanged($event)"
-        (onClear)="handleTextRefinerChanged(null)"
+        (onClear)="handleClearRefiners()"
         (onRefinerGroupSelected)="handleRefinerGroupSelected($event)"
         (onRefinerSelected)="handleRefinerSelected($event)"
       ></digital-first-metadata-refiner>

@@ -1,10 +1,13 @@
 {
+    "webId": "C9013762-2FED-49D7-8EA2-1DD650C7010E",
+    "siteId": "52233101-86F9-46D7-BBC0-22139AF854EE",
     "header": {
-        "title": "The Department of Bloop de Bloop - IGB",
-        "classification": "UNCLASSIFIED",
+        "title": "Deck",
+        "classification": "",
         "bookType": "red",
+        "bookColour":"#e54430",
         "logo": {
-           "image": "../../SiteAssets/apps/deck/assets/crest.png",
+           "image": "assets/crest.png",
            "url": "/",
            "title": "Return to home page"
         },
@@ -12,24 +15,24 @@
             {
               "caption": "Dashboard",
               "icon": "dashboard",
-              "url": "//vm-dev-lbs13/sites/redigb/SitePages/deck.aspx/deck"
+              "url": "SitePages/deck.aspx/deck"
             },  {
               "caption": "Activity",
               "icon": "timeline",
-              "url": "//vm-dev-lbs13/sites/redigb/SitePages/index.aspx/recent"
+              "url": "SitePages/index.aspx/recent"
             },  {
               "caption": "Alerts",
               "icon": "notifications",
-              "url": "//vm-dev-lbs13/sites/redigb/SitePages/index.aspx/notifications"
+              "url": "SitePages/index.aspx/notifications"
             }, {
               "caption": "Permissions",
               "icon": "how_to_reg",
-              "url": "//vm-dev-lbs13/sites/redigb/_layouts/15/user.aspx",
+              "url": "_layouts/15/user.aspx",
               "target": "_blank"
             },  {
               "caption": "Admin",
               "icon": "settings",
-              "url": "//vm-dev-lbs13/sites/redigb/SitePages/admin.aspx/admin"
+              "url": "/SitePages/admin.aspx/admin"
             }
           ]
     }
