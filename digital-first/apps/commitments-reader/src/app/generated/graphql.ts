@@ -647,9 +647,9 @@ export type HandlingAdviceGraphPmoHandlingAdviceCommitmentsArgs = {
 
 export type LocationGraph = {
   description?: Maybe<Scalars['String']>
+  state?: Maybe<Scalars['String']>
+  area?: Maybe<Scalars['String']>
   commitmentLocations?: Maybe<Array<Maybe<CommitmentLocationGraph>>>
-  state: Scalars['String']
-  area: Scalars['String']
   id: Scalars['Int']
   internalVersion: Scalars['UInt32']
   title: Scalars['String']
@@ -1857,7 +1857,7 @@ export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
                       location: Maybe<
                         { __typename?: 'LocationGraph' } & Pick<
                           LocationGraph,
-                          'id' | 'state' | 'title'
+                          'id' | 'title'
                         >
                       >
                     }
@@ -2179,7 +2179,6 @@ export const GetCommitmentDetailDocument = gql`
         commitmentId
         location {
           id
-          state
           title
         }
       }
