@@ -83,8 +83,8 @@ const mapCommitmentDetail = (item): any => {
     criticalDate: item.criticalDate ? item.criticalDate.title : '',
     portfolio: item.portfolioLookup ? item.portfolioLookup.title : '',
     electorates: mapElectorates(item.commitmentLocations),
-    pmcHandlingAdvice: item.pmcHandlingAdviceCommitments.length ? item.pmcHandlingAdviceCommitments.handlingAdvice : {value: '', label: ''},
-    pmoHandlingAdvice: item.pmoHandlingAdviceCommitments.length ? item.pmoHandlingAdviceCommitments.handlingAdvice : {value: '', label: ''}
+    pmcHandlingAdvice: item.pmcHandlingAdviceCommitments.length ? item.pmcHandlingAdviceCommitments[0].handlingAdvice : {value: '', label: ''},
+    pmoHandlingAdvice: item.pmoHandlingAdviceCommitments.length ? item.pmoHandlingAdviceCommitments[0].handlingAdvice : {value: '', label: ''}
     
   }
   return mapResult
@@ -239,11 +239,11 @@ export class CommitmentDetailEffects {
           new SetPMCHandlingAdviceResult({
            handlingAdvices: config.handlingAdvice
           })
-        ])
+        ]),
+        catchError(error => {
+          return of(new UpdatePMCHandlingAdviceFailure(error))
+        })
       )
-    ),
-    catchError(error => {
-      return of(new UpdatePMCHandlingAdviceFailure(error))
-    })
+    )
   )
 }

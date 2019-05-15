@@ -647,9 +647,9 @@ export type HandlingAdviceGraphPmoHandlingAdviceCommitmentsArgs = {
 
 export type LocationGraph = {
   description?: Maybe<Scalars['String']>
+  state?: Maybe<Scalars['String']>
+  area?: Maybe<Scalars['String']>
   commitmentLocations?: Maybe<Array<Maybe<CommitmentLocationGraph>>>
-  state: Scalars['String']
-  area: Scalars['String']
   id: Scalars['Int']
   internalVersion: Scalars['UInt32']
   title: Scalars['String']
