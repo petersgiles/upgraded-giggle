@@ -1,13 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 
-import {
-  map,
-  switchMap,
-  catchError,
-  withLatestFrom,
-  concatMap
-} from 'rxjs/operators'
+import { map, catchError, withLatestFrom, concatMap } from 'rxjs/operators'
 import {
   PlannerActionTypes,
   PlannerActions,
@@ -19,18 +13,11 @@ import {
   LoadSelectedExternalEventTypes,
   GetEventTypes,
   GetExternalEventTypes,
-  ErrorInPlanner,
-  GetExternalEvents
+  ErrorInPlanner
 } from './planner.actions'
 import { Store } from '@ngrx/store'
 import * as fromRoot from '../../reducers'
 import { CommitmentEventDataService } from '../../services/commitment-event/commitment-event-data-service'
-import {
-  OPERATION_PLANNER,
-  OPERATION_RIGHT_WRITE,
-  OPERATION_RIGHT_READ,
-  OPERATION_RIGHT_HIDE
-} from '../../services/app-data/app-operations'
 @Injectable()
 export class PlannerEffects {
   @Effect()
@@ -39,9 +26,11 @@ export class PlannerEffects {
     concatMap(action =>
       this.commitmentEventDataService
         .getEventsByCommitments(action.payload)
-        .pipe(map(data => new LoadCommitmentEvents(data)))
-    ),
-    catchError(error => [new ErrorInPlanner(error)])
+        .pipe(
+          map(data => new LoadCommitmentEvents(data)),
+          catchError(error => [new ErrorInPlanner(error)])
+        )
+    )
   )
 
   @Effect()
@@ -57,15 +46,11 @@ export class PlannerEffects {
   getEventTypes$ = this.actions$.pipe(
     ofType(PlannerActionTypes.GetEventTypes),
     concatMap(action =>
-      this.commitmentEventDataService
-        .getEventTypes(action.payload)
-        .pipe(map(data => new LoadEventTypes(data)))
-    ),
-    catchError(error => {
-      // tslint:disable-next-line: no-console
-      console.log(`💥 error => `, error)
-      return [new ErrorInPlanner(error)]
-    })
+      this.commitmentEventDataService.getEventTypes(action.payload).pipe(
+        map(data => new LoadEventTypes(data)),
+        catchError(error => [new ErrorInPlanner(error)])
+      )
+    )
   )
 
   @Effect()
@@ -74,13 +59,11 @@ export class PlannerEffects {
     concatMap(action =>
       this.commitmentEventDataService
         .getExternalEventTypes(action.payload)
-        .pipe(map(data => new LoadExternalEventTypes(data)))
-    ),
-    catchError(error => {
-      // tslint:disable-next-line: no-console
-      console.log(`💥 error => `, error)
-      return [new ErrorInPlanner(error)]
-    })
+        .pipe(
+          map(data => new LoadExternalEventTypes(data)),
+          catchError(error => [new ErrorInPlanner(error)])
+        )
+    )
   )
 
   @Effect()
@@ -104,15 +87,12 @@ export class PlannerEffects {
       }
     }),
     concatMap(payload =>
-      this.commitmentEventDataService
-        .getExternalEvents(payload)
-        .pipe(map(data => new LoadExternalEvents(data)))
-    ),
-    catchError(error => {
-      // tslint:disable-next-line: no-console
-      console.log(`💥 error => `, error)
-      return [new ErrorInPlanner(error)]
-    })
+      this.commitmentEventDataService.getExternalEvents(payload).pipe(
+        map(data => new LoadExternalEvents(data)),
+        catchError(error =>
+          [new ErrorInPlanner(error)])
+      )
+    )
   )
   @Effect()
   storeCommitmentEvent$ = this.actions$.pipe(
@@ -134,14 +114,16 @@ export class PlannerEffects {
               permission: payload.permission,
               commitments: payload.commitments
             })
-        )
+        ),
+        catchError(error => [
+          new ErrorInPlanner(error),
+          new GetCommitmentEvents({
+            permission: payload.permission,
+            commitments: payload.commitments
+          })
+        ])
       )
-    ),
-    catchError(error => {
-      // tslint:disable-next-line: no-console
-      console.log(`💥 error => `, error)
-      return [new ErrorInPlanner(error)]
-    })
+    )
   )
 
   @Effect()
@@ -164,7 +146,13 @@ export class PlannerEffects {
               permission: payload.permission,
               commitments: payload.commitments
             }),
-          catchError(error => [new ErrorInPlanner(error)])
+          catchError(error => [
+            new ErrorInPlanner(error),
+            new GetCommitmentEvents({
+              permission: payload.permission,
+              commitments: payload.commitments
+            })
+          ])
         )
       )
     )

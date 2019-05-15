@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 
-import { Observable, EMPTY, of } from 'rxjs'
+import { Observable, EMPTY, of, throwError } from 'rxjs'
 
 import { DataResult } from '../../../models'
 import {
@@ -98,47 +98,61 @@ export class EventDevelopDataService implements CommitmentEventDataService {
   }
 
   storeEvent(payload: any): Observable<DataResult<any>> {
-    if (!payload || payload.permission !== this.WRITE) {
+    if (!payload) {
       return of({
         data: [],
-        loadding: false,
+        loading: false,
         error: null
       })
     }
-    const existingId = payload.data.id
-    let events = this.getEventDataFromLocalStorage()
-    if (existingId.indexOf('_generated') < 0) {
-      events = events.filter(e => e.id !== existingId)
-      events.push(payload.data)
-    } else {
-      let event = JSON.parse(JSON.stringify(payload.data))
-      event.id = Math.random().toString()
-      events.push(event)
+    if (payload.permission !== this.WRITE) {
+      return throwError('You do not have permission to edit event')
     }
-    this.writeEventDataToLocalStorage(events)
-    return of({
-      data: events,
-      loading: false,
-      error: null
-    })
+    try {
+      const existingId = payload.data.id
+      let events = this.getEventDataFromLocalStorage()
+      if (existingId.indexOf('_generated') < 0) {
+        events = events.filter(e => e.id !== existingId)
+        events.push(payload.data)
+      } else {
+        let event = JSON.parse(JSON.stringify(payload.data))
+        event.id = Math.random().toString()
+        events.push(event)
+      }
+      this.writeEventDataToLocalStorage(events)
+      return of({
+        data: events,
+        loading: false,
+        error: null
+      })
+    } catch (error) {
+      return throwError(error)
+    }
   }
 
   removeEvent(payload: any): Observable<DataResult<any>> {
-    if (!payload || payload.permission !== this.WRITE) {
+    if (!payload) {
       return of({
         data: [],
-        loadding: false,
+        loading: false,
         error: null
       })
     }
-    let events = this.getEventDataFromLocalStorage()
-    events = events.filter(e => e.id !== payload.data.id)
-    this.writeEventDataToLocalStorage(events)
-    return of({
-      data: events,
-      loading: false,
-      error: null
-    })
+    if (payload.permission !== this.WRITE) {
+      return throwError('You do not have permission to edit event')
+    }
+    try {
+      let events = this.getEventDataFromLocalStorage()
+      events = events.filter(e => e.id !== payload.data.id)
+      this.writeEventDataToLocalStorage(events)
+      return of({
+        data: events,
+        loading: false,
+        error: null
+      })
+    } catch (error) {
+      return throwError(error)
+    }
   }
 
   private getEventDataFromLocalStorage() {
