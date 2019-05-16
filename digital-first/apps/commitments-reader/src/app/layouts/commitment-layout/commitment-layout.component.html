@@ -1,16 +1,23 @@
-<digital-first-page-title [title]="getTitle()">
-  <digital-first-navigation-item-button (onNavigate)="handleGoBack($event)"></digital-first-navigation-item-button>
-</digital-first-page-title>
+<mdc-linear-progress [open]="isBusy$ | async"></mdc-linear-progress>
 <div class="layout-page">
   <section>
-    <div class="app-layout__row--no-wrap">
-      <div class="overview-outlet">
-        <section>
-            <div class="app-layout__row--no-wrap">
-            <router-outlet></router-outlet>
+    <digital-first-page-title [title]="getTitle()">
+      <digital-first-navigation-item-button
+        (onNavigate)="handleGoBack($event)"
+      ></digital-first-navigation-item-button>
+    </digital-first-page-title>
+    <div class="layout-page">
+      <section>
+        <div class="app-layout__row--no-wrap">
+          <div class="overview-outlet">
+            <section>
+              <div class="app-layout__row--no-wrap">
+                <router-outlet></router-outlet>
+              </div>
+            </section>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
     </div>
   </section>
 </div>

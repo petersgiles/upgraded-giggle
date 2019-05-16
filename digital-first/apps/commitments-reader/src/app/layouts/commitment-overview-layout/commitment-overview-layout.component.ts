@@ -6,6 +6,7 @@ import { Observable, Subscription } from 'rxjs'
 import { tap } from 'rxjs/operators'
 
 import * as fromRefiner from '../../reducers/refiner/refiner.reducer'
+import * as fromApp from '../../reducers/app/app.reducer'
 import * as fromRoot from '../../reducers'
 
 import { Store, select } from '@ngrx/store'
@@ -21,7 +22,6 @@ import {
 import { GetRefinedCommitments } from '../../reducers/overview/overview.actions'
 import { GetRefinedMapPoints } from '../../reducers/map/map.actions'
 import { ActivatedRoute, Router } from '@angular/router'
-
 
 @Component({
   selector: 'digital-first-commitment-overview-layout',
@@ -57,7 +57,8 @@ export class CommitmentOverviewLayoutComponent
   queryParamsSubscription$: Subscription
   refinerGroups: RefinerGroup[]
   queryParamsRefiner: { id: string; group: string }[]
-  
+  isBusy$: Observable<boolean>
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -93,6 +94,8 @@ export class CommitmentOverviewLayoutComponent
       }
     })
 
+    this.isBusy$ = this.store.pipe(select(fromApp.selectAppSpinnerState))
+
     this.store
       .pipe(select(fromRefiner.selectSelectedRefinersState))
       .subscribe(next => {
@@ -107,14 +110,10 @@ export class CommitmentOverviewLayoutComponent
             relativeTo: this.route
           })
         }
-
-
       })
 
     this.refinerGroupsSubscription$ = this.store
-      .pipe(
-        select(fromRefiner.selectRefinerGroups),
-      )
+      .pipe(select(fromRefiner.selectRefinerGroups))
       .subscribe(next => {
         this.refinerGroups = next
         this.store.dispatch(new GetRefinedCommitments(null))
