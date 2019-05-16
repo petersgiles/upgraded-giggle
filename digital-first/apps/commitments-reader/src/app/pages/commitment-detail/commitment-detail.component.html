@@ -59,7 +59,7 @@
     <digital-first-commitment-view-guard
       [operation]="getPMCRight(userOperation$ | async)"
     >
-      <ng-container operation-type="read"> </ng-container>
+      <ng-container operation-type="read"><p>PMC Handling Advice: <strong>{{ currentPMCHandling$ | async }}</strong>.</p></ng-container>
 
       <ng-container operation-type="write">
         <form [formGroup]="pmcHandlingAdviceForm" id="pmcHandlingAdviceForm">
@@ -83,7 +83,7 @@
     <digital-first-commitment-view-guard
       [operation]="getPMORight(userOperation$ | async)"
     >
-      <ng-container operation-type="read">READ ONLY</ng-container>
+      <ng-container operation-type="read"><p>PMO Handling Advice: <strong>{{ currentPMOHandling$ | async }}</strong>.</p></ng-container>
 
       <ng-container operation-type="write">
         <form [formGroup]="pmoHandlingAdviceForm" id="pmoHandlingAdviceForm">

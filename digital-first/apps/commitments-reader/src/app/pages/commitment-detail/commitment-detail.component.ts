@@ -40,6 +40,9 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   handlingAdvices$: Observable<any>
   commitmentSubscription$: Subscription
 
+  currentPMCHandling$: Observable<string>
+  currentPMOHandling$: Observable<string>
+
   pmcHandlingAdviceForm = new FormGroup({
     pmcHandlingAdvice: new FormControl(null, [])
   })
@@ -59,6 +62,14 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
 
     this.commitment$ = this.store.pipe(
       select(fromDetail.getDetailedCommitmentState)
+    )
+
+    this.currentPMCHandling$ = this.store.pipe(
+      select(fromDetail.getCurrentPMCHandlingAdviceState)
+    )
+
+    this.currentPMOHandling$ = this.store.pipe(
+      select(fromDetail.getCurrentPMOHandlingAdviceState)
     )
 
     this.commitmentSubscription$ = this.commitment$.subscribe(

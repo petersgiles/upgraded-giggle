@@ -32,9 +32,11 @@ const testOperations = [
 
 export class DevelopAppDataService implements AppDataService {
   getCurrentUserOperations(): Observable<any> {
-console.log(testOperations)
-
-    return of(testOperations)
+    return of({
+      data: { groupPermissions: testOperations },
+      loading: false,
+      error: null
+    })
   }
   get UserOperation(): Observable<any> {
     return of(null)
@@ -54,7 +56,7 @@ console.log(testOperations)
       isSiteAdmin: true,
       systemUserKey: 'guest',
       name: 'Guest User',
-      roles: [ROLE_VISITORS]
+      roles: [ROLE_OWNERS]
     }
 
     return of(userprofile)

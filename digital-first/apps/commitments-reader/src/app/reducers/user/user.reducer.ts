@@ -41,7 +41,7 @@ export function reducer(
 
     case UserActionTypes.SetUserOperations: {
       let ops = {}
-        const groupPermissions = JSON.parse(JSON.stringify(action.payload))
+        const groupPermissions = JSON.parse(JSON.stringify(action.payload.data.groupPermissions))
         ops = (groupPermissions || []).reduce((acc: any, item: any) => {
           const components = item.component
           acc[item.group] = {
@@ -56,7 +56,9 @@ export function reducer(
           return acc
         }, {})
 
+      // tslint:disable-next-line: no-console
       console.log(`🌶️🌶️🌶️`, action.payload, ops)
+
       return {
         ...state,
         operations: { ...ops }
