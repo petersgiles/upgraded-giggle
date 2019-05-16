@@ -108,7 +108,7 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
     this.errorStateSubscription = this.plannerStore
       .pipe(select(fromPlanner.selectPlannerErrortate))
       // TODO: send to seq
-      .subscribe(error => console.log(error))
+      .subscribe(error => console.log(`💥 error => `, error))
   }
 
   handleEventSaved($event: any) {

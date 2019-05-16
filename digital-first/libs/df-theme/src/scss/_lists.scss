@@ -23,3 +23,15 @@
     background-color: $primary-color-dark;
     @include mdc-list-item-meta-ink-color($primary-color-text);
   }
+
+  .refiner-bar {
+    color: $primary-color-text;
+    background-color: $primary-color-dark;
+    @include mdc-list-item-meta-ink-color($primary-color-text);
+
+    .mdc-button:not(:disabled) {
+      color: #ffffff; 
+      
+  }
+
+  }

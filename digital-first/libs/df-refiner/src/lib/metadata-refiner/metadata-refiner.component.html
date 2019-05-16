@@ -1,22 +1,54 @@
 <mdc-list dense>
-  <mdc-list-item class="search-item">
-
-    <mdc-text-field label="Search" fullwidth autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" 
-      #search [formControl]="searchControl">
-      <mdc-icon mdcTextFieldIcon trailing clickable="true" (click)="handleOnClear('search')">clear</mdc-icon>
-    </mdc-text-field>
-
+  <mdc-list-item class="refiner-bar">
+    <button mdc-button dense (click)="onClear.emit()">
+      <mdc-icon>clear</mdc-icon>Clear All
+    </button>
   </mdc-list-item>
+  <mdc-list-item class="search-item">
+    <mdc-text-field
+      label="Text Filter"
+      fullwidth
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"
+      spellcheck="off"
+      type="text"
+      #search
+      [formControl]="searchControl"
+    >
+      <mdc-icon
+        mdcTextFieldIcon
+        trailing
+        clickable="true"
+        (click)="handleOnClear('search')"
+        >clear</mdc-icon
+      >
+    </mdc-text-field>
+  </mdc-list-item>
+
   <ng-container *ngFor="let group of refinerGroups">
-    <mdc-list-item class="digital-first-list-heading" (click)="onRefinerGroupSelected.emit(group)">
-      {{group.title}}
-      <mdc-icon mdcListItemMeta>keyboard_arrow_{{group.expanded ? 'down' : 'right'}}</mdc-icon>
+    <mdc-list-item
+      class="digital-first-list-heading"
+      (click)="onRefinerGroupSelected.emit(group)"
+    >
+      {{ group.title }}
+      <mdc-icon mdcListItemMeta
+        >keyboard_arrow_{{ group.expanded ? 'down' : 'right' }}</mdc-icon
+      >
     </mdc-list-item>
     <div *ngIf="group.expanded && group.children">
-      <mdc-list-item class="refiner" *ngFor="let refiner of group.children" (click)="onRefinerSelected.emit(refiner)">
-        <mdc-icon>check_box{{refiner.selected ? '' : '_outline_blank'}}</mdc-icon>
-        {{refiner.title | truncate:[25, '...']}}
-        <span mdcListItemMeta class="refiner-metadata">{{refiner.count}}</span>
+      <mdc-list-item
+        class="refiner"
+        *ngFor="let refiner of group.children"
+        (click)="onRefinerSelected.emit(refiner)"
+      >
+        <mdc-icon
+          >check_box{{ refiner.selected ? '' : '_outline_blank' }}</mdc-icon
+        >
+        {{ refiner.title | truncate: [25, '...'] }}
+        <span mdcListItemMeta class="refiner-metadata">{{
+          refiner.count
+        }}</span>
       </mdc-list-item>
     </div>
     <div *ngIf="group.expanded && group.custom">
@@ -26,4 +58,3 @@
     </div>
   </ng-container>
 </mdc-list>
-

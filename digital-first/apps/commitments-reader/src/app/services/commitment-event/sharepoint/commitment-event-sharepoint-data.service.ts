@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 
-import { Observable, of, forkJoin, EMPTY } from 'rxjs'
+import { Observable, of, forkJoin, EMPTY, throwError } from 'rxjs'
 import { concatMap, map, tap, concat } from 'rxjs/operators'
 import { SharepointJsomService } from '@df/sharepoint'
 import { DataResult } from '../../../models'
@@ -90,21 +90,28 @@ export class EventSharepointDataService implements CommitmentEventDataService {
         error: null
       })
     }
-    const viewXml = byExternalEventTypeIdsQuery(
-      payload.selectedExternalEventTypes
-    )
-    return forkJoin([
-      this.sharepoint.getItems({ listName: 'ExternalEvent', viewXml: viewXml }),
-      this.sharepoint.getItems({ listName: 'ExternalEventType' })
-    ]).pipe(
-      concatMap(([externalEvents, eventTypes]) =>
-        of({
-          data: mapExternalEvents(externalEvents, eventTypes),
-          loading: false,
-          error: null
-        })
+    try {
+      const viewXml = byExternalEventTypeIdsQuery(
+        payload.selectedExternalEventTypes
       )
-    )
+      return forkJoin([
+        this.sharepoint.getItems({
+          listName: 'ExternalEvent',
+          viewXml: viewXml
+        }),
+        this.sharepoint.getItems({ listName: 'ExternalEventType' })
+      ]).pipe(
+        concatMap(([externalEvents, eventTypes]) =>
+          of({
+            data: mapExternalEvents(externalEvents, eventTypes),
+            loading: false,
+            error: null
+          })
+        )
+      )
+    } catch (error) {
+      return throwError(error)
+    }
   }
 
   getExternalEventTypes(
@@ -129,58 +136,73 @@ export class EventSharepointDataService implements CommitmentEventDataService {
   }
 
   storeEvent(payload: any): Observable<DataResult<any>> {
-    if (!payload || payload.permission !== this.WRITE) {
+    if (!payload) {
       return of({
         data: [],
-        loadding: false,
+        loading: false,
         error: null
       })
     }
-    const spData = {
-      Title: payload.data.name,
-      CommitmentId: payload.data.resourceId,
-      StartDate: payload.data.startDate,
-      EndDate: payload.data.endDate,
-      EventType: payload.data.eventType,
-      CssClass: payload.data.eventCls,
-      Colour: payload.data.eventColor,
-      Icon: payload.data.iconCls
+    if (payload.permission !== this.WRITE) {
+      return throwError('You do not have permission to edit event')
     }
-    const existingEvent = parseInt(payload.data.id, 10) >= 0 // byrntum scheduler will auto assign an id starts wtih _generated
-    return this.sharepoint
-      .storeItem({
-        listName: 'CommitmentEvent',
-        data: spData,
-        id: existingEvent ? payload.data.id : null
-      })
-      .pipe(
-        map(_ => ({
-          data: { name: payload.data.name },
-          loading: false
-        }))
-      )
+    try {
+      const spData = {
+        Title: payload.data.name,
+        CommitmentId: payload.data.resourceId,
+        StartDate: payload.data.startDate,
+        EndDate: payload.data.endDate,
+        EventType: payload.data.eventType,
+        CssClass: payload.data.eventCls,
+        Colour: payload.data.eventColor,
+        Icon: payload.data.iconCls
+      }
+      const existingEvent = parseInt(payload.data.id, 10) >= 0 // byrntum scheduler will auto assign an id starts wtih _generated
+
+      return this.sharepoint
+        .storeItem({
+          listName: 'CommitmentEvent',
+          data: spData,
+          id: existingEvent ? payload.data.id : null
+        })
+        .pipe(
+          map(_ => ({
+            data: { name: payload.data.name },
+            loading: false
+          }))
+        )
+    } catch (error) {
+      return throwError(error)
+    }
   }
 
   removeEvent(payload: any): Observable<DataResult<any>> {
-    if (!payload || payload.permission !== this.WRITE) {
+    if (!payload) {
       return of({
         data: [],
-        loadding: false,
+        loading: false,
         error: null
       })
     }
-    return this.sharepoint
-      .removeItem({
-        listName: 'CommitmentEvent',
-        id: payload.data.id
-      })
-      .pipe(
-        map(_ => ({
-          loading: false,
-          data: {
-            commitment: payload.id
-          }
-        }))
-      )
+    if (payload.permission !== this.WRITE) {
+      return throwError('You do not have permission to edit event')
+    }
+    try {
+      return this.sharepoint
+        .removeItem({
+          listName: 'CommitmentEvent',
+          id: payload.data.id
+        })
+        .pipe(
+          map(_ => ({
+            loading: false,
+            data: {
+              commitment: payload.id
+            }
+          }))
+        )
+    } catch (error) {
+      return throwError(error)
+    }
   }
 }

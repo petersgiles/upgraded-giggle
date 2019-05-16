@@ -25,6 +25,7 @@ import {
   UpdatePMOHandlingAdvice,
   UpdatePMCHandlingAdvice
 } from '../../reducers/commitment-detail/commitment-detail.actions'
+import { FormGroup, FormControl } from '@angular/forms'
 
 @Component({
   selector: 'digital-first-commitment-detail',
@@ -38,8 +39,15 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   electorate$: Observable<CommitmentLocation[]>
   commitment$: Observable<Commitment>
   handlingAdvices$: Observable<any>
-  commitmentSub$: Subscription;
+  commitmentSubscription$: Subscription
 
+  pmcHandlingAdviceForm = new FormGroup({
+    pmcHandlingAdvice: new FormControl(null, [])
+  })
+
+  pmoHandlingAdviceForm = new FormGroup({
+    pmoHandlingAdvice: new FormControl(null, [])
+  })
   constructor(
     private activatedRoute: ActivatedRoute,
     private store: Store<fromDetail.State>
@@ -54,8 +62,18 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
       select(fromDetail.getDetailedCommitmentState)
     )
 
-
-    this.commitmentSub$ =  this.commitment$.subscribe(c => console.log(`🦃`, c))
+    this.commitmentSubscription$ = this.commitment$.subscribe(
+      (commitment: any) => {
+        if (commitment) {
+          this.pmcHandlingAdviceForm.patchValue({
+            pmcHandlingAdvice: commitment.pmcHandlingAdvice
+          })
+          this.pmoHandlingAdviceForm.patchValue({
+            pmoHandlingAdvice: commitment.pmoHandlingAdvice
+          })
+        }
+      }
+    )
 
     this.handlingAdvices$ = this.store.pipe(
       select(fromDetail.getHandlingAdvicesState)
@@ -68,7 +86,9 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
       })
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.commitmentSubscription$.unsubscribe()
+  }
 
   getPMORight(operations: any) {
     return operations[OPERATION_PMO_HANDLING_ADVICE]
@@ -79,15 +99,23 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   }
 
   onPMOChange($event) {
-    this.store.dispatch(
-      new UpdatePMOHandlingAdvice({ handlingAdviceId: $event.value })
-    )
+    if ($event && $event.value) {
+      // tslint:disable-next-line: no-console
+      console.log(`🌶️`, $event.value)
+      this.store.dispatch(
+        new UpdatePMOHandlingAdvice({ handlingAdviceId: $event.value })
+      )
+    }
   }
 
   onPMCChange($event) {
-    this.store.dispatch(
-      new UpdatePMCHandlingAdvice({ handlingAdviceId: $event.value })
-    )
+    if ($event && $event.value) {
+      // tslint:disable-next-line: no-console
+      console.log(`🌶️`, $event.value)
+      this.store.dispatch(
+        new UpdatePMCHandlingAdvice({ handlingAdviceId: $event.value })
+      )
+    }
   }
 
   public getIndefiniteArticle(term) {

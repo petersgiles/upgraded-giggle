@@ -1,9 +1,9 @@
 query getCommitmentDetail(
-  $id: String!, 
-  $book: BookType!, 
-  $webId: [String],
+  $id: String!
+  $book: BookType!
+  $webId: [String]
   $siteId: [String]
-  ) {
+) {
   commitments(id: $id, book: $book) {
     id
     title
@@ -14,12 +14,12 @@ query getCommitmentDetail(
     politicalParty
     statusId
     announcedBy
-    pmcHandlingAdviceCommitments (where:
-    [
-      {path: "webId", comparison: equal, value: $webId}
-      {path: "siteId", comparison: equal, value: $siteId}
-    ]
-  ) {
+    pmcHandlingAdviceCommitments(
+      where: [
+        { path: "webId", comparison: equal, value: $webId }
+        { path: "siteId", comparison: equal, value: $siteId }
+      ]
+    ) {
       webId
       siteId
       handlingAdvice {
@@ -27,17 +27,17 @@ query getCommitmentDetail(
         label: title
       }
     }
-    pmoHandlingAdviceCommitments (where:
-    [
-      {path: "webId", comparison: equal, value: $webId}
-      {path: "siteId", comparison: equal, value: $siteId}
-    ]
-  ) {
+    pmoHandlingAdviceCommitments(
+      where: [
+        { path: "webId", comparison: equal, value: $webId }
+        { path: "siteId", comparison: equal, value: $siteId }
+      ]
+    ) {
       webId
       siteId
       handlingAdvice {
-         value: id
-         label: title
+        value: id
+        label: title
       }
     }
     commitmentType {
@@ -58,6 +58,11 @@ query getCommitmentDetail(
     }
     criticalDate {
       id
+      title
+    }
+    relatedLinks {
+      id
+      url
       title
     }
     commitmentLocations {

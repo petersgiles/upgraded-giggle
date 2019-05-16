@@ -39,6 +39,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public grandParent$: Observable<DeckItem>
   public eligibleParents$: Observable<{ id: string; title: string }[]>
   public deckItems$: Observable<DeckItem[]>
+  public briefs$: Observable<{id: string, name: string}[]>
   public selectedCardSubscription$: Subscription
   // tslint:disable-next-line:no-empty
   constructor(
