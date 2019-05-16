@@ -94,14 +94,15 @@ export class AppEffects {
       return this.configService.getConfig().pipe(
         // tslint:disable-next-line: no-console
         tap((config: any) => console.log(`🐵 config => `, config)),
-        concatMap((config: any) => [new LoadAppConfiguration(config)])
+        concatMap((config: any) => [new LoadAppConfiguration(config)]),
+        catchError(error => {
+          // tslint:disable-next-line: no-console
+          console.log(`💥 error => `, error)
+          return [new LoadAppConfigurationError(error)]
+        })
       )
-    }),
-    catchError(error => {
-      // tslint:disable-next-line: no-console
-      console.log(`💥 error => `, error)
-      return [new LoadAppConfigurationError(error)]
     })
+ 
   )
 
   constructor(
