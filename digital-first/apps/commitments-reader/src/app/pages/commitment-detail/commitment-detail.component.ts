@@ -5,8 +5,8 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core'
 import { Store, select } from '@ngrx/store'
-import { Subscription, Subject, Observable } from 'rxjs'
-import { takeUntil, filter } from 'rxjs/operators'
+import { Subscription, Observable } from 'rxjs'
+import { filter } from 'rxjs/operators'
 import { ActivatedRoute } from '@angular/router'
 import * as indef from 'indefinite'
 import * as fromDetail from '../../reducers/commitment-detail/commitment-detail.reducer'
