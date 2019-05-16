@@ -232,8 +232,7 @@ export class CommitmentDetailEffects {
           commitmentId: commitmentId,
           handlingAdviceId: action.payload.handlingAdviceId,
           webId: webId,
-          siteId: siteId,
-          test: 'test'
+          siteId: siteId
         },
         handlingAdvice: handlingAdvices.find(item => { return item.value === action.payload.handlingAdviceId})
       }
@@ -254,7 +253,7 @@ export class CommitmentDetailEffects {
     )
   )
 
-  /*  @Effect()
+    @Effect()
   updatePMCHandlingAdviceFailure$ = this.actions$.pipe(
     ofType(CommitmentDetailActionTypes.UpdatePMCHandlingAdviceFailure),
     switchMap((error: any) => {
@@ -268,5 +267,5 @@ export class CommitmentDetailEffects {
         new ClearAppNotification()
       ]
     })
-  )  */
+  )  
 }
