@@ -5,8 +5,8 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core'
 import { Store, select } from '@ngrx/store'
-import { Subscription, Subject, Observable } from 'rxjs'
-import { takeUntil, filter } from 'rxjs/operators'
+import { Subscription, Observable } from 'rxjs'
+import { filter } from 'rxjs/operators'
 import { ActivatedRoute } from '@angular/router'
 import * as indef from 'indefinite'
 import * as fromDetail from '../../reducers/commitment-detail/commitment-detail.reducer'
@@ -41,6 +41,9 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   handlingAdvices$: Observable<any>
   commitmentSubscription$: Subscription
 
+  currentPMCHandling$: Observable<string>
+  currentPMOHandling$: Observable<string>
+
   pmcHandlingAdviceForm = new FormGroup({
     pmcHandlingAdvice: new FormControl(null, [])
   })
@@ -60,6 +63,14 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
 
     this.commitment$ = this.store.pipe(
       select(fromDetail.getDetailedCommitmentState)
+    )
+
+    this.currentPMCHandling$ = this.store.pipe(
+      select(fromDetail.getCurrentPMCHandlingAdviceState)
+    )
+
+    this.currentPMOHandling$ = this.store.pipe(
+      select(fromDetail.getCurrentPMOHandlingAdviceState)
     )
 
     this.commitmentSubscription$ = this.commitment$.subscribe(

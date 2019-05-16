@@ -12,8 +12,10 @@
     </ng-container>
     <p>
       Announced on
-      <strong>{{ commitment.date | amDateFormat: 'LL' }}</strong
-      > <span *ngIf="commitment.announcedBy"> by <strong>{{ commitment.announcedBy }}</strong></span>.
+      <strong>{{ commitment.date | amDateFormat: 'LL' }}</strong>
+      <span *ngIf="commitment.announcedBy">
+        by <strong>{{ commitment.announcedBy }}</strong></span
+      >.
     </p>
 
     <p>
@@ -54,37 +56,53 @@
     </div>
     </ng-container>
     <hr />
+    <digital-first-commitment-view-guard
+      [operation]="getPMCRight(userOperation$ | async)"
+    >
+      <ng-container operation-type="read"><p>PMC Handling Advice: <strong>{{ currentPMCHandling$ | async }}</strong>.</p></ng-container>
 
-    <form [formGroup]="pmcHandlingAdviceForm" id="pmcHandlingAdviceForm">
-      <mdc-select
-        #enhanced
-        placeholder="PMC Handling Advice"
-        formControlName="pmcHandlingAdvice"
-        (selectionChange)="onPMCChange($event)"
-      >
-        <option
-          *ngFor="let advice of handlingAdvices$ | async"
-          [value]="advice.value"
-          [selected]="advice.value === commitment.pmcHandlingAdvice"
-          >{{ advice.label }}
-        </option>
-      </mdc-select>
-    </form>
-    <form [formGroup]="pmoHandlingAdviceForm" id="pmoHandlingAdviceForm">
-      <mdc-select
-        #enhanced
-        placeholder="PMO Handling Advice"
-        formControlName="pmoHandlingAdvice"
-        (selectionChange)="onPMOChange($event)"
-      >
-        <option
-          *ngFor="let advice of handlingAdvices$ | async"
-          [value]="advice.value"
-          [selected]="advice.value === commitment.pmoHandlingAdvice"
-          >{{ advice.label }}</option
-        >
-      </mdc-select>
-    </form>
+      <ng-container operation-type="write">
+        <form [formGroup]="pmcHandlingAdviceForm" id="pmcHandlingAdviceForm">
+          <mdc-select
+            #enhanced
+            placeholder="PMC Handling Advice"
+            formControlName="pmcHandlingAdvice"
+            (selectionChange)="onPMCChange($event)"
+          >
+            <option
+              *ngFor="let advice of handlingAdvices$ | async"
+              [value]="advice.value"
+              [selected]="advice.value === commitment.pmcHandlingAdvice"
+              >{{ advice.label }}
+            </option>
+          </mdc-select>
+        </form>
+      </ng-container>
+    </digital-first-commitment-view-guard>
+
+    <digital-first-commitment-view-guard
+      [operation]="getPMORight(userOperation$ | async)"
+    >
+      <ng-container operation-type="read"><p>PMO Handling Advice: <strong>{{ currentPMOHandling$ | async }}</strong>.</p></ng-container>
+
+      <ng-container operation-type="write">
+        <form [formGroup]="pmoHandlingAdviceForm" id="pmoHandlingAdviceForm">
+          <mdc-select
+            #enhanced
+            placeholder="PMO Handling Advice"
+            formControlName="pmoHandlingAdvice"
+            (selectionChange)="onPMOChange($event)"
+          >
+            <option
+              *ngFor="let advice of handlingAdvices$ | async"
+              [value]="advice.value"
+              [selected]="advice.value === commitment.pmoHandlingAdvice"
+              >{{ advice.label }}</option
+            >
+          </mdc-select>
+        </form>
+      </ng-container>
+    </digital-first-commitment-view-guard>
 
     <div *ngIf="commitment.relatedLinks">
       <h1>Related Links</h1>

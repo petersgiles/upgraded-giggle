@@ -1,11 +1,38 @@
 import { Observable, of, from } from 'rxjs'
 import { AppDataService } from '../app-data.service'
 import { AppUserProfile } from '@digital-first/df-layouts'
-import { ROLE_VISITORS, ROLE_MEMBERS, ROLE_OWNERS } from '../app-operations'
+import { ROLE_VISITORS, ROLE_MEMBERS, ROLE_OWNERS, OPERATION_PMO_HANDLING_ADVICE, OPERATION_PMC_HANDLING_ADVICE, OPERATION_RIGHT_WRITE, OPERATION_RIGHT_HIDE, OPERATION_RIGHT_READ } from '../app-operations'
+
+const testOperations = [
+  {
+    group: ROLE_OWNERS,
+    component: [
+      OPERATION_PMO_HANDLING_ADVICE,
+      OPERATION_PMC_HANDLING_ADVICE
+    ],
+    rights: OPERATION_RIGHT_WRITE
+  },
+  {
+    group: ROLE_MEMBERS,
+    component: [
+      OPERATION_PMO_HANDLING_ADVICE,
+      OPERATION_PMC_HANDLING_ADVICE
+    ],
+    rights: OPERATION_RIGHT_READ
+  },
+  {
+    group: ROLE_VISITORS,
+    component: [
+      OPERATION_PMO_HANDLING_ADVICE,
+      OPERATION_PMC_HANDLING_ADVICE
+    ],
+    rights: OPERATION_RIGHT_HIDE
+  }
+]
 
 
 export class DevelopAppDataService implements AppDataService {
- data = [
+  data = [
     {
       "group": "ROLE_OWNERS",
       "component": [
@@ -34,9 +61,12 @@ export class DevelopAppDataService implements AppDataService {
       "id": "c17ab6bf8c694f6ab26ab4e22a68796f"
     }
   ]
-  getCurrentUserOperations():Observable<any> {
-    return of({data: {groupPermissions: this.data}}
-    )
+  getCurrentUserOperations(): Observable<any> {
+    return of({
+      data: { groupPermissions: testOperations },
+      loading: false,
+      error: null
+    })
   }
   get UserOperation(): Observable<any> {
     return of(null)
