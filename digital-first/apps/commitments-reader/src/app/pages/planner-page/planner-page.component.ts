@@ -1,14 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
-// import { CommitmentRefinerService } from '../../services/commitment-refiner'
 import { Observable, Subscription, of } from 'rxjs'
 import {
   map,
   concat,
   concatMap,
   combineLatest,
-  withLatestFrom,
-  tap
-} from 'rxjs/operators'
+  withLatestFrom} from 'rxjs/operators'
 import * as fromPlanner from '../../reducers/planner/planner.reducer'
 import * as fromOverview from '../../reducers/overview/overview.reducer'
 import * as fromUser from '../../reducers/user/user.reducer'

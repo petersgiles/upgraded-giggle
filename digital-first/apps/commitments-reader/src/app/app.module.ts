@@ -4,7 +4,12 @@ import { HttpClientModule, HttpHeaders, HttpClient } from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ApolloModule } from 'apollo-angular'
 import { HttpLinkModule } from 'apollo-angular-link-http'
-import { MdcSliderModule, MdcElevationModule } from '@angular-mdc/web'
+import {
+  MdcSliderModule,
+  MdcElevationModule,
+  MdcListModule,
+  MdcCardModule
+} from '@angular-mdc/web'
 import { AgmCoreModule } from '@agm/core'
 import { AppRoutingModule } from './app-routing.module'
 import { DfLayoutsModule, TitleLayoutService } from '@digital-first/df-layouts'
@@ -15,7 +20,6 @@ import { DfRefinerModule } from '@digital-first/df-refiner'
 import { DfMomentModule, DateFormatPipe } from '@digital-first/df-moment'
 import { DfButtonsModule } from '@digital-first/df-buttons'
 import { DfComponentsModule } from '@digital-first/df-components'
-
 import {
   DataTableModule,
   PanelModule,
@@ -30,6 +34,7 @@ import { AppComponent } from './app.component'
 import { HomeComponent } from './pages/home/home.component'
 import { PlannerComponent } from './components/planner/planner.component'
 import { PlannerPageComponent } from './pages/planner-page/planner-page.component'
+import { DisplayOrderPageComponent } from './pages/display-order-page/display-order-page.component'
 import { OverviewPageComponent } from './pages/overview-page/overview-page.component'
 import { MapOverviewPageComponent } from './pages/map-overview-page/map-overview-page.component'
 import { CommitmentOverviewLayoutComponent } from './layouts/commitment-overview-layout/commitment-overview-layout.component'
@@ -67,9 +72,11 @@ import { CommitmentPackageComponent } from './pages/commitment-packages/commitme
 import { initApplication } from './app-init'
 import { appDataServiceProvider } from './services/app-data/app-data.service.factory'
 import { configServiceProvider } from './services/config/config.service.factory'
-import { GraphQLModule } from './graphQL/graphQl.module';
+import { GraphQLModule } from './graphQL/graphQl.module'
 import { UserProfileComponent } from './pages/user-profile/user-profile.component'
 import { CommitmentViewGuardComponent } from './pages/commitment-view-guard/commitment-view-guard.component'
+
+import { DragDropModule } from '@angular/cdk/drag-drop'
 
 const COMPONENTS = [
   AppComponent,
@@ -83,15 +90,20 @@ const COMPONENTS = [
   SchedulerComponent,
   CommitmentDetailComponent,
   CommitmentPackageComponent,
-  CommitmentViewGuardComponent
+  CommitmentViewGuardComponent,
+  DisplayOrderPageComponent
 ]
 
 @NgModule({
-  declarations: [...COMPONENTS, CommitmentDetailComponent, UserProfileComponent],
+  declarations: [
+    ...COMPONENTS,
+    CommitmentDetailComponent,
+    UserProfileComponent
+  ],
   imports: [
     BrowserModule,
     FormsModule,
-
+    DragDropModule,
     ReactiveFormsModule,
     ApolloModule,
     AgmCoreModule.forRoot({
@@ -113,6 +125,8 @@ const COMPONENTS = [
     AppRoutingModule,
     MdcSliderModule,
     MdcElevationModule,
+    MdcListModule,
+    MdcCardModule,
     DfSharepointLibModule,
     DfMomentModule,
     DfButtonsModule,
@@ -151,7 +165,7 @@ const COMPONENTS = [
       multi: true
     },
     appDataServiceProvider,
-   // SharePointAppDataService,
+    // SharePointAppDataService,
     configServiceProvider,
     commitmentEventDataServiceProvider,
     SharepointJsomService,

@@ -48,6 +48,12 @@ export class CommitmentOverviewLayoutComponent
       icon: 'calendar_today',
       link: ['/', 'planner'],
       id: '/planner'
+    },
+    {
+      label: 'Display Order',
+      icon: 'compare_arrows',
+      link: ['/', 'displayorder'],
+      id: '/displayorder'
     }
   ]
   urlSubscription: any

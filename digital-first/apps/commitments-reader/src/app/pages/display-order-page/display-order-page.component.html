@@ -1,0 +1,61 @@
+<div class="page">
+  <section [mdcElevation]="5">
+    <div class="app-layout__row--no-wrap" style="height:85vh;overflow-y:auto">
+      <div
+        cdkDropList
+        #withDisplayOrderList="cdkDropList"
+        [cdkDropListData]="commitmentsWithDisplayOrder$ | async"
+        [cdkDropListConnectedTo]="[withoutDisplayOrderList]"
+        (cdkDropListDropped)="onDrop($event)"
+        class="display-order-list"
+        [mdcElevation]="5"
+      >
+        <div class="header" mdcSubtitle2>Commitments With Dispay Order</div>
+        <div
+          class="drag-box"
+          *ngFor="let item of commitmentsWithDisplayOrder$ | async"
+          cdkDrag
+        >
+          <ng-container
+            *ngIf="(commitmentsWithDisplayOrder$ | async)?.length > 0"
+          >
+            <span class="primary-text">{{ item.title }}</span>
+            <ng-container *ngIf="item.portfolio">
+              <span class="secondary-text">({{ item.portfolio }})</span>
+            </ng-container></ng-container
+          >
+          <ng-container
+            *ngIf="(commitmentsWithDisplayOrder$ | async)?.length === 0"
+          >
+            <div cdkDrag class="cdk-drag-disabled"></div>
+          </ng-container>
+        </div>
+      </div>
+
+      <div
+        cdkDropList
+        #withoutDisplayOrderList="cdkDropList"
+        dense
+        [cdkDropListData]="commitmentsWithoutDisplayOrder$ | async"
+        [cdkDropListConnectedTo]="[withDisplayOrderList]"
+        (cdkDropListDropped)="onDrop($event)"
+        class="display-order-list"
+        [mdcElevation]="5"
+      >
+        <div class="header" mdcSubtitle2>
+          Commitments Without Dispay Order
+        </div>
+        <div
+          class="drag-box"
+          *ngFor="let item of commitmentsWithoutDisplayOrder$ | async"
+          cdkDrag
+        >
+          <span class="primary-text">{{ item.title }}</span>
+          <ng-container *ngIf="item.portfolio">
+            <span class="secondary-text">({{ item.portfolio }})</span>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

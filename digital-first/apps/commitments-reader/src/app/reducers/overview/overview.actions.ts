@@ -4,6 +4,7 @@ export enum OverviewActionTypes {
   LoadOverviews = '[Overview] Load Overviews',
   GetRefinedCommitments = '[Overview] GetRefinedCommitments',
   LoadRefinedCommitments = '[Overview] LoadRefinedCommitments',
+  ApplyCommitmentDisplayOrder = '[Overview] ApplyCommitmentDisplayOrder',
   GetRefinedCommitmentsFailure = '[Overview] GetRefinedCommitmentsFailure'
 }
 
@@ -18,9 +19,18 @@ export class LoadRefinedCommitments implements Action {
   constructor(public payload: any) {}
 }
 
+export class ApplyCommitmentDisplayOrder implements Action {
+  type = OverviewActionTypes.ApplyCommitmentDisplayOrder
+  constructor(public payload: any) {}
+}
+
 export class GetRefinedCommitmentsFailure implements Action {
   type = OverviewActionTypes.GetRefinedCommitmentsFailure
   constructor(public payload: any) {}
 }
 
-export type OverviewActions = GetRefinedCommitments | LoadRefinedCommitments | GetRefinedCommitmentsFailure
+export type OverviewActions =
+  | GetRefinedCommitments
+  | LoadRefinedCommitments
+  | GetRefinedCommitmentsFailure
+  | ApplyCommitmentDisplayOrder

@@ -17,7 +17,10 @@ import {
   LoadRefinedCommitments,
   GetRefinedCommitmentsFailure
 } from './overview.actions'
-import { CommitmentsSearchGQL } from '../../generated/graphql'
+import {
+  CommitmentsSearchGQL,
+  ApplyCommitmentDisplayOrderGQL
+} from '../../generated/graphql'
 import * as fromRoot from '../../reducers'
 import { Store } from '@ngrx/store'
 import { Config } from '../../services/config/config-model'
@@ -50,7 +53,7 @@ export class OverviewEffects {
         }
       )
 
-      if(textRefiner){
+      if (textRefiner) {
         selectedRefinerGroup.text = textRefiner
       }
 
@@ -68,12 +71,14 @@ export class OverviewEffects {
     catchError(error => {
       // tslint:disable-next-line: no-console
       console.log(`💥 error => `, error)
-      return of(new GetRefinedCommitmentsFailure(error))})
+      return of(new GetRefinedCommitmentsFailure(error))
+    })
   )
 
   constructor(
     private actions$: Actions<OverviewActions>,
     private getRefinedCommitmentsGQL: CommitmentsSearchGQL,
+    private applyCommitmentDisplayOrder: ApplyCommitmentDisplayOrderGQL,
     private store$: Store<fromRoot.State>
   ) {}
 }

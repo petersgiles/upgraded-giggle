@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
-import { Observable, of, Subscription } from 'rxjs'
-import { withLatestFrom, map, filter, tap } from 'rxjs/operators'
+import { Observable, Subscription } from 'rxjs'
 
 import { Router } from '@angular/router'
 import { Store, select } from '@ngrx/store'
