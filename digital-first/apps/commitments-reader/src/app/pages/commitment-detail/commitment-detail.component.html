@@ -1,21 +1,16 @@
 <div class="indent">
   <ng-container *ngIf="commitment$ | async as commitment">
     <h1>{{ commitment?.title }}</h1>
-    <p>
-      Status: <strong>{{ commitment.status }}</strong
-      >.
-    </p>
+
     <p>
       Responsible Portfolio: <strong>{{ commitment.portfolio }}</strong
       >.
     </p>
 
     <p>
-      Announced by the
-      <strong>{{ commitment.announcedBy }}</strong> of
-      <strong>{{ commitment.politicalParty }}</strong> on
+      Announced on
       <strong>{{ commitment.date | amDateFormat: 'LL' }}</strong
-      >.
+      > <span *ngIf="commitment.announcedBy"> by <strong>{{ commitment.announcedBy }}</strong></span>.
     </p>
 
     <p>
