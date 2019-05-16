@@ -33,7 +33,7 @@ import {
   styleUrls: ['./commitment-detail.component.scss']
 })
 export class CommitmentDetailComponent implements OnInit, OnDestroy {
-
+  dropdownPosition: 'top' | 'bottom' = 'bottom';
   userOperation$: Observable<any>
   electorate$: Observable<CommitmentLocation[]>
   commitment$: Observable<Commitment>

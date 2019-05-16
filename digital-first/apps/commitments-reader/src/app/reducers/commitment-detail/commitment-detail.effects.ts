@@ -51,6 +51,13 @@ const mapElectorates = (commitmentLocations) => {
      return commitmentLoation
   } 
 
+const cleanseAdvice = (advice) => {
+     let label = advice.label
+     let value = advice.value
+
+     return {value: value, label: label}
+}
+
 const mapCommitmentDetail = (item): any => {
   const mapResult = {
     id: item.id,
@@ -67,8 +74,8 @@ const mapCommitmentDetail = (item): any => {
     criticalDate: item.criticalDate ? item.criticalDate.title : '',
     portfolio: item.portfolioLookup ? item.portfolioLookup.title : '',
     electorates: mapElectorates(item.commitmentLocations),
-    pmcHandlingAdvice: item.pmcHandlingAdviceCommitments.length ? item.pmcHandlingAdviceCommitments[0].handlingAdvice : {value: '', label: ''},
-    pmoHandlingAdvice: item.pmoHandlingAdviceCommitments.length ? item.pmoHandlingAdviceCommitments[0].handlingAdvice : {value: '', label: ''}
+    pmcHandlingAdvice: item.pmcHandlingAdviceCommitments.length ? cleanseAdvice(item.pmcHandlingAdviceCommitments[0].handlingAdvice) : { value: "", label: "" },
+    pmoHandlingAdvice: item.pmoHandlingAdviceCommitments.length ? cleanseAdvice(item.pmoHandlingAdviceCommitments[0].handlingAdvice) : { value: "", label: "" }
     
   }
   return mapResult
@@ -204,7 +211,7 @@ export class CommitmentDetailEffects {
       ]
     })
   )
-  
+
   @Effect()
   updatePMCHandlingAdvice$ = this.actions$.pipe(
     ofType(CommitmentDetailActionTypes.UpdatePMCHandlingAdvice),
@@ -246,4 +253,20 @@ export class CommitmentDetailEffects {
       )
     )
   )
+
+  /*  @Effect()
+  updatePMCHandlingAdviceFailure$ = this.actions$.pipe(
+    ofType(CommitmentDetailActionTypes.UpdatePMCHandlingAdviceFailure),
+    switchMap((error: any) => {
+      let message = 'an error occured'
+
+      if (error.payload.networkError) {
+        message = `${message} - ${error.payload.networkError.message}`
+      }
+      return [
+        new AppNotification({ message: message }),
+        new ClearAppNotification()
+      ]
+    })
+  )  */
 }

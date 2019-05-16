@@ -108,8 +108,13 @@
         <digital-first-commitment-view-guard [operation]="getPMCRight(userOperation$ | async)">
           <ng-container operation-type="write">
             <p>PMC Handling Advice</p>
-            <ng-select [items]="handlingAdvices$ | async" bindLabel="label" bindValue="value" autofocus
-              [ngModel]="commitment.pmcHandlingAdvice.value" (change)="onPMCChange($event)">
+            <ng-select 
+              [items]="handlingAdvices$ | async" 
+              bindLabel="label" 
+              bindValue="value" 
+              autofocus
+              [ngModel]="commitment.pmcHandlingAdvice ? commitment.pmcHandlingAdvice.value : ''"
+              (change)="onPMCChange($event)">
             </ng-select>
           </ng-container>
         </digital-first-commitment-view-guard>
@@ -119,8 +124,12 @@
         <digital-first-commitment-view-guard [operation]="getPMORight(userOperation$ | async)">
           <ng-container operation-type="write">
             <p>PMO Handling Advice</p>
-            <ng-select [items]="handlingAdvices$ | async" bindLabel="label" bindValue="value" autofocus
-              [ngModel]="commitment.pmoHandlingAdvice.value" (change)="onPMOChange($event)">
+            <ng-select 
+              [items]="handlingAdvices$ | async" 
+              bindLabel="label" 
+              bindValue="value" 
+              autofocus
+              [ngModel]="commitment.pmoHandlingAdvice ? commitment.pmoHandlingAdvice.value : ''" (change)="onPMOChange($event)">
             </ng-select>
           </ng-container>
         </digital-first-commitment-view-guard>

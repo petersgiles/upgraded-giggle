@@ -26,8 +26,8 @@ export interface Commitment {
   date: string,
   politicalParty: string,
   announcedBy: string,
-  PMOHandlingAdvice?: HandlingAdvices,
-  PMCHandlingAdvice?: HandlingAdvices,
+  pmoHandlingAdvice?: HandlingAdvices,
+  pmcHandlingAdvice?: HandlingAdvices,
   //location: Electorate,
   electorates?: CommitmentLocation[],
   //whoAnnouncedType: WhoAnnouncedType
