@@ -22,4 +22,5 @@ describe('CommitmentDetailEffects', () => {
   it('should be created', () => {
     expect(effects).toBeTruthy();
   });
+
 });
