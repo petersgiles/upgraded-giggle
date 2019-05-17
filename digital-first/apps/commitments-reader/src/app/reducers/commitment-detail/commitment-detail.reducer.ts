@@ -26,8 +26,13 @@ export function reducer(
   action: CommitmentDetailActions
 ): State {
   switch (action.type) {
-    case CommitmentDetailActionTypes.LoadCommitmentDetails:
-      return state
+    case CommitmentDetailActionTypes.ClearCurrentDetailedCommitment:
+    return {
+      ...state,
+      commitment: null,
+      errors: null,
+      loaded: true
+    }
 
     case CommitmentDetailActionTypes.LoadDetailedCommitment:
       return {

@@ -67,7 +67,7 @@
             #enhanced
             placeholder="PMC Handling Advice"
             formControlName="pmcHandlingAdvice"
-            (selectionChange)="onPMCChange($event)"
+            (selectionChange)="!patchingForm && onPMCChange($event)"
           >
             <option
               *ngFor="let advice of handlingAdvices$ | async"
@@ -91,7 +91,7 @@
             #enhanced
             placeholder="PMO Handling Advice"
             formControlName="pmoHandlingAdvice"
-            (selectionChange)="onPMOChange($event)"
+            (selectionChange)="!patchingForm && onPMOChange($event)"
           >
             <option
               *ngFor="let advice of handlingAdvices$ | async"

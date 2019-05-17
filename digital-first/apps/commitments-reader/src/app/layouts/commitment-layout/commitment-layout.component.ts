@@ -7,6 +7,7 @@ import { Commitment } from '../../models'
 import * as fromDetail from '../../reducers/commitment-detail/commitment-detail.reducer'
 import { Observable } from 'rxjs'
 import * as fromApp from '../../reducers/app/app.reducer'
+import { ClearCurrentDetailedCommitment } from '../../reducers/commitment-detail/commitment-detail.actions';
 @Component({
   selector: 'digital-first-commitment-layout',
   templateUrl: './commitment-layout.component.html',
@@ -30,6 +31,7 @@ export class CommitmentLayoutComponent implements OnInit {
   }
 
   handleGoBack($event) {
+    this.store.dispatch(new ClearCurrentDetailedCommitment(null))
     this.store.dispatch(new Back())
   }
 
