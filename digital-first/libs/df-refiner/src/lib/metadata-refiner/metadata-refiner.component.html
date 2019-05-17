@@ -5,25 +5,27 @@
     </button>
   </mdc-list-item>
   <mdc-list-item class="search-item">
-    <mdc-text-field
-      label="Text Filter"
-      fullwidth
-      autocomplete="off"
-      autocorrect="off"
-      autocapitalize="off"
-      spellcheck="off"
-      type="text"
-      #search
-      [formControl]="searchControl"
-    >
-      <mdc-icon
-        mdcTextFieldIcon
-        trailing
-        clickable="true"
-        (click)="handleOnClear('search')"
-        >clear</mdc-icon
+    <form [formGroup]="textRefinerForm" id="textRefinerForm">
+      <mdc-text-field
+        label="Text Filter"
+        fullwidth
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="off"
+        type="text"
+        #search
+        [formControl]="searchControl"
       >
-    </mdc-text-field>
+        <mdc-icon
+          mdcTextFieldIcon
+          trailing
+          clickable="true"
+          (click)="handleOnClear('search')"
+          >clear</mdc-icon
+        >
+      </mdc-text-field>
+    </form>
   </mdc-list-item>
 
   <ng-container *ngFor="let group of refinerGroups">

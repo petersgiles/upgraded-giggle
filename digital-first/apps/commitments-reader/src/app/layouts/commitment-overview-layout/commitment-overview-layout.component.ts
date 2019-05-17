@@ -58,6 +58,7 @@ export class CommitmentOverviewLayoutComponent
   refinerGroups: RefinerGroup[]
   queryParamsRefiner: { id: string; group: string }[]
   isBusy$: Observable<boolean>
+  textRefiner$: Observable<string>
 
   constructor(
     private route: ActivatedRoute,
@@ -95,6 +96,8 @@ export class CommitmentOverviewLayoutComponent
     })
 
     this.isBusy$ = this.store.pipe(select(fromApp.selectAppSpinnerState))
+
+    this.textRefiner$ = this.store.pipe(select(fromRefiner.selectTextRefinerState))
 
     this.store
       .pipe(select(fromRefiner.selectSelectedRefinersState))
