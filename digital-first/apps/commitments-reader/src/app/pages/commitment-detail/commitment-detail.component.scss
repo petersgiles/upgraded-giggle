@@ -1,7 +1,6 @@
-:host{
-  overflow: auto;
-  overflow-y: auto;
-  height: 100vh;
+:host {
+  overflow-block: auto;
+  height: 100%;
 }
 
 dt {
