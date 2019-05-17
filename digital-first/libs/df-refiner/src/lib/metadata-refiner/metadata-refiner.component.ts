@@ -9,7 +9,7 @@ import {
   NgZone
 } from '@angular/core'
 import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
-import { FormControl } from '@angular/forms'
+import { FormControl, FormGroup } from '@angular/forms'
 import { debounceTime, distinctUntilChanged, flatMap } from 'rxjs/operators'
 
 import { Injectable } from '@angular/core'
@@ -31,7 +31,13 @@ export class RefinerActionService {
   styleUrls: ['./metadata-refiner.component.scss']
 })
 export class MetadataRefinerComponent implements OnInit {
-  searchControl: FormControl = new FormControl()
+
+  searchControl: FormControl = new FormControl(null, [])
+
+  textRefinerForm = new  FormGroup({
+    searchControl: this.searchControl
+  })
+ 
   action$: any
   _refinerGroups: RefinerGroup[]
 
