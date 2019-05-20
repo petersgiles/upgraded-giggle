@@ -51,6 +51,9 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   pmoHandlingAdviceForm = new FormGroup({
     pmoHandlingAdvice: new FormControl(null, [])
   })
+  
+  patchingForm: boolean
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private store: Store<fromDetail.State>
@@ -76,12 +79,14 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
     this.commitmentSubscription$ = this.commitment$.subscribe(
       (commitment: any) => {
         if (commitment) {
+          this.patchingForm = true
           this.pmcHandlingAdviceForm.patchValue({
             pmcHandlingAdvice: commitment.pmcHandlingAdvice
           })
           this.pmoHandlingAdviceForm.patchValue({
             pmoHandlingAdvice: commitment.pmoHandlingAdvice
           })
+          this.patchingForm = false
         }
       }
     )

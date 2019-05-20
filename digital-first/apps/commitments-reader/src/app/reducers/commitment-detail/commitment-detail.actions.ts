@@ -6,6 +6,7 @@ import { BookType } from '../../generated/graphql'
 export enum CommitmentDetailActionTypes {
   LoadCommitmentDetails = '[CommitmentDetail] Load CommitmentDetails',
   LoadCommitments = '[RefinerActionTypes] LoadRefinedCommitments',
+  ClearCurrentDetailedCommitment = '[CommitmentDetail] ClearCurrentDetailedCommitment',
   GetDetailedCommitment = '[CommitmentDetail] GetDetailedCommitment',
   GetDetailedCommitmentFailure = '[Overview] GetDetailedCommitmentFailure',
   LoadDetailedCommitment = '[CommitmentDetail] LoadDetailedCommitment',
@@ -43,6 +44,11 @@ export class LoadDetailedCommitment implements Action {
 export class GetDetailedCommitment implements Action {
   type = CommitmentDetailActionTypes.GetDetailedCommitment
   constructor(public payload: { id: any }) {}
+}
+
+export class ClearCurrentDetailedCommitment implements Action {
+  type = CommitmentDetailActionTypes.ClearCurrentDetailedCommitment
+  constructor(public payload: any) {}
 }
 
 export class GetHandlingAdvices implements Action {

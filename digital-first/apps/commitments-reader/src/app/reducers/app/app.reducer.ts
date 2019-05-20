@@ -6,15 +6,23 @@ import { NotificationMessage } from './app.model'
 export interface State {
   config: Config
   notification: NotificationMessage
+  spinner: boolean
 }
 
 export const initialState: State = {
   config: null,
-  notification: null
+  notification: null,
+  spinner: false
 }
 
 export function reducer(state = initialState, action: AppActions): State {
   switch (action.type) {
+    case AppActionTypes.HideSpinner:
+      return { ...state, spinner: false }
+
+    case AppActionTypes.ShowSpinner:
+      return { ...state, spinner: true }
+
     case AppActionTypes.AppNotification:
       return {
         ...state,
@@ -57,4 +65,9 @@ export const selectAppBookColour = createSelector(
 export const selectNotification = createSelector(
   appState,
   (state: State) => state.notification
+)
+
+export const selectAppSpinnerState = createSelector(
+  appState,
+  (state: State) => state.spinner
 )

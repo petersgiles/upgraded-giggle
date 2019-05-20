@@ -46,7 +46,7 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
   constructor(
     private plannerStore: Store<fromPlanner.State>,
     private overViewStore: Store<fromOverview.State>,
-    private userStore: Store<fromUser.UserState>
+    private userStore: Store<fromUser.State>
   ) {}
   ngOnInit() {
     this.filteredCommitments$ = this.overViewStore
