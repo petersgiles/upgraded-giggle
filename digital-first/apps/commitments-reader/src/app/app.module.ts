@@ -8,7 +8,8 @@ import {
   MdcSliderModule,
   MdcElevationModule,
   MdcListModule,
-  MdcCardModule
+  MdcCardModule,
+  MdcIconModule
 } from '@angular-mdc/web'
 import { AgmCoreModule } from '@agm/core'
 import { AppRoutingModule } from './app-routing.module'
@@ -56,6 +57,7 @@ import * as fromMap from './reducers/map/map.reducer'
 import * as fromPlanner from './reducers/planner/planner.reducer'
 import * as fromApp from './reducers/app/app.reducer'
 import * as fromCommitmentDetail from './reducers/commitment-detail/commitment-detail.reducer'
+import * as fromCommitmentDisplayOrder from './reducers/commitment-display-order/commitment-display-order.reducer'
 
 import { AppEffects } from './reducers/app/app.effects'
 import { UserEffects } from './reducers/user/user.effects'
@@ -65,7 +67,7 @@ import { RefinerEffects } from './reducers/refiner/refiner.effects'
 import { OverviewEffects } from './reducers/overview/overview.effects'
 import { MapEffects } from './reducers/map/map.effects'
 import { PlannerEffects } from './reducers/planner/planner.effects'
-
+import { CommitmentDisplayOrderEffects } from './reducers/commitment-display-order/commitment-display-order.effects'
 import { SettingsService } from './services/settings.service'
 
 import { CommitmentPackageComponent } from './pages/commitment-packages/commitment-package.component'
@@ -127,6 +129,7 @@ const COMPONENTS = [
     MdcElevationModule,
     MdcListModule,
     MdcCardModule,
+    MdcIconModule,
     DfSharepointLibModule,
     DfMomentModule,
     DfButtonsModule,
@@ -144,6 +147,10 @@ const COMPONENTS = [
     StoreModule.forFeature('map', fromMap.reducer),
     StoreModule.forFeature('planner', fromPlanner.reducer),
     StoreModule.forFeature('commitmentDetail', fromCommitmentDetail.reducer),
+    StoreModule.forFeature(
+      'commitmentDisplayOrder',
+      fromCommitmentDisplayOrder.reducer
+    ),
 
     EffectsModule.forRoot([RouterEffects]),
     EffectsModule.forFeature([
@@ -153,7 +160,8 @@ const COMPONENTS = [
       OverviewEffects,
       MapEffects,
       PlannerEffects,
-      CommitmentDetailEffects
+      CommitmentDetailEffects,
+      CommitmentDisplayOrderEffects
     ])
   ],
   providers: [
@@ -165,7 +173,6 @@ const COMPONENTS = [
       multi: true
     },
     appDataServiceProvider,
-    // SharePointAppDataService,
     configServiceProvider,
     commitmentEventDataServiceProvider,
     SharepointJsomService,

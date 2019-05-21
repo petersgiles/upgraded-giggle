@@ -1,0 +1,18 @@
+query GetRefinerTags($siteId: Guid!) {
+  commitmentTypes {
+    id
+    title
+  }
+  criticalDates {
+    id
+    title
+  }
+  portfolioLookups {
+    id
+    title
+  }
+  deckItemBriefSummaries(siteId: $siteId) {
+    id
+    title
+  }
+}

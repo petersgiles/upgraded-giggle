@@ -45,7 +45,7 @@ export class DisplayOrderPageComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.filterCommitmentsSubscription.unsubscribe()
   }
-  onDrop(event: CdkDragDrop<any>) {
+  handleDrop(event: CdkDragDrop<any>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,

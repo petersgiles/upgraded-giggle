@@ -18,9 +18,7 @@ import {
   GetRefinedCommitmentsFailure
 } from './overview.actions'
 import {
-  CommitmentsSearchGQL,
-  ApplyCommitmentDisplayOrderGQL
-} from '../../generated/graphql'
+  CommitmentsSearchGQL} from '../../generated/graphql'
 import * as fromRoot from '../../reducers'
 import { Store } from '@ngrx/store'
 import { Config } from '../../services/config/config-model'
@@ -78,7 +76,6 @@ export class OverviewEffects {
   constructor(
     private actions$: Actions<OverviewActions>,
     private getRefinedCommitmentsGQL: CommitmentsSearchGQL,
-    private applyCommitmentDisplayOrder: ApplyCommitmentDisplayOrderGQL,
     private store$: Store<fromRoot.State>
   ) {}
 }

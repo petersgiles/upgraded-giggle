@@ -6,30 +6,33 @@
         #withDisplayOrderList="cdkDropList"
         [cdkDropListData]="commitmentsWithDisplayOrder$ | async"
         [cdkDropListConnectedTo]="[withoutDisplayOrderList]"
-        (cdkDropListDropped)="onDrop($event)"
+        (cdkDropListDropped)="handleDrop($event)"
         class="display-order-list"
         [mdcElevation]="5"
       >
-        <div class="header" mdcSubtitle2>Commitments With Dispay Order</div>
+        <div start class="header" mdcSubtitle2><button style="float:right" mdc-button outlined>Apply Commitment Display Order</button></div>
+     
         <div
           class="drag-box"
           *ngFor="let item of commitmentsWithDisplayOrder$ | async"
           cdkDrag
         >
-          <ng-container
-            *ngIf="(commitmentsWithDisplayOrder$ | async)?.length > 0"
-          >
-            <span class="primary-text">{{ item.title }}</span>
-            <ng-container *ngIf="item.portfolio">
-              <span class="secondary-text">({{ item.portfolio }})</span>
-            </ng-container></ng-container
-          >
-          <ng-container
-            *ngIf="(commitmentsWithDisplayOrder$ | async)?.length === 0"
-          >
-            <div cdkDrag class="cdk-drag-disabled"></div>
+          <span class="primary-text">{{ item.title }}</span>
+          <ng-container *ngIf="item.portfolio">
+            <span class="secondary-text">({{ item.portfolio }})</span>
           </ng-container>
         </div>
+        <ng-container
+            *ngIf="(commitmentsWithDisplayOrder$ | async)?.length === 0"
+          >
+            <div cdkDrag class="drag-box ">
+              <span class="primary-text"
+                ><mdc-icon>drag_indicator</mdc-icon>
+                Drag your commitments here to order
+                </span
+              >
+            </div>
+          </ng-container>
       </div>
 
       <div
@@ -38,12 +41,12 @@
         dense
         [cdkDropListData]="commitmentsWithoutDisplayOrder$ | async"
         [cdkDropListConnectedTo]="[withDisplayOrderList]"
-        (cdkDropListDropped)="onDrop($event)"
+        (cdkDropListDropped)="handleDrop($event)"
         class="display-order-list"
         [mdcElevation]="5"
       >
         <div class="header" mdcSubtitle2>
-          Commitments Without Dispay Order
+          Commitments Without Display Order
         </div>
         <div
           class="drag-box"

@@ -20,6 +20,12 @@ import * as fromRoot from '../../reducers'
 import { CommitmentEventDataService } from '../../services/commitment-event/commitment-event-data-service'
 @Injectable()
 export class PlannerEffects {
+  constructor(
+    private actions$: Actions<PlannerActions>,
+    private rootStore$: Store<fromRoot.State>,
+    private commitmentEventDataService: CommitmentEventDataService
+  ) {}
+
   @Effect()
   getCommitmentsEvents$ = this.actions$.pipe(
     ofType(PlannerActionTypes.GetCommitmentEvents),
@@ -164,9 +170,4 @@ export class PlannerEffects {
     concatMap(action => [new LoadSelectedExternalEventTypes(action.payload)])
   )
 
-  constructor(
-    private actions$: Actions<PlannerActions>,
-    private rootStore$: Store<fromRoot.State>,
-    private commitmentEventDataService: CommitmentEventDataService
-  ) {}
 }

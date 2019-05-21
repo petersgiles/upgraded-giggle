@@ -1,0 +1,9 @@
+query getSiteCommitmentDisplayOrders($webId: Guid!, $siteId: Guid!) {
+  siteCommitmentDisplayOrders(webId: $webId, siteId: $siteId) {
+    commitmentId
+    displayOrder
+    commitment {
+      title
+    }
+  }
+}
