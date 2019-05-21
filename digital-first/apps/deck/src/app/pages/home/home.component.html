@@ -1,18 +1,14 @@
 <div class="app-page">
   <section> 
     <df-deck
-      [allowMutate]="false"
       [cardTypes]="cardTypes$ | async"
       [cards]="deckItems$ | async" 
       [briefs]="briefs$ | async"
       [parent]="parent$ | async"
       [eligibleParents]="eligibleParents$ | async"
       [readOnly]="false"
-      [selectedCard]="selectedCard"
       (onSubmitted)="handleSubmitted($event)"
       (onAction)="handleAction($event)"
-      (onEdit)="handleEdit($event)"
-      (onCancel)="handleCancel($event)"
     >
     </df-deck>
   </section>

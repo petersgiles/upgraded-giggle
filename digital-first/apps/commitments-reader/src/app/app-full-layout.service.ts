@@ -6,8 +6,8 @@ import { AppDataService } from './services/app-data/app-data.service'
 import { App, Logo } from './services/config/config-model'
 import { Router } from '@angular/router'
 import * as fromApp from './reducers/app/app.reducer'
-import { Store, select } from '@ngrx/store';
-import { NotificationMessage } from './reducers/app/app.model';
+import { Store, select } from '@ngrx/store'
+import { NotificationMessage } from './reducers/app/app.model'
 
 @Injectable({
   providedIn: 'root'

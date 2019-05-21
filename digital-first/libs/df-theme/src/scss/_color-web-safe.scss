@@ -1,4 +1,5 @@
-$web-colors : ("AliceBlue", AliceBlue, $primary-color-text),
+$web-colors : ("IGBGreen", rgb(67, 112, 112), $primary-color-text),
+  ("AliceBlue", AliceBlue, $primary-color-text),
   ("Amber", #FFC107, $primary-color-text),
   ("AntiqueWhite", AntiqueWhite, $primary-color-text),
   ("Aqua", Aqua, $primary-color-text),
@@ -160,11 +161,11 @@ $web-colors : ("AliceBlue", AliceBlue, $primary-color-text),
     .#{nth($color,1)},
     .#{to-lower-case(nth($color,1))}{
       background-color: nth($color,2);
-      color: set-notification-text-color(nth($color,3));
+      color: set-notification-text-color(nth($color,2));
       
       &-invert{
         color: nth($color,2);
-        background-color: set-notification-text-color(nth($color,3));
+        background-color: set-notification-text-color(nth($color,2));
       }
     }
 

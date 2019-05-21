@@ -12,8 +12,7 @@ import * as fromRoot from './reducers'
 import { first, filter, tap } from 'rxjs/operators'
 
 export function initApplication(
-  store: Store<fromRoot.State>,
-  settings: SettingsService
+  store: Store<fromRoot.State>
 ): Function {
   return () =>
     new Promise(resolve => {
