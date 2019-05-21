@@ -7,14 +7,15 @@ import {
   OPERATION_PLANNER,
   OPERATION_RIGHT_WRITE
 } from '../../services/app-data/app-operations'
+import { stringify } from 'querystring'
 
-export interface UserState {
+export interface State {
   currentUser
   drawerOpen
   operations
 }
 
-export const initialState: UserState = {
+export const initialState: State = {
   currentUser: null,
   drawerOpen: false,
   operations: {}
@@ -23,7 +24,7 @@ export const initialState: UserState = {
 export function reducer(
   state = initialState,
   action: UserActions | AppActions
-): UserState {
+): State {
   switch (action.type) {
     case UserActionTypes.SetCurrentUser: {
       return {
@@ -41,25 +42,25 @@ export function reducer(
 
     case UserActionTypes.SetUserOperations: {
       let ops = {}
+      const groupPermissions = JSON.parse(
+        JSON.stringify(action.payload.data.groupPermissions)
+      )
+      ops = (groupPermissions || []).reduce((acc: any, item: any) => {
+        const components = item.component
+        acc[item.group] = {
+          ...(components || []).reduce(
+            (componentRights: any, component: any) => {
+              componentRights[component] = item.rights
+              return componentRights
+            },
+            acc[item.group] || {}
+          )
+        }
+        return acc
+      }, {})
 
-      if (action.payload.data && action.payload.data.groupPermissions) {
-        const groupPermissions = JSON.parse(
-          JSON.stringify(action.payload.data.groupPermissions)
-        )
-        ops = (groupPermissions || []).reduce((acc: any, item: any) => {
-          const components = item.component
-          acc[item.group] = {
-            ...(components || []).reduce(
-              (componentRights: any, component: any) => {
-                componentRights[component] = item.rights
-                return componentRights
-              },
-              acc[item.group] || {}
-            )
-          }
-          return acc
-        }, {})
-      }
+      // tslint:disable-next-line: no-console
+      console.log(`🌶️🌶️🌶️`, action.payload, ops)
 
       return {
         ...state,
@@ -71,11 +72,11 @@ export function reducer(
       return state
   }
 }
-export const getOperations = (state: UserState) => state.operations
-export const getCurrentUser = (state: UserState) => state.currentUser
-export const getDrawerOpen = (state: UserState) => state.drawerOpen
+export const getOperations = (state: State) => state.operations
+export const getCurrentUser = (state: State) => state.currentUser
+export const getDrawerOpen = (state: State) => state.drawerOpen
 
-export const userState = createFeatureSelector<UserState>('user')
+export const userState = createFeatureSelector<State>('user')
 
 export const getUserCurrentUser = createSelector(
   userState,
@@ -133,6 +134,38 @@ export const getUserCurrentUserOperations = createSelector(
       ...finalRights
     }
   }
+)
+
+export interface MatrixRow {
+  title: string
+  write: boolean
+  read: boolean
+  hide: boolean
+}
+
+export const getUserOperationMatrix = createSelector(
+  getUserCurrentUserOperations,
+  operations =>
+    Object.keys(operations).reduce((acc, item) => {
+      const row: MatrixRow = {
+        title: item,
+        write: false,
+        read: false,
+        hide: false
+      }
+
+      const op = operations[item]
+
+      row[op] = true
+      acc.push(row)
+
+      console.log(`💦`, operations)
+      console.log(`💦`, item)
+      console.log(`💦`, op)
+      console.log(`💦`, row)
+      console.log(`💦`, acc)
+      return acc
+    }, [])
 )
 
 export const getUserCurrentUserPlannerPermission = createSelector(

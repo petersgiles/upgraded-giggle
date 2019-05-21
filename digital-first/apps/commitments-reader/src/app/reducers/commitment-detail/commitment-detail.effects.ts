@@ -48,14 +48,7 @@ const mapHandlingadvice = (item): any => {
 
 const mapCommitmentDetail = (item): any => {
   const mapResult = {
-    id: item.id,
-    title: item.title,
-    description: item.description,
-    bookType: item.bookType,
-    cost: item.cost,
-    date: item.date,
-    politicalParty: item.politicalParty,
-    announcedBy: item.announcedBy,
+    ...item,
     commitmentType: item.commitmentType ? item.commitmentType.title : '',
     status: item.status ? item.status.title : '',
     announcementType: item.announcementType ? item.announcementType.title : '',
@@ -170,8 +163,7 @@ export class CommitmentDetailEffects {
           commitmentId: commitmentId,
           handlingAdviceId: action.payload.handlingAdviceId,
           webId: webId,
-          siteId: siteId,
-          test: null
+          siteId: siteId
         }
       }
     }),

@@ -17,9 +17,7 @@ export const initialState: State = {
 }
 
 export function reducer(state = initialState, action: RefinerActions): State {
-
   switch (action.type) {
-
     case RefinerActionTypes.ClearRefiners:
       return {
         ...state,
@@ -60,9 +58,8 @@ export function reducer(state = initialState, action: RefinerActions): State {
     }
 
     case RefinerActionTypes.SetRefinerFromQueryString: {
-
       const selectedRefiners = action.payload.refiner
- 
+
       return {
         ...state,
         selectedRefiners: selectedRefiners
@@ -82,8 +79,7 @@ export function reducer(state = initialState, action: RefinerActions): State {
 
       if (isSelected) {
         selectedRefiners = selectedRefiners.filter(
-          item =>
-            !(item.group === selected.group && item.id === selected.id)
+          item => !(item.group === selected.group && item.id === selected.id)
         )
       } else {
         selectedRefiners.push({
@@ -131,17 +127,25 @@ export const selectRefinerGroups = createSelector(
   selectSelectedRefinersState,
   selectTextRefinerState,
   (groups: any[], expanded: any[], selected: any[], text: String) => {
-    const rgs = (groups || []).map(g => ({
-      ...g,
-      expanded: (expanded || []).includes(g.group),
-      children: (g.children || []).map(r => ({
-        ...r,
-        selected:
-          (selected || []).findIndex(
-            s => s.id === r.id && s.group === r.group
-          ) > -1
-      }))
-    }))
+    const rgs = (groups || []).map(g => {
+      const groupChildselected = g.children.some(r => selected.findIndex(
+        s => s.id === r.id && s.group === r.group
+      ) > -1)
+
+      // tslint:disable-next-line: no-console
+      console.log(`🌶️`, groupChildselected)
+      return {
+        ...g,
+        expanded: groupChildselected || (expanded || []).includes(g.group),
+        children: (g.children || []).map(r => ({
+          ...r,
+          selected:
+            (selected || []).findIndex(
+              s => s.id === r.id && s.group === r.group
+            ) > -1
+        }))
+      }
+    })
 
     return rgs
   }

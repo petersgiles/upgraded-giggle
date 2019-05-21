@@ -9,7 +9,17 @@ export enum AppActionTypes {
   SetLayoutDrawState = '[App] Set Layout Draw State',
   GetAppConfiguration = '[App] Get App Configuration',
   LoadAppConfiguration = '[App] Load App Configuration',
-  LoadAppConfigurationError = '[App] Load App Configuration'
+  LoadAppConfigurationError = '[App] Load App Configuration',
+  HideSpinner = '[App] HideSpinner',
+  ShowSpinner = '[App] ShowSpinner',
+}
+
+export class ShowSpinner implements Action {
+  readonly type = AppActionTypes.ShowSpinner
+}
+
+export class HideSpinner implements Action {
+  readonly type = AppActionTypes.HideSpinner
 }
 
 export class StartAppInitialiser implements Action {
@@ -58,3 +68,5 @@ export type AppActions =
   | GetAppConfiguration
   | LoadAppConfiguration
   | LoadAppConfigurationError
+  | ShowSpinner
+  | HideSpinner

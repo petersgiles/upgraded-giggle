@@ -8,7 +8,9 @@ import {
   catchError,
   map,
   tap,
-  withLatestFrom
+  withLatestFrom,
+  delay,
+  concatMap
 } from 'rxjs/operators'
 import { of, EMPTY } from 'rxjs'
 import {
@@ -28,7 +30,7 @@ export class RefinerEffects {
   getRefinerGroups$ = this.actions$.pipe(
     ofType(RefinerActionTypes.GetRefinerGroups),
     withLatestFrom(this.store$),
-    switchMap(([_, s]) => {
+    concatMap(([_, s]) => {
       const store = <any>s
       const config: Config = store.app.config
       return this.getRefinerTagsGQL.fetch({ siteId: config.siteId }).pipe(

@@ -45,10 +45,6 @@ const routes: Routes = [
             path: 'overview',
             component: OverviewPageComponent
           },
-          /* {
-            path: 'commitmentdetail',
-            component: CommitmentDetailComponent
-          }, */
           {
             path: 'map',
             component: MapOverviewPageComponent
@@ -75,14 +71,6 @@ const routes: Routes = [
           {
             path: ':id/detail',
             component: CommitmentDetailComponent
-          },
-          {
-            path: ':id/home',
-            component: CommitmentDetailComponent
-          },
-          {
-            path: ':id/packages',
-            component: CommitmentPackageComponent
           }
         ]
       }

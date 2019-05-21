@@ -5,8 +5,8 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core'
 import { Store, select } from '@ngrx/store'
-import { Subscription, Subject, Observable } from 'rxjs'
-import { takeUntil, filter } from 'rxjs/operators'
+import { Subscription, Observable } from 'rxjs'
+import { filter } from 'rxjs/operators'
 import { ActivatedRoute } from '@angular/router'
 import * as indef from 'indefinite'
 import * as fromDetail from '../../reducers/commitment-detail/commitment-detail.reducer'
@@ -25,6 +25,7 @@ import {
   UpdatePMOHandlingAdvice,
   UpdatePMCHandlingAdvice
 } from '../../reducers/commitment-detail/commitment-detail.actions'
+import { FormGroup, FormControl } from '@angular/forms'
 
 @Component({
   selector: 'digital-first-commitment-detail',
@@ -37,7 +38,20 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   electorate$: Observable<CommitmentLocation[]>
   commitment$: Observable<Commitment>
   handlingAdvices$: Observable<any>
-  commitmentSub$: Subscription;
+  commitmentSubscription$: Subscription
+
+  currentPMCHandling$: Observable<string>
+  currentPMOHandling$: Observable<string>
+
+  pmcHandlingAdviceForm = new FormGroup({
+    pmcHandlingAdvice: new FormControl(null, [])
+  })
+
+  pmoHandlingAdviceForm = new FormGroup({
+    pmoHandlingAdvice: new FormControl(null, [])
+  })
+  
+  patchingForm: boolean
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -53,8 +67,28 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
       select(fromDetail.getDetailedCommitmentState)
     )
 
+    this.currentPMCHandling$ = this.store.pipe(
+      select(fromDetail.getCurrentPMCHandlingAdviceState)
+    )
 
-    this.commitmentSub$ =  this.commitment$.subscribe(c => console.log(`🦃`, c))
+    this.currentPMOHandling$ = this.store.pipe(
+      select(fromDetail.getCurrentPMOHandlingAdviceState)
+    )
+
+    this.commitmentSubscription$ = this.commitment$.subscribe(
+      (commitment: any) => {
+        if (commitment) {
+          this.patchingForm = true
+          this.pmcHandlingAdviceForm.patchValue({
+            pmcHandlingAdvice: commitment.pmcHandlingAdvice
+          })
+          this.pmoHandlingAdviceForm.patchValue({
+            pmoHandlingAdvice: commitment.pmoHandlingAdvice
+          })
+          this.patchingForm = false
+        }
+      }
+    )
 
     this.handlingAdvices$ = this.store.pipe(
       select(fromDetail.getHandlingAdvicesState)
@@ -67,7 +101,9 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
       })
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.commitmentSubscription$.unsubscribe()
+  }
 
   getPMORight(operations: any) {
     return operations[OPERATION_PMO_HANDLING_ADVICE]
@@ -78,21 +114,23 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   }
 
   onPMOChange($event) {
-    this.store.dispatch(
-      new UpdatePMOHandlingAdvice({ handlingAdviceId: $event.value })
-    )
+    if ($event && $event.value) {
+      // tslint:disable-next-line: no-console
+      console.log(`🌶️`, $event.value)
+      this.store.dispatch(
+        new UpdatePMOHandlingAdvice({ handlingAdviceId: $event.value })
+      )
+    }
   }
 
   onPMCChange($event) {
-    this.store.dispatch(
-      new UpdatePMCHandlingAdvice({ handlingAdviceId: $event.value })
-    )
-
-    console.log(`🤕`, $event)
-
-    this.store.dispatch(
-      new UpdatePMOHandlingAdvice({ handlingAdviceId: $event.value })
-    )
+    if ($event && $event.value) {
+      // tslint:disable-next-line: no-console
+      console.log(`🌶️`, $event.value)
+      this.store.dispatch(
+        new UpdatePMCHandlingAdvice({ handlingAdviceId: $event.value })
+      )
+    }
   }
 
   public getIndefiniteArticle(term) {

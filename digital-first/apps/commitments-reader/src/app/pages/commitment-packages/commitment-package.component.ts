@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { ActivatedRoute } from '@angular/router'
 
-
 @Component({
   selector: 'digital-first-commitment-package',
   templateUrl: './commitment-package.component.html',
@@ -12,14 +11,13 @@ import { ActivatedRoute } from '@angular/router'
 })
 export class CommitmentPackageComponent implements OnInit, OnDestroy {
   _commitment: number
-  megaTags$: any;
+  megaTags$: any
 
   commitmentSubscription$: Subscription
- // public commitment: ICommitment
+  // public commitment: ICommitment
   constructor(
     private getCommitmentDetailGQL: GetCommitmentDetailGQL,
-    private route: ActivatedRoute,
-
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {

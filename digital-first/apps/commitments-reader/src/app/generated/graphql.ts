@@ -186,6 +186,7 @@ export type CommitmentGraph = {
     Array<Maybe<PmoHandlingAdviceCommitmentGraph>>
   >
   briefCommitments?: Maybe<Array<Maybe<BriefCommitmentGraph>>>
+  relatedLinks?: Maybe<Array<Maybe<RelatedLinkGraph>>>
   announcedBy?: Maybe<Scalars['String']>
   status?: Maybe<StatusGraph>
   commitmentType?: Maybe<CommitmentTypeGraph>
@@ -267,6 +268,15 @@ export type CommitmentGraphBriefCommitmentsArgs = {
   take?: Maybe<Scalars['Int']>
 }
 
+export type CommitmentGraphRelatedLinksArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+}
+
 export type CommitmentLocationGraph = {
   description?: Maybe<Scalars['String']>
   commitment?: Maybe<CommitmentGraph>
@@ -318,6 +328,7 @@ export type CommitmentRefinerGraph = {
   criticalDates?: Maybe<Array<Maybe<Scalars['Int']>>>
   portfolioLookups?: Maybe<Array<Maybe<Scalars['Int']>>>
   deckItemBriefSummaries?: Maybe<Array<Maybe<Scalars['Guid']>>>
+  locations?: Maybe<Array<Maybe<Scalars['Int']>>>
   text?: Maybe<Scalars['String']>
 }
 
@@ -1102,6 +1113,7 @@ export type Query = {
   pmoHandlingAdviceCommitments?: Maybe<
     Array<Maybe<PmoHandlingAdviceCommitmentGraph>>
   >
+  relatedLinks?: Maybe<Array<Maybe<RelatedLinkGraph>>>
 }
 
 export type QueryAgencyArgs = {
@@ -1484,6 +1496,24 @@ export type QueryPmoHandlingAdviceCommitmentsArgs = {
   take?: Maybe<Scalars['Int']>
 }
 
+export type QueryRelatedLinksArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+}
+
+export type RelatedLinkGraph = {
+  commitment?: Maybe<CommitmentGraph>
+  id: Scalars['Int']
+  internalVersion: Scalars['UInt32']
+  commitmentId: Scalars['Int']
+  title: Scalars['String']
+  url: Scalars['String']
+}
+
 export type ReportDataGraph = {
   id: Scalars['Guid']
   reportVersion?: Maybe<ReportVersionGraph>
@@ -1847,6 +1877,16 @@ export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
                 'id' | 'title'
               >
             >
+            relatedLinks: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'RelatedLinkGraph' } & Pick<
+                    RelatedLinkGraph,
+                    'id' | 'url' | 'title'
+                  >
+                >
+              >
+            >
             commitmentLocations: Maybe<
               Array<
                 Maybe<
@@ -2173,6 +2213,11 @@ export const GetCommitmentDetailDocument = gql`
       }
       criticalDate {
         id
+        title
+      }
+      relatedLinks {
+        id
+        url
         title
       }
       commitmentLocations {

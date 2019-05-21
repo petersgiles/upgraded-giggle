@@ -1,3 +1,4 @@
+<mdc-linear-progress [open]="isBusy$ | async"></mdc-linear-progress>
 <div class="layout-page">
   <section>
     <div
@@ -6,9 +7,10 @@
     >
       <digital-first-metadata-refiner
         style="overflow-y:auto"
+        [searchText]="textRefiner$ | async"
         [refinerGroups]="refinerGroups"
         (onSearchCriteriaChanged)="handleTextRefinerChanged($event)"
-        (onClear)="handleTextRefinerChanged(null)"
+        (onClear)="handleClearRefiners()"
         (onRefinerGroupSelected)="handleRefinerGroupSelected($event)"
         (onRefinerSelected)="handleRefinerSelected($event)"
       ></digital-first-metadata-refiner>

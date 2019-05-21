@@ -5,7 +5,7 @@ import {
 import { createFeatureSelector, createSelector } from '@ngrx/store'
 import { Commitment } from '../../models/commitment.model'
 import { generateGUID } from '../../utils'
-import { NotificationMessage } from '../app/app.model';
+import { NotificationMessage } from '../app/app.model'
 
 export interface State {
   commitment: Commitment
@@ -26,8 +26,13 @@ export function reducer(
   action: CommitmentDetailActions
 ): State {
   switch (action.type) {
-    case CommitmentDetailActionTypes.LoadCommitmentDetails:
-      return state
+    case CommitmentDetailActionTypes.ClearCurrentDetailedCommitment:
+    return {
+      ...state,
+      commitment: null,
+      errors: null,
+      loaded: true
+    }
 
     case CommitmentDetailActionTypes.LoadDetailedCommitment:
       return {
@@ -54,7 +59,13 @@ export function reducer(
     case CommitmentDetailActionTypes.UpdatePMOHandlingAdviceFailure:
       return {
         ...state,
-        errors: [{ message: 'Could not update PMO Handling Advice', code: '400',  data: {field:'PMOHandlingAdvice', error: action.payload}}]
+        errors: [
+          {
+            message: 'Could not update PMO Handling Advice',
+            code: '400',
+            data: { field: 'PMOHandlingAdvice', error: action.payload }
+          }
+        ]
       }
 
     case CommitmentDetailActionTypes.SetPMCHandlingAdviceResult:
@@ -86,6 +97,42 @@ export const getCommitmentState = createSelector(
 export const getHandlingAdvicesState = createSelector(
   commitmentDetailState,
   state => state.handlingAdvices
+)
+
+export const getCurrentPMOHandlingAdviceState = createSelector(
+  getHandlingAdvicesState,
+  getCommitmentState,
+  (handlings: any, commitment: any) => {
+    let label = ''
+    if (commitment && handlings) {
+      const found: any = handlings.find(
+        (p: any) => p.value === commitment.pmoHandlingAdvice
+      )
+      if (found) {
+        label = found.label
+      }
+    }
+
+    return label
+  }
+)
+
+export const getCurrentPMCHandlingAdviceState = createSelector(
+  getHandlingAdvicesState,
+  getCommitmentState,
+  (handlings: any, commitment: any) => {
+    let label = ''
+    if (commitment && handlings) {
+      const found: any = handlings.find(
+        (p: any) => p.value === commitment.pmcHandlingAdvice
+      )
+      if (found) {
+        label = found.label
+      }
+    }
+
+    return label
+  }
 )
 
 export const getDetailedCommitmentState = createSelector(
