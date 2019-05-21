@@ -5,6 +5,7 @@ export enum CommitmentDisplayOrderActionTypes {
   LoadCommitmentDisplayOrders = '[CommitmentDisplayOrder] Load CommitmentDisplayOrders',
   SetReOrderedCommitments = '[CommitmentDisplayOrder] Set CommitmentDisplayOrders',
   ApplyCommitmentDisplayOrders = '[CommitmentDisplayOrder] Apply CommitmentDisplayOrders',
+  ApplyCommitmentDisplayOrdersFailure = '[CommitmentDisplayOrder] Apply CommitmentDisplayOrders]',
   GetCommitmentDisplayOrdersFailure = '[CommitmentDisplayOrder] Get GetCommitmentDisplayOrdersFailure'
 }
 
@@ -25,6 +26,12 @@ export class ApplyCommitmentDisplayOrders implements Action {
   constructor(public payload: any) {}
 }
 
+export class ApplyCommitmentDisplayOrdersFailure implements Action {
+  readonly type =
+    CommitmentDisplayOrderActionTypes.ApplyCommitmentDisplayOrdersFailure
+  constructor(public payload: any) {}
+}
+
 export class GetCommitmentDisplayOrdersFailure implements Action {
   readonly type =
     CommitmentDisplayOrderActionTypes.GetCommitmentDisplayOrdersFailure
@@ -35,4 +42,5 @@ export type CommitmentDisplayOrderActions =
   | LoadCommitmentDisplayOrders
   | SetReOrderedCommitments
   | ApplyCommitmentDisplayOrders
-  |GetCommitmentDisplayOrdersFailure
+  | GetCommitmentDisplayOrdersFailure
+  | ApplyCommitmentDisplayOrdersFailure

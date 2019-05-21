@@ -16,7 +16,11 @@ import {
   transferArrayItem,
   CdkDragDrop
 } from '@angular/cdk/drag-drop'
-import { GetCommitmentDisplayOrders } from '../../reducers/commitment-display-order/commitment-display-order.actions'
+import {
+  GetCommitmentDisplayOrders,
+  SetReOrderedCommitments,
+  ApplyCommitmentDisplayOrders
+} from '../../reducers/commitment-display-order/commitment-display-order.actions'
 
 @Component({
   selector: 'digital-first-display-order-page',
@@ -43,7 +47,13 @@ export class DisplayOrderPageComponent implements OnInit, OnDestroy {
       .pipe(select(fromOverview.selectFilteredCommitmentsState))
       .subscribe((data: any) => {
         this.commitmentsWithoutDisplayOrder$.next(
-          data.filter(c => !c.displayOrder)
+          data
+            .filter(c => !c.displayOrder)
+            .map(c => ({
+              commitmentId: c.id,
+              title: c.title,
+              portfolio: c.portfolio
+            }))
         )
       })
 
@@ -55,16 +65,24 @@ export class DisplayOrderPageComponent implements OnInit, OnDestroy {
         })
     )
   }
-  ngOnDestroy(): void {
-    this.filterCommitmentsSubscription.unsubscribe()
-  }
+
   handleDrop(event: CdkDragDrop<any>) {
     if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      )
+      if (event.container.id === 'orderContainer') {
+        moveItemInArray(
+          event.container.data,
+          event.previousIndex,
+          event.currentIndex
+        )
+        const reOrderedCommitmentIds = event.container.data.map(
+          c => c.commitmentId
+        )
+        this.displayOrderStore.dispatch(
+          new SetReOrderedCommitments(reOrderedCommitmentIds)
+        )
+      } else if (event.container.id === 'noneOrderContainer') {
+        return
+      }
     } else {
       transferArrayItem(
         event.previousContainer.data,
@@ -72,6 +90,24 @@ export class DisplayOrderPageComponent implements OnInit, OnDestroy {
         event.previousIndex,
         event.currentIndex
       )
+      let reOrderedCommitmentIds = []
+      if (event.container.id === 'orderContainer') {
+        reOrderedCommitmentIds = event.container.data.map(c => c.commitmentId)
+      } else if (event.container.id === 'noneOrderContainer') {
+        reOrderedCommitmentIds = event.previousContainer.data.map(
+          c => c.commitmentId
+        )
+      }
+      this.displayOrderStore.dispatch(
+        new SetReOrderedCommitments(reOrderedCommitmentIds)
+      )
     }
+  }
+
+  handleApplyCommitmentDisplayOrders() {
+    this.displayOrderStore.dispatch(new ApplyCommitmentDisplayOrders(null))
+  }
+  ngOnDestroy(): void {
+    this.filterCommitmentsSubscription.unsubscribe()
   }
 }

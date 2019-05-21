@@ -7,13 +7,13 @@ import {
 
 export interface State {
   commitmentDisplayOrders: any[]
-  reOrderedCommitments: any[]
+  reOrderedCommitmentIds: any[]
   errors: NotificationMessage[]
 }
 
 export const initialState: State = {
   commitmentDisplayOrders: [],
-  reOrderedCommitments: [],
+  reOrderedCommitmentIds: [],
   errors: null
 }
 
@@ -30,7 +30,29 @@ export function reducer(
     case CommitmentDisplayOrderActionTypes.SetReOrderedCommitments:
       return {
         ...state,
-        reOrderedCommitments: action.payload
+        reOrderedCommitmentIds: action.payload
+      }
+    case CommitmentDisplayOrderActionTypes.GetCommitmentDisplayOrdersFailure:
+      return {
+        ...state,
+        errors: [
+          {
+            message: 'Could not load Commitment Display Orders',
+            code: '400',
+            data: { field: 'Commitment Display Order', error: action.payload }
+          }
+        ]
+      }
+    case CommitmentDisplayOrderActionTypes.ApplyCommitmentDisplayOrdersFailure:
+      return {
+        ...state,
+        errors: [
+          {
+            message: 'Could not update Commitment Display Orders',
+            code: '400',
+            data: { field: 'Commitment Display Order', error: action.payload }
+          }
+        ]
       }
     default:
       return state
@@ -50,12 +72,12 @@ export const getCommitmentsWithDisplayOrderState = createSelector(
   getCommitmentDisplayOrdersState,
   commitmentDisplayOrders =>
     (commitmentDisplayOrders || []).map(row => ({
-      commitmentId: row.commitment ? row.commitment.id : 0,
+      commitmentId: row.commitmentId,
       title: row.commitment ? row.commitment.title : '',
       displayOrder: row.displayOrder,
       portfolio: row.commitment
-        ? row.commitment.portfolioLookUp
-          ? row.commitment.portfolioLookUp.title
+        ? row.commitment.portfolioLookup
+          ? row.commitment.portfolioLookup.title
           : ''
         : ''
     }))

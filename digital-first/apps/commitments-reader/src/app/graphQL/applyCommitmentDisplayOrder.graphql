@@ -1,6 +1,6 @@
 mutation ApplyCommitmentDisplayOrder(
   $applyCommitmentDisplayOrder: ApplyCommitmentDisplayOrderGraph!,
-  $messageId: Guid!
+  $messageId: Guid!,
 ) {
   applyCommitmentDisplayOrder(
   	applyCommitmentDisplayOrder: $applyCommitmentDisplayOrder,

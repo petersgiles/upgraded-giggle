@@ -7,31 +7,44 @@ import {
   SetReOrderedCommitments,
   CommitmentDisplayOrderActions,
   LoadCommitmentDisplayOrders,
-  GetCommitmentDisplayOrdersFailure
+  GetCommitmentDisplayOrders
 } from './commitment-display-order.actions'
 import {
   map,
-  switchMap,
   concatMap,
   withLatestFrom,
   first,
-  catchError
+  catchError,
+  delayWhen,
+  switchMap
 } from 'rxjs/operators'
-import { GetSiteCommitmentDisplayOrdersGQL } from '../../generated/graphql'
+import {
+  GetSiteCommitmentDisplayOrdersGQL,
+  ApplyCommitmentDisplayOrderGQL
+} from '../../generated/graphql'
+import { generateGUID } from '../../utils'
+import {
+  AppNotification,
+  ClearAppNotification,
+  HideSpinner
+} from '../app/app.actions'
+import { interval } from 'rxjs'
+import { GetRefinedCommitments } from '../overview/overview.actions'
 
 @Injectable()
 export class CommitmentDisplayOrderEffects {
   constructor(
     private actions$: Actions<CommitmentDisplayOrderActions>,
     private store$: Store<fromRoot.State>,
-    private getSiteDisplayOrderGraphQL: GetSiteCommitmentDisplayOrdersGQL
+    private getSiteDisplayOrderGraphQL: GetSiteCommitmentDisplayOrdersGQL,
+    private applyCommitmentDisplayOrder: ApplyCommitmentDisplayOrderGQL
   ) {}
 
   @Effect()
   $getCommitmentDisplayOrder = this.actions$.pipe(
     ofType(CommitmentDisplayOrderActionTypes.GetCommitmentDisplayOrders),
     withLatestFrom(this.store$),
-    map(([action, store]) => {
+    map(([_, store]) => {
       const rootStore = <any>store
       const config = rootStore.app.config
       const webId = config.webId
@@ -41,24 +54,72 @@ export class CommitmentDisplayOrderEffects {
         webId: webId
       }
     }),
-    concatMap(config =>
-      this.getSiteDisplayOrderGraphQL.fetch(config).pipe(
-        first(),
-        concatMap(result => [new LoadCommitmentDisplayOrders(result)]),
-        catchError(error => [new GetCommitmentDisplayOrdersFailure(error)])
-      )
+    switchMap(config =>
+      this.getSiteDisplayOrderGraphQL
+        .fetch(config, { fetchPolicy: 'no-cache' })
+        .pipe(
+          first(),
+          concatMap(result => {
+            const orderedCommitmentIds = result.data.siteCommitmentDisplayOrders.map(
+              c => c.commitmentId
+            )
+            return [
+              new LoadCommitmentDisplayOrders(result),
+              new SetReOrderedCommitments(orderedCommitmentIds)
+            ]
+          }),
+          this.catchError()
+        )
     )
   )
 
   @Effect()
   $applyCommitmentDisplayOrder = this.actions$.pipe(
     ofType(CommitmentDisplayOrderActionTypes.ApplyCommitmentDisplayOrders),
-    concatMap(action => [])
+    withLatestFrom(this.store$),
+    map(([_, store]) => {
+      const rootStore = <any>store
+      const config = rootStore.app.config
+      const webId = config.webId
+      const siteId = config.siteId
+      const orderedCommitmentIds =
+        rootStore.commitmentDisplayOrder.reOrderedCommitmentIds
+      return {
+        messageId: generateGUID(),
+        //conversationId: generateGUID(),
+        applyCommitmentDisplayOrder: {
+          siteId: siteId,
+          webId: webId,
+          orderedCommitmentIds: orderedCommitmentIds
+        }
+      }
+    }),
+    concatMap(config =>
+      this.applyCommitmentDisplayOrder
+        .mutate(config, { fetchPolicy: 'no-cache' })
+        .pipe(
+          delayWhen(_ => interval(2500)),
+          concatMap(_ => [
+            new GetCommitmentDisplayOrders(null),
+            new GetRefinedCommitments({ fetchPolicy: { fetchPolicy: 'no-cache' } }),
+            new HideSpinner()
+          ]),
+          this.catchError()
+        )
+    )
   )
 
-  @Effect()
-  $setReOrderedCommitments = this.actions$.pipe(
-    ofType(CommitmentDisplayOrderActionTypes.SetReOrderedCommitments),
-    switchMap(action => [new SetReOrderedCommitments(action.payload)])
-  )
+  private catchError() {
+    return catchError(error => {
+      let message = 'an error occured'
+      if (error.networkError) {
+        message = `${message} - ${error.networkError.message}`
+      }
+      return [
+        new AppNotification({ message: message }),
+        new ClearAppNotification(),
+        new HideSpinner()
+      ]
+    })
+  }
 }

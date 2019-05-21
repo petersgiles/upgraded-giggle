@@ -7,10 +7,8 @@ import {
   first,
   map,
   catchError,
-  withLatestFrom,
-  tap
+  withLatestFrom
 } from 'rxjs/operators'
-import { of } from 'rxjs'
 import {
   OverviewActionTypes,
   OverviewActions,
@@ -21,7 +19,6 @@ import { CommitmentsSearchGQL } from '../../generated/graphql'
 import * as fromRoot from '../../reducers'
 import { Store } from '@ngrx/store'
 import { Config } from '../../services/config/config-model'
-import { sortBy } from '@df/utils'
 
 @Injectable()
 export class OverviewEffects {
@@ -30,7 +27,7 @@ export class OverviewEffects {
     ofType(OverviewActionTypes.GetRefinedCommitments),
     withLatestFrom(this.store$),
     // tslint:disable-next-line: no-console
-    map(([_, s]) => {
+    map(([action, s]) => {
       const store = <any>s
       const config: Config = store.app.config
       const bookType = config.header.bookType
@@ -38,7 +35,7 @@ export class OverviewEffects {
       const textRefiner: any = store.refiner.textRefiner
       const webId: any = config.webId
       const siteId: any = config.siteId
-
+      const fetchPolicy = action.payload ? action.payload.fetchPolicy : null
       const selectedRefinerGroup = selectedRefiners.reduce(
         (acc, item) => {
           acc[item.group].push(item.id)
@@ -58,14 +55,17 @@ export class OverviewEffects {
       }
 
       return {
-        refiner: selectedRefinerGroup,
-        book: bookType,
-        webId: webId,
-        siteId: siteId
+        data: {
+          refiner: selectedRefinerGroup,
+          book: bookType,
+          webId: webId,
+          siteId: siteId
+        },
+        fetchPolicy: fetchPolicy
       }
     }),
     switchMap(config =>
-      this.getRefinedCommitmentsGQL.fetch(config).pipe(
+      this.getRefinedCommitmentsGQL.fetch(config.data, config.fetchPolicy).pipe(
         first(),
         concatMap(result => {
           const commitments = result.data.commitments

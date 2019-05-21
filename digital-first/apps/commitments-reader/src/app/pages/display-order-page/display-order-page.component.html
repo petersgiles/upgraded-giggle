@@ -3,6 +3,7 @@
     <div class="app-layout__row--no-wrap" style="height:85vh;overflow-y:auto">
       <div
         cdkDropList
+        id="orderContainer"
         #withDisplayOrderList="cdkDropList"
         [cdkDropListData]="commitmentsWithDisplayOrder$ | async"
         [cdkDropListConnectedTo]="[withoutDisplayOrderList]"
@@ -11,7 +12,7 @@
         [mdcElevation]="5"
       >
         <div start class="header" mdcSubtitle2>
-          <button style="float:right" mdc-button outlined>
+          <button style="float:right" mdc-button outlined (click)="handleApplyCommitmentDisplayOrders()">
             Apply Commitment Display Order
           </button>
         </div>
@@ -30,7 +31,7 @@
           </div>
         </ng-container>
 
-        <!-- <ng-container
+        <ng-container
           *ngIf="(commitmentsWithDisplayOrder$ | async)?.length === 0"
         >
           <div cdkDrag class="drag-box ">
@@ -39,11 +40,12 @@
               Drag your commitments here to order
             </span>
           </div>
-        </ng-container> -->
+        </ng-container>
       </div>
 
       <div
         cdkDropList
+        id="noneOrderContainer"
         #withoutDisplayOrderList="cdkDropList"
         dense
         [cdkDropListData]="commitmentsWithoutDisplayOrder$ | async"
