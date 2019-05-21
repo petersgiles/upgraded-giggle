@@ -11,7 +11,7 @@ export interface State {
 export const initialState: State = {
   commitments: [],
   columns: [
-    { prop: 'id', name: 'Id' },
+    // { prop: 'id', name: 'Id' },
     { prop: 'title', name: 'Title' },
     { prop: 'portfolio', name: 'Responsible Portfolio' },
     // { prop: 'commitmentType', name: 'Type of Commitment' },
