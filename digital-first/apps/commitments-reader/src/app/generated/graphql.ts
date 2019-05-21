@@ -53,9 +53,7 @@ export type AnnouncementTypeGraphCommitmentsArgs = {
 export type ApplyCommitmentDisplayOrderGraph = {
   webId: Scalars['Guid']
   siteId: Scalars['Guid']
-  book?: Maybe<DisplayOrderBookType>
-  parent?: Maybe<Scalars['UInt32']>
-  target: Scalars['UInt32']
+  orderedCommitmentIds: Array<Scalars['Int']>
 }
 
 export type AppropriationGraph = {
@@ -193,6 +191,7 @@ export type CommitmentGraph = {
   announcementType?: Maybe<AnnouncementTypeGraph>
   portfolioLookup?: Maybe<PortfolioLookupGraph>
   criticalDate?: Maybe<CriticalDateGraph>
+  displayOrder?: Maybe<Scalars['UInt32']>
   date?: Maybe<Scalars['DateTimeOffset']>
   announcementTypeId?: Maybe<Scalars['Int']>
   criticalDateId?: Maybe<Scalars['Int']>
@@ -275,6 +274,11 @@ export type CommitmentGraphRelatedLinksArgs = {
   where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
   skip?: Maybe<Scalars['Int']>
   take?: Maybe<Scalars['Int']>
+}
+
+export type CommitmentGraphDisplayOrderArgs = {
+  siteId?: Maybe<Scalars['Guid']>
+  webId?: Maybe<Scalars['Guid']>
 }
 
 export type CommitmentLocationGraph = {
@@ -549,11 +553,6 @@ export type DeleteBriefCommitmentInputGraph = {
   siteId: Scalars['Guid']
   listItemId: Scalars['Int']
   commitmentId: Scalars['Int']
-}
-
-export enum DisplayOrderBookType {
-  Blue = 'Blue',
-  Red = 'Red'
 }
 
 export type ElectorateAdviceGraph = {
@@ -1114,6 +1113,9 @@ export type Query = {
     Array<Maybe<PmoHandlingAdviceCommitmentGraph>>
   >
   relatedLinks?: Maybe<Array<Maybe<RelatedLinkGraph>>>
+  siteCommitmentDisplayOrders?: Maybe<
+    Array<Maybe<SiteCommitmentDisplayOrderGraph>>
+  >
 }
 
 export type QueryAgencyArgs = {
@@ -1505,6 +1507,17 @@ export type QueryRelatedLinksArgs = {
   take?: Maybe<Scalars['Int']>
 }
 
+export type QuerySiteCommitmentDisplayOrdersArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+  siteId: Scalars['Guid']
+  webId: Scalars['Guid']
+}
+
 export type RelatedLinkGraph = {
   commitment?: Maybe<CommitmentGraph>
   id: Scalars['Int']
@@ -1611,6 +1624,16 @@ export type SeriesDataGraph = {
 export type SeriesGraph = {
   name: Scalars['String']
   value: Scalars['Float']
+}
+
+export type SiteCommitmentDisplayOrderGraph = {
+  rowVersion: Scalars['String']
+  commitment?: Maybe<CommitmentGraph>
+  id: Scalars['Guid']
+  webId: Scalars['Guid']
+  siteId: Scalars['Guid']
+  commitmentId: Scalars['Int']
+  displayOrder: Scalars['UInt32']
 }
 
 export type StateChartDataGraph = {
@@ -1783,7 +1806,6 @@ export type WhereExpressionGraph = {
 export type ApplyCommitmentDisplayOrderMutationVariables = {
   applyCommitmentDisplayOrder: ApplyCommitmentDisplayOrderGraph
   messageId: Scalars['Guid']
-  conversationId: Scalars['Guid']
 }
 
 export type ApplyCommitmentDisplayOrderMutation = {
@@ -1994,6 +2016,8 @@ export type GetRefinerTagsQuery = { __typename?: 'Query' } & {
 export type CommitmentsSearchQueryVariables = {
   refiner: CommitmentRefinerGraph
   book: BookType
+  webId: Scalars['Guid']
+  siteId: Scalars['Guid']
 }
 
 export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
@@ -2002,7 +2026,7 @@ export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
       Maybe<
         { __typename?: 'CommitmentGraph' } & Pick<
           CommitmentGraph,
-          'id' | 'title' | 'politicalParty' | 'announcedBy'
+          'id' | 'title' | 'politicalParty' | 'announcedBy' | 'displayOrder'
         > & { bookType: CommitmentGraph['book'] } & {
             announcementType: Maybe<
               { __typename?: 'AnnouncementTypeGraph' } & Pick<
@@ -2021,6 +2045,38 @@ export type CommitmentsSearchQuery = { __typename?: 'Query' } & {
                 PortfolioLookupGraph,
                 'id' | 'title'
               >
+            >
+          }
+      >
+    >
+  >
+}
+
+export type GetSiteCommitmentDisplayOrdersQueryVariables = {
+  webId: Scalars['Guid']
+  siteId: Scalars['Guid']
+}
+
+export type GetSiteCommitmentDisplayOrdersQuery = { __typename?: 'Query' } & {
+  siteCommitmentDisplayOrders: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'SiteCommitmentDisplayOrderGraph' } & Pick<
+          SiteCommitmentDisplayOrderGraph,
+          'commitmentId' | 'displayOrder'
+        > & {
+            commitment: Maybe<
+              { __typename?: 'CommitmentGraph' } & Pick<
+                CommitmentGraph,
+                'title'
+              > & {
+                  portfolioLookup: Maybe<
+                    { __typename?: 'PortfolioLookupGraph' } & Pick<
+                      PortfolioLookupGraph,
+                      'title'
+                    >
+                  >
+                }
             >
           }
       >
@@ -2131,12 +2187,10 @@ export const ApplyCommitmentDisplayOrderDocument = gql`
   mutation ApplyCommitmentDisplayOrder(
     $applyCommitmentDisplayOrder: ApplyCommitmentDisplayOrderGraph!
     $messageId: Guid!
-    $conversationId: Guid!
   ) {
     applyCommitmentDisplayOrder(
       applyCommitmentDisplayOrder: $applyCommitmentDisplayOrder
       messageId: $messageId
-      conversationId: $conversationId
     ) {
       id
     }
@@ -2285,13 +2339,19 @@ export class GetRefinerTagsGQL extends Apollo.Query<
   document = GetRefinerTagsDocument
 }
 export const CommitmentsSearchDocument = gql`
-  query CommitmentsSearch($refiner: CommitmentRefinerGraph!, $book: BookType!) {
+  query CommitmentsSearch(
+    $refiner: CommitmentRefinerGraph!
+    $book: BookType!
+    $webId: Guid!
+    $siteId: Guid!
+  ) {
     commitments(refiner: $refiner, book: $book) {
       id
       title
       bookType: book
       politicalParty
       announcedBy
+      displayOrder(siteId: $siteId, webId: $webId)
       announcementType {
         id
         title
@@ -2316,6 +2376,34 @@ export class CommitmentsSearchGQL extends Apollo.Query<
   CommitmentsSearchQueryVariables
 > {
   document = CommitmentsSearchDocument
+}
+export const GetSiteCommitmentDisplayOrdersDocument = gql`
+  query getSiteCommitmentDisplayOrders($webId: Guid!, $siteId: Guid!) {
+    siteCommitmentDisplayOrders(
+      orderBy: { path: "displayOrder" }
+      webId: $webId
+      siteId: $siteId
+    ) {
+      commitmentId
+      displayOrder
+      commitment {
+        title
+        portfolioLookup {
+          title
+        }
+      }
+    }
+  }
+`
+
+@Injectable({
+  providedIn: 'root'
+})
+export class GetSiteCommitmentDisplayOrdersGQL extends Apollo.Query<
+  GetSiteCommitmentDisplayOrdersQuery,
+  GetSiteCommitmentDisplayOrdersQueryVariables
+> {
+  document = GetSiteCommitmentDisplayOrdersDocument
 }
 export const GetHandlingAdvicesDocument = gql`
   query getHandlingAdvices {

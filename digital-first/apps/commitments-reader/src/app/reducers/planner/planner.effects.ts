@@ -95,8 +95,7 @@ export class PlannerEffects {
     concatMap(payload =>
       this.commitmentEventDataService.getExternalEvents(payload).pipe(
         map(data => new LoadExternalEvents(data)),
-        catchError(error =>
-          [new ErrorInPlanner(error)])
+        catchError(error => [new ErrorInPlanner(error)])
       )
     )
   )
@@ -151,15 +150,15 @@ export class PlannerEffects {
             new GetCommitmentEvents({
               permission: payload.permission,
               commitments: payload.commitments
-            }),
-          catchError(error => [
-            new ErrorInPlanner(error),
-            new GetCommitmentEvents({
-              permission: payload.permission,
-              commitments: payload.commitments
             })
-          ])
-        )
+        ),
+        catchError(error => [
+          new ErrorInPlanner(error),
+          new GetCommitmentEvents({
+            permission: payload.permission,
+            commitments: payload.commitments
+          })
+        ])
       )
     )
   )
@@ -169,5 +168,4 @@ export class PlannerEffects {
     ofType(PlannerActionTypes.StoreSelectedExternalEventTypes),
     concatMap(action => [new LoadSelectedExternalEventTypes(action.payload)])
   )
-
 }

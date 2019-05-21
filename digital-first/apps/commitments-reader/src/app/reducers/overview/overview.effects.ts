@@ -17,11 +17,11 @@ import {
   LoadRefinedCommitments,
   GetRefinedCommitmentsFailure
 } from './overview.actions'
-import {
-  CommitmentsSearchGQL} from '../../generated/graphql'
+import { CommitmentsSearchGQL } from '../../generated/graphql'
 import * as fromRoot from '../../reducers'
 import { Store } from '@ngrx/store'
 import { Config } from '../../services/config/config-model'
+import { sortBy } from '@df/utils'
 
 @Injectable()
 export class OverviewEffects {
@@ -36,6 +36,8 @@ export class OverviewEffects {
       const bookType = config.header.bookType
       const selectedRefiners: any = store.refiner.selectedRefiners
       const textRefiner: any = store.refiner.textRefiner
+      const webId: any = config.webId
+      const siteId: any = config.siteId
 
       const selectedRefinerGroup = selectedRefiners.reduce(
         (acc, item) => {
@@ -57,20 +59,28 @@ export class OverviewEffects {
 
       return {
         refiner: selectedRefinerGroup,
-        book: bookType
+        book: bookType,
+        webId: webId,
+        siteId: siteId
       }
     }),
     switchMap(config =>
       this.getRefinedCommitmentsGQL.fetch(config).pipe(
         first(),
-        concatMap(result => [new LoadRefinedCommitments(result)])
+        concatMap(result => {
+          const commitments = result.data.commitments
+          if (commitments.length > 0) {
+            result.data.commitments = commitments.sort((a, b) => {
+              const aDisplayOrder = a.displayOrder ? a.displayOrder : 'null'
+              const bDisplayOrder = b.displayOrder ? b.displayOrder : 'null'
+              return aDisplayOrder < bDisplayOrder ? -1 : 1
+            })
+          }
+          return [new LoadRefinedCommitments(result)]
+        }),
+        catchError(error => [new GetRefinedCommitmentsFailure(error)])
       )
-    ),
-    catchError(error => {
-      // tslint:disable-next-line: no-console
-      console.log(`💥 error => `, error)
-      return of(new GetRefinedCommitmentsFailure(error))
-    })
+    )
   )
 
   constructor(

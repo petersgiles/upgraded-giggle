@@ -25,7 +25,7 @@ export function reducer(
     case CommitmentDisplayOrderActionTypes.LoadCommitmentDisplayOrders:
       return {
         ...state,
-        commitmentDisplayOrders: action.payload
+        commitmentDisplayOrders: action.payload.data.siteCommitmentDisplayOrders
       }
     case CommitmentDisplayOrderActionTypes.SetReOrderedCommitments:
       return {
@@ -38,10 +38,25 @@ export function reducer(
 }
 
 export const commitmengDisplayOrderState = createFeatureSelector<State>(
-  'commitmengDisplayOrder'
+  'commitmentDisplayOrder'
 )
 
 export const getCommitmentDisplayOrdersState = createSelector(
   commitmengDisplayOrderState,
-  state => state.commitmentDisplayOrders
+  (state: State) => state.commitmentDisplayOrders
+)
+
+export const getCommitmentsWithDisplayOrderState = createSelector(
+  getCommitmentDisplayOrdersState,
+  commitmentDisplayOrders =>
+    (commitmentDisplayOrders || []).map(row => ({
+      commitmentId: row.commitment ? row.commitment.id : 0,
+      title: row.commitment ? row.commitment.title : '',
+      displayOrder: row.displayOrder,
+      portfolio: row.commitment
+        ? row.commitment.portfolioLookUp
+          ? row.commitment.portfolioLookUp.title
+          : ''
+        : ''
+    }))
 )

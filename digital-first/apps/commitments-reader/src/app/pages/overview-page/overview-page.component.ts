@@ -18,7 +18,6 @@ export class OverviewPageComponent implements OnInit, OnDestroy {
   rows: CommitmentRow[]
   public columns$: Observable<DataTableColumn[]>
   public count: number
-  public errorSubscription: Subscription
   constructor(
     private router: Router,
     private store: Store<fromOverview.State>
@@ -31,10 +30,6 @@ export class OverviewPageComponent implements OnInit, OnDestroy {
 
     this.filterCommitments$ = this.store
       .pipe(select(fromOverview.selectFilteredCommitmentsState))
-
-    this.errorSubscription = this.store
-      .pipe(select(fromOverview.selectErrorInOverviewState))
-      .subscribe(error => console.log(error))
   }
 
   ngOnDestroy(): void {}

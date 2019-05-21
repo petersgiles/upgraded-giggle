@@ -10,29 +10,36 @@
         class="display-order-list"
         [mdcElevation]="5"
       >
-        <div start class="header" mdcSubtitle2><button style="float:right" mdc-button outlined>Apply Commitment Display Order</button></div>
-     
-        <div
-          class="drag-box"
-          *ngFor="let item of commitmentsWithDisplayOrder$ | async"
-          cdkDrag
-        >
-          <span class="primary-text">{{ item.title }}</span>
-          <ng-container *ngIf="item.portfolio">
-            <span class="secondary-text">({{ item.portfolio }})</span>
-          </ng-container>
+        <div start class="header" mdcSubtitle2>
+          <button style="float:right" mdc-button outlined>
+            Apply Commitment Display Order
+          </button>
         </div>
         <ng-container
-            *ngIf="(commitmentsWithDisplayOrder$ | async)?.length === 0"
+          *ngIf="(commitmentsWithDisplayOrder$ | async)?.length > 0"
+        >
+          <div
+            class="drag-box"
+            *ngFor="let item of commitmentsWithDisplayOrder$ | async"
+            cdkDrag
           >
-            <div cdkDrag class="drag-box ">
-              <span class="primary-text"
-                ><mdc-icon>drag_indicator</mdc-icon>
-                Drag your commitments here to order
-                </span
-              >
-            </div>
-          </ng-container>
+            <span class="primary-text">{{ item.title }}</span>
+            <ng-container *ngIf="item.portfolio">
+              <span class="secondary-text">({{ item.portfolio }})</span>
+            </ng-container>
+          </div>
+        </ng-container>
+
+        <!-- <ng-container
+          *ngIf="(commitmentsWithDisplayOrder$ | async)?.length === 0"
+        >
+          <div cdkDrag class="drag-box ">
+            <span class="primary-text"
+              ><mdc-icon>drag_indicator</mdc-icon>
+              Drag your commitments here to order
+            </span>
+          </div>
+        </ng-container> -->
       </div>
 
       <div

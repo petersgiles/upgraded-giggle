@@ -9,8 +9,14 @@ import { Observable, BehaviorSubject, Subscription } from 'rxjs'
 import { CommitmentRow } from '../../models/commitment.model'
 import { Router } from '@angular/router'
 import * as fromOverview from '../../reducers/overview/overview.reducer'
+import * as fromDisplayOrder from '../../reducers/commitment-display-order/commitment-display-order.reducer'
 import { Store, select } from '@ngrx/store'
-import { moveItemInArray, transferArrayItem, CdkDragDrop } from '@angular/cdk/drag-drop'
+import {
+  moveItemInArray,
+  transferArrayItem,
+  CdkDragDrop
+} from '@angular/cdk/drag-drop'
+import { GetCommitmentDisplayOrders } from '../../reducers/commitment-display-order/commitment-display-order.actions'
 
 @Component({
   selector: 'digital-first-display-order-page',
@@ -19,9 +25,7 @@ import { moveItemInArray, transferArrayItem, CdkDragDrop } from '@angular/cdk/dr
 })
 export class DisplayOrderPageComponent implements OnInit, OnDestroy {
   @ViewChild('autoscroll') autoscroll: ElementRef
-  commitmentsWithDisplayOrder$: BehaviorSubject<
-    CommitmentRow[]
-  > = new BehaviorSubject([])
+  commitmentsWithDisplayOrder$: BehaviorSubject<any[]> = new BehaviorSubject([])
   commitmentsWithoutDisplayOrder$: BehaviorSubject<
     CommitmentRow[]
   > = new BehaviorSubject([])
@@ -29,18 +33,27 @@ export class DisplayOrderPageComponent implements OnInit, OnDestroy {
   filterCommitmentsSubscription: Subscription
   constructor(
     private router: Router,
-    private store: Store<fromOverview.State>
+    private overviewStore: Store<fromOverview.State>,
+    private displayOrderStore: Store<fromDisplayOrder.State>
   ) {}
 
   ngOnInit() {
-    this.filterCommitmentsSubscription = this.store
+    this.displayOrderStore.dispatch(new GetCommitmentDisplayOrders(null))
+    this.filterCommitmentsSubscription = this.overviewStore
       .pipe(select(fromOverview.selectFilteredCommitmentsState))
       .subscribe((data: any) => {
-        this.commitmentsWithDisplayOrder$.next(
-          data.filter(c => c.displayOrder && c.displayOrder > 0)
+        this.commitmentsWithoutDisplayOrder$.next(
+          data.filter(c => !c.displayOrder)
         )
-        this.commitmentsWithoutDisplayOrder$.next(data.filter(c => !c.displayOrder))
       })
+
+    this.filterCommitmentsSubscription.add(
+      this.displayOrderStore
+        .pipe(select(fromDisplayOrder.getCommitmentsWithDisplayOrderState))
+        .subscribe(result => {
+          this.commitmentsWithDisplayOrder$.next(result)
+        })
+    )
   }
   ngOnDestroy(): void {
     this.filterCommitmentsSubscription.unsubscribe()

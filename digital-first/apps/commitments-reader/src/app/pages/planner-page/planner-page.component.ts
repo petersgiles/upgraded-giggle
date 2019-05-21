@@ -1,10 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
-import { Observable, Subscription, of } from 'rxjs'
+import { Observable, Subscription } from 'rxjs'
 import {
   map,
-  concat,
-  concatMap,
-  combineLatest,
   withLatestFrom} from 'rxjs/operators'
 import * as fromPlanner from '../../reducers/planner/planner.reducer'
 import * as fromOverview from '../../reducers/overview/overview.reducer'

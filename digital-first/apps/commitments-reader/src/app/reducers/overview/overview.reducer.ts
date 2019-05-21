@@ -58,7 +58,8 @@ export const selectFilteredCommitmentsState = createSelector(
       title: row.title,
       commitmentType: row.commitmentType ? row.commitmentType.title : '',
       criticalDate: row.criticalDate ? row.criticalDate.title : '',
-      portfolio: row.portfolioLookup ? row.portfolioLookup.title : ''
+      portfolio: row.portfolioLookup ? row.portfolioLookup.title : '',
+      displayOrder: row.displayOrder
     }))
 )
 export const selectErrorInOverviewState = createSelector(
