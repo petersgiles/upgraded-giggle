@@ -8,7 +8,7 @@
     flex-direction: row;
     width: 50%;
     height: 96%;
-    overflow-y: auto;
+    overflow-y: scroll;
     padding-left: 20px;
     .header {
       padding: 10px 20px;
@@ -72,6 +72,7 @@
   .primary-text {
     padding-right: 0.2em;
     font-size: 15px;
+    width: 100%;
   }
   .secondary-text {
     font-family: Roboto, sans-serif;
@@ -82,14 +83,9 @@
     font-weight: 400;
     color: #5d5959;
     letter-spacing: 0.01785714em;
-    text-decoration: inherit;
-    text-transform: inherit;
-    text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    display: block;
     margin-top: 0;
     line-height: normal;
-    display: block;
   }
 }

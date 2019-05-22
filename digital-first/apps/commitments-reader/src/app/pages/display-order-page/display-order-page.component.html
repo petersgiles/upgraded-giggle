@@ -37,10 +37,12 @@
             *ngFor="let item of commitmentsWithDisplayOrder$ | async"
             cdkDrag
           >
-            <span class="primary-text">{{ item.title }}</span>
-            <ng-container *ngIf="item.portfolio">
-              <span class="secondary-text">({{ item.portfolio }})</span>
-            </ng-container>
+            <span class="primary-text">{{ item.title }}
+                <ng-container *ngIf="item.portfolio">
+                    <label class="secondary-text">({{ item.portfolio }})</label>
+                  </ng-container>
+            </span>
+           
           </div>
         </ng-container>
 
@@ -73,12 +75,14 @@
         <div
           class="drag-box"
           *ngFor="let item of commitmentsWithoutDisplayOrder$ | async"
+          cdkDragLockAxis="x"
           cdkDrag
         >
-          <span class="primary-text">{{ item.title }}</span>
-          <ng-container *ngIf="item.portfolio">
-            <span class="secondary-text">({{ item.portfolio }})</span>
-          </ng-container>
+          <span class="primary-text">{{ item.title }}
+              <ng-container *ngIf="item.portfolio">
+                  <label class="secondary-text">({{ item.portfolio }})</label>
+                </ng-container>
+          </span>
         </div>
       </div>
     </div>

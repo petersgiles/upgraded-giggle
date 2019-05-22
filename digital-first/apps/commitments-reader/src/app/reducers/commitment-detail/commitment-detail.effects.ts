@@ -54,7 +54,6 @@ const mapCommitmentDetail = (item): any => {
     announcementType: item.announcementType ? item.announcementType.title : '',
     criticalDate: item.criticalDate ? item.criticalDate.title : '',
     portfolio: item.portfolioLookup ? item.portfolioLookup.title : '',
-    // electorates: this.handleElectorates(item.commitmentLocations)
     pmcHandlingAdvice: mapHandlingadvice(item.pmcHandlingAdviceCommitments),
     pmoHandlingAdvice: mapHandlingadvice(item.pmoHandlingAdviceCommitments)
   }
@@ -180,11 +179,7 @@ export class CommitmentDetailEffects {
             new AppNotification({ message: `PMO Handling Advice Saved` }),
             new ClearAppNotification()
           ]),
-          catchError(error => {
-            // tslint:disable-next-line: no-console
-            console.log(`💥 error => `, error)
-            return of(new UpdatePMOHandlingAdviceFailure(error))
-          })
+          catchError(error => of(new UpdatePMOHandlingAdviceFailure(error)))
         )
     )
   )
@@ -236,13 +231,10 @@ export class CommitmentDetailEffects {
             new SetPMCHandlingAdviceResult({
               handlingAdviceId: config.data.handlingAdviceId
             })
-          ])
+          ]),
+          catchError(error =>
+            of(new UpdatePMCHandlingAdviceFailure(error)))
         )
-    ),
-    catchError(error => {
-      // tslint:disable-next-line: no-console
-      console.log(`💥 error => `, error)
-      return of(new UpdatePMCHandlingAdviceFailure(error))
-    })
+    )
   )
 }
