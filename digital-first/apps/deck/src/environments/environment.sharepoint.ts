@@ -14,7 +14,7 @@ export const environment = {
     }
   },
   host: 'sharepoint',
-  config: '/AppConfig/commitments-reader.txt',
+  config: '/AppConfig/deck.txt',
   datasource: {
     type: 'graph',
     dataServiceUrl: 'https://programs.cloud9.cabnet/graphql'
@@ -22,5 +22,5 @@ export const environment = {
   eventDatasource: 'sharepoint',
   appConfigDataSource: 'sharepoint',
   apiKey: 'KvMAs2tbscsOmzXzyrSfK67okrM=',
-  assetsPath: '../../SiteAssets/apps/commitments-reader/assets'
+  assetsPath: '../../SiteAssets/apps/deck/assets'
 }

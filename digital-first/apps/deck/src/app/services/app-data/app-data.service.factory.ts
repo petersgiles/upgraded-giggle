@@ -9,8 +9,8 @@ const appDataServiceFactory = (
   sharepointlib: SharepointJsomService
 ) => {
   let source = null
-  if (settings.appConfigDataSource) {
-    source = settings.appConfigDataSource
+  if (settings.host) {
+    source = settings.host
   }
 
   switch (source) {

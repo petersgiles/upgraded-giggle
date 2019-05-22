@@ -13,14 +13,11 @@ export const environment = {
       dataServiceUrl: 'http://vm-dev-lbs13/sites/redigb/_api/Web/'
     }
   },
-  host: 'sharepoint',
-  config: '/AppConfig/commitments-reader.txt',
-  datasource: {
-    type: 'graph',
-    dataServiceUrl: 'https://programs.cloud9.cabnet/graphql'
-  },
+  host: 'local',
+  config: '/assets/deck.txt',
+  datasource: null,
   eventDatasource: 'sharepoint',
   appConfigDataSource: 'sharepoint',
   apiKey: 'KvMAs2tbscsOmzXzyrSfK67okrM=',
-  assetsPath: '../../SiteAssets/apps/commitments-reader/assets'
+  assetsPath: '/assets'
 }

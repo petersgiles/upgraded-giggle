@@ -7,7 +7,6 @@ import { catchError, tap, map, concatMap } from 'rxjs/operators'
 
 declare var _spPageContextInfo: any
 
-import { Config, defaults } from '../config-model'
 import { SharepointJsomService } from '@df/sharepoint'
 
 declare var SP: any
@@ -34,7 +33,8 @@ export class SharePointConfigService {
     private http: HttpClient,
     private settings: SettingsService,
     private sharepoint: SharepointJsomService
-  ) {}
+  ) {
+  }
 
   public getConfig(): Observable<any> {
     let jsonURL = this.settings.environment.config

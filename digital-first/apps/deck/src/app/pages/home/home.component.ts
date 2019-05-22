@@ -1,10 +1,6 @@
 import { Component, OnInit, OnDestroy, Injectable } from '@angular/core'
 import {
-  DeckItem,
-  DeckHelper,
-  CardType,
   DialogAreYouSureComponent,
-  DeckItemMedia
 } from '@df/components'
 import { ActivatedRoute, ParamMap, Router } from '@angular/router'
 import { map, first, tap } from 'rxjs/operators'
@@ -19,11 +15,11 @@ import {
   SetActiveParent,
   GoBack,
   GetDeckItems,
-  AddDeckItem,
   EditDeckItem,
   UpdateDeckItem,
   SetSelectedDeckItem
 } from '../../reducers/deck/deck.actions'
+import { CardType, DeckItem } from '../../components/deck';
 
 @Component({
   selector: 'digital-first-home',

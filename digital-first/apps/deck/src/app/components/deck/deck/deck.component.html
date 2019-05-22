@@ -1,0 +1,251 @@
+
+
+<ng-template #cardActions let-card>
+  <div
+    class="df-card__actions df-card--border"
+    *ngIf="
+      card?.cardType == cardType.Parent ||
+      card?.actions?.length > 0 ||
+      card?.hasChildren
+    "
+  >
+    <a
+      *ngFor="let action of card?.actions"
+      mdc-button
+      dense
+      (click)="onAction.emit(action)"
+      >{{ action.title }}</a
+    >
+    <a
+      *ngIf="card?.cardType == cardType.Parent || card?.hasChildren"
+      (click)="onAction.emit(card)"
+      mdc-button
+      dense
+      >More</a
+    >
+    <div class="df-layout-spacer"></div>
+  </div>
+</ng-template>
+<ng-template #cardMenu let-card>
+  <div
+    *ngIf="!readOnly && !selectedCard"
+    class="df-card__menu {{ card?.colour }} transparent"
+  >
+    <a
+      (click)="cardEdit.next(card)"
+      mdc-icon-button
+      dense
+      icon="edit"
+    ></a>
+  </div>
+</ng-template>
+
+<ng-template #cardSupportingText let-card>
+  <div
+    *ngIf="card?.supportingText"
+    class="df-card__supporting-text"
+    [innerHtml]="card?.supportingText"
+  ></div>
+</ng-template>
+
+<ng-template #cardData let-card>
+  <div *ngIf="card?.data" [innerHtml]="card?.data"></div>
+</ng-template>
+
+<ng-template #standardCard let-card>
+  <df-card-title [card]='card'></df-card-title>
+
+  <ng-container
+    *ngTemplateOutlet="cardSupportingText; context: { $implicit: card }"
+  ></ng-container>
+  <ng-container
+    *ngTemplateOutlet="cardActions; context: { $implicit: card }"
+  ></ng-container>
+  <ng-container
+    *ngTemplateOutlet="cardMenu; context: { $implicit: card }"
+  ></ng-container>
+</ng-template>
+
+<ng-template #embedCard let-card>
+    <df-card-title [card]='card'></df-card-title>
+  <ng-container
+    *ngTemplateOutlet="cardData; context: { $implicit: card }"
+  ></ng-container>
+  <ng-container
+    *ngTemplateOutlet="cardMenu; context: { $implicit: card }"
+  ></ng-container>
+</ng-template>
+
+<ng-template #imageCard let-card>
+    <df-card-title [card]='card'></df-card-title>
+  <div class="df-card__media" (click)="navigate(card)">
+    <img class="deck-image" src="{{ card?.media?.url }}" border="0" alt="" />
+  </div>
+  <ng-container
+    *ngTemplateOutlet="cardSupportingText; context: { $implicit: card }"
+  ></ng-container>
+  <ng-container
+    *ngTemplateOutlet="cardActions; context: { $implicit: card }"
+  ></ng-container>
+  <ng-container
+    *ngTemplateOutlet="cardMenu; context: { $implicit: card }"
+  ></ng-container>
+</ng-template>
+
+<ng-template #parentCard let-card>
+    <df-card-title [card]='card'></df-card-title>
+  <ng-container
+    *ngTemplateOutlet="cardSupportingText; context: { $implicit: card }"
+  ></ng-container>
+  <ng-container
+    *ngTemplateOutlet="cardActions; context: { $implicit: card }"
+  ></ng-container>
+  <ng-container
+    *ngTemplateOutlet="cardMenu; context: { $implicit: card }"
+  ></ng-container>
+</ng-template>
+
+<ng-template #audioCard let-card>
+    <df-card-title [card]='card'></df-card-title>
+  <ng-container
+    *ngTemplateOutlet="cardSupportingText; context: { $implicit: card }"
+  ></ng-container>
+  <audio name="media" controls style="width: 100%">
+    <source [attr.src]="card?.media?.url" [attr.type]="card?.media?.type" />
+    Your browser does not support the audio tag.
+  </audio>
+  <ng-container
+    *ngTemplateOutlet="cardMenu; context: { $implicit: card }"
+  ></ng-container>
+</ng-template>
+
+<ng-template #videoCard let-card>
+    <df-card-title [card]='card'></df-card-title>
+  <video controls>
+    <source [attr.src]="card?.media?.url" />
+    Your browser does not support the video tag.
+  </video>
+  <ng-container
+    *ngTemplateOutlet="cardMenu; context: { $implicit: card }"
+  ></ng-container>
+</ng-template>
+
+<ng-template #markdownCard let-card>
+    <df-card-title [card]='card'></df-card-title>
+  <ng-container
+    *ngTemplateOutlet="cardSupportingText; context: { $implicit: card }"
+  ></ng-container>
+  <ng-container
+    *ngTemplateOutlet="cardActions; context: { $implicit: card }"
+  ></ng-container>
+  <ng-container
+    *ngTemplateOutlet="cardMenu; context: { $implicit: card }"
+  ></ng-container>
+</ng-template>
+
+<ng-template #refinerCard let-card>
+    <df-card-title [card]='card'></df-card-title>
+  <ng-container
+    *ngTemplateOutlet="cardSupportingText; context: { $implicit: card }"
+  ></ng-container>
+  <ng-container
+    *ngTemplateOutlet="cardActions; context: { $implicit: card }"
+  ></ng-container>
+  <ng-container
+    *ngTemplateOutlet="cardMenu; context: { $implicit: card }"
+  ></ng-container>
+</ng-template>
+
+<ng-template #chartCard let-card>
+    <df-card-title [card]='card'></df-card-title>
+  <canvas
+    baseChart
+    width="400"
+    height="400"
+    [datasets]="card?.data?.chartData"
+    [labels]="card?.data?.chartLabels"
+    [options]="card?.data?.chartOptions"
+    [colors]="card?.data?.chartColors"
+    [legend]="card?.data?.chartLegend"
+    [chartType]="card?.data?.chartType"
+  ></canvas>
+  <ng-container
+    *ngTemplateOutlet="cardSupportingText; context: { $implicit: card }"
+  ></ng-container>
+  <ng-container
+    *ngTemplateOutlet="cardActions; context: { $implicit: card }"
+  ></ng-container>
+  <ng-container
+    *ngTemplateOutlet="cardMenu; context: { $implicit: card }"
+  ></ng-container>
+</ng-template>
+
+<section class="deck df-grid section--center">
+  <ng-container *ngFor="let card of cards">
+    <div
+      *ngIf="selectedCard?.id === card.id"
+      class="df-card df-cell df-cell--{{ card?.size }}-col df-shadow--4dp"
+    >
+      <ng-container
+        *ngTemplateOutlet="editCard; context: { $implicit: selectedCard }"
+      ></ng-container>
+    </div>
+
+    <div
+      *ngIf="selectedCard?.id !== card.id"
+      [ngSwitch]="card.cardType"
+      class="df-card df-cell df-cell--{{ card?.size }}-col df-shadow--4dp"
+    >
+      <ng-container *ngSwitchCase="cardType.Image">
+        <ng-container
+          *ngTemplateOutlet="imageCard; context: { $implicit: card }"
+        ></ng-container>
+      </ng-container>
+      <ng-container *ngSwitchCase="cardType.Parent">
+        <ng-container
+          *ngTemplateOutlet="parentCard; context: { $implicit: card }"
+        ></ng-container>
+      </ng-container>
+      <ng-container *ngSwitchCase="cardType.Chart">
+        <ng-container
+          *ngTemplateOutlet="chartCard; context: { $implicit: card }"
+        ></ng-container>
+      </ng-container>
+      <ng-container *ngSwitchCase="cardType.Markdown">
+        <ng-container
+          *ngTemplateOutlet="markdownCard; context: { $implicit: card }"
+        ></ng-container>
+      </ng-container>
+      <ng-container *ngSwitchCase="cardType.Embed">
+        <ng-container
+          *ngTemplateOutlet="embedCard; context: { $implicit: card }"
+        ></ng-container>
+      </ng-container>
+      <ng-container *ngSwitchCase="cardType.Audio">
+        <ng-container
+          *ngTemplateOutlet="audioCard; context: { $implicit: card }"
+        ></ng-container>
+      </ng-container>
+      <ng-container *ngSwitchCase="cardType.Video">
+        <ng-container
+          *ngTemplateOutlet="videoCard; context: { $implicit: card }"
+        ></ng-container>
+      </ng-container>
+      <ng-container *ngSwitchCase="cardType.Refiner">
+        <ng-container
+          *ngTemplateOutlet="refinerCard; context: { $implicit: card }"
+        ></ng-container>
+      </ng-container>
+      <ng-container *ngSwitchDefault>
+        <ng-container
+          *ngTemplateOutlet="standardCard; context: { $implicit: card }"
+        ></ng-container>
+      </ng-container>
+    </div>
+  </ng-container>
+  <div *ngIf="!selectedCard && !readOnly" class="df-card__supporting-text">
+    <button mdc-button dense (click)="handleAddNewCard()">
+      Create New Card
+    </button>
+  </div>
+</section>

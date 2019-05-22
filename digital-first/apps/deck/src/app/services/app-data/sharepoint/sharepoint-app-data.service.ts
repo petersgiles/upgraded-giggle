@@ -5,7 +5,7 @@ import {
   SPAppUserProfile,
   fromLookup
 } from '@df/sharepoint'
-import { concatMap, tap, map } from 'rxjs/operators'
+import { concatMap } from 'rxjs/operators'
 import { DataResult, GroupPermissionsResult } from '../../../models'
 
 export const mapGroupPermission = (item): any => ({

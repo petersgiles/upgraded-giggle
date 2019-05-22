@@ -41,11 +41,13 @@ import { environment } from '../environments/environment'
 import { RouterStateSerializer } from '@ngrx/router-store'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 import { HttpClientModule } from '@angular/common/http'
-import { configServiceProvider } from './services/config/config.service.factory';
-import { appDataServiceProvider } from './services/app-data/app-data.service.factory';
-import { SettingsService } from './services/settings.service';
+import { configServiceProvider } from './services/config/config.service.factory'
+import { appDataServiceProvider } from './services/app-data/app-data.service.factory'
+import { deckDataServiceProvider } from './reducers/deck/deck-data.service.factory'
+import { SettingsService } from './services/settings.service'
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 
-const COMPONENTS = [AppComponent, HomeComponent, DialogAreYouSureComponent]
+const COMPONENTS = [AppComponent, HomeComponent, UserProfileComponent,  DialogAreYouSureComponent]
 
 const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
 
@@ -58,7 +60,6 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     HttpClientModule,
     ReactiveFormsModule,
     NxModule.forRoot(),
-    DeckModule,
     DfLoggingModule,
     DfComponentsModule,
     DfDatatableModule,
@@ -74,7 +75,8 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     DfPipesModule,
     AppRoutingModule,
     DragDropModule,
-
+    DeckModule,
+    
     StoreModule.forRoot(reducers, {
       metaReducers: metaReducers
     }),
@@ -97,8 +99,8 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
       multi: true
     },
     appDataServiceProvider,
-   // SharePointAppDataService,
     configServiceProvider,
+    deckDataServiceProvider,
     SharepointJsomService,
     DateFormatPipe,
     { provide: TitleLayoutService, useClass: AppFullLayoutService },

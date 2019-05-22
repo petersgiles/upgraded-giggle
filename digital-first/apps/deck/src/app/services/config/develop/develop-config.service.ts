@@ -12,10 +12,13 @@ import { Config, defaults } from '../config-model'
 })
 export class DevelopConfigService {
 
-  constructor(private http: HttpClient, private settings: SettingsService) { }
+  constructor(private http: HttpClient, private settings: SettingsService) {
+    console.log('DevelopConfigService')
+   }
 
   public getConfig(): Observable<any> {
     return this.http.get(this.settings.environment.config).pipe(
+      // tslint:disable-next-line: no-unnecessary-callback-wrapper
       catchError((err: HttpErrorResponse) => throwError(err))
     )
   }
