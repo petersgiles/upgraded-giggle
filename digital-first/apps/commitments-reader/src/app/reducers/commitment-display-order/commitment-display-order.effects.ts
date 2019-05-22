@@ -16,7 +16,8 @@ import {
   first,
   catchError,
   delayWhen,
-  switchMap
+  switchMap,
+  delay
 } from 'rxjs/operators'
 import {
   GetSiteCommitmentDisplayOrdersGQL,
@@ -98,11 +99,14 @@ export class CommitmentDisplayOrderEffects {
       this.applyCommitmentDisplayOrder
         .mutate(config, { fetchPolicy: 'no-cache' })
         .pipe(
-          delayWhen(_ => interval(2500)),
+          delay(2500),
           concatMap(_ => [
             new GetCommitmentDisplayOrders(null),
-            new GetRefinedCommitments({ fetchPolicy: { fetchPolicy: 'no-cache' } }),
-            new HideSpinner()
+            new GetRefinedCommitments(null),
+            new HideSpinner(),
+            new AppNotification({
+              message: 'Commitment Display Order applied'
+            })
           ]),
           this.catchError()
         )

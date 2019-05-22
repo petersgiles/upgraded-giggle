@@ -55,31 +55,30 @@ export class OverviewEffects {
       }
 
       return {
-        data: {
-          refiner: selectedRefinerGroup,
-          book: bookType,
-          webId: webId,
-          siteId: siteId
-        },
-        fetchPolicy: fetchPolicy
+        refiner: selectedRefinerGroup,
+        book: bookType,
+        webId: webId,
+        siteId: siteId
       }
     }),
     switchMap(config =>
-      this.getRefinedCommitmentsGQL.fetch(config.data, config.fetchPolicy).pipe(
-        first(),
-        concatMap(result => {
-          const commitments = result.data.commitments
-          if (commitments.length > 0) {
-            result.data.commitments = commitments.sort((a, b) => {
-              const aDisplayOrder = a.displayOrder ? a.displayOrder : 'null'
-              const bDisplayOrder = b.displayOrder ? b.displayOrder : 'null'
-              return aDisplayOrder < bDisplayOrder ? -1 : 1
-            })
-          }
-          return [new LoadRefinedCommitments(result)]
-        }),
-        catchError(error => [new GetRefinedCommitmentsFailure(error)])
-      )
+      this.getRefinedCommitmentsGQL
+        .fetch(config, { fetchPolicy: 'no-cache' })
+        .pipe(
+          first(),
+          concatMap(result => {
+            const commitments = result.data.commitments
+            if (commitments.length > 0) {
+              result.data.commitments = commitments.sort((a, b) => {
+                const aDisplayOrder = a.displayOrder ? a.displayOrder : 'null'
+                const bDisplayOrder = b.displayOrder ? b.displayOrder : 'null'
+                return aDisplayOrder < bDisplayOrder ? -1 : 1
+              })
+            }
+            return [new LoadRefinedCommitments(result)]
+          }),
+          catchError(error => [new GetRefinedCommitmentsFailure(error)])
+        )
     )
   )
 
