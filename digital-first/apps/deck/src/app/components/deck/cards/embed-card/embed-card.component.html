@@ -1,0 +1,8 @@
+<digital-first-card-title [card]="card"></digital-first-card-title>
+<digital-first-card-data [card]="card"></digital-first-card-data>
+<digital-first-card-menu
+  [card]="card"
+  [readOnly]="readOnly"
+  [selected]="selectedCard"
+  (onEdit)="onEdit.emit($event)"
+></digital-first-card-menu>

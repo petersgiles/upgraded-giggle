@@ -1,6 +1,6 @@
 <div class="app-page">
   <section> 
-    <df-deck
+    <digital-first-deck
       [cardTypes]="cardTypes$ | async"
       [cards]="deckItems$ | async" 
       [briefs]="briefs$ | async"
@@ -8,8 +8,9 @@
       [eligibleParents]="eligibleParents$ | async"
       [readOnly]="false"
       (onSubmitted)="handleSubmitted($event)"
+      (onCancelled)="handleCancelled($event)"
       (onAction)="handleAction($event)"
     >
-    </df-deck>
+    </digital-first-deck>
   </section>
 </div>

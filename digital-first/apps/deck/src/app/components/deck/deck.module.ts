@@ -19,8 +19,43 @@ import {
 
 import { NgxWigModule } from 'ngx-wig'
 import { CardTitleComponent } from './parts/card-title/card-title.component'
+import {
+  CardActionsComponent,
+  CardDataComponent,
+  CardSupportingTextComponent,
+  CardMenuComponent
+} from './parts'
+import { EditCardComponent } from './editor/edit-card/edit-card.component'
+import {
+  StandardCardComponent,
+  RefinerCardComponent,
+  ParentCardComponent,
+  MarkdownCardComponent,
+  EmbedCardComponent,
+  ChartCardComponent,
+  AudioCardComponent,
+  ImageCardComponent,
+  VideoCardComponent
+} from './cards'
 
-const COMPONENTS = [DeckComponent, CardTitleComponent]
+const COMPONENTS = [
+  DeckComponent,
+  EditCardComponent,
+  CardTitleComponent,
+  CardActionsComponent,
+  CardDataComponent,
+  CardSupportingTextComponent,
+  CardMenuComponent,
+  StandardCardComponent,
+  RefinerCardComponent,
+  ParentCardComponent,
+  MarkdownCardComponent,
+  EmbedCardComponent,
+  ChartCardComponent,
+  AudioCardComponent,
+  ImageCardComponent,
+  VideoCardComponent
+]
 
 @NgModule({
   imports: [
@@ -43,4 +78,4 @@ const COMPONENTS = [DeckComponent, CardTitleComponent]
   declarations: COMPONENTS,
   exports: COMPONENTS
 })
-export class DeckModule {}
+export class DigitalFirstDeckModule {}

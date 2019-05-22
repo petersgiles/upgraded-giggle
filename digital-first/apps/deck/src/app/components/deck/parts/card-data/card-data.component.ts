@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core'
+import { DeckItem } from '../../models/deck-item-model'
 
 @Component({
   selector: 'digital-first-card-data',
@@ -8,6 +9,15 @@ import { Component, OnInit } from '@angular/core';
 export class CardDataComponent implements OnInit {
 
   constructor() { }
+
+  @Input()
+  card: DeckItem
+
+  @Input()
+  readOnly: boolean
+
+  @Input()
+  selected: boolean
 
   ngOnInit() {
   }

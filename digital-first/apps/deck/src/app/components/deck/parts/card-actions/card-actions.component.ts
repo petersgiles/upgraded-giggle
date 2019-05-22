@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core'
+import { DeckItem } from '../../models/deck-item-model'
+import { CardType } from '../../models/card-type-enum'
 
 @Component({
   selector: 'digital-first-card-actions',
@@ -6,10 +8,19 @@ import { Component, OnInit } from '@angular/core';
   styles: []
 })
 export class CardActionsComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
+  // Leave this it's the weird way you have to do enums in the template
+  public cardType = CardType
 
-  ngOnInit() {
-  }
+  @Input()
+  card: DeckItem
 
+  @Input()
+  readOnly: boolean
+
+  @Input()
+  selected: boolean
+
+  ngOnInit() {}
 }

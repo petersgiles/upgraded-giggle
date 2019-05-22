@@ -1,3 +1,11 @@
-<p>
-  card-menu works!
-</p>
+<div
+*ngIf="!readOnly && !selected"
+class="df-card__menu {{ card?.colour }} transparent"
+>
+<a
+  (click)="handleEdit()"
+  mdc-icon-button
+  dense
+  icon="edit"
+></a>
+</div>

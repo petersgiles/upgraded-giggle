@@ -2,11 +2,11 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { DeckItem } from '../../models/deck-item-model'
 
 @Component({
-  selector: 'digital-first-card-menu',
-  templateUrl: './card-menu.component.html',
+  selector: 'digital-first-refiner-card',
+  templateUrl: './refiner-card.component.html',
   styles: []
 })
-export class CardMenuComponent implements OnInit {
+export class RefinerCardComponent implements OnInit {
   constructor() {}
 
   @Input()

@@ -91,7 +91,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.store.dispatch(new UpdateDeckItem(deckItem))
   }
 
-  handleCancel($event) {
+  handleCancelled($event) {
     // tslint:disable-next-line: no-console
     console.log(`👹 handleCancel `, $event)
     this.store.dispatch(new SetSelectedDeckItem({id: null}))

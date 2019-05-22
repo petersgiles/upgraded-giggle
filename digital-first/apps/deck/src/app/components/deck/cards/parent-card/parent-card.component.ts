@@ -2,13 +2,14 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { DeckItem } from '../../models/deck-item-model'
 
 @Component({
-  selector: 'digital-first-card-menu',
-  templateUrl: './card-menu.component.html',
+  selector: 'digital-first-parent-card',
+  templateUrl: './parent-card.component.html',
   styles: []
 })
-export class CardMenuComponent implements OnInit {
-  constructor() {}
+export class ParentCardComponent implements OnInit {
 
+  constructor() { }
+  
   @Input()
   card: DeckItem
 
@@ -25,5 +26,7 @@ export class CardMenuComponent implements OnInit {
     this.onEdit.emit(this.card)
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
+
 }

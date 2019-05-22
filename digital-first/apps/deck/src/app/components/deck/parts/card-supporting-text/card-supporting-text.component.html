@@ -1,3 +1,5 @@
-<p>
-  card-supporting-text works!
-</p>
+<div
+*ngIf="card?.supportingText"
+class="df-card__supporting-text"
+[innerHtml]="card?.supportingText"
+></div>
