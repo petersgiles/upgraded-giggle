@@ -12,15 +12,23 @@
         [mdcElevation]="5"
       >
         <div start class="header" mdcSubtitle2>
-          <button
-            style="width:100%"
-            mdc-button
-            outlined
-            (click)="handleApplyCommitmentDisplayOrders()"
-          >
-            Apply Commitment Display Order
-          </button>
+          <ng-container *ngIf="(orderChanged$ | async) === true">
+            <button
+              class="primary"
+              mdc-button
+              primary
+              (click)="handleApplyCommitmentDisplayOrders()"
+            >
+              Apply Commitment Display Order
+            </button>
+          </ng-container>
+          <ng-container *ngIf="(orderChanged$ | async) === false">
+            <button mdc-button outlined disabled>
+              Apply Commitment Display Order
+            </button>
+          </ng-container>
         </div>
+
         <ng-container
           *ngIf="(commitmentsWithDisplayOrder$ | async)?.length > 0"
         >

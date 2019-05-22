@@ -8,12 +8,14 @@ import {
 export interface State {
   commitmentDisplayOrders: any[]
   reOrderedCommitmentIds: any[]
+  displayOrderListChanged: boolean
   errors: NotificationMessage[]
 }
 
 export const initialState: State = {
   commitmentDisplayOrders: [],
   reOrderedCommitmentIds: [],
+  displayOrderListChanged: false,
   errors: null
 }
 
@@ -31,6 +33,11 @@ export function reducer(
       return {
         ...state,
         reOrderedCommitmentIds: action.payload
+      }
+    case CommitmentDisplayOrderActionTypes.SetDisplayOrderListChanged:
+      return {
+        ...state,
+        displayOrderListChanged: action.payload
       }
     case CommitmentDisplayOrderActionTypes.GetCommitmentDisplayOrdersFailure:
       return {
@@ -81,4 +88,9 @@ export const getCommitmentsWithDisplayOrderState = createSelector(
           : ''
         : ''
     }))
+)
+
+export const getDisplayOrderListChangedState = createSelector(
+  commitmengDisplayOrderState,
+  (state: State) => state.displayOrderListChanged
 )

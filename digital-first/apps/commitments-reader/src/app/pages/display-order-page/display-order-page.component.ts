@@ -5,7 +5,7 @@ import {
   ViewChild,
   ElementRef
 } from '@angular/core'
-import { Observable, BehaviorSubject, Subscription } from 'rxjs'
+import { Observable, BehaviorSubject, Subscription, of } from 'rxjs'
 import { CommitmentRow } from '../../models/commitment.model'
 import { Router } from '@angular/router'
 import * as fromOverview from '../../reducers/overview/overview.reducer'
@@ -19,7 +19,8 @@ import {
 import {
   GetCommitmentDisplayOrders,
   SetReOrderedCommitments,
-  ApplyCommitmentDisplayOrders
+  ApplyCommitmentDisplayOrders,
+  SetDisplayOrderListChanged
 } from '../../reducers/commitment-display-order/commitment-display-order.actions'
 
 @Component({
@@ -33,15 +34,18 @@ export class DisplayOrderPageComponent implements OnInit, OnDestroy {
   commitmentsWithoutDisplayOrder$: BehaviorSubject<
     CommitmentRow[]
   > = new BehaviorSubject([])
-
+  orderChanged$: Observable<boolean> = of(false)
   filterCommitmentsSubscription: Subscription
   constructor(
-    private router: Router,
     private overviewStore: Store<fromOverview.State>,
     private displayOrderStore: Store<fromDisplayOrder.State>
   ) {}
 
   ngOnInit() {
+    this.displayOrderStore.dispatch(new SetDisplayOrderListChanged(false))
+    this.orderChanged$ = this.displayOrderStore.pipe(
+      select(fromDisplayOrder.getDisplayOrderListChangedState)
+    )
     this.displayOrderStore.dispatch(new GetCommitmentDisplayOrders(null))
     this.filterCommitmentsSubscription = this.overviewStore
       .pipe(select(fromOverview.selectFilteredCommitmentsState))
@@ -80,6 +84,7 @@ export class DisplayOrderPageComponent implements OnInit, OnDestroy {
         this.displayOrderStore.dispatch(
           new SetReOrderedCommitments(reOrderedCommitmentIds)
         )
+        this.displayOrderStore.dispatch(new SetDisplayOrderListChanged(true))
       } else if (event.container.id === 'noneOrderContainer') {
         return
       }
@@ -101,6 +106,7 @@ export class DisplayOrderPageComponent implements OnInit, OnDestroy {
       this.displayOrderStore.dispatch(
         new SetReOrderedCommitments(reOrderedCommitmentIds)
       )
+      this.displayOrderStore.dispatch(new SetDisplayOrderListChanged(true))
     }
   }
 

@@ -7,7 +7,8 @@ import {
   SetReOrderedCommitments,
   CommitmentDisplayOrderActions,
   LoadCommitmentDisplayOrders,
-  GetCommitmentDisplayOrders
+  GetCommitmentDisplayOrders,
+  SetDisplayOrderListChanged
 } from './commitment-display-order.actions'
 import {
   map,
@@ -15,7 +16,6 @@ import {
   withLatestFrom,
   first,
   catchError,
-  delayWhen,
   switchMap,
   delay
 } from 'rxjs/operators'
@@ -29,7 +29,6 @@ import {
   ClearAppNotification,
   HideSpinner
 } from '../app/app.actions'
-import { interval } from 'rxjs'
 import { GetRefinedCommitments } from '../overview/overview.actions'
 
 @Injectable()
@@ -101,11 +100,12 @@ export class CommitmentDisplayOrderEffects {
         .pipe(
           delay(2500),
           concatMap(_ => [
+            new SetDisplayOrderListChanged(false),
             new GetCommitmentDisplayOrders(null),
             new GetRefinedCommitments(null),
             new HideSpinner(),
             new AppNotification({
-              message: 'Commitment Display Order applied'
+              message: 'Commitment Display Order Updated'
             })
           ]),
           this.catchError()
