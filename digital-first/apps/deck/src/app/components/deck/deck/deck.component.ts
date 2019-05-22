@@ -36,16 +36,15 @@ const defaultCard = {
   styleUrls: ['./deck.component.scss']
 })
 export class DeckComponent implements OnInit, OnDestroy {
-  public selectedCard: DeckItem
 
   @Input()
   public readOnly = true
 
   @Input()
-  public allowMutate = true
+  public cards: DeckItem[]
 
   @Input()
-  public cards: DeckItem[]
+  public selected: DeckItem
 
   @Input()
   public briefs: Brief[]
@@ -68,15 +67,15 @@ export class DeckComponent implements OnInit, OnDestroy {
   @Output()
   public onCancelled: EventEmitter<DeckItem> = new EventEmitter()
 
+  @Output()
+  public onEdit: EventEmitter<DeckItem> = new EventEmitter()
+
   public webSafeColours$: BehaviorSubject<any> = new BehaviorSubject(
     webSafeColours
   )
 
-  private selectedCardSubscription: Subscription
-  public cardEdit: Subject<any> = new Subject<any>()
+
   public showEditSupportingText = true
-
-
   public currrentCardColour: any
 
   // Leave this it's the weird way you have to do enums in the template
@@ -84,37 +83,18 @@ export class DeckComponent implements OnInit, OnDestroy {
 
   constructor() {}
 
-  public ngOnInit() {
-    this.selectedCardSubscription = this.cardEdit
-      .pipe(
-        debounceTime(100),
-        distinctUntilChanged()
-      )
-      .subscribe((currentCard: DeckItem) => {
-        this.selectedCard = currentCard
-        if (currentCard) {
+  public ngOnInit() {}
 
-        }
-      })
-  }
-
-  public ngOnDestroy(): void {
-    this.selectedCardSubscription.unsubscribe()
-  }
+  public ngOnDestroy(): void {}
 
   // EDITING THE DECK
-
-  public handleCancelEdit($event) {
-    console.log(`handleCancelEdit`, $event)
-    this.cardEdit.next(null)
-  }
 
   public handleAddNewCard(): void {
     const newCard = JSON.parse(JSON.stringify(defaultCard))
     newCard.parent = this.parent
     this.cards.push(newCard)
-    this.cardEdit.next(newCard)
   }
+
   // USING THE DECK
 
   public navigate(card: DeckItem) {

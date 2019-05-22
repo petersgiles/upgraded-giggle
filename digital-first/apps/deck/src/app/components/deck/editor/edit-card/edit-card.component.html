@@ -1,4 +1,4 @@
-<form [formGroup]="cardForm" (ngSubmit)="handleSubmit(card)">
+<form [formGroup]="cardForm" (ngSubmit)="handleSubmit(selected)">
   <div class="df-card__title {{ cardForm.get('colour')?.value }}">
     <h2 class="df-card__title-text">{{ cardForm.get('title')?.value  }}</h2>
   </div>

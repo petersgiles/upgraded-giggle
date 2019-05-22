@@ -4,7 +4,15 @@ import { DeckItem } from '../../models/deck-item-model'
 @Component({
   selector: 'digital-first-chart-card',
   templateUrl: './chart-card.component.html',
-  styles: []
+  styles: [
+    `
+    :host {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    `
+  ]
 })
 export class ChartCardComponent implements OnInit {
 

@@ -4,7 +4,15 @@ import { DeckItem } from '../../models/deck-item-model'
 @Component({
   selector: 'digital-first-video-card',
   templateUrl: './video-card.component.html',
-  styles: []
+  styles: [
+    `
+    :host {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    `
+  ]
 })
 export class VideoCardComponent implements OnInit {
   constructor() {}

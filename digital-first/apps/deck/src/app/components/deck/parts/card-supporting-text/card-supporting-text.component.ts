@@ -4,7 +4,15 @@ import { DeckItem } from '../../models/deck-item-model'
 @Component({
   selector: 'digital-first-card-supporting-text',
   templateUrl: './card-supporting-text.component.html',
-  styles: []
+  styles: [
+    `
+    :host {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    `
+  ]
 })
 export class CardSupportingTextComponent implements OnInit {
 

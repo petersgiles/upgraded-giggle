@@ -4,7 +4,15 @@ import { DeckItem } from '../../models/deck-item-model'
 @Component({
   selector: 'digital-first-standard-card',
   templateUrl: './standard-card.component.html',
-  styles: []
+  styles: [
+    `
+    :host {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    `
+  ]
 })
 export class StandardCardComponent implements OnInit {
 

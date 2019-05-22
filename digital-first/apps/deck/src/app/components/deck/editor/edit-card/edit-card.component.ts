@@ -3,7 +3,7 @@ import { DeckItem } from '../../models/deck-item-model'
 import { FormGroup, Validators, FormArray, FormBuilder } from '@angular/forms'
 import { CardType } from '../../models/card-type-enum'
 import { clamp } from '../../../../utils'
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators'
 
 const actionGroupItem = {
   title: [''],
@@ -17,7 +17,11 @@ const actionGroupItem = {
 })
 export class EditCardComponent implements OnInit {
   @Input()
+  cardTypes
+
+  @Input()
   cards: DeckItem[]
+
   _selected: any
 
   @Input()
@@ -71,17 +75,19 @@ export class EditCardComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {}
 
+  public getSize() {
+    return `df-cell--${this.cardForm.get('size').value}-col`
+  }
+
   ngOnInit() {
-
-    this.cardForm.get('size').valueChanges.subscribe(value => {
-      if (this._selected) {
-        this._selected.size = clamp(value, 1, 12)
-      }
-    })
-
-    this.cardForm.get('cardType').valueChanges.subscribe(value => {
-      this.handleCardType(value)
-    })
+    // this.cardForm.get('size').valueChanges.subscribe(value => {
+    //   if (this._selected) {
+    //     this._selected.size = clamp(value, 1, 12)
+    //   }
+    // })
+    // this.cardForm.get('cardType').valueChanges.subscribe(value => {
+    //   this.handleCardType(value)
+    // })
   }
 
   public handleAddAction(): void {

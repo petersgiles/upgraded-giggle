@@ -2,11 +2,13 @@
   <section> 
     <digital-first-deck
       [cardTypes]="cardTypes$ | async"
+      [selected]="selected$ | async" 
       [cards]="deckItems$ | async" 
       [briefs]="briefs$ | async"
       [parent]="parent$ | async"
       [eligibleParents]="eligibleParents$ | async"
       [readOnly]="false"
+      (onEdit)="handleEdit($event)"
       (onSubmitted)="handleSubmitted($event)"
       (onCancelled)="handleCancelled($event)"
       (onAction)="handleAction($event)"

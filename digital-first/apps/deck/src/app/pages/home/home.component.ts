@@ -36,7 +36,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   public eligibleParents$: Observable<{ id: string; title: string }[]>
   public deckItems$: Observable<DeckItem[]>
   public briefs$: Observable<{id: string, name: string}[]>
-  public selectedCardSubscription$: Subscription
+
+  public selected$: Observable<any>;
   // tslint:disable-next-line:no-empty
   constructor(
     private route: ActivatedRoute,
@@ -70,25 +71,23 @@ export class HomeComponent implements OnInit, OnDestroy {
       tap(result => console.log(`👹 `, result))
     )
 
-    this.selectedCardSubscription$ = this.store
-      .pipe(
-        select(fromDeck.selectSelectedCardState),
-        // tslint:disable-next-line: no-console
-        tap(result => console.log(`👹 `, result))
-      )
-      .subscribe(result => this.selectedCard = result)
+    this.selected$ = this.store
+    .pipe(
+      select(fromDeck.selectSelectedCardState),
+      // tslint:disable-next-line: no-console
+      tap(result => console.log(`👹 `, result))
+    )
 
     this.store.dispatch(new GetDeckItems({ parent: null }))
   }
 
-  ngOnDestroy(): void {
-    this.selectedCardSubscription$.unsubscribe()
-  }
+  ngOnDestroy(): void {}
 
   handleSubmitted(deckItem: DeckItem) {
     // tslint:disable-next-line: no-console
     console.log(`👹 handleSubmitted `, deckItem)
     this.store.dispatch(new UpdateDeckItem(deckItem))
+    this.store.dispatch(new SetSelectedDeckItem({id: null}))
   }
 
   handleCancelled($event) {

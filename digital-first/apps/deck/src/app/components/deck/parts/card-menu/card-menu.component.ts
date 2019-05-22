@@ -21,9 +21,5 @@ export class CardMenuComponent implements OnInit {
   @Output()
   onEdit: EventEmitter<DeckItem> = new EventEmitter()
 
-  handleEdit() {
-    this.onEdit.emit(this.card)
-  }
-
   ngOnInit() {}
 }
