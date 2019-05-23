@@ -9,10 +9,7 @@ export interface MapPoint{
   title: string
 }
 
-export interface HandlingAdvices{
-  value: any
-  label: string
-}
+
 
 export interface Commitment {
   id: number,

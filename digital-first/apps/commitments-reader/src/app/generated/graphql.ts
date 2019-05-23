@@ -53,9 +53,7 @@ export type AnnouncementTypeGraphCommitmentsArgs = {
 export type ApplyCommitmentDisplayOrderGraph = {
   webId: Scalars['Guid']
   siteId: Scalars['Guid']
-  book?: Maybe<DisplayOrderBookType>
-  parent?: Maybe<Scalars['UInt32']>
-  target: Scalars['UInt32']
+  orderedCommitmentIds: Array<Scalars['Int']>
 }
 
 export type AppropriationGraph = {
@@ -193,6 +191,7 @@ export type CommitmentGraph = {
   announcementType?: Maybe<AnnouncementTypeGraph>
   portfolioLookup?: Maybe<PortfolioLookupGraph>
   criticalDate?: Maybe<CriticalDateGraph>
+  displayOrder?: Maybe<Scalars['UInt32']>
   date?: Maybe<Scalars['DateTimeOffset']>
   announcementTypeId?: Maybe<Scalars['Int']>
   criticalDateId?: Maybe<Scalars['Int']>
@@ -275,6 +274,11 @@ export type CommitmentGraphRelatedLinksArgs = {
   where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
   skip?: Maybe<Scalars['Int']>
   take?: Maybe<Scalars['Int']>
+}
+
+export type CommitmentGraphDisplayOrderArgs = {
+  siteId?: Maybe<Scalars['Guid']>
+  webId?: Maybe<Scalars['Guid']>
 }
 
 export type CommitmentLocationGraph = {
@@ -549,11 +553,6 @@ export type DeleteBriefCommitmentInputGraph = {
   siteId: Scalars['Guid']
   listItemId: Scalars['Int']
   commitmentId: Scalars['Int']
-}
-
-export enum DisplayOrderBookType {
-  Blue = 'Blue',
-  Red = 'Red'
 }
 
 export type ElectorateAdviceGraph = {
@@ -1114,6 +1113,9 @@ export type Query = {
     Array<Maybe<PmoHandlingAdviceCommitmentGraph>>
   >
   relatedLinks?: Maybe<Array<Maybe<RelatedLinkGraph>>>
+  siteCommitmentDisplayOrders?: Maybe<
+    Array<Maybe<SiteCommitmentDisplayOrderGraph>>
+  >
 }
 
 export type QueryAgencyArgs = {
@@ -1505,6 +1507,17 @@ export type QueryRelatedLinksArgs = {
   take?: Maybe<Scalars['Int']>
 }
 
+export type QuerySiteCommitmentDisplayOrdersArgs = {
+  id?: Maybe<Scalars['String']>
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+  siteId: Scalars['Guid']
+  webId: Scalars['Guid']
+}
+
 export type RelatedLinkGraph = {
   commitment?: Maybe<CommitmentGraph>
   id: Scalars['Int']
@@ -1611,6 +1624,16 @@ export type SeriesDataGraph = {
 export type SeriesGraph = {
   name: Scalars['String']
   value: Scalars['Float']
+}
+
+export type SiteCommitmentDisplayOrderGraph = {
+  rowVersion: Scalars['String']
+  commitment?: Maybe<CommitmentGraph>
+  id: Scalars['Guid']
+  webId: Scalars['Guid']
+  siteId: Scalars['Guid']
+  commitmentId: Scalars['Int']
+  displayOrder: Scalars['UInt32']
 }
 
 export type StateChartDataGraph = {

@@ -6,7 +6,7 @@ import {
 } from '@angular/core'
 import { Store, select } from '@ngrx/store'
 import { Subscription, Observable } from 'rxjs'
-import { filter } from 'rxjs/operators'
+import { filter, map } from 'rxjs/operators'
 import { ActivatedRoute } from '@angular/router'
 import * as indef from 'indefinite'
 import * as fromDetail from '../../reducers/commitment-detail/commitment-detail.reducer'
@@ -18,14 +18,14 @@ import { CommitmentLocation } from '../../models/commitment.model'
 import {
   OPERATION_PMO_HANDLING_ADVICE,
   OPERATION_PMC_HANDLING_ADVICE
-} from '../../services/app-data/app-operations'
+}  from '@df/components'
 import {
   GetDetailedCommitment,
-  GetHandlingAdvices,
   UpdatePMOHandlingAdvice,
   UpdatePMCHandlingAdvice
 } from '../../reducers/commitment-detail/commitment-detail.actions'
 import { FormGroup, FormControl } from '@angular/forms'
+import { NotificationMessage } from '../../reducers/app/app.model'
 
 @Component({
   selector: 'digital-first-commitment-detail',
@@ -53,7 +53,7 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   })
   
   patchingForm: boolean
-
+ 
   constructor(
     private activatedRoute: ActivatedRoute,
     private store: Store<fromDetail.State>
@@ -65,7 +65,8 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
     )
 
     this.commitment$ = this.store.pipe(
-      select(fromDetail.getDetailedCommitmentState)
+      select(fromDetail.getDetailedCommitmentState),
+      map(val =>  val.commitment)
     )
 
     this.currentPMCHandling$ = this.store.pipe(
@@ -76,19 +77,24 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
       select(fromDetail.getCurrentPMOHandlingAdviceState)
     )
 
+    
+
     this.commitmentSubscription$ = this.commitment$.subscribe(
-      (commitment: any) => {
-        if (commitment) {
-          this.patchingForm = true
-          this.pmcHandlingAdviceForm.patchValue({
-            pmcHandlingAdvice: commitment.pmcHandlingAdvice
-          })
-          this.pmoHandlingAdviceForm.patchValue({
-            pmoHandlingAdvice: commitment.pmoHandlingAdvice
-          })
-          this.patchingForm = false
+      (commitment: Commitment) => {
+       
+          if (commitment) {
+            this.patchingForm = true
+
+            this.pmcHandlingAdviceForm.patchValue({
+              pmcHandlingAdvice: commitment.pmcHandlingAdvice.value
+            })
+            this.pmoHandlingAdviceForm.patchValue({
+              pmoHandlingAdvice: commitment.pmoHandlingAdvice.value
+            })
+            this.patchingForm = false
+          }
         }
-      }
+      
     )
 
     this.handlingAdvices$ = this.store.pipe(
@@ -116,21 +122,51 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
 
   onPMOChange($event) {
     if ($event && $event.value) {
-      // tslint:disable-next-line: no-console
-      console.log(`🌶️`, $event.value)
-      this.store.dispatch(
-        new UpdatePMOHandlingAdvice({ handlingAdviceId: $event.value })
-      )
+      let currSelected: boolean = false
+      let advice: any
+      this.handlingAdvices$.subscribe(items => {
+        advice = items.find(item => {
+          if (item.value === $event.value) {
+            return item
+          }
+        })
+      })
+      this.currentPMOHandling$.subscribe(pmo => {
+        if (advice.label === pmo) {
+          currSelected = true
+        }
+      })
+      //avoid unnecessary call to update same item
+      if (!currSelected) {
+        this.store.dispatch(
+          new UpdatePMOHandlingAdvice({ handlingAdviceId: $event.value })
+        )
+      }
     }
   }
 
   onPMCChange($event) {
     if ($event && $event.value) {
-      // tslint:disable-next-line: no-console
-      console.log(`🌶️`, $event.value)
-      this.store.dispatch(
-        new UpdatePMCHandlingAdvice({ handlingAdviceId: $event.value })
-      )
+      let currSelected: boolean = false
+      let advice: any
+      this.handlingAdvices$.subscribe(items => {
+        advice = items.find(item => {
+          if (item.value === $event.value) {
+            return item
+          }
+        })
+      })
+      this.currentPMCHandling$.subscribe(pmc => {
+        if (advice.label === pmc) {
+          currSelected = true
+        }
+      })
+      //avoid unnecessary call to update same item
+      if (!currSelected) {
+        this.store.dispatch(
+          new UpdatePMCHandlingAdvice({ handlingAdviceId: $event.value })
+        )
+      }
     }
   }
 

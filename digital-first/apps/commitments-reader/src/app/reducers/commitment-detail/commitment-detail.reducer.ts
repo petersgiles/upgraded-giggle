@@ -68,6 +68,18 @@ export function reducer(
         ]
       }
 
+      case CommitmentDetailActionTypes.UpdatePMCHandlingAdviceFailure:
+      return {
+        ...state,
+        errors: [
+          {
+            message: 'Could not update PMO Handling Advice',
+            code: '400',
+            data: { field: 'PMCHandlingAdvice', error: action.payload }
+          }
+        ]
+      }
+
     case CommitmentDetailActionTypes.SetPMCHandlingAdviceResult:
       const pmccommitment = JSON.parse(JSON.stringify(state.commitment))
       pmccommitment.pmcHandlingAdvice = action.payload.handlingAdvices
@@ -106,7 +118,7 @@ export const getCurrentPMOHandlingAdviceState = createSelector(
     let label = ''
     if (commitment && handlings) {
       const found: any = handlings.find(
-        (p: any) => p.value === commitment.pmoHandlingAdvice
+        (p: any) => p.value === commitment.pmoHandlingAdvice.value
       )
       if (found) {
         label = found.label
@@ -124,7 +136,7 @@ export const getCurrentPMCHandlingAdviceState = createSelector(
     let label = ''
     if (commitment && handlings) {
       const found: any = handlings.find(
-        (p: any) => p.value === commitment.pmcHandlingAdvice
+        (p: any) => p.value === commitment.pmcHandlingAdvice.value
       )
       if (found) {
         label = found.label
@@ -139,8 +151,7 @@ export const getDetailedCommitmentState = createSelector(
   getCommitmentState,
   getErrorState,
   (commitment, errors) => {
-    const detail = { ...commitment, errors }
-    console.log(`🙈 `, detail)
+    const detail = { commitment, errors }
     return detail
   }
 )

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule, APP_INITIALIZER } from '@angular/core'
-import { HttpClientModule, HttpHeaders, HttpClient } from '@angular/common/http'
+import { HttpClientModule} from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ApolloModule } from 'apollo-angular'
 import { HttpLinkModule } from 'apollo-angular-link-http'
@@ -69,7 +69,6 @@ import { appDataServiceProvider } from './services/app-data/app-data.service.fac
 import { configServiceProvider } from './services/config/config.service.factory'
 import { GraphQLModule } from './graphQL/graphQl.module';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component'
-import { CommitmentViewGuardComponent } from './pages/commitment-view-guard/commitment-view-guard.component'
 
 const COMPONENTS = [
   AppComponent,
@@ -82,8 +81,7 @@ const COMPONENTS = [
   CommitmentOverviewLayoutComponent,
   SchedulerComponent,
   CommitmentDetailComponent,
-  CommitmentPackageComponent,
-  CommitmentViewGuardComponent
+  CommitmentPackageComponent
 ]
 
 @NgModule({

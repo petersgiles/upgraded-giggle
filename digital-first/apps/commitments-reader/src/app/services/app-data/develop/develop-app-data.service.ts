@@ -86,7 +86,7 @@ export class DevelopAppDataService implements AppDataService {
       isSiteAdmin: true,
       systemUserKey: 'guest',
       name: 'Guest User',
-      roles: [ROLE_MEMBERS]
+      roles: [ROLE_OWNERS]
     }
 
     return of(userprofile)
