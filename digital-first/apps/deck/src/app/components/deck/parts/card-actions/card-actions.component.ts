@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core'
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { DeckItem } from '../../models/deck-item-model'
 import { CardType } from '../../models/card-type-enum'
 
@@ -21,6 +21,9 @@ export class CardActionsComponent implements OnInit {
 
   @Input()
   selected: boolean
+
+  @Output()
+  public onAction: EventEmitter<any> = new EventEmitter()
 
   ngOnInit() {}
 }

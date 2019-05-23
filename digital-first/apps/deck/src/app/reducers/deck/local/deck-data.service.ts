@@ -18,10 +18,9 @@ export class DeckDataLocalService implements DeckDataService {
     return of(null)
   }
   public getDeckItems(
-    parent: any
   ): Observable<{ data: any; loading: boolean }> {
 
-    const cards = parent ? this.fakeBackend.getValue().filter(p => p.parent === parent) : this.fakeBackend.getValue().filter(p => p.parent === null)
+    const cards =  this.fakeBackend.getValue()
 
     return of({
       data: cards,

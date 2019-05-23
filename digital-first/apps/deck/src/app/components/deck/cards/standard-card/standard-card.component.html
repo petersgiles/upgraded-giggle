@@ -2,7 +2,7 @@
 <digital-first-card-supporting-text
   [card]="card"
 ></digital-first-card-supporting-text>
-<digital-first-card-actions [card]="card"></digital-first-card-actions>
+<digital-first-card-actions [card]="card" (onAction)="onAction.emit($event)"></digital-first-card-actions>
 <digital-first-card-menu
   [card]="card"
   [readOnly]="readOnly"

@@ -81,7 +81,7 @@ export const deckItems = {
     {
       id: 4,
       title: 'child',
-      parent: 2,
+      parent: '2',
       supportingText:
         '<div class="ExternalClass0398B1E1192E4A64B251972EA56E326B"><p> some child text<br></p></div>',
       size: 4,

@@ -29,6 +29,9 @@ export class RefinerCardComponent implements OnInit {
   @Output()
   onEdit: EventEmitter<DeckItem> = new EventEmitter()
 
+  @Output()
+  public onAction: EventEmitter<any> = new EventEmitter()
+  
   handleEdit() {
     this.onEdit.emit(this.card)
   }
