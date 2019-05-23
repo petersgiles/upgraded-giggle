@@ -74,8 +74,8 @@ const mapCommitmentDetail = (item): any => {
     criticalDate: item.criticalDate ? item.criticalDate.title : '',
     portfolio: item.portfolioLookup ? item.portfolioLookup.title : '',
     electorates: mapElectorates(item.commitmentLocations),
-    pmcHandlingAdvice: item.pmcHandlingAdviceCommitments.length ? setAdvice(item.pmcHandlingAdviceCommitments[0].handlingAdvice) : { value: "", label: "" },
-    pmoHandlingAdvice: item.pmoHandlingAdviceCommitments.length ? setAdvice(item.pmoHandlingAdviceCommitments[0].handlingAdvice) : { value: "", label: "" }
+    pmcHandlingAdvice: item.pmcHandlingAdviceCommitments.length ? setAdvice(item.pmcHandlingAdviceCommitments[0].handlingAdvice) : { value: " ", label: " " },
+    pmoHandlingAdvice: item.pmoHandlingAdviceCommitments.length ? setAdvice(item.pmoHandlingAdviceCommitments[0].handlingAdvice) : { value: " ", label: " " }
     
   }
   return mapResult
