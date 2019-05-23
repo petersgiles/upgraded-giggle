@@ -1,0 +1,15 @@
+<digital-first-card-title [card]="card"></digital-first-card-title>
+<div class="df-card__media" (click)="navigate(card)">
+  <img class="deck-image" src="{{ card?.media?.url }}" border="0" alt="" />
+</div>
+
+<digital-first-card-supporting-text
+  [card]="card"
+></digital-first-card-supporting-text>
+<digital-first-card-actions [card]="card" (onAction)="onAction.emit($event)"></digital-first-card-actions>
+<digital-first-card-menu
+  [card]="card"
+  [readOnly]="readOnly"
+  [selected]="selected"
+  (onEdit)="onEdit.emit($event)"
+></digital-first-card-menu>

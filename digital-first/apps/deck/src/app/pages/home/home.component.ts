@@ -1,11 +1,5 @@
 import { Component, OnInit, OnDestroy, Injectable } from '@angular/core'
-import {
-  DeckItem,
-  DeckHelper,
-  CardType,
-  DialogAreYouSureComponent,
-  DeckItemMedia
-} from '@df/components'
+import { DialogAreYouSureComponent } from '@df/components'
 import { ActivatedRoute, ParamMap, Router } from '@angular/router'
 import { map, first, tap } from 'rxjs/operators'
 import { Observable, BehaviorSubject, EMPTY, Subscription } from 'rxjs'
@@ -19,11 +13,11 @@ import {
   SetActiveParent,
   GoBack,
   GetDeckItems,
-  AddDeckItem,
   EditDeckItem,
   UpdateDeckItem,
   SetSelectedDeckItem
 } from '../../reducers/deck/deck.actions'
+import { CardType, DeckItem } from '../../components/deck'
 
 @Component({
   selector: 'digital-first-home',
@@ -39,8 +33,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   public grandParent$: Observable<DeckItem>
   public eligibleParents$: Observable<{ id: string; title: string }[]>
   public deckItems$: Observable<DeckItem[]>
-  public briefs$: Observable<{id: string, name: string}[]>
-  public selectedCardSubscription$: Subscription
+  public briefs$: Observable<{ id: string; name: string }[]>
+
+  public selected$: Observable<any>
   // tslint:disable-next-line:no-empty
   constructor(
     private route: ActivatedRoute,
@@ -54,7 +49,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.route.paramMap
       .pipe(
         first(),
-        map((params: ParamMap) => +params.get('parent')),
+        map((params: ParamMap) => params.get('parent')),
         // tslint:disable-next-line: no-console
         tap(result => console.log(`👹 `, result))
       )
@@ -63,7 +58,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       })
 
     this.deckItems$ = this.store.pipe(
-      select(fromDeck.selectDeckItemsState),
+      select(fromDeck.selectCardsByParentState),
       // tslint:disable-next-line: no-console
       tap(result => console.log(`👹 `, result))
     )
@@ -74,36 +69,51 @@ export class HomeComponent implements OnInit, OnDestroy {
       tap(result => console.log(`👹 `, result))
     )
 
-    this.selectedCardSubscription$ = this.store
-      .pipe(
-        select(fromDeck.selectSelectedCardState),
-        // tslint:disable-next-line: no-console
-        tap(result => console.log(`👹 `, result))
-      )
-      .subscribe(result => this.selectedCard = result)
+    this.eligibleParents$ = this.store.pipe(
+      select(fromDeck.selectCurrentParentState),
+      // tslint:disable-next-line: no-console
+      tap(result => console.log(`👹 `, result))
+    )
+
+    this.selected$ = this.store.pipe(
+      select(fromDeck.selectSelectedCardState),
+      // tslint:disable-next-line: no-console
+      tap(result => console.log(`👹 `, result))
+    )
 
     this.store.dispatch(new GetDeckItems({ parent: null }))
   }
 
-  ngOnDestroy(): void {
-    this.selectedCardSubscription$.unsubscribe()
-  }
+  ngOnDestroy(): void {}
 
   handleSubmitted(deckItem: DeckItem) {
     // tslint:disable-next-line: no-console
     console.log(`👹 handleSubmitted `, deckItem)
     this.store.dispatch(new UpdateDeckItem(deckItem))
+    this.store.dispatch(new SetSelectedDeckItem({ id: null }))
   }
 
-  handleCancel($event) {
+  handleCancelled($event) {
     // tslint:disable-next-line: no-console
     console.log(`👹 handleCancel `, $event)
-    this.store.dispatch(new SetSelectedDeckItem({id: null}))
+    this.store.dispatch(new SetSelectedDeckItem({ id: null }))
   }
 
-  handleAction($event) {
+  handleAction($event: DeckItem | any) {
     // tslint:disable-next-line: no-console
     console.log(`👹 handleAction `, $event)
+
+    if ($event) {
+      if ($event.url) {
+        this.router.navigate([$event.url])
+        return
+      }
+
+      if ($event.cardType === CardType.Parent) {
+        this.router.navigate(['/', 'deck', $event.id])
+        return
+      }
+    }
   }
 
   handleEdit(deckItem: DeckItem) {

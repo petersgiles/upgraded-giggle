@@ -10,6 +10,7 @@ import {
   ErrorPageNotFoundComponent,
   ErrorServerComponent
 } from '@digital-first/df-pages'
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'deck', pathMatch: 'full' },
@@ -29,6 +30,10 @@ const routes: Routes = [
         component: HomeComponent
       }
     ]
+  },
+  {
+    path: 'userprofile',
+    component: UserProfileComponent
   },
   {
     path: 'pages',
