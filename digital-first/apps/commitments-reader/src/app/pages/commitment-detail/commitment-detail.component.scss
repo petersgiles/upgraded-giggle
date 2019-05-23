@@ -11,6 +11,16 @@ dt {
   margin-left: 2.5em;
 }
 
+.parent {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+.child {
+  width: calc(100% - 2px);       
+}
+
 #selectors
 {
     display: table;

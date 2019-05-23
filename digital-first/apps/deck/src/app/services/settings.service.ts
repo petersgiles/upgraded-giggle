@@ -15,4 +15,23 @@ export class SettingsService {
   get datasources(): any {
     return environment.datasources
   }
+
+  get host(): any {
+    return environment.host
+  }
+
+  get datasource(): any {
+    return environment.datasource
+  }
+
+  get eventDatasource(): any {
+    return environment.eventDatasource
+  }
+  get appConfigDataSource(): any {
+    return environment.appConfigDataSource
+  }
+  get assetsPath(): any {
+    return environment.assetsPath
+  }
+
 }

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule, APP_INITIALIZER } from '@angular/core'
-import { HttpClientModule, HttpHeaders, HttpClient } from '@angular/common/http'
+import { HttpClientModule} from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ApolloModule } from 'apollo-angular'
 import { HttpLinkModule } from 'apollo-angular-link-http'
@@ -43,7 +43,6 @@ import { SchedulerComponent } from './components/scheduler/scheduler.component'
 import { commitmentEventDataServiceProvider } from './services/commitment-event/commitment-event-data-service'
 import { CommitmentDetailComponent } from './pages/commitment-detail/commitment-detail.component'
 import { DfSharepointLibModule, SharepointJsomService } from '@df/sharepoint'
-import * as fromUser from './reducers/user/user.reducer'
 import { EffectsModule } from '@ngrx/effects'
 import { StoreModule, Store } from '@ngrx/store'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
@@ -51,6 +50,7 @@ import { metaReducers, reducers, CustomSerializer } from './reducers'
 import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component'
 import { RouterStateSerializer } from '@ngrx/router-store'
 
+import * as fromUser from './reducers/user/user.reducer'
 import * as fromRefiner from './reducers/refiner/refiner.reducer'
 import * as fromOverview from './reducers/overview/overview.reducer'
 import * as fromMap from './reducers/map/map.reducer'
@@ -76,7 +76,6 @@ import { appDataServiceProvider } from './services/app-data/app-data.service.fac
 import { configServiceProvider } from './services/config/config.service.factory'
 import { GraphQLModule } from './graphQL/graphQl.module'
 import { UserProfileComponent } from './pages/user-profile/user-profile.component'
-import { CommitmentViewGuardComponent } from './pages/commitment-view-guard/commitment-view-guard.component'
 
 import { DragDropModule } from '@angular/cdk/drag-drop'
 
@@ -92,7 +91,6 @@ const COMPONENTS = [
   SchedulerComponent,
   CommitmentDetailComponent,
   CommitmentPackageComponent,
-  CommitmentViewGuardComponent,
   DisplayOrderPageComponent
 ]
 

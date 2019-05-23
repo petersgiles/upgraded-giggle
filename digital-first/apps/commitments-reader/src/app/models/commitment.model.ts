@@ -9,20 +9,22 @@ export interface MapPoint {
   title: string
 }
 
+
+
 export interface Commitment {
-  id: number
-  title: string
-  description: string
-  status: string
-  bookType: string
-  cost: string
-  costingRequired?: boolean
-  criticalDate?: string
-  date: string
-  politicalParty: string
-  announcedBy: string
-  PMOHandlingAdvice?: string
-  PMCHandlingAdvice?: string
+  id: number,
+  title: string,
+  description: string,
+  status: string,
+  bookType: string,
+  cost: string,
+  costingRequired?: boolean,
+  criticalDate?: string,
+  date: string,
+  politicalParty: string,
+  announcedBy: string,
+  pmoHandlingAdvice?: HandlingAdvices,
+  pmcHandlingAdvice?: HandlingAdvices,
   //location: Electorate,
   electorates?: CommitmentLocation[]
   //whoAnnouncedType: WhoAnnouncedType

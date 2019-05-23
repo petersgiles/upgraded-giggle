@@ -7,7 +7,7 @@
         "bookType": "red",
         "bookColour":"#e54430",
         "logo": {
-           "image": "assets/crest.png",
+           "image": "/assets/crest.png",
            "url": "/",
            "title": "Return to home page"
         },

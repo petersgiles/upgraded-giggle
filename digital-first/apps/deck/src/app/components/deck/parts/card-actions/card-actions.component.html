@@ -1,0 +1,24 @@
+<div
+class="df-card__actions df-card--border"
+*ngIf="
+  card?.cardType == cardType.Parent ||
+  card?.actions?.length > 0 ||
+  card?.hasChildren
+"
+>
+<a
+  *ngFor="let action of card?.actions"
+  mdc-button
+  dense
+  (click)="onAction.emit(action)"
+  >{{ action.title }}</a
+>
+<a
+  *ngIf="card?.cardType == cardType.Parent || card?.hasChildren"
+  (click)="onAction.emit(card)"
+  mdc-button
+  dense
+  >More</a
+>
+<div class="df-layout-spacer"></div>
+</div>

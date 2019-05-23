@@ -1,0 +1,114 @@
+<section class="deck df-grid section--center">
+  <ng-container *ngFor="let card of cards">
+    <div *ngIf="selected?.id === card.id" 
+    class="df-card df-cell df-cell--{{ card?.size }}-col df-shadow--4dp">
+      <digital-first-edit-card
+        [cards]="cards"
+        [cardTypes]="cardTypes"
+        [selected]="selected"
+        (onSubmitted)="onSubmitted.emit($event)"
+        (onCancelled)="onCancelled.emit($event)"
+      ></digital-first-edit-card>
+    </div>
+
+    <div
+      *ngIf="selected?.id !== card.id"
+      [ngSwitch]="card.cardType"
+      class="df-card df-cell df-cell--{{ card?.size }}-col df-shadow--4dp"
+    >
+
+        <digital-first-image-card *ngSwitchCase="cardType.Image"
+          [card]="card"
+          [readOnly]="readOnly"
+          [selected]="selected"
+          (onEdit)="onEdit.emit($event)"
+          (onAction)="onAction.emit($event)"
+        >
+        </digital-first-image-card>
+
+        <digital-first-parent-card *ngSwitchCase="cardType.Parent"
+          [card]="card"
+          [readOnly]="readOnly"
+          [selected]="selected"
+          (onEdit)="onEdit.emit($event)"
+          (onAction)="onAction.emit($event)"
+        >
+        </digital-first-parent-card>
+
+
+        <digital-first-chart-card *ngSwitchCase="cardType.Chart"
+          [card]="card"
+          [readOnly]="readOnly"
+          [selected]="selected"
+          (onEdit)="onEdit.emit($event)"
+          (onAction)="onAction.emit($event)"
+        >
+        </digital-first-chart-card>
+
+        <digital-first-markdown-card *ngSwitchCase="cardType.Markdown"
+          [card]="card"
+          [readOnly]="readOnly"
+          [selected]="selected"
+          (onEdit)="onEdit.emit($event)"
+          (onAction)="onAction.emit($event)"
+        >
+        </digital-first-markdown-card>
+
+
+        <digital-first-embed-card *ngSwitchCase="cardType.Embed"
+          [card]="card"
+          [readOnly]="readOnly"
+          [selected]="selected"
+          (onEdit)="onEdit.emit($event)"
+          (onAction)="onAction.emit($event)"
+        >
+        </digital-first-embed-card>
+
+
+        <digital-first-audio-card *ngSwitchCase="cardType.Audio"
+          [card]="card"
+          [readOnly]="readOnly"
+          [selected]="selected"
+          (onEdit)="onEdit.emit($event)"
+          (onAction)="onAction.emit($event)"
+        >
+        </digital-first-audio-card>
+
+
+        <digital-first-video-card *ngSwitchCase="cardType.Video"
+          [card]="card"
+          [readOnly]="readOnly"
+          [selected]="selected"
+          (onEdit)="onEdit.emit($event)"
+          (onAction)="onAction.emit($event)"
+        >
+        </digital-first-video-card>
+
+
+        <digital-first-refiner-card *ngSwitchCase="cardType.Refiner"
+          [card]="card"
+          [readOnly]="readOnly"
+          [selected]="selected"
+          (onEdit)="onEdit.emit($event)"
+          (onAction)="onAction.emit($event)"
+        >
+        </digital-first-refiner-card>
+
+
+        <digital-first-standard-card  *ngSwitchDefault
+          [card]="card"
+          [readOnly]="readOnly"
+          [selected]="selected"
+          (onEdit)="onEdit.emit($event)"
+          (onAction)="onAction.emit($event)"
+        >
+        </digital-first-standard-card>
+
+    </div>
+  </ng-container>
+  <div *ngIf="!selected && !readOnly" class="df-card__supporting-text">
+    <button mdc-button dense (click)="handleAddNewCard()">
+      Create New Card
+    </button>
+  </div>
+</section>

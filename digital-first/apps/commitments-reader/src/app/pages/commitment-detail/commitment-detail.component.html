@@ -1,118 +1,107 @@
 <div class="indent">
   <ng-container *ngIf="commitment$ | async as commitment">
     <h1>{{ commitment?.title }}</h1>
-
     <p>
-      Responsible Portfolio: <strong>{{ commitment.portfolio }}</strong
-      >.
-    </p>
+      Responsible Portfolio: <strong>{{ commitment.portfolio }}</strong>.
+      <ng-container *ngIf="!commitment.announcedBy">
+        <p>
+          Announced on behalf of the
+          <strong>{{ commitment.politicalParty }}</strong> on
+          <strong>{{ commitment.date | amDateFormat: 'LL' }}</strong>.
+        </p>
+      </ng-container>
+      <p>
+        Announced on
+        <strong>{{ commitment.date | amDateFormat: 'LL' }}</strong>
+        <span *ngIf="commitment.announcedBy">
+          by <strong>{{ commitment.announcedBy }}</strong></span>.
+      </p>
 
-    <p>
-      Announced on
-      <strong>{{ commitment.date | amDateFormat: 'LL' }}</strong>
-      <span *ngIf="commitment.announcedBy">
-        by <strong>{{ commitment.announcedBy }}</strong></span
-      >.
-    </p>
+      <p>
+        This is
+        {{ getIndefiniteArticle(commitment.commitmentType) }}<strong>{{ commitment.commitmentType }}</strong>
+        commitment
+        <ng-container *ngIf="!commitment?.cost">
+          with <strong>no</strong> specified party funding</ng-container>
+        <ng-container *ngIf="commitment.cost">that the party announced requiring funding of
+          <strong>{{ commitment.cost }}</strong></ng-container>. It was announced via
+        {{ getIndefiniteArticle(commitment.announcementType) }} <strong>{{ commitment.announcementType }}</strong>.
+      </p>
 
-    <p>
-      This is
-      <strong>{{ getIndefiniteArticle(commitment.commitmentTyp) }}</strong>
-      commitment
-      <ng-container *ngIf="!commitment?.cost">
-        with <strong>no</strong> specified party funding</ng-container
-      >
-      <ng-container *ngIf="commitment.cost"
-        >that the party announced requires funding of
-        <strong>{{ commitment.cost }}</strong></ng-container
-      >. It was announced via
-      <strong>{{ getIndefiniteArticle(commitment.announcementType) }}</strong
-      >.
-    </p>
-
-    <p *ngIf="commitment.electorates as electorates">
-      Delivery Location<span *ngIf="electorates?.length > 1">s</span>:
-      <ng-container
-        *ngFor="
+      <p *ngIf="commitment.electorates as electorates">
+        Delivery Location<span *ngIf="electorates?.length > 1">s</span>:
+        <ng-container *ngFor="
           let location of electorates;
           index as index;
           last as last;
           first as first
-        "
-      >
-        <ng-container *ngIf="!first">
-          <span *ngIf="last"> and </span>
-          <span *ngIf="!last">, </span> </ng-container
-        ><strong>{{ location?.title }}</strong> </ng-container
-      >.
-    </p>
-    <p>
-      Critical date: <strong> {{ commitment.criticalDate }}</strong
-      >.
-    </p>
+        ">
+          <ng-container *ngIf="!first">
+            <span *ngIf="last"> and </span>
+            <span *ngIf="!last">, </span> </ng-container><strong>{{ location?.title }}</strong>
+        </ng-container>.
+      </p>
+      <p>
+        Critical date: <strong> {{ commitment.criticalDate }}</strong>.
+      </p>
 
-    <ng-container *ngIf="commitment.description">
+      <ng-container *ngIf="commitment.description">
+        <hr />
+        <div class="parent">
+          <div [innerHtml]="commitment?.description | safeHtml" class="child"></div>
+        </div>
+      </ng-container>
       <hr />
-      <div [innerHtml]="commitment?.description | safeHtml"></div>
-    </ng-container>
-    <hr />
-    <digital-first-commitment-view-guard
-      [operation]="getPMCRight(userOperation$ | async)"
-    >
-      <ng-container operation-type="read"><p>PMC Handling Advice: <strong>{{ currentPMCHandling$ | async }}</strong>.</p></ng-container>
+      <div id="selectors">
+        <div class="selection">
+          <df-view-guard [operation]="getPMCRight(userOperation$ | async)">
+            <ng-container operation-type="read">
+              <p>PMC Handling Advice: <strong>{{ currentPMCHandling$ | async }}</strong>.</p>
+            </ng-container>
 
-      <ng-container operation-type="write">
-        <form [formGroup]="pmcHandlingAdviceForm" id="pmcHandlingAdviceForm">
-          <mdc-select
-            #enhanced
-            placeholder="PMC Handling Advice"
-            formControlName="pmcHandlingAdvice"
-            (selectionChange)="!patchingForm && onPMCChange($event)"
-          >
-            <option
-              *ngFor="let advice of handlingAdvices$ | async"
-              [value]="advice.value"
-              [selected]="advice.value === commitment.pmcHandlingAdvice"
-              >{{ advice.label }}
-            </option>
-          </mdc-select>
-        </form>
-      </ng-container>
-    </digital-first-commitment-view-guard>
+            <ng-container operation-type="write">
+              <form [formGroup]="pmcHandlingAdviceForm" id="pmcHandlingAdviceForm">
+                <mdc-select #enhanced placeholder="PMC Handling Advice"  formControlName="pmcHandlingAdvice"
+                  (selectionChange)="!patchingForm && onPMCChange($event)">
+                  <option *ngFor="let advice of handlingAdvices$ | async" 
+                    [value]="advice.value"
+                    [selected]="advice.value ===  commitment.pmcHandlingAdvice.value">
+                    {{ advice.label }}
+                  </option>
+                </mdc-select>
+              </form>
+            </ng-container>
+          </df-view-guard>
+        </div>
+        <div class="selection">
+          <df-view-guard [operation]="getPMORight(userOperation$ | async)">
+            <ng-container operation-type="read">
+              <p>PMO Handling Advice: <strong>{{ currentPMOHandling$ | async }}</strong>.</p>
+            </ng-container>
 
-    <digital-first-commitment-view-guard
-      [operation]="getPMORight(userOperation$ | async)"
-    >
-      <ng-container operation-type="read"><p>PMO Handling Advice: <strong>{{ currentPMOHandling$ | async }}</strong>.</p></ng-container>
+            <ng-container operation-type="write">
+              <form [formGroup]="pmoHandlingAdviceForm" id="pmoHandlingAdviceForm">
+                <mdc-select #enhanced placeholder="PMO Handling Advice" formControlName="pmoHandlingAdvice"
+                  (selectionChange)="!patchingForm && onPMOChange($event)">
+                  <option *ngFor="let advice of handlingAdvices$ | async" 
+                    [value]="advice.value"
+                    [selected]="advice.value ===  commitment.pmoHandlingAdvice.value">
+                    {{ advice.label }}</option>
+                </mdc-select>
+              </form>
+            </ng-container>
+          </df-view-guard>
+        </div>
+      </div>
+      <div *ngIf="commitment.relatedLinks">
+        <h1>Related Links</h1>
 
-      <ng-container operation-type="write">
-        <form [formGroup]="pmoHandlingAdviceForm" id="pmoHandlingAdviceForm">
-          <mdc-select
-            #enhanced
-            placeholder="PMO Handling Advice"
-            formControlName="pmoHandlingAdvice"
-            (selectionChange)="!patchingForm && onPMOChange($event)"
-          >
-            <option
-              *ngFor="let advice of handlingAdvices$ | async"
-              [value]="advice.value"
-              [selected]="advice.value === commitment.pmoHandlingAdvice"
-              >{{ advice.label }}</option
-            >
-          </mdc-select>
-        </form>
-      </ng-container>
-    </digital-first-commitment-view-guard>
-
-    <div *ngIf="commitment.relatedLinks">
-      <h1>Related Links</h1>
-
-      <mdc-list>
-        <mdc-list-item *ngFor="let link of commitment.relatedLinks">
-          <a [href]="link.url" target="_blank">{{ link.title }}</a>
-        </mdc-list-item>
-      </mdc-list>
-    </div>
+        <mdc-list>
+          <mdc-list-item *ngFor="let link of commitment.relatedLinks">
+            <a [href]="link.url" target="_blank">{{ link.title }}</a>
+          </mdc-list-item>
+        </mdc-list>
+      </div>
   </ng-container>
 </div>
 

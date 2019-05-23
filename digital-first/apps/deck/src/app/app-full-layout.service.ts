@@ -1,10 +1,13 @@
 import { Injectable, OnInit, OnDestroy } from '@angular/core'
 import { environment } from '../environments/environment'
-import { DeckDataService } from './services/deck-data.service'
 import { Observable, of, Subscription, BehaviorSubject } from 'rxjs'
 import { SideBarItem, AppUserProfile } from '@digital-first/df-layouts'
-import { AppConfigService, App, Logo } from './services/config.service'
-
+import { AppDataService } from './services/app-data/app-data.service'
+import { App, Logo } from './services/config/config-model'
+import { Router } from '@angular/router'
+import * as fromApp from './reducers/app/app.reducer'
+import { Store, select } from '@ngrx/store'
+import { NotificationMessage } from './reducers/app/app.model'
 @Injectable({
   providedIn: 'root'
 })
@@ -14,9 +17,11 @@ export class AppFullLayoutService {
 
   appItems$: BehaviorSubject<App[]> = new BehaviorSubject(null)
   bookType$: BehaviorSubject<string> = new BehaviorSubject(null)
+  bookColour$: BehaviorSubject<string> = new BehaviorSubject(null)
   configSubscription$: Subscription
   logo$: BehaviorSubject<Logo> = new BehaviorSubject(null)
   protectiveMarking$: BehaviorSubject<string> = new BehaviorSubject(null)
+
 
   get version(): string {
     return environment.version
@@ -36,20 +41,26 @@ export class AppFullLayoutService {
     ])
   }
 
+  public handleAvatarClicked($event) {
+    this.router.navigate(['/userprofile'])
+  }
+
   get drawerStyle(): 'permanent' | 'dismissible' | 'modal' {
     return 'dismissible'
   }
 
   get drawOpen$(): Observable<boolean> {
-    return this.service.getDrawState()
+    return of(null)
   }
 
   setDrawState(appdrawerOpen: any): any {
-    return this.service.setDrawState(appdrawerOpen)
+    return null
   }
 
-  get notification$(): Observable<string> {
-    return this.service.Notification
+  get notification$(): Observable<NotificationMessage> {
+    return this.store.pipe(
+      select(fromApp.selectNotification)
+    )
   }
 
   get open$(): Observable<boolean> {
@@ -61,18 +72,21 @@ export class AppFullLayoutService {
   }
 
   constructor(
-    private service: DeckDataService,
-    private configuration: AppConfigService
+    private router: Router,
+    private service: AppDataService,
+    private store: Store<fromApp.State>
   ) {
-    this.configSubscription$ = this.configuration.config.subscribe(c => {
-      // tslint:disable-next-line:no-console
-      console.log(c)
-      this._title = c.header.title
+    this.configSubscription$ = this.store.pipe(
+      select(fromApp.selectAppConfigState)
+    ).subscribe(config => {
 
-      this.appItems$.next(c.header.apps)
-      this.bookType$.next(c.header.bookType)
-      this.logo$.next(c.header.logo)
-      this.protectiveMarking$.next(c.header.classification)
+      this._title = config.header.title
+
+      this.appItems$.next(config.header.apps)
+      this.bookType$.next(config.header.bookType)
+      this.bookColour$.next(config.header.bookColour)
+      this.logo$.next(config.header.logo)
+      this.protectiveMarking$.next(config.header.classification)
     })
   }
 }
