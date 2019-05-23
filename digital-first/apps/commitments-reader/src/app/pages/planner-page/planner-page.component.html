@@ -11,10 +11,13 @@
       [readonly]="readonly$ | async"
       [zoomLevel]="zoomLevel$ | async"
       [centerDate]="centerDate$ | async"
+      [pageIndex]="pageIndex$ | async"
       (onEventSaved)="handleEventSaved($event)"
       (onEventRemoved)="handleEventRemoved($event)"
       (onExternalEventTypeChange)="handleExternalEventChange($event)"
       (onZoomLevelChange)="handelZoomLevelChange($event)"
+      (onCenterDateChange)="handelCenterDateChange($event)"
+      (onPageIndexChange)="handelPageIndexChange($event)"
     >
     </digital-first-planner>
   </section>

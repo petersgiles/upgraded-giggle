@@ -41,7 +41,9 @@ export class PlannerComponent implements OnInit, OnDestroy {
   @Input()
   zoomLevel: any = 3
   @Input()
-  centerDate: Date 
+  centerDate: Date
+  @Input()
+  pageIndex: any = 0
   @Output()
   public onEventSaved: EventEmitter<any> = new EventEmitter()
   @Output()
@@ -50,12 +52,16 @@ export class PlannerComponent implements OnInit, OnDestroy {
   public onExternalEventTypeChange: EventEmitter<any> = new EventEmitter()
   @Output()
   public onZoomLevelChange: EventEmitter<any> = new EventEmitter()
+  @Output()
+  public onCenterDateChange: EventEmitter<any> = new EventEmitter()
+  @Output()
+  public onPageIndexChange: EventEmitter<any> = new EventEmitter()
 
   @ViewChild(SchedulerComponent) scheduler: SchedulerComponent
 
   featureConfig: Object
   listeners: Object
-  startDate = DateHelper.add(new Date(), -1, 'months')
+  startDate = DateHelper.add(new Date(), -1, 'years')
   endDate = DateHelper.add(new Date(), 3, 'years')
   today = new Date()
   zoomLevels = ZoomLevels
@@ -68,7 +74,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
       editable: true
     }
   ]
-
+  lastSchedulerEvent: any
   externalEventTypeChangeEventSubscription: Subscription
   externalEventTypeChange: Subject<any> = new Subject()
 
@@ -118,6 +124,24 @@ export class PlannerComponent implements OnInit, OnDestroy {
       catchAll(event) {
         if (event.action === 'remove' && event.type === 'eventschange') {
           me.onEventRemoved.emit(event.records[0].data)
+        }
+        if (event.type === 'scroll') {
+          const bottomRowIndex = event.source.bottomRow.dataIndex
+          const pageIndex = Math.floor(bottomRowIndex / 100)
+          if (pageIndex > me.pageIndex) {
+            me.onPageIndexChange.emit(pageIndex)
+          }
+        }
+        if (event.type === 'horizontalscroll') {
+          if (me.scheduler.schedulerEngine) {
+            const currentCenterDate =
+              me.scheduler.schedulerEngine.viewportCenterDate
+            if (currentCenterDate !== me.centerDate) {
+              me.onCenterDateChange.emit(
+                me.scheduler.schedulerEngine.viewportCenterDate
+              )
+            }
+          }
         }
       }
     }
@@ -269,10 +293,9 @@ export class PlannerComponent implements OnInit, OnDestroy {
     const currentCenterDate = this.scheduler.schedulerEngine.viewportCenterDate
     this.scheduler.schedulerEngine.setTimeSpan(this.startDate, this.endDate)
     this.scheduler.schedulerEngine.scrollToDate(currentCenterDate)
-    this.onZoomLevelChange.emit({
-      zoomLevel: event.value,
-      currentCenterDate: currentCenterDate
-    })
+    if (this.zoomLevel !== event.value) {
+      this.onZoomLevelChange.emit(event.value)
+    }
   }
 
   eventRenderer({ eventRecord, tplData }) {
@@ -327,7 +350,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
     return this.selectedExternalEventTypes.find(t => t === id)
   }
   /* End handling external event types changes*/
-  
+
   ngOnDestroy(): void {
     this.externalEventTypeChangeEventSubscription.unsubscribe()
   }

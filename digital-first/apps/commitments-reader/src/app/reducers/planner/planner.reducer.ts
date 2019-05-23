@@ -1,6 +1,7 @@
 import { PlannerActions, PlannerActionTypes } from './planner.actions'
 import { createSelector, createFeatureSelector } from '@ngrx/store'
 import { OPERATION_RIGHT_WRITE } from '../../services/app-data/app-operations'
+import { Events } from 'bryntum-scheduler/scheduler.umd.js'
 
 export interface State {
   commitments: any[]
@@ -11,6 +12,7 @@ export interface State {
   selectedExternalEventTypes: any[]
   schedulerZoomLevel: any
   schedulerCenterDate: Date
+  schedulerPageIndex: any
   readonly: boolean
   permission: string
   error: any
@@ -25,6 +27,7 @@ export const initialState: State = {
   selectedExternalEventTypes: [],
   schedulerZoomLevel: 3,
   schedulerCenterDate: new Date(),
+  schedulerPageIndex: 0,
   readonly: true,
   permission: 'hide',
   error: {}
@@ -33,9 +36,22 @@ export const initialState: State = {
 export function reducer(state = initialState, action: PlannerActions): State {
   switch (action.type) {
     case PlannerActionTypes.LoadCommitmentEvents:
+      if (state.events) {
+        const events = state.events
+        return {
+          ...state,
+          events: events.concat(action.payload.data)
+        }
+      } else {
+        return {
+          ...state,
+          events: action.payload.data
+        }
+      }
+    case PlannerActionTypes.ResetCommitmentEvents:
       return {
         ...state,
-        events: action.payload.data
+        events: []
       }
     case PlannerActionTypes.LoadExternalEvents:
       return {
@@ -52,11 +68,20 @@ export function reducer(state = initialState, action: PlannerActions): State {
         ...state,
         eventTypes: action.payload.data
       }
-    case PlannerActionTypes.StoreSchedulerState:
+    case PlannerActionTypes.StoreSchedulerZoomLevel:
       return {
         ...state,
-        schedulerZoomLevel: action.payload.zoomLevel,
-        schedulerCenterDate: action.payload.currentCenterDate
+        schedulerZoomLevel: action.payload
+      }
+    case PlannerActionTypes.StoreSchedulerCenterDate:
+      return {
+        ...state,
+        schedulerCenterDate: action.payload
+      }
+    case PlannerActionTypes.StoreSchedulerPageIndex:
+      return {
+        ...state,
+        schedulerPageIndex: action.payload
       }
     case PlannerActionTypes.LoadSelectedExternalEventTypes:
       return {
@@ -108,6 +133,10 @@ export const selectSchedulerZoomLevelState = createSelector(
 export const selectSchedulerCenterDateState = createSelector(
   plannerState,
   (state: State) => state.schedulerCenterDate
+)
+export const selectSchedulerPageIndexState = createSelector(
+  plannerState,
+  (state: State) => state.schedulerPageIndex
 )
 export const selectPlannerPermissionState = createSelector(
   plannerState,

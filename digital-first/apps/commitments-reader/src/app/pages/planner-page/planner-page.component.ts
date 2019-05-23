@@ -1,8 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
-import { Observable, Subscription } from 'rxjs'
-import {
-  map,
-  withLatestFrom} from 'rxjs/operators'
+import { Observable, Subscription, of } from 'rxjs'
+import { map, withLatestFrom } from 'rxjs/operators'
 import * as fromPlanner from '../../reducers/planner/planner.reducer'
 import * as fromOverview from '../../reducers/overview/overview.reducer'
 import * as fromUser from '../../reducers/user/user.reducer'
@@ -12,10 +10,13 @@ import {
   StoreCommitmentEvent,
   RemoveCommitmentEvent,
   StoreSelectedExternalEventTypes,
-  StoreSchedulerState,
+  StoreSchedulerZoomLevel,
   GetCommitmentEvents,
   SetPlannerPermission,
-  GetExternalEvents
+  GetExternalEvents,
+  StoreSchedulerCenterDate,
+  StoreSchedulerPageIndex,
+  ResetCommitmentEvents
 } from '../../reducers/planner/planner.actions'
 
 @Component({
@@ -24,6 +25,7 @@ import {
   styleUrls: ['./planner-page.component.scss']
 })
 export class PlannerPageComponent implements OnInit, OnDestroy {
+  private pageSize = 100
   public commitmentEvents$: Observable<any[]>
   public externalEvents$: Observable<any>
   public eventTypes$: Observable<any[]>
@@ -33,6 +35,7 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
   public readonly$: Observable<boolean>
   public zoomLevel$: Observable<any>
   public centerDate$: Observable<any>
+  public pageIndex$: Observable<any>
   public commitmentsSubscription: Subscription
   public userPermissionSubscription: Subscription
   public errorStateSubscription: Subscription
@@ -43,23 +46,16 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
     private userStore: Store<fromUser.State>
   ) {}
   ngOnInit() {
+    // this.plannerStore.dispatch(new StoreSchedulerPageIndex({ pageIndex: 0 }))
     this.filteredCommitments$ = this.overViewStore
       .pipe(select(fromOverview.selectRefinedCommitmentsState))
       .pipe(map(data => data.map(c => ({ id: c.id, name: c.title }))))
 
-    this.commitmentsSubscription = this.userStore
-      .pipe(
-        select(fromUser.getUserCurrentUserPlannerPermission),
-        withLatestFrom(this.filteredCommitments$)
-      )
-      .subscribe(([permission, filteredCommitments]) => {
-        this.plannerStore.dispatch(
-          new GetCommitmentEvents({
-            commitments: filteredCommitments,
-            permission: permission
-          })
-        )
-      })
+    this.commitmentsSubscription = this.filteredCommitments$.subscribe(_ => {
+      this.plannerStore.dispatch(new ResetCommitmentEvents(null))
+      this.plannerStore.dispatch(new StoreSchedulerPageIndex(0))
+      this.plannerStore.dispatch(new GetCommitmentEvents(null))
+    })
 
     this.userPermissionSubscription = this.userStore
       .pipe(select(fromUser.getUserCurrentUserPlannerPermission))
@@ -74,6 +70,10 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
         )
       })
 
+    this.wireUpState()
+  }
+
+  private wireUpState() {
     this.externalEventTypes$ = this.plannerStore.pipe(
       select(fromPlanner.selectExternalEventTypesState)
     )
@@ -98,11 +98,9 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
     this.zoomLevel$ = this.plannerStore.pipe(
       select(fromPlanner.selectSchedulerZoomLevelState)
     )
-
-    this.errorStateSubscription = this.plannerStore
-      .pipe(select(fromPlanner.selectPlannerErrortate))
-      // TODO: send to seq
-      .subscribe(error => console.log(`💥 error => `, error))
+    this.pageIndex$ = this.plannerStore.pipe(
+      select(fromPlanner.selectSchedulerPageIndexState)
+    )
   }
 
   handleEventSaved($event: any) {
@@ -123,11 +121,19 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
     )
   }
   handelZoomLevelChange($event) {
-    this.plannerStore.dispatch(new StoreSchedulerState($event))
+    this.plannerStore.dispatch(new StoreSchedulerZoomLevel($event))
   }
+  handelCenterDateChange($event) {
+    this.plannerStore.dispatch(new StoreSchedulerCenterDate($event))
+  }
+
+  handelPageIndexChange($event) {
+    this.plannerStore.dispatch(new StoreSchedulerPageIndex($event))
+    this.plannerStore.dispatch(new GetCommitmentEvents(null))
+  }
+
   ngOnDestroy(): void {
     this.commitmentsSubscription.unsubscribe()
     this.userPermissionSubscription.unsubscribe()
-    this.errorStateSubscription.unsubscribe()
   }
 }

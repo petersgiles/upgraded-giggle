@@ -18,7 +18,10 @@ export enum PlannerActionTypes {
   StoreSelectedExternalEventTypes = '[Planner] StoreSelectedExternalEventTypes',
   LoadSelectedExternalEventTypes = '[Planner] LoadSelectedExternalEventTypes',
   SetPlannerPermission = '[Planner] SetPlannerPermission',
-  StoreSchedulerState = '[Planner] StoreSchedulerState'
+  StoreSchedulerZoomLevel = '[Planner] StoreSchedulerZoomLevel',
+  StoreSchedulerCenterDate = '[Planner] StoreSchedulerCenterDate',
+  StoreSchedulerPageIndex = '[Planner] StoreSchedulerPageIndex',
+  ResetCommitmentEvents = '[Planner] ResetCommitmentEvents'
 }
 
 export class GetCommitmentEvents implements Action {
@@ -78,8 +81,16 @@ export class LoadSelectedExternalEventTypes implements Action {
   readonly type = PlannerActionTypes.LoadSelectedExternalEventTypes
   constructor(public payload: any) {}
 }
-export class StoreSchedulerState implements Action {
-  readonly type = PlannerActionTypes.StoreSchedulerState
+export class StoreSchedulerZoomLevel implements Action {
+  readonly type = PlannerActionTypes.StoreSchedulerZoomLevel
+  constructor(public payload: any) {}
+}
+export class StoreSchedulerCenterDate implements Action {
+  readonly type = PlannerActionTypes.StoreSchedulerCenterDate
+  constructor(public payload: any) {}
+}
+export class StoreSchedulerPageIndex implements Action {
+  readonly type = PlannerActionTypes.StoreSchedulerPageIndex
   constructor(public payload: any) {}
 }
 export class SetPlannerPermission implements Action {
@@ -87,6 +98,10 @@ export class SetPlannerPermission implements Action {
   constructor(public payload: any) {}
 }
 
+export class ResetCommitmentEvents implements Action {
+  readonly type = PlannerActionTypes.ResetCommitmentEvents
+  constructor(public payload: any) {}
+}
 export class ErrorInPlanner implements Action {
   readonly type = PlannerActionTypes.ErrorInPlanner
   constructor(public payload: any) {}
@@ -105,6 +120,9 @@ export type PlannerActions =
   | RemoveCommitmentEvent
   | StoreSelectedExternalEventTypes
   | LoadSelectedExternalEventTypes
-  | StoreSchedulerState
+  | StoreSchedulerZoomLevel
   | SetPlannerPermission
+  | StoreSchedulerCenterDate
+  | StoreSchedulerPageIndex
+  | ResetCommitmentEvents
   | ErrorInPlanner
