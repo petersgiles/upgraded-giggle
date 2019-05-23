@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 
-import { map, catchError, withLatestFrom, concatMap } from 'rxjs/operators'
+import { map, catchError, withLatestFrom, concatMap, switchMap } from 'rxjs/operators'
 import {
   PlannerActionTypes,
   PlannerActions,

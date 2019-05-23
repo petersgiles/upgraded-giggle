@@ -1,6 +1,7 @@
 import { PlannerActions, PlannerActionTypes } from './planner.actions'
 import { createSelector, createFeatureSelector } from '@ngrx/store'
 import { OPERATION_RIGHT_WRITE } from '../../services/app-data/app-operations'
+import { Events } from 'bryntum-scheduler/scheduler.umd.js'
 
 export interface State {
   commitments: any[]
@@ -35,9 +36,22 @@ export const initialState: State = {
 export function reducer(state = initialState, action: PlannerActions): State {
   switch (action.type) {
     case PlannerActionTypes.LoadCommitmentEvents:
+      if (state.events) {
+        const events = state.events
+        return {
+          ...state,
+          events: events.concat(action.payload.data)
+        }
+      } else {
+        return {
+          ...state,
+          events: action.payload.data
+        }
+      }
+    case PlannerActionTypes.ResetCommitmentEvents:
       return {
         ...state,
-        events: action.payload.data
+        events: []
       }
     case PlannerActionTypes.LoadExternalEvents:
       return {

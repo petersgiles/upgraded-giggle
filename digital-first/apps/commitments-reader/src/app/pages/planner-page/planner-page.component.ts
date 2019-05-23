@@ -15,7 +15,8 @@ import {
   SetPlannerPermission,
   GetExternalEvents,
   StoreSchedulerCenterDate,
-  StoreSchedulerPageIndex
+  StoreSchedulerPageIndex,
+  ResetCommitmentEvents
 } from '../../reducers/planner/planner.actions'
 
 @Component({
@@ -51,6 +52,7 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
       .pipe(map(data => data.map(c => ({ id: c.id, name: c.title }))))
 
     this.commitmentsSubscription = this.filteredCommitments$.subscribe(_ => {
+      this.plannerStore.dispatch(new ResetCommitmentEvents(null))
       this.plannerStore.dispatch(new StoreSchedulerPageIndex(0))
       this.plannerStore.dispatch(new GetCommitmentEvents(null))
     })
@@ -133,6 +135,5 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.commitmentsSubscription.unsubscribe()
     this.userPermissionSubscription.unsubscribe()
-    this.errorStateSubscription.unsubscribe()
   }
 }

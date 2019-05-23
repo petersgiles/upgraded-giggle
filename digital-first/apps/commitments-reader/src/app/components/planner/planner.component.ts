@@ -61,7 +61,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
 
   featureConfig: Object
   listeners: Object
-  startDate = DateHelper.add(new Date(), -1, 'months')
+  startDate = DateHelper.add(new Date(), -1, 'years')
   endDate = DateHelper.add(new Date(), 3, 'years')
   today = new Date()
   zoomLevels = ZoomLevels
@@ -128,7 +128,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
         if (event.type === 'scroll') {
           const bottomRowIndex = event.source.bottomRow.dataIndex
           const pageIndex = Math.floor(bottomRowIndex / 100)
-          if (pageIndex !== me.pageIndex) {
+          if (pageIndex > me.pageIndex) {
             me.onPageIndexChange.emit(pageIndex)
           }
         }
