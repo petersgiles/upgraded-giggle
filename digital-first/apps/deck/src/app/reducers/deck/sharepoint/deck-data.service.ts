@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core'
 import { Observable, of, forkJoin } from 'rxjs'
 import { SharepointJsomService, idFromLookup } from '@df/sharepoint'
-import { DeckDataService } from '../deck-data.service';
-import { concatMap, map } from 'rxjs/operators';
-import { DeckItemAction, DeckItem } from '../../../components/deck';
-import { tryParseJSON } from '../utils';
-import { sortBy } from '../../../utils';
+import { DeckDataService } from '../deck-data.service'
+import { concatMap, map, tap } from 'rxjs/operators'
+import { DeckItemAction, DeckItem } from '../../../components/deck'
+import { tryParseJSON } from '../utils'
+import { sortBy } from '../../../utils'
 
 const DECK_ITEM_LIST_NAME = 'DeckItems'
 
@@ -36,20 +36,25 @@ export const mapDeckItem = (item): DeckItem => {
 
 export const mapDeckItems = (items): any[] => (items || []).map(mapDeckItem)
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class DeckDataSharepointService implements DeckDataService {
-  addDeckItem = (deckItem: any): Observable<any> =>
-    this.sharepoint
+  addDeckItem = (item: any): Observable<any> => {
+    // tslint:disable-next-line: no-console
+    console.log(`🍄 addDeckItem`, item)
+    return this.sharepoint
       .storeItem({
         listName: DECK_ITEM_LIST_NAME,
         data: {}
       })
       .pipe(concatMap(_ => of({})))
+  }
 
   updateDeckItem = (item: any): Observable<any> => {
+    // tslint:disable-next-line: no-console
+    console.log(`🍄 updateDeckItem`, item)
+
     const allActions = item.actions.map(
       (deckItemAction: DeckItemAction) =>
         `${deckItemAction.url}|${deckItemAction.title}`
@@ -73,27 +78,35 @@ export class DeckDataSharepointService implements DeckDataService {
       .pipe(concatMap(_ => of({})))
   }
 
-  removeDeckItem = (deckItem: { id: string }): Observable<any> =>
-    this.sharepoint
+  removeDeckItem = (deckItem: { id: string }): Observable<any> => {
+    // tslint:disable-next-line: no-console
+    console.log(`🍄 removeDeckItem`, deckItem)
+    return this.sharepoint
       .removeItem({
         listName: DECK_ITEM_LIST_NAME,
         id: deckItem.id
       })
       .pipe(concatMap(_ => of({})))
+  }
 
   getDeckItems = (
     parent
   ): Observable<{
     data: any
     loading: boolean
-  }> =>
-    forkJoin([
+  }> => {
+    // tslint:disable-next-line: no-console
+    console.log(`🍄 getDeckItems`, parent)
+
+    return forkJoin([
       this.sharepoint.getItems({
         listName: DECK_ITEM_LIST_NAME
       })
     ]).pipe(
       map(([spDeckItems]) => [...mapDeckItems(spDeckItems)]),
       map(result => (result || []).sort(sortBy('sortOrder'))),
+      // tslint:disable-next-line: no-console
+      tap(result => console.log(`🍄 getDeckItems`, result)),
       concatMap(result =>
         of({
           data: result,
@@ -101,6 +114,7 @@ export class DeckDataSharepointService implements DeckDataService {
         })
       )
     )
+  }
 
   constructor(private sharepoint: SharepointJsomService) {}
 }
