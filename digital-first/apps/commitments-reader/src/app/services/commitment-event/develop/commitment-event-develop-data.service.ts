@@ -36,12 +36,19 @@ export class EventDevelopDataService implements CommitmentEventDataService {
     if (
       !payload ||
       payload.permission === this.HIDE ||
-      (!payload.commitments && payload.commitments.length === 0)
+      (!payload.commitments || payload.commitments.length === 0)
     ) {
       return of({ data: [] })
     }
+    const commitments = payload.commitments.slice(
+      payload.pageIndex * payload.pageSize,
+      payload.pageSize + payload.pageIndex * payload.pageSize
+    )
+    const events = this.getEventDataFromLocalStorage().filter(
+      e => commitments.filter(c => c.id === e.resourceId).length > 0
+    )
     return of({
-      data: this.getEventDataFromLocalStorage(),
+      data: events,
       loading: false,
       error: null
     })

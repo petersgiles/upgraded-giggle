@@ -11,6 +11,7 @@ export interface State {
   selectedExternalEventTypes: any[]
   schedulerZoomLevel: any
   schedulerCenterDate: Date
+  schedulerPageIndex: any
   readonly: boolean
   permission: string
   error: any
@@ -25,6 +26,7 @@ export const initialState: State = {
   selectedExternalEventTypes: [],
   schedulerZoomLevel: 3,
   schedulerCenterDate: new Date(),
+  schedulerPageIndex: 0,
   readonly: true,
   permission: 'hide',
   error: {}
@@ -52,11 +54,20 @@ export function reducer(state = initialState, action: PlannerActions): State {
         ...state,
         eventTypes: action.payload.data
       }
-    case PlannerActionTypes.StoreSchedulerState:
+    case PlannerActionTypes.StoreSchedulerZoomLevel:
       return {
         ...state,
-        schedulerZoomLevel: action.payload.zoomLevel,
-        schedulerCenterDate: action.payload.currentCenterDate
+        schedulerZoomLevel: action.payload
+      }
+    case PlannerActionTypes.StoreSchedulerCenterDate:
+      return {
+        ...state,
+        schedulerCenterDate: action.payload
+      }
+    case PlannerActionTypes.StoreSchedulerPageIndex:
+      return {
+        ...state,
+        schedulerPageIndex: action.payload
       }
     case PlannerActionTypes.LoadSelectedExternalEventTypes:
       return {
@@ -108,6 +119,10 @@ export const selectSchedulerZoomLevelState = createSelector(
 export const selectSchedulerCenterDateState = createSelector(
   plannerState,
   (state: State) => state.schedulerCenterDate
+)
+export const selectSchedulerPageIndexState = createSelector(
+  plannerState,
+  (state: State) => state.schedulerPageIndex
 )
 export const selectPlannerPermissionState = createSelector(
   plannerState,
