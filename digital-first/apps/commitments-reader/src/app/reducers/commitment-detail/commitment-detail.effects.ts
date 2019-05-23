@@ -181,18 +181,20 @@ export class CommitmentDetailEffects {
       }
     }),
     switchMap(config =>
-      this.updatePmoHandlingAdviceCommitmentGQL.mutate(config, { fetchPolicy: 'no-cache', errorPolicy: 'all' }).pipe(
-        first(),
-        map((response: any) => response.data.updatePmoHandlingAdviceCommitment.id),
-        concatMap(response => [
-          new SetPMOHandlingAdviceResult({
-           handlingAdvices: config.handlingAdvice
-          })
-        ]),
-        catchError(error => {
-          return of(new UpdatePMOHandlingAdviceFailure(error))
-        })
-      )
+      this.updatePmoHandlingAdviceCommitmentGQL
+        .mutate(config, { fetchPolicy: 'no-cache' })
+        .pipe(
+          first(),
+          map(response => response.data.updatePmoHandlingAdviceCommitment.id),
+          concatMap(response => [
+            new SetPMOHandlingAdviceResult({
+              handlingAdviceId: config.data.handlingAdviceId
+            }),
+            new AppNotification({ message: `PMO Handling Advice Saved` }),
+            new ClearAppNotification()
+          ]),
+          catchError(error => of(new UpdatePMOHandlingAdviceFailure(error)))
+        )
     )
   )
 
@@ -238,18 +240,19 @@ export class CommitmentDetailEffects {
       }
     }),
     switchMap(config =>
-      this.updatePmcHandlingAdviceCommitmentGQL.mutate(config, { fetchPolicy: 'no-cache', errorPolicy: 'all' }).pipe(
-        first(),
-        map((response: any) => response.data.updatePmcHandlingAdviceCommitment.id),
-        concatMap(response => [
-          new SetPMCHandlingAdviceResult({
-           handlingAdvices: config.handlingAdvice
-          })
-        ]),
-        catchError(error => {
-          return of(new UpdatePMCHandlingAdviceFailure(error))
-        })
-      )
+      this.updatePmcHandlingAdviceCommitmentGQL
+        .mutate(config, { fetchPolicy: 'no-cache' })
+        .pipe(
+          first(),
+          map(response => response.data.updatePmcHandlingAdviceCommitment.id),
+          concatMap(response => [
+            new SetPMCHandlingAdviceResult({
+              handlingAdviceId: config.data.handlingAdviceId
+            })
+          ]),
+          catchError(error =>
+            of(new UpdatePMCHandlingAdviceFailure(error)))
+        )
     )
   )
 

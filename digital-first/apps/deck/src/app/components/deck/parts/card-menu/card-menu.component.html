@@ -1,0 +1,11 @@
+<div
+*ngIf="!readOnly && !selected"
+class="df-card__menu {{ card?.colour }} transparent"
+>
+<a
+  (click)="this.onEdit.emit(card)"
+  mdc-icon-button
+  dense
+  icon="edit"
+></a>
+</div>

@@ -8,19 +8,22 @@ export enum OverviewActionTypes {
 }
 
 export class GetRefinedCommitments implements Action {
-  type = OverviewActionTypes.GetRefinedCommitments
+  readonly type = OverviewActionTypes.GetRefinedCommitments
 
   constructor(public payload: any) {}
 }
 
 export class LoadRefinedCommitments implements Action {
-  type = OverviewActionTypes.LoadRefinedCommitments
+  readonly type = OverviewActionTypes.LoadRefinedCommitments
   constructor(public payload: any) {}
 }
 
 export class GetRefinedCommitmentsFailure implements Action {
-  type = OverviewActionTypes.GetRefinedCommitmentsFailure
+  readonly type = OverviewActionTypes.GetRefinedCommitmentsFailure
   constructor(public payload: any) {}
 }
 
-export type OverviewActions = GetRefinedCommitments | LoadRefinedCommitments | GetRefinedCommitmentsFailure
+export type OverviewActions =
+  | GetRefinedCommitments
+  | LoadRefinedCommitments
+  | GetRefinedCommitmentsFailure

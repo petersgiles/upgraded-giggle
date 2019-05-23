@@ -15,8 +15,7 @@ import * as ZoomLevels from './data/zoomLevels.json'
 import { webSafeColours } from './data/webSafeColours'
 import { Subscription } from 'apollo-client/util/Observable'
 import { Subject } from 'rxjs'
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms'
+import { debounceTime } from 'rxjs/operators'
 
 @Component({
   selector: 'digital-first-planner',
@@ -73,7 +72,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
   externalEventTypeChangeEventSubscription: Subscription
   externalEventTypeChange: Subject<any> = new Subject()
 
-  constructor(private fb: FormBuilder) {}
+  constructor() {}
   ngOnInit() {
     const me = this
     this.zoomSlider.min = 0

@@ -6,8 +6,8 @@ import { AppDataService } from './services/app-data/app-data.service'
 import { App, Logo } from './services/config/config-model'
 import { Router } from '@angular/router'
 import * as fromApp from './reducers/app/app.reducer'
-import { Store, select } from '@ngrx/store';
-import { NotificationMessage } from './reducers/app/app.model';
+import { Store, select } from '@ngrx/store'
+import { NotificationMessage } from './reducers/app/app.model'
 
 @Injectable({
   providedIn: 'root'
@@ -40,18 +40,23 @@ export class AppFullLayoutService {
       },
       {
         caption: 'Map',
-        icon: 'map',
+        icon: 'place',
         routerLink: ['/map']
       },
       {
         caption: 'Overview',
-        icon: 'home',
+        icon: 'table_chart',
         routerLink: ['/overview']
       },
       {
         caption: 'Planner',
-        icon: 'home',
+        icon: 'calendar_today',
         routerLink: ['/planner']
+      },
+      {
+        caption: 'Display Order',
+        icon: 'home',
+        routerLink: ['/displayorder']
       }
     ])
   }

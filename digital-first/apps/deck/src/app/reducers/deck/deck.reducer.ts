@@ -25,7 +25,7 @@ export function reducer(state = initialState, action: DeckActions): State {
 
     case DeckActionTypes.EditDeckItem:
       const nextDeck = JSON.parse(JSON.stringify(state.deckItems))
-      
+
       if(!action.payload.id){
         nextDeck.push(action.payload)
       }
@@ -76,4 +76,10 @@ export const selectSelectedCardState = createSelector(
 export const selectCurrentParentState = createSelector(
   deckState,
   (state: State) => state.currentParent
+)
+
+export const selectCardsByParentState = createSelector(
+  selectCurrentParentState,
+  selectDeckItemsState,
+  (parent, cards) => parent ? (cards || []).filter(p => p.parent === parent) : (cards || []).filter(p => p.parent === null)
 )

@@ -86,7 +86,7 @@
   -ms-flex-pack: stretch;
   justify-content: stretch;
   line-height: normal;
-  padding: 16px 16px;
+  padding: 9px 14px;
   -webkit-perspective-origin: 165px 56px;
   perspective-origin: 165px 56px;
   -webkit-transform-origin: 165px 56px;
@@ -136,8 +136,8 @@
 
 .#{$prefix}-card__menu {
   position: absolute;
-  right: 4px;
-  top: 4px;
+  right: 0px;
+  top: 0px;
 }
 
 .#{$prefix}-card__actions {

@@ -1,10 +1,11 @@
-query CommitmentsSearch($refiner: CommitmentRefinerGraph!, $book: BookType!) {
+query CommitmentsSearch($refiner: CommitmentRefinerGraph!, $book: BookType!, $webId: Guid!, $siteId: Guid! ) {
   commitments(refiner: $refiner, book: $book) {
     id
     title
     bookType: book
     politicalParty
     announcedBy
+    displayOrder(siteId:$siteId, webId:$webId)
     announcementType {
       id
       title

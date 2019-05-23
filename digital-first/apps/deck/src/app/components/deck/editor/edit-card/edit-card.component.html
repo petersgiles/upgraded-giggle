@@ -1,0 +1,205 @@
+<form [formGroup]="cardForm" (ngSubmit)="handleSubmit(selected)">
+  <div class="df-card__title {{ cardForm.get('colour')?.value }}">
+    <h2 class="df-card__title-text">{{ cardForm.get('title')?.value  }}</h2>
+  </div>
+  <div class="df-card__title">
+    <mdc-form-field fluid>
+      <mdc-text-field
+        label="Title"
+        formControlName="title"
+        dense 
+        required
+      ></mdc-text-field>
+    </mdc-form-field>
+  </div>
+  <div class="df-card__title">
+    <mdc-form-field fluid>
+      <mdc-text-field
+        label="Size"
+        formControlName="size"
+        type="number"
+        dense 
+        required
+      ></mdc-text-field>
+    </mdc-form-field>
+  </div>
+  <div class="df-card__title">
+    <mdc-form-field fluid>
+      <mdc-text-field
+        label="Sort Order"
+        formControlName="sortOrder"
+        type="number"
+      ></mdc-text-field>
+    </mdc-form-field>
+  </div>
+
+  <div class="df-card__supporting-text df-card--border deck-color-selector">
+    <mdc-form-field fluid>
+      <ng-select
+        appendTo="body"
+        [items]="cardTypes"
+        placeholder="Card Type"
+        required
+        formControlName="cardType"
+      >
+        <ng-template
+          ng-option-tmp
+          let-item="item"
+          let-index="index"
+          let-search="searchTerm"
+        >
+          <h5 class="color-title" [ngClass]="item">{{ item }}</h5>
+        </ng-template>
+      </ng-select>
+    </mdc-form-field>
+  </div>
+
+  <div class="df-card__supporting-text df-card--border deck-color-selector">
+    <mdc-form-field fluid>
+      <ng-select
+        appendTo="body"
+        [items]="webSafeColours$ | async"
+        placeholder="Colour"
+        required
+        formControlName="colour"
+      >
+        <ng-template
+          ng-option-tmp
+          let-item="item"
+          let-index="index"
+          let-search="searchTerm"
+        >
+          <h5 class="color-title" [ngClass]="item">{{ item }}</h5>
+        </ng-template>
+      </ng-select>
+    </mdc-form-field>
+  </div>
+
+  <div class="df-card__supporting-text df-card--border deck-color-selector">
+    <mdc-form-field fluid>
+      <ng-select
+        appendTo="body"
+        [items]="eligibleParents"
+        placeholder="Parent"
+        bindLabel="title"
+        bindValue="id"
+        formControlName="parent"
+      >
+        <ng-template
+          ng-option-tmp
+          let-item="item"
+          let-index="index"
+          let-search="searchTerm"
+        >
+          <h5 class="color-title" [ngClass]="item">{{ item.title }}</h5>
+        </ng-template>
+      </ng-select>
+    </mdc-form-field>
+  </div>
+
+  <div
+    *ngIf="!showEditData && !showViewData"
+    class="df-card__supporting-text df-card--border"
+  >
+    <mdc-form-field>
+      <ngx-wig
+        formControlName="supportingText"
+        [placeholder]="'Enter supporting text here.'"
+      ></ngx-wig>
+    </mdc-form-field>
+  </div>
+
+  <div
+    *ngIf="showBriefList"
+    class="df-card__supporting-text df-card--border deck-color-selector"
+  >
+    <mdc-form-field fluid>
+      <ng-select
+        appendTo="body"
+        [items]="briefs"
+        bindLabel="name"
+        placeholder="Select Brief"
+        [multiple]="true"
+        (change)="handleChangeBrief($event)"
+        [clearable]="false"
+        [hideSelected]="true"
+        [virtualScroll]="true"
+        formControlName="selectedBriefs"
+      >
+        <ng-template
+          ng-option-tmp
+          let-item="item"
+          let-index="index"
+          let-search="searchTerm"
+        >
+          <h5 class="color-title" [ngClass]="item">{{ item.name }}</h5>
+        </ng-template>
+      </ng-select>
+    </mdc-form-field>
+  </div>
+
+  <div *ngIf="showEditData" class="df-card__supporting-text df-card--border">
+    <mdc-form-field fluid>
+      <mdc-textarea label="Data" formControlName="data" rows="5"></mdc-textarea>
+    </mdc-form-field>
+  </div>
+
+  <div *ngIf="showViewData" class="df-card__supporting-text df-card--border">
+    <input type="hidden" formControlName="data" />
+    <pre>{{ cardForm.get('data').value | json }}</pre>
+  </div>
+
+  <div formGroupName="media" *ngIf="showEditMedia" class="df-card__title">
+    <mdc-text-field
+      type="url"
+      required
+      label="Media web address"
+      formControlName="url"
+    ></mdc-text-field>
+  </div>
+  <mdc-card outlined formArrayName="actions" class="df-card__actions-edit">
+    <div class="df-card__actions-heading" mdcSubtitle2>Actions</div>
+    <ng-container
+      *ngFor="let actionEditor of actions.controls; let actionIndex = index"
+      [formGroupName]="actionIndex"
+    >
+      <mdc-list-divider></mdc-list-divider>
+      <mdc-ripple class="df-card__actions-content">
+        <mdc-form-field fluid class="">
+          <mdc-text-field
+            label="Title"
+            formControlName="title"
+          ></mdc-text-field>
+        </mdc-form-field>
+        <mdc-form-field fluid>
+          <mdc-text-field
+            label="Url"
+            type="url"
+            formControlName="url"
+          ></mdc-text-field>
+        </mdc-form-field>
+        <a
+          mdc-button
+          dense
+          (click)="handleRemoveAction(actionIndex, actions[actionIndex])"
+          >Delete</a
+        >
+      </mdc-ripple>
+    </ng-container>
+    <mdc-list-divider></mdc-list-divider>
+    <div class="df-card__actions-footer">
+      <a mdc-button dense (click)="handleAddAction()">
+        Add Action
+      </a>
+    </div>
+  </mdc-card>
+  <div class="df-layout-spacer"></div>
+  <div class="df-card__actions df-card--border">
+    <button mdc-button dense type="reset" (click)="handleCancelEditCard()">
+      Cancel
+    </button>
+    <button mdc-button dense type="submit" [disabled]="!cardForm.valid">
+      Save
+    </button>
+  </div>
+</form>
