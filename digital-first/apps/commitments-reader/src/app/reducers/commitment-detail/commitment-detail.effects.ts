@@ -188,7 +188,7 @@ export class CommitmentDetailEffects {
           map(response => response.data.updatePmoHandlingAdviceCommitment.id),
           concatMap(response => [
             new SetPMOHandlingAdviceResult({
-              handlingAdviceId: config.data.handlingAdviceId
+              handlingAdvice: config.handlingAdvice
             }),
             new AppNotification({ message: `PMO Handling Advice Saved` }),
             new ClearAppNotification()
@@ -247,8 +247,10 @@ export class CommitmentDetailEffects {
           map(response => response.data.updatePmcHandlingAdviceCommitment.id),
           concatMap(response => [
             new SetPMCHandlingAdviceResult({
-              handlingAdviceId: config.data.handlingAdviceId
-            })
+              handlingAdvice: config.handlingAdvice
+            }),
+            new AppNotification({ message: `PMC Handling Advice Saved` }),
+            new ClearAppNotification()
           ]),
           catchError(error =>
             of(new UpdatePMCHandlingAdviceFailure(error)))

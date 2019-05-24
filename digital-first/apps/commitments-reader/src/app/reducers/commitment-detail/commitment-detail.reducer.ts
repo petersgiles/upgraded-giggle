@@ -50,7 +50,7 @@ export function reducer(
 
     case CommitmentDetailActionTypes.SetPMOHandlingAdviceResult:
       const pmocommitment = JSON.parse(JSON.stringify(state.commitment))
-      pmocommitment.pmoHandlingAdvice = action.payload.handlingAdvices
+      pmocommitment.pmoHandlingAdvice = action.payload.handlingAdvice
       return {
         ...state,
         commitment: pmocommitment
@@ -82,7 +82,7 @@ export function reducer(
 
     case CommitmentDetailActionTypes.SetPMCHandlingAdviceResult:
       const pmccommitment = JSON.parse(JSON.stringify(state.commitment))
-      pmccommitment.pmcHandlingAdvice = action.payload.handlingAdvices
+      pmccommitment.pmcHandlingAdvice = action.payload.handlingAdvice
       return {
         ...state,
         commitment: pmccommitment
