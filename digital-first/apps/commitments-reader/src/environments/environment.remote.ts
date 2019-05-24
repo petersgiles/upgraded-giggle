@@ -9,6 +9,10 @@ export const environment = {
     type: 'graph',
     dataServiceUrl: '//programs.cloud9.cabnet/graphql'
   },
+  loggingSource:{
+    type: 'seq',
+    loggingServiceUrl: '//programs.cloud9.cabnet'
+  },
   eventDatasource:'local',
   appConfigDataSource: 'local',
   // user "Mustang Sally" on Cloud9

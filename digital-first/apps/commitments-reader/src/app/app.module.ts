@@ -79,6 +79,9 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
 
 import { DragDropModule } from '@angular/cdk/drag-drop'
 
+import { SeqService } from './services/logging/log.service'
+import { ErrorsHandler } from './errors/errors-handler'
+
 const COMPONENTS = [
   AppComponent,
   HomeComponent,
@@ -175,6 +178,8 @@ const COMPONENTS = [
     commitmentEventDataServiceProvider,
     SharepointJsomService,
     DateFormatPipe,
+    SeqService,
+    ErrorsHandler,
     { provide: TitleLayoutService, useClass: AppFullLayoutService },
     /**
      * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.

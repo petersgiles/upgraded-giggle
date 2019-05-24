@@ -12,6 +12,10 @@ export const environment = {
     type: 'graph',
     dataServiceUrl: '//localhost:52619/graphql'
   },
+  loggingSource:{
+    type: 'seq',
+    loggingServiceUrl: '//programs.cloud9.cabnet'
+  },
   eventDatasource: 'local',
   appConfigDataSource: 'local',
   // developer's your API KEY here

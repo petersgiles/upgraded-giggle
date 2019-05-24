@@ -234,7 +234,8 @@ export class CommitmentDetailEffects {
           commitmentId: commitmentId,
           handlingAdviceId: action.payload.handlingAdviceId,
           webId: webId,
-          siteId: siteId
+          siteId: siteId,
+          test: null
         },
         handlingAdvice: handlingAdvices.find(item => { return item.value === action.payload.handlingAdviceId})
       }
