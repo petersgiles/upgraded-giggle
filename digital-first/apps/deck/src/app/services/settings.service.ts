@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core'
 import { environment } from '../../environments/environment'
+import { AppSettingsService } from '@digital-first/df-app-core'
 
 @Injectable({
   providedIn: 'root'
 })
-export class SettingsService {
-
-  constructor() { }
+export class SettingsService implements AppSettingsService {
+  constructor() {}
 
   get environment(): any {
     return environment
@@ -33,5 +33,4 @@ export class SettingsService {
   get assetsPath(): any {
     return environment.assetsPath
   }
-
 }

@@ -4,7 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects'
 import { Observable, EMPTY } from 'rxjs'
 import { map, concatMap, tap, switchMap, catchError } from 'rxjs/operators'
 import { Action } from '@ngrx/store'
-import { AppDataService } from '../../services/app-data/app-data.service'
+
 
 import {
   UserActionTypes,
@@ -12,6 +12,7 @@ import {
   SetUserOperations,
   SetCurrentUser
 } from './user.actions'
+import { AppDataService } from '../../services/app-data.service';
 
 @Injectable()
 export class UserEffects {
@@ -50,7 +51,7 @@ export class UserEffects {
       return EMPTY
     })
   )
-    
+
   constructor(
     private actions$: Actions,
     private appDataService: AppDataService

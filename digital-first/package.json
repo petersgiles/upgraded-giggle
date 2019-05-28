@@ -172,6 +172,7 @@
     "ngx-cookie": "^4.1.2",
     "ngx-cookie-service": "^2.1.0",
     "ngx-file-drop": "^6.0.1",
+    "ngx-logger": "^3.3.13",
     "ngx-markdown": "^7.1.5",
     "ngx-wig": "^1.6.0",
     "pdfmake": "^0.1.56",

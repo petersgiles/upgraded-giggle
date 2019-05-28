@@ -19,24 +19,33 @@ import { HomeComponent } from './pages/home/home.component'
 import { AppFullLayoutService } from './app-full-layout.service'
 import { AppRoutingModule } from './app-routing.module'
 import { DragDropModule } from '@angular/cdk/drag-drop'
-import { DfAppCoreModule } from '@digital-first/df-app-core'
+
 import { DfDatatableModule } from '@digital-first/df-datatable'
 import { DfButtonsModule } from '@digital-first/df-buttons'
 import { DfMapModule } from '@digital-first/df-map'
-import { initApplication } from './app-init'
+
 import { StoreModule, Store } from '@ngrx/store'
 
 import * as fromDeck from './reducers/deck/deck.reducer'
-import * as fromUser from './reducers/user/user.reducer'
-import * as fromApp from './reducers/app/app.reducer'
 
 import { EffectsModule } from '@ngrx/effects'
-import { RouterEffects } from './reducers/router.effects'
 import { DeckEffects } from './reducers/deck/deck.effects'
-import { AppEffects } from './reducers/app/app.effects'
-import { UserEffects } from './reducers/user/user.effects'
 
-import { metaReducers, reducers, CustomSerializer } from './reducers'
+import { 
+  DfAppCoreModule, 
+  CustomSerializer, 
+  RouterEffects, 
+  AppEffects, 
+  UserEffects, 
+  initApplication, 
+  AppReducer, 
+  UserReducer, 
+  AppSettingsService} from '@digital-first/df-app-core'
+
+// import * as fromUser from './reducers/user/user.reducer'
+// import * as fromApp from './reducers/app/app.reducer'
+
+import { metaReducers, reducers } from './reducers'
 import { environment } from '../environments/environment'
 import { RouterStateSerializer } from '@ngrx/router-store'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
@@ -45,8 +54,8 @@ import { configServiceProvider } from './services/config/config.service.factory'
 import { appDataServiceProvider } from './services/app-data/app-data.service.factory'
 import { deckDataServiceProvider } from './reducers/deck/deck-data.service.factory'
 import { SettingsService } from './services/settings.service'
-import { UserProfileComponent } from './pages/user-profile/user-profile.component';
-import { DigitalFirstDeckModule } from './components/deck';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component'
+import { DigitalFirstDeckModule } from './components/deck'
 
 const COMPONENTS = [AppComponent, HomeComponent, UserProfileComponent,  DialogAreYouSureComponent]
 
@@ -77,21 +86,21 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     AppRoutingModule,
     DragDropModule,
     DigitalFirstDeckModule,
-    
+
     StoreModule.forRoot(reducers, {
       metaReducers: metaReducers
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
 
-    StoreModule.forFeature('app', fromApp.reducer),
-    StoreModule.forFeature('user', fromUser.reducer),
+    StoreModule.forFeature('app', AppReducer),
+    StoreModule.forFeature('user', UserReducer),
     StoreModule.forFeature('deck', fromDeck.reducer),
 
     EffectsModule.forRoot([RouterEffects]),
     EffectsModule.forFeature([AppEffects, DeckEffects, UserEffects])
   ],
   providers: [
-    SettingsService,
+    { provide: AppSettingsService, useClass: SettingsService },
     WINDOW_PROVIDERS,
     {
       provide: APP_INITIALIZER,

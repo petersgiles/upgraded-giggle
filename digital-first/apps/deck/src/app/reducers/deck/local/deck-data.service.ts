@@ -2,21 +2,21 @@ import { Injectable } from '@angular/core'
 import { Observable, of, BehaviorSubject, Subject, Subscription } from 'rxjs'
 import { DeckDataService } from '../deck-data.service'
 import { deckData } from './data'
-import { DeckItem } from '../../../components/deck';
 @Injectable({
   providedIn: 'root'
 })
 export class DeckDataLocalService implements DeckDataService {
   fakeBackend: Subject<any[]> = new Subject()
   fakeBackendSubscription$: Subscription
-  deckItems: Subject<any> = new Subject()
-
+  deckItems: BehaviorSubject<any> = new BehaviorSubject(null)
 
   constructor() {
-    this.fakeBackendSubscription$ = this.fakeBackend.subscribe(next => this.deckItems.next({
-      data: next,
-      loading: false
-    }))
+    this.fakeBackendSubscription$ = this.fakeBackend.subscribe(next =>
+      this.deckItems.next({
+        data: next,
+        loading: false
+      })
+    )
 
     this.fakeBackend.next(deckData.data)
   }
@@ -37,5 +37,10 @@ export class DeckDataLocalService implements DeckDataService {
     return of(null)
   }
 
-  public getDeckItems = (): Observable<{ data: any; loading: boolean }> => this.deckItems
+  public getDeckItems = (): Observable<{ data: any; loading: boolean }> => {
+    const deckItems = this.deckItems
+    // tslint:disable-next-line: no-console
+    console.log(`🍄 getDeckItems`, deckItems.getValue())
+    return this.deckItems
+  }
 }

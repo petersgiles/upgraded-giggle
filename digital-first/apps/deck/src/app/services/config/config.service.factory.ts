@@ -1,11 +1,16 @@
 import { SharepointJsomService } from '@df/sharepoint'
-import { SettingsService } from '../settings.service'
+
 import { HttpClient } from '@angular/common/http'
-import { AppConfigService } from './config.service'
+
 import { DevelopConfigService } from './develop/develop-config.service'
 import { SharePointConfigService } from './sharepoint/sharepoint-config.service'
+import { AppSettingsService, AppConfigService } from '@digital-first/df-app-core'
 
-const configServiceFactory = (settings: SettingsService, http: HttpClient, sharepoint: SharepointJsomService) => {
+const configServiceFactory = (
+  settings: AppSettingsService,
+  http: HttpClient,
+  sharepoint: SharepointJsomService
+) => {
   if (settings.host === 'sharepoint') {
     return new SharePointConfigService(http, settings, sharepoint)
   }
@@ -15,5 +20,5 @@ const configServiceFactory = (settings: SettingsService, http: HttpClient, share
 export let configServiceProvider = {
   provide: AppConfigService,
   useFactory: configServiceFactory,
-  deps: [SettingsService, HttpClient, SharepointJsomService]
+  deps: [AppSettingsService, HttpClient, SharepointJsomService]
 }

@@ -13,12 +13,10 @@ import {
   RemoveDeckItem,
   UpdateDeckItem
 } from './deck.actions'
-import { DeckDataService } from './deck-data.service';
+import { DeckDataService } from './deck-data.service'
 
 @Injectable()
 export class DeckEffects {
- 
-
   @Effect()
   getDeckItems$ = this.actions$.pipe(
     ofType(DeckActionTypes.GetDeckItems),
