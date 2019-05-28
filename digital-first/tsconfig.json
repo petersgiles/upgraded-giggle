@@ -34,7 +34,8 @@
       "@digital-first/df-datatable": ["libs/df-datatable/src/index.ts"],
       "@digital-first/df-buttons": ["libs/df-buttons/src/index.ts"],
       "@digital-first/df-map": ["libs/df-map/src/index.ts"],
-      "@digital-first/df-refiner": ["libs/df-refiner/src/index.ts"]
+      "@digital-first/df-refiner": ["libs/df-refiner/src/index.ts"],
+      "@digital-first/df-app-core": ["libs/df-app-core/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

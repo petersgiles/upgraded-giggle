@@ -150,9 +150,7 @@ export class CommitmentDetailEffects {
         concatMap(advices => [new LoadHandlingAdvices({ advices })])
       )
     ),
-    catchError(error => {
-      return of(new GetHandlingAdvicesFailure(error))
-    })
+    catchError(error => of(new GetHandlingAdvicesFailure(error)))
   )
 
   @Effect()
@@ -177,7 +175,7 @@ export class CommitmentDetailEffects {
           webId: webId,
           siteId: siteId
         },
-        handlingAdvice: handlingAdvices.find(item => { return item.value === action.payload.handlingAdviceId})
+        handlingAdvice: handlingAdvices.find(item => item.value === action.payload.handlingAdviceId)
       }
     }),
     switchMap(config =>
