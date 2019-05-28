@@ -115,7 +115,7 @@ export class CommitmentDisplayOrderEffects {
 
   private catchError() {
     return catchError(error => {
-      let message = 'an error occured'
+      let message = 'Error occured'
       if (error.networkError) {
         message = `${message} - ${error.networkError.message}`
       }
