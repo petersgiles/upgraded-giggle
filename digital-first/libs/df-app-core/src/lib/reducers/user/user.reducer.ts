@@ -1,13 +1,18 @@
 import { UserActions, UserActionTypes, GetCurrentUser } from './user.actions'
 import { AppActions, AppActionTypes } from '../app/app.actions'
 import { createFeatureSelector, createSelector } from '@ngrx/store'
-import {
-  OPERATION_DEFAULTS,
-  OPERATION_RIGHTS_PRECEDENT,
-  OPERATION_PLANNER,
-  OPERATION_RIGHT_WRITE
-} from '../../services/app-data/app-operations'
-import { stringify } from 'querystring'
+
+export const ROLE_OWNERS = 'ROLE_OWNERS'
+export const ROLE_MEMBERS = 'ROLE_MEMBERS'
+export const ROLE_VISITORS = 'ROLE_VISITORS'
+
+export const OPERATION_RIGHT_READ = 'read'
+export const OPERATION_RIGHT_WRITE = 'write'
+export const OPERATION_RIGHT_HIDE = 'hide'
+
+export const OPERATION_RIGHTS_PRECEDENT = [OPERATION_RIGHT_HIDE, OPERATION_RIGHT_WRITE, OPERATION_RIGHT_READ]
+
+export const OPERATION_DEFAULTS = {}
 
 export interface State {
   currentUser
@@ -166,13 +171,4 @@ export const getUserOperationMatrix = createSelector(
       console.log(`💦`, acc)
       return acc
     }, [])
-)
-
-export const getUserCurrentUserPlannerPermission = createSelector(
-  getUserCurrentUser,
-  getUserCurrentUserOperations,
-  (user, operations) =>
-    user && user.isSiteAdmin
-      ? OPERATION_RIGHT_WRITE
-      : operations[OPERATION_PLANNER]
 )

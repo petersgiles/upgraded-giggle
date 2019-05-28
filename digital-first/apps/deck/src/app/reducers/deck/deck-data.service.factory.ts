@@ -2,10 +2,11 @@ import { SharepointJsomService } from '@df/sharepoint'
 import { DeckDataSharepointService } from './sharepoint/deck-data.service';
 import { DeckDataLocalService } from './local/deck-data.service';
 import { DeckDataService } from './deck-data.service';
-import { SettingsService } from '../../services/settings.service';
+import { AppSettingsService } from '@digital-first/df-app-core';
+
 
 const deckDataServiceFactory = (
-  settings: SettingsService,
+  settings: AppSettingsService,
   sharepointlib: SharepointJsomService
 ) => {
   let source = null
@@ -24,5 +25,5 @@ const deckDataServiceFactory = (
 export let deckDataServiceProvider = {
   provide: DeckDataService,
   useFactory: deckDataServiceFactory,
-  deps: [SettingsService, SharepointJsomService]
+  deps: [AppSettingsService, SharepointJsomService]
 }

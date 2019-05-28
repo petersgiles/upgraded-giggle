@@ -1,16 +1,19 @@
 import { Observable, of, from } from 'rxjs'
-import { AppDataService } from '../app-data.service'
+
 import { AppUserProfile } from '@digital-first/df-layouts'
 import {
-  ROLE_VISITORS,
-  ROLE_MEMBERS,
-  ROLE_OWNERS,
   OPERATION_PMO_HANDLING_ADVICE,
-  OPERATION_PMC_HANDLING_ADVICE,
-  OPERATION_RIGHT_WRITE,
-  OPERATION_RIGHT_HIDE,
-  OPERATION_RIGHT_READ
+  OPERATION_PMC_HANDLING_ADVICE
 } from '../app-operations'
+import {
+  ROLE_OWNERS,
+  OPERATION_RIGHT_WRITE,
+  ROLE_MEMBERS,
+  OPERATION_RIGHT_READ,
+  ROLE_VISITORS,
+  OPERATION_RIGHT_HIDE,
+  AppDataService
+} from '@digital-first/df-app-core'
 
 const testOperations = [
   {
@@ -47,6 +50,7 @@ export class DevelopAppDataService implements AppDataService {
   }
 
   constructor() {
+    // tslint:disable-next-line: no-console
     console.log('DevelopAppDataService')
   }
 

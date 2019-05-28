@@ -1,4 +1,4 @@
-export const deckItems = {
+export const deckData = {
   data: [
     {
       id: 7,

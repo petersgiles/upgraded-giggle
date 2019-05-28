@@ -1,5 +1,5 @@
 import { Observable, of } from 'rxjs'
-import { AppDataService } from '../app-data.service'
+
 import {
   SharepointJsomService,
   SPAppUserProfile,
@@ -7,6 +7,7 @@ import {
 } from '@df/sharepoint'
 import { concatMap } from 'rxjs/operators'
 import { DataResult, GroupPermissionsResult } from '../../../models'
+import { AppDataService } from '@digital-first/df-app-core'
 
 export const mapGroupPermission = (item): any => ({
   id: item.ID,
