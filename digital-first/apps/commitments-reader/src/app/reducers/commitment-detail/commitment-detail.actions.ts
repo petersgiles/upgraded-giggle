@@ -32,7 +32,6 @@ export class UpdatePMOHandlingAdvice implements Action {
 }
 
 export class UpdatePMCHandlingAdvice implements Action {
-  ws
   type = CommitmentDetailActionTypes.UpdatePMCHandlingAdvice
   constructor(public payload: { handlingAdviceId: string }) {}
 }
@@ -42,11 +41,6 @@ export class LoadDetailedCommitment implements Action {
   constructor(public payload: any) {}
 }
 
-/* export class LoadCommitmentDetails implements Action {
-  readonly type = CommitmentDetailActionTypes.LoadCommitmentDetails
-  constructor(public payload: { path: string }) {}
-}
- */
 export class GetDetailedCommitment implements Action {
   type = CommitmentDetailActionTypes.GetDetailedCommitment
   constructor(public payload: { id: any }) {}

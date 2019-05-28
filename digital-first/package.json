@@ -148,7 +148,7 @@
     "apollo-link-debounce": "^2.1.0",
     "apollo-link-error": "^1.1.10",
     "apollo-link-rest": "^0.7.3",
-    "bryntum-scheduler": "^2.0.34391",
+    "bryntum-scheduler": "^2.0.34414",
     "chart.js": "^2.8.0",
     "classlist.js": "^1.1.20150312",
     "codemirror": "^5.47.0",
@@ -193,6 +193,7 @@
     "zone.js": "^0.9.1"
   },
   "devDependencies": {
+    "ts-jest": "24.0.0",
     "@angular-devkit/build-angular": "^0.13.9",
     "@angular/cli": "^7.3.9",
     "@angular/compiler-cli": "^7.2.15",
@@ -227,6 +228,7 @@
     "ngrx-store-freeze": "0.2.4",
     "prettier": "^1.17.1",
     "protractor": "^5.4.2",
+    "spdx-license-ids": "^3.0.4",
     "ts-node": "^8.1.0",
     "tslint": "^5.16.0",
     "typescript": "3.2.4"

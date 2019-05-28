@@ -11,7 +11,6 @@ import {
 import { DfComponentsModule } from '@digital-first/df-components'
 import { DfThemeModule } from '@digital-first/df-theme'
 
-import { DfLoggingModule } from '@digital-first/df-logging'
 import { AuthService } from './services/auth.service'
 import { AuthGuard } from './services/auth-guard.service'
 import { JwtHelperService, JwtModule } from '@auth0/angular-jwt'
@@ -25,7 +24,6 @@ export function getToken() {
 @NgModule({
   imports: [
     CommonModule,
-    DfLoggingModule,
     DfComponentsModule,
     DfThemeModule,
     JwtModule.forRoot({

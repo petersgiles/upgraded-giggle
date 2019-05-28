@@ -40,18 +40,23 @@ export class AppFullLayoutService {
       },
       {
         caption: 'Map',
-        icon: 'map',
+        icon: 'place',
         routerLink: ['/map']
       },
       {
         caption: 'Overview',
-        icon: 'home',
+        icon: 'table_chart',
         routerLink: ['/overview']
       },
       {
         caption: 'Planner',
-        icon: 'home',
+        icon: 'calendar_today',
         routerLink: ['/planner']
+      },
+      {
+        caption: 'Display Order',
+        icon: 'home',
+        routerLink: ['/displayorder']
       }
     ])
   }

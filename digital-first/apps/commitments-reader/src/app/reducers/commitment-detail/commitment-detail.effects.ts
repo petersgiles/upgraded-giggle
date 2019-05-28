@@ -2,11 +2,9 @@ import { Injectable } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 import {
   concatMap,
-  filter,
   switchMap,
   map,
   withLatestFrom,
-  tap,
   catchError,
   first
 } from 'rxjs/operators'
@@ -35,30 +33,51 @@ import {
 } from '../../generated/graphql'
 import { Config } from '../../services/config/config-model'
 import { Store } from '@ngrx/store'
+import { CommitmentLocation } from '../../models/commitment.model';
 import { AppNotification, ClearAppNotification } from '../app/app.actions'
 import { generateGUID } from '../../utils'
 
-const mapHandlingadvice = (item): any => {
-  if (item && item[0]) {
-    const handlingAdvice = item[0].handlingAdvice
-    return handlingAdvice.value
-  }
-  return null
+const mapElectorates = (commitmentLocations) => {
+     let commitmentLoation: CommitmentLocation[] = []
+       if (commitmentLocations && commitmentLocations.length) {
+         commitmentLocations.map(electorate => {
+           commitmentLoation.push({
+            id: electorate.location.id,
+             state: electorate.location.state,
+             title: electorate.location.title
+           })
+         })
+       }
+     return commitmentLoation
+  } 
+
+const setAdvice = (advice) => {
+     let label = advice.label
+     let value = advice.value
+
+     return {value: value, label: label}
 }
 
 const mapCommitmentDetail = (item): any => {
   const mapResult = {
-    ...item,
+    id: item.id,
+    title: item.title,
+    description: item.description,
+    bookType: item.bookType,
+    cost: item.cost,
+    date: item.date,
+    politicalParty: item.politicalParty,
+    announcedBy: item.announcedBy,
     commitmentType: item.commitmentType ? item.commitmentType.title : '',
     status: item.status ? item.status.title : '',
     announcementType: item.announcementType ? item.announcementType.title : '',
     criticalDate: item.criticalDate ? item.criticalDate.title : '',
     portfolio: item.portfolioLookup ? item.portfolioLookup.title : '',
-    // electorates: this.handleElectorates(item.commitmentLocations)
-    pmcHandlingAdvice: mapHandlingadvice(item.pmcHandlingAdviceCommitments),
-    pmoHandlingAdvice: mapHandlingadvice(item.pmoHandlingAdviceCommitments)
+    electorates: mapElectorates(item.commitmentLocations),
+    pmcHandlingAdvice: item.pmcHandlingAdviceCommitments.length ? setAdvice(item.pmcHandlingAdviceCommitments[0].handlingAdvice) : { value: " ", label: " " },
+    pmoHandlingAdvice: item.pmoHandlingAdviceCommitments.length ? setAdvice(item.pmoHandlingAdviceCommitments[0].handlingAdvice) : { value: " ", label: " " }
+    
   }
-
   return mapResult
 }
 
@@ -92,21 +111,17 @@ export class CommitmentDetailEffects {
       }
     }),
     switchMap(config =>
-      this.getCommitmentDetailGQL
-        .fetch(config, { fetchPolicy: 'network-only' })
-        .pipe(
-          first(),
-          map(result => result.data.commitments[0]),
-          map(mapCommitmentDetail),
-          concatMap(result => [
-            new LoadDetailedCommitment(result),
-            new GetHandlingAdvices(null)
-          ])
-        )
+      this.getCommitmentDetailGQL.fetch(config, { fetchPolicy: 'network-only' }).pipe(
+        first(),
+        map((result: any) => result.data.commitments[0]),
+        map(mapCommitmentDetail),
+        concatMap(result => [
+          new LoadDetailedCommitment(result),
+          new GetHandlingAdvices(null)
+        ])
+      )
     ),
     catchError(error => {
-      // tslint:disable-next-line: no-console
-      console.log(`💥 error => `, error)
       return of(new GetDetailedCommitmentFailure(error))
     })
   )
@@ -129,19 +144,13 @@ export class CommitmentDetailEffects {
       }
     }),
     switchMap(config =>
-      this.getHandlingAdvicesGQL
-        .fetch(config, { fetchPolicy: 'network-only' })
-        .pipe(
-          first(),
-          map(result => result.data.handlingAdvices),
-          concatMap(advices => [new LoadHandlingAdvices({ advices })])
-        )
+      this.getHandlingAdvicesGQL.fetch(config, { fetchPolicy: 'network-only' }).pipe(
+        first(),
+        map((result: any) => result.data.handlingAdvices),
+        concatMap(advices => [new LoadHandlingAdvices({ advices })])
+      )
     ),
-    catchError(error => {
-      // tslint:disable-next-line: no-console
-      console.log(`💥 error => `, error)
-      return of(new GetHandlingAdvicesFailure(error))
-    })
+    catchError(error => of(new GetHandlingAdvicesFailure(error)))
   )
 
   @Effect()
@@ -156,6 +165,7 @@ export class CommitmentDetailEffects {
       const siteId = config.siteId
 
       const commitmentId = store.commitmentDetail.commitment.id
+      const handlingAdvices = store.commitmentDetail.handlingAdvices
       return {
         messageId: generateGUID(),
         conversationId: generateGUID(),
@@ -164,7 +174,8 @@ export class CommitmentDetailEffects {
           handlingAdviceId: action.payload.handlingAdviceId,
           webId: webId,
           siteId: siteId
-        }
+        },
+        handlingAdvice: handlingAdvices.find(item => item.value === action.payload.handlingAdviceId)
       }
     }),
     switchMap(config =>
@@ -175,16 +186,12 @@ export class CommitmentDetailEffects {
           map(response => response.data.updatePmoHandlingAdviceCommitment.id),
           concatMap(response => [
             new SetPMOHandlingAdviceResult({
-              handlingAdviceId: config.data.handlingAdviceId
+              handlingAdvice: config.handlingAdvice
             }),
             new AppNotification({ message: `PMO Handling Advice Saved` }),
             new ClearAppNotification()
           ]),
-          catchError(error => {
-            // tslint:disable-next-line: no-console
-            console.log(`💥 error => `, error)
-            return of(new UpdatePMOHandlingAdviceFailure(error))
-          })
+          catchError(error => of(new UpdatePMOHandlingAdviceFailure(error)))
         )
     )
   )
@@ -204,6 +211,7 @@ export class CommitmentDetailEffects {
       ]
     })
   )
+
   @Effect()
   updatePMCHandlingAdvice$ = this.actions$.pipe(
     ofType(CommitmentDetailActionTypes.UpdatePMCHandlingAdvice),
@@ -214,7 +222,9 @@ export class CommitmentDetailEffects {
       const config: Config = store.app.config
       const webId = config.webId
       const siteId = config.siteId
+
       const commitmentId = store.commitmentDetail.commitment.id
+      const handlingAdvices = store.commitmentDetail.handlingAdvices
       return {
         messageId: generateGUID(),
         conversationId: generateGUID(),
@@ -223,7 +233,8 @@ export class CommitmentDetailEffects {
           handlingAdviceId: action.payload.handlingAdviceId,
           webId: webId,
           siteId: siteId
-        }
+        },
+        handlingAdvice: handlingAdvices.find(item => { return item.value === action.payload.handlingAdviceId})
       }
     }),
     switchMap(config =>
@@ -234,15 +245,30 @@ export class CommitmentDetailEffects {
           map(response => response.data.updatePmcHandlingAdviceCommitment.id),
           concatMap(response => [
             new SetPMCHandlingAdviceResult({
-              handlingAdviceId: config.data.handlingAdviceId
-            })
-          ])
+              handlingAdvice: config.handlingAdvice
+            }),
+            new AppNotification({ message: `PMC Handling Advice Saved` }),
+            new ClearAppNotification()
+          ]),
+          catchError(error =>
+            of(new UpdatePMCHandlingAdviceFailure(error)))
         )
-    ),
-    catchError(error => {
-      // tslint:disable-next-line: no-console
-      console.log(`💥 error => `, error)
-      return of(new UpdatePMCHandlingAdviceFailure(error))
-    })
+    )
   )
+
+    @Effect()
+  updatePMCHandlingAdviceFailure$ = this.actions$.pipe(
+    ofType(CommitmentDetailActionTypes.UpdatePMCHandlingAdviceFailure),
+    switchMap((error: any) => {
+      let message = 'an error occured'
+
+      if (error.payload.networkError) {
+        message = `${message} - ${error.payload.networkError.message}`
+      }
+      return [
+        new AppNotification({ message: message }),
+        new ClearAppNotification()
+      ]
+    })
+  )  
 }

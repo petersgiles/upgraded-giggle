@@ -26,9 +26,7 @@
               "apps/policy-briefs/src/favicon.ico",
               "apps/policy-briefs/src/assets"
             ],
-            "styles": [
-              "apps/policy-briefs/src/styles.scss"
-            ],
+            "styles": ["apps/policy-briefs/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -84,9 +82,7 @@
             "polyfills": "apps/policy-briefs/src/polyfills.ts",
             "tsConfig": "apps/policy-briefs/tsconfig.spec.json",
             "karmaConfig": "apps/policy-briefs/karma.conf.js",
-            "styles": [
-              "apps/policy-briefs/src/styles.scss"
-            ],
+            "styles": ["apps/policy-briefs/src/styles.scss"],
             "scripts": [],
             "assets": [
               "apps/policy-briefs/src/favicon.ico",
@@ -101,9 +97,7 @@
               "apps/policy-briefs/tsconfig.app.json",
               "apps/policy-briefs/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -129,9 +123,7 @@
               "libs/df-layouts/tsconfig.lib.json",
               "libs/df-layouts/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -157,9 +149,7 @@
               "libs/df-theme/tsconfig.lib.json",
               "libs/df-theme/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -187,9 +177,7 @@
               "apps/commitments/src/favicon.ico",
               "apps/commitments/src/assets"
             ],
-            "styles": [
-              "apps/commitments/src/styles.scss"
-            ],
+            "styles": ["apps/commitments/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -245,9 +233,7 @@
             "polyfills": "apps/commitments/src/polyfills.ts",
             "tsConfig": "apps/commitments/tsconfig.spec.json",
             "karmaConfig": "apps/commitments/karma.conf.js",
-            "styles": [
-              "apps/commitments/src/styles.scss"
-            ],
+            "styles": ["apps/commitments/src/styles.scss"],
             "scripts": [],
             "assets": [
               "apps/commitments/src/favicon.ico",
@@ -262,9 +248,7 @@
               "apps/commitments/tsconfig.app.json",
               "apps/commitments/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -292,9 +276,7 @@
               "apps/brief-admin/src/favicon.ico",
               "apps/brief-admin/src/assets"
             ],
-            "styles": [
-              "apps/brief-admin/src/styles.scss"
-            ],
+            "styles": ["apps/brief-admin/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -350,9 +332,7 @@
             "polyfills": "apps/brief-admin/src/polyfills.ts",
             "tsConfig": "apps/brief-admin/tsconfig.spec.json",
             "karmaConfig": "apps/brief-admin/karma.conf.js",
-            "styles": [
-              "apps/brief-admin/src/styles.scss"
-            ],
+            "styles": ["apps/brief-admin/src/styles.scss"],
             "scripts": [],
             "assets": [
               "apps/brief-admin/src/favicon.ico",
@@ -367,9 +347,7 @@
               "apps/brief-admin/tsconfig.app.json",
               "apps/brief-admin/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -393,13 +371,8 @@
             "main": "apps/deck/src/main.ts",
             "polyfills": "apps/deck/src/polyfills.ts",
             "tsConfig": "apps/deck/tsconfig.app.json",
-            "assets": [
-              "apps/deck/src/favicon.ico",
-              "apps/deck/src/assets"
-            ],
-            "styles": [
-              "apps/deck/src/styles.scss"
-            ],
+            "assets": ["apps/deck/src/favicon.ico", "apps/deck/src/assets"],
+            "styles": ["apps/deck/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -455,14 +428,9 @@
             "polyfills": "apps/deck/src/polyfills.ts",
             "tsConfig": "apps/deck/tsconfig.spec.json",
             "karmaConfig": "apps/deck/karma.conf.js",
-            "styles": [
-              "apps/deck/src/styles.scss"
-            ],
+            "styles": ["apps/deck/src/styles.scss"],
             "scripts": [],
-            "assets": [
-              "apps/deck/src/favicon.ico",
-              "apps/deck/src/assets"
-            ]
+            "assets": ["apps/deck/src/favicon.ico", "apps/deck/src/assets"]
           }
         },
         "lint": {
@@ -472,9 +440,7 @@
               "apps/deck/tsconfig.app.json",
               "apps/deck/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -498,13 +464,8 @@
             "main": "apps/todo/src/main.ts",
             "polyfills": "apps/todo/src/polyfills.ts",
             "tsConfig": "apps/todo/tsconfig.app.json",
-            "assets": [
-              "apps/todo/src/favicon.ico",
-              "apps/todo/src/assets"
-            ],
-            "styles": [
-              "apps/todo/src/styles.scss"
-            ],
+            "assets": ["apps/todo/src/favicon.ico", "apps/todo/src/assets"],
+            "styles": ["apps/todo/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -560,14 +521,9 @@
             "polyfills": "apps/todo/src/polyfills.ts",
             "tsConfig": "apps/todo/tsconfig.spec.json",
             "karmaConfig": "apps/todo/karma.conf.js",
-            "styles": [
-              "apps/todo/src/styles.scss"
-            ],
+            "styles": ["apps/todo/src/styles.scss"],
             "scripts": [],
-            "assets": [
-              "apps/todo/src/favicon.ico",
-              "apps/todo/src/assets"
-            ]
+            "assets": ["apps/todo/src/favicon.ico", "apps/todo/src/assets"]
           }
         },
         "lint": {
@@ -577,9 +533,7 @@
               "apps/todo/tsconfig.app.json",
               "apps/todo/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -605,9 +559,7 @@
               "libs/df-discussion/tsconfig.lib.json",
               "libs/df-discussion/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -633,9 +585,7 @@
               "libs/df-moment/tsconfig.lib.json",
               "libs/df-moment/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -661,9 +611,7 @@
               "libs/df-pipes/tsconfig.lib.json",
               "libs/df-pipes/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -689,9 +637,7 @@
               "libs/df-utils/tsconfig.lib.json",
               "libs/df-utils/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -717,9 +663,7 @@
               "libs/df-pages/tsconfig.lib.json",
               "libs/df-pages/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -745,9 +689,7 @@
               "libs/df-dialogs/tsconfig.lib.json",
               "libs/df-dialogs/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -778,9 +720,7 @@
               "libs/df-components/tsconfig.lib.json",
               "libs/df-components/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -806,9 +746,7 @@
               "libs/df-logging/tsconfig.lib.json",
               "libs/df-logging/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -837,9 +775,7 @@
               "apps/programs-admin/src/assets",
               "apps/programs-admin/src/unauthorised.html"
             ],
-            "styles": [
-              "apps/programs-admin/src/styles.scss"
-            ],
+            "styles": ["apps/programs-admin/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -923,9 +859,7 @@
               "apps/programs-admin/tsconfig.spec.json",
               "apps/programs-admin/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "test": {
@@ -959,9 +893,7 @@
               "libs/df-auth/tsconfig.lib.json",
               "libs/df-auth/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -987,9 +919,7 @@
               "libs/df-app-tokens/tsconfig.lib.json",
               "libs/df-app-tokens/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -1015,9 +945,7 @@
               "libs/df-tag/tsconfig.lib.json",
               "libs/df-tag/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       },
@@ -1048,9 +976,7 @@
               "libs/df-datatable/tsconfig.lib.json",
               "libs/df-datatable/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       },
@@ -1081,9 +1007,7 @@
               "libs/df-buttons/tsconfig.lib.json",
               "libs/df-buttons/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       },
@@ -1114,9 +1038,7 @@
               "libs/df-map/tsconfig.lib.json",
               "libs/df-map/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       },
@@ -1147,9 +1069,7 @@
               "libs/df-refiner/tsconfig.lib.json",
               "libs/df-refiner/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       },
@@ -1179,9 +1099,7 @@
               "apps/commitments-reader/src/assets",
               "apps/commitments-reader/src/scheduler"
             ],
-            "styles": [
-              "apps/commitments-reader/src/styles.scss"
-            ],
+            "styles": ["apps/commitments-reader/src/styles.scss"],
             "scripts": [],
             "es5BrowserSupport": true
           },
@@ -1275,9 +1193,7 @@
               "apps/commitments-reader/tsconfig.app.json",
               "apps/commitments-reader/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "test": {
@@ -1287,6 +1203,36 @@
             "tsConfig": "apps/commitments-reader/tsconfig.spec.json",
             "setupFile": "apps/commitments-reader/src/test-setup.ts"
           }
+        }
+      }
+    },
+    "df-app-core": {
+      "root": "libs/df-app-core",
+      "sourceRoot": "libs/df-app-core/src",
+      "projectType": "library",
+      "prefix": "digital-first",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-app-core/tsconfig.lib.json",
+              "libs/df-app-core/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "libs/df-app-core/jest.config.js",
+            "tsConfig": "libs/df-app-core/tsconfig.spec.json"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/schematics:component": {
+          "styleext": "scss"
         }
       }
     }

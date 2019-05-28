@@ -1,0 +1,90 @@
+<div class="page">
+  <section [mdcElevation]="5">
+    <div class="app-layout__row--no-wrap" style="height:85vh;overflow-y:auto">
+      <div
+        cdkDropList
+        id="orderContainer"
+        #withDisplayOrderList="cdkDropList"
+        [cdkDropListData]="commitmentsWithDisplayOrder$ | async"
+        [cdkDropListConnectedTo]="[withoutDisplayOrderList]"
+        (cdkDropListDropped)="handleDrop($event)"
+        class="display-order-list"
+        [mdcElevation]="5"
+      >
+        <div start class="header" mdcSubtitle2>
+          <ng-container *ngIf="(orderChanged$ | async) === true">
+            <button
+              class="primary"
+              mdc-button
+              primary
+              (click)="handleApplyCommitmentDisplayOrders()"
+            >
+              Apply Commitment Display Order
+            </button>
+          </ng-container>
+          <ng-container *ngIf="(orderChanged$ | async) === false">
+            <button mdc-button outlined disabled>
+              Apply Commitment Display Order
+            </button>
+          </ng-container>
+        </div>
+
+        <ng-container
+          *ngIf="(commitmentsWithDisplayOrder$ | async)?.length > 0"
+        >
+          <div
+            class="drag-box"
+            *ngFor="let item of commitmentsWithDisplayOrder$ | async"
+            cdkDrag
+          >
+            <span class="primary-text">{{ item.title }}
+                <ng-container *ngIf="item.portfolio">
+                    <label class="secondary-text">({{ item.portfolio }})</label>
+                  </ng-container>
+            </span>
+           
+          </div>
+        </ng-container>
+
+        <ng-container
+          *ngIf="(commitmentsWithDisplayOrder$ | async)?.length === 0"
+        >
+          <div cdkDrag class="drag-box ">
+            <span class="primary-text"
+              ><mdc-icon>drag_indicator</mdc-icon>
+              Drag your commitments here to order
+            </span>
+          </div>
+        </ng-container>
+      </div>
+
+      <div
+        cdkDropList
+        id="noneOrderContainer"
+        #withoutDisplayOrderList="cdkDropList"
+        dense
+        [cdkDropListData]="commitmentsWithoutDisplayOrder$ | async"
+        [cdkDropListConnectedTo]="[withDisplayOrderList]"
+        (cdkDropListDropped)="handleDrop($event)"
+        class="display-order-list"
+        [mdcElevation]="5"
+      >
+        <div class="header" mdcSubtitle2>
+          Commitments Without Display Order
+        </div>
+        <div
+          class="drag-box"
+          *ngFor="let item of commitmentsWithoutDisplayOrder$ | async"
+          cdkDragLockAxis="x"
+          cdkDrag
+        >
+          <span class="primary-text">{{ item.title }}
+              <ng-container *ngIf="item.portfolio">
+                  <label class="secondary-text">({{ item.portfolio }})</label>
+                </ng-container>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,12 +1,10 @@
 mutation ApplyCommitmentDisplayOrder(
   $applyCommitmentDisplayOrder: ApplyCommitmentDisplayOrderGraph!,
   $messageId: Guid!,
-  $conversationId: Guid!
 ) {
   applyCommitmentDisplayOrder(
   	applyCommitmentDisplayOrder: $applyCommitmentDisplayOrder,
 		messageId: $messageId,
-    conversationId:  $conversationId
   ) {
     id
   }

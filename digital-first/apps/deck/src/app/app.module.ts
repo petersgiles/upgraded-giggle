@@ -8,7 +8,6 @@ import { WINDOW_PROVIDERS } from '@df/utils'
 import { DfLayoutsModule, TitleLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
 import { DfPipesModule } from '@digital-first/df-pipes'
-import { DfLoggingModule } from '@digital-first/df-logging'
 import { DfComponentsModule } from '@digital-first/df-components'
 import { DfMomentModule, DateFormatPipe } from '@digital-first/df-moment'
 import { DfDiscussionModule } from '@digital-first/df-discussion'
@@ -20,6 +19,7 @@ import { HomeComponent } from './pages/home/home.component'
 import { AppFullLayoutService } from './app-full-layout.service'
 import { AppRoutingModule } from './app-routing.module'
 import { DragDropModule } from '@angular/cdk/drag-drop'
+import { DfAppCoreModule } from '@digital-first/df-app-core'
 import { DfDatatableModule } from '@digital-first/df-datatable'
 import { DfButtonsModule } from '@digital-first/df-buttons'
 import { DfMapModule } from '@digital-first/df-map'
@@ -61,7 +61,7 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     HttpClientModule,
     ReactiveFormsModule,
     NxModule.forRoot(),
-    DfLoggingModule,
+    DfAppCoreModule,
     DfComponentsModule,
     DfDatatableModule,
     DfButtonsModule,

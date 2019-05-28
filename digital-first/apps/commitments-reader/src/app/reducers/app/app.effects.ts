@@ -31,15 +31,19 @@ import {
   SetPMOHandlingAdviceResult,
   SetPMCHandlingAdviceResult
 } from '../commitment-detail/commitment-detail.actions'
+import { CommitmentDisplayOrderActionTypes, ApplyCommitmentDisplayOrders } from '../commitment-display-order/commitment-display-order.actions'
 
-type showSpinnerTypes = GetRefinerGroups 
-| UpdatePMOHandlingAdvice
-| UpdatePMCHandlingAdvice
+type showSpinnerTypes =
+  | GetRefinerGroups
+  | UpdatePMOHandlingAdvice
+  | UpdatePMCHandlingAdvice
+  | ApplyCommitmentDisplayOrders
 
 const showSpinnerActions = [
   RefinerActionTypes.GetRefinerGroups,
   CommitmentDetailActionTypes.UpdatePMOHandlingAdvice,
-  CommitmentDetailActionTypes.UpdatePMCHandlingAdvice
+  CommitmentDetailActionTypes.UpdatePMCHandlingAdvice,
+  CommitmentDisplayOrderActionTypes.ApplyCommitmentDisplayOrders
 ]
 
 type hideSpinnerTypes =
@@ -102,7 +106,6 @@ export class AppEffects {
         })
       )
     })
- 
   )
 
   constructor(

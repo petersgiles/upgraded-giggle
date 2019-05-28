@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 
-import { map, catchError, withLatestFrom, concatMap } from 'rxjs/operators'
+import { map, catchError, withLatestFrom, concatMap, switchMap } from 'rxjs/operators'
 import {
   PlannerActionTypes,
   PlannerActions,
@@ -20,16 +20,31 @@ import * as fromRoot from '../../reducers'
 import { CommitmentEventDataService } from '../../services/commitment-event/commitment-event-data-service'
 @Injectable()
 export class PlannerEffects {
+  constructor(
+    private actions$: Actions<PlannerActions>,
+    private rootStore$: Store<fromRoot.State>,
+    private commitmentEventDataService: CommitmentEventDataService
+  ) {}
+
   @Effect()
   getCommitmentsEvents$ = this.actions$.pipe(
     ofType(PlannerActionTypes.GetCommitmentEvents),
-    concatMap(action =>
-      this.commitmentEventDataService
-        .getEventsByCommitments(action.payload)
-        .pipe(
-          map(data => new LoadCommitmentEvents(data)),
-          catchError(error => [new ErrorInPlanner(error)])
-        )
+    withLatestFrom(this.rootStore$),
+    map(([_, root]) => {
+      const rootStore = <any>root
+      const pageIndex = rootStore.planner.schedulerPageIndex
+      return {
+        pageIndex: pageIndex,
+        pageSize: 100,
+        permission: rootStore.planner.permission,
+        commitments: rootStore.overview.commitments
+      }
+    }),
+    concatMap(config =>
+      this.commitmentEventDataService.getEventsByCommitments(config).pipe(
+        concatMap(data => [new LoadCommitmentEvents(data)]),
+        catchError(error => [new ErrorInPlanner(error)])
+      )
     )
   )
 
@@ -89,8 +104,7 @@ export class PlannerEffects {
     concatMap(payload =>
       this.commitmentEventDataService.getExternalEvents(payload).pipe(
         map(data => new LoadExternalEvents(data)),
-        catchError(error =>
-          [new ErrorInPlanner(error)])
+        catchError(error => [new ErrorInPlanner(error)])
       )
     )
   )
@@ -102,25 +116,15 @@ export class PlannerEffects {
       const rootStore = <any>root
       return {
         permission: rootStore.planner.permission,
-        data: action.payload.data,
-        commitments: rootStore.overview.commitments
+        data: action.payload.data
       }
     }),
     concatMap(payload =>
       this.commitmentEventDataService.storeEvent(payload).pipe(
-        map(
-          () =>
-            new GetCommitmentEvents({
-              permission: payload.permission,
-              commitments: payload.commitments
-            })
-        ),
+        map(() => new GetCommitmentEvents(null)),
         catchError(error => [
           new ErrorInPlanner(error),
-          new GetCommitmentEvents({
-            permission: payload.permission,
-            commitments: payload.commitments
-          })
+          new GetCommitmentEvents(null)
         ])
       )
     )
@@ -134,26 +138,16 @@ export class PlannerEffects {
       const rootStore = <any>root
       return {
         permission: rootStore.planner.permission,
-        data: action.payload.data,
-        commitments: rootStore.overview.commitments
+        data: action.payload.data
       }
     }),
     concatMap(payload =>
       this.commitmentEventDataService.removeEvent(payload).pipe(
-        map(
-          () =>
-            new GetCommitmentEvents({
-              permission: payload.permission,
-              commitments: payload.commitments
-            }),
-          catchError(error => [
-            new ErrorInPlanner(error),
-            new GetCommitmentEvents({
-              permission: payload.permission,
-              commitments: payload.commitments
-            })
-          ])
-        )
+        map(() => new GetCommitmentEvents(null)),
+        catchError(error => [
+          new ErrorInPlanner(error),
+          new GetCommitmentEvents(null)
+        ])
       )
     )
   )
@@ -163,10 +157,4 @@ export class PlannerEffects {
     ofType(PlannerActionTypes.StoreSelectedExternalEventTypes),
     concatMap(action => [new LoadSelectedExternalEventTypes(action.payload)])
   )
-
-  constructor(
-    private actions$: Actions<PlannerActions>,
-    private rootStore$: Store<fromRoot.State>,
-    private commitmentEventDataService: CommitmentEventDataService
-  ) {}
 }

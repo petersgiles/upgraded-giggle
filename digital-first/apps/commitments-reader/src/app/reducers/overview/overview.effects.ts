@@ -7,10 +7,8 @@ import {
   first,
   map,
   catchError,
-  withLatestFrom,
-  tap
+  withLatestFrom
 } from 'rxjs/operators'
-import { of } from 'rxjs'
 import {
   OverviewActionTypes,
   OverviewActions,
@@ -29,13 +27,15 @@ export class OverviewEffects {
     ofType(OverviewActionTypes.GetRefinedCommitments),
     withLatestFrom(this.store$),
     // tslint:disable-next-line: no-console
-    map(([_, s]) => {
+    map(([action, s]) => {
       const store = <any>s
       const config: Config = store.app.config
       const bookType = config.header.bookType
       const selectedRefiners: any = store.refiner.selectedRefiners
       const textRefiner: any = store.refiner.textRefiner
-
+      const webId: any = config.webId
+      const siteId: any = config.siteId
+      const fetchPolicy = action.payload ? action.payload.fetchPolicy : null
       const selectedRefinerGroup = selectedRefiners.reduce(
         (acc, item) => {
           acc[item.group].push(item.id)
@@ -50,25 +50,36 @@ export class OverviewEffects {
         }
       )
 
-      if(textRefiner){
+      if (textRefiner) {
         selectedRefinerGroup.text = textRefiner
       }
 
       return {
         refiner: selectedRefinerGroup,
-        book: bookType
+        book: bookType,
+        webId: webId,
+        siteId: siteId
       }
     }),
     switchMap(config =>
-      this.getRefinedCommitmentsGQL.fetch(config).pipe(
-        first(),
-        concatMap(result => [new LoadRefinedCommitments(result)])
-      )
-    ),
-    catchError(error => {
-      // tslint:disable-next-line: no-console
-      console.log(`💥 error => `, error)
-      return of(new GetRefinedCommitmentsFailure(error))})
+      this.getRefinedCommitmentsGQL
+        .fetch(config, { fetchPolicy: 'no-cache' })
+        .pipe(
+          first(),
+          concatMap(result => {
+            const commitments = result.data.commitments
+            if (commitments.length > 0) {
+              result.data.commitments = commitments.sort((a, b) => {
+                const aDisplayOrder = a.displayOrder ? a.displayOrder : 'null'
+                const bDisplayOrder = b.displayOrder ? b.displayOrder : 'null'
+                return aDisplayOrder < bDisplayOrder ? -1 : 1
+              })
+            }
+            return [new LoadRefinedCommitments(result)]
+          }),
+          catchError(error => [new GetRefinedCommitmentsFailure(error)])
+        )
+    )
   )
 
   constructor(

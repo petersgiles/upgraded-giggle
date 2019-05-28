@@ -42,16 +42,21 @@ export class EventSharepointDataService implements CommitmentEventDataService {
     if (
       !payload ||
       payload.permission === this.HIDE ||
-      (!payload.commitments && payload.commitments.length === 0)
+      (!payload.commitments ||  payload.commitments.length === 0)
     ) {
       return of({ data: [], loadding: false, error: null })
     }
 
     // TODO: check if user has hide permission then return empty
-    const commitmentIds = payload.commitments.map(c => c.id)
+    const commitmentIds = payload.commitments
+      .slice(
+        payload.pageIndex * payload.pageSize,
+        payload.pageSize + payload.pageIndex * payload.pageSize
+      )
+      .map(c => c.id)
     const viewXml = byCommitmentIdsQuery(commitmentIds)
     return this.sharepoint
-      .getItems({ listName: 'CommitmentEvent' })
+      .getItems({ listName: 'CommitmentEvent', viewXml: viewXml })
       .pipe(
         map(events => ({ data: mapCommitmentEvents(events), loading: false }))
       )
