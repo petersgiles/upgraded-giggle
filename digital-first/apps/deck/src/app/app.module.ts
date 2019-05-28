@@ -40,7 +40,8 @@ import {
   initApplication, 
   AppReducer, 
   UserReducer, 
-  AppSettingsService} from '@digital-first/df-app-core'
+  AppSettingsService,
+  AppUserOperationsService} from '@digital-first/df-app-core'
 
 // import * as fromUser from './reducers/user/user.reducer'
 // import * as fromApp from './reducers/app/app.reducer'
@@ -56,6 +57,7 @@ import { deckDataServiceProvider } from './reducers/deck/deck-data.service.facto
 import { SettingsService } from './services/settings.service'
 import { UserProfileComponent } from './pages/user-profile/user-profile.component'
 import { DigitalFirstDeckModule } from './components/deck'
+import { APP_OPERATION_DEFAULTS, DeckUserOperationsService } from './services/app-data/app-operations'
 
 const COMPONENTS = [AppComponent, HomeComponent, UserProfileComponent,  DialogAreYouSureComponent]
 
@@ -100,6 +102,10 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     EffectsModule.forFeature([AppEffects, DeckEffects, UserEffects])
   ],
   providers: [
+    {
+      provide: AppUserOperationsService,
+      useClass: DeckUserOperationsService
+    },
     { provide: AppSettingsService, useClass: SettingsService },
     WINDOW_PROVIDERS,
     {

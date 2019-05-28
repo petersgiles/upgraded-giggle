@@ -11,7 +11,7 @@ export {
   OPERATION_RIGHT_READ,
   OPERATION_RIGHT_WRITE,
   OPERATION_RIGHT_HIDE,
-  OPERATION_RIGHTS_PRECEDENT
+  OPERATION_RIGHTS_PRECEDENT,
 } from './lib/reducers/user/user.reducer'
 
 export { reducer as UserReducer } from './lib/reducers/user/user.reducer'
@@ -25,3 +25,5 @@ export { initApplication } from './lib/app-init'
 export { AppDataService } from './lib/services/app-data.service'
 export { AppSettingsService } from './lib/services/app-settings.service'
 export { AppConfigService } from './lib/services/config/config.service'
+export { AppUserOperationsService } from './lib/services/app-user-operations.service'
+

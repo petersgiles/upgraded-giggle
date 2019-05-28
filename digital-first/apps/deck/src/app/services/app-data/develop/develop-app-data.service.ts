@@ -1,10 +1,11 @@
 import { Observable, of, from } from 'rxjs'
 
 import { AppUserProfile } from '@digital-first/df-layouts'
+
 import {
-  OPERATION_PMO_HANDLING_ADVICE,
-  OPERATION_PMC_HANDLING_ADVICE
+  OPERATION_EDIT_CARD
 } from '../app-operations'
+
 import {
   ROLE_OWNERS,
   OPERATION_RIGHT_WRITE,
@@ -14,25 +15,29 @@ import {
   OPERATION_RIGHT_HIDE,
   AppDataService
 } from '@digital-first/df-app-core'
+import { Injectable } from '@angular/core';
 
 const testOperations = [
   {
     group: ROLE_OWNERS,
-    component: [OPERATION_PMO_HANDLING_ADVICE, OPERATION_PMC_HANDLING_ADVICE],
+    component: [OPERATION_EDIT_CARD],
     rights: OPERATION_RIGHT_WRITE
   },
   {
     group: ROLE_MEMBERS,
-    component: [OPERATION_PMO_HANDLING_ADVICE, OPERATION_PMC_HANDLING_ADVICE],
+    component: [OPERATION_EDIT_CARD],
     rights: OPERATION_RIGHT_READ
   },
   {
     group: ROLE_VISITORS,
-    component: [OPERATION_PMO_HANDLING_ADVICE, OPERATION_PMC_HANDLING_ADVICE],
+    component: [OPERATION_EDIT_CARD],
     rights: OPERATION_RIGHT_HIDE
   }
 ]
 
+@Injectable({
+  providedIn: 'root'
+})
 export class DevelopAppDataService implements AppDataService {
   getCurrentUserOperations(): Observable<any> {
     return of({
@@ -61,7 +66,7 @@ export class DevelopAppDataService implements AppDataService {
       isSiteAdmin: true,
       systemUserKey: 'guest',
       name: 'Guest User',
-      roles: [ROLE_OWNERS]
+      roles: [ROLE_VISITORS]
     }
 
     return of(userprofile)
