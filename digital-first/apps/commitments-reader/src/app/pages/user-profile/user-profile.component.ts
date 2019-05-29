@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core'
-import { AppDataService } from '../../services/app-data/app-data.service'
 import { Observable } from 'rxjs'
 import { AppUserProfile } from '@digital-first/df-layouts'
-import * as fromUser from '../../reducers/user/user.reducer'
 import { Store, select } from '@ngrx/store'
 import {
   UserState,

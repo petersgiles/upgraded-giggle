@@ -14,3 +14,11 @@ export const getUserCurrentUserPlannerPermission = createSelector(
       ? OPERATION_RIGHT_WRITE
       : operations[OPERATION_PLANNER]
 )
+export const getUserCurrentUserDisplayOrderPermission = createSelector(
+  getUserCurrentUser,
+  getUserCurrentUserOperations,
+  (user, operations) =>
+    user && user.isSiteAdmin
+      ? OPERATION_RIGHT_WRITE
+      : operations[OPERATION_PLANNER]
+)

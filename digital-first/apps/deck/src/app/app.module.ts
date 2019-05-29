@@ -3,7 +3,12 @@ import { NgModule, APP_INITIALIZER } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { AppComponent } from './app.component'
 import { NxModule } from '@nrwl/nx'
-import { DialogAreYouSureComponent } from '@df/components'
+import {
+  DialogAreYouSureComponent,
+  PanelModule,
+  ButtonModule,
+  PipesModule
+} from '@df/components'
 import { WINDOW_PROVIDERS } from '@df/utils'
 import { DfLayoutsModule, TitleLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
@@ -40,7 +45,8 @@ import {
   initApplication,
   AppReducer,
   UserReducer,
-  AppSettingsService
+  AppSettingsService,
+  AppUserOperationsService
 } from '@digital-first/df-app-core'
 
 // import * as fromUser from './reducers/user/user.reducer'
@@ -57,6 +63,9 @@ import { deckDataServiceProvider } from './reducers/deck/deck-data.service.facto
 import { SettingsService } from './services/settings.service'
 import { UserProfileComponent } from './pages/user-profile/user-profile.component'
 import { DigitalFirstDeckModule } from './components/deck'
+import {
+  DeckUserOperationsService
+} from './services/app-data/app-operations'
 
 const COMPONENTS = [
   AppComponent,
@@ -76,6 +85,9 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     HttpClientModule,
     ReactiveFormsModule,
     NxModule.forRoot(),
+    PanelModule,
+    ButtonModule,
+    PipesModule,
     DfAppCoreModule,
     DfComponentsModule,
     DfDatatableModule,
@@ -106,6 +118,10 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     EffectsModule.forFeature([AppEffects, DeckEffects, UserEffects])
   ],
   providers: [
+    {
+      provide: AppUserOperationsService,
+      useClass: DeckUserOperationsService
+    },
     { provide: AppSettingsService, useClass: SettingsService },
     WINDOW_PROVIDERS,
     {
