@@ -22,6 +22,8 @@ import {
   ApplyCommitmentDisplayOrders,
   SetDisplayOrderListChanged
 } from '../../reducers/commitment-display-order/commitment-display-order.actions'
+import { UserState } from '@digital-first/df-app-core'
+import { getUserCurrentUserDisplayOrderPermission } from '../../reducers/user/user.reducer'
 
 @Component({
   selector: 'digital-first-display-order-page',
@@ -35,10 +37,12 @@ export class DisplayOrderPageComponent implements OnInit, OnDestroy {
     CommitmentRow[]
   > = new BehaviorSubject([])
   orderChanged$: Observable<boolean> = of(false)
+  displayOrderPermission$: Observable<string>
   filterCommitmentsSubscription: Subscription
   constructor(
     private overviewStore: Store<fromOverview.State>,
-    private displayOrderStore: Store<fromDisplayOrder.State>
+    private displayOrderStore: Store<fromDisplayOrder.State>,
+    private userStore: Store<UserState>
   ) {}
 
   ngOnInit() {
@@ -67,6 +71,10 @@ export class DisplayOrderPageComponent implements OnInit, OnDestroy {
         .subscribe(result => {
           this.commitmentsWithDisplayOrder$.next(result)
         })
+    )
+
+    this.displayOrderPermission$ = this.userStore.pipe(
+      select(getUserCurrentUserDisplayOrderPermission)
     )
   }
 
