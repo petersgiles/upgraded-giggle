@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule, APP_INITIALIZER } from '@angular/core'
-import { HttpClientModule} from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ApolloModule } from 'apollo-angular'
 import { HttpLinkModule } from 'apollo-angular-link-http'
@@ -46,32 +46,40 @@ import { DfSharepointLibModule, SharepointJsomService } from '@df/sharepoint'
 import { EffectsModule } from '@ngrx/effects'
 import { StoreModule, Store } from '@ngrx/store'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
-import { metaReducers, reducers, CustomSerializer } from './reducers'
+import { metaReducers, reducers } from './reducers'
 import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component'
 import { RouterStateSerializer } from '@ngrx/router-store'
 
-import * as fromUser from './reducers/user/user.reducer'
+import {
+  DfAppCoreModule,
+  CustomSerializer,
+  RouterEffects,
+  AppEffects,
+  UserEffects,
+  initApplication,
+  AppReducer,
+  UserReducer,
+  AppSettingsService
+} from '@digital-first/df-app-core'
+
 import * as fromRefiner from './reducers/refiner/refiner.reducer'
 import * as fromOverview from './reducers/overview/overview.reducer'
 import * as fromMap from './reducers/map/map.reducer'
 import * as fromPlanner from './reducers/planner/planner.reducer'
-import * as fromApp from './reducers/app/app.reducer'
+
 import * as fromCommitmentDetail from './reducers/commitment-detail/commitment-detail.reducer'
 import * as fromCommitmentDisplayOrder from './reducers/commitment-display-order/commitment-display-order.reducer'
 
-import { AppEffects } from './reducers/app/app.effects'
-import { UserEffects } from './reducers/user/user.effects'
 import { CommitmentDetailEffects } from './reducers/commitment-detail/commitment-detail.effects'
-import { RouterEffects } from './reducers/router.effects'
 import { RefinerEffects } from './reducers/refiner/refiner.effects'
 import { OverviewEffects } from './reducers/overview/overview.effects'
 import { MapEffects } from './reducers/map/map.effects'
+import { GlobleEffects } from './reducers/app/app.effects'
 import { PlannerEffects } from './reducers/planner/planner.effects'
 import { CommitmentDisplayOrderEffects } from './reducers/commitment-display-order/commitment-display-order.effects'
 import { SettingsService } from './services/settings.service'
 
 import { CommitmentPackageComponent } from './pages/commitment-packages/commitment-package.component'
-import { initApplication } from './app-init'
 import { appDataServiceProvider } from './services/app-data/app-data.service.factory'
 import { configServiceProvider } from './services/config/config.service.factory'
 import { GraphQLModule } from './graphQL/graphQl.module'
@@ -113,6 +121,7 @@ const COMPONENTS = [
     HttpClientModule,
     HttpLinkModule,
     GraphQLModule,
+    DfAppCoreModule,
     DataTableModule,
     PanelModule,
     ButtonModule,
@@ -138,8 +147,8 @@ const COMPONENTS = [
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
 
-    StoreModule.forFeature('app', fromApp.reducer),
-    StoreModule.forFeature('user', fromUser.reducer),
+    StoreModule.forFeature('app', AppReducer),
+    StoreModule.forFeature('user', UserReducer),
     StoreModule.forFeature('refiner', fromRefiner.reducer),
     StoreModule.forFeature('overview', fromOverview.reducer),
     StoreModule.forFeature('map', fromMap.reducer),
@@ -153,6 +162,7 @@ const COMPONENTS = [
     EffectsModule.forRoot([RouterEffects]),
     EffectsModule.forFeature([
       AppEffects,
+      GlobleEffects,
       UserEffects,
       RefinerEffects,
       OverviewEffects,
@@ -163,7 +173,7 @@ const COMPONENTS = [
     ])
   ],
   providers: [
-    SettingsService,
+    { provide: AppSettingsService, useClass: SettingsService },
     {
       provide: APP_INITIALIZER,
       useFactory: initApplication,

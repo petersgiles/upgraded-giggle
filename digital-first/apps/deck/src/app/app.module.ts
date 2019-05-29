@@ -31,16 +31,17 @@ import * as fromDeck from './reducers/deck/deck.reducer'
 import { EffectsModule } from '@ngrx/effects'
 import { DeckEffects } from './reducers/deck/deck.effects'
 
-import { 
-  DfAppCoreModule, 
-  CustomSerializer, 
-  RouterEffects, 
-  AppEffects, 
-  UserEffects, 
-  initApplication, 
-  AppReducer, 
-  UserReducer, 
-  AppSettingsService} from '@digital-first/df-app-core'
+import {
+  DfAppCoreModule,
+  CustomSerializer,
+  RouterEffects,
+  AppEffects,
+  UserEffects,
+  initApplication,
+  AppReducer,
+  UserReducer,
+  AppSettingsService
+} from '@digital-first/df-app-core'
 
 // import * as fromUser from './reducers/user/user.reducer'
 // import * as fromApp from './reducers/app/app.reducer'
@@ -57,7 +58,12 @@ import { SettingsService } from './services/settings.service'
 import { UserProfileComponent } from './pages/user-profile/user-profile.component'
 import { DigitalFirstDeckModule } from './components/deck'
 
-const COMPONENTS = [AppComponent, HomeComponent, UserProfileComponent,  DialogAreYouSureComponent]
+const COMPONENTS = [
+  AppComponent,
+  HomeComponent,
+  UserProfileComponent,
+  DialogAreYouSureComponent
+]
 
 const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
 

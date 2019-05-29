@@ -16,18 +16,17 @@ import {
   GetRefinedCommitmentsFailure
 } from './overview.actions'
 import { CommitmentsSearchGQL } from '../../generated/graphql'
-import * as fromRoot from '../../reducers'
 import { Store } from '@ngrx/store'
-import { Config } from '../../services/config/config-model'
+import { Config, AppState } from '@digital-first/df-app-core'
 
 @Injectable()
 export class OverviewEffects {
   @Effect()
   getRefinedCommitments$ = this.actions$.pipe(
     ofType(OverviewActionTypes.GetRefinedCommitments),
-    withLatestFrom(this.store$),
+    withLatestFrom(this.appStore$),
     // tslint:disable-next-line: no-console
-    map(([action, s]) => {
+    map(([_, s]) => {
       const store = <any>s
       const config: Config = store.app.config
       const bookType = config.header.bookType
@@ -35,7 +34,6 @@ export class OverviewEffects {
       const textRefiner: any = store.refiner.textRefiner
       const webId: any = config.webId
       const siteId: any = config.siteId
-      const fetchPolicy = action.payload ? action.payload.fetchPolicy : null
       const selectedRefinerGroup = selectedRefiners.reduce(
         (acc, item) => {
           acc[item.group].push(item.id)
@@ -85,6 +83,6 @@ export class OverviewEffects {
   constructor(
     private actions$: Actions<OverviewActions>,
     private getRefinedCommitmentsGQL: CommitmentsSearchGQL,
-    private store$: Store<fromRoot.State>
+    private appStore$: Store<AppState>
   ) {}
 }

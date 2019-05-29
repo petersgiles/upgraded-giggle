@@ -2,12 +2,15 @@ import { Component, OnInit, OnDestroy } from '@angular/core'
 import { NavigationEnd, ActivatedRoute, Router } from '@angular/router'
 import { AppRouterService } from './services/app-router.service'
 import { Store, select } from '@ngrx/store'
-import * as fromApp from './reducers/app/app.reducer'
-import { Subscription, Observable } from 'rxjs'
+import { Subscription } from 'rxjs'
 
-import { NotificationMessage } from './reducers/app/app.model'
 import { MdcSnackbar } from '@angular-mdc/web'
-import { filter } from 'rxjs/operators';
+import { filter } from 'rxjs/operators'
+import {
+  NotificationMessage,
+  AppState,
+  selectNotification
+} from '@digital-first/df-app-core'
 @Component({
   selector: 'digital-first-root',
   template: '<router-outlet></router-outlet>'
@@ -21,7 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private router: Router,
     private appRouter: AppRouterService,
     private snackbar: MdcSnackbar,
-    private store: Store<fromApp.State>
+    private store: Store<AppState>
   ) {}
 
   ngOnInit() {
@@ -33,7 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.notificationsSubscription$ = this.store
       .pipe(
-        select(fromApp.selectNotification),
+        select(selectNotification),
         filter(notification => notification !== null)
       )
       .subscribe((notification: NotificationMessage) => {

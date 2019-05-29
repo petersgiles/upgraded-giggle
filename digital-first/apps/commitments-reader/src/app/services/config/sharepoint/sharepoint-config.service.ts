@@ -7,7 +7,6 @@ import { catchError, tap, map, concatMap } from 'rxjs/operators'
 
 declare var _spPageContextInfo: any
 
-import { Config, defaults } from '../config-model'
 import { SharepointJsomService } from '@df/sharepoint'
 
 declare var SP: any

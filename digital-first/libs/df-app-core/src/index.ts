@@ -15,13 +15,28 @@ export {
 } from './lib/reducers/user/user.reducer'
 
 export { reducer as UserReducer } from './lib/reducers/user/user.reducer'
-export { State as UserState, getUserCurrentUser, getUserOperationMatrix } from './lib/reducers/user/user.reducer'
+export {
+  State as UserState,
+  getUserCurrentUser,
+  getUserCurrentUserOperations,
+  getUserOperationMatrix
+} from './lib/reducers/user/user.reducer'
 
 export { reducer as AppReducer } from './lib/reducers/app/app.reducer'
-export { State as AppState, selectAppConfigState, selectNotification } from './lib/reducers/app/app.reducer'
-
+export {
+  State as AppState,
+  selectAppConfigState,
+  selectNotification,
+  selectAppSpinnerState
+} from './lib/reducers/app/app.reducer'
+export {
+  ShowSpinner,
+  HideSpinner,
+  AppNotification,
+  ClearAppNotification
+} from './lib/reducers/app/app.actions'
 export { initApplication } from './lib/app-init'
-
+export { Config, App, Logo } from './lib/services/config/config-model'
 export { AppDataService } from './lib/services/app-data.service'
 export { AppSettingsService } from './lib/services/app-settings.service'
 export { AppConfigService } from './lib/services/config/config.service'

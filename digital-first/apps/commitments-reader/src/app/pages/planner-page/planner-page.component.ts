@@ -3,7 +3,6 @@ import { Observable, Subscription, of } from 'rxjs'
 import { map, withLatestFrom } from 'rxjs/operators'
 import * as fromPlanner from '../../reducers/planner/planner.reducer'
 import * as fromOverview from '../../reducers/overview/overview.reducer'
-import * as fromUser from '../../reducers/user/user.reducer'
 import { Store, select } from '@ngrx/store'
 import {
   GetEventReferenceData,
@@ -18,6 +17,8 @@ import {
   StoreSchedulerPageIndex,
   ResetCommitmentEvents
 } from '../../reducers/planner/planner.actions'
+import { UserState } from '@digital-first/df-app-core'
+import { getUserCurrentUserPlannerPermission } from '../../reducers/user/user.reducer';
 
 @Component({
   selector: 'digital-first-planner-page',
@@ -43,10 +44,9 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
   constructor(
     private plannerStore: Store<fromPlanner.State>,
     private overViewStore: Store<fromOverview.State>,
-    private userStore: Store<fromUser.State>
+    private userStore: Store<UserState>
   ) {}
   ngOnInit() {
-    // this.plannerStore.dispatch(new StoreSchedulerPageIndex({ pageIndex: 0 }))
     this.filteredCommitments$ = this.overViewStore
       .pipe(select(fromOverview.selectRefinedCommitmentsState))
       .pipe(map(data => data.map(c => ({ id: c.id, name: c.title }))))
@@ -58,7 +58,7 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
     })
 
     this.userPermissionSubscription = this.userStore
-      .pipe(select(fromUser.getUserCurrentUserPlannerPermission))
+      .pipe(select(getUserCurrentUserPlannerPermission))
       .subscribe(permission => {
         this.plannerStore.dispatch(new GetEventReferenceData(permission))
         this.plannerStore.dispatch(new SetPlannerPermission(permission))
