@@ -41,5 +41,8 @@ export { AppDataService } from './lib/services/app-data.service'
 export { AppSettingsService } from './lib/services/app-settings.service'
 export { AppConfigService } from './lib/services/config/config.service'
 export {
+  configServiceProvider
+} from './lib/services/config/config.service.factory'
+export {
   AppUserOperationsService
 } from './lib/services/app-user-operations.service'
