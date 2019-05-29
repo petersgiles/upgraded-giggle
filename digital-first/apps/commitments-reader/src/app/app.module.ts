@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser'
-import { NgModule, APP_INITIALIZER } from '@angular/core'
+import { NgModule, APP_INITIALIZER, ErrorHandler } from '@angular/core'
 import { HttpClientModule} from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ApolloModule } from 'apollo-angular'
@@ -180,6 +180,7 @@ const COMPONENTS = [
     DateFormatPipe,
     SeqService,
     ErrorsHandler,
+    { provide: ErrorHandler, useClass: ErrorsHandler },
     { provide: TitleLayoutService, useClass: AppFullLayoutService },
     /**
      * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.

@@ -1,71 +1,77 @@
 import { Injectable } from '@angular/core'
-import { HttpClient, HttpErrorResponse } from '@angular/common/http'
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
 import { environment } from '../../../environments/environment'
 
-interface MappedEvent {
-  Level: string
-  MessageTemplate: string
-  Properties: { clientVersion: string }
-  Timestamp: string
-  Exception: string
+interface Token {
+  name?: string;
+  raw?: string;
 }
 
-export function formatErrorMessage(errorToFormat: HttpErrorResponse): string {
-  // graphql errorLink will augment message, locations, path onto the error.
-  if (errorToFormat.error && errorToFormat.error.errors) {
-    return errorToFormat.error.errors
-      .map(errorToJoin => errorToJoin.message)
-      .join(', ')
-  }
-
-  return errorToFormat.message
-}
-
-export function createSeqErrorEvent(
-  error: Error | HttpErrorResponse
-): MappedEvent {
-  const mappedEvent: MappedEvent = {
-    Level: 'Error',
-    MessageTemplate: 'Commitment reader client application error: {message}.',
-    Properties: {
-      clientVersion: `${environment.version}`
-    },
-    Timestamp: new Date().toISOString(),
-    Exception: ''
-  }
-
-  if (error instanceof HttpErrorResponse) {
-    const props = {
-      ...mappedEvent.Properties,
-      message: formatErrorMessage(error)
-    }
-    mappedEvent.Properties = props
-  }
-
-  if (error instanceof Error && error.stack) {
-    mappedEvent.Exception = error.stack
-
-    const props = {
-      ...mappedEvent.Properties,
-      message: error.message
-    }
-    mappedEvent.Properties = props
-  }
-  return mappedEvent
-}
+const messageHeader = 'Digital First logging:'
 
 @Injectable({
   providedIn: 'root'
 })
 export class SeqService {
-  constructor(private httpClient: HttpClient) {}
 
-  logToSeq(error: Error | HttpErrorResponse) {
-    const event = createSeqErrorEvent(error)
+  headers: HttpHeaders
+  constructor(private httpClient: HttpClient) {
+    this.headers = new HttpHeaders({
+      ProgramsApiKey: environment.apiKey
+  })
+  }
 
+  parseError(error: any): string{
+    let result: string
+    if(!error.messageTemplate){
+      result = `{'@mt':'${error}'}`
+    } else {
+      const tokens = this.tokenize(error.messageTemplate)
+      // stage 1: build something like: '@mt':'Digital First logging: app: {app} error: {error} stacktrace: {stacktrace}'
+      result = `{'@mt':'${messageHeader}`
+      if (tokens.length){
+        for (let i = 0; i < tokens.length; ++i) {
+          result = result + ` ${tokens[i].name}: {${tokens[i].name})}}`
+        }
+      }
+      result = result + `',`
+      // state 2: add the level - usually 'error' rendering '@l':'error'
+      if(error.eventLevel){
+        result = result + `'@l':'${error.eventLevel}',`
+      }
+
+      // Stage 3: add the key pairs from stage 1: 'app': 'some message', 'error': 'some error message', 'stacktrace': 'some stack trace'
+      // also remove any single quotes in the body of the message: server will throw bad request message (400) otherwise
+      if (tokens.length){
+        for (let i = 0; i < tokens.length; ++i) {
+          result = result + `'${tokens[i].name}': '${tokens[i].raw.replace(/'(.+)'/g, '$1') }',`
+        }
+      }
+      result = result.substring(0, result.length - 1) + '}'
+    }
+    // stage 4: reomve line feeds
+      return result.replace(/(\r\n|\n|\r)/gm, '')
+    }
+
+    tokenize(template: []): Token[]{
+      const tokens = []
+      template.forEach((item: any) => {
+        for (let i in item) {
+          if (item.hasOwnProperty(i)){
+            tokens.push({name: i, raw: item[i]})
+        }
+      }
+      })
+      return tokens
+    }
+
+  logToSeq(error: any | HttpErrorResponse) {
+    // suppressErrors: boolean = true;
+    let s =  this.parseError(error)
     return this.httpClient.post(
-      `${environment.loggingSource}/events/raw`,
-      JSON.stringify({ Events: [event] })
+      `${environment.loggingSource.loggingServiceUrl}`,
+      this.parseError(error), { headers: this.headers}
     )
   }
+
 }

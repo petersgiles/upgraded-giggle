@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 
-import { Observable, EMPTY } from 'rxjs'
+import { Observable, EMPTY, throwError} from 'rxjs'
 import { map, concatMap, tap, catchError } from 'rxjs/operators'
 import { Action } from '@ngrx/store'
 import { AppDataService } from '../../services/app-data/app-data.service'
@@ -12,7 +12,8 @@ import {
   LoadAppConfiguration,
   LoadAppConfigurationError,
   ShowSpinner,
-  HideSpinner
+  HideSpinner,
+  HandleGlobalError
 } from './app.actions'
 
 import { AppConfigService } from '../../services/config/config.service'
@@ -75,6 +76,13 @@ export class AppEffects {
   hideSpinner: Observable<Action> = this.actions$.pipe(
     ofType<hideSpinnerTypes>(...hideSpinnerActions),
     map(() => new HideSpinner())
+  )
+
+  @Effect()
+  handleGlobalError$: Observable<Action> = this.actions$.pipe(
+    ofType(AppActionTypes.HandleGlobalError),
+    map((action: HandleGlobalError) => action.payload.error),
+    concatMap(error => throwError( error))
   )
 
   @Effect()

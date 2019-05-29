@@ -11,11 +11,11 @@ export const environment = {
   },
   loggingSource:{
     type: 'seq',
-    loggingServiceUrl: '//programs.cloud9.cabnet'
+    loggingServiceUrl: '//programs.cloud9.cabnet/api/events/raw'
   },
   eventDatasource:'local',
   appConfigDataSource: 'local',
   // user "Mustang Sally" on Cloud9
-  apiKey: '1PARfaAtmMKPkda2GKa9a2mUOW8=',
+  apiKey: 'AYVuNMbXhu0K9sWbmtbyCdrofPM=',
   assetsPath: '/assets'
 }
