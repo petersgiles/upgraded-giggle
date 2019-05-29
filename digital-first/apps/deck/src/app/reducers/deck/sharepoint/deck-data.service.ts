@@ -19,10 +19,12 @@ export const mapDeckItem = (item): DeckItem => {
   // tslint:disable-next-line: no-console
   console.log(tryParseJSON(item.Data))
 
+  const parent = idFromLookup(item.Parent)
+
   return {
-    id: item.ID,
+    id: `${item.ID}`,
     title: item.Title,
-    parent: idFromLookup(item.Parent),
+    parent: parent ? `${parent}` : null,
     supportingText: item.SupportingText,
     size: item.Size,
     cardType: item.CardType,

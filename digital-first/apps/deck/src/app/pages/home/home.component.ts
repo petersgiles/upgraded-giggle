@@ -37,6 +37,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public briefs$: Observable<{ id: string; name: string }[]>
 
   public selected$: Observable<any>
+  parentDeckItem$: any;
   // tslint:disable-next-line:no-empty
   constructor(
     private route: ActivatedRoute,
@@ -69,6 +70,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       // tslint:disable-next-line: no-console
       tap(result => console.log(`👹 `, result))
     )
+
+    this.parentDeckItem$ = this.store.pipe(
+      select(fromDeck.selectCurrentParentCardState),
+      // tslint:disable-next-line: no-console
+      tap(result => console.log(`👹 `, result))
+    ) 
 
     this.eligibleParents$ = this.store.pipe(
       select(fromDeck.selectCurrentParentState),

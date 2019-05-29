@@ -98,3 +98,9 @@ export const selectCardsByParentState = createSelector(
       ? (cards || []).filter(p => p.parent === parent)
       : (cards || []).filter(p => p.parent === null)
 )
+
+export const selectCurrentParentCardState = createSelector(
+  selectCurrentParentState,
+  selectDeckItemsState,
+  (parent, cards) => parent ? (cards || []).find(p => p.id === parent) : null
+  )

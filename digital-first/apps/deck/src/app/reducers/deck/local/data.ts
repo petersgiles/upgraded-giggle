@@ -60,7 +60,7 @@ const lineChart = {
 export const deckData = {
   data: [
     {
-      id: 7,
+      id: '7',
       title: 'SummaryLinksNoActions',
       parent: null,
       supportingText:
@@ -91,7 +91,7 @@ export const deckData = {
       ]
     },
     {
-      id: 1,
+      id: '1',
       title: 'Topics',
       parent: null,
       supportingText: `<div class="ExternalClass188C1E716DA94A9CB7C149344480A7C3">
@@ -110,7 +110,7 @@ export const deckData = {
           <a href="/SitePages/commitments-reader.aspx/overview?refiner=%5b%7b%22group%22%3a%22deckItemBriefSummaries%22%2c%22id%22%3a%22089cbb1b-c2ef-4851-9571-9235b8d7efc2%22%7d%5d">6 Commitments</a>
         </td>
         </tr></tfoot></table></div></div> <br>`,
-      size: 4,
+      size: '4',
       cardType: 'BriefSummary',
       actions: [{ title: 'CHEESE', url: '/' }],
       sortOrder: 9,
@@ -129,7 +129,7 @@ export const deckData = {
       ]
     },
     {
-      id: 2,
+      id: '2',
       title: 'Test',
       parent: null,
       supportingText:
@@ -144,11 +144,11 @@ export const deckData = {
       data: false
     },
     {
-      id: 3,
+      id: '3',
       title: 'Image',
       parent: null,
       supportingText: null,
-      size: 4,
+      size: '4',
       cardType: 'Image',
       actions: [{ title: 'Get Started', url: '/dashboard' }],
       sortOrder: 9,
@@ -158,7 +158,7 @@ export const deckData = {
       data: false
     },
     {
-      id: 4,
+      id: '4',
       title: 'child',
       parent: '2',
       supportingText:
@@ -173,7 +173,7 @@ export const deckData = {
       data: false
     },
     {
-      id: 5,
+      id: '5',
       title: 'StandardNonNavNoActions',
       parent: null,
       supportingText:
@@ -188,7 +188,7 @@ export const deckData = {
       data: false
     },
     {
-      id: 6,
+      id: '6',
       title: 'StandardNonNav',
       parent: null,
       supportingText:
@@ -203,7 +203,7 @@ export const deckData = {
       data: false
     },
     {
-      id: 8,
+      id: '8',
       title: 'Bacon Ipsum',
       parent: null,
       supportingText: `<div class="ExternalClassB0457B6866AE4EDDAB10D60B930EC856">
@@ -222,7 +222,7 @@ export const deckData = {
       data: false
     },
     {
-      id: 9,
+      id: '9',
       parent: null,
       title: 'Chart Cards',
       supportingText: `<div><img src="https://www.chartjs.org/img/chartjs-logo.svg"></div>`,
@@ -236,8 +236,8 @@ export const deckData = {
       data: null
     },
     {
-      id: 10,
-      parent: 9,
+      id: '10',
+      parent: '9',
       title: 'Line Chart',
       supportingText: 'cheese',
       size: '4',
@@ -250,8 +250,8 @@ export const deckData = {
       data: lineChart
     },
     {
-      id: 11,
-      parent: 9,
+      id: '11',
+      parent: '9',
       title: 'Pie Chart',
       supportingText: null,
       size: '4',
