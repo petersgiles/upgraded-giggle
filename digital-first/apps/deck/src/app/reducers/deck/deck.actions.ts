@@ -11,11 +11,19 @@ export enum DeckActionTypes {
   RemoveDeckItem = '[Deck] RemoveDeckItem',
   SetActiveParent = '[Deck] SetActiveParent',
   GoBack= '[Deck] GoBack',
-  SetSelectedDeckItem = '[Deck] SetSelectedDeckItem'
+  SetSelectedDeckItem = '[Deck] SetSelectedDeckItem',
+  GetBriefs = '[Deck] GetBriefs',
+  LoadBriefs = '[Deck] LoadBriefs',
+  GetBriefsFailure = '[Deck] GetBriefsFailure'
 }
 
 export class LoadDeck implements Action {
   readonly type = DeckActionTypes.LoadDeck
+  constructor(public payload: { data: any[]; loading: boolean }) {}
+}
+
+export class LoadBriefs implements Action {
+  readonly type = DeckActionTypes.LoadBriefs
   constructor(public payload: { data: any[]; loading: boolean }) {}
 }
 
@@ -63,6 +71,16 @@ export class SetSelectedDeckItem implements Action {
   constructor(public payload: { id: string}) {}
 }
 
+export class GetBriefs implements Action {
+  readonly type = DeckActionTypes.GetBriefs
+  constructor(public payload: any) {}
+}
+
+export class GetBriefsFailure implements Action {
+  readonly type = DeckActionTypes.GetBriefsFailure
+  constructor(public payload: any) {}
+}
+
 export type DeckActions =
     LoadDeck
   | GetDeckItems
@@ -74,3 +92,6 @@ export type DeckActions =
   | SetSelectedDeckItem
   | GoBack
   | EditDeckItem
+  | GetBriefs
+  | LoadBriefs
+  | GetBriefsFailure

@@ -15,7 +15,8 @@ import {
   GetDeckItems,
   EditDeckItem,
   UpdateDeckItem,
-  SetSelectedDeckItem
+  SetSelectedDeckItem,
+  GetBriefs
 } from '../../reducers/deck/deck.actions'
 import { CardType, DeckItem } from '../../components/deck'
 
@@ -81,7 +82,14 @@ export class HomeComponent implements OnInit, OnDestroy {
       tap(result => console.log(`👹 `, result))
     )
 
+    this.briefs$ = this.store.pipe(
+      select(fromDeck.selectCurrentBriefsState),
+      // tslint:disable-next-line: no-console
+      tap(result => console.log(`👹 `, result))
+    )
+
     this.store.dispatch(new GetDeckItems({ parent: null }))
+    this.store.dispatch(new GetBriefs(null))
   }
 
   ngOnDestroy(): void {}

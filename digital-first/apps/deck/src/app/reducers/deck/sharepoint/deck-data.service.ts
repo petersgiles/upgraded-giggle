@@ -8,6 +8,7 @@ import { tryParseJSON } from '../utils'
 import { sortBy } from '../../../utils'
 
 const DECK_ITEM_LIST_NAME = 'DeckItems'
+const BRIEF_ITEM_LIST_NAME = 'Brief'
 
 export const mapDeckItem = (item): DeckItem => {
   const allActions = (item.Actions || '').split(';').map(a => {
@@ -35,6 +36,21 @@ export const mapDeckItem = (item): DeckItem => {
 }
 
 export const mapDeckItems = (items): any[] => (items || []).map(mapDeckItem)
+
+
+export const mapBrief = (item): { id: string; name: string } => {
+  
+  // tslint:disable-next-line: no-console
+  console.log(tryParseJSON(item.Data))
+
+  return {
+    id: item.ID,
+    name: item.Title,
+  }
+}
+
+export const mapBriefs = (items): any[] => (items || []).map(mapBrief)
+
 
 @Injectable({
   providedIn: 'root'
@@ -107,6 +123,28 @@ export class DeckDataSharepointService implements DeckDataService {
       map(result => (result || []).sort(sortBy('sortOrder'))),
       // tslint:disable-next-line: no-console
       tap(result => console.log(`🍄 getDeckItems`, result)),
+      concatMap(result =>
+        of({
+          data: result,
+          loading: false
+        })
+      )
+    )
+  }
+
+  public getBriefs(): Observable<{
+    data: any
+    loading: boolean
+  }> {
+    return forkJoin([
+      this.sharepoint.getItems({
+        listName: BRIEF_ITEM_LIST_NAME
+      })
+    ]).pipe(
+      map(([spBriefs]) => [...mapBriefs(spBriefs)]),
+      map(result => (result || []).sort(sortBy('sortOrder'))),
+      // tslint:disable-next-line: no-console
+      tap(result => console.log(`🍄 getBriefs`, result)),
       concatMap(result =>
         of({
           data: result,

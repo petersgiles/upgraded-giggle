@@ -1,16 +1,18 @@
 import { DeckActions, DeckActionTypes } from './deck.actions'
 import { createFeatureSelector, createSelector } from '@ngrx/store'
 import { DeckItem } from '@df/components'
-import { sortBy } from '@df/utils';
+import { sortBy } from '@df/utils'
 
 export interface State {
   deckItems: DeckItem[]
+  briefs: any[]
   selectedCard: any
   currentParent: any
 }
 
 export const initialState: State = {
   deckItems: [],
+  briefs: [],
   selectedCard: null,
   currentParent: null
 }
@@ -26,7 +28,7 @@ export function reducer(state = initialState, action: DeckActions): State {
     case DeckActionTypes.EditDeckItem:
       const nextDeck = JSON.parse(JSON.stringify(state.deckItems))
 
-      if(!action.payload.id){
+      if (!action.payload.id) {
         nextDeck.push(action.payload)
       }
 
@@ -50,10 +52,15 @@ export function reducer(state = initialState, action: DeckActions): State {
       }
 
     case DeckActionTypes.LoadDeck:
-
       return {
         ...state,
         deckItems: action.payload.data
+      }
+
+    case DeckActionTypes.LoadBriefs:
+      return {
+        ...state,
+        briefs: action.payload.data
       }
 
     default:
@@ -78,8 +85,16 @@ export const selectCurrentParentState = createSelector(
   (state: State) => state.currentParent
 )
 
+export const selectCurrentBriefsState = createSelector(
+  deckState,
+  (state: State) => state.briefs
+)
+
 export const selectCardsByParentState = createSelector(
   selectCurrentParentState,
   selectDeckItemsState,
-  (parent, cards) => parent ? (cards || []).filter(p => p.parent === parent) : (cards || []).filter(p => p.parent === null)
+  (parent, cards) =>
+    parent
+      ? (cards || []).filter(p => p.parent === parent)
+      : (cards || []).filter(p => p.parent === null)
 )

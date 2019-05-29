@@ -9,4 +9,8 @@ export abstract class DeckDataService {
   abstract updateDeckItem(item: any): Observable<any>
   abstract removeDeckItem(deckItem: { id: string }): Observable<any>
   abstract getDeckItems(parent: any): Observable<{data: any, loading: boolean }>
+  abstract getBriefs(): Observable<{
+    data: any
+    loading: boolean
+  }>
 }
