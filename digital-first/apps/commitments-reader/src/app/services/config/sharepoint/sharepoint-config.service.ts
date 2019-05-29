@@ -55,7 +55,6 @@ export class SharePointConfigService {
         data.siteId = siteId
         return of(data)
       }),
-
       catchError((err: HttpErrorResponse) => throwError(err))
     )
   }

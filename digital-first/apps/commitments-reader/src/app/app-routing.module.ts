@@ -18,8 +18,8 @@ import { MapOverviewPageComponent } from './pages/map-overview-page/map-overview
 import { CommitmentDetailComponent } from './pages/commitment-detail/commitment-detail.component'
 import { CommitmentLayoutComponent } from './layouts/commitment-layout/commitment-layout.component'
 import { CommitmentPackageComponent } from './pages/commitment-packages/commitment-package.component'
-import { UserProfileComponent } from './pages/user-profile/user-profile.component';
-import { DisplayOrderPageComponent } from './pages/display-order-page/display-order-page.component';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component'
+import { DisplayOrderPageComponent } from './pages/display-order-page/display-order-page.component'
 const routes: Routes = [
   {
     path: '',
