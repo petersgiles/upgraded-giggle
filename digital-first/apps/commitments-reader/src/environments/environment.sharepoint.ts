@@ -11,6 +11,6 @@ export const environment = {
   },
   eventDatasource: 'sharepoint',
   appConfigDataSource: 'sharepoint',
-  apiKey: 'KvMAs2tbscsOmzXzyrSfK67okrM=',
+  apiKey: 'f2kEqQewiebidPkHIkqYyNY88HA=',
   assetsPath: '../../SiteAssets/apps/commitments-reader/assets'
 }
