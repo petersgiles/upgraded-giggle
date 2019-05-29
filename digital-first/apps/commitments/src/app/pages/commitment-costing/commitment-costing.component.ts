@@ -1,5 +1,10 @@
-import { LoggerService } from '@digital-first/df-logging'
-import { Component, OnInit, OnDestroy, HostListener, ElementRef } from '@angular/core'
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  HostListener,
+  ElementRef
+} from '@angular/core'
 import { Router, ActivatedRoute, ParamMap } from '@angular/router'
 import { Location } from '@angular/common'
 import { MdcDialog, MdcSnackbar } from '@angular-mdc/web'
@@ -13,8 +18,6 @@ import { showSnackBar } from '../../dialogs/show-snack-bar'
 import { FormBuilder, Validators } from '@angular/forms'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 import { CommitmentActionService } from '../../reducers/commitment-action/commitment-action.service'
-
-
 
 @Component({
   selector: 'digital-first-commitment-costing',
@@ -31,16 +34,20 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
   costingAgencies$: Observable<Portfolio[]>
   currentActionSubscription$: Subscription
   href: string
-  
-  @HostListener('click', ['$event']) 
+
+  @HostListener('click', ['$event'])
   onMouseEnter(e: any) {
     let anchorCollection = this.el.nativeElement.querySelectorAll('a')
-    for (let i = 0; i < anchorCollection.length; i++){
+    for (let i = 0; i < anchorCollection.length; i++) {
       let el = anchorCollection[i]
       let elRect = el.getBoundingClientRect()
       let posX = elRect.left + elRect.width
       let posY = elRect.top + elRect.height
-      let posOK = e.clientX <= posX && e.clientY <= posY && e.clientY >= elRect.top && e.clientY <= elRect.bottom
+      let posOK =
+        e.clientX <= posX &&
+        e.clientY <= posY &&
+        e.clientY >= elRect.top &&
+        e.clientY <= elRect.bottom
       if (e.target !== 'a' && posOK) {
         el.addEventListener('click', this.onClick.bind(this))
         el.style.cursor = 'pointer'
@@ -49,12 +56,12 @@ export class CommitmentCostingComponent implements OnInit, OnDestroy {
     }
   }
 
-  onClick(e: any){
+  onClick(e: any) {
     window.open(this.href)
     return false
   }
-  
-description$: BehaviorSubject<string> = new BehaviorSubject('')
+
+  description$: BehaviorSubject<string> = new BehaviorSubject('')
 
   constructor(
     private router: Router,
@@ -66,11 +73,8 @@ description$: BehaviorSubject<string> = new BehaviorSubject('')
     private lookup: CommitmentLookupService,
     private actionService: CommitmentActionService,
     private fb: FormBuilder,
-    private logger: LoggerService,
     private el: ElementRef
-  ) {
-    
-  }
+  ) {}
 
   form = this.fb.group({
     id: [],
@@ -79,11 +83,12 @@ description$: BehaviorSubject<string> = new BehaviorSubject('')
     costing: [null, [Validators.required, Validators.min(0)]],
     portfolio: [null, Validators.required],
     revenueType: [null, Validators.required]
-
   })
 
   getTitle(commitment) {
-    return `${formatCommitmentId(commitment)} - ${formatCommitmentTitle(commitment)} - Costing`
+    return `${formatCommitmentId(commitment)} - ${formatCommitmentTitle(
+      commitment
+    )} - Costing`
   }
 
   handleGoBack($event) {
@@ -109,17 +114,15 @@ description$: BehaviorSubject<string> = new BehaviorSubject('')
             description: next.description,
             costing: next.costing,
             portfolio: next.portfolio && next.portfolio.id,
-            revenueType: next.revenueType,
+            revenueType: next.revenueType
           }
         }
         this.form.patchValue(patch)
       }
 
-     
       // error => showSnackBar(this.snackbar, error)
     )
-    
-   
+
     this.commitmentSubscription$ = this.service.Commitment.subscribe(
       next => {
         this.commitment = next
@@ -160,7 +163,7 @@ description$: BehaviorSubject<string> = new BehaviorSubject('')
 
         this.form.patchValue(patch)
       })
-      this.lookup.getAllPortfolios()
+    this.lookup.getAllPortfolios()
   }
 
   ngOnDestroy(): void {
@@ -169,8 +172,6 @@ description$: BehaviorSubject<string> = new BehaviorSubject('')
     this.commitmentSubscription$.unsubscribe()
     this.currentActionSubscription$.unsubscribe()
   }
-
-
 
   handleSubmit($event) {
     this.actionService.addActionToCommitment(

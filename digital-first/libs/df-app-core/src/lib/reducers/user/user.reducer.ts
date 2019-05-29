@@ -1,6 +1,7 @@
 import { UserActions, UserActionTypes, GetCurrentUser } from './user.actions'
 import { AppActions, AppActionTypes } from '../app/app.actions'
 import { createFeatureSelector, createSelector } from '@ngrx/store'
+import { InjectionToken } from '@angular/core';
 
 export const ROLE_OWNERS = 'ROLE_OWNERS'
 export const ROLE_MEMBERS = 'ROLE_MEMBERS'
@@ -12,18 +13,18 @@ export const OPERATION_RIGHT_HIDE = 'hide'
 
 export const OPERATION_RIGHTS_PRECEDENT = [OPERATION_RIGHT_HIDE, OPERATION_RIGHT_WRITE, OPERATION_RIGHT_READ]
 
-export const OPERATION_DEFAULTS = {}
-
 export interface State {
   currentUser
   drawerOpen
   operations
+  operationDefaults
 }
 
 export const initialState: State = {
   currentUser: null,
   drawerOpen: false,
-  operations: {}
+  operations: {},
+  operationDefaults: {}
 }
 
 export function reducer(
@@ -42,6 +43,13 @@ export function reducer(
       return {
         ...state,
         drawerOpen: action.state
+      }
+    }
+
+    case UserActionTypes.SetUserOperationDefaults: {
+      return {
+        ...state,
+        operationDefaults: action.payload
       }
     }
 
@@ -77,6 +85,7 @@ export function reducer(
       return state
   }
 }
+export const getOperationDefaults = (state: State) => state.operationDefaults
 export const getOperations = (state: State) => state.operations
 export const getCurrentUser = (state: State) => state.currentUser
 export const getDrawerOpen = (state: State) => state.drawerOpen
@@ -93,17 +102,35 @@ export const getUserCurrentUserPermissions = createSelector(
   getOperations
 )
 
+export const getUserCurrentOperationDefaults = createSelector(
+  userState,
+  getOperationDefaults
+)
+
 export const getUserCurrentUserOperations = createSelector(
   getUserCurrentUser,
   getUserCurrentUserPermissions,
-  (user, operations) => {
+  getUserCurrentOperationDefaults,
+  (user, operations, defaults) => {
+    if (!defaults) {
+      // tslint:disable-next-line: no-console
+      console.log(`🌶️🌶️🌶️ NO DEFAULTS`, defaults)
+      return {}
+    }
+
     if (!user || !operations || !user.roles) {
+      // tslint:disable-next-line: no-console
+      console.log(`🌶️🌶️🌶️ USE DEFAULTS`, user, operations)
       return {
-        ...OPERATION_DEFAULTS
+        ...defaults
       }
     }
-    const rights = Object.keys(OPERATION_DEFAULTS).reduce(
+    const rights = Object.keys(defaults).reduce(
       (acc: any, componentName: any) => {
+
+        // tslint:disable-next-line: no-console
+        console.log(`🌶️🌶️🌶️ USE rights`, componentName)
+
         const operationsRights = user.roles.reduce(
           (rightsAcc: any, group: any) => {
             const groupComponents = operations[group]
@@ -134,8 +161,11 @@ export const getUserCurrentUserOperations = createSelector(
       return a
     }, {})
 
+      // tslint:disable-next-line: no-console
+      console.log(`🌶️🌶️🌶️`, finalRights)
+
     return {
-      ...OPERATION_DEFAULTS,
+      ...defaults,
       ...finalRights
     }
   }

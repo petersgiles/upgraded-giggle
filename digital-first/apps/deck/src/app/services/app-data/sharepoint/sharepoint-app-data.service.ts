@@ -8,6 +8,7 @@ import {
 import { concatMap } from 'rxjs/operators'
 import { DataResult, GroupPermissionsResult } from '../../../models'
 import { AppDataService } from '@digital-first/df-app-core'
+import { Injectable } from '@angular/core';
 
 export const mapGroupPermission = (item): any => ({
   id: item.ID,
@@ -19,6 +20,9 @@ export const mapGroupPermission = (item): any => ({
 export const mapGroupPermissions = (items): any[] =>
   items.map(mapGroupPermission)
 
+  @Injectable({
+    providedIn: 'root'
+  })
 export class SharePointAppDataService implements AppDataService {
   getCurrentUserOperations(): Observable<DataResult<GroupPermissionsResult>> {
     return this.sharepoint
@@ -36,7 +40,6 @@ export class SharePointAppDataService implements AppDataService {
   get UserOperation(): Observable<any> {
     return of(null)
   }
-
 
   getBusy(): Observable<boolean> {
     return of(false)

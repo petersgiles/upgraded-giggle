@@ -10,9 +10,11 @@ import {
   UserActionTypes,
   GetUserOperations,
   SetUserOperations,
-  SetCurrentUser
+  SetCurrentUser,
+  SetUserOperationDefaults
 } from './user.actions'
 import { AppDataService } from '../../services/app-data.service';
+import { AppUserOperationsService } from '../../services/app-user-operations.service';
 
 @Injectable()
 export class UserEffects {
@@ -25,6 +27,7 @@ export class UserEffects {
         .pipe(
           concatMap((user: any) => [
             new SetCurrentUser(user),
+            new SetUserOperationDefaults(this.appUserOperationsService.operations),
             new GetUserOperations(null)
           ])
         )
@@ -54,6 +57,8 @@ export class UserEffects {
 
   constructor(
     private actions$: Actions,
-    private appDataService: AppDataService
+    private appDataService: AppDataService,
+    private appUserOperationsService: AppUserOperationsService
+
   ) {}
 }

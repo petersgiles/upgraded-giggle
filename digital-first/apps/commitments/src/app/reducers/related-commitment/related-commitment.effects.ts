@@ -1,4 +1,4 @@
-import { LoggerService } from '@digital-first/df-logging'
+
 import { Injectable } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 import { Observable, of } from 'rxjs'
@@ -79,6 +79,6 @@ export class RelatedCommitmentEffects {
   constructor(
     private actions$: Actions,
     private service: RelatedCommitmentDataService,
-    private logger: LoggerService
+    
   ) {}
 }

@@ -10,7 +10,7 @@ import {
   GET_MAPPOINT_COMMITMENTS,
   GET_COMMITMENT_MAPPOINTS
 } from './queries'
-import { LoggerService } from '@digital-first/df-logging'
+
 import { CommitmentMapPointsResult } from '../../../models/commitment-map-points.model'
 
 @Injectable({
@@ -50,5 +50,5 @@ export class CommitmentOverviewMapDataApolloService
       })
     )
   }
-  constructor(private apollo: Apollo, private logger: LoggerService) {}
+  constructor(private apollo: Apollo, ) {}
 }

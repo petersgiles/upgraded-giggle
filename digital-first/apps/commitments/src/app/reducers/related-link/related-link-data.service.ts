@@ -6,7 +6,7 @@ import { Observable } from 'rxjs'
 import {  DataResult, RelatedLinksResult } from '../../models'
 import { RelatedLinkDataSharePointService } from './sharepoint/related-link-data.service'
 import { RelatedLinkDataApolloService } from './apollo/related-link-data.service'
-import { LoggerService } from '@digital-first/df-logging'
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export abstract class RelatedLinkDataService {
   abstract getItemsByCommitment(commitment: any): Observable<DataResult<RelatedLinksResult>>
 }
 
-const relatedLinksDataServiceFactory = (settings: SettingsService, sharepointlib: SharepointJsomService, apollo: Apollo, logger: LoggerService) => {
+const relatedLinksDataServiceFactory = (settings: SettingsService, sharepointlib: SharepointJsomService, apollo: Apollo) => {
 
   let source = null
   if (settings.datasource) {
@@ -28,7 +28,7 @@ const relatedLinksDataServiceFactory = (settings: SettingsService, sharepointlib
     case 'sharepoint':
       return new RelatedLinkDataSharePointService(sharepointlib)
     default:
-      return new RelatedLinkDataApolloService(apollo, logger)
+      return new RelatedLinkDataApolloService(apollo)
   }
 
 }
@@ -36,5 +36,5 @@ const relatedLinksDataServiceFactory = (settings: SettingsService, sharepointlib
 export let relatedLinksDataServiceProvider = {
   provide: RelatedLinkDataService,
   useFactory: relatedLinksDataServiceFactory,
-  deps: [SettingsService, SharepointJsomService, Apollo, LoggerService]
+  deps: [SettingsService, SharepointJsomService, Apollo]
 }

@@ -8,7 +8,7 @@ import { Router } from '@angular/router'
 import { DialogAddLinkComponent, ADD_LINK_CLOSE } from '../../dialogs/dialog-add-link.component'
 import { RelatedLinkService } from '../../reducers/related-link/related-link.service'
 import { OPERATION_RELATEDLINKS } from '../../services/app-data.service'
-import { LoggerService } from '@digital-first/df-logging'
+
 
 @Component({
   selector: 'digital-first-commitment-related-links',
@@ -23,7 +23,7 @@ export class CommitmentRelatedLinksComponent implements OnInit, OnDestroy {
   tableData$: Observable<DataTableConfig>
   userOperation$: Observable<any>
 
-  constructor(private router: Router, public dialog: MdcDialog, private service: RelatedLinkService, private logger: LoggerService) {
+  constructor(private router: Router, public dialog: MdcDialog, private service: RelatedLinkService) {
     this.tableData$ = this.service.TableData
    }
 

@@ -19,7 +19,7 @@ import { arrayToIndex } from '@df/utils'
 import { map } from 'rxjs/operators'
 import { showSnackBar } from '../../dialogs/show-snack-bar'
 import { Location } from '@angular/common'
-import { LoggerService } from '@digital-first/df-logging'
+
 
 @Component({
   selector: 'digital-first-commitment-print',
@@ -58,7 +58,7 @@ export class CommitmentPrintComponent implements OnInit {
     private snackbar: MdcSnackbar,
     private service: CommitmentDataService,
     private lookup: CommitmentLookupService,
-    private logger: LoggerService
+    
   ) {}
 
   @ViewChild('htmlpdfwrapper') public htmlpdfwrapperElementRef: ElementRef
