@@ -31,31 +31,34 @@ import {
   UpdatePmcHandlingAdviceCommitmentGQL,
   UpdatePmoHandlingAdviceCommitmentGQL
 } from '../../generated/graphql'
-import { Config } from '../../services/config/config-model'
 import { Store } from '@ngrx/store'
-import { CommitmentLocation } from '../../models/commitment.model';
-import { AppNotification, ClearAppNotification } from '../app/app.actions'
+import { CommitmentLocation } from '../../models/commitment.model'
 import { generateGUID } from '../../utils'
+import {
+  AppNotification,
+  ClearAppNotification,
+  Config
+} from '@digital-first/df-app-core'
 
-const mapElectorates = (commitmentLocations) => {
-     let commitmentLoation: CommitmentLocation[] = []
-       if (commitmentLocations && commitmentLocations.length) {
-         commitmentLocations.map(electorate => {
-           commitmentLoation.push({
-            id: electorate.location.id,
-             state: electorate.location.state,
-             title: electorate.location.title
-           })
-         })
-       }
-     return commitmentLoation
-  } 
+const mapElectorates = commitmentLocations => {
+  let commitmentLoation: CommitmentLocation[] = []
+  if (commitmentLocations && commitmentLocations.length) {
+    commitmentLocations.map(electorate => {
+      commitmentLoation.push({
+        id: electorate.location.id,
+        state: electorate.location.state,
+        title: electorate.location.title
+      })
+    })
+  }
+  return commitmentLoation
+}
 
-const setAdvice = (advice) => {
-     let label = advice.label
-     let value = advice.value
+const setAdvice = advice => {
+  let label = advice.label
+  let value = advice.value
 
-     return {value: value, label: label}
+  return { value: value, label: label }
 }
 
 const mapCommitmentDetail = (item): any => {
@@ -74,9 +77,12 @@ const mapCommitmentDetail = (item): any => {
     criticalDate: item.criticalDate ? item.criticalDate.title : '',
     portfolio: item.portfolioLookup ? item.portfolioLookup.title : '',
     electorates: mapElectorates(item.commitmentLocations),
-    pmcHandlingAdvice: item.pmcHandlingAdviceCommitments.length ? setAdvice(item.pmcHandlingAdviceCommitments[0].handlingAdvice) : { value: " ", label: " " },
-    pmoHandlingAdvice: item.pmoHandlingAdviceCommitments.length ? setAdvice(item.pmoHandlingAdviceCommitments[0].handlingAdvice) : { value: " ", label: " " }
-    
+    pmcHandlingAdvice: item.pmcHandlingAdviceCommitments.length
+      ? setAdvice(item.pmcHandlingAdviceCommitments[0].handlingAdvice)
+      : { value: ' ', label: ' ' },
+    pmoHandlingAdvice: item.pmoHandlingAdviceCommitments.length
+      ? setAdvice(item.pmoHandlingAdviceCommitments[0].handlingAdvice)
+      : { value: ' ', label: ' ' }
   }
   return mapResult
 }
@@ -111,19 +117,19 @@ export class CommitmentDetailEffects {
       }
     }),
     switchMap(config =>
-      this.getCommitmentDetailGQL.fetch(config, { fetchPolicy: 'network-only' }).pipe(
-        first(),
-        map((result: any) => result.data.commitments[0]),
-        map(mapCommitmentDetail),
-        concatMap(result => [
-          new LoadDetailedCommitment(result),
-          new GetHandlingAdvices(null)
-        ])
-      )
+      this.getCommitmentDetailGQL
+        .fetch(config, { fetchPolicy: 'network-only' })
+        .pipe(
+          first(),
+          map((result: any) => result.data.commitments[0]),
+          map(mapCommitmentDetail),
+          concatMap(result => [
+            new LoadDetailedCommitment(result),
+            new GetHandlingAdvices(null)
+          ])
+        )
     ),
-    catchError(error => {
-      return of(new GetDetailedCommitmentFailure(error))
-    })
+    catchError(error => of(new GetDetailedCommitmentFailure(error)))
   )
 
   @Effect()
@@ -144,11 +150,13 @@ export class CommitmentDetailEffects {
       }
     }),
     switchMap(config =>
-      this.getHandlingAdvicesGQL.fetch(config, { fetchPolicy: 'network-only' }).pipe(
-        first(),
-        map((result: any) => result.data.handlingAdvices),
-        concatMap(advices => [new LoadHandlingAdvices({ advices })])
-      )
+      this.getHandlingAdvicesGQL
+        .fetch(config, { fetchPolicy: 'network-only' })
+        .pipe(
+          first(),
+          map((result: any) => result.data.handlingAdvices),
+          concatMap(advices => [new LoadHandlingAdvices({ advices })])
+        )
     ),
     catchError(error => of(new GetHandlingAdvicesFailure(error)))
   )
@@ -175,7 +183,9 @@ export class CommitmentDetailEffects {
           webId: webId,
           siteId: siteId
         },
-        handlingAdvice: handlingAdvices.find(item => item.value === action.payload.handlingAdviceId)
+        handlingAdvice: handlingAdvices.find(
+          item => item.value === action.payload.handlingAdviceId
+        )
       }
     }),
     switchMap(config =>
@@ -234,7 +244,9 @@ export class CommitmentDetailEffects {
           webId: webId,
           siteId: siteId
         },
-        handlingAdvice: handlingAdvices.find(item => { return item.value === action.payload.handlingAdviceId})
+        handlingAdvice: handlingAdvices.find(
+          item => item.value === action.payload.handlingAdviceId
+        )
       }
     }),
     switchMap(config =>
@@ -250,13 +262,12 @@ export class CommitmentDetailEffects {
             new AppNotification({ message: `PMC Handling Advice Saved` }),
             new ClearAppNotification()
           ]),
-          catchError(error =>
-            of(new UpdatePMCHandlingAdviceFailure(error)))
+          catchError(error => of(new UpdatePMCHandlingAdviceFailure(error)))
         )
     )
   )
 
-    @Effect()
+  @Effect()
   updatePMCHandlingAdviceFailure$ = this.actions$.pipe(
     ofType(CommitmentDetailActionTypes.UpdatePMCHandlingAdviceFailure),
     switchMap((error: any) => {
@@ -270,5 +281,5 @@ export class CommitmentDetailEffects {
         new ClearAppNotification()
       ]
     })
-  )  
+  )
 }

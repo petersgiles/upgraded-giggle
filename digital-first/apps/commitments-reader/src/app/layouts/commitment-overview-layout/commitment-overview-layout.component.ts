@@ -3,10 +3,9 @@ import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core'
 import { AppRouterService } from '../../services/app-router.service'
 import { RefinerGroup } from '@digital-first/df-refiner'
 import { Observable, Subscription } from 'rxjs'
-import { tap } from 'rxjs/operators'
 
 import * as fromRefiner from '../../reducers/refiner/refiner.reducer'
-import * as fromApp from '../../reducers/app/app.reducer'
+import {selectAppSpinnerState} from '@digital-first/df-app-core'
 import * as fromRoot from '../../reducers'
 
 import { Store, select } from '@ngrx/store'
@@ -101,7 +100,7 @@ export class CommitmentOverviewLayoutComponent
       }
     })
 
-    this.isBusy$ = this.store.pipe(select(fromApp.selectAppSpinnerState))
+    this.isBusy$ = this.store.pipe(select(selectAppSpinnerState))
 
     this.textRefiner$ = this.store.pipe(select(fromRefiner.selectTextRefinerState))
 

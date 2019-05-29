@@ -6,8 +6,8 @@ import { Commitment } from '../../models'
 
 import * as fromDetail from '../../reducers/commitment-detail/commitment-detail.reducer'
 import { Observable } from 'rxjs'
-import * as fromApp from '../../reducers/app/app.reducer'
-import { ClearCurrentDetailedCommitment } from '../../reducers/commitment-detail/commitment-detail.actions';
+import { selectAppSpinnerState } from '@digital-first/df-app-core'
+import { ClearCurrentDetailedCommitment } from '../../reducers/commitment-detail/commitment-detail.actions'
 @Component({
   selector: 'digital-first-commitment-layout',
   templateUrl: './commitment-layout.component.html',
@@ -23,7 +23,7 @@ export class CommitmentLayoutComponent implements OnInit {
   isBusy$: Observable<boolean>
 
   ngOnInit() {
-    this.isBusy$ = this.store.pipe(select(fromApp.selectAppSpinnerState))
+    this.isBusy$ = this.store.pipe(select(selectAppSpinnerState))
   }
 
   getTitle(commitment) {

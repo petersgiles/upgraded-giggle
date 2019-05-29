@@ -1,11 +1,10 @@
-import { SharepointJsomService } from '@df/sharepoint'
-import { HttpClient } from '@angular/common/http'
-import { DevelopConfigService } from './develop/develop-config.service'
-import { SharePointConfigService } from './sharepoint/sharepoint-config.service'
-import {
-  AppSettingsService,
-  AppConfigService
-} from '@digital-first/df-app-core'
+import { AppSettingsService } from '../app-settings.service';
+import { SharepointJsomService } from '@df/sharepoint';
+import { HttpClient } from '@angular/common/http';
+import { SharePointConfigService } from './sharepoint/sharepoint-config.service';
+import { DevelopConfigService } from './develop/develop-config.service';
+import { AppConfigService } from './config.service';
+
 const configServiceFactory = (
   settings: AppSettingsService,
   http: HttpClient,

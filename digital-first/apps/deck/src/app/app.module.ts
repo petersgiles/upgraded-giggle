@@ -49,9 +49,6 @@ import {
   AppUserOperationsService
 } from '@digital-first/df-app-core'
 
-// import * as fromUser from './reducers/user/user.reducer'
-// import * as fromApp from './reducers/app/app.reducer'
-
 import { metaReducers, reducers } from './reducers'
 import { environment } from '../environments/environment'
 import { RouterStateSerializer } from '@ngrx/router-store'

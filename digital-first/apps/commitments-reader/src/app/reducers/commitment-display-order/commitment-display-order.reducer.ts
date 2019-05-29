@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store'
-import { NotificationMessage } from '../app/app.model'
+import { NotificationMessage } from '@digital-first/df-app-core'
 import {
   CommitmentDisplayOrderActionTypes,
   CommitmentDisplayOrderActions

@@ -5,8 +5,6 @@ import { Observable, BehaviorSubject, throwError } from 'rxjs'
 import { SettingsService } from '../../settings.service'
 import { catchError } from 'rxjs/operators'
 
-import { Config, defaults } from '../config-model'
-
 @Injectable({
   providedIn: 'root'
 })

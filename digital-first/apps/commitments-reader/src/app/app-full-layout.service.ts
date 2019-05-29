@@ -2,12 +2,17 @@ import { Injectable, OnInit, OnDestroy } from '@angular/core'
 import { environment } from '../environments/environment'
 import { Observable, of, Subscription, BehaviorSubject } from 'rxjs'
 import { SideBarItem, AppUserProfile } from '@digital-first/df-layouts'
-import { AppDataService } from './services/app-data/app-data.service'
-import { App, Logo } from './services/config/config-model'
+import { App, Logo } from '@digital-first/df-app-core'
 import { Router } from '@angular/router'
-import * as fromApp from './reducers/app/app.reducer'
+import {
+  AppState,
+  selectAppConfigState,
+  selectNotification,
+  NotificationMessage,
+  AppDataService
+} from '@digital-first/df-app-core'
+
 import { Store, select } from '@ngrx/store'
-import { NotificationMessage } from './reducers/app/app.model'
 
 @Injectable({
   providedIn: 'root'
@@ -78,9 +83,7 @@ export class AppFullLayoutService {
   }
 
   get notification$(): Observable<NotificationMessage> {
-    return this.store.pipe(
-      select(fromApp.selectNotification)
-    )
+    return this.store.pipe(select(selectNotification))
   }
 
   get open$(): Observable<boolean> {
@@ -94,19 +97,18 @@ export class AppFullLayoutService {
   constructor(
     private router: Router,
     private service: AppDataService,
-    private store: Store<fromApp.State>
+    private store: Store<AppState>
   ) {
-    this.configSubscription$ = this.store.pipe(
-      select(fromApp.selectAppConfigState)
-    ).subscribe(config => {
+    this.configSubscription$ = this.store
+      .pipe(select(selectAppConfigState))
+      .subscribe(config => {
+        this._title = config.header.title
 
-      this._title = config.header.title
-
-      this.appItems$.next(config.header.apps)
-      this.bookType$.next(config.header.bookType)
-      this.bookColour$.next(config.header.bookColour)
-      this.logo$.next(config.header.logo)
-      this.protectiveMarking$.next(config.header.classification)
-    })
+        this.appItems$.next(config.header.apps)
+        this.bookType$.next(config.header.bookType)
+        this.bookColour$.next(config.header.bookColour)
+        this.logo$.next(config.header.logo)
+        this.protectiveMarking$.next(config.header.classification)
+      })
   }
 }

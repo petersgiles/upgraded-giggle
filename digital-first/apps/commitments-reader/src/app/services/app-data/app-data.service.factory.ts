@@ -2,7 +2,7 @@ import { SharepointJsomService } from '@df/sharepoint'
 import { SharePointAppDataService } from './sharepoint/sharepoint-app-data.service'
 import { DevelopAppDataService } from './develop/develop-app-data.service'
 import { SettingsService } from '../settings.service'
-import { AppDataService } from './app-data.service'
+import { AppDataService } from '@digital-first/df-app-core'
 
 const appDataServiceFactory = (
   settings: SettingsService,

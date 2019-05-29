@@ -1,5 +1,5 @@
 import { Observable, of } from 'rxjs'
-import { AppDataService } from '../app-data.service'
+import { AppDataService } from '@digital-first/df-app-core'
 import {
   SharepointJsomService,
   SPAppUserProfile,

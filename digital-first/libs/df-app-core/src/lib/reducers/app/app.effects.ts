@@ -48,7 +48,7 @@ export class AppEffects {
   )
 
   constructor(
-    private actions$: Actions,
-    private configService: AppConfigService
+    protected actions$: Actions,
+    protected configService: AppConfigService
   ) {}
 }

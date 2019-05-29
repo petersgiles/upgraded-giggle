@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core'
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
-import { Observable, BehaviorSubject, throwError, forkJoin, from, of } from 'rxjs'
+import {
+  Observable,
+  throwError,
+  forkJoin,
+  from,
+  of
+} from 'rxjs'
 
 import { AppSettingsService } from '../../app-settings.service'
 import { catchError, tap, map, concatMap } from 'rxjs/operators'
@@ -8,6 +14,7 @@ import { catchError, tap, map, concatMap } from 'rxjs/operators'
 declare var _spPageContextInfo: any
 
 import { SharepointJsomService } from '@df/sharepoint'
+import { AppConfigService } from '../config.service'
 
 declare var SP: any
 
@@ -26,15 +33,12 @@ const executeQueryAsObservable = context =>
 @Injectable({
   providedIn: 'root'
 })
-export class SharePointConfigService {
-
-
+export class SharePointConfigService implements AppConfigService {
   constructor(
     private http: HttpClient,
     private settings: AppSettingsService,
     private sharepoint: SharepointJsomService
-  ) {
-  }
+  ) {}
 
   public getConfig(): Observable<any> {
     let jsonURL = this.settings.environment.config
