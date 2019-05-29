@@ -25,8 +25,6 @@ export class DeckEffects {
     ofType(DeckActionTypes.GetDeckItems),
     map((action: GetDeckItems) => action),
     concatMap(action => this.service.getDeckItems(action.payload.parent)),
-    // tslint:disable-next-line: no-console
-    tap(result => console.log(`🍺 `, result)),
     switchMap((result: { data: any; loading: boolean }) => [
       new LoadDeck({
         data: result.data,
@@ -41,8 +39,6 @@ export class DeckEffects {
     ofType(DeckActionTypes.GetBriefs),
     map((action: GetBriefs) => action),
     concatMap(action => this.service.getBriefs()),
-    // tslint:disable-next-line: no-console
-    tap(result => console.log(`🍺 `, result)),
     switchMap((result: { data: any; loading: boolean }) => [
       new LoadBriefs({
         data: result.data,
@@ -57,8 +53,6 @@ export class DeckEffects {
     ofType(DeckActionTypes.AddDeckItem),
     map((action: AddDeckItem) => action),
     concatMap(action => this.service.addDeckItem(action.payload)),
-    // tslint:disable-next-line: no-console
-    tap(result => console.log(`🍺 `, result)),
     switchMap((result: { data: any; loading: boolean }) => [
       new LoadDeck({
         data: result.data,
@@ -73,8 +67,6 @@ export class DeckEffects {
     ofType(DeckActionTypes.RemoveDeckItem),
     map((action: RemoveDeckItem) => action),
     concatMap(action => this.service.removeDeckItem(action.payload)),
-    // tslint:disable-next-line: no-console
-    tap(result => console.log(`🍺 `, result)),
     switchMap((result: { data: any; loading: boolean }) => [
       new LoadDeck({
         data: result.data,
@@ -89,8 +81,6 @@ export class DeckEffects {
     ofType(DeckActionTypes.UpdateDeckItem),
     map((action: UpdateDeckItem) => action),
     concatMap(action => this.service.updateDeckItem(action.payload)),
-    // tslint:disable-next-line: no-console
-    tap(result => console.log(`🍺 `, result)),
     switchMap((result: { data: any; loading: boolean }) => [
       new GetDeckItems({ parent: null })
     ]),

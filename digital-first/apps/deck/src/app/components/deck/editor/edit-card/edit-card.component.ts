@@ -30,9 +30,6 @@ export class EditCardComponent implements OnInit {
 
   @Input()
   set selected(val) {
-    // tslint:disable-next-line: no-console
-    console.log(`👺 selected: `, val)
-
     this._selected = JSON.parse(JSON.stringify(val))
     this.populateEditCardForm(this._selected)
   }
@@ -111,8 +108,6 @@ export class EditCardComponent implements OnInit {
   }
 
   public handleSubmit(card: DeckItem) {
-    // tslint:disable-next-line: no-console
-    console.log(`👺 handleSubmit: `, card)
     if (!this.cardForm.valid) {
       return
     }
@@ -122,8 +117,6 @@ export class EditCardComponent implements OnInit {
   }
 
   private clearEditedData(card): void {
-    // tslint:disable-next-line: no-console
-    console.log(`👺 clearEditedData: `, card)
     // remove card just created
     if (!card.id) {
       const cardItems = this.cards.filter(item => {
@@ -172,18 +165,12 @@ export class EditCardComponent implements OnInit {
       })
     }
 
-    // tslint:disable-next-line: no-console
-    console.log(`👺 currentCard: `, patchCard, currentCard)
-
     this.handleCardType(currentCard.cardType)
     this.cardForm.patchValue(patchCard)
   }
 
   public handleChangeBrief($event) {
     const briefdata = this.cardForm.get('selectedBriefs').value
-
-    // tslint:disable-next-line: no-console
-    console.log(`👺`, briefdata)
     this.cardForm.patchValue({ data: briefdata })
   }
 

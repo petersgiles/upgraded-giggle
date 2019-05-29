@@ -18,9 +18,6 @@ export const initialState: State = {
 }
 
 export function reducer(state = initialState, action: DeckActions): State {
-  // tslint:disable-next-line: no-console
-  console.log(`🐀 `, action)
-
   switch (action.type) {
     case DeckActionTypes.GoBack:
       return state

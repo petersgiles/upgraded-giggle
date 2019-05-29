@@ -35,25 +35,17 @@ export class DeckDataLocalService implements DeckDataService {
   }
 
   public addDeckItem(deckItem: any): Observable<any> {
-    // tslint:disable-next-line: no-console
-    console.log(`🍄 addDeckItem`, deckItem)
     return of(null)
   }
   public updateDeckItem(deckItem: any): Observable<any> {
-    // tslint:disable-next-line: no-console
-    console.log(`🍄 updateDeckItem`, deckItem)
     return of(null)
   }
   public removeDeckItem(deckItem: { id: string }): Observable<any> {
-    // tslint:disable-next-line: no-console
-    console.log(`🍄 removeDeckItem`, deckItem)
     return of(null)
   }
 
   public getDeckItems = (): Observable<{ data: any; loading: boolean }> => {
     const deckItems = this.deckItems
-    // tslint:disable-next-line: no-console
-    console.log(`🍄 getDeckItems`, deckItems.getValue())
     return this.deckItems
   }
 

@@ -54,10 +54,7 @@ export class DevelopAppDataService implements AppDataService {
     return of(false)
   }
 
-  constructor() {
-    // tslint:disable-next-line: no-console
-    console.log('DevelopAppDataService')
-  }
+  constructor() { }
 
   getCurrentUser(): Observable<AppUserProfile> {
     const userprofile = {
