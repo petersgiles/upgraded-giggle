@@ -12,7 +12,7 @@ import {
   REMOVE_COMMITMENT_ACTION,
   STORE_COMMITMENT_ACTION
 } from './queries'
-import { LoggerService } from '@digital-first/df-logging'
+
 
 @Injectable({
   providedIn: 'root'
@@ -51,5 +51,5 @@ export class CommitmentActionDataApolloService
       result => ({ data: { commitmentActions: result.data.commitmentActions } })
     )
 
-  constructor(private apollo: Apollo, private logger: LoggerService) {}
+  constructor(private apollo: Apollo, ) {}
 }

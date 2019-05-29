@@ -1,4 +1,4 @@
-import { LoggerService } from '@digital-first/df-logging'
+
 import { Injectable } from '@angular/core'
 import { Apollo } from 'apollo-angular'
 import { callQuery, callMutate } from '../../../services/apollo/apollo-helpers'
@@ -24,6 +24,6 @@ export class RelatedLinkDataApolloService implements RelatedLinkDataService {
 
   getItemsByCommitment = (commitment: any) => callQuery<RelatedLinksResult>(this.apollo, { query: RELATED_LINKS_BY_COMMITMENT, variables: { commitment: commitment } })
 
-  constructor(private apollo: Apollo, private logger: LoggerService) { }
+  constructor(private apollo: Apollo, ) { }
 
 }

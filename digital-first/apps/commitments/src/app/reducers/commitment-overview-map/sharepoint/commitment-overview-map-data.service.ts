@@ -17,7 +17,7 @@ import {
   mapCommitmentMapPoints
 } from '../../commitment-delivery-location/sharepoint/maps'
 
-import { LoggerService } from '@digital-first/df-logging'
+
 import { CommitmentMapPointsResult } from '../../../models/commitment-map-points.model'
 import { arrayToHash } from '@df/utils'
 
@@ -129,6 +129,6 @@ export class CommitmentOverviewMapDataSharePointService
 
   constructor(
     private sharepoint: SharepointJsomService,
-    private logger: LoggerService
+    
   ) {}
 }

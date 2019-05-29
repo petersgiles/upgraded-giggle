@@ -7,7 +7,7 @@ import { DataResult, MapPointsResult, CommitmentsResult } from '../../models'
 
 import { CommitmentOverviewMapDataApolloService } from './apollo/commitment-overview-map-data.service'
 import { CommitmentOverviewMapDataSharePointService } from './sharepoint/commitment-overview-map-data.service'
-import { LoggerService } from '@digital-first/df-logging'
+
 import { CommitmentMapPointsResult } from '../../models/commitment-map-points.model'
 
 @Injectable({
@@ -19,7 +19,7 @@ export abstract class CommitmentOverviewMapDataService {
     abstract getMapPoints(filter: any): Observable<DataResult<MapPointsResult>>
 }
 
-const commitmentOverviewMapDataServiceFactory = (settings: SettingsService, sharepointlib: SharepointJsomService, apollo: Apollo, logger: LoggerService) => {
+const commitmentOverviewMapDataServiceFactory = (settings: SettingsService, sharepointlib: SharepointJsomService, apollo: Apollo) => {
 
     let source = null
     if (settings.datasource) {
@@ -28,9 +28,9 @@ const commitmentOverviewMapDataServiceFactory = (settings: SettingsService, shar
 
     switch (source) {
         case 'sharepoint':
-            return new CommitmentOverviewMapDataSharePointService(sharepointlib, logger)
+            return new CommitmentOverviewMapDataSharePointService(sharepointlib)
         default:
-            return new CommitmentOverviewMapDataApolloService(apollo, logger)
+            return new CommitmentOverviewMapDataApolloService(apollo)
     }
 
 }
@@ -38,5 +38,5 @@ const commitmentOverviewMapDataServiceFactory = (settings: SettingsService, shar
 export let commitmentOverviewMapDataServiceProvider = {
     provide: CommitmentOverviewMapDataService,
     useFactory: commitmentOverviewMapDataServiceFactory,
-    deps: [SettingsService, SharepointJsomService, Apollo, LoggerService]
+    deps: [SettingsService, SharepointJsomService, Apollo]
 }

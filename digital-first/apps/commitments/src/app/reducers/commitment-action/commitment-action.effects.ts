@@ -15,7 +15,7 @@ import { switchMap, map, catchError, tap, concatMap } from 'rxjs/operators'
 import { AppNotification, ClearAppNotification } from '../app.actions'
 import { CommitmentActionDataService } from './commitment-action-data.service'
 import { DataResult, CommitmentActionsResult } from '../../models'
-import { LoggerService } from '@digital-first/df-logging'
+
 
 @Injectable()
 export class CommitmentActionEffects {
@@ -62,5 +62,5 @@ export class CommitmentActionEffects {
 
     )
 
-  constructor(private actions$: Actions, private service: CommitmentActionDataService, private logger: LoggerService) { }
+  constructor(private actions$: Actions, private service: CommitmentActionDataService, ) { }
 }

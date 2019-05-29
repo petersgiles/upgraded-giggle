@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core'
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'
 import { Observable, of } from 'rxjs'
 import { LOCALSTORAGE } from '@df/utils'
-import { LoggerService } from '@digital-first/df-logging'
+
 import { AUTH_KEY } from '../constants'
 import { JwtHelperService } from '@auth0/angular-jwt'
 
@@ -13,7 +13,6 @@ export class AuthGuard implements CanActivate {
 
   constructor(
     @Inject(LOCALSTORAGE) private localStorage: any,
-    private logger: LoggerService,
     private router: Router,
     private jwtHelper: JwtHelperService) { }
 

@@ -1,4 +1,4 @@
-import { LoggerService } from '@digital-first/df-logging'
+
 import { Injectable } from '@angular/core'
 import {
   SharepointJsomService,
@@ -137,6 +137,6 @@ export class RelatedCommitmentDataSharePointService
 
   constructor(
     private sharepoint: SharepointJsomService,
-    private logger: LoggerService
+    
   ) {}
 }

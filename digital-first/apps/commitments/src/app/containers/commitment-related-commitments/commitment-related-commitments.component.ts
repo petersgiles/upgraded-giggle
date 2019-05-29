@@ -9,7 +9,7 @@ import { DialogAddCommitmentComponent, ADD_COMMITMENT_TO_COMMITMENT_CLOSE } from
 import { formatCommitmentTitle } from '../../formatters'
 import { RelatedCommitmentService } from '../../reducers/related-commitment/related-commitment.service'
 import { OPERATION_RELATEDCOMMITMENTS, OPERATION_RIGHT_WRITE, OPERATION_RIGHT_READ, OPERATION_RIGHT_HIDE } from '../../services/app-data.service'
-import { LoggerService, Logger} from '@digital-first/df-logging'
+
 
 @Component({
   selector: 'digital-first-commitment-related-commitments',
@@ -25,7 +25,7 @@ export class CommitmentRelatedCommitmentsComponent implements OnInit, OnDestroy 
   userOperation$: Observable<any>
 
   constructor(private router: Router, public dialog: MdcDialog, private service: RelatedCommitmentService,
-    private logger: LoggerService) { }
+    ) { }
 
   @Input()
   set commitment(val: number) {

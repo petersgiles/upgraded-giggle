@@ -1,4 +1,4 @@
-import { LoggerService } from '@digital-first/df-logging'
+
 import { Injectable } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 import { Observable, of } from 'rxjs'
@@ -56,5 +56,5 @@ export class CommentOverviewMapEffects {
                 )
             ))
 
-    constructor(private actions$: Actions, private service: CommitmentOverviewMapDataService, private logger: LoggerService) { }
+    constructor(private actions$: Actions, private service: CommitmentOverviewMapDataService, ) { }
 }

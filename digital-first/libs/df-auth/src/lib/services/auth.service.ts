@@ -5,7 +5,7 @@ import { timer, Observable, of } from 'rxjs'
 import { User, AuthResult } from '../models'
 import { map, mergeMap, first } from 'rxjs/operators'
 import { FEDERATEDLOGINAPIPATH } from '@digital-first/df-app-tokens'
-import { LoggerService } from '@digital-first/df-logging'
+
 import { AUTH_KEY } from '../constants'
 import { LOCALSTORAGE } from '@df/utils'
 
@@ -23,7 +23,6 @@ export class AuthService {
     @Inject(FEDERATEDLOGINAPIPATH) private federatedLoginApiPath: any,
     @Inject(LOCALSTORAGE) private localStorage: any,
     private http: HttpClient,
-    private logger: LoggerService,
     private jwtHelper: JwtHelperService
   ) {}
 

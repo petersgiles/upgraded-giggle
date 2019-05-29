@@ -9,7 +9,7 @@ import { CommitmentLookupService } from '../../reducers/commitment-lookup/commit
 import { showSnackBar } from '../../dialogs/show-snack-bar'
 import { ExcelService } from '../../services/excel.service'
 import { DateFormatPipe } from '@digital-first/df-moment'
-import { LoggerService } from '@digital-first/df-logging'
+
 @Component({
   selector: 'digital-first-commitment-overview',
   templateUrl: './commitment-overview.component.html',
