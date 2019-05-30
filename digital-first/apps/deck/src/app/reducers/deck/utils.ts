@@ -1,4 +1,3 @@
-import { sortBy } from '@df/utils';
 
 export const tryParseJSON = jsonString => {
   try {

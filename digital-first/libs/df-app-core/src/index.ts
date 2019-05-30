@@ -46,3 +46,6 @@ export {
 export {
   AppUserOperationsService
 } from './lib/services/app-user-operations.service'
+export {
+  AppErrorHandlerToSeqService
+} from './lib/services/app-error-seq.service'

@@ -1,9 +1,9 @@
 <div class="app-page">
   <section> 
 
-    <df-expander-panel *ngIf="(parentDeckItem$ | async) as parentDeckItem" [title]="parentDeckItem.title"  [expandable]="false" >
+    <df-expander-panel *ngIf="(parentDeckItem$ | async) as parentDeckItem" title=""  [expandable]="false" >
         <ng-container panel-buttons>
-          <df-button title="Go Back" (onClick)="handleGoBack($event)" ></df-button>
+          <df-button title="{{stopBreak(parentDeckItem.title)}}" icon="arrow_back_ios" (onClick)="handleGoToParent(parentDeckItem)" ></df-button>
         </ng-container>
     </df-expander-panel>
 
@@ -16,6 +16,7 @@
       [eligibleParents]="eligibleParents$ | async"
       [readOnly]="false"
       (onEdit)="handleEdit($event)"
+      (onCreateCard)="handleCreateCard($event)"
       (onSubmitted)="handleSubmitted($event)"
       (onCancelled)="handleCancelled($event)"
       (onAction)="handleAction($event)"

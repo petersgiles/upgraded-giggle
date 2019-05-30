@@ -2,8 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { DeckItem, Brief } from '../../models/deck-item-model'
 import { FormGroup, Validators, FormArray, FormBuilder } from '@angular/forms'
 import { CardType } from '../../models/card-type-enum'
-import { clamp } from '../../../../utils'
-import { debounceTime } from 'rxjs/operators'
+import { webSafeColours } from '../../../../utils'
+import { BehaviorSubject } from 'rxjs'
 
 const actionGroupItem = {
   title: [''],
@@ -16,9 +16,15 @@ const actionGroupItem = {
   styles: []
 })
 export class EditCardComponent implements OnInit {
+  public webSafeColours$: BehaviorSubject<any> = new BehaviorSubject(
+    webSafeColours
+  )
 
   @Input()
   public briefs: Brief[]
+
+  @Input()
+  public eligibleParents: DeckItem[]
 
   @Input()
   cardTypes
@@ -30,9 +36,6 @@ export class EditCardComponent implements OnInit {
 
   @Input()
   set selected(val) {
-    // tslint:disable-next-line: no-console
-    console.log(`👺 selected: `, val)
-
     this._selected = JSON.parse(JSON.stringify(val))
     this.populateEditCardForm(this._selected)
   }
@@ -111,8 +114,6 @@ export class EditCardComponent implements OnInit {
   }
 
   public handleSubmit(card: DeckItem) {
-    // tslint:disable-next-line: no-console
-    console.log(`👺 handleSubmit: `, card)
     if (!this.cardForm.valid) {
       return
     }
@@ -122,8 +123,6 @@ export class EditCardComponent implements OnInit {
   }
 
   private clearEditedData(card): void {
-    // tslint:disable-next-line: no-console
-    console.log(`👺 clearEditedData: `, card)
     // remove card just created
     if (!card.id) {
       const cardItems = this.cards.filter(item => {
@@ -142,48 +141,44 @@ export class EditCardComponent implements OnInit {
   }
 
   private populateEditCardForm(currentCard: DeckItem) {
-    const patchCard = {
-      id: currentCard.id,
-      title: currentCard.title,
-      parent: currentCard.parent,
-      supportingText: currentCard.supportingText,
-      size: currentCard.size,
-      cardType: currentCard.cardType,
-      sortOrder: currentCard.sortOrder,
-      colour: currentCard.colour,
-      titleClass: currentCard.titleClass,
-      media: {
-        type: currentCard.media ? currentCard.media.type : '',
-        url: currentCard.media ? currentCard.media.url : '',
-        id: currentCard.media ? currentCard.media.id : ''
-      },
-      actions: currentCard.actions ? currentCard.actions : [],
-      data: currentCard.data,
-      selectedBriefs:
-        currentCard.cardType === CardType.BriefSummary && currentCard.data
-          ? currentCard.data
-          : null
+    if (currentCard) {
+      const patchCard = {
+        id: currentCard.id,
+        title: currentCard.title,
+        parent: currentCard.parent,
+        supportingText: currentCard.supportingText,
+        size: currentCard.size,
+        cardType: currentCard.cardType,
+        sortOrder: currentCard.sortOrder,
+        colour: currentCard.colour,
+        titleClass: currentCard.titleClass,
+        media: {
+          type: currentCard.media ? currentCard.media.type : '',
+          url: currentCard.media ? currentCard.media.url : '',
+          id: currentCard.media ? currentCard.media.id : ''
+        },
+        actions: currentCard.actions ? currentCard.actions : [],
+        data: currentCard.data,
+        selectedBriefs:
+          currentCard.cardType === CardType.BriefSummary && currentCard.data
+            ? currentCard.data
+            : null
+      }
+
+      // got to populate the form array
+      if (currentCard.actions) {
+        currentCard.actions.forEach(p => {
+          this.actions.push(this.action)
+        })
+      }
+
+      this.handleCardType(currentCard.cardType)
+      this.cardForm.patchValue(patchCard)
     }
-
-    // got to populate the form array
-    if (currentCard.actions) {
-      currentCard.actions.forEach(p => {
-        this.actions.push(this.action)
-      })
-    }
-
-    // tslint:disable-next-line: no-console
-    console.log(`👺 currentCard: `, patchCard, currentCard)
-
-    this.handleCardType(currentCard.cardType)
-    this.cardForm.patchValue(patchCard)
   }
 
   public handleChangeBrief($event) {
     const briefdata = this.cardForm.get('selectedBriefs').value
-
-    // tslint:disable-next-line: no-console
-    console.log(`👺`, briefdata)
     this.cardForm.patchValue({ data: briefdata })
   }
 

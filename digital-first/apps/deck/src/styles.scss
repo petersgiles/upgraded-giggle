@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import "../../../libs/df-theme/styles.scss";
+@import '../../../libs/df-theme/styles.scss';
 
 $prefix: 'df';
 
@@ -24,7 +24,78 @@ $spacing-md: 8px;
 $spacing-lg: 16px;
 
 ngx-wig {
-    flex-grow: 1;
-    margin-left: .3em;
-    margin-right: .3em;
+  flex-grow: 1;
+  margin-left: 0.3em;
+  margin-right: 0.3em;
+}
+
+/* DeckItem Brief Summary*/
+.deckitem-briefsummary {
+  table {
+    width: 100%;
+    margin-top: -12px;
+
+    td {
+      text-align: center;
+    }
+  }
+
+  .mdl-data-table {
+    border: none;
+  }
+
+  th:first-of-type {
+    text-align: left;
+    visibility: hidden;
+  }
+
+  th {
+    text-align: center;
+  }
+
+  th:last-of-type,
+  tr td:last-of-type {
+    padding-right: 8px;
+  }
+
+  .mdl-data-table tbody tr:hover {
+    cursor: pointer;
+  }
+
+  table tfoot td {
+    border-bottom: none;
+  }
+}
+
+.deckitem-summary-links {
+  width: 100%;
+  margin-top: -12px;
+
+  ul {
+    padding: 0 24px;
+    width: 100%;
+
+    li {
+      width: 100%;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+      a {
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 13px;
+      }
+    }
+    li:hover {
+      cursor: pointer;
+      background-color: #eee;
+    }
+
+    li:last-of-type {
+      border-bottom: none;
+    }
+
+    .mdl-list__item {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 13px;
+    }
+  }
 }

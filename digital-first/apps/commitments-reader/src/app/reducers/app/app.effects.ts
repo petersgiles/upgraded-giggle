@@ -1,11 +1,10 @@
-import { Injectable } from '@angular/core'
+import { Injectable, ErrorHandler } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 
-import { Observable, EMPTY, throwError} from 'rxjs'
-import { map, concatMap, tap, catchError } from 'rxjs/operators'
+import { Observable, EMPTY } from 'rxjs'
+import { map, concatMap } from 'rxjs/operators'
 import { Action } from '@ngrx/store'
 
-import { AppConfigService } from '@digital-first/df-app-core'
 import {
   GetRefinerGroups,
   RefinerActionTypes,
@@ -22,17 +21,15 @@ import {
   SetPMCHandlingAdviceResult
 } from '../commitment-detail/commitment-detail.actions'
 
-import { AppActionTypes } from '@digital-first/df-app-core'
 import {
   CommitmentDisplayOrderActionTypes,
   ApplyCommitmentDisplayOrders
 } from '../commitment-display-order/commitment-display-order.actions'
+import { ShowSpinner, HideSpinner } from '@digital-first/df-app-core'
 import {
-  AppEffects,
-  ShowSpinner,
-  HideSpinner,
-  HandleGlobalError
-} from '@digital-first/df-app-core'
+  OverviewActionTypes,
+  GetRefinedCommitmentsFailure
+} from '../overview/overview.actions'
 
 type showSpinnerTypes =
   | GetRefinerGroups
@@ -64,6 +61,10 @@ const hideSpinnerActions = [
   CommitmentDetailActionTypes.SetPMOHandlingAdviceResult
 ]
 
+type failTypes = GetRefinedCommitmentsFailure
+
+const failActions = [OverviewActionTypes.GetRefinedCommitmentsFailure]
+
 @Injectable()
 export class GlobleEffects {
   @Effect()
@@ -80,10 +81,16 @@ export class GlobleEffects {
 
   @Effect()
   handleGlobalError$: Observable<Action> = this.actions$.pipe(
-    ofType(AppActionTypes.HandleGlobalError),
-    map((action: HandleGlobalError) => action.payload.error),
-    concatMap(error => throwError( error))
+    ofType<failTypes>(...failActions),
+    map(action => action.payload.error),
+    concatMap(error => {
+      this.errorService.handleError(error)
+      return EMPTY
+    })
   )
 
-  constructor(protected actions$: Actions) {}
+  constructor(
+    protected actions$: Actions,
+    private errorService: ErrorHandler
+  ) {}
 }
