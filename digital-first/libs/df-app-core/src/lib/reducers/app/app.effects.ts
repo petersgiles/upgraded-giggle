@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { Injectable, ErrorHandler } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 
 import { Observable, EMPTY } from 'rxjs'
@@ -13,6 +13,11 @@ import {
 } from './app.actions'
 
 import { AppConfigService } from '../../services/config/config.service'
+
+type failTypes = GetRefinedCommitmentsFailure
+
+const failActions = [OverviewActionTypes.GetRefinedCommitmentsFailure]
+
 
 @Injectable()
 export class AppEffects {
@@ -47,8 +52,19 @@ export class AppEffects {
     })
   )
 
+  @Effect()
+  handleGlobalError$: Observable<Action> = this.actions$.pipe(
+    ofType<failTypes>(...failActions),
+    map(action => action.payload.error),
+    concatMap(error => {
+      this.errorService.handleError(error)
+      return EMPTY
+    })
+  )
+
   constructor(
     protected actions$: Actions,
-    protected configService: AppConfigService
+    protected configService: AppConfigService,
+    private errorService: ErrorHandler
   ) {}
 }
