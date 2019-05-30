@@ -4,6 +4,27 @@ import { Observable } from 'rxjs';
 
 import { CommitmentDetailEffects } from './commitment-detail.effects';
 
+import {
+  ApolloTestingModule,
+  ApolloTestingController,
+} from 'apollo-angular/testing';
+
+describe('DogComponent', () => {
+  let controller: ApolloTestingController;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [ApolloTestingModule],
+    });
+
+    controller = TestBed.get(ApolloTestingController);
+  });
+
+  afterEach(() => {
+    controller.verify();
+  });
+});
+
 describe('CommitmentDetailEffects', () => {
   let actions$: Observable<any>;
   let effects: CommitmentDetailEffects;

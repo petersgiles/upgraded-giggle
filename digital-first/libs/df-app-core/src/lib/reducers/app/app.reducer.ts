@@ -7,12 +7,14 @@ export interface State {
   config: Config
   notification: NotificationMessage
   spinner: boolean
+  appError: any
 }
 
 export const initialState: State = {
   config: null,
   notification: null,
-  spinner: false
+  spinner: false,
+  appError: null
 }
 
 export function reducer(state = initialState, action: AppActions): State {
@@ -39,6 +41,12 @@ export function reducer(state = initialState, action: AppActions): State {
       return {
         ...state,
         config: action.payload
+      }
+
+    case AppActionTypes.HandleGlobalError:
+      return {
+        ...state,
+        appError: action.payload.error
       }
 
     default:
