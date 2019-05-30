@@ -10,7 +10,7 @@ import {
 } from 'rxjs/operators'
 
 import * as fromRoot from '../../reducers'
-import { of } from 'rxjs'
+import { of, config } from 'rxjs'
 import {
   CommitmentDetailActionTypes,
   CommitmentDetailActions,

@@ -23,13 +23,5 @@ export const getUserCurrentUserDisplayOrderPermission = createSelector(
       : operations[OPERATION_PLANNER]
 )
 
-export const getUserCurrentUserPermissions = createSelector(
-  getUserCurrentUser,
-  getUserCurrentUserOperations,
-  (user, operations) =>
-   
-     operations
-)
-
 
 
