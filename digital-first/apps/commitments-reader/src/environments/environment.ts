@@ -14,7 +14,7 @@ export const environment = {
   },
   loggingSource:{
     type: 'seq',
-    loggingServiceUrl: '//programs.cloud9.cabnet'
+    loggingServiceUrl: '//programs.cloud9.cabnet/api/events/raw'
   },
   eventDatasource: 'local',
   appConfigDataSource: 'local',

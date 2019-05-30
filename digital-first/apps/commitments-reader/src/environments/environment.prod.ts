@@ -9,6 +9,10 @@ export const environment = {
     type: 'graph',
     dataServiceUrl: '//#{ApiPath}/graphql',
   },
+  loggingSource:{
+    type: 'seq',
+    loggingServiceUrl: '//#{ApiPath}/api/events/raw'
+  },
   eventDatasource:'sharepoint',
   appConfigDataSource: 'sharepoint',
   apiKey: '#{ApiKey}',
