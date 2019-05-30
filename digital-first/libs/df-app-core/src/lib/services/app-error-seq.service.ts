@@ -17,7 +17,7 @@ export class AppErrorHandlerToSeqService implements ErrorHandler {
       .minLevel(levelSwitch)
       .writeTo(
         new SeqSink({
-          url: `//programs.cloud9.cabnet`,
+          url: this.settings.loggingSource.url,
           compact: true,
           levelSwitch: levelSwitch,
           apiKey: this.settings.apiKey

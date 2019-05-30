@@ -69,7 +69,7 @@ export class SeqService {
     // suppressErrors: boolean = true;
     let s =  this.parseError(error)
     return this.httpClient.post(
-      `${environment.loggingSource.loggingServiceUrl}`,
+      `${environment.loggingSource.url}`,
       this.parseError(error), { headers: this.headers}
     )
   }
