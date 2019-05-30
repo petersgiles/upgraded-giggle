@@ -19,7 +19,7 @@ APP_OPERATION_DEFAULTS[OPERATION_DISPLAY_ORDER] = OPERATION_RIGHT_HIDE
 @Injectable({
   providedIn: 'root'
 })
-export class DeckUserOperationsService implements AppUserOperationsService {
+export class CommitmentsReaderOperationsService implements AppUserOperationsService {
   get operations() {
     return APP_OPERATION_DEFAULTS
   }

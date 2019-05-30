@@ -87,7 +87,7 @@ import { GraphQLModule } from './graphQL/graphQl.module'
 import { UserProfileComponent } from './pages/user-profile/user-profile.component'
 
 import { DragDropModule } from '@angular/cdk/drag-drop'
-import { DeckUserOperationsService } from './services/app-data/app-operations'
+import { CommitmentsReaderOperationsService } from './services/app-data/app-operations'
 
 const COMPONENTS = [
   AppComponent,
@@ -182,7 +182,7 @@ const COMPONENTS = [
       deps: [Store, SettingsService],
       multi: true
     },
-    { provide: AppUserOperationsService, useClass: DeckUserOperationsService },
+    { provide: AppUserOperationsService, useClass: CommitmentsReaderOperationsService },
     appDataServiceProvider,
     configServiceProvider,
     commitmentEventDataServiceProvider,
