@@ -1,14 +1,10 @@
 import {
   ActionReducer,
   ActionReducerMap,
-  createFeatureSelector,
-  createSelector,
   MetaReducer
 } from '@ngrx/store'
 
 import { environment } from '../../environments/environment'
-
-import * as fromRouter from '@ngrx/router-store'
 
 /**
  * storeFreeze prevents state from being mutated. When mutation occurs, an
@@ -18,8 +14,8 @@ import * as fromRouter from '@ngrx/router-store'
 import { storeFreeze } from 'ngrx-store-freeze'
 
 import { localStorageSync } from 'ngrx-store-localstorage'
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'
-import { RouterStateUrl } from './router-state-url'
+import * as fromRouter from '@ngrx/router-store'
+import { RouterStateUrl } from '@digital-first/df-app-core'
 
 export function localStorageSyncReducer(
   reducer: ActionReducer<any>
@@ -41,22 +37,6 @@ export interface State {
 
 export const reducers: ActionReducerMap<State> = {
   routerReducer: fromRouter.routerReducer
-}
-
-export class CustomSerializer
-  implements fromRouter.RouterStateSerializer<RouterStateUrl> {
-  serialize(routerState: RouterStateSnapshot): RouterStateUrl {
-    const { url } = routerState
-    const { queryParams } = routerState.root
-
-    let state: ActivatedRouteSnapshot = routerState.root
-    while (state.firstChild) {
-      state = state.firstChild
-    }
-    const { params } = state
-
-    return { url, queryParams, params }
-  }
 }
 
 export const metaReducers: MetaReducer<State>[] = !environment.production

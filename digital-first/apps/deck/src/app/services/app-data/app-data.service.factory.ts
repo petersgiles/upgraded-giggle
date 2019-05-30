@@ -1,11 +1,11 @@
 import { SharepointJsomService } from '@df/sharepoint'
 import { SharePointAppDataService } from './sharepoint/sharepoint-app-data.service'
 import { DevelopAppDataService } from './develop/develop-app-data.service'
-import { SettingsService } from '../settings.service'
-import { AppDataService } from './app-data.service'
+
+import { AppDataService, AppSettingsService } from '@digital-first/df-app-core'
 
 const appDataServiceFactory = (
-  settings: SettingsService,
+  settings: AppSettingsService,
   sharepointlib: SharepointJsomService
 ) => {
   let source = null
@@ -24,5 +24,5 @@ const appDataServiceFactory = (
 export let appDataServiceProvider = {
   provide: AppDataService,
   useFactory: appDataServiceFactory,
-  deps: [SettingsService, SharepointJsomService]
+  deps: [AppSettingsService, SharepointJsomService]
 }

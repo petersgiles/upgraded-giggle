@@ -128,7 +128,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
         if (event.type === 'scroll') {
           const bottomRowIndex = event.source.bottomRow.dataIndex
           const pageIndex = Math.floor(bottomRowIndex / 100)
-          if (pageIndex > me.pageIndex) {
+          if (pageIndex !== me.pageIndex) {
             me.onPageIndexChange.emit(pageIndex)
           }
         }

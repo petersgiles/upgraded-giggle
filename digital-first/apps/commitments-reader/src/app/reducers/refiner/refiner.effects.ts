@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 import * as fromRoot from '../../reducers'
-import { Config } from '../../services/config/config-model'
+import { Config } from '@digital-first/df-app-core'
 import {
   switchMap,
   first,

@@ -1,4 +1,8 @@
-import { BookType } from '../../generated/graphql'
+export enum BookType {
+  None = 'None',
+  Blue = 'Blue',
+  Red = 'Red'
+}
 
 export interface Logo {
   image: string

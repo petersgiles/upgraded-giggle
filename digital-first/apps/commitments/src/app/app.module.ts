@@ -60,7 +60,6 @@ import { SettingsService } from './services/settings.service'
 import { SharepointDataService } from './services/sharepoint/sharepoint-data.service'
 import { ApolloDataService } from './services/apollo/apollo-data.service'
 import { AppDataService } from './services/app-data.service'
-import { DfLoggingModule } from '@digital-first/df-logging'
 import { environment } from '../environments/environment'
 import { StoreModule, Store } from '@ngrx/store'
 import { EffectsModule } from '@ngrx/effects'
@@ -265,7 +264,6 @@ export let appDataServiceProvider = {
     }),
     NxModule.forRoot(),
     DocumentModule,
-    DfLoggingModule,
     DfComponentsModule,
     DataTableModule,
     PanelModule,

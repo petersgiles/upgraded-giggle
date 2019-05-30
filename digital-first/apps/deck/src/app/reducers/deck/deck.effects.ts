@@ -11,14 +11,15 @@ import {
   GetDeckItems,
   AddDeckItem,
   RemoveDeckItem,
-  UpdateDeckItem
+  UpdateDeckItem,
+  GetBriefs,
+  GetBriefsFailure,
+  LoadBriefs
 } from './deck.actions'
-import { DeckDataService } from './deck-data.service';
+import { DeckDataService } from './deck-data.service'
 
 @Injectable()
 export class DeckEffects {
- 
-
   @Effect()
   getDeckItems$ = this.actions$.pipe(
     ofType(DeckActionTypes.GetDeckItems),
@@ -33,6 +34,22 @@ export class DeckEffects {
       })
     ]),
     catchError(error => of(new GetDeckItemsFailure(error)))
+  )
+
+  @Effect()
+  getBriefs$ = this.actions$.pipe(
+    ofType(DeckActionTypes.GetBriefs),
+    map((action: GetBriefs) => action),
+    concatMap(action => this.service.getBriefs()),
+    // tslint:disable-next-line: no-console
+    tap(result => console.log(`🍺 `, result)),
+    switchMap((result: { data: any; loading: boolean }) => [
+      new LoadBriefs({
+        data: result.data,
+        loading: result.loading
+      })
+    ]),
+    catchError(error => of(new GetBriefsFailure(error)))
   )
 
   @Effect()

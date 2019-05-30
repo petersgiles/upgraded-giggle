@@ -2,12 +2,12 @@ import { Injectable, OnInit, OnDestroy } from '@angular/core'
 import { environment } from '../environments/environment'
 import { Observable, of, Subscription, BehaviorSubject } from 'rxjs'
 import { SideBarItem, AppUserProfile } from '@digital-first/df-layouts'
-import { AppDataService } from './services/app-data/app-data.service'
+
 import { App, Logo } from './services/config/config-model'
 import { Router } from '@angular/router'
-import * as fromApp from './reducers/app/app.reducer'
+
 import { Store, select } from '@ngrx/store'
-import { NotificationMessage } from './reducers/app/app.model'
+import { AppState, selectAppConfigState, selectNotification, NotificationMessage, AppDataService } from '@digital-first/df-app-core'
 @Injectable({
   providedIn: 'root'
 })
@@ -59,7 +59,7 @@ export class AppFullLayoutService {
 
   get notification$(): Observable<NotificationMessage> {
     return this.store.pipe(
-      select(fromApp.selectNotification)
+      select(selectNotification)
     )
   }
 
@@ -74,10 +74,10 @@ export class AppFullLayoutService {
   constructor(
     private router: Router,
     private service: AppDataService,
-    private store: Store<fromApp.State>
+    private store: Store<AppState>
   ) {
     this.configSubscription$ = this.store.pipe(
-      select(fromApp.selectAppConfigState)
+      select(selectAppConfigState)
     ).subscribe(config => {
 
       this._title = config.header.title

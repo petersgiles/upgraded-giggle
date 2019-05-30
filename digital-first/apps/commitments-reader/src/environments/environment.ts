@@ -19,7 +19,7 @@ export const environment = {
   eventDatasource: 'local',
   appConfigDataSource: 'local',
   // developer's your API KEY here
-  apiKey: '1PARfaAtmMKPkda2GKa9a2mUOW8=',
+  apiKey: 'f2kEqQewiebidPkHIkqYyNY88HA=',
   assetsPath: '/assets',
   // datasources: {
   //   data: {

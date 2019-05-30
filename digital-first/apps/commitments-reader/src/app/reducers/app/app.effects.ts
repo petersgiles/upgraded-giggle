@@ -4,19 +4,8 @@ import { Actions, Effect, ofType } from '@ngrx/effects'
 import { Observable, EMPTY, throwError} from 'rxjs'
 import { map, concatMap, tap, catchError } from 'rxjs/operators'
 import { Action } from '@ngrx/store'
-import { AppDataService } from '../../services/app-data/app-data.service'
-import {
-  AppActionTypes,
-  StartAppInitialiser,
-  GetAppConfiguration,
-  LoadAppConfiguration,
-  LoadAppConfigurationError,
-  ShowSpinner,
-  HideSpinner,
-  HandleGlobalError
-} from './app.actions'
 
-import { AppConfigService } from '../../services/config/config.service'
+import { AppConfigService } from '@digital-first/df-app-core'
 import {
   GetRefinerGroups,
   RefinerActionTypes,
@@ -32,7 +21,18 @@ import {
   SetPMOHandlingAdviceResult,
   SetPMCHandlingAdviceResult
 } from '../commitment-detail/commitment-detail.actions'
-import { CommitmentDisplayOrderActionTypes, ApplyCommitmentDisplayOrders } from '../commitment-display-order/commitment-display-order.actions'
+
+import { AppActionTypes } from '@digital-first/df-app-core'
+import {
+  CommitmentDisplayOrderActionTypes,
+  ApplyCommitmentDisplayOrders
+} from '../commitment-display-order/commitment-display-order.actions'
+import {
+  AppEffects,
+  ShowSpinner,
+  HideSpinner,
+  HandleGlobalError
+} from '@digital-first/df-app-core'
 
 type showSpinnerTypes =
   | GetRefinerGroups
@@ -65,7 +65,7 @@ const hideSpinnerActions = [
 ]
 
 @Injectable()
-export class AppEffects {
+export class GlobleEffects {
   @Effect()
   showSpinner: Observable<Action> = this.actions$.pipe(
     ofType<showSpinnerTypes>(...showSpinnerActions),
@@ -85,39 +85,5 @@ export class AppEffects {
     concatMap(error => throwError( error))
   )
 
-  @Effect()
-  startAppInitialiser$: Observable<Action> = this.actions$.pipe(
-    ofType(AppActionTypes.StartAppInitialiser),
-    map((action: StartAppInitialiser) => action.payload.environment),
-    concatMap(_ => [new GetAppConfiguration()]),
-    catchError(error => {
-      // tslint:disable-next-line: no-console
-      console.log(`💥 error => `, error)
-      return EMPTY
-    })
-  )
-
-  @Effect()
-  getAppConfiguration$: Observable<Action> = this.actions$.pipe(
-    ofType(AppActionTypes.GetAppConfiguration),
-    concatMap(_ => {
-      // tslint:disable-next-line: no-console
-      console.log(`getAppConfiguration`)
-      return this.configService.getConfig().pipe(
-        // tslint:disable-next-line: no-console
-        tap((config: any) => console.log(`🐵 config => `, config)),
-        concatMap((config: any) => [new LoadAppConfiguration(config)]),
-        catchError(error => {
-          // tslint:disable-next-line: no-console
-          console.log(`💥 error => `, error)
-          return [new LoadAppConfigurationError(error)]
-        })
-      )
-    })
-  )
-
-  constructor(
-    private actions$: Actions,
-    private configService: AppConfigService
-  ) {}
+  constructor(protected actions$: Actions) {}
 }

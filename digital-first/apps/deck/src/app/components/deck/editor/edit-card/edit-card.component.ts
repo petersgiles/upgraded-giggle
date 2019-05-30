@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
-import { DeckItem } from '../../models/deck-item-model'
+import { DeckItem, Brief } from '../../models/deck-item-model'
 import { FormGroup, Validators, FormArray, FormBuilder } from '@angular/forms'
 import { CardType } from '../../models/card-type-enum'
 import { clamp } from '../../../../utils'
@@ -16,6 +16,10 @@ const actionGroupItem = {
   styles: []
 })
 export class EditCardComponent implements OnInit {
+
+  @Input()
+  public briefs: Brief[]
+
   @Input()
   cardTypes
 
@@ -26,6 +30,9 @@ export class EditCardComponent implements OnInit {
 
   @Input()
   set selected(val) {
+    // tslint:disable-next-line: no-console
+    console.log(`👺 selected: `, val)
+
     this._selected = JSON.parse(JSON.stringify(val))
     this.populateEditCardForm(this._selected)
   }
@@ -104,6 +111,8 @@ export class EditCardComponent implements OnInit {
   }
 
   public handleSubmit(card: DeckItem) {
+    // tslint:disable-next-line: no-console
+    console.log(`👺 handleSubmit: `, card)
     if (!this.cardForm.valid) {
       return
     }
@@ -113,6 +122,8 @@ export class EditCardComponent implements OnInit {
   }
 
   private clearEditedData(card): void {
+    // tslint:disable-next-line: no-console
+    console.log(`👺 clearEditedData: `, card)
     // remove card just created
     if (!card.id) {
       const cardItems = this.cards.filter(item => {
@@ -153,6 +164,16 @@ export class EditCardComponent implements OnInit {
           ? currentCard.data
           : null
     }
+
+    // got to populate the form array
+    if (currentCard.actions) {
+      currentCard.actions.forEach(p => {
+        this.actions.push(this.action)
+      })
+    }
+
+    // tslint:disable-next-line: no-console
+    console.log(`👺 currentCard: `, patchCard, currentCard)
 
     this.handleCardType(currentCard.cardType)
     this.cardForm.patchValue(patchCard)

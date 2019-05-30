@@ -18,7 +18,7 @@ import {
   GetMapPointsFailure
 } from './map.actions'
 import * as fromRoot from '../../reducers'
-import { Config } from '../../services/config/config-model'
+import { Config } from '@digital-first/df-app-core'
 import { Store } from '@ngrx/store'
 import { MapPointsSearchGQL } from '../../generated/graphql'
 
@@ -50,7 +50,7 @@ export class MapEffects {
         }
       )
 
-      if(textRefiner){
+      if (textRefiner) {
         selectedRefinerGroup.text = textRefiner
       }
 
@@ -68,7 +68,8 @@ export class MapEffects {
     catchError(error => {
       // tslint:disable-next-line: no-console
       console.log(`💥 error => `, error)
-      return of(new GetMapPointsFailure(error))})
+      return of(new GetMapPointsFailure(error))
+    })
   )
 
   constructor(

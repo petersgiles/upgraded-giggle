@@ -79,6 +79,9 @@
     },
     "commitments-reader": {
       "tags": []
+    },
+    "df-app-core": {
+      "tags": []
     }
   }
 }

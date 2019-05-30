@@ -1,16 +1,18 @@
 import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
 import { HomeComponent } from './pages/home/home.component'
+import { UserProfileComponent } from './pages/user-profile/user-profile.component'
 
 import {
   SimpleLayoutComponent,
   TitleLayoutComponent
 } from '@digital-first/df-layouts'
+
 import {
   ErrorPageNotFoundComponent,
   ErrorServerComponent
 } from '@digital-first/df-pages'
-import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo: 'deck', pathMatch: 'full' },
@@ -33,7 +35,16 @@ const routes: Routes = [
   },
   {
     path: 'userprofile',
-    component: UserProfileComponent
+    component: TitleLayoutComponent,
+    data: {
+      title: 'Profile'
+    },
+    children: [
+      {
+        path: '',
+        component: UserProfileComponent
+      }
+    ]
   },
   {
     path: 'pages',

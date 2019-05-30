@@ -15,7 +15,8 @@ import {
   GetDeckItems,
   EditDeckItem,
   UpdateDeckItem,
-  SetSelectedDeckItem
+  SetSelectedDeckItem,
+  GetBriefs
 } from '../../reducers/deck/deck.actions'
 import { CardType, DeckItem } from '../../components/deck'
 
@@ -36,6 +37,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public briefs$: Observable<{ id: string; name: string }[]>
 
   public selected$: Observable<any>
+  parentDeckItem$: any;
   // tslint:disable-next-line:no-empty
   constructor(
     private route: ActivatedRoute,
@@ -69,6 +71,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       tap(result => console.log(`👹 `, result))
     )
 
+    this.parentDeckItem$ = this.store.pipe(
+      select(fromDeck.selectCurrentParentCardState),
+      // tslint:disable-next-line: no-console
+      tap(result => console.log(`👹 `, result))
+    ) 
+
     this.eligibleParents$ = this.store.pipe(
       select(fromDeck.selectCurrentParentState),
       // tslint:disable-next-line: no-console
@@ -81,7 +89,14 @@ export class HomeComponent implements OnInit, OnDestroy {
       tap(result => console.log(`👹 `, result))
     )
 
+    this.briefs$ = this.store.pipe(
+      select(fromDeck.selectCurrentBriefsState),
+      // tslint:disable-next-line: no-console
+      tap(result => console.log(`👹 `, result))
+    )
+
     this.store.dispatch(new GetDeckItems({ parent: null }))
+    this.store.dispatch(new GetBriefs(null))
   }
 
   ngOnDestroy(): void {}

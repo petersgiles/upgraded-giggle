@@ -10,6 +10,7 @@
         (cdkDropListDropped)="handleDrop($event)"
         class="display-order-list"
         [mdcElevation]="5"
+        [cdkDropListDisabled] ="(displayOrderPermission$ |async) !== 'write'"
       >
         <div start class="header" mdcSubtitle2>
           <ng-container *ngIf="(orderChanged$ | async) === true">
@@ -68,6 +69,7 @@
         (cdkDropListDropped)="handleDrop($event)"
         class="display-order-list"
         [mdcElevation]="5"
+        [cdkDropListDisabled] ="(displayOrderPermission$ |async) !== 'write'"
       >
         <div class="header" mdcSubtitle2>
           Commitments Without Display Order

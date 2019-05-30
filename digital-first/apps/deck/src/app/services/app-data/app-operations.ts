@@ -1,21 +1,20 @@
+import {
+  OPERATION_RIGHT_READ,
+  AppUserOperationsService
+} from '@digital-first/df-app-core'
+import { Injectable } from '@angular/core'
 
+export const OPERATION_EDIT_CARD = 'editCard'
 
-export const ROLE_OWNERS = 'ROLE_OWNERS'
-export const ROLE_MEMBERS = 'ROLE_MEMBERS'
-export const ROLE_VISITORS = 'ROLE_VISITORS'
+export const APP_OPERATION_DEFAULTS = {}
 
-export const OPERATION_PMO_HANDLING_ADVICE = 'pmohandlingadvice'
-export const OPERATION_PMC_HANDLING_ADVICE = 'pmchandlingadvice'
-export const OPERATION_PLANNER = 'planner'
+APP_OPERATION_DEFAULTS[OPERATION_EDIT_CARD] = OPERATION_RIGHT_READ
 
-export const OPERATION_RIGHT_READ = 'read'
-export const OPERATION_RIGHT_WRITE = 'write'
-export const OPERATION_RIGHT_HIDE = 'hide'
-
-export const OPERATION_RIGHTS_PRECEDENT = [OPERATION_RIGHT_HIDE, OPERATION_RIGHT_WRITE, OPERATION_RIGHT_READ]
-
-export const OPERATION_DEFAULTS = {}
-
-OPERATION_DEFAULTS[OPERATION_PMO_HANDLING_ADVICE] = OPERATION_RIGHT_HIDE
-OPERATION_DEFAULTS[OPERATION_PMC_HANDLING_ADVICE] = OPERATION_RIGHT_HIDE
-OPERATION_DEFAULTS[OPERATION_PLANNER] = OPERATION_RIGHT_HIDE
+@Injectable({
+  providedIn: 'root'
+})
+export class DeckUserOperationsService implements AppUserOperationsService {
+  get operations() {
+    return APP_OPERATION_DEFAULTS
+  }
+}

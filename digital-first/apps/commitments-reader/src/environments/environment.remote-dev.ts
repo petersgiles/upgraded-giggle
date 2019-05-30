@@ -13,6 +13,6 @@ export const environment = {
   appConfigDataSource: 'local',
   // developer's your API KEY here
 
-  apiKey: 'gZjvQ4oxl8OgVY39uoEs5uZg31A=',
+  apiKey: 'f2kEqQewiebidPkHIkqYyNY88HA=',
   assetsPath: '/assets'
 }

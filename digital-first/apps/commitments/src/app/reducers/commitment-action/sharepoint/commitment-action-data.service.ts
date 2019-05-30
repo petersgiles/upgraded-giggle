@@ -12,7 +12,7 @@ import {
   byJoinTableQuery
 } from '../../../services/sharepoint/caml'
 import { mapCommitmentActions, mapCommitmentAction } from './maps'
-import { LoggerService } from '@digital-first/df-logging'
+
 
 @Injectable({
   providedIn: 'root'
@@ -102,6 +102,6 @@ export class CommitmentActionDataSharePointService
 
   constructor(
     private sharepoint: SharepointJsomService,
-    private logger: LoggerService
+    
   ) {}
 }

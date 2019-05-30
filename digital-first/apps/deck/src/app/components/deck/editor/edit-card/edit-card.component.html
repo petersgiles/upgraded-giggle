@@ -159,7 +159,7 @@
   </div>
   <mdc-card outlined formArrayName="actions" class="df-card__actions-edit">
     <div class="df-card__actions-heading" mdcSubtitle2>Actions</div>
-    <ng-container
+     <ng-container
       *ngFor="let actionEditor of actions.controls; let actionIndex = index"
       [formGroupName]="actionIndex"
     >

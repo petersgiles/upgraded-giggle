@@ -19,7 +19,7 @@ import {
   OPERATION_RIGHT_HIDE,
   OPERATION_RIGHT_WRITE,
   OPERATION_RIGHT_READ
-} from '../../app-data/app-operations'
+} from '@digital-first/df-app-core'
 
 @Injectable({
   providedIn: 'root'

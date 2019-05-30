@@ -10,7 +10,6 @@ import { filter, map } from 'rxjs/operators'
 import { ActivatedRoute } from '@angular/router'
 import * as indef from 'indefinite'
 import * as fromDetail from '../../reducers/commitment-detail/commitment-detail.reducer'
-import * as fromUser from '../../reducers/user/user.reducer'
 
 import { Commitment } from '../../models/commitment.model'
 
@@ -18,14 +17,16 @@ import { CommitmentLocation } from '../../models/commitment.model'
 import {
   OPERATION_PMO_HANDLING_ADVICE,
   OPERATION_PMC_HANDLING_ADVICE
-}  from '@df/components'
+} from '@df/components'
 import {
   GetDetailedCommitment,
   UpdatePMOHandlingAdvice,
   UpdatePMCHandlingAdvice
 } from '../../reducers/commitment-detail/commitment-detail.actions'
 import { FormGroup, FormControl } from '@angular/forms'
-import { NotificationMessage } from '../../reducers/app/app.model'
+import { getUserOperationMatrix } from '@digital-first/df-app-core'
+
+import { getUserCurrentUserPermissions } from '../../reducers/user/user.reducer'
 
 @Component({
   selector: 'digital-first-commitment-detail',
@@ -34,7 +35,7 @@ import { NotificationMessage } from '../../reducers/app/app.model'
   styleUrls: ['./commitment-detail.component.scss']
 })
 export class CommitmentDetailComponent implements OnInit, OnDestroy {
-  dropdownPosition: 'top' | 'bottom' = 'bottom';
+  dropdownPosition: 'top' | 'bottom' = 'bottom'
   userOperation$: Observable<any>
   electorate$: Observable<CommitmentLocation[]>
   commitment$: Observable<Commitment>
@@ -51,9 +52,9 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   pmoHandlingAdviceForm = new FormGroup({
     pmoHandlingAdvice: new FormControl(null, [])
   })
-  
+
   patchingForm: boolean
- 
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private store: Store<fromDetail.State>
@@ -61,12 +62,13 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userOperation$ = this.store.pipe(
-      select(fromUser.getUserCurrentUserOperations)
+     // select(getUserOperationMatrix)
+     select(getUserCurrentUserPermissions)
     )
 
     this.commitment$ = this.store.pipe(
       select(fromDetail.getDetailedCommitmentState),
-      map(val =>  val.commitment)
+      map(val => val.commitment)
     )
 
     this.currentPMCHandling$ = this.store.pipe(
@@ -77,24 +79,20 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
       select(fromDetail.getCurrentPMOHandlingAdviceState)
     )
 
-    
-
     this.commitmentSubscription$ = this.commitment$.subscribe(
       (commitment: Commitment) => {
-       
-          if (commitment) {
-            this.patchingForm = true
+        if (commitment) {
+          this.patchingForm = true
 
-            this.pmcHandlingAdviceForm.patchValue({
-              pmcHandlingAdvice: commitment.pmcHandlingAdvice.value
-            })
-            this.pmoHandlingAdviceForm.patchValue({
-              pmoHandlingAdvice: commitment.pmoHandlingAdvice.value
-            })
-            this.patchingForm = false
-          }
+          this.pmcHandlingAdviceForm.patchValue({
+            pmcHandlingAdvice: commitment.pmcHandlingAdvice.value
+          })
+          this.pmoHandlingAdviceForm.patchValue({
+            pmoHandlingAdvice: commitment.pmoHandlingAdvice.value
+          })
+          this.patchingForm = false
         }
-      
+      }
     )
 
     this.handlingAdvices$ = this.store.pipe(
@@ -122,7 +120,7 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
 
   onPMOChange($event) {
     if ($event && $event.value) {
-      let currSelected: boolean = false
+      let currSelected = false
       let advice: any
       this.handlingAdvices$.subscribe(items => {
         advice = items.find(item => {
@@ -147,7 +145,7 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
 
   onPMCChange($event) {
     if ($event && $event.value) {
-      let currSelected: boolean = false
+      let currSelected = false
       let advice: any
       this.handlingAdvices$.subscribe(items => {
         advice = items.find(item => {
@@ -172,7 +170,8 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
 
   public getIndefiniteArticle(term) {
     if (term) {
-      const indefArticle = indef(term).substring(0,indef(term).indexOf(term)-1) + ' '
+      const indefArticle =
+        indef(term).substring(0, indef(term).indexOf(term) - 1) + ' '
       return indefArticle
     }
     return ' '

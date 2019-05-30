@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Observable, BehaviorSubject, throwError, forkJoin, from, of } from 'rxjs'
 
-import { SettingsService } from '../../settings.service'
 import { catchError, tap, map, concatMap } from 'rxjs/operators'
 
 declare var _spPageContextInfo: any
 
 import { SharepointJsomService } from '@df/sharepoint'
+import { AppSettingsService } from '@digital-first/df-app-core';
 
 declare var SP: any
 
@@ -31,7 +31,7 @@ export class SharePointConfigService {
 
   constructor(
     private http: HttpClient,
-    private settings: SettingsService,
+    private settings: AppSettingsService,
     private sharepoint: SharepointJsomService
   ) {
   }

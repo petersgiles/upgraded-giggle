@@ -1,5 +1,12 @@
 <div class="app-page">
   <section> 
+
+    <df-expander-panel *ngIf="(parentDeckItem$ | async) as parentDeckItem" [title]="parentDeckItem.title"  [expandable]="false" >
+        <ng-container panel-buttons>
+          <df-button title="Go Back" (onClick)="handleGoBack($event)" ></df-button>
+        </ng-container>
+    </df-expander-panel>
+
     <digital-first-deck
       [cardTypes]="cardTypes$ | async"
       [selected]="selected$ | async" 

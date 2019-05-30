@@ -4,8 +4,7 @@ import {
 } from './commitment-detail.actions'
 import { createFeatureSelector, createSelector } from '@ngrx/store'
 import { Commitment } from '../../models/commitment.model'
-import { generateGUID } from '../../utils'
-import { NotificationMessage } from '../app/app.model'
+import { NotificationMessage } from '@digital-first/df-app-core'
 
 export interface State {
   commitment: Commitment

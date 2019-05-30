@@ -28,8 +28,9 @@ import {
   AppNotification,
   ClearAppNotification,
   HideSpinner
-} from '../app/app.actions'
+} from '@digital-first/df-app-core'
 import { GetRefinedCommitments } from '../overview/overview.actions'
+import { getUserCurrentUserDisplayOrderPermission } from '../user/user.reducer'
 
 @Injectable()
 export class CommitmentDisplayOrderEffects {
@@ -115,7 +116,7 @@ export class CommitmentDisplayOrderEffects {
 
   private catchError() {
     return catchError(error => {
-      let message = 'an error occured'
+      let message = 'Error occured'
       if (error.networkError) {
         message = `${message} - ${error.networkError.message}`
       }
