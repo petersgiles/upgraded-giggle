@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser'
-import { NgModule, APP_INITIALIZER } from '@angular/core'
+import { NgModule, APP_INITIALIZER, ErrorHandler } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { AppComponent } from './app.component'
 import { NxModule } from '@nrwl/nx'
@@ -46,7 +46,8 @@ import {
   AppReducer,
   UserReducer,
   AppSettingsService,
-  AppUserOperationsService
+  AppUserOperationsService,
+  AppErrorHandlerToSeqService
 } from '@digital-first/df-app-core'
 
 import { metaReducers, reducers } from './reducers'
@@ -115,6 +116,10 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     EffectsModule.forFeature([AppEffects, DeckEffects, UserEffects])
   ],
   providers: [
+    {
+      provide: ErrorHandler,
+      useClass: AppErrorHandlerToSeqService
+    },
     {
       provide: AppUserOperationsService,
       useClass: DeckUserOperationsService

@@ -7,4 +7,5 @@ export abstract class AppSettingsService {
   abstract get appConfigDataSource(): any
   abstract get assetsPath(): any
   abstract get loggingSource(): any
+  abstract get apiKey(): string
 }

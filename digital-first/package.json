@@ -181,6 +181,7 @@
     "raphael": "^2.2.8",
     "rxjs": "^6.5.2",
     "squire-rte": "^1.9.0",
+    "structured-log": "^0.2.0",
     "structured-log-seq-sink": "^0.4.1",
     "terser": "^3.17.0",
     "to-mark": "^1.1.5",

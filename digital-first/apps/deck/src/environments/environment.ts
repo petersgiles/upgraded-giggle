@@ -10,14 +10,18 @@ export const environment = {
   datasources: {
     default: {
       type: 'sharepoint',
-      dataServiceUrl: 'http://vm-dev-lbs13/sites/redigb/_api/Web/'
+      dataServiceUrl: '//vm-dev-lbs13/sites/redigb/_api/Web/'
     }
+  },
+  loggingSource:{
+    type: 'seq',
+    loggingServiceUrl: '//programs.cloud9.cabnet/api/events/raw'
   },
   host: 'local',
   config: '/assets/deck.txt',
   datasource: null,
   eventDatasource: 'sharepoint',
   appConfigDataSource: 'sharepoint',
-  apiKey: 'KvMAs2tbscsOmzXzyrSfK67okrM=',
+  apiKey: 'f2kEqQewiebidPkHIkqYyNY88HA=',
   assetsPath: '/assets'
 }

@@ -6,7 +6,16 @@ import { AppSettingsService } from '@digital-first/df-app-core'
   providedIn: 'root'
 })
 export class SettingsService implements AppSettingsService {
+
   constructor() {}
+
+  get apiKey(): string {
+    return environment.apiKey
+  }
+  
+  get loggingSource(): any {
+    return environment.loggingSource
+  }
 
   get environment(): any {
     return environment
