@@ -19,7 +19,7 @@ $web-colors : ("IGBGreen", rgb(67, 112, 112), $primary-color-text),
   ("Coral", Coral, $primary-color-text),
   ("CornflowerBlue", CornflowerBlue, $primary-color-text),
   ("Cornsilk", Cornsilk, $primary-color-text),
-  ("Crimson", Crimson, $primary-color-text),
+  ("Crimson", Crimson, $primary-text-color),
   ("Cyan", Cyan, $primary-color-text),
   ("DarkBlue", DarkBlue, $primary-text-color),
   ("DarkCyan", DarkCyan, $primary-text-color),
@@ -150,7 +150,7 @@ $web-colors : ("IGBGreen", rgb(67, 112, 112), $primary-color-text),
   ("YellowGreen", YellowGreen, $primary-color-text);
   
   @function set-notification-text-color($colours) {
-    @if (lightness($colours) > 40) {
+    @if (lightness($colours) > 50) {
       @return $primary-text-color; // Lighter backgorund, return dark color
     } @else {
       @return $primary-color-text; // Darker background, return light color
