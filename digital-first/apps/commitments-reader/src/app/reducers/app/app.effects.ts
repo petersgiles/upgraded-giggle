@@ -5,7 +5,7 @@ import { Observable, EMPTY, throwError} from 'rxjs'
 import { map, concatMap, tap, catchError } from 'rxjs/operators'
 import { Action } from '@ngrx/store'
 
-import { AppConfigService } from '@digital-first/df-app-core'
+import { AppConfigService, AppErrorHandlerToSeqService } from '@digital-first/df-app-core'
 import {
   GetRefinerGroups,
   RefinerActionTypes,
@@ -33,6 +33,8 @@ import {
   HideSpinner,
   HandleGlobalError
 } from '@digital-first/df-app-core'
+import { OverviewPageComponent } from '../../pages/overview-page/overview-page.component';
+import { OverviewActionTypes, GetRefinedCommitmentsFailure } from '../overview/overview.actions';
 
 type showSpinnerTypes =
   | GetRefinerGroups
@@ -64,6 +66,13 @@ const hideSpinnerActions = [
   CommitmentDetailActionTypes.SetPMOHandlingAdviceResult
 ]
 
+type failTypes =
+  | GetRefinedCommitmentsFailure
+
+const failActions = [
+  OverviewActionTypes.GetRefinedCommitmentsFailure
+]
+
 @Injectable()
 export class GlobleEffects {
   @Effect()
@@ -80,10 +89,13 @@ export class GlobleEffects {
 
   @Effect()
   handleGlobalError$: Observable<Action> = this.actions$.pipe(
-    ofType(AppActionTypes.HandleGlobalError),
-    map((action: HandleGlobalError) => action.payload.error),
-    concatMap(error => throwError( error))
+    ofType<failTypes>(...failActions),
+    map((action) => action.payload.error),
+    concatMap(error => {
+      this.errorService.handleError(error)
+      return EMPTY
+    })
   )
 
-  constructor(protected actions$: Actions) {}
+  constructor(protected actions$: Actions, private errorService: AppErrorHandlerToSeqService) {}
 }
