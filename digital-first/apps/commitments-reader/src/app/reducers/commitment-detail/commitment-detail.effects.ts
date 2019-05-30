@@ -107,7 +107,7 @@ export class CommitmentDetailEffects {
       const webId = config.webId
       const siteId = config.siteId
       return {
-        id: action.payload.id,
+        id: '2000',//action.payload.id,
         book: bookType,
         webId: [webId],
         siteId: [siteId]
@@ -127,50 +127,8 @@ export class CommitmentDetailEffects {
         )
     ),
     catchError(errorResp => {
-      const error = {
-        messageTemplate: [{app: 'Commitment Reader: CommitmentDetailActionTypes.GetDetailedCommitment'}, {error: errorResp.message}, {stacktrace: errorResp.stack}],
-        eventLevel: 'error'
-    }
-      return [(new GetDetailedCommitmentFailure(errorResp)),
-                new  HandleGlobalError({error: error})]
-    })
-  )
-
-  @Effect()
-  getHandlingAdvices$ = this.actions$.pipe(
-    ofType(CommitmentDetailActionTypes.GetHandlingAdvices),
-    withLatestFrom(this.store$),
-    map(([a, s]) => {
-      const store = <any>s
-      const action = <any>a
-      const config: Config = store.app.config
-      const bookType = config.header.bookType
-      const webId = config.webId
-      const siteId = config.siteId
-      return {
-        book: bookType,
-        webId: [webId],
-        siteId: [siteId]
-      }
-    }),
-    switchMap(config =>
-      this.getHandlingAdvicesGQL
-        .fetch(config, { fetchPolicy: 'network-only' })
-        .pipe(
-          first(),
-          map((result: any) => result.data.handlingAdvices),
-          concatMap(advices => [new LoadHandlingAdvices({ advices })])
-        )
-    ),
-    catchError(errorResp => {
-      let error
-      if(errorResp.graphQLErrors && !errorResp.graphQLErrors.length){
-        error = {
-        messageTemplate: [{app: 'Commitment Reader: CommitmentDetailActionTypes.GetHandlingAdvices'}, {error: 'Network error: bad request(400)'}],
-        eventLevel: 'error'}
-      }
-      return [(new GetHandlingAdvicesFailure(error)),
-              new  HandleGlobalError({error: error})]
+      return [new GetDetailedCommitmentFailure(errorResp),
+                new  HandleGlobalError({error: {messsage: 'Commitment Reader: CommitmentDetailActionTypes.GetDetailedCommitment' , errorMessage: errorResp.message, stacktrace: errorResp.stack}})]
     })
   )
 
