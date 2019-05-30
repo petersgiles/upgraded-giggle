@@ -16,7 +16,8 @@ import {
   EditDeckItem,
   UpdateDeckItem,
   SetSelectedDeckItem,
-  GetBriefs
+  GetBriefs,
+  AddDeckItem
 } from '../../reducers/deck/deck.actions'
 import { CardType, DeckItem } from '../../components/deck'
 
@@ -51,35 +52,27 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.route.paramMap
       .pipe(
         first(),
-        map((params: ParamMap) => params.get('parent')),
+        map((params: ParamMap) => params.get('parent'))
       )
       .subscribe((parent: any) => {
         this.store.dispatch(new SetActiveParent({ id: parent }))
       })
 
-    this.deckItems$ = this.store.pipe(
-      select(fromDeck.selectCardsByParentState),
-    )
+    this.deckItems$ = this.store.pipe(select(fromDeck.selectCardsByParentState))
 
-    this.parent$ = this.store.pipe(
-      select(fromDeck.selectCurrentParentState),
-    )
+    this.parent$ = this.store.pipe(select(fromDeck.selectCurrentParentState))
 
     this.parentDeckItem$ = this.store.pipe(
-      select(fromDeck.selectCurrentParentCardState),
+      select(fromDeck.selectCurrentParentCardState)
     )
 
     this.eligibleParents$ = this.store.pipe(
-      select(fromDeck.selectCurrentParentState),
+      select(fromDeck.selectEligibleParentsState)
     )
 
-    this.selected$ = this.store.pipe(
-      select(fromDeck.selectSelectedCardState),
-    )
+    this.selected$ = this.store.pipe(select(fromDeck.selectSelectedCardState))
 
-    this.briefs$ = this.store.pipe(
-      select(fromDeck.selectCurrentBriefsState),
-    )
+    this.briefs$ = this.store.pipe(select(fromDeck.selectCurrentBriefsState))
 
     this.store.dispatch(new GetDeckItems({ parent: null }))
     this.store.dispatch(new GetBriefs(null))
@@ -87,12 +80,19 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {}
 
-  stopBreak(title){
+  stopBreak(title) {
     return (title || '').split(' ').join('&nbsp;')
   }
 
   handleSubmitted(deckItem: DeckItem) {
-    this.store.dispatch(new UpdateDeckItem(deckItem))
+    // tslint:disable-next-line: no-console
+    console.log(`🙈`, deckItem)
+    if (deckItem.id) {
+      this.store.dispatch(new UpdateDeckItem(deckItem))
+    } else {
+      this.store.dispatch(new AddDeckItem(deckItem))
+    }
+
     this.store.dispatch(new SetSelectedDeckItem({ id: null }))
   }
 
@@ -101,7 +101,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   handleAction($event: DeckItem | any) {
-
     if ($event) {
       if ($event.url) {
         this.router.navigate([$event.url])
@@ -119,6 +118,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.store.dispatch(new EditDeckItem(deckItem))
   }
 
+  handleCreateCard(deckItem: DeckItem) {
+    this.store.dispatch(new EditDeckItem(deckItem))
+  }
+
   handleGoToParent(parentDeckItem: DeckItem) {
     const url = ['/', 'deck']
 
@@ -130,7 +133,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   handleGoBack($event) {
-
     if (this.selectedCard) {
       const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
         data: `It looks like you have been editing a card: ${

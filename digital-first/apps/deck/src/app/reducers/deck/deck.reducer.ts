@@ -1,6 +1,6 @@
 import { DeckActions, DeckActionTypes } from './deck.actions'
 import { createFeatureSelector, createSelector } from '@ngrx/store'
-import { DeckItem } from '@df/components'
+import { DeckItem, CardType } from '@df/components'
 import { sortBy } from '@df/utils'
 
 export interface State {
@@ -94,6 +94,12 @@ export const selectCardsByParentState = createSelector(
     parent
       ? (cards || []).filter(p => p.parent === parent)
       : (cards || []).filter(p => p.parent === null)
+)
+
+export const selectEligibleParentsState = createSelector(
+  selectDeckItemsState,
+  (cards) =>
+    (cards || []).filter(p => p.cardType === CardType.Parent)
 )
 
 export const selectCurrentParentCardState = createSelector(

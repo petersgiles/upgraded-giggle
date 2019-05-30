@@ -16,6 +16,7 @@
       [eligibleParents]="eligibleParents$ | async"
       [readOnly]="false"
       (onEdit)="handleEdit($event)"
+      (onCreateCard)="handleCreateCard($event)"
       (onSubmitted)="handleSubmitted($event)"
       (onCancelled)="handleCancelled($event)"
       (onAction)="handleAction($event)"

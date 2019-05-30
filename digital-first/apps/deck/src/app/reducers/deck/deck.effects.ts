@@ -52,14 +52,20 @@ export class DeckEffects {
   addDeckItem$ = this.actions$.pipe(
     ofType(DeckActionTypes.AddDeckItem),
     map((action: AddDeckItem) => action),
+    tap(result => console.log(`🙈`, result)),
     concatMap(action => this.service.addDeckItem(action.payload)),
-    switchMap((result: { data: any; loading: boolean }) => [
+    tap(result => console.log(`🙈`, result)),
+    concatMap((result: { data: any; loading: boolean }) => [
       new LoadDeck({
         data: result.data,
         loading: result.loading
       })
     ]),
-    catchError(error => of(new GetDeckItemsFailure(error)))
+    catchError(error => {
+      // tslint:disable-next-line: no-console
+      console.log(`💥`, error)
+      return of(new GetDeckItemsFailure(error))
+    })
   )
 
   @Effect()

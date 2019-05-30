@@ -9,10 +9,8 @@ import {
 import { DeckItem, Brief } from '../models/deck-item-model'
 import { CardType } from '../models/card-type-enum'
 
-import { Validators, FormBuilder, FormGroup, FormArray } from '@angular/forms'
-import { Subject, Subscription, BehaviorSubject } from 'rxjs'
-import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators'
-import { webSafeColours, clamp, getContrastYIQ } from '../../../utils'
+import { BehaviorSubject } from 'rxjs'
+import { webSafeColours, getContrastYIQ } from '../../../utils'
 
 const defaultCard = {
   title: 'New Card',
@@ -68,12 +66,14 @@ export class DeckComponent implements OnInit, OnDestroy {
   public onCancelled: EventEmitter<DeckItem> = new EventEmitter()
 
   @Output()
+  public onCreateCard: EventEmitter<DeckItem> = new EventEmitter()
+
+  @Output()
   public onEdit: EventEmitter<DeckItem> = new EventEmitter()
 
   public webSafeColours$: BehaviorSubject<any> = new BehaviorSubject(
     webSafeColours
   )
-
 
   public showEditSupportingText = true
   public currrentCardColour: any
@@ -92,7 +92,7 @@ export class DeckComponent implements OnInit, OnDestroy {
   public handleAddNewCard(): void {
     const newCard = JSON.parse(JSON.stringify(defaultCard))
     newCard.parent = this.parent
-    this.cards.push(newCard)
+    this.onCreateCard.emit(newCard)
   }
 
   // USING THE DECK
