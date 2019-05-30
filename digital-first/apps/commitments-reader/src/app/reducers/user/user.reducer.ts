@@ -4,7 +4,7 @@ import {
   getUserCurrentUser,
   OPERATION_RIGHT_WRITE
 } from '@digital-first/df-app-core'
-import { OPERATION_PLANNER } from '../../services/app-data/app-operations'
+import { OPERATION_PLANNER, OPERATION_PMO_HANDLING_ADVICE, OPERATION_PMC_HANDLING_ADVICE } from '../../services/app-data/app-operations'
 
 export const getUserCurrentUserPlannerPermission = createSelector(
   getUserCurrentUser,
@@ -22,3 +22,6 @@ export const getUserCurrentUserDisplayOrderPermission = createSelector(
       ? OPERATION_RIGHT_WRITE
       : operations[OPERATION_PLANNER]
 )
+
+
+

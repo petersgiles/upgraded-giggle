@@ -28,4 +28,7 @@ export class SettingsService {
   get assetsPath(): any {
     return environment.assetsPath
   }
+  get loggingSource(): any {
+    return environment.loggingSource
+  }
 }

@@ -12,6 +12,7 @@ export enum AppActionTypes {
   LoadAppConfigurationError = '[App] Load App Configuration',
   HideSpinner = '[App] HideSpinner',
   ShowSpinner = '[App] ShowSpinner',
+  HandleGlobalError = '[App] Handle Global Error'
 }
 
 export class ShowSpinner implements Action {
@@ -59,6 +60,12 @@ export class LoadAppConfigurationError implements Action {
   constructor(public payload) {}
 }
 
+export class HandleGlobalError implements Action {
+  readonly type = AppActionTypes.HandleGlobalError
+  constructor(public payload: {error: any}) {}
+}
+
+
 export type AppActions =
   | StartAppInitialiser
   | FinishAppInitialiser
@@ -70,3 +77,4 @@ export type AppActions =
   | LoadAppConfigurationError
   | ShowSpinner
   | HideSpinner
+  | HandleGlobalError

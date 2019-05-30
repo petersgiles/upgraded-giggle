@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 
-import { Observable, EMPTY } from 'rxjs'
+import { Observable, EMPTY, throwError} from 'rxjs'
 import { map, concatMap, tap, catchError } from 'rxjs/operators'
 import { Action } from '@ngrx/store'
 
@@ -21,6 +21,8 @@ import {
   SetPMOHandlingAdviceResult,
   SetPMCHandlingAdviceResult
 } from '../commitment-detail/commitment-detail.actions'
+
+import { AppActionTypes } from '@digital-first/df-app-core'
 import {
   CommitmentDisplayOrderActionTypes,
   ApplyCommitmentDisplayOrders
@@ -28,7 +30,8 @@ import {
 import {
   AppEffects,
   ShowSpinner,
-  HideSpinner
+  HideSpinner,
+  HandleGlobalError
 } from '@digital-first/df-app-core'
 
 type showSpinnerTypes =
@@ -74,5 +77,13 @@ export class GlobleEffects {
     ofType<hideSpinnerTypes>(...hideSpinnerActions),
     map(() => new HideSpinner())
   )
+
+  @Effect()
+  handleGlobalError$: Observable<Action> = this.actions$.pipe(
+    ofType(AppActionTypes.HandleGlobalError),
+    map((action: HandleGlobalError) => action.payload.error),
+    concatMap(error => throwError( error))
+  )
+
   constructor(protected actions$: Actions) {}
 }

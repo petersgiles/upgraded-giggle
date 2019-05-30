@@ -8,9 +8,9 @@ import {
   catchError,
   first
 } from 'rxjs/operators'
-import { RouteChange, CHANGE, ofRoute } from '../router.actions'
+
 import * as fromRoot from '../../reducers'
-import { EMPTY, of } from 'rxjs'
+import { of, config } from 'rxjs'
 import {
   CommitmentDetailActionTypes,
   CommitmentDetailActions,
@@ -37,7 +37,8 @@ import { generateGUID } from '../../utils'
 import {
   AppNotification,
   ClearAppNotification,
-  Config
+  Config,
+  HandleGlobalError
 } from '@digital-first/df-app-core'
 
 const mapElectorates = commitmentLocations => {
@@ -77,12 +78,8 @@ const mapCommitmentDetail = (item): any => {
     criticalDate: item.criticalDate ? item.criticalDate.title : '',
     portfolio: item.portfolioLookup ? item.portfolioLookup.title : '',
     electorates: mapElectorates(item.commitmentLocations),
-    pmcHandlingAdvice: item.pmcHandlingAdviceCommitments.length
-      ? setAdvice(item.pmcHandlingAdviceCommitments[0].handlingAdvice)
-      : { value: ' ', label: ' ' },
-    pmoHandlingAdvice: item.pmoHandlingAdviceCommitments.length
-      ? setAdvice(item.pmoHandlingAdviceCommitments[0].handlingAdvice)
-      : { value: ' ', label: ' ' }
+    pmcHandlingAdvice: item.pmcHandlingAdviceCommitments.length ? setAdvice(item.pmcHandlingAdviceCommitments[0].handlingAdvice) : { value: ' ', label: ' ' },
+    pmoHandlingAdvice: item.pmoHandlingAdviceCommitments.length ? setAdvice(item.pmoHandlingAdviceCommitments[0].handlingAdvice) : { value: ' ', label: ' ' }
   }
   return mapResult
 }
@@ -129,7 +126,14 @@ export class CommitmentDetailEffects {
           ])
         )
     ),
-    catchError(error => of(new GetDetailedCommitmentFailure(error)))
+    catchError(errorResp => {
+      const error = {
+        messageTemplate: [{app: 'Commitment Reader: CommitmentDetailActionTypes.GetDetailedCommitment'}, {error: errorResp.message}, {stacktrace: errorResp.stack}],
+        eventLevel: 'error'
+    }
+      return [(new GetDetailedCommitmentFailure(errorResp)),
+                new  HandleGlobalError({error: error})]
+    })
   )
 
   @Effect()
@@ -158,7 +162,16 @@ export class CommitmentDetailEffects {
           concatMap(advices => [new LoadHandlingAdvices({ advices })])
         )
     ),
-    catchError(error => of(new GetHandlingAdvicesFailure(error)))
+    catchError(errorResp => {
+      let error
+      if(errorResp.graphQLErrors && !errorResp.graphQLErrors.length){
+        error = {
+        messageTemplate: [{app: 'Commitment Reader: CommitmentDetailActionTypes.GetHandlingAdvices'}, {error: 'Network error: bad request(400)'}],
+        eventLevel: 'error'}
+      }
+      return [(new GetHandlingAdvicesFailure(error)),
+              new  HandleGlobalError({error: error})]
+    })
   )
 
   @Effect()
@@ -201,7 +214,7 @@ export class CommitmentDetailEffects {
             new AppNotification({ message: `PMO Handling Advice Saved` }),
             new ClearAppNotification()
           ]),
-          catchError(error => of(new UpdatePMOHandlingAdviceFailure(error)))
+          catchError((error: Error) => of(new UpdatePMOHandlingAdviceFailure(error)))
         )
     )
   )
@@ -209,15 +222,20 @@ export class CommitmentDetailEffects {
   @Effect()
   updatePMOHandlingAdviceFailure$ = this.actions$.pipe(
     ofType(CommitmentDetailActionTypes.UpdatePMOHandlingAdviceFailure),
-    switchMap((error: any) => {
-      let message = 'an error occured'
+    switchMap((errorResp: any) => {
+      let message = 'A network error occured updating PMO Handling'
+      const error = {
+        messageTemplate: [{app: 'Commitment Reader: PMO Update'}, {error: errorResp.payload}, {stacktrace: errorResp.payload.stack}],
+        eventLevel: 'error'
+    }
 
-      if (error.payload.networkError) {
-        message = `${message} - ${error.payload.networkError.message}`
+      if (errorResp.payload.networkError) {
+        message = `${message}`
       }
       return [
         new AppNotification({ message: message }),
-        new ClearAppNotification()
+        new ClearAppNotification(),
+        new  HandleGlobalError({error: error})
       ]
     })
   )
@@ -242,7 +260,8 @@ export class CommitmentDetailEffects {
           commitmentId: commitmentId,
           handlingAdviceId: action.payload.handlingAdviceId,
           webId: webId,
-          siteId: siteId
+          siteId: siteId,
+          test: null
         },
         handlingAdvice: handlingAdvices.find(
           item => item.value === action.payload.handlingAdviceId
@@ -270,15 +289,19 @@ export class CommitmentDetailEffects {
   @Effect()
   updatePMCHandlingAdviceFailure$ = this.actions$.pipe(
     ofType(CommitmentDetailActionTypes.UpdatePMCHandlingAdviceFailure),
-    switchMap((error: any) => {
-      let message = 'an error occured'
-
-      if (error.payload.networkError) {
-        message = `${message} - ${error.payload.networkError.message}`
+    switchMap((errorResp: any) => {
+      let message = 'A network error occured updating PMO Handling'
+      const error = {
+        messageTemplate: [{app: 'Commitment Reader: PMO Update'}, {error: errorResp.payload}, {stacktrace: errorResp.payload.stack}],
+        eventLevel: 'error'
+    }
+      if (errorResp.payload.networkError) {
+        message = `${message}`
       }
       return [
         new AppNotification({ message: message }),
-        new ClearAppNotification()
+        new ClearAppNotification(),
+        new  HandleGlobalError({error: error})
       ]
     })
   )

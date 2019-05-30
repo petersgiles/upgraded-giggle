@@ -6,4 +6,5 @@ export abstract class AppSettingsService {
   abstract get eventDatasource(): any
   abstract get appConfigDataSource(): any
   abstract get assetsPath(): any
+  abstract get loggingSource(): any
 }

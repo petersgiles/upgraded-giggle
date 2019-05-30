@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser'
-import { NgModule, APP_INITIALIZER } from '@angular/core'
-import { HttpClientModule } from '@angular/common/http'
+import { NgModule, APP_INITIALIZER, ErrorHandler } from '@angular/core'
+import { HttpClientModule} from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ApolloModule } from 'apollo-angular'
 import { HttpLinkModule } from 'apollo-angular-link-http'
@@ -87,7 +87,10 @@ import { GraphQLModule } from './graphQL/graphQl.module'
 import { UserProfileComponent } from './pages/user-profile/user-profile.component'
 
 import { DragDropModule } from '@angular/cdk/drag-drop'
-import { DeckUserOperationsService } from './services/app-data/app-operations'
+import { CommitmentsReaderOperationsService } from './services/app-data/app-operations'
+
+import { SeqService } from './services/logging/log.service'
+import { ErrorsHandler } from './errors/errors-handler'
 
 const COMPONENTS = [
   AppComponent,
@@ -182,12 +185,15 @@ const COMPONENTS = [
       deps: [Store, SettingsService],
       multi: true
     },
-    { provide: AppUserOperationsService, useClass: DeckUserOperationsService },
+    { provide: AppUserOperationsService, useClass: CommitmentsReaderOperationsService },
     appDataServiceProvider,
     configServiceProvider,
     commitmentEventDataServiceProvider,
     SharepointJsomService,
     DateFormatPipe,
+    SeqService,
+    ErrorsHandler,
+    { provide: ErrorHandler, useClass: ErrorsHandler },
     { provide: TitleLayoutService, useClass: AppFullLayoutService },
     /**
      * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.
