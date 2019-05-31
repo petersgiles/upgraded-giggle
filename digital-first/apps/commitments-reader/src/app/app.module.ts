@@ -191,7 +191,6 @@ const COMPONENTS = [
     commitmentEventDataServiceProvider,
     SharepointJsomService,
     DateFormatPipe,
-    SeqService,
     { provide: ErrorHandler, useClass: AppErrorHandlerToSeqService },
     { provide: TitleLayoutService, useClass: AppFullLayoutService },
     /**
