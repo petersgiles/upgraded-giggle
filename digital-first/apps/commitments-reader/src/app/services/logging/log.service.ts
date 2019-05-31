@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core'
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders
+} from '@angular/common/http'
 import { environment } from '../../../environments/environment'
 
 interface Token {
-  name?: string;
-  raw?: string;
+  name?: string
+  raw?: string
 }
 
 const messageHeader = 'Digital First logging:'
@@ -13,65 +17,66 @@ const messageHeader = 'Digital First logging:'
   providedIn: 'root'
 })
 export class SeqService {
-
   headers: HttpHeaders
   constructor(private httpClient: HttpClient) {
     this.headers = new HttpHeaders({
       ProgramsApiKey: environment.apiKey
-  })
+    })
   }
 
-  parseError(error: any): string{
+  parseError(error: any): string {
     let result: string
-    if(!error.messageTemplate){
+    if (!error.messageTemplate) {
       result = `{'@mt':'${error}'}`
     } else {
       const tokens = this.tokenize(error.messageTemplate)
       // stage 1: build something like: '@mt':'Digital First logging: app: {app} error: {error} stacktrace: {stacktrace}'
       result = `{'@mt':'${messageHeader}`
-      if (tokens.length){
+      if (tokens.length) {
         for (let i = 0; i < tokens.length; ++i) {
           result = result + ` ${tokens[i].name}: {${tokens[i].name})}}`
         }
       }
       result = result + `',`
       // state 2: add the level - usually 'error' rendering '@l':'error'
-      if(error.eventLevel){
+      if (error.eventLevel) {
         result = result + `'@l':'${error.eventLevel}',`
       }
 
       // Stage 3: add the key pairs from stage 1: 'app': 'some message', 'error': 'some error message', 'stacktrace': 'some stack trace'
       // also remove any single quotes in the body of the message: server will throw bad request message (400) otherwise
-      if (tokens.length){
+      if (tokens.length) {
         for (let i = 0; i < tokens.length; ++i) {
-          result = result + `'${tokens[i].name}': '${tokens[i].raw.replace(/'(.+)'/g, '$1') }',`
+          result =
+            result +
+            `'${tokens[i].name}': '${tokens[i].raw.replace(/'(.+)'/g, '$1')}',`
         }
       }
       result = result.substring(0, result.length - 1) + '}'
     }
     // stage 4: reomve line feeds
-      return result.replace(/(\r\n|\n|\r)/gm, '')
-    }
+    return result.replace(/(\r\n|\n|\r)/gm, '')
+  }
 
-    tokenize(template: []): Token[]{
-      const tokens = []
-      template.forEach((item: any) => {
-        for (let i in item) {
-          if (item.hasOwnProperty(i)){
-            tokens.push({name: i, raw: item[i]})
+  tokenize(template: []): Token[] {
+    const tokens = []
+    template.forEach((item: any) => {
+      for (let i in item) {
+        if (item.hasOwnProperty(i)) {
+          tokens.push({ name: i, raw: item[i] })
         }
       }
-      })
-      return tokens
-    }
+    })
+    return tokens
+  }
 
   logToSeq(error: any | HttpErrorResponse) {
     // suppressErrors: boolean = true;
-    let s =  this.parseError(error)
+    let s = this.parseError(error)
     return this.httpClient.post(
       `${environment.loggingSource.url}`,
-      this.parseError(error), { headers: this.headers}
+      this.parseError(error),
+      { headers: this.headers }
     )
   }
-
 }

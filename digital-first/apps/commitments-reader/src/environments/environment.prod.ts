@@ -7,13 +7,14 @@ export const environment = {
   config: '/assets/commitments-reader.txt',
   datasource: {
     type: 'graph',
-    dataServiceUrl: '//#{ApiPath}/graphql',
+    dataServiceUrl: '//#{ApiPath}/graphql'
   },
-  loggingSource:{
+  loggingSource: {
     type: 'seq',
-    url: '//#{ApiPath}/api/events/raw'
+    url: '//#{ApiPath}/api/events/raw',
+    level: 'info'
   },
-  eventDatasource:'sharepoint',
+  eventDatasource: 'sharepoint',
   appConfigDataSource: 'sharepoint',
   apiKey: '#{ApiKey}',
   assetsPath: '/assets'

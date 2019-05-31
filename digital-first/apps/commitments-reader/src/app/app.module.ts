@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule, APP_INITIALIZER, ErrorHandler } from '@angular/core'
-import { HttpClientModule} from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ApolloModule } from 'apollo-angular'
 import { HttpLinkModule } from 'apollo-angular-link-http'
@@ -60,7 +60,8 @@ import {
   AppReducer,
   UserReducer,
   AppSettingsService,
-  AppUserOperationsService
+  AppUserOperationsService,
+  AppErrorHandlerToSeqService
 } from '@digital-first/df-app-core'
 
 import * as fromRefiner from './reducers/refiner/refiner.reducer'
@@ -185,15 +186,17 @@ const COMPONENTS = [
       deps: [Store, SettingsService],
       multi: true
     },
-    { provide: AppUserOperationsService, useClass: CommitmentsReaderOperationsService },
+    {
+      provide: AppUserOperationsService,
+      useClass: CommitmentsReaderOperationsService
+    },
     appDataServiceProvider,
     configServiceProvider,
     commitmentEventDataServiceProvider,
     SharepointJsomService,
     DateFormatPipe,
     SeqService,
-    ErrorsHandler,
-    { provide: ErrorHandler, useClass: ErrorsHandler },
+    { provide: ErrorHandler, useClass: AppErrorHandlerToSeqService },
     { provide: TitleLayoutService, useClass: AppFullLayoutService },
     /**
      * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.

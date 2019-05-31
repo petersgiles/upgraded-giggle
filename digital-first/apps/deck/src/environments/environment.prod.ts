@@ -15,7 +15,8 @@ export const environment = {
   },
   loggingSource:{
     type: 'seq',
-    url: '//#{ApiPath}/api/events/raw'
+    url: '//#{ApiPath}/api/events/raw',
+    level: 'error'
   },
   host: 'sharepoint',
   config: '/AppConfig/deck.txt',
