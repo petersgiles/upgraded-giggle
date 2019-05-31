@@ -12,7 +12,8 @@ export const environment = {
   loggingSource: {
     type: 'seq',
     url: '//#{ApiPath}/api/events/raw',
-    level: 'error'
+    level: 'error',
+    source: 'Commitments Reader'
   },
   eventDatasource: 'sharepoint',
   appConfigDataSource: 'sharepoint',

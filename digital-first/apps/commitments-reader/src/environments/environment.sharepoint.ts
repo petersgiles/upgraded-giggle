@@ -12,7 +12,8 @@ export const environment = {
   loggingSource: {
     type: 'seq',
     url: '//programs.cloud9.cabnet/api/events/raw',
-    level: 'error'
+    level: 'error',
+    source: 'Commitments Reader'
   },
   eventDatasource: 'sharepoint',
   appConfigDataSource: 'sharepoint',

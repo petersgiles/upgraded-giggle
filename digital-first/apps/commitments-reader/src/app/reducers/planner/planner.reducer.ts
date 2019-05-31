@@ -14,7 +14,6 @@ export interface State {
   schedulerPageIndex: any
   readonly: boolean
   permission: string
-  error: any
 }
 
 export const initialState: State = {
@@ -28,25 +27,16 @@ export const initialState: State = {
   schedulerCenterDate: new Date(),
   schedulerPageIndex: 0,
   readonly: true,
-  permission: 'hide',
-  error: {}
+  permission: 'hide'
 }
 
 export function reducer(state = initialState, action: PlannerActions): State {
   switch (action.type) {
     case PlannerActionTypes.LoadCommitmentEvents:
-      // if (state.events) {
-      //   const events = state.events
-      //   return {
-      //     ...state,
-      //     events: events.concat(action.payload.data)
-      //   }
-      // } else {
       return {
         ...state,
         events: action.payload.data
       }
-    // }
     case PlannerActionTypes.ResetCommitmentEvents:
       return {
         ...state,
@@ -94,11 +84,6 @@ export function reducer(state = initialState, action: PlannerActions): State {
         readonly: action.payload !== WRITE,
         permission: action.payload
       }
-    case PlannerActionTypes.ErrorInPlanner:
-      return {
-        ...state,
-        error: action.payload
-      }
     default:
       return state
   }
@@ -140,8 +125,4 @@ export const selectSchedulerPageIndexState = createSelector(
 export const selectPlannerPermissionState = createSelector(
   plannerState,
   (state: State) => state.readonly
-)
-export const selectPlannerErrortate = createSelector(
-  plannerState,
-  (state: State) => state.error
 )

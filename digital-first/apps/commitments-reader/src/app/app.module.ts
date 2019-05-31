@@ -175,6 +175,7 @@ const COMPONENTS = [
     ])
   ],
   providers: [
+    { provide: ErrorHandler, useClass: AppErrorHandlerToSeqService },
     { provide: AppSettingsService, useClass: SettingsService },
     {
       provide: APP_INITIALIZER,
@@ -191,7 +192,6 @@ const COMPONENTS = [
     commitmentEventDataServiceProvider,
     SharepointJsomService,
     DateFormatPipe,
-    { provide: ErrorHandler, useClass: AppErrorHandlerToSeqService },
     { provide: TitleLayoutService, useClass: AppFullLayoutService },
     /**
      * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.

@@ -44,9 +44,7 @@ export function reducer(
         ...state,
         errors: [
           {
-            message: 'Could not load Commitment Display Orders',
-            code: '400',
-            data: { field: 'Commitment Display Order', error: action.payload }
+            message: 'Could not load Commitment Display Orders'
           }
         ]
       }
@@ -55,9 +53,7 @@ export function reducer(
         ...state,
         errors: [
           {
-            message: 'Could not update Commitment Display Orders',
-            code: '400',
-            data: { field: 'Commitment Display Order', error: action.payload }
+            message: 'Could not update Commitment Display Orders'
           }
         ]
       }

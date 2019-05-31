@@ -7,7 +7,6 @@ import { AppSettingsService } from './app-settings.service'
 })
 export class AppErrorHandlerToSeqService implements ErrorHandler {
   private log
-
   constructor(private settings: AppSettingsService) {
     const levelSwitch = new structuredLog.DynamicLevelSwitch(
       this.settings.loggingSource.level
@@ -15,7 +14,7 @@ export class AppErrorHandlerToSeqService implements ErrorHandler {
 
     this.log = structuredLog
       .configure()
-      .writeTo(new structuredLog.ConsoleSink())
+      .enrich({ source: this.settings.loggingSource.source })
       .minLevel(levelSwitch)
       .writeTo(
         new SeqSink({
@@ -27,7 +26,16 @@ export class AppErrorHandlerToSeqService implements ErrorHandler {
       )
       .create()
   }
+
   handleError(error: any): void {
-    this.log.info('StructuredLog input: {Text}', error)
+    this.log.error(
+      `Error from ${this.settings.loggingSource.source} === Action:${
+        error.action
+      }, Error:${JSON.stringify(error.error)}`
+    )
+  }
+
+  handleInfo(info: any): void {
+    this.log.info(`Information from ${this.settings.loggingSource.source}: ${info}`)
   }
 }
