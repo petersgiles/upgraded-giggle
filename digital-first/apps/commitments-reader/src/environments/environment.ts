@@ -12,7 +12,7 @@ export const environment = {
     type: 'graph',
     dataServiceUrl: '//localhost:52619/graphql'
   },
-  loggingSource:{
+  loggingSource: {
     type: 'seq',
     url: '//programs.cloud9.cabnet/api/events/raw',
     level: 'info'
@@ -21,7 +21,7 @@ export const environment = {
   appConfigDataSource: 'local',
   // developer's your API KEY here
   apiKey: 'f2kEqQewiebidPkHIkqYyNY88HA=',
-  assetsPath: '/assets',
+  assetsPath: '/assets'
   // datasources: {
   //   data: {
   //     type: 'api',

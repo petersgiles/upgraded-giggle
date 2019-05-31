@@ -12,7 +12,7 @@ export const environment = {
   loggingSource: {
     type: 'seq',
     url: '//#{ApiPath}/api/events/raw',
-    level: 'info'
+    level: 'error'
   },
   eventDatasource: 'sharepoint',
   appConfigDataSource: 'sharepoint',

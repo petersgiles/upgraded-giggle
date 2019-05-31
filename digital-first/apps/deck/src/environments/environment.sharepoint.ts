@@ -16,7 +16,7 @@ export const environment = {
   loggingSource:{
     type: 'seq',
     url: '//programs.cloud9.cabnet/api/events/raw',
-    level: 'info'
+    level: 'error'
   },
   host: 'sharepoint',
   config: '/AppConfig/deck.txt',

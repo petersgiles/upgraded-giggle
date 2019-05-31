@@ -7,7 +7,12 @@ export const environment = {
   config: '/AppConfig/commitments-reader.txt',
   datasource: {
     type: 'graph',
-    dataServiceUrl: 'https://programs.cloud9.cabnet/graphql'
+    dataServiceUrl: 'https://programs.cloud9.cabnet/graphql',
+  },
+  loggingSource: {
+    type: 'seq',
+    url: '//programs.cloud9.cabnet/api/events/raw',
+    level: 'error'
   },
   eventDatasource: 'sharepoint',
   appConfigDataSource: 'sharepoint',

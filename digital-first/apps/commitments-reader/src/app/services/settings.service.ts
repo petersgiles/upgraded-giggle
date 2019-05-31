@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core'
 import { environment } from '../../environments/environment'
-import { AppSettingsService } from '@digital-first/df-app-core';
+import { AppSettingsService } from '@digital-first/df-app-core'
 
 @Injectable({
   providedIn: 'root'
 })
 export class SettingsService implements AppSettingsService {
-  datasources: any;
+  datasources: any
   constructor() {}
 
   get apiKey(): string {
