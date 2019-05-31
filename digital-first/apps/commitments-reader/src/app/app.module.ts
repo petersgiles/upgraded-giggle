@@ -89,10 +89,6 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
 
 import { DragDropModule } from '@angular/cdk/drag-drop'
 import { CommitmentsReaderOperationsService } from './services/app-data/app-operations'
-
-import { SeqService } from './services/logging/log.service'
-import { ErrorsHandler } from './errors/errors-handler'
-
 const COMPONENTS = [
   AppComponent,
   HomeComponent,
