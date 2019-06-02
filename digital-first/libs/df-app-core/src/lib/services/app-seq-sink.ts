@@ -1,6 +1,6 @@
 export const postToSeq = (url, apiKey, compact, body, done?) => {
 
-  const promise = fetch(`${url}/api/events/raw`, {
+  const promise = fetch(`${url}`, {
 
     headers: {
       'Content-Type': compact

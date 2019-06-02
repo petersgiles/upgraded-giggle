@@ -8,7 +8,8 @@ import {
   CommitmentDisplayOrderActions,
   LoadCommitmentDisplayOrders,
   GetCommitmentDisplayOrders,
-  SetDisplayOrderListChanged
+  SetDisplayOrderListChanged,
+  ApplyCommitmentDisplayOrdersFailure
 } from './commitment-display-order.actions'
 import {
   map,
@@ -17,7 +18,8 @@ import {
   first,
   catchError,
   switchMap,
-  delay
+  delay,
+  finalize
 } from 'rxjs/operators'
 import {
   GetSiteCommitmentDisplayOrdersGQL,
@@ -69,7 +71,10 @@ export class CommitmentDisplayOrderEffects {
               new SetReOrderedCommitments(orderedCommitmentIds)
             ]
           }),
-          this.catchError()
+          catchError(error => [
+            new ApplyCommitmentDisplayOrdersFailure(error),
+            new AppNotification({ message: 'Error occured' })
+          ])
         )
     )
   )
@@ -87,7 +92,6 @@ export class CommitmentDisplayOrderEffects {
         rootStore.commitmentDisplayOrder.reOrderedCommitmentIds
       return {
         messageId: generateGUID(),
-        //conversationId: generateGUID(),
         applyCommitmentDisplayOrder: {
           siteId: siteId,
           webId: webId,
@@ -104,27 +108,15 @@ export class CommitmentDisplayOrderEffects {
             new SetDisplayOrderListChanged(false),
             new GetCommitmentDisplayOrders(null),
             new GetRefinedCommitments(null),
-            new HideSpinner(),
             new AppNotification({
               message: 'Commitment Display Order Updated'
             })
           ]),
-          this.catchError()
+          catchError(error => [
+            new ApplyCommitmentDisplayOrdersFailure(error),
+            new AppNotification({ message: 'Error occured' })
+          ])
         )
     )
   )
-
-  private catchError() {
-    return catchError(error => {
-      let message = 'Error occured'
-      if (error.networkError) {
-        message = `${message} - ${error.networkError.message}`
-      }
-      return [
-        new AppNotification({ message: message }),
-        new ClearAppNotification(),
-        new HideSpinner()
-      ]
-    })
-  }
 }

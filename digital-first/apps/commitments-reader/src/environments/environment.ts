@@ -12,42 +12,17 @@ export const environment = {
     type: 'graph',
     dataServiceUrl: '//localhost:52619/graphql'
   },
-  loggingSource:{
+  loggingSource: {
     type: 'seq',
-    url: '//programs.cloud9.cabnet/api/events/raw'
+    url: '//programs.cloud9.cabnet/api/events/raw',
+    level: 'info',
+    source: 'Commitments Reader'
   },
   eventDatasource: 'local',
   appConfigDataSource: 'local',
   // developer's your API KEY here
   apiKey: 'f2kEqQewiebidPkHIkqYyNY88HA=',
-  assetsPath: '/assets',
-  // datasources: {
-  //   data: {
-  //     type: 'api',
-  //     dataServiceUrl: 'https://localhost:52619/graphql',
-  //     apiKey: 'gZjvQ4oxl8OgVY39uoEs5uZg31A=',
-  //   },
-  //   config: {
-  //     type: 'app',
-  //     uri: '/assets/commitments-reader.txt',
-  //     apiKey: null,
-  //   },
-  //   event: {
-  //     type: 'graph',
-  //     uri: 'https://localhost:52619',
-  //     apiKey: 'gZjvQ4oxl8OgVY39uoEs5uZg31A=',
-  //   },
-  //   assets: {
-  //     type: 'app',
-  //     uri: '/assets',
-  //     apiKey: 'gZjvQ4oxl8OgVY39uoEs5uZg31A=',
-  //   },
-  //   error: {
-  //     type: 'api',
-  //     uri: 'https://localhost:52619',
-  //     apiKey: 'gZjvQ4oxl8OgVY39uoEs5uZg31A=',
-  //   },
-  // },
+  assetsPath: '/assets'
 }
 
 /*

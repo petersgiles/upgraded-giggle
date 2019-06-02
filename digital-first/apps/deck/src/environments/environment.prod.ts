@@ -13,9 +13,11 @@ export const environment = {
       dataServiceUrl: 'http://vm-dev-lbs13/sites/redigb/_api/Web/'
     }
   },
-  loggingSource:{
+  loggingSource: {
     type: 'seq',
-    url: '//#{ApiPath}/api/events/raw'
+    url: '//#{ApiPath}/api/events/raw',
+    level: 'error',
+    source: 'Deck'
   },
   host: 'sharepoint',
   config: '/AppConfig/deck.txt',

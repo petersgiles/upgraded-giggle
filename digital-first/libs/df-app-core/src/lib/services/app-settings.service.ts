@@ -9,6 +9,8 @@ export abstract class AppSettingsService {
   abstract get loggingSource(): {
     type: string
     url: string
+    level: string,
+    source:string
   }
   abstract get apiKey(): string
 }

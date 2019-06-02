@@ -23,13 +23,17 @@ import {
 
 import {
   CommitmentDisplayOrderActionTypes,
-  ApplyCommitmentDisplayOrders
+  ApplyCommitmentDisplayOrders,
+  ApplyCommitmentDisplayOrdersFailure,
+  GetCommitmentDisplayOrdersFailure,
+  SetReOrderedCommitments
 } from '../commitment-display-order/commitment-display-order.actions'
 import { ShowSpinner, HideSpinner } from '@digital-first/df-app-core'
 import {
   OverviewActionTypes,
   GetRefinedCommitmentsFailure
 } from '../overview/overview.actions'
+import { PlannerActionTypes, ErrorInPlanner } from '../planner/planner.actions'
 
 type showSpinnerTypes =
   | GetRefinerGroups
@@ -51,6 +55,9 @@ type hideSpinnerTypes =
   | UpdatePMOHandlingAdviceFailure
   | SetPMCHandlingAdviceResult
   | UpdatePMCHandlingAdviceFailure
+  | ApplyCommitmentDisplayOrdersFailure
+  | GetCommitmentDisplayOrdersFailure
+  | SetReOrderedCommitments
 
 const hideSpinnerActions = [
   RefinerActionTypes.LoadRefinerGroups,
@@ -58,12 +65,24 @@ const hideSpinnerActions = [
   CommitmentDetailActionTypes.UpdatePMOHandlingAdviceFailure,
   CommitmentDetailActionTypes.SetPMCHandlingAdviceResult,
   CommitmentDetailActionTypes.UpdatePMCHandlingAdviceFailure,
-  CommitmentDetailActionTypes.SetPMOHandlingAdviceResult
+  CommitmentDetailActionTypes.SetPMOHandlingAdviceResult,
+  CommitmentDisplayOrderActionTypes.ApplyCommitmentDisplayOrdersFailure,
+  CommitmentDisplayOrderActionTypes.GetCommitmentDisplayOrdersFailure,
+  CommitmentDisplayOrderActionTypes.SetReOrderedCommitments
 ]
 
-type failTypes = GetRefinedCommitmentsFailure
+type failTypes =
+  | GetRefinedCommitmentsFailure
+  | ErrorInPlanner
+  | ApplyCommitmentDisplayOrdersFailure
+  | GetCommitmentDisplayOrdersFailure
 
-const failActions = [OverviewActionTypes.GetRefinedCommitmentsFailure]
+const failActions = [
+  OverviewActionTypes.GetRefinedCommitmentsFailure,
+  PlannerActionTypes.ErrorInPlanner,
+  CommitmentDisplayOrderActionTypes.ApplyCommitmentDisplayOrdersFailure,
+  CommitmentDisplayOrderActionTypes.GetCommitmentDisplayOrdersFailure
+]
 
 @Injectable()
 export class GlobleEffects {
@@ -82,7 +101,7 @@ export class GlobleEffects {
   @Effect()
   handleGlobalError$: Observable<Action> = this.actions$.pipe(
     ofType<failTypes>(...failActions),
-    map(action => action.payload.error),
+    map(action => ({ action: action.type, error: action.payload })),
     concatMap(error => {
       this.errorService.handleError(error)
       return EMPTY
