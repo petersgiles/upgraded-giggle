@@ -1,5 +1,7 @@
 import { ErrorHandler, Injectable, Injector, NgZone } from '@angular/core'
 import { SeqService } from '../services/logging/log.service'
+
+import {AppErrorHandlerToSeqService} from '@digital-first/df-app-core'
 import {  HttpErrorResponse } from '@angular/common/http'
 import { Router } from '@angular/router'
 
@@ -7,7 +9,7 @@ import { Router } from '@angular/router'
 export class ErrorsHandler implements ErrorHandler {
   constructor(
      private injector: Injector,
-     private seqService: SeqService
+     private seqService: AppErrorHandlerToSeqService
   ) {}
 
   handleError(error: Error | HttpErrorResponse) {
@@ -33,9 +35,9 @@ export class ErrorsHandler implements ErrorHandler {
     }
   } else {
     this.seqService
-      .logToSeq(error)
+      .handleError(error)
       //.pipe(catchError(logSuppressedError))
-      .subscribe()
+     // .subscribe()
   }
 
   }

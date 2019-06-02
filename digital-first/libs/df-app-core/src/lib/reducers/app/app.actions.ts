@@ -12,7 +12,8 @@ export enum AppActionTypes {
   LoadAppConfigurationError = '[App] Load App Configuration',
   HideSpinner = '[App] HideSpinner',
   ShowSpinner = '[App] ShowSpinner',
-  HandleGlobalError = '[App] Handle Global Error'
+  HandleGlobalError = '[App] Handle Global Error',
+  GetRefinedCommitmentsFailure = '[App] GetRefinedCommitmentsFailure'
 }
 
 export class ShowSpinner implements Action {
@@ -65,6 +66,12 @@ export class HandleGlobalError implements Action {
   constructor(public payload: {error: any}) {}
 }
 
+export class GetRefinedCommitmentsFailure implements Action {
+  readonly type = AppActionTypes.GetRefinedCommitmentsFailure
+  constructor(public payload: any) {}
+}
+
+
 
 export type AppActions =
   | StartAppInitialiser
@@ -78,3 +85,4 @@ export type AppActions =
   | ShowSpinner
   | HideSpinner
   | HandleGlobalError
+  | GetRefinedCommitmentsFailure

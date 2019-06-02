@@ -14,9 +14,11 @@ import {
 
 import { AppConfigService } from '../../services/config/config.service'
 
-type failTypes = GetRefinedCommitmentsFailure
+//type failTypes = GetRefinedCommitmentsFailure
 
-const failActions = [OverviewActionTypes.GetRefinedCommitmentsFailure]
+const failActions = [AppActionTypes.GetRefinedCommitmentsFailure]
+
+//const failActions = [HandleGlobalError.GetRefinedCommitmentsFailure]
 
 
 @Injectable()
@@ -54,7 +56,7 @@ export class AppEffects {
 
   @Effect()
   handleGlobalError$: Observable<Action> = this.actions$.pipe(
-    ofType<failTypes>(...failActions),
+    ofType<any>(AppActionTypes.HandleGlobalError),
     map(action => action.payload.error),
     concatMap(error => {
       this.errorService.handleError(error)
