@@ -5,7 +5,7 @@ import { NavigationDataSharepointService } from './sharepoint/navigation-data.se
 import { NavigationDataLocalService } from './local/navigation-data.service'
 import { NavigationDataService } from './navigation-data.service'
 
-const briefDataServiceFactory = (
+const navigationDataServiceFactory = (
   settings: AppSettingsService,
   sharepointlib: SharepointJsomService
 ) => {
@@ -22,8 +22,8 @@ const briefDataServiceFactory = (
   }
 }
 
-export let briefDataServiceProvider = {
+export let navigationDataServiceProvider = {
   provide: NavigationDataService,
-  useFactory: briefDataServiceFactory,
+  useFactory: navigationDataServiceFactory,
   deps: [AppSettingsService, SharepointJsomService]
 }

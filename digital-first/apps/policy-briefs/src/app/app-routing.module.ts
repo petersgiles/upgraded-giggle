@@ -11,6 +11,7 @@ import {
 } from '@digital-first/df-pages'
 
 import { BriefComponent } from './pages/brief/brief.component'
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'brief', pathMatch: 'full' },
@@ -28,6 +29,19 @@ const routes: Routes = [
       {
         path: ':id',
         component: BriefComponent
+      }
+    ]
+  },
+  {
+    path: 'userprofile',
+    component: TitleLayoutComponent,
+    data: {
+      title: 'Profile'
+    },
+    children: [
+      {
+        path: '',
+        component: UserProfileComponent
       }
     ]
   },

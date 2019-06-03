@@ -45,7 +45,8 @@ import {
   UserReducer,
   AppSettingsService,
   AppUserOperationsService,
-  AppErrorHandlerToSeqService
+  AppErrorHandlerToSeqService,
+  UserEffects
 } from '@digital-first/df-app-core'
 
 import { metaReducers, reducers } from './reducers'
@@ -59,20 +60,20 @@ import { appDataServiceProvider } from './services/app-data/app-data.service.fac
 import { SettingsService } from './services/settings.service'
 import { UserProfileComponent } from './pages/user-profile/user-profile.component'
 
-import {
-  DeckUserOperationsService
-} from './services/app-data/app-operations'
+import { DeckUserOperationsService } from './services/app-data/app-operations'
 
-import { BriefComponent } from './pages/brief/brief.component';
-import { BriefDocumentComponent } from './containers/brief-document/brief-document.component';
-import { NavigationEffects } from './reducers/navigation/navigation.effects';
-import { BriefEffects } from './reducers/brief/brief.effects';
-import { DiscussionEffects } from './reducers/discussion/discussion.effects';
+import { BriefComponent } from './pages/brief/brief.component'
+import { BriefDocumentComponent } from './containers/brief-document/brief-document.component'
+import { NavigationEffects } from './reducers/navigation/navigation.effects'
+import { BriefEffects } from './reducers/brief/brief.effects'
+import { DiscussionEffects } from './reducers/discussion/discussion.effects'
 
 import * as fromNavigation from './reducers/navigation/navigation.reducer'
 import * as fromDiscussion from './reducers/discussion/discussion.reducer'
 import * as fromBrief from './reducers/brief/brief.reducer'
-import { briefDataServiceProvider } from './reducers/brief/brief-data.service.factory';
+import { briefDataServiceProvider } from './reducers/brief/brief-data.service.factory'
+import { navigationDataServiceProvider } from './reducers/navigation/navigation-data.service.factory'
+import { discussionDataServiceProvider } from './reducers/discussion/discussion-data.service.factory'
 
 const COMPONENTS = [
   AppComponent,
@@ -126,8 +127,10 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     StoreModule.forFeature('discussion', fromDiscussion.reducer),
     StoreModule.forFeature('brief', fromBrief.reducer),
 
-    EffectsModule.forRoot([AppEffects, RouterEffects]),
+    EffectsModule.forRoot([RouterEffects]),
     EffectsModule.forFeature([
+      AppEffects,
+      UserEffects,
       NavigationEffects,
       BriefEffects,
       DiscussionEffects
@@ -153,6 +156,8 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     appDataServiceProvider,
     configServiceProvider,
     briefDataServiceProvider,
+    discussionDataServiceProvider,
+    navigationDataServiceProvider,
     SharepointJsomService,
     DateFormatPipe,
     { provide: TitleLayoutService, useClass: AppFullLayoutService },

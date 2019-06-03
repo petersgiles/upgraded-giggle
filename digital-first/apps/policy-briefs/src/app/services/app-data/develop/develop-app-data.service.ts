@@ -2,7 +2,7 @@ import { Observable, of, from } from 'rxjs'
 
 import { AppUserProfile } from '@digital-first/df-layouts'
 
-import { OPERATION_EDIT_CARD } from '../app-operations'
+import { OPERATION_EDIT_BRIEF, OPERATION_CREATE_BRIEF } from '../app-operations'
 
 import {
   ROLE_OWNERS,
@@ -18,17 +18,17 @@ import { Injectable } from '@angular/core'
 const testOperations = [
   {
     group: ROLE_OWNERS,
-    component: [OPERATION_EDIT_CARD],
+    component: [OPERATION_EDIT_BRIEF, OPERATION_CREATE_BRIEF],
     rights: OPERATION_RIGHT_WRITE
   },
   {
     group: ROLE_MEMBERS,
-    component: [OPERATION_EDIT_CARD],
-    rights: OPERATION_RIGHT_READ
+    component: [OPERATION_EDIT_BRIEF, OPERATION_CREATE_BRIEF],
+    rights: OPERATION_RIGHT_WRITE
   },
   {
     group: ROLE_VISITORS,
-    component: [OPERATION_EDIT_CARD],
+    component: [OPERATION_EDIT_BRIEF, OPERATION_CREATE_BRIEF],
     rights: OPERATION_RIGHT_HIDE
   }
 ]
@@ -63,7 +63,7 @@ export class DevelopAppDataService implements AppDataService {
       isSiteAdmin: true,
       systemUserKey: 'guest',
       name: 'Guest User',
-      roles: [ROLE_VISITORS]
+      roles: [ROLE_OWNERS]
     }
 
     return of(userprofile)
