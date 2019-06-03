@@ -1,21 +1,45 @@
 import { Injectable } from '@angular/core'
 import { Observable, of, forkJoin } from 'rxjs'
-import { SharepointJsomService } from '@df/sharepoint'
+import { SharepointJsomService, idFromLookup } from '@df/sharepoint'
 
 import { concatMap, map } from 'rxjs/operators'
-import { sortBy } from '../../../utils'
-import { NavigationDataService } from '../navigation-data.service';
+import { NavigationDataService } from '../navigation-data.service'
+import { arrayToHash } from '@df/utils'
 
 const NAVIGATION_LIST_NAME = 'Navigation'
 
-export const mapNavigation = (item): any =>
-  ({
-    id: `${item.ID}`,
-    title: item.Title,
-    sortOrder: item.SortOrder,
-  })
+export const mapNavigationNode = (item): any => {
+    // tslint:disable-next-line: no-console
+    console.log(`mapNavigationNode`)
+  const policy = idFromLookup(item.Policy)
+  const subpolicy = idFromLookup(item.SubPolicy)
 
-export const mapNavigations = (items): any[] => (items || []).map(mapNavigation)
+  let nodeId = item.ID
+  let parent = null
+
+  if (policy) {
+    nodeId = [policy, item.ID].filter(p => !!p).join('-')
+    parent = `${policy}`
+  }
+
+  if (subpolicy) {
+    nodeId = [policy, subpolicy, item.ID].filter(p => !!p).join('-')
+    parent = [policy, subpolicy].filter(p => !!p).join('-')
+  }
+
+  return {
+    id: nodeId,
+    briefId: item.ID,
+    caption: item.Title,
+    parent: parent,
+    colour: item.Colour,
+    order: item.SortOrder,
+    active: false,
+    expanded: false
+  }
+}
+
+export const mapNavigationNodes = (items): any[] => items.map(mapNavigationNode)
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +58,7 @@ export class NavigationDataSharepointService implements NavigationDataService {
       .storeItem({
         listName: NAVIGATION_LIST_NAME,
         data: {
-          Title: item.title,
+          Title: item.title
         },
         id: item.id
       })
@@ -48,22 +72,44 @@ export class NavigationDataSharepointService implements NavigationDataService {
       })
       .pipe(concatMap(_ => of({})))
 
-  getNavigations = (
-    parent
-  ): Observable<{
+  getNavigations = (): Observable<{
     data: any
     loading: boolean
   }> =>
     forkJoin([
       this.sharepoint.getItems({
-        listName: NAVIGATION_LIST_NAME
+        listName: 'Policy'
+      }),
+      this.sharepoint.getItems({
+        listName: 'SubPolicy'
+      }),
+      this.sharepoint.getItems({
+        listName: 'Brief'
       })
     ]).pipe(
-      map(([spNavigations]) => [...mapNavigations(spNavigations)]),
-      map(result => (result || []).sort(sortBy('sortOrder'))),
+      map(([spPolicy, spSubPolicy, spBrief]) => [
+        ...mapNavigationNodes(spPolicy),
+        ...mapNavigationNodes(spSubPolicy),
+        ...mapNavigationNodes(spBrief)
+      ]),
+      map(nodes => {
+        // this relies on the order of nodes i.e policy then subpolicy then brief
+        const nodesHash = arrayToHash(nodes)
+
+        const colourised = nodes.reduce((acc, item, index, array) => {
+          if (!item.colour) {
+            item.colour = nodesHash[item.parent].colour
+          }
+
+          acc.push(item)
+          return acc
+        }, [])
+
+        return colourised
+      }),
       concatMap(result =>
         of({
-          data: result,
+          data: { nodes: result },
           loading: false
         })
       )
