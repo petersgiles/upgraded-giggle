@@ -1,10 +1,11 @@
 {
     "header": {
-        "title": "The Department of Bloop de Bloop - IGB",
-        "classification": "UNCLASSIFIED",
+        "title": "Policy Briefs",
+        "classification": "",
         "bookType": "red",
+        "bookColour":"#e54430",
         "logo": {
-           "image": "../../SiteAssets/apps/policy-briefs/assets/crest.png",
+           "image": "/assets/crest.png",
            "url": "/",
            "title": "Return to home page"
         },

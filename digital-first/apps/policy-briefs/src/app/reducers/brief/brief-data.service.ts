@@ -1,0 +1,8 @@
+import { Observable } from 'rxjs'
+
+export abstract class BriefDataService {
+  abstract addBrief(item: any): Observable<any>
+  abstract updateBrief(item: any): Observable<any>
+  abstract removeBrief(item: { id: string }): Observable<any>
+  abstract getBriefs(parent: any): Observable<{data: any, loading: boolean }>
+}
