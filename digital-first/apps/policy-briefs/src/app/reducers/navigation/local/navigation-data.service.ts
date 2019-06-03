@@ -4,13 +4,11 @@ import {
   of,
   BehaviorSubject,
   Subject,
-  Subscription,
-  forkJoin
+  Subscription
 } from 'rxjs'
 
 import { navigation, briefs, policies, subpolicies } from './data'
 import { NavigationDataService } from '../navigation-data.service'
-import { map, concatMap } from 'rxjs/operators'
 
 import { arrayToHash } from '@df/utils'
 
