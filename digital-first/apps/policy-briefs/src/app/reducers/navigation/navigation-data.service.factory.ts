@@ -1,9 +1,9 @@
 import { SharepointJsomService } from '@df/sharepoint'
 
 import { AppSettingsService } from '@digital-first/df-app-core'
-import { BriefDataLocalService } from './local/brief-data.service'
-import { BriefDataSharepointService } from './sharepoint/brief-data.service'
-import { BriefDataService } from './brief-data.service'
+import { NavigationDataSharepointService } from './sharepoint/navigation-data.service'
+import { NavigationDataLocalService } from './local/navigation-data.service'
+import { NavigationDataService } from './navigation-data.service'
 
 const briefDataServiceFactory = (
   settings: AppSettingsService,
@@ -16,14 +16,14 @@ const briefDataServiceFactory = (
 
   switch (source) {
     case 'sharepoint':
-      return new BriefDataSharepointService(sharepointlib)
+      return new NavigationDataSharepointService(sharepointlib)
     default:
-      return new BriefDataLocalService()
+      return new NavigationDataLocalService()
   }
 }
 
 export let briefDataServiceProvider = {
-  provide: BriefDataService,
+  provide: NavigationDataService,
   useFactory: briefDataServiceFactory,
   deps: [AppSettingsService, SharepointJsomService]
 }
