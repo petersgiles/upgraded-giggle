@@ -34,6 +34,7 @@ import {
   GetRefinedCommitmentsFailure
 } from '../overview/overview.actions'
 import { PlannerActionTypes, ErrorInPlanner } from '../planner/planner.actions'
+import { GetMapPointsFailure, MapActionTypes } from '../map/map.actions'
 
 type showSpinnerTypes =
   | GetRefinerGroups
@@ -76,12 +77,20 @@ type failTypes =
   | ErrorInPlanner
   | ApplyCommitmentDisplayOrdersFailure
   | GetCommitmentDisplayOrdersFailure
+  | UpdatePMCHandlingAdviceFailure
+  | UpdatePMOHandlingAdviceFailure
+  | GetMapPointsFailure
+  | GetRefinersFailure
 
 const failActions = [
   OverviewActionTypes.GetRefinedCommitmentsFailure,
   PlannerActionTypes.ErrorInPlanner,
   CommitmentDisplayOrderActionTypes.ApplyCommitmentDisplayOrdersFailure,
-  CommitmentDisplayOrderActionTypes.GetCommitmentDisplayOrdersFailure
+  CommitmentDisplayOrderActionTypes.GetCommitmentDisplayOrdersFailure,
+  CommitmentDetailActionTypes.UpdatePMCHandlingAdviceFailure,
+  CommitmentDetailActionTypes.UpdatePMOHandlingAdviceFailure,
+  MapActionTypes.GetMapPointsFailure,
+  RefinerActionTypes.GetRefinersFailure
 ]
 
 @Injectable()

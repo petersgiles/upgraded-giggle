@@ -5,9 +5,7 @@ import {
   map,
   catchError,
   withLatestFrom,
-  concatMap,
-  switchMap
-} from 'rxjs/operators'
+  concatMap} from 'rxjs/operators'
 import {
   PlannerActionTypes,
   PlannerActions,
@@ -23,7 +21,6 @@ import {
 } from './planner.actions'
 import { Store } from '@ngrx/store'
 import * as fromRoot from '../../reducers'
-import { AppState } from '@digital-first/df-app-core'
 import { CommitmentEventDataService } from '../../services/commitment-event/commitment-event-data-service'
 @Injectable()
 export class PlannerEffects {
