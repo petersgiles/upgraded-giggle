@@ -17,13 +17,8 @@ import {
 
 import { AppConfigService } from '../../services/config/config.service'
 
-const applicationConfigErrorActions = [
-  AppActionTypes.LoadAppConfigurationError,
-  AppActionTypes.GetAppConfigurationError
-]
-type applicationConfigErrorTypes =
-  | LoadAppConfigurationError
-  | GetAppConfigurationError
+const applicationConfigErrorActions = [AppActionTypes.GetAppConfigurationError]
+type applicationConfigErrorTypes = GetAppConfigurationError
 
 @Injectable()
 export class AppEffects {
@@ -41,8 +36,7 @@ export class AppEffects {
       this.configService.getConfig().pipe(
         // tslint:disable-next-line: no-console
         tap((config: any) => console.log(`🐵 config => `, config)),
-        concatMap((config: any) => [new LoadAppConfiguration(config)]),
-        catchError(error => [new LoadAppConfigurationError(error)])
+        concatMap((config: any) => [new LoadAppConfiguration(config)])
       )
     )
   )
