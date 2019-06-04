@@ -1,7 +1,7 @@
 import { Injectable, ErrorHandler } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 
-import { Observable, EMPTY } from 'rxjs'
+import { Observable, EMPTY, throwError } from 'rxjs'
 import { map, concatMap, tap, catchError } from 'rxjs/operators'
 import { Action } from '@ngrx/store'
 

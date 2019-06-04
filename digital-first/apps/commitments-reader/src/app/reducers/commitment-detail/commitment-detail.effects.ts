@@ -6,7 +6,7 @@ import {
   map,
   withLatestFrom,
   catchError,
-  first
+  first, mergeMap
 } from 'rxjs/operators'
 
 import * as fromRoot from '../../reducers'
@@ -31,7 +31,7 @@ import {
   UpdatePmcHandlingAdviceCommitmentGQL,
   UpdatePmoHandlingAdviceCommitmentGQL
 } from '../../generated/graphql'
-import { Store } from '@ngrx/store'
+import { Store, select } from '@ngrx/store'
 import { CommitmentLocation } from '../../models/commitment.model'
 import { generateGUID } from '../../utils'
 import {
@@ -95,6 +95,7 @@ export class CommitmentDetailEffects {
     private updatePmoHandlingAdviceCommitmentGQL: UpdatePmoHandlingAdviceCommitmentGQL
   ) {}
 
+ 
   @Effect()
   loadCommitmentDetails$ = this.actions$.pipe(
     ofType(CommitmentDetailActionTypes.GetDetailedCommitment),
@@ -107,7 +108,7 @@ export class CommitmentDetailEffects {
       const webId = config.webId
       const siteId = config.siteId
       return {
-        id: '2000',//action.payload.id,
+        id: action.payload.id,
         book: bookType,
         webId: [webId],
         siteId: [siteId]
@@ -123,13 +124,18 @@ export class CommitmentDetailEffects {
           concatMap(result => [
             new LoadDetailedCommitment(result),
             new GetHandlingAdvices(null)
-          ])
+          ]),
+          catchError(errorResp => {
+            return [new GetDetailedCommitmentFailure(errorResp),
+            new  HandleGlobalError({error: {action: 'CommitmentDetailActionTypes.GetDetailedCommitment',
+             error: { errorMessage: errorResp.message, stacktrace: errorResp.stack}}}),
+             new AppNotification({ message: `Fetching commitment error` }),
+             new ClearAppNotification()]
+            
+})
         )
-    ),
-    catchError(errorResp => {
-      return [new GetDetailedCommitmentFailure(errorResp),
-                new  HandleGlobalError({error: {messsage: 'Commitment Reader: CommitmentDetailActionTypes.GetDetailedCommitment' , errorMessage: errorResp.message, stacktrace: errorResp.stack}})]
-    })
+    )
+    
   )
 
   @Effect()

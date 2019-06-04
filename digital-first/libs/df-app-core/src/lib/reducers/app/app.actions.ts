@@ -13,7 +13,8 @@ export enum AppActionTypes {
   HideSpinner = '[App] HideSpinner',
   ShowSpinner = '[App] ShowSpinner',
   HandleGlobalError = '[App] Handle Global Error',
-  GetRefinedCommitmentsFailure = '[App] GetRefinedCommitmentsFailure'
+  GetRefinedCommitmentsFailure = '[App] GetRefinedCommitmentsFailure',
+  ResetGlobalError = '[App]  ResetGlobalError'
 }
 
 export class ShowSpinner implements Action {
@@ -66,6 +67,10 @@ export class HandleGlobalError implements Action {
   constructor(public payload: {error: any}) {}
 }
 
+export class ResetGlobalError implements Action {
+  readonly type = AppActionTypes.ResetGlobalError
+}
+
 export class GetRefinedCommitmentsFailure implements Action {
   readonly type = AppActionTypes.GetRefinedCommitmentsFailure
   constructor(public payload: any) {}
@@ -86,3 +91,4 @@ export type AppActions =
   | HideSpinner
   | HandleGlobalError
   | GetRefinedCommitmentsFailure
+  | ResetGlobalError
