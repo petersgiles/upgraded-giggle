@@ -49,11 +49,9 @@ export class MapEffects {
           text: null
         }
       )
-
       if (textRefiner) {
         selectedRefinerGroup.text = textRefiner
       }
-
       return {
         refiner: selectedRefinerGroup,
         book: bookType
@@ -62,14 +60,10 @@ export class MapEffects {
     switchMap(config =>
       this.mapPointSearchGQL.fetch(config).pipe(
         first(),
-        concatMap(result => [new LoadMapPoints(result)])
+        concatMap(result => [new LoadMapPoints(result)]),
+        catchError(error => of(new GetMapPointsFailure(error)))
       )
-    ),
-    catchError(error => {
-      // tslint:disable-next-line: no-console
-      console.log(`💥 error => `, error)
-      return of(new GetMapPointsFailure(error))
-    })
+    )
   )
 
   constructor(

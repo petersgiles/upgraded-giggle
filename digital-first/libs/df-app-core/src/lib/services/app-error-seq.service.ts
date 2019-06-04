@@ -29,6 +29,11 @@ export class AppErrorHandlerToSeqService implements ErrorHandler {
           apiKey: this.settings.apiKey
         })
       )
+      .writeTo(
+        new structuredLog.ConsoleSink({
+          console: window.console
+        })
+      )
       .create()
   }
 
@@ -53,20 +58,26 @@ export class AppErrorHandlerToSeqService implements ErrorHandler {
         )
         .then()
       }
-    } else {this.log.error(
+    } else if (error.action && error.error) {this.log.error(
       `Error from ${this.settings.loggingSource.source} === Action:${
         error.action
       }, Error:${JSON.stringify(error)}`
-    )
+    )} else {
+      // Other unexpected errors
+      const errorMessage = error.message ? error.message : ''
+      const errorStack = error.stack ? error.stack : ''
+      this.log.error(`Error Message:${errorMessage}  Stack ${errorStack}`)
+    }
     ngZone
     .run(() =>
     router.navigate([''])
     )
     .then()
   }
-  }
 
   handleInfo(info: any): void {
-    this.log.info(`Information from ${this.settings.loggingSource.source}: ${info}`)
+    this.log.info(
+      `Information from ${this.settings.loggingSource.source}: ${info}`
+    )
   }
 }

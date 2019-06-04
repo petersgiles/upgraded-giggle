@@ -47,7 +47,6 @@ export class EventSharepointDataService implements CommitmentEventDataService {
       return of({ data: [], loadding: false, error: null })
     }
 
-    // TODO: check if user has hide permission then return empty
     const commitmentIds = payload.commitments
       .slice(
         payload.pageIndex * payload.pageSize,

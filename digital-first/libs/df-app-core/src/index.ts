@@ -33,7 +33,8 @@ export {
   ShowSpinner,
   HideSpinner,
   AppNotification,
-  ClearAppNotification
+  ClearAppNotification,
+  HandleGlobalError
 } from './lib/reducers/app/app.actions'
 export { initApplication } from './lib/app-init'
 export { Config, App, Logo } from './lib/services/config/config-model'

@@ -5,7 +5,7 @@ import * as fromRouter from '@ngrx/router-store'
 
 export { RouterStateUrl } from './router-state-url'
 
-export { AppActionTypes, HandleGlobalError } from '../reducers/app/app.actions'
+export { AppActionTypes } from '../reducers/app/app.actions'
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl> {
