@@ -20,11 +20,14 @@ import {
   UpdatePMOHandlingAdviceFailure,
   GetHandlingAdvices,
   SetPMOHandlingAdviceResult,
-  SetPMCHandlingAdviceResult
+  SetPMCHandlingAdviceResult,
+  LoadHandlingAdvices,
+  GetHandlingAdvicesFailure
 } from './commitment-detail.actions'
 
 import {
   GetCommitmentDetailGQL,
+  GetHandlingAdvicesGQL,
   UpdatePmcHandlingAdviceCommitmentGQL,
   UpdatePmoHandlingAdviceCommitmentGQL
 } from '../../generated/graphql'
@@ -91,6 +94,7 @@ export class CommitmentDetailEffects {
     private actions$: Actions<CommitmentDetailActions>,
     private store$: Store<fromRoot.State>,
     private getCommitmentDetailGQL: GetCommitmentDetailGQL,
+    private getHandlingAdvicesGQL: GetHandlingAdvicesGQL,
     private updatePmcHandlingAdviceCommitmentGQL: UpdatePmcHandlingAdviceCommitmentGQL,
     private updatePmoHandlingAdviceCommitmentGQL: UpdatePmoHandlingAdviceCommitmentGQL
   ) {}
@@ -122,7 +126,7 @@ export class CommitmentDetailEffects {
           map(mapCommitmentDetail),
           concatMap(result => [
             new LoadDetailedCommitment(result),
-            new GetHandlingAdvices(null)
+            new GetHandlingAdvices()
           ]),
           catchError(errorResp => {
             return [new GetDetailedCommitmentFailure(errorResp),
@@ -135,6 +139,35 @@ export class CommitmentDetailEffects {
         )
     )
     
+  )
+
+  @Effect()
+  getHandlingAdvices$ = this.actions$.pipe(
+    ofType(CommitmentDetailActionTypes.GetHandlingAdvices),
+    withLatestFrom(this.store$),
+    map(([a, s]) => {
+      const store = <any>s
+      const action = <any>a
+      const config: Config = store.app.config
+      const bookType = config.header.bookType
+      const webId = config.webId
+      const siteId = config.siteId
+      return {
+        book: bookType,
+        webId: [webId],
+        siteId: [siteId]
+      }
+    }),
+    switchMap(config =>
+      this.getHandlingAdvicesGQL.fetch(config, { fetchPolicy: 'network-only' }).pipe(
+        first(),
+        map(result => result.data.handlingAdvices),
+        concatMap(advices => [new LoadHandlingAdvices({ advices })])
+      )
+    ),
+    catchError(error => {
+      return of(new GetHandlingAdvicesFailure(error))
+    })
   )
 
   @Effect()

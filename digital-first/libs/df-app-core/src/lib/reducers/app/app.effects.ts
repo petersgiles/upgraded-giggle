@@ -60,6 +60,16 @@ export class AppEffects {
     ])
   )
 
+  @Effect()
+  handleGlobalError$: Observable<Action> = this.actions$.pipe(
+    ofType<any>(AppActionTypes.HandleGlobalError),
+    map(action => action.payload.error),
+    concatMap(error => {
+      this.errorService.handleError(error)
+      return EMPTY
+    })
+  )
+
   constructor(
     protected actions$: Actions,
     protected configService: AppConfigService,

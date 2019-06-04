@@ -53,7 +53,7 @@ export class ClearCurrentDetailedCommitment implements Action {
 
 export class GetHandlingAdvices implements Action {
   readonly type = CommitmentDetailActionTypes.GetHandlingAdvices
-  constructor(public payload: any) {}
+  // constructor(public payload: any) {}
 }
 
 export class LoadHandlingAdvices implements Action {
