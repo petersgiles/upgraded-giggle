@@ -143,7 +143,8 @@ export class BriefDataSharepointService implements BriefDataService {
     fileLeafRef
   ): Observable<{
     data: any
-    loading: boolean
+    loading: boolean,
+    error?: any
   }> {
     const relativeUrl = `${_spPageContextInfo.webAbsoluteUrl}/BriefHTML/${fileLeafRef}.aspx`
 

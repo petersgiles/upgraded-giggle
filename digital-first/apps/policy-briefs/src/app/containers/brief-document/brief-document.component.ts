@@ -10,6 +10,7 @@ import { BriefDataService } from '../../reducers/brief/brief-data.service'
 })
 export class BriefDocumentComponent implements OnInit {
   public briefHtml$: BehaviorSubject<string> = new BehaviorSubject(null)
+  public error$: BehaviorSubject<any> = new BehaviorSubject(null)
   private _brief
   @Input()
   set brief(value) {
@@ -24,7 +25,15 @@ export class BriefDocumentComponent implements OnInit {
       this.service
         .getBriefHtml(fileLeafRef)
         .pipe(first())
-        .subscribe(result => this.briefHtml$.next(result.data))
+        .subscribe(result => {
+          if (!result.error) {
+            this.error$.next(null)
+            this.briefHtml$.next(result.data)
+          } else {
+            this.error$.next(result.error)
+            this.briefHtml$.next(null)
+          }
+        })
     }
   }
 

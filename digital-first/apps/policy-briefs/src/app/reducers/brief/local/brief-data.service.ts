@@ -12,7 +12,7 @@ import { BriefDataService } from '../brief-data.service'
 import { briefs } from '../../../../devdata/data'
 import { HttpClient } from '@angular/common/http'
 import { AppSettingsService } from '@digital-first/df-app-core'
-import { concatMap, first, tap } from 'rxjs/operators'
+import { concatMap, first, tap, catchError } from 'rxjs/operators'
 
 @Injectable({
   providedIn: 'root'
@@ -51,7 +51,8 @@ export class BriefDataLocalService implements BriefDataService {
     fileLeafRef
   ): Observable<{
     data: any
-    loading: boolean
+    loading: boolean,
+    error?: any
   }> {
     const relativeUrl = `${this.settings.assetsPath}/docx/${fileLeafRef}.html`
 
@@ -61,6 +62,11 @@ export class BriefDataLocalService implements BriefDataService {
       concatMap((result: any) =>
         of({
           data: result,
+          loading: false
+        })),
+        catchError(err => of({
+          data: null,
+          error: err,
           loading: false
         }))
     )
