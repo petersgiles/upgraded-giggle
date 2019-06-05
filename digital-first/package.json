@@ -8,7 +8,7 @@
     "start:commitments": "ng serve commitments --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --live-reload true",
     "start:programs-admin": "ng serve programs-admin --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --live-reload true",
     "start:commitments-reader": "ng serve commitments-reader",
-    "start:policy-briefs": "ng serve policy-briefs",
+    "start:policy-briefs": "ng serve policy-briefs --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --live-reload true",
     "start:deck": "ng serve deck --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --live-reload true",
     "start:commitments-reader-remote": "ng serve commitments-reader --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --configuration=remote --live-reload true",
     "start:commitments-reader-remote-dev": "ng serve commitments-reader --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --configuration=remotedev --live-reload true",

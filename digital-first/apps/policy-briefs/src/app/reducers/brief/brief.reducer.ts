@@ -26,10 +26,10 @@ export const initialState: State = {
 export function reducer(state = initialState, action: BriefActions): State {
   switch (action.type) {
     case BriefActionTypes.LoadBrief:
-      const data = action.payload.data
+
       return {
         ...state,
-        ...data
+        brief:  action.payload.data
       }
 
     case BriefActionTypes.SetActiveBrief:

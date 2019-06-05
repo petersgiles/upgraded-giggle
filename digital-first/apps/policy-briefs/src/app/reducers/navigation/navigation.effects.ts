@@ -12,89 +12,18 @@ import {
 } from './navigation.actions'
 import { NavigatorTreeNode } from '@df/components'
 import { arrayToHash } from '@df/utils'
+import { NavigationDataService } from './navigation-data.service';
 
-export const mapNavigationNode = (item): any => {
-  const policy = idFromLookup(item.Policy)
-  const subpolicy = idFromLookup(item.SubPolicy)
 
-  let nodeId = item.ID
-  let parent = null
-
-  if (policy) {
-    nodeId = [policy, item.ID].filter(p => !!p).join('-')
-    parent = `${policy}`
-  }
-
-  if (subpolicy) {
-    nodeId = [policy, subpolicy, item.ID].filter(p => !!p).join('-')
-    parent = [policy, subpolicy].filter(p => !!p).join('-')
-  }
-
-  return {
-    id: nodeId,
-    briefId: item.ID,
-    caption: item.Title,
-    parent: parent,
-    colour: item.Colour,
-    order: item.SortOrder,
-    active: false,
-    expanded: false
-  }
-}
-
-export const mapNavigationNodes = (items): any[] => items.map(mapNavigationNode)
 
 @Injectable()
 export class NavigationEffects {
-  getPackNavigationNodes(): Observable<{
-    data: { nodes: NavigatorTreeNode[] }
-    loading: boolean
-  }> {
-    return forkJoin([
-      this.sharepoint.getItems({
-        listName: 'Policy'
-      }),
-      this.sharepoint.getItems({
-        listName: 'SubPolicy'
-      }),
-      this.sharepoint.getItems({
-        listName: 'Brief'
-      })
-    ]).pipe(
-      map(([spPolicy, spSubPolicy, spBrief]) => [
-        ...mapNavigationNodes(spPolicy),
-        ...mapNavigationNodes(spSubPolicy),
-        ...mapNavigationNodes(spBrief)
-      ]),
-      map(nodes => {
-        // this relies on the order of nodes i.e policy then subpolicy then brief
-        const nodesHash = arrayToHash(nodes)
-
-        const colourised = nodes.reduce((acc, item, index, array) => {
-          if (!item.colour) {
-            item.colour = nodesHash[item.parent].colour
-          }
-
-          acc.push(item)
-          return acc
-        }, [])
-
-        return colourised
-      }),
-      concatMap(result =>
-        of({
-          data: { nodes: result },
-          loading: false
-        })
-      )
-    )
-  }
 
   @Effect()
   getNavigations$ = this.actions$.pipe(
     ofType(NavigationActionTypes.GetNavigations),
     map((action: GetNavigations) => action),
-    concatMap(_ => this.getPackNavigationNodes()),
+    concatMap(_ => this.service.getNavigations()),
     switchMap(
       (result: { data: { nodes: NavigatorTreeNode[] }; loading: boolean }) => [
         new LoadNavigations({
@@ -108,6 +37,6 @@ export class NavigationEffects {
 
   constructor(
     private actions$: Actions<NavigationActions>,
-    private sharepoint: SharepointJsomService
+    private service: NavigationDataService
   ) {}
 }

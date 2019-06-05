@@ -1,24 +1,29 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-declare var require: any
+
+import * as packageJson from '../../../../package.json'
 
 export const environment = {
   production: false,
-  version: require('../../../../package.json').version,
-  config: 'http://vm-dev-lbs13/sites/redigb/SiteAssets/apps/policy-briefs/assets/policy_briefs_config.txt',
+  version: packageJson.version,
   datasources: {
     default: {
       type: 'sharepoint',
-      dataServiceUrl: 'http://vm-dev-lbs13/sites/redigb/_api/Web/'
+      dataServiceUrl: '//vm-dev-lbs13/sites/redigb/_api/Web/'
     }
-  }
+  },
+  loggingSource:{
+    type: 'seq',
+    url: '//programs.cloud9.cabnet/api/events/raw',
+    level: 'info',
+    source: 'Deck'
+  },
+  host: 'local',
+  config: '/assets/policy_briefs.txt',
+  datasource: null,
+  eventDatasource: 'sharepoint',
+  appConfigDataSource: 'sharepoint',
+  apiKey: 'f2kEqQewiebidPkHIkqYyNY88HA=',
+  assetsPath: '/assets'
 }
-
-/*
- * In development mode, for easier debugging, you can ignore zone related error
- * stack frames such as `zone.run`/`zoneDelegate.invokeTask` by importing the
- * below file. Don't forget to comment it out in production mode
- * because it will have a performance impact when errors are thrown
- */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.

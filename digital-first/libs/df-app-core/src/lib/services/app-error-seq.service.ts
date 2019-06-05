@@ -22,6 +22,9 @@ export class AppErrorHandlerToSeqService implements ErrorHandler {
     this.log = structuredLog
       .configure()
       .enrich({ source: this.settings.loggingSource.source })
+      .writeTo(new structuredLog.ConsoleSink({
+        console: window.console
+      }))
       .minLevel(levelSwitch)
        .filter(logEvent => {
         const template = logEvent.messageTemplate
