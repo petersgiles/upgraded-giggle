@@ -102,7 +102,7 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
     this.activatedRoute.params
       .pipe(filter(params => !!params.id))
       .subscribe((params: any) => {
-        this.store.dispatch(new GetDetailedCommitment({ id: '2000'}))
+        this.store.dispatch(new GetDetailedCommitment({ id: params.id}))
       })
   }
 
