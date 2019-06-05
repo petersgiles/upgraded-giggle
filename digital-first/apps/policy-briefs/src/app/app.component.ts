@@ -19,6 +19,8 @@ export class AppComponent implements OnInit, OnDestroy {
       }
       window.scrollTo(0, 0)
     })
+
+  throw new Error('Arrrrrgh!')
   }
 
   ngOnDestroy(): void {

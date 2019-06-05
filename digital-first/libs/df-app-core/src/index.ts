@@ -50,3 +50,6 @@ export {
 export {
   AppErrorHandlerToSeqService
 } from './lib/services/app-error-seq.service'
+export {
+  AppErrorRouteOverrideService
+} from './lib/services/app-error-route-override.service'

@@ -17,7 +17,7 @@ export const environment = {
     type: 'seq',
     url: '//programs.cloud9.cabnet/api/events/raw',
     level: 'info',
-    source: 'Deck'
+    source: 'Policy Briefs'
   },
   host: 'local',
   config: '/assets/policy_briefs.txt',

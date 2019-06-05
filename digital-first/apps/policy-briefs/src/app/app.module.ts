@@ -137,10 +137,10 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     ])
   ],
   providers: [
-    // {
-    //   provide: ErrorHandler,
-    //   useClass: AppErrorHandlerToSeqService
-    // },
+    {
+      provide: ErrorHandler,
+      useClass: AppErrorHandlerToSeqService
+    },
     {
       provide: AppUserOperationsService,
       useClass: DeckUserOperationsService
