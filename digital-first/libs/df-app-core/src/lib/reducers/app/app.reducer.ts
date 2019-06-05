@@ -25,7 +25,7 @@ export function reducer(state = initialState, action: AppActions): State {
     case AppActionTypes.ShowSpinner:
       return { ...state, spinner: true }
 
-    case AppActionTypes.AppNotification:
+    case AppActionTypes.SetAppNotification:
       return {
         ...state,
         notification: action.payload
@@ -41,12 +41,6 @@ export function reducer(state = initialState, action: AppActions): State {
       return {
         ...state,
         config: action.payload
-      }
-
-    case AppActionTypes.HandleGlobalError:
-      return {
-        ...state,
-        appError: action.payload.error
       }
 
     default:

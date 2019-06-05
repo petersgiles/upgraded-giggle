@@ -1,8 +1,8 @@
 import { Injectable, ErrorHandler } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 
-import { Observable, EMPTY } from 'rxjs'
-import { map, concatMap } from 'rxjs/operators'
+import { Observable } from 'rxjs'
+import { map } from 'rxjs/operators'
 import { Action } from '@ngrx/store'
 
 import {
@@ -34,6 +34,7 @@ import {
   GetRefinedCommitmentsFailure
 } from '../overview/overview.actions'
 import { PlannerActionTypes, ErrorInPlanner } from '../planner/planner.actions'
+import { GetMapPointsFailure, MapActionTypes } from '../map/map.actions'
 
 type showSpinnerTypes =
   | GetRefinerGroups
@@ -76,12 +77,20 @@ type failTypes =
   | ErrorInPlanner
   | ApplyCommitmentDisplayOrdersFailure
   | GetCommitmentDisplayOrdersFailure
+  | UpdatePMCHandlingAdviceFailure
+  | UpdatePMOHandlingAdviceFailure
+  | GetMapPointsFailure
+  | GetRefinersFailure
 
 const failActions = [
   OverviewActionTypes.GetRefinedCommitmentsFailure,
   PlannerActionTypes.ErrorInPlanner,
   CommitmentDisplayOrderActionTypes.ApplyCommitmentDisplayOrdersFailure,
-  CommitmentDisplayOrderActionTypes.GetCommitmentDisplayOrdersFailure
+  CommitmentDisplayOrderActionTypes.GetCommitmentDisplayOrdersFailure,
+  CommitmentDetailActionTypes.UpdatePMCHandlingAdviceFailure,
+  CommitmentDetailActionTypes.UpdatePMOHandlingAdviceFailure,
+  MapActionTypes.GetMapPointsFailure,
+  RefinerActionTypes.GetRefinersFailure
 ]
 
 @Injectable()
@@ -98,18 +107,8 @@ export class GlobleEffects {
     map(() => new HideSpinner())
   )
 
-  @Effect()
-  handleGlobalError$: Observable<Action> = this.actions$.pipe(
-    ofType<failTypes>(...failActions),
-    map(action => ({ action: action.type, error: action.payload })),
-    concatMap(error => {
-      this.errorService.handleError(error)
-      return EMPTY
-    })
-  )
 
   constructor(
-    protected actions$: Actions,
-    private errorService: ErrorHandler
+    protected actions$: Actions
   ) {}
 }

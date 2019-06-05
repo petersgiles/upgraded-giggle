@@ -1,5 +1,5 @@
 query getCommitmentDetail(
-  $id: String!
+  $id: ID!
   $book: BookType!
   $webId: [String]
   $siteId: [String]

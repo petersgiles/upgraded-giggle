@@ -10,7 +10,7 @@ export abstract class AppSettingsService {
     type: string
     url: string
     level: string,
-    source:string
+    source: string
   }
   abstract get apiKey(): string
 }

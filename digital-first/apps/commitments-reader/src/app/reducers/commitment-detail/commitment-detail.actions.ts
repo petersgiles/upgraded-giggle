@@ -22,17 +22,17 @@ export enum CommitmentDetailActionTypes {
 }
 
 export class LoadCommitments implements Action {
-  type = CommitmentDetailActionTypes.LoadCommitments
+  readonly type = CommitmentDetailActionTypes.LoadCommitments
   constructor(public payload: any) {}
 }
 
 export class UpdatePMOHandlingAdvice implements Action {
-  type = CommitmentDetailActionTypes.UpdatePMOHandlingAdvice
+  readonly type = CommitmentDetailActionTypes.UpdatePMOHandlingAdvice
   constructor(public payload: { handlingAdviceId: string }) {}
 }
 
 export class UpdatePMCHandlingAdvice implements Action {
-  type = CommitmentDetailActionTypes.UpdatePMCHandlingAdvice
+  readonly type = CommitmentDetailActionTypes.UpdatePMCHandlingAdvice
   constructor(public payload: { handlingAdviceId: string }) {}
 }
 
@@ -42,56 +42,54 @@ export class LoadDetailedCommitment implements Action {
 }
 
 export class GetDetailedCommitment implements Action {
-  type = CommitmentDetailActionTypes.GetDetailedCommitment
+  readonly type = CommitmentDetailActionTypes.GetDetailedCommitment
   constructor(public payload: { id: any }) {}
 }
 
 export class ClearCurrentDetailedCommitment implements Action {
-  type = CommitmentDetailActionTypes.ClearCurrentDetailedCommitment
+  readonly type = CommitmentDetailActionTypes.ClearCurrentDetailedCommitment
   constructor(public payload: any) {}
 }
 
 export class GetHandlingAdvices implements Action {
-  type = CommitmentDetailActionTypes.GetHandlingAdvices
-  constructor(public payload: any ) {}
+  readonly type = CommitmentDetailActionTypes.GetHandlingAdvices
+  // constructor(public payload: any) {}
 }
 
 export class LoadHandlingAdvices implements Action {
-  type = CommitmentDetailActionTypes.LoadHandlingAdvices
+  readonly type = CommitmentDetailActionTypes.LoadHandlingAdvices
   constructor(public payload: { advices: any }) {}
 }
 
 export class SetPMOHandlingAdviceResult implements Action {
-  type = CommitmentDetailActionTypes.SetPMOHandlingAdviceResult
+  readonly type = CommitmentDetailActionTypes.SetPMOHandlingAdviceResult
   constructor(public payload: any) {}
 }
 
 export class SetPMCHandlingAdviceResult implements Action {
-  type = CommitmentDetailActionTypes.SetPMCHandlingAdviceResult
+  readonly type = CommitmentDetailActionTypes.SetPMCHandlingAdviceResult
   constructor(public payload: any) {}
 }
 
 export class GetDetailedCommitmentFailure implements Action {
-  type = CommitmentDetailActionTypes.GetDetailedCommitmentFailure
+  readonly type = CommitmentDetailActionTypes.GetDetailedCommitmentFailure
   constructor(public payload: any) {}
 }
 
-
 export class GetHandlingAdvicesFailure implements Action {
-  type = CommitmentDetailActionTypes.GetHandlingAdvicesFailure
+  readonly type = CommitmentDetailActionTypes.GetHandlingAdvicesFailure
   constructor(public payload: any) {}
 }
 
 export class UpdatePMOHandlingAdviceFailure implements Action {
-  type = CommitmentDetailActionTypes.UpdatePMOHandlingAdviceFailure
+  readonly type = CommitmentDetailActionTypes.UpdatePMOHandlingAdviceFailure
   constructor(public payload: any) {}
 }
 
 export class UpdatePMCHandlingAdviceFailure implements Action {
-  type = CommitmentDetailActionTypes.UpdatePMCHandlingAdviceFailure
+  readonly type = CommitmentDetailActionTypes.UpdatePMCHandlingAdviceFailure
   constructor(public payload: any) {}
 }
-
 
 export type CommitmentDetailActions =
   | GetDetailedCommitment
@@ -107,4 +105,4 @@ export type CommitmentDetailActions =
   | GetHandlingAdvicesFailure
   | UpdatePMOHandlingAdviceFailure
   | UpdatePMCHandlingAdviceFailure
-
+  | ClearCurrentDetailedCommitment

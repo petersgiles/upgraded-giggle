@@ -18,21 +18,15 @@ import {
   first,
   catchError,
   switchMap,
-  delay,
-  finalize
-} from 'rxjs/operators'
+  delay} from 'rxjs/operators'
 import {
   GetSiteCommitmentDisplayOrdersGQL,
   ApplyCommitmentDisplayOrderGQL
 } from '../../generated/graphql'
 import { generateGUID } from '../../utils'
 import {
-  AppNotification,
-  ClearAppNotification,
-  HideSpinner
-} from '@digital-first/df-app-core'
+  AppNotification} from '@digital-first/df-app-core'
 import { GetRefinedCommitments } from '../overview/overview.actions'
-import { getUserCurrentUserDisplayOrderPermission } from '../user/user.reducer'
 
 @Injectable()
 export class CommitmentDisplayOrderEffects {
@@ -57,9 +51,9 @@ export class CommitmentDisplayOrderEffects {
         webId: webId
       }
     }),
-    switchMap(config =>
+    switchMap(request =>
       this.getSiteDisplayOrderGraphQL
-        .fetch(config, { fetchPolicy: 'no-cache' })
+        .fetch(request, { fetchPolicy: 'no-cache' })
         .pipe(
           first(),
           concatMap(result => {
@@ -99,9 +93,9 @@ export class CommitmentDisplayOrderEffects {
         }
       }
     }),
-    concatMap(config =>
+    concatMap(reqeust =>
       this.applyCommitmentDisplayOrder
-        .mutate(config, { fetchPolicy: 'no-cache' })
+        .mutate(reqeust, { fetchPolicy: 'no-cache' })
         .pipe(
           delay(2500),
           concatMap(_ => [

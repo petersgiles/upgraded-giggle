@@ -6,13 +6,10 @@ import {
   switchMap,
   first,
   catchError,
-  map,
-  tap,
   withLatestFrom,
-  delay,
   concatMap
 } from 'rxjs/operators'
-import { of, EMPTY } from 'rxjs'
+import { of } from 'rxjs'
 import {
   RefinerActionTypes,
   RefinerActions,
@@ -39,13 +36,10 @@ export class RefinerEffects {
           const refiners: CRMenu[] = buildRefiner(result.data)
           return of(refiners)
         }),
-        switchMap(result => [new LoadRefinerGroups(result)])
+        switchMap(result => [new LoadRefinerGroups(result)]),
+        catchError(error => of(new GetRefinersFailure(error)))
       )
-    }),
-    catchError(error => {
-      // tslint:disable-next-line: no-console
-      console.log(`💥 error => `, error)
-      return of(new GetRefinersFailure(error))})
+    })
   )
 
   constructor(

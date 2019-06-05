@@ -6,7 +6,7 @@ import {
   map,
   withLatestFrom,
   catchError,
-  first
+  first, mergeMap
 } from 'rxjs/operators'
 
 import * as fromRoot from '../../reducers'
@@ -15,14 +15,14 @@ import {
   CommitmentDetailActionTypes,
   CommitmentDetailActions,
   LoadDetailedCommitment,
-  LoadHandlingAdvices,
   GetDetailedCommitmentFailure,
-  GetHandlingAdvicesFailure,
   UpdatePMCHandlingAdviceFailure,
   UpdatePMOHandlingAdviceFailure,
   GetHandlingAdvices,
   SetPMOHandlingAdviceResult,
-  SetPMCHandlingAdviceResult
+  SetPMCHandlingAdviceResult,
+  LoadHandlingAdvices,
+  GetHandlingAdvicesFailure
 } from './commitment-detail.actions'
 
 import {
@@ -31,7 +31,7 @@ import {
   UpdatePmcHandlingAdviceCommitmentGQL,
   UpdatePmoHandlingAdviceCommitmentGQL
 } from '../../generated/graphql'
-import { Store } from '@ngrx/store'
+import { Store, select } from '@ngrx/store'
 import { CommitmentLocation } from '../../models/commitment.model'
 import { generateGUID } from '../../utils'
 import {
@@ -78,8 +78,12 @@ const mapCommitmentDetail = (item): any => {
     criticalDate: item.criticalDate ? item.criticalDate.title : '',
     portfolio: item.portfolioLookup ? item.portfolioLookup.title : '',
     electorates: mapElectorates(item.commitmentLocations),
-    pmcHandlingAdvice: item.pmcHandlingAdviceCommitments.length ? setAdvice(item.pmcHandlingAdviceCommitments[0].handlingAdvice) : { value: ' ', label: ' ' },
-    pmoHandlingAdvice: item.pmoHandlingAdviceCommitments.length ? setAdvice(item.pmoHandlingAdviceCommitments[0].handlingAdvice) : { value: ' ', label: ' ' }
+    pmcHandlingAdvice: item.pmcHandlingAdviceCommitments.length
+      ? setAdvice(item.pmcHandlingAdviceCommitments[0].handlingAdvice)
+      : { value: ' ', label: ' ' },
+    pmoHandlingAdvice: item.pmoHandlingAdviceCommitments.length
+      ? setAdvice(item.pmoHandlingAdviceCommitments[0].handlingAdvice)
+      : { value: ' ', label: ' ' }
   }
   return mapResult
 }
@@ -95,9 +99,51 @@ export class CommitmentDetailEffects {
     private updatePmoHandlingAdviceCommitmentGQL: UpdatePmoHandlingAdviceCommitmentGQL
   ) {}
 
+ 
   @Effect()
   loadCommitmentDetails$ = this.actions$.pipe(
     ofType(CommitmentDetailActionTypes.GetDetailedCommitment),
+    withLatestFrom(this.store$),
+    map(([a, s]) => {
+      const store = <any>s
+      const appConfig: Config = store.app.config
+      const bookType = appConfig.header.bookType
+      const webId = appConfig.webId
+      const siteId = appConfig.siteId
+      return {
+        id: a.payload.id,
+        book: bookType,
+        webId: [webId],
+        siteId: [siteId]
+      }
+    }),
+    switchMap(request =>
+      this.getCommitmentDetailGQL
+        .fetch(request, { fetchPolicy: 'network-only' })
+        .pipe(
+          first(),
+          map((result: any) => result.data.commitments[0]),
+          map(mapCommitmentDetail),
+          concatMap(result => [
+            new LoadDetailedCommitment(result),
+            new GetHandlingAdvices()
+          ]),
+          catchError(errorResp => {
+            return [new GetDetailedCommitmentFailure(errorResp),
+            new  HandleGlobalError({error: {action: 'CommitmentDetailActionTypes.GetDetailedCommitment',
+             error: { errorMessage: errorResp.message, stacktrace: errorResp.stack}}}),
+             new AppNotification({ message: `Fetching commitment error` }),
+             new ClearAppNotification()]
+            
+})
+        )
+    )
+    
+  )
+
+  @Effect()
+  getHandlingAdvices$ = this.actions$.pipe(
+    ofType(CommitmentDetailActionTypes.GetHandlingAdvices),
     withLatestFrom(this.store$),
     map(([a, s]) => {
       const store = <any>s
@@ -107,28 +153,20 @@ export class CommitmentDetailEffects {
       const webId = config.webId
       const siteId = config.siteId
       return {
-        id: '2000',//action.payload.id,
         book: bookType,
         webId: [webId],
         siteId: [siteId]
       }
     }),
     switchMap(config =>
-      this.getCommitmentDetailGQL
-        .fetch(config, { fetchPolicy: 'network-only' })
-        .pipe(
-          first(),
-          map((result: any) => result.data.commitments[0]),
-          map(mapCommitmentDetail),
-          concatMap(result => [
-            new LoadDetailedCommitment(result),
-            new GetHandlingAdvices(null)
-          ])
-        )
+      this.getHandlingAdvicesGQL.fetch(config, { fetchPolicy: 'network-only' }).pipe(
+        first(),
+        map(result => result.data.handlingAdvices),
+        concatMap(advices => [new LoadHandlingAdvices({ advices })])
+      )
     ),
-    catchError(errorResp => {
-      return [new GetDetailedCommitmentFailure(errorResp),
-                new  HandleGlobalError({error: {messsage: 'Commitment Reader: CommitmentDetailActionTypes.GetDetailedCommitment' , errorMessage: errorResp.message, stacktrace: errorResp.stack}})]
+    catchError(error => {
+      return of(new GetHandlingAdvicesFailure(error))
     })
   )
 
@@ -159,43 +197,26 @@ export class CommitmentDetailEffects {
         )
       }
     }),
-    switchMap(config =>
+    switchMap(request =>
       this.updatePmoHandlingAdviceCommitmentGQL
-        .mutate(config, { fetchPolicy: 'no-cache' })
+        .mutate(request, { fetchPolicy: 'no-cache' })
         .pipe(
           first(),
           map(response => response.data.updatePmoHandlingAdviceCommitment.id),
           concatMap(response => [
             new SetPMOHandlingAdviceResult({
-              handlingAdvice: config.handlingAdvice
+              handlingAdvice: request.handlingAdvice
             }),
-            new AppNotification({ message: `PMO Handling Advice Saved` }),
-            new ClearAppNotification()
+            new AppNotification({ message: `PMO Handling Advice Saved` })
           ]),
-          catchError((error: Error) => of(new UpdatePMOHandlingAdviceFailure(error)))
+          catchError((error: Error) => [
+            new UpdatePMOHandlingAdviceFailure(error),
+            new AppNotification({
+              message: 'An error occured updating PMO Handling'
+            })
+          ])
         )
     )
-  )
-
-  @Effect()
-  updatePMOHandlingAdviceFailure$ = this.actions$.pipe(
-    ofType(CommitmentDetailActionTypes.UpdatePMOHandlingAdviceFailure),
-    switchMap((errorResp: any) => {
-      let message = 'A network error occured updating PMO Handling'
-      const error = {
-        messageTemplate: [{app: 'Commitment Reader: PMO Update'}, {error: errorResp.payload}, {stacktrace: errorResp.payload.stack}],
-        eventLevel: 'error'
-    }
-
-      if (errorResp.payload.networkError) {
-        message = `${message}`
-      }
-      return [
-        new AppNotification({ message: message }),
-        new ClearAppNotification(),
-        new  HandleGlobalError({error: error})
-      ]
-    })
   )
 
   @Effect()
@@ -205,9 +226,9 @@ export class CommitmentDetailEffects {
     map(([a, s]) => {
       const store = <any>s
       const action = <any>a
-      const config: Config = store.app.config
-      const webId = config.webId
-      const siteId = config.siteId
+      const appConfig: Config = store.app.config
+      const webId = appConfig.webId
+      const siteId = appConfig.siteId
 
       const commitmentId = store.commitmentDetail.commitment.id
       const handlingAdvices = store.commitmentDetail.handlingAdvices
@@ -226,41 +247,25 @@ export class CommitmentDetailEffects {
         )
       }
     }),
-    switchMap(config =>
+    switchMap(request =>
       this.updatePmcHandlingAdviceCommitmentGQL
-        .mutate(config, { fetchPolicy: 'no-cache' })
+        .mutate(request, { fetchPolicy: 'no-cache' })
         .pipe(
           first(),
           map(response => response.data.updatePmcHandlingAdviceCommitment.id),
           concatMap(response => [
             new SetPMCHandlingAdviceResult({
-              handlingAdvice: config.handlingAdvice
+              handlingAdvice: request.handlingAdvice
             }),
-            new AppNotification({ message: `PMC Handling Advice Saved` }),
-            new ClearAppNotification()
+            new AppNotification({ message: `PMC Handling Advice Saved` })
           ]),
-          catchError(error => of(new UpdatePMCHandlingAdviceFailure(error)))
+          catchError(error => [
+            new UpdatePMCHandlingAdviceFailure(error),
+            new AppNotification({
+              message: 'An error occured updating PMO Handling'
+            })
+          ])
         )
     )
-  )
-
-  @Effect()
-  updatePMCHandlingAdviceFailure$ = this.actions$.pipe(
-    ofType(CommitmentDetailActionTypes.UpdatePMCHandlingAdviceFailure),
-    switchMap((errorResp: any) => {
-      let message = 'A network error occured updating PMO Handling'
-      const error = {
-        messageTemplate: [{app: 'Commitment Reader: PMO Update'}, {error: errorResp.payload}, {stacktrace: errorResp.payload.stack}],
-        eventLevel: 'error'
-    }
-      if (errorResp.payload.networkError) {
-        message = `${message}`
-      }
-      return [
-        new AppNotification({ message: message }),
-        new ClearAppNotification(),
-        new  HandleGlobalError({error: error})
-      ]
-    })
   )
 }
