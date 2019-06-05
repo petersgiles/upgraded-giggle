@@ -20,7 +20,6 @@ export class AppErrorHandlerToSeqService implements ErrorHandler {
 
     this.log = structuredLog
       .configure()
-      .enrich({ source: this.settings.loggingSource.source })
       .writeTo(
         new structuredLog.ConsoleSink({
           console: window.console
@@ -55,8 +54,7 @@ export class AppErrorHandlerToSeqService implements ErrorHandler {
 
     const detail = {
       Timezone: new Date().getTimezoneOffset(),
-      Language: navigator.language,
-      Host: window.location
+      Language: navigator.language
     }
 
     if (action) {
