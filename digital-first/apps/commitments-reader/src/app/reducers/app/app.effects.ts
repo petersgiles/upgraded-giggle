@@ -107,7 +107,6 @@ export class GlobleEffects {
     map(() => new HideSpinner())
   )
 
-
   constructor(
     protected actions$: Actions
   ) {}

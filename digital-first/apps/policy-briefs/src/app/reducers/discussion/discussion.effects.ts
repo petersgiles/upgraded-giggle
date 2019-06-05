@@ -15,6 +15,8 @@ import {
 import { idFromLookup, fromUser, SharepointJsomService } from '@df/sharepoint'
 import { pickColor } from '../../utils/colour'
 import { byBriefIdQuery } from '../../services/sharepoint/caml'
+import { DiscussionDataService } from './discussion-data.service'
+import { mapDiscussions } from './maps';
 
 export const mapComment = (item): any => {
   const brief = idFromLookup(item.Brief)
@@ -42,75 +44,48 @@ export const mapComments = (items): any[] => (items || []).map(mapComment)
 export class DiscussionEffects {
   // 💬
 
-  getDiscussionNodes(
-    briefId: string
-  ): Observable<{
-    data: { nodes: any[] }
-    loading: boolean
-  }> {
-    const briefIdViewXml = byBriefIdQuery({ id: briefId })
-
-    return forkJoin([
-      this.sharepoint.getItems({
-        listName: 'Comment',
-        viewXml: briefIdViewXml
-      })
-    ]).pipe(
-      map(([spComments]) => [...mapComments(spComments)]),
-      concatMap(result =>
-        of({
-          data: { nodes: result },
-          loading: false
-        })
-      )
-    )
-  }
-
   addComment(comment: {
     text: string
     brief: string
     parent: string
   }): Observable<any> {
-    return this.sharepoint.storeItem({
-      listName: 'Comment',
-      data: {
-        Comments: comment.text,
-        Brief: comment.brief,
-        Parent: comment.parent
-      }
-    })
-    .pipe(
-      concatMap(_ => of({ brief: comment.brief }))
-    )
+    return this.sharepoint
+      .storeItem({
+        listName: 'Comment',
+        data: {
+          Comments: comment.text,
+          Brief: comment.brief,
+          Parent: comment.parent
+        }
+      })
+      .pipe(concatMap(_ => of({ brief: comment.brief })))
   }
 
-  removeComment(comment: {
-    id: string,
-    brief: string
-  }): Observable<any> {
-    return this.sharepoint.removeItem({
-      listName: 'Comment',
-      id: comment.id
-    })
-    .pipe(
-      concatMap(_ => of({ brief: comment.brief }))
-    )
+  removeComment(comment: { id: string; brief: string }): Observable<any> {
+    return this.sharepoint
+      .removeItem({
+        listName: 'Comment',
+        id: comment.id
+      })
+      .pipe(concatMap(_ => of({ brief: comment.brief })))
   }
 
   // return sharePointService.removeItem(
-  //   'Comment', commentId				
+  //   'Comment', commentId
   // );
 
   @Effect()
   loadDiscussions$ = this.actions$.pipe(
     ofType(DiscussionActionTypes.GetDiscussion),
     map((action: GetDiscussion) => action),
-    concatMap(action => this.getDiscussionNodes(action.payload.activeBriefId)),
+    concatMap(action =>
+      this.service.getDiscussions({ id: action.payload.activeBriefId })
+    ),
     // tslint:disable-next-line: no-console
     tap(result => console.log(`🍺 `, result)),
-    switchMap((result: { data: { nodes: any[] }; loading: boolean }) => [
+    switchMap((result: { data: any[]; loading: boolean }) => [
       new LoadDiscussions({
-        data: result.data.nodes,
+        data: result.data,
         loading: result.loading
       })
     ]),
@@ -149,6 +124,7 @@ export class DiscussionEffects {
 
   constructor(
     private actions$: Actions<DiscussionActions>,
+    private service: DiscussionDataService,
     private sharepoint: SharepointJsomService
   ) {}
 }

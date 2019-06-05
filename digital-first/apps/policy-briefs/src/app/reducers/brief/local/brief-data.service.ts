@@ -4,15 +4,13 @@ import {
   of,
   BehaviorSubject,
   Subject,
-  Subscription,
-  throwError,
-  EMPTY
+  Subscription
 } from 'rxjs'
 import { BriefDataService } from '../brief-data.service'
 import { briefs } from '../../../../devdata/data'
 import { HttpClient } from '@angular/common/http'
 import { AppSettingsService } from '@digital-first/df-app-core'
-import { concatMap, first, tap, catchError } from 'rxjs/operators'
+import { concatMap, catchError } from 'rxjs/operators'
 
 @Injectable({
   providedIn: 'root'
@@ -57,8 +55,6 @@ export class BriefDataLocalService implements BriefDataService {
     const relativeUrl = `${this.settings.assetsPath}/docx/${fileLeafRef}.html`
 
     return this.http.get(relativeUrl, { responseType: 'text' }).pipe(
-        // tslint:disable-next-line: no-console
-      tap(result => console.log(`👹 `, result)),
       concatMap((result: any) =>
         of({
           data: result,

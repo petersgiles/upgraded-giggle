@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core'
-import { Observable, of, forkJoin, EMPTY, throwError } from 'rxjs'
+import { Observable, of, forkJoin, EMPTY } from 'rxjs'
 import { SharepointJsomService } from '@df/sharepoint'
 import { BriefDataService } from '../brief-data.service'
-import { concatMap, map, first, catchError } from 'rxjs/operators'
+import { concatMap, map } from 'rxjs/operators'
 import { sortBy } from '../../../utils'
-import { HttpClient, HttpErrorResponse } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http'
 import { AppSettingsService } from '@digital-first/df-app-core'
 import { byIdQuery, byBriefIdQuery } from '../../../services/sharepoint/caml'
 import {
@@ -12,7 +12,7 @@ import {
   mapAttachments,
   mapLookups,
   mapRecommendations
-} from '../brief.effects'
+} from '../maps'
 
 declare var _spPageContextInfo: any
 

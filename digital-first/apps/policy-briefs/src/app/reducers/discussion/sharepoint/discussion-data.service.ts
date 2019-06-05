@@ -48,7 +48,7 @@ export class DiscussionDataSharepointService implements DiscussionDataService {
       .pipe(concatMap(_ => of({})))
 
   getDiscussions = (
-    parent
+    item: { id: string }
   ): Observable<{
     data: any
     loading: boolean

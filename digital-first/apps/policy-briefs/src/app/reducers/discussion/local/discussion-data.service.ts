@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core'
 import { Observable, of, BehaviorSubject, Subject, Subscription } from 'rxjs'
 import { DiscussionDataService } from '../discussion-data.service'
-import { discussions } from './data'
-
+import { comments } from '../../../../devdata/data'
+import { mapDiscussions } from '../maps';
 @Injectable({
   providedIn: 'root'
 })
@@ -21,21 +21,19 @@ export class DiscussionDataLocalService implements DiscussionDataService {
     throw new Error('Method not implemented.')
   }
 
-  public getDiscussions(): Observable<{
+  public getDiscussions(item: {
+    id: string
+  }): Observable<{
     data: any
     loading: boolean
   }> {
-    return this.discussionItems
+    const discussion = comments.filter(p => `${p.Brief.Id}` === `${item.id}`)
+
+    return of({
+      data: mapDiscussions(discussion),
+      loading: false
+    })
   }
 
-  constructor() {
-    this.fakeDiscussionBackendSubscription$ = this.fakeDiscussionBackend.subscribe(next =>
-      this.discussionItems.next({
-        data: next,
-        loading: false
-      })
-    )
-
-    this.fakeDiscussionBackend.next(discussions)
-  }
+  constructor() {}
 }
