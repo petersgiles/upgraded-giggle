@@ -4,8 +4,10 @@ import { AppSettingsService } from '@digital-first/df-app-core'
 import { BriefDataLocalService } from './local/brief-data.service'
 import { BriefDataSharepointService } from './sharepoint/brief-data.service'
 import { BriefDataService } from './brief-data.service'
+import { HttpClient } from '@angular/common/http';
 
 const briefDataServiceFactory = (
+  http: HttpClient,
   settings: AppSettingsService,
   sharepointlib: SharepointJsomService
 ) => {
@@ -16,14 +18,14 @@ const briefDataServiceFactory = (
 
   switch (source) {
     case 'sharepoint':
-      return new BriefDataSharepointService(sharepointlib)
+      return new BriefDataSharepointService(http, settings, sharepointlib)
     default:
-      return new BriefDataLocalService()
+      return new BriefDataLocalService(http, settings)
   }
 }
 
 export let briefDataServiceProvider = {
   provide: BriefDataService,
   useFactory: briefDataServiceFactory,
-  deps: [AppSettingsService, SharepointJsomService]
+  deps: [HttpClient, AppSettingsService, SharepointJsomService]
 }

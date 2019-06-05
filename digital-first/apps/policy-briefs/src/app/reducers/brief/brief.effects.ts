@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 
-import { concatMap, map, switchMap, catchError } from 'rxjs/operators'
+import { concatMap, map, switchMap, catchError, tap } from 'rxjs/operators'
 import { EMPTY, Observable, forkJoin, of } from 'rxjs'
 import {
   BriefActionTypes,
@@ -17,6 +17,7 @@ import {
   fromUser
 } from '@df/sharepoint'
 import { byIdQuery, byBriefIdQuery } from '../../services/sharepoint/caml'
+import { BriefDataService } from './brief-data.service'
 
 export const mapBrief = (item): any => {
   const editor = fromLookup(item.Editor)
@@ -60,7 +61,6 @@ export const recommendedDirection = (item): any => {
 
 export const recommendedDirections = (items): any[] =>
   (items || []).map(recommendedDirection)
-
 
 export const mapAttachment = (item): any => {
   const brief = idFromLookup(item.Brief)
@@ -110,69 +110,6 @@ export const mapLookups = (items): any[] => (items || []).map(mapLookup)
 
 @Injectable()
 export class BriefEffects {
-  getActiveBrief(
-    briefId: string
-  ): Observable<{
-    data: any
-    loading: boolean
-  }> {
-    const viewXml = byIdQuery({ id: briefId })
-    const briefIdViewXml = byBriefIdQuery({ id: briefId })
-
-    return forkJoin([
-      this.sharepoint.getItems({
-        listName: 'Brief',
-        viewXml: viewXml
-      }),
-      this.sharepoint.getItems({
-        listName: 'RecommendedDirection',
-        viewXml: briefIdViewXml
-      }),
-      this.sharepoint.getItems({
-        listName: 'Recommendation',
-        viewXml: briefIdViewXml
-      }),
-      this.sharepoint.getItems({
-        listName: 'BriefAttachments',
-        viewXml: briefIdViewXml
-      }),
-      this.sharepoint.getItems({
-        listName: 'BriefStatus'
-      }),
-      this.sharepoint.getItems({
-        listName: 'BriefDivision'
-      })
-
-    ]).pipe(
-      concatMap(
-        ([
-          spBrief,
-          spRecommendedDirection,
-          spRecommendations,
-          spBriefAttachments,
-          spBriefStatus,
-          spBriefDivision
-        ]) => {
-          const data = {
-            brief: mapBrief(spBrief[0]),
-            directions: recommendedDirections(spRecommendedDirection),
-            recommendations: mapRecommendations(spRecommendations),
-            attachments: mapAttachments(spBriefAttachments),
-            statusLookups: mapLookups(spBriefStatus),
-            divisionLookups: mapLookups(spBriefDivision),
-          }
-          // tslint:disable-next-line:no-console
-          console.log(`🙈 - brief`, data)
-
-          return of({
-            data: data,
-            loading: false
-          })
-        }
-      )
-    )
-  }
-  
   @Effect()
   loadBriefs$ = this.actions$.pipe(
     ofType(BriefActionTypes.LoadBrief),
@@ -184,7 +121,9 @@ export class BriefEffects {
   setActiveBrief$ = this.actions$.pipe(
     ofType(BriefActionTypes.SetActiveBrief),
     map((action: SetActiveBrief) => action),
-    concatMap(action => this.getActiveBrief(action.payload.activeBriefId)),
+    concatMap(action =>
+      this.service.getActiveBrief(action.payload.activeBriefId)
+    ),
     switchMap((result: { data: any; loading: boolean }) => [
       new LoadBrief({
         data: result.data,
@@ -196,6 +135,6 @@ export class BriefEffects {
 
   constructor(
     private actions$: Actions<BriefActions>,
-    private sharepoint: SharepointJsomService
+    private service: BriefDataService
   ) {}
 }

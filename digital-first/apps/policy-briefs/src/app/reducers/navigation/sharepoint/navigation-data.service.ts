@@ -9,8 +9,7 @@ import { arrayToHash } from '@df/utils'
 const NAVIGATION_LIST_NAME = 'Navigation'
 
 export const mapNavigationNode = (item): any => {
-    // tslint:disable-next-line: no-console
-    console.log(`mapNavigationNode`)
+
   const policy = idFromLookup(item.Policy)
   const subpolicy = idFromLookup(item.SubPolicy)
 

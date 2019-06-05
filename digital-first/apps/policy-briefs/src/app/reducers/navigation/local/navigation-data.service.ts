@@ -7,14 +7,14 @@ import {
   Subscription
 } from 'rxjs'
 
-import { navigation, briefs, policies, subpolicies } from './data'
+import { policies, subpolicies, briefs } from '../../../../devdata/data'
+
 import { NavigationDataService } from '../navigation-data.service'
 
 import { arrayToHash } from '@df/utils'
 
 export const mapNavigationNode = (item): any => {
-  // tslint:disable-next-line: no-console
-  console.log(`mapNavigationNode`)
+
   const policy = item.Policy ? item.Policy.Id : null
   const subpolicy = item.SubPolicy ? item.SubPolicy.Id : null
 
@@ -71,9 +71,9 @@ export class NavigationDataLocalService implements NavigationDataService {
     console.log(`getNavigations`)
 
     const nodes = [
-      ...mapNavigationNodes(policies.d.results),
-      ...mapNavigationNodes(subpolicies.d.results),
-      ...mapNavigationNodes(briefs.d.results)
+      ...mapNavigationNodes(policies),
+      ...mapNavigationNodes(subpolicies),
+      ...mapNavigationNodes(briefs)
     ]
 
     // this relies on the order of nodes i.e policy then subpolicy then brief
@@ -94,14 +94,14 @@ export class NavigationDataLocalService implements NavigationDataService {
   }
 
   constructor() {
-    this.fakeNavigationBackendSubscription$ = this.fakeNavigationBackend.subscribe(
-      next =>
-        this.navigationItems.next({
-          data: next,
-          loading: false
-        })
-    )
+    // this.fakeNavigationBackendSubscription$ = this.fakeNavigationBackend.subscribe(
+    //   next =>
+    //     this.navigationItems.next({
+    //       data: next,
+    //       loading: false
+    //     })
+    // )
 
-    this.fakeNavigationBackend.next(navigation)
+    // this.fakeNavigationBackend.next(navigation)
   }
 }
