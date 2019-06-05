@@ -128,17 +128,13 @@ export class CommitmentDetailEffects {
             new LoadDetailedCommitment(result),
             new GetHandlingAdvices()
           ]),
+// tslint:disable-next-line: arrow-return-shorthand
           catchError(errorResp => {
-            return [new GetDetailedCommitmentFailure(errorResp),
-            new  HandleGlobalError({error: {action: 'CommitmentDetailActionTypes.GetDetailedCommitment',
-             error: { errorMessage: errorResp.message, stacktrace: errorResp.stack}}}),
+            return [new GetDetailedCommitmentFailure({error: errorResp}),
              new AppNotification({ message: `Fetching commitment error` }),
-             new ClearAppNotification()]
-            
-})
+             new ClearAppNotification()]})
         )
     )
-    
   )
 
   @Effect()
