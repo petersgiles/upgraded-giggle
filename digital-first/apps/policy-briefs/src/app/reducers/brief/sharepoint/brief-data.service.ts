@@ -138,27 +138,21 @@ export class BriefDataSharepointService implements BriefDataService {
       )
     )
   }
+
   public getBriefHtml(
     fileLeafRef
   ): Observable<{
     data: any
     loading: boolean
   }> {
-    const relativeUrl = `${
-      _spPageContextInfo.webAbsoluteUrl
-    }/BriefHTML/${fileLeafRef}.aspx`
+    const relativeUrl = `${_spPageContextInfo.webAbsoluteUrl}/BriefHTML/${fileLeafRef}.aspx`
+
     return this.http.get(relativeUrl, { responseType: 'text' }).pipe(
-      first(),
-      concatMap((result: any) => {
-        // tslint:disable-next-line: no-console
-        console.log(result)
-        return of({
+      concatMap((result: any) =>
+        of({
           data: result,
           loading: false
-        })
-      }),
-      // tslint:disable-next-line: no-unnecessary-callback-wrapper
-      catchError((err: HttpErrorResponse) => throwError(err))
+        }))
     )
   }
 

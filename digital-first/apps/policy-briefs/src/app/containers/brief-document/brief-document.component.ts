@@ -14,28 +14,17 @@ export class BriefDocumentComponent implements OnInit {
   @Input()
   set brief(value) {
     this._brief = value
-    // tslint:disable-next-line: no-console
-    console.log(`🦑 brief`, value)
     if (this._brief && this._brief.FileLeafRef) {
       // clear extension
 
-      const fileLeafRef = this._brief.FileLeafRef
-        .split('.')
+      const fileLeafRef = this._brief.FileLeafRef.split('.')
         .slice(0, -1)
         .join('.')
 
-      this.service.getBriefHtml(fileLeafRef).pipe(
-        first(),
-        // tslint:disable-next-line: no-console
-        tap(result => console.log(`🦑 result`, result)),
-        // tslint:disable-next-line: no-unnecessary-callback-wrapper
-        catchError((err: any) => {
-          // tslint:disable-next-line: no-console
-          console.error(`🦑 `, err)
-          return EMPTY
-        })
-      )
-      .subscribe(result => this.briefHtml$.next(result.data))
+      this.service
+        .getBriefHtml(fileLeafRef)
+        .pipe(first())
+        .subscribe(result => this.briefHtml$.next(result.data))
     }
   }
 

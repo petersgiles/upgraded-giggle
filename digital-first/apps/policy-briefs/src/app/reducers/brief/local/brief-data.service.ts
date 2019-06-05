@@ -10,9 +10,9 @@ import {
 } from 'rxjs'
 import { BriefDataService } from '../brief-data.service'
 import { briefs } from '../../../../devdata/data'
-import { HttpClient, HttpErrorResponse } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http'
 import { AppSettingsService } from '@digital-first/df-app-core'
-import { catchError, concatMap, first } from 'rxjs/operators'
+import { concatMap, first, tap } from 'rxjs/operators'
 
 @Injectable({
   providedIn: 'root'
@@ -55,25 +55,14 @@ export class BriefDataLocalService implements BriefDataService {
   }> {
     const relativeUrl = `${this.settings.assetsPath}/docx/${fileLeafRef}.html`
 
-    // tslint:disable-next-line: no-console
-    console.log(`🦑 `, relativeUrl)
-
     return this.http.get(relativeUrl, { responseType: 'text' }).pipe(
-      first(),
-      concatMap((result: any) => {
         // tslint:disable-next-line: no-console
-        console.log(`🦑 `, result)
-        return of({
+      tap(result => console.log(`👹 `, result)),
+      concatMap((result: any) =>
+        of({
           data: result,
           loading: false
-        })
-      }),
-      // tslint:disable-next-line: no-unnecessary-callback-wrapper
-      catchError((err: HttpErrorResponse) => {
-        // tslint:disable-next-line: no-console
-        console.error(`🦑 `, err)
-        return throwError(err)
-      })
+        }))
     )
   }
 
