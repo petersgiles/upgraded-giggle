@@ -55,7 +55,8 @@ export class AppErrorHandlerToSeqService implements ErrorHandler {
 
     const detail = {
       Timezone: new Date().getTimezoneOffset(),
-      Language: navigator.language
+      Language: navigator.language,
+      Host: window.location
     }
 
     if (action) {
