@@ -1,13 +1,9 @@
 import {
   Component,
   OnInit,
-  OnDestroy,
-  ViewChild,
-  ElementRef
-} from '@angular/core'
+  OnDestroy} from '@angular/core'
 import { Observable, BehaviorSubject, Subscription, of } from 'rxjs'
 import { CommitmentRow } from '../../models/commitment.model'
-import { Router } from '@angular/router'
 import * as fromOverview from '../../reducers/overview/overview.reducer'
 import * as fromDisplayOrder from '../../reducers/commitment-display-order/commitment-display-order.reducer'
 import { Store, select } from '@ngrx/store'
@@ -31,7 +27,6 @@ import { getUserCurrentUserDisplayOrderPermission } from '../../reducers/user/us
   styleUrls: ['./display-order-page.component.scss']
 })
 export class DisplayOrderPageComponent implements OnInit, OnDestroy {
-  @ViewChild('autoscroll') autoscroll: ElementRef
   commitmentsWithDisplayOrder$: BehaviorSubject<any[]> = new BehaviorSubject([])
   commitmentsWithoutDisplayOrder$: BehaviorSubject<
     CommitmentRow[]

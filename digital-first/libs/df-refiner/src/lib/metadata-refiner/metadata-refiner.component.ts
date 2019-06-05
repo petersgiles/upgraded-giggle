@@ -64,7 +64,7 @@ export class MetadataRefinerComponent implements OnInit {
       )
   }
 
-  @ViewChild('search')
+  @ViewChild('search', { static: true })
   public searchElementRef: ElementRef
 
   startVisible: boolean

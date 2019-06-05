@@ -30,7 +30,7 @@ export class MapComponent implements OnInit {
   _mapPoints: MapPoint[]
   _mapPointTableData: DataTableConfig
 
-  @ViewChild('search') public searchElementRef: ElementRef
+  @ViewChild('search', { static: true }) public searchElementRef: ElementRef
   centre: any
 
   constructor(private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {}
