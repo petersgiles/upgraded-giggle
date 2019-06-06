@@ -29,7 +29,7 @@ export class StatisticuploadComponent implements OnInit, OnDestroy {
   statisticReports: StatisticAndStatisticReportsQuery['statistics'][0]['statisticReports']
   statisticsSubscription$: Subscription
 
-  @ViewChild('inputElement')
+  @ViewChild('inputElement', { static: true })
   inputElement: ElementRef
 
   statisticForm = this.formBuilder.group({

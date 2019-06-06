@@ -50,6 +50,7 @@ import { AppEffects } from './reducers/app.effects'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 
 import { BriefDocumentComponent } from './containers/brief-document/brief-document.component'
+import { RouterEffects } from './reducers/router.effects';
 
 
 const COMPONENTS = [
