@@ -7,6 +7,7 @@ import * as packageJson from '../../../../package.json'
 export const environment = {
   production: false,
   version: packageJson.version,
+  commithash: packageJson['commit-hash'],
   datasources: {
     default: {
       type: 'sharepoint',

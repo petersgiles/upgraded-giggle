@@ -4,6 +4,7 @@ export const environment = {
   production: false,
   host: 'sharepoint',
   version: packageJson.version,
+  commithash: packageJson['commit-hash'],
   config: '/AppConfig/commitments-reader.txt',
   datasource: {
     type: 'graph',
