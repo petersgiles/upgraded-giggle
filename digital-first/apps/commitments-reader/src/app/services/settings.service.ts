@@ -6,8 +6,13 @@ import { AppSettingsService } from '@digital-first/df-app-core'
   providedIn: 'root'
 })
 export class SettingsService implements AppSettingsService {
+
   datasources: any
   constructor() {}
+  
+  get commithash(){
+    return environment.commithash
+  }
 
   get apiKey(): string {
     return environment.apiKey

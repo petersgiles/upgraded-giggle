@@ -13,6 +13,10 @@ export class SettingsService implements AppSettingsService {
     return environment.apiKey
   }
   
+  get commithash(){
+    return environment.commithash
+  }
+
   get loggingSource(): any {
     return environment.loggingSource
   }

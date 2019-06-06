@@ -69,6 +69,10 @@ export class AppErrorHandlerToSeqService implements ErrorHandler {
       detail['StackTrace'] = error.stacktrace
     }
 
+    if (this.settings.commithash) {
+      detail['CommitHash'] = this.settings.commithash
+    }
+
     this.log.error(
       '{Source} error has occurred {@Detail}',
       this.settings.loggingSource.source,
