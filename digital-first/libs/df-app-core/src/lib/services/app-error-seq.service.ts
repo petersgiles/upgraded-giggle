@@ -1,21 +1,36 @@
-import { Injectable, ErrorHandler } from '@angular/core'
+import { ErrorHandler, Injectable, Injector, NgZone } from '@angular/core'
 import * as structuredLog from 'structured-log'
 import { SeqSink } from './app-seq-sink'
 import { AppSettingsService } from './app-settings.service'
+import { AppErrorRouteOverrideService } from './app-error-route-override.service'
+
 @Injectable({
   providedIn: 'root'
 })
 export class AppErrorHandlerToSeqService implements ErrorHandler {
   private log
-  constructor(private settings: AppSettingsService) {
+
+  constructor(
+    private settings: AppSettingsService,
+    private routerOveride: AppErrorRouteOverrideService
+  ) {
     const levelSwitch = new structuredLog.DynamicLevelSwitch(
       this.settings.loggingSource.level
     )
 
     this.log = structuredLog
       .configure()
-      .enrich({ source: this.settings.loggingSource.source })
+      .writeTo(
+        new structuredLog.ConsoleSink({
+          console: window.console
+        })
+      )
       .minLevel(levelSwitch)
+      .filter((logEvent: any) => {
+        const template = logEvent.messageTemplate
+        template.raw = template.raw.replace('{@Detail}', '')
+        return true
+      })
       .writeTo(
         new SeqSink({
           url: this.settings.loggingSource.url,
@@ -24,32 +39,44 @@ export class AppErrorHandlerToSeqService implements ErrorHandler {
           apiKey: this.settings.apiKey
         })
       )
-      .writeTo(
-        new structuredLog.ConsoleSink({
-          console: window.console
-        })
-      )
       .create()
   }
 
-  handleError(error: any): void {
-    if (error.action && error.error) {
-      this.log.error(
-        `Error from ${this.settings.loggingSource.source} === Action:${
-          error.action
-        }, Error:${JSON.stringify(error.error)}`
-      )
-    } else {
-      // Other unexpected errors
-      const errorMessage = error.message ? error.message : ''
-      const errorStack = error.stack ? error.stack : ''
-      this.log.error(`Error Message:${errorMessage}  Stack ${errorStack}`)
+  handleError(error: Error): void {
+    this.logStructuredWithExtraProps(error)
+    if (this.routerOveride) {
+      this.routerOveride.routeError(error)
     }
   }
 
-  handleInfo(info: any): void {
-    this.log.info(
-      `Information from ${this.settings.loggingSource.source}: ${info}`
+  logStructuredWithExtraProps(errorToLog) {
+    const { action, message, error, ...remaining } = errorToLog
+
+    const detail = {
+      Timezone: new Date().getTimezoneOffset(),
+      Language: navigator.language
+    }
+
+    if (action) {
+      detail['Action'] = action
+    }
+
+    if (message) {
+      detail['Message'] = message
+    }
+
+    if (error && error.stacktrace) {
+      detail['StackTrace'] = error.stacktrace
+    }
+
+    if (this.settings.commithash) {
+      detail['CommitHash'] = this.settings.commithash
+    }
+
+    this.log.error(
+      '{Source} error has occurred {@Detail}',
+      this.settings.loggingSource.source,
+      detail
     )
   }
 }

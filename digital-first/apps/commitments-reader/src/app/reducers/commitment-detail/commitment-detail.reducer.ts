@@ -86,6 +86,7 @@ export function reducer(
         ...state,
         commitment: pmccommitment
       }
+
     default:
       return state
   }

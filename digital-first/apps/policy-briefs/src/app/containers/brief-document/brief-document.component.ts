@@ -1,9 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core'
-import { Observable, BehaviorSubject } from 'rxjs'
-import { HttpClient } from '@angular/common/http'
-import { first, tap } from 'rxjs/operators'
-
-declare var _spPageContextInfo: any
+import { BehaviorSubject, EMPTY } from 'rxjs'
+import { first, tap, map, catchError } from 'rxjs/operators'
+import { BriefDataService } from '../../reducers/brief/brief-data.service'
 
 @Component({
   selector: 'digital-first-brief-document',
@@ -12,18 +10,30 @@ declare var _spPageContextInfo: any
 })
 export class BriefDocumentComponent implements OnInit {
   public briefHtml$: BehaviorSubject<string> = new BehaviorSubject(null)
+  public error$: BehaviorSubject<any> = new BehaviorSubject(null)
   private _brief
   @Input()
   set brief(value) {
     this._brief = value
-
-    if (this._brief && this._brief.fileLeafRef) {
+    if (this._brief && this._brief.FileLeafRef) {
       // clear extension
-      const fileLeafRef = this._brief.fileLeafRef
-        .split('.')
+
+      const fileLeafRef = this._brief.FileLeafRef.split('.')
         .slice(0, -1)
         .join('.')
-      this.getBriefHtml(fileLeafRef)
+
+      this.service
+        .getBriefHtml(fileLeafRef)
+        .pipe(first())
+        .subscribe(result => {
+          if (!result.error) {
+            this.error$.next(null)
+            this.briefHtml$.next(result.data)
+          } else {
+            this.error$.next(result.error)
+            this.briefHtml$.next(null)
+          }
+        })
     }
   }
 
@@ -31,20 +41,7 @@ export class BriefDocumentComponent implements OnInit {
     return this._brief
   }
 
-  public getBriefHtml(fileLeafRef) {
-    const relativeUrl = `${_spPageContextInfo.webAbsoluteUrl}/BriefHTML/${fileLeafRef}.aspx`
-
-    return this.http
-      .get(relativeUrl, { responseType: 'text' })
-      .pipe(
-        first()
-      )
-      .subscribe((html: string) => {
-        this.briefHtml$.next(html)
-      })
-  }
-
-  constructor(private http: HttpClient) {}
+  constructor(private service: BriefDataService) {}
 
   ngOnInit() {}
 }

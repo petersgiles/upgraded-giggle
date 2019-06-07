@@ -6,11 +6,12 @@ export abstract class AppSettingsService {
   abstract get eventDatasource(): any
   abstract get appConfigDataSource(): any
   abstract get assetsPath(): any
+  abstract get commithash(): any
   abstract get loggingSource(): {
     type: string
     url: string
     level: string,
-    source:string
+    source: string
   }
   abstract get apiKey(): string
 }

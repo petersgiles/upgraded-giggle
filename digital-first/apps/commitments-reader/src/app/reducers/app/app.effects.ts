@@ -1,9 +1,10 @@
 import { Injectable, ErrorHandler } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 
-import { Observable, EMPTY } from 'rxjs'
-import { map, concatMap } from 'rxjs/operators'
-import { Action } from '@ngrx/store'
+import { Observable, throwError, EMPTY } from 'rxjs'
+import { map, concatMap, switchMap } from 'rxjs/operators'
+import { Action, Store } from '@ngrx/store'
+
 
 import {
   GetRefinerGroups,
@@ -18,7 +19,8 @@ import {
   UpdatePMCHandlingAdvice,
   UpdatePMCHandlingAdviceFailure,
   SetPMOHandlingAdviceResult,
-  SetPMCHandlingAdviceResult
+  SetPMCHandlingAdviceResult,
+  GetDetailedCommitmentFailure
 } from '../commitment-detail/commitment-detail.actions'
 
 import {
@@ -81,6 +83,7 @@ type failTypes =
   | UpdatePMOHandlingAdviceFailure
   | GetMapPointsFailure
   | GetRefinersFailure
+  | GetDetailedCommitmentFailure
 
 const failActions = [
   OverviewActionTypes.GetRefinedCommitmentsFailure,
@@ -89,6 +92,7 @@ const failActions = [
   CommitmentDisplayOrderActionTypes.GetCommitmentDisplayOrdersFailure,
   CommitmentDetailActionTypes.UpdatePMCHandlingAdviceFailure,
   CommitmentDetailActionTypes.UpdatePMOHandlingAdviceFailure,
+  CommitmentDetailActionTypes.GetDetailedCommitmentFailure,
   MapActionTypes.GetMapPointsFailure,
   RefinerActionTypes.GetRefinersFailure
 ]
@@ -110,15 +114,11 @@ export class GlobleEffects {
   @Effect()
   handleGlobalError$: Observable<Action> = this.actions$.pipe(
     ofType<failTypes>(...failActions),
-    map(action => ({ action: action.type, error: action.payload })),
-    concatMap(error => {
-      this.errorService.handleError(error)
-      return EMPTY
-    })
+    map(action => action),
+    concatMap(res => throwError({action: res.type, error: res.payload.error}))
   )
 
   constructor(
-    protected actions$: Actions,
-    private errorService: ErrorHandler
+    protected actions$: Actions
   ) {}
 }

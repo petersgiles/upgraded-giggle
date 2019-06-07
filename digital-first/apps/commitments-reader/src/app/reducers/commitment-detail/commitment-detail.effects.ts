@@ -6,7 +6,7 @@ import {
   map,
   withLatestFrom,
   catchError,
-  first
+  first, mergeMap
 } from 'rxjs/operators'
 
 import * as fromRoot from '../../reducers'
@@ -20,21 +20,25 @@ import {
   UpdatePMOHandlingAdviceFailure,
   GetHandlingAdvices,
   SetPMOHandlingAdviceResult,
-  SetPMCHandlingAdviceResult
+  SetPMCHandlingAdviceResult,
+  LoadHandlingAdvices,
+  GetHandlingAdvicesFailure
 } from './commitment-detail.actions'
 
 import {
   GetCommitmentDetailGQL,
+  GetHandlingAdvicesGQL,
   UpdatePmcHandlingAdviceCommitmentGQL,
   UpdatePmoHandlingAdviceCommitmentGQL
 } from '../../generated/graphql'
-import { Store } from '@ngrx/store'
+import { Store, select } from '@ngrx/store'
 import { CommitmentLocation } from '../../models/commitment.model'
 import { generateGUID } from '../../utils'
 import {
   AppNotification,
   ClearAppNotification,
-  Config
+  Config,
+  HandleGlobalError
 } from '@digital-first/df-app-core'
 
 const mapElectorates = commitmentLocations => {
@@ -59,6 +63,7 @@ const setAdvice = advice => {
 }
 
 const mapCommitmentDetail = (item): any => {
+  if(item){
   const mapResult = {
     id: item.id,
     title: item.title,
@@ -82,6 +87,10 @@ const mapCommitmentDetail = (item): any => {
       : { value: ' ', label: ' ' }
   }
   return mapResult
+} else {
+    throw(new Error('id not valid'))
+}
+
 }
 
 @Injectable()
@@ -90,10 +99,12 @@ export class CommitmentDetailEffects {
     private actions$: Actions<CommitmentDetailActions>,
     private store$: Store<fromRoot.State>,
     private getCommitmentDetailGQL: GetCommitmentDetailGQL,
+    private getHandlingAdvicesGQL: GetHandlingAdvicesGQL,
     private updatePmcHandlingAdviceCommitmentGQL: UpdatePmcHandlingAdviceCommitmentGQL,
     private updatePmoHandlingAdviceCommitmentGQL: UpdatePmoHandlingAdviceCommitmentGQL
   ) {}
 
+ 
   @Effect()
   loadCommitmentDetails$ = this.actions$.pipe(
     ofType(CommitmentDetailActionTypes.GetDetailedCommitment),
@@ -101,30 +112,61 @@ export class CommitmentDetailEffects {
     map(([a, s]) => {
       const store = <any>s
       const appConfig: Config = store.app.config
-      const bookType = appConfig.header.bookType
       const webId = appConfig.webId
       const siteId = appConfig.siteId
       return {
         id: a.payload.id,
-        book: bookType,
         webId: [webId],
         siteId: [siteId]
       }
     }),
     switchMap(request =>
       this.getCommitmentDetailGQL
-        .fetch(request, { fetchPolicy: 'network-only' })
+        .fetch(request, { fetchPolicy: 'network-only', errorPolicy: 'all' })
         .pipe(
           first(),
-          map((result: any) => result.data.commitments[0]),
+          map((result: any) => result.data.commitment),
           map(mapCommitmentDetail),
           concatMap(result => [
             new LoadDetailedCommitment(result),
-            new GetHandlingAdvices(null)
+            new GetHandlingAdvices()
           ]),
-          catchError(errorResp => [new GetDetailedCommitmentFailure(errorResp)])
+// tslint:disable-next-line: arrow-return-shorthand
+          catchError(errorResp => {
+            return [new GetDetailedCommitmentFailure({error: errorResp}),
+             new AppNotification({ message: `Fetching commitment error` }),
+             new ClearAppNotification()]})
         )
     )
+  )
+
+  @Effect()
+  getHandlingAdvices$ = this.actions$.pipe(
+    ofType(CommitmentDetailActionTypes.GetHandlingAdvices),
+    withLatestFrom(this.store$),
+    map(([a, s]) => {
+      const store = <any>s
+      const action = <any>a
+      const config: Config = store.app.config
+      const bookType = config.header.bookType
+      const webId = config.webId
+      const siteId = config.siteId
+      return {
+        book: bookType,
+        webId: [webId],
+        siteId: [siteId]
+      }
+    }),
+    switchMap(config =>
+      this.getHandlingAdvicesGQL.fetch(config, { fetchPolicy: 'network-only' }).pipe(
+        first(),
+        map(result => result.data.handlingAdvices),
+        concatMap(advices => [new LoadHandlingAdvices({ advices })])
+      )
+    ),
+    catchError(error => {
+      return of(new GetHandlingAdvicesFailure(error))
+    })
   )
 
   @Effect()

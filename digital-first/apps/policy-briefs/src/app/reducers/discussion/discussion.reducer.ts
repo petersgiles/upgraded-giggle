@@ -50,6 +50,8 @@ export function reducer(
         level: 'level'
       })
 
+      console.log(`🍺 discussionNodes`, action.payload, data, discussionNodes)
+      
       return {
         ...state,
         discussion: discussion

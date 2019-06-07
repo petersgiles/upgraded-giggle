@@ -8,7 +8,7 @@ export enum CommitmentDetailActionTypes {
   LoadCommitments = '[RefinerActionTypes] LoadRefinedCommitments',
   ClearCurrentDetailedCommitment = '[CommitmentDetail] ClearCurrentDetailedCommitment',
   GetDetailedCommitment = '[CommitmentDetail] GetDetailedCommitment',
-  GetDetailedCommitmentFailure = '[Overview] GetDetailedCommitmentFailure',
+  //GetDetailedCommitmentFailure = '[Overview] GetDetailedCommitmentFailure',
   LoadDetailedCommitment = '[CommitmentDetail] LoadDetailedCommitment',
   UpdatePMOHandlingAdvice = '[CommitmentDetail] UpdatePMOAdvice',
   UpdatePMOHandlingAdviceFailure = '[CommitmentDetail] UpdatePMOHandlingAdviceFailure',
@@ -18,7 +18,8 @@ export enum CommitmentDetailActionTypes {
   LoadHandlingAdvices = '[CommitmentDetail] LoadHandlingAdvices',
   GetHandlingAdvicesFailure = '[CommitmentDetail] GetHandlingAdvicesFailure',
   SetPMOHandlingAdviceResult = '[CommitmentDetail] SetPMOHandlingAdviceResult',
-  SetPMCHandlingAdviceResult = '[CommitmentDetail] SetPMCHandlingAdviceResult'
+  SetPMCHandlingAdviceResult = '[CommitmentDetail] SetPMCHandlingAdviceResult',
+  GetDetailedCommitmentFailure = '[CommitmentDetail] GetDetailedCommitmentFailure'
 }
 
 export class LoadCommitments implements Action {
@@ -53,7 +54,7 @@ export class ClearCurrentDetailedCommitment implements Action {
 
 export class GetHandlingAdvices implements Action {
   readonly type = CommitmentDetailActionTypes.GetHandlingAdvices
-  constructor(public payload: any) {}
+  // constructor(public payload: any) {}
 }
 
 export class LoadHandlingAdvices implements Action {
@@ -106,3 +107,4 @@ export type CommitmentDetailActions =
   | UpdatePMOHandlingAdviceFailure
   | UpdatePMCHandlingAdviceFailure
   | ClearCurrentDetailedCommitment
+  

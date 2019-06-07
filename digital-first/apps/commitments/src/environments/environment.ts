@@ -6,6 +6,7 @@ declare var require: any
 export const environment = {
   production: false,
   version: require('../../../../package.json').version,
+  commithash: require('../../../../package.json')['commit-hash'],
   datasource: {
     type: 'local',
     dataServiceUrl: '//localhost:3001/graphql',

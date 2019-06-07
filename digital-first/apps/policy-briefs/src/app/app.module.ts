@@ -1,69 +1,90 @@
 import { BrowserModule } from '@angular/platform-browser'
-import { NgModule, APP_INITIALIZER } from '@angular/core'
+import { NgModule, APP_INITIALIZER, ErrorHandler } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { AppComponent } from './app.component'
 import { NxModule } from '@nrwl/nx'
-
+import {
+  DialogAreYouSureComponent,
+  PanelModule,
+  ButtonModule,
+  PipesModule,
+  DocumentModule,
+  DiscussionModule
+} from '@df/components'
 import { WINDOW_PROVIDERS } from '@df/utils'
 import { DfLayoutsModule, TitleLayoutService } from '@digital-first/df-layouts'
+import { DfThemeModule } from '@digital-first/df-theme'
+import { DfPipesModule } from '@digital-first/df-pipes'
+import { DfComponentsModule } from '@digital-first/df-components'
+import { DfMomentModule, DateFormatPipe } from '@digital-first/df-moment'
+import { DfDiscussionModule } from '@digital-first/df-discussion'
+import { DfPagesModule } from '@digital-first/df-pages'
+import { DfDialogsModule } from '@digital-first/df-dialogs'
+import { DfSharepointLibModule, SharepointJsomService } from '@df/sharepoint'
 
 import { HomeComponent } from './pages/home/home.component'
 import { AppFullLayoutService } from './app-full-layout.service'
 import { AppRoutingModule } from './app-routing.module'
 import { DragDropModule } from '@angular/cdk/drag-drop'
 
+import { DfDatatableModule } from '@digital-first/df-datatable'
+import { DfButtonsModule } from '@digital-first/df-buttons'
+import { DfMapModule } from '@digital-first/df-map'
 
-import {
-  DocumentModule,
-  DiscussionModule,
-  ButtonModule,
-  PanelModule,
-  RefinerModule,
-  AvatarModule,
-  DialogAreYouSureComponent
-} from '@df/components'
+import { StoreModule, Store } from '@ngrx/store'
 
 import { EffectsModule } from '@ngrx/effects'
-import { StoreModule } from '@ngrx/store'
-import { NavigationEffects } from './reducers/navigation/navigation.effects'
-import { HttpClientModule, HttpClient } from '@angular/common/http'
-import { initApplication } from './app-init'
-import { PolicyBriefsDataService } from './services/policy-briefs-data.service'
-import { BriefComponent } from './pages/brief/brief.component'
-import { DfPagesModule } from '@digital-first/df-pages'
-import { DfPipesModule } from '@digital-first/df-pipes'
-import { DfThemeModule } from '@digital-first/df-theme';
 
-import { RouterStateSerializer } from '@ngrx/router-store'
-import { DfSharepointLibModule, SharepointJsomService } from '@df/sharepoint'
+import {
+  DfAppCoreModule,
+  CustomSerializer,
+  RouterEffects,
+  AppEffects,
+  initApplication,
+  AppReducer,
+  UserReducer,
+  AppSettingsService,
+  AppUserOperationsService,
+  AppErrorHandlerToSeqService,
+  UserEffects
+} from '@digital-first/df-app-core'
 
-import { metaReducers, reducers, CustomSerializer } from './reducers'
-import * as fromNavigation from './reducers/navigation/navigation.reducer'
-import * as fromUser from './reducers/user/user.reducer'
-import * as fromBrief from './reducers/brief/brief.reducer'
-import * as fromDiscussion from './reducers/discussion/discussion.reducer'
+import { metaReducers, reducers } from './reducers'
 import { environment } from '../environments/environment'
-
-import { DiscussionEffects } from './reducers/discussion/discussion.effects'
-import { BriefEffects } from './reducers/brief/brief.effects'
-import { AppEffects } from './reducers/app.effects'
+import { RouterStateSerializer } from '@ngrx/router-store'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
+import { HttpClientModule } from '@angular/common/http'
+import { configServiceProvider } from './services/config/config.service.factory'
+import { appDataServiceProvider } from './services/app-data/app-data.service.factory'
+// import { deckDataServiceProvider } from './reducers/deck/deck-data.service.factory'
+import { SettingsService } from './services/settings.service'
+import { UserProfileComponent } from './pages/user-profile/user-profile.component'
 
+import { DeckUserOperationsService } from './services/app-data/app-operations'
+
+import { BriefComponent } from './pages/brief/brief.component'
 import { BriefDocumentComponent } from './containers/brief-document/brief-document.component'
-import { RouterEffects } from './reducers/router.effects';
+import { NavigationEffects } from './reducers/navigation/navigation.effects'
+import { BriefEffects } from './reducers/brief/brief.effects'
+import { DiscussionEffects } from './reducers/discussion/discussion.effects'
 
+import * as fromNavigation from './reducers/navigation/navigation.reducer'
+import * as fromDiscussion from './reducers/discussion/discussion.reducer'
+import * as fromBrief from './reducers/brief/brief.reducer'
+import { briefDataServiceProvider } from './reducers/brief/brief-data.service.factory'
+import { navigationDataServiceProvider } from './reducers/navigation/navigation-data.service.factory'
+import { discussionDataServiceProvider } from './reducers/discussion/discussion-data.service.factory'
 
 const COMPONENTS = [
   AppComponent,
   HomeComponent,
   BriefComponent,
   BriefDocumentComponent,
-  DialogAreYouSureComponent
+  DialogAreYouSureComponent,
+  UserProfileComponent
 ]
 
-const ENTRYCOMPONENTS = [
-  DialogAreYouSureComponent
-]
+const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
 
 @NgModule({
   declarations: [...COMPONENTS],
@@ -74,48 +95,71 @@ const ENTRYCOMPONENTS = [
     HttpClientModule,
     ReactiveFormsModule,
     NxModule.forRoot(),
-
-    ButtonModule,
     PanelModule,
-
-    RefinerModule,
-    AvatarModule,
-    DiscussionModule,
+    ButtonModule,
     DocumentModule,
+    DiscussionModule,
+    PipesModule,
+    DfAppCoreModule,
+    DfComponentsModule,
+    DfDatatableModule,
+    DfButtonsModule,
+    DfMapModule,
+    DfMomentModule,
+    DfLayoutsModule,
+    DfThemeModule,
+    DfDiscussionModule,
+    DfPagesModule,
+    DfDialogsModule,
+    DfSharepointLibModule,
+    DfPipesModule,
     AppRoutingModule,
     DragDropModule,
 
-    DfSharepointLibModule,
-    DfLayoutsModule,
-    DfPagesModule,
-    DfPipesModule,
-    DfThemeModule,
     StoreModule.forRoot(reducers, {
       metaReducers: metaReducers
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
+
+    StoreModule.forFeature('app', AppReducer),
+    StoreModule.forFeature('user', UserReducer),
     StoreModule.forFeature('navigation', fromNavigation.reducer),
-    StoreModule.forFeature('user', fromUser.reducer),
     StoreModule.forFeature('discussion', fromDiscussion.reducer),
     StoreModule.forFeature('brief', fromBrief.reducer),
 
-    EffectsModule.forRoot([AppEffects, RouterEffects]),
+    EffectsModule.forRoot([RouterEffects]),
     EffectsModule.forFeature([
+      AppEffects,
+      UserEffects,
       NavigationEffects,
       BriefEffects,
       DiscussionEffects
     ])
   ],
   providers: [
+    {
+      provide: ErrorHandler,
+      useClass: AppErrorHandlerToSeqService
+    },
+    {
+      provide: AppUserOperationsService,
+      useClass: DeckUserOperationsService
+    },
+    { provide: AppSettingsService, useClass: SettingsService },
     WINDOW_PROVIDERS,
     {
       provide: APP_INITIALIZER,
       useFactory: initApplication,
-      deps: [],
+      deps: [Store],
       multi: true
     },
+    appDataServiceProvider,
+    configServiceProvider,
+    briefDataServiceProvider,
+    discussionDataServiceProvider,
+    navigationDataServiceProvider,
     SharepointJsomService,
-    PolicyBriefsDataService,
+    DateFormatPipe,
     { provide: TitleLayoutService, useClass: AppFullLayoutService },
     /**
      * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.

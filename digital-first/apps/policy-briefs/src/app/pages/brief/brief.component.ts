@@ -81,7 +81,7 @@ export class BriefComponent implements OnInit, OnDestroy {
     this.comments$ = this.store.pipe(
       select(fromDiscussion.selectDiscussionState),
       // tslint:disable-next-line: no-console
-      tap(result => console.log(`👹 `, result))
+      tap(result => console.log(`👹 comments `, result))
     )
 
     this.documentStatusList$ = new BehaviorSubject(statuslist)

@@ -16,6 +16,8 @@ import {
 } from './app.actions'
 
 import { AppConfigService } from '../../services/config/config.service'
+import { AppErrorHandlerToSeqService } from '../../services/app-error-seq.service'
+
 
 const applicationConfigErrorActions = [AppActionTypes.GetAppConfigurationError]
 type applicationConfigErrorTypes = GetAppConfigurationError
@@ -63,6 +65,6 @@ export class AppEffects {
   constructor(
     protected actions$: Actions,
     protected configService: AppConfigService,
-    private errorService: ErrorHandler
+    private errorService: ErrorHandler,
   ) {}
 }

@@ -38,14 +38,6 @@ export const mapLogLevel = logLevel => {
   return 'Information'
 }
 
-export const logSuppressedError = reason => {
-  // tslint:disable-next-line: no-console
-  if (typeof console !== 'undefined' && console.warn) {
-    // tslint:disable-next-line: no-console
-    console.warn('Suppressed error when logging to Seq: ' + reason)
-  }
-}
-
 export class SeqSink {
   url = null
   apiKey = null
@@ -102,9 +94,6 @@ export class SeqSink {
           .then(() => localStorage.removeItem(storageKey))
           .catch(
             reason => Promise.reject(reason)
-            // this.suppressErrors
-            //   ? logSuppressedError(reason)
-            //   : Promise.reject(reason)
           )
       }
     }
@@ -185,12 +174,8 @@ export class SeqSink {
           localStorage.removeItem(storageKey)
         }
       })
-
       .catch(
         reason => Promise.reject(reason)
-        // this.suppressErrors
-        //   ? logSuppressedError(reason)
-        //   : Promise.reject(reason)
       )
   }
 
