@@ -107,7 +107,7 @@
     "@df/graphql-programs": "^1.0.35152",
     "@df/sharepoint": "0.0.35159",
     "@df/utils": "0.0.35161",
-    "@dsuite/programs-manager-messages": "^1.0.35052",
+    "@dsuite/programs-manager-messages": "^1.0.35210",
     "@material/animation": "^1.0.0",
     "@material/base": "^1.0.0",
     "@material/button": "^2.3.0",
