@@ -1,15 +1,15 @@
-query getAgency ($id: String!) {
+query getAgency ($id: ID!) {
   agency(id: $id)
   {
     id
     title
     metadata
     rowVersion
-    
+
     portfolio {
         id
         title
     }
-    
+
   }
 }

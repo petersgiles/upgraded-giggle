@@ -1,4 +1,4 @@
-query getPortfolioDetail ($id: String!) {
+query getPortfolioDetail ($id: ID!) {
   portfolio(id: $id)
   {
        id

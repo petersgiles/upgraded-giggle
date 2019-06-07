@@ -1,4 +1,4 @@
-query group($groupId: String!) {
+query group($groupId: ID!) {
   group(id: $groupId) {
     id
     rowVersion

@@ -1,4 +1,4 @@
-query project ($id: String!) {
+query project ($id: ID!) {
   project(id: $id)
   {
     id
@@ -7,7 +7,7 @@ query project ($id: String!) {
     externalId
     status
     rowVersion
-  
+
      programSubmission
         {
           id

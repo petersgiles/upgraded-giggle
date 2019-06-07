@@ -1,4 +1,4 @@
-query report ($reportId: String!) {
+query report ($reportId: ID!) {
   report(id:$reportId)
   {
     id

@@ -1,4 +1,4 @@
-query role($roleId: String!) {
+query role($roleId: ID!) {
   role(id: $roleId) {
     id
     title
