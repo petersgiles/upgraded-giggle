@@ -1,7 +1,6 @@
 import { DeckActions, DeckActionTypes } from './deck.actions'
 import { createFeatureSelector, createSelector } from '@ngrx/store'
-import { DeckItem, CardType } from '@df/components'
-import { sortBy } from '@df/utils'
+import { DeckItem, CardType } from '../../components/deck';
 
 export interface State {
   deckItems: DeckItem[]
