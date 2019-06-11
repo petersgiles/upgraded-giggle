@@ -63,6 +63,7 @@ const setAdvice = advice => {
 }
 
 const mapCommitmentDetail = (item): any => {
+  if(item){
   const mapResult = {
     id: item.id,
     title: item.title,
@@ -86,6 +87,10 @@ const mapCommitmentDetail = (item): any => {
       : { value: ' ', label: ' ' }
   }
   return mapResult
+} else {
+    throw(new Error('id not valid'))
+}
+
 }
 
 @Injectable()
@@ -107,22 +112,20 @@ export class CommitmentDetailEffects {
     map(([a, s]) => {
       const store = <any>s
       const appConfig: Config = store.app.config
-      const bookType = appConfig.header.bookType
       const webId = appConfig.webId
       const siteId = appConfig.siteId
       return {
         id: a.payload.id,
-        book: bookType,
         webId: [webId],
         siteId: [siteId]
       }
     }),
     switchMap(request =>
       this.getCommitmentDetailGQL
-        .fetch(request, { fetchPolicy: 'network-only' })
+        .fetch(request, { fetchPolicy: 'network-only', errorPolicy: 'all' })
         .pipe(
           first(),
-          map((result: any) => result.data.commitments[0]),
+          map((result: any) => result.data.commitment),
           map(mapCommitmentDetail),
           concatMap(result => [
             new LoadDetailedCommitment(result),

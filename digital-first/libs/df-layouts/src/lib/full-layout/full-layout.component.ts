@@ -31,7 +31,7 @@ export class FullLayoutComponent implements OnInit, OnDestroy {
   notification$: Observable<string>
   open$: Observable<boolean>
 
-  @ViewChild('topAppBar') topAppBar: MdcTopAppBar
+  @ViewChild('topAppBar', { static: true }) topAppBar: MdcTopAppBar
 
   constructor(
     private router: Router,

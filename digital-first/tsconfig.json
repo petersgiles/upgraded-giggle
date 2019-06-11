@@ -15,7 +15,7 @@
     "baseUrl": ".",
     "paths": {
       "bryntum-scheduler": [
-        "apps/commitments-reader/src/scheduler/scheduler.module.js"
+        "apps/commitments-reader/src/scheduler/scheduler.module.js",
       ],
       "@digital-first/df-layouts": ["libs/df-layouts/src/index.ts"],
       "@digital-first/df-theme": ["libs/df-theme/src/index.ts"],
@@ -35,7 +35,9 @@
       "@digital-first/df-buttons": ["libs/df-buttons/src/index.ts"],
       "@digital-first/df-map": ["libs/df-map/src/index.ts"],
       "@digital-first/df-refiner": ["libs/df-refiner/src/index.ts"],
-      "@digital-first/df-app-core": ["libs/df-app-core/src/index.ts"]
+      "@digital-first/df-app-core": ["libs/df-app-core/src/index.ts"],
+      "core-js/es7/reflect": ["node_modules/core-js/proposals/reflect-metadata"],
+      "core-js/es6/*": ["node_modules/core-js/es/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]

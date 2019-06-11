@@ -38,7 +38,7 @@ export class PermissionComponent implements OnInit {
 
   @Output() onAddGroup: EventEmitter<any> = new EventEmitter()
 
-  @ViewChild('permissionsTemplate') permissionsTemplate: TemplateRef<any>
+  @ViewChild('permissionsTemplate',{static:true }) permissionsTemplate: TemplateRef<any>
 
   emptyTableMessage: { emptyMessage: string; totalMessage: string }
 

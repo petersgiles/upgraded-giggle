@@ -57,7 +57,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
   @Output()
   public onPageIndexChange: EventEmitter<any> = new EventEmitter()
 
-  @ViewChild(SchedulerComponent) scheduler: SchedulerComponent
+  @ViewChild(SchedulerComponent, { static: true }) scheduler: SchedulerComponent
 
   featureConfig: Object
   listeners: Object

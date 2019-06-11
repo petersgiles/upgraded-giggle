@@ -28,12 +28,12 @@ export class OverviewLayoutComponent implements OnInit {
     private service: CommitmentDataService,
     private excelService: ExcelService,
     private refinerAction: RefinerActionService,
-    private lookup: CommitmentLookupService,
+    private lookup: CommitmentLookupService
   ) {}
 
   ngOnInit() {
     this.userOperation$ = this.service.UserOperation
-    
+
     this.lookup.getAllWhoAnnouncedTypes()
     this.lookup.getAllAnnouncementTypes()
     this.lookup.getAllCommitmentTypes()
@@ -76,20 +76,30 @@ export class OverviewLayoutComponent implements OnInit {
       Cost: fc.cost ? fc.cost : '',
       Location: fc.location ? fc.location.title : '',
       Date: fc.date ? `${formatDate(fc.date, 'medium', 'en-AU')}` : '',
-      'Announced by': fc.announcedBy ? fc.announcedBy: '',
+      'Announced by': fc.announcedBy ? fc.announcedBy : '',
       'Responsible Portfolio': fc.portfolio ? fc.portfolio.title : '',
-      'Type of Announcement': fc.announcementType ? fc.announcementType.title : '',
-      'Type of Who Announced': fc.whoAnnouncedType ? fc.whoAnnouncedType.title : '',
+      'Type of Announcement': fc.announcementType
+        ? fc.announcementType.title
+        : '',
+      'Type of Who Announced': fc.whoAnnouncedType
+        ? fc.whoAnnouncedType.title
+        : '',
       'Type of Commitment': fc.commitmentType ? fc.commitmentType.title : '',
       'Critical Date': fc.criticalDate ? fc.criticalDate.title : '',
-       Packages: fc.packages && fc.packages ? fc.packages.join() : '',
+      Packages: fc.packages && fc.packages ? fc.packages.join() : '',
       'Costing Required': fc.costingRequired ? fc.costingRequired : '',
-       Status: fc.status ? fc.status.title: '',
-      'Related Portfolios': fc.portfolios &&  fc.portfolios.length ? fc.portfolios.join() : '',
-      'Related Electorates': fc.electorates &&  fc.electorates.length ? fc.electorates.join() : '',
-       Contacts: fc.contacts &&  fc.contacts.length ? fc.contacts.join() : '',
-       'Related Map Points': fc.mapPoints &&  fc.mapPoints.length ? fc.mapPoints.join() : '',
-       'Related Commitments': fc.relatedCommitments &&  fc.relatedCommitments.length ? fc.relatedCommitments.join() : ''      
+      Status: fc.status ? fc.status.title : '',
+      'Related Portfolios':
+        fc.portfolios && fc.portfolios.length ? fc.portfolios.join() : '',
+      'Related Electorates':
+        fc.electorates && fc.electorates.length ? fc.electorates.join() : '',
+      Contacts: fc.contacts && fc.contacts.length ? fc.contacts.join() : '',
+      'Related Map Points':
+        fc.mapPoints && fc.mapPoints.length ? fc.mapPoints.join() : '',
+      'Related Commitments':
+        fc.relatedCommitments && fc.relatedCommitments.length
+          ? fc.relatedCommitments.join()
+          : ''
     }))
 
     this.excelService.exportAsExcelFile(exportCommitments, 'commitments')
@@ -114,5 +124,8 @@ export class OverviewLayoutComponent implements OnInit {
   handleSearchCriteriaChanged(text) {
     this.service.setTextRefiner(text)
   }
-
+  
+  getRight(operations: any) {
+    return operations[OPERATION_LOCATION]
+  }
 }

@@ -1121,6 +1121,7 @@ export type Query = {
   programSubmission?: Maybe<ProgramSubmissionGraph>
   programSubmissions?: Maybe<Array<Maybe<ProgramSubmissionGraph>>>
   announcementTypes?: Maybe<Array<Maybe<AnnouncementTypeGraph>>>
+  commitment?: Maybe<CommitmentGraph>
   commitments?: Maybe<Array<Maybe<CommitmentGraph>>>
   commitmentLocations?: Maybe<Array<Maybe<CommitmentLocationGraph>>>
   locations?: Maybe<Array<Maybe<LocationGraph>>>
@@ -1331,6 +1332,15 @@ export type QueryProgramSubmissionsArgs = {
 }
 
 export type QueryAnnouncementTypesArgs = {
+  id?: Maybe<Scalars['ID']>
+  ids?: Maybe<Array<Maybe<Scalars['ID']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+}
+
+export type QueryCommitmentArgs = {
   id?: Maybe<Scalars['ID']>
   ids?: Maybe<Array<Maybe<Scalars['ID']>>>
   orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
@@ -1865,151 +1875,146 @@ export type ApplyCommitmentDisplayOrderMutation = {
 
 export type GetCommitmentDetailQueryVariables = {
   id: Scalars['ID']
-  book: BookType
   webId?: Maybe<Array<Maybe<Scalars['String']>>>
   siteId?: Maybe<Array<Maybe<Scalars['String']>>>
 }
 
 export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
-  commitments: Maybe<
-    Array<
-      Maybe<
-        { __typename?: 'CommitmentGraph' } & Pick<
-          CommitmentGraph,
-          | 'id'
-          | 'title'
-          | 'description'
-          | 'cost'
-          | 'date'
-          | 'politicalParty'
-          | 'statusId'
-          | 'announcedBy'
-        > & { bookType: CommitmentGraph['book'] } & {
-            pmcHandlingAdviceCommitments: Maybe<
-              Array<
-                Maybe<
-                  { __typename?: 'PmcHandlingAdviceCommitmentGraph' } & Pick<
-                    PmcHandlingAdviceCommitmentGraph,
-                    'webId' | 'siteId'
-                  > & {
-                      handlingAdvice: Maybe<
-                        { __typename?: 'HandlingAdviceGraph' } & {
-                          value: HandlingAdviceGraph['id']
-                          label: HandlingAdviceGraph['title']
-                        }
-                      >
+  commitment: Maybe<
+    { __typename?: 'CommitmentGraph' } & Pick<
+      CommitmentGraph,
+      | 'id'
+      | 'title'
+      | 'description'
+      | 'cost'
+      | 'date'
+      | 'politicalParty'
+      | 'statusId'
+      | 'announcedBy'
+    > & { bookType: CommitmentGraph['book'] } & {
+        pmcHandlingAdviceCommitments: Maybe<
+          Array<
+            Maybe<
+              { __typename?: 'PmcHandlingAdviceCommitmentGraph' } & Pick<
+                PmcHandlingAdviceCommitmentGraph,
+                'webId' | 'siteId'
+              > & {
+                  handlingAdvice: Maybe<
+                    { __typename?: 'HandlingAdviceGraph' } & {
+                      value: HandlingAdviceGraph['id']
+                      label: HandlingAdviceGraph['title']
                     }
-                >
-              >
-            >
-            pmoHandlingAdviceCommitments: Maybe<
-              Array<
-                Maybe<
-                  { __typename?: 'PmoHandlingAdviceCommitmentGraph' } & Pick<
-                    PmoHandlingAdviceCommitmentGraph,
-                    'webId' | 'siteId'
-                  > & {
-                      handlingAdvice: Maybe<
-                        { __typename?: 'HandlingAdviceGraph' } & {
-                          value: HandlingAdviceGraph['id']
-                          label: HandlingAdviceGraph['title']
-                        }
-                      >
-                    }
-                >
-              >
-            >
-            commitmentType: Maybe<
-              { __typename?: 'CommitmentTypeGraph' } & Pick<
-                CommitmentTypeGraph,
-                'id' | 'title'
-              >
-            >
-            announcementType: Maybe<
-              { __typename?: 'AnnouncementTypeGraph' } & Pick<
-                AnnouncementTypeGraph,
-                'id' | 'title'
-              >
-            >
-            portfolioLookup: Maybe<
-              { __typename?: 'PortfolioLookupGraph' } & Pick<
-                PortfolioLookupGraph,
-                'id' | 'title'
-              >
-            >
-            status: Maybe<
-              { __typename?: 'StatusGraph' } & Pick<StatusGraph, 'id' | 'title'>
-            >
-            criticalDate: Maybe<
-              { __typename?: 'CriticalDateGraph' } & Pick<
-                CriticalDateGraph,
-                'id' | 'title'
-              >
-            >
-            relatedLinks: Maybe<
-              Array<
-                Maybe<
-                  { __typename?: 'RelatedLinkGraph' } & Pick<
-                    RelatedLinkGraph,
-                    'id' | 'url' | 'title'
                   >
-                >
-              >
+                }
             >
-            commitmentLocations: Maybe<
-              Array<
-                Maybe<
-                  { __typename?: 'CommitmentLocationGraph' } & Pick<
-                    CommitmentLocationGraph,
-                    'commitmentId'
-                  > & {
-                      location: Maybe<
-                        { __typename?: 'LocationGraph' } & Pick<
-                          LocationGraph,
-                          'id' | 'title'
-                        >
-                      >
+          >
+        >
+        pmoHandlingAdviceCommitments: Maybe<
+          Array<
+            Maybe<
+              { __typename?: 'PmoHandlingAdviceCommitmentGraph' } & Pick<
+                PmoHandlingAdviceCommitmentGraph,
+                'webId' | 'siteId'
+              > & {
+                  handlingAdvice: Maybe<
+                    { __typename?: 'HandlingAdviceGraph' } & {
+                      value: HandlingAdviceGraph['id']
+                      label: HandlingAdviceGraph['title']
                     }
-                >
+                  >
+                }
+            >
+          >
+        >
+        commitmentType: Maybe<
+          { __typename?: 'CommitmentTypeGraph' } & Pick<
+            CommitmentTypeGraph,
+            'id' | 'title'
+          >
+        >
+        announcementType: Maybe<
+          { __typename?: 'AnnouncementTypeGraph' } & Pick<
+            AnnouncementTypeGraph,
+            'id' | 'title'
+          >
+        >
+        portfolioLookup: Maybe<
+          { __typename?: 'PortfolioLookupGraph' } & Pick<
+            PortfolioLookupGraph,
+            'id' | 'title'
+          >
+        >
+        status: Maybe<
+          { __typename?: 'StatusGraph' } & Pick<StatusGraph, 'id' | 'title'>
+        >
+        criticalDate: Maybe<
+          { __typename?: 'CriticalDateGraph' } & Pick<
+            CriticalDateGraph,
+            'id' | 'title'
+          >
+        >
+        relatedLinks: Maybe<
+          Array<
+            Maybe<
+              { __typename?: 'RelatedLinkGraph' } & Pick<
+                RelatedLinkGraph,
+                'id' | 'url' | 'title'
               >
             >
-            commitmentPackageTypes: Maybe<
-              Array<
-                Maybe<
-                  { __typename?: 'CommitmentPackageTypeGraph' } & Pick<
-                    CommitmentPackageTypeGraph,
-                    'id'
-                  > & {
-                      packageType: Maybe<
-                        { __typename?: 'PackageTypeGraph' } & Pick<
-                          PackageTypeGraph,
-                          'id' | 'title'
-                        >
-                      >
-                    }
-                >
-              >
+          >
+        >
+        commitmentLocations: Maybe<
+          Array<
+            Maybe<
+              { __typename?: 'CommitmentLocationGraph' } & Pick<
+                CommitmentLocationGraph,
+                'commitmentId'
+              > & {
+                  location: Maybe<
+                    { __typename?: 'LocationGraph' } & Pick<
+                      LocationGraph,
+                      'id' | 'title'
+                    >
+                  >
+                }
             >
-            commitmentPortfolioLookups: Maybe<
-              Array<
-                Maybe<
-                  { __typename?: 'CommitmentPortfolioLookupGraph' } & Pick<
-                    CommitmentPortfolioLookupGraph,
-                    'commitmentId'
-                  > & {
-                      portfolioLookup: Maybe<
-                        { __typename?: 'PortfolioLookupGraph' } & Pick<
-                          PortfolioLookupGraph,
-                          'id' | 'title'
-                        >
-                      >
-                    }
-                >
-              >
+          >
+        >
+        commitmentPackageTypes: Maybe<
+          Array<
+            Maybe<
+              { __typename?: 'CommitmentPackageTypeGraph' } & Pick<
+                CommitmentPackageTypeGraph,
+                'id'
+              > & {
+                  packageType: Maybe<
+                    { __typename?: 'PackageTypeGraph' } & Pick<
+                      PackageTypeGraph,
+                      'id' | 'title'
+                    >
+                  >
+                }
             >
-          }
-      >
-    >
+          >
+        >
+        commitmentPortfolioLookups: Maybe<
+          Array<
+            Maybe<
+              { __typename?: 'CommitmentPortfolioLookupGraph' } & Pick<
+                CommitmentPortfolioLookupGraph,
+                'commitmentId'
+              > & {
+                  portfolioLookup: Maybe<
+                    { __typename?: 'PortfolioLookupGraph' } & Pick<
+                      PortfolioLookupGraph,
+                      'id' | 'title'
+                    >
+                  >
+                }
+            >
+          >
+        >
+      }
   >
 }
 
@@ -2250,13 +2255,8 @@ export class ApplyCommitmentDisplayOrderGQL extends Apollo.Mutation<
   document = ApplyCommitmentDisplayOrderDocument
 }
 export const GetCommitmentDetailDocument = gql`
-  query getCommitmentDetail(
-    $id: ID!
-    $book: BookType!
-    $webId: [String]
-    $siteId: [String]
-  ) {
-    commitments(id: $id, book: $book) {
+  query getCommitmentDetail($id: ID!, $webId: [String], $siteId: [String]) {
+    commitment(id: $id) {
       id
       title
       description

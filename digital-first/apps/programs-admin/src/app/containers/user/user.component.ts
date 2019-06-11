@@ -43,7 +43,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
   apiKeysColumns = []
 
-  @ViewChild('disableTemplate') disableTemplate: TemplateRef<any>
+  @ViewChild('disableTemplate', { static: true }) disableTemplate: TemplateRef<any>
 
   constructor(
     private route: ActivatedRoute,

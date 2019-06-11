@@ -20,7 +20,7 @@ export class ProjectuploadComponent implements OnInit, OnDestroy {
 
   programsSubscription$: Subscription
 
-  @ViewChild('inputElement')
+  @ViewChild('inputElement', { static: true })
   inputElement: ElementRef
 
   projectForm = this.formBuilder.group({
