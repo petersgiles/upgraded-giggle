@@ -1,4 +1,4 @@
-query statisticReportDetail ($reportId: String!) {
+query statisticReportDetail ($reportId: ID!) {
   statisticReport(id:$reportId)
   {
     id
@@ -23,7 +23,7 @@ query statisticReportDetail ($reportId: String!) {
       id
       dataDate
       notes
-    } 
-   
+    }
+
   }
 }

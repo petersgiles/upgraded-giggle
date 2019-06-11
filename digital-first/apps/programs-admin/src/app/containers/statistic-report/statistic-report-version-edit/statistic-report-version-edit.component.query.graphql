@@ -1,4 +1,4 @@
-query statisticReportVersionEdit ($id: String!) {
+query statisticReportVersionEdit ($id: ID!) {
   statisticReportVersion(id:$id)
   {
       id
