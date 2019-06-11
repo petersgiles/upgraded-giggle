@@ -863,7 +863,7 @@
           }
         },
         "test": {
-          "builder": "@nrwl/builders:jest",
+          "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "apps/programs-admin/jest.config.js",
             "tsConfig": "apps/programs-admin/tsconfig.spec.json",
