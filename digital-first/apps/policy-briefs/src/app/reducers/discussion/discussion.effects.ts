@@ -1,8 +1,15 @@
 import { Injectable } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 
-import { concatMap, map, catchError, switchMap, tap } from 'rxjs/operators'
-import { EMPTY, of, forkJoin, Observable } from 'rxjs'
+import {
+  concatMap,
+  map,
+  catchError,
+  switchMap,
+  tap,
+  withLatestFrom
+} from 'rxjs/operators'
+import { of, Observable } from 'rxjs'
 import {
   DiscussionActionTypes,
   DiscussionActions,
@@ -14,9 +21,9 @@ import {
 } from './discussion.actions'
 import { idFromLookup, fromUser, SharepointJsomService } from '@df/sharepoint'
 import { pickColor } from '../../utils/colour'
-import { byBriefIdQuery } from '../../services/sharepoint/caml'
 import { DiscussionDataService } from './discussion-data.service'
-import { mapDiscussions } from './maps';
+import { Store } from '@ngrx/store'
+import * as fromDiscussion from './discussion.reducer'
 
 export const mapComment = (item): any => {
   const brief = idFromLookup(item.Brief)
@@ -77,8 +84,8 @@ export class DiscussionEffects {
   @Effect()
   loadDiscussions$ = this.actions$.pipe(
     ofType(DiscussionActionTypes.GetDiscussion),
-    map((action: GetDiscussion) => action),
-    concatMap(action =>
+    withLatestFrom(this.store$),
+    concatMap(([action, store]) =>
       this.service.getDiscussions({ id: action.payload.activeBriefId })
     ),
     // tslint:disable-next-line: no-console
@@ -125,6 +132,7 @@ export class DiscussionEffects {
   constructor(
     private actions$: Actions<DiscussionActions>,
     private service: DiscussionDataService,
+    private store$: Store<fromDiscussion.State>,
     private sharepoint: SharepointJsomService
   ) {}
 }

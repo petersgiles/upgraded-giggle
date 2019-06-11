@@ -1,6 +1,8 @@
 import { Action } from '@ngrx/store'
+import { DiscussionType } from './discussion-type';
 
 export enum DiscussionActionTypes {
+  SetActiveDiscussion = '[Discussion] Get SetActiveDiscussion',
   GetDiscussion = '[Discussion] Get Discussion',
   GetDiscussionFailure = '[Navigation] Get Discussion Failure',
   LoadDiscussions = '[Discussion] Load Discussions',
@@ -39,6 +41,11 @@ export class RemoveComment implements Action {
   constructor(public payload: { id: string, brief: string}) {}
 }
 
+export class SetActiveDiscussion implements Action {
+  readonly type = DiscussionActionTypes.SetActiveDiscussion
+  constructor(public payload: DiscussionType) {}
+}
+
 export type DiscussionActions =
   | LoadDiscussions
   | GetDiscussion
@@ -46,3 +53,4 @@ export type DiscussionActions =
   | AddComment
   | ReplyToComment
   | RemoveComment
+  | SetActiveDiscussion
