@@ -72,9 +72,8 @@ describe('SeqService', () => {
 
     const seqEvent = createSeqErrorEvent(error)
 
-    expect(seqEvent.Exception).toEqual(error.stack)
-    expect(seqEvent.Properties['message']).toEqual(error.message)
-    expect(seqEvent.Level).toEqual('Error')
+    expect(seqEvent['@x']).toEqual(error.stack)
+    expect(seqEvent['@l']).toEqual('Error')
   })
 
   it('should create SEQ raw event for http error response', () => {
@@ -82,10 +81,7 @@ describe('SeqService', () => {
 
     const seqEvent = createSeqErrorEvent(error)
 
-    expect(seqEvent.Properties['message']).toEqual(
-      graphQlError.errors[0].message
-    )
-    expect(seqEvent.Level).toEqual('Error')
+    expect(seqEvent['@l']).toEqual('Error')
   })
 
   it('should format multiple  errors graphql http error response', () => {
