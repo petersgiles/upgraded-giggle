@@ -125,7 +125,7 @@ export class OverviewLayoutComponent implements OnInit {
     this.service.setTextRefiner(text)
   }
   
-  getRight(operations: any) {
-    return operations[OPERATION_LOCATION]
-  }
+  // getRight(operations: any) {
+  //   return operations[OPERATION_LOCATION]
+  // }
 }

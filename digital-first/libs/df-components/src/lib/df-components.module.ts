@@ -11,7 +11,6 @@ import { RelatedArtifactsComponent } from './related-artifacts/related-artifacts
 
 import { BusyComponent } from './busy.component'
 import { ElectorateSelectorComponent } from './electorate-selector/electorate-selector.component'
-import { AvatarComponent } from './avatar/avatar.component'
 import { InfoComponent } from './info/info.component'
 
 const COMPONENTS = [
@@ -20,7 +19,6 @@ const COMPONENTS = [
   RelatedArtifactsComponent,
   BusyComponent,
   ElectorateSelectorComponent,
-  AvatarComponent,
   InfoComponent,
 ]
 @NgModule({

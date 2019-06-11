@@ -1,9 +1,9 @@
-declare var require: any
+import * as packageJson from '../../../../package.json'
 
 export const environment = {
   production: true,
-  version: require('../../../../package.json').version,
-  commithash: require('../../../../package.json')['commit-hash'],
+  version: packageJson.version,
+  commitHash: packageJson['commit-hash'],
   datasource: {
     type: 'sharepoint',
     dataServiceUrl: '',

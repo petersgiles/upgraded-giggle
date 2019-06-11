@@ -538,32 +538,6 @@
         }
       }
     },
-    "df-discussion": {
-      "root": "libs/df-discussion",
-      "sourceRoot": "libs/df-discussion/src",
-      "projectType": "library",
-      "prefix": "digital-first",
-      "architect": {
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "libs/df-discussion/src/test.ts",
-            "tsConfig": "libs/df-discussion/tsconfig.spec.json",
-            "karmaConfig": "libs/df-discussion/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/df-discussion/tsconfig.lib.json",
-              "libs/df-discussion/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      }
-    },
     "df-moment": {
       "root": "libs/df-moment",
       "sourceRoot": "libs/df-moment/src",
@@ -719,32 +693,6 @@
             "tsConfig": [
               "libs/df-components/tsconfig.lib.json",
               "libs/df-components/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      }
-    },
-    "df-logging": {
-      "root": "libs/df-logging",
-      "sourceRoot": "libs/df-logging/src",
-      "projectType": "library",
-      "prefix": "digital-first",
-      "architect": {
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "libs/df-logging/src/test.ts",
-            "tsConfig": "libs/df-logging/tsconfig.spec.json",
-            "karmaConfig": "libs/df-logging/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/df-logging/tsconfig.lib.json",
-              "libs/df-logging/tsconfig.spec.json"
             ],
             "exclude": ["**/node_modules/**"]
           }

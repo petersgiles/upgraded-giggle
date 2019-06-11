@@ -13,14 +13,10 @@ import { MarkdownModule, MarkedOptions } from 'ngx-markdown'
 
 import {
   DfLayoutsModule,
-  FullLayoutService,
   TitleLayoutService
 } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
-import {
-  DfDiscussionModule,
-  DiscussionComponent
-} from '@digital-first/df-discussion'
+
 import { DfPagesModule } from '@digital-first/df-pages'
 import {
   DfDialogsModule,
@@ -136,7 +132,8 @@ import {
   DataTableModule,
   DocumentModule,
   PanelModule,
-  MegaTaggerModule
+  MegaTaggerModule,
+  DiscussionModule
 } from '@df/components'
 import { OverviewLayoutComponent } from './layouts/overview-layout/overview-layout.component'
 
@@ -178,7 +175,6 @@ const ENTRYCOMPONENTS = [
   DialogAddContactComponent,
   DialogAddCommitmentComponent,
   DialogAddLinkComponent,
-  DiscussionComponent,
   ContactCardComponent,
   PageTitleComponent,
   RelatedArtifactsComponent,
@@ -264,11 +260,12 @@ export let appDataServiceProvider = {
     }),
     NxModule.forRoot(),
     DocumentModule,
-    DfComponentsModule,
     DataTableModule,
     PanelModule,
     MegaTaggerModule,
     AvatarModule,
+    DiscussionModule,
+    DfComponentsModule,
     DfDatatableModule,
     DfButtonsModule,
     DfRefinerModule,
@@ -276,7 +273,6 @@ export let appDataServiceProvider = {
     DfMomentModule,
     DfLayoutsModule,
     DfThemeModule,
-    DfDiscussionModule,
     DfPagesModule,
     DfDialogsModule,
     DfSharepointLibModule,

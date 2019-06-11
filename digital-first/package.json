@@ -103,7 +103,7 @@
     "@angular/platform-browser-dynamic": "^8.0.0",
     "@angular/router": "^8.0.0",
     "@auth0/angular-jwt": "^2.1.0",
-    "@df/components": "^0.2.35209",
+    "@df/components": "^0.2.35341",
     "@df/graphql-programs": "^1.0.35152",
     "@df/sharepoint": "0.0.35159",
     "@df/utils": "0.0.35161",
