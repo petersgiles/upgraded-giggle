@@ -1,7 +1,7 @@
 <div class="app-page">
   <section>
     <digital-first-page-title title="Create commitment"></digital-first-page-title>
-    <digital-first-commitment-edit-form [parties]="parties$ | async" showSubmit="true" [commitment]="commitment"
+    <digital-first-commitment-edit-form [parties]="parties$ | async" showSubmit="true" [commitment]="commitment$ | async"
       [parties]="parties$ | async" [criticalDates]="criticalDates$ | async" [announcementTypes]="announcementTypes$ | async"
       [whoAnnouncedTypes]="whoAnnouncedTypes$ | async" [commitmentTypes]="commitmentTypes$ | async" [portfolios]="portfolios$ | async"
       [locations]="locations$ | async" submitButtonText="Next" (onSubmitted)="handleUpdateCommitment($event)"

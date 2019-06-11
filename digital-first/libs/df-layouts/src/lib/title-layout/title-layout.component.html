@@ -20,7 +20,7 @@
       <span>{{ protectiveMarking$ | async | uppercase }}</span>
     </mdc-top-app-bar-section>
     <mdc-top-app-bar-section align="end">
-      <digital-first-avatar *ngIf="profile"
+      <df-avatar *ngIf="profile"
         [name]="profile?.name"
         [email]="profile?.email"
         [displayType]="profile?.displayType"
@@ -28,7 +28,7 @@
         [background]="profile?.background"
         (click)="handleAvatarClicked($event)"
       >
-      </digital-first-avatar>
+      </df-avatar>
 
       <mdc-icon
         *ngIf="(sidebarItems$ | async)?.length > 0"

@@ -8,13 +8,19 @@ import { FullLayoutService } from './full-layout/full-layout.service'
 import { DfComponentsModule } from '@digital-first/df-components'
 import { TitleLayoutComponent } from './title-layout/title-layout.component'
 import { TitleLayoutService } from './title-layout/title-layout.service'
+import { AvatarModule } from '@df/components'
 
-const COMPONENTS = [SimpleLayoutComponent, TitleLayoutComponent, FullLayoutComponent]
+const COMPONENTS = [
+  SimpleLayoutComponent,
+  TitleLayoutComponent,
+  FullLayoutComponent
+]
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
+    AvatarModule,
     DfThemeModule,
     DfComponentsModule
   ],
@@ -22,4 +28,4 @@ const COMPONENTS = [SimpleLayoutComponent, TitleLayoutComponent, FullLayoutCompo
   exports: [...COMPONENTS],
   providers: [TitleLayoutService, FullLayoutService]
 })
-export class DfLayoutsModule { }
+export class DfLayoutsModule {}

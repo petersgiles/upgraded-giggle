@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core'
 import { CommitmentOverviewMapService } from '../../reducers/commitment-overview-map/commitment-overview-map.service'
 import { Observable } from 'rxjs'
@@ -6,6 +5,7 @@ import { MapPoint } from '@digital-first/df-map'
 import { Router } from '@angular/router'
 import { DataTableConfig } from '@digital-first/df-datatable'
 import { SettingsService } from '../../services/settings.service'
+import { OPERATION_LOCATION } from '../../services/app-data.service'
 
 @Component({
   selector: 'digital-first-commitment-overview-map',
@@ -20,6 +20,8 @@ export class CommitmentOverviewMapComponent implements OnInit {
   mapPoints$: Observable<MapPoint[]>
   commitments$: Observable<DataTableConfig>
   columns: { prop: string; name: string }[]
+
+  count: number // TODO: give this a value
 
   constructor(
     private router: Router,
@@ -58,5 +60,9 @@ export class CommitmentOverviewMapComponent implements OnInit {
 
   getIcon(mapPoint) {
     return `${this.settings.assetsPath}/${mapPoint.iconUrl || 'beachflag.png'}`
+  }
+
+  getRight(operations: any) {
+    return operations[OPERATION_LOCATION]
   }
 }

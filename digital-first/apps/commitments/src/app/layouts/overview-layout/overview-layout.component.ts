@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { MdcSnackbar, MdcDialog } from '@angular-mdc/web'
+import { MdcDialog } from '@angular-mdc/web'
 import { Router } from '@angular/router'
 import { CommitmentDataService } from '../../services/commitment-data.service'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
@@ -7,7 +7,7 @@ import { ExcelService } from '../../services/excel.service'
 import { BehaviorSubject } from 'rxjs'
 import { RefinerActionService } from '@digital-first/df-refiner'
 import { formatDate } from '@angular/common'
-import { OPERATION_LOCATION } from '../../services/app-data.service'
+import { OPERATION_COMMITMENT } from '../../services/app-data.service'
 import { Observable } from 'rxjs'
 
 @Component({
@@ -125,7 +125,7 @@ export class OverviewLayoutComponent implements OnInit {
     this.service.setTextRefiner(text)
   }
   
-  // getRight(operations: any) {
-  //   return operations[OPERATION_LOCATION]
-  // }
+  getRight(operations: any) {
+    return operations[OPERATION_COMMITMENT]
+  }
 }
