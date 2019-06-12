@@ -3,11 +3,12 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { environment } from '../../environments/environment'
 
 interface MappedEvent {
-  Level: string
-  MessageTemplate: string
-  Properties: { clientVersion: string }
-  Timestamp: string
-  Exception: string
+  "@l": string
+  "@mt": string
+  "ClientVersion":  string
+  "ClientApplication": string
+  "@t": string
+  "@x": string
 }
 
 export function formatErrorMessage(errorToFormat: HttpErrorResponse): string {
@@ -25,32 +26,24 @@ export function createSeqErrorEvent(
   error: Error | HttpErrorResponse
 ): MappedEvent {
   const mappedEvent: MappedEvent = {
-    Level: 'Error',
-    MessageTemplate: 'Programs admin client application error: {message}.',
-    Properties: {
-      clientVersion: `${environment.version} (#${environment.commitHash})`
-    },
-    Timestamp: new Date().toISOString(),
-    Exception: ''
+    "@t": new Date().toISOString(),
+    "@l": 'Error',
+    "@mt": 'Programs admin client application error. {message}.',
+    ClientVersion: `${environment.version} (#${environment.commitHash})`,
+    "ClientApplication": 'ProgramsAdmin',
+    "@x": ''
   }
 
   if (error instanceof HttpErrorResponse) {
-    const props = {
-      ...mappedEvent.Properties,
-      message: formatErrorMessage(error)
-    }
-    mappedEvent.Properties = props
+    mappedEvent['@x'] = formatErrorMessage(error)
   }
 
   if (error instanceof Error && error.stack) {
-    mappedEvent.Exception = error.stack
-
-    const props = {
-      ...mappedEvent.Properties,
-      message: error.message
-    }
-    mappedEvent.Properties = props
+    mappedEvent['@x'] = error.stack
   }
+
+  mappedEvent['message'] = error.message
+
   return mappedEvent
 }
 
@@ -65,7 +58,7 @@ export class SeqService {
 
     return this.httpClient.post(
       `${environment.datasource.adminApiUrl}/events/raw`,
-      JSON.stringify({ Events: [event] })
+       event
     )
   }
 }
