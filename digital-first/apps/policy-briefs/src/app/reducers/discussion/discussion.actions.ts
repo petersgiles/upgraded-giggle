@@ -1,8 +1,9 @@
 import { Action } from '@ngrx/store'
-import { DiscussionType } from './discussion-type';
+import { DiscussionType } from '../../models';
+
 
 export enum DiscussionActionTypes {
-  SetActiveDiscussion = '[Discussion] Get SetActiveDiscussion',
+  SetActiveDiscussionChannel = '[Discussion] Get SetActiveDiscussionChannel',
   GetDiscussion = '[Discussion] Get Discussion',
   GetDiscussionFailure = '[Navigation] Get Discussion Failure',
   LoadDiscussions = '[Discussion] Load Discussions',
@@ -18,7 +19,7 @@ export class LoadDiscussions implements Action {
 
 export class GetDiscussion implements Action {
   readonly type = DiscussionActionTypes.GetDiscussion
-  constructor(public payload: { activeBriefId: string }) {}
+  constructor(public payload: { activeBriefId: string, channel?: DiscussionType }) {}
 }
 
 export class GetDiscussionFailure implements Action {
@@ -41,8 +42,8 @@ export class RemoveComment implements Action {
   constructor(public payload: { id: string, brief: string}) {}
 }
 
-export class SetActiveDiscussion implements Action {
-  readonly type = DiscussionActionTypes.SetActiveDiscussion
+export class SetActiveDiscussionChannel implements Action {
+  readonly type = DiscussionActionTypes.SetActiveDiscussionChannel
   constructor(public payload: DiscussionType) {}
 }
 
@@ -53,4 +54,4 @@ export type DiscussionActions =
   | AddComment
   | ReplyToComment
   | RemoveComment
-  | SetActiveDiscussion
+  | SetActiveDiscussionChannel

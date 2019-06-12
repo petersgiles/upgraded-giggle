@@ -31,12 +31,13 @@ import {
   AddComment,
   RemoveComment,
   ReplyToComment,
-  SetActiveDiscussion
+  SetActiveDiscussionChannel
 } from '../../reducers/discussion/discussion.actions'
 import { ParamMap, ActivatedRoute, Router } from '@angular/router'
 import { SetActiveBrief } from '../../reducers/brief/brief.actions'
 import { MdcDialog } from '@angular-mdc/web'
-import { DiscussionType } from '../../reducers/discussion/discussion-type'
+import { DiscussionType } from '../../models';
+
 const defaultBrief = {
   status: '1'
 }
@@ -142,7 +143,7 @@ export class BriefComponent implements OnInit, OnDestroy {
     // tslint:disable-next-line:no-console
     console.log('🐛 - handleSelectDiscussion', type)
 
-    this.store.dispatch(new SetActiveDiscussion(type))
+    this.store.dispatch(new SetActiveDiscussionChannel(type))
   }
 
   mapFormToBrief(brief): any {

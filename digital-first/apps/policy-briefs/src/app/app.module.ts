@@ -73,6 +73,7 @@ import * as fromBrief from './reducers/brief/brief.reducer'
 import { briefDataServiceProvider } from './reducers/brief/brief-data.service.factory'
 import { navigationDataServiceProvider } from './reducers/navigation/navigation-data.service.factory'
 import { discussionDataServiceProvider } from './reducers/discussion/discussion-data.service.factory'
+import { GlobalEffects } from './reducers/app/app.effects';
 
 const COMPONENTS = [
   AppComponent,
@@ -127,6 +128,7 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
 
     EffectsModule.forRoot([RouterEffects]),
     EffectsModule.forFeature([
+      GlobalEffects,
       AppEffects,
       UserEffects,
       NavigationEffects,
