@@ -785,7 +785,11 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "port": 4206,
-            "browserTarget": "programs-admin:build"
+            "browserTarget": "programs-admin:build",
+            "ssl": true,
+            "sslKey": "ssl/server.key",
+            "sslCert": "ssl/server.crt",
+            "liveReload": true
           },
           "configurations": {
             "production": {
