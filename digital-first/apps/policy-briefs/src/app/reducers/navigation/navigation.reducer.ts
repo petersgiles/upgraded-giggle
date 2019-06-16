@@ -74,8 +74,7 @@ export const selectExpandedNodesState = createSelector(
   selectExpandedNavigationNodeState,
   selectActiveBriefIdState,
   (nodes, expandedNodes, briefId) => {
-    console.log(`selectExpandedNodesState`, nodes, expandedNodes, briefId)
-
+ 
     let nodesToExpand = []
     if (briefId) {
       const currentBriefNode = nodes.find(p => p.policy && p.subpolicy && `${p.briefId}` === `${briefId}`)
@@ -111,9 +110,6 @@ export const selectNavigationNodeTreeState = createSelector(
       children: 'children',
       level: 'level'
     })
-
-    // tslint:disable-next-line:no-console
-    console.log(`🐙 -  selectNavigationNodeTreeState`, sortedNodes, tree)
 
     return tree
   }

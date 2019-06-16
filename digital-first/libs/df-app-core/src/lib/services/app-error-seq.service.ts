@@ -1,4 +1,4 @@
-import { ErrorHandler, Injectable, Injector, NgZone } from '@angular/core'
+import { ErrorHandler, Injectable } from '@angular/core'
 import * as structuredLog from 'structured-log'
 import { SeqSink } from './app-seq-sink'
 import { AppSettingsService } from './app-settings.service'

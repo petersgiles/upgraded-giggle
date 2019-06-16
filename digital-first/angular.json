@@ -61,7 +61,11 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "port": 4202,
-            "browserTarget": "policy-briefs:build"
+            "browserTarget": "policy-briefs:build",
+            "ssl": true,
+            "sslKey": "ssl/server.key",
+            "sslCert": "ssl/server.crt",
+            "liveReload": true
           },
           "configurations": {
             "production": {

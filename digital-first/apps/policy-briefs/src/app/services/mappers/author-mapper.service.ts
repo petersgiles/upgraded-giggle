@@ -12,12 +12,24 @@ export class AuthorMapperService extends CoreMapperService<Author> {
 
   public mapSingle(item: any): Author {
 
-    return {
-      username: item.Title,
-      name: item.Title,
-      email: item.Email,
-      phone: item.Phone,
+    let author = {
+      username: 'Anonymous',
+      name: 'Anonymous',
+      email: '',
+      phone: '',
       color: 'rgb(84, 70, 126)'
     }
+
+    if(item){
+      author = {
+        username: item.Title,
+        name: item.Title,
+        email: item.Email,
+        phone: item.Phone,
+        color: 'rgb(84, 70, 126)'
+      }
+    }
+
+    return author
   }
 }
