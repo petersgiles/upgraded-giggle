@@ -892,6 +892,14 @@ export type MutationDeleteBriefCommitmentArgs = {
   deleteBriefCommitment?: Maybe<DeleteBriefCommitmentInputGraph>
 }
 
+export type MutationMessageResultGraph = {
+  __typename?: 'MutationMessageResultGraph'
+  messageId: Scalars['Guid']
+  failed: Scalars['Boolean']
+  user?: Maybe<Scalars['String']>
+  errorDetails?: Maybe<Scalars['String']>
+}
+
 export type MutationResultGraph = {
   __typename?: 'MutationResultGraph'
   id?: Maybe<Scalars['Guid']>
@@ -1838,6 +1846,21 @@ export enum StringComparison {
   InvariantCultureIgnoreCase = 'INVARIANT_CULTURE_IGNORE_CASE',
   Ordinal = 'ORDINAL',
   OrdinalIgnoreCase = 'ORDINAL_IGNORE_CASE'
+}
+
+export type Subscription = {
+  __typename?: 'Subscription'
+  mutationMessageResults?: Maybe<MutationMessageResultGraph>
+  mutationMessageResultsById?: Maybe<MutationMessageResultGraph>
+  mutationMessageResultsByUser?: Maybe<MutationMessageResultGraph>
+}
+
+export type SubscriptionMutationMessageResultsByIdArgs = {
+  messageId?: Maybe<Scalars['Guid']>
+}
+
+export type SubscriptionMutationMessageResultsByUserArgs = {
+  user?: Maybe<Scalars['String']>
 }
 
 export type UpdatePmcHandlingAdviceCommitmentGraph = {
