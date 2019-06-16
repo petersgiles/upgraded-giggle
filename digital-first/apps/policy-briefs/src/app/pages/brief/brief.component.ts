@@ -15,8 +15,7 @@ import {
   first,
   switchMap
 } from 'rxjs/operators'
-import { discussionTree, statuslist, baconIpsum } from './mock-data'
-import { toTree, sortBy } from '@df/utils'
+import { statuslist } from './mock-data'
 import { Store, select } from '@ngrx/store'
 import * as fromNavigation from '../../reducers/navigation/navigation.reducer'
 import * as fromBrief from '../../reducers/brief/brief.reducer'
@@ -24,7 +23,8 @@ import * as fromDiscussion from '../../reducers/discussion/discussion.reducer'
 
 import {
   GetNavigations,
-  ToggleExpand
+  ToggleExpand,
+  SetActiveBriefPath
 } from '../../reducers/navigation/navigation.actions'
 import {
   GetDiscussion,
@@ -110,9 +110,10 @@ export class BriefComponent implements OnInit, OnDestroy {
           const activeBriefId = params.get('id')
 
           this.store.dispatch(new SetActiveBrief({ activeBriefId }))
+          this.store.dispatch(new SetActiveBriefPath({ activeBriefId }))
           this.store.dispatch(new GetDiscussion({ activeBriefId }))
-
-          return EMPTY
+          
+          return EMPTY          
         })
       )
       .subscribe()

@@ -20,7 +20,7 @@ export class DiscussionMapperService extends CoreMapperService<Discussion> {
       parent: item.Parent,
       text: `${item.Comments}`,
       created: `${item.Created}`,
-      author: this.authorMapperService.mapSingle(item.Author)
+      // author: {} this.authorMapperService.mapSingle(item.Author)
     }
   }
 }

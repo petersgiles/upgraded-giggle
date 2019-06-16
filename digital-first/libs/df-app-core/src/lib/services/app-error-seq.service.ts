@@ -50,6 +50,9 @@ export class AppErrorHandlerToSeqService implements ErrorHandler {
   }
 
   logStructuredWithExtraProps(errorToLog) {
+
+    console.log(`💥💥💥`, errorToLog)
+
     const { action, message, error, ...remaining } = errorToLog
 
     const detail = {
