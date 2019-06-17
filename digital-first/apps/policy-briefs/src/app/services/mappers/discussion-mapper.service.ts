@@ -8,22 +8,22 @@ import { AuthorMapperService } from './author-mapper.service'
 })
 export class DiscussionMapperService extends CoreMapperService<Discussion> {
 
-  constructor(private authorMapperService: AuthorMapperService) {
+  constructor() {
     super()
-    console.log(`authorMapperService =>`, this.authorMapperService)
   }
 
   public mapSingle(item: any): Discussion {
 
     console.log(  `mapSingle`, this, item)
-    const author = {
+
+    const authorMapperService = new AuthorMapperService()
+    const author = authorMapperService.mapSingle(item.Author) || {
       username: null, 
       name: null, 
       email: null, 
       phone: null, 
       color: null
-
-    } //this.authorMapperService.mapSingle(item.Author)
+    } 
 
     return {
       id: `${item.ID}`,
