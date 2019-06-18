@@ -1,6 +1,0 @@
-type BriefItem {
-	id: ID
-	title: String
-	reference: String
-}
-
