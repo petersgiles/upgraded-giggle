@@ -212,17 +212,10 @@
     "zone.js": "^0.9.1"
   },
   "devDependencies": {
-<<<<<<< HEAD
-    "@angular-devkit/build-angular": "^0.13.9",
-    "@angular/cli": "^7.3.9",
-    "@angular/compiler-cli": "^7.2.15",
-    "@angular/language-service": "^7.2.15",
-=======
     "@angular-devkit/build-angular": "^0.800.1",
     "@angular/cli": "^8.0.2",
     "@angular/compiler-cli": "^8.0.0",
     "@angular/language-service": "^8.0.0",
->>>>>>> 4ed3153220c8dfe306ece867336d2d0a918dd576
     "@graphql-codegen/cli": "^1.2.0",
     "@graphql-codegen/typescript": "^1.2.0",
     "@graphql-codegen/typescript-apollo-angular": "^1.2.0",
@@ -254,16 +247,9 @@
     "prettier": "^1.17.1",
     "protractor": "^5.4.2",
     "spdx-license-ids": "^3.0.4",
-<<<<<<< HEAD
-    "ts-jest": "24.0.0",
-    "ts-node": "^8.1.0",
-    "tslint": "^5.16.0",
-    "typescript": "3.2.4"
-=======
     "ts-jest": "^24.0.2",
     "ts-node": "^8.2.0",
     "tslint": "^5.17.0",
     "typescript": "~3.4.5"
->>>>>>> 4ed3153220c8dfe306ece867336d2d0a918dd576
   }
 }
