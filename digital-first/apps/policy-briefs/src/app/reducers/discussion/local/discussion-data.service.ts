@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core'
 import { Observable, of, BehaviorSubject, Subject, Subscription } from 'rxjs'
 import { DiscussionDataService } from '../discussion-data.service'
 import { comments } from '../../../../devdata/data'
-import { mapDiscussions } from '../maps';
+import { DiscussionMapperService } from '../../../services/mappers/discussion-mapper.service';
+import { DiscussionType } from '../../../models';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,18 +24,19 @@ export class DiscussionDataLocalService implements DiscussionDataService {
   }
 
   public getDiscussions(item: {
-    id: string
+    id: string,
+    channel: DiscussionType
   }): Observable<{
     data: any
     loading: boolean
   }> {
-    const discussion = comments.filter(p => `${p.Brief.Id}` === `${item.id}`)
+    const discussions = comments.filter(p => `${p.Brief.Id}` === `${item.id}`)
 
     return of({
-      data: mapDiscussions(discussion),
+      data: this.discussionMapperService.mapMany(discussions),
       loading: false
     })
   }
 
-  constructor() {}
+  constructor(private discussionMapperService: DiscussionMapperService) {}
 }

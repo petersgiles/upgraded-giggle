@@ -1,9 +1,12 @@
 import { DiscussionActions, DiscussionActionTypes } from './discussion.actions'
 import { createFeatureSelector, createSelector } from '@ngrx/store'
 import { sortBy, toTree } from '@df/utils'
+import { DiscussionType } from '../../models'
 
 export interface State {
   timeFormat: string
+  activeChannel: DiscussionType
+  channels: DiscussionType[]
   activeComment: any
   comments: any[]
   discussion: any[]
@@ -11,6 +14,8 @@ export interface State {
 
 export const initialState: State = {
   timeFormat: 'dateFormat',
+  activeChannel: null,
+  channels: null,
   activeComment: null,
   comments: null,
   discussion: null
@@ -50,11 +55,15 @@ export function reducer(
         level: 'level'
       })
 
-      console.log(`🍺 discussionNodes`, action.payload, data, discussionNodes)
-      
       return {
         ...state,
         discussion: discussion
+      }
+
+    case DiscussionActionTypes.SetActiveDiscussionChannel:
+      return {
+        ...state,
+        activeChannel: action.payload
       }
 
     default:

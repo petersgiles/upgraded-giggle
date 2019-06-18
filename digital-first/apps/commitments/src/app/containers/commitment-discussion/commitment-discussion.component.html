@@ -8,10 +8,10 @@
         <digital-first-expand-collapse-button [expanded]='expanded' (onChangeExpanded)="handleChangeExpanded(!expanded)"></digital-first-expand-collapse-button>
       </digital-first-page-title>
 
-      <digital-first-discussion *ngIf="commitment && expanded" [comments]="discussion$ | async"
+      <df-discussion *ngIf="commitment && expanded" [comments]="discussion$ | async"
         [hostId]="commitment" [activeComment]="activeComment" [timeFormat]="timeFormat" [readOnly]="true"
         (onDeleteComment)="handleDeleteComment($event)" (onReplyToComment)="handleReplyToComment($event)" (onAddComment)="handleAddComment($event)">
-      </digital-first-discussion>
+      </df-discussion>
 </ng-container>
 
 <ng-container operation-type="write">
@@ -22,9 +22,9 @@
         <digital-first-expand-collapse-button [expanded]='expanded' (onChangeExpanded)="handleChangeExpanded(!expanded)"></digital-first-expand-collapse-button>
       </digital-first-page-title>
 
-      <digital-first-discussion *ngIf="commitment && expanded" [comments]="discussion$ | async"
+      <df-discussion *ngIf="commitment && expanded" [comments]="discussion$ | async"
         [hostId]="commitment" [activeComment]="activeComment" [timeFormat]="timeFormat" [readOnly]="false"
         (onDeleteComment)="handleDeleteComment($event)" (onReplyToComment)="handleReplyToComment($event)" (onAddComment)="handleAddComment($event)">
-      </digital-first-discussion>
+      </df-discussion>
   </ng-container>
 </digital-first-commitment-view-guard>

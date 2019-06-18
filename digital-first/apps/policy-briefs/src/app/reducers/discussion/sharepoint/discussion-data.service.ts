@@ -4,17 +4,10 @@ import { SharepointJsomService } from '@df/sharepoint'
 import { DiscussionDataService } from '../discussion-data.service'
 import { concatMap, map } from 'rxjs/operators'
 import { sortBy } from '../../../utils'
+import { DiscussionMapperService } from '../../../services/mappers/discussion-mapper.service'
+import { DiscussionType } from '../../../models'
 
 const DISCUSSION_ITEM_LIST_NAME = 'Discussion'
-
-export const mapDiscussion = (item): any =>
-  ({
-    id: `${item.ID}`,
-    title: item.Title,
-    sortOrder: item.SortOrder,
-  })
-
-export const mapDiscussions = (items): any[] => (items || []).map(mapDiscussion)
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +26,7 @@ export class DiscussionDataSharepointService implements DiscussionDataService {
       .storeItem({
         listName: DISCUSSION_ITEM_LIST_NAME,
         data: {
-          Title: item.title,
+          Title: item.title
         },
         id: item.id
       })
@@ -47,9 +40,10 @@ export class DiscussionDataSharepointService implements DiscussionDataService {
       })
       .pipe(concatMap(_ => of({})))
 
-  getDiscussions = (
-    item: { id: string }
-  ): Observable<{
+  getDiscussions = (item: {
+    id: string,
+    channel: DiscussionType
+  }): Observable<{
     data: any
     loading: boolean
   }> =>
@@ -58,7 +52,9 @@ export class DiscussionDataSharepointService implements DiscussionDataService {
         listName: DISCUSSION_ITEM_LIST_NAME
       })
     ]).pipe(
-      map(([spDiscussions]) => [...mapDiscussions(spDiscussions)]),
+      map(([spDiscussions]) => [
+        ...this.discussionMapperService.mapMany(spDiscussions)
+      ]),
       map(result => (result || []).sort(sortBy('sortOrder'))),
       concatMap(result =>
         of({
@@ -68,5 +64,8 @@ export class DiscussionDataSharepointService implements DiscussionDataService {
       )
     )
 
-  constructor(private sharepoint: SharepointJsomService) {}
+  constructor(
+    private sharepoint: SharepointJsomService,
+    private discussionMapperService: DiscussionMapperService
+  ) {}
 }

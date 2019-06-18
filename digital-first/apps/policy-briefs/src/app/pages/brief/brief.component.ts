@@ -22,16 +22,22 @@ import * as fromNavigation from '../../reducers/navigation/navigation.reducer'
 import * as fromBrief from '../../reducers/brief/brief.reducer'
 import * as fromDiscussion from '../../reducers/discussion/discussion.reducer'
 
-import { GetNavigations, ToggleExpand } from '../../reducers/navigation/navigation.actions'
+import {
+  GetNavigations,
+  ToggleExpand
+} from '../../reducers/navigation/navigation.actions'
 import {
   GetDiscussion,
   AddComment,
   RemoveComment,
-  ReplyToComment
+  ReplyToComment,
+  SetActiveDiscussionChannel
 } from '../../reducers/discussion/discussion.actions'
 import { ParamMap, ActivatedRoute, Router } from '@angular/router'
 import { SetActiveBrief } from '../../reducers/brief/brief.actions'
 import { MdcDialog } from '@angular-mdc/web'
+import { DiscussionType } from '../../models';
+
 const defaultBrief = {
   status: '1'
 }
@@ -43,6 +49,8 @@ const defaultBrief = {
 })
 export class BriefComponent implements OnInit, OnDestroy {
   public nodes$: Observable<any>
+
+  public discussionTypes = DiscussionType
 
   public background$: BehaviorSubject<string> = new BehaviorSubject('#455a64')
   public documentStatusList$: BehaviorSubject<any>
@@ -131,6 +139,13 @@ export class BriefComponent implements OnInit, OnDestroy {
     console.log('🐛 - handleChange', $event)
   }
 
+  handleSelectDiscussion(type: DiscussionType) {
+    // tslint:disable-next-line:no-console
+    console.log('🐛 - handleSelectDiscussion', type)
+
+    this.store.dispatch(new SetActiveDiscussionChannel(type))
+  }
+
   mapFormToBrief(brief): any {
     const editedBrief: any = {
       ...brief
@@ -153,7 +168,7 @@ export class BriefComponent implements OnInit, OnDestroy {
     console.log(`🎯 -  handleToggleExpandNavigatorNode`, $event)
 
     this.store.dispatch(
-      new ToggleExpand({ id: $event.node.data.id, expanded: $event.isExpanded  })
+      new ToggleExpand({ id: $event.node.data.id, expanded: $event.isExpanded })
     )
   }
 
@@ -205,6 +220,5 @@ export class BriefComponent implements OnInit, OnDestroy {
   public handleToggleMoveNavigatorNode($event, action) {
     // tslint:disable-next-line:no-console
     console.log(`🐹 - ${action}`, $event)
-
   }
 }

@@ -17,7 +17,6 @@ import { DfThemeModule } from '@digital-first/df-theme'
 import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfComponentsModule } from '@digital-first/df-components'
 import { DfMomentModule, DateFormatPipe } from '@digital-first/df-moment'
-import { DfDiscussionModule } from '@digital-first/df-discussion'
 import { DfPagesModule } from '@digital-first/df-pages'
 import { DfDialogsModule } from '@digital-first/df-dialogs'
 import { DfSharepointLibModule, SharepointJsomService } from '@df/sharepoint'
@@ -74,6 +73,7 @@ import * as fromBrief from './reducers/brief/brief.reducer'
 import { briefDataServiceProvider } from './reducers/brief/brief-data.service.factory'
 import { navigationDataServiceProvider } from './reducers/navigation/navigation-data.service.factory'
 import { discussionDataServiceProvider } from './reducers/discussion/discussion-data.service.factory'
+import { GlobalEffects } from './reducers/app/app.effects';
 
 const COMPONENTS = [
   AppComponent,
@@ -108,7 +108,6 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     DfMomentModule,
     DfLayoutsModule,
     DfThemeModule,
-    DfDiscussionModule,
     DfPagesModule,
     DfDialogsModule,
     DfSharepointLibModule,
@@ -129,6 +128,7 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
 
     EffectsModule.forRoot([RouterEffects]),
     EffectsModule.forFeature([
+      GlobalEffects,
       AppEffects,
       UserEffects,
       NavigationEffects,

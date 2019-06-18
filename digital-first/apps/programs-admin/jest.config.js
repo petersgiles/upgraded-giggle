@@ -1,6 +1,6 @@
 module.exports = {
   name: 'programs-admin',
-  preset: 'jest-preset-angular',
+  preset: '../../jest.config.js',
   coverageDirectory: '../../coverage/apps/programs-admin/',
   snapshotSerializers: [
     'jest-preset-angular/AngularSnapshotSerializer.js',

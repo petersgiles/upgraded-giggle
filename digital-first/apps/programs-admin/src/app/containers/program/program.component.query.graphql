@@ -1,4 +1,4 @@
-query program($programId: String!) {
+query program($programId: ID!) {
   program(id: $programId) {
     id
     name
@@ -37,7 +37,7 @@ query program($programId: String!) {
   }
 }
 
-query editProgram($programId: String!) {
+query editProgram($programId: ID!) {
   program(id: $programId) {
     id
     name

@@ -1,4 +1,4 @@
-query statisticReportEdit ($reportId: String!) {
+query statisticReportEdit ($reportId: ID!) {
   statisticReport(id:$reportId)
   {
     id
@@ -6,6 +6,6 @@ query statisticReportEdit ($reportId: String!) {
     notes
     rowVersion
     statisticId
-   
-    } 
+
+    }
 }

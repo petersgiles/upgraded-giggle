@@ -1,1 +1,10 @@
-// Custom jest config for the project goes here. An empty file is required to prevent a warning which breaks the build.
+module.exports = {
+    testMatch: ['**/+(*.)+(spec|test).+(ts|js)?(x)'],
+    transform: {
+      '^.+\\.(ts|js|html)$': 'ts-jest'
+    },
+    resolver: '@nrwl/jest/plugins/resolver',
+    moduleFileExtensions: ['ts', 'js', 'html'],
+    collectCoverage: true,
+    coverageReporters: ['html']
+   }

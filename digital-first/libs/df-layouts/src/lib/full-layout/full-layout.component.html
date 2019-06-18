@@ -14,9 +14,9 @@
             </mdc-icon>
           </a>  -->
             <span class="app-layout-title-version">{{version}}</span>
-            <digital-first-avatar [name]="profile?.name" [email]="profile?.email" [displayType]="profile?.displayType"
+            <df-avatar [name]="profile?.name" [email]="profile?.email" [displayType]="profile?.displayType"
                 [size]="profile?.size" [background]="profile?.background">
-            </digital-first-avatar>
+            </df-avatar>
             <mdc-icon mdcTopAppBarActionItem (click)="profileMenu.open = !profileMenu.open">more_vert</mdc-icon>
             <div mdcMenuSurfaceAnchor #menuAnchor>
                 <mdc-menu #profileMenu [anchorElement]="menuAnchor">

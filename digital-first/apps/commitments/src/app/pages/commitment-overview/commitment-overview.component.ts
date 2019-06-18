@@ -25,6 +25,8 @@ export class CommitmentOverviewComponent implements OnInit, OnDestroy {
   dataTableRows: any[] = []
   pagedDataTableRows: any[] = []
 
+  count: number // TODO: give this a value
+
   activitySubscription$: Subscription
   formBusy = false
   pageSize: number

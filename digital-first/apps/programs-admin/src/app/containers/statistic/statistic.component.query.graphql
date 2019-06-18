@@ -9,12 +9,12 @@ query allStatistics{
     statisticReports{
       id
       name
-      notes       
+      notes
     }
   }
 }
 
-query statistic ($statisticId: String!) {
+query statistic ($statisticId: ID!) {
   statistic(id:$statisticId)
   {
     id

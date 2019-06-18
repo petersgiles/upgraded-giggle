@@ -7,24 +7,15 @@ import { sortBy } from '../../../utils'
 import { HttpClient } from '@angular/common/http'
 import { AppSettingsService } from '@digital-first/df-app-core'
 import { byIdQuery, byBriefIdQuery } from '../../../services/sharepoint/caml'
-import {
-  recommendedDirections,
-  mapAttachments,
-  mapLookups,
-  mapRecommendations
-} from '../maps'
+import { BriefMapperService } from '../../../services/mappers/brief-mapper.service';
+import { RecommendedDirectionMapperService } from '../../../services/mappers/recommended-direction-mapper.service';
+import { RecommendationMapperService } from '../../../services/mappers/recommendation-mapper.service';
+import { AttachmentMapperService } from '../../../services/mappers/attachment-mapper.service';
+import { LookupMapperService } from '../../../services/mappers/lookup-mapper.service';
 
 declare var _spPageContextInfo: any
 
 const BRIEF_ITEM_LIST_NAME = 'Brief'
-
-export const mapBrief = (item): any => ({
-  id: `${item.ID}`,
-  title: item.Title,
-  sortOrder: item.SortOrder
-})
-
-export const mapBriefs = (items): any[] => (items || []).map(mapBrief)
 
 @Injectable({
   providedIn: 'root'
@@ -72,7 +63,7 @@ export class BriefDataSharepointService implements BriefDataService {
         listName: BRIEF_ITEM_LIST_NAME
       })
     ]).pipe(
-      map(([spBriefs]) => [...mapBriefs(spBriefs)]),
+      map(([spBriefs]) => [...this.briefMapperService.mapMany(spBriefs)]),
       map(result => (result || []).sort(sortBy('sortOrder'))),
       concatMap(result =>
         of({
@@ -120,12 +111,12 @@ export class BriefDataSharepointService implements BriefDataService {
           spBriefDivision
         ]) => {
           const data = {
-            brief: mapBrief(spBrief[0]),
-            directions: recommendedDirections(spRecommendedDirection),
-            recommendations: mapRecommendations(spRecommendations),
-            attachments: mapAttachments(spBriefAttachments),
-            statusLookups: mapLookups(spBriefStatus),
-            divisionLookups: mapLookups(spBriefDivision)
+            brief: this.briefMapperService.mapSingle(spBrief[0]),
+            directions: this.recommendedDirectionMapperService.mapMany(spRecommendedDirection),
+            recommendations: this.recommendationMapperService.mapMany(spRecommendations),
+            attachments: this.attachmentMapperService.mapMany(spBriefAttachments),
+            statusLookups: this.lookupMapperService.mapMany(spBriefStatus),
+            divisionLookups: this.lookupMapperService.mapMany(spBriefDivision)
           }
           // tslint:disable-next-line:no-console
           console.log(`🙈 - brief`, data)
@@ -160,6 +151,11 @@ export class BriefDataSharepointService implements BriefDataService {
   constructor(
     private http: HttpClient,
     private settings: AppSettingsService,
-    private sharepoint: SharepointJsomService
+    private sharepoint: SharepointJsomService,
+    private briefMapperService: BriefMapperService,
+    private recommendedDirectionMapperService: RecommendedDirectionMapperService,
+    private recommendationMapperService: RecommendationMapperService,
+    private attachmentMapperService: AttachmentMapperService,
+    private lookupMapperService: LookupMapperService,
   ) {}
 }

@@ -13,14 +13,10 @@ import { MarkdownModule, MarkedOptions } from 'ngx-markdown'
 
 import {
   DfLayoutsModule,
-  FullLayoutService,
   TitleLayoutService
 } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
-import {
-  DfDiscussionModule,
-  DiscussionComponent
-} from '@digital-first/df-discussion'
+
 import { DfPagesModule } from '@digital-first/df-pages'
 import {
   DfDialogsModule,
@@ -110,7 +106,6 @@ import { DialogAddLinkComponent } from './dialogs/dialog-add-link.component'
 import { CommitmentRelatedLinksComponent } from './containers/commitment-related-links/commitment-related-links.component'
 import { CommitmentRelatedCommitmentsComponent } from './containers/commitment-related-commitments/commitment-related-commitments.component'
 import { CommitmentViewGuardComponent } from './containers/commitment-view-guard/commitment-view-guard.component'
-import { CommitmentCommitmentComponent } from './containers/commitment-commitment/commitment-commitment.component'
 import { relatedLinksDataServiceProvider } from './reducers/related-link/related-link-data.service'
 import { relatedCommitmentsDataServiceProvider } from './reducers/related-commitment/related-commitment-data.service'
 import { deliveryLocationsDataServiceProvider } from './reducers/commitment-delivery-location/commitment-delivery-location-data.service'
@@ -136,7 +131,8 @@ import {
   DataTableModule,
   DocumentModule,
   PanelModule,
-  MegaTaggerModule
+  MegaTaggerModule,
+  DiscussionModule
 } from '@df/components'
 import { OverviewLayoutComponent } from './layouts/overview-layout/overview-layout.component'
 
@@ -163,7 +159,6 @@ const COMPONENTS = [
   CommitmentPrintComponent,
   CommitmentRelatedLinksComponent,
   CommitmentRelatedCommitmentsComponent,
-  CommitmentCommitmentComponent,
   CommitmentPortfolioComponent,
   CommitmentPackageComponent,
   CommitmentMadLibComponent,
@@ -178,7 +173,6 @@ const ENTRYCOMPONENTS = [
   DialogAddContactComponent,
   DialogAddCommitmentComponent,
   DialogAddLinkComponent,
-  DiscussionComponent,
   ContactCardComponent,
   PageTitleComponent,
   RelatedArtifactsComponent,
@@ -264,11 +258,12 @@ export let appDataServiceProvider = {
     }),
     NxModule.forRoot(),
     DocumentModule,
-    DfComponentsModule,
     DataTableModule,
     PanelModule,
     MegaTaggerModule,
     AvatarModule,
+    DiscussionModule,
+    DfComponentsModule,
     DfDatatableModule,
     DfButtonsModule,
     DfRefinerModule,
@@ -276,7 +271,6 @@ export let appDataServiceProvider = {
     DfMomentModule,
     DfLayoutsModule,
     DfThemeModule,
-    DfDiscussionModule,
     DfPagesModule,
     DfDialogsModule,
     DfSharepointLibModule,

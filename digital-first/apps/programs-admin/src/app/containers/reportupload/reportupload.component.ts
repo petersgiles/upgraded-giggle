@@ -32,7 +32,7 @@ export class ReportuploadComponent implements OnInit, OnDestroy {
   reports: Reports
   reportsSubscription$: Subscription
 
-  @ViewChild('inputElement')
+  @ViewChild('inputElement', { static: true })
   inputElement: ElementRef
 
   reportForm = this.formBuilder.group({

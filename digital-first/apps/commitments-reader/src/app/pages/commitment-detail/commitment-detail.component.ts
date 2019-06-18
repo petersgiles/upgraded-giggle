@@ -24,7 +24,8 @@ import {
   UpdatePMCHandlingAdvice
 } from '../../reducers/commitment-detail/commitment-detail.actions'
 import { FormGroup, FormControl } from '@angular/forms'
-import { getUserOperationMatrix, getUserCurrentUserOperations } from '@digital-first/df-app-core'
+import { getCurrentUserOperations } from 'apps/commitments/src/app/reducers'
+
 
 // import { getUserCurrentUserPermissions } from '../../reducers/user/user.reducer'
 
@@ -63,7 +64,7 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.userOperation$ = this.store.pipe(
      // select(getUserOperationMatrix)
-     select(getUserCurrentUserOperations)
+     select(getCurrentUserOperations)
     )
 
     this.commitment$ = this.store.pipe(

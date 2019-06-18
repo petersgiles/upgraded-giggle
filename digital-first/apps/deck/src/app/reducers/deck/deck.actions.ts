@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store'
-import { DeckItem } from '@df/components';
+import { DeckItem } from '../../components/deck';
 
 export enum DeckActionTypes {
   LoadDeck = '[Deck] Load Deck',
@@ -10,7 +10,7 @@ export enum DeckActionTypes {
   UpdateDeckItem = '[Deck] UpdateDeckItem',
   RemoveDeckItem = '[Deck] RemoveDeckItem',
   SetActiveParent = '[Deck] SetActiveParent',
-  GoBack= '[Deck] GoBack',
+  GoBack = '[Deck] GoBack',
   SetSelectedDeckItem = '[Deck] SetSelectedDeckItem',
   GetBriefs = '[Deck] GetBriefs',
   LoadBriefs = '[Deck] LoadBriefs',
@@ -49,7 +49,7 @@ export class UpdateDeckItem implements Action {
 
 export class RemoveDeckItem implements Action {
   readonly type = DeckActionTypes.RemoveDeckItem
-  constructor(public payload: { id: string}) {}
+  constructor(public payload: { id: string }) {}
 }
 
 export class GetDeckItemsFailure implements Action {
@@ -63,12 +63,12 @@ export class GoBack implements Action {
 
 export class SetActiveParent implements Action {
   readonly type = DeckActionTypes.SetActiveParent
-  constructor(public payload: { id: string}) {}
+  constructor(public payload: { id: string }) {}
 }
 
 export class SetSelectedDeckItem implements Action {
   readonly type = DeckActionTypes.SetSelectedDeckItem
-  constructor(public payload: { id: string}) {}
+  constructor(public payload: { id: string }) {}
 }
 
 export class GetBriefs implements Action {
@@ -82,7 +82,7 @@ export class GetBriefsFailure implements Action {
 }
 
 export type DeckActions =
-    LoadDeck
+  | LoadDeck
   | GetDeckItems
   | GetDeckItemsFailure
   | AddDeckItem

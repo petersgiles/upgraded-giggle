@@ -1,22 +1,22 @@
-query agency ($id: String!) {
+query agency ($id: ID!) {
   agency(id: $id)
   {
     id
     title
     metadata
     rowVersion
-    
+
     portfolio {
         id
         title
     }
-    
+
     agencyMapping {
         id
         emailDomain
         rowVersion
         accessControlGroup{
-                id 
+                id
                 title
         }
     }
@@ -27,7 +27,7 @@ query agency ($id: String!) {
 query portfolios
 {
   portfolios{
-      id 
+      id
       title
   }
 }

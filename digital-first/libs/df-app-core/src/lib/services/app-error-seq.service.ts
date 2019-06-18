@@ -65,8 +65,12 @@ export class AppErrorHandlerToSeqService implements ErrorHandler {
       detail['Message'] = message
     }
 
-    if (error && error.stacktrace) {
-      detail['StackTrace'] = error.stacktrace
+    if (error) {
+      if (error.stacktrace || error.stack) {
+        detail['StackTrace'] = error.stacktrace || error.stack
+      } else {
+        detail['Error'] = JSON.stringify(error)
+      }
     }
 
     if (this.settings.commithash) {

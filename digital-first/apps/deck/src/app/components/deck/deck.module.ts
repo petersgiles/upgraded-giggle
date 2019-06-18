@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { DeckComponent } from './deck/deck.component'
-import { ChartsModule } from 'ng2-charts/ng2-charts'
+import { ChartsModule } from 'ng2-charts'
 import { NgSelectModule } from '@ng-select/ng-select'
 import { BrowserModule } from '@angular/platform-browser'
-import { ReactiveFormsModule } from '@angular/forms'
+import { ReactiveFormsModule } from '@angular/forms' 
 import {
   MdcCardModule,
   MdcButtonModule,

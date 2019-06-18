@@ -1,4 +1,4 @@
-query reportVersionEdit ($id: String!) {
+query reportVersionEdit ($id: ID!) {
   reportVersion(id:$id)
   {
       id

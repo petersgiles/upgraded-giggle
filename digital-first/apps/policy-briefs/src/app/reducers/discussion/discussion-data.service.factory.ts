@@ -5,10 +5,12 @@ import { DiscussionDataLocalService } from './local/discussion-data.service'
 
 import { DiscussionDataService } from './discussion-data.service'
 import { DiscussionDataSharepointService } from './sharepoint/discussion-data.service'
+import { DiscussionMapperService } from '../../services/mappers/discussion-mapper.service'
 
 const discussionDataServiceFactory = (
   settings: AppSettingsService,
-  sharepointlib: SharepointJsomService
+  sharepointlib: SharepointJsomService,
+  discussionMapperService: DiscussionMapperService
 ) => {
   let source = null
   if (settings.host) {
@@ -17,14 +19,14 @@ const discussionDataServiceFactory = (
 
   switch (source) {
     case 'sharepoint':
-      return new DiscussionDataSharepointService(sharepointlib)
+      return new DiscussionDataSharepointService(sharepointlib, discussionMapperService)
     default:
-      return new DiscussionDataLocalService()
+      return new DiscussionDataLocalService(discussionMapperService)
   }
 }
 
 export let discussionDataServiceProvider = {
   provide: DiscussionDataService,
   useFactory: discussionDataServiceFactory,
-  deps: [AppSettingsService, SharepointJsomService]
+  deps: [AppSettingsService, SharepointJsomService, DiscussionMapperService]
 }

@@ -1,12 +1,12 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-declare var require: any
+import * as packageJson from '../../../../package.json'
 
 export const environment = {
   production: false,
-  version: require('../../../../package.json').version,
-  commithash: require('../../../../package.json')['commit-hash'],
+  version: packageJson.version,
+  commitHash: packageJson['commit-hash'],
   datasource: {
     type: 'local',
     dataServiceUrl: '//localhost:3001/graphql',
