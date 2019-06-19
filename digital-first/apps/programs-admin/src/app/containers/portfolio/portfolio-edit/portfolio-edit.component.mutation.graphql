@@ -1,7 +1,0 @@
-mutation updatePortfolio($data: UpdatePortfolioInputGraph!)
-{
-    updatePortfolio(input:$data)
-    {
-        id
-    }
-}

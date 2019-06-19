@@ -1,3 +1,0 @@
-mutation deletePortfolio($data: DeletePortfolioInputGraph!) {
-  deletePortfolio(input:$data)
-}

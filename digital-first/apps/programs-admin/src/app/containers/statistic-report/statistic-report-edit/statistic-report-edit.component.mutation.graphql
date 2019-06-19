@@ -1,8 +1,0 @@
-mutation updateStatisticReport ($data: UpdateStatisticReportInputGraph) {
-  updateStatisticReport (input: $data)  {
-    id
-    name
-    notes
-    statisticId
-  }
-}

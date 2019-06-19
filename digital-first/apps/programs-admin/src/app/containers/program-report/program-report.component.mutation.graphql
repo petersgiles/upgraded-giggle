@@ -1,7 +1,0 @@
-mutation createReportAccessControl($data: CreateReportAccessControlInputGraph) {
-  createReportAccessControl(input: $data) {
-    id
-    rights
-    rowVersion
-  }
-}

@@ -1,5 +1,0 @@
-mutation updateReportVersion($data:UpdateReportVersionInputGraph){
-  updateReportVersion(input: $data){
-    id
-  }
-}

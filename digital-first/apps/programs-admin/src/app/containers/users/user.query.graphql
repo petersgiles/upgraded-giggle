@@ -1,8 +1,0 @@
-query allUsersSearch {
-  users(orderBy: { path: "emailAddress" }) {
-    id
-    emailAddress
-    lastLogin
-    rowVersion
-  }
-}

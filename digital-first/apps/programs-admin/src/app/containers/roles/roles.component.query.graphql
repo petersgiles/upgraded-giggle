@@ -1,7 +1,0 @@
-query rolesSearch {
-  roles(orderBy: { path: "title" }) {
-    id
-    title
-    description
-  }
-}

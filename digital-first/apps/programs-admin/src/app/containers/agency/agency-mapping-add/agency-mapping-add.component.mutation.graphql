@@ -1,7 +1,0 @@
-mutation createAgencyMapping ($data: CreateAgencyMappingInputGraph!)
-{
-      createAgencyMapping(input: $data)
-      { 
-        id        
-      }
-}
