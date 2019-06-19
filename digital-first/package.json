@@ -15,7 +15,7 @@
     "generate-graphql:commitments-reader": "gql-gen --config ./apps/commitments-reader/codegen.yml",
     "generate-graphql:policy-briefs": "gql-gen --config ./apps/policy-briefs/codegen.yml",
     "build": "ng build",
-    "build:all": "run-p build:programs-admin sharepoint:build:commitments sharepoint:build:commitments-reader",
+    "build:all": "run-p sharepoint:build:commitments sharepoint:build:commitments-reader",
     "build:commitments-reader": "ng build commitments-reader --configuration=production",
     "build:policy-briefs": "ng build policy-briefs --configuration=production",
     "build:deck": "ng build deck --configuration=production",
