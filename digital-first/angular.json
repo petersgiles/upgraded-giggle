@@ -550,32 +550,6 @@
         }
       }
     },
-    "df-utils": {
-      "root": "libs/df-utils",
-      "sourceRoot": "libs/df-utils/src",
-      "projectType": "library",
-      "prefix": "digital-first",
-      "architect": {
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "libs/df-utils/src/test.ts",
-            "tsConfig": "libs/df-utils/tsconfig.spec.json",
-            "karmaConfig": "libs/df-utils/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/df-utils/tsconfig.lib.json",
-              "libs/df-utils/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      }
-    },
     "df-pages": {
       "root": "libs/df-pages",
       "sourceRoot": "libs/df-pages/src",

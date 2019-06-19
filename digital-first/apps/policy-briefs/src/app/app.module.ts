@@ -26,7 +26,6 @@ import { AppFullLayoutService } from './app-full-layout.service'
 import { AppRoutingModule } from './app-routing.module'
 import { DragDropModule } from '@angular/cdk/drag-drop'
 
-import { DfDatatableModule } from '@digital-first/df-datatable'
 import { DfButtonsModule } from '@digital-first/df-buttons'
 import { DfMapModule } from '@digital-first/df-map'
 
@@ -102,7 +101,6 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     PipesModule,
     DfAppCoreModule,
     DfComponentsModule,
-    DfDatatableModule,
     DfButtonsModule,
     DfMapModule,
     DfMomentModule,
