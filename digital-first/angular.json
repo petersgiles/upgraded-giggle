@@ -59,7 +59,7 @@
                   "with": "apps/policy-briefs/src/environments/environment.sharepoint.ts"
                 }
               ],
-              "deployUrl": "<% $SPUrl:~site/SiteAssets/apps/"
+              "deployUrl": "../../SiteAssets/apps/%>"
             }
           }
         },
@@ -263,7 +263,7 @@
                   "with": "apps/commitments/src/environments/environment.sharepoint.ts"
                 }
               ],
-              "deployUrl": "<% $SPUrl:~site/SiteAssets/apps/"
+              "deployUrl": "../../SiteAssets/apps/"
             }
           }
         },
@@ -408,7 +408,8 @@
                   "with": "apps/deck/src/environments/environment.sharepoint.ts"
                 }
               ],
-              "deployUrl": "<% $SPUrl:~site/SiteAssets/apps/"
+              "deployUrl": "../../SiteAssets/apps/deck/"
+
             }
           }
         },
@@ -896,7 +897,7 @@
                   "with": "apps/commitments-reader/src/environments/environment.sharepoint.ts"
                 }
               ],
-              "deployUrl": "<% $SPUrl:~site/SiteAssets/apps/"
+              "deployUrl": "../../SiteAssets/apps/"
             },
             "sharepointprod": {
               "fileReplacements": [
