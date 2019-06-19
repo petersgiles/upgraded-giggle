@@ -20,16 +20,7 @@
     "commitments": {
       "tags": []
     },
-    "brief-admin": {
-      "tags": []
-    },
     "deck": {
-      "tags": []
-    },
-    "todo": {
-      "tags": []
-    },
-    "df-discussion": {
       "tags": []
     },
     "df-moment": {
@@ -50,19 +41,10 @@
     "df-components": {
       "tags": []
     },
-    "df-logging": {
-      "tags": []
-    },
-    "programs-admin": {
-      "tags": []
-    },
     "df-auth": {
       "tags": []
     },
     "df-app-tokens": {
-      "tags": []
-    },
-    "df-tag": {
       "tags": []
     },
     "df-datatable": {
