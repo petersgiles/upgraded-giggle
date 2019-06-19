@@ -1,6 +1,0 @@
-query allPortfoliosSearch {
-  portfolios(orderBy: { path: "title" }) {
-    id
-    title
-  }
-}

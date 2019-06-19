@@ -1,6 +1,0 @@
-mutation createPortfolio ($data: CreatePortfolioInputGraph!) {
-  createPortfolio (input: $data)
-  {
-    id 
-   }
-}

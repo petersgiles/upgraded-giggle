@@ -1,6 +1,0 @@
-mutation createAgency ($data: CreateAgencyInputGraph!) {
-  createAgency (input: $data)
-  {
-    id 
-   }
-}

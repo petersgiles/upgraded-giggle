@@ -1,9 +1,0 @@
-mutation createStatisticReportAccessControl(
-  $data: CreateStatisticReportAccessControlInputGraph
-) {
-  createStatisticReportAccessControl(input: $data) {
-    id
-    rights
-    rowVersion
-  }
-}
