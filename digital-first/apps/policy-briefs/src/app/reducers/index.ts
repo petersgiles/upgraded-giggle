@@ -27,7 +27,7 @@ export function localStorageSyncReducer(
   return localStorageSync({
     keys: [
       { auth: ['status'] }
-      // , { navigation: ['expandedNodes'] }
+      , { navigation: ['expandedNodes'] }
     ],
     rehydrate: true
   })(reducer)

@@ -56,7 +56,7 @@ export const navigationState = createFeatureSelector<State>('navigation')
 
 export const selectNavigationNodeState = createSelector(
   navigationState,
-  (state: State) => state.navigationNodes || []
+  (state: State) => JSON.parse(JSON.stringify(state.navigationNodes || []))
 )
 
 export const selectActiveBriefIdState = createSelector(
@@ -92,6 +92,7 @@ export const selectNavigationNodeTreeState = createSelector(
   selectNavigationNodeState,
   selectExpandedNodesState,
   (nodes, expanded) => {
+
     let sortedNodes = []
     if (expanded) {
       sortedNodes = nodes
