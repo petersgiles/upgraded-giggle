@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   module : {
     rules: [
-      
+
     ]
   },
   plugins: [
@@ -18,7 +18,7 @@ module.exports = {
           favIcon:`<link rel="icon" type="image/png" sizes="32x32" href="<% $SPUrl:~site/SiteAssets/apps/css/images/favicon/favicon-32x32.png %>">`
         },
         template: './sharepoint.template.html',
-        filename: './commitments.aspx' //relative to root of the application
+        filename: '../../../SitePages/commitments.aspx' //relative to root of the application
       }),
   ]
 };
