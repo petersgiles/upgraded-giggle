@@ -10,7 +10,7 @@
     "start:commitments-reader": "ng serve commitments-reader",
     "start:policy-briefs": "ng serve policy-briefs --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --live-reload true",
     "start:deck": "ng serve deck --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --live-reload true",
-    "start:commitments-reader-remote": "ng serve commitments-reader --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --configuration=remote --live-reload true",
+    "start:commitments-reader-remote": "ng run commitments-reader:serve --configuration=remote",
     "start:commitments-reader-remote-dev": "ng serve commitments-reader --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --configuration=remotedev --live-reload true",
     "generate-graphql:deck": "gql-gen --config ./apps/deck/codegen.yml",
     "generate-graphql:commitments-reader": "gql-gen --config ./apps/commitments-reader/codegen.yml",
@@ -213,8 +213,10 @@
     "zone.js": "^0.9.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.800.1",
-    "@angular/cli": "^8.0.2",
+    "@angular-builders/custom-webpack": "^8.0.2",
+    "@angular-devkit/architect": "^0.800.3",
+    "@angular-devkit/build-angular": "^0.800.3",
+    "@angular/cli": "^8.0.3",
     "@angular/compiler-cli": "^8.0.0",
     "@angular/language-service": "^8.0.0",
     "@graphql-codegen/cli": "^1.2.0",
@@ -233,6 +235,7 @@
     "codelyzer": "^5.1.0",
     "cpx": "^1.5.0",
     "graphql-tag-pluck": "^0.8.1",
+    "html-webpack-plugin": "^3.2.0",
     "jasmine-core": "^3.4.0",
     "jasmine-marbles": "^0.5.0",
     "jasmine-spec-reporter": "~4.2.1",
@@ -245,12 +248,14 @@
     "karma-jasmine-html-reporter": "^1.4.2",
     "log-symbols": "^3.0.0",
     "ngrx-store-freeze": "0.2.4",
+    "postcss-short": "^5.0.0",
     "prettier": "^1.17.1",
     "protractor": "^5.4.2",
     "spdx-license-ids": "^3.0.4",
     "ts-jest": "^24.0.2",
     "ts-node": "^8.2.0",
     "tslint": "^5.17.0",
-    "typescript": "~3.4.5"
+    "typescript": "~3.4.5",
+    "webpack-notifier": "^1.7.0"
   }
 }
