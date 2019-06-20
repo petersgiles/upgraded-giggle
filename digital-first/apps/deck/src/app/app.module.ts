@@ -65,8 +65,7 @@ import {
 const COMPONENTS = [
   AppComponent,
   HomeComponent,
-  UserProfileComponent,
-  DialogAreYouSureComponent
+  UserProfileComponent
 ]
 
 const ENTRYCOMPONENTS = [DialogAreYouSureComponent]

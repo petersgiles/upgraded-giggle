@@ -10,7 +10,7 @@
         [searchText]="textRefiner$ | async"
         [refinerGroups]="refinerGroups"
         (onSearchCriteriaChanged)="handleTextRefinerChanged($event)"
-        (onClear)="handleClearRefiners()"
+        (onClear)="handleClearRefiners($event)"
         (onRefinerGroupSelected)="handleRefinerGroupSelected($event)"
         (onRefinerSelected)="handleRefinerSelected($event)"
       ></digital-first-metadata-refiner>
