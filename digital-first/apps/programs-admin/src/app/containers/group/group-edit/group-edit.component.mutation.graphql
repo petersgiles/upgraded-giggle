@@ -1,7 +1,0 @@
-mutation updateAccessControlGroup($data: UpdateAccessControlGroupInputGraph){
-  updateAccessControlGroup(input: $data){
-    id
-    title
-    rowVersion
-  }
-}
