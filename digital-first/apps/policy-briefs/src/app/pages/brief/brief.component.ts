@@ -17,6 +17,7 @@ import {
 } from 'rxjs/operators'
 import { statuslist } from './mock-data'
 import { Store, select } from '@ngrx/store'
+import * as fromRoot from '../../reducers/index'
 import * as fromNavigation from '../../reducers/navigation/navigation.reducer'
 import * as fromBrief from '../../reducers/brief/brief.reducer'
 import * as fromDiscussion from '../../reducers/discussion/discussion.reducer'
@@ -69,13 +70,14 @@ export class BriefComponent implements OnInit, OnDestroy {
   selectId$: any
   fileLeafRef$: Observable<any>
   brief$: Observable<any>
+  activeBriefId: string;
 
   // tslint:disable-next-line:no-empty
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
-    private store: Store<fromNavigation.State>,
+    private store: Store<fromRoot.State>,
     public dialog: MdcDialog
   ) {}
 
@@ -107,11 +109,11 @@ export class BriefComponent implements OnInit, OnDestroy {
     this.selectId$ = this.route.paramMap
       .pipe(
         switchMap((params: ParamMap) => {
-          const activeBriefId = params.get('id')
+          this.activeBriefId = params.get('id')
 
-          this.store.dispatch(new SetActiveBrief({ activeBriefId }))
-          this.store.dispatch(new SetActiveBriefPath({ activeBriefId }))
-          this.store.dispatch(new GetDiscussion({ activeBriefId }))
+          this.store.dispatch(new SetActiveBrief({  activeBriefId: this.activeBriefId }))
+          this.store.dispatch(new SetActiveBriefPath({  activeBriefId: this.activeBriefId }))
+          this.store.dispatch(new GetDiscussion({  activeBriefId: this.activeBriefId }))
           
           return EMPTY          
         })
@@ -145,6 +147,7 @@ export class BriefComponent implements OnInit, OnDestroy {
     console.log('🐛 - handleSelectDiscussion', type)
 
     this.store.dispatch(new SetActiveDiscussionChannel(type))
+    this.store.dispatch(new GetDiscussion({ activeBriefId: this.activeBriefId }))
   }
 
   mapFormToBrief(brief): any {

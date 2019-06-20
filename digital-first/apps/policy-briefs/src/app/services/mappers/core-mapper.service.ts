@@ -10,6 +10,15 @@ export abstract class CoreMapperService<T> {
   }
 
   protected fromLookup(lookupValue: any): DisplayLookup {
+
+    if(!lookupValue){
+      return {
+        id: null,
+        title: null
+      }
+
+    }
+
     const id = lookupValue['ID'] || lookupValue['Id'] || lookupValue['id']
     const title = lookupValue['Title'] || lookupValue['title']
     return {

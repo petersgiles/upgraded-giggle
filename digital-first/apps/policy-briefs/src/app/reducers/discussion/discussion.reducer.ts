@@ -14,8 +14,8 @@ export interface State {
 
 export const initialState: State = {
   timeFormat: 'dateFormat',
-  activeChannel: null,
-  channels: null,
+  activeChannel: DiscussionType.Agency,
+  channels: [DiscussionType.Agency],
   activeComment: null,
   comments: null,
   discussion: null

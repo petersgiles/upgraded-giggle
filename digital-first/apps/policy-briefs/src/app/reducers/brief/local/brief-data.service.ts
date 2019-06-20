@@ -11,6 +11,7 @@ import { briefs } from '../../../../devdata/data'
 import { HttpClient } from '@angular/common/http'
 import { AppSettingsService } from '@digital-first/df-app-core'
 import { concatMap, catchError } from 'rxjs/operators'
+import { BriefMapperService } from '../../../services/mappers/brief-mapper.service';
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +39,9 @@ export class BriefDataLocalService implements BriefDataService {
   }
 
   public getActiveBrief(briefId): Observable<{ data: any; loading: boolean }> {
-    const brief = briefs.find(p => `${p.Id}` === `${briefId}`)
+    const found = briefs.find(p => `${p.Id}` === `${briefId}`)
+    const brief = this.briefMapperService.mapSingle(found)
+
     return of({
       data: brief,
       loading: false
@@ -55,11 +58,11 @@ export class BriefDataLocalService implements BriefDataService {
     const relativeUrl = `${this.settings.assetsPath}/docx/${fileLeafRef}.html`
 
     return this.http.get(relativeUrl, { responseType: 'text' }).pipe(
-      concatMap((result: any) =>
-        of({
+      concatMap((result: any) => {
+        return of({
           data: result,
           loading: false
-        })),
+        })}),
         catchError(err => of({
           data: null,
           error: err,
@@ -68,7 +71,7 @@ export class BriefDataLocalService implements BriefDataService {
     )
   }
 
-  constructor(private http: HttpClient, private settings: AppSettingsService) {
+  constructor(private http: HttpClient, private settings: AppSettingsService, private briefMapperService: BriefMapperService) {
     this.fakeBriefBackendSubscription$ = this.fakeBriefBackend.subscribe(next =>
       this.briefItems.next({
         data: next,
