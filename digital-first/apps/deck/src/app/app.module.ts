@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { AppComponent } from './app.component'
 import { NxModule } from '@nrwl/nx'
 import {
-  DialogAreYouSureComponent,
   PanelModule,
   ButtonModule,
   PipesModule
@@ -16,7 +15,7 @@ import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfComponentsModule } from '@digital-first/df-components'
 import { DfMomentModule, DateFormatPipe } from '@digital-first/df-moment'
 import { DfPagesModule } from '@digital-first/df-pages'
-import { DfDialogsModule } from '@digital-first/df-dialogs'
+import { DfDialogsModule, DialogAreYouSureComponent } from '@digital-first/df-dialogs'
 import { DfSharepointLibModule, SharepointJsomService } from '@df/sharepoint'
 
 import { HomeComponent } from './pages/home/home.component'
