@@ -17,6 +17,7 @@ import {
 } from 'rxjs/operators'
 import { statuslist } from './mock-data'
 import { Store, select } from '@ngrx/store'
+import * as fromRoot from '../../reducers/index'
 import * as fromNavigation from '../../reducers/navigation/navigation.reducer'
 import * as fromBrief from '../../reducers/brief/brief.reducer'
 import * as fromDiscussion from '../../reducers/discussion/discussion.reducer'
@@ -76,7 +77,7 @@ export class BriefComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
-    private store: Store<fromNavigation.State>,
+    private store: Store<fromRoot.State>,
     public dialog: MdcDialog
   ) {}
 
