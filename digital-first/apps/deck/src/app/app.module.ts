@@ -115,7 +115,7 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
   providers: [
     {
       provide: ErrorHandler,
-      useClass: AppErrorHandlerToSeqService
+      useClass: environment.production ? AppErrorHandlerToSeqService : ErrorHandler
     },
     {
       provide: AppUserOperationsService,

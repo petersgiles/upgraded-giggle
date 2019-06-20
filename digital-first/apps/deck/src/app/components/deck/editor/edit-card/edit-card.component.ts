@@ -117,7 +117,11 @@ export class EditCardComponent implements OnInit {
     if (!this.cardForm.valid) {
       return
     }
-    const editedCard = this.cardForm.value
+    const editedCard = {
+      ...this.cardForm.value,
+      data: JSON.parse(this.cardForm.value.data)
+    }
+
     this.onSubmitted.emit(editedCard)
     this.clearEditedData(card)
   }
@@ -158,7 +162,7 @@ export class EditCardComponent implements OnInit {
           id: currentCard.media ? currentCard.media.id : ''
         },
         actions: currentCard.actions ? currentCard.actions : [],
-        data: currentCard.data,
+        data: currentCard.data ? JSON.stringify(currentCard.data) : null,
         selectedBriefs:
           currentCard.cardType === CardType.BriefSummary && currentCard.data
             ? currentCard.data

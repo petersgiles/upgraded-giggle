@@ -1,14 +1,14 @@
 <digital-first-card-title [card]="card"></digital-first-card-title>
-<canvas
+<canvas *ngIf="data"
   baseChart
   width="400"
   height="400"
-  [datasets]="card?.data?.chartData"
-  [labels]="card?.data?.chartLabels"
-  [options]="card?.data?.chartOptions"
-  [colors]="card?.data?.chartColors"
-  [legend]="card?.data?.chartLegend"
-  [chartType]="card?.data?.chartType"
+  [datasets]="data?.chartData"
+  [labels]="data?.chartLabels"
+  [options]="data?.chartOptions"
+  [colors]="data?.chartColors"
+  [legend]="data?.chartLegend"
+  [chartType]="data?.chartType"
 ></canvas>
 <digital-first-card-supporting-text
   [card]="card"
