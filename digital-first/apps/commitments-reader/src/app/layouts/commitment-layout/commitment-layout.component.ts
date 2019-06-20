@@ -26,7 +26,7 @@ export class CommitmentLayoutComponent implements OnInit {
     this.isBusy$ = this.store.pipe(select(selectAppSpinnerState))
   }
 
-  getTitle(commitment) {
+  getTitle() {
     return 'Commitment'
   }
 

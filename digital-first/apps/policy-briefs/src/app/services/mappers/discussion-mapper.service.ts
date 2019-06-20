@@ -29,7 +29,7 @@ export class DiscussionMapperService extends CoreMapperService<Discussion> {
       id: `${item.ID}`,
       sortOrder: item.SortOrder,
       briefId: `${item.Brief.ID}`,
-      channel: null,
+      channel: item.Channel,
       parent: item.Parent,
       text: `${item.Comments}`,
       created: `${item.Created}`,

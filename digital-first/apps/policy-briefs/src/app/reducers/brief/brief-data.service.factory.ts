@@ -39,7 +39,7 @@ const briefDataServiceFactory = (
         lookupMapperService
       )
     default:
-      return new BriefDataLocalService(http, settings)
+      return new BriefDataLocalService(http, settings, briefMapperService)
   }
 }
 

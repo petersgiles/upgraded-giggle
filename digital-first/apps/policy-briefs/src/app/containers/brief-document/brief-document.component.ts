@@ -15,10 +15,10 @@ export class BriefDocumentComponent implements OnInit {
   @Input()
   set brief(value) {
     this._brief = value
-    if (this._brief && this._brief.FileLeafRef) {
+    if (this._brief && this._brief.fileLeafRef) {
       // clear extension
 
-      const fileLeafRef = this._brief.FileLeafRef.split('.')
+      const fileLeafRef = this._brief.fileLeafRef.split('.')
         .slice(0, -1)
         .join('.')
 

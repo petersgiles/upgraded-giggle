@@ -23,7 +23,8 @@ import { idFromLookup, fromUser, SharepointJsomService } from '@df/sharepoint'
 import { pickColor } from '../../utils/colour'
 import { DiscussionDataService } from './discussion-data.service'
 import { Store } from '@ngrx/store'
-import * as fromDiscussion from './discussion.reducer'
+import * as fromRoot from '../index'
+
 
 export const mapComment = (item): any => {
   const brief = idFromLookup(item.Brief)
@@ -86,9 +87,10 @@ export class DiscussionEffects {
     ofType(DiscussionActionTypes.GetDiscussion),
     map((action: GetDiscussion) => action),
     withLatestFrom(this.store$),
-    concatMap(([action, store]) =>
-      this.service.getDiscussions({ id: action.payload.activeBriefId, channel: store.activeChannel })
-    ),
+    concatMap(([action, store]) => {
+      console.log(action, store)
+      return this.service.getDiscussions({ id: action.payload.activeBriefId, channel: (<any>store).discussion.activeChannel })
+    }),
     // tslint:disable-next-line: no-console
     tap(result => console.log(`🍺 `, result)),
     switchMap((result: { data: any[]; loading: boolean }) => [
@@ -135,7 +137,7 @@ export class DiscussionEffects {
   constructor(
     private actions$: Actions<DiscussionActions>,
     private service: DiscussionDataService,
-    private store$: Store<fromDiscussion.State>,
+    private store$: Store<fromRoot.State>,
     private sharepoint: SharepointJsomService
   ) {}
 }

@@ -15,11 +15,23 @@ import { DeckItem } from '../../models/deck-item-model'
   ]
 })
 export class ChartCardComponent implements OnInit {
+  _card: DeckItem;
+  data
 
   constructor() { }
   
   @Input()
-  card: DeckItem
+  set card(val: DeckItem){
+    this._card = val
+    if(this._card && this._card.data){
+      this.data = JSON.parse(JSON.stringify(this._card.data))
+    }
+  }
+
+  get card(): DeckItem {
+    return this._card 
+  }
+
 
   @Input()
   readOnly: boolean

@@ -5,6 +5,7 @@ import { AppComponent } from './app.component'
 import { NxModule } from '@nrwl/nx'
 import {
   DialogAreYouSureComponent,
+  DialogsModule,
   PanelModule,
   ButtonModule,
   PipesModule,
@@ -79,7 +80,6 @@ const COMPONENTS = [
   HomeComponent,
   BriefComponent,
   BriefDocumentComponent,
-  DialogAreYouSureComponent,
   UserProfileComponent
 ]
 
@@ -112,7 +112,7 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     DfPipesModule,
     AppRoutingModule,
     DragDropModule,
-
+    DialogsModule,
     StoreModule.forRoot(reducers, {
       metaReducers: metaReducers
     }),
