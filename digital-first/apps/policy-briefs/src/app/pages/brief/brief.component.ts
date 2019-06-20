@@ -69,6 +69,7 @@ export class BriefComponent implements OnInit, OnDestroy {
   selectId$: any
   fileLeafRef$: Observable<any>
   brief$: Observable<any>
+  activeBriefId: string;
 
   // tslint:disable-next-line:no-empty
   constructor(
@@ -107,11 +108,11 @@ export class BriefComponent implements OnInit, OnDestroy {
     this.selectId$ = this.route.paramMap
       .pipe(
         switchMap((params: ParamMap) => {
-          const activeBriefId = params.get('id')
+          this.activeBriefId = params.get('id')
 
-          this.store.dispatch(new SetActiveBrief({ activeBriefId }))
-          this.store.dispatch(new SetActiveBriefPath({ activeBriefId }))
-          this.store.dispatch(new GetDiscussion({ activeBriefId }))
+          this.store.dispatch(new SetActiveBrief({  activeBriefId: this.activeBriefId }))
+          this.store.dispatch(new SetActiveBriefPath({  activeBriefId: this.activeBriefId }))
+          this.store.dispatch(new GetDiscussion({  activeBriefId: this.activeBriefId }))
           
           return EMPTY          
         })
@@ -145,6 +146,7 @@ export class BriefComponent implements OnInit, OnDestroy {
     console.log('🐛 - handleSelectDiscussion', type)
 
     this.store.dispatch(new SetActiveDiscussionChannel(type))
+    this.store.dispatch(new GetDiscussion({ activeBriefId: this.activeBriefId }))
   }
 
   mapFormToBrief(brief): any {
