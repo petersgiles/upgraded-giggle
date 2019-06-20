@@ -14,6 +14,55 @@
         }
       },
       "architect": {
+        "sharepoint": {
+          "builder": "@angular-builders/custom-webpack:browser",
+          "options": {
+            "customWebpackConfig": {
+              "path": "./apps/policy-briefs/custom-webpack.config.js",
+              "mergeStrategies": { "externals": "replace" },
+              "replaceDuplicatePlugins": true
+            },
+            "outputPath": "../sharepoint/deploy/SiteAssets/apps/policy-briefs",
+            "index": "apps/policy-briefs/src/index.html",
+            "main": "apps/policy-briefs/src/main.ts",
+            "polyfills": "apps/policy-briefs/src/polyfills.ts",
+            "tsConfig": "apps/policy-briefs/tsconfig.app.json",
+            "assets": [
+              "apps/policy-briefs/src/favicon.ico",
+              "apps/policy-briefs/src/assets"
+            ],
+            "styles": ["apps/policy-briefs/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/policy-briefs/src/environments/environment.ts",
+                  "with": "apps/policy-briefs/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            },
+            "sharepoint": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/policy-briefs/src/environments/environment.ts",
+                  "with": "apps/policy-briefs/src/environments/environment.sharepoint.ts"
+                }
+              ],
+              "deployUrl": "../../SiteAssets/apps/%>"
+            }
+          }
+        },
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
@@ -169,6 +218,55 @@
         }
       },
       "architect": {
+        "sharepoint": {
+          "builder": "@angular-builders/custom-webpack:browser",
+          "options": {
+            "customWebpackConfig": {
+              "path": "./apps/commitments/custom-webpack.config.js",
+              "mergeStrategies": { "externals": "replace" },
+              "replaceDuplicatePlugins": true
+            },
+            "outputPath": "../sharepoint/deploy/SiteAssets/apps/commitments",
+            "index": "apps/commitments/src/index.html",
+            "main": "apps/commitments/src/main.ts",
+            "polyfills": "apps/commitments/src/polyfills.ts",
+            "tsConfig": "apps/commitments/tsconfig.app.json",
+            "assets": [
+              "apps/commitments/src/favicon.ico",
+              "apps/commitments/src/assets"
+            ],
+            "styles": ["apps/commitments/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/commitments/src/environments/environment.ts",
+                  "with": "apps/commitments/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            },
+            "sharepoint": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/commitments/src/environments/environment.ts",
+                  "with": "apps/commitments/src/environments/environment.sharepoint.ts"
+                }
+              ],
+              "deployUrl": "../../SiteAssets/apps/"
+            }
+          }
+        },
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
@@ -257,9 +355,9 @@
         }
       }
     },
-    "brief-admin": {
-      "root": "apps/brief-admin/",
-      "sourceRoot": "apps/brief-admin/src",
+    "deck": {
+      "root": "apps/deck/",
+      "sourceRoot": "apps/deck/src",
       "projectType": "application",
       "prefix": "digital-first",
       "schematics": {
@@ -268,27 +366,29 @@
         }
       },
       "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+        "sharepoint": {
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
-            "outputPath": "dist/apps/brief-admin",
-            "index": "apps/brief-admin/src/index.html",
-            "main": "apps/brief-admin/src/main.ts",
-            "polyfills": "apps/brief-admin/src/polyfills.ts",
-            "tsConfig": "apps/brief-admin/tsconfig.app.json",
-            "assets": [
-              "apps/brief-admin/src/favicon.ico",
-              "apps/brief-admin/src/assets"
-            ],
-            "styles": ["apps/brief-admin/src/styles.scss"],
+            "customWebpackConfig": {
+              "path": "./apps/deck/custom-webpack.config.js",
+              "mergeStrategies": { "externals": "replace" },
+              "replaceDuplicatePlugins": true
+            },
+            "outputPath": "../sharepoint/deploy/SiteAssets/apps/deck",
+            "index": "apps/deck/src/index.html",
+            "main": "apps/deck/src/main.ts",
+            "polyfills": "apps/deck/src/polyfills.ts",
+            "tsConfig": "apps/deck/tsconfig.app.json",
+            "assets": ["apps/deck/src/favicon.ico", "apps/deck/src/assets"],
+            "styles": ["apps/deck/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "apps/brief-admin/src/environments/environment.ts",
-                  "with": "apps/brief-admin/src/environments/environment.prod.ts"
+                  "replace": "apps/deck/src/environments/environment.ts",
+                  "with": "apps/deck/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -304,69 +404,15 @@
             "sharepoint": {
               "fileReplacements": [
                 {
-                  "replace": "apps/brief-admin/src/environments/environment.ts",
-                  "with": "apps/brief-admin/src/environments/environment.sharepoint.ts"
+                  "replace": "apps/deck/src/environments/environment.ts",
+                  "with": "apps/deck/src/environments/environment.sharepoint.ts"
                 }
-              ]
+              ],
+              "deployUrl": "../../SiteAssets/apps/deck/"
+
             }
           }
         },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "port": 4203,
-            "browserTarget": "brief-admin:build"
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "brief-admin:build:production"
-            }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "brief-admin:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "apps/brief-admin/src/test.ts",
-            "polyfills": "apps/brief-admin/src/polyfills.ts",
-            "tsConfig": "apps/brief-admin/tsconfig.spec.json",
-            "karmaConfig": "apps/brief-admin/karma.conf.js",
-            "styles": ["apps/brief-admin/src/styles.scss"],
-            "scripts": [],
-            "assets": [
-              "apps/brief-admin/src/favicon.ico",
-              "apps/brief-admin/src/assets"
-            ]
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "apps/brief-admin/tsconfig.app.json",
-              "apps/brief-admin/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      }
-    },
-    "deck": {
-      "root": "apps/deck/",
-      "sourceRoot": "apps/deck/src",
-      "projectType": "application",
-      "prefix": "digital-first",
-      "schematics": {
-        "@schematics/angular:component": {
-          "styleext": "scss"
-        }
-      },
-      "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
@@ -411,7 +457,11 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "port": 4204,
-            "browserTarget": "deck:build"
+            "browserTarget": "deck:build",
+            "ssl": true,
+            "sslKey": "ssl/server.key",
+            "sslCert": "ssl/server.crt",
+            "liveReload": true
           },
           "configurations": {
             "production": {
@@ -443,99 +493,6 @@
             "tsConfig": [
               "apps/deck/tsconfig.app.json",
               "apps/deck/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      }
-    },
-    "todo": {
-      "root": "apps/todo/",
-      "sourceRoot": "apps/todo/src",
-      "projectType": "application",
-      "prefix": "digital-first",
-      "schematics": {
-        "@schematics/angular:component": {
-          "styleext": "scss"
-        }
-      },
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:browser",
-          "options": {
-            "outputPath": "dist/apps/todo",
-            "index": "apps/todo/src/index.html",
-            "main": "apps/todo/src/main.ts",
-            "polyfills": "apps/todo/src/polyfills.ts",
-            "tsConfig": "apps/todo/tsconfig.app.json",
-            "assets": ["apps/todo/src/favicon.ico", "apps/todo/src/assets"],
-            "styles": ["apps/todo/src/styles.scss"],
-            "scripts": []
-          },
-          "configurations": {
-            "production": {
-              "fileReplacements": [
-                {
-                  "replace": "apps/todo/src/environments/environment.ts",
-                  "with": "apps/todo/src/environments/environment.prod.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
-            },
-            "sharepoint": {
-              "fileReplacements": [
-                {
-                  "replace": "apps/todo/src/environments/environment.ts",
-                  "with": "apps/todo/src/environments/environment.sharepoint.ts"
-                }
-              ]
-            }
-          }
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "port": 4205,
-            "browserTarget": "todo:build"
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "todo:build:production"
-            }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "todo:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "apps/todo/src/test.ts",
-            "polyfills": "apps/todo/src/polyfills.ts",
-            "tsConfig": "apps/todo/tsconfig.spec.json",
-            "karmaConfig": "apps/todo/karma.conf.js",
-            "styles": ["apps/todo/src/styles.scss"],
-            "scripts": [],
-            "assets": ["apps/todo/src/favicon.ico", "apps/todo/src/assets"]
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "apps/todo/tsconfig.app.json",
-              "apps/todo/tsconfig.spec.json"
             ],
             "exclude": ["**/node_modules/**"]
           }
@@ -588,32 +545,6 @@
             "tsConfig": [
               "libs/df-pipes/tsconfig.lib.json",
               "libs/df-pipes/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      }
-    },
-    "df-utils": {
-      "root": "libs/df-utils",
-      "sourceRoot": "libs/df-utils/src",
-      "projectType": "library",
-      "prefix": "digital-first",
-      "architect": {
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "libs/df-utils/src/test.ts",
-            "tsConfig": "libs/df-utils/tsconfig.spec.json",
-            "karmaConfig": "libs/df-utils/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/df-utils/tsconfig.lib.json",
-              "libs/df-utils/tsconfig.spec.json"
             ],
             "exclude": ["**/node_modules/**"]
           }
@@ -755,37 +686,6 @@
         }
       }
     },
-    "df-tag": {
-      "root": "libs/df-tag",
-      "sourceRoot": "libs/df-tag/src",
-      "projectType": "library",
-      "prefix": "digital-first",
-      "architect": {
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "libs/df-tag/src/test.ts",
-            "tsConfig": "libs/df-tag/tsconfig.spec.json",
-            "karmaConfig": "libs/df-tag/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/df-tag/tsconfig.lib.json",
-              "libs/df-tag/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/schematics:component": {
-          "styleext": "scss"
-        }
-      }
-    },
     "df-datatable": {
       "root": "libs/df-datatable",
       "sourceRoot": "libs/df-datatable/src",
@@ -917,6 +817,88 @@
       "prefix": "digital-first",
       "schematics": {},
       "architect": {
+        "sharepoint": {
+          "builder": "@angular-builders/custom-webpack:browser",
+          "options": {
+            "customWebpackConfig": {
+              "path": "./apps/commitments-reader/custom-webpack.config.js",
+              "mergeStrategies": { "externals": "replace" },
+              "replaceDuplicatePlugins": true
+            },
+            "outputPath": "../sharepoint/deploy/SiteAssets/apps/commitments-reader",
+            "index": "apps/commitments-reader/src/index.html",
+            "main": "apps/commitments-reader/src/main.ts",
+            "polyfills": "apps/commitments-reader/src/polyfills.ts",
+            "tsConfig": "apps/commitments-reader/tsconfig.app.json",
+            "assets": [
+              "apps/commitments-reader/src/favicon.ico",
+              "apps/commitments-reader/src/assets",
+              "apps/commitments-reader/src/scheduler"
+            ],
+            "styles": ["apps/commitments-reader/src/styles.scss"],
+            "scripts": [],
+            "es5BrowserSupport": true
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/commitments-reader/src/environments/environment.ts",
+                  "with": "apps/commitments-reader/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            },
+            "sharepoint": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/commitments-reader/src/environments/environment.ts",
+                  "with": "apps/commitments-reader/src/environments/environment.sharepoint.ts"
+                }
+              ],
+              "deployUrl": "../../SiteAssets/apps/"
+            },
+            "sharepointprod": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/commitments-reader/src/environments/environment.ts",
+                  "with": "apps/commitments-reader/src/environments/environment.sharepoint-prod.ts"
+                }
+              ]
+            },
+            "remote": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/commitments-reader/src/environments/environment.ts",
+                  "with": "apps/commitments-reader/src/environments/environment.remote.ts"
+                }
+              ]
+            },
+            "remotedev": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/commitments-reader/src/environments/environment.ts",
+                  "with": "apps/commitments-reader/src/environments/environment.remote-dev.ts"
+                }
+              ]
+            }
+          }
+        },
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
@@ -997,7 +979,11 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "port": 4210,
-            "browserTarget": "commitments-reader:build"
+            "browserTarget": "commitments-reader:build",
+            "ssl": true,
+            "sslKey": "ssl/server.key",
+            "sslCert": "ssl/server.crt",
+            "liveReload": true
           },
           "configurations": {
             "production": {

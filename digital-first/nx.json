@@ -20,25 +20,13 @@
     "commitments": {
       "tags": []
     },
-    "brief-admin": {
-      "tags": []
-    },
     "deck": {
-      "tags": []
-    },
-    "todo": {
-      "tags": []
-    },
-    "df-discussion": {
       "tags": []
     },
     "df-moment": {
       "tags": []
     },
     "df-pipes": {
-      "tags": []
-    },
-    "df-utils": {
       "tags": []
     },
     "df-pages": {
@@ -50,16 +38,10 @@
     "df-components": {
       "tags": []
     },
-    "df-logging": {
-      "tags": []
-    },
     "df-auth": {
       "tags": []
     },
     "df-app-tokens": {
-      "tags": []
-    },
-    "df-tag": {
       "tags": []
     },
     "df-datatable": {
