@@ -61,7 +61,8 @@ export class CommitmentPrintComponent implements OnInit {
     
   ) {}
 
-  @ViewChild('htmlpdfwrapper', { static: true }) public htmlpdfwrapperElementRef: ElementRef
+  @ViewChild('htmlpdfwrapper', { static: false })
+  public htmlpdfwrapperElementRef: ElementRef
 
   ngOnInit(): void {
     this.commitmentContactsTableData$ = this.service.CommitmentContactsTableData
