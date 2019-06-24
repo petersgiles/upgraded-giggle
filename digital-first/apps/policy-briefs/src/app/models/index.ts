@@ -20,7 +20,7 @@ export const refinerMap = {
 }
 
 export interface DisplayLookup {
-  id: string | number,
+  id: string | number
   title: string
 }
 
@@ -43,16 +43,15 @@ export interface Comment {
 }
 
 export interface Discussion {
-  
-    id:  string
-    sortOrder:  string
-    briefId:  string
-    parent:  string
-    text:  string
-    created:  string
-    channel:  DiscussionType
-    author: Author
-  
+  id: string
+  sortOrder: string
+  briefId: string
+  parent: string
+  text: string
+  created: string
+  channel: DiscussionType
+  author?: Author
+  children?: any
 }
 
 export interface NavigationNode {
@@ -62,8 +61,10 @@ export interface NavigationNode {
   parent: string
   colour: string
   order: string
+  level?: number
   active: boolean
   expanded: boolean
+  children?: any
 }
 
 export interface Brief {

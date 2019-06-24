@@ -1,6 +1,6 @@
 export const sortBy = (key: string | number) => (a, b) =>
   a[key] > b[key] ? 1 : b[key] > a[key] ? -1 : 0
-
+  
 export function toTree(
   data: any[],
   opts?: {

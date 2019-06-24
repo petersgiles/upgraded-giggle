@@ -12,38 +12,7 @@ import { policies, subpolicies, briefs } from '../../../../devdata/data'
 import { NavigationDataService } from '../navigation-data.service'
 
 import { arrayToHash } from '@df/utils'
-
-export const mapNavigationNode = (item): any => {
-
-  const policy = item.Policy ? item.Policy.Id : null
-  const subpolicy = item.SubPolicy ? item.SubPolicy.Id : null
-
-  let nodeId = item.ID
-  let parent = null
-
-  if (policy) {
-    nodeId = [policy, item.ID].filter(p => !!p).join('-')
-    parent = `${policy}`
-  }
-
-  if (subpolicy) {
-    nodeId = [policy, subpolicy, item.ID].filter(p => !!p).join('-')
-    parent = [policy, subpolicy].filter(p => !!p).join('-')
-  }
-
-  return {
-    id: nodeId,
-    briefId: item.ID,
-    caption: item.Title,
-    parent: parent,
-    colour: item.Colour,
-    order: item.SortOrder,
-    active: false,
-    expanded: false
-  }
-}
-
-export const mapNavigationNodes = (items): any[] => items.map(mapNavigationNode)
+import { BriefNavigationMapperService } from '../../../services/mappers/brief-navigation-mapper.service';
 
 @Injectable({
   providedIn: 'root'
@@ -71,9 +40,9 @@ export class NavigationDataLocalService implements NavigationDataService {
     console.log(`getNavigations`)
 
     const nodes = [
-      ...mapNavigationNodes(policies),
-      ...mapNavigationNodes(subpolicies),
-      ...mapNavigationNodes(briefs)
+      ...this.briefNavigationMapperService.mapMany(policies),
+      ...this.briefNavigationMapperService.mapMany(subpolicies),
+      ...this.briefNavigationMapperService.mapMany(briefs)
     ]
 
     // this relies on the order of nodes i.e policy then subpolicy then brief
@@ -93,7 +62,7 @@ export class NavigationDataLocalService implements NavigationDataService {
     })
   }
 
-  constructor() {
+  constructor(private briefNavigationMapperService: BriefNavigationMapperService) {
     // this.fakeNavigationBackendSubscription$ = this.fakeNavigationBackend.subscribe(
     //   next =>
     //     this.navigationItems.next({

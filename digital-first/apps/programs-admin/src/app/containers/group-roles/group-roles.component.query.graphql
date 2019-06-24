@@ -1,8 +1,0 @@
-query allRoles {
-  roles {
-    id
-    title
-    description
-    rowVersion
-  }
-}

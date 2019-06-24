@@ -3,14 +3,10 @@ import {
   OnInit,
   Input,
   Output,
-  EventEmitter,
-  ViewChild,
-  ElementRef,
-  NgZone
-} from '@angular/core'
+  EventEmitter} from '@angular/core'
 import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
 import { FormControl, FormGroup } from '@angular/forms'
-import { debounceTime, distinctUntilChanged, flatMap } from 'rxjs/operators'
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 
 import { Injectable } from '@angular/core'
 import { BehaviorSubject } from 'rxjs'
@@ -24,7 +20,6 @@ export class RefinerActionService {
   // tslint:disable-next-line:variable-name
   public message: BehaviorSubject<string> = new BehaviorSubject(null)
 }
-
 @Component({
   selector: 'digital-first-metadata-refiner',
   templateUrl: './metadata-refiner.component.html',
@@ -41,7 +36,7 @@ export class MetadataRefinerComponent implements OnInit {
   action$: any
   _refinerGroups: RefinerGroup[]
 
-  constructor(private ngZone: NgZone, private service: RefinerActionService) {}
+  constructor() {}
 
   ngOnInit() {
     // this.action$ = this.service.message.subscribe(_ => {
@@ -63,10 +58,7 @@ export class MetadataRefinerComponent implements OnInit {
         }
       )
   }
-
-  @ViewChild('search', { static: true })
-  public searchElementRef: ElementRef
-
+  
   startVisible: boolean
 
   @Input()
@@ -101,7 +93,7 @@ export class MetadataRefinerComponent implements OnInit {
   @Output()
   onClear: EventEmitter<any> = new EventEmitter()
 
-  handleOnClear($event) {
+  handleOnClear() {
     this.searchControl.reset()
   }
 }

@@ -30,7 +30,12 @@ export class DiscussionDataLocalService implements DiscussionDataService {
     data: any
     loading: boolean
   }> {
-    const discussions = comments.filter(p => `${p.Brief.Id}` === `${item.id}`)
+
+console.log(`channel`, item.channel)
+
+    const discussions = comments.filter(p => {
+      return p.Channel === item.channel && `${p.Brief.Id}` === `${item.id}`
+    })
 
     return of({
       data: this.discussionMapperService.mapMany(discussions),

@@ -1,7 +1,0 @@
-mutation deleteAccessControlGroup($data: DeleteAccessControlGroupInputGraph) {
-  deleteAccessControlGroup(input:$data)
-}
-
-mutation deleteAccessControlGroupUser ($data: DeleteAccessControlGroupUserInputGraph!) {
-  deleteAccessControlGroupUser (input: $data)
-}

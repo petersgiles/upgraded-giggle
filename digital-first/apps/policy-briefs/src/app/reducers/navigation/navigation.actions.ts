@@ -6,7 +6,13 @@ export enum NavigationActionTypes {
   GetNavigations = '[Navigation] Get Navigations',
   GetNavigationsFailure = '[Navigation] Get Navigations Failure',
   LoadNavigations = '[Navigation] Load Navigations',
-  ToggleExpand = '[Navigation] Toggle Expand'
+  ToggleExpand = '[Navigation] Toggle Expand',
+  SetActiveBriefPath = '[Navigation] SetActiveBriefPath',
+}
+
+export class SetActiveBriefPath implements Action {
+  readonly type = NavigationActionTypes.SetActiveBriefPath
+  constructor(public payload: { activeBriefId: string }) {}
 }
 
 export class GetNavigations implements Action {
@@ -34,4 +40,4 @@ export class LoadNavigations implements Action {
   }
 }
 
-export type NavigationActions = LoadNavigations | GetNavigations | GetNavigationsFailure | ToggleExpand
+export type NavigationActions = LoadNavigations | GetNavigations | GetNavigationsFailure | ToggleExpand | SetActiveBriefPath

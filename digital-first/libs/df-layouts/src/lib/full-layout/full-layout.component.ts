@@ -5,7 +5,6 @@ import { takeUntil, filter, delay, tap, concatMap } from 'rxjs/operators'
 import {
   FullLayoutService
 } from './full-layout.service'
-import { MdcTopAppBar } from '@angular-mdc/web'
 import { AppUserProfile, SideBarItem } from '../models'
 
 const SMALL_WIDTH_BREAKPOINT = 1240
@@ -30,9 +29,6 @@ export class FullLayoutComponent implements OnInit, OnDestroy {
   sidebarItems$: Observable<SideBarItem[]>
   notification$: Observable<string>
   open$: Observable<boolean>
-
-  @ViewChild('topAppBar', { static: true }) topAppBar: MdcTopAppBar
-
   constructor(
     private router: Router,
     private ngZone: NgZone,

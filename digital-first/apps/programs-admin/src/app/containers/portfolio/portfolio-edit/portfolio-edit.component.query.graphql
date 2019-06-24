@@ -1,9 +1,0 @@
-query getPortfolio ($id: ID!) {
-  portfolio(id: $id)
-  {
-       id
-       title
-       metadata
-       rowVersion
-    }
-}

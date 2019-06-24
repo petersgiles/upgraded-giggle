@@ -5,6 +5,7 @@ import { AppComponent } from './app.component'
 import { NxModule } from '@nrwl/nx'
 import {
   DialogAreYouSureComponent,
+  DialogsModule,
   PanelModule,
   ButtonModule,
   PipesModule,
@@ -26,7 +27,6 @@ import { AppFullLayoutService } from './app-full-layout.service'
 import { AppRoutingModule } from './app-routing.module'
 import { DragDropModule } from '@angular/cdk/drag-drop'
 
-import { DfDatatableModule } from '@digital-first/df-datatable'
 import { DfButtonsModule } from '@digital-first/df-buttons'
 import { DfMapModule } from '@digital-first/df-map'
 
@@ -80,7 +80,6 @@ const COMPONENTS = [
   HomeComponent,
   BriefComponent,
   BriefDocumentComponent,
-  DialogAreYouSureComponent,
   UserProfileComponent
 ]
 
@@ -102,7 +101,6 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     PipesModule,
     DfAppCoreModule,
     DfComponentsModule,
-    DfDatatableModule,
     DfButtonsModule,
     DfMapModule,
     DfMomentModule,
@@ -114,7 +112,7 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     DfPipesModule,
     AppRoutingModule,
     DragDropModule,
-
+    DialogsModule,
     StoreModule.forRoot(reducers, {
       metaReducers: metaReducers
     }),
@@ -139,7 +137,7 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
   providers: [
     {
       provide: ErrorHandler,
-      useClass: AppErrorHandlerToSeqService
+      useClass: environment.production ? AppErrorHandlerToSeqService : ErrorHandler
     },
     {
       provide: AppUserOperationsService,

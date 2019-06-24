@@ -1,4 +1,4 @@
-import { ErrorHandler, Injectable, Injector, NgZone } from '@angular/core'
+import { ErrorHandler, Injectable } from '@angular/core'
 import * as structuredLog from 'structured-log'
 import { SeqSink } from './app-seq-sink'
 import { AppSettingsService } from './app-settings.service'
@@ -50,6 +50,9 @@ export class AppErrorHandlerToSeqService implements ErrorHandler {
   }
 
   logStructuredWithExtraProps(errorToLog) {
+
+    console.log(`💥💥💥`, errorToLog)
+
     const { action, message, error, ...remaining } = errorToLog
 
     const detail = {

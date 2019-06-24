@@ -1,7 +1,0 @@
-mutation createAccessControlGroup($data:CreateAccessControlGroupInputGraph){
-  createAccessControlGroup(input: $data){
-    id
-    title
-    rowVersion
-  }
-}

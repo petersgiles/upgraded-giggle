@@ -5,40 +5,9 @@ import { SharepointJsomService, idFromLookup } from '@df/sharepoint'
 import { concatMap, map } from 'rxjs/operators'
 import { NavigationDataService } from '../navigation-data.service'
 import { arrayToHash } from '@df/utils'
+import { BriefNavigationMapperService } from '../../../services/mappers/brief-navigation-mapper.service';
 
 const NAVIGATION_LIST_NAME = 'Navigation'
-
-export const mapNavigationNode = (item): any => {
-
-  const policy = idFromLookup(item.Policy)
-  const subpolicy = idFromLookup(item.SubPolicy)
-
-  let nodeId = item.ID
-  let parent = null
-
-  if (policy) {
-    nodeId = [policy, item.ID].filter(p => !!p).join('-')
-    parent = `${policy}`
-  }
-
-  if (subpolicy) {
-    nodeId = [policy, subpolicy, item.ID].filter(p => !!p).join('-')
-    parent = [policy, subpolicy].filter(p => !!p).join('-')
-  }
-
-  return {
-    id: nodeId,
-    briefId: item.ID,
-    caption: item.Title,
-    parent: parent,
-    colour: item.Colour,
-    order: item.SortOrder,
-    active: false,
-    expanded: false
-  }
-}
-
-export const mapNavigationNodes = (items): any[] => items.map(mapNavigationNode)
 
 @Injectable({
   providedIn: 'root'
@@ -87,9 +56,9 @@ export class NavigationDataSharepointService implements NavigationDataService {
       })
     ]).pipe(
       map(([spPolicy, spSubPolicy, spBrief]) => [
-        ...mapNavigationNodes(spPolicy),
-        ...mapNavigationNodes(spSubPolicy),
-        ...mapNavigationNodes(spBrief)
+        ...this.briefNavigationMapperService.mapMany(spPolicy),
+        ...this.briefNavigationMapperService.mapMany(spSubPolicy),
+        ...this.briefNavigationMapperService.mapMany(spBrief)
       ]),
       map(nodes => {
         // this relies on the order of nodes i.e policy then subpolicy then brief
@@ -114,5 +83,5 @@ export class NavigationDataSharepointService implements NavigationDataService {
       )
     )
 
-  constructor(private sharepoint: SharepointJsomService) {}
+  constructor(private sharepoint: SharepointJsomService, private briefNavigationMapperService: BriefNavigationMapperService) {}
 }

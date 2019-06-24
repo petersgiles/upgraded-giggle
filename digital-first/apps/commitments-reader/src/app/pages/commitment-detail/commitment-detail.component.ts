@@ -15,19 +15,13 @@ import { Commitment } from '../../models/commitment.model'
 
 import { CommitmentLocation } from '../../models/commitment.model'
 import {
-  OPERATION_PMO_HANDLING_ADVICE,
-  OPERATION_PMC_HANDLING_ADVICE
-} from '@df/components'
-import {
   GetDetailedCommitment,
   UpdatePMOHandlingAdvice,
   UpdatePMCHandlingAdvice
 } from '../../reducers/commitment-detail/commitment-detail.actions'
 import { FormGroup, FormControl } from '@angular/forms'
 import { getCurrentUserOperations } from 'apps/commitments/src/app/reducers'
-
-
-// import { getUserCurrentUserPermissions } from '../../reducers/user/user.reducer'
+import { OPERATION_PMO_HANDLING_ADVICE, OPERATION_PMC_HANDLING_ADVICE } from '../../services/app-data/app-operations';
 
 @Component({
   selector: 'digital-first-commitment-detail',

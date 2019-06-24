@@ -3,13 +3,22 @@ import { DisplayLookup } from '../../models';
 export abstract class CoreMapperService<T> {
   constructor() {}
 
-  public abstract mapSingle(item: any): T
+  public  mapSingle(item: any): T { return null}
 
   protected idFromLookup(lookupValue: any) {
     return lookupValue['ID'] || lookupValue['Id'] || lookupValue['id']
   }
 
   protected fromLookup(lookupValue: any): DisplayLookup {
+
+    if(!lookupValue){
+      return {
+        id: null,
+        title: null
+      }
+
+    }
+
     const id = lookupValue['ID'] || lookupValue['Id'] || lookupValue['id']
     const title = lookupValue['Title'] || lookupValue['title']
     return {

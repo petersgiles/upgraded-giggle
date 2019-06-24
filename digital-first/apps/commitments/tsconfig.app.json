@@ -10,7 +10,6 @@
   ],
   "include": [
     "**/*.ts"
-    , "../../../libs/df-discussion/src/index.ts"
     , "../../../libs/df-dialog/src/index.ts"
     , "../../../libs/df-layouts/src/index.ts"
     , "../../../libs/df-pages/src/index.ts"
@@ -18,6 +17,5 @@
     , "../../../libs/df-pipes/src/index.ts"
     , "../../../libs/df-sharepoint/src/index.ts"
     , "../../../libs/df-theme/src/index.ts"
-    , "../../../libs/df-utils/src/index.ts"
   ]
 }

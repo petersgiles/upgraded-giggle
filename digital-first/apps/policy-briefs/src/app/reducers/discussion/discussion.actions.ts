@@ -5,7 +5,7 @@ import { DiscussionType } from '../../models';
 export enum DiscussionActionTypes {
   SetActiveDiscussionChannel = '[Discussion] Get SetActiveDiscussionChannel',
   GetDiscussion = '[Discussion] Get Discussion',
-  GetDiscussionFailure = '[Navigation] Get Discussion Failure',
+  GetDiscussionFailure = '[Discussion] Get Discussion Failure',
   LoadDiscussions = '[Discussion] Load Discussions',
   AddComment = '[Discussion] Add Comment',
   ReplyToComment = '[Discussion] Reply To Comment',

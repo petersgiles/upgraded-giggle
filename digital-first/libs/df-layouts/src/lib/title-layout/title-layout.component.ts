@@ -21,7 +21,6 @@ export class TitleLayoutComponent implements OnInit, OnDestroy {
   open$: Observable<boolean>
   logo$: Observable<any>
 
-  @ViewChild('topAppBar', { static: true }) topAppBar: MdcTopAppBar
   appItems$: Observable<AppItem[]>
   bookType$: Observable<string>
   bookColour$: Observable<string>

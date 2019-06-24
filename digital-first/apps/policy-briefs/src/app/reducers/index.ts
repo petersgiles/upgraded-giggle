@@ -25,7 +25,10 @@ export function localStorageSyncReducer(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
   return localStorageSync({
-    keys: [{ auth: ['status'] }],
+    keys: [
+      { auth: ['status'] }
+      , { navigation: ['expandedNodes'] }
+    ],
     rehydrate: true
   })(reducer)
 }

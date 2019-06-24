@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { AppComponent } from './app.component'
 import { NxModule } from '@nrwl/nx'
 import {
-  DialogAreYouSureComponent,
   PanelModule,
   ButtonModule,
   PipesModule
@@ -16,7 +15,7 @@ import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfComponentsModule } from '@digital-first/df-components'
 import { DfMomentModule, DateFormatPipe } from '@digital-first/df-moment'
 import { DfPagesModule } from '@digital-first/df-pages'
-import { DfDialogsModule } from '@digital-first/df-dialogs'
+import { DfDialogsModule, DialogAreYouSureComponent } from '@digital-first/df-dialogs'
 import { DfSharepointLibModule, SharepointJsomService } from '@df/sharepoint'
 
 import { HomeComponent } from './pages/home/home.component'
@@ -24,7 +23,6 @@ import { AppFullLayoutService } from './app-full-layout.service'
 import { AppRoutingModule } from './app-routing.module'
 import { DragDropModule } from '@angular/cdk/drag-drop'
 
-import { DfDatatableModule } from '@digital-first/df-datatable'
 import { DfButtonsModule } from '@digital-first/df-buttons'
 import { DfMapModule } from '@digital-first/df-map'
 
@@ -67,8 +65,7 @@ import {
 const COMPONENTS = [
   AppComponent,
   HomeComponent,
-  UserProfileComponent,
-  DialogAreYouSureComponent
+  UserProfileComponent
 ]
 
 const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
@@ -87,7 +84,6 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     PipesModule,
     DfAppCoreModule,
     DfComponentsModule,
-    DfDatatableModule,
     DfButtonsModule,
     DfMapModule,
     DfMomentModule,
@@ -117,7 +113,7 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
   providers: [
     {
       provide: ErrorHandler,
-      useClass: AppErrorHandlerToSeqService
+      useClass: environment.production ? AppErrorHandlerToSeqService : ErrorHandler
     },
     {
       provide: AppUserOperationsService,

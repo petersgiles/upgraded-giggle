@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, ViewChild } from '@angular/core'
+import { Component, OnInit, Input, OnDestroy } from '@angular/core'
 import { MdcDialog, MdcSnackbar } from '@angular-mdc/web'
 import { CommitmentActionService } from '../../reducers/commitment-action/commitment-action.service'
 import { Subscription, Observable } from 'rxjs'

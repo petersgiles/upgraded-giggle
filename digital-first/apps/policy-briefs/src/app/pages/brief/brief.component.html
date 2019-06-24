@@ -1,16 +1,15 @@
 <div class="app-page">
   <div class="brief-layout">
-    <nav>
-      <df-pack-navigator
-        [nodes]="nodes$ | async"
+    <nav *ngIf="(nodes$ | async) as nodes">
+      <df-pack-navigator 
+        [nodes]="nodes"
         (onSelect)="handleSelectNavigatorNode($event)"
         (onMoveNode)="handleToggleMoveNavigatorNode($event, 'Move')"
         (onToggleExpand)="handleToggleExpandNavigatorNode($event)"
       ></df-pack-navigator>
     </nav>
-    <section>
+    <section *ngIf="(brief$ | async) as brief">
       <df-expander-panel
-        *ngIf="brief$ | async as brief"
         title="Discussion"
         [background]="background$ | async"
         expanded="true"
@@ -40,7 +39,6 @@
         ></df-discussion>
       </df-expander-panel>
       <df-expander-panel
-        *ngIf="brief$ | async as brief"
         [title]="brief.title"
         [background]="background$ | async"
         expandable="false"
