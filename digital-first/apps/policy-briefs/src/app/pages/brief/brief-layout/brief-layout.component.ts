@@ -44,6 +44,8 @@ export class BriefLayoutComponent implements OnInit, OnDestroy {
     this.nodes$ = this.store.pipe(
       select(fromNavigation.selectNavigationNodeTreeState)
     )
+
+    this.store.dispatch(new GetNavigations())
   }
 
   public ngOnDestroy() {

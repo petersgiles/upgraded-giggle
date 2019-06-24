@@ -23,6 +23,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { SetActiveBriefStatus } from '../../../reducers/brief/brief.actions'
 import { FormBuilder } from '@angular/forms';
 import { statuslist } from '../mock-data';
+import { DiscussionType } from '../../../models';
 
 const defaultBrief = {
   status: '1'
@@ -35,6 +36,7 @@ const defaultBrief = {
 })
 export class BriefReaderComponent implements OnInit {
   documentStatusList$: any
+  public discussionTypes = DiscussionType
   public form = this.fb.group({
     status: [null]
   })
@@ -91,7 +93,7 @@ export class BriefReaderComponent implements OnInit {
       )
       .subscribe()
 
-    this.store.dispatch(new GetNavigations())
+
 
     this.form.patchValue(defaultBrief)
 
