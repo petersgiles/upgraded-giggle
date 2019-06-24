@@ -10,7 +10,7 @@ import {
   GetNavigations,
   ToggleExpand
 } from '../../../reducers/navigation/navigation.actions'
-import { GetDiscussion, AddComment, RemoveComment, ReplyToComment } from '../../../reducers/discussion/discussion.actions'
+import { GetDiscussion, AddComment, RemoveComment, ReplyToComment, SetActiveDiscussionChannel } from '../../../reducers/discussion/discussion.actions'
 import { EMPTY, BehaviorSubject, Subscription } from 'rxjs'
 
 import * as fromRoot from '../../../reducers/index'
@@ -54,12 +54,12 @@ export class BriefReaderComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<fromRoot.State>,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public dialog: MdcDialog
   ) {}
 
   ngOnInit() {
     this.documentStatusList$ = new BehaviorSubject(statuslist)
-
 
     this.comments$ = this.store.pipe(
       select(fromDiscussion.selectDiscussionState)
@@ -117,4 +117,60 @@ export class BriefReaderComponent implements OnInit {
   ngOnDestroy() {
 
   }
+
+  handleSelectDiscussion(type: DiscussionType) {
+    // tslint:disable-next-line:no-console
+    console.log('🐛 - handleSelectDiscussion', type)
+
+    this.store.dispatch(new SetActiveDiscussionChannel(type))
+    this.store.dispatch(new GetDiscussion({ activeBriefId: this.activeBriefId }))
+  }
+
+
+  handleEdit($event) {
+    // tslint:disable-next-line:no-console
+    console.log('🐛 - handleEdit', $event)
+  }
+
+  public handleReplyToComment(comment) {
+    // tslint:disable-next-line:no-console
+    console.log(`💬 -  ReplyToComment`, comment)
+    this.store.dispatch(new ReplyToComment({ activeComment: comment.id }))
+  }
+
+  public handleRemoveComment($event) {
+    // tslint:disable-next-line:no-console
+    console.log(`💬 -  RemoveComment`, $event)
+
+    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+      escapeToClose: true,
+      clickOutsideToClose: true
+    })
+
+    dialogRef
+      .afterClosed()
+      .pipe(first())
+      .subscribe(result => {
+        if (result === ARE_YOU_SURE_ACCEPT) {
+          this.store.dispatch(
+            new RemoveComment({ id: $event.id, brief: $event.hostId })
+          )
+        }
+      })
+  }
+
+  public handleAddComment($event) {
+    const parent = $event.parent
+    const newcomment = {
+      brief: $event.hostId,
+      text: $event.text,
+      parent: parent ? parent.id : null
+    }
+
+    // tslint:disable-next-line:no-console
+    console.log(`💬 -  AddComment`, $event, newcomment)
+
+    this.store.dispatch(new AddComment(newcomment))
+  }
+
 }
