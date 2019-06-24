@@ -51,11 +51,9 @@ const defaultBrief = {
 export class BriefComponent implements OnInit, OnDestroy {
   public nodes$: Observable<any>
 
-  public discussionTypes = DiscussionType
-
   public background$: BehaviorSubject<string> = new BehaviorSubject('#455a64')
   public documentStatusList$: BehaviorSubject<any>
-
+  public discussionTypes = DiscussionType
   public comments$: Observable<any>
   public activeComment$: Observable<any>
 
@@ -127,7 +125,7 @@ export class BriefComponent implements OnInit, OnDestroy {
       .subscribe(formEvent => {
 
         if(formEvent.status) {
-          this.store.dispatch(new SetActiveBriefStatus({status: formEvent.status}))
+          this.store.dispatch(new SetActiveBriefStatus({activeBriefId: this.activeBriefId, status: formEvent.status}))
         }
 
         this.handleChange(formEvent)
@@ -169,59 +167,4 @@ export class BriefComponent implements OnInit, OnDestroy {
     console.log(`🐋 -  Select`, $event)
   }
 
-  public handleToggleExpandNavigatorNode($event) {
-    this.store.dispatch(
-      new ToggleExpand({ id: $event.node.data.id, expanded: $event.isExpanded })
-    )
-  }
-
-  public handleSelectNavigatorNode(node) {
-    this.router.navigate(['/', 'brief', node.data.briefId])
-  }
-
-  public handleReplyToComment(comment) {
-    // tslint:disable-next-line:no-console
-    console.log(`💬 -  ReplyToComment`, comment)
-    this.store.dispatch(new ReplyToComment({ activeComment: comment.id }))
-  }
-
-  public handleRemoveComment($event) {
-    // tslint:disable-next-line:no-console
-    console.log(`💬 -  RemoveComment`, $event)
-
-    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
-      escapeToClose: true,
-      clickOutsideToClose: true
-    })
-
-    dialogRef
-      .afterClosed()
-      .pipe(first())
-      .subscribe(result => {
-        if (result === ARE_YOU_SURE_ACCEPT) {
-          this.store.dispatch(
-            new RemoveComment({ id: $event.id, brief: $event.hostId })
-          )
-        }
-      })
-  }
-
-  public handleAddComment($event) {
-    const parent = $event.parent
-    const newcomment = {
-      brief: $event.hostId,
-      text: $event.text,
-      parent: parent ? parent.id : null
-    }
-
-    // tslint:disable-next-line:no-console
-    console.log(`💬 -  AddComment`, $event, newcomment)
-
-    this.store.dispatch(new AddComment(newcomment))
-  }
-
-  public handleToggleMoveNavigatorNode($event, action) {
-    // tslint:disable-next-line:no-console
-    console.log(`🐹 - ${action}`, $event)
-  }
 }

@@ -1,0 +1,30 @@
+:host {
+    width: 100%;
+    width: -webkit-fill-available;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  df-button.edit {
+    min-width: 80px;
+  }
+  
+  
+  .brief-layout {
+    display: flex;
+    flex-direction: row;
+  
+    nav {
+      padding: 6px;
+      width: 350px;
+      display: flex;
+      flex-direction: column;
+    }
+  
+    section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  

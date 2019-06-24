@@ -11,7 +11,10 @@ import {
 } from '@digital-first/df-pages'
 
 import { BriefComponent } from './pages/brief/brief.component'
-import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component'
+import { BriefLayoutComponent } from './pages/brief/brief-layout/brief-layout.component'
+import { BriefReaderComponent } from './pages/brief/brief-reader/brief-reader.component';
+import { NoBriefSelectedComponent } from './pages/brief/no-brief-selected/no-brief-selected.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'brief', pathMatch: 'full' },
@@ -24,11 +27,14 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: BriefComponent
-      },
-      {
-        path: ':id',
-        component: BriefComponent
+        component: BriefLayoutComponent,
+        children: [
+          {
+            path: ':id',
+            component: BriefReaderComponent
+          },
+          { path: '**',  component: NoBriefSelectedComponent }
+        ]
       }
     ]
   },

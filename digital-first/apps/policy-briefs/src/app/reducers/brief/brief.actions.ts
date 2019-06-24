@@ -9,7 +9,7 @@ export enum BriefActionTypes {
 
 export class SetActiveBriefStatus implements Action {
   readonly type = BriefActionTypes.SetActiveBriefStatus
-  constructor(public payload: { status: string }) {}
+  constructor(public payload: {  activeBriefId: string, status: string }) {}
 }
 
 export class SetActiveBrief implements Action {
