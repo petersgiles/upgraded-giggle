@@ -35,7 +35,7 @@ import {
   SetActiveDiscussionChannel
 } from '../../reducers/discussion/discussion.actions'
 import { ParamMap, ActivatedRoute, Router } from '@angular/router'
-import { SetActiveBrief } from '../../reducers/brief/brief.actions'
+import { SetActiveBrief, SetActiveBriefStatus } from '../../reducers/brief/brief.actions'
 import { MdcDialog } from '@angular-mdc/web'
 import { DiscussionType } from '../../models';
 
@@ -83,15 +83,10 @@ export class BriefComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.nodes$ = this.store.pipe(
-      select(fromNavigation.selectNavigationNodeTreeState),
-      // tslint:disable-next-line: no-console
-      tap(result => console.log(`🌲 `, result))
-    )
+      select(fromNavigation.selectNavigationNodeTreeState))
 
     this.comments$ = this.store.pipe(
-      select(fromDiscussion.selectDiscussionState),
-      // tslint:disable-next-line: no-console
-      tap(result => console.log(`👹 comments `, result))
+      select(fromDiscussion.selectDiscussionState)
     )
 
     this.documentStatusList$ = new BehaviorSubject(statuslist)
@@ -126,16 +121,23 @@ export class BriefComponent implements OnInit, OnDestroy {
 
     this.formValueChangeSubscription$ = this.form.valueChanges
       .pipe(
-        debounceTime(3000),
+        debounceTime(100),
         distinctUntilChanged()
       )
-      .subscribe(blurEvent => {
-        this.handleChange(blurEvent)
-        this.formValueChangeSubscription$.unsubscribe()
+      .subscribe(formEvent => {
+
+        if(formEvent.status) {
+          this.store.dispatch(new SetActiveBriefStatus({status: formEvent.status}))
+        }
+
+        this.handleChange(formEvent)
       })
   }
 
-  public ngOnDestroy() {}
+  public ngOnDestroy() {
+    this.selectId$.unsubscribe()
+    this.formValueChangeSubscription$.unsubscribe()
+  }
 
   handleChange($event) {
     // tslint:disable-next-line:no-console
@@ -168,9 +170,6 @@ export class BriefComponent implements OnInit, OnDestroy {
   }
 
   public handleToggleExpandNavigatorNode($event) {
-    // tslint:disable-next-line:no-console
-    console.log(`🎯 -  handleToggleExpandNavigatorNode`, $event)
-
     this.store.dispatch(
       new ToggleExpand({ id: $event.node.data.id, expanded: $event.isExpanded })
     )

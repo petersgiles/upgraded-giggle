@@ -3,7 +3,13 @@ import { Action } from '@ngrx/store'
 export enum BriefActionTypes {
   LoadBrief = '[Brief] Load Brief',
   SetActiveBrief = '[Brief] Set Active Brief',
+  SetActiveBriefStatus = '[Brief] Set Active Brief Status',
   GetActiveBriefFailure = '[Brief] Get Active Brief Failure'
+}
+
+export class SetActiveBriefStatus implements Action {
+  readonly type = BriefActionTypes.SetActiveBriefStatus
+  constructor(public payload: { status: string }) {}
 }
 
 export class SetActiveBrief implements Action {
@@ -21,4 +27,4 @@ export class GetActiveBriefFailure implements Action {
   constructor(public payload: any) {}
 }
 
-export type BriefActions = LoadBrief | SetActiveBrief | GetActiveBriefFailure
+export type BriefActions = LoadBrief | SetActiveBrief | GetActiveBriefFailure | SetActiveBriefStatus

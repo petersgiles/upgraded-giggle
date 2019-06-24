@@ -36,9 +36,6 @@ export class NavigationDataLocalService implements NavigationDataService {
     data: any
     loading: boolean
   }> => {
-    // tslint:disable-next-line: no-console
-    console.log(`getNavigations`)
-
     const nodes = [
       ...this.briefNavigationMapperService.mapMany(policies),
       ...this.briefNavigationMapperService.mapMany(subpolicies),
@@ -63,14 +60,5 @@ export class NavigationDataLocalService implements NavigationDataService {
   }
 
   constructor(private briefNavigationMapperService: BriefNavigationMapperService) {
-    // this.fakeNavigationBackendSubscription$ = this.fakeNavigationBackend.subscribe(
-    //   next =>
-    //     this.navigationItems.next({
-    //       data: next,
-    //       loading: false
-    //     })
-    // )
-
-    // this.fakeNavigationBackend.next(navigation)
   }
 }
