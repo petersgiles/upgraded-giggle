@@ -88,11 +88,10 @@ export class DiscussionEffects {
     map((action: GetDiscussion) => action),
     withLatestFrom(this.store$),
     concatMap(([action, store]) => {
-      console.log(action, store)
       return this.service.getDiscussions({ id: action.payload.activeBriefId, channel: (<any>store).discussion.activeChannel })
     }),
     // tslint:disable-next-line: no-console
-    tap(result => console.log(`🍺 `, result)),
+    tap(result => console.log(`💬 `, result)),
     switchMap((result: { data: any[]; loading: boolean }) => [
       new LoadDiscussions({
         data: result.data,
@@ -109,7 +108,7 @@ export class DiscussionEffects {
     withLatestFrom(this.store$),
     concatMap(([action, store]) => this.addComment(action.payload)),
     // tslint:disable-next-line: no-console
-    tap(result => console.log(`🍺 `, result)),
+    tap(result => console.log(`💬 `, result)),
     switchMap((result: { brief: string }) => [
       new GetDiscussion({
         activeBriefId: result.brief
@@ -125,7 +124,7 @@ export class DiscussionEffects {
     withLatestFrom(this.store$),
     concatMap(([action, store]) => this.removeComment(action.payload)),
     // tslint:disable-next-line: no-console
-    tap(result => console.log(`🍺 `, result)),
+    tap(result => console.log(`💬 `, result)),
     switchMap((result: { brief: string }) => [
       new GetDiscussion({
         activeBriefId: result.brief

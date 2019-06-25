@@ -1,0 +1,40 @@
+df-button.edit {
+  min-width: 280px;
+}
+
+.form-card {
+  margin: 16px;
+  width: calc(100%- 32px);
+}
+
+.form-section {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  h3 {
+    padding-left: 16px;
+    text-transform: uppercase;
+  }
+}
+
+.form-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  .mdc-select {
+    width: calc(100% - 8px);
+  }
+  mdc-textarea {
+    width: calc(100% - 8px);
+  }
+  mdc-text-field {
+    width: calc(100% - 8px);
+  }
+}
+
+
+.action-description{
+  
+}

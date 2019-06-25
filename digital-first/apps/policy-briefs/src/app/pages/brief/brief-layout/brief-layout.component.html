@@ -1,0 +1,15 @@
+<div class="app-page">
+  <div class="brief-layout">
+    <nav *ngIf="nodes$ | async as nodes">
+      <df-pack-navigator
+        [nodes]="nodes"
+        (onSelect)="handleSelectNavigatorNode($event)"
+        (onMoveNode)="handleToggleMoveNavigatorNode($event, 'Move')"
+        (onToggleExpand)="handleToggleExpandNavigatorNode($event)"
+      ></df-pack-navigator>
+    </nav>
+    <section>
+        <router-outlet></router-outlet>        
+    </section>
+  </div>
+</div>

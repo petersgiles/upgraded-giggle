@@ -1,0 +1,7 @@
+<form *ngIf="brief" [formGroup]="form" autocomplete="off">
+  <df-status-picker
+    [statuses]="documentStatusList$ | async"
+    [formControlName]="'status'"
+  >
+  </df-status-picker>
+</form>

@@ -7,4 +7,5 @@ export abstract class BriefDataService {
   abstract getBriefs(parent: any): Observable<{data: any, loading: boolean }>
   abstract getActiveBrief(activeBriefId): Observable<{data: any, loading: boolean }>
   abstract getBriefHtml(fileLeafRef): Observable<{data: any, loading: boolean, error?: any }>
+  abstract setActiveBriefStatus(activeBriefId: string, status: string):Observable<{ briefId: any; loading: boolean }>
 }

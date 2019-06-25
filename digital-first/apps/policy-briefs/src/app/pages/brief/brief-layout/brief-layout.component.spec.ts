@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BriefComponent } from './brief.component';
+import { BriefLayoutComponent } from './brief-layout.component';
 
-describe('BriefComponent', () => {
-  let component: BriefComponent;
-  let fixture: ComponentFixture<BriefComponent>;
+describe('BriefLayoutComponent', () => {
+  let component: BriefLayoutComponent;
+  let fixture: ComponentFixture<BriefLayoutComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BriefComponent ]
+      declarations: [ BriefLayoutComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BriefComponent);
+    fixture = TestBed.createComponent(BriefLayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

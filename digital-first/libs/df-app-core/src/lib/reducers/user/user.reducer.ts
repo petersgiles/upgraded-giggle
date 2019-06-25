@@ -1,7 +1,6 @@
 import { UserActions, UserActionTypes, GetCurrentUser } from './user.actions'
 import { AppActions, AppActionTypes } from '../app/app.actions'
 import { createFeatureSelector, createSelector } from '@ngrx/store'
-import { InjectionToken } from '@angular/core';
 
 export const ROLE_OWNERS = 'ROLE_OWNERS'
 export const ROLE_MEMBERS = 'ROLE_MEMBERS'
@@ -73,7 +72,7 @@ export function reducer(
       }, {})
 
       // tslint:disable-next-line: no-console
-      console.log(`🌶️🌶️🌶️`, action.payload, ops)
+      console.log(`👤`, action.payload, ops)
 
       return {
         ...state,
@@ -114,13 +113,13 @@ export const getUserCurrentUserOperations = createSelector(
   (user, operations, defaults) => {
     if (!defaults) {
       // tslint:disable-next-line: no-console
-      console.log(`🌶️🌶️🌶️ NO DEFAULTS`, defaults)
+      console.log(`👤 NO DEFAULTS`, defaults)
       return {}
     }
 
     if (!user || !operations || !user.roles) {
       // tslint:disable-next-line: no-console
-      console.log(`🌶️🌶️🌶️ USE DEFAULTS`, user, operations)
+      console.log(`👤 USE DEFAULTS`, user, operations)
       return {
         ...defaults
       }
@@ -129,7 +128,7 @@ export const getUserCurrentUserOperations = createSelector(
       (acc: any, componentName: any) => {
 
         // tslint:disable-next-line: no-console
-        console.log(`🌶️🌶️🌶️ USE rights`, componentName)
+        console.log(`👤 USE rights`, componentName)
 
         const operationsRights = user.roles.reduce(
           (rightsAcc: any, group: any) => {
@@ -162,7 +161,7 @@ export const getUserCurrentUserOperations = createSelector(
     }, {})
 
       // tslint:disable-next-line: no-console
-      console.log(`🌶️🌶️🌶️`, finalRights)
+      console.log(`👤`, finalRights)
 
     return {
       ...defaults,
@@ -194,11 +193,11 @@ export const getUserOperationMatrix = createSelector(
       row[op] = true
       acc.push(row)
 
-      console.log(`💦`, operations)
-      console.log(`💦`, item)
-      console.log(`💦`, op)
-      console.log(`💦`, row)
-      console.log(`💦`, acc)
+      console.log(`👤`, operations)
+      console.log(`👤`, item)
+      console.log(`👤`, op)
+      console.log(`👤`, row)
+      console.log(`👤`, acc)
       return acc
     }, [])
 )
