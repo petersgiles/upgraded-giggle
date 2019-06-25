@@ -23,43 +23,9 @@ export class ProtectiveMarkingComponent implements OnInit {
   @Input()
   brief
 
-  public form = this.fb.group({
-    securityClassification: [null],
-    dLM: [null]
-  })
-
-  public classifications$: BehaviorSubject<{
-    caption: string,
-    value: string,
-  }[]> = new BehaviorSubject(classifications)
-  public dlms$: BehaviorSubject<{
-    caption: string,
-    value: string,
-  }[]> = new BehaviorSubject(dlms)
-
-  public formValueChangeSubscription$: Subscription
-  
-  constructor(private store: Store<fromRoot.State>, private fb: FormBuilder) {}
+  constructor() {}
 
   ngOnInit() {
 
-    this.form.patchValue(defaultValues)
-
-    this.formValueChangeSubscription$ = this.form.valueChanges
-      .pipe(
-        debounceTime(100),
-        distinctUntilChanged(),
-        tap(formEvent => console.log(`formEvent`, formEvent))
-      )
-      .subscribe((formEvent: any) => {
-          this.store.dispatch(
-            new SetActiveBriefProtectiveMarking({
-              activeBriefId: this.brief.id,
-              securityClassification: formEvent.securityClassification,
-              dLM: formEvent.dLM,
-            })
-          )
-
-      })
   }
 }

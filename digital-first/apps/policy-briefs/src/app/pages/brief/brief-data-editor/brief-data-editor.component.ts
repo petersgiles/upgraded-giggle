@@ -32,6 +32,10 @@ const defaultValues = {
   recommendedDirection: null
 }
 
+const commitmentItem = {
+  commitment: [null]
+}
+
 const actionItem = {
   description: [''],
   outcome1: ['Agree'],
@@ -95,6 +99,7 @@ export class BriefDataEditorComponent implements OnInit {
     processingInstruction: [null],
     recommendedDirection: [null],
     actions: this.fb.array([]),
+    commitments: this.fb.array([]),
   })
 
   get actions(): FormArray {
@@ -105,38 +110,30 @@ export class BriefDataEditorComponent implements OnInit {
     return this.fb.group(actionItem)
   }
 
-
   public handleAddAction(): void {
     this.actions.push(this.fb.group(actionItem))
   }
 
   public handleRemoveAction(index: any, action: any) {
-
-    // const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
-    //   escapeToClose: true,
-    //   clickOutsideToClose: true
-    // })
-
-    // dialogRef
-    //   .afterClosed()
-    //   .pipe(
-    //     first()
-    //   )
-    //   .subscribe(result => {
-    //     console.log(result)
-      
-    //     if (result === ARE_YOU_SURE_ACCEPT) {
-    //       console.log(index, this.actions)
-
-    //       // this.store.dispatch(
-    //       //   new RemoveComment({ id: $event.id, brief: $event.hostId })
-    //       // )
-    //     }
-    //   })
       this.actions.removeAt(index)
-
-   
   }
+
+  get commitments(): FormArray {
+    return this.form.get('commitments') as FormArray
+  }
+
+  get commitment(): FormGroup {
+    return this.fb.group(commitmentItem)
+  }
+
+  public handleAddCommitment(): void {
+    this.commitments.push(this.fb.group(commitmentItem))
+  }
+
+  public handleRemoveCommitment(index: any, action: any) {
+      this.commitments.removeAt(index)
+  }
+
   public formValueChangeSubscription$: Subscription
 
   constructor(

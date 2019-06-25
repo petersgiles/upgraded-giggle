@@ -69,7 +69,7 @@
                   label="Processing Instruction"
                   characterCounter
                   maxlength="5000"
-                  rows="8"
+                  rows="6"
                   cols="40"
                 ></mdc-textarea>
               </div>
@@ -82,7 +82,7 @@
                   label="RecommendedDirection"
                   characterCounter
                   maxlength="5000"
-                  rows="8"
+                  rows="6"
                   cols="40"
                 ></mdc-textarea>
               </div>
@@ -144,6 +144,40 @@
                 </div>
               </mdc-card>
             </div>
+            <div mdcBody2 class="form-section">
+                <h3>Related Commitments</h3>
+    
+                <mdc-card outlined formArrayName="commitments" class="action-card">
+                  <div
+                    class="action-card-item"
+                    *ngFor="
+                      let commitmentEditor of commitments.controls;
+                      let commitmentIndex = index
+                    "
+                    [formGroupName]="commitmentIndex"
+                  >          
+                    <div class="action-card-row">
+   
+                    </div>
+                    <div class="action-card-row">
+                      <a
+                        mdc-button
+                        dense
+                        (click)="
+                          handleRemoveCommitment(commitmentIndex, commitments[commitmentIndex])
+                        "
+                        >Remove</a
+                      >
+                    </div>
+                  </div>
+  
+                  <div class="df-card__actions-footer">
+                    <a mdc-button dense (click)="handleAddCommitment()">
+                      Add Commitment
+                    </a>
+                  </div>
+                </mdc-card>
+              </div>
           </div>
 
           <mdc-card-actions>
