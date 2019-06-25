@@ -39,8 +39,6 @@ export class BriefReaderComponent implements OnInit {
 
   ngOnInit() {
 
-
-
     this.brief$ = this.store.pipe(select(fromBrief.selectBriefState))
 
     this.selectId$ = this.route.paramMap

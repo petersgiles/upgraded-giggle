@@ -4,7 +4,8 @@ import { Store } from '@ngrx/store'
 import { FormBuilder } from '@angular/forms'
 import { SetActiveBriefProtectiveMarking } from '../../../reducers/brief/brief.actions';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import { Subscription, BehaviorSubject } from 'rxjs';
+import { classifications, dlms } from '../mock-data';
 
 const defaultValues = {
   securityClassification: "UNCLASSIFIED",
@@ -27,36 +28,14 @@ export class ProtectiveMarkingComponent implements OnInit {
     dLM: [null]
   })
 
-  classifications = [{
-    caption: "UNCLASSIFIED",
-    value: "UNCLASSIFIED"
-  }, {
-    caption: "IN CONFIDENCE",
-    value: "IN CONFIDENCE"
-  },{
-    caption: "PROTECTED",
-    value: "PROTECTED"
-  }]
-
-  dlms = [{
-    caption: "Not for tabling - For Official Use Only",
-    value: "Not for tabling - For Official Use Only"
-  }, {
-    caption: "For Official Use Only",
-    value: "For Official Use Only"
-  },{
-    caption: "Sensitive",
-    value: "Sensitive"
-  },{
-    caption: "Sensitive Cabinet",
-    value: "Sensitive Cabinet"
-  },{
-    caption: "Sensitive Legal",
-    value: "Sensitive Legal"
-  },{
-    caption: "Sensitive Personal",
-    value: "Sensitive Personal"
-  }]
+  public classifications$: BehaviorSubject<{
+    caption: string,
+    value: string,
+  }[]> = new BehaviorSubject(classifications)
+  public dlms$: BehaviorSubject<{
+    caption: string,
+    value: string,
+  }[]> = new BehaviorSubject(dlms)
 
   public formValueChangeSubscription$: Subscription
   

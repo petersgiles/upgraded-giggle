@@ -18,26 +18,22 @@
     autocomplete="off"
   >
     <div *ngIf="classificationform">
-        <div class="brief-protective-marking-form">
-      <mdc-select
-        fullwidth
-        placeholder="Security Classification"
-        formControlName="securityClassification"
-      >
-        <option
-          *ngFor="let classification of classifications"
-          [value]="classification.value"
-        >
-          {{ classification.caption }}
-        </option>
-      </mdc-select>
+      <div class="brief-protective-marking-form">
+        <mdc-select fullwidth placeholder="Security Classification" formControlName="securityClassification" >
+          <option
+            *ngFor="let classification of classifications$ | async"
+            [value]="classification.value"
+          >
+            {{ classification.caption }}
+          </option>
+        </mdc-select>
 
-      <mdc-select fullwidth placeholder="DLM" formControlName="dLM">
-        <option *ngFor="let dlm of dlms" [value]="dlm.value">
-          {{ dlm.caption }}
-        </option>
-      </mdc-select>
-        </div>
+        <mdc-select fullwidth placeholder="DLM" formControlName="dLM">
+          <option *ngFor="let dlm of dlms$ | async" [value]="dlm.value">
+            {{ dlm.caption }}
+          </option>
+        </mdc-select>
+      </div>
       <div class="actions">
         <button mdc-button mdcCardAction="button">
           <button mdc-button (click)="classificationform = !classificationform">
