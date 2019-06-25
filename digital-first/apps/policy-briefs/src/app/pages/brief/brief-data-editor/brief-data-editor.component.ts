@@ -6,18 +6,20 @@ import {
   switchMap,
   debounceTime,
   distinctUntilChanged,
-  tap
+  tap,
+  first
 } from 'rxjs/operators'
 import { ParamMap, ActivatedRoute, Router } from '@angular/router'
 import {
-  SetActiveBrief,
-  SetActiveBriefProtectiveMarking
+  SetActiveBrief
 } from '../../../reducers/brief/brief.actions'
 import { SetActiveBriefPath } from '../../../reducers/navigation/navigation.actions'
 import { EMPTY, BehaviorSubject, Subscription } from 'rxjs'
 import { FormBuilder, FormArray, FormGroup } from '@angular/forms'
 import { classifications, dlms } from '../mock-data'
 import { policies, subpolicies } from 'apps/policy-briefs/src/devdata/data'
+import { MdcDialog } from '@angular-mdc/web';
+import { DialogAreYouSureComponent, ARE_YOU_SURE_ACCEPT } from '@df/components';
 
 const defaultValues = {
   title: null,
@@ -109,7 +111,31 @@ export class BriefDataEditorComponent implements OnInit {
   }
 
   public handleRemoveAction(index: any, action: any) {
-    this.actions.removeAt(index)
+
+    // const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+    //   escapeToClose: true,
+    //   clickOutsideToClose: true
+    // })
+
+    // dialogRef
+    //   .afterClosed()
+    //   .pipe(
+    //     first()
+    //   )
+    //   .subscribe(result => {
+    //     console.log(result)
+      
+    //     if (result === ARE_YOU_SURE_ACCEPT) {
+    //       console.log(index, this.actions)
+
+    //       // this.store.dispatch(
+    //       //   new RemoveComment({ id: $event.id, brief: $event.hostId })
+    //       // )
+    //     }
+    //   })
+      this.actions.removeAt(index)
+
+   
   }
   public formValueChangeSubscription$: Subscription
 
@@ -117,7 +143,8 @@ export class BriefDataEditorComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<fromRoot.State>,
-    private fb: FormBuilder
+    private fb: FormBuilder, 
+    public dialog: MdcDialog
   ) {}
 
   ngOnInit() {
