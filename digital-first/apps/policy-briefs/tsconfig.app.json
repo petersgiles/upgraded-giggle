@@ -4,17 +4,6 @@
     "outDir": "../../dist/out-tsc/apps/policy-briefs",
     "types": []
   },
-  "exclude": [
-    "test.ts",
-    "**/*.spec.ts"
-  ],
-  "include": [
-    "**/*.ts"
-    , "../../../libs/df-dialog/src/index.ts"
-    , "../../../libs/df-layouts/src/index.ts"
-    , "../../../libs/df-pages/src/index.ts"
-    , "../../../libs/df-moment/src/index.ts"
-    , "../../../libs/df-pipes/src/index.ts"
-    , "../../../libs/df-theme/src/index.ts"
-  ]
+  "exclude": ["src/test-setup.ts", "**/*.spec.ts"],
+  "include": ["**/*.ts"]
 }

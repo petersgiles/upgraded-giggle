@@ -129,18 +129,11 @@
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@nrwl/jest:jest",
           "options": {
-            "main": "apps/policy-briefs/src/test.ts",
-            "polyfills": "apps/policy-briefs/src/polyfills.ts",
+            "jestConfig": "apps/policy-briefs/jest.config.js",
             "tsConfig": "apps/policy-briefs/tsconfig.spec.json",
-            "karmaConfig": "apps/policy-briefs/karma.conf.js",
-            "styles": ["apps/policy-briefs/src/styles.scss"],
-            "scripts": [],
-            "assets": [
-              "apps/policy-briefs/src/favicon.ico",
-              "apps/policy-briefs/src/assets"
-            ]
+            "setupFile": "apps/policy-briefs/src/test-setup.ts"
           }
         },
         "lint": {
@@ -162,11 +155,11 @@
       "prefix": "digital-first",
       "architect": {
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@nrwl/jest:jest",
           "options": {
-            "main": "libs/df-layouts/src/test.ts",
+            "jestConfig": "libs/df-layouts/jest.config.js",
             "tsConfig": "libs/df-layouts/tsconfig.spec.json",
-            "karmaConfig": "libs/df-layouts/karma.conf.js"
+            "setupFile": "libs/df-layouts/src/test-setup.ts"
           }
         },
         "lint": {
@@ -188,11 +181,11 @@
       "prefix": "digital-first",
       "architect": {
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@nrwl/jest:jest",
           "options": {
-            "main": "libs/df-theme/src/test.ts",
+            "jestConfig": "libs/df-theme/jest.config.js",
             "tsConfig": "libs/df-theme/tsconfig.spec.json",
-            "karmaConfig": "libs/df-theme/karma.conf.js"
+            "setupFile": "libs/df-theme/src/test-setup.ts"
           }
         },
         "lint": {
@@ -329,18 +322,11 @@
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@nrwl/jest:jest",
           "options": {
-            "main": "apps/commitments/src/test.ts",
-            "polyfills": "apps/commitments/src/polyfills.ts",
+            "jestConfig": "apps/commitments/jest.config.js",
             "tsConfig": "apps/commitments/tsconfig.spec.json",
-            "karmaConfig": "apps/commitments/karma.conf.js",
-            "styles": ["apps/commitments/src/styles.scss"],
-            "scripts": [],
-            "assets": [
-              "apps/commitments/src/favicon.ico",
-              "apps/commitments/src/assets"
-            ]
+            "setupFile": "apps/commitments/src/test-setup.ts"
           }
         },
         "lint": {
@@ -409,7 +395,6 @@
                 }
               ],
               "deployUrl": "../../SiteAssets/apps/deck/"
-
             }
           }
         },
@@ -476,15 +461,11 @@
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@nrwl/jest:jest",
           "options": {
-            "main": "apps/deck/src/test.ts",
-            "polyfills": "apps/deck/src/polyfills.ts",
+            "jestConfig": "apps/deck/jest.config.js",
             "tsConfig": "apps/deck/tsconfig.spec.json",
-            "karmaConfig": "apps/deck/karma.conf.js",
-            "styles": ["apps/deck/src/styles.scss"],
-            "scripts": [],
-            "assets": ["apps/deck/src/favicon.ico", "apps/deck/src/assets"]
+            "setupFile": "apps/deck/src/test-setup.ts"
           }
         },
         "lint": {
@@ -506,11 +487,11 @@
       "prefix": "digital-first",
       "architect": {
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@nrwl/jest:jest",
           "options": {
-            "main": "libs/df-moment/src/test.ts",
+            "jestConfig": "libs/df-moment/jest.config.js",
             "tsConfig": "libs/df-moment/tsconfig.spec.json",
-            "karmaConfig": "libs/df-moment/karma.conf.js"
+            "setupFile": "libs/df-moment/src/test-setup.ts"
           }
         },
         "lint": {
@@ -532,11 +513,11 @@
       "prefix": "digital-first",
       "architect": {
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@nrml/jest:jest",
           "options": {
-            "main": "libs/df-pipes/src/test.ts",
+            "jestConfig": "libs/df-pipes/jest.config.js",
             "tsConfig": "libs/df-pipes/tsconfig.spec.json",
-            "karmaConfig": "libs/df-pipes/karma.conf.js"
+            "setupFile": "libs/df-pipes/src/test-setup.ts"
           }
         },
         "lint": {
@@ -558,11 +539,11 @@
       "prefix": "digital-first",
       "architect": {
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@nrwl/jest:jest",
           "options": {
-            "main": "libs/df-pages/src/test.ts",
+            "jestConfig": "libs/df-pages/jest.config.js",
             "tsConfig": "libs/df-pages/tsconfig.spec.json",
-            "karmaConfig": "libs/df-pages/karma.conf.js"
+            "setupFile": "libs/df-pages/src/test-setup.ts"
           }
         },
         "lint": {
@@ -584,11 +565,11 @@
       "prefix": "digital-first",
       "architect": {
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@nrwl/jest:jest",
           "options": {
-            "main": "libs/df-dialogs/src/test.ts",
+            "jestConfig": "libs/df-dialogs/jest.config.js",
             "tsConfig": "libs/df-dialogs/tsconfig.spec.json",
-            "karmaConfig": "libs/df-dialogs/karma.conf.js"
+            "setupFile": "libs/df-dialogs/src/test-setup.ts"
           }
         },
         "lint": {
@@ -615,11 +596,11 @@
       },
       "architect": {
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@nrwl/jest:jest",
           "options": {
-            "main": "libs/df-components/src/test.ts",
+            "jestConfig": "libs/df-components/jest.config.js",
             "tsConfig": "libs/df-components/tsconfig.spec.json",
-            "karmaConfig": "libs/df-components/karma.conf.js"
+            "setupFile": "libs/df-components/src/test-setup.ts"
           }
         },
         "lint": {
@@ -641,11 +622,11 @@
       "prefix": "digital-first",
       "architect": {
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@nrwl/jest:jest",
           "options": {
-            "main": "libs/df-auth/src/test.ts",
+            "jestConfig": "libs/df-auth/jest.config.js",
             "tsConfig": "libs/df-auth/tsconfig.spec.json",
-            "karmaConfig": "libs/df-auth/karma.conf.js"
+            "setupFile": "libs/df-auth/src/test-setup.ts"
           }
         },
         "lint": {
@@ -667,11 +648,11 @@
       "prefix": "digital-first",
       "architect": {
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@nrwl/jest:jest",
           "options": {
-            "main": "libs/df-app-tokens/src/test.ts",
+            "jestConfig": "libs/df-app-tokens/jest.config.js",
             "tsConfig": "libs/df-app-tokens/tsconfig.spec.json",
-            "karmaConfig": "libs/df-app-tokens/karma.conf.js"
+            "setupFile": "libs/df-app-tokens/src/test-setup.ts"
           }
         },
         "lint": {
@@ -693,11 +674,11 @@
       "prefix": "digital-first",
       "architect": {
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@nrwl/jest:jest",
           "options": {
-            "main": "libs/df-datatable/src/test.ts",
+            "jestConfig": "libs/df-datatable/jest.config.js",
             "tsConfig": "libs/df-datatable/tsconfig.spec.json",
-            "karmaConfig": "libs/df-datatable/karma.conf.js"
+            "setupFile": "libs/df-datatable/src/test-setup.ts"
           }
         },
         "lint": {
@@ -724,11 +705,11 @@
       "prefix": "digital-first",
       "architect": {
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@nrwl/jest:jest",
           "options": {
-            "main": "libs/df-buttons/src/test.ts",
+            "jestConfig": "libs/df-buttons/jest.config.js",
             "tsConfig": "libs/df-buttons/tsconfig.spec.json",
-            "karmaConfig": "libs/df-buttons/karma.conf.js"
+            "setupFile": "libs/df-buttons/src/test-setup.ts"
           }
         },
         "lint": {
@@ -755,11 +736,11 @@
       "prefix": "digital-first",
       "architect": {
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@nrwl/jest:jest",
           "options": {
-            "main": "libs/df-map/src/test.ts",
+            "jestConfig": "libs/df-map/jest.config.js",
             "tsConfig": "libs/df-map/tsconfig.spec.json",
-            "karmaConfig": "libs/df-map/karma.conf.js"
+            "setupFile": "libs/df-map/src/test-setup.ts"
           }
         },
         "lint": {
@@ -786,11 +767,11 @@
       "prefix": "digital-first",
       "architect": {
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@nrwl/jest:jest",
           "options": {
-            "main": "libs/df-refiner/src/test.ts",
+            "jestConfig": "libs/df-refiner/jest.config.js",
             "tsConfig": "libs/df-refiner/tsconfig.spec.json",
-            "karmaConfig": "libs/df-refiner/karma.conf.js"
+            "setupFile": "libs/df-refiner/src/test-setup.ts"
           }
         },
         "lint": {
@@ -1014,7 +995,7 @@
           }
         },
         "test": {
-          "builder": "@nrwl/builders:jest",
+          "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "apps/commitments-reader/jest.config.js",
             "tsConfig": "apps/commitments-reader/tsconfig.spec.json",
@@ -1040,10 +1021,11 @@
           }
         },
         "test": {
-          "builder": "@nrwl/builders:jest",
+          "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/df-app-core/jest.config.js",
-            "tsConfig": "libs/df-app-core/tsconfig.spec.json"
+            "tsConfig": "libs/df-app-core/tsconfig.spec.json",
+            "setupFile": "libs/df-app-core/src/test-setup.ts"
           }
         }
       },
