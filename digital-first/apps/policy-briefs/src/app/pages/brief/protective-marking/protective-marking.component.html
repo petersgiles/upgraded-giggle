@@ -1,0 +1,53 @@
+<div>
+  <div *ngIf="!classificationform" class="brief-protective-marking-box">
+    <strong class="brief-protective-marking"
+      >{{ brief.securityClassification }} {{ brief.dLM }}</strong
+    >
+    <button
+      mdc-icon-button
+      icon="edit"
+      *ngIf="!classificationform"
+      (click)="classificationform = !classificationform"
+    ></button>
+  </div>
+
+  <form
+    *ngIf="brief"
+    [formGroup]="form"
+    (ngSubmit)="handleSubmit($event)"
+    autocomplete="off"
+  >
+    <div *ngIf="classificationform">
+        <div class="brief-protective-marking-form">
+      <mdc-select
+        fullwidth
+        placeholder="Security Classification"
+        formControlName="securityClassification"
+      >
+        <option
+          *ngFor="let classification of classifications"
+          [value]="classification.value"
+        >
+          {{ classification.caption }}
+        </option>
+      </mdc-select>
+
+      <mdc-select fullwidth placeholder="DLM" formControlName="dLM">
+        <option *ngFor="let dlm of dlms" [value]="dlm.value">
+          {{ dlm.caption }}
+        </option>
+      </mdc-select>
+        </div>
+      <div class="actions">
+        <button mdc-button mdcCardAction="button">
+          <button mdc-button (click)="classificationform = !classificationform">
+            Cancel
+          </button>
+          <button mdc-button (click)="classificationform = !classificationform">
+            Submit
+          </button>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,29 @@
+<df-expander-panel
+    title="Discussion"
+    [background]="background"
+    expanded="true"
+  >
+    <ng-container panel-buttons>
+      <df-button
+        title="Agency"
+        icon="chat_bubble"
+        [background]="background"
+        (onClick)="handleSelectDiscussion(discussionTypes.Agency)"
+      ></df-button>
+      <df-button
+        title="Office"
+        icon="chat_bubble"
+        [background]="background"
+        (onClick)="handleSelectDiscussion(discussionTypes.Office)"
+      ></df-button>
+    </ng-container>
+
+    <df-discussion
+      [hostId]="brief.id"
+      [comments]="comments$ | async"
+      [activeComment]="activeComment$ | async"
+      (onReplyToComment)="handleReplyToComment($event, 'onReplyToComment')"
+      (onDeleteComment)="handleRemoveComment($event, 'onRemoveComment')"
+      (onAddComment)="handleAddComment($event, 'onAddComment')"
+    ></df-discussion>
+  </df-expander-panel>

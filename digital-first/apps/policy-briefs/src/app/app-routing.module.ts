@@ -10,11 +10,12 @@ import {
   ErrorServerComponent
 } from '@digital-first/df-pages'
 
-import { BriefComponent } from './pages/brief/brief.component'
 import { UserProfileComponent } from './pages/user-profile/user-profile.component'
 import { BriefLayoutComponent } from './pages/brief/brief-layout/brief-layout.component'
-import { BriefReaderComponent } from './pages/brief/brief-reader/brief-reader.component';
-import { NoBriefSelectedComponent } from './pages/brief/no-brief-selected/no-brief-selected.component';
+import { BriefReaderComponent } from './pages/brief/brief-reader/brief-reader.component'
+import { NoBriefSelectedComponent } from './pages/brief/no-brief-selected/no-brief-selected.component'
+import { BriefDataEditorComponent } from './pages/brief/brief-data-editor/brief-data-editor.component'
+import { BriefSubscriptionEditorComponent } from './pages/brief/brief-subscription-editor/brief-subscription-editor.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'brief', pathMatch: 'full' },
@@ -33,7 +34,15 @@ const routes: Routes = [
             path: ':id',
             component: BriefReaderComponent
           },
-          { path: '**',  component: NoBriefSelectedComponent }
+          {
+            path: ':id/edit',
+            component: BriefDataEditorComponent
+          },
+          {
+            path: ':id/subscribe',
+            component: BriefSubscriptionEditorComponent
+          },
+          { path: '**', component: NoBriefSelectedComponent }
         ]
       }
     ]

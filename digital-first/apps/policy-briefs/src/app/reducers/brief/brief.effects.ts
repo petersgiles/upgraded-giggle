@@ -39,22 +39,20 @@ export class BriefEffects {
     catchError(error => of(new GetActiveBriefFailure(error)))
   )
 
-  @Effect()
-  setActiveBriefStatus$ = this.actions$.pipe(
-    ofType(BriefActionTypes.SetActiveBriefStatus),
-    map((action: SetActiveBriefStatus) => action),
-    concatMap(action =>
-      this.service.setActiveBriefStatus(action.payload.activeBriefId, action.payload.status)
-    ),
-    switchMap((result: { briefId: any; loading: boolean }) => [
-      new SetActiveBrief({
-        activeBriefId: result.briefId
-      })
-    ]),
-    catchError(error => of(new GetActiveBriefFailure(error)))
-  )
-
-
+  // @Effect()
+  // setActiveBriefStatus$ = this.actions$.pipe(
+  //   ofType(BriefActionTypes.SetActiveBriefStatus),
+  //   map((action: SetActiveBriefStatus) => action),
+  //   concatMap(action =>
+  //     this.service.setActiveBriefStatus(action.payload.activeBriefId, action.payload.status)
+  //   ),
+  //   switchMap((result: { briefId: any; loading: boolean }) => [
+  //     new SetActiveBrief({
+  //       activeBriefId: result.briefId
+  //     })
+  //   ]),
+  //   catchError(error => of(new GetActiveBriefFailure(error)))
+  // )
 
   constructor(
     private actions$: Actions<BriefActions>,
