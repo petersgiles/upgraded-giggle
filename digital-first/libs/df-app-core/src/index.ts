@@ -1,3 +1,6 @@
+
+import { InjectionToken } from '@angular/core'
+
 export * from './lib/df-app-core.module'
 export * from './lib/reducers'
 export * from './lib/reducers/router.effects'
@@ -53,3 +56,9 @@ export {
 export {
   AppErrorRouteOverrideService
 } from './lib/services/app-error-route-override.service'
+
+export const HTTPSERVICE = new InjectionToken('http-service')
+export const HTTPSERVICESETTINGS = new InjectionToken('http-service-settings')
+
+export const FEDERATEDLOGINAPIPATH = new InjectionToken('federated-login-api-path')
+export const APPBASEPATH = new InjectionToken('app-base-path')

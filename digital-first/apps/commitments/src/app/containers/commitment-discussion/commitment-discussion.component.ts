@@ -3,7 +3,7 @@ import { CommitmentDiscussionService } from '../../reducers/commitment-discussio
 import { Observable, Subscription } from 'rxjs'
 import { Comment } from '../../reducers/commitment-discussion/comment.model'
 import { first } from 'rxjs/operators'
-import { DialogAreYouSureComponent, ARE_YOU_SURE_ACCEPT } from '@digital-first/df-dialogs'
+import { DialogAreYouSureComponent, ARE_YOU_SURE_ACCEPT } from '@df/components'
 import { MdcDialog } from '@angular-mdc/web'
 import { OPERATION_DISCUSSION } from '../../services/app-data.service'
 

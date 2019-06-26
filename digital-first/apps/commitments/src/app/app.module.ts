@@ -11,25 +11,14 @@ import { AgmCoreModule } from '@agm/core'
 import { NgSelectModule } from '@ng-select/ng-select'
 import { MarkdownModule, MarkedOptions } from 'ngx-markdown'
 
-import {
-  DfLayoutsModule,
-  TitleLayoutService
-} from '@digital-first/df-layouts'
+import { DfLayoutsModule, TitleLayoutService } from '@digital-first/df-layouts'
 import { DfThemeModule } from '@digital-first/df-theme'
 
 import { DfPagesModule } from '@digital-first/df-pages'
-import {
-  DfDialogsModule,
-  DialogAreYouSureComponent,
-  DialogShowErrorComponent,
-  DialogFileLockedComponent,
-  DialogSpinnerOverlayComponent,
-  DialogAddContactComponent
-} from '@digital-first/df-dialogs'
-import {
-  DfSharepointLibModule,
-  SharepointJsomService
-} from '@df/sharepoint'
+
+import { DialogsModule, DialogAreYouSureComponent } from '@df/components'
+
+import { DfSharepointLibModule, SharepointJsomService } from '@df/sharepoint'
 import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfMomentModule, DateFormatPipe } from '@digital-first/df-moment'
 import { WINDOW_PROVIDERS } from '@df/utils'
@@ -135,6 +124,10 @@ import {
   DiscussionModule
 } from '@df/components'
 import { OverviewLayoutComponent } from './layouts/overview-layout/overview-layout.component'
+import { DialogShowErrorComponent } from './dialogs/dialog-show-error.component';
+import { DialogFileLockedComponent } from './dialogs/dialog-file-locked.component';
+import { DialogSpinnerOverlayComponent } from './dialogs/dialog-spinner-overlay.component';
+import { DialogAddContactComponent } from './dialogs/dialog-add-contact.component';
 
 const COMPONENTS = [
   AppComponent,
@@ -150,6 +143,10 @@ const COMPONENTS = [
   ContactCreateFormComponent,
   DialogAddCommitmentComponent,
   DialogAddLinkComponent,
+  DialogShowErrorComponent,
+  DialogFileLockedComponent,
+  DialogSpinnerOverlayComponent,
+  DialogAddContactComponent,
   CommitmentDiscussionComponent,
   CommitmentCostingComponent,
   CommitmentCostingsComponent,
@@ -162,7 +159,7 @@ const COMPONENTS = [
   CommitmentPortfolioComponent,
   CommitmentPackageComponent,
   CommitmentMadLibComponent,
-  OverviewLayoutComponent
+  OverviewLayoutComponent,
 ]
 
 const ENTRYCOMPONENTS = [
@@ -183,20 +180,8 @@ export function initApplication(store: Store<fromRoot.State>): Function {
   return () =>
     new Promise(resolve => {
       store.dispatch(new StartAppInitialiser({ environment: environment }))
-
       // tslint:disable-next-line:no-console
       console.log('app initialise started...', store)
-
-      // store.pipe(select(fromRoot.getLoggedIn)).subscribe(isLoggedIn => {
-      //   if (isLoggedIn) {
-
-      //     // tslint:disable-next-line:no-console
-      //     console.log('user is logged in, start auto token refresh')
-
-      //     store.dispatch(new StartAutoTokenRefresh())
-      //   }
-      // })
-
       resolve(true)
     })
 }
@@ -272,7 +257,7 @@ export let appDataServiceProvider = {
     DfLayoutsModule,
     DfThemeModule,
     DfPagesModule,
-    DfDialogsModule,
+    DialogsModule,
     DfSharepointLibModule,
     DfPipesModule,
     AppRoutingModule,

@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core'
 import { WINDOW } from '@df/utils'
-import { FEDERATEDLOGINAPIPATH, APPBASEPATH } from '@digital-first/df-app-tokens'
+import { FEDERATEDLOGINAPIPATH, APPBASEPATH } from '@digital-first/df-app-core'
 
 @Component({
   selector: 'digital-first-login-page',

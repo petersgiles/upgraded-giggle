@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http'
 import { timer, Observable, of } from 'rxjs'
 import { User, AuthResult } from '../models'
 import { map, mergeMap, first } from 'rxjs/operators'
-import { FEDERATEDLOGINAPIPATH } from '@digital-first/df-app-tokens'
+import { FEDERATEDLOGINAPIPATH } from '@digital-first/df-app-core'
 
 import { AUTH_KEY } from '../constants'
 import { LOCALSTORAGE } from '@df/utils'
