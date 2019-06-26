@@ -19,7 +19,6 @@ import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfComponentsModule } from '@digital-first/df-components'
 import { DfMomentModule, DateFormatPipe } from '@digital-first/df-moment'
 import { DfPagesModule } from '@digital-first/df-pages'
-import { DfDialogsModule } from '@digital-first/df-dialogs'
 import { DfSharepointLibModule, SharepointJsomService } from '@df/sharepoint'
 
 import { HomeComponent } from './pages/home/home.component'
@@ -122,7 +121,6 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     DfLayoutsModule,
     DfThemeModule,
     DfPagesModule,
-    DfDialogsModule,
     DfSharepointLibModule,
     DfPipesModule,
     AppRoutingModule,
