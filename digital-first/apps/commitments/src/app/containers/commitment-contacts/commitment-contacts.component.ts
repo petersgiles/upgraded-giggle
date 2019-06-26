@@ -3,10 +3,11 @@ import { MdcDialog } from '@angular-mdc/web'
 import { CommitmentContactService } from '../../reducers/commitment-contact/commitment-contact.service'
 import { Subscription, Observable } from 'rxjs'
 import { Router } from '@angular/router'
-import { DialogAddContactComponent, DialogAreYouSureComponent, ARE_YOU_SURE_ACCEPT } from '@digital-first/df-dialogs'
 import { first } from 'rxjs/operators'
 import { DataTableConfig } from '@digital-first/df-datatable'
 import { OPERATION_CONTACTS } from '../../services/app-data.service'
+import { DialogAddContactComponent } from '../../dialogs/dialog-add-contact.component';
+import { DialogAreYouSureComponent, ARE_YOU_SURE_ACCEPT } from '@df/components';
 
 @Component({
   selector: 'digital-first-commitment-contacts',

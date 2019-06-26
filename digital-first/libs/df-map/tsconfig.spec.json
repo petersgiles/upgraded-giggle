@@ -4,6 +4,6 @@
     "outDir": "../../dist/out-tsc/libs/df-map",
     "types": ["jasmine", "node"]
   },
-  "files": ["src/test.ts"],
+  "files": ["src/test-setup.ts"],
   "include": ["**/*.spec.ts", "**/*.d.ts"]
 }
