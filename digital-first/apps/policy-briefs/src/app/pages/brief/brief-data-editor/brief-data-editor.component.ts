@@ -4,10 +4,6 @@ import * as fromBrief from '../../../reducers/brief/brief.reducer'
 import { select, Store } from '@ngrx/store'
 import {
   switchMap,
-  debounceTime,
-  distinctUntilChanged,
-  tap,
-  first
 } from 'rxjs/operators'
 import { ParamMap, ActivatedRoute, Router } from '@angular/router'
 import {
@@ -17,10 +13,8 @@ import { SetActiveBriefPath } from '../../../reducers/navigation/navigation.acti
 import { EMPTY, BehaviorSubject, Subscription } from 'rxjs'
 import { FormBuilder, FormArray, FormGroup } from '@angular/forms'
 import { classifications, dlms } from '../mock-data'
-import { policies, subpolicies } from 'apps/policy-briefs/src/devdata/data'
+import { policies, subpolicies, commitments } from 'apps/policy-briefs/src/devdata/data'
 import { MdcDialog } from '@angular-mdc/web';
-import { DialogAreYouSureComponent, ARE_YOU_SURE_ACCEPT } from '@df/components';
-
 const defaultValues = {
   title: null,
   policy: null,
@@ -49,6 +43,8 @@ const subpolicyMap = subpolicies.map(p => ({
   value: `${p.Id}`
 }))
 
+const commitmentMap = commitments.map(p => ({ caption: p.Title, value: `${p.ID}` }))
+
 @Component({
   selector: 'digital-first-brief-data-editor',
   templateUrl: './brief-data-editor.component.html',
@@ -75,6 +71,13 @@ export class BriefDataEditorComponent implements OnInit {
     }[]
   > = new BehaviorSubject(subpolicyMap)
 
+  public commitment$: BehaviorSubject<
+    {
+      caption: string
+      value: string
+    }[]
+  > = new BehaviorSubject(commitmentMap)
+  
   public classifications$: BehaviorSubject<
     {
       caption: string
@@ -88,6 +91,7 @@ export class BriefDataEditorComponent implements OnInit {
       value: string
     }[]
   > = new BehaviorSubject(dlms)
+
 
   public form = this.fb.group({
     title: [null],

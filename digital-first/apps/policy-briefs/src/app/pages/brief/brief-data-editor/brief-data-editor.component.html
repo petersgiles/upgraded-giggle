@@ -157,7 +157,11 @@
                     [formGroupName]="commitmentIndex"
                   >          
                     <div class="action-card-row">
-   
+                      <mdc-select outlined placeholder="Commitment" formControlName="commitment">
+                        <option *ngFor="let c of commitment$ | async" [value]="c.value">
+                          {{ c.caption }}
+                        </option>
+                      </mdc-select>
                     </div>
                     <div class="action-card-row">
                       <a

@@ -1,3 +1,77 @@
-<p>
-  brief-subscription-editor works!
-</p>
+<section>
+  <df-expander-panel
+    title="Notifications"
+    [background]="background$ | async"
+    expandable="true"
+    expanded="true"
+  >
+    <ng-container panel-buttons> </ng-container>
+
+    <table class="shadow--2dp">
+      <thead>
+        <tr>
+          <th>
+            <div></div>
+          </th>
+          <th [attr.colspan]="(activities$ | async)?.length">
+            <div class="align-center">Activities</div>
+          </th>
+          <th [attr.colspan]="(documentStatusList$ | async)?.length">
+            <div class="align-center">By Status</div>
+          </th>
+          <th></th>
+        </tr>
+        <tr>
+          <th class="rotate" >
+            <div>
+              User
+            </div>
+          </th>
+          <th class="rotate" *ngFor="let s of activities$ | async">
+            <div>
+              <span>{{ s.caption }}</span>
+            </div>
+          </th>
+          <th class="rotate" *ngFor="let s of documentStatusList$ | async">
+            <div>
+              <span>{{ s.caption }}</span>
+            </div>
+          </th>
+          <th></th>
+        </tr>
+      </thead>
+      <tr>
+        <td>User A</td>
+        <td style="text-align:center" *ngFor="let s of activities$ | async">
+            <button mdcIconButton [on]="true">
+              <mdc-icon mdcIconOn>check_box</mdc-icon>
+              <mdc-icon>check_box_outline_blank</mdc-icon>
+            </button>
+          </td>
+        <td style="text-align:center" *ngFor="let s of documentStatusList$ | async" >
+          <button mdcIconButton [on]="true">
+            <mdc-icon mdcIconOn>check_box</mdc-icon>
+            <mdc-icon>check_box_outline_blank</mdc-icon>
+          </button>
+        </td>
+        <td><mdc-icon>trash</mdc-icon></td>
+      </tr>
+      <tr>
+          <td>User B</td>
+          <td style="text-align:center" *ngFor="let s of activities$ | async">
+              <button mdcIconButton [on]="true">
+                <mdc-icon mdcIconOn>check_box</mdc-icon>
+                <mdc-icon>check_box_outline_blank</mdc-icon>
+              </button>
+            </td>
+          <td style="text-align:center" *ngFor="let s of documentStatusList$ | async">
+            <button mdcIconButton [on]="true">
+              <mdc-icon mdcIconOn>check_box</mdc-icon>
+              <mdc-icon>check_box_outline_blank</mdc-icon>
+            </button>
+          </td>
+          <td><mdc-icon>trash</mdc-icon></td>
+        </tr>
+    </table>
+  </df-expander-panel>
+</section>

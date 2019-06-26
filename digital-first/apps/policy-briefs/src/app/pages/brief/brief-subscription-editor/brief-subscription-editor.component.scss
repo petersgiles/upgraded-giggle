@@ -1,0 +1,30 @@
+.shadow--2dp {
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+table {
+  padding: 8px;
+  margin: 4px;
+  width: calc(100% - 8px);
+
+  tr {
+    margin: 4px;
+    width: calc(100% - 8px);
+  }
+
+  th.rotate {
+    /* Something you can count on */
+    height: 120px !important;
+    vertical-align: bottom !important;
+    white-space: nowrap;
+    font-weight: bold;
+  }
+  th.rotate > div {
+    transform: translate(20px, -2px) rotate(320deg);
+    width: 20px;
+  }
+  th.rotate > div > span {
+    /*border-bottom: 1px solid #ccc;*/
+    padding: 5px 10px;
+  }
+}

@@ -1,6 +1,6 @@
 <div *ngIf="briefHtml$ | async as html" [innerHtml]="html | safeHtml"></div>
 <div *ngIf="error$ | async as error">
-  <div *ngIf="error$ | async as error" [ngSwitch]="error.status">
+  <div [ngSwitch]="error.status">
     <div *ngSwitchCase="404">
       <h3>Document could not be located</h3>
       <p>{{ error.message }}</p>
