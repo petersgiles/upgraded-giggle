@@ -64,22 +64,27 @@ import { BriefDocumentComponent } from './pages/brief/brief-document/brief-docum
 import { NavigationEffects } from './reducers/navigation/navigation.effects'
 import { BriefEffects } from './reducers/brief/brief.effects'
 import { DiscussionEffects } from './reducers/discussion/discussion.effects'
+import { LookupEffects } from './reducers/lookups/lookup.effects'
 
 import * as fromNavigation from './reducers/navigation/navigation.reducer'
 import * as fromDiscussion from './reducers/discussion/discussion.reducer'
 import * as fromBrief from './reducers/brief/brief.reducer'
+import * as fromLookups from './reducers/lookups/lookup.reducer'
+
 import { briefDataServiceProvider } from './reducers/brief/brief-data.service.factory'
 import { navigationDataServiceProvider } from './reducers/navigation/navigation-data.service.factory'
 import { discussionDataServiceProvider } from './reducers/discussion/discussion-data.service.factory'
-import { GlobalEffects } from './reducers/app/app.effects';
-import { BriefLayoutComponent } from './pages/brief/brief-layout/brief-layout.component';
-import { NoBriefSelectedComponent } from './pages/brief/no-brief-selected/no-brief-selected.component';
-import { BriefDataEditorComponent } from './pages/brief/brief-data-editor/brief-data-editor.component';
-import { BriefSubscriptionEditorComponent } from './pages/brief/brief-subscription-editor/brief-subscription-editor.component';
-import { BriefReaderComponent } from './pages/brief/brief-reader/brief-reader.component';
-import { ProtectiveMarkingComponent } from './pages/brief/protective-marking/protective-marking.component';
-import { BriefStatusComponent } from './pages/brief/brief-status/brief-status.component';
-import { BriefDiscussionComponent } from './pages/brief/brief-discussion/brief-discussion.component';
+import { lookupDataServiceProvider } from './reducers/lookups/lookup-data.service.factory'
+
+import { GlobalEffects } from './reducers/app/app.effects'
+import { BriefLayoutComponent } from './pages/brief/brief-layout/brief-layout.component'
+import { NoBriefSelectedComponent } from './pages/brief/no-brief-selected/no-brief-selected.component'
+import { BriefDataEditorComponent } from './pages/brief/brief-data-editor/brief-data-editor.component'
+import { BriefSubscriptionEditorComponent } from './pages/brief/brief-subscription-editor/brief-subscription-editor.component'
+import { BriefReaderComponent } from './pages/brief/brief-reader/brief-reader.component'
+import { ProtectiveMarkingComponent } from './pages/brief/protective-marking/protective-marking.component'
+import { BriefStatusComponent } from './pages/brief/brief-status/brief-status.component'
+import { BriefDiscussionComponent } from './pages/brief/brief-discussion/brief-discussion.component'
 
 
 const COMPONENTS = [
@@ -87,13 +92,13 @@ const COMPONENTS = [
   HomeComponent,
   BriefDocumentComponent,
   UserProfileComponent,
-  BriefLayoutComponent, 
-  NoBriefSelectedComponent, 
-  BriefDataEditorComponent, 
-  BriefSubscriptionEditorComponent, 
-  BriefReaderComponent, 
-  ProtectiveMarkingComponent, 
-  BriefStatusComponent, 
+  BriefLayoutComponent,
+  NoBriefSelectedComponent,
+  BriefDataEditorComponent,
+  BriefSubscriptionEditorComponent,
+  BriefReaderComponent,
+  ProtectiveMarkingComponent,
+  BriefStatusComponent,
   BriefDiscussionComponent
 ]
 
@@ -136,12 +141,14 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     StoreModule.forFeature('navigation', fromNavigation.reducer),
     StoreModule.forFeature('discussion', fromDiscussion.reducer),
     StoreModule.forFeature('brief', fromBrief.reducer),
+    StoreModule.forFeature('lookups', fromLookups.reducer),
 
     EffectsModule.forRoot([RouterEffects]),
     EffectsModule.forFeature([
       GlobalEffects,
       AppEffects,
       UserEffects,
+      LookupEffects,
       NavigationEffects,
       BriefEffects,
       DiscussionEffects
@@ -150,7 +157,9 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
   providers: [
     {
       provide: ErrorHandler,
-      useClass: environment.production ? AppErrorHandlerToSeqService : ErrorHandler
+      useClass: environment.production
+        ? AppErrorHandlerToSeqService
+        : ErrorHandler
     },
     {
       provide: AppUserOperationsService,
@@ -168,6 +177,7 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     configServiceProvider,
     briefDataServiceProvider,
     discussionDataServiceProvider,
+    lookupDataServiceProvider,
     navigationDataServiceProvider,
     SharepointJsomService,
     DateFormatPipe,

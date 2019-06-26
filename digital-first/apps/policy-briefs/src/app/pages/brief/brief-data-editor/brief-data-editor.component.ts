@@ -173,6 +173,10 @@ export class BriefDataEditorComponent implements OnInit {
       .subscribe()
   }
 
+  handleView($event) {
+    this.router.navigate(['/brief', this.activeBriefId])
+  }
+
   public handleSubmit(form: any) {
     if (!this.form.valid) {
       return

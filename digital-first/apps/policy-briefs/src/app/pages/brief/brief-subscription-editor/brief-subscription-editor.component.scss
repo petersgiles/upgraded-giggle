@@ -12,6 +12,11 @@ table {
     width: calc(100% - 8px);
   }
 
+  th.lower_left {
+    vertical-align: bottom !important;
+    text-align: left !important;
+  }
+
   th.rotate {
     /* Something you can count on */
     height: 120px !important;
@@ -27,4 +32,12 @@ table {
     /*border-bottom: 1px solid #ccc;*/
     padding: 5px 10px;
   }
+}
+
+.status-column {
+  background: rgba(0, 127, 200, 0.12);
+}
+
+.activity-column {
+  background: rgba(0, 200, 133, 0.12);
 }
