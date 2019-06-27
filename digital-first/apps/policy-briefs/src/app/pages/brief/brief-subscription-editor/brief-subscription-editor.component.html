@@ -1,17 +1,24 @@
-<section>
+<section *ngIf="brief$ | async as brief">
   <df-expander-panel
-    title="Notifications"
+    [title]="brief.title"
     [background]="background$ | async"
     expandable="true"
     expanded="true"
   >
-    <ng-container panel-buttons> </ng-container>
+    <ng-container panel-buttons
+      ><df-button
+        title="View Brief"
+        icon="subject"
+        [background]="background$ | async"
+        (onClick)="handleView($event)"
+      ></df-button>
+    </ng-container>
 
     <table class="shadow--2dp">
       <thead>
         <tr>
           <th>
-            <div></div>
+            Select
           </th>
           <th [attr.colspan]="(activities$ | async)?.length">
             <div class="align-center">Activities</div>
@@ -22,7 +29,13 @@
           <th></th>
         </tr>
         <tr>
-          <th class="rotate" >
+          <th>
+            <button mdcIconButton [on]="false">
+              <mdc-icon mdcIconOn>check_box</mdc-icon>
+              <mdc-icon>check_box_outline_blank</mdc-icon>
+            </button>
+          </th>
+          <th class="rotate">
             <div>
               User
             </div>
@@ -37,41 +50,56 @@
               <span>{{ s.caption }}</span>
             </div>
           </th>
-          <th></th>
         </tr>
       </thead>
       <tr>
-        <td>User A</td>
-        <td style="text-align:center" *ngFor="let s of activities$ | async">
-            <button mdcIconButton [on]="true">
-              <mdc-icon mdcIconOn>check_box</mdc-icon>
-              <mdc-icon>check_box_outline_blank</mdc-icon>
-            </button>
-          </td>
-        <td style="text-align:center" *ngFor="let s of documentStatusList$ | async" >
-          <button mdcIconButton [on]="true">
+        <td>
+          <button mdcIconButton [on]="false">
             <mdc-icon mdcIconOn>check_box</mdc-icon>
             <mdc-icon>check_box_outline_blank</mdc-icon>
           </button>
         </td>
-        <td><mdc-icon>trash</mdc-icon></td>
+        <td>User A</td>
+        <td style="text-align:center" *ngFor="let s of activities$ | async">
+          <button mdcIconButton [on]="true">
+            <mdc-icon mdcIconOn>radio_button_checked</mdc-icon>
+            <mdc-icon>radio_button_unchecked</mdc-icon>
+          </button>
+        </td>
+        <td
+          style="text-align:center"
+          *ngFor="let s of documentStatusList$ | async"
+        >
+          <button mdcIconButton [on]="true">
+            <mdc-icon mdcIconOn>radio_button_checked</mdc-icon>
+            <mdc-icon>radio_button_unchecked</mdc-icon>
+          </button>
+        </td>
       </tr>
       <tr>
-          <td>User B</td>
-          <td style="text-align:center" *ngFor="let s of activities$ | async">
-              <button mdcIconButton [on]="true">
-                <mdc-icon mdcIconOn>check_box</mdc-icon>
-                <mdc-icon>check_box_outline_blank</mdc-icon>
-              </button>
-            </td>
-          <td style="text-align:center" *ngFor="let s of documentStatusList$ | async">
-            <button mdcIconButton [on]="true">
-              <mdc-icon mdcIconOn>check_box</mdc-icon>
-              <mdc-icon>check_box_outline_blank</mdc-icon>
-            </button>
-          </td>
-          <td><mdc-icon>trash</mdc-icon></td>
-        </tr>
+        <td>
+          <button mdcIconButton [on]="false">
+            <mdc-icon mdcIconOn>check_box</mdc-icon>
+            <mdc-icon>check_box_outline_blank</mdc-icon>
+          </button>
+        </td>
+        <td>User B</td>
+        <td style="text-align:center" *ngFor="let s of activities$ | async">
+          <button mdcIconButton [on]="true">
+            <mdc-icon mdcIconOn>radio_button_checked</mdc-icon>
+            <mdc-icon>radio_button_unchecked</mdc-icon>
+          </button>
+        </td>
+        <td
+          style="text-align:center"
+          *ngFor="let s of documentStatusList$ | async"
+        >
+          <button mdcIconButton [on]="true">
+            <mdc-icon mdcIconOn>radio_button_checked</mdc-icon>
+            <mdc-icon>radio_button_unchecked</mdc-icon>
+          </button>
+        </td>
+      </tr>
     </table>
   </df-expander-panel>
 </section>

@@ -1,10 +1,18 @@
 <section *ngIf="brief$ | async as brief">
   <df-expander-panel
+    [title]="brief.title"
     [background]="background$ | async"
     expandable="true"
     expanded="true"
   >
-    <ng-container panel-buttons> </ng-container>
+    <ng-container panel-buttons
+      ><df-button
+        title="View Brief"
+        icon="subject"
+        [background]="background$ | async"
+        (onClick)="handleView($event)"
+      ></df-button>
+    </ng-container>
 
     <div class="GhostWhite brief-document">
       <form
@@ -18,14 +26,18 @@
             <div mdcBody2 class="form-section">
               <h3>Navigation</h3>
               <div class="form-row">
-                <mdc-select outlined placeholder="Policy" formControlName="policy">
+                <mdc-select
+                  outlined
+                  placeholder="Policy"
+                  formControlName="policy"
+                >
                   <option *ngFor="let p of policies$ | async" [value]="p.value">
                     {{ p.caption }}
                   </option>
                 </mdc-select>
 
                 <mdc-select
-                outlined
+                  outlined
                   placeholder="Sub Policy"
                   formControlName="subpolicy"
                 >
@@ -42,7 +54,7 @@
               <h3>Protective Markings</h3>
               <div class="form-row">
                 <mdc-select
-                outlined
+                  outlined
                   placeholder="Security Classification"
                   formControlName="securityClassification"
                 >
@@ -145,43 +157,57 @@
               </mdc-card>
             </div>
             <div mdcBody2 class="form-section">
-                <h3>Related Commitments</h3>
-    
-                <mdc-card outlined formArrayName="commitments" class="action-card">
-                  <div
-                    class="action-card-item"
-                    *ngFor="
-                      let commitmentEditor of commitments.controls;
-                      let commitmentIndex = index
-                    "
-                    [formGroupName]="commitmentIndex"
-                  >          
-                    <div class="action-card-row">
-                      <mdc-select outlined placeholder="Commitment" formControlName="commitment">
-                        <option *ngFor="let c of commitment$ | async" [value]="c.value">
-                          {{ c.caption }}
-                        </option>
-                      </mdc-select>
-                    </div>
-                    <div class="action-card-row">
-                      <a
-                        mdc-button
-                        dense
-                        (click)="
-                          handleRemoveCommitment(commitmentIndex, commitments[commitmentIndex])
-                        "
-                        >Remove</a
+              <h3>Related Commitments</h3>
+
+              <mdc-card
+                outlined
+                formArrayName="commitments"
+                class="action-card"
+              >
+                <div
+                  class="action-card-item"
+                  *ngFor="
+                    let commitmentEditor of commitments.controls;
+                    let commitmentIndex = index
+                  "
+                  [formGroupName]="commitmentIndex"
+                >
+                  <div class="action-card-row">
+                    <mdc-select
+                      outlined
+                      placeholder="Commitment"
+                      formControlName="commitment"
+                    >
+                      <option
+                        *ngFor="let c of commitment$ | async"
+                        [value]="c.value"
                       >
-                    </div>
+                        {{ c.caption }}
+                      </option>
+                    </mdc-select>
                   </div>
-  
-                  <div class="df-card__actions-footer">
-                    <a mdc-button dense (click)="handleAddCommitment()">
-                      Add Commitment
-                    </a>
+                  <div class="action-card-row">
+                    <a
+                      mdc-button
+                      dense
+                      (click)="
+                        handleRemoveCommitment(
+                          commitmentIndex,
+                          commitments[commitmentIndex]
+                        )
+                      "
+                      >Remove</a
+                    >
                   </div>
-                </mdc-card>
-              </div>
+                </div>
+
+                <div class="df-card__actions-footer">
+                  <a mdc-button dense (click)="handleAddCommitment()">
+                    Add Commitment
+                  </a>
+                </div>
+              </mdc-card>
+            </div>
           </div>
 
           <mdc-card-actions>
