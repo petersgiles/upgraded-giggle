@@ -40,28 +40,28 @@
               User
             </div>
           </th>
-          <th class="rotate activity-column" *ngFor="let s of activities$ | async">
+          <th class="activity-column" *ngFor="let s of activities$ | async">
             <div>
               <span>{{ s.caption }}</span>
             </div>
           </th>
-          <th class="rotate status-column" *ngFor="let s of documentStatusList$ | async">
+          <th class="status-column" *ngFor="let s of documentStatusList$ | async">
             <div>
               <span>{{ s.caption }}</span>
             </div>
           </th>
         </tr>
       </thead>
-      <tr>
+      <tr  *ngFor="let n of notifications$ | async">
         <td>
           <button mdcIconButton [on]="false">
             <mdc-icon mdcIconOn>check_box</mdc-icon>
             <mdc-icon>check_box_outline_blank</mdc-icon>
           </button>
         </td>
-        <td>User A</td>
+        <td>{{ n.name }}</td>
         <td style="text-align:center" class="activity-column" *ngFor="let s of activities$ | async">
-          <button mdcIconButton [on]="true">
+          <button mdcIconButton [on]="checked(n.activity, s.id)">
             <mdc-icon mdcIconOn>radio_button_checked</mdc-icon>
             <mdc-icon>radio_button_unchecked</mdc-icon>
           </button>
@@ -71,31 +71,7 @@
           class="status-column"
           *ngFor="let s of documentStatusList$ | async"
         >
-          <button mdcIconButton [on]="true">
-            <mdc-icon mdcIconOn>radio_button_checked</mdc-icon>
-            <mdc-icon>radio_button_unchecked</mdc-icon>
-          </button>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <button mdcIconButton [on]="false">
-            <mdc-icon mdcIconOn>check_box</mdc-icon>
-            <mdc-icon>check_box_outline_blank</mdc-icon>
-          </button>
-        </td>
-        <td>User B</td>
-        <td style="text-align:center"  class="activity-column" *ngFor="let s of activities$ | async">
-          <button mdcIconButton [on]="true">
-            <mdc-icon mdcIconOn>radio_button_checked</mdc-icon>
-            <mdc-icon>radio_button_unchecked</mdc-icon>
-          </button>
-        </td>
-        <td
-          style="text-align:center"  class="status-column"
-          *ngFor="let s of documentStatusList$ | async"
-        >
-          <button mdcIconButton [on]="true">
+          <button mdcIconButton [on]="checked(n.status, s.id)">
             <mdc-icon mdcIconOn>radio_button_checked</mdc-icon>
             <mdc-icon>radio_button_unchecked</mdc-icon>
           </button>
