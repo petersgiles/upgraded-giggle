@@ -5,14 +5,19 @@ import {
   concatMap,
   map,
   catchError,
-  switchMap,
-  tap,
-  withLatestFrom
+  tap
 } from 'rxjs/operators'
-import { of, Observable, EMPTY } from 'rxjs'
-import { LookupActionTypes, LookupActions } from './lookup.actions'
-import { idFromLookup, fromUser, SharepointJsomService } from '@df/sharepoint'
-import { pickColor } from '../../utils/colour'
+import { of, EMPTY } from 'rxjs'
+import {
+  LookupActionTypes,
+  LookupActions,
+  LoadLookupPolicies,
+  LoadLookupSubPolicies,
+  LoadLookupCommitments,
+  LoadLookupClassifications,
+  LoadLookupDLMs
+} from './lookup.actions'
+
 import { LookupDataService } from './lookup-data.service'
 import { Store } from '@ngrx/store'
 import * as fromRoot from '../index'
@@ -21,9 +26,46 @@ import * as fromRoot from '../index'
 export class LookupEffects {
   @Effect()
   getPolicies$ = this.actions$.pipe(
-    ofType(LookupActionTypes.GetPolicies),
-    tap(result => console.log(`💬 `, result)),
-    switchMap(result => [EMPTY]),
+    ofType(LookupActionTypes.GetLookupPolicies),
+    concatMap(_ => this.service.getPolicies()),
+    map((result: any[]) => new LoadLookupPolicies({data: result, loading: false})),
+    catchError(error => of(EMPTY))
+  )
+
+
+  @Effect()
+  getSubPolicies$ = this.actions$.pipe(
+    ofType(LookupActionTypes.GetLookupSubPolicies),
+    concatMap(_ => this.service.getSubPolicies()),
+    map((result: any[]) => new LoadLookupSubPolicies({data: result, loading: false})),
+    catchError(error => of(EMPTY))
+  )
+
+
+  @Effect()
+  getCommitments$ = this.actions$.pipe(
+    ofType(LookupActionTypes.GetLookupCommitments),
+    concatMap(_ => this.service.getCommitments()),
+    map((result: any[]) => new LoadLookupCommitments({data: result, loading: false})),
+    catchError(error => of(EMPTY))
+  )
+
+  
+  @Effect()
+  getClassifications$ = this.actions$.pipe(
+    ofType(LookupActionTypes.GetLookupClassifications),
+    concatMap(_ => this.service.getClassifications()),
+    map((result: any[]) => new LoadLookupClassifications({data: result, loading: false})),
+    catchError(error => of(EMPTY))
+  )
+
+
+  
+  @Effect()
+  getDLMs$ = this.actions$.pipe(
+    ofType(LookupActionTypes.GetLookupDLMs),
+    concatMap(_ => this.service.getDLMs()),
+    map((result: any[]) => new LoadLookupDLMs({data: result, loading: false})),
     catchError(error => of(EMPTY))
   )
 

@@ -22,6 +22,7 @@ export interface Header {
   classification?: string
   bookType?: BookType
   bookColour?: string
+  backgroundColour?: string
   logo?: Logo
   apps?: App[]
 }
@@ -37,6 +38,7 @@ export const defaults: Config = {
   siteId: null,
   header: {
     title: 'Unconfigured Application',
+    backgroundColour: '#455a64',
     classification: 'UNCLASSIFIED',
     logo: {
       image: 'assets/crest.png',

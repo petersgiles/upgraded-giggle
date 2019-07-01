@@ -64,6 +64,11 @@ export const selectAppBookColour = createSelector(
   config => config.header.bookColour
 )
 
+export const selectAppBackgroundColour = createSelector(
+  selectAppConfigState,
+  config => config.header.backgroundColour
+)
+
 export const selectNotification = createSelector(
   appState,
   (state: State) => state.notification

@@ -2,42 +2,21 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable, BehaviorSubject } from 'rxjs'
 import { environment } from '../../environments/environment.prod'
-
-export interface Logo {
-  image: string
-  url: string
-  title?: string
-}
-
-export interface App {
-  caption: string
-  icon: string
-  url: string
-  target?: string
-}
-
-export interface Header {
-  title?: string
-  classification?: string
-  bookType?: string
-  logo?: Logo
-  apps?: App[]
-}
-
-export interface Config {
-  header: Header
-}
+import { Config } from '@digital-first/df-app-core'
 
 const defaults: Config = {
-    'header': {
-        'title': 'Deck',
-        'classification': 'UNCLASSIFIED',
-        'logo': {
-           'image': 'assets/crest.png',
-           'url': '/'
-        },
-        'apps': []
-    }
+  webId: null,
+  siteId: null,
+  header: {
+    title: 'Policy Briefs',
+    classification: 'UNCLASSIFIED',
+    backgroundColour: '#455a64',
+    logo: {
+      image: 'assets/crest.png',
+      url: '/'
+    },
+    apps: []
+  }
 }
 
 @Injectable({
