@@ -6,10 +6,11 @@ import { switchMap } from 'rxjs/operators'
 import { ParamMap, ActivatedRoute, Router } from '@angular/router'
 import { SetActiveBrief } from '../../../reducers/brief/brief.actions'
 import { SetActiveBriefPath } from '../../../reducers/navigation/navigation.actions'
-import { EMPTY, BehaviorSubject } from 'rxjs'
+import { EMPTY, BehaviorSubject, Observable } from 'rxjs'
 import { FormBuilder } from '@angular/forms'
 import { statuslist, activityList, notifications, user_notifications } from '../mock-data'
 import { MdcDialog } from '@angular-mdc/web'
+import { selectAppBackgroundColour } from '@digital-first/df-app-core';
 
 @Component({
   selector: 'digital-first-brief-subscription-editor',
@@ -17,7 +18,7 @@ import { MdcDialog } from '@angular-mdc/web'
   styleUrls: ['./brief-subscription-editor.component.scss']
 })
 export class BriefSubscriptionEditorComponent implements OnInit {
-  public background$: BehaviorSubject<string> = new BehaviorSubject('#455a64')
+  public background$: Observable<string>
   public brief$: any
   public selectId$: any
   public documentStatusList$: BehaviorSubject<any>
@@ -36,6 +37,7 @@ export class BriefSubscriptionEditorComponent implements OnInit {
 
   ngOnInit() {
     this.brief$ = this.store.pipe(select(fromBrief.selectBriefState))
+    this.background$ = this.store.pipe(select(selectAppBackgroundColour))
     this.documentStatusList$ = new BehaviorSubject(statuslist)
     this.activities$ = new BehaviorSubject(activityList)
     this.notifications$ = new BehaviorSubject([])

@@ -30,7 +30,10 @@ export {
   State as AppState,
   selectAppConfigState,
   selectNotification,
-  selectAppSpinnerState
+  selectAppSpinnerState,
+  selectAppBackgroundColour,
+  selectAppBookColour,
+  selectAppBookTypeState
 } from './lib/reducers/app/app.reducer'
 export {
   ShowSpinner,

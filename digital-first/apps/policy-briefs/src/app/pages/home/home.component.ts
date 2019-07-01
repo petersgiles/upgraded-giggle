@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core'
-import { Observable, BehaviorSubject } from 'rxjs'
+import { Observable } from 'rxjs'
+import * as fromRoot from '../../reducers/index'
+import { Store, select } from '@ngrx/store';
+import { selectAppBackgroundColour } from '@digital-first/df-app-core'
 
 @Component({
   selector: 'digital-first-home',
@@ -7,10 +10,12 @@ import { Observable, BehaviorSubject } from 'rxjs'
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  public background$: BehaviorSubject<string> = new BehaviorSubject('#455a64')
-  constructor() {}
+  public background$: Observable<string>
+  constructor(private store: Store<fromRoot.State>) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.background$ = this.store.pipe(select(selectAppBackgroundColour))
+  }
 
   handleEvent($event) {}
 }
