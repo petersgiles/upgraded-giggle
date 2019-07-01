@@ -1,15 +1,16 @@
 import { Component, OnInit, Input } from '@angular/core'
-import { Store } from '@ngrx/store'
-import { statuslist } from '../mock-data'
+import { Store, select } from '@ngrx/store'
 import { FormBuilder } from '@angular/forms'
 
 import * as fromRoot from '../../../reducers/index'
-import { Subscription, BehaviorSubject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
-import { SetActiveBriefStatus } from '../../../reducers/brief/brief.actions';
+import * as fromLookup from '../../../reducers/lookups/lookup.reducer'
+import { Subscription } from 'rxjs'
+import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators'
+import { SetActiveBriefStatus } from '../../../reducers/brief/brief.actions'
+import { GetLookupStatuses } from '../../../reducers/lookups/lookup.actions'
 
 const defaultValues = {
-  status: "1"
+  status: '1'
 }
 
 @Component({
@@ -32,9 +33,13 @@ export class BriefStatusComponent implements OnInit {
   public formValueChangeSubscription$: Subscription
 
   ngOnInit() {
-    this.documentStatusList$ = new BehaviorSubject(statuslist)
+    this.documentStatusList$ = this.store.pipe(
+      select(fromLookup.selectLookupStatusesState)
+    )
 
     this.form.patchValue(defaultValues)
+
+    this.store.dispatch(new GetLookupStatuses())
 
     this.formValueChangeSubscription$ = this.form.valueChanges
       .pipe(

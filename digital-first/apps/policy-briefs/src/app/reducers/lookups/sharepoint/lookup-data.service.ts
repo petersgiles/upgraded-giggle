@@ -8,6 +8,15 @@ import { SharepointJsomService } from '@df/sharepoint';
   providedIn: 'root'
 })
 export class LookupDataSharepointService implements LookupDataService {
+  getLookupDivisions(config?: any): Observable<any> {
+    throw new Error("Method not implemented.");
+  }
+  getLookupActivities(config?: any): Observable<any> {
+    throw new Error("Method not implemented.");
+  }
+  getLookupStatuses(config?: any): Observable<any> {
+    throw new Error("Method not implemented.");
+  }
   getPolicies(config?: any): Observable<any> {
     throw new Error("Method not implemented.");
   }

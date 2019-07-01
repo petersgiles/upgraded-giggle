@@ -15,7 +15,10 @@ import {
   LoadLookupSubPolicies,
   LoadLookupCommitments,
   LoadLookupClassifications,
-  LoadLookupDLMs
+  LoadLookupDLMs,
+  LoadLookupStatuses,
+  LoadLookupActivities,
+  LoadLookupDivisions
 } from './lookup.actions'
 
 import { LookupDataService } from './lookup-data.service'
@@ -66,6 +69,32 @@ export class LookupEffects {
     ofType(LookupActionTypes.GetLookupDLMs),
     concatMap(_ => this.service.getDLMs()),
     map((result: any[]) => new LoadLookupDLMs({data: result, loading: false})),
+    catchError(error => of(EMPTY))
+  )
+
+
+  
+  @Effect()
+  getLookupStatuses$ = this.actions$.pipe(
+    ofType(LookupActionTypes.GetLookupStatuses),
+    concatMap(_ => this.service.getLookupStatuses()),
+    map((result: any[]) => new LoadLookupStatuses({data: result, loading: false})),
+    catchError(error => of(EMPTY))
+  )
+
+  @Effect()
+  getLookupActivities$ = this.actions$.pipe(
+    ofType(LookupActionTypes.GetLookupActivities),
+    concatMap(_ => this.service.getLookupActivities()),
+    map((result: any[]) => new LoadLookupActivities({data: result, loading: false})),
+    catchError(error => of(EMPTY))
+  )
+  
+  @Effect()
+  getLookupDivisions$ = this.actions$.pipe(
+    ofType(LookupActionTypes.GetLookupDivisions),
+    concatMap(_ => this.service.getLookupDivisions()),
+    map((result: any[]) => new LoadLookupDivisions({data: result, loading: false})),
     catchError(error => of(EMPTY))
   )
 

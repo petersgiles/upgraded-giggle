@@ -1,56 +1,6 @@
 import { DocumentStatus } from '@df/components'
 import { lotsofUsers } from 'apps/policy-briefs/src/devdata/data'
 
-
-export const statuslist: DocumentStatus[] = [
-  {
-    id: '1',
-    icon: 'people',
-    caption: 'In Draft',
-    colour: 'Pink',
-    order: 1
-  },
-  {
-    id: '2',
-    icon: 'how_to_reg',
-    caption: 'Ready',
-    colour: 'GhostWhite',
-    order: 2
-  },
-  {
-    id: '3',
-    icon: 'cancel_presentation',
-    caption: 'Cancelled',
-    colour: 'Crimson',
-    order: 3
-  }
-]
-
-export const activityList = [
-  { id: '1', icon: 'people', colour: 'Pink', order: 1, caption: `Decision` },
-  {
-    id: '2',
-    icon: 'people',
-    colour: 'Pink',
-    order: 2,
-    caption: `New Comments`
-  },
-  {
-    id: '3',
-    icon: 'people',
-    colour: 'Pink',
-    order: 3,
-    caption: `New Documents`
-  },
-  {
-    id: '4',
-    icon: 'people',
-    colour: 'Pink',
-    order: 4,
-    caption: `Updates and Changes`
-  }
-]
-
 export const notifications = [
   {
     user_id: 530,

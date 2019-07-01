@@ -9,8 +9,7 @@ export interface State {
   directions: any[]
   recommendations: any[]
   attachments: any[]
-  statusLookups: any[]
-  divisionLookups: any[]
+
 }
 
 export const initialState: State = {
@@ -19,8 +18,7 @@ export const initialState: State = {
   directions: null,
   recommendations: null,
   attachments: null,
-  statusLookups: null,
-  divisionLookups: null
+
 }
 
 export function reducer(state = initialState, action: BriefActions): State {
@@ -86,12 +84,3 @@ export const selectAttachmentsState = createSelector(
   (state: State) => state.attachments
 )
 
-export const selectStatusLookupsState = createSelector(
-  briefState,
-  (state: State) => state.statusLookups
-)
-
-export const selectDivisionLookupsState = createSelector(
-  briefState,
-  (state: State) => state.divisionLookups
-)

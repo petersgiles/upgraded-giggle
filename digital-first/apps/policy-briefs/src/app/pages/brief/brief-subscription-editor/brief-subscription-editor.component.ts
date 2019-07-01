@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import * as fromRoot from '../../../reducers/index'
 import * as fromBrief from '../../../reducers/brief/brief.reducer'
+import * as fromLookup from '../../../reducers/lookups/lookup.reducer'
 import { select, Store } from '@ngrx/store'
 import { switchMap } from 'rxjs/operators'
 import { ParamMap, ActivatedRoute, Router } from '@angular/router'
@@ -8,9 +9,10 @@ import { SetActiveBrief } from '../../../reducers/brief/brief.actions'
 import { SetActiveBriefPath } from '../../../reducers/navigation/navigation.actions'
 import { EMPTY, BehaviorSubject, Observable } from 'rxjs'
 import { FormBuilder } from '@angular/forms'
-import { statuslist, activityList, notifications, user_notifications } from '../mock-data'
+import { user_notifications } from '../mock-data'
 import { MdcDialog } from '@angular-mdc/web'
 import { selectAppBackgroundColour } from '@digital-first/df-app-core';
+import { GetLookupActivities, GetLookupStatuses } from '../../../reducers/lookups/lookup.actions';
 
 @Component({
   selector: 'digital-first-brief-subscription-editor',
@@ -21,8 +23,8 @@ export class BriefSubscriptionEditorComponent implements OnInit {
   public background$: Observable<string>
   public brief$: any
   public selectId$: any
-  public documentStatusList$: BehaviorSubject<any>
-  public activities$: BehaviorSubject<any>
+  public documentStatusList$: any
+  public activities$: any
   public notifications$: BehaviorSubject<any>
 
   public activeBriefId: string
@@ -38,8 +40,8 @@ export class BriefSubscriptionEditorComponent implements OnInit {
   ngOnInit() {
     this.brief$ = this.store.pipe(select(fromBrief.selectBriefState))
     this.background$ = this.store.pipe(select(selectAppBackgroundColour))
-    this.documentStatusList$ = new BehaviorSubject(statuslist)
-    this.activities$ = new BehaviorSubject(activityList)
+    this.documentStatusList$ = this.store.pipe(select(fromLookup.selectLookupStatusesState))
+    this.activities$ = this.store.pipe(select(fromLookup.selectLookupActivitiesState))
     this.notifications$ = new BehaviorSubject([])
 
     this.selectId$ = this.route.paramMap
@@ -55,6 +57,16 @@ export class BriefSubscriptionEditorComponent implements OnInit {
           this.store.dispatch(
             new SetActiveBriefPath({ activeBriefId: this.activeBriefId })
           )
+
+          
+          this.store.dispatch(
+            new GetLookupStatuses()
+          )
+          
+          this.store.dispatch(
+            new GetLookupActivities()
+          )
+
   
           const users = user_notifications.filter(u => `${u.brief_id}` === this.activeBriefId)
           this.notifications$.next(users)
