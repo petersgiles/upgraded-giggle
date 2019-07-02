@@ -17,6 +17,7 @@ import { BriefMapperService } from '../../../services/mappers/brief-mapper.servi
   providedIn: 'root'
 })
 export class BriefDataLocalService implements BriefDataService {
+
   fakeBriefBackend: Subject<any[]> = new Subject()
   fakeBriefBackendSubscription$: Subscription
   briefItems: BehaviorSubject<any> = new BehaviorSubject(null)
@@ -29,6 +30,10 @@ export class BriefDataLocalService implements BriefDataService {
   }
   removeBrief(item: { id: string }): Observable<any> {
     throw new Error('Method not implemented.')
+  }
+
+  setActiveBriefStatus(activeBriefId: string, status: string): Observable<{ briefId: any; loading: boolean; }> {
+    throw new Error("Method not implemented.");
   }
 
   public getBriefs(): Observable<{

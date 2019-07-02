@@ -1,0 +1,155 @@
+<section *ngIf="brief$ | async as brief">
+  <df-expander-panel
+    [background]="background$ | async"
+    expandable="true"
+    expanded="true"
+  >
+    <ng-container panel-buttons> </ng-container>
+
+    <div class="GhostWhite brief-document">
+      <form
+        *ngIf="brief"
+        [formGroup]="form"
+        (ngSubmit)="handleSubmit($event)"
+        autocomplete="off"
+      >
+        <mdc-card class="form-card">
+          <div>
+            <div mdcBody2 class="form-section">
+              <h3>Navigation</h3>
+              <div class="form-row">
+                <mdc-select placeholder="Policy" formControlName="policy">
+                  <option *ngFor="let p of policies$ | async" [value]="p.value">
+                    {{ p.caption }}
+                  </option>
+                </mdc-select>
+
+                <mdc-select
+                  placeholder="Sub Policy"
+                  formControlName="subpolicy"
+                >
+                  <option
+                    *ngFor="let p of subpolicies$ | async"
+                    [value]="p.value"
+                  >
+                    {{ p.caption }}
+                  </option>
+                </mdc-select>
+              </div>
+            </div>
+            <div mdcBody2 class="form-section">
+              <h3>Protective Markings</h3>
+              <div class="form-row">
+                <mdc-select
+                  placeholder="Security Classification"
+                  formControlName="securityClassification"
+                >
+                  <option
+                    *ngFor="let classification of classifications$ | async"
+                    [value]="classification.value"
+                  >
+                    {{ classification.caption }}
+                  </option>
+                </mdc-select>
+
+                <mdc-select placeholder="DLM" formControlName="dLM">
+                  <option *ngFor="let dlm of dlms$ | async" [value]="dlm.value">
+                    {{ dlm.caption }}
+                  </option>
+                </mdc-select>
+              </div>
+            </div>
+            <div mdcBody2 class="form-section">
+              <h3>Processing Instruction</h3>
+              <div class="form-row">
+                <mdc-textarea
+                  formControlName="processingInstruction"
+                  label="Processing Instruction"
+                  characterCounter
+                  maxlength="5000"
+                  rows="8"
+                  cols="40"
+                ></mdc-textarea>
+              </div>
+            </div>
+            <div mdcBody2 class="form-section">
+              <h3>Recommended Direction and Actions</h3>
+
+              <div class="form-row">
+                <mdc-textarea
+                  label="RecommendedDirection"
+                  characterCounter
+                  maxlength="5000"
+                  rows="8"
+                  cols="40"
+                ></mdc-textarea>
+              </div>
+
+              <mdc-card outlined formArrayName="actions">
+                <ng-container
+                  class="form-row action-description"
+                  *ngFor="
+                    let actionEditor of actions.controls;
+                    let actionIndex = index
+                  "
+                  [formGroupName]="actionIndex"
+                >
+                  <div class="form-row">
+               
+                      <mdc-text-field
+                        formControlName="outcome1"
+                        label="Outcome 1"
+                      ></mdc-text-field>
+             
+                      <mdc-text-field
+                        formControlName="outcome2"
+                        label="Outcome 1"
+                      ></mdc-text-field>
+   
+      
+                      <mdc-text-field
+                        formControlName="outcome3"
+                        label="Outcome 1"
+                      ></mdc-text-field>
+       
+                  </div>
+                  <div class="form-row">
+                    <mdc-textarea
+                      label="Action Description"
+                      formControlName="description"
+                      characterCounter
+                      maxlength="2000"
+                      rows="2"
+                      cols="40"
+                    ></mdc-textarea>
+                    <a
+                      mdc-button
+                      dense
+                      (click)="
+                        handleRemoveAction(actionIndex, actions[actionIndex])
+                      "
+                      >Delete</a
+                    >
+                  </div>
+                </ng-container>
+
+                <div class="df-card__actions-footer">
+                  <a mdc-button dense (click)="handleAddAction()">
+                    Add Action
+                  </a>
+                </div>
+              </mdc-card>
+            </div>
+          </div>
+
+          <mdc-card-actions>
+            <mdc-card-action-buttons>
+              <button mdc-button mdcCardAction="button">Cancel</button>
+              <button mdc-button mdcCardAction="button">Submit</button>
+            </mdc-card-action-buttons>
+          </mdc-card-actions>
+        </mdc-card>
+      </form>
+    </div>
+  </df-expander-panel>
+</section>

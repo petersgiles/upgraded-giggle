@@ -61,8 +61,7 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
 
 import { DeckUserOperationsService } from './services/app-data/app-operations'
 
-import { BriefComponent } from './pages/brief/brief.component'
-import { BriefDocumentComponent } from './containers/brief-document/brief-document.component'
+import { BriefDocumentComponent } from './pages/brief/brief-document/brief-document.component'
 import { NavigationEffects } from './reducers/navigation/navigation.effects'
 import { BriefEffects } from './reducers/brief/brief.effects'
 import { DiscussionEffects } from './reducers/discussion/discussion.effects'
@@ -74,13 +73,29 @@ import { briefDataServiceProvider } from './reducers/brief/brief-data.service.fa
 import { navigationDataServiceProvider } from './reducers/navigation/navigation-data.service.factory'
 import { discussionDataServiceProvider } from './reducers/discussion/discussion-data.service.factory'
 import { GlobalEffects } from './reducers/app/app.effects';
+import { BriefLayoutComponent } from './pages/brief/brief-layout/brief-layout.component';
+import { NoBriefSelectedComponent } from './pages/brief/no-brief-selected/no-brief-selected.component';
+import { BriefDataEditorComponent } from './pages/brief/brief-data-editor/brief-data-editor.component';
+import { BriefSubscriptionEditorComponent } from './pages/brief/brief-subscription-editor/brief-subscription-editor.component';
+import { BriefReaderComponent } from './pages/brief/brief-reader/brief-reader.component';
+import { ProtectiveMarkingComponent } from './pages/brief/protective-marking/protective-marking.component';
+import { BriefStatusComponent } from './pages/brief/brief-status/brief-status.component';
+import { BriefDiscussionComponent } from './pages/brief/brief-discussion/brief-discussion.component';
+
 
 const COMPONENTS = [
   AppComponent,
   HomeComponent,
-  BriefComponent,
   BriefDocumentComponent,
-  UserProfileComponent
+  UserProfileComponent,
+  BriefLayoutComponent, 
+  NoBriefSelectedComponent, 
+  BriefDataEditorComponent, 
+  BriefSubscriptionEditorComponent, 
+  BriefReaderComponent, 
+  ProtectiveMarkingComponent, 
+  BriefStatusComponent, 
+  BriefDiscussionComponent
 ]
 
 const ENTRYCOMPONENTS = [DialogAreYouSureComponent]

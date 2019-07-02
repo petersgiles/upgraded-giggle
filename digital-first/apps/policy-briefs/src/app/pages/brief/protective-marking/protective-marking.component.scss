@@ -1,0 +1,17 @@
+.brief-protective-marking-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.brief-protective-marking {
+  color: red;
+  width: 100%;
+  text-align: center;
+}
+
+.brief-protective-marking-form {
+  display: flex;
+  flex-direction: column;
+}

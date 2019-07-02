@@ -31,8 +31,6 @@ export class DiscussionDataLocalService implements DiscussionDataService {
     loading: boolean
   }> {
 
-console.log(`channel`, item.channel)
-
     const discussions = comments.filter(p => {
       return p.Channel === item.channel && `${p.Brief.Id}` === `${item.id}`
     })

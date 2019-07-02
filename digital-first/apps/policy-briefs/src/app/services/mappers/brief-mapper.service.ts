@@ -11,8 +11,6 @@ export class BriefMapperService extends CoreMapperService<Brief> {
   }
 
   public mapSingle(item: any): Brief {
-    console.log(`BriefMapperService`, item)
-
     const editor = this.fromLookup(item.Editor)
     const subPolicy = this.fromLookup(item.SubPolicy)
     const policy = this.fromLookup(item.Policy)

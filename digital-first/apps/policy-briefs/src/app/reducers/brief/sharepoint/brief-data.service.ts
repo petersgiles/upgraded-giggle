@@ -21,6 +21,9 @@ const BRIEF_ITEM_LIST_NAME = 'Brief'
   providedIn: 'root'
 })
 export class BriefDataSharepointService implements BriefDataService {
+  setActiveBriefStatus(activeBriefId: string, status: string): Observable<{ briefId: any; loading: boolean; }> {
+    throw new Error("Method not implemented.");
+  }
   getBriefDocument(id: string): Observable<{ data: any; loading: boolean }> {
     return EMPTY
   }

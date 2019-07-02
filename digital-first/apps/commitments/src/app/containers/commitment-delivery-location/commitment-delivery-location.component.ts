@@ -7,7 +7,7 @@ import { MdcDialog } from '@angular-mdc/web'
 import {
   DialogAreYouSureComponent,
   ARE_YOU_SURE_ACCEPT
-} from '@digital-first/df-dialogs'
+} from '@df/components'
 import { first } from 'rxjs/operators'
 import { DeliveryLocationService } from '../../reducers/commitment-delivery-location/commitment-delivery-location.service'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'

@@ -32,6 +32,17 @@ export function reducer(state = initialState, action: BriefActions): State {
         brief:  action.payload.data
       }
 
+      case BriefActionTypes.SetActiveBriefStatus:
+
+        return {
+          ...state,
+          brief:  {
+            ...state.brief,
+            status:  action.payload.status
+          }
+        }
+
+
     case BriefActionTypes.SetActiveBrief:
       return {
         ...state,
