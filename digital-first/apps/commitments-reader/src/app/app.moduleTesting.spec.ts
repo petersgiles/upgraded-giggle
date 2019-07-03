@@ -10,9 +10,11 @@ import 'zone.js/dist/sync-test';
 import 'jest-zone-patch'
 
 import { ErrorHandler,  Injector} from '@angular/core'
-import { inject, TestBed, getTestBed, async, fakeAsync } from '@angular/core/testing'
+import { inject, TestBed, getTestBed, async} from '@angular/core/testing'
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
 import { HttpClient } from '@angular/common/http'
+
+import { Store, Action } from '@ngrx/store';
 
 import { AppEffects } from '../../../../libs/df-app-core/src/lib/reducers/app/app.effects'
 import { UserEffects } from '../../../../libs/df-app-core/src/lib/reducers/user/user.effects'
@@ -21,7 +23,7 @@ import {
   FinishAppInitialiser,
   GetAppConfiguration,
   LoadAppConfiguration,
-  AppActionTypes
+  AppActionTypes,
 } from '../../../../libs/df-app-core/src/lib/reducers/app/app.actions'
 
 import { 
@@ -32,10 +34,24 @@ import {
   SetUserOperationDefaults
 } from '../../../../libs/df-app-core/src/lib/reducers/user/user.actions'
 
+import {
+  ROLE_VISITORS,
+  ROLE_MEMBERS,
+  ROLE_OWNERS,
+  OPERATION_RIGHT_WRITE,
+  OPERATION_RIGHT_HIDE,
+  OPERATION_RIGHT_READ
+} from '../../../../libs/df-app-core/src/'
+
+import {
+  OPERATION_PMO_HANDLING_ADVICE,
+  OPERATION_PMC_HANDLING_ADVICE
+} from './services/app-data/app-operations'
+
 import { AppDataService } from '../../../../libs/df-app-core/src/lib/services/app-data.service'
 import { AppConfigService } from '../../../../libs/df-app-core/src/lib/services/config/config.service'
 import { AppSettingsService }  from '../../../../libs/df-app-core/src/lib/services/app-settings.service'
-import { Observable } from 'rxjs'
+import { Observable, Subject } from 'rxjs'
 import { provideMockActions } from '@ngrx/effects/testing'
 import { DevelopConfigService } from './services/config/develop/develop-config.service'
 import { DevelopAppDataService } from './services/app-data/develop/develop-app-data.service'
@@ -143,26 +159,31 @@ getTestBed().initTestEnvironment(
     const req = httpTestingController.expectOne('/assets/commitments-reader.txt')
     req.flush(getConfigData())
   })
-
-   it('get config service', inject([HttpClient, SettingsService], (http: HttpClient, settings: SettingsService) => {
-     let configService = new DevelopConfigService(http, settings)
-    configService.getConfig().subscribe(resp => {
-      expect(resp.payload).toEqual(getConfigData())
-    })
-    
-    
-    const req = httpTestingController.expectOne('/assets/commitments-reader.txt');
-    req.flush(getConfigData())
-  }))
 })*/
 
+const testOperations = [
+  {
+    group: ROLE_OWNERS,
+    component: [OPERATION_PMO_HANDLING_ADVICE, OPERATION_PMC_HANDLING_ADVICE],
+    rights: OPERATION_RIGHT_WRITE
+  },
+  {
+    group: ROLE_MEMBERS,
+    component: [OPERATION_PMO_HANDLING_ADVICE, OPERATION_PMC_HANDLING_ADVICE],
+    rights: OPERATION_RIGHT_READ
+  },
+  {
+    group: ROLE_VISITORS,
+    component: [OPERATION_PMO_HANDLING_ADVICE, OPERATION_PMC_HANDLING_ADVICE],
+    rights: OPERATION_RIGHT_HIDE
+  }
+]
+
           /* Tests for User and user operations */
-describe('AppModule_User', () => {
+/*describe('AppModule_User', () => {
   debugger
   let userEffects: UserEffects
   let actions: Observable<any>
-  let httpTestingController: HttpTestingController
-  let settingService: SettingsService
   
   beforeEach(() => {
     debugger
@@ -170,29 +191,26 @@ describe('AppModule_User', () => {
       imports: [ HttpClientTestingModule],
       providers: [
         UserEffects,
-        DevelopAppDataService,
         CommitmentsReaderOperationsService,
         provideMockActions(() => actions),
         {
            provide: AppDataService,
-           useClass: DevelopAppDataService,
-           useValue: {
-            getCurrentUser: jest.fn(),
-            SetCurrentUser: jest.fn(),
-            SetUserOperationDefaults: jest.fn(),
-            GetUserOperations: jest.fn(),
-          }
+           useFactory:  appDataServiceFactory, deps:[],
+        },
+        {
+            provide:  DevelopAppDataService,
+            useValue: {
+              getCurrentUser: jest.fn()
+            }
         },
         {
            provide: AppUserOperationsService,
-           useValue: CommitmentsReaderOperationsService
+           useClass: CommitmentsReaderOperationsService
         }
       ]
      
     })
     userEffects = TestBed.get(UserEffects)
-    httpTestingController = TestBed.get(HttpTestingController)
-    settingService = TestBed.get(SettingsService)
   })
           
   it('User service should be created', inject([DevelopAppDataService], (service: DevelopAppDataService) => {
@@ -207,29 +225,111 @@ describe('AppModule_User', () => {
         expect(userEffects).toBeTruthy()
   }) 
 
-  it('effect should get config', async (inject([DevelopAppDataService, CommitmentsReaderOperationsService], (userService: DevelopAppDataService, opsService: CommitmentsReaderOperationsService) => {
+  it('effect should get currrent user', async (inject([AppDataService, CommitmentsReaderOperationsService], (userService: AppDataService, opsService: AppUserOperationsService) => {
     const action = new GetCurrentUser(null)
     const getUserOutcome = new SetCurrentUser(getUserData())
     const setUserOpsOutcome = new SetUserOperationDefaults(opsService.operations)
     const getUserOps = new GetUserOperations(null)
     
-    actions = hot('a', { a: action })
+    actions = hot('-a', { a: action })
 
     const response = cold('-a|', { a: getUserData() })
-    const expected_1 = cold('--b', { b: getUserOutcome })
-    userService.getCurrentUser = jest.fn(() => response)
     
-    const expected_2 = cold('--c', { c: setUserOpsOutcome })
+    const expected = cold('--(bcd)', { b: getUserOutcome, c: setUserOpsOutcome, d: getUserOps})
    
-    const expected_3 = cold('--d', { c: getUserOps })
-    userService.getCurrentUserOperations = jest.fn(() => response)
+    userService.getCurrentUser = jest.fn(() => response)
 
-    expect(userEffects.getCurrentUser$).toBeObservable(expected_1)
-    /* userEffects.getCurrentUser$.subscribe((resp: any) => {
-      expect(resp.type).toEqual(AppActionTypes.LoadAppConfiguration)
-      expect(resp.payload).toEqual(getConfigData())
-    }) */
+    expect(userEffects.getCurrentUser$).toBeObservable(expected)
+   
   })))
+
+  it('effect should get currrent user operations', async (inject([AppDataService], (userService: AppDataService) => {
+    const action = new GetUserOperations({payload: null})
+    const setUserOps = new SetUserOperations(getUserOps())
+    
+    actions = hot('-a', { a: action })
+
+    const response = cold('-a|', { a: {payload: null} })
+    
+    const expected = cold('-b', { b: setUserOps})
+
+    expect(userEffects.getUserOperations$).toBeObservable(expected)
+   
+  })))
+})*/
+
+describe('App_Init', () => {
+  debugger
+  let userEffects: UserEffects
+  let appEffects: AppEffects
+  let actions: Observable<any>
+  let unsubscribe = new Subject<void>()
+  beforeEach(() => {
+    debugger
+    TestBed.configureTestingModule({
+      imports: [ HttpClientTestingModule],
+      providers: [
+        UserEffects,
+        AppEffects,
+        CommitmentsReaderOperationsService,
+        provideMockActions(() => actions),
+        {
+           provide: Store,
+           useValue: {
+             dispatch: jest.fn(),
+             pipe: jest.fn()
+           }
+        },
+        {
+          provide: AppUserOperationsService,
+          useClass: CommitmentsReaderOperationsService
+       }
+        
+      ]
+     
+    })
+    userEffects = TestBed.get(UserEffects)
+    appEffects = TestBed.get(AppEffects)
+    
+  })
+
+  afterEach(() => {
+    unsubscribe.next();
+    unsubscribe.complete();
+  })
+
+  it('User effect should be created', () => {
+    expect(userEffects).toBeTruthy()
+  }) 
+          
+  it('should dispatch a StartAppInitialiser action in App-Init lifecycle', () => {
+    const action = new StartAppInitialiser({ environment: null })
+    const store = TestBed.get(Store)
+    store.dispatch(action)
+    const spy = jest.spyOn(store, 'dispatch');
+
+    expect(spy).toHaveBeenCalledWith(action);
+  });
+
+  it('should alert number of books after adding the second book', () => {
+    const store = TestBed.get(Store)
+   /*  store.setState({
+      app: {
+        config: null,
+        notification: null,
+        spinner: null,
+        appError: null
+      }
+    }) */
+    const getAppConfig = new GetAppConfiguration()
+    const action = new StartAppInitialiser({ environment: null })
+    const response = hot('-a', { a: action });
+    const expected = cold('-b', {b: getAppConfig})
+
+    expect(appEffects.startAppInitialiser$).toBeObservable(expected)
+  });
+
+
 })
 
 function getConfigData(){
@@ -284,5 +384,14 @@ function getUserData(){
           systemUserKey: "guest",
           userid: 0
         }
+  return data
+}
+
+function getUserOps(){
+  const data = {
+    data: { groupPermissions: testOperations },
+      loading: false,
+      error: null
+  }
   return data
 }
