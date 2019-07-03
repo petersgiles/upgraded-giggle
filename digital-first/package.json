@@ -23,6 +23,7 @@
     "sharepoint:copyListData:commitments": "cpx ../sharepoint/commitments/Data/*.* ../sharepoint/deploy/ListData/commitments",
     "sp:deploy:commitments-reader": "run-s sharepoint:build:commitments-reader sharepoint:compile:commitments-reader sharepoint:copyListDefinitions:commitments-reader sharepoint:copyListData:commitments-reader deploy:all:commitments-reader",
     "sharepoint:copyListData:commitments-reader": "cpx ../sharepoint/commitments-reader/Data/*.* ../sharepoint/deploy/ListData/commitments-reader",
+    
     "start:deck": "ng serve deck --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --live-reload true",
     "build:deck": "ng build deck --configuration=production",
     "generate-graphql:deck": "gql-gen --config ./apps/deck/codegen.yml",
@@ -33,6 +34,7 @@
     "sharepoint:copyListDefinitions:deck": "cpx ../sharepoint/deckx/ListDefinitions/*.* ../sharepoint/deploy/ListDefinitions/deckx",
     "sharepoint:copyListData:deck": "cpx ../sharepoint/deckx/Data/*.* ../sharepoint/deploy/ListData/deckx",
     "sp:deploy:deck": "run-s sharepoint:build:deck sharepoint:copyListDefinitions:deck sharepoint:copyListData:deck  deploy:all:deck",
+    
     "start:policy-briefs": "ng serve policy-briefs --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --live-reload true",
     "build:policy-briefs": "ng build policy-briefs --configuration=production",
     "deploy:all:policy-briefs": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/redigb' -AppName 'Policy-Briefs'",
@@ -42,6 +44,7 @@
     "sharepoint:copyListDefinitions:policy-briefs": "cpx ../sharepoint/policy-briefs/ListDefinitions/*.* ../sharepoint/deploy/ListDefinitions/policy-briefs",
     "sharepoint:copyListData:policy-briefs": "cpx ../sharepoint/policy-briefs/Data/*.* ../sharepoint/deploy/ListData/policy-briefs",
     "sp:deploy:policy-briefs": "run-s sharepoint:build:policy-briefs sharepoint:compile:policy-briefs deploy:all:policy-briefs",
+    
     "sharepoint:build": "run-p sharepoint:build:*",
     "sharepoint:compile": "run-p sharepoint:compile:*",
     "sharepoint:copyListDefinitions": "run-p sharepoint:copyListDefinitions:*",
