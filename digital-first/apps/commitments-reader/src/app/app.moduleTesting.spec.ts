@@ -40,19 +40,24 @@ import {
   ROLE_OWNERS,
   OPERATION_RIGHT_WRITE,
   OPERATION_RIGHT_HIDE,
-  OPERATION_RIGHT_READ
+  OPERATION_RIGHT_READ,
+  AppState
 } from '../../../../libs/df-app-core/src/'
+
 
 import {
   OPERATION_PMO_HANDLING_ADVICE,
   OPERATION_PMC_HANDLING_ADVICE
 } from './services/app-data/app-operations'
 
+import { Config } from '../../../../libs/df-app-core/src/lib/services/config/config-model'
 import { AppDataService } from '../../../../libs/df-app-core/src/lib/services/app-data.service'
 import { AppConfigService } from '../../../../libs/df-app-core/src/lib/services/config/config.service'
 import { AppSettingsService }  from '../../../../libs/df-app-core/src/lib/services/app-settings.service'
-import { Observable, Subject } from 'rxjs'
+import { Observable, Subject, ReplaySubject, of } from 'rxjs'
+import { take } from 'rxjs/operators'
 import { provideMockActions } from '@ngrx/effects/testing'
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { DevelopConfigService } from './services/config/develop/develop-config.service'
 import { DevelopAppDataService } from './services/app-data/develop/develop-app-data.service'
 import { AppUserOperationsService } from '../../../../libs/df-app-core/src/lib/services/app-user-operations.service'
@@ -61,6 +66,10 @@ import { SettingsService } from './services/settings.service'
 import { BrowserDynamicTestingModule,
   platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing'
 import { cold, hot } from 'jasmine-marbles'
+import { storeFreeze } from 'ngrx-store-freeze'
+
+import { OnInitEffects, Actions } from '@ngrx/effects'
+import { appState } from 'libs/df-app-core/src/lib/reducers/app/app.reducer';
 
 const configServiceFactory = (
   settings: AppSettingsService,
@@ -148,6 +157,17 @@ getTestBed().initTestEnvironment(
       expect(resp.type).toEqual(AppActionTypes.LoadAppConfiguration)
       expect(resp.payload).toEqual(getConfigData())
     })
+  }))
+
+  it('should start get config again', inject([AppConfigService], (configDatService: AppConfigService) => {
+    updateState(new GetAppConfiguration() )
+
+    const action = new GetAppConfiguration()
+    const outcome = new LoadAppConfiguration(getConfigData())
+    
+    actions = hot('a', { a: action });
+    const expected = cold('b', { b: outcome })
+   expect(appEffects.getAppConfiguration$).toBeObservable(expected)
   }))
 
 
@@ -258,12 +278,15 @@ const testOperations = [
   })))
 })*/
 
-describe('App_Init', () => {
+let store: Store<{}>
+
+/*describe('App_Init', () => {
   debugger
   let userEffects: UserEffects
   let appEffects: AppEffects
-  let actions: Observable<any>
+  let actions$: Observable<any>
   let unsubscribe = new Subject<void>()
+  let settingService: SettingsService
   beforeEach(() => {
     debugger
     TestBed.configureTestingModule({
@@ -272,7 +295,8 @@ describe('App_Init', () => {
         UserEffects,
         AppEffects,
         CommitmentsReaderOperationsService,
-        provideMockActions(() => actions),
+        //provideMockStore({ initialState }),
+        provideMockActions(() => actions$),
         {
            provide: Store,
            useValue: {
@@ -283,14 +307,29 @@ describe('App_Init', () => {
         {
           provide: AppUserOperationsService,
           useClass: CommitmentsReaderOperationsService
-       }
+       },
+       {
+        provide: AppConfigService,
+        useFactory: configServiceFactory,
+        deps: [AppSettingsService, HttpClient]
+      },
+      {
+        provide: DevelopConfigService,
+        useValue: { getConfig: jest.fn()}
+      },
+      {
+        provide: AppSettingsService,
+        useValue: settingService
+      }
         
       ]
      
     })
     userEffects = TestBed.get(UserEffects)
     appEffects = TestBed.get(AppEffects)
-    
+    store = TestBed.get(Store)
+    settingService = TestBed.get(SettingsService)
+    actions$ = TestBed.get(Actions)
   })
 
   afterEach(() => {
@@ -311,26 +350,134 @@ describe('App_Init', () => {
     expect(spy).toHaveBeenCalledWith(action);
   });
 
-  it('should alert number of books after adding the second book', () => {
-    const store = TestBed.get(Store)
-   /*  store.setState({
-      app: {
-        config: null,
-        notification: null,
-        spinner: null,
-        appError: null
-      }
-    }) */
-    const getAppConfig = new GetAppConfiguration()
+  it('should start app init', () => {
     const action = new StartAppInitialiser({ environment: null })
-    const response = hot('-a', { a: action });
-    const expected = cold('-b', {b: getAppConfig})
-
+    //actions$ = hot('-a', { a: action} );
+    actions$ = of(action)
+    const expected = cold('-b', {b: new GetAppConfiguration()})
+   
     expect(appEffects.startAppInitialiser$).toBeObservable(expected)
+  })
+
+ 
+  it('should start app init', inject([AppConfigService], (configDatService: AppConfigService) => {
+    updateState(new GetAppConfiguration() )
+
+    
+    let actions: ReplaySubject<any>;
+   actions = new ReplaySubject(1);
+   const getConfigAction = {
+    type: AppActionTypes.GetAppConfiguration
+   }
+   actions.next(getConfigAction)
+
+    appEffects.getAppConfiguration$.subscribe((resp: any) => {
+      let x = resp
+      //expect(resp.type).toEqual(AppActionTypes.LoadAppConfiguration)
+     // expect(resp.payload).toEqual(getConfigData())
+    })
+  }))
+
+})*/
+
+describe('Mock Store', () => {
+  let mockStore: MockStore<AppState>;
+  let initialState: AppState = {
+    config: {webId: "", siteId: "", header: {}},
+    notification: null,
+    spinner: false,
+    appError: null
+  }
+  let actions$: Observable<any>
+  let actions: ReplaySubject<any>
+  let appEffects: AppEffects
+  let settingService: SettingsService
+  let httpClient: HttpClient
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [ HttpClientTestingModule],
+      providers: [
+        AppEffects,
+        provideMockActions(() => actions),
+        provideMockStore({ initialState }),
+        {
+          provide: AppConfigService,
+          useFactory: configServiceFactory,
+          deps: [AppSettingsService, HttpClient]
+        },
+        {
+          provide: DevelopConfigService,
+          useValue: { getConfig: jest.fn()}
+        },
+        {
+          provide: AppSettingsService,
+          useValue: settingService
+        }
+      ],
+
+    });
+    
+    mockStore = TestBed.get(Store)
+    appEffects = TestBed.get(AppEffects)
+    settingService = TestBed.get(SettingsService)
+    httpClient = TestBed.get(HttpClient)
+
+  })
+
+  /* it('should start app init', () => {
+    const action = new StartAppInitialiser({ environment: null })
+  
+    actions$ = of(action)
+    const expected = cold('-b', {b: new GetAppConfiguration()})
+   
+    expect(appEffects.startAppInitialiser$).toBeObservable(expected)
+  }) */
+
+  it('should set load config in state', ()=> {
+    //mockStore.setState({config:{siteId: getConfigData().siteId, webId: getConfigData().webId, header: {}}, notification: null, spinner: false, appError: null});
+    
+      actions = new ReplaySubject(1);
+      const getConfigAction = {
+        type: AppActionTypes.GetAppConfiguration
+      }
+      actions.next(getConfigAction)
+
+      appEffects.getAppConfiguration$.subscribe((resp: any) => {
+        expect(resp.type).toEqual(AppActionTypes.LoadAppConfiguration)
+        expect(resp.payload).toEqual(getConfigData())
+    })
+    
+  })
+
+  it('should set load config in state', ()=> {
+    //mockStore.setState({config:{siteId: getConfigData().siteId, webId: getConfigData().webId, header: {}}, notification: null, spinner: false, appError: null});
+    
+      const getConfigAction = {
+        type: AppActionTypes.GetAppConfiguration
+      }
+      mockStore.next(getConfigAction)
+
+      appEffects.getAppConfiguration$.subscribe((resp: any) => {
+        expect(resp.type).toEqual(AppActionTypes.LoadAppConfiguration)
+        expect(resp.payload).toEqual(getConfigData())
+    })
+    
+  })
+
+  it('should dispatch an action to load data when created', () => {
+    spyOn(mockStore, 'dispatch').and.callThrough()
+    const action = new GetAppConfiguration()
+    mockStore.dispatch(action)
+    expect(mockStore.dispatch).toHaveBeenCalledWith(action)
   });
 
-
-})
+  it('should set the new state', () => {
+    mockStore.setState({config:{siteId: getConfigData().siteId, webId: getConfigData().webId, header: {}}, notification: null, spinner: false, appError: null});
+    mockStore.pipe(take(1)).subscribe(state => {
+      expect(state.config.siteId).toBe("52233101-86F9-46D7-BBC0-22139AF854EE");
+    });
+  });
+});
 
 function getConfigData(){
   const data = {
