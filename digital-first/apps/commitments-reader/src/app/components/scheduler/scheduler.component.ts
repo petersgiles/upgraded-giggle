@@ -7,7 +7,8 @@ import {
   Output,
   EventEmitter,
   SimpleChanges,
-  OnDestroy
+  OnDestroy,
+  ChangeDetectionStrategy
 } from '@angular/core'
 
 import { Scheduler } from 'bryntum-scheduler/scheduler.umd.js'
@@ -15,7 +16,8 @@ import * as AuLocael from '../../../../../commitments-reader/src/app/components/
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'scheduler',
-  template: '<div></div>'
+  template: '<div></div>',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SchedulerComponent implements OnInit, OnChanges, OnDestroy {
   ngOnDestroy(): void {

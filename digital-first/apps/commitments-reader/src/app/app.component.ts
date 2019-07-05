@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { NavigationEnd, ActivatedRoute, Router } from '@angular/router'
 import { AppRouterService } from './services/app-router.service'
 import { Store, select } from '@ngrx/store'
@@ -13,7 +13,8 @@ import {
 } from '@digital-first/df-app-core'
 @Component({
   selector: 'digital-first-root',
-  template: '<router-outlet></router-outlet>'
+  template: '<router-outlet></router-outlet>',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'Delivery Module'
