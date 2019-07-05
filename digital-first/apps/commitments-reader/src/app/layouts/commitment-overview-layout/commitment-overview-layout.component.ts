@@ -24,8 +24,8 @@ import { ActivatedRoute, Router } from '@angular/router'
 
 @Component({
   selector: 'digital-first-commitment-overview-layout',
-  templateUrl: './commitment-overview-layout.component.html',
-  styleUrls: ['./commitment-overview-layout.component.scss']
+  template: './commitment-overview-layout.component.html',
+  //styleUrls: ['./commitment-overview-layout.component.scss']
 })
 export class CommitmentOverviewLayoutComponent
   implements OnInit, AfterViewInit, OnDestroy {
@@ -91,14 +91,14 @@ export class CommitmentOverviewLayoutComponent
   ngAfterViewInit(): void {}
 
   ngOnInit() {
-    this.queryParamsSubscription$ = this.route.queryParams.subscribe(params => {
+     this.queryParamsSubscription$ = this.route.queryParams.subscribe(params => {
       if (params && params.refiner) {
         this.queryParamsRefiner = JSON.parse(params.refiner)
         this.store.dispatch(
           new SetRefinerFromQueryString({ refiner: this.queryParamsRefiner })
         )
       }
-    })
+    }) 
 
     this.isBusy$ = this.store.pipe(select(selectAppSpinnerState))
 
@@ -128,11 +128,11 @@ export class CommitmentOverviewLayoutComponent
         this.store.dispatch(new GetRefinedMapPoints(null))
       })
 
-    this.appRouter.segments.subscribe(url => {
+     this.appRouter.segments.subscribe(url => {
       const tab = this.tabs.findIndex(p => p.id === url)
       this.activeTab = tab
       this.store.dispatch(new GetRefinerGroups(null))
-    })
+    })  
   }
 
   ngOnDestroy(): void {

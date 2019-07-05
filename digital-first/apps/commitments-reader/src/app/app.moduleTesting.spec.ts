@@ -14,7 +14,7 @@ import { inject, TestBed, getTestBed, async} from '@angular/core/testing'
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
 import { HttpClient } from '@angular/common/http'
 
-import { Store, Action } from '@ngrx/store';
+import { Store, createSelector, select, Action } from '@ngrx/store'
 
 import { AppEffects } from '../../../../libs/df-app-core/src/lib/reducers/app/app.effects'
 import { UserEffects } from '../../../../libs/df-app-core/src/lib/reducers/user/user.effects'
@@ -55,7 +55,7 @@ import { AppDataService } from '../../../../libs/df-app-core/src/lib/services/ap
 import { AppConfigService } from '../../../../libs/df-app-core/src/lib/services/config/config.service'
 import { AppSettingsService }  from '../../../../libs/df-app-core/src/lib/services/app-settings.service'
 import { Observable, Subject, ReplaySubject, of } from 'rxjs'
-import { take } from 'rxjs/operators'
+import { take, map, skip } from 'rxjs/operators'
 import { provideMockActions } from '@ngrx/effects/testing'
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { DevelopConfigService } from './services/config/develop/develop-config.service'
@@ -66,10 +66,9 @@ import { SettingsService } from './services/settings.service'
 import { BrowserDynamicTestingModule,
   platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing'
 import { cold, hot } from 'jasmine-marbles'
-import { storeFreeze } from 'ngrx-store-freeze'
 
-import { OnInitEffects, Actions } from '@ngrx/effects'
-import { appState } from 'libs/df-app-core/src/lib/reducers/app/app.reducer';
+import { Actions } from '@ngrx/effects'
+
 
 const configServiceFactory = (
   settings: AppSettingsService,
@@ -102,8 +101,8 @@ getTestBed().initTestEnvironment(
 )
 
         /* Tests for Config */
-/*describe('AppModule_Config', () => {
-  debugger
+describe('AppModule_Config', () => {
+  //debugger
   let httpClient: HttpClient
   let appEffects: AppEffects
   let actions: Observable<any>
@@ -111,7 +110,7 @@ getTestBed().initTestEnvironment(
   let settingService: SettingsService
   
   beforeEach(() => {
-    debugger
+    //debugger
     TestBed.configureTestingModule({
       imports: [ HttpClientTestingModule],
       providers: [
@@ -160,7 +159,6 @@ getTestBed().initTestEnvironment(
   }))
 
   it('should start get config again', inject([AppConfigService], (configDatService: AppConfigService) => {
-    updateState(new GetAppConfiguration() )
 
     const action = new GetAppConfiguration()
     const outcome = new LoadAppConfiguration(getConfigData())
@@ -179,7 +177,7 @@ getTestBed().initTestEnvironment(
     const req = httpTestingController.expectOne('/assets/commitments-reader.txt')
     req.flush(getConfigData())
   })
-})*/
+})
 
 const testOperations = [
   {
@@ -200,13 +198,13 @@ const testOperations = [
 ]
 
           /* Tests for User and user operations */
-/*describe('AppModule_User', () => {
-  debugger
+describe('AppModule_User', () => {
+  //debugger
   let userEffects: UserEffects
   let actions: Observable<any>
   
   beforeEach(() => {
-    debugger
+    //debugger
     TestBed.configureTestingModule({
       imports: [ HttpClientTestingModule],
       providers: [
@@ -276,26 +274,25 @@ const testOperations = [
     expect(userEffects.getUserOperations$).toBeObservable(expected)
    
   })))
-})*/
+})
 
 let store: Store<{}>
 
-/*describe('App_Init', () => {
-  debugger
+describe('App_Init', () => {
+  //debugger
   let userEffects: UserEffects
   let appEffects: AppEffects
   let actions$: Observable<any>
   let unsubscribe = new Subject<void>()
   let settingService: SettingsService
   beforeEach(() => {
-    debugger
+    //debugger
     TestBed.configureTestingModule({
       imports: [ HttpClientTestingModule],
       providers: [
         UserEffects,
         AppEffects,
         CommitmentsReaderOperationsService,
-        //provideMockStore({ initialState }),
         provideMockActions(() => actions$),
         {
            provide: Store,
@@ -332,11 +329,6 @@ let store: Store<{}>
     actions$ = TestBed.get(Actions)
   })
 
-  afterEach(() => {
-    unsubscribe.next();
-    unsubscribe.complete();
-  })
-
   it('User effect should be created', () => {
     expect(userEffects).toBeTruthy()
   }) 
@@ -352,33 +344,13 @@ let store: Store<{}>
 
   it('should start app init', () => {
     const action = new StartAppInitialiser({ environment: null })
-    //actions$ = hot('-a', { a: action} );
-    actions$ = of(action)
+    actions$ = hot('-a', { a: action} );
     const expected = cold('-b', {b: new GetAppConfiguration()})
    
     expect(appEffects.startAppInitialiser$).toBeObservable(expected)
   })
 
- 
-  it('should start app init', inject([AppConfigService], (configDatService: AppConfigService) => {
-    updateState(new GetAppConfiguration() )
-
-    
-    let actions: ReplaySubject<any>;
-   actions = new ReplaySubject(1);
-   const getConfigAction = {
-    type: AppActionTypes.GetAppConfiguration
-   }
-   actions.next(getConfigAction)
-
-    appEffects.getAppConfiguration$.subscribe((resp: any) => {
-      let x = resp
-      //expect(resp.type).toEqual(AppActionTypes.LoadAppConfiguration)
-     // expect(resp.payload).toEqual(getConfigData())
-    })
-  }))
-
-})*/
+})
 
 describe('Mock Store', () => {
   let mockStore: MockStore<AppState>;
@@ -388,6 +360,25 @@ describe('Mock Store', () => {
     spinner: false,
     appError: null
   }
+  const stringSelector = 'config.siteId'
+
+
+  const memoizedSelector = createSelector(
+    () => initialState,
+    state => state.config.siteId
+  );
+  const selectorWithPropMocked = createSelector(
+    () => initialState,
+    (state: typeof initialState, add: number) => state.config
+  );
+
+  const selectorWithProp = createSelector(
+    () => initialState,
+    (state: typeof initialState, add: number) => state.config
+  );
+
+
+
   let actions$: Observable<any>
   let actions: ReplaySubject<any>
   let appEffects: AppEffects
@@ -399,7 +390,11 @@ describe('Mock Store', () => {
       providers: [
         AppEffects,
         provideMockActions(() => actions),
-        provideMockStore({ initialState }),
+        provideMockStore({ initialState,
+           selectors: [
+          { selector: stringSelector, value: "1243242" },
+          { selector: memoizedSelector, value: "1243242" }],
+      }),
         {
           provide: AppConfigService,
           useFactory: configServiceFactory,
@@ -424,18 +419,7 @@ describe('Mock Store', () => {
 
   })
 
-  /* it('should start app init', () => {
-    const action = new StartAppInitialiser({ environment: null })
-  
-    actions$ = of(action)
-    const expected = cold('-b', {b: new GetAppConfiguration()})
-   
-    expect(appEffects.startAppInitialiser$).toBeObservable(expected)
-  }) */
-
   it('should set load config in state', ()=> {
-    //mockStore.setState({config:{siteId: getConfigData().siteId, webId: getConfigData().webId, header: {}}, notification: null, spinner: false, appError: null});
-    
       actions = new ReplaySubject(1);
       const getConfigAction = {
         type: AppActionTypes.GetAppConfiguration
@@ -450,8 +434,6 @@ describe('Mock Store', () => {
   })
 
   it('should set load config in state', ()=> {
-    //mockStore.setState({config:{siteId: getConfigData().siteId, webId: getConfigData().webId, header: {}}, notification: null, spinner: false, appError: null});
-    
       const getConfigAction = {
         type: AppActionTypes.GetAppConfiguration
       }
@@ -475,8 +457,25 @@ describe('Mock Store', () => {
     mockStore.setState({config:{siteId: getConfigData().siteId, webId: getConfigData().webId, header: {}}, notification: null, spinner: false, appError: null});
     mockStore.pipe(take(1)).subscribe(state => {
       expect(state.config.siteId).toBe("52233101-86F9-46D7-BBC0-22139AF854EE");
-    });
+    })
+  })
+
+  it('should allow mocking of store.select with string selector using provideMockStore', () => {
+    const expectedValue = "1243242"
+
+    mockStore
+      .select(stringSelector)
+      .subscribe(result => expect(result).toBe(expectedValue));
   });
+
+  it('should allow tracing dispatched actions', () => {
+    const action = new GetAppConfiguration()
+    mockStore.scannedActions$
+      .pipe(skip(1))
+      .subscribe(scannedAction => expect(scannedAction).toEqual(action));
+    mockStore.dispatch(action);
+  });
+
 });
 
 function getConfigData(){

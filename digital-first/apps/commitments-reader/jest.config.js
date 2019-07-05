@@ -3,7 +3,7 @@ module.exports = {
   preset: 'ts-jest',
   coverageDirectory: '../../coverage/apps/commitments-reader/',
   transform: {
-    "^.+\\.js$": "babel-jest",
+    "^.+\\.spec\\.ts$": "ts-jest",
   },
   moduleNameMapper: {
     '^@digital-first(.*)': '../../libs/df-app-core/src/lib/reducers/app/$1',
