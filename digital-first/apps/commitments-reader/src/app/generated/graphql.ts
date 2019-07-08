@@ -292,6 +292,20 @@ export type CommitmentGraphDisplayOrderArgs = {
   webId?: Maybe<Scalars['Guid']>
 }
 
+export type CommitmentGraphConnection = {
+  __typename?: 'CommitmentGraphConnection'
+  totalCount?: Maybe<Scalars['Int']>
+  pageInfo: PageInfo
+  edges?: Maybe<Array<Maybe<CommitmentGraphEdge>>>
+  items?: Maybe<Array<Maybe<CommitmentGraph>>>
+}
+
+export type CommitmentGraphEdge = {
+  __typename?: 'CommitmentGraphEdge'
+  cursor: Scalars['String']
+  node?: Maybe<CommitmentGraph>
+}
+
 export type CommitmentLocationGraph = {
   __typename?: 'CommitmentLocationGraph'
   description?: Maybe<Scalars['String']>
@@ -614,6 +628,7 @@ export type ElectorateGraph = {
   name: Scalars['String']
   member: Scalars['String']
   party: Scalars['String']
+  parliament: Scalars['Int']
   percentOfStatePopulation: Scalars['Float']
   stateId: Scalars['Guid']
 }
@@ -935,6 +950,14 @@ export type PackageTypeGraphCommitmentPackageTypesArgs = {
   take?: Maybe<Scalars['Int']>
 }
 
+export type PageInfo = {
+  __typename?: 'PageInfo'
+  hasNextPage: Scalars['Boolean']
+  hasPreviousPage: Scalars['Boolean']
+  startCursor?: Maybe<Scalars['String']>
+  endCursor?: Maybe<Scalars['String']>
+}
+
 export type PmcHandlingAdviceCommitmentGraph = {
   __typename?: 'PmcHandlingAdviceCommitmentGraph'
   handlingAdvice?: Maybe<HandlingAdviceGraph>
@@ -1106,31 +1129,32 @@ export type ProjectGraphElectoratesArgs = {
 
 export type Query = {
   __typename?: 'Query'
-  agency?: Maybe<AgencyGraph>
+  agency: AgencyGraph
   agencies?: Maybe<Array<Maybe<AgencyGraph>>>
-  electorate?: Maybe<ElectorateGraph>
+  electorate: ElectorateGraph
   electorates?: Maybe<Array<Maybe<ElectorateGraph>>>
-  state?: Maybe<StateGraph>
+  state: StateGraph
   states?: Maybe<Array<Maybe<StateGraph>>>
   portfolios?: Maybe<Array<Maybe<PortfolioGraph>>>
-  program?: Maybe<ProgramGraph>
+  program: ProgramGraph
   programs?: Maybe<Array<Maybe<ProgramGraph>>>
-  project?: Maybe<ProjectGraph>
+  project: ProjectGraph
   projects?: Maybe<Array<Maybe<ProjectGraph>>>
   deckItemBriefSummaryContent?: Maybe<
     Array<Maybe<DeckItemBriefSummaryContentGraph>>
   >
-  report?: Maybe<ReportGraph>
+  report: ReportGraph
   reports?: Maybe<Array<Maybe<ReportGraph>>>
-  statisticReport?: Maybe<StatisticReportGraph>
+  statisticReport: StatisticReportGraph
   statisticReports?: Maybe<Array<Maybe<StatisticReportGraph>>>
-  statistic?: Maybe<StatisticGraph>
+  statistic: StatisticGraph
   statistics?: Maybe<Array<Maybe<StatisticGraph>>>
-  programSubmission?: Maybe<ProgramSubmissionGraph>
+  programSubmission: ProgramSubmissionGraph
   programSubmissions?: Maybe<Array<Maybe<ProgramSubmissionGraph>>>
   announcementTypes?: Maybe<Array<Maybe<AnnouncementTypeGraph>>>
-  commitment?: Maybe<CommitmentGraph>
+  commitment: CommitmentGraph
   commitments?: Maybe<Array<Maybe<CommitmentGraph>>>
+  commitmentsConnection?: Maybe<CommitmentGraphConnection>
   commitmentLocations?: Maybe<Array<Maybe<CommitmentLocationGraph>>>
   locations?: Maybe<Array<Maybe<LocationGraph>>>
   commitmentMapPoints?: Maybe<Array<Maybe<CommitmentMapPointGraph>>>
@@ -1143,13 +1167,13 @@ export type Query = {
   mapPoints?: Maybe<Array<Maybe<MapPointGraph>>>
   packageTypes?: Maybe<Array<Maybe<PackageTypeGraph>>>
   portfolioLookups?: Maybe<Array<Maybe<PortfolioLookupGraph>>>
-  portfolioLookup?: Maybe<PortfolioLookupGraph>
+  portfolioLookup: PortfolioLookupGraph
   briefs?: Maybe<Array<Maybe<BriefGraph>>>
-  brief?: Maybe<BriefGraph>
+  brief: BriefGraph
   briefCommitments?: Maybe<Array<Maybe<BriefCommitmentGraph>>>
-  briefCommitment?: Maybe<BriefCommitmentGraph>
+  briefCommitment: BriefCommitmentGraph
   deckItemBriefSummaries?: Maybe<Array<Maybe<DeckItemBriefSummaryGraph>>>
-  deckItemBriefSummary?: Maybe<DeckItemBriefSummaryGraph>
+  deckItemBriefSummary: DeckItemBriefSummaryGraph
   handlingAdvices?: Maybe<Array<Maybe<HandlingAdviceGraph>>>
   pmcHandlingAdviceCommitments?: Maybe<
     Array<Maybe<PmcHandlingAdviceCommitmentGraph>>
@@ -1364,6 +1388,17 @@ export type QueryCommitmentsArgs = {
   where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
   skip?: Maybe<Scalars['Int']>
   take?: Maybe<Scalars['Int']>
+  refiner?: Maybe<CommitmentRefinerGraph>
+  bookType?: Maybe<Scalars['String']>
+  book?: Maybe<BookType>
+}
+
+export type QueryCommitmentsConnectionArgs = {
+  after?: Maybe<Scalars['String']>
+  first?: Maybe<Scalars['Int']>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  ids?: Maybe<Array<Maybe<Scalars['ID']>>>
   refiner?: Maybe<CommitmentRefinerGraph>
   bookType?: Maybe<Scalars['String']>
   book?: Maybe<BookType>
@@ -1720,6 +1755,7 @@ export type StateGraph = {
   population: Scalars['UInt32']
   name: Scalars['String']
   abbreviation: Scalars['String']
+  parliament: Scalars['Int']
 }
 
 export type StateGraphProjectsArgs = {
@@ -1903,142 +1939,140 @@ export type GetCommitmentDetailQueryVariables = {
 }
 
 export type GetCommitmentDetailQuery = { __typename?: 'Query' } & {
-  commitment: Maybe<
-    { __typename?: 'CommitmentGraph' } & Pick<
-      CommitmentGraph,
-      | 'id'
-      | 'title'
-      | 'description'
-      | 'cost'
-      | 'date'
-      | 'politicalParty'
-      | 'statusId'
-      | 'announcedBy'
-    > & { bookType: CommitmentGraph['book'] } & {
-        pmcHandlingAdviceCommitments: Maybe<
-          Array<
-            Maybe<
-              { __typename?: 'PmcHandlingAdviceCommitmentGraph' } & Pick<
-                PmcHandlingAdviceCommitmentGraph,
-                'webId' | 'siteId'
-              > & {
-                  handlingAdvice: Maybe<
-                    { __typename?: 'HandlingAdviceGraph' } & {
-                      value: HandlingAdviceGraph['id']
-                      label: HandlingAdviceGraph['title']
-                    }
+  commitment: { __typename?: 'CommitmentGraph' } & Pick<
+    CommitmentGraph,
+    | 'id'
+    | 'title'
+    | 'description'
+    | 'cost'
+    | 'date'
+    | 'politicalParty'
+    | 'statusId'
+    | 'announcedBy'
+  > & { bookType: CommitmentGraph['book'] } & {
+      pmcHandlingAdviceCommitments: Maybe<
+        Array<
+          Maybe<
+            { __typename?: 'PmcHandlingAdviceCommitmentGraph' } & Pick<
+              PmcHandlingAdviceCommitmentGraph,
+              'webId' | 'siteId'
+            > & {
+                handlingAdvice: Maybe<
+                  { __typename?: 'HandlingAdviceGraph' } & {
+                    value: HandlingAdviceGraph['id']
+                    label: HandlingAdviceGraph['title']
+                  }
+                >
+              }
+          >
+        >
+      >
+      pmoHandlingAdviceCommitments: Maybe<
+        Array<
+          Maybe<
+            { __typename?: 'PmoHandlingAdviceCommitmentGraph' } & Pick<
+              PmoHandlingAdviceCommitmentGraph,
+              'webId' | 'siteId'
+            > & {
+                handlingAdvice: Maybe<
+                  { __typename?: 'HandlingAdviceGraph' } & {
+                    value: HandlingAdviceGraph['id']
+                    label: HandlingAdviceGraph['title']
+                  }
+                >
+              }
+          >
+        >
+      >
+      commitmentType: Maybe<
+        { __typename?: 'CommitmentTypeGraph' } & Pick<
+          CommitmentTypeGraph,
+          'id' | 'title'
+        >
+      >
+      announcementType: Maybe<
+        { __typename?: 'AnnouncementTypeGraph' } & Pick<
+          AnnouncementTypeGraph,
+          'id' | 'title'
+        >
+      >
+      portfolioLookup: Maybe<
+        { __typename?: 'PortfolioLookupGraph' } & Pick<
+          PortfolioLookupGraph,
+          'id' | 'title'
+        >
+      >
+      status: Maybe<
+        { __typename?: 'StatusGraph' } & Pick<StatusGraph, 'id' | 'title'>
+      >
+      criticalDate: Maybe<
+        { __typename?: 'CriticalDateGraph' } & Pick<
+          CriticalDateGraph,
+          'id' | 'title'
+        >
+      >
+      relatedLinks: Maybe<
+        Array<
+          Maybe<
+            { __typename?: 'RelatedLinkGraph' } & Pick<
+              RelatedLinkGraph,
+              'id' | 'url' | 'title'
+            >
+          >
+        >
+      >
+      commitmentLocations: Maybe<
+        Array<
+          Maybe<
+            { __typename?: 'CommitmentLocationGraph' } & Pick<
+              CommitmentLocationGraph,
+              'commitmentId'
+            > & {
+                location: Maybe<
+                  { __typename?: 'LocationGraph' } & Pick<
+                    LocationGraph,
+                    'id' | 'title'
                   >
-                }
-            >
+                >
+              }
           >
         >
-        pmoHandlingAdviceCommitments: Maybe<
-          Array<
-            Maybe<
-              { __typename?: 'PmoHandlingAdviceCommitmentGraph' } & Pick<
-                PmoHandlingAdviceCommitmentGraph,
-                'webId' | 'siteId'
-              > & {
-                  handlingAdvice: Maybe<
-                    { __typename?: 'HandlingAdviceGraph' } & {
-                      value: HandlingAdviceGraph['id']
-                      label: HandlingAdviceGraph['title']
-                    }
+      >
+      commitmentPackageTypes: Maybe<
+        Array<
+          Maybe<
+            { __typename?: 'CommitmentPackageTypeGraph' } & Pick<
+              CommitmentPackageTypeGraph,
+              'id'
+            > & {
+                packageType: Maybe<
+                  { __typename?: 'PackageTypeGraph' } & Pick<
+                    PackageTypeGraph,
+                    'id' | 'title'
                   >
-                }
-            >
+                >
+              }
           >
         >
-        commitmentType: Maybe<
-          { __typename?: 'CommitmentTypeGraph' } & Pick<
-            CommitmentTypeGraph,
-            'id' | 'title'
-          >
-        >
-        announcementType: Maybe<
-          { __typename?: 'AnnouncementTypeGraph' } & Pick<
-            AnnouncementTypeGraph,
-            'id' | 'title'
-          >
-        >
-        portfolioLookup: Maybe<
-          { __typename?: 'PortfolioLookupGraph' } & Pick<
-            PortfolioLookupGraph,
-            'id' | 'title'
-          >
-        >
-        status: Maybe<
-          { __typename?: 'StatusGraph' } & Pick<StatusGraph, 'id' | 'title'>
-        >
-        criticalDate: Maybe<
-          { __typename?: 'CriticalDateGraph' } & Pick<
-            CriticalDateGraph,
-            'id' | 'title'
-          >
-        >
-        relatedLinks: Maybe<
-          Array<
-            Maybe<
-              { __typename?: 'RelatedLinkGraph' } & Pick<
-                RelatedLinkGraph,
-                'id' | 'url' | 'title'
-              >
-            >
-          >
-        >
-        commitmentLocations: Maybe<
-          Array<
-            Maybe<
-              { __typename?: 'CommitmentLocationGraph' } & Pick<
-                CommitmentLocationGraph,
-                'commitmentId'
-              > & {
-                  location: Maybe<
-                    { __typename?: 'LocationGraph' } & Pick<
-                      LocationGraph,
-                      'id' | 'title'
-                    >
+      >
+      commitmentPortfolioLookups: Maybe<
+        Array<
+          Maybe<
+            { __typename?: 'CommitmentPortfolioLookupGraph' } & Pick<
+              CommitmentPortfolioLookupGraph,
+              'commitmentId'
+            > & {
+                portfolioLookup: Maybe<
+                  { __typename?: 'PortfolioLookupGraph' } & Pick<
+                    PortfolioLookupGraph,
+                    'id' | 'title'
                   >
-                }
-            >
+                >
+              }
           >
         >
-        commitmentPackageTypes: Maybe<
-          Array<
-            Maybe<
-              { __typename?: 'CommitmentPackageTypeGraph' } & Pick<
-                CommitmentPackageTypeGraph,
-                'id'
-              > & {
-                  packageType: Maybe<
-                    { __typename?: 'PackageTypeGraph' } & Pick<
-                      PackageTypeGraph,
-                      'id' | 'title'
-                    >
-                  >
-                }
-            >
-          >
-        >
-        commitmentPortfolioLookups: Maybe<
-          Array<
-            Maybe<
-              { __typename?: 'CommitmentPortfolioLookupGraph' } & Pick<
-                CommitmentPortfolioLookupGraph,
-                'commitmentId'
-              > & {
-                  portfolioLookup: Maybe<
-                    { __typename?: 'PortfolioLookupGraph' } & Pick<
-                      PortfolioLookupGraph,
-                      'id' | 'title'
-                    >
-                  >
-                }
-            >
-          >
-        >
-      }
-  >
+      >
+    }
 }
 
 export type GetRefinerTagsQueryVariables = {
