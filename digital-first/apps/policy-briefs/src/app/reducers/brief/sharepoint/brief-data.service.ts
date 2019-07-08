@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { Observable, of, forkJoin, EMPTY } from 'rxjs'
 import { SharepointJsomService } from '@df/sharepoint'
 import { BriefDataService } from '../brief-data.service'
-import { concatMap, map } from 'rxjs/operators'
+import { concatMap, map, tap } from 'rxjs/operators'
 import { sortBy } from '../../../utils'
 import { HttpClient } from '@angular/common/http'
 import { AppSettingsService } from '@digital-first/df-app-core'
@@ -68,6 +68,7 @@ export class BriefDataSharepointService implements BriefDataService {
     ]).pipe(
       map(([spBriefs]) => [...this.briefMapperService.mapMany(spBriefs)]),
       map(result => (result || []).sort(sortBy('sortOrder'))),
+      tap(result => console.log(`getBriefs`, result)),
       concatMap(result =>
         of({
           data: result,

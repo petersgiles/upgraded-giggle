@@ -47,7 +47,7 @@ export class NavigationDataLocalService implements NavigationDataService {
 
     const colourised = nodes.reduce((acc, item, index, array) => {
       if (!item.colour) {
-        item.colour = nodesHash[item.parent].colour
+        item.colour = nodesHash[item.parent] ? nodesHash[item.parent].colour : 'Black' 
       }
       acc.push(item)
       return acc

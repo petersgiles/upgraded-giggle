@@ -52,6 +52,15 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": false
+            },
+            "sharepoint": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/policy-briefs/src/environments/environment.ts",
+                  "with": "apps/policy-briefs/src/environments/environment.sharepoint.ts"
+                }
+              ],
+              "deployUrl": "../../SiteAssets/apps/policy-briefs"
             }
           }
         },

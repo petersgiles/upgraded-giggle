@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { Observable, of, forkJoin } from 'rxjs'
 import { SharepointJsomService } from '@df/sharepoint'
 import { DiscussionDataService } from '../discussion-data.service'
-import { concatMap, map } from 'rxjs/operators'
+import { concatMap, map, tap } from 'rxjs/operators'
 import { sortBy } from '../../../utils'
 import { DiscussionMapperService } from '../../../services/mappers/discussion-mapper.service'
 import { DiscussionType } from '../../../models'
@@ -56,6 +56,7 @@ export class DiscussionDataSharepointService implements DiscussionDataService {
         ...this.discussionMapperService.mapMany(spDiscussions)
       ]),
       map(result => (result || []).sort(sortBy('sortOrder'))),
+      tap(result => console.log(`getDiscussions`, result)),
       concatMap(result =>
         of({
           data: result,

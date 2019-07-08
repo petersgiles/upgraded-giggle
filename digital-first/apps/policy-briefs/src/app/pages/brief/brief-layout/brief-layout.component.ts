@@ -19,6 +19,7 @@ import * as fromNavigation from '../../../reducers/navigation/navigation.reducer
 })
 export class BriefLayoutComponent implements OnInit, OnDestroy {
   nodes$: any
+  nodesSubcription: any;
   
   // tslint:disable-next-line:no-empty
   constructor(
@@ -31,6 +32,10 @@ export class BriefLayoutComponent implements OnInit, OnDestroy {
     this.nodes$ = this.store.pipe(
       select(fromNavigation.selectNavigationNodeTreeState)
     )
+
+    this.nodesSubcription = this.store.pipe(
+      select(fromNavigation.selectNavigationNodeTreeState)
+    ).subscribe(node => console.log(`navi`, node))
 
     this.store.dispatch(new GetNavigations())
   }
