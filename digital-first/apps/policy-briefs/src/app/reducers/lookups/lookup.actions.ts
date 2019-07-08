@@ -1,24 +1,24 @@
 import { Action } from '@ngrx/store'
 
 export enum LookupActionTypes {
-  GetLookupPolicies = '[Lookup] GetLookup Policies',
-  LoadLookupPolicies = '[Lookup] LoadLookup Policies',
-  GetLookupSubPolicies = '[Lookup] GetLookup Sub Policies',
-  LoadLookupSubPolicies = '[Lookup] LoadLookup Sub Policies',
+  GetLookupPolicies = '[Lookup] Get Lookup Policies',
+  LoadLookupPolicies = '[Lookup] Load Lookup Policies',
+  GetLookupSubPolicies = '[Lookup] Get Lookup Sub Policies',
+  LoadLookupSubPolicies = '[Lookup] Load Lookup Sub Policies',
 
-  GetLookupCommitments = '[Lookup] GetLookup Commitments',
-  LoadLookupCommitments = '[Lookup] LoadLookup Commitments',
-  GetLookupClassifications = '[Lookup] GetLookup Classifications',
-  LoadLookupClassifications = '[Lookup] LoadLookup Classifications',
-  GetLookupDLMs = '[Lookup] GetLookup DLMs',
-  LoadLookupDLMs = '[Lookup] LoadLookup DLMs',
+  GetLookupCommitments = '[Lookup] Get Lookup Commitments',
+  LoadLookupCommitments = '[Lookup] Load Lookup Commitments',
+  GetLookupClassifications = '[Lookup] Get Lookup Classifications',
+  LoadLookupClassifications = '[Lookup] Load Lookup Classifications',
+  GetLookupDLMs = '[Lookup] Get Lookup DLMs',
+  LoadLookupDLMs = '[Lookup] Load Lookup DLMs',
 
-  GetLookupStatuses = '[Lookup] GetLookup Statuses',
-  LoadLookupStatuses = '[Lookup] LoadLookup Statuses',
-  GetLookupDivisions = '[Lookup] GetLookup Divisions',
-  LoadLookupDivisions = '[Lookup] LoadLookup Divisions',
-  GetLookupActivities = '[Lookup] GetLookup Activities',
-  LoadLookupActivities = '[Lookup] LoadLookup Activities'
+  GetLookupStatuses = '[Lookup] Get Lookup Statuses',
+  LoadLookupStatuses = '[Lookup] Load Lookup Statuses',
+  GetLookupDivisions = '[Lookup] Get Lookup Divisions',
+  LoadLookupDivisions = '[Lookup] Load Lookup Divisions',
+  GetLookupActivities = '[Lookup] Get Lookup Activities',
+  LoadLookupActivities = '[Lookup] Load Lookup Activities'
 }
 
 export class GetLookupDLMs implements Action {

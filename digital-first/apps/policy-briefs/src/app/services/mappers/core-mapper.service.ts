@@ -6,7 +6,11 @@ export abstract class CoreMapperService<T> {
   public  mapSingle(item: any): T { return null}
 
   protected idFromLookup(lookupValue: any) {
-    return lookupValue['ID'] || lookupValue['Id'] || lookupValue['id']
+    if(lookupValue) {
+      return lookupValue['ID'] || lookupValue['Id'] || lookupValue['id']
+    }
+
+    return null
   }
 
   protected fromLookup(lookupValue: any): DisplayLookup {
@@ -16,7 +20,6 @@ export abstract class CoreMapperService<T> {
         id: null,
         title: null
       }
-
     }
 
     const id = lookupValue['ID'] || lookupValue['Id'] || lookupValue['id']
@@ -28,6 +31,9 @@ export abstract class CoreMapperService<T> {
   }
 
   protected fromUser(lookupValue) {
+    if(!lookupValue) {
+      return null
+    }
     return {
       id: lookupValue['ID'] || lookupValue['Id'] || lookupValue['id'],
       title: lookupValue['Title'] || lookupValue['title'],

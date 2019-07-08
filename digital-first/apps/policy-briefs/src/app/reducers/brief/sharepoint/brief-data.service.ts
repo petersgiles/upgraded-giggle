@@ -80,6 +80,9 @@ export class BriefDataSharepointService implements BriefDataService {
   public getActiveBrief(briefId): Observable<{ data: any; loading: boolean }> {
     const viewXml = byIdQuery({ id: briefId })
     const briefIdViewXml = byBriefIdQuery({ id: briefId })
+    
+    // tslint:disable-next-line:no-console
+    console.log(`🙈 - brief`, viewXml)
 
     return forkJoin([
       this.sharepoint.getItems({

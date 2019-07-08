@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Observable, of, BehaviorSubject, Subject, Subscription } from 'rxjs'
+import { Observable, of, BehaviorSubject, Subject, Subscription, EMPTY } from 'rxjs'
 import { LookupDataService } from '../lookup-data.service'
 import { LookupMapperService } from '../../../services/mappers/lookup-mapper.service';
 import { SharepointJsomService } from '@df/sharepoint';
@@ -9,31 +9,29 @@ import { SharepointJsomService } from '@df/sharepoint';
 })
 export class LookupDataSharepointService implements LookupDataService {
   getLookupDivisions(config?: any): Observable<any> {
-    throw new Error("Method not implemented.");
+    return of(EMPTY)
   }
   getLookupActivities(config?: any): Observable<any> {
-    throw new Error("Method not implemented.");
+    return of(EMPTY)
   }
   getLookupStatuses(config?: any): Observable<any> {
-    throw new Error("Method not implemented.");
+    return of(EMPTY)
   }
   getPolicies(config?: any): Observable<any> {
-    throw new Error("Method not implemented.");
+    return of(EMPTY)
   }
   getSubPolicies(config?: any): Observable<any> {
-    throw new Error("Method not implemented.");
+    return of(EMPTY)
   }
   getCommitments(config?: any): Observable<any> {
-    throw new Error("Method not implemented.");
+    return of(EMPTY)
   }
   getClassifications(config?: any): Observable<any> {
-    throw new Error("Method not implemented.");
+    return of(EMPTY)
   }
   getDLMs(config?: any): Observable<any> {
-    throw new Error("Method not implemented.");
+    return of(EMPTY)
   }
-  fakeLookupBackend: Subject<any[]> = new Subject()
-  fakeLookupBackendSubscription$: Subscription
- 
-  constructor(private harepointJsomService: SharepointJsomService) {}
+
+  constructor(private sharepointJsomService: SharepointJsomService) {}
 }

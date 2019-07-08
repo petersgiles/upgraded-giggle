@@ -27,6 +27,7 @@ export class BriefEffects {
   setActiveBrief$ = this.actions$.pipe(
     ofType(BriefActionTypes.SetActiveBrief),
     map((action: SetActiveBrief) => action),
+    tap(action => console.log(`SetActiveBrief`, action)),
     concatMap(action =>
       this.service.getActiveBrief(action.payload.activeBriefId)
     ),

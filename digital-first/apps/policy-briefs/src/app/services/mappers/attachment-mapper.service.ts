@@ -11,7 +11,7 @@ export class AttachmentMapperService extends CoreMapperService<Attachment> {
   }
 
   public mapSingle(item: any): Attachment {
-    const brief = this.idFromLookup(item.Brief)
+    const brief = super.idFromLookup(item.Brief)
 
     return {
       id: item.ID,

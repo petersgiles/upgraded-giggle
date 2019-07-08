@@ -22,8 +22,6 @@ import {
 } from './lookup.actions'
 
 import { LookupDataService } from './lookup-data.service'
-import { Store } from '@ngrx/store'
-import * as fromRoot from '../index'
 
 @Injectable()
 export class LookupEffects {
@@ -35,7 +33,6 @@ export class LookupEffects {
     catchError(error => of(EMPTY))
   )
 
-
   @Effect()
   getSubPolicies$ = this.actions$.pipe(
     ofType(LookupActionTypes.GetLookupSubPolicies),
@@ -43,7 +40,6 @@ export class LookupEffects {
     map((result: any[]) => new LoadLookupSubPolicies({data: result, loading: false})),
     catchError(error => of(EMPTY))
   )
-
 
   @Effect()
   getCommitments$ = this.actions$.pipe(
@@ -53,7 +49,6 @@ export class LookupEffects {
     catchError(error => of(EMPTY))
   )
 
-  
   @Effect()
   getClassifications$ = this.actions$.pipe(
     ofType(LookupActionTypes.GetLookupClassifications),
@@ -62,8 +57,6 @@ export class LookupEffects {
     catchError(error => of(EMPTY))
   )
 
-
-  
   @Effect()
   getDLMs$ = this.actions$.pipe(
     ofType(LookupActionTypes.GetLookupDLMs),
@@ -72,12 +65,12 @@ export class LookupEffects {
     catchError(error => of(EMPTY))
   )
 
-
-  
   @Effect()
   getLookupStatuses$ = this.actions$.pipe(
     ofType(LookupActionTypes.GetLookupStatuses),
+    tap(result => console.log(`getLookupStatuses`, result)), 
     concatMap(_ => this.service.getLookupStatuses()),
+    tap(result => console.log(`getLookupStatuses`, result)), 
     map((result: any[]) => new LoadLookupStatuses({data: result, loading: false})),
     catchError(error => of(EMPTY))
   )
@@ -100,7 +93,6 @@ export class LookupEffects {
 
   constructor(
     private actions$: Actions<LookupActions>,
-    private service: LookupDataService,
-    private store$: Store<fromRoot.State>
+    private service: LookupDataService
   ) {}
 }
