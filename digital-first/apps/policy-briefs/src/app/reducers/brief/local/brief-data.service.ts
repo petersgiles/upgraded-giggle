@@ -7,7 +7,7 @@ import {
   Subscription
 } from 'rxjs'
 import { BriefDataService } from '../brief-data.service'
-import { briefs } from '../../../../devdata/data'
+import { briefs } from '../../../../../../../devdata/data'
 import { HttpClient } from '@angular/common/http'
 import { AppSettingsService } from '@digital-first/df-app-core'
 import { concatMap, catchError } from 'rxjs/operators'

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Observable, of, BehaviorSubject, Subject, Subscription } from 'rxjs'
 import { LookupDataService } from '../lookup-data.service'
-import { policies, subpolicies, commitments, classifications, dlms, briefstatuses, activityList } from 'apps/policy-briefs/src/devdata/data';
+import { policies, subpolicies, commitments, classifications, dlms, briefstatuses, activityList } from 'devdata/data';
 import { DocumentStatus } from '@df/components';
 
 

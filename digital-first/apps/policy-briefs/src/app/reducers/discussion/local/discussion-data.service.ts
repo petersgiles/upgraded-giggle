@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Observable, of, BehaviorSubject, Subject, Subscription } from 'rxjs'
 import { DiscussionDataService } from '../discussion-data.service'
-import { comments } from '../../../../devdata/data'
+import { comments } from '../../../../../../../devdata/data'
 import { DiscussionMapperService } from '../../../services/mappers/discussion-mapper.service';
 import { DiscussionType } from '../../../models';
 

@@ -7,7 +7,7 @@ import {
   Subscription
 } from 'rxjs'
 
-import { policies, subpolicies, briefs } from '../../../../devdata/data'
+import { policies, subpolicies, briefs } from '../../../../../../../devdata/data'
 
 import { NavigationDataService } from '../navigation-data.service'
 

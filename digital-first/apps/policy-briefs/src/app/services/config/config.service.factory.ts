@@ -11,6 +11,9 @@ const configServiceFactory = (
   http: HttpClient,
   sharepoint: SharepointJsomService
 ) => {
+
+  console.log(`configServiceFactory`, settings, sharepoint)
+
   if (settings.host === 'sharepoint') {
     return new SharePointConfigService(http, settings, sharepoint)
   }

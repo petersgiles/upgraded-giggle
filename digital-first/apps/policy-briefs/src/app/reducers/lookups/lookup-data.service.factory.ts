@@ -9,9 +9,15 @@ import { LookupMapperService } from '../../services/mappers/lookup-mapper.servic
 
 const lookupDataServiceFactory = (
   settings: AppSettingsService,
-  sharepointlib: SharepointJsomService,
-  lookupMapperService: LookupMapperService
+  sharepointlib: SharepointJsomService
 ) => {
+
+  console.log(
+    `discussionDataServiceFactory`,
+    settings,
+    sharepointlib
+  )
+
   let source = null
   if (settings.host) {
     source = settings.host
@@ -28,5 +34,5 @@ const lookupDataServiceFactory = (
 export let lookupDataServiceProvider = {
   provide: LookupDataService,
   useFactory: lookupDataServiceFactory,
-  deps: [AppSettingsService, SharepointJsomService, LookupMapperService]
+  deps: [AppSettingsService, SharepointJsomService]
 }

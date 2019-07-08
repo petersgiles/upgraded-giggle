@@ -1,75 +1,189 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Briefs</title>
-  <base href="/">
+  <head>
+    <meta charset="utf-8" />
+    <title>Briefs</title>
+    <base href="/" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons" type="text/css">
-  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link
+      rel="stylesheet"
+      href="//fonts.googleapis.com/icon?family=Material+Icons"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="//fonts.googleapis.com/css?family=Roboto:300,400,500"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="//fonts.googleapis.com/css?family=Permanent+Marker"
+      type="text/css"
+    />
+    <link rel="icon" type="image/png" href="./assets/logo.png" />
+    <style type="text/css">
 
-  <link rel="icon" type="image/png" href="./assets/logo.png">
-  <style type="text/css">
-    body, html {
-      height: 100%;
-    }
-    .app-loading {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-    }
-    .app-loading .spinner {
-      height: 200px;
-      width: 200px;
-      animation: rotate 2s linear infinite;
-      transform-origin: center center;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      margin: auto;
-    }
-    .app-loading .spinner .path {
-      stroke-dasharray: 1, 200;
-      stroke-dashoffset: 0;
-      animation: dash 1.5s ease-in-out infinite;
-      stroke-linecap: round;
-      stroke: #ddd;
-    }
-    @keyframes rotate {
-      100% {
-        transform: rotate(360deg);
+      .logo {
+        background-color: #232323;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
       }
-    }
-    @keyframes dash {
-      0% {
-        stroke-dasharray: 1, 200;
-        stroke-dashoffset: 0;
+      .logo svg {
+        max-width: 45rem;
+        width: 100%;
+        height: auto;
+        fill: none;
+        stroke: white;
+        stroke-width: 4;
       }
-      50% {
-        stroke-dasharray: 89, 200;
-        stroke-dashoffset: -35px;
+      .logo svg tspan > tspan {
+        stroke-dasharray: 1500;
+        stroke-dashoffset: -1500;
       }
-      100% {
-        stroke-dasharray: 89, 200;
-        stroke-dashoffset: -124px;
+      .logo svg tspan > tspan:nth-of-type(1) {
+        -webkit-animation: draw 300ms 150ms forwards;
+        animation: draw 300ms 150ms forwards;
       }
-    }
-  </style>
+      .logo svg tspan > tspan:nth-of-type(2) {
+        -webkit-animation: draw 300ms 300ms forwards;
+        animation: draw 300ms 300ms forwards;
+      }
+      .logo svg tspan > tspan:nth-of-type(3) {
+        -webkit-animation: draw 300ms 450ms forwards;
+        animation: draw 300ms 450ms forwards;
+      }
+      .logo svg tspan > tspan:nth-of-type(4) {
+        -webkit-animation: draw 300ms 600ms forwards;
+        animation: draw 300ms 600ms forwards;
+      }
+      .logo svg tspan > tspan:nth-of-type(5) {
+        -webkit-animation: draw 300ms 750ms forwards;
+        animation: draw 300ms 750ms forwards;
+      }
+      .logo svg tspan > tspan:nth-of-type(6) {
+        -webkit-animation: draw 300ms 900ms forwards;
+        animation: draw 300ms 900ms forwards;
+      }
+      .logo svg tspan > tspan:nth-of-type(7) {
+        -webkit-animation: draw 300ms 1050ms forwards;
+        animation: draw 300ms 1050ms forwards;
+      }
+      .logo svg tspan > tspan:nth-of-type(8) {
+        -webkit-animation: draw 300ms 1200ms forwards;
+        animation: draw 300ms 1200ms forwards;
+      }
+      .logo svg tspan > tspan:nth-of-type(9) {
+        -webkit-animation: draw 300ms 1350ms forwards;
+        animation: draw 300ms 1350ms forwards;
+      }
+      .logo svg tspan > tspan:nth-of-type(10) {
+        -webkit-animation: draw 300ms 1500ms forwards;
+        animation: draw 300ms 1500ms forwards;
+      }
+      .logo svg tspan > tspan:nth-of-type(11) {
+        -webkit-animation: draw 300ms 1650ms forwards;
+        animation: draw 300ms 1650ms forwards;
+      }
+      .logo svg tspan > tspan:nth-of-type(12) {
+        -webkit-animation: draw 300ms 1800ms forwards;
+        animation: draw 300ms 1800ms forwards;
+      }
+      .logo svg tspan > tspan:nth-of-type(13) {
+        -webkit-animation: draw 300ms 1950ms forwards;
+        animation: draw 300ms 1950ms forwards;
+      }
+      .logo svg tspan > tspan:nth-of-type(14) {
+        -webkit-animation: draw 300ms 2100ms forwards;
+        animation: draw 300ms 2100ms forwards;
+      }
+      .logo svg tspan > tspan:nth-of-type(15) {
+        -webkit-animation: draw 300ms 2250ms forwards;
+        animation: draw 300ms 2250ms forwards;
+      }
 
-</head>
-<body class="mdc-typography">
-  <digital-first-root>
-    <div class="logo">
-      <svg class="spinner" viewBox="25 25 50 50">
-        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
-      </svg>
-  </digital-first-root>
-</body>
+      @-webkit-keyframes draw {
+        100% {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      @keyframes draw {
+        100% {
+          stroke-dashoffset: 0;
+        }
+      }
+    </style>
+  </head>
+  <body class="mdc-typography">
+    <digital-first-root>
+      <div class="logo">
+        <svg
+          viewBox="0 0 1418 116"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        >
+          <title>DigitalFirst</title>
+          <g stroke="none" fill="none" fill-rule="evenodd" fill-opacity="0">
+            <text
+              id="DigitalFirst"
+              stroke="#fff"
+              fill="#645F5A"
+              font-weight="normal"
+              font-family="PermanentMarker-Regular, Permanent Marker"
+              font-size="144"
+            >
+              <tspan x="3" y="109">
+                <!--
+              -->
+                <tspan>D</tspan>
+                <!--
+              -->
+                <tspan>i</tspan>
+                <!--
+              -->
+                <tspan>g</tspan>
+                <!--
+              -->
+                <tspan>i</tspan>
+                <!--
+              -->
+                <tspan>t</tspan>
+                <!--
+              -->
+                <tspan>a</tspan>
+                <!--
+              -->
+                <tspan>l</tspan>
+                <!--
+              -->
+                <tspan></tspan>
+                <!--                
+              -->
+                <tspan>F</tspan>
+                <!--
+              -->
+                <tspan>i</tspan>
+                <!--
+              -->
+                <tspan>r</tspan>
+                <!--
+              -->
+                <tspan>s</tspan>
+                <!--
+              -->
+                <tspan>t</tspan>
+                <!--
+            -->
+              </tspan>
+            </text>
+          </g>
+        </svg>
+      </div>
+    </digital-first-root>
+  </body>
 </html>

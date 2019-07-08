@@ -1,5 +1,5 @@
 import { DocumentStatus } from '@df/components'
-import { lotsofUsers } from 'apps/policy-briefs/src/devdata/data'
+import { lotsofUsers } from 'devdata/data'
 
 export const notifications = [
   {

@@ -1,7 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-
 module.exports = {
   module : {
     rules: [
@@ -17,6 +16,8 @@ module.exports = {
           basePath:`<base runat="server" href="<% $SPUrl:~site/SitePages/policy-briefs.aspx/ %>" />`,
           favIcon:`<link rel="icon" type="image/png" sizes="32x32" href="<% $SPUrl:~site/SiteAssets/apps/css/images/favicon/favicon-32x32.png %>">`
         },
+        chunks: ['runtime', 'vendor', 'polyfills-es5', 'polyfills', 'main', 'styles'],
+        chunksSortMode: 'manual',
         template: './sharepoint.template.html',
         filename: '../../../SitePages/policy-briefs.aspx' //relative to root of the application
       }),

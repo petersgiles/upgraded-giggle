@@ -39,27 +39,19 @@
               "fileReplacements": [
                 {
                   "replace": "apps/policy-briefs/src/environments/environment.ts",
-                  "with": "apps/policy-briefs/src/environments/environment.prod.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
-            },
-            "sharepoint": {
-              "fileReplacements": [
-                {
-                  "replace": "apps/policy-briefs/src/environments/environment.ts",
                   "with": "apps/policy-briefs/src/environments/environment.sharepoint.ts"
                 }
               ],
-              "deployUrl": "../../SiteAssets/apps/%>"
+              "deployUrl": "../../SiteAssets/apps/policy-briefs",
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": false,
+              "namedChunks": false,
+              "aot": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": false
             }
           }
         },

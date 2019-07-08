@@ -1,7 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule, APP_INITIALIZER, ErrorHandler } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { HttpClientModule } from '@angular/common/http'
 import { AppComponent } from './app.component'
+import { AppRoutingModule } from './app-routing.module'
+import { DfLayoutsModule, TitleLayoutService } from '@digital-first/df-layouts'
+import { AppFullLayoutService } from './app-full-layout.service'
+import { BriefLayoutComponent } from './pages/brief/brief-layout/brief-layout.component'
+import { BriefReaderComponent } from './pages/brief/brief-reader/brief-reader.component'
 import { NxModule } from '@nrwl/nx'
 import {
   DialogAreYouSureComponent,
@@ -13,7 +19,7 @@ import {
   DiscussionModule
 } from '@df/components'
 import { WINDOW_PROVIDERS } from '@df/utils'
-import { DfLayoutsModule, TitleLayoutService } from '@digital-first/df-layouts'
+
 import { DfThemeModule } from '@digital-first/df-theme'
 import { DfPipesModule } from '@digital-first/df-pipes'
 import { DfComponentsModule } from '@digital-first/df-components'
@@ -22,8 +28,8 @@ import { DfPagesModule } from '@digital-first/df-pages'
 import { DfSharepointLibModule, SharepointJsomService } from '@df/sharepoint'
 
 import { HomeComponent } from './pages/home/home.component'
-import { AppFullLayoutService } from './app-full-layout.service'
-import { AppRoutingModule } from './app-routing.module'
+
+
 import { DragDropModule } from '@angular/cdk/drag-drop'
 
 import { DfButtonsModule } from '@digital-first/df-buttons'
@@ -51,14 +57,14 @@ import { metaReducers, reducers } from './reducers'
 import { environment } from '../environments/environment'
 import { RouterStateSerializer } from '@ngrx/router-store'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
-import { HttpClientModule } from '@angular/common/http'
+
 import { configServiceProvider } from './services/config/config.service.factory'
 import { appDataServiceProvider } from './services/app-data/app-data.service.factory'
 // import { deckDataServiceProvider } from './reducers/deck/deck-data.service.factory'
 import { SettingsService } from './services/settings.service'
 import { UserProfileComponent } from './pages/user-profile/user-profile.component'
 
-import { DeckUserOperationsService } from './services/app-data/app-operations'
+import { UserOperationsService } from './services/app-data/app-operations'
 
 import { BriefDocumentComponent } from './pages/brief/brief-document/brief-document.component'
 import { NavigationEffects } from './reducers/navigation/navigation.effects'
@@ -77,11 +83,11 @@ import { discussionDataServiceProvider } from './reducers/discussion/discussion-
 import { lookupDataServiceProvider } from './reducers/lookups/lookup-data.service.factory'
 
 import { GlobalEffects } from './reducers/app/app.effects'
-import { BriefLayoutComponent } from './pages/brief/brief-layout/brief-layout.component'
+
 import { NoBriefSelectedComponent } from './pages/brief/no-brief-selected/no-brief-selected.component'
 import { BriefDataEditorComponent } from './pages/brief/brief-data-editor/brief-data-editor.component'
 import { BriefSubscriptionEditorComponent } from './pages/brief/brief-subscription-editor/brief-subscription-editor.component'
-import { BriefReaderComponent } from './pages/brief/brief-reader/brief-reader.component'
+
 import { ProtectiveMarkingComponent } from './pages/brief/protective-marking/protective-marking.component'
 import { BriefStatusComponent } from './pages/brief/brief-status/brief-status.component'
 import { BriefDiscussionComponent } from './pages/brief/brief-discussion/brief-discussion.component'
@@ -89,14 +95,16 @@ import { BriefDiscussionComponent } from './pages/brief/brief-discussion/brief-d
 
 const COMPONENTS = [
   AppComponent,
+  BriefLayoutComponent,
+  BriefReaderComponent,
   HomeComponent,
   BriefDocumentComponent,
   UserProfileComponent,
-  BriefLayoutComponent,
+  
   NoBriefSelectedComponent,
   BriefDataEditorComponent,
   BriefSubscriptionEditorComponent,
-  BriefReaderComponent,
+  
   ProtectiveMarkingComponent,
   BriefStatusComponent,
   BriefDiscussionComponent
@@ -112,6 +120,8 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
+    AppRoutingModule,
+    DfLayoutsModule,
     NxModule.forRoot(),
     PanelModule,
     ButtonModule,
@@ -123,12 +133,12 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     DfButtonsModule,
     DfMapModule,
     DfMomentModule,
-    DfLayoutsModule,
+     
     DfThemeModule,
     DfPagesModule,
     DfSharepointLibModule,
     DfPipesModule,
-    AppRoutingModule,
+    
     DragDropModule,
     DialogsModule,
     StoreModule.forRoot(reducers, {
@@ -155,6 +165,7 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     ])
   ],
   providers: [
+    { provide: TitleLayoutService, useClass: AppFullLayoutService },
     {
       provide: ErrorHandler,
       useClass: environment.production
@@ -163,7 +174,7 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     },
     {
       provide: AppUserOperationsService,
-      useClass: DeckUserOperationsService
+      useClass: UserOperationsService
     },
     { provide: AppSettingsService, useClass: SettingsService },
     WINDOW_PROVIDERS,
@@ -181,7 +192,7 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     navigationDataServiceProvider,
     SharepointJsomService,
     DateFormatPipe,
-    { provide: TitleLayoutService, useClass: AppFullLayoutService },
+
     /**
      * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.
      * A custom RouterStateSerializer is used to parse the `RouterStateSnapshot` provided

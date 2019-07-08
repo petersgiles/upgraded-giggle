@@ -3,11 +3,15 @@ import { SharePointAppDataService } from './sharepoint/sharepoint-app-data.servi
 import { DevelopAppDataService } from './develop/develop-app-data.service'
 
 import { AppDataService, AppSettingsService } from '@digital-first/df-app-core'
+import { SettingsService } from '../settings.service';
 
 const appDataServiceFactory = (
   settings: AppSettingsService,
   sharepointlib: SharepointJsomService
 ) => {
+
+  console.log(`appDataServiceFactory`, settings, sharepointlib)
+
   let source = null
   if (settings.host) {
     source = settings.host
@@ -24,5 +28,5 @@ const appDataServiceFactory = (
 export let appDataServiceProvider = {
   provide: AppDataService,
   useFactory: appDataServiceFactory,
-  deps: [AppSettingsService, SharepointJsomService]
+  deps: [SettingsService, SharepointJsomService]
 }
