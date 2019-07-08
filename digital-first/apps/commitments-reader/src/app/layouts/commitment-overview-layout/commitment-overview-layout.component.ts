@@ -24,8 +24,8 @@ import { ActivatedRoute, Router } from '@angular/router'
 
 @Component({
   selector: 'digital-first-commitment-overview-layout',
-  template: './commitment-overview-layout.component.html',
-  //styleUrls: ['./commitment-overview-layout.component.scss']
+  templateUrl: './commitment-overview-layout.component.html',
+  styleUrls: ['./commitment-overview-layout.component.scss']
 })
 export class CommitmentOverviewLayoutComponent
   implements OnInit, AfterViewInit, OnDestroy {
