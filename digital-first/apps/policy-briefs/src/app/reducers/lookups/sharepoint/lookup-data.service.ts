@@ -9,28 +9,28 @@ import { SharepointJsomService } from '@df/sharepoint';
 })
 export class LookupDataSharepointService implements LookupDataService {
   getLookupDivisions(config?: any): Observable<any> {
-    return of(EMPTY)
+    return of([])
   }
   getLookupActivities(config?: any): Observable<any> {
-    return of(EMPTY)
+    return of([])
   }
   getLookupStatuses(config?: any): Observable<any> {
-    return of(EMPTY)
+    return of([])
   }
   getPolicies(config?: any): Observable<any> {
-    return of(EMPTY)
+    return of([])
   }
   getSubPolicies(config?: any): Observable<any> {
-    return of(EMPTY)
+    return of([])
   }
   getCommitments(config?: any): Observable<any> {
-    return of(EMPTY)
+    return of([])
   }
   getClassifications(config?: any): Observable<any> {
-    return of(EMPTY)
+    return of([])
   }
   getDLMs(config?: any): Observable<any> {
-    return of(EMPTY)
+    return of([])
   }
 
   constructor(private sharepointJsomService: SharepointJsomService) {}
