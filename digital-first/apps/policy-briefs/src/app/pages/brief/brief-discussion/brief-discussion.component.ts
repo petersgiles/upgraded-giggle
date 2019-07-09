@@ -28,7 +28,8 @@ export class BriefDiscussionComponent implements OnInit {
   @Input()
   set brief(val){
     this._brief = val
-    this.store.dispatch(new GetDiscussion({ activeBriefId: this.brief.id }))
+    console.log(this._brief.id)
+    this.store.dispatch(new GetDiscussion({ activeBriefId: `${this._brief.id}` }))
   }
 
   get brief(){

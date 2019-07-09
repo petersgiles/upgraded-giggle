@@ -14,8 +14,6 @@ export class DiscussionMapperService extends CoreMapperService<Discussion> {
 
   public mapSingle(item: any): Discussion {
 
-    console.log(`Discussion`, item)
-
     const authorMapperService = new AuthorMapperService()
     const author = authorMapperService.mapSingle(item.Author) || {
       username: null, 

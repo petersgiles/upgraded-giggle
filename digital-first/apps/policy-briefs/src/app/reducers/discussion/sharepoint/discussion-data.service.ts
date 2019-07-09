@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core'
 import { Observable, of, forkJoin } from 'rxjs'
-import { SharepointJsomService, idFromLookup, fromUser, fromLookup } from '@df/sharepoint'
+import {
+  SharepointJsomService,
+  idFromLookup,
+  fromUser,
+  fromLookup
+} from '@df/sharepoint'
 import { DiscussionDataService } from '../discussion-data.service'
 import { concatMap, map, tap } from 'rxjs/operators'
 import { sortBy } from '../../../utils'
 import { DiscussionMapperService } from '../../../services/mappers/discussion-mapper.service'
 import { DiscussionType } from '../../../models'
+import { byBriefIdQuery } from '../../../services/sharepoint/caml'
 
 const DISCUSSION_ITEM_LIST_NAME = 'Comment'
 
@@ -46,20 +52,23 @@ export class DiscussionDataSharepointService implements DiscussionDataService {
   }): Observable<{
     data: any
     loading: boolean
-  }> =>
-    forkJoin([
+  }> => {
+    const briefIdViewXml = byBriefIdQuery({ id: item.id })
+
+    return forkJoin([
       this.sharepoint.getItems({
-        listName: DISCUSSION_ITEM_LIST_NAME
+        listName: DISCUSSION_ITEM_LIST_NAME,
+        viewXml: briefIdViewXml
       })
     ]).pipe(
       map(([spDiscussions]) => {
-
         const discussions = spDiscussions.map(p => {
-
           const brief = fromLookup(p.Brief)
           const author = fromUser(p.Author)
+          const parent = fromLookup(p.Parent)
 
-          return { ...p,
+          return {
+            ...p,
             Brief: {
               Id: brief.id,
               Title: brief.title
@@ -67,8 +76,8 @@ export class DiscussionDataSharepointService implements DiscussionDataService {
             Author: {
               Title: author.title,
               Email: author.email,
-              Phone: author.phone,
-            }  
+              Phone: author.phone
+            }
           }
         })
 
@@ -83,6 +92,7 @@ export class DiscussionDataSharepointService implements DiscussionDataService {
         })
       )
     )
+  }
 
   constructor(
     private sharepoint: SharepointJsomService,

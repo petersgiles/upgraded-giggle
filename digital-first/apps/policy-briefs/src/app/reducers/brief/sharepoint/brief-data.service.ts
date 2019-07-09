@@ -88,48 +88,45 @@ export class BriefDataSharepointService implements BriefDataService {
       this.sharepoint.getItems({
         listName: 'Brief',
         viewXml: viewXml
-      }),
-      this.sharepoint.getItems({
-        listName: 'RecommendedDirection',
-        viewXml: briefIdViewXml
-      }),
-      this.sharepoint.getItems({
-        listName: 'Recommendation',
-        viewXml: briefIdViewXml
-      }),
-      this.sharepoint.getItems({
-        listName: 'BriefAttachments',
-        viewXml: briefIdViewXml
-      }),
-      this.sharepoint.getItems({
-        listName: 'BriefStatus'
-      }),
-      this.sharepoint.getItems({
-        listName: 'BriefDivision'
       })
+      // ,
+      // this.sharepoint.getItems({
+      //   listName: 'RecommendedDirection',
+      //   viewXml: briefIdViewXml
+      // }),
+      // this.sharepoint.getItems({
+      //   listName: 'Recommendation',
+      //   viewXml: briefIdViewXml
+      // }),
+      // this.sharepoint.getItems({
+      //   listName: 'BriefAttachments',
+      //   viewXml: briefIdViewXml
+      // }),
+      // this.sharepoint.getItems({
+      //   listName: 'BriefStatus'
+      // }),
+      // this.sharepoint.getItems({
+      //   listName: 'BriefDivision'
+      // })
     ]).pipe(
       concatMap(
         ([
           spBrief,
-          spRecommendedDirection,
-          spRecommendations,
-          spBriefAttachments,
-          spBriefStatus,
-          spBriefDivision
+          // spRecommendedDirection,
+          // spRecommendations,
+          // spBriefAttachments,
+          // spBriefStatus,
+          // spBriefDivision
         ]) => {
-          const data = {
-            brief: this.briefMapperService.mapSingle(spBrief[0]),
-            directions: this.recommendedDirectionMapperService.mapMany(spRecommendedDirection),
-            recommendations: this.recommendationMapperService.mapMany(spRecommendations),
-            attachments: this.attachmentMapperService.mapMany(spBriefAttachments),
-            statusLookups: this.lookupMapperService.mapMany(spBriefStatus),
-            divisionLookups: this.lookupMapperService.mapMany(spBriefDivision)
-          }
-          // tslint:disable-next-line:no-console
-          console.log(`🙈 - brief`, data)
+          const brief = this.briefMapperService.mapSingle(spBrief[0])
+            // directions: this.recommendedDirectionMapperService.mapMany(spRecommendedDirection),
+            // recommendations: this.recommendationMapperService.mapMany(spRecommendations),
+            // attachments: this.attachmentMapperService.mapMany(spBriefAttachments),
+            // statusLookups: this.lookupMapperService.mapMany(spBriefStatus),
+            // divisionLookups: this.lookupMapperService.mapMany(spBriefDivision)
 
           return of({
-            data: data,
+            data: brief,
             loading: false
           })
         }
@@ -146,6 +143,8 @@ export class BriefDataSharepointService implements BriefDataService {
   }> {
     const relativeUrl = `${_spPageContextInfo.webAbsoluteUrl}/BriefHTML/${fileLeafRef}.aspx`
 
+    console.log(`getBriefHtml`, relativeUrl)
+
     return this.http.get(relativeUrl, { responseType: 'text' }).pipe(
       concatMap((result: any) =>
         of({
@@ -157,12 +156,13 @@ export class BriefDataSharepointService implements BriefDataService {
 
   constructor(
     private http: HttpClient,
-    private settings: AppSettingsService,
     private sharepoint: SharepointJsomService,
     private briefMapperService: BriefMapperService,
     private recommendedDirectionMapperService: RecommendedDirectionMapperService,
     private recommendationMapperService: RecommendationMapperService,
     private attachmentMapperService: AttachmentMapperService,
     private lookupMapperService: LookupMapperService,
-  ) {}
+  ) {
+    console.log(`BriefDataSharepointService`)
+  }
 }
