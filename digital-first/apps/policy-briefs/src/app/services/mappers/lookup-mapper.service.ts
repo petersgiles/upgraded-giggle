@@ -11,6 +11,6 @@ export class LookupMapperService extends CoreMapperService<Lookup> {
   }
 
   public mapSingle(item: any): Lookup {
-    return { id: item.ID, title: item.Title, order: item.SortOrder, caption: item.Title, icon: item.Icon }
+    return { id: item.ID, title: item.Title, order: item.SortOrder, value: item.ID, caption: item.Title, icon: item.Icon }
   }
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import * as fromRoot from '../../../reducers/index'
 import * as fromBrief from '../../../reducers/brief/brief.reducer'
 import { select, Store } from '@ngrx/store'
-import { switchMap } from 'rxjs/operators'
+import { switchMap, tap } from 'rxjs/operators'
 import { ParamMap, ActivatedRoute, Router } from '@angular/router'
 import { SetActiveBrief } from '../../../reducers/brief/brief.actions'
 import { SetActiveBriefPath } from '../../../reducers/navigation/navigation.actions'
@@ -24,6 +24,7 @@ import {
   selectLookupClassificationsState,
   selectLookupDLMsState
 } from '../../../reducers/lookups/lookup.reducer'
+import { Brief } from '../../../models'
 
 const defaultValues = {
   title: null,
@@ -150,7 +151,24 @@ export class BriefDataEditorComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.brief$ = this.store.pipe(select(fromBrief.selectBriefState))
+    this.brief$ = this.store.pipe(select(fromBrief.selectBriefState)).pipe(
+      tap((brief: Brief) => {
+        if (brief) {
+          const patch = {
+            title: brief.title,
+            securityClassification: brief.securityClassification,
+            sortOrder: brief.order,
+            dLM: brief.dLM,
+            policy: brief.policy,
+            subpolicy: brief.subPolicy,
+            processingInstruction: null,
+            recommendedDirection: null
+          }
+
+          this.form.patchValue(patch)
+        }
+      })
+    )
 
     this.background$ = this.store.pipe(select(selectAppBackgroundColour))
     this.policies$ = this.store.pipe(select(selectLookupPoliciesState))
@@ -163,9 +181,10 @@ export class BriefDataEditorComponent implements OnInit {
 
     this.store.dispatch(new GetLookupPolicies())
     this.store.dispatch(new GetLookupSubPolicies())
-    this.store.dispatch(new GetLookupCommitments())
     this.store.dispatch(new GetLookupClassifications())
     this.store.dispatch(new GetLookupDLMs())
+
+    // this.store.dispatch(new GetLookupCommitments())
 
     this.form.patchValue(defaultValues)
 

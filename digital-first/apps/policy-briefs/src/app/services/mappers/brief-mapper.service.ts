@@ -11,13 +11,14 @@ export class BriefMapperService extends CoreMapperService<Brief> {
   }
 
   public mapSingle(item: any): Brief {
-    const editor = this.fromLookup(item.Editor)
-    const subPolicy = this.fromLookup(item.SubPolicy)
-    const policy = this.fromLookup(item.Policy)
-    const briefStatus = this.fromLookup(item.BriefStatus)
-    const briefDivision = this.fromLookup(item.BriefStatus)
 
-    return {
+    const editor = super.fromLookup(item.Editor)
+    const subPolicy = super.fromLookup(item.SubPolicy)
+    const policy = super.fromLookup(item.Policy)
+    const briefStatus = super.fromLookup(item.BriefStatus)
+    const briefDivision = super.fromLookup(item.BriefStatus)
+
+    const brief =  {
       id: item.ID,
       fileLeafRef: item.FileLeafRef,
       title: item.Title,
@@ -34,5 +35,9 @@ export class BriefMapperService extends CoreMapperService<Brief> {
       briefStatus: briefStatus,
       briefDivision: briefDivision
     }
+
+    console.log(`🦊`, item, brief)
+
+    return brief
   }
 }

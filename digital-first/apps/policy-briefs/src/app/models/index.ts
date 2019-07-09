@@ -120,5 +120,6 @@ export interface Lookup {
   title: string
   order: string | number
   caption?: string
+  value?: string | number
   icon?: string
 }
