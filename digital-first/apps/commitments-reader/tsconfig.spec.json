@@ -3,9 +3,11 @@
   "compilerOptions": {
     "outDir": "../../dist/out-tsc/apps/commitments-reader/",
     "module": "commonjs",
-    "types": ["jest"],
-    "allowJs": true
+    "types": ["jest",
+      "node"],
+      "allowJs": true
   },
-  "files": ["src/test-setup.ts"],
+  "files": ["polyfills.ts"],
   "include": ["**/*.spec.ts", "**/*.d.ts"],
 }
+
