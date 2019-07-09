@@ -24,7 +24,9 @@
     "sharepoint:build:deck": "ng run deck:sharepoint --configuration=sharepoint",
     "sharepoint:copyListDefinitions:deck": "cpx ../sharepoint/deckx/ListDefinitions/*.* ../sharepoint/deploy/ListDefinitions/deckx",
     "sharepoint:copyListData:deck": "cpx ../sharepoint/deckx/Data/*.* ../sharepoint/deploy/ListData/deckx",
-    "start:policy-briefs": "ng serve policy-briefs --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --live-reload true",
+    "sp:deploy:deck": "run-s sharepoint:build:deck sharepoint:copyListDefinitions:deck sharepoint:copyListData:deck  deploy:all:deck",
+   
+    "build:policy-briefs": "ng build policy-briefs --configuration=production",
     "deploy:all:policy-briefs": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/redigb' -AppName 'Policy-Briefs'",
     "deploy:js:policy-briefs": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/redigb' -AppName 'Policy-Briefs' -jsOnly",
     "sharepoint:build:policy-briefs": "ng run policy-briefs:sharepoint --configuration=sharepoint",
