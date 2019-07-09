@@ -10,16 +10,14 @@
     "start:commitments-reader-remote-dev": "ng serve commitments-reader --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --configuration=remotedev --live-reload true",
     "generate-graphql:commitments-reader": "gql-gen --config ./apps/commitments-reader/codegen.yml",
     "generate-graphql:policy-briefs": "gql-gen --config ./apps/policy-briefs/codegen.yml",
-    "build": "ng build",
-    "build:all": "run-p sharepoint:build:commitments sharepoint:build:commitments-reader",
-    "build:commitments-reader": "ng build commitments-reader --configuration=production",
-    "build:commitments": "ng build commitments --configuration=production",
     
     "deploy:all:commitments": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/commitments' -AppName 'Commitments' -LoadReferenceData True",
     "sharepoint:build:commitments": "ng run commitments:sharepoint --configuration=sharepoint",
     "sharepoint:copyListDefinitions:commitments": "cpx ../sharepoint/commitments/ListDefinitions/*.* ../sharepoint/deploy/ListDefinitions/commitments",
     "sharepoint:copyListData:commitments": "cpx ../sharepoint/commitments/Data/*.* ../sharepoint/deploy/ListData/commitments",
     "sp:deploy:commitments": "run-s sharepoint:build:commitments sharepoint:copyListDefinitions:commitments sharepoint:copyListData:commitments deploy:all:commitments",
+
+
 
     "deploy:all:commitments-reader": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/commitments-reader' -AppName 'Commitments-Reader' -LoadReferenceData True",
     "sharepoint:build:commitments-reader": "ng run commitments-reader:sharepoint --configuration=sharepoint",
@@ -28,6 +26,7 @@
     "sharepoint:copyListDefinitions:commitments-reader": "cpx ../sharepoint/commitments-reader/ListDefinitions/*.* ../sharepoint/deploy/ListDefinitions/commitments-reader",
     "sp:deploy:commitments-reader": "run-s sharepoint:build:commitments-reader sharepoint:copyListDefinitions:commitments-reader sharepoint:copyListData:commitments-reader deploy:all:commitments-reader",
     "sharepoint:copyListData:commitments-reader": "cpx ../sharepoint/commitments-reader/Data/*.* ../sharepoint/deploy/ListData/commitments-reader",
+   
     "start:deck": "ng serve deck --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --live-reload true",
     "build:deck": "ng build deck --configuration=production",
     "generate-graphql:deck": "gql-gen --config ./apps/deck/codegen.yml",
@@ -42,7 +41,6 @@
     "deploy:all:policy-briefs": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/redigb' -AppName 'Policy-Briefs'",
     "deploy:js:policy-briefs": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/redigb' -AppName 'Policy-Briefs' -jsOnly",
     "sharepoint:build:policy-briefs": "ng run policy-briefs:sharepoint --configuration=sharepoint",
-    "sharepoint:compile:policy-briefs": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/Compile-Page.ps1 -applicationName 'policy-briefs'",
     "sharepoint:copyListDefinitions:policy-briefs": "cpx ../sharepoint/policy-briefs/ListDefinitions/*.* ../sharepoint/deploy/ListDefinitions/policy-briefs",
     "sharepoint:copyListData:policy-briefs": "cpx ../sharepoint/policy-briefs/Data/*.* ../sharepoint/deploy/ListData/policy-briefs",
     "sp:deploy:policy-briefs": "run-s sharepoint:build:policy-briefs sharepoint:compile:policy-briefs deploy:all:policy-briefs",

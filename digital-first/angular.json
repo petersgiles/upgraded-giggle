@@ -257,7 +257,7 @@
                   "with": "apps/commitments/src/environments/environment.sharepoint.ts"
                 }
               ],
-              "deployUrl": "../../SiteAssets/apps/"
+              "deployUrl": "../../SiteAssets/apps/commitments"
             }
           }
         },
