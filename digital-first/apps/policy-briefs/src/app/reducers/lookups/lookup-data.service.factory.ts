@@ -9,7 +9,8 @@ import { LookupMapperService } from '../../services/mappers/lookup-mapper.servic
 
 const lookupDataServiceFactory = (
   settings: AppSettingsService,
-  sharepointlib: SharepointJsomService
+  sharepointlib: SharepointJsomService,
+  lookupMapper: LookupMapperService
 ) => {
 
   console.log(
@@ -25,7 +26,7 @@ const lookupDataServiceFactory = (
 
   switch (source) {
     case 'sharepoint':
-      return new LookupDataSharepointService(sharepointlib)
+      return new LookupDataSharepointService(sharepointlib, lookupMapper)
     default:
       return new LookupDataLocalService()
   }
@@ -34,5 +35,5 @@ const lookupDataServiceFactory = (
 export let lookupDataServiceProvider = {
   provide: LookupDataService,
   useFactory: lookupDataServiceFactory,
-  deps: [AppSettingsService, SharepointJsomService]
+  deps: [AppSettingsService, SharepointJsomService, LookupMapperService]
 }
