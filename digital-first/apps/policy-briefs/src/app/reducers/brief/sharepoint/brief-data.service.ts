@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { Observable, of, forkJoin, EMPTY } from 'rxjs'
-import { SharepointJsomService } from '@df/sharepoint'
+import { SharepointJsomService, fromLookup } from '@df/sharepoint'
 import { BriefDataService } from '../brief-data.service'
 import { concatMap, map, tap } from 'rxjs/operators'
 import { sortBy } from '../../../utils'
@@ -112,18 +112,23 @@ export class BriefDataSharepointService implements BriefDataService {
       concatMap(
         ([
           spBrief,
-          // spRecommendedDirection,
-          // spRecommendations,
-          // spBriefAttachments,
-          // spBriefStatus,
-          // spBriefDivision
         ]) => {
-          const brief = this.briefMapperService.mapSingle(spBrief[0])
-            // directions: this.recommendedDirectionMapperService.mapMany(spRecommendedDirection),
-            // recommendations: this.recommendationMapperService.mapMany(spRecommendations),
-            // attachments: this.attachmentMapperService.mapMany(spBriefAttachments),
-            // statusLookups: this.lookupMapperService.mapMany(spBriefStatus),
-            // divisionLookups: this.lookupMapperService.mapMany(spBriefDivision)
+
+          const result = spBrief[0]
+          const editor = fromLookup(result.Editor)
+          const subPolicy = fromLookup(result.SubPolicy)
+          const policy = fromLookup(result.Policy)
+          const briefStatus = fromLookup(result.BriefStatus)
+          const briefDivision = fromLookup(result.BriefDivision)
+
+          const brief = this.briefMapperService.mapSingle({
+            ...result,
+            Editor: editor,
+            SubPolicy: subPolicy,
+            Policy: policy,
+            BriefStatus: briefStatus,
+            BriefDivision: briefDivision,
+          })
 
           return of({
             data: brief,
