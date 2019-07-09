@@ -25,7 +25,6 @@
     "start:deck": "ng serve deck --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --live-reload true",
     "build:deck": "ng build deck --configuration=production",
     "generate-graphql:deck": "gql-gen --config ./apps/deck/codegen.yml",
-    "sharepoint:compile:deck": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/Compile-Page.ps1 -applicationName 'deck' -applicationPage 'deckx.aspx'",
     "deploy:all:deck": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/redigb' -AppName 'DeckX'",
     "deploy:js:deck": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/redigb' -AppName 'DeckX' -jsOnly",
     "sharepoint:build:deck": "ng run deck:sharepoint --configuration=sharepoint",

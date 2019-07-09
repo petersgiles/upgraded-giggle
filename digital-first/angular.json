@@ -853,7 +853,7 @@
                   "with": "apps/commitments-reader/src/environments/environment.sharepoint.ts"
                 }
               ],
-              "deployUrl": "../../SiteAssets/apps/"
+              "deployUrl": "../../SiteAssets/apps/commitments-reader"
             },
             "sharepointprod": {
               "fileReplacements": [
