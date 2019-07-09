@@ -19,7 +19,7 @@ export class LoadDiscussions implements Action {
 
 export class GetDiscussion implements Action {
   readonly type = DiscussionActionTypes.GetDiscussion
-  constructor(public payload: { activeBriefId: string, channel?: DiscussionType }) {}
+  constructor(public payload: { activeBriefId: string , channel?: DiscussionType }) {}
 }
 
 export class GetDiscussionFailure implements Action {

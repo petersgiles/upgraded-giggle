@@ -77,6 +77,8 @@ export class BriefDataLocalService implements BriefDataService {
   }
 
   constructor(private http: HttpClient, private settings: AppSettingsService, private briefMapperService: BriefMapperService) {
+console.log(`BriefDataLocalService`)
+
     this.fakeBriefBackendSubscription$ = this.fakeBriefBackend.subscribe(next =>
       this.briefItems.next({
         data: next,
