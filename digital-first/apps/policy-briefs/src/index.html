@@ -24,165 +24,87 @@
     />
     <link rel="icon" type="image/png" href="./assets/logo.png" />
     <style type="text/css">
-
-      .logo {
-        background-color: #232323;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-      }
-      .logo svg {
-        max-width: 45rem;
-        width: 100%;
-        height: auto;
-        fill: none;
-        stroke: white;
-        stroke-width: 4;
-      }
-      .logo svg tspan > tspan {
-        stroke-dasharray: 1500;
-        stroke-dashoffset: -1500;
-      }
-      .logo svg tspan > tspan:nth-of-type(1) {
-        -webkit-animation: draw 300ms 150ms forwards;
-        animation: draw 300ms 150ms forwards;
-      }
-      .logo svg tspan > tspan:nth-of-type(2) {
-        -webkit-animation: draw 300ms 300ms forwards;
-        animation: draw 300ms 300ms forwards;
-      }
-      .logo svg tspan > tspan:nth-of-type(3) {
-        -webkit-animation: draw 300ms 450ms forwards;
-        animation: draw 300ms 450ms forwards;
-      }
-      .logo svg tspan > tspan:nth-of-type(4) {
-        -webkit-animation: draw 300ms 600ms forwards;
-        animation: draw 300ms 600ms forwards;
-      }
-      .logo svg tspan > tspan:nth-of-type(5) {
-        -webkit-animation: draw 300ms 750ms forwards;
-        animation: draw 300ms 750ms forwards;
-      }
-      .logo svg tspan > tspan:nth-of-type(6) {
-        -webkit-animation: draw 300ms 900ms forwards;
-        animation: draw 300ms 900ms forwards;
-      }
-      .logo svg tspan > tspan:nth-of-type(7) {
-        -webkit-animation: draw 300ms 1050ms forwards;
-        animation: draw 300ms 1050ms forwards;
-      }
-      .logo svg tspan > tspan:nth-of-type(8) {
-        -webkit-animation: draw 300ms 1200ms forwards;
-        animation: draw 300ms 1200ms forwards;
-      }
-      .logo svg tspan > tspan:nth-of-type(9) {
-        -webkit-animation: draw 300ms 1350ms forwards;
-        animation: draw 300ms 1350ms forwards;
-      }
-      .logo svg tspan > tspan:nth-of-type(10) {
-        -webkit-animation: draw 300ms 1500ms forwards;
-        animation: draw 300ms 1500ms forwards;
-      }
-      .logo svg tspan > tspan:nth-of-type(11) {
-        -webkit-animation: draw 300ms 1650ms forwards;
-        animation: draw 300ms 1650ms forwards;
-      }
-      .logo svg tspan > tspan:nth-of-type(12) {
-        -webkit-animation: draw 300ms 1800ms forwards;
-        animation: draw 300ms 1800ms forwards;
-      }
-      .logo svg tspan > tspan:nth-of-type(13) {
-        -webkit-animation: draw 300ms 1950ms forwards;
-        animation: draw 300ms 1950ms forwards;
-      }
-      .logo svg tspan > tspan:nth-of-type(14) {
-        -webkit-animation: draw 300ms 2100ms forwards;
-        animation: draw 300ms 2100ms forwards;
-      }
-      .logo svg tspan > tspan:nth-of-type(15) {
-        -webkit-animation: draw 300ms 2250ms forwards;
-        animation: draw 300ms 2250ms forwards;
+      .wrap {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
       }
 
-      @-webkit-keyframes draw {
+      .text {
+        color: #607D8B;
+        display: inline-block;
+        margin-left: 5px;
+      }
+
+      .bounceball {
+        position: relative;
+        display: inline-block;
+        height: 37px;
+        width: 15px;
+      }
+      .bounceball:before {
+        position: absolute;
+        content: '';
+        display: block;
+        top: 0;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background-color: #607D8B;
+        -webkit-transform-origin: 50%;
+        transform-origin: 50%;
+        -webkit-animation: bounce 500ms alternate infinite ease;
+        animation: bounce 500ms alternate infinite ease;
+      }
+
+      @-webkit-keyframes bounce {
+        0% {
+          top: 30px;
+          height: 5px;
+          border-radius: 60px 60px 20px 20px;
+          -webkit-transform: scaleX(2);
+          transform: scaleX(2);
+        }
+        35% {
+          height: 15px;
+          border-radius: 50%;
+          -webkit-transform: scaleX(1);
+          transform: scaleX(1);
+        }
         100% {
-          stroke-dashoffset: 0;
+          top: 0;
         }
       }
 
-      @keyframes draw {
+      @keyframes bounce {
+        0% {
+          top: 30px;
+          height: 5px;
+          border-radius: 60px 60px 20px 20px;
+          -webkit-transform: scaleX(2);
+          transform: scaleX(2);
+        }
+        35% {
+          height: 15px;
+          border-radius: 50%;
+          -webkit-transform: scaleX(1);
+          transform: scaleX(1);
+        }
         100% {
-          stroke-dashoffset: 0;
+          top: 0;
         }
       }
     </style>
   </head>
   <body class="mdc-typography">
     <digital-first-root>
-      <div class="logo">
-        <svg
-          viewBox="0 0 1418 116"
-          version="1.1"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-        >
-          <title>DigitalFirst</title>
-          <g stroke="none" fill="none" fill-rule="evenodd" fill-opacity="0">
-            <text
-              id="DigitalFirst"
-              stroke="#fff"
-              fill="#645F5A"
-              font-weight="normal"
-              font-family="PermanentMarker-Regular, Permanent Marker"
-              font-size="144"
-            >
-              <tspan x="3" y="109">
-                <!--
-              -->
-                <tspan>D</tspan>
-                <!--
-              -->
-                <tspan>i</tspan>
-                <!--
-              -->
-                <tspan>g</tspan>
-                <!--
-              -->
-                <tspan>i</tspan>
-                <!--
-              -->
-                <tspan>t</tspan>
-                <!--
-              -->
-                <tspan>a</tspan>
-                <!--
-              -->
-                <tspan>l</tspan>
-                <!--
-              -->
-                <tspan></tspan>
-                <!--                
-              -->
-                <tspan>F</tspan>
-                <!--
-              -->
-                <tspan>i</tspan>
-                <!--
-              -->
-                <tspan>r</tspan>
-                <!--
-              -->
-                <tspan>s</tspan>
-                <!--
-              -->
-                <tspan>t</tspan>
-                <!--
-            -->
-              </tspan>
-            </text>
-          </g>
-        </svg>
+      <div class="wrap">
+        <div class="loading">
+          <div class="bounceball"></div>
+          <div class="text">NOW LOADING</div>
+        </div>
       </div>
     </digital-first-root>
   </body>

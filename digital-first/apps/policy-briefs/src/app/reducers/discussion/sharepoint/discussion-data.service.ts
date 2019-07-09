@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core'
 import { Observable, of, forkJoin } from 'rxjs'
-import { SharepointJsomService } from '@df/sharepoint'
+import { SharepointJsomService, idFromLookup, fromUser, fromLookup } from '@df/sharepoint'
 import { DiscussionDataService } from '../discussion-data.service'
 import { concatMap, map, tap } from 'rxjs/operators'
 import { sortBy } from '../../../utils'
 import { DiscussionMapperService } from '../../../services/mappers/discussion-mapper.service'
 import { DiscussionType } from '../../../models'
 
-const DISCUSSION_ITEM_LIST_NAME = 'Discussion'
+const DISCUSSION_ITEM_LIST_NAME = 'Comment'
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +41,7 @@ export class DiscussionDataSharepointService implements DiscussionDataService {
       .pipe(concatMap(_ => of({})))
 
   getDiscussions = (item: {
-    id: string,
+    id: string
     channel: DiscussionType
   }): Observable<{
     data: any
@@ -52,9 +52,28 @@ export class DiscussionDataSharepointService implements DiscussionDataService {
         listName: DISCUSSION_ITEM_LIST_NAME
       })
     ]).pipe(
-      map(([spDiscussions]) => [
-        ...this.discussionMapperService.mapMany(spDiscussions)
-      ]),
+      map(([spDiscussions]) => {
+
+        const discussions = spDiscussions.map(p => {
+
+          const brief = fromLookup(p.Brief)
+          const author = fromUser(p.Author)
+
+          return { ...p,
+            Brief: {
+              Id: brief.id,
+              Title: brief.title
+            },
+            Author: {
+              Title: author.title,
+              Email: author.email,
+              Phone: author.phone,
+            }  
+          }
+        })
+
+        return [...this.discussionMapperService.mapMany(discussions)]
+      }),
       map(result => (result || []).sort(sortBy('sortOrder'))),
       tap(result => console.log(`getDiscussions`, result)),
       concatMap(result =>
