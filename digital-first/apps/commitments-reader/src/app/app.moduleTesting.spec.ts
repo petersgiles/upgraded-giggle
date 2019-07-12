@@ -360,23 +360,6 @@ describe('Mock Store', () => {
     spinner: false,
     appError: null
   }
-  const stringSelector = 'config.siteId'
-
-
-  const memoizedSelector = createSelector(
-    () => initialState,
-    state => state.config.siteId
-  );
-  const selectorWithPropMocked = createSelector(
-    () => initialState,
-    (state: typeof initialState, add: number) => state.config
-  );
-
-  const selectorWithProp = createSelector(
-    () => initialState,
-    (state: typeof initialState, add: number) => state.config
-  );
-
 
 
   let actions$: Observable<any>
@@ -391,9 +374,6 @@ describe('Mock Store', () => {
         AppEffects,
         provideMockActions(() => actions),
         provideMockStore({ initialState,
-           selectors: [
-          { selector: stringSelector, value: "1243242" },
-          { selector: memoizedSelector, value: "1243242" }],
       }),
         {
           provide: AppConfigService,
@@ -459,14 +439,6 @@ describe('Mock Store', () => {
       expect(state.config.siteId).toBe("52233101-86F9-46D7-BBC0-22139AF854EE");
     })
   })
-
-  it('should allow mocking of store.select with string selector using provideMockStore', () => {
-    const expectedValue = "1243242"
-
-    mockStore
-      .select(stringSelector)
-      .subscribe(result => expect(result).toBe(expectedValue));
-  });
 
   it('should allow tracing dispatched actions', () => {
     const action = new GetAppConfiguration()

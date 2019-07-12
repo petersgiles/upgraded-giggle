@@ -620,6 +620,7 @@ export type ElectorateGraph = {
   rowVersion: Scalars['String']
   state?: Maybe<StateGraph>
   electorateAdvice?: Maybe<Array<Maybe<ElectorateAdviceGraph>>>
+  parliament?: Maybe<ParliamentGraph>
   programs?: Maybe<Array<Maybe<ProgramGraph>>>
   statisticReports?: Maybe<Array<Maybe<StatisticReportGraph>>>
   projects?: Maybe<Array<Maybe<ProjectGraph>>>
@@ -628,7 +629,7 @@ export type ElectorateGraph = {
   name: Scalars['String']
   member: Scalars['String']
   party: Scalars['String']
-  parliament: Scalars['Int']
+  parliamentId: Scalars['UInt32']
   percentOfStatePopulation: Scalars['Float']
   stateId: Scalars['Guid']
 }
@@ -958,6 +959,22 @@ export type PageInfo = {
   endCursor?: Maybe<Scalars['String']>
 }
 
+export type ParliamentGraph = {
+  __typename?: 'ParliamentGraph'
+  electorates?: Maybe<Array<Maybe<ElectorateGraph>>>
+  id: Scalars['UInt32']
+  startDate: Scalars['DateTimeOffset']
+}
+
+export type ParliamentGraphElectoratesArgs = {
+  id?: Maybe<Scalars['ID']>
+  ids?: Maybe<Array<Maybe<Scalars['ID']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+}
+
 export type PmcHandlingAdviceCommitmentGraph = {
   __typename?: 'PmcHandlingAdviceCommitmentGraph'
   handlingAdvice?: Maybe<HandlingAdviceGraph>
@@ -1133,6 +1150,7 @@ export type Query = {
   agencies?: Maybe<Array<Maybe<AgencyGraph>>>
   electorate: ElectorateGraph
   electorates?: Maybe<Array<Maybe<ElectorateGraph>>>
+  currentElectorates?: Maybe<Array<Maybe<ElectorateGraph>>>
   state: StateGraph
   states?: Maybe<Array<Maybe<StateGraph>>>
   portfolios?: Maybe<Array<Maybe<PortfolioGraph>>>
@@ -1149,8 +1167,6 @@ export type Query = {
   statisticReports?: Maybe<Array<Maybe<StatisticReportGraph>>>
   statistic: StatisticGraph
   statistics?: Maybe<Array<Maybe<StatisticGraph>>>
-  programSubmission: ProgramSubmissionGraph
-  programSubmissions?: Maybe<Array<Maybe<ProgramSubmissionGraph>>>
   announcementTypes?: Maybe<Array<Maybe<AnnouncementTypeGraph>>>
   commitment: CommitmentGraph
   commitments?: Maybe<Array<Maybe<CommitmentGraph>>>
@@ -1215,6 +1231,15 @@ export type QueryElectorateArgs = {
 }
 
 export type QueryElectoratesArgs = {
+  id?: Maybe<Scalars['ID']>
+  ids?: Maybe<Array<Maybe<Scalars['ID']>>>
+  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
+  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
+  skip?: Maybe<Scalars['Int']>
+  take?: Maybe<Scalars['Int']>
+}
+
+export type QueryCurrentElectoratesArgs = {
   id?: Maybe<Scalars['ID']>
   ids?: Maybe<Array<Maybe<Scalars['ID']>>>
   orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
@@ -1337,24 +1362,6 @@ export type QueryStatisticArgs = {
 }
 
 export type QueryStatisticsArgs = {
-  id?: Maybe<Scalars['ID']>
-  ids?: Maybe<Array<Maybe<Scalars['ID']>>>
-  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
-  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
-  skip?: Maybe<Scalars['Int']>
-  take?: Maybe<Scalars['Int']>
-}
-
-export type QueryProgramSubmissionArgs = {
-  id?: Maybe<Scalars['ID']>
-  ids?: Maybe<Array<Maybe<Scalars['ID']>>>
-  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
-  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
-  skip?: Maybe<Scalars['Int']>
-  take?: Maybe<Scalars['Int']>
-}
-
-export type QueryProgramSubmissionsArgs = {
   id?: Maybe<Scalars['ID']>
   ids?: Maybe<Array<Maybe<Scalars['ID']>>>
   orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
@@ -1755,7 +1762,6 @@ export type StateGraph = {
   population: Scalars['UInt32']
   name: Scalars['String']
   abbreviation: Scalars['String']
-  parliament: Scalars['Int']
 }
 
 export type StateGraphProjectsArgs = {

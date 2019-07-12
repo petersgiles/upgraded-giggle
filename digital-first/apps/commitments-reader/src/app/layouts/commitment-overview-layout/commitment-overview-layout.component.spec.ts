@@ -20,19 +20,17 @@ import { RouterTestingModule } from '@angular/router/testing'
 import { Router, ActivatedRoute } from '@angular/router'
 import { Observable, of } from 'rxjs'
 import { provideMockActions } from '@ngrx/effects/testing'
-import { Actions } from '@ngrx/effects'
-import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common'
+
+import {Location} from '@angular/common'
 import { NO_ERRORS_SCHEMA } from '@angular/core'
-import { take, skip } from 'rxjs/operators'
 
 import * as fromRefiner from '../../reducers/refiner/refiner.reducer'
-import { GetRefinedCommitments } from '../../reducers/overview/overview.actions'
-import { GetRefinedMapPoints } from '../../reducers/map/map.actions'
+
 
 import * as fromApp  from '../../../../../../libs/df-app-core/src'
 
-describe('CommitmentLayoutComponent', () => {
-  debugger
+describe('CommitmentOverviewLayoutComponent', () => {
+
   let component: CommitmentOverviewLayoutComponent
   let fixture: ComponentFixture<CommitmentOverviewLayoutComponent>
   let mockStore: MockStore<fromRefiner.State>
@@ -66,10 +64,6 @@ describe('CommitmentLayoutComponent', () => {
     () => initialState,
     (state: typeof initialState) => state.refiner.expandedRefinerGroups
   )
-  const selectRefinerGroups = createSelector(
-    () => initialState.refiner,
-    (state: typeof initialState.refiner, add: {getRefinerGroups()}) => state
-  )
 
   const selectSelectedRefinersState = createSelector(
     () => initialState,
@@ -86,6 +80,7 @@ describe('CommitmentLayoutComponent', () => {
     (state: typeof initialState) => state.spinner
   )
 
+  
   beforeEach(async(() => {
     const configure: ConfigureFn = testBed => {
     TestBed.configureTestingModule({
@@ -111,71 +106,48 @@ describe('CommitmentLayoutComponent', () => {
       }),
       ]
     })
-   }// .compileComponents()
+   }
    configureTests(configure).then(testBed => {
     fixture = testBed.createComponent(CommitmentOverviewLayoutComponent)
     component = fixture.componentInstance;
-   // store = TestBed.get(Store)
     mockStore = TestBed.get(Store)
     router = TestBed.get(Router)
     
     mockStore.overrideSelector(fromRefiner.selectRefinerGroupsState, getRefinerGroups().refiner.refinerGroups)
     mockStore.overrideSelector(fromRefiner.selectExpandedRefinerGroupsState, [])
-    mockStore.overrideSelector(fromRefiner.selectSelectedRefinersState, [])
-    mockStore.overrideSelector(fromRefiner.selectTextRefinerState, null)
+    mockStore.overrideSelector(fromRefiner.selectSelectedRefinersState, [{group: "commitmentTypes", id: 1}]) 
+    mockStore.overrideSelector(fromRefiner.selectTextRefinerState, null)    
     mockStore.overrideSelector(fromApp.selectAppSpinnerState , false)
     fixture.detectChanges();
 
     router.initialNavigation()
+   
   })
   
   }))
 
+   afterEach(() => {
+    selectExpandedRefinerGroupsState.release();
+    selectSelectedRefinersState.release();
+    selectTextRefinerState.release();
+    selectAppSpinnerState.release()
+    mockStore.resetSelectors(); 
+  
+  }); 
  
   it('should create', () => {
     expect(component).toBeTruthy()
   })
 
-  it('should set the initial state to a mocked one', () => {
-    mockStore.setState(initialState.refiner);
-    mockStore.pipe(take(1)).subscribe({
-      next(val) {
-        expect(val.refinerGroups).toEqual([]);
-      },
-     // error: done.fail,
-     // complete: done,donefn
-    })
-  })
-
-  it('should allow tracing dispatched Get Refined Commitments action', () => {
-    const action = new GetRefinedCommitments(null)
-    mockStore.scannedActions$
-      .pipe(skip(1))
-      .subscribe(scannedAction => expect(scannedAction).toEqual(action));
-    mockStore.dispatch(action)
-    updateState(mockStore)
-   
-  })
-
- /*  it('should set the new state', () => {
-    updateState(mockStore)
-    mockStore.pipe(take(1)).subscribe(state => {
-      expect(state.refinerGroups).toBe(getRefinerGroups().refiner.refinerGroups);
-    })
-  }) */
-
-  it('should allow mocking of store.select with string selector using provideMockStore', () => {
-    const expectedValue = getRefinerGroups().refiner
-    mockStore.overrideSelector(fromRefiner.selectRefinerGroupsState, getRefinerGroups().refiner.refinerGroups)
+    it('should allow mocking of selector selectRefinerGroups when its selectors are set', () => {
+     let expectedValue = getRefinerGroups().refiner
      mockStore
-      .select(selectRefinerGroups)
+      .select(fromRefiner.selectRefinerGroups)
       .subscribe(result => {
-        let x = result
-        console.log(x)
-      //expect(result).toStrictEqual(expectedValue)
+        expect(result[0].children).toEqual(expectedValue.refinerGroups[0].children)
     })
-  });
-
+  })   
+ 
   function getRefinerGroups(){
     const data = {refiner:{
       refinerGroups: [
@@ -187,10 +159,10 @@ describe('CommitmentLayoutComponent', () => {
         expanded: false,
         group: "commitmentTypes",
         id: undefined,
-        selected: false,
+        selected: true,
         title: "National"}],
         expandedRefinerGroups: [],
-        selectedRefiners: [],
+        selectedRefiners: [{group: "commitmentTypes", id: 1}],
         textRefiner: null
       }
     }
@@ -198,7 +170,4 @@ describe('CommitmentLayoutComponent', () => {
     return data
   }
 
-  function updateState(mockStore: MockStore<fromRefiner.State>){
-    mockStore.setState({refinerGroups: getRefinerGroups().refiner.refinerGroups, expandedRefinerGroups: [], selectedRefiners: [], textRefiner: null});
-  }
 })

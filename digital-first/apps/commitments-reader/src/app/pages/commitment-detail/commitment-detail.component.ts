@@ -20,8 +20,10 @@ import {
   UpdatePMCHandlingAdvice
 } from '../../reducers/commitment-detail/commitment-detail.actions'
 import { FormGroup, FormControl } from '@angular/forms'
-import { getCurrentUserOperations } from 'apps/commitments/src/app/reducers'
-import { OPERATION_PMO_HANDLING_ADVICE, OPERATION_PMC_HANDLING_ADVICE } from '../../services/app-data/app-operations';
+import { OPERATION_PMO_HANDLING_ADVICE, OPERATION_PMC_HANDLING_ADVICE } from '../../services/app-data/app-operations'
+import {
+  getUserOperationMatrix
+} from '@digital-first/df-app-core'
 
 @Component({
   selector: 'digital-first-commitment-detail',
@@ -57,8 +59,7 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userOperation$ = this.store.pipe(
-     // select(getUserOperationMatrix)
-     select(getCurrentUserOperations)
+      select(getUserOperationMatrix)
     )
 
     this.commitment$ = this.store.pipe(
@@ -66,15 +67,15 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
       map(val => val.commitment)
     )
 
-    this.currentPMCHandling$ = this.store.pipe(
+     this.currentPMCHandling$ = this.store.pipe(
       select(fromDetail.getCurrentPMCHandlingAdviceState)
     )
 
-    this.currentPMOHandling$ = this.store.pipe(
+   this.currentPMOHandling$ = this.store.pipe(
       select(fromDetail.getCurrentPMOHandlingAdviceState)
     )
-
-    this.commitmentSubscription$ = this.commitment$.subscribe(
+ 
+      this.commitmentSubscription$ = this.commitment$.subscribe(
       (commitment: Commitment) => {
         if (commitment) {
           this.patchingForm = true
@@ -88,17 +89,17 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
           this.patchingForm = false
         }
       }
-    )
+    )  
 
     this.handlingAdvices$ = this.store.pipe(
       select(fromDetail.getHandlingAdvicesState)
     )
 
-    this.activatedRoute.params
+         this.activatedRoute.params
       .pipe(filter(params => !!params.id))
       .subscribe((params: any) => {
         this.store.dispatch(new GetDetailedCommitment({ id: params.id}))
-      })
+      })   
   }
 
   ngOnDestroy(): void {
@@ -106,11 +107,23 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
   }
 
   getPMORight(operations: any) {
-    return operations[OPERATION_PMO_HANDLING_ADVICE]
+     let pmoData = operations.find(op => op.title === OPERATION_PMO_HANDLING_ADVICE)
+    let entry = Object.entries(pmoData).filter(entry => {
+      if(typeof entry[1] === 'boolean' && entry[1]){
+        return entry
+      }
+    })
+    return entry[0][0]  
   }
 
   getPMCRight(operations: any) {
-    return operations[OPERATION_PMC_HANDLING_ADVICE]
+      let pmcData = operations.find(op => op.title === OPERATION_PMC_HANDLING_ADVICE)
+    let entry = Object.entries(pmcData).filter(entry => {
+      if(typeof entry[1] === 'boolean' && entry[1]){
+        return entry
+      }
+    })
+    return entry[0][0] 
   }
 
   onPMOChange($event) {

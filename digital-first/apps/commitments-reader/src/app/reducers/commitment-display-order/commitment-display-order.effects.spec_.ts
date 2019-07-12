@@ -2,24 +2,25 @@ import { TestBed, inject } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Observable } from 'rxjs';
 
-import { MapEffects } from './map.effects';
+import { CommitmentDisplayOrderEffects } from './commitment-display-order.effects';
 
-describe('MapEffects', () => {
+/* describe('CommitmentDisplayOrderEffects', () => {
   let actions$: Observable<any>;
-  let effects: MapEffects;
+  let effects: CommitmentDisplayOrderEffects;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        MapEffects,
+        CommitmentDisplayOrderEffects,
         provideMockActions(() => actions$)
       ]
     });
 
-    effects = TestBed.get(MapEffects);
+    effects = TestBed.get(CommitmentDisplayOrderEffects);
   });
 
   it('should be created', () => {
     expect(effects).toBeTruthy();
   });
 });
+ */
