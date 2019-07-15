@@ -1,6 +1,6 @@
 import 'core-js/es7/reflect'
 import 'zone.js/dist/zone'
-import "zone.js/dist/proxy";
+import 'zone.js/dist/proxy';
 import 'zone.js/dist/async-test';
 import 'zone.js/dist/proxy.js';
 import 'zone.js/dist/sync-test';
@@ -46,7 +46,7 @@ import {
 } from '../../../../../../libs/df-app-core/src'
 
 describe('CommitmentDetailComponent', () => {
-  debugger
+ 
   let component: CommitmentDetailComponent
   let fixture: ComponentFixture<CommitmentDetailComponent>
   let mockStore: MockStore<fromDetail.State>
@@ -59,16 +59,16 @@ describe('CommitmentDetailComponent', () => {
     handlingAdvices: [],
     errors: [{message: '', code: '', data: null}],
     user: {isSiteAdmin: true,
-      login: "guest",
-      name: "Guest User",
-      roles: ["ROLE_OWNERS"],
-      systemUserKey: "guest",
+      login: 'guest',
+      name: 'Guest User',
+      roles: ['ROLE_OWNERS'],
+      systemUserKey: 'guest',
       userid: 0
     },
-operationDefaults: {displayorder: "hide",planner: "hide",pmchandlingadvice: "write",pmohandlingadvice: "write"},
- operations: {ROLE_MEMBERS: [{pmchandlingadvice: "read", pmohandlingadvice: "read"}],
-             ROLE_OWNERS:  [{pmchandlingadvice: "write", pmohandlingadvice: "write"}],
-             ROLE_VISITORS: [{pmchandlingadvice: "hide", pmohandlingadvice: "hide"}]}
+operationDefaults: {displayorder: 'hide',planner: 'hide',pmchandlingadvice: 'write',pmohandlingadvice: 'write'},
+ operations: {ROLE_MEMBERS: [{pmchandlingadvice: 'read', pmohandlingadvice: 'read'}],
+             ROLE_OWNERS:  [{pmchandlingadvice: 'write', pmohandlingadvice: 'write'}],
+             ROLE_VISITORS: [{pmchandlingadvice: 'hide', pmohandlingadvice: 'hide'}]}
   } 
 
 
@@ -170,21 +170,25 @@ const getUserCurrentOperationDefaults = createSelector(
     expect(component).toBeTruthy()
   })
 
-     it('should allow mocking of selector selectRefinerGroups when its selectors are set', () => {
-     let expectedValue = getUserMatrix().userMatrix
+     it('should return four items from operations matrix', () => {
      mockStore
       .select(getUserOperationMatrix)
       .subscribe(result => {
-      //  expect(result[0].children).toEqual(expectedValue)
+        expect(result[0]).toEqual({hide: true, read: false, title: 'displayorder', write: false})
+       expect(result[1]).toEqual({hide: true, read: false, title: 'planner', write: false})
+       expect(result[2]).toEqual({hide: false, read: false, title: 'pmchandlingadvice', write: true})
+       expect(result[3]).toEqual({hide: false, read: false, title: 'pmohandlingadvice', write: true})
     })
   })  
   
-  it('should allow mocking of selector selectRefinerGroups when its selectors are set', () => {
-    let expectedValue = getUserMatrix().userMatrix
+  it('should return commitment and handlers', () => {
     mockStore
      .select(fromDetail.getDetailedCommitmentState)
      .subscribe(result => {
-       //expect(result[0].children).toEqual(expectedValue)
+       let commitment = result.commitment
+       expect(commitment.id).toEqual(20)
+       expect(commitment.bookType).toEqual('Red')
+       expect(commitment.pmcHandlingAdvice.value).toEqual('f946e9cb-6e73-433d-998d-549d9ac8b5df')
    })
  })  
  
@@ -211,20 +215,20 @@ it('should set the initial state to a mocked one', () => {
     const data = {commitmentDetail:{
                   commitment: {
                     announcedBy: null,
-                    announcementType: "Speech",
-                    bookType: "Red",
-                    commitmentType: "International",
+                    announcementType: 'Speech',
+                    bookType: 'Red',
+                    commitmentType: 'International',
                     cost: null,
-                    criticalDate: "Undefined",
-                    date: "2018-10-29T00:00:00+11:00",
-                    description: "Labor has committed to establish a new Australian government-backed infrastructure investment bank offering concessional loans and financing for vital, nation-building infrastructure in the Pacific Islands region.&nbsp;",
+                    criticalDate: 'Undefined',
+                    date: '2018-10-29T00:00:00+11:00',
+                    description: 'Labor has committed to establish a new Australian government-backed infrastructure investment bank offering concessional loans and financing for vital, nation-building infrastructure in the Pacific Islands region.&nbsp;',
                     electorates: [],
                     id: 20,
                     title: '', 
                     status: '', 
                     politicalParty: 'ALP',
-                    pmcHandlingAdvice:{label: "Budget Process",value: "f946e9cb-6e73-433d-998d-549d9ac8b5df"},
-                    pmoHandlingAdvice: {label: "Minister to implement", value: "ee5ba805-8eb4-4031-9528-c40f48e76c55"}
+                    pmcHandlingAdvice:{label: 'Budget Process',value: 'f946e9cb-6e73-433d-998d-549d9ac8b5df'},
+                    pmoHandlingAdvice: {label: 'Minister to implement', value: 'ee5ba805-8eb4-4031-9528-c40f48e76c55'}
                   }
       }
     }
@@ -233,8 +237,8 @@ it('should set the initial state to a mocked one', () => {
 
   function getUserMatrix(){
     const data = {
-      userMatrix: [{hide: false, read: false, title: "pmohandlingadvice", write: true},
-                 {hide: false, read: false, title: "pmohandlingadvice", write: true}]
+      userMatrix: [{hide: false, read: false, title: 'pmohandlingadvice', write: true},
+                 {hide: false, read: false, title: 'pmohandlingadvice', write: true}]
     }
     return data
   }
