@@ -829,6 +829,7 @@
                   "with": "apps/commitments-reader/src/environments/environment.prod.ts"
                 }
               ],
+              "deployUrl": "../../SiteAssets/apps/commitments-reader",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
