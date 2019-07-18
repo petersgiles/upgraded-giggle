@@ -6,29 +6,25 @@ import 'zone.js/dist/proxy.js';
 import 'zone.js/dist/sync-test';
 import 'jest-zone-patch' 
  
-import { async, ComponentFixture, TestBed, inject} from '@angular/core/testing'
+import { async, TestBed, inject} from '@angular/core/testing'
 import { ConfigureFn, configureTests } from '../../../lib/testing'
-import { Store, StoreModule, combineReducers } from '@ngrx/store'
+import { Store} from '@ngrx/store'
 import { provideMockStore, MockStore } from '@ngrx/store/testing'
 import { Observable, of } from 'rxjs'
 import { skip, take } from 'rxjs/operators'
 import { provideMockActions } from '@ngrx/effects/testing'
 import { RefinerEffects } from './refiner.effects'
 
-import { Config } from   '../../../../../../libs/df-app-core/src/lib/services/config/config-model'
-import { AppState,  AppReducer } from '../../../../../../libs/df-app-core/src/'
+
 import { cold, hot } from 'jasmine-marbles'
 
 import {
-  RefinerActionTypes,
-  RefinerActions,
-  GetRefinersFailure,
+
   GetRefinerGroups,
   LoadRefinerGroups
 } from './refiner.actions'
 import { GetRefinerTagsGQL, BookType } from '../../generated/graphql'
-import { CRMenu } from './refiner.models'
-import { buildRefiner } from './refiner-utils'
+
 
 import {
   ApolloTestingModule,
@@ -101,71 +97,17 @@ describe('RefinerEffects', () => {
     stale: false
   }
 
-  let refiners =  [{children:[ 
-      {expanded: false,
-        group: "commitmentTypes",
-        id: 1,
-        selected: false,
-        title: "National"},
-      {
-        expanded: false,
-        group: "commitmentTypes",
-        id: 2,
-        selected: false,
-        title: "State"
-    },
-    {
-      expanded: false,
-      group: "commitmentTypes",
-      id: 2,
-      selected: false,
-      title: "Electorate"
-  },
-  {
-    expanded: false,
-    group: "commitmentTypes",
-    id: 2,
-    selected: false,
-    title: "International"
-}]
-  },
-  {children:[
-    {expanded: false,
-      group: "criticalDates",
-      id: 1,
-      selected: false,
-      title: "Budget"},
-    {
-      expanded: false,
-      group: "criticalDates",
-      id: 2,
-      selected: false,
-      title: "First 100 day"
-    }
-      ]},
-      {children:[
-        {expanded: false,
-          group: "portfolioLookups",
-          id: 1,
-          selected: false,
-          title: "Agriculture and Water Resources"},
-        {
-          expanded: false,
-          group: "portfolioLookups",
-          id: 2,
-          selected: false,
-          title: "Attorney-General's"
-        }
-          ]}
-    ]
-    
+  let refiners = getRefiners()
   
-
     const action = new GetRefinerGroups(null)
-    actions$ = hot('-a', { a: action} );
-    const expected = cold('--b', {b: new LoadRefinerGroups(of(refiners))})
-    spyOn(getRefinerTags, 'fetch').and.returnValue(of(result))
+    actions$ = hot('-a', { a: action} )
+   
+    const response = cold('-b|', {b: result})
+   
+    spyOn(getRefinerTags, 'fetch').and.returnValue(response)
     
+    const expected = cold('--c', { c: new LoadRefinerGroups(refiners)})
+
     expect(refinerEffects.getRefinerGroups$ ).toBeObservable(expected)
   }))
 
@@ -183,11 +125,6 @@ describe('RefinerEffects', () => {
     const data = {data: {criticalDates:[
       {id: 1, title: "Budget"},
       {id: 2, title: "First 100 days"},
-     /*  {id: 3, title: "First term"},
-      {id: 4, title: "First year"},
-      {id: 5, title: "Undefined"},
-      {id: 6, title: "First two weeks"},
-      {id: 7, title: "dave test "} */
     ]}}
     return data
   }
@@ -196,10 +133,88 @@ describe('RefinerEffects', () => {
     const data = {data: {portfolioLookups: [
         {id: 1, title: "Agriculture and Water Resources"},
         {id: 2, title: "Attorney-General's"},
-       /*  {id: 3, title: "Communications and the Arts"},
-        {id: 4, title: "Defence"} */
     ]}}
     return data
+  }
+
+  function getRefiners(){
+    const refiners =  [{children:[ 
+      {expanded: false,
+        group: "commitmentTypes",
+        id: 1,
+        selected: false,
+        title: "National"},
+      {
+        expanded: false,
+        group: "commitmentTypes",
+        id: 2,
+        selected: false,
+        title: "State"
+    },
+    {
+      expanded: false,
+      group: "commitmentTypes",
+      id: 3,
+      selected: false,
+      title: "Electorate"
+  },
+  {
+    expanded: false,
+    group: "commitmentTypes",
+    id: 4,
+    selected: false,
+    title: "International"
+}],expanded: false,
+  group: "commitmentTypes",
+  id: undefined,
+  selected: false,
+  title: "Commitment Types"
+  },
+  {children:[
+    {expanded: false,
+      group: "criticalDates",
+      id: 1,
+      selected: false,
+      title: "Budget"},
+    {
+      expanded: false,
+      group: "criticalDates",
+      id: 2,
+      selected: false,
+      title: "First 100 days"
+    }],expanded: false,
+      group: "criticalDates",
+      id: undefined,
+      selected: false,
+      title: "Critical Date"},
+      {children:[
+        {expanded: false,
+          group: "portfolioLookups",
+          id: 1,
+          selected: false,
+          title: "Agriculture and Water Resources"},
+        {
+          expanded: false,
+          group: "portfolioLookups",
+          id: 2,
+          selected: false,
+          title: "Attorney-General's"
+        }],expanded: false,
+        group: "portfolioLookups",
+        id: undefined,
+        selected: false,
+        title: "Portfolios"
+      },
+      {
+        children: [],
+        expanded: false,
+        group: "deckItemBriefSummaries",
+        id: undefined,
+        selected: false,
+        title: "Theme"
+      }
+    ]
+    return refiners
   }
 
 })

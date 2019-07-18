@@ -38,7 +38,7 @@ export class CommitmentDisplayOrderEffects {
   ) {}
 
   @Effect()
-  $getCommitmentDisplayOrder = this.actions$.pipe(
+  getCommitmentDisplayOrder$ = this.actions$.pipe(
     ofType(CommitmentDisplayOrderActionTypes.GetCommitmentDisplayOrders),
     withLatestFrom(this.store$),
     map(([_, store]) => {
@@ -74,7 +74,7 @@ export class CommitmentDisplayOrderEffects {
   )
 
   @Effect()
-  $applyCommitmentDisplayOrder = this.actions$.pipe(
+  applyCommitmentDisplayOrder$ = this.actions$.pipe(
     ofType(CommitmentDisplayOrderActionTypes.ApplyCommitmentDisplayOrders),
     withLatestFrom(this.store$),
     map(([_, store]) => {
@@ -93,9 +93,9 @@ export class CommitmentDisplayOrderEffects {
         }
       }
     }),
-    concatMap(reqeust =>
-      this.applyCommitmentDisplayOrder
-        .mutate(reqeust, { fetchPolicy: 'no-cache' })
+    concatMap(request =>
+       this.applyCommitmentDisplayOrder
+        .mutate(request, { fetchPolicy: 'no-cache' })
         .pipe(
           delay(2500),
           concatMap(_ => [
