@@ -39,7 +39,6 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
   public pageIndex$: Observable<any>
   public commitmentsSubscription: Subscription
   public userPermissionSubscription: Subscription
-  public errorStateSubscription: Subscription
 
   constructor(
     private plannerStore: Store<fromPlanner.State>,
