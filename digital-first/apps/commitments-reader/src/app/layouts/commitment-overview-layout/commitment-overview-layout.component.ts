@@ -24,8 +24,8 @@ import { ActivatedRoute, Router } from '@angular/router'
 
 @Component({
   selector: 'digital-first-commitment-overview-layout',
-  templateUrl: './commitment-overview-layout.component.html',
-  styleUrls: ['./commitment-overview-layout.component.scss']
+  templateUrl: 'commitment-overview-layout.component.html',
+  styleUrls: ['commitment-overview-layout.component.scss']
 })
 export class CommitmentOverviewLayoutComponent
   implements OnInit, AfterViewInit, OnDestroy {
@@ -72,7 +72,7 @@ export class CommitmentOverviewLayoutComponent
     private store: Store<fromRoot.State>
   ) {}
 
-  handleRefinerGroupSelected($event) {
+   handleRefinerGroupSelected($event) {
     this.store.dispatch(new SelectRefinerGroup($event))
   }
 
@@ -86,25 +86,25 @@ export class CommitmentOverviewLayoutComponent
 
   handleClearRefiners($event) {
     this.store.dispatch(new ClearRefiners($event))
-  }
+  } 
 
   ngAfterViewInit(): void {}
 
   ngOnInit() {
-    this.queryParamsSubscription$ = this.route.queryParams.subscribe(params => {
+      this.queryParamsSubscription$ = this.route.queryParams.subscribe(params => {
       if (params && params.refiner) {
         this.queryParamsRefiner = JSON.parse(params.refiner)
         this.store.dispatch(
           new SetRefinerFromQueryString({ refiner: this.queryParamsRefiner })
         )
       }
-    })
+    })  
 
     this.isBusy$ = this.store.pipe(select(selectAppSpinnerState))
 
     this.textRefiner$ = this.store.pipe(select(fromRefiner.selectTextRefinerState))
 
-    this.store
+     this.store
       .pipe(select(fromRefiner.selectSelectedRefinersState))
       .subscribe(next => {
         if (next && next.length > 0) {
@@ -118,21 +118,21 @@ export class CommitmentOverviewLayoutComponent
             relativeTo: this.route
           })
         }
-      })
+      }) 
 
-    this.refinerGroupsSubscription$ = this.store
+     this.refinerGroupsSubscription$ = this.store
       .pipe(select(fromRefiner.selectRefinerGroups))
       .subscribe(next => {
         this.refinerGroups = next
         this.store.dispatch(new GetRefinedCommitments(null))
         this.store.dispatch(new GetRefinedMapPoints(null))
-      })
+      }) 
 
-    this.appRouter.segments.subscribe(url => {
+     this.appRouter.segments.subscribe(url => {
       const tab = this.tabs.findIndex(p => p.id === url)
       this.activeTab = tab
       this.store.dispatch(new GetRefinerGroups(null))
-    })
+    })  
   }
 
   ngOnDestroy(): void {
