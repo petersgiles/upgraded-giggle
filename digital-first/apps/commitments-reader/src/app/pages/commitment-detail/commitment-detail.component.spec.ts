@@ -30,17 +30,11 @@ import { SafeHtmlPipe } from '../../../../../../libs/df-pipes/src/lib/safe-html.
 import { DfPipesModule } from '../../../../../../libs/df-pipes/src/lib/df-pipes.module'
 import * as fromDetail from '../../reducers/commitment-detail/commitment-detail.reducer'
 import * as fromUser from '../../../../../../libs/df-app-core/src'
-import { getUserCurrentUserPermissions,getUserCurrentOperationDefaults } from '../../../../../../libs/df-app-core/src/lib/reducers/user/user.reducer'
-import { Commitment } from '../../models/commitment.model'
 
-import { CommitmentLocation } from '../../models/commitment.model'
 import {
-  GetDetailedCommitment,
-  UpdatePMOHandlingAdvice,
-  UpdatePMCHandlingAdvice
+  GetDetailedCommitment
 } from '../../reducers/commitment-detail/commitment-detail.actions'
-import { getCurrentUserOperations } from 'apps/commitments/src/app/reducers'
-import { OPERATION_PMO_HANDLING_ADVICE, OPERATION_PMC_HANDLING_ADVICE } from '../../services/app-data/app-operations';
+
 import {
   getUserOperationMatrix
 } from '../../../../../../libs/df-app-core/src'

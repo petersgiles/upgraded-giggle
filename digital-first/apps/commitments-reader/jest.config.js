@@ -8,6 +8,8 @@ module.exports = {
   },
   transform: {
     '^.+\\.(ts|js|html)$': 'ts-jest',
+    //'^.+\\.(ts|html)$': 'ts-jest',
+   // '^.+\\.js?$': 'babel-jest',
   },
   testEnvironment: 'jest-environment-jsdom-thirteen',
   moduleFileExtensions: ['ts', 'html', 'js', 'json'],
@@ -17,7 +19,7 @@ module.exports = {
     '^assets/(.*)$': '<rootDir>/src/assets/$1',
     '^environments/(.*)$': '<rootDir>/src/environments/$1',
   },
-  transformIgnorePatterns: ['node_modules/(?!@ngrx|angular2-ui-switch|ng-dynamic)'],
+  transformIgnorePatterns: ['<rootDir>/node_modules/(?!@ngrx|angular2-ui-switch|ng-dynamic|@material)'],
   snapshotSerializers: [
     'jest-preset-angular/AngularSnapshotSerializer.js',
     'jest-preset-angular/HTMLCommentSerializer.js',
