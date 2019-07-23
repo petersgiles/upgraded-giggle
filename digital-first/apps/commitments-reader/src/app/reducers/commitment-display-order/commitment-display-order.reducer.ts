@@ -74,7 +74,7 @@ export const getCommitmentDisplayOrdersState = createSelector(
 export const getCommitmentsWithDisplayOrderState = createSelector(
   getCommitmentDisplayOrdersState,
   commitmentDisplayOrders =>
-    (commitmentDisplayOrders || []).map(row => ({
+    (commitmentDisplayOrders || []).map(row => ( {
       commitmentId: row.commitmentId,
       title: row.commitment ? row.commitment.title : '',
       displayOrder: row.displayOrder,

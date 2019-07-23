@@ -131,9 +131,6 @@ export const selectRefinerGroups = createSelector(
       const groupChildselected = g.children.some(r => selected.findIndex(
         s => s.id === r.id && s.group === r.group
       ) > -1)
-
-      // tslint:disable-next-line: no-console
-      console.log(`🌶️`, groupChildselected)
       return {
         ...g,
         expanded: groupChildselected || (expanded || []).includes(g.group),
@@ -146,7 +143,7 @@ export const selectRefinerGroups = createSelector(
         }))
       }
     })
-
+  
     return rgs
   }
 )
