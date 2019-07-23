@@ -24,6 +24,7 @@ import {
 import { MapPoint } from '../../../../../../libs/df-map/src'
 
 describe('MapOverviewPageComponent', () => {
+  debugger
   let component: MapOverviewPageComponent;
   let fixture: ComponentFixture<MapOverviewPageComponent>;
   let mockStore: MockStore<any>

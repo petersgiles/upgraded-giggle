@@ -1624,13 +1624,6 @@ export type RelatedLinkGraph = {
   url: Scalars['String']
 }
 
-export type ReportDataGraph = {
-  __typename?: 'ReportDataGraph'
-  id: Scalars['Guid']
-  reportVersion?: Maybe<ReportVersionGraph>
-  data?: Maybe<Scalars['Json']>
-}
-
 export type ReportGraph = {
   __typename?: 'ReportGraph'
   rowVersion: Scalars['String']
@@ -1638,7 +1631,6 @@ export type ReportGraph = {
   program?: Maybe<ProgramGraph>
   reportVersions?: Maybe<Array<Maybe<ReportVersionGraph>>>
   latestVersion?: Maybe<ReportVersionGraph>
-  data?: Maybe<ReportDataGraph>
   id: Scalars['Guid']
   name: Scalars['String']
   programId: Scalars['Guid']
@@ -1653,17 +1645,12 @@ export type ReportGraphReportVersionsArgs = {
   take?: Maybe<Scalars['Int']>
 }
 
-export type ReportGraphDataArgs = {
-  electorate?: Maybe<Scalars['String']>
-}
-
 export type ReportVersionGraph = {
   __typename?: 'ReportVersionGraph'
   rowVersion: Scalars['String']
   notes?: Maybe<Scalars['String']>
   reportFormat?: Maybe<Scalars['String']>
   report?: Maybe<ReportGraph>
-  reportData?: Maybe<Array<Maybe<ReportDataGraph>>>
   schema?: Maybe<Scalars['Json']>
   electorateData?: Maybe<Scalars['Json']>
   nationalData?: Maybe<Scalars['Json']>
@@ -1671,15 +1658,6 @@ export type ReportVersionGraph = {
   timestamp: Scalars['DateTimeOffset']
   dataDate: Scalars['DateTimeOffset']
   reportId: Scalars['Guid']
-}
-
-export type ReportVersionGraphReportDataArgs = {
-  id?: Maybe<Scalars['ID']>
-  ids?: Maybe<Array<Maybe<Scalars['ID']>>>
-  orderBy?: Maybe<Array<Maybe<OrderByGraph>>>
-  where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
-  skip?: Maybe<Scalars['Int']>
-  take?: Maybe<Scalars['Int']>
 }
 
 export type ReportVersionGraphSchemaArgs = {
@@ -1782,18 +1760,6 @@ export type StateGraphElectoratesArgs = {
   take?: Maybe<Scalars['Int']>
 }
 
-export type StatisticDataGraph = {
-  __typename?: 'StatisticDataGraph'
-  markdown?: Maybe<Scalars['String']>
-  statisticReportVersion?: Maybe<StatisticReportVersionGraph>
-  data?: Maybe<Scalars['Json']>
-  id: Scalars['Guid']
-  statisticReportVersionId: Scalars['Guid']
-  statisticReportId: Scalars['Guid']
-  statisticReport: StatisticReportGraph
-  sortOrder: Scalars['UInt32']
-}
-
 export type StatisticGraph = {
   __typename?: 'StatisticGraph'
   rowVersion: Scalars['String']
@@ -1822,7 +1788,6 @@ export type StatisticReportGraph = {
   statistic?: Maybe<StatisticGraph>
   statisticReportVersions?: Maybe<Array<Maybe<StatisticReportVersionGraph>>>
   latestVersion?: Maybe<StatisticReportVersionGraph>
-  data?: Maybe<StatisticDataGraph>
 }
 
 export type StatisticReportGraphStatisticReportVersionsArgs = {
@@ -1832,10 +1797,6 @@ export type StatisticReportGraphStatisticReportVersionsArgs = {
   where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
   skip?: Maybe<Scalars['Int']>
   take?: Maybe<Scalars['Int']>
-}
-
-export type StatisticReportGraphDataArgs = {
-  electorate?: Maybe<Scalars['String']>
 }
 
 export type StatisticReportVersionGraph = {
