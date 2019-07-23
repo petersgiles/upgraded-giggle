@@ -10,10 +10,9 @@ import { ConfigureFn, configureTests } from '../../../lib/testing'
 
 import { Store, createSelector, select } from '@ngrx/store'
 import { provideMockStore, MockStore } from '@ngrx/store/testing'
-import { Observable} from 'rxjs'
+import { Observable, Subscription} from 'rxjs'
 import { provideMockActions } from '@ngrx/effects/testing'
 import { NO_ERRORS_SCHEMA } from '@angular/core'
-import { Router } from '@angular/router'
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 import { PlannerPageComponent } from './planner-page.component'
 import {
@@ -32,13 +31,28 @@ import {
 import { getUserCurrentUserPlannerPermission } from '../../reducers/user/user.reducer'
 import * as fromPlanner from '../../reducers/planner/planner.reducer'
 import * as fromOverview from '../../reducers/overview/overview.reducer'
+import * as fromUser from '../../../../../../libs/df-app-core/src'
 
 
 describe('PlannerPageComponent', () => {
+  debugger
   let component: PlannerPageComponent;
   let fixture: ComponentFixture<PlannerPageComponent>;
   let mockStore: MockStore<any>
   let actions$: Observable<any>
+  let commitmentEvents$: Observable<any[]>
+  let externalEvents$: Observable<any>
+  let eventTypes$: Observable<any[]>
+  let filteredCommitments$: Observable<any[]>
+  let externalEventTypes$: Observable<any[]>
+  let selectedExternalEventTypes$: Observable<any[]>
+  let readonly$: Observable<boolean>
+  let zoomLevel$: Observable<any>
+  let centerDate$: Observable<any>
+  let pageIndex$: Observable<any>
+  let commitmentsSubscription: Subscription
+  let userPermissionSubscription: Subscription
+  let errorStateSubscription: Subscription
  
   
   const initialState: fromPlanner.State = {
@@ -71,35 +85,6 @@ operationDefaults: {displayorder: 'hide',planner: 'hide',pmchandlingadvice: 'wri
              ROLE_VISITORS: [{pmchandlingadvice: 'hide', pmohandlingadvice: 'hide'}]}
   }
 
-  const selectRefinedCommitmentsState = createSelector(
-    () => initialState,
-    (state: typeof initialState) => state.commitments
-  )
-
-  const selectExternalEventTypesState = createSelector(
-    () => initialState,
-    (state: typeof initialState) => state.externalEventTypes
-  )
-
-  const selectSelectedExternalEventTypesState = createSelector(
-    () => initialState,
-    (state: typeof initialState) => state.selectedExternalEventTypes
-  )
-
-  const selectExternalEventsState = createSelector(
-    () => initialState,
-    (state: typeof initialState) => state.externalEvents
-  )
-
-  const selectSchedulerCenterDateState = createSelector(
-    () => initialState,
-    (state: typeof initialState) => state.schedulerCenterDate
-  )
-  const selectSchedulerPageIndexState = createSelector(
-    () => initialState,
-    (state: typeof initialState) => state.schedulerPageIndex
-  )
- 
 
   const   getUserCurrentUser = createSelector(
     () => userState,
@@ -108,7 +93,7 @@ operationDefaults: {displayorder: 'hide',planner: 'hide',pmchandlingadvice: 'wri
   
   const   getUserCurrentUserPermissions = createSelector(
     () => userState,
-    (state: typeof userState) => userState.operations
+    (state: typeof userState) => userState.operationDefaults
   )
 
   const selectPlannerPermissionState = createSelector(
@@ -132,15 +117,9 @@ operationDefaults: {displayorder: 'hide',planner: 'hide',pmchandlingadvice: 'wri
           provideMockActions(() => actions$),
           provideMockStore({ initialState,
            selectors: [
-          { selector: selectRefinedCommitmentsState, value: initialState.commitments },
-          {selector: selectExternalEventTypesState, value: initialState.externalEventTypes},
           {selector:  getUserCurrentUser, value: userState.user},
           {selector:  getUserCurrentUserPermissions, value: userState.operations},
-          {selector: selectSelectedExternalEventTypesState, value: initialState.selectedExternalEventTypes},
           {selector: selectPlannerPermissionState, value: initialState.readonly},
-          {selector: selectExternalEventsState, value: initialState.externalEvents},
-          {selector: selectSchedulerCenterDateState, value: initialState.schedulerCenterDate},
-          {selector: selectSchedulerPageIndexState, value: initialState.schedulerPageIndex}
         ],
       }),
       ]
@@ -148,18 +127,23 @@ operationDefaults: {displayorder: 'hide',planner: 'hide',pmchandlingadvice: 'wri
    }
    configureTests(configure).then(testBed => {
     mockStore = TestBed.get(Store)
-   
-    //mockStore.setState(state)
+    let state = {...initialState, events:getEvents(), externalEvents:getExternalEvents(), externalEventTypes: getExternalEventTypes(), eventTypes: getEventTypes()}
+    mockStore.setState(state)
     fixture = TestBed.createComponent(PlannerPageComponent);
     component = fixture.componentInstance
+    
     mockStore.overrideSelector(fromOverview.selectRefinedCommitmentsState, getCommitments())
-    mockStore.overrideSelector(fromPlanner.selectExternalEventTypesState, initialState.externalEventTypes)
+    mockStore.overrideSelector(fromPlanner.selectEventsState, state.events)
+    mockStore.overrideSelector(fromPlanner.selectExternalEventTypesState, state.externalEventTypes)
     mockStore.overrideSelector(fromPlanner.selectSelectedExternalEventTypesState, initialState.selectedExternalEventTypes)
     mockStore.overrideSelector(fromPlanner.selectPlannerPermissionState,initialState.readonly)
-    mockStore.overrideSelector(fromPlanner.selectExternalEventsState, initialState.externalEvents)
+    mockStore.overrideSelector(fromPlanner.selectExternalEventsState, state.externalEvents)
     mockStore.overrideSelector(fromPlanner.selectSchedulerCenterDateState, initialState.schedulerCenterDate)
     mockStore.overrideSelector(fromPlanner.selectSchedulerPageIndexState, initialState.schedulerPageIndex)
-    mockStore.overrideSelector(getUserCurrentUserPlannerPermission, userState.user)    
+    mockStore.overrideSelector(fromPlanner.selectEventTypesState, state.eventTypes)
+    mockStore.overrideSelector(fromPlanner.selectSchedulerZoomLevelState, initialState.schedulerZoomLevel)
+   // mockStore.overrideSelector(fromUser.getUserCurrentUser, userState.user)    
+    mockStore.overrideSelector(fromUser.getUserCurrentUserOperations, userState.operationDefaults)
    
     fixture.detectChanges();
   })
@@ -170,28 +154,109 @@ operationDefaults: {displayorder: 'hide',planner: 'hide',pmchandlingadvice: 'wri
     expect(component).toBeTruthy();
   })
 
- /*  it('should return map points', () => {
+   it('should return commitments from selector', () => {
     mockStore
-     .select(fromMap.selectRefinedMapPointsState)
-     .subscribe(mapPoints => {
-       for(let mapPoint of mapPoints){
-        expect(mapPoint.id).toBe(77)
-       expect(mapPoint.title).toBe('Kalgoorlie - Boulder WA, Australia')
-       expect(mapPoint.latitude).toBe(-30.749) 
-       }
-   })
+     .select(fromOverview.selectRefinedCommitmentsState)
+     .subscribe(data => {
+         data.map(c => {
+           expect(c.id).toBe(10)
+           expect(c.title).toBe('ARIA Music Teacher Award')
+         })
+    }
+   )
  }) 
  
- it('should add map points to the behaviour Subject', () => {
-   filteredMapPoints$ = mockStore.pipe(
-    select(fromMap.selectRefinedMapPointsState))
-    filteredMapPoints$.subscribe(result => {
-      
-      for(let mapPoint of result){
-          expect(mapPoint.latitude).toBe(-30.749)
+ it('observable shiuld return commitments', () => {
+  filteredCommitments$ = mockStore.pipe(
+    select(fromOverview.selectRefinedCommitmentsState))
+    filteredCommitments$.subscribe(result => {
+          expect(result[0].id).toBe(10)
       }
-    })
- }) */
+    )
+ }) 
+
+ it('should return events from selector', () => {
+  mockStore
+   .select(fromPlanner.selectEventsState)
+   .subscribe(events => {
+     for(let event of events){
+       expect(event.id).toBe('0.14079460290227752')
+     }
+       })
+  }
+ )
+
+ it('should return external events from selector', () => {
+  mockStore
+   .select(fromPlanner.selectExternalEventsState)
+   .subscribe(externalEvents => {
+     for(let event of externalEvents){
+       if(event.id === '0001'){
+          expect(event.name).toBe('Announcements')}
+       else if(event.id === '0002'){
+            expect(event.name).toBe('House of Repsentatives')}
+     }
+       })
+  }
+ )
+
+  it('should return external event types from selector', () => {
+  mockStore
+   .select(fromPlanner.selectExternalEventTypesState)
+   .subscribe(externalEventTypes => {
+        expect(externalEventTypes[0].title).toBe('House of Representatives')
+     }
+  )
+}) 
+
+it('should return event types from selector', () => {
+  mockStore
+   .select(fromPlanner.selectEventTypesState)
+   .subscribe(eventTypes => {
+     for(let eventType of eventTypes){
+       if(eventType.id === '0001'){
+          expect(eventType.type).toBe('Policy development')}
+       else if(eventType === '0002'){
+            expect(eventType.type).toBe('Cabinet Meeting')}
+     }
+       })
+  }
+ )
+
+ it('should return scheduler zoom level from selector', () => {
+  mockStore
+   .select(fromPlanner.selectSchedulerZoomLevelState)
+   .subscribe(zoomLevel => {
+      expect(zoomLevel).toBe(3)
+     }
+  )
+  }
+ )
+ 
+ it('should return write op when user is site admin', () => {
+  mockStore.overrideSelector(fromUser.getUserCurrentUser, userState.user)  
+  mockStore
+   .select(getUserCurrentUserPlannerPermission)
+   .subscribe(operation => {
+      expect(operation).toBe('write')
+     }
+  )
+  }
+ )
+
+ it('should return hide op when user is not site admin', () => {
+   let thisUserState = userState.user
+   thisUserState.isSiteAdmin = false
+   mockStore.overrideSelector(fromUser.getUserCurrentUser, thisUserState)  
+  mockStore
+   .select(getUserCurrentUserPlannerPermission)
+   .subscribe(operation => {
+      expect(operation).toBe('hide')
+     }
+  )
+  }
+ )
+}) 
 
  function getCommitments(){
   const data = [{id: 10, title: "ARIA Music Teacher Award",bookType: "Red", 
@@ -199,4 +264,34 @@ operationDefaults: {displayorder: 'hide',planner: 'hide',pmchandlingadvice: 'wri
 
   return data
 }
-})
+
+function getEvents(){
+  const data = [{startDate: "2019-02-11T13:00:00.000Z", endDate: "2019-03-13T13:00:00.000Z", durationUnit: "d", cls: "", draggable: true, resizable: true,
+id: "0.14079460290227752", duration: 30, name: "Policy development", resourceId: 10, eventType: "0001", eventColor: "ForestGreen", iconCls: "b-fa b-fa-fw b-fa-podcast"}]
+  return data
+}
+
+function getExternalEvents(){
+  const data =  [{id: "0001", name: "Announcements", cssClass: "timerange-announcements",},
+  {id: "0002", name: "House of Repsentatives", cssClass: "timerange-sitting-house"}]
+  return data
+}
+
+function getExternalEventTypes(){
+  const data = [
+    {title:	'House of Representatives', CssClass:	'timerange-sitting-house'},
+    {title:	'Senate', CssClass:	'timerange-sitting-senate'},
+    {title:	'Both Houses', CssClass:	'timerange-sitting-both'},
+    {title:	'Overseas travel', CssClass:	'timerange-sitting-travel'},
+  ]
+  return data
+}
+
+function getEventTypes(){
+  const data = [{id: "0001", type: "Policy development", duration: 30, durationUnit: "d", icon: "b-fa b-fa-fw b-fa-podcast", color: "ForestGreen"},
+  {id: "0002", type: "Cabinet Meeting", duration: 0, durationUnit: "d", icon: "b-fa b-fa-fw b-fa-users", color: "CadetBlue"}]
+  return data
+}
+
+
+

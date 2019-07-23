@@ -31,7 +31,6 @@ import {
 } from 'apollo-angular/testing'
 
 describe('MapEffects', () => {
-  debugger
   let mockStore: MockStore<any>
   let actions$: Observable<any>
   let mapEffects: MapEffects
