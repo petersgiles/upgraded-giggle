@@ -13,7 +13,7 @@
     "sharepoint:copyListData:commitments": "cpx ../sharepoint/commitments/Data/*.* ../sharepoint/deploy/ListData/commitments",
     "sp:deploy:commitments": "run-s sharepoint:build:commitments sharepoint:copyListDefinitions:commitments sharepoint:copyListData:commitments deploy:all:commitments",
     "start:commitments": "ng serve commitments --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --live-reload true",
-    "deploy:all:commitments-reader": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/commitments-reader' -AppName 'Commitments-Reader' -LoadReferenceData True",
+    "deploy:all:commitments-reader": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites' -AppName 'Commitments-Reader' -LoadReferenceData True",
     "sharepoint:build:commitments-reader": "ng run commitments-reader:sharepoint --configuration=sharepoint",
     "sharepoint:copyListDefinitions:commitments-reader": "cpx ../sharepoint/commitments-reader/ListDefinitions/*.* ../sharepoint/deploy/ListDefinitions/commitments-reader",
     "sharepoint:copyListData:commitments-reader": "cpx ../sharepoint/commitments-reader/Data/*.* ../sharepoint/deploy/ListData/commitments-reader",
