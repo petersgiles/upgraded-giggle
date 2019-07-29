@@ -964,7 +964,7 @@
             "port": 4210,
             "browserTarget": "commitments-reader:build",
             "ssl": true,
-            "sslKey": "ssl/server.key",
+            "sslKey": "ssl/server.key", 
             "sslCert": "ssl/server.crt",
             "liveReload": true
           },
