@@ -66,7 +66,8 @@ export class EventDevelopDataService implements CommitmentEventDataService {
   }
 
   getExternalEvents(payload: any): Observable<DataResult<ExternalEvent[]>> {
-    if (
+    
+     if (
       !payload ||
       payload.permission === this.HIDE ||
       !payload.selectedExternalEventTypes ||
@@ -74,10 +75,10 @@ export class EventDevelopDataService implements CommitmentEventDataService {
     ) {
       return of({
         data: [],
-        loadding: false,
+        loading: false,
         error: null
       })
-    }
+    } 
     const types = payload.selectedExternalEventTypes
     const data = externalEvents
       .map(e => ({
@@ -87,7 +88,7 @@ export class EventDevelopDataService implements CommitmentEventDataService {
         endDate: DateHelper.parse(e.endDate, 'yyyy/MM/dd'),
         eventTypeId: e.eventTypeId
       }))
-      .filter(c => types.filter(e => e === c.eventTypeId).length > 0)
+      .filter(c => types.filter(e => e.eventTypeId === c.eventTypeId).length > 0)
     return of({
       data: data
     })
@@ -112,6 +113,7 @@ export class EventDevelopDataService implements CommitmentEventDataService {
         error: null
       })
     }
+   
     if (payload.permission !== this.WRITE) {
       return throwError('You do not have permission to edit event')
     }
@@ -176,3 +178,6 @@ export class EventDevelopDataService implements CommitmentEventDataService {
     localStorage.setItem(this.COMMITMENT_DATA_KEY, JSON.stringify(events))
   }
 }
+
+
+
