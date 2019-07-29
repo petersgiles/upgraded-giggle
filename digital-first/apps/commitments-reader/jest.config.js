@@ -18,8 +18,9 @@ module.exports = {
     '^app/(.*)$': '<rootDir>/src/app/$1',
     '^assets/(.*)$': '<rootDir>/src/assets/$1',
     '^environments/(.*)$': '<rootDir>/src/environments/$1',
+    'DateHelper(.*)': '<rootDir>/src/$1'
   },
-  transformIgnorePatterns: ['<rootDir>/node_modules/(?!@ngrx|angular2-ui-switch|ng-dynamic|@material)'],
+  transformIgnorePatterns: ['<rootDir>/node_modules/(?!@ngrx|angular2-ui-switch|ng-dynamic|@material|bryntum-scheduler)'],
   snapshotSerializers: [
     'jest-preset-angular/AngularSnapshotSerializer.js',
     'jest-preset-angular/HTMLCommentSerializer.js',

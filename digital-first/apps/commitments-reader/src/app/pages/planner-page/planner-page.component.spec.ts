@@ -15,46 +15,19 @@ import { provideMockActions } from '@ngrx/effects/testing'
 import { NO_ERRORS_SCHEMA } from '@angular/core'
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 import { PlannerPageComponent } from './planner-page.component'
-import {
-  GetEventReferenceData,
-  StoreCommitmentEvent,
-  RemoveCommitmentEvent,
-  StoreSelectedExternalEventTypes,
-  StoreSchedulerZoomLevel,
-  GetCommitmentEvents,
-  SetPlannerPermission,
-  GetExternalEvents,
-  StoreSchedulerCenterDate,
-  StoreSchedulerPageIndex,
-  ResetCommitmentEvents
-} from '../../reducers/planner/planner.actions'
 import { getUserCurrentUserPlannerPermission } from '../../reducers/user/user.reducer'
 import * as fromPlanner from '../../reducers/planner/planner.reducer'
 import * as fromOverview from '../../reducers/overview/overview.reducer'
 import * as fromUser from '../../../../../../libs/df-app-core/src'
-
+import { UserState } from '../../../../../../libs/df-app-core/src'
 
 describe('PlannerPageComponent', () => {
-  debugger
   let component: PlannerPageComponent;
   let fixture: ComponentFixture<PlannerPageComponent>;
   let mockStore: MockStore<any>
   let actions$: Observable<any>
-  let commitmentEvents$: Observable<any[]>
-  let externalEvents$: Observable<any>
-  let eventTypes$: Observable<any[]>
   let filteredCommitments$: Observable<any[]>
-  let externalEventTypes$: Observable<any[]>
-  let selectedExternalEventTypes$: Observable<any[]>
-  let readonly$: Observable<boolean>
-  let zoomLevel$: Observable<any>
-  let centerDate$: Observable<any>
-  let pageIndex$: Observable<any>
-  let commitmentsSubscription: Subscription
-  let userPermissionSubscription: Subscription
-  let errorStateSubscription: Subscription
- 
-  
+
   const initialState: fromPlanner.State = {
    
       commitments: [],
@@ -85,22 +58,6 @@ operationDefaults: {displayorder: 'hide',planner: 'hide',pmchandlingadvice: 'wri
              ROLE_VISITORS: [{pmchandlingadvice: 'hide', pmohandlingadvice: 'hide'}]}
   }
 
-
-  const   getUserCurrentUser = createSelector(
-    () => userState,
-    (state: typeof userState) => userState.user
-  )
-  
-  const   getUserCurrentUserPermissions = createSelector(
-    () => userState,
-    (state: typeof userState) => userState.operationDefaults
-  )
-
-  const selectPlannerPermissionState = createSelector(
-    () => initialState,
-    (state: typeof initialState) => state.readonly
-  )
- 
   beforeEach(async(() => {
     const configure: ConfigureFn = testBed => {
     TestBed.configureTestingModule({
@@ -116,11 +73,7 @@ operationDefaults: {displayorder: 'hide',planner: 'hide',pmchandlingadvice: 'wri
         
           provideMockActions(() => actions$),
           provideMockStore({ initialState,
-           selectors: [
-          {selector:  getUserCurrentUser, value: userState.user},
-          {selector:  getUserCurrentUserPermissions, value: userState.operations},
-          {selector: selectPlannerPermissionState, value: initialState.readonly},
-        ],
+         
       }),
       ]
     })
@@ -141,10 +94,9 @@ operationDefaults: {displayorder: 'hide',planner: 'hide',pmchandlingadvice: 'wri
     mockStore.overrideSelector(fromPlanner.selectSchedulerCenterDateState, initialState.schedulerCenterDate)
     mockStore.overrideSelector(fromPlanner.selectSchedulerPageIndexState, initialState.schedulerPageIndex)
     mockStore.overrideSelector(fromPlanner.selectEventTypesState, state.eventTypes)
-    mockStore.overrideSelector(fromPlanner.selectSchedulerZoomLevelState, initialState.schedulerZoomLevel)
-   // mockStore.overrideSelector(fromUser.getUserCurrentUser, userState.user)    
+    mockStore.overrideSelector(fromPlanner.selectSchedulerZoomLevelState, initialState.schedulerZoomLevel) 
     mockStore.overrideSelector(fromUser.getUserCurrentUserOperations, userState.operationDefaults)
-   
+    mockStore.overrideSelector(fromUser.getUserCurrentUser, userState.user)
     fixture.detectChanges();
   })
   
@@ -243,11 +195,64 @@ it('should return event types from selector', () => {
   )
   }
  )
+}) 
 
- it('should return hide op when user is not site admin', () => {
-   let thisUserState = userState.user
-   thisUserState.isSiteAdmin = false
-   mockStore.overrideSelector(fromUser.getUserCurrentUser, thisUserState)  
+describe('TestUser', () => {
+  let component: PlannerPageComponent;
+  let fixture: ComponentFixture<PlannerPageComponent>;
+  let mockStore: MockStore<UserState>
+
+ const initialState ={
+    user: {isSiteAdmin: false,
+      login: 'guest',
+      name: 'Guest User',
+      roles: ['ROLE_OWNERS'],
+      systemUserKey: 'guest',
+      userid: 0
+    },
+operationDefaults: {displayorder: 'hide',planner: 'hide',pmchandlingadvice: 'write',pmohandlingadvice: 'write'},
+ operations: {ROLE_MEMBERS: [{pmchandlingadvice: 'read', pmohandlingadvice: 'read'}],
+             ROLE_OWNERS:  [{pmchandlingadvice: 'write', pmohandlingadvice: 'write'}],
+             ROLE_VISITORS: [{pmchandlingadvice: 'hide', pmohandlingadvice: 'hide'}]}
+  }
+
+ beforeEach(async(() => {
+    const configure: ConfigureFn = testBed => {
+    TestBed.configureTestingModule({
+      declarations: [ PlannerPageComponent ],
+      schemas: [NO_ERRORS_SCHEMA],
+      providers:
+      [
+        { provide: Store,
+           useValue: {
+             pipe: jest.fn()
+           }
+          },
+        
+          provideMockStore({ initialState}),
+      ]
+    })
+   }
+   configureTests(configure).then(testBed => {
+    mockStore = TestBed.get(Store)
+  
+    fixture = TestBed.createComponent(PlannerPageComponent);
+    component = fixture.componentInstance
+    mockStore.overrideSelector(fromOverview.selectRefinedCommitmentsState, getCommitments())
+    mockStore.overrideSelector(fromPlanner.selectEventsState, [])
+    mockStore.overrideSelector(fromPlanner.selectExternalEventTypesState, [])
+    mockStore.overrideSelector(fromPlanner.selectSelectedExternalEventTypesState, [])
+    mockStore.overrideSelector(fromPlanner.selectExternalEventsState, [])
+    mockStore.overrideSelector(fromPlanner.selectEventTypesState, [])
+    mockStore.overrideSelector(fromPlanner.selectPlannerPermissionState,false)
+    mockStore.overrideSelector(fromUser.getUserCurrentUserOperations, initialState.operationDefaults)
+    mockStore.overrideSelector(fromUser.getUserCurrentUser, initialState.user)
+    fixture.detectChanges();
+  })
+  
+  }))
+it('should return hide op when user is not site admin', () => {
+  
   mockStore
    .select(getUserCurrentUserPlannerPermission)
    .subscribe(operation => {
