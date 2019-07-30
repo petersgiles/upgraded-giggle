@@ -7,7 +7,7 @@
       "node"],
       "allowJs": true
   },
-  "files": ["polyfills.ts"],
+  "files": [],
   "include": ["**/*.spec.ts", "**/*.d.ts"],
 }
 
