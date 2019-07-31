@@ -1,3 +1,5 @@
+
+import { CardType } from '../../../components/deck/models/card-type-enum'
 const pieChart = {
   chartData: [
     {
@@ -63,8 +65,8 @@ export const deckData = {
       parent: null,
       supportingText:
         '<div class="ExternalClass1BE6E611C33B49F9AA2854A5C3923A49"><p> in data list of urls<br><br></p></div>',
-      size: 4,
-      cardType: 'SummaryLinksNoActions',
+      size: '4',
+      cardType: CardType.SummaryLinksNoActions,
       actions: [
         {
           title: 'DECK',
@@ -72,7 +74,7 @@ export const deckData = {
             'http://vm-dev-lbs13/sites/lbsMk1-pete/SitePages/admin.aspx/admin'
         }
       ],
-      sortOrder: 1,
+      sortOrder: '1',
       colour: 'Orange',
       titleClass: 'Orange',
       media: null,
@@ -109,9 +111,9 @@ export const deckData = {
         </td>
         </tr></tfoot></table></div></div> <br>`,
       size: '4',
-      cardType: 'BriefSummary',
+      cardType: CardType.BriefSummary,
       actions: [{ title: 'CHEESE', url: '/' }],
-      sortOrder: 9,
+      sortOrder: '9',
       colour: 'DarkMagenta',
       titleClass: 'DarkMagenta',
       media: null,
@@ -132,10 +134,10 @@ export const deckData = {
       parent: null,
       supportingText:
         '<div class="ExternalClassEC844ABB266C4CF7857F776E0B745CCF"><p>test </p></div>',
-      size: 4,
-      cardType: 'Parent',
+      size: '4',
+      cardType: CardType.Parent,
       actions: [{ title: 'Get Started', url: '/dashboard' }],
-      sortOrder: 9,
+      sortOrder: '9',
       colour: 'IGBGreen',
       titleClass: 'IGBGreen',
       media: null,
@@ -147,9 +149,9 @@ export const deckData = {
       parent: null,
       supportingText: null,
       size: '4',
-      cardType: 'Image',
+      cardType: CardType.Image,
       actions: [{ title: 'Get Started', url: '/dashboard' }],
-      sortOrder: 9,
+      sortOrder: '9',
       colour: 'Crimson',
       titleClass: 'Crimson',
       media: { url: 'https://picsum.photos/1200/400/?random' },
@@ -161,10 +163,10 @@ export const deckData = {
       parent: '2',
       supportingText:
         '<div class="ExternalClass0398B1E1192E4A64B251972EA56E326B"><p> some child text<br></p></div>',
-      size: 4,
-      cardType: 'Standard',
+      size: '4',
+      cardType: CardType.Standard,
       actions: [{ title: 'Get Started', url: '/dashboard' }],
-      sortOrder: 9,
+      sortOrder: '9',
       colour: 'Orange',
       titleClass: 'Orange',
       media: null,
@@ -176,10 +178,10 @@ export const deckData = {
       parent: null,
       supportingText:
         '<div class="ExternalClass1AC7337E369A46CD9F25EE7A148517A4"><p><span>a standard card where supporting text doesn\'t nav but action are not&#160;shown</span> <br></p></div>',
-      size: 4,
-      cardType: 'StandardNonNavNoActions',
+      size: '4',
+      cardType: CardType.StandardNonNavNoActions,
       actions: [{ title: 'Get Started', url: '/dashboard' }],
-      sortOrder: 9,
+      sortOrder: '9',
       colour: 'Crimson',
       titleClass: 'Crimson',
       media: null,
@@ -191,10 +193,10 @@ export const deckData = {
       parent: null,
       supportingText:
         '<div class="ExternalClassC5F70AEB09774840A1D7ACBD73021260"><p> a standard card where supporting text doesn\'t nav but action are shown<br></p></div>',
-      size: 4,
-      cardType: 'StandardNonNav',
+      size: '4',
+      cardType: CardType.StandardNonNav,
       actions: [{ title: 'Get Started', url: '/dashboard' }],
-      sortOrder: 9,
+      sortOrder: '9',
       colour: 'Crimson',
       titleClass: 'Crimson',
       media: null,
@@ -210,10 +212,10 @@ export const deckData = {
         ribeye pig jowl ham t-bone pancetta. Strip steak t-bone sirloin turducken pork belly, ham shoulder pastrami
         pork spare ribs swine ball tip. Salami ham pork belly venison pastrami prosciutto
         biltong drumstick kielbasa strip steak. Drumstick turducken shoulder, alcatra swine burgdoggen doner.</span></div>`,
-      size: 4,
-      cardType: 'Standard',
+      size: '4',
+      cardType: CardType.Standard,
       actions: [{ url: '' }],
-      sortOrder: 999,
+      sortOrder: '999',
       colour: 'LightCoral',
       titleClass: 'LightCoral',
       media: null,
@@ -225,7 +227,7 @@ export const deckData = {
       title: 'Chart Cards',
       supportingText: `<div><img src="https://www.chartjs.org/img/chartjs-logo.svg"></div>`,
       size: '4',
-      cardType: 'Parent',
+      cardType: CardType.Parent,
       actions: [{ url: 'https://www.chartjs.org', title: 'Go' }],
       sortOrder: '1',
       colour: 'Crimson',
@@ -239,7 +241,7 @@ export const deckData = {
       title: 'Line Chart',
       supportingText: 'cheese',
       size: '4',
-      cardType: 'Chart',
+      cardType: CardType.Chart,
       actions: [],
       sortOrder: '1',
       colour: 'Yellow',
@@ -253,7 +255,7 @@ export const deckData = {
       title: 'Pie Chart',
       supportingText: null,
       size: '4',
-      cardType: 'Chart',
+      cardType: CardType.Chart,
       actions: [],
       sortOrder: '1',
       colour: 'CornflowerBlue',

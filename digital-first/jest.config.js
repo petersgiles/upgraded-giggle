@@ -6,7 +6,7 @@ module.exports = {
       astTransformers: ["<rootDir>/node_modules/jest-preset-angular/InlineHtmlStripStylesTransformer"],
     },
   },
-  transformIgnorePatterns: ['<rootDir>/node_modules/(?!@ngrx|angular2-ui-switch|ng-dynamic|@material|bryntum-scheduler)'],
+  transformIgnorePatterns: ['<rootDir>/node_modules/(?!@ngrx|angular2-ui-switch|ng-dynamic|@material|bryntum-scheduler|ng2-charts)'],
     testMatch: ['**/+(*.)+(spec|test).+(ts|js)?(x)'],
     transform: {
       '^.+\\.(ts|js|html)$': 'ts-jest',
