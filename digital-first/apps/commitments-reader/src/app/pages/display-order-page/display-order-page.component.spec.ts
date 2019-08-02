@@ -11,7 +11,8 @@ import 'jest-zone-patch'
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 import { DisplayOrderPageComponent } from './display-order-page.component'
 
-import { ConfigureFn, configureTests } from '../../../lib/testing'
+//import { ConfigureFn, configureTests } from '../../../lib/testing'
+import { ConfigureFn, configureTests } from '../../../../../../libs/df-testing'
 
 import { Store, createSelector} from '@ngrx/store'
 import { provideMockStore, MockStore } from '@ngrx/store/testing'

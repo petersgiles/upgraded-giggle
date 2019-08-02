@@ -12,7 +12,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 import { AppRouterService } from '../../services/app-router.service'
 import { CommitmentDetailComponent } from './commitment-detail.component'
 
-import { ConfigureFn, configureTests } from '../../../lib/testing'
+import { ConfigureFn, configureTests } from '../../../../../../libs/df-testing'
 
 import { Store, createSelector } from '@ngrx/store'
 import { provideMockStore, MockStore } from '@ngrx/store/testing'

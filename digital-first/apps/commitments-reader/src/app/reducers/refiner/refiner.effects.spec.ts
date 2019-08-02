@@ -7,7 +7,8 @@ import 'zone.js/dist/sync-test';
 import 'jest-zone-patch' 
  
 import { async, TestBed, inject} from '@angular/core/testing'
-import { ConfigureFn, configureTests } from '../../../lib/testing'
+//import { ConfigureFn, configureTests } from '../../../lib/testing'
+import { ConfigureFn, configureTests } from '../../../../../../libs/df-testing'
 import { Store} from '@ngrx/store'
 import { provideMockStore, MockStore } from '@ngrx/store/testing'
 import { Observable, of } from 'rxjs'
