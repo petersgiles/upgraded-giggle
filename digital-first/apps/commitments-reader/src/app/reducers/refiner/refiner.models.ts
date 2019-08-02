@@ -3,6 +3,7 @@ export interface CRMenu {
   title: string
   expanded: boolean
   selected: boolean
-  group: string,
+  group: string
+  enableSlide: boolean
   children?: CRMenu[]
 }

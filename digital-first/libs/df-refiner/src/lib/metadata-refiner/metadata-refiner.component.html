@@ -38,7 +38,7 @@
         >keyboard_arrow_{{ group.expanded ? 'down' : 'right' }}</mdc-icon
       >
     </mdc-list-item>
-    <div *ngIf="group.expanded && group.children">
+    <div *ngIf="group.expanded && group.children && !group.enableSlide">
       <mdc-list-item
         class="refiner"
         *ngFor="let refiner of group.children"

@@ -1,11 +1,18 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core'
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  AfterViewInit,
+  ViewChild,
+  TemplateRef
+} from '@angular/core'
 
 import { AppRouterService } from '../../services/app-router.service'
 import { RefinerGroup } from '@digital-first/df-refiner'
 import { Observable, Subscription } from 'rxjs'
 
 import * as fromRefiner from '../../reducers/refiner/refiner.reducer'
-import {selectAppSpinnerState} from '@digital-first/df-app-core'
+import { selectAppSpinnerState } from '@digital-first/df-app-core'
 import * as fromRoot from '../../reducers'
 
 import { Store, select } from '@ngrx/store'
@@ -21,6 +28,8 @@ import {
 import { GetRefinedCommitments } from '../../reducers/overview/overview.actions'
 import { GetRefinedMapPoints } from '../../reducers/map/map.actions'
 import { ActivatedRoute, Router } from '@angular/router'
+import { CRMenu } from '../../reducers/refiner/refiner.models'
+import { MdcDrawer } from '@angular-mdc/web'
 
 @Component({
   selector: 'digital-first-commitment-overview-layout',
@@ -64,6 +73,9 @@ export class CommitmentOverviewLayoutComponent
   queryParamsRefiner: { id: string; group: string }[]
   isBusy$: Observable<boolean>
   textRefiner$: Observable<string>
+  refinerGroupWithDrawer: CRMenu
+  @ViewChild('drawer', { static: true })
+  electoratesDrawer: TemplateRef<MdcDrawer>
 
   constructor(
     private route: ActivatedRoute,
@@ -72,7 +84,8 @@ export class CommitmentOverviewLayoutComponent
     private store: Store<fromRoot.State>
   ) {}
 
-   handleRefinerGroupSelected($event) {
+  handleRefinerGroupSelected($event) {
+    this.refinerGroupWithDrawer = $event
     this.store.dispatch(new SelectRefinerGroup($event))
   }
 
@@ -86,25 +99,27 @@ export class CommitmentOverviewLayoutComponent
 
   handleClearRefiners($event) {
     this.store.dispatch(new ClearRefiners($event))
-  } 
+  }
 
   ngAfterViewInit(): void {}
 
   ngOnInit() {
-      this.queryParamsSubscription$ = this.route.queryParams.subscribe(params => {
+    this.queryParamsSubscription$ = this.route.queryParams.subscribe(params => {
       if (params && params.refiner) {
         this.queryParamsRefiner = JSON.parse(params.refiner)
         this.store.dispatch(
           new SetRefinerFromQueryString({ refiner: this.queryParamsRefiner })
         )
       }
-    })  
+    })
 
     this.isBusy$ = this.store.pipe(select(selectAppSpinnerState))
 
-    this.textRefiner$ = this.store.pipe(select(fromRefiner.selectTextRefinerState))
+    this.textRefiner$ = this.store.pipe(
+      select(fromRefiner.selectTextRefinerState)
+    )
 
-     this.store
+    this.store
       .pipe(select(fromRefiner.selectSelectedRefinersState))
       .subscribe(next => {
         if (next && next.length > 0) {
@@ -118,21 +133,21 @@ export class CommitmentOverviewLayoutComponent
             relativeTo: this.route
           })
         }
-      }) 
+      })
 
-     this.refinerGroupsSubscription$ = this.store
+    this.refinerGroupsSubscription$ = this.store
       .pipe(select(fromRefiner.selectRefinerGroups))
       .subscribe(next => {
         this.refinerGroups = next
         this.store.dispatch(new GetRefinedCommitments(null))
         this.store.dispatch(new GetRefinedMapPoints(null))
-      }) 
+      })
 
-     this.appRouter.segments.subscribe(url => {
+    this.appRouter.segments.subscribe(url => {
       const tab = this.tabs.findIndex(p => p.id === url)
       this.activeTab = tab
       this.store.dispatch(new GetRefinerGroups(null))
-    })  
+    })
   }
 
   ngOnDestroy(): void {

@@ -1,9 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter} from '@angular/core'
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
 import { FormControl, FormGroup } from '@angular/forms'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
@@ -26,23 +21,19 @@ export class RefinerActionService {
   styleUrls: ['./metadata-refiner.component.scss']
 })
 export class MetadataRefinerComponent implements OnInit {
-
   searchControl: FormControl = new FormControl(null, [])
 
-  textRefinerForm = new  FormGroup({
+  textRefinerForm = new FormGroup({
     searchControl: this.searchControl
   })
- 
+
   action$: any
   _refinerGroups: RefinerGroup[]
 
   constructor() {}
 
   ngOnInit() {
-    // this.action$ = this.service.message.subscribe(_ => {
-    //   this.searchControl.reset()
-    // })
-
+    console.log(this._refinerGroups)
     this.searchControl.valueChanges
       .pipe(
         debounceTime(400),
@@ -58,7 +49,7 @@ export class MetadataRefinerComponent implements OnInit {
         }
       )
   }
-  
+
   startVisible: boolean
 
   @Input()
@@ -73,9 +64,6 @@ export class MetadataRefinerComponent implements OnInit {
   @Input()
   set searchText(val) {
     this.searchControl.setValue(val)
-
-    // tslint:disable-next-line: no-console
-    console.log(val, this.searchControl.value)
   }
 
   @Output()

@@ -15,4 +15,12 @@ query GetRefinerTags($siteId: Guid!) {
     id
     title
   }
+  states {
+    id
+    name
+    electorates {
+      id
+      name
+    }
+  }
 }

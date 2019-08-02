@@ -16,6 +16,29 @@
       ></digital-first-metadata-refiner>
       <div class="overview-outlet">
         <section>
+          <mdc-drawer
+            #drawer
+            drawer="modal"
+            [open]="
+              refinerGroupWithDrawer && refinerGroupWithDrawer.enableSlide
+            "
+            *ngIf="refinerGroupWithDrawer"
+            style="width: calc(100vw - 280px);left:280px; z-index: 10000000;"
+          >
+            <mdc-drawer-header>
+              <h3 mdcDrawerTitle>Drawer Title</h3>
+              <h6 mdcDrawerSubtitle>Subtitle</h6>
+            </mdc-drawer-header>
+            <mdc-drawer-content>
+              <mdc-list>
+                <mdc-list-item
+                  *ngFor="let item of refinerGroupWithDrawer.children"
+                >
+                  {{ item.title }}
+                </mdc-list-item>
+              </mdc-list>
+            </mdc-drawer-content>
+          </mdc-drawer>
           <mdc-tab-bar [activeTabIndex]="activeTab" useAutomaticActivation>
             <mdc-tab-scroller>
               <mdc-tab

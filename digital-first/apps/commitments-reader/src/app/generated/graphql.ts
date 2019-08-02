@@ -2087,6 +2087,24 @@ export type GetRefinerTagsQuery = { __typename?: 'Query' } & {
       >
     >
   >
+  states: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'StateGraph' } & Pick<StateGraph, 'id' | 'name'> & {
+            electorates: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'ElectorateGraph' } & Pick<
+                    ElectorateGraph,
+                    'id' | 'name'
+                  >
+                >
+              >
+            >
+          }
+      >
+    >
+  >
 }
 
 export type CommitmentsSearchQueryVariables = {
@@ -2392,6 +2410,14 @@ export const GetRefinerTagsDocument = gql`
     deckItemBriefSummaries(siteId: $siteId) {
       id
       title
+    }
+    states {
+      id
+      name
+      electorates {
+        id
+        name
+      }
     }
   }
 `
