@@ -37,7 +37,7 @@ import { MdcDialog, Overlay } from '@angular-mdc/web'
 
 
 describe('HomeComponent', () => {
-  debugger
+
   let component: HomeComponent
   let fixture: ComponentFixture<HomeComponent>
   let router: Router

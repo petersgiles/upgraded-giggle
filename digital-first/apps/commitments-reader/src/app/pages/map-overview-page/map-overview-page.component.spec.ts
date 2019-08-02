@@ -5,9 +5,8 @@ import 'zone.js/dist/async-test';
 import 'zone.js/dist/proxy.js';
 import 'zone.js/dist/sync-test';
 import 'jest-zone-patch' 
- 
-//import { ConfigureFn, configureTests } from '../../../lib/testing'
-import { ConfigureFn, configureTests } from '../../../../../../../libs/df-testing'
+
+import { ConfigureFn, configureTests } from '../../../../../../libs/df-testing'
 
 import { Store, createSelector, select } from '@ngrx/store'
 import { provideMockStore, MockStore } from '@ngrx/store/testing'
