@@ -33,7 +33,6 @@ export class MetadataRefinerComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    console.log(this._refinerGroups)
     this.searchControl.valueChanges
       .pipe(
         debounceTime(400),

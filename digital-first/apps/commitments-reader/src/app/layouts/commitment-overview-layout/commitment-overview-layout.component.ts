@@ -4,7 +4,8 @@ import {
   OnDestroy,
   AfterViewInit,
   ViewChild,
-  TemplateRef
+  TemplateRef,
+  ElementRef
 } from '@angular/core'
 
 import { AppRouterService } from '../../services/app-router.service'
@@ -74,8 +75,9 @@ export class CommitmentOverviewLayoutComponent
   isBusy$: Observable<boolean>
   textRefiner$: Observable<string>
   refinerGroupWithDrawer: CRMenu
+
   @ViewChild('drawer', { static: true })
-  electoratesDrawer: TemplateRef<MdcDrawer>
+  public electoratesDrawer: MdcDrawer
 
   constructor(
     private route: ActivatedRoute,
@@ -86,6 +88,7 @@ export class CommitmentOverviewLayoutComponent
 
   handleRefinerGroupSelected($event) {
     this.refinerGroupWithDrawer = $event
+    this.electoratesDrawer.open = this.refinerGroupWithDrawer.enableSlide
     this.store.dispatch(new SelectRefinerGroup($event))
   }
 

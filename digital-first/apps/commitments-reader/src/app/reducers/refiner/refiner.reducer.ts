@@ -93,7 +93,6 @@ export function reducer(state = initialState, action: RefinerActions): State {
         selectedRefiners: selectedRefiners
       }
     }
-
     default:
       return state
   }
@@ -128,9 +127,9 @@ export const selectRefinerGroups = createSelector(
   selectTextRefinerState,
   (groups: any[], expanded: any[], selected: any[], text: String) => {
     const rgs = (groups || []).map(g => {
-      const groupChildselected = g.children.some(r => selected.findIndex(
-        s => s.id === r.id && s.group === r.group
-      ) > -1)
+      const groupChildselected = g.children.some(
+        r => selected.findIndex(s => s.id === r.id && s.group === r.group) > -1
+      )
       return {
         ...g,
         expanded: groupChildselected || (expanded || []).includes(g.group),
@@ -143,7 +142,7 @@ export const selectRefinerGroups = createSelector(
         }))
       }
     })
-  
+
     return rgs
   }
 )
