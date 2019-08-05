@@ -19,7 +19,6 @@ import { Router } from '@angular/router'
 import * as fromOverview from '../../reducers/overview/overview.reducer'
 
 describe('OverviewPageComponent', () => {
-  debugger
   let component: OverviewPageComponent;
   let fixture: ComponentFixture<OverviewPageComponent>;
   let mockStore: MockStore<any>
