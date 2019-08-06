@@ -37,6 +37,8 @@ export class BriefNavigationMapperService extends CoreMapperService<NavigationNo
       parent: parent,
       colour: item.Colour,
       order: item.SortOrder,
+      policy: policy,
+      subpolicy: subpolicy,
       active: false,
       expanded: false
     }

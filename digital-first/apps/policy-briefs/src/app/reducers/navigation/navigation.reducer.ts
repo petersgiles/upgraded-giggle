@@ -74,16 +74,18 @@ export const selectExpandedNodesState = createSelector(
   selectExpandedNavigationNodeState,
   selectActiveBriefIdState,
   (nodes, expandedNodes, briefId) => {
- 
+     // tslint:disable-next-line: no-console
+   
     let nodesToExpand = []
     if (briefId) {
       const currentBriefNode = nodes.find(p => p.policy && p.subpolicy && `${p.briefId}` === `${briefId}`)
+      
       if (currentBriefNode) {
         nodesToExpand.push(currentBriefNode.id)
       }
     }
     const uniqueArray = new Set([...expandedNodes, ...nodesToExpand])
-
+    console.log(`🙈`,Array.from(uniqueArray))
     return Array.from(uniqueArray)
   }
 )
@@ -92,7 +94,8 @@ export const selectNavigationNodeTreeState = createSelector(
   selectNavigationNodeState,
   selectExpandedNodesState,
   (nodes, expanded) => {
-
+     // tslint:disable-next-line: no-console
+    console.log(`👹 `, nodes)
     let sortedNodes = []
     if (expanded) {
       sortedNodes = nodes
@@ -111,7 +114,7 @@ export const selectNavigationNodeTreeState = createSelector(
       children: 'children',
       level: 'level'
     })
-
+    
     return tree
   }
 )

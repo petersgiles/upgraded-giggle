@@ -11,12 +11,13 @@ import { Store } from '@ngrx/store'
 import { provideMockStore, MockStore } from '@ngrx/store/testing'
 import { provideMockActions } from '@ngrx/effects/testing'
 import { NO_ERRORS_SCHEMA } from '@angular/core'
-import { async, ComponentFixture, TestBed, getTestBed } from '@angular/core/testing'
+import { inject, async, ComponentFixture, TestBed, getTestBed } from '@angular/core/testing'
 import { BriefDocumentComponent } from './brief-document.component'
 import { Injector} from '@angular/core'
 import { SafeHtmlPipe } from '../../../../../../../libs/df-pipes/src/lib/safe-html.pipe'
 import { DfPipesModule } from '../../../../../../../libs/df-pipes/src/lib/df-pipes.module'
-import { Observable, of} from 'rxjs'
+import { Observable, of, BehaviorSubject} from 'rxjs'
+import { first } from 'rxjs/operators'
 import { BriefDataService } from '../../../reducers/brief/brief-data.service'
 import { BriefDataLocalService } from '../../../reducers/brief/local/brief-data.service'
 import * as fromRoot from '../../../reducers/index'
@@ -26,45 +27,30 @@ import { SettingsService } from '../../../services/settings.service'
 import { BriefMapperService } from '../../../services/mappers/brief-mapper.service'
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
 import { HttpClient } from '@angular/common/http'
+import { CoreMapperService } from '../../../services/mappers/core-mapper.service'
+import { briefs } from '../../../../devdata/briefs'
 
 const briefDataServiceFactory = (
   http: HttpClient,
   settings: AppSettingsService,
   mapping: BriefMapperService
-  ) => {
-    let injector = Injector.create([{
-      provide: BriefDataLocalService,
-      deps: [settings, http, mapping]
-    }])
-    
-    return injector.get(BriefDataLocalService)
-  }
-
-  const appDataServiceFactory  = (
-  ) => {
-   return new SettingsService()
-  } 
-
-  /* const appDataServiceFactory = (
   
-    ) => {
-      let injector = Injector.create([{
-        provide: SettingsService,
-        deps: []
-      }])
-      
-      return injector.get(SettingsService)
-    } */
+) => {
+  let injector = Injector.create([{
+    provide: BriefDataLocalService,
+    deps: [http, settings, mapping]
+  }])
   
+  return injector.get(BriefDataLocalService)
+}
+
 describe('BriefDocumentComponent', () => {
-  debugger
   let component: BriefDocumentComponent;
   let fixture: ComponentFixture<BriefDocumentComponent>;
   let mockStore: MockStore<any>
   let actions$: Observable<any>
-  let settingsService: SettingsService
-  let httpTestingController: HttpTestingController
- 
+  let briefHtml$: BehaviorSubject<string> = new BehaviorSubject(null)
+
   const initialState: fromBrief.State = {
     activeBrief: null,
     brief: null,
@@ -83,24 +69,25 @@ describe('BriefDocumentComponent', () => {
       imports: [DfPipesModule, HttpClientTestingModule],
       providers:
       [ 
-       // AppSettingsService,
         SettingsService,
         BriefMapperService,
+        BriefDataLocalService,
         SafeHtmlPipe,
-        {
-          provide: AppSettingsService,
-          useFactory:  appDataServiceFactory, deps:[],
-       },   
-       {
-        provide: AppSettingsService,
-        useValue: settingsService
+        HttpClient,
+        {provide: CoreMapperService,
+        useClass: BriefMapperService
+        },
+        {provide: BriefDataService,
+        useClass: BriefDataLocalService
       },
-        {
-          provide: BriefDataService,
+        { provide: AppSettingsService, 
+          useClass: SettingsService 
+        },
+       {
+          provide:  BriefDataLocalService,
           useFactory: briefDataServiceFactory,
           deps: [HttpClient, AppSettingsService, BriefMapperService]
-        },
-       
+      },
       { provide: Store,
         useValue: {
           pipe: jest.fn()
@@ -117,9 +104,7 @@ describe('BriefDocumentComponent', () => {
     mockStore = TestBed.get(Store)
     initialState.brief = getBrief()
     mockStore.overrideSelector(fromBrief.selectBriefState, initialState.brief)    
-    settingsService = TestBed.get(SettingsService)
-    httpTestingController = TestBed.get(HttpTestingController)
-    
+  
     fixture.detectChanges();  
   })
   
@@ -133,24 +118,59 @@ describe('BriefDocumentComponent', () => {
     mockStore
      .select(fromBrief.selectBriefState)
      .subscribe(result => {
-        expect(result.fileLeafRef).toEqual('0733738d-5946-ca15-7797-eb31615111f2.docx')   
+        expect(result.fileLeafRef).toEqual('LOCALDEV-DAVE-636904955575056876.docx')   
    })})
+
+   it('should get the Brief and use service to get html', inject([BriefDataService], (service: BriefDataService) => {
+   
+    service.getBriefHtml = jest.fn(() => of({
+      data: getHtml(),
+      loading: false
+    }))
+    mockStore
+     .select(fromBrief.selectBriefState)
+     .subscribe(brief => {
+      if (brief && brief.fileLeafRef) {
+        const fileLeafRef = brief.fileLeafRef
+          .split('.')
+          .slice(0, -1)
+          .join('.')
+
+        service
+          .getBriefHtml(fileLeafRef)
+          .pipe(first())
+          .subscribe(result => {
+            briefHtml$.next(result.data)
+          })
+      }
+      briefHtml$.subscribe(data => {
+        expect(data).toEqual(getHtml())
+      })
+   })}))
+
 
  })
 
  function getBrief(){
-  let brief = {briefDivision: {id: 1, title: undefined}, briefStatus: {id: 1, title: undefined}, dLM: null, dueDate: null,
-  editor: {id: null, title: null},
-  fileLeafRef: '0733738d-5946-ca15-7797-eb31615111f2.docx',
-  id: 1,
-  modified: undefined,
-  order: 999,
-  policy: {id: 1, title: 'Sample Policy'},
-  policyDirection: undefined,
-  reference: 'BRIEF-19-000001',
-  securityClassification: 'UNCLASSIFIED',
-  subPolicy: {id: 1, title: 'SubPolicy One'},
-  title: 'Sample Policy Brief 1'
-  }
+  let brief = {
+    briefDivision: {id: 1, title: undefined},briefStatus:{id: 1,title: undefined},
+    dLM: "Sensitive Personal",
+    dueDate: null,
+    editor: {id: null, title: null},
+    fileLeafRef: "LOCALDEV-DAVE-636904955575056876.docx",
+    id: 10,
+    modified: undefined,
+    order: null,
+    policy: {id: 1,title: "Sample Policy"},
+    policyDirection: undefined,
+    reference: "BN:636904955575056876",
+    securityClassification: "PROTECTED",
+    subPolicy: {id: 1, title: "SubPolicy One"},
+    title: "The Integration Of Hypothetical Concept"
+    }
   return brief
+ }
+
+ function getHtml(){
+   return `<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta http-equiv="Content-Style-Type" content="text/css" /><meta name="generator" content="Aspose.Words for .NET 17.2.0.0" /><title>The Theme Of Secondary Element</title></head><body><div>test</div></body></html>`
  }

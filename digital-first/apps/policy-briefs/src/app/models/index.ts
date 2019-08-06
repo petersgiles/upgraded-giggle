@@ -57,6 +57,8 @@ export interface Discussion {
 export interface NavigationNode {
   id: string
   briefId: string
+  policy: string
+  subpolicy: string
   caption: string
   parent: string
   colour: string
