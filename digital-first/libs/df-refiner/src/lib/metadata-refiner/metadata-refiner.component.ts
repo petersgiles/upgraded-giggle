@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
 import { FormControl, FormGroup } from '@angular/forms'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
-
 import { Injectable } from '@angular/core'
 import { BehaviorSubject } from 'rxjs'
 

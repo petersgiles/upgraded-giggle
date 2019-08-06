@@ -11,7 +11,6 @@ export enum RefinerActionTypes {
   SetRefinerFromQueryString = '[RefinerActionTypes] SetRefinerFromQueryString',
   ClearRefiners = '[RefinerActionTypes] ClearRefiners',
   ChangeTextRefiner = '[RefinerActionTypes] ChangeTextRefiner',
-
 }
 
 export class ClearRefiners implements Action {

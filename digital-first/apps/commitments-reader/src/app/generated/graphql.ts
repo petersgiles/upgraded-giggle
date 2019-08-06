@@ -13,9 +13,10 @@ export type Scalars = {
   DateTimeOffset: any
   Json: any
   UInt32: any
+  Decimal: any
+  UInt16: any
   Date: any
   DateTime: any
-  Decimal: any
   Milliseconds: any
   Seconds: any
 }
@@ -168,6 +169,15 @@ export type BudgetGraphAppropriationsArgs = {
   where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
   skip?: Maybe<Scalars['Int']>
   take?: Maybe<Scalars['Int']>
+}
+
+export type CandidateGraph = {
+  __typename?: 'CandidateGraph'
+  familyName: Scalars['String']
+  givenNames: Scalars['String']
+  party: Scalars['String']
+  votes: Scalars['UInt32']
+  swing: Scalars['Decimal']
 }
 
 export type ColumnGraph = {
@@ -361,6 +371,8 @@ export type CommitmentRefinerGraph = {
   criticalDates?: Maybe<Array<Maybe<Scalars['Int']>>>
   portfolioLookups?: Maybe<Array<Maybe<Scalars['Int']>>>
   deckItemBriefSummaries?: Maybe<Array<Maybe<Scalars['Guid']>>>
+  electorates?: Maybe<Array<Maybe<Scalars['Guid']>>>
+  states?: Maybe<Array<Maybe<Scalars['Guid']>>>
   locations?: Maybe<Array<Maybe<Scalars['Int']>>>
   text?: Maybe<Scalars['String']>
 }
@@ -624,6 +636,11 @@ export type ElectorateGraph = {
   programs?: Maybe<Array<Maybe<ProgramGraph>>>
   statisticReports?: Maybe<Array<Maybe<StatisticReportGraph>>>
   projects?: Maybe<Array<Maybe<ProjectGraph>>>
+  twoCandidatePreferred?: Maybe<TwoCandidatePreferredGraph>
+  enrollment?: Maybe<Scalars['String']>
+  area?: Maybe<Scalars['Decimal']>
+  currentMember?: Maybe<MemberGraph>
+  members?: Maybe<Array<Maybe<MemberGraph>>>
   id: Scalars['Guid']
   population: Scalars['UInt32']
   name: Scalars['String']
@@ -737,6 +754,15 @@ export type MapPointGraphCommitmentMapPointsArgs = {
 
 export type MarkdownGraph = {
   text: Scalars['String']
+}
+
+export type MemberGraph = {
+  __typename?: 'MemberGraph'
+  familyName: Scalars['String']
+  givenNames: Scalars['String']
+  begin: Scalars['UInt16']
+  end?: Maybe<Scalars['UInt16']>
+  party: Scalars['String']
 }
 
 export type ModifyElectorateAdviceGraph = {
@@ -1866,6 +1892,12 @@ export type SubscriptionMutationMessageResultsByUserArgs = {
   user?: Maybe<Scalars['String']>
 }
 
+export type TwoCandidatePreferredGraph = {
+  __typename?: 'TwoCandidatePreferredGraph'
+  elected: CandidateGraph
+  other: CandidateGraph
+}
+
 export type UpdatePmcHandlingAdviceCommitmentGraph = {
   commitmentId: Scalars['Int']
   handlingAdviceId?: Maybe<Scalars['Guid']>
@@ -2089,17 +2121,18 @@ export type GetRefinerTagsQuery = { __typename?: 'Query' } & {
   >
   states: Maybe<
     Array<
+      Maybe<{ __typename?: 'StateGraph' } & Pick<StateGraph, 'id' | 'name'>>
+    >
+  >
+  electorates: Maybe<
+    Array<
       Maybe<
-        { __typename?: 'StateGraph' } & Pick<StateGraph, 'id' | 'name'> & {
-            electorates: Maybe<
-              Array<
-                Maybe<
-                  { __typename?: 'ElectorateGraph' } & Pick<
-                    ElectorateGraph,
-                    'id' | 'name'
-                  >
-                >
-              >
+        { __typename?: 'ElectorateGraph' } & Pick<
+          ElectorateGraph,
+          'id' | 'name'
+        > & {
+            state: Maybe<
+              { __typename?: 'StateGraph' } & Pick<StateGraph, 'id' | 'name'>
             >
           }
       >
@@ -2411,10 +2444,14 @@ export const GetRefinerTagsDocument = gql`
       id
       title
     }
-    states {
+    states(orderBy: { path: "name" }) {
       id
       name
-      electorates {
+    }
+    electorates(orderBy: { path: "name" }) {
+      id
+      name
+      state {
         id
         name
       }

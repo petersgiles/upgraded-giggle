@@ -15,10 +15,14 @@ query GetRefinerTags($siteId: Guid!) {
     id
     title
   }
-  states {
+  states(orderBy: { path: "name" }) {
     id
     name
-    electorates {
+  }
+  electorates(orderBy: { path: "name" }) {
+    id
+    name
+    state {
       id
       name
     }

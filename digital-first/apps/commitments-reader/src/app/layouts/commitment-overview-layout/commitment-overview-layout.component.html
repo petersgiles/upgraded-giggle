@@ -18,37 +18,29 @@
         <section>
           <mdc-drawer #drawer drawer="modal" class="electrate-drawer">
             <mdc-drawer-header>
-              <h3 mdcDrawerTitle>Refine by electrates</h3>
+              <h3 mdcDrawerTitle>Refine by electorates</h3>
             </mdc-drawer-header>
 
-            <mdc-drawer-content>
-              <mdc-list-group>
-                <div *ngFor="let state of refinerGroupWithDrawer?.children">
-                  <label>
-                    <mdc-icon style="vertical-align: middle">{{
-                      state.selected
-                        ? 'check_box_outline_blank'
-                        : 'indeterminate_check_box'
-                    }}</mdc-icon>
-                    {{ state.title }}
-                  </label>
-                  <mdc-list [verticalOrientation]="true" dense>
-                    <mdc-list-item
-                      class="refiner"
-                      *ngFor="let electorate of state.children; let i = index"
-                    >
-                      <mdc-icon
-                        >check_box{{
-                          i / 2 == 0 ? '' : '_outline_blank'
-                        }}</mdc-icon
-                      >
-                      {{ electorate.title }}
-                    </mdc-list-item>
-                  </mdc-list>
-                </div>
-              </mdc-list-group>
+            <mdc-drawer-content *ngIf="refinerGroupWithDrawer">
+              <ng-select class="custom"
+                [items]="electrates"
+                [multiple]="true"
+                bindLabel="title"
+                groupBy ="state"
+                [selectableGroup]="true"
+                [selectableGroupAsModel]="false"
+                [closeOnSelect]="false"
+                bindValue="id"
+                [(ngModel)]="selectedRefiners">
+                <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                    <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/> {{item.state | uppercase}}
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                    <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/> {{item.title}}
+                </ng-template>
+            </ng-select>
             </mdc-drawer-content>
-          </mdc-drawer>
+          </mdc-drawer> 
           <mdc-tab-bar [activeTabIndex]="activeTab" useAutomaticActivation>
             <mdc-tab-scroller>
               <mdc-tab

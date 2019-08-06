@@ -44,6 +44,8 @@ export class OverviewEffects {
           criticalDates: [],
           portfolioLookups: [],
           deckItemBriefSummaries: [],
+          states:[],
+          electorates:[],
           text: null
         }
       )

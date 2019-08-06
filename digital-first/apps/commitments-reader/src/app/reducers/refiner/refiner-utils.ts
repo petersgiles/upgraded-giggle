@@ -3,7 +3,19 @@ import { CRMenu } from './refiner.models'
 export const REFINER_GROUP_MAP = [
   {
     group: 'commitmentTypes',
-    title: 'Commitment Types'
+    title: 'Commitment Types',
+    singleSelection: true
+  },
+  {
+    group: 'electorates',
+    title: 'Electorates',
+    enableSlide: true,
+    hidden: true
+  },
+  {
+    group: 'states',
+    title: 'States',
+    hidden: true
   },
   {
     group: 'criticalDates',
@@ -16,15 +28,6 @@ export const REFINER_GROUP_MAP = [
   {
     group: 'deckItemBriefSummaries',
     title: 'Theme'
-  },
-  {
-    group: 'states',
-    title: 'Electorates',
-    enableSlide: true,
-    children: {
-      group: 'electorates',
-      title: 'Electorate'
-    }
   }
 ]
 
@@ -34,9 +37,11 @@ export const buildRefiner = (refiner: {
   portfolioLookups: []
   deckItemBriefSummaries: []
   electorates: []
+  states: []
 }): CRMenu[] => {
+  console.log(':')
+
   const result: CRMenu[] = REFINER_GROUP_MAP.reduce((acc: any, item: any) => {
-    console.log(item)
     acc.push({
       id: item.id,
       title: item.title ? item.title : item.name,
@@ -44,26 +49,19 @@ export const buildRefiner = (refiner: {
       selected: false,
       group: item.group,
       enableSlide: item.enableSlide,
+      hidden: item.hidden,
       children: refiner[item.group].map(p => ({
         id: p.id,
         title: p.title ? p.title : p.name,
         group: item.group,
         expanded: false,
         selected: false,
-        children: item.children
-          ? p[item.children.group].map(pc => ({
-              id: pc.id,
-              title: pc.title ? pc.title : pc.name,
-              group: item.children.group,
-              expanded: false,
-              selected: false
-            }))
-          : []
+        children: item.children,
+        singleSelection: item.singleSelection
       }))
     })
 
     return acc
   }, [])
-
   return result
 }

@@ -5,5 +5,7 @@ export interface CRMenu {
   selected: boolean
   group: string
   enableSlide: boolean
+  singleSelection: boolean
+  hidden: boolean
   children?: CRMenu[]
 }

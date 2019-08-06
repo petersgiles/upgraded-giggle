@@ -75,7 +75,8 @@ export class CommitmentOverviewLayoutComponent
   isBusy$: Observable<boolean>
   textRefiner$: Observable<string>
   refinerGroupWithDrawer: CRMenu
-
+  electrates: any
+  selectedRefiners: any[]
   @ViewChild('drawer', { static: true })
   public electoratesDrawer: MdcDrawer
 
@@ -87,8 +88,17 @@ export class CommitmentOverviewLayoutComponent
   ) {}
 
   handleRefinerGroupSelected($event) {
-    this.refinerGroupWithDrawer = $event
+    this.refinerGroupWithDrawer = $event as CRMenu
+    this.electrates = []
     this.electoratesDrawer.open = this.refinerGroupWithDrawer.enableSlide
+    if ($event.enableSlide)
+      $event.children.forEach(el => {
+        this.electrates.push({
+          id: el.id,
+          title: el.title,
+          state: el.state
+        })
+      })
     this.store.dispatch(new SelectRefinerGroup($event))
   }
 
@@ -142,8 +152,6 @@ export class CommitmentOverviewLayoutComponent
       .pipe(select(fromRefiner.selectRefinerGroups))
       .subscribe(next => {
         this.refinerGroups = next
-        this.store.dispatch(new GetRefinedCommitments(null))
-        this.store.dispatch(new GetRefinedMapPoints(null))
       })
 
     this.appRouter.segments.subscribe(url => {

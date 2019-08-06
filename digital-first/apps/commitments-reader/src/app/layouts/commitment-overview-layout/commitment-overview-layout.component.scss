@@ -46,3 +46,7 @@ mdc-list-group div {
     width: 9%;
   }
 }
+
+.ng-select.custom ::ng-deep .ng-option .ng-option-child {
+  line-height: 2em;
+}
