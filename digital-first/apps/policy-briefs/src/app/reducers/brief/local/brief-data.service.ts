@@ -33,7 +33,20 @@ export class BriefDataLocalService implements BriefDataService {
   }
 
   setActiveBriefStatus(activeBriefId: string, status: string): Observable<{ briefId: any; loading: boolean; }> {
-    throw new Error("Method not implemented.");
+
+    var found = briefs.find(p => `${p.Id}` == activeBriefId )
+    if(found) {
+      let index = briefs.indexOf(found);
+      briefs[index] = {
+        ...found,
+        BriefStatus: {
+          Id: +status
+        }
+      }
+    }
+
+    this.fakeBriefBackend.next(briefs)
+    return of({ briefId: activeBriefId, loading: false })
   }
 
   public getBriefs(): Observable<{
