@@ -46,8 +46,6 @@ export class BriefReaderComponent implements OnInit {
         switchMap((params: ParamMap) => {
           this.activeBriefId = params.get('id')
 
-          console.log(`🍏`, this.activeBriefId)
-
           this.store.dispatch(
             new SetActiveBrief({ activeBriefId: this.activeBriefId })
           )
