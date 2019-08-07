@@ -1,5 +1,5 @@
 query GetRefinerTags($siteId: Guid!) {
-  commitmentTypes {
+  commitmentTypes(orderBy: { path: "sortOrder" }) {
     id
     title
   }

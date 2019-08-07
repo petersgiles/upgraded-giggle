@@ -2428,7 +2428,7 @@ export class GetCommitmentDetailGQL extends Apollo.Query<
 }
 export const GetRefinerTagsDocument = gql`
   query GetRefinerTags($siteId: Guid!) {
-    commitmentTypes {
+    commitmentTypes(orderBy: { path: "sortOrder" }) {
       id
       title
     }

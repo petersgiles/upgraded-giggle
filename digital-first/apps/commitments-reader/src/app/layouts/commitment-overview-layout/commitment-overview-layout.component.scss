@@ -27,7 +27,7 @@ digital-first-metadata-refiner {
   }
 }
 .electrate-drawer {
-  width: calc(100vw - 300px);
+  width: calc(50vw);
   height: calc(100vh - 80px);
   left: 280px;
   z-index: 10000000;
@@ -45,8 +45,4 @@ mdc-list-group div {
   .mdc-list-item {
     width: 9%;
   }
-}
-
-.ng-select.custom ::ng-deep .ng-option .ng-option-child {
-  line-height: 2em;
 }

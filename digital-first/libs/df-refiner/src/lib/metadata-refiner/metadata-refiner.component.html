@@ -39,31 +39,36 @@
           >keyboard_arrow_{{ group.expanded ? 'down' : 'right' }}</mdc-icon
         >
       </mdc-list-item>
-      <div *ngIf="group.expanded && group.children && !group.enableSlide">
-        <mdc-list-item
-          class="refiner"
-          *ngFor="let refiner of group.children"
-          (click)="onRefinerSelected.emit(refiner)"
-        >
-          <ng-container *ngIf="refiner.singleSelection">
-            <mdc-icon
-              >radio_button_{{
-                refiner.selected ? 'checked' : 'unchecked'
-              }}</mdc-icon
+      <div *ngIf="group.expanded && group.children">
+        <ng-container *ngFor="let refiner of group.children; let i = index">
+          <ng-container
+            *ngIf="!group.enableSlide || (group.enableSlide && i <= 8)"
+          >
+            <mdc-list-item
+              class="refiner"
+              (click)="onRefinerSelected.emit(refiner)"
             >
+              <mdc-icon
+                >check_box{{
+                  refiner.selected ? '' : '_outline_blank'
+                }}</mdc-icon
+              >
+              {{ refiner.title | truncate: [35, '...'] }}
+              <span mdcListItemMeta class="refiner-metadata">{{
+                refiner.count
+              }}</span>
+            </mdc-list-item>
           </ng-container>
-
-          <ng-container *ngIf="!refiner.singleSelection">
-            <mdc-icon
-              >check_box{{ refiner.selected ? '' : '_outline_blank' }}</mdc-icon
+          <mdc-list-item
+            *ngIf="group.enableSlide && i === 8"
+            class="refiner"
+            (click)="onSlideOutGroupSelected.emit(group)"
+          >
+            <strong style="width:100%;text-align: center"
+              >More options ...</strong
             >
-          </ng-container>
-
-          {{ refiner.title | truncate: [35, '...'] }}
-          <span mdcListItemMeta class="refiner-metadata">{{
-            refiner.count
-          }}</span>
-        </mdc-list-item>
+          </mdc-list-item>
+        </ng-container>
       </div>
       <div *ngIf="group.expanded && group.custom">
         <mdc-list-item (click)="onSaveRefiner.emit()">

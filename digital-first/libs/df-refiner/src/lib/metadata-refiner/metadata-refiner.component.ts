@@ -78,6 +78,9 @@ export class MetadataRefinerComponent implements OnInit {
 
   @Output()
   onClear: EventEmitter<any> = new EventEmitter()
+  
+  @Output()
+  onSlideOutGroupSelected: EventEmitter<any> = new EventEmitter()
 
   handleOnClear() {
     this.searchControl.reset()

@@ -9,13 +9,11 @@ export const REFINER_GROUP_MAP = [
   {
     group: 'electorates',
     title: 'Electorates',
-    enableSlide: true,
-    hidden: true
+    enableSlide: true
   },
   {
     group: 'states',
-    title: 'States',
-    hidden: true
+    title: 'States'
   },
   {
     group: 'criticalDates',
@@ -49,7 +47,6 @@ export const buildRefiner = (refiner: {
       selected: false,
       group: item.group,
       enableSlide: item.enableSlide,
-      hidden: item.hidden,
       children: refiner[item.group].map(p => ({
         id: p.id,
         title: p.title ? p.title : p.name,
@@ -57,10 +54,11 @@ export const buildRefiner = (refiner: {
         expanded: false,
         selected: false,
         children: item.children,
-        singleSelection: item.singleSelection
+        singleSelection: item.singleSelection,
+        additionalInfo: item.group === 'electorates' ? p.state.name : ''
       }))
     })
-
+   
     return acc
   }, [])
   return result

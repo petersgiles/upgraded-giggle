@@ -88,20 +88,25 @@ export class CommitmentOverviewLayoutComponent
   ) {}
 
   handleRefinerGroupSelected($event) {
+    this.store.dispatch(new SelectRefinerGroup($event))
+  }
+  handleSlideOutGroupSelected($event){
     this.refinerGroupWithDrawer = $event as CRMenu
     this.electrates = []
     this.electoratesDrawer.open = this.refinerGroupWithDrawer.enableSlide
-    if ($event.enableSlide)
+    if ($event.enableSlide) {
       $event.children.forEach(el => {
         this.electrates.push({
           id: el.id,
           title: el.title,
-          state: el.state
+          state: el.additionalInfo
         })
       })
-    this.store.dispatch(new SelectRefinerGroup($event))
+      this.electrates.sort((a, b) => {
+        return a.state > b.state ? 1 : -1
+      })
+    }
   }
-
   handleRefinerSelected($event) {
     this.store.dispatch(new SelectRefiner($event))
   }
@@ -127,7 +132,6 @@ export class CommitmentOverviewLayoutComponent
     })
 
     this.isBusy$ = this.store.pipe(select(selectAppSpinnerState))
-
     this.textRefiner$ = this.store.pipe(
       select(fromRefiner.selectTextRefinerState)
     )

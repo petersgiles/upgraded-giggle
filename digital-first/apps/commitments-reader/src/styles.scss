@@ -32,17 +32,13 @@ ngx-wig {
   background-color: rgb(142, 236, 118);
   color: rgb(6, 75, 23);
 }
-.ng-select.custom.ng-select-multiple
-  .ng-select-container
-  .ng-value-container
-  .ng-value {
-  background-color: rgb(92, 109, 117)nt;
-}
+
 .ng-select.custom {
   border: 0px;
   min-height: 0px;
   border-radius: 0;
 }
+
 .ng-select.custom .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
   line-height: 2em;
   min-height: 2em;
