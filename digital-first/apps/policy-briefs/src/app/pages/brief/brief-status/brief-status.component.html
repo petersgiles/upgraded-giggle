@@ -1,7 +1,22 @@
-<form *ngIf="brief" [formGroup]="form" autocomplete="off">
-  <df-status-picker
-    [statuses]="documentStatusList$ | async"
-    [formControlName]="'status'"
+<div *ngIf="(status$ | async) as status">
+<div class="mdc-chip-set" *ngIf="brief && (documentStatusList$ | async) as statuses">
+  <div
+    *ngFor="let sli of statuses"
+    (click)="onSelectionChange(sli)"
+    class="mdc-chip"
+    [ngClass]="{ 'active-status-chip': status === sli.id }"
   >
-  </df-status-picker>
-</form>
+    <mdc-icon
+      class="mdc-chip__icon ngx-mdc-icon material-icons mdc-chip__icon--leading"
+      *ngIf="status !== sli.id"
+      >{{ sli.icon }}</mdc-icon
+    >
+    <mdc-icon
+      class="mdc-chip__icon ngx-mdc-icon material-icons mdc-chip__icon--leading"
+      *ngIf="status === sli.id"
+      >check</mdc-icon
+    >
+    <span class="mdc-chip__text">{{ sli.caption }}</span>
+  </div>
+</div>
+</div>  

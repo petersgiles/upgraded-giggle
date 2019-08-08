@@ -12,6 +12,14 @@ const discussionDataServiceFactory = (
   sharepointlib: SharepointJsomService,
   discussionMapperService: DiscussionMapperService
 ) => {
+
+  console.log(
+    `discussionDataServiceFactory`,
+    settings,
+    sharepointlib
+  )
+
+
   let source = null
   if (settings.host) {
     source = settings.host

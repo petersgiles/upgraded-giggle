@@ -1,4 +1,4 @@
-import { DiscussionType } from '../app/models';
+import { DiscussionType } from '../apps/policy-briefs/src/app/models';
 
 export const comments = [
   {

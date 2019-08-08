@@ -13,9 +13,9 @@ export class RecommendationMapperService extends CoreMapperService<
   }
 
   public mapSingle(item: any): Recommendation {
-    const brief = this.idFromLookup(item.Brief)
-    const subPolicy = this.idFromLookup(item.SubPolicy)
-    const policy = this.idFromLookup(item.Policy)
+    const brief = super.idFromLookup(item.Brief)
+    const subPolicy = super.idFromLookup(item.SubPolicy)
+    const policy = super.idFromLookup(item.Policy)
 
     return {
       id: item.ID,

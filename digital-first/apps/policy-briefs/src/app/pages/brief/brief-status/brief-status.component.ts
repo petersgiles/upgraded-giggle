@@ -1,15 +1,17 @@
 import { Component, OnInit, Input } from '@angular/core'
-import { Store } from '@ngrx/store'
-import { statuslist } from '../mock-data'
+import { Store, select } from '@ngrx/store'
 import { FormBuilder } from '@angular/forms'
 
 import * as fromRoot from '../../../reducers/index'
-import { Subscription, BehaviorSubject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
-import { SetActiveBriefStatus } from '../../../reducers/brief/brief.actions';
+import * as fromBrief from '../../../reducers/brief/brief.reducer'
+import * as fromLookup from '../../../reducers/lookups/lookup.reducer'
+import { Subscription, BehaviorSubject } from 'rxjs'
+import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators'
+import { SetActiveBriefStatus } from '../../../reducers/brief/brief.actions'
+import { GetLookupStatuses } from '../../../reducers/lookups/lookup.actions'
 
 const defaultValues = {
-  status: "1"
+  status: '1'
 }
 
 @Component({
@@ -23,34 +25,38 @@ export class BriefStatusComponent implements OnInit {
   @Input()
   brief
 
-  constructor(private store: Store<fromRoot.State>, private fb: FormBuilder) {}
+  status$: BehaviorSubject<string | number> = new BehaviorSubject("1")
+  briefStatusSubscription$: Subscription
 
-  public form = this.fb.group({
-    status: [null]
-  })
+  constructor(private store: Store<fromRoot.State>, private fb: FormBuilder) {}
 
   public formValueChangeSubscription$: Subscription
 
   ngOnInit() {
-    this.documentStatusList$ = new BehaviorSubject(statuslist)
+    this.documentStatusList$ = this.store.pipe(
+      select(fromLookup.selectLookupStatusesState)
+    )
 
-    this.form.patchValue(defaultValues)
-
-    this.formValueChangeSubscription$ = this.form.valueChanges
-      .pipe(
-        debounceTime(100),
-        distinctUntilChanged(),
-        tap(formEvent => console.log(`formEvent`, formEvent))
-      )
-      .subscribe(formEvent => {
-        if (formEvent.status) {
-          this.store.dispatch(
-            new SetActiveBriefStatus({
-              activeBriefId: this.brief.id,
-              status: formEvent.status
-            })
-          )
+    this.briefStatusSubscription$ = this.store
+      .pipe(select(fromBrief.selectBriefStatusState))
+      .pipe(tap(briefStatus => console.log(`briefStatus`, briefStatus)))
+      .subscribe(briefStatus => {
+        if (briefStatus) {
+          this.status$.next(`${briefStatus}`)
         }
       })
+
+    this.store.dispatch(new GetLookupStatuses())
+  }
+  onSelectionChange(sli) {
+    console.log(`briefStatus selected`, sli)
+    if (sli) {
+      this.store.dispatch(
+        new SetActiveBriefStatus({
+          activeBriefId: this.brief.id,
+          status: sli.id
+        })
+      )
+    }
   }
 }

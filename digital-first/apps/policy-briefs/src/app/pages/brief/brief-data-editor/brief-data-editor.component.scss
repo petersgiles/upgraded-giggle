@@ -34,7 +34,28 @@ df-button.edit {
   }
 }
 
+.action-card {
+  margin: 4px;
+}
 
-.action-description{
-  
+.action-card-item {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+.action-card-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding: 4px;
+  mdc-textarea {
+    width: calc(100% - 4px);
+  }
+  mdc-text-field {
+    width: calc(100% - 8px);
+  }
+}
+
+
 }

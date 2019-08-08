@@ -13,8 +13,8 @@ export class RecommendedDirectionMapperService extends CoreMapperService<
   }
 
   public mapSingle(item: any): RecommendedDirection {
-    const brief = this.idFromLookup(item.Brief)
-    const recommendation = this.idFromLookup(item.Recommendation)
+    const brief = super.idFromLookup(item.Brief)
+    const recommendation = super.idFromLookup(item.Recommendation)
 
     return {
       id: item.ID,

@@ -22,8 +22,8 @@
       [hostId]="brief.id"
       [comments]="comments$ | async"
       [activeComment]="activeComment$ | async"
-      (onReplyToComment)="handleReplyToComment($event, 'onReplyToComment')"
-      (onDeleteComment)="handleRemoveComment($event, 'onRemoveComment')"
-      (onAddComment)="handleAddComment($event, 'onAddComment')"
+      (onReplyToComment)="handleReplyToComment($event)"
+      (onDeleteComment)="handleRemoveComment($event)"
+      (onAddComment)="handleAddComment($event)"
     ></df-discussion>
   </df-expander-panel>

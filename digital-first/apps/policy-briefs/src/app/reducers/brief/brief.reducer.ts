@@ -9,8 +9,7 @@ export interface State {
   directions: any[]
   recommendations: any[]
   attachments: any[]
-  statusLookups: any[]
-  divisionLookups: any[]
+
 }
 
 export const initialState: State = {
@@ -19,8 +18,7 @@ export const initialState: State = {
   directions: null,
   recommendations: null,
   attachments: null,
-  statusLookups: null,
-  divisionLookups: null
+
 }
 
 export function reducer(state = initialState, action: BriefActions): State {
@@ -33,7 +31,7 @@ export function reducer(state = initialState, action: BriefActions): State {
       }
 
       case BriefActionTypes.SetActiveBriefStatus:
-
+        console.log("SetActiveBriefStatus", action.payload)
         return {
           ...state,
           brief:  {
@@ -71,6 +69,14 @@ export const selectFileLeafRefState = createSelector(
   brief => (brief || {}).fileLeafRef
 )
 
+export const selectBriefStatusState = createSelector(
+  selectBriefState,
+  brief => {
+    console.log("selectBriefStatusState", (brief || {}).status)
+    return (brief || {}).status
+  }
+)
+
 export const selectDirectionsState = createSelector(
   briefState,
   (state: State) => state.directions
@@ -86,12 +92,3 @@ export const selectAttachmentsState = createSelector(
   (state: State) => state.attachments
 )
 
-export const selectStatusLookupsState = createSelector(
-  briefState,
-  (state: State) => state.statusLookups
-)
-
-export const selectDivisionLookupsState = createSelector(
-  briefState,
-  (state: State) => state.divisionLookups
-)

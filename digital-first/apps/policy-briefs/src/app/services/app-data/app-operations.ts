@@ -15,7 +15,7 @@ APP_OPERATION_DEFAULTS[OPERATION_CREATE_BRIEF] = OPERATION_RIGHT_HIDE
 @Injectable({
   providedIn: 'root'
 })
-export class DeckUserOperationsService implements AppUserOperationsService {
+export class UserOperationsService implements AppUserOperationsService {
   get operations() {
     return APP_OPERATION_DEFAULTS
   }

@@ -9,13 +9,12 @@ import {
   SetActiveBriefPath,
 } from '../../../reducers/navigation/navigation.actions'
 
-import { EMPTY, BehaviorSubject } from 'rxjs'
+import { EMPTY, BehaviorSubject, Observable } from 'rxjs'
 
 import * as fromRoot from '../../../reducers/index'
 import * as fromBrief from '../../../reducers/brief/brief.reducer'
 
-
-import { DiscussionType } from '../../../models'
+import { selectAppBackgroundColour } from '@digital-first/df-app-core'
 
 @Component({
   selector: 'digital-first-brief-reader',
@@ -28,7 +27,7 @@ export class BriefReaderComponent implements OnInit {
   selectId$: any
   activeBriefId: string
 
-  public background$: BehaviorSubject<string> = new BehaviorSubject('#455a64')
+  public background$: Observable<string>
 
   constructor(
     private route: ActivatedRoute,
@@ -40,6 +39,8 @@ export class BriefReaderComponent implements OnInit {
   ngOnInit() {
 
     this.brief$ = this.store.pipe(select(fromBrief.selectBriefState))
+
+    this.background$ = this.store.pipe(select(selectAppBackgroundColour))
 
     this.selectId$ = this.route.paramMap
       .pipe(

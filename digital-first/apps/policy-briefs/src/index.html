@@ -1,75 +1,111 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Briefs</title>
-  <base href="/">
+  <head>
+    <meta charset="utf-8" />
+    <title>Briefs</title>
+    <base href="/" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons" type="text/css">
-  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link
+      rel="stylesheet"
+      href="//fonts.googleapis.com/icon?family=Material+Icons"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="//fonts.googleapis.com/css?family=Roboto:300,400,500"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="//fonts.googleapis.com/css?family=Permanent+Marker"
+      type="text/css"
+    />
+    <link rel="icon" type="image/png" href="./assets/logo.png" />
+    <style type="text/css">
+      .ballwrap {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+      }
 
-  <link rel="icon" type="image/png" href="./assets/logo.png">
-  <style type="text/css">
-    body, html {
-      height: 100%;
-    }
-    .app-loading {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-    }
-    .app-loading .spinner {
-      height: 200px;
-      width: 200px;
-      animation: rotate 2s linear infinite;
-      transform-origin: center center;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      margin: auto;
-    }
-    .app-loading .spinner .path {
-      stroke-dasharray: 1, 200;
-      stroke-dashoffset: 0;
-      animation: dash 1.5s ease-in-out infinite;
-      stroke-linecap: round;
-      stroke: #ddd;
-    }
-    @keyframes rotate {
-      100% {
-        transform: rotate(360deg);
+      .text {
+        color: #607D8B;
+        display: inline-block;
+        margin-left: 5px;
       }
-    }
-    @keyframes dash {
-      0% {
-        stroke-dasharray: 1, 200;
-        stroke-dashoffset: 0;
-      }
-      50% {
-        stroke-dasharray: 89, 200;
-        stroke-dashoffset: -35px;
-      }
-      100% {
-        stroke-dasharray: 89, 200;
-        stroke-dashoffset: -124px;
-      }
-    }
-  </style>
 
-</head>
-<body class="mdc-typography">
-  <digital-first-root>
-    <div class="logo">
-      <svg class="spinner" viewBox="25 25 50 50">
-        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
-      </svg>
-  </digital-first-root>
-</body>
+      .bounceball {
+        position: relative;
+        display: inline-block;
+        height: 37px;
+        width: 15px;
+      }
+      .bounceball:before {
+        position: absolute;
+        content: '';
+        display: block;
+        top: 0;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background-color: #607D8B;
+        -webkit-transform-origin: 50%;
+        transform-origin: 50%;
+        -webkit-animation: bounce 500ms alternate infinite ease;
+        animation: bounce 500ms alternate infinite ease;
+      }
+
+      @-webkit-keyframes bounce {
+        0% {
+          top: 30px;
+          height: 5px;
+          border-radius: 60px 60px 20px 20px;
+          -webkit-transform: scaleX(2);
+          transform: scaleX(2);
+        }
+        35% {
+          height: 15px;
+          border-radius: 50%;
+          -webkit-transform: scaleX(1);
+          transform: scaleX(1);
+        }
+        100% {
+          top: 0;
+        }
+      }
+
+      @keyframes bounce {
+        0% {
+          top: 30px;
+          height: 5px;
+          border-radius: 60px 60px 20px 20px;
+          -webkit-transform: scaleX(2);
+          transform: scaleX(2);
+        }
+        35% {
+          height: 15px;
+          border-radius: 50%;
+          -webkit-transform: scaleX(1);
+          transform: scaleX(1);
+        }
+        100% {
+          top: 0;
+        }
+      }
+    </style>
+  </head>
+  <body class="mdc-typography">
+    <digital-first-root>
+      <div class="ballwrap">
+        <div class="loading">
+          <div class="bounceball"></div>
+          <div class="text">NOW LOADING</div>
+        </div>
+      </div>
+    </digital-first-root>
+  </body>
 </html>

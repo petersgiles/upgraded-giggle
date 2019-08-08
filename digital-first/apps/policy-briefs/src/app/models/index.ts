@@ -121,4 +121,7 @@ export interface Lookup {
   id: string | number
   title: string
   order: string | number
+  caption?: string
+  value?: string | number
+  icon?: string
 }

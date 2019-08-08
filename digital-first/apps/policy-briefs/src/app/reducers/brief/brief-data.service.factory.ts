@@ -21,7 +21,19 @@ const briefDataServiceFactory = (
   attachmentMapperService: AttachmentMapperService,
   lookupMapperService: LookupMapperService
 ) => {
+  console.log(
+    `briefDataServiceFactory`,
+    settings,
+    sharepointlib,
+    briefMapperService,
+    recommendedDirectionMapperService,
+    recommendationMapperService,
+    attachmentMapperService,
+    lookupMapperService
+  )
+
   let source = null
+
   if (settings.host) {
     source = settings.host
   }
@@ -30,7 +42,6 @@ const briefDataServiceFactory = (
     case 'sharepoint':
       return new BriefDataSharepointService(
         http,
-        settings,
         sharepointlib,
         briefMapperService,
         recommendedDirectionMapperService,

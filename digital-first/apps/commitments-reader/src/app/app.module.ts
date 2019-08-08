@@ -76,7 +76,7 @@ import { CommitmentDetailEffects } from './reducers/commitment-detail/commitment
 import { RefinerEffects } from './reducers/refiner/refiner.effects'
 import { OverviewEffects } from './reducers/overview/overview.effects'
 import { MapEffects } from './reducers/map/map.effects'
-import { GlobleEffects } from './reducers/app/app.effects'
+import { GlobalEffects } from './reducers/app/app.effects'
 import { PlannerEffects } from './reducers/planner/planner.effects'
 import { CommitmentDisplayOrderEffects } from './reducers/commitment-display-order/commitment-display-order.effects'
 import { SettingsService } from './services/settings.service'
@@ -164,7 +164,7 @@ const COMPONENTS = [
     EffectsModule.forRoot([RouterEffects]),
     EffectsModule.forFeature([
       AppEffects,
-      GlobleEffects,
+      GlobalEffects,
       UserEffects,
       RefinerEffects,
       OverviewEffects,

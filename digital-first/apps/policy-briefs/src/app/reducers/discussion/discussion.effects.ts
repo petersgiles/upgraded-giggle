@@ -88,6 +88,7 @@ export class DiscussionEffects {
     map((action: GetDiscussion) => action),
     withLatestFrom(this.store$),
     concatMap(([action, store]) => {
+      console.log(action)
       return this.service.getDiscussions({ id: action.payload.activeBriefId, channel: (<any>store).discussion.activeChannel })
     }),
     // tslint:disable-next-line: no-console

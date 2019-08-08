@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core'
 import { Observable, of, forkJoin, EMPTY } from 'rxjs'
-import { SharepointJsomService } from '@df/sharepoint'
+import { SharepointJsomService, fromLookup } from '@df/sharepoint'
 import { BriefDataService } from '../brief-data.service'
-import { concatMap, map } from 'rxjs/operators'
+import { concatMap, map, tap } from 'rxjs/operators'
 import { sortBy } from '../../../utils'
 import { HttpClient } from '@angular/common/http'
 import { AppSettingsService } from '@digital-first/df-app-core'
@@ -68,6 +68,7 @@ export class BriefDataSharepointService implements BriefDataService {
     ]).pipe(
       map(([spBriefs]) => [...this.briefMapperService.mapMany(spBriefs)]),
       map(result => (result || []).sort(sortBy('sortOrder'))),
+      tap(result => console.log(`getBriefs`, result)),
       concatMap(result =>
         of({
           data: result,
@@ -79,53 +80,58 @@ export class BriefDataSharepointService implements BriefDataService {
   public getActiveBrief(briefId): Observable<{ data: any; loading: boolean }> {
     const viewXml = byIdQuery({ id: briefId })
     const briefIdViewXml = byBriefIdQuery({ id: briefId })
+    
+    // tslint:disable-next-line:no-console
+    console.log(`🙈 - brief`, viewXml)
 
     return forkJoin([
       this.sharepoint.getItems({
         listName: 'Brief',
         viewXml: viewXml
-      }),
-      this.sharepoint.getItems({
-        listName: 'RecommendedDirection',
-        viewXml: briefIdViewXml
-      }),
-      this.sharepoint.getItems({
-        listName: 'Recommendation',
-        viewXml: briefIdViewXml
-      }),
-      this.sharepoint.getItems({
-        listName: 'BriefAttachments',
-        viewXml: briefIdViewXml
-      }),
-      this.sharepoint.getItems({
-        listName: 'BriefStatus'
-      }),
-      this.sharepoint.getItems({
-        listName: 'BriefDivision'
       })
+      // ,
+      // this.sharepoint.getItems({
+      //   listName: 'RecommendedDirection',
+      //   viewXml: briefIdViewXml
+      // }),
+      // this.sharepoint.getItems({
+      //   listName: 'Recommendation',
+      //   viewXml: briefIdViewXml
+      // }),
+      // this.sharepoint.getItems({
+      //   listName: 'BriefAttachments',
+      //   viewXml: briefIdViewXml
+      // }),
+      // this.sharepoint.getItems({
+      //   listName: 'BriefStatus'
+      // }),
+      // this.sharepoint.getItems({
+      //   listName: 'BriefDivision'
+      // })
     ]).pipe(
       concatMap(
         ([
           spBrief,
-          spRecommendedDirection,
-          spRecommendations,
-          spBriefAttachments,
-          spBriefStatus,
-          spBriefDivision
         ]) => {
-          const data = {
-            brief: this.briefMapperService.mapSingle(spBrief[0]),
-            directions: this.recommendedDirectionMapperService.mapMany(spRecommendedDirection),
-            recommendations: this.recommendationMapperService.mapMany(spRecommendations),
-            attachments: this.attachmentMapperService.mapMany(spBriefAttachments),
-            statusLookups: this.lookupMapperService.mapMany(spBriefStatus),
-            divisionLookups: this.lookupMapperService.mapMany(spBriefDivision)
-          }
-          // tslint:disable-next-line:no-console
-          console.log(`🙈 - brief`, data)
+
+          const result = spBrief[0]
+          const editor = fromLookup(result.Editor)
+          const subPolicy = fromLookup(result.SubPolicy)
+          const policy = fromLookup(result.Policy)
+          const briefStatus = fromLookup(result.BriefStatus)
+          const briefDivision = fromLookup(result.BriefDivision)
+
+          const brief = this.briefMapperService.mapSingle({
+            ...result,
+            Editor: editor,
+            SubPolicy: subPolicy,
+            Policy: policy,
+            BriefStatus: briefStatus,
+            BriefDivision: briefDivision,
+          })
 
           return of({
-            data: data,
+            data: brief,
             loading: false
           })
         }
@@ -142,6 +148,8 @@ export class BriefDataSharepointService implements BriefDataService {
   }> {
     const relativeUrl = `${_spPageContextInfo.webAbsoluteUrl}/BriefHTML/${fileLeafRef}.aspx`
 
+    console.log(`getBriefHtml`, relativeUrl)
+
     return this.http.get(relativeUrl, { responseType: 'text' }).pipe(
       concatMap((result: any) =>
         of({
@@ -153,12 +161,13 @@ export class BriefDataSharepointService implements BriefDataService {
 
   constructor(
     private http: HttpClient,
-    private settings: AppSettingsService,
     private sharepoint: SharepointJsomService,
     private briefMapperService: BriefMapperService,
     private recommendedDirectionMapperService: RecommendedDirectionMapperService,
     private recommendationMapperService: RecommendationMapperService,
     private attachmentMapperService: AttachmentMapperService,
     private lookupMapperService: LookupMapperService,
-  ) {}
+  ) {
+    console.log(`BriefDataSharepointService`)
+  }
 }

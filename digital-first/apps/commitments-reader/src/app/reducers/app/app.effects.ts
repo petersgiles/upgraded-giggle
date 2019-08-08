@@ -98,7 +98,7 @@ const failActions = [
 ]
 
 @Injectable()
-export class GlobleEffects {
+export class GlobalEffects {
   @Effect()
   showSpinner: Observable<Action> = this.actions$.pipe(
     ofType<showSpinnerTypes>(...showSpinnerActions),

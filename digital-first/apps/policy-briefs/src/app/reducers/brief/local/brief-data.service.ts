@@ -7,7 +7,7 @@ import {
   Subscription
 } from 'rxjs'
 import { BriefDataService } from '../brief-data.service'
-import { briefs } from '../../../../devdata/data'
+import { briefs } from '../../../../../../../devdata/data'
 import { HttpClient } from '@angular/common/http'
 import { AppSettingsService } from '@digital-first/df-app-core'
 import { concatMap, catchError } from 'rxjs/operators'
@@ -33,7 +33,20 @@ export class BriefDataLocalService implements BriefDataService {
   }
 
   setActiveBriefStatus(activeBriefId: string, status: string): Observable<{ briefId: any; loading: boolean; }> {
-    throw new Error("Method not implemented.");
+
+    var found = briefs.find(p => `${p.Id}` == activeBriefId )
+    if(found) {
+      let index = briefs.indexOf(found);
+      briefs[index] = {
+        ...found,
+        BriefStatus: {
+          Id: +status
+        }
+      }
+    }
+
+    this.fakeBriefBackend.next(briefs)
+    return of({ briefId: activeBriefId, loading: false })
   }
 
   public getBriefs(): Observable<{
@@ -77,6 +90,8 @@ export class BriefDataLocalService implements BriefDataService {
   }
 
   constructor(private http: HttpClient, private settings: AppSettingsService, private briefMapperService: BriefMapperService) {
+console.log(`BriefDataLocalService`)
+
     this.fakeBriefBackendSubscription$ = this.fakeBriefBackend.subscribe(next =>
       this.briefItems.next({
         data: next,

@@ -13,6 +13,7 @@ export class DiscussionMapperService extends CoreMapperService<Discussion> {
   }
 
   public mapSingle(item: any): Discussion {
+
     const authorMapperService = new AuthorMapperService()
     const author = authorMapperService.mapSingle(item.Author) || {
       username: null, 

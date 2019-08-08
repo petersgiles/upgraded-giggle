@@ -3,6 +3,7 @@
         "title": "The Department of Bloop de Bloop - IGB",
         "classification": "UNCLASSIFIED",
         "bookType": "red",
+        "backgroundColour": "#455a64",
         "logo": {
            "image": "assets/crest.png",
            "url": "/",

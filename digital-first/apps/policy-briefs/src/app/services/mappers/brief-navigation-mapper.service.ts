@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { NavigationNode } from '../../models';
 import { CoreMapperService } from './core-mapper.service';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,8 +13,8 @@ export class BriefNavigationMapperService extends CoreMapperService<NavigationNo
 
   public mapSingle(item: any): NavigationNode {
 
-    const policy = item.Policy ? item.Policy.Id : null
-    const subpolicy = item.SubPolicy ? item.SubPolicy.Id : null
+    let policy = item.Policy ? item.Policy.Id : null
+    let subpolicy = item.SubPolicy ? item.SubPolicy.Id : null
   
     let nodeId = item.ID
     let parent = null
