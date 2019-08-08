@@ -32,7 +32,6 @@ import { BriefDataService } from './brief-data.service'
 import { briefs } from '../../../devdata/data'
 
 describe('BriefEffects', () => {
-  debugger
     let mockStore: MockStore<any>
     let actions$: Observable<any>
     let briefEffects: BriefEffects
@@ -94,7 +93,7 @@ describe('BriefEffects', () => {
   })
 
   it('should Load Deck Items', inject([BriefDataService], (service:BriefDataService)  => {
-    const action = new SetActiveBrief(null)
+    const action = new SetActiveBrief({activeBriefId: '2'})
     actions$ = hot('-a', { a: action} )
     const response = cold('-a|', { a: {data: briefs[0], loading: false} });
     const expected = cold('--b', {b: new LoadBrief({data: briefs[0],loading: false})})
