@@ -52,35 +52,30 @@ export const mapComments = (items): any[] => (items || []).map(mapComment)
 export class DiscussionEffects {
   // 💬
 
-  addComment(comment: {
-    text: string
-    brief: string
-    parent: string
-  }): Observable<any> {
-    return this.sharepoint
-      .storeItem({
-        listName: 'Comment',
-        data: {
-          Comments: comment.text,
-          Brief: comment.brief,
-          Parent: comment.parent
-        }
-      })
-      .pipe(concatMap(_ => of({ brief: comment.brief })))
-  }
+  // addComment(comment: {
+  //   text: string
+  //   brief: string
+  //   parent: string
+  // }): Observable<any> {
+  //   return this.service
+  //     .addDiscussion({
+  //       listName: 'Comment',
+  //       data: {
+  //         Comments: comment.text,
+  //         Brief: comment.brief,
+  //         Parent: comment.parent
+  //       }
+  //     })
+  //     .pipe(concatMap(_ => of({ brief: comment.brief })))
+  // }
 
-  removeComment(comment: { id: string; brief: string }): Observable<any> {
-    return this.sharepoint
-      .removeItem({
-        listName: 'Comment',
-        id: comment.id
-      })
-      .pipe(concatMap(_ => of({ brief: comment.brief })))
-  }
-
-  // return sharePointService.removeItem(
-  //   'Comment', commentId
-  // );
+  // removeComment(comment: { id: string; brief: string }): Observable<any> {
+  //   return this.service
+  //     .removeDiscussion({
+  //       id: comment.id
+  //     })
+  //     .pipe(concatMap(_ => of({ brief: comment.brief })))
+  // }
 
   @Effect()
   loadDiscussions$ = this.actions$.pipe(
@@ -106,8 +101,7 @@ export class DiscussionEffects {
   addComment$ = this.actions$.pipe(
     ofType(DiscussionActionTypes.AddComment),
     map((action: AddComment) => action),
-    withLatestFrom(this.store$),
-    concatMap(([action, store]) => this.addComment(action.payload)),
+    concatMap((action) => this.service.addComment(action.payload)),
     // tslint:disable-next-line: no-console
     tap(result => console.log(`💬 `, result)),
     switchMap((result: { brief: string }) => [
@@ -123,7 +117,7 @@ export class DiscussionEffects {
     ofType(DiscussionActionTypes.RemoveComment),
     map((action: RemoveComment) => action),
     withLatestFrom(this.store$),
-    concatMap(([action, store]) => this.removeComment(action.payload)),
+    concatMap(([action, store]) => this.service.removeComment(action.payload)),
     // tslint:disable-next-line: no-console
     tap(result => console.log(`💬 `, result)),
     switchMap((result: { brief: string }) => [
@@ -137,7 +131,6 @@ export class DiscussionEffects {
   constructor(
     private actions$: Actions<DiscussionActions>,
     private service: DiscussionDataService,
-    private store$: Store<fromRoot.State>,
-    private sharepoint: SharepointJsomService
+    private store$: Store<fromRoot.State>
   ) {}
 }

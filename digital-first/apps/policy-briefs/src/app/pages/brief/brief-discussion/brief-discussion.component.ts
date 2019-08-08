@@ -25,6 +25,8 @@ export class BriefDiscussionComponent implements OnInit {
   activeComment$: any
   _brief: any;
 
+  currentChannel: DiscussionType
+
   @Input()
   set brief(val){
     this._brief = val
@@ -54,7 +56,7 @@ export class BriefDiscussionComponent implements OnInit {
   handleSelectDiscussion(type: DiscussionType) {
     // tslint:disable-next-line:no-console
     console.log('🐛 - handleSelectDiscussion', type)
-
+    this.currentChannel = type
     this.store.dispatch(new SetActiveDiscussionChannel(type))
     this.store.dispatch(new GetDiscussion({ activeBriefId: this.brief.id }))
   }
@@ -91,6 +93,7 @@ export class BriefDiscussionComponent implements OnInit {
     const newcomment = {
       brief: $event.hostId,
       text: $event.text,
+      channel: this.currentChannel,
       parent: parent ? parent.id : null
     }
 

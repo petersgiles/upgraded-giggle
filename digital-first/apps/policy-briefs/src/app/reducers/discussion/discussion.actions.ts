@@ -29,7 +29,12 @@ export class GetDiscussionFailure implements Action {
 
 export class AddComment implements Action {
   readonly type = DiscussionActionTypes.AddComment
-  constructor(public payload: any) {}
+  constructor(public payload: {
+    brief: any,
+    text: any,
+    parent: any,
+    channel: DiscussionType
+  }) {}
 }
 
 export class ReplyToComment implements Action {

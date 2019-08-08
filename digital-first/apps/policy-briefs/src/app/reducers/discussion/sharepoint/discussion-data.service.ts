@@ -19,6 +19,12 @@ const DISCUSSION_ITEM_LIST_NAME = 'Comment'
   providedIn: 'root'
 })
 export class DiscussionDataSharepointService implements DiscussionDataService {
+  removeComment(payload: { id: string; brief: string; }): Observable<any> {
+    throw new Error("Method not implemented.");
+  }
+  addComment(payload: { brief: any; text: any; channel: DiscussionType; parent: any; }): Observable<any> {
+    throw new Error("Method not implemented.");
+  }
   addDiscussion = (item: any): Observable<any> =>
     this.sharepoint
       .storeItem({
