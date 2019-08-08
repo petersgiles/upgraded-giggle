@@ -24,7 +24,7 @@ export class BriefDiscussionComponent implements OnInit {
   comments$: any
   activeComment$: any
   _brief: any;
-
+  remove: boolean = false
   @Input()
   set brief(val){
     this._brief = val
@@ -68,6 +68,7 @@ export class BriefDiscussionComponent implements OnInit {
   public handleRemoveComment($event) {
     // tslint:disable-next-line:no-console
     console.log(`💬 -  RemoveComment`, $event)
+   
 
     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
@@ -79,11 +80,21 @@ export class BriefDiscussionComponent implements OnInit {
       .pipe(first())
       .subscribe(result => {
         if (result === ARE_YOU_SURE_ACCEPT) {
-          this.store.dispatch(
-            new RemoveComment({ id: $event.id, brief: $event.hostId })
-          )
+          this.remove = true
+          this.removeComment($event.id, $event.hostId)
         }
       })
+
+      
+  }
+
+  private removeComment(id, hostId){
+    if(this.remove){
+      this.remove = false
+      this.store.dispatch(
+        new RemoveComment({ id: id, brief: hostId })
+      )
+    }
   }
 
   public handleAddComment($event) {

@@ -107,7 +107,7 @@ export class DiscussionEffects {
     ofType(DiscussionActionTypes.AddComment),
     map((action: AddComment) => action),
     withLatestFrom(this.store$),
-    concatMap(([action, store]) => this.addComment(action.payload)),
+    concatMap(([action, store]) => this.service.addDiscussion(action.payload)),
     // tslint:disable-next-line: no-console
     tap(result => console.log(`💬 `, result)),
     switchMap((result: { brief: string }) => [
@@ -123,7 +123,7 @@ export class DiscussionEffects {
     ofType(DiscussionActionTypes.RemoveComment),
     map((action: RemoveComment) => action),
     withLatestFrom(this.store$),
-    concatMap(([action, store]) => this.removeComment(action.payload)),
+    concatMap(([action, store]) => this.service.removeDiscussion(action.payload)),
     // tslint:disable-next-line: no-console
     tap(result => console.log(`💬 `, result)),
     switchMap((result: { brief: string }) => [
