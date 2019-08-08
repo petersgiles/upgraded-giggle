@@ -74,8 +74,8 @@ export const selectFileLeafRefState = createSelector(
 export const selectBriefStatusState = createSelector(
   selectBriefState,
   brief => {
-    console.log("selectBriefStatusState", (brief || {}).status)
-    return (brief || {}).status
+    console.log("selectBriefStatusState", (brief || {}).briefStatus)
+    return (brief || {}).briefStatus
   }
 )
 
