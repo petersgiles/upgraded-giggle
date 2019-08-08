@@ -26,13 +26,15 @@ export class DiscussionDataLocalService implements DiscussionDataService {
     channel: DiscussionType
     parent: any
   }): Observable<any> {
-    var nextId =
+    var maxId =
       Math.max.apply(
         Math,
         comments.map(function(o) {
           return o.Id
         })
-      ) + 1
+      )
+
+    var nextId = maxId + 1
 
     var comment = {
       Brief: {
@@ -52,10 +54,12 @@ export class DiscussionDataLocalService implements DiscussionDataService {
       Created: Date.now().toLocaleString()
     }
 
+console.log('OMG!', comment,nextId, maxId, comments)
+
     comments.push(comment)
 
     this.fakeDiscussionBackend.next(comments)
-    return of({ briefId: payload.brief, loading: false })
+    return of({ brief: payload.brief, loading: false })
   }
   fakeDiscussionBackend: Subject<any[]> = new Subject()
   fakeDiscussionBackendSubscription$: Subscription
@@ -88,6 +92,9 @@ export class DiscussionDataLocalService implements DiscussionDataService {
     data: any
     loading: boolean
   }> {
+
+    console.log('getDiscussions', item)
+
     const discussions = comments.filter(p => {
       return p.Channel === item.channel && `${p.Brief.Id}` === `${item.id}`
     })

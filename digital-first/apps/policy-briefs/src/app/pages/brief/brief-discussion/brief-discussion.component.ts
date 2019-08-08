@@ -21,20 +21,34 @@ import { first } from 'rxjs/operators'
 })
 export class BriefDiscussionComponent implements OnInit {
   public discussionTypes = DiscussionType
-  comments$: any
-  activeComment$: any
-  _brief: any;
-
-  currentChannel: DiscussionType
-
-  @Input()
-  set brief(val){
-    this._brief = val
-    console.log(this._brief.id)
-    this.store.dispatch(new GetDiscussion({ activeBriefId: `${this._brief.id}` }))
+  // returns keys of enum
+  discussionTypeKeys(): Array<string> {
+    const keys = Object.keys(this.discussionTypes)
+    return keys
   }
 
-  get brief(){
+  // returns values of enum
+  discussionTypeVals(): Array<string> {
+    const keys = Object.keys(this.discussionTypes)
+    return keys.map(el => Object(this.discussionTypes)[el])
+  }
+  
+  comments$: any
+  activeComment$: any
+  _brief: any
+
+  currentChannel: DiscussionType = DiscussionType.Agency
+
+  @Input()
+  set brief(val) {
+    this._brief = val
+    console.log(this._brief.id)
+    this.store.dispatch(
+      new GetDiscussion({ activeBriefId: `${this._brief.id}` })
+    )
+  }
+
+  get brief() {
     return this._brief
   }
 

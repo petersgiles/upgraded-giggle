@@ -3,18 +3,13 @@
     [background]="background"
     expanded="true"
   >
+
     <ng-container panel-buttons>
-      <df-button
-        title="Agency"
-        icon="chat_bubble"
+      <df-button  *ngFor="let discussionType of discussionTypeVals()"
+        [title]="discussionType"
+        [icon]="currentChannel == discussionTypes[discussionType] ? 'chat_bubble' : 'chat_bubble_outline'"
         [background]="background"
-        (onClick)="handleSelectDiscussion(discussionTypes.Agency)"
-      ></df-button>
-      <df-button
-        title="Office"
-        icon="chat_bubble"
-        [background]="background"
-        (onClick)="handleSelectDiscussion(discussionTypes.Office)"
+        (onClick)="handleSelectDiscussion(discussionTypes[discussionType])"
       ></df-button>
     </ng-container>
 
