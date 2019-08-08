@@ -137,10 +137,6 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
      
     DfThemeModule,
     DfPagesModule,
-<<<<<<< HEAD
-    //DfDialogsModule,
-=======
->>>>>>> 41e64690309b5a0d9937c511d1455e20284cecc5
     DfSharepointLibModule,
     DfPipesModule,
     
