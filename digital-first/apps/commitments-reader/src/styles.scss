@@ -35,11 +35,34 @@ ngx-wig {
 
 .ng-select.custom {
   border: 0px;
-  min-height: 0px;
   border-radius: 0;
-}
-
-.ng-select.custom .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
-  line-height: 2em;
-  min-height: 2em;
+  .ng-dropdown-panel {
+    position: relative;
+    .ng-dropdown-panel-items {
+      max-height: calc(100vh - 220px);
+      .ng-option {
+        line-height: 2em;
+        min-height: 2em;
+        font-size: smaller;
+      }
+      .ng-option.ng-option-selected {
+        color: black;
+        font-weight: bold;
+      }
+      .ng-optgroup {
+        font-size: small;
+      }
+      .ng-optgroup.ng-option-selected {
+        color: black;
+      }
+    }
+  }
+  .ng-select-container .ng-value-container .ng-value {
+    background-color: #dddee6;
+    color: black;
+    font-size: smaller;
+    .ng-value-icon {
+      color: black;
+    }
+  }
 }
