@@ -42,7 +42,7 @@ export class BriefStatusComponent implements OnInit {
       .pipe(tap(briefStatus => console.log(`briefStatus`, briefStatus)))
       .subscribe(briefStatus => {
         if (briefStatus) {
-          this.status$.next(`${briefStatus}`)
+          this.status$.next(`${briefStatus.id}`)
         }
       })
 

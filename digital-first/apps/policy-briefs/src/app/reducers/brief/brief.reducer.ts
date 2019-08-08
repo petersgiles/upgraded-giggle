@@ -36,7 +36,9 @@ export function reducer(state = initialState, action: BriefActions): State {
           ...state,
           brief:  {
             ...state.brief,
-            status:  action.payload.status
+            briefStatus:  { 
+              id: action.payload.status
+            }
           }
         }
 
