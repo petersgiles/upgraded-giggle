@@ -10,7 +10,7 @@ import {
 
 import { AppRouterService } from '../../services/app-router.service'
 import { RefinerGroup } from '@digital-first/df-refiner'
-import { Observable, Subscription } from 'rxjs'
+import { Observable, Subscription, fromEvent, Subject, of } from 'rxjs'
 
 import * as fromRefiner from '../../reducers/refiner/refiner.reducer'
 import { selectAppSpinnerState } from '@digital-first/df-app-core'
@@ -23,7 +23,8 @@ import {
   ChangeTextRefiner,
   GetRefinerGroups,
   SetRefinerFromQueryString,
-  ClearRefiners
+  ClearRefiners,
+  SelectElectorates
 } from '../../reducers/refiner/refiner.actions'
 
 import { GetRefinedCommitments } from '../../reducers/overview/overview.actions'
@@ -31,14 +32,17 @@ import { GetRefinedMapPoints } from '../../reducers/map/map.actions'
 import { ActivatedRoute, Router } from '@angular/router'
 import { CRMenu } from '../../reducers/refiner/refiner.models'
 import { MdcDrawer } from '@angular-mdc/web'
+import { NgSelectComponent } from '@ng-select/ng-select'
+import { debounce, debounceTime, switchMap } from 'rxjs/operators'
 
 @Component({
   selector: 'digital-first-commitment-overview-layout',
   templateUrl: 'commitment-overview-layout.component.html',
   styleUrls: ['commitment-overview-layout.component.scss']
 })
-export class CommitmentOverviewLayoutComponent
-  implements OnInit, AfterViewInit, OnDestroy {
+export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
+  @ViewChild('drawer', { static: true })
+  public electoratesDrawer: MdcDrawer
   activeTab = 1
   tabs = [
     {
@@ -68,17 +72,20 @@ export class CommitmentOverviewLayoutComponent
   ]
   urlSubscription: any
   selectId$: any
-  refinerGroupsSubscription$: Subscription
-  queryParamsSubscription$: Subscription
+  refinerGroupsSubscription: Subscription
+  queryParamsSubscription: Subscription
+  selectedRefinersStateSubscription: Subscription
+
   refinerGroups: RefinerGroup[]
   queryParamsRefiner: { id: string; group: string }[]
   isBusy$: Observable<boolean>
   textRefiner$: Observable<string>
   refinerGroupWithDrawer: CRMenu
-  electrates: any
-  selectedRefiners: any[]
-  @ViewChild('drawer', { static: true })
-  public electoratesDrawer: MdcDrawer
+  electorates: any
+  selectedElectorates: any[]
+  routerSegmentsSubscription: Subscription
+  electoratesChangesSubscription: Subscription
+  electoratesChanges: Subject<any> = new Subject()
 
   constructor(
     private route: ActivatedRoute,
@@ -90,19 +97,23 @@ export class CommitmentOverviewLayoutComponent
   handleRefinerGroupSelected($event) {
     this.store.dispatch(new SelectRefinerGroup($event))
   }
-  handleSlideOutGroupSelected($event){
+  handleSlideOutGroupSelected($event) {
     this.refinerGroupWithDrawer = $event as CRMenu
-    this.electrates = []
+    this.electorates = []
+    this.selectedElectorates = []
     this.electoratesDrawer.open = this.refinerGroupWithDrawer.enableSlide
     if ($event.enableSlide) {
       $event.children.forEach(el => {
-        this.electrates.push({
+        this.electorates.push({
           id: el.id,
           title: el.title,
           state: el.additionalInfo
         })
+        if (el.selected) {
+          this.selectedElectorates.push(el.id)
+        }
       })
-      this.electrates.sort((a, b) => {
+      this.electorates.sort((a, b) => {
         return a.state > b.state ? 1 : -1
       })
     }
@@ -119,10 +130,8 @@ export class CommitmentOverviewLayoutComponent
     this.store.dispatch(new ClearRefiners($event))
   }
 
-  ngAfterViewInit(): void {}
-
   ngOnInit() {
-    this.queryParamsSubscription$ = this.route.queryParams.subscribe(params => {
+    this.queryParamsSubscription = this.route.queryParams.subscribe(params => {
       if (params && params.refiner) {
         this.queryParamsRefiner = JSON.parse(params.refiner)
         this.store.dispatch(
@@ -131,12 +140,13 @@ export class CommitmentOverviewLayoutComponent
       }
     })
 
-    this.isBusy$ = this.store.pipe(select(selectAppSpinnerState))
-    this.textRefiner$ = this.store.pipe(
-      select(fromRefiner.selectTextRefinerState)
-    )
+    this.routerSegmentsSubscription = this.appRouter.segments.subscribe(url => {
+      const tab = this.tabs.findIndex(p => p.id === url)
+      this.activeTab = tab
+      this.store.dispatch(new GetRefinerGroups(null))
+    })
 
-    this.store
+    this.selectedRefinersStateSubscription = this.store
       .pipe(select(fromRefiner.selectSelectedRefinersState))
       .subscribe(next => {
         if (next && next.length > 0) {
@@ -152,24 +162,39 @@ export class CommitmentOverviewLayoutComponent
         }
       })
 
-    this.refinerGroupsSubscription$ = this.store
+    this.refinerGroupsSubscription = this.store
       .pipe(select(fromRefiner.selectRefinerGroups))
       .subscribe(next => {
         this.refinerGroups = next
       })
 
-    this.appRouter.segments.subscribe(url => {
-      const tab = this.tabs.findIndex(p => p.id === url)
-      this.activeTab = tab
-      this.store.dispatch(new GetRefinerGroups(null))
-    })
+    this.electoratesChangesSubscription = this.electoratesChanges
+      .pipe(
+        debounceTime(600),
+        switchMap(next => {
+          return of(next)
+        })
+      )
+      .subscribe(selectedElectorates => {
+        // to make sure it is not an event type emited by ng-select component
+        // it is supposed to be a list of selected items however some time this could
+        // be a change event
+        if (Array.isArray(selectedElectorates)) {
+          this.store.dispatch(new SelectElectorates(selectedElectorates))
+        }
+      })
+
+    this.isBusy$ = this.store.pipe(select(selectAppSpinnerState))
+    this.textRefiner$ = this.store.pipe(
+      select(fromRefiner.selectTextRefinerState)
+    )
   }
 
   ngOnDestroy(): void {
-    this.refinerGroupsSubscription$.unsubscribe()
-
-    if (this.queryParamsSubscription$) {
-      this.queryParamsSubscription$.unsubscribe()
-    }
+    this.refinerGroupsSubscription.unsubscribe()
+    this.routerSegmentsSubscription.unsubscribe()
+    this.selectedRefinersStateSubscription.unsubscribe()
+    this.queryParamsSubscription.unsubscribe()
+    this.electoratesChangesSubscription.unsubscribe()
   }
 }

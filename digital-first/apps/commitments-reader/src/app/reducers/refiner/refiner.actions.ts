@@ -7,10 +7,11 @@ export enum RefinerActionTypes {
 
   SelectRefinerGroup = '[RefinerActionTypes] SelectRefinerGroup',
   SelectRefiner = '[RefinerActionTypes] SelectRefiner',
+  SelectElectorates = '[RefinerActionTypes] SelectRefiner]',
   SearchCommitments = '[RefinerActionTypes] SearchCommitments',
   SetRefinerFromQueryString = '[RefinerActionTypes] SetRefinerFromQueryString',
   ClearRefiners = '[RefinerActionTypes] ClearRefiners',
-  ChangeTextRefiner = '[RefinerActionTypes] ChangeTextRefiner',
+  ChangeTextRefiner = '[RefinerActionTypes] ChangeTextRefiner'
 }
 
 export class ClearRefiners implements Action {
@@ -32,6 +33,10 @@ export class SelectRefiner implements Action {
   type = RefinerActionTypes.SelectRefiner
   constructor(public payload: any) {}
 }
+export class SelectElectorates implements Action {
+  type = RefinerActionTypes.SelectElectorates
+  constructor(public payload: any) {}
+}
 
 export class ChangeTextRefiner implements Action {
   type = RefinerActionTypes.ChangeTextRefiner
@@ -50,7 +55,9 @@ export class LoadRefinerGroups implements Action {
 
 export class SetRefinerFromQueryString implements Action {
   type = RefinerActionTypes.SetRefinerFromQueryString
-  constructor(public payload: {refiner: {id: string, group: string}[], text?: string}) {}
+  constructor(
+    public payload: { refiner: { id: string; group: string }[]; text?: string }
+  ) {}
 }
 
 export class GetRefinersFailure implements Action {
@@ -59,10 +66,11 @@ export class GetRefinersFailure implements Action {
 }
 
 export type RefinerActions =
-    GetRefinerGroups
+  | GetRefinerGroups
   | LoadRefinerGroups
   | SelectRefinerGroup
   | SelectRefiner
+  | SelectElectorates
   | SearchCommitments
   | ChangeTextRefiner
   | GetRefinersFailure
