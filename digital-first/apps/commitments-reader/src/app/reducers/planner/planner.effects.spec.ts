@@ -9,7 +9,8 @@ import 'jest-zone-patch'
 
 import { Injector} from '@angular/core'
 import { async, TestBed, inject} from '@angular/core/testing'
-import { ConfigureFn, configureTests } from '../../../lib/testing'
+//import { ConfigureFn, configureTests } from '../../../lib/testing'
+import { ConfigureFn, configureTests } from '../../../../../../libs/df-testing'
 import { Store } from '@ngrx/store'
 import { provideMockStore, MockStore, MockState } from '@ngrx/store/testing'
 import { Observable, of } from 'rxjs'
@@ -48,7 +49,6 @@ jest.mock('bryntum-scheduler/scheduler.umd.js')
 
 
 describe('PlannerEffects', () => {
-  debugger
   let mockStore: MockStore<any>
   let actions$: Observable<any>
   let plannerEffects: PlannerEffects

@@ -1,39 +1,67 @@
 import { Injectable } from '@angular/core'
-import {
-  Observable,
-  of,
-  BehaviorSubject,
-  Subject,
-  Subscription
-} from 'rxjs'
+import { Observable, of, BehaviorSubject, Subject, Subscription } from 'rxjs'
 import { BriefDataService } from '../brief-data.service'
 import { briefs } from '../../../../../../../devdata/data'
 import { HttpClient } from '@angular/common/http'
 import { AppSettingsService } from '@digital-first/df-app-core'
 import { concatMap, catchError } from 'rxjs/operators'
-import { BriefMapperService } from '../../../services/mappers/brief-mapper.service';
+import { BriefMapperService } from '../../../services/mappers/brief-mapper.service'
 
 @Injectable({
   providedIn: 'root'
 })
 export class BriefDataLocalService implements BriefDataService {
-
   fakeBriefBackend: Subject<any[]> = new Subject()
   fakeBriefBackendSubscription$: Subscription
   briefItems: BehaviorSubject<any> = new BehaviorSubject(null)
 
   addBrief(item: any): Observable<any> {
-    throw new Error('Method not implemented.')
+    item.Id = Math.max.apply(Math, briefs.map(function(o) { return o.Id; })) + 1
+    briefs.push(item)
+    this.fakeBriefBackend.next(briefs)
+    return of({ briefId: item.Id, loading: false })
   }
   updateBrief(item: any): Observable<any> {
-    throw new Error('Method not implemented.')
+    var found = briefs.find(p => `${p.Id}` == item.Id)
+    if (found) {
+      let index = briefs.indexOf(found)
+      briefs[index] = {
+        ...found
+      }
+    }
+
+    this.fakeBriefBackend.next(briefs)
+    return of({ briefId: item.Id, loading: false })
   }
+  
   removeBrief(item: { id: string }): Observable<any> {
-    throw new Error('Method not implemented.')
+    var found = briefs.find(p => `${p.Id}` == item.id)
+    if (found) {
+      let index = briefs.indexOf(found)
+      briefs.splice(index, 1)
+    }
+
+    this.fakeBriefBackend.next(briefs)
+    return of({ briefId: item.id, loading: false })
   }
 
-  setActiveBriefStatus(activeBriefId: string, status: string): Observable<{ briefId: any; loading: boolean; }> {
-    throw new Error("Method not implemented.");
+  setActiveBriefStatus(
+    activeBriefId: string,
+    status: string
+  ): Observable<{ briefId: any; loading: boolean }> {
+    var found = briefs.find(p => `${p.Id}` == activeBriefId)
+    if (found) {
+      let index = briefs.indexOf(found)
+      briefs[index] = {
+        ...found,
+        BriefStatus: {
+          Id: +status
+        }
+      }
+    }
+
+    this.fakeBriefBackend.next(briefs)
+    return of({ briefId: activeBriefId, loading: false })
   }
 
   public getBriefs(): Observable<{
@@ -57,7 +85,7 @@ export class BriefDataLocalService implements BriefDataService {
     fileLeafRef
   ): Observable<{
     data: any
-    loading: boolean,
+    loading: boolean
     error?: any
   }> {
     const relativeUrl = `${this.settings.assetsPath}/docx/${fileLeafRef}.html`
@@ -67,23 +95,33 @@ export class BriefDataLocalService implements BriefDataService {
         return of({
           data: result,
           loading: false
-        })}),
-        catchError(err => of({
+        })
+      }),
+      catchError(err =>
+        of({
           data: null,
           error: err,
           loading: false
-        }))
+        })
+      )
     )
   }
 
-  constructor(private http: HttpClient, private settings: AppSettingsService, private briefMapperService: BriefMapperService) {
-console.log(`BriefDataLocalService`)
+  constructor(
+    private http: HttpClient,
+    private settings: AppSettingsService,
+    private briefMapperService: BriefMapperService
+  ) {
+    console.log(`BriefDataLocalService`)
 
-    this.fakeBriefBackendSubscription$ = this.fakeBriefBackend.subscribe(next =>
-      this.briefItems.next({
-        data: next,
-        loading: false
-      })
+    this.fakeBriefBackendSubscription$ = this.fakeBriefBackend.subscribe(
+      next => {
+        console.log(`Brief Data Local Service briefItems update`)
+        this.briefItems.next({
+          data: next,
+          loading: false
+        })
+      }
     )
 
     this.fakeBriefBackend.next(briefs)
