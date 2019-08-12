@@ -5,7 +5,7 @@ import { comments } from '../../../../../../../devdata/data'
 import { DiscussionMapperService } from '../../../services/mappers/discussion-mapper.service'
 import { DiscussionType } from '../../../models'
 import { getLocaleDateTimeFormat } from '@angular/common'
-
+import * as moment from 'moment'
 @Injectable({
   providedIn: 'root'
 })
@@ -36,6 +36,8 @@ export class DiscussionDataLocalService implements DiscussionDataService {
 
     var nextId = maxId + 1
 
+    var event = new Date();
+
     var comment = {
       Brief: {
         Id: payload.brief
@@ -51,7 +53,7 @@ export class DiscussionDataLocalService implements DiscussionDataService {
         ''}-${nextId}`,
       Comments: payload.text,
       ID: nextId,
-      Created: Date.now().toLocaleString()
+      Created: event.toISOString()
     }
 
 console.log('OMG!', comment,nextId, maxId, comments)
