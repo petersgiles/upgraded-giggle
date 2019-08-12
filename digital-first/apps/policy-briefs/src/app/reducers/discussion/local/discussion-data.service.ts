@@ -4,8 +4,7 @@ import { DiscussionDataService } from '../discussion-data.service'
 import { comments } from '../../../../../../../devdata/data'
 import { DiscussionMapperService } from '../../../services/mappers/discussion-mapper.service'
 import { DiscussionType } from '../../../models'
-import { getLocaleDateTimeFormat } from '@angular/common'
-
+import { AppDataService } from '../../../services/app-data.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -18,7 +17,7 @@ export class DiscussionDataLocalService implements DiscussionDataService {
     }
 
     this.fakeDiscussionBackend.next(comments)
-    return of({ briefId: payload.brief, loading: false })
+    return of({ brief: payload.brief, loading: false })
   }
   addComment(payload: {
     brief: any
@@ -36,6 +35,10 @@ export class DiscussionDataLocalService implements DiscussionDataService {
 
     var nextId = maxId + 1
 
+    var event = new Date();
+
+    // this.appDataService.getCurrentUser()
+
     var comment = {
       Brief: {
         Id: payload.brief
@@ -51,7 +54,7 @@ export class DiscussionDataLocalService implements DiscussionDataService {
         ''}-${nextId}`,
       Comments: payload.text,
       ID: nextId,
-      Created: Date.now().toLocaleString()
+      Created: event.toISOString()
     }
 
 console.log('OMG!', comment,nextId, maxId, comments)
@@ -105,5 +108,8 @@ console.log('OMG!', comment,nextId, maxId, comments)
     })
   }
 
-  constructor(private discussionMapperService: DiscussionMapperService) {}
+  constructor(
+    private appDataService: AppDataService,
+    private discussionMapperService: DiscussionMapperService
+    ) {}
 }
