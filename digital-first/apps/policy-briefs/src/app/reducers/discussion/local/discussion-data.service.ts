@@ -18,7 +18,7 @@ export class DiscussionDataLocalService implements DiscussionDataService {
     }
 
     this.fakeDiscussionBackend.next(comments)
-    return of({ briefId: payload.brief, loading: false })
+    return of({ brief: payload.brief, loading: false })
   }
   addComment(payload: {
     brief: any

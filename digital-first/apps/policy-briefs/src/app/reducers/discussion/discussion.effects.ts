@@ -116,8 +116,7 @@ export class DiscussionEffects {
   removeComment$ = this.actions$.pipe(
     ofType(DiscussionActionTypes.RemoveComment),
     map((action: RemoveComment) => action),
-    withLatestFrom(this.store$),
-    concatMap(([action, store]) => this.service.removeComment(action.payload)),
+    concatMap((action) => this.service.removeComment(action.payload)),
     // tslint:disable-next-line: no-console
     tap(result => console.log(`💬 `, result)),
     switchMap((result: { brief: string }) => [

@@ -60,7 +60,8 @@ export function reducer(
 
       return {
         ...state,
-        discussion: discussion
+        discussion: discussion,
+        activeComment: null
       }
 
     case DiscussionActionTypes.SetActiveDiscussionChannel:
