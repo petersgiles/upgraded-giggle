@@ -1,27 +1,28 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnDestroy
+} from '@angular/core'
 import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
 import { FormControl, FormGroup } from '@angular/forms'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { Injectable } from '@angular/core'
-import { BehaviorSubject } from 'rxjs'
+import { Subscription } from 'rxjs'
 
 @Injectable({
   providedIn: 'root'
 })
-export class RefinerActionService {
-  constructor() {}
-
-  // tslint:disable-next-line:variable-name
-  public message: BehaviorSubject<string> = new BehaviorSubject(null)
-}
 @Component({
   selector: 'digital-first-metadata-refiner',
   templateUrl: './metadata-refiner.component.html',
   styleUrls: ['./metadata-refiner.component.scss']
 })
-export class MetadataRefinerComponent implements OnInit {
+export class MetadataRefinerComponent implements OnInit, OnDestroy {
   searchControl: FormControl = new FormControl(null, [])
-
+  textRefinerSubscription: Subscription
   textRefinerForm = new FormGroup({
     searchControl: this.searchControl
   })
@@ -32,7 +33,7 @@ export class MetadataRefinerComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.searchControl.valueChanges
+    this.textRefinerSubscription = this.searchControl.valueChanges
       .pipe(
         debounceTime(400),
         distinctUntilChanged()
@@ -42,7 +43,6 @@ export class MetadataRefinerComponent implements OnInit {
           this.onSearchCriteriaChanged.emit(searchResult)
         },
         (err: Error) => {
-          // tslint:disable-next-line:no-console
           console.log(err)
         }
       )
@@ -78,11 +78,15 @@ export class MetadataRefinerComponent implements OnInit {
 
   @Output()
   onClear: EventEmitter<any> = new EventEmitter()
-  
+
   @Output()
   onSlideOutGroupSelected: EventEmitter<any> = new EventEmitter()
 
   handleOnClear() {
     this.searchControl.reset()
+  }
+
+  ngOnDestroy(): void {
+    this.textRefinerSubscription.unsubscribe()
   }
 }

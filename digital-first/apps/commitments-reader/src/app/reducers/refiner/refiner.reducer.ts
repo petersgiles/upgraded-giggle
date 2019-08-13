@@ -84,6 +84,7 @@ export function reducer(state = initialState, action: RefinerActions): State {
       selectedElectorates.forEach(se => {
         selectedRefiners.push({
           id: se.id,
+          title: se.title,
           group: 'electorates'
         })
       })
@@ -150,6 +151,7 @@ export function reducer(state = initialState, action: RefinerActions): State {
       } else {
         selectedRefiners.push({
           id: action.payload.id,
+          title: action.payload.title,
           group: action.payload.group
         })
       }
@@ -229,20 +231,13 @@ export const selectRefinerGroups = createSelector(
         ...g,
         expanded: groupChildselected || (expanded || []).includes(g.group),
         hidden: (hidden || []).includes(g.group),
-        children: (g.children || [])
-          .map(r => ({
-            ...r,
-            selected:
-              (selected || []).findIndex(
-                s => s.id === r.id && s.group === r.group
-              ) > -1
-          }))
-          .sort((a, b) => {
-            if (a.selected && !b.selected) {
-              return -1
-            }
-            if (!a.selected && b.selected) return 1
-          })
+        children: (g.children || []).map(r => ({
+          ...r,
+          selected:
+            (selected || []).findIndex(
+              s => s.id === r.id && s.group === r.group
+            ) > -1
+        }))
       }
     })
     return refinerGroupState

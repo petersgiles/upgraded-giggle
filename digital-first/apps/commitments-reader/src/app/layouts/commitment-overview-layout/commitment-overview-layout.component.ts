@@ -1,16 +1,8 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  AfterViewInit,
-  ViewChild,
-  TemplateRef,
-  ElementRef
-} from '@angular/core'
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core'
 
 import { AppRouterService } from '../../services/app-router.service'
 import { RefinerGroup } from '@digital-first/df-refiner'
-import { Observable, Subscription, fromEvent, Subject, of } from 'rxjs'
+import { Observable, Subscription, Subject, of } from 'rxjs'
 
 import * as fromRefiner from '../../reducers/refiner/refiner.reducer'
 import { selectAppSpinnerState } from '@digital-first/df-app-core'
@@ -27,13 +19,10 @@ import {
   SelectElectorates
 } from '../../reducers/refiner/refiner.actions'
 
-import { GetRefinedCommitments } from '../../reducers/overview/overview.actions'
-import { GetRefinedMapPoints } from '../../reducers/map/map.actions'
 import { ActivatedRoute, Router } from '@angular/router'
 import { CRMenu } from '../../reducers/refiner/refiner.models'
 import { MdcDrawer } from '@angular-mdc/web'
-import { NgSelectComponent } from '@ng-select/ng-select'
-import { debounce, debounceTime, switchMap } from 'rxjs/operators'
+import { debounceTime, switchMap } from 'rxjs/operators'
 
 @Component({
   selector: 'digital-first-commitment-overview-layout',
@@ -77,6 +66,7 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
   selectedRefinersStateSubscription: Subscription
 
   refinerGroups: RefinerGroup[]
+  selectedRefiners: any[]
   queryParamsRefiner: { id: string; group: string }[]
   isBusy$: Observable<boolean>
   textRefiner$: Observable<string>
@@ -114,7 +104,7 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
         }
       })
       this.electorates.sort((a, b) => {
-        return a.state > b.state ? 1 : -1
+        return a.state > b.state ? -1 : 1
       })
     }
   }
@@ -149,6 +139,7 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
     this.selectedRefinersStateSubscription = this.store
       .pipe(select(fromRefiner.selectSelectedRefinersState))
       .subscribe(next => {
+        this.selectedRefiners = next
         if (next && next.length > 0) {
           this.router.navigate([], {
             relativeTo: this.route,

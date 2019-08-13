@@ -5,7 +5,6 @@ import { CommitmentDataService } from '../../services/commitment-data.service'
 import { CommitmentLookupService } from '../../reducers/commitment-lookup/commitment-lookup.service'
 import { ExcelService } from '../../services/excel.service'
 import { BehaviorSubject } from 'rxjs'
-import { RefinerActionService } from '@digital-first/df-refiner'
 import { formatDate } from '@angular/common'
 import { OPERATION_COMMITMENT } from '../../services/app-data.service'
 import { Observable } from 'rxjs'
@@ -27,7 +26,6 @@ export class OverviewLayoutComponent implements OnInit {
     private router: Router,
     private service: CommitmentDataService,
     private excelService: ExcelService,
-    private refinerAction: RefinerActionService,
     private lookup: CommitmentLookupService
   ) {}
 
@@ -59,7 +57,6 @@ export class OverviewLayoutComponent implements OnInit {
   }
 
   handleClearAllFilters() {
-    this.refinerAction.message.next('search')
     this.service.setTextRefiner(null)
     this.service.clearAllRefiners()
   }

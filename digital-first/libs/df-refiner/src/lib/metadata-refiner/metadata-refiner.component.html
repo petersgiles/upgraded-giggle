@@ -48,18 +48,11 @@
               class="refiner"
               (click)="onRefinerSelected.emit(refiner)"
             >
-              <mdc-icon *ngIf="refiner.singleSelection; else checkbox"
-                >radio_button_{{
-                  refiner.selected ? 'checked' : 'unchecked'
+              <mdc-icon
+                >check_box{{
+                  refiner.selected ? '' : '_outline_blank'
                 }}</mdc-icon
               >
-              <ng-template #checkbox>
-                <mdc-icon
-                  >check_box{{
-                    refiner.selected ? '' : '_outline_blank'
-                  }}</mdc-icon
-                >
-              </ng-template>
 
               {{ refiner.title | truncate: [35, '...'] }}
               <span mdcListItemMeta class="refiner-metadata">{{
