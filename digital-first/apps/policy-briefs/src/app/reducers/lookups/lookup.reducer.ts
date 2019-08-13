@@ -106,7 +106,9 @@ export const selectLookupDLMsState = createSelector(
 
 export const selectLookupStatusesState = createSelector(
   lookupState,
-  (state: State) => state.statuses
+  (state: State) => (state.statuses || []).map(p => ({ 
+    ...p,
+    id: `${p.id}`}))
 )
 
 export const selectLookupActivitiesState = createSelector(

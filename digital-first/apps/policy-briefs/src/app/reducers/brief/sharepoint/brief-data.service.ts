@@ -21,8 +21,24 @@ const BRIEF_ITEM_LIST_NAME = 'Brief'
   providedIn: 'root'
 })
 export class BriefDataSharepointService implements BriefDataService {
-  setActiveBriefStatus(activeBriefId: string, status: string): Observable<{ briefId: any; loading: boolean; }> {
-    throw new Error("Method not implemented.");
+
+  setActiveBriefStatus(
+    activeBriefId: string,
+    status: string
+  ): Observable<{ briefId: any; loading: boolean }> {
+
+    console.log('setActiveBriefStatus', activeBriefId, status)
+
+    return this.sharepoint
+      .storeItem({
+        listName: BRIEF_ITEM_LIST_NAME,
+        id: activeBriefId,
+        data: {
+          BriefStatus: status
+        }      
+      })
+      .pipe(concatMap(_ => of({ briefId: activeBriefId, loading: false })))
+
   }
   getBriefDocument(id: string): Observable<{ data: any; loading: boolean }> {
     return EMPTY
@@ -129,6 +145,8 @@ export class BriefDataSharepointService implements BriefDataService {
             BriefStatus: briefStatus,
             BriefDivision: briefDivision,
           })
+
+          console.log('BRIEF =>', brief)
 
           return of({
             data: brief,

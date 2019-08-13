@@ -1,4 +1,5 @@
 <div *ngIf="(status$ | async) as status">
+
 <div class="mdc-chip-set" *ngIf="brief && (documentStatusList$ | async) as statuses">
   <div
     *ngFor="let sli of statuses"
