@@ -28,7 +28,7 @@ import { BriefMapperService } from '../../../services/mappers/brief-mapper.servi
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
 import { HttpClient } from '@angular/common/http'
 import { CoreMapperService } from '../../../services/mappers/core-mapper.service'
-import { briefs } from '../../../../devdata/briefs'
+import { briefs } from '../../../../../../../devdata/briefs'
 
 const briefDataServiceFactory = (
   http: HttpClient,
@@ -57,8 +57,6 @@ describe('BriefDocumentComponent', () => {
     directions: null,
     recommendations: null,
     attachments: null,
-    statusLookups: null,
-    divisionLookups: null
   }
  
   beforeEach(async(() => {

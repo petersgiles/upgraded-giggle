@@ -21,18 +21,33 @@ import { first } from 'rxjs/operators'
 })
 export class BriefDiscussionComponent implements OnInit {
   public discussionTypes = DiscussionType
+  // returns keys of enum
+  discussionTypeKeys(): Array<string> {
+    const keys = Object.keys(this.discussionTypes)
+    return keys
+  }
+
+  // returns values of enum
+  discussionTypeVals(): Array<string> {
+    const keys = Object.keys(this.discussionTypes)
+    return keys.map(el => Object(this.discussionTypes)[el])
+  }
+  
   comments$: any
   activeComment$: any
   _brief: any;
   remove: boolean = false
+  currentChannel: DiscussionType = DiscussionType.Agency
   @Input()
-  set brief(val){
+  set brief(val) {
     this._brief = val
     console.log(this._brief.id)
-    this.store.dispatch(new GetDiscussion({ activeBriefId: `${this._brief.id}` }))
+    this.store.dispatch(
+      new GetDiscussion({ activeBriefId: `${this._brief.id}` })
+    )
   }
 
-  get brief(){
+  get brief() {
     return this._brief
   }
 
@@ -54,7 +69,7 @@ export class BriefDiscussionComponent implements OnInit {
   handleSelectDiscussion(type: DiscussionType) {
     // tslint:disable-next-line:no-console
     console.log('🐛 - handleSelectDiscussion', type)
-
+    this.currentChannel = type
     this.store.dispatch(new SetActiveDiscussionChannel(type))
     this.store.dispatch(new GetDiscussion({ activeBriefId: this.brief.id }))
   }
@@ -69,8 +84,11 @@ export class BriefDiscussionComponent implements OnInit {
     // tslint:disable-next-line:no-console
     console.log(`💬 -  RemoveComment`, $event)
    
-
-    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+   
+    this.store.dispatch(
+      new RemoveComment({id: $event.id, brief: $event.hostId})
+    )
+ /*    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
       clickOutsideToClose: true
     })
@@ -83,7 +101,7 @@ export class BriefDiscussionComponent implements OnInit {
           this.remove = true
           this.removeComment($event.id, $event.hostId)
         }
-      })
+      }) */
 
       
   }
@@ -102,6 +120,7 @@ export class BriefDiscussionComponent implements OnInit {
     const newcomment = {
       brief: $event.hostId,
       text: $event.text,
+      channel: this.currentChannel,
       parent: parent ? parent.id : null
     }
 

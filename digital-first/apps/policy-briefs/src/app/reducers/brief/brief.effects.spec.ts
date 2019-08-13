@@ -29,7 +29,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { HttpClient } from '@angular/common/http'
 import { CoreMapperService } from '../../services/mappers/core-mapper.service'
 import { BriefDataService } from './brief-data.service'
-import { briefs } from '../../../devdata/data'
+import { briefs } from '../../../../../../devdata/data'
 
 describe('BriefEffects', () => {
     let mockStore: MockStore<any>

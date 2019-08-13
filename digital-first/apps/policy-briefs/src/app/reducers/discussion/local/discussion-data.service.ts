@@ -11,56 +11,91 @@ import { max } from 'moment';
   providedIn: 'root'
 })
 export class DiscussionDataLocalService implements DiscussionDataService {
+
   fakeDiscussionBackend: Subject<any[]> = new Subject()
   fakeDiscussionBackendSubscription$: Subscription
   discussionItems: BehaviorSubject<any> = new BehaviorSubject(null)
   discussions: any[]
-  addDiscussion(item: any): Observable<any> {
-    const foundComment = comments.find(comment => comment.Brief.Id === item.brief)
-
-    let maxIndex = -1, maxId
-    comments.map(function(comment, i){  
-      if(comment.Brief.Id === item.brief){
-        if(maxIndex === -1){
-            maxIndex = i;
-            maxId = comment.Id
-      } else {
-              if (comment.Id > maxId){
-                  maxId = comment.Id
-                  maxIndex = i; 
-              }
-      }
+  
+  removeComment(payload: { id: string; brief: string }): Observable<any> {
+    var found = comments.find(p => `${p.Id}` == payload.id)
+    if (found) {
+      let index = comments.indexOf(found)
+      comments.splice(index, 1)
     }
-    })
 
-   if(maxIndex >= 0){
-      let index = comments.indexOf(foundComment)
-      let comment = comments[index]
-      comment.Comments = item.text
-      comment.Id = maxId + 1
-      comments.push(comment)
-      this.fakeDiscussionBackend.next(comments)
-    }
-    
-    return of({ briefId: item.brief, loading: false })
+    this.fakeDiscussionBackend.next(comments)
+    return of({ briefId: payload.brief, loading: false })
   }
-  updateDiscussion(item: any): Observable<any> {
+  addComment(payload: {
+    brief: any
+    text: any
+    channel: DiscussionType
+    parent: any
+  }): Observable<any> {
+    var maxId =
+      Math.max.apply(
+        Math,
+        comments.map(function(o) {
+          return o.Id
+        })
+      )
+
+    var nextId = maxId + 1
+
+    var comment = {
+      Brief: {
+        Id: payload.brief
+      },
+      Channel: payload.channel,
+      Parent: payload.parent,
+      Recommendation: null,
+      Author: {
+        Title: 'Random Dude'
+      },
+      Id: nextId,
+      Title: `${payload.brief}-${payload.channel}-${payload.parent ||
+        ''}-${nextId}`,
+      Comments: payload.text,
+      ID: nextId,
+      Created: Date.now().toLocaleString()
+    }
+
+    comments.push(comment)
+
+    this.fakeDiscussionBackend.next(comments)
+    return of({ brief: payload.brief, loading: false })
+  }
+  
+  addDiscussion(item: any): Observable<any> {
     throw new Error('Method not implemented.')
   }
-  removeDiscussion(item: any): Observable<any> {
-    const foundComment = comments.find(comment => comment.Brief.Id === item.brief && comment.Id === item.id)
-    let newComments: any[] = []
-    comments.forEach(comment => {
-      if(comment.Brief.Id != item.brief && comment.Id != item.id){
-        newComments.push(comment)
+
+  updateDiscussion(item: any): Observable<any> {
+    var found = comments.find(p => `${p.Id}` == item.Id)
+    if (found) {
+      let index = comments.indexOf(found)
+      comments[index] = {
+        ...found
       }
-    })
-    this.fakeDiscussionBackend.next(newComments)
+    }
+
+    this.fakeDiscussionBackend.next(comments)
+    return of({ briefId: item.Id, loading: false })
+  }
+  removeDiscussion(item: any): Observable<any> {
+    let foundBriefs = comments.filter(({Brief}) => Brief.Id === item.brief)
+
+    let foundComment = foundBriefs.filter(comment => comment.Id.toString() === item.id)
+    let index = comments.findIndex(x => x === foundComment[0])
+    comments.splice(index,1)
+   
+    this.fakeDiscussionBackend.next(comments)
     return of({ briefId: item.brief, loading: false })
   }
 
   public getDiscussions(item: {
-    id: string,
+    id: string
     channel: DiscussionType
   }): Observable<{
     data: any

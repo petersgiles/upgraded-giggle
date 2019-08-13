@@ -18,6 +18,8 @@ import { provideMockStore, MockStore } from '@ngrx/store/testing'
 import { provideMockActions } from '@ngrx/effects/testing'
 import { Observable, of} from 'rxjs'
 import * as fromBrief from '../../../reducers/brief/brief.reducer'
+import { selectAppConfigState, Config } from '../../../../../../../libs/df-app-core/src'
+
 
 describe('BriefReaderComponent', () => {
   let component: BriefReaderComponent;
@@ -25,6 +27,7 @@ describe('BriefReaderComponent', () => {
   let mockStore: MockStore<any>
   let actions$: Observable<any>
   let router: Router
+  let config: Config
 
 
   const initialState: fromBrief.State = {
@@ -33,9 +36,11 @@ describe('BriefReaderComponent', () => {
     directions: null,
     recommendations: null,
     attachments: null,
-    statusLookups: null,
-    divisionLookups: null
   }
+  const appState = {
+    config
+  }
+ 
  
   beforeEach(async(() => {
     const configure: ConfigureFn = testBed => {
@@ -68,7 +73,9 @@ describe('BriefReaderComponent', () => {
     router = testBed.get(Router)
     let state = {...initialState, brief: getBrief()}
     mockStore.setState(state)
-    mockStore.overrideSelector(fromBrief.selectBriefState, state.brief)    
+    mockStore.overrideSelector(fromBrief.selectBriefState, state.brief)  
+    appState.config = getConfig()
+    mockStore.overrideSelector(selectAppConfigState, appState.config) 
    
     fixture.detectChanges();  
   })
@@ -109,4 +116,22 @@ describe('BriefReaderComponent', () => {
     }
   return brief
  }
+
+ function getConfig(){
+  const defaults: Config = {
+    webId: null,
+    siteId: null,
+    header: {
+      title: 'Unconfigured Application',
+      backgroundColour: '#455a64',
+      classification: 'UNCLASSIFIED',
+      logo: {
+        image: 'assets/crest.png',
+        url: '/'
+      },
+      apps: []
+    }
+  }
+  return defaults
+}
 

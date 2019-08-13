@@ -38,42 +38,20 @@ import {
 import { pickColor } from '../../utils/colour'
 import { DiscussionDataService } from './discussion-data.service'
 import { DiscussionDataLocalService } from '../../reducers/discussion/local/discussion-data.service'
-import { comments } from '../../../devdata/data'
+import { comments } from '../../../../../../devdata/comments'
 import { DiscussionType } from '../../models'
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
+import { HttpClientTestingModule} from '@angular/common/http/testing'
 import { HttpClient } from '@angular/common/http'
 import { BriefMapperService } from '../../services/mappers/brief-mapper.service'
 import { CoreMapperService } from '../../services/mappers/core-mapper.service'
 
 describe('DiscussionEffects', () => {
-  debugger
     let mockStore: MockStore<any>
     let actions$: Observable<any>
     let discussionEffects: DiscussionEffects
     let service: DiscussionDataLocalService
 
-  /*   const mapComment = (item): any => {
-      const brief = idFromLookup(item.Brief)
-      const parent = idFromLookup(item.Parent)
-      const user = fromUser(item.Author)
-      const author = {
-        ...user,
-        color: pickColor(user.email)
-      }
-    
-      return {
-        id: item.ID,
-        title: item.Title,
-        created: item.Created,
-        text: item.Comments,
-        brief: brief,
-        parent: parent,
-        author: author
-      }
-    }
-    
-    const mapComments = (items): any[] => (items || []).map(mapComment)
- */
+
     const initialState =   {
      discussion: {activeChannel: 'Agency', channels: ['Agency']}
     } 
@@ -115,7 +93,11 @@ describe('DiscussionEffects', () => {
     }))
   
     function getRealDiscussions(id){
-      return service.getDiscussions({ id: id, channel: DiscussionType.Agency })
+      let discussions
+       service.getDiscussions({ id: id, channel: DiscussionType.Agency }).subscribe(items => {
+          discussions = items
+       })
+      return discussions
     }
     
 
@@ -124,10 +106,8 @@ describe('DiscussionEffects', () => {
   })
 
   it('should Load Discussions/Comments', inject([DiscussionDataService], (service:DiscussionDataService)  => {
-    let discussions
-    getRealDiscussions(10).pipe(map(discussions => {
-        discussions = discussions.data
-    }))
+    let discussions = getRealDiscussions(10)
+
     const action = new GetDiscussion({activeBriefId: '10',  channel: DiscussionType.Agency})
     actions$ = hot('-a', { a: action} )
     const response = cold('-a|', { a: {data: discussions, loading: false} });
@@ -137,18 +117,28 @@ describe('DiscussionEffects', () => {
     expect(discussionEffects.loadDiscussions$).toBeObservable(expected)
   }))
 
-  it('should Load Discussions/Comments', inject([DiscussionDataService], (service:DiscussionDataService)  => {
-    let discussions
-    getRealDiscussions(10).pipe(map(discussions => {
-        discussions = discussions.data
-    }))
-    const action = new AddComment({activeBriefId: '10',  channel: DiscussionType.Agency})
+  it('should add comment', inject([DiscussionDataService], (service:DiscussionDataService)  => {
+    let discussions = getRealDiscussions(10).data
+
+    const action = new AddComment({brief: '10', text: 'test',  channel: DiscussionType.Agency, parent: null})
     actions$ = hot('-a', { a: action} )
     const response = cold('-a|', { a: {data: discussions, loading: false} });
-    const expected = cold('--b', {b: new GetDiscussion({activeBriefId: '10',  channel: DiscussionType.Agency})})
+    const expected = cold('-b', {b: new GetDiscussion({activeBriefId: '10'})})
     service.getDiscussions = jest.fn(() => response)
 
-    expect(discussionEffects.loadDiscussions$).toBeObservable(expected)
+    expect(discussionEffects.addComment$).toBeObservable(expected)
+  }))
+
+  it('should remove comment', inject([DiscussionDataService], (service:DiscussionDataService)  => {
+    let comments = service.removeComment({id: '19', brief: '10'})
+
+    const action = new RemoveComment({id: '19', brief: '10'})
+    actions$ = hot('-a', { a: action} )
+    const response = cold('-a|', { a: {data: comments, loading: false} });
+    const expected = cold('-b', {b: new GetDiscussion({activeBriefId: '10'})})
+    service.getDiscussions = jest.fn(() => response)
+
+    expect(discussionEffects.removeComment$).toBeObservable(expected)
   }))
 
 

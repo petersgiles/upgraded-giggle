@@ -36,7 +36,9 @@ export function reducer(state = initialState, action: BriefActions): State {
           ...state,
           brief:  {
             ...state.brief,
-            status:  action.payload.status
+            briefStatus:  { 
+              id: action.payload.status
+            }
           }
         }
 
@@ -72,8 +74,8 @@ export const selectFileLeafRefState = createSelector(
 export const selectBriefStatusState = createSelector(
   selectBriefState,
   brief => {
-    console.log("selectBriefStatusState", (brief || {}).status)
-    return (brief || {}).status
+    console.log("selectBriefStatusState", (brief || {}).briefStatus)
+    return (brief || {}).briefStatus
   }
 )
 
