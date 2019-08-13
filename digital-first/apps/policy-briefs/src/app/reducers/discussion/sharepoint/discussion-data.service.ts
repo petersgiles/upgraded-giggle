@@ -19,12 +19,37 @@ const DISCUSSION_ITEM_LIST_NAME = 'Comment'
   providedIn: 'root'
 })
 export class DiscussionDataSharepointService implements DiscussionDataService {
-  removeComment(payload: { id: string; brief: string; }): Observable<any> {
-    throw new Error("Method not implemented.");
+  removeComment(payload: { id: string; brief: string }): Observable<any> {
+    return this.sharepoint
+      .removeItem({
+        listName: DISCUSSION_ITEM_LIST_NAME,
+        id: payload.id
+      })
+      .pipe(concatMap(_ => of({ brief: payload.brief, loading: false })))
   }
-  addComment(payload: { brief: any; text: any; channel: DiscussionType; parent: any; }): Observable<any> {
-    throw new Error("Method not implemented.");
+
+  addComment(payload: {
+    brief: any
+    text: any
+    channel: DiscussionType
+    parent: any
+  }): Observable<any> {
+    var comment = {
+      Brief: payload.brief,
+      Channel: payload.channel,
+      Parent: payload.parent,
+      Title: `${payload.brief}-${payload.channel}-${payload.parent || ''}`,
+      Comments: payload.text
+    }
+
+    return this.sharepoint
+      .storeItem({
+        listName: DISCUSSION_ITEM_LIST_NAME,
+        data: comment
+      })
+      .pipe(concatMap(_ => of({ brief: payload.brief, loading: false })))
   }
+
   addDiscussion = (item: any): Observable<any> =>
     this.sharepoint
       .storeItem({
@@ -73,18 +98,22 @@ export class DiscussionDataSharepointService implements DiscussionDataService {
           const author = fromUser(p.Author)
           const parent = fromLookup(p.Parent)
 
-          return {
+          var comment = {
             ...p,
             Brief: {
               Id: brief.id,
               Title: brief.title
             },
+            Parent: parent.id,
             Author: {
               Title: author.title,
               Email: author.email,
               Phone: author.phone
             }
           }
+          console.log('spDiscussions', brief, author, parent, comment)
+
+          return comment
         })
 
         return [...this.discussionMapperService.mapMany(discussions)]
