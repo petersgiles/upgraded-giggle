@@ -14,7 +14,7 @@ const lookupDataServiceFactory = (
 ) => {
 
   console.log(
-    `discussionDataServiceFactory`,
+    `lookupDataServiceFactory`,
     settings,
     sharepointlib
   )

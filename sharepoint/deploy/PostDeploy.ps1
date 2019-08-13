@@ -42,8 +42,8 @@ foreach ($deploySiteUrl in $deploySites) {
         }
     }
     Write-Host "Deploying to URL $deploySiteUrl"
-    & .\scripts\BulkUploadSharePointCSOM.ps1 -Folder "SiteAssets/" -DocLibName "Site Assets" -binPath $binPath -SiteUrl $deploySiteUrl -jsOnly:$jsOnly.IsPresent
-    & .\scripts\BulkUploadSharePointCSOM.ps1 -Folder "SitePages/" -DocLibName "Site Pages" -binPath $binPath -SiteUrl $deploySiteUrl -jsOnly:$jsOnly.IsPresent
+    & .\scripts\BulkUploadSharePointCSOM.ps1 -Folder "SiteAssets" -DocLibName "Site Assets" -binPath $binPath -SiteUrl $deploySiteUrl -jsOnly:$jsOnly.IsPresent
+    & .\scripts\BulkUploadSharePointCSOM.ps1 -Folder "SitePages" -DocLibName "Site Pages" -binPath $binPath -SiteUrl $deploySiteUrl -jsOnly:$jsOnly.IsPresent
     & .\scripts\Deploy-Lists.ps1 -saveLocation "ListDefinitions/$AppName" -binPath $binPath -siteUrl $deploySiteUrl -forceListUpdate $boolForceUpdateSchema
     
     if ($LoadReferenceData -eq 'True') {
