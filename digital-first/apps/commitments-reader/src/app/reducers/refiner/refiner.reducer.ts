@@ -107,7 +107,7 @@ export function reducer(state = initialState, action: RefinerActions): State {
         expandedGroups = expandedGroups.filter(
           g => !hiddenRefinerGroup.includes(g)
         )
-        const refinerGroups = [...state.refinerGroups]
+        let refinerGroups = [...state.refinerGroups]
         if (!selectedAlready) {
           selectedRefiners = selectedRefiners.filter(
             item => !(item.group === selectedRefiner.group)
@@ -115,9 +115,7 @@ export function reducer(state = initialState, action: RefinerActions): State {
         }
         let group: any = {}
         if (selectedRefiner.title === 'State') {
-          group = JSON.parse(
-            JSON.stringify(refinerGroups.filter(rf => rf.group === 'states')[0])
-          )
+          group = refinerGroups.filter(rf => rf.group === 'states')[0]
           //enable states
           if (!selectedAlready) {
             hiddenRefinerGroup = hiddenRefinerGroup.filter(
