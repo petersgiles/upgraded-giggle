@@ -5,29 +5,87 @@ export enum BriefActionTypes {
   LoadBrief = '[Brief] Load Brief',
   SetActiveBrief = '[Brief] Set Active Brief',
   SetActiveBriefStatus = '[Brief] Set Active Brief Status',
-  SetActiveBriefProtectiveMarking = '[Brief] Set Active Brief ProtectiveMarking',
-  SetBriefPolicy = '[Brief] SetBriefPolicy',
-  SetBriefSubPolicy = '[Brief] SetBriefSubPolicy',
-  SetBriefProcessingInstruction = '[Brief] SetBriefProcessingInstruction',
-  SetBriefRecommendedDirection = '[Brief] SetBriefRecommendedDirection',
-  SetBriefActions = '[Brief] SetBriefActions',
-  SetBriefRelatedComments = '[Brief] SetBriefRelatedComments',
+  
+  SetBriefSecurityClassification = '[Brief] Set Active Brief Security Classification',
+  SetBriefSecurityClassificationSuccess = '[Brief] Set Active Brief Security Classification Success',
+  SetBriefSecurityClassificationFail = '[Brief] Set Active Brief Security Classification Fail',
+  
+  SetBriefDLM = '[Brief] Set Active Brief DLM',
+  SetBriefDLMSuccess = '[Brief] Set Active Brief DLM Success',
+  SetBriefDLMFail = '[Brief] Set Active Brief DLM Fail',
+  
+  SetBriefPolicy = '[Brief] Set Brief Policy',
+  SetBriefPolicyFail = '[Brief] Set Brief Policy Fail',
+  SetBriefPolicySuccess = '[Brief] Set Brief Policy Success',
+
+  SetBriefProcessingInstruction = '[Brief] Set Brief Processing Instruction',
+  SetBriefRecommendedDirection = '[Brief] Set Brief Recommended Direction',
+  SetBriefActions = '[Brief] Set Brief Actions',
+  SetBriefRelatedComments = '[Brief] Set Brief Related Comments',
 }
 
 export class SetActiveBriefStatus implements Action {
   readonly type = BriefActionTypes.SetActiveBriefStatus
   constructor(public payload: { activeBriefId: string; status: string }) {}
 }
-export class SetActiveBriefProtectiveMarking implements Action {
-  readonly type = BriefActionTypes.SetActiveBriefProtectiveMarking
+
+
+export class SetBriefPolicy implements Action {
+  readonly type = BriefActionTypes.SetBriefPolicy
+  constructor(
+    public payload: {
+      activeBriefId: string
+      policy: string
+      subpolicy: string
+    }
+  ) {}
+}
+
+export class SetBriefPolicySuccess implements Action {
+  readonly type = BriefActionTypes.SetBriefPolicySuccess
+}
+
+export class SetBriefPolicyFail implements Action {
+  readonly type = BriefActionTypes.SetBriefPolicyFail
+}
+
+
+export class SetBriefSecurityClassification implements Action {
+  readonly type = BriefActionTypes.SetBriefSecurityClassification
   constructor(
     public payload: {
       activeBriefId: string
       securityClassification: string
+    }
+  ) {}
+}
+
+export class SetBriefSecurityClassificationSuccess implements Action {
+  readonly type = BriefActionTypes.SetBriefSecurityClassificationSuccess
+}
+
+export class SetBriefSecurityClassificationFail implements Action {
+  readonly type = BriefActionTypes.SetBriefSecurityClassificationFail
+}
+
+export class SetBriefDLM implements Action {
+  readonly type = BriefActionTypes.SetBriefDLM
+  constructor(
+    public payload: {
+      activeBriefId: string
       dLM: string
     }
   ) {}
 }
+
+export class SetBriefDLMSuccess implements Action {
+  readonly type = BriefActionTypes.SetBriefDLMSuccess
+}
+
+export class SetBriefDLMFail implements Action {
+  readonly type = BriefActionTypes.SetBriefDLMFail
+}
+
 export class SetActiveBrief implements Action {
   readonly type = BriefActionTypes.SetActiveBrief
   constructor(public payload: { activeBriefId: string }) {}
@@ -48,4 +106,12 @@ export type BriefActions =
   | SetActiveBrief
   | GetActiveBriefFailure
   | SetActiveBriefStatus
-  | SetActiveBriefProtectiveMarking
+  | SetBriefPolicy
+  | SetBriefPolicyFail
+  | SetBriefPolicySuccess
+  | SetBriefSecurityClassification
+  | SetBriefSecurityClassificationFail
+  | SetBriefSecurityClassificationSuccess
+  | SetBriefDLM
+  | SetBriefDLMFail
+  | SetBriefDLMSuccess

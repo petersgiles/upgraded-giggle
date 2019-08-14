@@ -71,7 +71,8 @@ export class LookupDataSharepointService implements LookupDataService {
         concatMap(result => {
           return of(result.map(r => ({
             caption: r.Title,
-            value: r.ID
+            value: r.ID,
+            parent: r.Policy
           })))
         })
       )
