@@ -38,7 +38,6 @@ const defaultValues = {
   sortOrder: 99,
   securityClassification: 'UNCLASSIFIED',
   dLM: 'Sensitive',
-  processingInstruction: null,
   recommendedDirection: null
 }
 
@@ -66,7 +65,6 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
   policyValueChangeSubscription$: Subscription
   securityClassificationValueChangeSubscription$: Subscription
   dLMValueChangeSubscription$: Subscription
-  processingInstructionValueChangeSubscription$: Subscription
   recommendedDirectionValueChangeSubscription$: Subscription
   actionsValueChangeSubscription$: Subscription
   commitmentsValueChangeSubscription$: Subscription
@@ -116,7 +114,6 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
     dLM: [null],
     policy: [null],
     subpolicy: [null],
-    processingInstruction: [null],
     recommendedDirection: [null],
     actions: this.fb.array([]),
     commitments: this.fb.array([])
@@ -177,8 +174,7 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
             dLM: brief.dLM,
             policy: brief.policy ? brief.policy.id : null,
             subpolicy: brief.subPolicy ? brief.subPolicy.id : null,
-            processingInstruction: null,
-            recommendedDirection: null
+               recommendedDirection: null
           }
 
           var nextSP = this.subpolicies.filter(sp => sp.policy == patch.policy)
@@ -247,8 +243,6 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
       this.securityClassificationValueChangeSubscription$.unsubscribe()
     if (this.dLMValueChangeSubscription$)
       this.dLMValueChangeSubscription$.unsubscribe()
-    if (this.processingInstructionValueChangeSubscription$)
-      this.processingInstructionValueChangeSubscription$.unsubscribe()
     if (this.recommendedDirectionValueChangeSubscription$)
       this.recommendedDirectionValueChangeSubscription$.unsubscribe()
     if (this.actionsValueChangeSubscription$)
@@ -334,17 +328,6 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
             dLM: data
           })
         )
-      })
-
-    this.processingInstructionValueChangeSubscription$ = this.form
-      .get('processingInstruction')
-      .valueChanges
-      .pipe(
-        debounceTime(400),
-        distinctUntilChanged()
-      )
-      .subscribe(data => {
-        console.log('onChanges processingInstruction', data)
       })
 
     this.recommendedDirectionValueChangeSubscription$ = this.form
