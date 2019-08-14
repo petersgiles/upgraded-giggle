@@ -69,17 +69,38 @@
               </ng-select>
             </mdc-drawer-content>
           </mdc-drawer>
-          <div style="flex-wrap:wrap; width:100%;display: flex;">
-            <div *ngFor="let selectedRefiner of selectedRefiners">
+          <div
+            *ngIf="selectedRefinerGroups && selectedRefinerGroups.length > 0"
+            class="filter-container"
+          >
+            <div
+              *ngFor="let group of selectedRefinerGroups"
+              class="filter-group"
+            >
               <span
                 aria-hidden="true"
-                style="align-self:flex-start;padding-left:5px;"
-                class=""
+                class="refiner-tag-icon"
+                title="Remove {{ group.title }}"
+                (click)="handelRemoveSelectedGroup(group)"
                 >×</span
               >
-              <span>
-                {{ selectedRefiner.title }}
+              <span class="group-title" style="font-weight: 500;">
+                {{ group.title }} :
               </span>
+              <ng-container *ngFor="let refiner of group.children">
+                <span class="refiner-title">
+                  <span
+                    aria-hidden="true"
+                    class="refiner-tag-icon"
+                    title="Remove {{ refiner.title }}"
+                    (click)="handelRemoveSelectedRefiner(refiner)"
+                    >×</span
+                  >
+                  <span>
+                    {{ refiner.title }}
+                  </span></span
+                >
+              </ng-container>
             </div>
           </div>
           <mdc-tab-bar [activeTabIndex]="activeTab" useAutomaticActivation>

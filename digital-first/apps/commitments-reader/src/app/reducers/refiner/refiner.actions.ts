@@ -11,7 +11,9 @@ export enum RefinerActionTypes {
   SearchCommitments = '[RefinerActionTypes] SearchCommitments',
   SetRefinerFromQueryString = '[RefinerActionTypes] SetRefinerFromQueryString',
   ClearRefiners = '[RefinerActionTypes] ClearRefiners',
-  ChangeTextRefiner = '[RefinerActionTypes] ChangeTextRefiner'
+  ChangeTextRefiner = '[RefinerActionTypes] ChangeTextRefiner',
+  RemoveSelectedGroup = '[RefinerActionTypes] RemoveSelectedGroup',
+  RemoveSelectedRefiner = '[RefinerActionTypes] RemoveSelectedRefiner'
 }
 
 export class ClearRefiners implements Action {
@@ -65,6 +67,16 @@ export class GetRefinersFailure implements Action {
   constructor(public payload: any) {}
 }
 
+export class RemoveSelectedGroup implements Action {
+  type = RefinerActionTypes.RemoveSelectedGroup
+  constructor(public payload: any) {}
+}
+
+export class RemoveSelectedRefiner implements Action {
+  type = RefinerActionTypes.RemoveSelectedRefiner
+  constructor(public payload: any) {}
+}
+
 export type RefinerActions =
   | GetRefinerGroups
   | LoadRefinerGroups
@@ -76,3 +88,5 @@ export type RefinerActions =
   | GetRefinersFailure
   | ClearRefiners
   | SetRefinerFromQueryString
+  | RemoveSelectedRefiner
+  | RemoveSelectedGroup

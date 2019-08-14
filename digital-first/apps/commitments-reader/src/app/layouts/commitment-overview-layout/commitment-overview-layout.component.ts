@@ -16,13 +16,15 @@ import {
   GetRefinerGroups,
   SetRefinerFromQueryString,
   ClearRefiners,
-  SelectElectorates
+  SelectElectorates,
+  RemoveSelectedGroup,
+  RemoveSelectedRefiner
 } from '../../reducers/refiner/refiner.actions'
 
 import { ActivatedRoute, Router } from '@angular/router'
 import { CRMenu } from '../../reducers/refiner/refiner.models'
 import { MdcDrawer } from '@angular-mdc/web'
-import { debounceTime, switchMap } from 'rxjs/operators'
+import { debounceTime, switchMap, groupBy } from 'rxjs/operators'
 
 @Component({
   selector: 'digital-first-commitment-overview-layout',
@@ -63,10 +65,12 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
   selectId$: any
   refinerGroupsSubscription: Subscription
   queryParamsSubscription: Subscription
-  selectedRefinersStateSubscription: Subscription
+  selectedRefinersSubscription: Subscription
 
   refinerGroups: RefinerGroup[]
+  selectedRefinerGroups: RefinerGroup[]
   selectedRefiners: any[]
+
   queryParamsRefiner: { id: string; group: string }[]
   isBusy$: Observable<boolean>
   textRefiner$: Observable<string>
@@ -76,6 +80,7 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
   routerSegmentsSubscription: Subscription
   electoratesChangesSubscription: Subscription
   electoratesChanges: Subject<any> = new Subject()
+  selectedRefinersStateSubscription: Subscription
 
   constructor(
     private route: ActivatedRoute,
@@ -87,6 +92,7 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
   handleRefinerGroupSelected($event) {
     this.store.dispatch(new SelectRefinerGroup($event))
   }
+
   handleSlideOutGroupSelected($event) {
     this.refinerGroupWithDrawer = $event as CRMenu
     this.electorates = []
@@ -103,11 +109,15 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
           this.selectedElectorates.push(el.id)
         }
       })
-      this.electorates.sort((a, b) => {
-        return a.state > b.state ? -1 : 1
+      this.electorates = this.electorates.sort((a, b) => {
+        if (a.state === b.state) {
+          return a.title > b.title ? 1 : -1
+        }
+        return a.state > b.state ? 1 : -1
       })
     }
   }
+
   handleRefinerSelected($event) {
     this.store.dispatch(new SelectRefiner($event))
   }
@@ -120,6 +130,12 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
     this.store.dispatch(new ClearRefiners($event))
   }
 
+  handelRemoveSelectedGroup($event) {
+    this.store.dispatch(new RemoveSelectedGroup($event))
+  }
+  handelRemoveSelectedRefiner($event) {
+    this.store.dispatch(new SelectRefiner($event))
+  }
   ngOnInit() {
     this.queryParamsSubscription = this.route.queryParams.subscribe(params => {
       if (params && params.refiner) {
@@ -134,29 +150,28 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
       const tab = this.tabs.findIndex(p => p.id === url)
       this.activeTab = tab
       this.store.dispatch(new GetRefinerGroups(null))
+      this.rewriteUrl(this.selectedRefiners)
     })
 
     this.selectedRefinersStateSubscription = this.store
       .pipe(select(fromRefiner.selectSelectedRefinersState))
       .subscribe(next => {
         this.selectedRefiners = next
-        if (next && next.length > 0) {
-          this.router.navigate([], {
-            relativeTo: this.route,
-            queryParams: { refiner: JSON.stringify(next) },
-            queryParamsHandling: 'merge'
-          })
-        } else {
-          this.router.navigate([], {
-            relativeTo: this.route
-          })
-        }
+        this.rewriteUrl(next)
       })
 
     this.refinerGroupsSubscription = this.store
       .pipe(select(fromRefiner.selectRefinerGroups))
       .subscribe(next => {
         this.refinerGroups = next
+        this.selectedRefinerGroups = next
+          .filter(n => n.children.some(c => c.selected))
+          .map(group => {
+            return {
+              ...group,
+              children: group.children.filter(c => c.selected)
+            }
+          })
       })
 
     this.electoratesChangesSubscription = this.electoratesChanges
@@ -167,9 +182,6 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe(selectedElectorates => {
-        // to make sure it is not an event type emited by ng-select component
-        // it is supposed to be a list of selected items however some time this could
-        // be a change event
         if (Array.isArray(selectedElectorates)) {
           this.store.dispatch(new SelectElectorates(selectedElectorates))
         }
@@ -179,6 +191,20 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
     this.textRefiner$ = this.store.pipe(
       select(fromRefiner.selectTextRefinerState)
     )
+  }
+
+  private rewriteUrl(next: any[]) {
+    if (next && next.length > 0) {
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { refiner: JSON.stringify(next) },
+        queryParamsHandling: 'merge'
+      })
+    } else {
+      this.router.navigate([], {
+        relativeTo: this.route
+      })
+    }
   }
 
   ngOnDestroy(): void {
