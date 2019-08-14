@@ -1,11 +1,17 @@
 import { Action } from '@ngrx/store'
 
 export enum BriefActionTypes {
+  GetActiveBriefFailure = '[Brief] Get Active Brief Failure',
   LoadBrief = '[Brief] Load Brief',
   SetActiveBrief = '[Brief] Set Active Brief',
   SetActiveBriefStatus = '[Brief] Set Active Brief Status',
   SetActiveBriefProtectiveMarking = '[Brief] Set Active Brief ProtectiveMarking',
-  GetActiveBriefFailure = '[Brief] Get Active Brief Failure'
+  SetBriefPolicy = '[Brief] SetBriefPolicy',
+  SetBriefSubPolicy = '[Brief] SetBriefSubPolicy',
+  SetBriefProcessingInstruction = '[Brief] SetBriefProcessingInstruction',
+  SetBriefRecommendedDirection = '[Brief] SetBriefRecommendedDirection',
+  SetBriefActions = '[Brief] SetBriefActions',
+  SetBriefRelatedComments = '[Brief] SetBriefRelatedComments',
 }
 
 export class SetActiveBriefStatus implements Action {

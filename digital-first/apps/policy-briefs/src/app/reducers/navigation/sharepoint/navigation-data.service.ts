@@ -55,6 +55,7 @@ export class NavigationDataSharepointService implements NavigationDataService {
         listName: 'Brief'
       })
     ]).pipe(
+      tap(result => console.log(`Navs => Policy SubPolicy Brief`, result)),
       map(([spPolicy, spSubPolicy, spBrief]) => {
         
         const sp = spSubPolicy.map(p => {

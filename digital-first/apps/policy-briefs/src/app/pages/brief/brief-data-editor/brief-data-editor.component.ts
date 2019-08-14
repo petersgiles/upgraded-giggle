@@ -32,7 +32,7 @@ const defaultValues = {
   subpolicy: null,
   sortOrder: 99,
   securityClassification: 'UNCLASSIFIED',
-  dLM: 'Sensitive',
+  dLM: "Sensitive",
   processingInstruction: null,
   recommendedDirection: null
 }
@@ -159,8 +159,8 @@ export class BriefDataEditorComponent implements OnInit {
             securityClassification: brief.securityClassification,
             sortOrder: brief.order,
             dLM: brief.dLM,
-            policy: brief.policy,
-            subpolicy: brief.subPolicy,
+            policy: brief.policy ? brief.policy.id : null,
+            subpolicy: brief.subPolicy ? brief.subPolicy.id : null,
             processingInstruction: null,
             recommendedDirection: null
           }
@@ -219,5 +219,9 @@ export class BriefDataEditorComponent implements OnInit {
     const editedCard = {
       ...this.form.value
     }
+
+    this.store.dispatch(
+      new SetActiveBriefPath({ activeBriefId: this.activeBriefId })
+    )
   }
 }

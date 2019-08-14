@@ -3,10 +3,16 @@ import { Observable, of, BehaviorSubject, Subject, Subscription } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { DiscussionDataService } from '../discussion-data.service'
 import { comments } from '../../../../../../../devdata/data'
+<<<<<<< HEAD
 import { DiscussionMapperService } from '../../../services/mappers/discussion-mapper.service';
 import { DiscussionType } from '../../../models';
 import { max } from 'moment';
 
+=======
+import { DiscussionMapperService } from '../../../services/mappers/discussion-mapper.service'
+import { DiscussionType } from '../../../models'
+import { AppDataService } from '../../../services/app-data.service';
+>>>>>>> 6d13b5a0138f11a2948513f3f8825a7945fb2bc0
 @Injectable({
   providedIn: 'root'
 })
@@ -25,7 +31,7 @@ export class DiscussionDataLocalService implements DiscussionDataService {
     }
 
     this.fakeDiscussionBackend.next(comments)
-    return of({ briefId: payload.brief, loading: false })
+    return of({ brief: payload.brief, loading: false })
   }
   addComment(payload: {
     brief: any
@@ -43,6 +49,10 @@ export class DiscussionDataLocalService implements DiscussionDataService {
 
     var nextId = maxId + 1
 
+    var event = new Date();
+
+    // this.appDataService.getCurrentUser()
+
     var comment = {
       Brief: {
         Id: payload.brief
@@ -58,7 +68,7 @@ export class DiscussionDataLocalService implements DiscussionDataService {
         ''}-${nextId}`,
       Comments: payload.text,
       ID: nextId,
-      Created: Date.now().toLocaleString()
+      Created: event.toISOString()
     }
 
     comments.push(comment)
@@ -137,4 +147,8 @@ export class DiscussionDataLocalService implements DiscussionDataService {
 
     this.fakeDiscussionBackend.next(comments)
   }
+  /* constructor(
+    private appDataService: AppDataService,
+    private discussionMapperService: DiscussionMapperService
+    ) {} */
 }

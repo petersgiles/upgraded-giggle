@@ -13,14 +13,14 @@ export interface State {
 }
 
 export const initialState: State = {
-  policies: null,
-  subpolicies: null,
-  commitments: null,
-  classifications: null,
-  dlms: null,
-  statuses: null,
-  divisions: null,
-  activities: null
+  policies: [],
+  subpolicies: [],
+  commitments: [],
+  classifications: [],
+  dlms: [],
+  statuses: [],
+  divisions: [],
+  activities: []
 }
 
 export function reducer(state = initialState, action: LookupActions): State {
@@ -81,12 +81,24 @@ export const lookupState = createFeatureSelector<State>('lookups')
 
 export const selectLookupPoliciesState = createSelector(
   lookupState,
-  (state: State) => state.policies
+  (state: State) =>  [
+    {
+      caption: 'Please Select',
+      value: null
+    },
+    ...state.policies
+  ]
 )
 
 export const selectLookupSubpoliciesState = createSelector(
   lookupState,
-  (state: State) => state.subpolicies
+  (state: State) =>  [
+    {
+      caption: 'Please Select',
+      value: null
+    },
+    ...state.subpolicies
+  ]
 )
 
 export const selectLookupCommitmentsState = createSelector(
@@ -96,17 +108,33 @@ export const selectLookupCommitmentsState = createSelector(
 
 export const selectLookupClassificationsState = createSelector(
   lookupState,
-  (state: State) => state.classifications
+  (state: State) =>  [
+    {
+      caption: 'Please Select',
+      value: null
+    },
+    ...state.classifications
+  ]
 )
 
 export const selectLookupDLMsState = createSelector(
   lookupState,
-  (state: State) => state.dlms
+  (state: State) => [
+    {
+      caption: 'Please Select',
+      value: null
+    },
+    ...state.dlms
+  ]
 )
 
 export const selectLookupStatusesState = createSelector(
   lookupState,
-  (state: State) => state.statuses
+  (state: State) =>
+    [...state.statuses].map(p => ({
+      ...p,
+      id: `${p.id}`
+    }))
 )
 
 export const selectLookupActivitiesState = createSelector(
@@ -116,5 +144,11 @@ export const selectLookupActivitiesState = createSelector(
 
 export const selectLookupDivisionsState = createSelector(
   lookupState,
-  (state: State) => state.divisions
+  (state: State) =>  [
+    {
+      caption: 'Please Select',
+      value: null
+    },
+    ...state.divisions
+  ]
 )

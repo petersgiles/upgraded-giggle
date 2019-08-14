@@ -1,6 +1,6 @@
 import { DiscussionActions, DiscussionActionTypes } from './discussion.actions'
 import { createFeatureSelector, createSelector } from '@ngrx/store'
-import { sortBy, toTree } from '@df/utils'
+import { sortBy, toTree } from '../../utils/array-to-tree'
 import { DiscussionType } from '../../models'
 
 export interface State {
@@ -45,19 +45,23 @@ export function reducer(
       const data = action.payload.data
 
       const discussionNodes = JSON.parse(JSON.stringify(data || [])).sort(
-        sortBy('order')
+        sortBy('created')
       )
 
       const discussion = toTree(discussionNodes, {
         id: 'id',
         parentId: 'parent',
         children: 'children',
-        level: 'level'
+        level: 'level',
+        sortBy: 'created'
       })
+
+      console.log('discussionNodes', discussionNodes, discussion)
 
       return {
         ...state,
-        discussion: discussion
+        discussion: discussion,
+        activeComment: null
       }
 
     case DiscussionActionTypes.SetActiveDiscussionChannel:

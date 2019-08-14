@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core'
+import { Component, OnInit, Input, ComponentFactoryResolver } from '@angular/core'
 import { Store, select } from '@ngrx/store'
 import { FormBuilder } from '@angular/forms'
 

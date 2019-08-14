@@ -8,7 +8,8 @@ export function toTree(
     parentId: string
     children: string
     level: string
-    firstParentId?: any
+    firstParentId?: any,
+    sortBy?: string
   }
 ) {
   const defaults = {
@@ -16,7 +17,8 @@ export function toTree(
     parentId: "Parent",
     children: "Children",
     level: "Level",
-    firstParentId: null
+    firstParentId: null,
+    sortBy: "id"
   }
 
   const options = {
@@ -48,7 +50,7 @@ export function toTree(
 
 function transform(startArray, grouped, options, lvl = 0) {
   if (startArray) {
-    const sortedArray = startArray.sort(sortBy(options.id))
+    const sortedArray = startArray.sort(sortBy(options[options.sortBy]))
     const level = lvl + 1
     for (const item of sortedArray) {
         item[options.level] = level

@@ -43,6 +43,9 @@ export class LookupDataSharepointService implements LookupDataService {
     ])
   }
   getLookupStatuses(config?: any): Observable<any> {
+    
+    console.log('getLookupStatuses', config)
+
     return this.sharepoint
       .getItems({
         listName: 'BriefStatus'
