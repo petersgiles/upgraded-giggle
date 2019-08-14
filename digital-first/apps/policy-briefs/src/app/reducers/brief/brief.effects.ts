@@ -11,7 +11,9 @@ import {
   GetActiveBriefFailure,
   SetActiveBriefStatus,
   SetBriefPolicy,
-  SetBriefPolicySuccess
+  SetBriefPolicySuccess,
+  SetBriefSecurityClassification,
+  SetBriefDLM
 } from './brief.actions'
 
 
@@ -82,6 +84,40 @@ export class BriefEffects {
     catchError(error => of(new GetActiveBriefFailure(error)))
   )
 
+
+  @Effect()
+  setBriefSecurityClassification$ = this.actions$.pipe(
+    ofType(BriefActionTypes.SetBriefSecurityClassification),
+    map((action: SetBriefSecurityClassification) => action),
+    concatMap(action =>
+      this.service.updateBrief(action.payload.activeBriefId, {
+        SecurityClassification: action.payload.securityClassification 
+      })
+    ),
+    switchMap((result: { briefId: any; loading: boolean }) => [
+      new SetActiveBrief({
+        activeBriefId: result.briefId
+      })
+    ]),
+    catchError(error => of(new GetActiveBriefFailure(error)))
+  )
+  
+  @Effect()
+  setBriefDLM$ = this.actions$.pipe(
+    ofType(BriefActionTypes.SetBriefDLM),
+    map((action: SetBriefDLM) => action),
+    concatMap(action =>
+      this.service.updateBrief(action.payload.activeBriefId, {
+        DLM: action.payload.dLM
+      })
+    ),
+    switchMap((result: { briefId: any; loading: boolean }) => [
+      new SetActiveBrief({
+        activeBriefId: result.briefId
+      })
+    ]),
+    catchError(error => of(new GetActiveBriefFailure(error)))
+  )
   constructor(
     private actions$: Actions<BriefActions>,
     private service: BriefDataService

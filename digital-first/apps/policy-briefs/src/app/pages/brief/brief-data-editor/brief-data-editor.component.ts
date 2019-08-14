@@ -116,6 +116,8 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
     actions: this.fb.array([]),
     commitments: this.fb.array([])
   })
+  subSecurityClassificationValueChangeSubscription$: Subscription;
+  subDLMValueChangeSubscription$: Subscription;
 
 
   get actions(): FormArray {
@@ -237,6 +239,8 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
   unsubscribeChanges(): void {
     if(this.policyValueChangeSubscription$) this.policyValueChangeSubscription$.unsubscribe()
     if(this.subPolicyValueChangeSubscription$) this.subPolicyValueChangeSubscription$.unsubscribe()
+    if(this.subSecurityClassificationValueChangeSubscription$) this.subSecurityClassificationValueChangeSubscription$.unsubscribe()
+    if(this.subDLMValueChangeSubscription$) this.subDLMValueChangeSubscription$.unsubscribe()
   }
 
   subscribeChanges(): void {
@@ -275,29 +279,29 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
       }
     })
 
-    // this.form.get('securityClassification').valueChanges.subscribe(data => {
+    this.subSecurityClassificationValueChangeSubscription$ = this.form.get('securityClassification').valueChanges.subscribe(data => {
       
-    //   console.log('onChanges securityClassification', data)
+      console.log('onChanges securityClassification', data)
 
-    //   this.store.dispatch(
-    //     new SetBriefSecurityClassification({
-    //       activeBriefId: this.activeBriefId,
-    //       securityClassification: data
-    //     })
-    //   )
-    // })
+      this.store.dispatch(
+        new SetBriefSecurityClassification({
+          activeBriefId: this.activeBriefId,
+          securityClassification: data
+        })
+      )
+    })
 
-    // this.form.get('dLM').valueChanges.subscribe(data => {
+    this.subDLMValueChangeSubscription$ = this.form.get('dLM').valueChanges.subscribe(data => {
       
-    //   console.log('onChanges dLM', data)
+      console.log('onChanges dLM', data)
 
-    //   this.store.dispatch(
-    //     new SetBriefDLM({
-    //       activeBriefId: this.activeBriefId,
-    //       dLM: data
-    //     })
-    //   )
-    // })
+      this.store.dispatch(
+        new SetBriefDLM({
+          activeBriefId: this.activeBriefId,
+          dLM: data
+        })
+      )
+    })
   }
 
   handleView($event) {
