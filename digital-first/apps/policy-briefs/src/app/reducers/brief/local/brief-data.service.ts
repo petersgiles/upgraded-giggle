@@ -24,11 +24,34 @@ export class BriefDataLocalService implements BriefDataService {
   }
   updateBrief(id: string, changes: any): Observable<any> {
     var found = briefs.find(p => `${p.Id}` == id)
+
+    var remapped = {}
+    if(changes.Policy) { 
+      remapped = {
+        ...remapped,
+        Policy: { Id: changes.Policy}
+      }
+    }
+
+    if(changes.SubPolicy) { 
+      remapped = {
+        ...remapped,
+        SubPolicy: { Id: changes.SubPolicy}
+      }
+    }
+
+    if(changes.BriefStatus) { 
+      remapped = {
+        ...remapped,
+        BriefStatus: { Id: changes.BriefStatus}
+      }
+    }
+
     if (found) {
       let index = briefs.indexOf(found)
       briefs[index] = {
         ...found,
-        ...changes
+        ...remapped
       }
     }
 

@@ -62,7 +62,9 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
   brief$: any
   selectId$: any
   activeBriefId: any
-  isPatching: boolean = false
+  subPolicyValueChangeSubscription$: Subscription;
+  policyValueChangeSubscription$: Subscription;
+
   public background$: Observable<string>
 
   public policies$: Observable<
@@ -115,6 +117,7 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
     commitments: this.fb.array([])
   })
 
+
   get actions(): FormArray {
     return this.form.get('actions') as FormArray
   }
@@ -161,6 +164,8 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
     this.brief$ = this.store.pipe(select(fromBrief.selectBriefState)).pipe(
       tap((brief: Brief) => {
         if (brief) {
+          this.unsubscribeChanges()
+
           const patch = {
             title: brief.title,
             securityClassification: brief.securityClassification,
@@ -171,12 +176,11 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
             processingInstruction: null,
             recommendedDirection: null
           }
+
           var nextSP = this.subpolicies.filter(sp => sp.policy == patch.policy)
           this.subpolicies$.next(nextSP)
-          this.isPatching = true
           this.form.patchValue(patch)
-          this.isPatching = false
-          this.onChanges()
+          this.subscribeChanges()
         }
       })
     )
@@ -225,12 +229,19 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.selectId$.unsubscribe()
     this.subpoliciesSubscription$.unsubscribe()
+    this.unsubscribeChanges()
   }
 
-  onChanges(): void {
-    this.form.get('policy').valueChanges.subscribe(data => {
-      if(this.isPatching) return
+  unsubscribeChanges(): void {
+    if(this.policyValueChangeSubscription$) this.policyValueChangeSubscription$.unsubscribe()
+    if(this.subPolicyValueChangeSubscription$) this.subPolicyValueChangeSubscription$.unsubscribe()
+  }
+
+  subscribeChanges(): void {
+    this.policyValueChangeSubscription$ = this.form.get('policy').valueChanges.subscribe(data => {
+
       console.log('onChanges policy', data)
 
       var nextSP = this.subpolicies.filter(sp => sp.policy == data)
@@ -249,8 +260,8 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
       this.form.patchValue({ subpolicy: patch })
     })
 
-    this.form.get('subpolicy').valueChanges.subscribe(data => {
-      if(this.isPatching) return
+    this.subPolicyValueChangeSubscription$ = this.form.get('subpolicy').valueChanges.subscribe(data => {
+
       var policy = this.form.get('policy').value
       console.log('onChanges subpolicy', policy, data)
       if (data > 0) {        
@@ -264,29 +275,29 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
       }
     })
 
-    this.form.get('securityClassification').valueChanges.subscribe(data => {
-      if(this.isPatching) return
-      console.log('onChanges securityClassification', data)
+    // this.form.get('securityClassification').valueChanges.subscribe(data => {
+      
+    //   console.log('onChanges securityClassification', data)
 
-      this.store.dispatch(
-        new SetBriefSecurityClassification({
-          activeBriefId: this.activeBriefId,
-          securityClassification: data
-        })
-      )
-    })
+    //   this.store.dispatch(
+    //     new SetBriefSecurityClassification({
+    //       activeBriefId: this.activeBriefId,
+    //       securityClassification: data
+    //     })
+    //   )
+    // })
 
-    this.form.get('dLM').valueChanges.subscribe(data => {
-      if(this.isPatching) return
-      console.log('onChanges dLM', data)
+    // this.form.get('dLM').valueChanges.subscribe(data => {
+      
+    //   console.log('onChanges dLM', data)
 
-      this.store.dispatch(
-        new SetBriefDLM({
-          activeBriefId: this.activeBriefId,
-          dLM: data
-        })
-      )
-    })
+    //   this.store.dispatch(
+    //     new SetBriefDLM({
+    //       activeBriefId: this.activeBriefId,
+    //       dLM: data
+    //     })
+    //   )
+    // })
   }
 
   handleView($event) {

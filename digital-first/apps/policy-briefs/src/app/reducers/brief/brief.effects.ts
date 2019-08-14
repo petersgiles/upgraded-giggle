@@ -50,9 +50,7 @@ export class BriefEffects {
     map((action: SetActiveBriefStatus) => action),
     concatMap(action =>
       this.service.updateBrief(action.payload.activeBriefId, {
-        BriefStatus: {
-          Id: +action.payload.status
-        }
+        BriefStatus: +action.payload.status 
       })
     ),
     switchMap((result: { briefId: any; loading: boolean }) => [
@@ -69,12 +67,8 @@ export class BriefEffects {
     map((action: SetBriefPolicy) => action),
     concatMap(action =>
       this.service.updateBrief(action.payload.activeBriefId, {
-        Policy: {
-          Id: +action.payload.policy
-        },
-        SubPolicy: {
-          Id: +action.payload.subpolicy
-        }        
+        Policy: +action.payload.policy,
+        SubPolicy: +action.payload.subpolicy     
       } )
     ),
     switchMap((result: { briefId: any; loading: boolean }) => [
