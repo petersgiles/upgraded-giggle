@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core'
 import * as fromRoot from '../../../reducers/index'
 import * as fromBrief from '../../../reducers/brief/brief.reducer'
 import { select, Store } from '@ngrx/store'
-import { switchMap, tap } from 'rxjs/operators'
+import { switchMap, tap, debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { ParamMap, ActivatedRoute, Router } from '@angular/router'
 import {
   SetActiveBrief,
@@ -62,9 +62,14 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
   brief$: any
   selectId$: any
   activeBriefId: any
-  subPolicyValueChangeSubscription$: Subscription;
-  policyValueChangeSubscription$: Subscription;
-
+  subPolicyValueChangeSubscription$: Subscription
+  policyValueChangeSubscription$: Subscription
+  securityClassificationValueChangeSubscription$: Subscription
+  dLMValueChangeSubscription$: Subscription
+  processingInstructionValueChangeSubscription$: Subscription
+  recommendedDirectionValueChangeSubscription$: Subscription
+  actionsValueChangeSubscription$: Subscription
+  commitmentsValueChangeSubscription$: Subscription
   public background$: Observable<string>
 
   public policies$: Observable<
@@ -116,9 +121,6 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
     actions: this.fb.array([]),
     commitments: this.fb.array([])
   })
-  subSecurityClassificationValueChangeSubscription$: Subscription;
-  subDLMValueChangeSubscription$: Subscription;
-
 
   get actions(): FormArray {
     return this.form.get('actions') as FormArray
@@ -237,71 +239,146 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
   }
 
   unsubscribeChanges(): void {
-    if(this.policyValueChangeSubscription$) this.policyValueChangeSubscription$.unsubscribe()
-    if(this.subPolicyValueChangeSubscription$) this.subPolicyValueChangeSubscription$.unsubscribe()
-    if(this.subSecurityClassificationValueChangeSubscription$) this.subSecurityClassificationValueChangeSubscription$.unsubscribe()
-    if(this.subDLMValueChangeSubscription$) this.subDLMValueChangeSubscription$.unsubscribe()
+    if (this.policyValueChangeSubscription$)
+      this.policyValueChangeSubscription$.unsubscribe()
+    if (this.subPolicyValueChangeSubscription$)
+      this.subPolicyValueChangeSubscription$.unsubscribe()
+    if (this.securityClassificationValueChangeSubscription$)
+      this.securityClassificationValueChangeSubscription$.unsubscribe()
+    if (this.dLMValueChangeSubscription$)
+      this.dLMValueChangeSubscription$.unsubscribe()
+    if (this.processingInstructionValueChangeSubscription$)
+      this.processingInstructionValueChangeSubscription$.unsubscribe()
+    if (this.recommendedDirectionValueChangeSubscription$)
+      this.recommendedDirectionValueChangeSubscription$.unsubscribe()
+    if (this.actionsValueChangeSubscription$)
+      this.actionsValueChangeSubscription$.unsubscribe()
+    if (this.commitmentsValueChangeSubscription$)
+      this.commitmentsValueChangeSubscription$.unsubscribe()
   }
 
   subscribeChanges(): void {
-    this.policyValueChangeSubscription$ = this.form.get('policy').valueChanges.subscribe(data => {
+    this.policyValueChangeSubscription$ = this.form
+      .get('policy')
+      .valueChanges.subscribe(data => {
+        console.log('onChanges policy', data)
 
-      console.log('onChanges policy', data)
+        var nextSP = this.subpolicies.filter(sp => sp.policy == data)
 
-      var nextSP = this.subpolicies.filter(sp => sp.policy == data)
-   
-      var patch = null
-      if(nextSP.length === 1){
-        patch = nextSP[0].value
-      } else {
-        nextSP.unshift({
-          caption: 'Please Select',
-          value: -1
-        })   
-        patch = -1
-      }
-      this.subpolicies$.next(nextSP)
-      this.form.patchValue({ subpolicy: patch })
-    })
+        var patch = null
+        if (nextSP.length === 1) {
+          patch = nextSP[0].value
+        } else {
+          nextSP.unshift({
+            caption: 'Please Select',
+            value: -1
+          })
+          patch = -1
+        }
+        this.subpolicies$.next(nextSP)
+        this.form.patchValue({ subpolicy: patch })
+      })
 
-    this.subPolicyValueChangeSubscription$ = this.form.get('subpolicy').valueChanges.subscribe(data => {
+    this.subPolicyValueChangeSubscription$ = this.form
+      .get('subpolicy')
+      .valueChanges
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged()
+      )
+      .subscribe(data => {
+        var policy = this.form.get('policy').value
+        console.log('onChanges subpolicy', policy, data)
+        if (data > 0) {
+          this.store.dispatch(
+            new SetBriefPolicy({
+              activeBriefId: this.activeBriefId,
+              policy: policy,
+              subpolicy: data
+            })
+          )
+        }
+      })
 
-      var policy = this.form.get('policy').value
-      console.log('onChanges subpolicy', policy, data)
-      if (data > 0) {        
+    this.securityClassificationValueChangeSubscription$ = this.form
+      .get('securityClassification')
+      .valueChanges
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged()
+      )
+      .subscribe(data => {
+        console.log('onChanges securityClassification', data)
+
         this.store.dispatch(
-          new SetBriefPolicy({
+          new SetBriefSecurityClassification({
             activeBriefId: this.activeBriefId,
-            policy: policy,
-            subpolicy: data
+            securityClassification: data
           })
         )
-      }
-    })
+      })
 
-    this.subSecurityClassificationValueChangeSubscription$ = this.form.get('securityClassification').valueChanges.subscribe(data => {
-      
-      console.log('onChanges securityClassification', data)
-
-      this.store.dispatch(
-        new SetBriefSecurityClassification({
-          activeBriefId: this.activeBriefId,
-          securityClassification: data
-        })
+    this.dLMValueChangeSubscription$ = this.form
+      .get('dLM')
+      .valueChanges
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged()
       )
-    })
+      .subscribe(data => {
+        console.log('onChanges dLM', data)
 
-    this.subDLMValueChangeSubscription$ = this.form.get('dLM').valueChanges.subscribe(data => {
-      
-      console.log('onChanges dLM', data)
+        this.store.dispatch(
+          new SetBriefDLM({
+            activeBriefId: this.activeBriefId,
+            dLM: data
+          })
+        )
+      })
 
-      this.store.dispatch(
-        new SetBriefDLM({
-          activeBriefId: this.activeBriefId,
-          dLM: data
-        })
+    this.processingInstructionValueChangeSubscription$ = this.form
+      .get('processingInstruction')
+      .valueChanges
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged()
       )
-    })
+      .subscribe(data => {
+        console.log('onChanges processingInstruction', data)
+      })
+
+    this.recommendedDirectionValueChangeSubscription$ = this.form
+      .get('recommendedDirection')
+      .valueChanges
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged()
+      )
+      .subscribe(data => {
+        console.log('onChanges recommendedDirection', data)
+      })
+
+    this.actionsValueChangeSubscription$ = this.form
+      .get('actions')
+      .valueChanges
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged()
+      )
+      .subscribe(data => {
+        console.log('onChanges actions', data)
+      })
+
+    this.commitmentsValueChangeSubscription$ = this.form
+      .get('commitments')
+      .valueChanges
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged()
+      )
+      .subscribe(data => {
+        console.log('onChanges commitments', data)
+      })
   }
 
   handleView($event) {

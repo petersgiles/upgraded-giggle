@@ -90,7 +90,10 @@ import { BriefSubscriptionEditorComponent } from './pages/brief/brief-subscripti
 
 import { ProtectiveMarkingComponent } from './pages/brief/protective-marking/protective-marking.component'
 import { BriefStatusComponent } from './pages/brief/brief-status/brief-status.component'
-import { BriefDiscussionComponent } from './pages/brief/brief-discussion/brief-discussion.component'
+import { BriefDiscussionComponent } from './pages/brief/brief-discussion/brief-discussion.component';
+import { BriefProcessingInstructionComponent } from './pages/brief/brief-processing-instruction/brief-processing-instruction.component';
+import { BriefRecommendationComponent } from './pages/brief/brief-recommendation/brief-recommendation.component';
+import { BriefWarningBannerComponent } from './pages/brief/brief-warning-banner/brief-warning-banner.component'
 
 
 const COMPONENTS = [
@@ -113,7 +116,7 @@ const COMPONENTS = [
 const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
 
 @NgModule({
-  declarations: [...COMPONENTS],
+  declarations: [...COMPONENTS, BriefProcessingInstructionComponent, BriefRecommendationComponent, BriefWarningBannerComponent],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [
     BrowserModule,
