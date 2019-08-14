@@ -14,7 +14,6 @@ import { BriefStatusComponent } from './brief-status.component'
 import { FormBuilder } from '@angular/forms'
 import {  Overlay } from '@angular-mdc/web'
 import { Store} from '@ngrx/store'
-import { statuslist } from '../mock-data'
 import { Observable, BehaviorSubject } from 'rxjs'
 
 
@@ -45,8 +44,8 @@ describe('BriefStatusComponent', () => {
    configureTests(configure).then(testBed => {
     fixture = TestBed.createComponent(BriefStatusComponent);
     component = fixture.componentInstance
-    documentStatusList$ = new BehaviorSubject(statuslist)
-    component.form.patchValue(defaultValues)
+    //documentStatusList$ = new BehaviorSubject(statuslist)
+    //component.form.patchValue(defaultValues)
 
     fixture.detectChanges()
   })

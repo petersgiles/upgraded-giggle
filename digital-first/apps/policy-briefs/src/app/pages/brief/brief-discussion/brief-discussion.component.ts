@@ -84,11 +84,7 @@ export class BriefDiscussionComponent implements OnInit {
     // tslint:disable-next-line:no-console
     console.log(`💬 -  RemoveComment`, $event)
    
-   
-    this.store.dispatch(
-      new RemoveComment({id: $event.id, brief: $event.hostId})
-    )
- /*    const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
+     const dialogRef = this.dialog.open(DialogAreYouSureComponent, {
       escapeToClose: true,
       clickOutsideToClose: true
     })
@@ -101,7 +97,7 @@ export class BriefDiscussionComponent implements OnInit {
           this.remove = true
           this.removeComment($event.id, $event.hostId)
         }
-      }) */
+      }) 
 
       
   }
