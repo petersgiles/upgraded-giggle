@@ -6,7 +6,8 @@ import {
   OnInit,
   Output,
   EventEmitter,
-  OnDestroy
+  OnDestroy,
+  ChangeDetectionStrategy
 } from '@angular/core'
 import { SchedulerComponent } from '../scheduler/scheduler.component'
 import { MdcSliderChange } from '@angular-mdc/web'
@@ -21,7 +22,8 @@ import { debounceTime } from 'rxjs/operators'
   selector: 'digital-first-planner',
   templateUrl: './planner.component.html',
   styleUrls: ['./planner.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  changeDetection:ChangeDetectionStrategy.OnPush
 })
 export class PlannerComponent implements OnInit, OnDestroy {
   @Input()

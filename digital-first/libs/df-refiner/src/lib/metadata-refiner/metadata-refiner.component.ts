@@ -4,7 +4,8 @@ import {
   Input,
   Output,
   EventEmitter,
-  OnDestroy
+  OnDestroy,
+  ChangeDetectionStrategy
 } from '@angular/core'
 import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
 import { FormControl, FormGroup } from '@angular/forms'
@@ -18,7 +19,8 @@ import { Subscription } from 'rxjs'
 @Component({
   selector: 'digital-first-metadata-refiner',
   templateUrl: './metadata-refiner.component.html',
-  styleUrls: ['./metadata-refiner.component.scss']
+  styleUrls: ['./metadata-refiner.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MetadataRefinerComponent implements OnInit, OnDestroy {
   searchControl: FormControl = new FormControl(null, [])
@@ -85,7 +87,9 @@ export class MetadataRefinerComponent implements OnInit, OnDestroy {
   handleOnClear() {
     this.searchControl.reset()
   }
-
+  trackRefiner(index, refiner) {
+    return refiner ? refiner.id : undefined
+  }
   ngOnDestroy(): void {
     this.textRefinerSubscription.unsubscribe()
   }

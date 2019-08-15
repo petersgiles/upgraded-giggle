@@ -46,6 +46,8 @@ export class MapEffects {
           criticalDates: [],
           portfolioLookups: [],
           deckItemBriefSummaries: [],
+          states:[],
+          electorates:[],
           text: null
         }
       )

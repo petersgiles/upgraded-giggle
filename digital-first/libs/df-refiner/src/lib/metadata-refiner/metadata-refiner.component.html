@@ -40,7 +40,13 @@
         >
       </mdc-list-item>
       <div *ngIf="group.expanded && group.children">
-        <ng-container *ngFor="let refiner of group.children; let i = index">
+        <ng-container
+          *ngFor="
+            let refiner of group.children;
+            let i = index;
+            trackBy: trackRefiner
+          "
+        >
           <ng-container
             *ngIf="!group.enableSlide || (group.enableSlide && i <= 8)"
           >
