@@ -11,6 +11,7 @@ import { BriefMapperService } from '../../../services/mappers/brief-mapper.servi
   providedIn: 'root'
 })
 export class BriefDataLocalService implements BriefDataService {
+
   fakeBriefBackend: Subject<any[]> = new Subject()
   fakeBriefBackendSubscription$: Subscription
   briefItems: BehaviorSubject<any> = new BehaviorSubject(null)
@@ -21,17 +22,41 @@ export class BriefDataLocalService implements BriefDataService {
     this.fakeBriefBackend.next(briefs)
     return of({ briefId: item.Id, loading: false })
   }
-  updateBrief(item: any): Observable<any> {
-    var found = briefs.find(p => `${p.Id}` == item.Id)
+  updateBrief(id: string, changes: any): Observable<any> {
+    var found = briefs.find(p => `${p.Id}` == id)
+
+    var remapped = {}
+    if(changes.Policy) { 
+      remapped = {
+        ...remapped,
+        Policy: { Id: changes.Policy}
+      }
+    }
+
+    if(changes.SubPolicy) { 
+      remapped = {
+        ...remapped,
+        SubPolicy: { Id: changes.SubPolicy}
+      }
+    }
+
+    if(changes.BriefStatus) { 
+      remapped = {
+        ...remapped,
+        BriefStatus: { Id: changes.BriefStatus}
+      }
+    }
+
     if (found) {
       let index = briefs.indexOf(found)
       briefs[index] = {
-        ...found
+        ...found,
+        ...remapped
       }
     }
 
     this.fakeBriefBackend.next(briefs)
-    return of({ briefId: item.Id, loading: false })
+    return of({ briefId: id, loading: false })
   }
   
   removeBrief(item: { id: string }): Observable<any> {
@@ -43,25 +68,6 @@ export class BriefDataLocalService implements BriefDataService {
 
     this.fakeBriefBackend.next(briefs)
     return of({ briefId: item.id, loading: false })
-  }
-
-  setActiveBriefStatus(
-    activeBriefId: string,
-    status: string
-  ): Observable<{ briefId: any; loading: boolean }> {
-    var found = briefs.find(p => `${p.Id}` == activeBriefId)
-    if (found) {
-      let index = briefs.indexOf(found)
-      briefs[index] = {
-        ...found,
-        BriefStatus: {
-          Id: +status
-        }
-      }
-    }
-
-    this.fakeBriefBackend.next(briefs)
-    return of({ briefId: activeBriefId, loading: false })
   }
 
   public getBriefs(): Observable<{

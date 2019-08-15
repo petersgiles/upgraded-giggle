@@ -9,11 +9,17 @@ import {
   SetActiveBrief,
   LoadBrief,
   GetActiveBriefFailure,
-  SetActiveBriefStatus
+  SetActiveBriefStatus,
+  SetBriefPolicy,
+  SetBriefPolicySuccess,
+  SetBriefSecurityClassification,
+  SetBriefDLM
 } from './brief.actions'
 
 
 import { BriefDataService } from './brief-data.service'
+import { ɵangular_packages_platform_browser_dynamic_platform_browser_dynamic_a } from '@angular/platform-browser-dynamic';
+import { GetNavigations } from '../navigation/navigation.actions';
 @Injectable()
 export class BriefEffects {
   @Effect()
@@ -45,7 +51,9 @@ export class BriefEffects {
     ofType(BriefActionTypes.SetActiveBriefStatus),
     map((action: SetActiveBriefStatus) => action),
     concatMap(action =>
-      this.service.setActiveBriefStatus(action.payload.activeBriefId, action.payload.status)
+      this.service.updateBrief(action.payload.activeBriefId, {
+        BriefStatus: +action.payload.status 
+      })
     ),
     switchMap((result: { briefId: any; loading: boolean }) => [
       new SetActiveBrief({
@@ -55,6 +63,61 @@ export class BriefEffects {
     catchError(error => of(new GetActiveBriefFailure(error)))
   )
 
+  @Effect()
+  setBriefPolicy$ = this.actions$.pipe(
+    ofType(BriefActionTypes.SetBriefPolicy),
+    map((action: SetBriefPolicy) => action),
+    concatMap(action =>
+      this.service.updateBrief(action.payload.activeBriefId, {
+        Policy: +action.payload.policy,
+        SubPolicy: +action.payload.subpolicy     
+      } )
+    ),
+    switchMap((result: { briefId: any; loading: boolean }) => [
+      new SetBriefPolicySuccess(),
+      new GetNavigations(),
+      new SetActiveBrief({
+        activeBriefId: result.briefId
+      }),
+
+    ]),
+    catchError(error => of(new GetActiveBriefFailure(error)))
+  )
+
+
+  @Effect()
+  setBriefSecurityClassification$ = this.actions$.pipe(
+    ofType(BriefActionTypes.SetBriefSecurityClassification),
+    map((action: SetBriefSecurityClassification) => action),
+    concatMap(action =>
+      this.service.updateBrief(action.payload.activeBriefId, {
+        SecurityClassification: action.payload.securityClassification 
+      })
+    ),
+    switchMap((result: { briefId: any; loading: boolean }) => [
+      new SetActiveBrief({
+        activeBriefId: result.briefId
+      })
+    ]),
+    catchError(error => of(new GetActiveBriefFailure(error)))
+  )
+  
+  @Effect()
+  setBriefDLM$ = this.actions$.pipe(
+    ofType(BriefActionTypes.SetBriefDLM),
+    map((action: SetBriefDLM) => action),
+    concatMap(action =>
+      this.service.updateBrief(action.payload.activeBriefId, {
+        DLM: action.payload.dLM
+      })
+    ),
+    switchMap((result: { briefId: any; loading: boolean }) => [
+      new SetActiveBrief({
+        activeBriefId: result.briefId
+      })
+    ]),
+    catchError(error => of(new GetActiveBriefFailure(error)))
+  )
   constructor(
     private actions$: Actions<BriefActions>,
     private service: BriefDataService

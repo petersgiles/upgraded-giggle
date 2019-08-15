@@ -1,7 +1,5 @@
 import { BriefActions, BriefActionTypes } from './brief.actions'
-import { sortBy, toTree } from '@df/utils'
 import { createFeatureSelector, createSelector } from '@ngrx/store'
-import { navigationState } from '../navigation/navigation.reducer'
 
 export interface State {
   activeBrief: string

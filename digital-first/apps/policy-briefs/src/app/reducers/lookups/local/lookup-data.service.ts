@@ -13,7 +13,8 @@ interface LookupValue {
 const policyMap = policies.map(p => ({ caption: p.Title, value: `${p.Id}` }))
 const subpolicyMap = subpolicies.map(p => ({
   caption: p.Title,
-  value: `${p.Id}`
+  value: `${p.Id}`,
+  policy: p.Policy.Id,
 }))
 
 const commitmentMap = commitments.map(p => ({

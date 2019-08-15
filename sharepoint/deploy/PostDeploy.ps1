@@ -14,7 +14,12 @@ if($OctopusParameters) {
     $ForceSchemaUpdate = $OctopusParameters["ForceSchemaUpdate"]
 }
 else{
-    $devSiteName=Read-Host "Please type your dev site name, e.g. Pete, Kim, Tim, Ning: "
+    $devSiteName = Get-Content -Path .\devSiteName.txt
+    if(!$devSiteName) {
+        $devSiteName=Read-Host "Please type your dev site name, e.g. Pete, Kim, Tim, Ning: "
+        Set-Content -Path .\devSiteName.txt -Value $devSiteName
+    }
+    
 }
 if ($PSScriptRoot) {
     Set-Location $PSScriptRoot

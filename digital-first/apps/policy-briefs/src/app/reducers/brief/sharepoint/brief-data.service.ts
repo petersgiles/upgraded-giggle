@@ -7,11 +7,11 @@ import { sortBy } from '../../../utils'
 import { HttpClient } from '@angular/common/http'
 import { AppSettingsService } from '@digital-first/df-app-core'
 import { byIdQuery, byBriefIdQuery } from '../../../services/sharepoint/caml'
-import { BriefMapperService } from '../../../services/mappers/brief-mapper.service';
-import { RecommendedDirectionMapperService } from '../../../services/mappers/recommended-direction-mapper.service';
-import { RecommendationMapperService } from '../../../services/mappers/recommendation-mapper.service';
-import { AttachmentMapperService } from '../../../services/mappers/attachment-mapper.service';
-import { LookupMapperService } from '../../../services/mappers/lookup-mapper.service';
+import { BriefMapperService } from '../../../services/mappers/brief-mapper.service'
+import { RecommendedDirectionMapperService } from '../../../services/mappers/recommended-direction-mapper.service'
+import { RecommendationMapperService } from '../../../services/mappers/recommendation-mapper.service'
+import { AttachmentMapperService } from '../../../services/mappers/attachment-mapper.service'
+import { LookupMapperService } from '../../../services/mappers/lookup-mapper.service'
 
 declare var _spPageContextInfo: any
 
@@ -21,9 +21,6 @@ const BRIEF_ITEM_LIST_NAME = 'Brief'
   providedIn: 'root'
 })
 export class BriefDataSharepointService implements BriefDataService {
-  setActiveBriefStatus(activeBriefId: string, status: string): Observable<{ briefId: any; loading: boolean; }> {
-    throw new Error("Method not implemented.");
-  }
   getBriefDocument(id: string): Observable<{ data: any; loading: boolean }> {
     return EMPTY
   }
@@ -36,16 +33,16 @@ export class BriefDataSharepointService implements BriefDataService {
       })
       .pipe(concatMap(_ => of({})))
 
-  updateBrief = (item: any): Observable<any> =>
+  updateBrief = (id: string, changes: any): Observable<any> =>
     this.sharepoint
       .storeItem({
         listName: BRIEF_ITEM_LIST_NAME,
         data: {
-          Title: item.title
+          ...changes
         },
-        id: item.id
+        id: id
       })
-      .pipe(concatMap(_ => of({})))
+      .pipe(concatMap(_ => of({ briefId: id, loading: false })))
 
   removeBrief = (item: { id: string }): Observable<any> =>
     this.sharepoint
@@ -80,7 +77,7 @@ export class BriefDataSharepointService implements BriefDataService {
   public getActiveBrief(briefId): Observable<{ data: any; loading: boolean }> {
     const viewXml = byIdQuery({ id: briefId })
     const briefIdViewXml = byBriefIdQuery({ id: briefId })
-    
+
     // tslint:disable-next-line:no-console
     console.log(`🙈 - brief`, viewXml)
 
@@ -109,33 +106,30 @@ export class BriefDataSharepointService implements BriefDataService {
       //   listName: 'BriefDivision'
       // })
     ]).pipe(
-      concatMap(
-        ([
-          spBrief,
-        ]) => {
+      concatMap(([spBrief]) => {
+        const result = spBrief[0]
+        const editor = fromLookup(result.Editor)
+        const subPolicy = fromLookup(result.SubPolicy)
+        const policy = fromLookup(result.Policy)
+        const briefStatus = fromLookup(result.BriefStatus)
+        const briefDivision = fromLookup(result.BriefDivision)
 
-          const result = spBrief[0]
-          const editor = fromLookup(result.Editor)
-          const subPolicy = fromLookup(result.SubPolicy)
-          const policy = fromLookup(result.Policy)
-          const briefStatus = fromLookup(result.BriefStatus)
-          const briefDivision = fromLookup(result.BriefDivision)
+        const brief = this.briefMapperService.mapSingle({
+          ...result,
+          Editor: editor,
+          SubPolicy: subPolicy,
+          Policy: policy,
+          BriefStatus: briefStatus,
+          BriefDivision: briefDivision
+        })
 
-          const brief = this.briefMapperService.mapSingle({
-            ...result,
-            Editor: editor,
-            SubPolicy: subPolicy,
-            Policy: policy,
-            BriefStatus: briefStatus,
-            BriefDivision: briefDivision,
-          })
+        console.log('BRIEF =>', brief)
 
-          return of({
-            data: brief,
-            loading: false
-          })
-        }
-      )
+        return of({
+          data: brief,
+          loading: false
+        })
+      })
     )
   }
 
@@ -143,7 +137,7 @@ export class BriefDataSharepointService implements BriefDataService {
     fileLeafRef
   ): Observable<{
     data: any
-    loading: boolean,
+    loading: boolean
     error?: any
   }> {
     const relativeUrl = `${_spPageContextInfo.webAbsoluteUrl}/BriefHTML/${fileLeafRef}.aspx`
@@ -155,7 +149,8 @@ export class BriefDataSharepointService implements BriefDataService {
         of({
           data: result,
           loading: false
-        }))
+        })
+      )
     )
   }
 
@@ -166,7 +161,7 @@ export class BriefDataSharepointService implements BriefDataService {
     private recommendedDirectionMapperService: RecommendedDirectionMapperService,
     private recommendationMapperService: RecommendationMapperService,
     private attachmentMapperService: AttachmentMapperService,
-    private lookupMapperService: LookupMapperService,
+    private lookupMapperService: LookupMapperService
   ) {
     console.log(`BriefDataSharepointService`)
   }

@@ -1,12 +1,17 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, OnDestroy } from '@angular/core'
 import * as fromRoot from '../../../reducers/index'
 import * as fromBrief from '../../../reducers/brief/brief.reducer'
 import { select, Store } from '@ngrx/store'
-import { switchMap, tap } from 'rxjs/operators'
+import { switchMap, tap, debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { ParamMap, ActivatedRoute, Router } from '@angular/router'
-import { SetActiveBrief } from '../../../reducers/brief/brief.actions'
+import {
+  SetActiveBrief,
+  SetBriefDLM,
+  SetBriefSecurityClassification,
+  SetBriefPolicy
+} from '../../../reducers/brief/brief.actions'
 import { SetActiveBriefPath } from '../../../reducers/navigation/navigation.actions'
-import { EMPTY, Subscription, Observable } from 'rxjs'
+import { EMPTY, Subscription, Observable, BehaviorSubject, Subject } from 'rxjs'
 import { FormBuilder, FormArray, FormGroup } from '@angular/forms'
 import { MdcDialog } from '@angular-mdc/web'
 import { selectAppBackgroundColour } from '@digital-first/df-app-core'
@@ -33,7 +38,6 @@ const defaultValues = {
   sortOrder: 99,
   securityClassification: 'UNCLASSIFIED',
   dLM: 'Sensitive',
-  processingInstruction: null,
   recommendedDirection: null
 }
 
@@ -53,11 +57,17 @@ const actionItem = {
   templateUrl: './brief-data-editor.component.html',
   styleUrls: ['./brief-data-editor.component.scss']
 })
-export class BriefDataEditorComponent implements OnInit {
+export class BriefDataEditorComponent implements OnInit, OnDestroy {
   brief$: any
   selectId$: any
   activeBriefId: any
-
+  subPolicyValueChangeSubscription$: Subscription
+  policyValueChangeSubscription$: Subscription
+  securityClassificationValueChangeSubscription$: Subscription
+  dLMValueChangeSubscription$: Subscription
+  recommendedDirectionValueChangeSubscription$: Subscription
+  actionsValueChangeSubscription$: Subscription
+  commitmentsValueChangeSubscription$: Subscription
   public background$: Observable<string>
 
   public policies$: Observable<
@@ -66,13 +76,15 @@ export class BriefDataEditorComponent implements OnInit {
       value: string
     }[]
   >
-
-  public subpolicies$: Observable<
+  subpoliciesSubscription$: Subscription
+  subpolicies: any[]
+  public subpolicies$: BehaviorSubject<
     {
       caption: string
       value: string
+      policy: string
     }[]
-  >
+  > = new BehaviorSubject([])
 
   public commitment$: Observable<
     {
@@ -102,7 +114,6 @@ export class BriefDataEditorComponent implements OnInit {
     dLM: [null],
     policy: [null],
     subpolicy: [null],
-    processingInstruction: [null],
     recommendedDirection: [null],
     actions: this.fb.array([]),
     commitments: this.fb.array([])
@@ -154,25 +165,34 @@ export class BriefDataEditorComponent implements OnInit {
     this.brief$ = this.store.pipe(select(fromBrief.selectBriefState)).pipe(
       tap((brief: Brief) => {
         if (brief) {
+          this.unsubscribeChanges()
+
           const patch = {
             title: brief.title,
             securityClassification: brief.securityClassification,
             sortOrder: brief.order,
             dLM: brief.dLM,
-            policy: brief.policy,
-            subpolicy: brief.subPolicy,
-            processingInstruction: null,
-            recommendedDirection: null
+            policy: brief.policy ? brief.policy.id : null,
+            subpolicy: brief.subPolicy ? brief.subPolicy.id : null,
+               recommendedDirection: null
           }
 
+          var nextSP = this.subpolicies.filter(sp => sp.policy == patch.policy)
+          this.subpolicies$.next(nextSP)
           this.form.patchValue(patch)
+          this.subscribeChanges()
         }
       })
     )
 
     this.background$ = this.store.pipe(select(selectAppBackgroundColour))
     this.policies$ = this.store.pipe(select(selectLookupPoliciesState))
-    this.subpolicies$ = this.store.pipe(select(selectLookupSubpoliciesState))
+    this.subpoliciesSubscription$ = this.store
+      .pipe(select(selectLookupSubpoliciesState))
+      .subscribe(next => {
+        this.subpolicies = next
+        this.subpolicies$.next(this.subpolicies)
+      })
     this.commitment$ = this.store.pipe(select(selectLookupCommitmentsState))
     this.classifications$ = this.store.pipe(
       select(selectLookupClassificationsState)
@@ -208,6 +228,142 @@ export class BriefDataEditorComponent implements OnInit {
       .subscribe()
   }
 
+  ngOnDestroy(): void {
+    this.selectId$.unsubscribe()
+    this.subpoliciesSubscription$.unsubscribe()
+    this.unsubscribeChanges()
+  }
+
+  unsubscribeChanges(): void {
+    if (this.policyValueChangeSubscription$)
+      this.policyValueChangeSubscription$.unsubscribe()
+    if (this.subPolicyValueChangeSubscription$)
+      this.subPolicyValueChangeSubscription$.unsubscribe()
+    if (this.securityClassificationValueChangeSubscription$)
+      this.securityClassificationValueChangeSubscription$.unsubscribe()
+    if (this.dLMValueChangeSubscription$)
+      this.dLMValueChangeSubscription$.unsubscribe()
+    if (this.recommendedDirectionValueChangeSubscription$)
+      this.recommendedDirectionValueChangeSubscription$.unsubscribe()
+    if (this.actionsValueChangeSubscription$)
+      this.actionsValueChangeSubscription$.unsubscribe()
+    if (this.commitmentsValueChangeSubscription$)
+      this.commitmentsValueChangeSubscription$.unsubscribe()
+  }
+
+  subscribeChanges(): void {
+    this.policyValueChangeSubscription$ = this.form
+      .get('policy')
+      .valueChanges.subscribe(data => {
+        console.log('onChanges policy', data)
+
+        var nextSP = this.subpolicies.filter(sp => sp.policy == data)
+
+        var patch = null
+        if (nextSP.length === 1) {
+          patch = nextSP[0].value
+        } else {
+          nextSP.unshift({
+            caption: 'Please Select',
+            value: -1
+          })
+          patch = -1
+        }
+        this.subpolicies$.next(nextSP)
+        this.form.patchValue({ subpolicy: patch })
+      })
+
+    this.subPolicyValueChangeSubscription$ = this.form
+      .get('subpolicy')
+      .valueChanges
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged()
+      )
+      .subscribe(data => {
+        var policy = this.form.get('policy').value
+        console.log('onChanges subpolicy', policy, data)
+        if (data > 0) {
+          this.store.dispatch(
+            new SetBriefPolicy({
+              activeBriefId: this.activeBriefId,
+              policy: policy,
+              subpolicy: data
+            })
+          )
+        }
+      })
+
+    this.securityClassificationValueChangeSubscription$ = this.form
+      .get('securityClassification')
+      .valueChanges
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged()
+      )
+      .subscribe(data => {
+        console.log('onChanges securityClassification', data)
+
+        this.store.dispatch(
+          new SetBriefSecurityClassification({
+            activeBriefId: this.activeBriefId,
+            securityClassification: data
+          })
+        )
+      })
+
+    this.dLMValueChangeSubscription$ = this.form
+      .get('dLM')
+      .valueChanges
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged()
+      )
+      .subscribe(data => {
+        console.log('onChanges dLM', data)
+
+        this.store.dispatch(
+          new SetBriefDLM({
+            activeBriefId: this.activeBriefId,
+            dLM: data
+          })
+        )
+      })
+
+    this.recommendedDirectionValueChangeSubscription$ = this.form
+      .get('recommendedDirection')
+      .valueChanges
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged()
+      )
+      .subscribe(data => {
+        console.log('onChanges recommendedDirection', data)
+      })
+
+    this.actionsValueChangeSubscription$ = this.form
+      .get('actions')
+      .valueChanges
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged()
+      )
+      .subscribe(data => {
+        console.log('onChanges actions', data)
+      })
+
+    this.commitmentsValueChangeSubscription$ = this.form
+      .get('commitments')
+      .valueChanges
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged()
+      )
+      .subscribe(data => {
+        console.log('onChanges commitments', data)
+      })
+  }
+
   handleView($event) {
     this.router.navigate(['/brief', this.activeBriefId])
   }
@@ -216,8 +372,12 @@ export class BriefDataEditorComponent implements OnInit {
     if (!this.form.valid) {
       return
     }
-    const editedCard = {
+    const edited = {
       ...this.form.value
     }
+
+    this.store.dispatch(
+      new SetActiveBriefPath({ activeBriefId: this.activeBriefId })
+    )
   }
 }
