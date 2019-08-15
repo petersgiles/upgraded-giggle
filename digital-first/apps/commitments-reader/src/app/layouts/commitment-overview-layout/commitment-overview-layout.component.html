@@ -77,18 +77,19 @@
               *ngFor="let group of selectedRefinerGroups"
               class="filter-group"
             >
-              <span
-                aria-hidden="true"
-                class="refiner-tag-icon"
-                title="Remove {{ group.title }}"
-                (click)="handelRemoveSelectedGroup(group)"
-                >×</span
-              >
               <span class="group-title" style="font-weight: 500;">
-                {{ group.title }} :
+                {{ group.title }}
+                <span
+                  aria-hidden="true"
+                  class="refiner-tag-icon"
+                  title="Remove {{ group.title }}"
+                  (click)="handelRemoveSelectedGroup(group)"
+                  >×</span
+                >:
               </span>
-              <ng-container *ngFor="let refiner of group.children">
-                <span class="refiner-title">
+              <ng-container *ngFor="let refiner of group.children; let last = last">
+                <span class="refiner-title" [ngClass]="{'last-refiner': last}">
+                  {{ refiner.title }}
                   <span
                     aria-hidden="true"
                     class="refiner-tag-icon"
@@ -96,10 +97,7 @@
                     (click)="handelRemoveSelectedRefiner(refiner)"
                     >×</span
                   >
-                  <span>
-                    {{ refiner.title }}
-                  </span></span
-                >
+                </span>
               </ng-container>
             </div>
           </div>

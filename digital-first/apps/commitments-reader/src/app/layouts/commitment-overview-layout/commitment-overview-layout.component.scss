@@ -7,6 +7,8 @@
 
 .overview-outlet {
   width: 100%;
+  overflow-y:auto;
+  overflow-x:hidden;
 }
 
 digital-first-metadata-refiner {
@@ -57,16 +59,18 @@ mdc-list-group div {
 }
 .filter-group {
   font-size: 0.9em;
-  margin-bottom: 5px;
-  margin-right: 5px;
-  padding-right: 5px;
-  border-right: 1px solid;
-  .refiner-title {
-    padding-right: 10px;
-  }
+  margin-right: 10px;
+}
+.refiner-title {
+  margin: 1px 5px;
+  border-radius: 2px;
+  padding: 1px 3px;
+}
+.last-refiner{
+  border-right: 2px solid;
+  padding-right: 8px;
 }
 .refiner-tag-icon {
   display: inline-block;
-  padding: 1px 2px;
   cursor: pointer;
 }
