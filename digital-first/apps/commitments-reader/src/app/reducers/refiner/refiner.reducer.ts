@@ -4,16 +4,16 @@ import { multiFilter } from '@df/utils'
 
 export interface State {
   refinerGroups: any[]
-  expandedRefinerGroups: string[]
   selectedRefiners: any[]
   hiddenRefinerGroup: any[]
+  autoExpandGroup: any[]
   textRefiner: string
 }
 
 export const initialState: State = {
   refinerGroups: [],
-  expandedRefinerGroups: [],
   selectedRefiners: [],
+  autoExpandGroup: [],
   textRefiner: null,
   hiddenRefinerGroup: ['electorates', 'states']
 }
@@ -24,7 +24,6 @@ export function reducer(state = initialState, action: RefinerActions): State {
       return {
         ...state,
         selectedRefiners: [],
-        expandedRefinerGroups: [],
         hiddenRefinerGroup: ['states', 'electorates']
       }
 
@@ -33,17 +32,6 @@ export function reducer(state = initialState, action: RefinerActions): State {
         ...state,
         refinerGroups: action.payload
       }
-
-    case RefinerActionTypes.SelectRefinerGroup: {
-      const groups = populateExpandedGroups(
-        state.expandedRefinerGroups,
-        action.payload.group
-      )
-      return {
-        ...state,
-        expandedRefinerGroups: groups
-      }
-    }
 
     case RefinerActionTypes.ChangeTextRefiner: {
       const retVal = {
@@ -56,6 +44,7 @@ export function reducer(state = initialState, action: RefinerActions): State {
 
     case RefinerActionTypes.SetRefinerFromQueryString: {
       let hiddenRefinerGroup = [...state.hiddenRefinerGroup]
+      let autoExpandGroup = []
       const selectedRefiners = action.payload.refiner
       const stateRefiner = selectedRefiners.filter(
         c => c.id === 2 && c.group === 'commitmentTypes'
@@ -65,14 +54,17 @@ export function reducer(state = initialState, action: RefinerActions): State {
       )
       if (stateRefiner.length > 0) {
         hiddenRefinerGroup = hiddenRefinerGroup.filter(h => h !== 'states')
+        autoExpandGroup.push('states')
       }
       if (electoratesRefiner.length > 0) {
         hiddenRefinerGroup = hiddenRefinerGroup.filter(h => h !== 'electorates')
+        autoExpandGroup.push('electorates')
       }
       return {
         ...state,
         selectedRefiners: selectedRefiners,
-        hiddenRefinerGroup: hiddenRefinerGroup
+        hiddenRefinerGroup: hiddenRefinerGroup,
+        autoExpandGroup: autoExpandGroup
       }
     }
     case RefinerActionTypes.SelectElectorates: {
@@ -98,15 +90,11 @@ export function reducer(state = initialState, action: RefinerActions): State {
       let selectedRefiners: any[] = [...state.selectedRefiners]
       let filter = { id: [selectedRefiner.id], group: [selectedRefiner.group] }
       const selectedAlready = multiFilter(selectedRefiners, filter).length > 0
-
-      let expandedGroups = [...state.expandedRefinerGroups]
+      let autoExpandGroup = []
       let hiddenRefinerGroup = [...state.hiddenRefinerGroup]
 
       if (selectedRefiner.singleSelection) {
         hiddenRefinerGroup = ['electorates', 'states']
-        expandedGroups = expandedGroups.filter(
-          g => !hiddenRefinerGroup.includes(g)
-        )
         if (!selectedAlready) {
           selectedRefiners = selectedRefiners.filter(
             item => !(item.group === selectedRefiner.group)
@@ -118,8 +106,8 @@ export function reducer(state = initialState, action: RefinerActions): State {
             hiddenRefinerGroup = hiddenRefinerGroup.filter(
               hrf => hrf !== 'states'
             )
+            autoExpandGroup.push('states')
           }
-          expandedGroups = populateExpandedGroups(expandedGroups, 'states')
         }
         if (selectedRefiner.title === 'Electorate') {
           // enable elecorates
@@ -127,9 +115,9 @@ export function reducer(state = initialState, action: RefinerActions): State {
             hiddenRefinerGroup = hiddenRefinerGroup.filter(
               hrf => hrf !== 'electorates'
             )
+            autoExpandGroup.push('electorates')
           }
         }
-        expandedGroups = populateExpandedGroups(expandedGroups, 'electorates')
       }
 
       if (selectedAlready) {
@@ -153,8 +141,8 @@ export function reducer(state = initialState, action: RefinerActions): State {
       return {
         ...state,
         selectedRefiners: selectedRefiners,
-        expandedRefinerGroups: expandedGroups,
-        hiddenRefinerGroup: hiddenRefinerGroup
+        hiddenRefinerGroup: hiddenRefinerGroup,
+        autoExpandGroup: autoExpandGroup
       }
     }
     case RefinerActionTypes.RemoveSelectedGroup: {
@@ -177,25 +165,9 @@ export function reducer(state = initialState, action: RefinerActions): State {
     default:
       return state
   }
-
-  function populateExpandedGroups(currentExpandedGroups, group) {
-    let groups: string[] = []
-    if (currentExpandedGroups.includes(group)) {
-      groups = currentExpandedGroups.filter(p => p !== group)
-    } else {
-      groups = [...currentExpandedGroups]
-      groups.push(group)
-    }
-    return groups
-  }
 }
 
 export const refinerState = createFeatureSelector<State>('refiner')
-
-export const selectExpandedRefinerGroupsState = createSelector(
-  refinerState,
-  (state: State) => state.expandedRefinerGroups
-)
 
 export const selectSelectedRefinersState = createSelector(
   refinerState,
@@ -216,18 +188,22 @@ export const hiddenRefinerGroupsState = createSelector(
   refinerState,
   (state: State) => state.hiddenRefinerGroup
 )
+export const autoExpandGroupState = createSelector(
+  refinerState,
+  (state: State) => state.autoExpandGroup
+)
 
 export const selectRefinerGroups = createSelector(
   selectRefinerGroupsState,
-  selectExpandedRefinerGroupsState,
   selectSelectedRefinersState,
   hiddenRefinerGroupsState,
+  autoExpandGroupState,
   selectTextRefinerState,
   (
     groups: any[],
-    expanded: any[],
     selected: any[],
     hidden: any[],
+    autoExpand: any[],
     text: String
   ) => {
     const refinerGroupState = (groups || []).map(g => {
@@ -237,7 +213,9 @@ export const selectRefinerGroups = createSelector(
       const isHidden = (hidden || []).includes(g.group)
       return {
         ...g,
-        expanded: groupChildselected || (expanded || []).includes(g.group),
+        expanded:
+          !isHidden &&
+          (groupChildselected || (autoExpand || []).includes(g.group)),
         hidden: isHidden,
         children: (g.children || []).map(r => ({
           ...r,

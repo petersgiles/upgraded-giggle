@@ -137,14 +137,13 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
     this.store.dispatch(new SelectRefiner($event))
   }
   ngOnInit() {
-    this.queryParamsSubscription = this.route.queryParams.subscribe(params => {
-      if (params && params.refiner) {
-        this.queryParamsRefiner = JSON.parse(params.refiner)
-        this.store.dispatch(
-          new SetRefinerFromQueryString({ refiner: this.queryParamsRefiner })
-        )
-      }
-    })
+    const params = this.route.queryParams
+    if (params && params['value'] && params['value'].refiner) {
+      this.queryParamsRefiner = JSON.parse(params['value'].refiner)
+      this.store.dispatch(
+        new SetRefinerFromQueryString({ refiner: this.queryParamsRefiner })
+      )
+    }
 
     this.routerSegmentsSubscription = this.appRouter.segments.subscribe(url => {
       const tab = this.tabs.findIndex(p => p.id === url)

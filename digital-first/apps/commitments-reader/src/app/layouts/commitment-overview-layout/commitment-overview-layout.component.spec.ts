@@ -60,11 +60,6 @@ describe('CommitmentOverviewLayoutComponent', () => {
     (state: typeof initialState) => state.refiner.refinerGroups
   )
 
-  const selectExpandedRefinerGroupsState = createSelector(
-    () => initialState,
-    (state: typeof initialState) => state.refiner.expandedRefinerGroups
-  )
-
   const selectSelectedRefinersState = createSelector(
     () => initialState,
     (state: typeof initialState) => state.refiner.selectedRefiners
@@ -98,7 +93,6 @@ describe('CommitmentOverviewLayoutComponent', () => {
           provideMockStore({ initialState,
            selectors: [
           { selector: selectRefinerGroupsState, value: getRefinerGroups().refiner.refinerGroups },
-          { selector: selectExpandedRefinerGroupsState , value: getRefinerGroups().refiner.expandedRefinerGroups },
           { selector: selectSelectedRefinersState , value: getRefinerGroups().refiner.selectedRefiners },
           { selector: selectTextRefinerState , value: getRefinerGroups().refiner.textRefiner },
           { selector: selectAppSpinnerState , value: false },
@@ -114,7 +108,6 @@ describe('CommitmentOverviewLayoutComponent', () => {
     router = TestBed.get(Router)
     
     mockStore.overrideSelector(fromRefiner.selectRefinerGroupsState, getRefinerGroups().refiner.refinerGroups)
-    mockStore.overrideSelector(fromRefiner.selectExpandedRefinerGroupsState, [])
     mockStore.overrideSelector(fromRefiner.selectSelectedRefinersState, [{group: "commitmentTypes", id: 1}]) 
     mockStore.overrideSelector(fromRefiner.selectTextRefinerState, null)    
     mockStore.overrideSelector(fromApp.selectAppSpinnerState , false)
@@ -127,7 +120,6 @@ describe('CommitmentOverviewLayoutComponent', () => {
   }))
 
    afterEach(() => {
-    selectExpandedRefinerGroupsState.release();
     selectSelectedRefinersState.release();
     selectTextRefinerState.release();
     selectAppSpinnerState.release()
