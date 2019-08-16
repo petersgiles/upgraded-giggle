@@ -29,9 +29,9 @@ export class MetadataRefinerComponent implements OnInit, OnDestroy {
     searchControl: this.searchControl
   })
 
+  slideOutLimt: number = 10
   action$: any
   _refinerGroups: RefinerGroup[]
-
   constructor() {}
 
   ngOnInit() {

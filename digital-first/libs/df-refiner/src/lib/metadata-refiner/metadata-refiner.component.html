@@ -32,7 +32,7 @@
     <ng-container *ngIf="!group.hidden">
       <mdc-list-item
         class="digital-first-list-heading"
-        (click)="onRefinerGroupSelected.emit(group)"
+        (click)="group.expanded = !group.expanded"
       >
         {{ group.title }}
         <mdc-icon mdcListItemMeta
@@ -48,7 +48,7 @@
           "
         >
           <ng-container
-            *ngIf="!group.enableSlide || (group.enableSlide && i <= 8)"
+            *ngIf="!group.enableSlide || (group.enableSlide && i <= slideOutLimt)"
           >
             <mdc-list-item
               class="refiner"
@@ -67,7 +67,7 @@
             </mdc-list-item>
           </ng-container>
           <mdc-list-item
-            *ngIf="group.enableSlide && i === 8"
+            *ngIf="group.enableSlide && i === slideOutLimt"
             class="refiner"
             (click)="onSlideOutGroupSelected.emit(group)"
           >
