@@ -33,7 +33,9 @@ export class BriefMapperService extends CoreMapperService<Brief> {
       subPolicy: subPolicy,
       policy: policy,
       briefStatus: briefStatus,
-      briefDivision: briefDivision
+      briefDivision: briefDivision,
+      recommendedDirection: item.RecommendedDirection,
+      recommendations: item.Recommendations
     }
 
     console.log(`🦊`, item, brief)

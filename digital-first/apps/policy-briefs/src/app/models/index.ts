@@ -83,6 +83,7 @@ export interface Brief {
   policy: DisplayLookup
   briefStatus: DisplayLookup
   briefDivision: DisplayLookup
+  recommendedDirection: string;
 }
 
 export interface RecommendedDirection {

@@ -8,7 +8,8 @@ import {
   SetActiveBrief,
   SetBriefDLM,
   SetBriefSecurityClassification,
-  SetBriefPolicy
+  SetBriefPolicy,
+  SetBriefRecommendedDirection
 } from '../../../reducers/brief/brief.actions'
 import { SetActiveBriefPath } from '../../../reducers/navigation/navigation.actions'
 import { EMPTY, Subscription, Observable, BehaviorSubject, Subject } from 'rxjs'
@@ -174,7 +175,7 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
             dLM: brief.dLM,
             policy: brief.policy ? brief.policy.id : null,
             subpolicy: brief.subPolicy ? brief.subPolicy.id : null,
-               recommendedDirection: null
+            recommendedDirection: brief.recommendedDirection
           }
 
           var nextSP = this.subpolicies.filter(sp => sp.policy == patch.policy)
@@ -339,6 +340,14 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
       )
       .subscribe(data => {
         console.log('onChanges recommendedDirection', data)
+
+        this.store.dispatch(
+          new SetBriefRecommendedDirection({
+            activeBriefId: this.activeBriefId,
+            text: data
+          })
+        )       
+
       })
 
     this.actionsValueChangeSubscription$ = this.form

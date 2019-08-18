@@ -85,16 +85,15 @@ export class BriefDataSharepointService implements BriefDataService {
       this.sharepoint.getItems({
         listName: 'Brief',
         viewXml: viewXml
-      })
-      // ,
-      // this.sharepoint.getItems({
-      //   listName: 'RecommendedDirection',
-      //   viewXml: briefIdViewXml
-      // }),
-      // this.sharepoint.getItems({
-      //   listName: 'Recommendation',
-      //   viewXml: briefIdViewXml
-      // }),
+      }),
+      this.sharepoint.getItems({
+        listName: 'RecommendedDirection',
+        viewXml: briefIdViewXml
+      }),
+      this.sharepoint.getItems({
+        listName: 'Recommendation',
+        viewXml: briefIdViewXml
+      }),
       // this.sharepoint.getItems({
       //   listName: 'BriefAttachments',
       //   viewXml: briefIdViewXml
@@ -106,8 +105,13 @@ export class BriefDataSharepointService implements BriefDataService {
       //   listName: 'BriefDivision'
       // })
     ]).pipe(
-      concatMap(([spBrief]) => {
+      concatMap(([spBrief, spRecommendedDirection, spRecommendations]) => {
         const result = spBrief[0]
+
+        const recommendedDirection = spRecommendedDirection[0]
+
+        const recommendations = (spRecommendations || [])
+
         const editor = fromLookup(result.Editor)
         const subPolicy = fromLookup(result.SubPolicy)
         const policy = fromLookup(result.Policy)
@@ -120,7 +124,9 @@ export class BriefDataSharepointService implements BriefDataService {
           SubPolicy: subPolicy,
           Policy: policy,
           BriefStatus: briefStatus,
-          BriefDivision: briefDivision
+          BriefDivision: briefDivision,
+          RecommendedDirection: recommendedDirection,
+          Recommendations: recommendations
         })
 
         console.log('BRIEF =>', brief)
