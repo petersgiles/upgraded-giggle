@@ -72,19 +72,15 @@
                   </option>
                 </mdc-select>
               </div>
-            </div>          
+            </div>
             <div mdcBody2 class="form-section">
               <h3>Recommended Direction and Actions</h3>
 
               <div class="form-row">
-                <mdc-textarea
-                  label="RecommendedDirection"
+                <ngx-wig
                   formControlName="recommendedDirection"
-                  characterCounter
-                  maxlength="5000"
-                  rows="6"
-                  cols="40"
-                ></mdc-textarea>
+                  [placeholder]="'Enter recommended direction text here.'"
+                ></ngx-wig>
               </div>
 
               <mdc-card outlined formArrayName="actions" class="action-card">
@@ -116,14 +112,10 @@
                     ></mdc-text-field>
                   </div>
                   <div class="action-card-row">
-                    <mdc-textarea
-                      label="Action Description"
+                    <ngx-wig
                       formControlName="description"
-                      characterCounter
-                      maxlength="2000"
-                      rows="2"
-                      cols="40"
-                    ></mdc-textarea>
+                      [placeholder]="'Action Description.'"
+                    ></ngx-wig>
                   </div>
                   <div class="action-card-row">
                     <a

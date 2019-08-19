@@ -1,16 +1,51 @@
-<mdc-card class="form-card" *ngIf="brief$ | async as brief">
-  <div>
-    <div mdcBody2 class="form-section">
-      <h3>Recommended Direction and Actions</h3>
-      <div class="form-row">
-        <p>
-          Goat smelly cheese cheese and biscuits. Cheesecake cheesecake pepper
-          jack boursin fromage hard cheese camembert de normandie cheesecake.
-          Rubber cheese goat melted cheese cow squirty cheese mascarpone
-          everyone loves pepper jack. Caerphilly everyone loves queso
-          dolcelatte.
-        </p>
+<div *ngIf="brief$ | async as brief">
+  <mdc-card class="form-card" *ngIf="brief.recommendedDirection">
+    <div>
+      <div mdcBody2 class="form-section">
+        <h3>Recommended Direction</h3>
+        <div class="form-row">
+          <div [innerHtml]="brief.recommendedDirection | safeHtml"></div>
+        </div>
       </div>
     </div>
-  </div>
-</mdc-card>
+  </mdc-card>
+
+  <mdc-card class="form-card" *ngIf="brief.recommendations">
+    <div>
+      <div mdcBody2 class="form-section">
+        <h3>Actions</h3>
+        <form [formGroup]="form" autocomplete="off">
+          <div class="form-row" formArrayName="recommendations">
+            <div
+              class="recommendation-card-item"
+              *ngFor="
+                let recommendationEditor of recommendations.controls;
+                let recommendationIndex = index
+              "
+              [formGroupName]="recommendationIndex"
+            >
+              <div>
+                <p>description</p>
+              </div>
+
+              <mdc-form-field>
+                <mdc-radio formControlName="outcome1"></mdc-radio>
+                <label>Outcome 1</label>
+              </mdc-form-field>
+
+              <mdc-form-field>
+                <mdc-radio formControlName="outcome2"></mdc-radio>
+                <label>Outcome 2</label>
+              </mdc-form-field>
+
+              <mdc-form-field>
+                <mdc-radio formControlName="outcome3"></mdc-radio>
+                <label>Outcome 3</label>
+              </mdc-form-field>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </mdc-card>
+</div>
