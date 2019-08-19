@@ -137,9 +137,9 @@ export class BriefDataSharepointService implements BriefDataService {
       concatMap(([spBrief, spRecommendedDirection, spRecommendations]) => {
         const result = spBrief[0]
 
-        const recommendedDirection = spRecommendedDirection[0]
+        const recommendedDirection = spRecommendedDirection[0] || {}
 console.log('getActiveBrief recommendedDirection', recommendedDirection)
-        const recommendations = spRecommendations || []
+        const recommendedActions = spRecommendations || []
 
         const editor = fromLookup(result.Editor)
         const subPolicy = fromLookup(result.SubPolicy)
@@ -154,8 +154,8 @@ console.log('getActiveBrief recommendedDirection', recommendedDirection)
           Policy: policy,
           BriefStatus: briefStatus,
           BriefDivision: briefDivision,
-          RecommendedDirection: recommendedDirection,
-          Recommendations: recommendations
+          RecommendedDirection: recommendedDirection.Recommended,
+          Recommendations: recommendedActions
         })
 
         console.log('BRIEF =>', brief)
