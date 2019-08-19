@@ -13,16 +13,43 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 import { BriefStatusComponent } from './brief-status.component'
 import { FormBuilder } from '@angular/forms'
 import {  Overlay } from '@angular-mdc/web'
-import { Store} from '@ngrx/store'
+import { Store, select} from '@ngrx/store'
 import { Observable, BehaviorSubject } from 'rxjs'
-
+import { provideMockStore, MockStore } from '@ngrx/store/testing'
+import { provideMockActions } from '@ngrx/effects/testing'
+import * as fromLookup from '../../../reducers/lookups/lookup.reducer'
+import { GetLookupStatuses } from '../../../reducers/lookups/lookup.actions'
+import { briefstatuses  } from '../../../../../../../devdata/data'
+import * as fromBrief from '../../../reducers/brief/brief.reducer'
 
 describe('BriefStatusComponent', () => {
+
   let component: BriefStatusComponent;
   let fixture: ComponentFixture<BriefStatusComponent>;
   let documentStatusList$: Observable<any>
-  
+  let mockStore: MockStore<any>
+  let actions$: Observable<any>
  
+  const initialState: fromLookup.State = {
+    policies: [],
+    subpolicies: [],
+    commitments: [],
+    classifications: [],
+    dlms: [],
+    statuses: [],
+    divisions: [],
+    activities: []
+  }
+
+  const briefState: fromBrief.State = {
+    activeBrief: null,
+    brief: null,
+    directions: null,
+    recommendations: null,
+    attachments: null,
+  
+  }
+
   beforeEach(async(() => {
     const configure: ConfigureFn = testBed => {
     TestBed.configureTestingModule({
@@ -38,12 +65,19 @@ describe('BriefStatusComponent', () => {
             dispatch: jest.fn()
           }
          },
+         provideMockActions(() => actions$),
+        provideMockStore({ initialState})
       ]
     })
    }
    configureTests(configure).then(testBed => {
     fixture = TestBed.createComponent(BriefStatusComponent);
     component = fixture.componentInstance
+    mockStore = TestBed.get(Store)
+    let state = {...initialState, statuses: briefstatuses}
+    mockStore.setState(state)
+    mockStore.overrideSelector(fromLookup.selectLookupStatusesState, state.statuses)  
+    mockStore.overrideSelector(fromBrief.selectBriefStatusState , getBrief())  
     //documentStatusList$ = new BehaviorSubject(statuslist)
     //component.form.patchValue(defaultValues)
 
@@ -51,22 +85,38 @@ describe('BriefStatusComponent', () => {
   })
   
   }))
-
-  const defaultValues = {
-    status: "1"
-  }
-
  
   it('should create', () => {
     expect(component).toBeTruthy()
   })
 
   it('should show statuses in Behavior Subject', () => {
+    documentStatusList$ = mockStore.pipe(
+      select(fromLookup.selectLookupStatusesState)
+    )   
     documentStatusList$.subscribe(statuses => {
-      expect(statuses[0].caption).toBe('In Draft')
-      expect(statuses[0].colour).toBe('Pink')
+      expect(statuses[0].Title).toBe('In Draft')
     })
-    
   })
 
  })
+
+ function getBrief(){
+  let brief = {
+    briefDivision: {id: 1, title: undefined},briefStatus:{id: 1,title: undefined},
+    dLM: "Sensitive Personal",
+    dueDate: null,
+    editor: {id: null, title: null},
+    fileLeafRef: "LOCALDEV-DAVE-636904955575056876.docx",
+    id: 10,
+    modified: undefined,
+    order: null,
+    policy: {id: 1,title: "Sample Policy"},
+    policyDirection: undefined,
+    reference: "BN:636904955575056876",
+    securityClassification: "PROTECTED",
+    subPolicy: {id: 1, title: "SubPolicy One"},
+    title: "The Integration Of Hypothetical Concept"
+    }
+  return brief
+ }

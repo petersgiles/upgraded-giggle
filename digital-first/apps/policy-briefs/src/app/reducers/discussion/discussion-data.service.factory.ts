@@ -31,7 +31,7 @@ const discussionDataServiceFactory = (
     case 'sharepoint':
       return new DiscussionDataSharepointService(sharepointlib, discussionMapperService)
     default:
-      return new DiscussionDataLocalService(appDataService, discussionMapperService)
+      return new DiscussionDataLocalService(discussionMapperService)
   }
 }
 

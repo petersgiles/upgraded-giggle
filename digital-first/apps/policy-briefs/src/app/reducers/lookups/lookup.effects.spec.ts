@@ -59,7 +59,6 @@ interface LookupValue {
 }
 
 describe('LookupEffects', () => {
-  debugger
     let mockStore: MockStore<any>
     let actions$: Observable<any>
     let lookupEffects: LookupEffects
@@ -231,7 +230,7 @@ describe('LookupEffects', () => {
                 const action = new GetLookupDivisions()
                 actions$ = hot('-a', { a: action} )
                 const response = cold('-a|', { a: result });
-                const expected = cold('-b', {b: new LoadLookupDivisions({data: result ,loading: false})})
+                const expected = cold('--b', {b: new LoadLookupDivisions({data: result ,loading: false})})
                 service.getLookupDivisions = jest.fn(() => response)
             
                 expect(lookupEffects.getLookupDivisions$).toBeObservable(expected)

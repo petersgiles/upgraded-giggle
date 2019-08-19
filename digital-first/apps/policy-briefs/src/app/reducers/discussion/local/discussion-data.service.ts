@@ -1,18 +1,11 @@
 import { Injectable } from '@angular/core'
 import { Observable, of, BehaviorSubject, Subject, Subscription } from 'rxjs'
-import { map } from 'rxjs/operators'
+
 import { DiscussionDataService } from '../discussion-data.service'
 import { comments } from '../../../../../../../devdata/data'
-<<<<<<< HEAD
-import { DiscussionMapperService } from '../../../services/mappers/discussion-mapper.service';
-import { DiscussionType } from '../../../models';
-import { max } from 'moment';
-
-=======
 import { DiscussionMapperService } from '../../../services/mappers/discussion-mapper.service'
 import { DiscussionType } from '../../../models'
-import { AppDataService } from '../../../services/app-data.service';
->>>>>>> 6d13b5a0138f11a2948513f3f8825a7945fb2bc0
+
 @Injectable({
   providedIn: 'root'
 })
