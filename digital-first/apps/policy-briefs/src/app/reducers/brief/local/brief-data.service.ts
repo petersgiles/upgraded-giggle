@@ -80,11 +80,11 @@ export class BriefDataLocalService implements BriefDataService {
   public getActiveBrief(briefId): Observable<{ data: any; loading: boolean }> {
     let found = briefs.find(p => `${p.Id}` === `${briefId}`)
     const recommendedDirection = recommendeddirections.find(r => `${r.Brief.Id}` === `${briefId}`)
-
+    const recommendedActions =  recommendations.filter(r => `${r.Brief.Id}` === `${briefId}`)
     const m = {
       ...found,
       RecommendedDirection: recommendedDirection.Recommended,
-      Recommendations: []
+      Recommendations: recommendedActions
     }
 
     const brief = this.briefMapperService.mapSingle(m)

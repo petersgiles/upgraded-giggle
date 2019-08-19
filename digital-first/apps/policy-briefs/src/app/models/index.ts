@@ -84,6 +84,7 @@ export interface Brief {
   briefStatus: DisplayLookup
   briefDivision: DisplayLookup
   recommendedDirection: string;
+  recommendations: Recommendation[]
 }
 
 export interface RecommendedDirection {
