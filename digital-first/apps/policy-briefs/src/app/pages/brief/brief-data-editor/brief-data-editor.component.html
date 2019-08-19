@@ -93,6 +93,12 @@
                   [formGroupName]="actionIndex"
                 >
                   <div class="action-card-row">
+                    <ngx-wig
+                      formControlName="description"
+                      [placeholder]="'Action Description.'"
+                    ></ngx-wig>
+                  </div>
+                  <div class="action-card-row">
                     <mdc-text-field
                       outlined
                       formControlName="outcome1"
@@ -110,13 +116,9 @@
                       formControlName="outcome3"
                       label="Outcome 1"
                     ></mdc-text-field>
+                    <input type="hidden" formControlName="id" />
                   </div>
-                  <div class="action-card-row">
-                    <ngx-wig
-                      formControlName="description"
-                      [placeholder]="'Action Description.'"
-                    ></ngx-wig>
-                  </div>
+
                   <div class="action-card-row">
                     <a
                       mdc-button
