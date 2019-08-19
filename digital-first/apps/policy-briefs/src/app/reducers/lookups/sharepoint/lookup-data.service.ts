@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { Observable, of } from 'rxjs'
 import { LookupDataService } from '../lookup-data.service'
 import { LookupMapperService } from '../../../services/mappers/lookup-mapper.service'
-import { SharepointJsomService } from '@df/sharepoint'
+import { SharepointJsomService, fromLookup, idFromLookup } from '@df/sharepoint'
 import { concatMap, tap, switchMap } from 'rxjs/operators'
 
 @Injectable({
@@ -18,7 +18,13 @@ export class LookupDataSharepointService implements LookupDataService {
   }
   getLookupActivities(config?: any): Observable<any> {
     return of([
-      { id: '1', icon: 'people', colour: 'Pink', order: 1, caption: `Decision` },
+      {
+        id: '1',
+        icon: 'people',
+        colour: 'Pink',
+        order: 1,
+        caption: `Decision`
+      },
       {
         id: '2',
         icon: 'people',
@@ -43,7 +49,6 @@ export class LookupDataSharepointService implements LookupDataService {
     ])
   }
   getLookupStatuses(config?: any): Observable<any> {
-    
     console.log('getLookupStatuses', config)
 
     return this.sharepoint
@@ -59,7 +64,7 @@ export class LookupDataSharepointService implements LookupDataService {
       })
       .pipe(
         concatMap(result => this.mapLookup(result)),
-        tap(result => console.log( 'Policy', result))
+        tap(result => console.log('Policy', result))
       )
   }
   getSubPolicies(config?: any): Observable<any> {
@@ -69,10 +74,21 @@ export class LookupDataSharepointService implements LookupDataService {
       })
       .pipe(
         concatMap(result => {
-          return of(result.map(r => ({
-            caption: r.Title,
-            value: r.ID
-          })))
+          
+
+          var data = result.map(r => {
+            var policy = idFromLookup(r.Policy)
+            return {
+              caption: r.Title,
+              value: r.ID,
+              policy: policy
+            }
+          })
+
+          console.log('getSubPolicies', result, data)
+          return of(
+            data
+          )
         })
       )
   }
@@ -102,7 +118,7 @@ export class LookupDataSharepointService implements LookupDataService {
   }
 
   getDLMs(config?: any): Observable<any> {
-    return of( [
+    return of([
       {
         caption: 'Not for tabling - For Official Use Only',
         value: 'Not for tabling - For Official Use Only'

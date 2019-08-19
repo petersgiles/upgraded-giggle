@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Observable, of, BehaviorSubject, Subject, Subscription } from 'rxjs'
 import { BriefDataService } from '../brief-data.service'
-import { briefs } from '../../../../../../../devdata/data'
+import { briefs, recommendations, recommendeddirections } from '../../../../../../../devdata/data'
 import { HttpClient } from '@angular/common/http'
 import { AppSettingsService } from '@digital-first/df-app-core'
 import { concatMap, catchError } from 'rxjs/operators'
@@ -11,6 +11,7 @@ import { BriefMapperService } from '../../../services/mappers/brief-mapper.servi
   providedIn: 'root'
 })
 export class BriefDataLocalService implements BriefDataService {
+
   fakeBriefBackend: Subject<any[]> = new Subject()
   fakeBriefBackendSubscription$: Subscription
   briefItems: BehaviorSubject<any> = new BehaviorSubject(null)
@@ -21,19 +22,63 @@ export class BriefDataLocalService implements BriefDataService {
     this.fakeBriefBackend.next(briefs)
     return of({ briefId: item.Id, loading: false })
   }
-  updateBrief(item: any): Observable<any> {
-    var found = briefs.find(p => `${p.Id}` == item.Id)
+  updateBrief(id: string, changes: any, hint?: string): Observable<any> {
+console.log('hint', hint, changes)
+
+    if(hint == 'RecommendedDirection') {
+      return this.updateRecommendedDirection(id, changes)
+    }
+
+    var found = briefs.find(p => `${p.Id}` == id)
+
+    var remapped = {}
+    if(changes.Policy) { 
+      remapped = {
+        ...remapped,
+        Policy: { Id: changes.Policy}
+      }
+    }
+
+    if(changes.SubPolicy) { 
+      remapped = {
+        ...remapped,
+        SubPolicy: { Id: changes.SubPolicy}
+      }
+    }
+
+    if(changes.BriefStatus) { 
+      remapped = {
+        ...remapped,
+        BriefStatus: { Id: changes.BriefStatus}
+      }
+    }
+
     if (found) {
       let index = briefs.indexOf(found)
       briefs[index] = {
-        ...found
+        ...found,
+        ...remapped
       }
     }
 
     this.fakeBriefBackend.next(briefs)
-    return of({ briefId: item.Id, loading: false })
+    return of({ briefId: id, loading: false })
   }
   
+  updateRecommendedDirection(id: string, changes: any): Observable<any> {
+
+    console.log('updateRecommendedDirection', id, changes)
+
+    var found = recommendeddirections.find(p => `${p.Brief.Id}` == id)
+    let index = recommendeddirections.indexOf(found)
+    recommendeddirections[index] = {
+      ...found,
+      Recommended: changes.recommendedDirection
+   }
+
+    return of({ briefId: id, loading: false })
+  }
+
   removeBrief(item: { id: string }): Observable<any> {
     var found = briefs.find(p => `${p.Id}` == item.id)
     if (found) {
@@ -45,25 +90,6 @@ export class BriefDataLocalService implements BriefDataService {
     return of({ briefId: item.id, loading: false })
   }
 
-  setActiveBriefStatus(
-    activeBriefId: string,
-    status: string
-  ): Observable<{ briefId: any; loading: boolean }> {
-    var found = briefs.find(p => `${p.Id}` == activeBriefId)
-    if (found) {
-      let index = briefs.indexOf(found)
-      briefs[index] = {
-        ...found,
-        BriefStatus: {
-          Id: +status
-        }
-      }
-    }
-
-    this.fakeBriefBackend.next(briefs)
-    return of({ briefId: activeBriefId, loading: false })
-  }
-
   public getBriefs(): Observable<{
     data: any
     loading: boolean
@@ -72,9 +98,17 @@ export class BriefDataLocalService implements BriefDataService {
   }
 
   public getActiveBrief(briefId): Observable<{ data: any; loading: boolean }> {
-    const found = briefs.find(p => `${p.Id}` === `${briefId}`)
-    const brief = this.briefMapperService.mapSingle(found)
+    let found = briefs.find(p => `${p.Id}` === `${briefId}`)
+    const recommendedDirection = recommendeddirections.find(r => `${r.Brief.Id}` === `${briefId}`)
+    const recommendedActions =  recommendations.filter(r => `${r.Brief.Id}` === `${briefId}`)
+    const m = {
+      ...found,
+      RecommendedDirection: recommendedDirection.Recommended,
+      Recommendations: recommendedActions
+    }
 
+    const brief = this.briefMapperService.mapSingle(m)
+   
     return of({
       data: brief,
       loading: false
@@ -125,5 +159,7 @@ export class BriefDataLocalService implements BriefDataService {
     )
 
     this.fakeBriefBackend.next(briefs)
+
+
   }
 }

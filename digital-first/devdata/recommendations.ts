@@ -1,6 +1,4 @@
-export const recommendations = {
-  d: {
-    results: [
+export const recommendations = [
       {
         Id: 1,
         Title: 'LOCALDEV-DAVE-636904933095506843',
@@ -12896,5 +12894,4 @@ export const recommendations = {
         ID: 614
       }
     ]
-  }
-}
+

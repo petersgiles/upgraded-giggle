@@ -1,0 +1,18 @@
+<div *ngIf="brief$ | async as brief">
+  <mdc-card class="form-card" *ngIf="brief.commitments">
+    <div>
+      <div mdcBody2 class="form-section">
+        <h3>Related Commitments</h3>
+        <div class="form-row">
+          <ul>
+            <li>Commitment A</li>
+            <li>Commitment A</li>
+            <li>Commitment A</li>
+            <li>Commitment A</li>
+            <li>Commitment A</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </mdc-card>
+</div>

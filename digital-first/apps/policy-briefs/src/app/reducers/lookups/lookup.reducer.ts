@@ -95,7 +95,8 @@ export const selectLookupSubpoliciesState = createSelector(
   (state: State) =>  [
     {
       caption: 'Please Select',
-      value: null
+      value: null,
+      policy: null
     },
     ...state.subpolicies
   ]

@@ -91,8 +91,13 @@ import { BriefSubscriptionEditorComponent } from './pages/brief/brief-subscripti
 
 import { ProtectiveMarkingComponent } from './pages/brief/protective-marking/protective-marking.component'
 import { BriefStatusComponent } from './pages/brief/brief-status/brief-status.component'
-import { BriefDiscussionComponent } from './pages/brief/brief-discussion/brief-discussion.component'
-
+import { BriefDiscussionComponent } from './pages/brief/brief-discussion/brief-discussion.component';
+import { BriefProcessingInstructionComponent } from './pages/brief/brief-processing-instruction/brief-processing-instruction.component';
+import { BriefRecommendationComponent } from './pages/brief/brief-recommendation/brief-recommendation.component';
+import { BriefWarningBannerComponent } from './pages/brief/brief-warning-banner/brief-warning-banner.component';
+import { BriefRecommendationActionComponent } from './pages/brief/brief-recommendation-action/brief-recommendation-action.component';
+import { BriefCommitmentsComponent } from './pages/brief/brief-commitments/brief-commitments.component'
+import { NgxWigModule } from 'ngx-wig'
 
 const COMPONENTS = [
   AppComponent,
@@ -114,7 +119,7 @@ const COMPONENTS = [
 const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
 
 @NgModule({
-  declarations: [...COMPONENTS],
+  declarations: [...COMPONENTS, BriefProcessingInstructionComponent, BriefRecommendationComponent, BriefWarningBannerComponent, BriefRecommendationActionComponent, BriefCommitmentsComponent],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [
     BrowserModule,
@@ -122,12 +127,13 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     HttpClientModule,
     ReactiveFormsModule,
     AppRoutingModule,
+    NgxWigModule,
     DfLayoutsModule,
     NxModule.forRoot(),
     PanelModule,
     ButtonModule,
     DocumentModule,
-    DiscussionModule,
+    DiscussionModule,    
     PipesModule,
     DfAppCoreModule,
     DfComponentsModule,
