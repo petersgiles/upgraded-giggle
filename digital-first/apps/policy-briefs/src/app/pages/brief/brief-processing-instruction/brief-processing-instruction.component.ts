@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import * as fromRoot from '../../../reducers/index'
+import * as fromBrief from '../../../reducers/brief/brief.reducer'
+import { Store, select } from '@ngrx/store';
 
 @Component({
   selector: 'digital-first-brief-processing-instruction',
@@ -7,9 +10,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BriefProcessingInstructionComponent implements OnInit {
 
-  constructor() { }
+  brief$: any;
+
+  constructor(private store: Store<fromRoot.State>) { }
 
   ngOnInit() {
+    this.brief$ = this.store.pipe(select(fromBrief.selectBriefState))
   }
 
 }

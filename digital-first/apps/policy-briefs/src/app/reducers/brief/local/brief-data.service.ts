@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Observable, of, BehaviorSubject, Subject, Subscription } from 'rxjs'
 import { BriefDataService } from '../brief-data.service'
-import { briefs } from '../../../../../../../devdata/data'
+import { briefs, recommendations, recommendeddirections } from '../../../../../../../devdata/data'
 import { HttpClient } from '@angular/common/http'
 import { AppSettingsService } from '@digital-first/df-app-core'
 import { concatMap, catchError } from 'rxjs/operators'
@@ -78,9 +78,17 @@ export class BriefDataLocalService implements BriefDataService {
   }
 
   public getActiveBrief(briefId): Observable<{ data: any; loading: boolean }> {
-    const found = briefs.find(p => `${p.Id}` === `${briefId}`)
-    const brief = this.briefMapperService.mapSingle(found)
+    let found = briefs.find(p => `${p.Id}` === `${briefId}`)
+    const recommendedDirection = recommendeddirections.find(r => `${r.Brief.Id}` === `${briefId}`)
 
+    const m = {
+      ...found,
+      RecommendedDirection: recommendedDirection.Recommended,
+      Recommendations: []
+    }
+
+    const brief = this.briefMapperService.mapSingle(m)
+   
     return of({
       data: brief,
       loading: false

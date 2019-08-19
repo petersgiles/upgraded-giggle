@@ -13,7 +13,8 @@ import {
   SetBriefPolicy,
   SetBriefPolicySuccess,
   SetBriefSecurityClassification,
-  SetBriefDLM
+  SetBriefDLM,
+  SetBriefRecommendedDirection
 } from './brief.actions'
 
 
@@ -118,6 +119,25 @@ export class BriefEffects {
     ]),
     catchError(error => of(new GetActiveBriefFailure(error)))
   )
+
+  @Effect()
+  stBriefRecommendedDirection$ = this.actions$.pipe(
+    ofType(BriefActionTypes.SetBriefRecommendedDirection),
+    map((action: SetBriefRecommendedDirection) => action),
+    concatMap(action => EMPTY
+      // this.service.updateBrief(action.payload.activeBriefId, {
+      //   DLM: action.payload.dLM
+      // })
+    ),
+    switchMap((result: { briefId: any; loading: boolean }) => [
+      new SetActiveBrief({
+        activeBriefId: result.briefId
+      })
+    ]),
+    catchError(error => of(new GetActiveBriefFailure(error)))
+  )
+  
+
   constructor(
     private actions$: Actions<BriefActions>,
     private service: BriefDataService
