@@ -2121,20 +2121,21 @@ export type GetRefinerTagsQuery = { __typename?: 'Query' } & {
   >
   states: Maybe<
     Array<
-      Maybe<{ __typename?: 'StateGraph' } & Pick<StateGraph, 'id' | 'name'>>
+      Maybe<
+        { __typename?: 'LocationGraph' } & Pick<
+          LocationGraph,
+          'id' | 'title' | 'state'
+        >
+      >
     >
   >
   electorates: Maybe<
     Array<
       Maybe<
-        { __typename?: 'ElectorateGraph' } & Pick<
-          ElectorateGraph,
-          'id' | 'name'
-        > & {
-            state: Maybe<
-              { __typename?: 'StateGraph' } & Pick<StateGraph, 'id' | 'name'>
-            >
-          }
+        { __typename?: 'LocationGraph' } & Pick<
+          LocationGraph,
+          'id' | 'title' | 'state'
+        >
       >
     >
   >
@@ -2444,17 +2445,15 @@ export const GetRefinerTagsDocument = gql`
       id
       title
     }
-    states(orderBy: { path: "name" }) {
+    states: locations(where: { path: "State", comparison: equal }) {
       id
-      name
+      title
+      state
     }
-    electorates(orderBy: { path: "name" }) {
+    electorates: locations(where: { path: "State", comparison: notEqual }) {
       id
-      name
-      state {
-        id
-        name
-      }
+      title
+      state
     }
   }
 `

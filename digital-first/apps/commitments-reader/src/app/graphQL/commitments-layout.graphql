@@ -15,16 +15,18 @@ query GetRefinerTags($siteId: Guid!) {
     id
     title
   }
-  states(orderBy: { path: "name" }) {
-    id
-    name
+ states:locations(where: {
+    path: "State",
+    comparison: equal}) {
+   	id
+    title
+    state
   }
-  electorates(orderBy: { path: "name" }) {
-    id
-    name
-    state {
-      id
-      name
-    }
+  electorates:locations(where: {
+    path: "State",
+    comparison: notEqual}) {
+   	id
+    title
+    state
   }
 }

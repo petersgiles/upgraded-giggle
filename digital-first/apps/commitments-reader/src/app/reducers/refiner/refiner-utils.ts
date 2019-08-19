@@ -49,13 +49,13 @@ export const buildRefiner = (refiner: {
       enableSlide: item.enableSlide,
       children: refiner[item.group].map(p => ({
         id: p.id,
-        title: p.title ? p.title : p.name,
+        title: p.title,
         group: item.group,
         expanded: false,
         selected: false,
         children: item.children,
         singleSelection: item.singleSelection,
-        additionalInfo: item.group === 'electorates' ? p.state.name : ''
+        additionalInfo: item.group === 'electorates' ? p.state : ''
       }))
     })
    

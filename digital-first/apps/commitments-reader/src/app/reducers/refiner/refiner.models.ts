@@ -9,3 +9,8 @@ export interface CRMenu {
   children?: CRMenu[]
   additionalInfo: string
 }
+
+export interface SelectedRefiner {
+  group: string
+  ids: any[]
+}
