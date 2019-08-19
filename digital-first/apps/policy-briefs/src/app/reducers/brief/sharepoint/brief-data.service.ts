@@ -16,7 +16,8 @@ import { LookupMapperService } from '../../../services/mappers/lookup-mapper.ser
 declare var _spPageContextInfo: any
 
 const BRIEF_ITEM_LIST_NAME = 'Brief'
-
+const RECOMMENDED_DIRECTION_ITEM_LIST_NAME = 'RecommendedDirection'
+const RECOMMENDATION_ITEM_LIST_NAME = 'Recommendation'
 @Injectable({
   providedIn: 'root'
 })
@@ -33,8 +34,13 @@ export class BriefDataSharepointService implements BriefDataService {
       })
       .pipe(concatMap(_ => of({})))
 
-  updateBrief = (id: string, changes: any): Observable<any> =>
-    this.sharepoint
+  updateBrief = (id: string, changes: any, hint?: string): Observable<any> => {
+    console.log('hint', hint, changes)
+    if (hint == 'RecommendedDirection') {
+      return this.updateRecommendedDirection(id, changes)
+    }
+
+    return this.sharepoint
       .storeItem({
         listName: BRIEF_ITEM_LIST_NAME,
         data: {
@@ -43,6 +49,29 @@ export class BriefDataSharepointService implements BriefDataService {
         id: id
       })
       .pipe(concatMap(_ => of({ briefId: id, loading: false })))
+  }
+
+  updateRecommendedDirection(briefId: string, changes: any): Observable<any> {
+    console.log('updateRecommendedDirection', briefId, changes)
+    const briefIdViewXml = byBriefIdQuery({ id: briefId })
+
+    return this.sharepoint.getItems({
+      listName: RECOMMENDED_DIRECTION_ITEM_LIST_NAME,
+      viewXml: briefIdViewXml
+    }).pipe(
+      concatMap(result => this.sharepoint
+        .storeItem({
+          listName: RECOMMENDED_DIRECTION_ITEM_LIST_NAME,
+          data: {
+            ...changes
+          },
+          id: result.ID
+        })
+        .pipe(concatMap(_ => of({ briefId: briefId, loading: false }))))
+    )
+
+   
+  }
 
   removeBrief = (item: { id: string }): Observable<any> =>
     this.sharepoint
@@ -83,17 +112,17 @@ export class BriefDataSharepointService implements BriefDataService {
 
     return forkJoin([
       this.sharepoint.getItems({
-        listName: 'Brief',
+        listName: BRIEF_ITEM_LIST_NAME,
         viewXml: viewXml
       }),
       this.sharepoint.getItems({
-        listName: 'RecommendedDirection',
+        listName: RECOMMENDED_DIRECTION_ITEM_LIST_NAME,
         viewXml: briefIdViewXml
       }),
       this.sharepoint.getItems({
-        listName: 'Recommendation',
+        listName: RECOMMENDATION_ITEM_LIST_NAME,
         viewXml: briefIdViewXml
-      }),
+      })
       // this.sharepoint.getItems({
       //   listName: 'BriefAttachments',
       //   viewXml: briefIdViewXml
@@ -109,8 +138,8 @@ export class BriefDataSharepointService implements BriefDataService {
         const result = spBrief[0]
 
         const recommendedDirection = spRecommendedDirection[0]
-
-        const recommendations = (spRecommendations || [])
+console.log('getActiveBrief recommendedDirection', recommendedDirection)
+        const recommendations = spRecommendations || []
 
         const editor = fromLookup(result.Editor)
         const subPolicy = fromLookup(result.SubPolicy)

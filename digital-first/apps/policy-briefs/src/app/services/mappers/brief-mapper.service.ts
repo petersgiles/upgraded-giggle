@@ -20,8 +20,9 @@ export class BriefMapperService extends CoreMapperService<Brief> {
     const briefDivision = super.fromLookup(item.BriefStatus)
     const recommendationMapperService = new RecommendationMapperService()
     const recommendations = recommendationMapperService.mapMany(item.Recommendations) 
+    const recommendedDirection = item.RecommendedDirection.Recommended
 
-    console.log('recommendations', recommendations)
+    console.log('recommendations', recommendations, recommendedDirection)
 
     const brief =  {
       id: item.ID,
@@ -39,7 +40,7 @@ export class BriefMapperService extends CoreMapperService<Brief> {
       policy: policy,
       briefStatus: briefStatus,
       briefDivision: briefDivision,
-      recommendedDirection: item.RecommendedDirection,
+      recommendedDirection: recommendedDirection,
       recommendations: recommendations
     }
 
