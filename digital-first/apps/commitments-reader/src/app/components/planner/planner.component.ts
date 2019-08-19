@@ -23,7 +23,7 @@ import { debounceTime } from 'rxjs/operators'
   templateUrl: './planner.component.html',
   styleUrls: ['./planner.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  changeDetection:ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlannerComponent implements OnInit, OnDestroy {
   @Input()
@@ -240,9 +240,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
             index: 3,
             items: webSafeColours,
             listItemTpl: item =>
-              `<h5 class='colour-title ${item.value}' style='background-color:${
-                item.value
-              }'> ${item.text}</h5>`
+              `<h5 class='colour-title ${item.value}' style='background-color:${item.value}'> ${item.text}</h5>`
           },
           {
             type: 'text',
@@ -353,6 +351,9 @@ export class PlannerComponent implements OnInit, OnDestroy {
   }
   /* End handling external event types changes*/
 
+  public trackByExternalTypeId(index, externalType) {
+    return externalType ? externalType.id : undefined
+  }
   ngOnDestroy(): void {
     this.externalEventTypeChangeEventSubscription.unsubscribe()
   }
