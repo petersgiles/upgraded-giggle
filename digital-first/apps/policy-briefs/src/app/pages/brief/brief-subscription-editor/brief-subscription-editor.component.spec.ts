@@ -11,9 +11,10 @@ import { ConfigureFn, configureTests } from '../../../../../../../libs/df-testin
 import { NO_ERRORS_SCHEMA } from '@angular/core'
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 import { BriefSubscriptionEditorComponent } from './brief-subscription-editor.component'
-
+import { MdcDialog, Overlay, MdcIconButton } from '@angular-mdc/web'
 
 describe('BriefSubscriptionEditorComponent', () => {
+  debugger
   let component: BriefSubscriptionEditorComponent;
   let fixture: ComponentFixture<BriefSubscriptionEditorComponent>;
 
@@ -24,7 +25,7 @@ describe('BriefSubscriptionEditorComponent', () => {
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [BriefSubscriptionEditorComponent],
       providers:
-      []
+      [MdcDialog, Overlay, MdcIconButton]
     })
    }
    configureTests(configure).then(testBed => {
