@@ -1,22 +1,27 @@
 import { Injectable } from '@angular/core'
 import { Brief } from '../../models'
 import { CoreMapperService } from './core-mapper.service'
+import { RecommendationMapperService } from './recommendation-mapper.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BriefMapperService extends CoreMapperService<Brief> {
-  constructor() {
+  constructor( ) {
     super()
   }
 
   public mapSingle(item: any): Brief {
-
+    console.log('mapSingle Brief', item)
     const editor = super.fromLookup(item.Editor)
     const subPolicy = super.fromLookup(item.SubPolicy)
     const policy = super.fromLookup(item.Policy)
     const briefStatus = super.fromLookup(item.BriefStatus)
     const briefDivision = super.fromLookup(item.BriefStatus)
+    const recommendationMapperService = new RecommendationMapperService()
+    const recommendations = recommendationMapperService.mapMany(item.Recommendations) 
+
+    console.log('recommendations', recommendations)
 
     const brief =  {
       id: item.ID,
@@ -35,7 +40,7 @@ export class BriefMapperService extends CoreMapperService<Brief> {
       briefStatus: briefStatus,
       briefDivision: briefDivision,
       recommendedDirection: item.RecommendedDirection,
-      recommendations: item.Recommendations
+      recommendations: recommendations
     }
 
     console.log(`🦊`, item, brief)

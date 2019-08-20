@@ -22,7 +22,13 @@ export class BriefDataLocalService implements BriefDataService {
     this.fakeBriefBackend.next(briefs)
     return of({ briefId: item.Id, loading: false })
   }
-  updateBrief(id: string, changes: any): Observable<any> {
+  updateBrief(id: string, changes: any, hint?: string): Observable<any> {
+console.log('hint', hint, changes)
+
+    if(hint == 'RecommendedDirection') {
+      return this.updateRecommendedDirection(id, changes)
+    }
+
     var found = briefs.find(p => `${p.Id}` == id)
 
     var remapped = {}
@@ -59,6 +65,20 @@ export class BriefDataLocalService implements BriefDataService {
     return of({ briefId: id, loading: false })
   }
   
+  updateRecommendedDirection(id: string, changes: any): Observable<any> {
+
+    console.log('updateRecommendedDirection', id, changes)
+
+    var found = recommendeddirections.find(p => `${p.Brief.Id}` == id)
+    let index = recommendeddirections.indexOf(found)
+    recommendeddirections[index] = {
+      ...found,
+      Recommended: changes.recommendedDirection
+   }
+
+    return of({ briefId: id, loading: false })
+  }
+
   removeBrief(item: { id: string }): Observable<any> {
     var found = briefs.find(p => `${p.Id}` == item.id)
     if (found) {
@@ -80,11 +100,11 @@ export class BriefDataLocalService implements BriefDataService {
   public getActiveBrief(briefId): Observable<{ data: any; loading: boolean }> {
     let found = briefs.find(p => `${p.Id}` === `${briefId}`)
     const recommendedDirection = recommendeddirections.find(r => `${r.Brief.Id}` === `${briefId}`)
-
+    const recommendedActions =  recommendations.filter(r => `${r.Brief.Id}` === `${briefId}`)
     const m = {
       ...found,
       RecommendedDirection: recommendedDirection.Recommended,
-      Recommendations: []
+      Recommendations: recommendedActions
     }
 
     const brief = this.briefMapperService.mapSingle(m)
@@ -139,5 +159,7 @@ export class BriefDataLocalService implements BriefDataService {
     )
 
     this.fakeBriefBackend.next(briefs)
+
+
   }
 }

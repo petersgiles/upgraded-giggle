@@ -2,7 +2,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core'
 import * as fromRoot from '../../../reducers/index'
 import * as fromBrief from '../../../reducers/brief/brief.reducer'
 import { select, Store } from '@ngrx/store'
-import { switchMap, tap, debounceTime, distinctUntilChanged } from 'rxjs/operators'
+import {
+  switchMap,
+  tap,
+  debounceTime,
+  distinctUntilChanged
+} from 'rxjs/operators'
 import { ParamMap, ActivatedRoute, Router } from '@angular/router'
 import {
   SetActiveBrief,
@@ -47,6 +52,7 @@ const commitmentItem = {
 }
 
 const actionItem = {
+  id: [],
   description: [''],
   outcome1: ['Agree'],
   outcome2: ['Disagree'],
@@ -67,8 +73,8 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
   securityClassificationValueChangeSubscription$: Subscription
   dLMValueChangeSubscription$: Subscription
   recommendedDirectionValueChangeSubscription$: Subscription
-  actionsValueChangeSubscription$: Subscription
-  commitmentsValueChangeSubscription$: Subscription
+  actionsValueChangeSubscriptions$: Subscription[]
+  commitmentsValueChangeSubscriptions$: Subscription[]
   public background$: Observable<string>
 
   public policies$: Observable<
@@ -129,7 +135,9 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
   }
 
   public handleAddAction(): void {
+    this.unsubscribeChanges()
     this.actions.push(this.fb.group(actionItem))
+    this.subscribeChanges()
   }
 
   public handleRemoveAction(index: any, action: any) {
@@ -145,7 +153,9 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
   }
 
   public handleAddCommitment(): void {
+    this.unsubscribeChanges()
     this.commitments.push(this.fb.group(commitmentItem))
+    this.subscribeChanges()
   }
 
   public handleRemoveCommitment(index: any, action: any) {
@@ -181,6 +191,19 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
           var nextSP = this.subpolicies.filter(sp => sp.policy == patch.policy)
           this.subpolicies$.next(nextSP)
           this.form.patchValue(patch)
+
+          brief.recommendations.forEach(r =>
+            this.actions.push(
+              this.fb.group({
+                id: [r.id],
+                description: [r.recommendation],
+                outcome1: [r.outcome1],
+                outcome2: [r.outcome2],
+                outcome3: [r.outcome3]
+              })
+            )
+          )
+
           this.subscribeChanges()
         }
       })
@@ -246,10 +269,10 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
       this.dLMValueChangeSubscription$.unsubscribe()
     if (this.recommendedDirectionValueChangeSubscription$)
       this.recommendedDirectionValueChangeSubscription$.unsubscribe()
-    if (this.actionsValueChangeSubscription$)
-      this.actionsValueChangeSubscription$.unsubscribe()
-    if (this.commitmentsValueChangeSubscription$)
-      this.commitmentsValueChangeSubscription$.unsubscribe()
+    if (this.actionsValueChangeSubscriptions$)
+      this.actionsValueChangeSubscriptions$.forEach(s => s.unsubscribe())
+    if (this.commitmentsValueChangeSubscriptions$)
+      this.commitmentsValueChangeSubscriptions$.forEach(s => s.unsubscribe())
   }
 
   subscribeChanges(): void {
@@ -276,8 +299,7 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
 
     this.subPolicyValueChangeSubscription$ = this.form
       .get('subpolicy')
-      .valueChanges
-      .pipe(
+      .valueChanges.pipe(
         debounceTime(400),
         distinctUntilChanged()
       )
@@ -297,8 +319,7 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
 
     this.securityClassificationValueChangeSubscription$ = this.form
       .get('securityClassification')
-      .valueChanges
-      .pipe(
+      .valueChanges.pipe(
         debounceTime(400),
         distinctUntilChanged()
       )
@@ -315,8 +336,7 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
 
     this.dLMValueChangeSubscription$ = this.form
       .get('dLM')
-      .valueChanges
-      .pipe(
+      .valueChanges.pipe(
         debounceTime(400),
         distinctUntilChanged()
       )
@@ -333,8 +353,7 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
 
     this.recommendedDirectionValueChangeSubscription$ = this.form
       .get('recommendedDirection')
-      .valueChanges
-      .pipe(
+      .valueChanges.pipe(
         debounceTime(400),
         distinctUntilChanged()
       )
@@ -346,31 +365,39 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
             activeBriefId: this.activeBriefId,
             text: data
           })
-        )       
-
+        )
       })
 
-    this.actionsValueChangeSubscription$ = this.form
-      .get('actions')
-      .valueChanges
-      .pipe(
-        debounceTime(400),
-        distinctUntilChanged()
+    this.actionsValueChangeSubscriptions$ = []
+
+    this.actions.controls.forEach(control => {
+      this.actionsValueChangeSubscriptions$.push(
+        control.valueChanges
+          .pipe(
+            debounceTime(400),
+            distinctUntilChanged()
+          )
+          .subscribe(data => {
+            // console.log(this.actions.controls.indexOf(control))
+            console.log('onChanges actions', data)
+          })
       )
-      .subscribe(data => {
-        console.log('onChanges actions', data)
-      })
+    })
 
-    this.commitmentsValueChangeSubscription$ = this.form
-      .get('commitments')
-      .valueChanges
-      .pipe(
-        debounceTime(400),
-        distinctUntilChanged()
+    this.commitmentsValueChangeSubscriptions$ = []
+    this.commitments.controls.forEach(control => {
+      this.commitmentsValueChangeSubscriptions$.push(
+        control.valueChanges
+          .pipe(
+            debounceTime(400),
+            distinctUntilChanged()
+          )
+          .subscribe(data => {
+            // console.log(this.actions.controls.indexOf(control))
+            console.log('onChanges commitments', data)
+          })
       )
-      .subscribe(data => {
-        console.log('onChanges commitments', data)
-      })
+    })
   }
 
   handleView($event) {

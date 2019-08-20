@@ -72,19 +72,15 @@
                   </option>
                 </mdc-select>
               </div>
-            </div>          
+            </div>
             <div mdcBody2 class="form-section">
               <h3>Recommended Direction and Actions</h3>
 
               <div class="form-row">
-                <mdc-textarea
-                  label="RecommendedDirection"
+                <ngx-wig
                   formControlName="recommendedDirection"
-                  characterCounter
-                  maxlength="5000"
-                  rows="6"
-                  cols="40"
-                ></mdc-textarea>
+                  [placeholder]="'Enter recommended direction text here.'"
+                ></ngx-wig>
               </div>
 
               <mdc-card outlined formArrayName="actions" class="action-card">
@@ -96,6 +92,12 @@
                   "
                   [formGroupName]="actionIndex"
                 >
+                  <div class="action-card-row">
+                    <ngx-wig
+                      formControlName="description"
+                      [placeholder]="'Action Description.'"
+                    ></ngx-wig>
+                  </div>
                   <div class="action-card-row">
                     <mdc-text-field
                       outlined
@@ -114,17 +116,9 @@
                       formControlName="outcome3"
                       label="Outcome 1"
                     ></mdc-text-field>
+                    <input type="hidden" formControlName="id" />
                   </div>
-                  <div class="action-card-row">
-                    <mdc-textarea
-                      label="Action Description"
-                      formControlName="description"
-                      characterCounter
-                      maxlength="2000"
-                      rows="2"
-                      cols="40"
-                    ></mdc-textarea>
-                  </div>
+
                   <div class="action-card-row">
                     <a
                       mdc-button

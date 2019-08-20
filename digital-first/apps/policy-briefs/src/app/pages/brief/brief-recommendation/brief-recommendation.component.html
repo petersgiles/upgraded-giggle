@@ -1,16 +1,17 @@
-<mdc-card class="form-card" *ngIf="brief$ | async as brief">
-  <div>
+<div *ngIf="brief$ | async as brief">
+  <mdc-card class="form-card" *ngIf="brief.recommendedDirection">
     <div mdcBody2 class="form-section">
-      <h3>Recommended Direction and Actions</h3>
       <div class="form-row">
-        <p>
-          Goat smelly cheese cheese and biscuits. Cheesecake cheesecake pepper
-          jack boursin fromage hard cheese camembert de normandie cheesecake.
-          Rubber cheese goat melted cheese cow squirty cheese mascarpone
-          everyone loves pepper jack. Caerphilly everyone loves queso
-          dolcelatte.
-        </p>
+        <div [innerHtml]="brief.recommendedDirection | safeHtml"></div>
+      </div>
+
+      <div class="recommendations" *ngIf="brief.recommendations">
+        <h3>Recommendations</h3>
+        <div class="recommendation" *ngFor="let recommendation of brief.recommendations">
+          <digital-first-brief-recommendation-action [recommendation]="recommendation">
+          </digital-first-brief-recommendation-action>
+        </div>
       </div>
     </div>
-  </div>
-</mdc-card>
+  </mdc-card>
+</div>

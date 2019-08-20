@@ -96,7 +96,7 @@ import { BriefRecommendationComponent } from './pages/brief/brief-recommendation
 import { BriefWarningBannerComponent } from './pages/brief/brief-warning-banner/brief-warning-banner.component';
 import { BriefRecommendationActionComponent } from './pages/brief/brief-recommendation-action/brief-recommendation-action.component';
 import { BriefCommitmentsComponent } from './pages/brief/brief-commitments/brief-commitments.component'
-
+import { NgxWigModule } from 'ngx-wig'
 
 const COMPONENTS = [
   AppComponent,
@@ -126,12 +126,13 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     HttpClientModule,
     ReactiveFormsModule,
     AppRoutingModule,
+    NgxWigModule,
     DfLayoutsModule,
     NxModule.forRoot(),
     PanelModule,
     ButtonModule,
     DocumentModule,
-    DiscussionModule,
+    DiscussionModule,    
     PipesModule,
     DfAppCoreModule,
     DfComponentsModule,
