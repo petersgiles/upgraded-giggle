@@ -64,7 +64,6 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
   urlSubscription: any
   selectId$: any
   refinerGroupsSubscription: Subscription
-  queryParamsSubscription: Subscription
   selectedRefinersSubscription: Subscription
 
   refinerGroups: RefinerGroup[]
@@ -103,7 +102,7 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
         this.electorates.push({
           id: el.id,
           title: el.title,
-          state: el.additionalInfo
+          state: el.groupBy
         })
         if (el.selected) {
           this.selectedElectorates.push(el.id)
@@ -153,7 +152,7 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
     })
 
     this.selectedRefinersStateSubscription = this.store
-      .pipe(select(fromRefiner.selectSelectedRefinersState))
+      .pipe(select(fromRefiner.selectedRefinersState))
       .subscribe(next => {
         this.selectedRefiners = next
         this.rewriteUrl(next)
@@ -210,7 +209,6 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
     this.refinerGroupsSubscription.unsubscribe()
     this.routerSegmentsSubscription.unsubscribe()
     this.selectedRefinersStateSubscription.unsubscribe()
-    this.queryParamsSubscription.unsubscribe()
     this.electoratesChangesSubscription.unsubscribe()
   }
 }

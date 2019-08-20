@@ -371,9 +371,8 @@ export type CommitmentRefinerGraph = {
   criticalDates?: Maybe<Array<Maybe<Scalars['Int']>>>
   portfolioLookups?: Maybe<Array<Maybe<Scalars['Int']>>>
   deckItemBriefSummaries?: Maybe<Array<Maybe<Scalars['Guid']>>>
-  electorates?: Maybe<Array<Maybe<Scalars['Guid']>>>
-  states?: Maybe<Array<Maybe<Scalars['Guid']>>>
-  locations?: Maybe<Array<Maybe<Scalars['Int']>>>
+  electorates?: Maybe<Array<Maybe<Scalars['Int']>>>
+  states?: Maybe<Array<Maybe<Scalars['Int']>>>
   text?: Maybe<Scalars['String']>
 }
 
@@ -641,6 +640,7 @@ export type ElectorateGraph = {
   area?: Maybe<Scalars['Decimal']>
   currentMember?: Maybe<MemberGraph>
   members?: Maybe<Array<Maybe<MemberGraph>>>
+  locations?: Maybe<Array<Maybe<ElectorateLocationGraph>>>
   id: Scalars['Guid']
   population: Scalars['UInt32']
   name: Scalars['String']
@@ -676,6 +676,12 @@ export type ElectorateGraphProjectsArgs = {
   where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
   skip?: Maybe<Scalars['Int']>
   take?: Maybe<Scalars['Int']>
+}
+
+export type ElectorateLocationGraph = {
+  __typename?: 'ElectorateLocationGraph'
+  localities?: Maybe<Array<Maybe<Scalars['String']>>>
+  postcode: Scalars['Int']
 }
 
 export type HandlingAdviceGraph = {
@@ -2445,12 +2451,21 @@ export const GetRefinerTagsDocument = gql`
       id
       title
     }
-    states: locations(where: { path: "State", comparison: equal }) {
+    states: locations(
+      orderBy: { path: "title" }
+      where: [
+        { path: "State", comparison: equal }
+        { path: "Title", comparison: notEqual, value: "National" }
+      ]
+    ) {
       id
       title
       state
     }
-    electorates: locations(where: { path: "State", comparison: notEqual }) {
+    electorates: locations(
+      orderBy: { path: "title" }
+      where: { path: "State", comparison: notEqual }
+    ) {
       id
       title
       state

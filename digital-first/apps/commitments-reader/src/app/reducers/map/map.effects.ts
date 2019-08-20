@@ -38,7 +38,7 @@ export class MapEffects {
 
       const selectedRefinerGroup = selectedRefiners.reduce(
         (acc, item) => {
-          acc[item.group].push(item.id)
+          acc[item.group] = item.ids
           return acc
         },
         {

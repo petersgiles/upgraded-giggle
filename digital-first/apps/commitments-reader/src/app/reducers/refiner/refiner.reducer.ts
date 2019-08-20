@@ -1,6 +1,5 @@
 import { RefinerActions, RefinerActionTypes } from './refiner.actions'
 import { createFeatureSelector, createSelector } from '@ngrx/store'
-import { multiFilter } from '@df/utils'
 import { SelectedRefiner } from './refiner.models'
 
 export interface State {
@@ -39,7 +38,6 @@ export function reducer(state = initialState, action: RefinerActions): State {
         ...state,
         textRefiner: action.payload
       }
-
       return retVal
     }
 
@@ -102,12 +100,9 @@ export function reducer(state = initialState, action: RefinerActions): State {
       let refinerIds = selectedGroup ? [...selectedGroup.ids] : []
       selectedAlready = refinerIds.includes(selectedRefiner.id)
 
-      if (
-        selectedRefiner.singleSelection &&
-        selectedRefiner.cascadGroups.length > 0
-      ) {
-        hiddenRefinerGroup = ['electorates', 'states']
-        if (!selectedAlready && selectedRefiner.cascadGroups) {
+      if (selectedRefiner.singleSelection) {
+        hiddenRefinerGroup = initialState.hiddenRefinerGroup
+        if (!selectedAlready && selectedRefiner.cascadGroups.length > 0) {
           hiddenRefinerGroup = hiddenRefinerGroup.filter(
             hrf => !selectedRefiner.cascadGroups.includes(hrf)
           )
@@ -115,6 +110,9 @@ export function reducer(state = initialState, action: RefinerActions): State {
             autoExpandGroup.push(cg)
           })
         }
+        hiddenRefinerGroup.forEach(hg => {
+          selectedRefiners = selectedRefiners.filter(sfs => sfs.group !== hg)
+        })
         if (selectedAlready) {
           refinerIds = []
         } else {
@@ -127,10 +125,6 @@ export function reducer(state = initialState, action: RefinerActions): State {
           refinerIds.push(selectedRefiner.id)
         }
       }
-
-      // selectedRefiners = selectedRefiners.filter(
-      //   sf => !hiddenRefinerGroup.includes(sf.group)
-      // )
 
       selectedRefiners = selectedRefiners.filter(
         sfs => sfs.group !== selectedRefiner.group
@@ -171,7 +165,7 @@ export function reducer(state = initialState, action: RefinerActions): State {
 
 export const refinerState = createFeatureSelector<State>('refiner')
 
-export const selectSelectedRefinersState = createSelector(
+export const selectedRefinersState = createSelector(
   refinerState,
   (state: State) => state.selectedRefiners
 )
@@ -181,7 +175,7 @@ export const selectTextRefinerState = createSelector(
   (state: State) => state.textRefiner
 )
 
-export const selectRefinerGroupsState = createSelector(
+export const refinerGroupsState = createSelector(
   refinerState,
   (state: State) => state.refinerGroups
 )
@@ -196,8 +190,8 @@ export const autoExpandGroupState = createSelector(
 )
 
 export const selectRefinerGroups = createSelector(
-  selectRefinerGroupsState,
-  selectSelectedRefinersState,
+  refinerGroupsState,
+  selectedRefinersState,
   hiddenRefinerGroupsState,
   autoExpandGroupState,
   selectTextRefinerState,

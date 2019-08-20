@@ -8,7 +8,7 @@ export interface CRMenu {
   singleSelection: boolean
   children?: CRMenu[]
   cascadGroups:string[]
-  additionalInfo: string
+  groupBy: string
 }
 
 export interface SelectedRefiner {

@@ -36,7 +36,7 @@ export class OverviewEffects {
       const siteId: any = config.siteId
       const selectedRefinerGroup = selectedRefiners.reduce(
         (acc, item) => {
-          acc[item.group].push(item.id)
+          acc[item.group] = item.ids
           return acc
         },
         {
@@ -44,9 +44,8 @@ export class OverviewEffects {
           criticalDates: [],
           portfolioLookups: [],
           deckItemBriefSummaries: [],
-          states:[],
-          electorates:[],
-          text: null
+          states: [],
+          electorates: [],
         }
       )
 

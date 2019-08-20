@@ -1,5 +1,5 @@
 query GetRefinerTags($siteId: Guid!) {
-  commitmentTypes(orderBy: { path: "sortOrder" }) {
+  commitmentTypes(orderBy: {path: "sortOrder"}) {
     id
     title
   }
@@ -15,17 +15,13 @@ query GetRefinerTags($siteId: Guid!) {
     id
     title
   }
- states:locations(where: {
-    path: "State",
-    comparison: equal}) {
-   	id
+  states: locations(orderBy: {path: "title"}, where: [{path: "State", comparison: equal}, {path: "Title", comparison: notEqual, value: "National"}]) {
+    id
     title
     state
   }
-  electorates:locations(where: {
-    path: "State",
-    comparison: notEqual}) {
-   	id
+  electorates: locations(orderBy: {path: "title"}, where: {path: "State", comparison: notEqual}) {
+    id
     title
     state
   }

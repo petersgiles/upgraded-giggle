@@ -55,7 +55,7 @@ export const buildRefiner = (refiner: {
         selected: false,
         children: item.children,
         singleSelection: item.singleSelection,
-        additionalInfo: item.group === 'electorates' ? p.state : '',
+        groupBy: item.group === 'electorates' ? p.state : '',
         cascadGroups: getCascadeGroups(p.title)
       }))
     })
