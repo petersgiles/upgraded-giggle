@@ -37,8 +37,6 @@ export const buildRefiner = (refiner: {
   electorates: []
   states: []
 }): CRMenu[] => {
-  console.log(':')
-
   const result: CRMenu[] = REFINER_GROUP_MAP.reduce((acc: any, item: any) => {
     acc.push({
       id: item.id,
