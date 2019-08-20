@@ -7,6 +7,7 @@ export interface CRMenu {
   enableSlide: boolean
   singleSelection: boolean
   children?: CRMenu[]
+  cascadGroups:string[]
   additionalInfo: string
 }
 

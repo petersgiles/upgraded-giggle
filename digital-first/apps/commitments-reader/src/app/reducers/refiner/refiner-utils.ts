@@ -55,11 +55,23 @@ export const buildRefiner = (refiner: {
         selected: false,
         children: item.children,
         singleSelection: item.singleSelection,
-        additionalInfo: item.group === 'electorates' ? p.state : ''
+        additionalInfo: item.group === 'electorates' ? p.state : '',
+        cascadGroups: getCascadeGroups(p.title)
       }))
     })
-   
+
     return acc
   }, [])
   return result
+}
+
+function getCascadeGroups(refinerName) {
+  let results: string[] = []
+  if (refinerName === 'State') {
+    results.push('states')
+  }
+  if (refinerName === 'Electorate') {
+    results.push('electorates')
+  }
+  return results
 }

@@ -83,6 +83,7 @@ export function reducer(state = initialState, action: RefinerActions): State {
       selectedElectorates.forEach(se => {
         electrateGroup.ids.push(se.id)
       })
+      selectedRefiners.push(electrateGroup)
       return {
         ...state,
         selectedRefiners: selectedRefiners
@@ -98,50 +99,47 @@ export function reducer(state = initialState, action: RefinerActions): State {
       let selectedGroup = selectedRefiners.filter(
         sf => sf.group === selectedRefiner.group
       )[0]
+      let refinerIds = selectedGroup ? [...selectedGroup.ids] : []
+      selectedAlready = refinerIds.includes(selectedRefiner.id)
 
-      if (selectedGroup) {
-        selectedAlready = selectedGroup.ids.includes(selectedRefiner.id)
+      if (
+        selectedRefiner.singleSelection &&
+        selectedRefiner.cascadGroups.length > 0
+      ) {
+        hiddenRefinerGroup = ['electorates', 'states']
+        if (!selectedAlready && selectedRefiner.cascadGroups) {
+          hiddenRefinerGroup = hiddenRefinerGroup.filter(
+            hrf => !selectedRefiner.cascadGroups.includes(hrf)
+          )
+          selectedRefiner.cascadGroups.forEach(cg => {
+            autoExpandGroup.push(cg)
+          })
+        }
         if (selectedAlready) {
-          selectedGroup.ids = selectedGroup.ids.filter(selectedRefiner.id)
+          refinerIds = []
         } else {
-          selectedGroup.ids.push(selectedRefiner.id)
+          refinerIds = [selectedRefiner.id]
         }
       } else {
-        selectedRefiners.push({
-          ids: [action.payload.id],
-          group: action.payload.group
-        })
+        if (selectedGroup && selectedAlready) {
+          refinerIds = selectedGroup.ids.filter(id => id !== selectedRefiner.id)
+        } else {
+          refinerIds.push(selectedRefiner.id)
+        }
       }
 
-      if (selectedRefiner.singleSelection) {
-        hiddenRefinerGroup = ['electorates', 'states']
-        if (!selectedAlready) {
-          selectedRefiners = selectedRefiners.filter(
-            sf => !(sf.group === selectedRefiner.group)
-          )
-        }
-        if (selectedRefiner.title === 'State') {
-          //enable states
-          if (!selectedAlready) {
-            hiddenRefinerGroup = hiddenRefinerGroup.filter(
-              hrf => hrf !== 'states'
-            )
-            autoExpandGroup.push('states')
-          }
-        }
-        if (selectedRefiner.title === 'Electorate') {
-          // enable elecorates
-          if (!selectedAlready) {
-            hiddenRefinerGroup = hiddenRefinerGroup.filter(
-              hrf => hrf !== 'electorates'
-            )
-            autoExpandGroup.push('electorates')
-          }
-        }
-      }
+      // selectedRefiners = selectedRefiners.filter(
+      //   sf => !hiddenRefinerGroup.includes(sf.group)
+      // )
+
       selectedRefiners = selectedRefiners.filter(
-        sf => !hiddenRefinerGroup.includes(sf.group)
+        sfs => sfs.group !== selectedRefiner.group
       )
+      selectedRefiners.push({
+        ids: refinerIds,
+        group: selectedRefiner.group
+      })
+
       return {
         ...state,
         selectedRefiners: selectedRefiners,
@@ -211,23 +209,23 @@ export const selectRefinerGroups = createSelector(
     text: String
   ) => {
     const refinerGroupState = (groups || []).map(g => {
-      const groupChildselected = g.children.some(
-        r => selected.findIndex(s => s.id === r.id && s.group === r.group) > -1
-      )
+      const groupHasChildSelected =
+        selected.filter(s => s.group === g.group).length > 0
       const isHidden = (hidden || []).includes(g.group)
       return {
         ...g,
         expanded:
           !isHidden &&
-          (groupChildselected || (autoExpand || []).includes(g.group)),
+          (groupHasChildSelected || (autoExpand || []).includes(g.group)),
         hidden: isHidden,
         children: (g.children || []).map(r => ({
           ...r,
           selected:
             (selected || []).findIndex(
-              s => s.id === r.id && s.group === r.group
+              s => s.ids.includes(r.id) && s.group === r.group
             ) > -1 && !isHidden
-        }))
+        })),
+        textRefiner: text
       }
     })
     return refinerGroupState
