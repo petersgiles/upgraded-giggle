@@ -1,1 +1,26 @@
-<p>brief-recommendation-action works!</p>
+<div>
+  <div>
+    <div [innerHtml]="recommendation.recommendation | safeHtml"></div>
+    <div>
+      <form [formGroup]="form">
+        <mdc-radio-group formControlName="outcome">
+          <mdc-form-field>
+            <mdc-radio [value]="recommendation.outcome1"></mdc-radio>
+            <label>{{ recommendation.outcome1 }}</label>
+          </mdc-form-field>
+
+          <mdc-form-field>
+            <mdc-radio [value]="recommendation.outcome2"></mdc-radio>
+            <label>{{ recommendation.outcome2 }}</label>
+          </mdc-form-field>
+
+          <mdc-form-field>
+            <mdc-radio [value]="recommendation.outcome3"></mdc-radio>
+            <label>{{ recommendation.outcome3 }}</label>
+          </mdc-form-field>
+        </mdc-radio-group>
+      </form>
+      <span  class="" style="text-align: right">Responded by: Peter Giles on 8/20/2019 at 11:14:40 AM</span>
+    </div>
+  </div>
+</div>
