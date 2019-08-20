@@ -31,6 +31,7 @@ import * as fromBrief from '../../../reducers/brief/brief.reducer'
 
 
 describe('BriefDataEditorComponent', () => {
+
   let component: BriefDataEditorComponent;
   let fixture: ComponentFixture<BriefDataEditorComponent>;
   let mockStore: MockStore<any>
@@ -139,6 +140,8 @@ describe('BriefDataEditorComponent', () => {
     appState.config = getConfig()
     mockStore.overrideSelector(selectAppConfigState, appState.config)
    
+    component.form.patchValue(getPatch())
+
     fixture.detectChanges();  
   })
   
@@ -193,6 +196,20 @@ describe('BriefDataEditorComponent', () => {
 
  })
 
+ function getPatch(){
+   let brief = getBrief()
+  const patch = {
+    title: brief.title,
+    securityClassification: brief.securityClassification,
+    sortOrder: brief.order,
+    dLM: brief.dLM,
+    policy: brief.policy ? brief.policy.id : null,
+    subpolicy: brief.subPolicy ? brief.subPolicy.id : null,
+    recommendedDirection: brief.recommendedDirection
+  }
+  return patch
+ }
+
  function getBrief(){
   let brief = {briefDivision: {id: 1, title: undefined}, briefStatus: {id: 1, title: undefined}, dLM: null, dueDate: null,
   editor: {id: null, title: null},
@@ -205,7 +222,9 @@ describe('BriefDataEditorComponent', () => {
   reference: 'BRIEF-19-000001',
   securityClassification: 'UNCLASSIFIED',
   subPolicy: {id: 1, title: 'SubPolicy One'},
-  title: 'Sample Policy Brief 1'
+  title: 'Sample Policy Brief 1',
+  recommendedDirection: 'Agreed',
+  recommendations: [getRecommendation()]
   }
   return brief
  }
@@ -411,4 +430,22 @@ function getCommitments(){
     }
     return defaults
   }
+  
+   function getRecommendation(){
+    const recommendation = {
+      ID: 1,
+      Title: 'Test recommendation',
+      Recommendation: 'This is a recomendation',
+      Outcome1: 'Agree',
+      Outcome2: null,
+      Outcome3: null,
+      Colour: 'rgb(84, 70, 126)',
+      SortOrder: '1',
+      Policy: null,
+      SubPolicy: null,
+      //Brief: getBrief()
+    }
+    return recommendation
+  }
+  
 

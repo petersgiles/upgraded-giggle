@@ -96,7 +96,7 @@ export class DiscussionEffects {
     tap(result => console.log(`💬 `, result)),
     switchMap(result => [
       new GetDiscussion({
-        activeBriefId: result.briefId
+        activeBriefId: result.brief
       })
     ]),
     catchError(error => of(new GetDiscussionFailure(error)))

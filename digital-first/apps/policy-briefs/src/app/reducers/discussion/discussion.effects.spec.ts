@@ -39,7 +39,7 @@ import { pickColor } from '../../utils/colour'
 import { DiscussionDataService } from './discussion-data.service'
 import { DiscussionDataLocalService } from '../../reducers/discussion/local/discussion-data.service'
 import { comments } from '../../../../../../devdata/comments'
-import { DiscussionType } from '../../models'
+import { DiscussionType, Discussion } from '../../models'
 import { HttpClientTestingModule} from '@angular/common/http/testing'
 import { HttpClient } from '@angular/common/http'
 import { BriefMapperService } from '../../services/mappers/brief-mapper.service'
@@ -130,11 +130,14 @@ describe('DiscussionEffects', () => {
   }))
 
   it('should remove comment', inject([DiscussionDataService], (service:DiscussionDataService)  => {
+    let newComments: Discussion[] = []
     let comments = service.removeComment({id: '19', brief: '10'})
-
+    comments.subscribe((comment: Discussion) =>{
+     newComments.push(comment)
+    })
     const action = new RemoveComment({id: '19', brief: '10'})
     actions$ = hot('-a', { a: action} )
-    const response = cold('-a|', { a: {data: comments, loading: false} });
+    const response = cold('-a|', { a: {data: newComments, loading: false} });
     const expected = cold('-b', {b: new GetDiscussion({activeBriefId: '10'})})
     service.getDiscussions = jest.fn(() => response)
 

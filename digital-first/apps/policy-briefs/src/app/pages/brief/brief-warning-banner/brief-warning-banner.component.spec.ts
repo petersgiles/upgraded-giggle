@@ -1,25 +1,55 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import 'core-js/es7/reflect'
+import 'zone.js/dist/zone'
+import 'zone.js/dist/proxy';
+import 'zone.js/dist/async-test';
+import 'zone.js/dist/proxy.js';
+import 'zone.js/dist/sync-test';
+import 'jest-zone-patch' 
 
-import { BriefWarningBannerComponent } from './brief-warning-banner.component';
+import { ConfigureFn, configureTests } from '../../../../../../../libs/df-testing'
+
+import { NO_ERRORS_SCHEMA } from '@angular/core'
+import { async, ComponentFixture, TestBed } from '@angular/core/testing'
+import { BriefWarningBannerComponent } from './brief-warning-banner.component'
+import { FormBuilder } from '@angular/forms'
+import {  Overlay } from '@angular-mdc/web'
+import { Store, select} from '@ngrx/store'
+
+
 
 describe('BriefWarningBannerComponent', () => {
+
   let component: BriefWarningBannerComponent;
   let fixture: ComponentFixture<BriefWarningBannerComponent>;
 
   beforeEach(async(() => {
+    const configure: ConfigureFn = testBed => {
     TestBed.configureTestingModule({
-      declarations: [ BriefWarningBannerComponent ]
+      schemas: [NO_ERRORS_SCHEMA],
+      declarations: [BriefWarningBannerComponent],
+      providers:
+      [ 
+        FormBuilder, 
+        Overlay,
+        { provide: Store,
+          useValue: {
+            pipe: jest.fn(),
+            dispatch: jest.fn()
+          }
+         },
+      ]
     })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
+   }
+   configureTests(configure).then(testBed => {
     fixture = TestBed.createComponent(BriefWarningBannerComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
+    component = fixture.componentInstance
+   // fixture.detectChanges()
+  })
+  
+  }))
+ 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+
+ })

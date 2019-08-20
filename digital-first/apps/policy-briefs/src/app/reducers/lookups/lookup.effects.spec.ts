@@ -59,6 +59,7 @@ interface LookupValue {
 }
 
 describe('LookupEffects', () => {
+  debugger
     let mockStore: MockStore<any>
     let actions$: Observable<any>
     let lookupEffects: LookupEffects
@@ -241,7 +242,8 @@ const policyMap = policies.map(p => ({ caption: p.Title, value: `${p.Id}` }))
 
 const subpolicyMap = subpolicies.map(p => ({
   caption: p.Title,
-  value: `${p.Id}`
+  value: `${p.Id}`,
+  policy: p.Policy.Id
 }))
 
 const commitmentMap = commitments.map(p => ({
