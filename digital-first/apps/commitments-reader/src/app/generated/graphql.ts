@@ -13,9 +13,10 @@ export type Scalars = {
   DateTimeOffset: any
   Json: any
   UInt32: any
+  Decimal: any
+  UInt16: any
   Date: any
   DateTime: any
-  Decimal: any
   Milliseconds: any
   Seconds: any
 }
@@ -168,6 +169,15 @@ export type BudgetGraphAppropriationsArgs = {
   where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
   skip?: Maybe<Scalars['Int']>
   take?: Maybe<Scalars['Int']>
+}
+
+export type CandidateGraph = {
+  __typename?: 'CandidateGraph'
+  familyName: Scalars['String']
+  givenNames: Scalars['String']
+  party: Scalars['String']
+  votes: Scalars['UInt32']
+  swing: Scalars['Decimal']
 }
 
 export type ColumnGraph = {
@@ -361,7 +371,8 @@ export type CommitmentRefinerGraph = {
   criticalDates?: Maybe<Array<Maybe<Scalars['Int']>>>
   portfolioLookups?: Maybe<Array<Maybe<Scalars['Int']>>>
   deckItemBriefSummaries?: Maybe<Array<Maybe<Scalars['Guid']>>>
-  locations?: Maybe<Array<Maybe<Scalars['Int']>>>
+  electorates?: Maybe<Array<Maybe<Scalars['Int']>>>
+  states?: Maybe<Array<Maybe<Scalars['Int']>>>
   text?: Maybe<Scalars['String']>
 }
 
@@ -624,6 +635,12 @@ export type ElectorateGraph = {
   programs?: Maybe<Array<Maybe<ProgramGraph>>>
   statisticReports?: Maybe<Array<Maybe<StatisticReportGraph>>>
   projects?: Maybe<Array<Maybe<ProjectGraph>>>
+  twoCandidatePreferred?: Maybe<TwoCandidatePreferredGraph>
+  enrollment?: Maybe<Scalars['String']>
+  area?: Maybe<Scalars['Decimal']>
+  currentMember?: Maybe<MemberGraph>
+  members?: Maybe<Array<Maybe<MemberGraph>>>
+  locations?: Maybe<Array<Maybe<ElectorateLocationGraph>>>
   id: Scalars['Guid']
   population: Scalars['UInt32']
   name: Scalars['String']
@@ -659,6 +676,12 @@ export type ElectorateGraphProjectsArgs = {
   where?: Maybe<Array<Maybe<WhereExpressionGraph>>>
   skip?: Maybe<Scalars['Int']>
   take?: Maybe<Scalars['Int']>
+}
+
+export type ElectorateLocationGraph = {
+  __typename?: 'ElectorateLocationGraph'
+  localities?: Maybe<Array<Maybe<Scalars['String']>>>
+  postcode: Scalars['Int']
 }
 
 export type HandlingAdviceGraph = {
@@ -737,6 +760,15 @@ export type MapPointGraphCommitmentMapPointsArgs = {
 
 export type MarkdownGraph = {
   text: Scalars['String']
+}
+
+export type MemberGraph = {
+  __typename?: 'MemberGraph'
+  familyName: Scalars['String']
+  givenNames: Scalars['String']
+  begin: Scalars['UInt16']
+  end?: Maybe<Scalars['UInt16']>
+  party: Scalars['String']
 }
 
 export type ModifyElectorateAdviceGraph = {
@@ -1866,6 +1898,12 @@ export type SubscriptionMutationMessageResultsByUserArgs = {
   user?: Maybe<Scalars['String']>
 }
 
+export type TwoCandidatePreferredGraph = {
+  __typename?: 'TwoCandidatePreferredGraph'
+  elected: CandidateGraph
+  other: CandidateGraph
+}
+
 export type UpdatePmcHandlingAdviceCommitmentGraph = {
   commitmentId: Scalars['Int']
   handlingAdviceId?: Maybe<Scalars['Guid']>
@@ -2083,6 +2121,26 @@ export type GetRefinerTagsQuery = { __typename?: 'Query' } & {
         { __typename?: 'DeckItemBriefSummaryGraph' } & Pick<
           DeckItemBriefSummaryGraph,
           'id' | 'title'
+        >
+      >
+    >
+  >
+  states: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'LocationGraph' } & Pick<
+          LocationGraph,
+          'id' | 'title' | 'state'
+        >
+      >
+    >
+  >
+  electorates: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'LocationGraph' } & Pick<
+          LocationGraph,
+          'id' | 'title' | 'state'
         >
       >
     >
@@ -2377,7 +2435,7 @@ export class GetCommitmentDetailGQL extends Apollo.Query<
 }
 export const GetRefinerTagsDocument = gql`
   query GetRefinerTags($siteId: Guid!) {
-    commitmentTypes {
+    commitmentTypes(orderBy: { path: "sortOrder" }) {
       id
       title
     }
@@ -2392,6 +2450,25 @@ export const GetRefinerTagsDocument = gql`
     deckItemBriefSummaries(siteId: $siteId) {
       id
       title
+    }
+    states: locations(
+      orderBy: { path: "title" }
+      where: [
+        { path: "State", comparison: equal }
+        { path: "Title", comparison: notEqual, value: "National" }
+      ]
+    ) {
+      id
+      title
+      state
+    }
+    electorates: locations(
+      orderBy: { path: "title" }
+      where: { path: "State", comparison: notEqual }
+    ) {
+      id
+      title
+      state
     }
   }
 `

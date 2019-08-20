@@ -11,6 +11,8 @@ import { select, Store } from '@ngrx/store'
 import * as fromMap from '../../reducers/map/map.reducer'
 import { MapPoint } from '@digital-first/df-map'
 import { CommitmentRow } from '../../models/commitment.model'
+import * as fromRefiner from '../../reducers/refiner/refiner.reducer'
+import { GetRefinedMapPoints } from '../../reducers/map/map.actions'
 
 @Component({
   selector: 'digital-first-map-overview-page',
@@ -33,6 +35,7 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
   public selectedMapPointCommitments$: BehaviorSubject<
     CommitmentRow[]
   > = new BehaviorSubject(null)
+  refinerGroupsSubscription$: Subscription
 
   constructor(
     private settings: SettingsService,
@@ -44,6 +47,12 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
     this.latitude = -27.698
     this.longitude = 133.8807
     this.zoom = 5
+
+    this.refinerGroupsSubscription$ = this.store
+      .pipe(select(fromRefiner.selectRefinerGroups))
+      .subscribe(() => {
+        this.store.dispatch(new GetRefinedMapPoints(null))
+      })
 
     this.filteredMapPoints$ = this.store.pipe(
       select(fromMap.selectRefinedMapPointsState)
@@ -73,5 +82,7 @@ export class MapOverviewPageComponent implements OnInit, OnDestroy {
     this.router.navigate(['/', 'commitment', item.id])
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.refinerGroupsSubscription$.unsubscribe()
+  }
 }

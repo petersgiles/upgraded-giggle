@@ -1,10 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
-@import "../../../libs/df-theme/styles.scss";
-@import "~@swimlane/ngx-datatable/release/index.css";
-@import "~@swimlane/ngx-datatable/release/themes/material.css";
-@import "~@swimlane/ngx-datatable/release/assets/icons.css";
-@import "../../../node_modules/bryntum-scheduler/scheduler.material.css";
-@import "./scss/color-web-safe";
+@import '../../../libs/df-theme/styles.scss';
+@import '~@swimlane/ngx-datatable/release/index.css';
+@import '~@swimlane/ngx-datatable/release/themes/material.css';
+@import '~@swimlane/ngx-datatable/release/assets/icons.css';
+@import '../../../node_modules/bryntum-scheduler/scheduler.material.css';
+@import './scss/color-web-safe';
 .app-page {
   padding-bottom: 45px;
   padding-left: 20px;
@@ -13,15 +13,6 @@
   max-height: calc(100vh - 110px);
   padding-left: 0px;
 }
-
-// .page {
-//   overflow-y: hidden;
-//   overflow-x: hidden;
-// }
-
-// digital-first-metadata-refiner {
-//   overflow-y: auto;
-// }
 ngx-wig {
   flex-grow: 1;
   margin-left: 0.3em;
@@ -40,4 +31,38 @@ ngx-wig {
 .active-status-chip {
   background-color: rgb(142, 236, 118);
   color: rgb(6, 75, 23);
+}
+
+.ng-select.custom {
+  border: 0px;
+  border-radius: 0;
+  .ng-dropdown-panel {
+    position: relative;
+    .ng-dropdown-panel-items {
+      max-height: calc(100vh - 220px);
+      .ng-option {
+        line-height: 2em;
+        min-height: 2em;
+        font-size: smaller;
+      }
+      .ng-option.ng-option-selected {
+        color: black;
+        font-weight: bold;
+      }
+      .ng-optgroup {
+        font-size: small;
+      }
+      .ng-optgroup.ng-option-selected {
+        color: black;
+      }
+    }
+  }
+  .ng-select-container .ng-value-container .ng-value {
+    background-color: #dddee6;
+    color: black;
+    font-size: smaller;
+    .ng-value-icon {
+      color: black;
+    }
+  }
 }

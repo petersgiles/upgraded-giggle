@@ -38,7 +38,7 @@
       </div>
       <mdc-list-divider></mdc-list-divider>
       <mdc-list class="mdc-list mdc-list--dense">
-        <mdc-list-item class='external-event-type-item' *ngFor="let type of externalEventTypes"
+        <mdc-list-item class='external-event-type-item' *ngFor="let type of externalEventTypes; trackBy:trackByExternalTypeId"
           ><mdc-form-field>
             <mdc-checkbox
               [value]="type.id"

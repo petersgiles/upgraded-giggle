@@ -13,9 +13,94 @@
         (onClear)="handleClearRefiners($event)"
         (onRefinerGroupSelected)="handleRefinerGroupSelected($event)"
         (onRefinerSelected)="handleRefinerSelected($event)"
+        (onSlideOutGroupSelected)="handleSlideOutGroupSelected($event)"
       ></digital-first-metadata-refiner>
       <div class="overview-outlet">
         <section>
+          <mdc-drawer #drawer drawer="modal" class="electrate-drawer">
+            <mdc-drawer-header>
+              <h3 mdcDrawerTitle>Refine by electorates</h3>
+            </mdc-drawer-header>
+
+            <mdc-drawer-content *ngIf="refinerGroupWithDrawer">
+              <ng-select
+                class="custom"
+                #electorateSelect
+                bindLabel="title"
+                groupBy="state"
+                placeholder="Select electorates to refine"
+                bindValue="id"
+                [isOpen]="true"
+                [items]="electorates"
+                [multiple]="true"
+                [selectableGroup]="true"
+                [selectableGroupAsModel]="false"
+                [closeOnSelect]="false"
+                [clearSearchOnAdd]="true"
+                [(ngModel)]="selectedElectorates"
+                (change)="electoratesChanges.next($event)"
+              >
+                <ng-template
+                  ng-optgroup-tmp
+                  let-item="item"
+                  let-item$="item$"
+                  let-index="index"
+                >
+                  <input
+                    id="item-{{ index }}"
+                    type="checkbox"
+                    [ngModel]="item$.selected"
+                  />
+                  {{ item.state | uppercase }}
+                </ng-template>
+                <ng-template
+                  ng-option-tmp
+                  let-item="item"
+                  let-item$="item$"
+                  let-index="index"
+                >
+                  <input
+                    id="item-{{ index }}"
+                    type="checkbox"
+                    [ngModel]="item$.selected"
+                  />
+                  {{ item.title }}
+                </ng-template>
+              </ng-select>
+            </mdc-drawer-content>
+          </mdc-drawer>
+          <div
+            *ngIf="selectedRefinerGroups && selectedRefinerGroups.length > 0"
+            class="filter-container"
+          >
+            <div
+              *ngFor="let group of selectedRefinerGroups"
+              class="filter-group"
+            >
+              <span class="group-title" style="font-weight: 500;">
+                {{ group.title }}
+                <span
+                  aria-hidden="true"
+                  class="refiner-tag-icon"
+                  title="Remove {{ group.title }}"
+                  (click)="handelRemoveSelectedGroup(group)"
+                  >×</span
+                >:
+              </span>
+              <ng-container *ngFor="let refiner of group.children; let last = last">
+                <span class="refiner-title" [ngClass]="{'last-refiner': last}">
+                  {{ refiner.title }}
+                  <span
+                    aria-hidden="true"
+                    class="refiner-tag-icon"
+                    title="Remove {{ refiner.title }}"
+                    (click)="handelRemoveSelectedRefiner(refiner)"
+                    >×</span
+                  >
+                </span>
+              </ng-container>
+            </div>
+          </div>
           <mdc-tab-bar [activeTabIndex]="activeTab" useAutomaticActivation>
             <mdc-tab-scroller>
               <mdc-tab

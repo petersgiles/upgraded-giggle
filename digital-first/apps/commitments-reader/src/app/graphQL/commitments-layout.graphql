@@ -1,5 +1,5 @@
 query GetRefinerTags($siteId: Guid!) {
-  commitmentTypes {
+  commitmentTypes(orderBy: {path: "sortOrder"}) {
     id
     title
   }
@@ -14,5 +14,15 @@ query GetRefinerTags($siteId: Guid!) {
   deckItemBriefSummaries(siteId: $siteId) {
     id
     title
+  }
+  states: locations(orderBy: {path: "title"}, where: [{path: "State", comparison: equal}, {path: "Title", comparison: notEqual, value: "National"}]) {
+    id
+    title
+    state
+  }
+  electorates: locations(orderBy: {path: "title"}, where: {path: "State", comparison: notEqual}) {
+    id
+    title
+    state
   }
 }

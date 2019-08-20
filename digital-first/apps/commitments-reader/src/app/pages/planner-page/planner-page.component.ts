@@ -18,15 +18,15 @@ import {
   ResetCommitmentEvents
 } from '../../reducers/planner/planner.actions'
 import { UserState } from '@digital-first/df-app-core'
-import { getUserCurrentUserPlannerPermission } from '../../reducers/user/user.reducer';
-
+import { getUserCurrentUserPlannerPermission } from '../../reducers/user/user.reducer'
+import * as fromRefiner from '../../reducers/refiner/refiner.reducer'
+import { GetRefinedCommitments } from '../../reducers/overview/overview.actions'
 @Component({
   selector: 'digital-first-planner-page',
   templateUrl: './planner-page.component.html',
   styleUrls: ['./planner-page.component.scss']
 })
 export class PlannerPageComponent implements OnInit, OnDestroy {
-  private pageSize = 100
   public commitmentEvents$: Observable<any[]>
   public externalEvents$: Observable<any>
   public eventTypes$: Observable<any[]>
@@ -39,6 +39,7 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
   public pageIndex$: Observable<any>
   public commitmentsSubscription: Subscription
   public userPermissionSubscription: Subscription
+  refinerGroupsSubscription$: any
 
   constructor(
     private plannerStore: Store<fromPlanner.State>,
@@ -46,6 +47,12 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
     private userStore: Store<UserState>
   ) {}
   ngOnInit() {
+    this.refinerGroupsSubscription$ = this.plannerStore
+      .pipe(select(fromRefiner.selectRefinerGroups))
+      .subscribe(() => {
+        this.plannerStore.dispatch(new GetRefinedCommitments(null))
+      })
+
     this.filteredCommitments$ = this.overViewStore
       .pipe(select(fromOverview.selectRefinedCommitmentsState))
       .pipe(map(data => data.map(c => ({ id: c.id, name: c.title }))))

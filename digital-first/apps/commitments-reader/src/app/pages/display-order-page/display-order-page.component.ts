@@ -20,6 +20,8 @@ import {
 } from '../../reducers/commitment-display-order/commitment-display-order.actions'
 import { UserState } from '@digital-first/df-app-core'
 import { getUserCurrentUserDisplayOrderPermission } from '../../reducers/user/user.reducer'
+import * as fromRefiner from '../../reducers/refiner/refiner.reducer'
+import { GetRefinedCommitments } from '../../reducers/overview/overview.actions';
 
 @Component({
   selector: 'digital-first-display-order-page',
@@ -34,6 +36,7 @@ export class DisplayOrderPageComponent implements OnInit, OnDestroy {
   orderChanged$: Observable<boolean> = of(false)
   displayOrderPermission$: Observable<string>
   filterCommitmentsSubscription: Subscription
+  refinerGroupsSubscription$: any;
   constructor(
     private overviewStore: Store<fromOverview.State>,
     private displayOrderStore: Store<fromDisplayOrder.State>,
@@ -41,6 +44,12 @@ export class DisplayOrderPageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.refinerGroupsSubscription$ = this.displayOrderStore
+    .pipe(select(fromRefiner.selectRefinerGroups))
+    .subscribe(() => {
+      this.displayOrderStore.dispatch(new GetRefinedCommitments(null))
+    })
+
     this.displayOrderStore.dispatch(new SetDisplayOrderListChanged(false))
     this.orderChanged$ = this.displayOrderStore.pipe(
       select(fromDisplayOrder.getDisplayOrderListChangedState)
@@ -118,5 +127,6 @@ export class DisplayOrderPageComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.filterCommitmentsSubscription.unsubscribe()
+    this.refinerGroupsSubscription$.unsubscribe()
   }
 }

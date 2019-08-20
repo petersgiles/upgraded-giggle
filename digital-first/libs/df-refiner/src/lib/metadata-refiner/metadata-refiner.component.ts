@@ -3,47 +3,39 @@ import {
   OnInit,
   Input,
   Output,
-  EventEmitter} from '@angular/core'
+  EventEmitter,
+  OnDestroy,
+  ChangeDetectionStrategy
+} from '@angular/core'
 import { RefinerType, RefinerGroup } from '@digital-first/df-refiner'
 import { FormControl, FormGroup } from '@angular/forms'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
-
 import { Injectable } from '@angular/core'
-import { BehaviorSubject } from 'rxjs'
+import { Subscription } from 'rxjs'
 
 @Injectable({
   providedIn: 'root'
 })
-export class RefinerActionService {
-  constructor() {}
-
-  // tslint:disable-next-line:variable-name
-  public message: BehaviorSubject<string> = new BehaviorSubject(null)
-}
 @Component({
   selector: 'digital-first-metadata-refiner',
   templateUrl: './metadata-refiner.component.html',
-  styleUrls: ['./metadata-refiner.component.scss']
+  styleUrls: ['./metadata-refiner.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MetadataRefinerComponent implements OnInit {
-
+export class MetadataRefinerComponent implements OnInit, OnDestroy {
   searchControl: FormControl = new FormControl(null, [])
-
-  textRefinerForm = new  FormGroup({
+  textRefinerSubscription: Subscription
+  textRefinerForm = new FormGroup({
     searchControl: this.searchControl
   })
- 
+
+  slideOutLimt: number = 10
   action$: any
   _refinerGroups: RefinerGroup[]
-
   constructor() {}
 
   ngOnInit() {
-    // this.action$ = this.service.message.subscribe(_ => {
-    //   this.searchControl.reset()
-    // })
-
-    this.searchControl.valueChanges
+    this.textRefinerSubscription = this.searchControl.valueChanges
       .pipe(
         debounceTime(400),
         distinctUntilChanged()
@@ -53,12 +45,11 @@ export class MetadataRefinerComponent implements OnInit {
           this.onSearchCriteriaChanged.emit(searchResult)
         },
         (err: Error) => {
-          // tslint:disable-next-line:no-console
           console.log(err)
         }
       )
   }
-  
+
   startVisible: boolean
 
   @Input()
@@ -73,9 +64,6 @@ export class MetadataRefinerComponent implements OnInit {
   @Input()
   set searchText(val) {
     this.searchControl.setValue(val)
-
-    // tslint:disable-next-line: no-console
-    console.log(val, this.searchControl.value)
   }
 
   @Output()
@@ -93,7 +81,16 @@ export class MetadataRefinerComponent implements OnInit {
   @Output()
   onClear: EventEmitter<any> = new EventEmitter()
 
+  @Output()
+  onSlideOutGroupSelected: EventEmitter<any> = new EventEmitter()
+
   handleOnClear() {
     this.searchControl.reset()
+  }
+  trackRefiner(index, refiner) {
+    return refiner ? refiner.id : undefined
+  }
+  ngOnDestroy(): void {
+    this.textRefinerSubscription.unsubscribe()
   }
 }
