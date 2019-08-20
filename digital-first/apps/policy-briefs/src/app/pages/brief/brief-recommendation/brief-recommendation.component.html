@@ -5,9 +5,9 @@
         <div [innerHtml]="brief.recommendedDirection | safeHtml"></div>
       </div>
 
-      <div *ngIf="brief.recommendations">
+      <div class="recommendations" *ngIf="brief.recommendations">
         <h3>Recommendations</h3>
-        <div *ngFor="let recommendation of brief.recommendations">
+        <div class="recommendation" *ngFor="let recommendation of brief.recommendations">
           <digital-first-brief-recommendation-action [recommendation]="recommendation">
           </digital-first-brief-recommendation-action>
         </div>

@@ -12,10 +12,23 @@ export class BriefRecommendationActionComponent implements OnInit {
   @Input() recommendation
 
   form = new FormGroup({
-    outcome: new FormControl(''),
+    recommendation: new FormControl(''),
+    brief: new FormControl(''),
+    response: new FormControl(''),
   });
 
   ngOnInit() {
-    
+
+    var response = this.recommendation.response
+
+    this.form.patchValue({
+      recommendation: this.recommendation.id,
+      brief: this.recommendation.brief,
+      response:  response,
+    })
+
+    this.form.valueChanges.subscribe(data => {
+      console.log('onChanges form', data)
+    })
   }
 }
