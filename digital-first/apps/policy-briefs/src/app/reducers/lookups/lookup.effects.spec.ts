@@ -59,7 +59,7 @@ interface LookupValue {
 }
 
 describe('LookupEffects', () => {
-  debugger
+
     let mockStore: MockStore<any>
     let actions$: Observable<any>
     let lookupEffects: LookupEffects

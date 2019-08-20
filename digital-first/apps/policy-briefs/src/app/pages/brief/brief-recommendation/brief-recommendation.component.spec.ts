@@ -67,7 +67,6 @@ describe('BriefRecommendationComponent', () => {
     mockStore.setState(state)
     mockStore.overrideSelector(fromBrief.selectBriefState, state.brief)  
    
-    component.form.patchValue(getBrief().recommendations)
     fixture.detectChanges();  
   })
   
