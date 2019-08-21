@@ -15,7 +15,8 @@ import {
   SetBriefSecurityClassification,
   SetBriefDLM,
   SetBriefRecommendedDirection,
-  SetBriefRecommendation
+  SetBriefRecommendation,
+  SetBriefRecommendationResponse
 } from './brief.actions'
 
 
@@ -35,7 +36,6 @@ export class BriefEffects {
   setActiveBrief$ = this.actions$.pipe(
     ofType(BriefActionTypes.SetActiveBrief),
     map((action: SetActiveBrief) => action),
-    tap(action => console.log(`SetActiveBrief`, action)),
     concatMap(action =>
       this.service.getActiveBrief(action.payload.activeBriefId)
     ),
@@ -155,8 +155,8 @@ export class BriefEffects {
 
   @Effect()
   setBriefRecommendationResponse$ = this.actions$.pipe(
-    ofType(BriefActionTypes.SetBriefRecommendation),
-    map((action: SetBriefRecommendation) => action),
+    ofType(BriefActionTypes.SetBriefRecommendationResponse),
+    map((action: SetBriefRecommendationResponse) => action),
     concatMap(action => {
       const { activeBriefId, ...data} = action.payload      
       return this.service.updateRecommendationResponse(activeBriefId, data)
@@ -169,9 +169,6 @@ export class BriefEffects {
     catchError(error => of(new GetActiveBriefFailure(error)))
   )
   
-  
-  
-
   constructor(
     private actions$: Actions<BriefActions>,
     private service: BriefDataService

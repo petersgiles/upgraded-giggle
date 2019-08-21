@@ -111,7 +111,6 @@ export class DiscussionDataSharepointService implements DiscussionDataService {
               Phone: author.phone
             }
           }
-          console.log('spDiscussions', brief, author, parent, comment)
 
           return comment
         })
@@ -119,7 +118,6 @@ export class DiscussionDataSharepointService implements DiscussionDataService {
         return [...this.discussionMapperService.mapMany(discussions)]
       }),
       map(result => (result || []).sort(sortBy('sortOrder'))),
-      tap(result => console.log(`getDiscussions`, result)),
       concatMap(result =>
         of({
           data: result,

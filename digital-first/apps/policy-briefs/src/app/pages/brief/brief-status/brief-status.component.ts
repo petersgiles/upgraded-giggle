@@ -39,7 +39,6 @@ export class BriefStatusComponent implements OnInit {
 
     this.briefStatusSubscription$ = this.store
       .pipe(select(fromBrief.selectBriefStatusState))
-      .pipe(tap(briefStatus => console.log(`briefStatus`, briefStatus)))
       .subscribe(briefStatus => {
         if (briefStatus) {
           this.status$.next(`${briefStatus.id}`)
@@ -49,7 +48,7 @@ export class BriefStatusComponent implements OnInit {
     this.store.dispatch(new GetLookupStatuses())
   }
   onSelectionChange(sli) {
-    console.log(`briefStatus selected`, sli)
+
     if (sli) {
       this.store.dispatch(
         new SetActiveBriefStatus({

@@ -29,7 +29,7 @@ export function reducer(state = initialState, action: BriefActions): State {
       }
 
       case BriefActionTypes.SetActiveBriefStatus:
-        console.log("SetActiveBriefStatus", action.payload)
+
         return {
           ...state,
           brief:  {
@@ -72,7 +72,6 @@ export const selectFileLeafRefState = createSelector(
 export const selectBriefStatusState = createSelector(
   selectBriefState,
   brief => {
-    console.log("selectBriefStatusState", (brief || {}).briefStatus)
     return (brief || {}).briefStatus
   }
 )

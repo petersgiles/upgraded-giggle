@@ -4,6 +4,7 @@
     <form [formGroup]="form">
       <input type="hidden" formControlName="recommendation" />
       <input type="hidden" formControlName="brief" />
+      <input type="hidden" formControlName="responseid" />      
       <mdc-radio-group formControlName="response">
         <mdc-form-field>
           <mdc-radio [value]="recommendation.outcome1"></mdc-radio>

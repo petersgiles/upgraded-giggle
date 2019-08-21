@@ -104,6 +104,11 @@ export interface Attachment {
   briefId: string
   order: string
 }
+export interface RecommendationResponse {
+  id: string
+  value: string
+  responsedAt?: any
+}
 
 export interface Recommendation {
   id: string
@@ -117,6 +122,7 @@ export interface Recommendation {
   brief: string
   subPolicy: string
   policy: string
+  response?: RecommendationResponse
 }
 
 export interface Lookup {

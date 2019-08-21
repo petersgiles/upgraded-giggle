@@ -55,7 +55,7 @@ export class NavigationDataSharepointService implements NavigationDataService {
         listName: 'Brief'
       })
     ]).pipe(
-      tap(result => console.log(`Navs => Policy SubPolicy Brief`, result)),
+
       map(([spPolicy, spSubPolicy, spBrief]) => {
         
         const sp = spSubPolicy.map(p => {
@@ -83,7 +83,7 @@ export class NavigationDataSharepointService implements NavigationDataService {
         ...this.briefNavigationMapperService.mapMany(sp),
         ...this.briefNavigationMapperService.mapMany(b)
       ]}),
-      tap(result => console.log(`getNavigations`, result)),
+
       map(nodes => {
         // this relies on the order of nodes i.e policy then subpolicy then brief
         const nodesHash = arrayToHash(nodes)

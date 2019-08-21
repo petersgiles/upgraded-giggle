@@ -64,7 +64,6 @@ export class LookupDataSharepointService implements LookupDataService {
       })
       .pipe(
         concatMap(result => this.mapLookup(result)),
-        tap(result => console.log('Policy', result))
       )
   }
   getSubPolicies(config?: any): Observable<any> {
@@ -85,7 +84,6 @@ export class LookupDataSharepointService implements LookupDataService {
             }
           })
 
-          console.log('getSubPolicies', result, data)
           return of(
             data
           )

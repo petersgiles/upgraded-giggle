@@ -56,8 +56,6 @@ export function reducer(
         sortBy: 'created'
       })
 
-      console.log('discussionNodes', discussionNodes, discussion)
-
       return {
         ...state,
         discussion: discussion,

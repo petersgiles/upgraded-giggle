@@ -11,6 +11,8 @@ import { AppSettingsService } from '@digital-first/df-app-core'
 import { concatMap, catchError } from 'rxjs/operators'
 import { BriefMapperService } from '../../../services/mappers/brief-mapper.service'
 
+const reccomendationResponses = []
+
 @Injectable({
   providedIn: 'root'
 })
@@ -69,13 +71,20 @@ export class BriefDataLocalService implements BriefDataService {
     return of({ briefId: id, loading: false })
   }
 
-  updateRecommendation(id: string, changes: any): Observable<any> {
-    console.log('updateRecommendedDirection', id, changes)
-
-    var found = recommendations.find(p => `${p.Brief.Id}` == id)
+  updateRecommendation(briefId: string, changes: any): Observable<any> {
+    var found = recommendations.find(
+      p => `${p.Brief.Id}` == briefId && p.Id == changes.id
+    )
     let index = recommendations.length + 1
     if (found) {
       index = recommendations.indexOf(found)
+      recommendations[index] = {
+        ...found,
+        Recommendation: changes.description,
+        Outcome1: changes.outcome1,
+        Outcome2: changes.outcome2,
+        Outcome3: changes.outcome3
+      }
     } else {
       found = {
         Id: index,
@@ -90,31 +99,41 @@ export class BriefDataLocalService implements BriefDataService {
           Id: null
         },
         Brief: {
-          Id: +id
+          Id: +briefId
         },
-        Recommendation: '',
-        Outcome1: 'Agree',
-        Outcome2: 'Disagree',
-        Outcome3: 'Clarification required'
+        Recommendation: changes.description,
+        Outcome1: changes.outcome1,
+        Outcome2: changes.outcome2,
+        Outcome3: changes.outcome3
       }
-    }
-    recommendations[index] = {
-      ...found,
-      Recommendation: changes.description,
-      Outcome1: changes.outcome1,
-      Outcome2: changes.outcome2,
-      Outcome3: changes.outcome3
+      recommendations.push(found)
     }
 
-    return of({ briefId: id, loading: false })
+    return of({ briefId: briefId, loading: false })
   }
-  updateRecommendationResponse(id: string, changes: any): Observable<any> {
-    throw new Error('Method not implemented.')
+  updateRecommendationResponse(briefId: string, changes: any): Observable<any> {
+    var found = reccomendationResponses.find(p => p.Id == changes.id)
+    let index = reccomendationResponses.length + 1
+    if (found) {
+      index = reccomendationResponses.indexOf(found)
+      recommendations[index] = {
+        ...found,
+        Recommendation: changes.changes.id,
+        Title: changes.outcome1
+      }
+    } else {
+      found = {
+        Id: index,
+        Recommendation: changes.changes.id,
+        Title: changes.response
+      }
+      recommendations.push(found)
+    }
+
+    return of({ briefId: briefId, loading: false })
   }
 
   updateRecommendedDirection(id: string, changes: any): Observable<any> {
-    console.log('updateRecommendedDirection', id, changes)
-
     var found = recommendeddirections.find(p => `${p.Brief.Id}` == id)
     let index = recommendeddirections.indexOf(found)
     recommendeddirections[index] = {
@@ -148,9 +167,15 @@ export class BriefDataLocalService implements BriefDataService {
     const recommendedDirection = recommendeddirections.find(
       r => `${r.Brief.Id}` === `${briefId}`
     )
-    const recommendedActions = recommendations.filter(
+    let recommendedActions = recommendations.filter(
       r => `${r.Brief.Id}` === `${briefId}`
     )
+
+    recommendedActions = recommendedActions.map(ra => ({
+      ...ra,
+      Response: reccomendationResponses.find(rsp => rsp.Id === ra.Id)
+    }))
+    console.log(`🐨`, recommendedActions)
     const m = {
       ...found,
       RecommendedDirection: recommendedDirection.Recommended,

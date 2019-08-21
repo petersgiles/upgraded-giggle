@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Recommendation } from '../../models'
+import { Recommendation, RecommendationResponse } from '../../models'
 import { CoreMapperService } from './core-mapper.service'
 
 @Injectable({
@@ -13,11 +13,16 @@ export class RecommendationMapperService extends CoreMapperService<
   }
 
   public mapSingle(item: any): Recommendation {
-    const brief = super.idFromLookup(item.Brief)
-    const subPolicy = super.idFromLookup(item.SubPolicy)
-    const policy = super.idFromLookup(item.Policy)
+    const b = super.idFromLookup(item.Brief)
+    const s = super.idFromLookup(item.SubPolicy)
+    const p = super.idFromLookup(item.Policy)
 
-    return {
+    let response: RecommendationResponse =  item.Response ? {
+      id: super.idFromLookup(item.Response),
+      value: item.Response.Title
+    }: null
+
+    const mapped = {
       id: item.ID,
       title: item.Title,
       recommendation: item.Recommendation,
@@ -26,9 +31,14 @@ export class RecommendationMapperService extends CoreMapperService<
       outcome2: item.Outcome2,
       outcome3: item.Outcome3,
       colour: item.Colour,
-      brief: brief,
-      subPolicy: subPolicy,
-      policy: policy
+      brief: b,
+      subPolicy: s,
+      policy: p,
+      response: response
     }
+
+console.log(`🐧`, item, mapped, b, s, p)
+
+    return mapped
   }
 }

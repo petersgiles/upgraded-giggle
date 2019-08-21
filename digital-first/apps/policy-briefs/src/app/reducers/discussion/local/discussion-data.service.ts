@@ -44,7 +44,6 @@ export class DiscussionDataLocalService implements DiscussionDataService {
 
     var event = new Date();
 
-    // this.appDataService.getCurrentUser()
 
     var comment = {
       Brief: {

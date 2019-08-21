@@ -10,8 +10,6 @@ const appDataServiceFactory = (
   sharepointlib: SharepointJsomService
 ) => {
 
-  console.log(`appDataServiceFactory`, settings, sharepointlib)
-
   let source = null
   if (settings.host) {
     source = settings.host

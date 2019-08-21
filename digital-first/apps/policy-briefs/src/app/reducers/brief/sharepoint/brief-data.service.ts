@@ -37,7 +37,6 @@ export class BriefDataSharepointService implements BriefDataService {
       .pipe(concatMap(_ => of({})))
 
   updateBrief = (id: string, changes: any, hint?: string): Observable<any> => {
-
     return this.sharepoint
       .storeItem({
         listName: BRIEF_ITEM_LIST_NAME,
@@ -49,15 +48,43 @@ export class BriefDataSharepointService implements BriefDataService {
       .pipe(concatMap(_ => of({ briefId: id, loading: false })))
   }
 
-  updateRecommendation(id: string, changes: any): Observable<any> {
-    throw new Error("Method not implemented.");
+  updateRecommendation(briefId: string, changes: any): Observable<any> {
+
+
+    return this.sharepoint
+      .storeItem({
+        listName: RECOMMENDATION_ITEM_LIST_NAME,
+        data: {
+          Title: '',
+          SortOrder: null,
+          Colour: null,
+          Brief: +briefId,
+          Recommendation: changes.description,
+          Outcome1: changes.outcome1,
+          Outcome2: changes.outcome2,
+          Outcome3: changes.outcome3
+        },
+        id: changes.id
+      })
+      .pipe(concatMap(_ => of({ briefId: briefId, loading: false })))
   }
-  updateRecommendationResponse(id: string, changes: any): Observable<any> {
-    throw new Error("Method not implemented.");
+  updateRecommendationResponse(briefId: string, changes: any): Observable<any> {
+    console.log('updateRecommendationResponse', briefId, changes)
+    return this.sharepoint
+      .storeItem({
+        listName: RESPONSE_ITEM_LIST_NAME,
+        data: {
+          Title: changes.response,
+          Brief: +briefId,
+          Recommendation: +changes.recommendation
+        },
+        id: changes.responseId
+      })
+      .pipe(concatMap(_ => of({ briefId: briefId, loading: false })))
   }
 
   updateRecommendedDirection(briefId: string, changes: any): Observable<any> {
-    console.log('updateRecommendedDirection', briefId, changes)
+
     const briefIdViewXml = byBriefIdQuery({ id: briefId })
 
     return this.sharepoint
@@ -101,7 +128,6 @@ export class BriefDataSharepointService implements BriefDataService {
     ]).pipe(
       map(([spBriefs]) => [...this.briefMapperService.mapMany(spBriefs)]),
       map(result => (result || []).sort(sortBy('sortOrder'))),
-      tap(result => console.log(`getBriefs`, result)),
       concatMap(result =>
         of({
           data: result,
@@ -148,10 +174,16 @@ export class BriefDataSharepointService implements BriefDataService {
       concatMap(
         ([spBrief, spRecommendedDirection, spRecommendations, spResponses]) => {
           const result = spBrief[0]
-
           const recommendedDirection = spRecommendedDirection[0] || {}
-          console.log('getActiveBrief ==> ', recommendedDirection, spResponses)
-          const recommendedActions = spRecommendations || []
+          let recommendedActions = spRecommendations || []
+          console.log(
+            'getActiveBrief ==> ',
+            recommendedDirection,
+            recommendedActions,
+            spResponses
+          )
+
+          recommendedActions = recommendedActions.map(ra => ({...ra, Response: spResponses.find(rsp => rsp.Id === ra.Id)}))
 
           const editor = fromLookup(result.Editor)
           const subPolicy = fromLookup(result.SubPolicy)
@@ -167,10 +199,8 @@ export class BriefDataSharepointService implements BriefDataService {
             BriefStatus: briefStatus,
             BriefDivision: briefDivision,
             RecommendedDirection: recommendedDirection.Recommended,
-            Recommendations: recommendedActions
+            Recommendations: recommendedActions,            
           })
-
-          console.log('BRIEF =>', brief)
 
           return of({
             data: brief,
@@ -189,8 +219,6 @@ export class BriefDataSharepointService implements BriefDataService {
     error?: any
   }> {
     const relativeUrl = `${_spPageContextInfo.webAbsoluteUrl}/BriefHTML/${fileLeafRef}.aspx`
-
-    console.log(`getBriefHtml`, relativeUrl)
 
     return this.http.get(relativeUrl, { responseType: 'text' }).pipe(
       concatMap((result: any) =>
