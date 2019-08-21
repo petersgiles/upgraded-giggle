@@ -14,7 +14,8 @@ import {
   SetBriefPolicySuccess,
   SetBriefSecurityClassification,
   SetBriefDLM,
-  SetBriefRecommendedDirection
+  SetBriefRecommendedDirection,
+  SetBriefRecommendation
 } from './brief.actions'
 
 
@@ -121,10 +122,13 @@ export class BriefEffects {
   )
 
   @Effect()
-  stBriefRecommendedDirection$ = this.actions$.pipe(
+  setBriefRecommendedDirection$ = this.actions$.pipe(
     ofType(BriefActionTypes.SetBriefRecommendedDirection),
     map((action: SetBriefRecommendedDirection) => action),
-    concatMap(action => this.service.updateBrief(action.payload.activeBriefId, { recommendedDirection: action.payload.text}, 'RecommendedDirection')),
+    concatMap(action => {
+      const { activeBriefId, ...data} = action.payload      
+      return this.service.updateRecommendedDirection(action.payload.activeBriefId, { recommendedDirection: data.text})
+    }),
     switchMap((result: { briefId: any; loading: boolean }) => [
       new SetActiveBrief({
         activeBriefId: result.briefId
@@ -132,6 +136,40 @@ export class BriefEffects {
     ]),
     catchError(error => of(new GetActiveBriefFailure(error)))
   )
+
+  @Effect()
+  setBriefRecommendation$ = this.actions$.pipe(
+    ofType(BriefActionTypes.SetBriefRecommendation),
+    map((action: SetBriefRecommendation) => action),
+    concatMap(action => {
+      const { activeBriefId, ...data} = action.payload      
+      return this.service.updateRecommendation(activeBriefId, data)
+    }),
+    switchMap((result: { briefId: any; loading: boolean }) => [
+      new SetActiveBrief({
+        activeBriefId: result.briefId
+      })
+    ]),
+    catchError(error => of(new GetActiveBriefFailure(error)))
+  )
+
+  @Effect()
+  setBriefRecommendationResponse$ = this.actions$.pipe(
+    ofType(BriefActionTypes.SetBriefRecommendation),
+    map((action: SetBriefRecommendation) => action),
+    concatMap(action => {
+      const { activeBriefId, ...data} = action.payload      
+      return this.service.updateRecommendationResponse(activeBriefId, data)
+    }),
+    switchMap((result: { briefId: any; loading: boolean }) => [
+      new SetActiveBrief({
+        activeBriefId: result.briefId
+      })
+    ]),
+    catchError(error => of(new GetActiveBriefFailure(error)))
+  )
+  
+  
   
 
   constructor(

@@ -24,9 +24,9 @@ export enum BriefActionTypes {
   SetBriefRecommendedDirectionSuccess = '[Brief] Set Brief Recommended Direction Success',
 
 
-  SetBriefAction = '[Brief] Set Brief Action',
-  SetBriefActionFail = '[Brief] Set Brief Action Fail',
-  SetBriefActionSuccess = '[Brief] Set Brief Action Success',
+  SetBriefRecommendation = '[Brief] Set Brief Recommendation',
+  SetBriefRecommendationFail = '[Brief] Set Brief Recommendation Fail',
+  SetBriefRecommendationSuccess = '[Brief] Set Brief Recommendation Success',
 
   SetBriefRelatedComments = '[Brief] Set Brief Related Comments',
 }
@@ -95,16 +95,16 @@ export class SetBriefRecommendedDirection implements Action {
   ) {}
 }
 
-export class SetBriefActionSuccess implements Action {
-  readonly type = BriefActionTypes.SetBriefActionSuccess
+export class SetBriefRecommendationSuccess implements Action {
+  readonly type = BriefActionTypes.SetBriefRecommendationSuccess
 }
 
-export class SetBriefActionFail implements Action {
-  readonly type = BriefActionTypes.SetBriefActionFail
+export class SetBriefRecommendationFail implements Action {
+  readonly type = BriefActionTypes.SetBriefRecommendationFail
 }
 
-export class SetBriefAction implements Action {
-  readonly type = BriefActionTypes.SetBriefAction
+export class SetBriefRecommendation implements Action {
+  readonly type = BriefActionTypes.SetBriefRecommendation
   constructor(
     public payload: {
       id: string
@@ -168,6 +168,6 @@ export type BriefActions =
   | SetBriefRecommendedDirection
   | SetBriefRecommendedDirectionFail
   | SetBriefRecommendedDirectionSuccess
-  | SetBriefAction
-  | SetBriefActionFail
-  | SetBriefActionSuccess
+  | SetBriefRecommendation
+  | SetBriefRecommendationFail
+  | SetBriefRecommendationSuccess

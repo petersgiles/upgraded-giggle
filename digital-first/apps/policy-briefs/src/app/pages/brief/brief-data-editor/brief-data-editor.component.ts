@@ -14,7 +14,8 @@ import {
   SetBriefDLM,
   SetBriefSecurityClassification,
   SetBriefPolicy,
-  SetBriefRecommendedDirection
+  SetBriefRecommendedDirection,
+  SetBriefRecommendation
 } from '../../../reducers/brief/brief.actions'
 import { SetActiveBriefPath } from '../../../reducers/navigation/navigation.actions'
 import { EMPTY, Subscription, Observable, BehaviorSubject, Subject } from 'rxjs'
@@ -191,6 +192,8 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
           var nextSP = this.subpolicies.filter(sp => sp.policy == patch.policy)
           this.subpolicies$.next(nextSP)
           this.form.patchValue(patch)
+
+          this.actions.clear()
 
           brief.recommendations.forEach(r =>
             this.actions.push(
@@ -380,6 +383,13 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
           .subscribe(data => {
             // console.log(this.actions.controls.indexOf(control))
             console.log('onChanges actions', data)
+
+            this.store.dispatch(
+              new SetBriefRecommendation({
+                ...data,
+                activeBriefId: this.activeBriefId,    
+              })
+            )
           })
       )
     })

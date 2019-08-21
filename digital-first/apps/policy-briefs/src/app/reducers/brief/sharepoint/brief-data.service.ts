@@ -37,10 +37,6 @@ export class BriefDataSharepointService implements BriefDataService {
       .pipe(concatMap(_ => of({})))
 
   updateBrief = (id: string, changes: any, hint?: string): Observable<any> => {
-    console.log('hint', hint, changes)
-    if (hint == 'RecommendedDirection') {
-      return this.updateRecommendedDirection(id, changes)
-    }
 
     return this.sharepoint
       .storeItem({
@@ -51,6 +47,13 @@ export class BriefDataSharepointService implements BriefDataService {
         id: id
       })
       .pipe(concatMap(_ => of({ briefId: id, loading: false })))
+  }
+
+  updateRecommendation(id: string, changes: any): Observable<any> {
+    throw new Error("Method not implemented.");
+  }
+  updateRecommendationResponse(id: string, changes: any): Observable<any> {
+    throw new Error("Method not implemented.");
   }
 
   updateRecommendedDirection(briefId: string, changes: any): Observable<any> {
