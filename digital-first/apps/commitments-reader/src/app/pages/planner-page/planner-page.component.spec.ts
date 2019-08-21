@@ -21,6 +21,7 @@ import * as fromPlanner from '../../reducers/planner/planner.reducer'
 import * as fromOverview from '../../reducers/overview/overview.reducer'
 import * as fromUser from '../../../../../../libs/df-app-core/src'
 import { UserState } from '../../../../../../libs/df-app-core/src'
+import * as fromRefiner from '../../reducers/refiner/refiner.reducer'
 
 describe('PlannerPageComponent', () => {
   let component: PlannerPageComponent;
@@ -28,6 +29,7 @@ describe('PlannerPageComponent', () => {
   let mockStore: MockStore<any>
   let actions$: Observable<any>
   let filteredCommitments$: Observable<any[]>
+  let refinerGroupsSubscription$:  Observable<any>
 
   const initialState: fromPlanner.State = {
    
@@ -57,6 +59,14 @@ operationDefaults: {displayorder: 'hide',planner: 'hide',pmchandlingadvice: 'wri
  operations: {ROLE_MEMBERS: [{pmchandlingadvice: 'read', pmohandlingadvice: 'read'}],
              ROLE_OWNERS:  [{pmchandlingadvice: 'write', pmohandlingadvice: 'write'}],
              ROLE_VISITORS: [{pmchandlingadvice: 'hide', pmohandlingadvice: 'hide'}]}
+  }
+
+  const reducerState: fromRefiner.State = {
+    refinerGroups: [],
+    selectedRefiners: [],
+    autoExpandGroup: [],
+    textRefiner: null,
+    hiddenRefinerGroup: ['electorates', 'states']
   }
 
   beforeEach(async(() => {
@@ -98,6 +108,15 @@ operationDefaults: {displayorder: 'hide',planner: 'hide',pmchandlingadvice: 'wri
     mockStore.overrideSelector(fromPlanner.selectSchedulerZoomLevelState, initialState.schedulerZoomLevel) 
     mockStore.overrideSelector(fromUser.getUserCurrentUserOperations, userState.operationDefaults)
     mockStore.overrideSelector(fromUser.getUserCurrentUser, userState.user)
+
+    let newReducerState = {...reducerState, refinerGroups: getRefiners()}
+    mockStore.setState(newReducerState)
+       mockStore.overrideSelector(fromRefiner.refinerGroupsState,newReducerState.refinerGroups)
+       mockStore.overrideSelector(fromRefiner.selectedRefinersState,newReducerState.selectedRefiners)
+       mockStore.overrideSelector(fromRefiner.autoExpandGroupState,newReducerState.autoExpandGroup)
+       mockStore.overrideSelector(fromRefiner.selectTextRefinerState,newReducerState.textRefiner)
+       mockStore.overrideSelector(fromRefiner.hiddenRefinerGroupsState,newReducerState.hiddenRefinerGroup)
+
     fixture.detectChanges();
   })
   
@@ -196,6 +215,25 @@ it('should return event types from selector', () => {
   )
   }
  )
+ it('should return refiner groups', () => {
+  mockStore
+   .select(fromRefiner.selectRefinerGroups)
+   .subscribe(refiners => {
+    expect(refiners.length).toBe(6)
+    expect(refiners[0].title).toBe('Commitment Types')
+    expect(refiners[0].children[0].title).toBe('National')
+ })
+}) 
+
+it('should add refiner groups to the behaviour Subject', () => {
+refinerGroupsSubscription$ = mockStore.pipe(
+  select(fromRefiner.selectRefinerGroups))
+
+  refinerGroupsSubscription$.subscribe(refiners => {
+    expect(refiners.length).toBe(6)
+  })
+})
+
 }) 
 
 describe('TestUser', () => {
@@ -215,6 +253,14 @@ operationDefaults: {displayorder: 'hide',planner: 'hide',pmchandlingadvice: 'wri
  operations: {ROLE_MEMBERS: [{pmchandlingadvice: 'read', pmohandlingadvice: 'read'}],
              ROLE_OWNERS:  [{pmchandlingadvice: 'write', pmohandlingadvice: 'write'}],
              ROLE_VISITORS: [{pmchandlingadvice: 'hide', pmohandlingadvice: 'hide'}]}
+  }
+
+  const reducerState: fromRefiner.State = {
+    refinerGroups: [],
+    selectedRefiners: [],
+    autoExpandGroup: [],
+    textRefiner: null,
+    hiddenRefinerGroup: ['electorates', 'states']
   }
 
  beforeEach(async(() => {
@@ -248,6 +294,15 @@ operationDefaults: {displayorder: 'hide',planner: 'hide',pmchandlingadvice: 'wri
     mockStore.overrideSelector(fromPlanner.selectPlannerPermissionState,false)
     mockStore.overrideSelector(fromUser.getUserCurrentUserOperations, initialState.operationDefaults)
     mockStore.overrideSelector(fromUser.getUserCurrentUser, initialState.user)
+
+    let newReducerState = {...reducerState, refinerGroups: getRefiners()}
+   // mockStore.setState(newReducerState)
+    mockStore.overrideSelector(fromRefiner.refinerGroupsState,newReducerState.refinerGroups)
+    mockStore.overrideSelector(fromRefiner.selectedRefinersState,newReducerState.selectedRefiners)
+    mockStore.overrideSelector(fromRefiner.autoExpandGroupState,newReducerState.autoExpandGroup)
+    mockStore.overrideSelector(fromRefiner.selectTextRefinerState,newReducerState.textRefiner)
+    mockStore.overrideSelector(fromRefiner.hiddenRefinerGroupsState,newReducerState.hiddenRefinerGroup)
+
     fixture.detectChanges();
   })
   
@@ -298,6 +353,188 @@ function getEventTypes(){
   {id: "0002", type: "Cabinet Meeting", duration: 0, durationUnit: "d", icon: "b-fa b-fa-fw b-fa-users", color: "CadetBlue"}]
   return data
 }
+
+function getRefiners(){
+  const refiners =  [{children:[ 
+    {
+      cascadGroups: [],
+      children: undefined,
+      expanded: false,
+      group: 'commitmentTypes',
+      groupBy: '',
+      id: 1,
+      selected: false,
+      singleSelection: true,
+      title: 'National'},
+    {
+      cascadGroups: ['states'],
+      children: undefined,
+      expanded: false,
+      group: 'commitmentTypes',
+      groupBy: '',
+      id: 2,
+      selected: false,
+      singleSelection: true,
+      title: 'State'
+  },
+  {
+    cascadGroups: ['electorates'],
+    children: undefined,
+    expanded: false,
+    group: 'commitmentTypes',
+    groupBy: '',
+    id: 3,
+    selected: false,
+    singleSelection: true,
+    title: 'Electorate'
+},
+{
+  cascadGroups: [],
+  children: undefined,
+  expanded: false,
+  group: 'commitmentTypes',
+  groupBy: '',
+  id: 4,
+  selected: false,
+  singleSelection: true,
+  title: 'International'
+}],
+enableSlide: undefined,
+expanded: false,
+group: 'commitmentTypes',
+id: undefined,
+selected: false,
+title: 'Commitment Types'
+},
+{
+  children: [{
+    cascadGroups: [],
+    children: undefined,
+    expanded: false,
+    group: 'electorates',
+    groupBy: undefined,
+    id: 1,
+    selected: false, 
+    singleSelection: undefined,
+    title: 'Adelaide'
+  },
+    {
+      cascadGroups: [],
+      children: undefined,
+      expanded: false,
+      group: 'electorates',
+      groupBy: undefined,
+      id: 2,
+      selected: false, 
+      singleSelection: undefined,
+      title: 'Aston'}],
+  enableSlide: true,
+  expanded: false,
+  group: 'electorates',
+  id: undefined,
+  selected: false,
+  title: 'Electorates'
+},
+{
+  children: [{
+    cascadGroups: [],
+    children: undefined,
+    expanded: false,
+    group: 'states',
+    groupBy: '',
+    id: 1,
+    selected: false,
+    singleSelection: undefined,
+     title: 'SA'}, 
+  {
+    cascadGroups: [],
+    children: undefined,
+    expanded: false,
+    group: 'states',
+    groupBy: '',
+    id: 2,
+    selected: false,
+    singleSelection: undefined, 
+    title: 'VIC'}],
+  enableSlide: undefined,
+  expanded: false,
+  group: 'states',
+  id: undefined,
+  selected: false,
+  title: 'States'
+},
+{children:[
+  {
+    cascadGroups: [],
+    children: undefined,
+    expanded: false,
+    group: 'criticalDates',
+    groupBy: '',
+    id: 1,
+    selected: false,
+    singleSelection: undefined, 
+    title: 'Budget'},
+  {
+    cascadGroups: [],
+    children: undefined,
+    expanded: false,
+    group: 'criticalDates',
+    groupBy: '',
+    id: 2,
+    selected: false,
+    singleSelection: undefined, 
+    title: 'First 100 days'
+  }],
+    enableSlide: undefined,
+    expanded: false,
+    group: 'criticalDates',
+    id: undefined,
+    selected: false,
+    title: 'Critical Date'},
+    {children:[
+      {
+        cascadGroups: [],
+        children: undefined,
+        expanded: false,
+        group: 'portfolioLookups',
+        groupBy: '',
+        id: 1,
+        selected: false,
+        singleSelection: undefined, 
+        title: 'Agriculture and Water Resources'},
+      {
+        cascadGroups: [],
+        children: undefined,
+        expanded: false,
+        group: 'portfolioLookups',
+        groupBy: '',
+        id: 2,
+        selected: false,
+        singleSelection: undefined, 
+        title: "Attorney-General's"
+      }],
+      enableSlide: undefined, 
+      expanded: false,
+      group: 'portfolioLookups',
+      id: undefined,
+      selected: false,
+      title: 'Portfolios'
+    },
+    {
+      children: [],
+      enableSlide: undefined, 
+      expanded: false,
+      group: 'deckItemBriefSummaries',
+      id: undefined,
+      selected: false,
+      title: 'Theme'
+    }
+   
+  ]
+  return refiners
+}
+
+
 
 
 

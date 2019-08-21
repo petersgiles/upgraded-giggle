@@ -90,9 +90,12 @@ describe('RefinerEffects', () => {
 
   it('should start app init', inject([GetRefinerTagsGQL],(getRefinerTags: GetRefinerTagsGQL)  => {
     let result = {data: {commitmentTypes: getCommitmentTypes().data.commitmentTypes, 
-    criticalDates: getCriticalDates().data.criticalDates,
-    deckItemBriefSummaries: [],
-    portfolioLookups: getportfolioLookups().data.portfolioLookups},
+      electorates: getElectoratesLookups().data.electorates,
+      states: getStatesLookups().data.states,
+      criticalDates: getCriticalDates().data.criticalDates,
+      deckItemBriefSummaries: [],
+      portfolioLookups: getportfolioLookups().data.portfolioLookups
+   },
     loading: false,
     networkStatus: 7,
     stale: false
@@ -114,106 +117,222 @@ describe('RefinerEffects', () => {
 
   function getCommitmentTypes(){
     const data = {data: {commitmentTypes:[
-      {id: 1, title: "National"},
-      {id: 2, title: "State"},
-      {id: 3, title: "Electorate"},
-      {id: 4, title: "International"}
+      {id: 1, title: 'National'},
+      {id: 2, title: 'State'},
+      {id: 3, title: 'Electorate'},
+      {id: 4, title: 'International'}
     ]}}
     return data
   }
 
   function getCriticalDates(){
     const data = {data: {criticalDates:[
-      {id: 1, title: "Budget"},
-      {id: 2, title: "First 100 days"},
+      {id: 1, title: 'Budget'},
+      {id: 2, title: 'First 100 days'},
     ]}}
     return data
   }
 
   function getportfolioLookups(){
     const data = {data: {portfolioLookups: [
-        {id: 1, title: "Agriculture and Water Resources"},
+        {id: 1, title: 'Agriculture and Water Resources'},
         {id: 2, title: "Attorney-General's"},
+    ]}}
+    return data
+  }
+
+  function getElectoratesLookups(){
+    const data = {data: {electorates: [
+        {id: 1, title: 'Adelaide'},
+        {id: 2, title: 'Aston'},
+    ]}}
+    return data
+  }
+
+  function getStatesLookups(){
+    const data = {data: {states: [
+        {id: 1, title: 'SA'},
+        {id: 2, title: 'VIC'},
     ]}}
     return data
   }
 
   function getRefiners(){
     const refiners =  [{children:[ 
-      {expanded: false,
-        group: "commitmentTypes",
+      {
+        cascadGroups: [],
+        children: undefined,
+        expanded: false,
+        group: 'commitmentTypes',
+        groupBy: '',
         id: 1,
         selected: false,
-        title: "National"},
+        singleSelection: true,
+        title: 'National'},
       {
+        cascadGroups: ['states'],
+        children: undefined,
         expanded: false,
-        group: "commitmentTypes",
+        group: 'commitmentTypes',
+        groupBy: '',
         id: 2,
         selected: false,
-        title: "State"
+        singleSelection: true,
+        title: 'State'
     },
     {
+      cascadGroups: ['electorates'],
+      children: undefined,
       expanded: false,
-      group: "commitmentTypes",
+      group: 'commitmentTypes',
+      groupBy: '',
       id: 3,
       selected: false,
-      title: "Electorate"
+      singleSelection: true,
+      title: 'Electorate'
   },
   {
+    cascadGroups: [],
+    children: undefined,
     expanded: false,
-    group: "commitmentTypes",
+    group: 'commitmentTypes',
+    groupBy: '',
     id: 4,
     selected: false,
-    title: "International"
-}],expanded: false,
-  group: "commitmentTypes",
+    singleSelection: true,
+    title: 'International'
+}],
+  enableSlide: undefined,
+  expanded: false,
+  group: 'commitmentTypes',
   id: undefined,
   selected: false,
-  title: "Commitment Types"
+  title: 'Commitment Types'
   },
-  {children:[
-    {expanded: false,
-      group: "criticalDates",
+  {
+    children: [{
+      cascadGroups: [],
+      children: undefined,
+      expanded: false,
+      group: 'electorates',
+      groupBy: undefined,
+      id: 1,
+      selected: false, 
+      singleSelection: undefined,
+      title: 'Adelaide'
+    },
+      {
+        cascadGroups: [],
+        children: undefined,
+        expanded: false,
+        group: 'electorates',
+        groupBy: undefined,
+        id: 2,
+        selected: false, 
+        singleSelection: undefined,
+        title: 'Aston'}],
+    enableSlide: true,
+    expanded: false,
+    group: 'electorates',
+    id: undefined,
+    selected: false,
+    title: 'Electorates'
+  },
+  {
+    children: [{
+      cascadGroups: [],
+      children: undefined,
+      expanded: false,
+      group: 'states',
+      groupBy: '',
       id: 1,
       selected: false,
-      title: "Budget"},
+      singleSelection: undefined,
+       title: 'SA'}, 
     {
+      cascadGroups: [],
+      children: undefined,
       expanded: false,
-      group: "criticalDates",
+      group: 'states',
+      groupBy: '',
       id: 2,
       selected: false,
-      title: "First 100 days"
-    }],expanded: false,
-      group: "criticalDates",
+      singleSelection: undefined, 
+      title: 'VIC'}],
+    enableSlide: undefined,
+    expanded: false,
+    group: 'states',
+    id: undefined,
+    selected: false,
+    title: 'States'
+  },
+  {children:[
+    {
+      cascadGroups: [],
+      children: undefined,
+      expanded: false,
+      group: 'criticalDates',
+      groupBy: '',
+      id: 1,
+      selected: false,
+      singleSelection: undefined, 
+      title: 'Budget'},
+    {
+      cascadGroups: [],
+      children: undefined,
+      expanded: false,
+      group: 'criticalDates',
+      groupBy: '',
+      id: 2,
+      selected: false,
+      singleSelection: undefined, 
+      title: 'First 100 days'
+    }],
+      enableSlide: undefined,
+      expanded: false,
+      group: 'criticalDates',
       id: undefined,
       selected: false,
-      title: "Critical Date"},
+      title: 'Critical Date'},
       {children:[
-        {expanded: false,
-          group: "portfolioLookups",
+        {
+          cascadGroups: [],
+          children: undefined,
+          expanded: false,
+          group: 'portfolioLookups',
+          groupBy: '',
           id: 1,
           selected: false,
-          title: "Agriculture and Water Resources"},
+          singleSelection: undefined, 
+          title: 'Agriculture and Water Resources'},
         {
+          cascadGroups: [],
+          children: undefined,
           expanded: false,
-          group: "portfolioLookups",
+          group: 'portfolioLookups',
+          groupBy: '',
           id: 2,
           selected: false,
+          singleSelection: undefined, 
           title: "Attorney-General's"
-        }],expanded: false,
-        group: "portfolioLookups",
+        }],
+        enableSlide: undefined, 
+        expanded: false,
+        group: 'portfolioLookups',
         id: undefined,
         selected: false,
-        title: "Portfolios"
+        title: 'Portfolios'
       },
       {
         children: [],
+        enableSlide: undefined, 
         expanded: false,
-        group: "deckItemBriefSummaries",
+        group: 'deckItemBriefSummaries',
         id: undefined,
         selected: false,
-        title: "Theme"
+        title: 'Theme'
       }
+     
     ]
     return refiners
   }

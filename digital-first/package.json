@@ -18,6 +18,8 @@
     "sharepoint:copyListDefinitions:commitments-reader": "cpx ../sharepoint/commitments-reader/ListDefinitions/*.* ../sharepoint/deploy/ListDefinitions/commitments-reader",
     "sharepoint:copyListData:commitments-reader": "cpx ../sharepoint/commitments-reader/Data/*.* ../sharepoint/deploy/ListData/commitments-reader",
     "sp:deploy:commitments-reader": "run-s sharepoint:build:commitments-reader sharepoint:copyListDefinitions:commitments-reader sharepoint:copyListData:commitments-reader deploy:all:commitments-reader",
+    "start:commitments-reader-remote-dev": "ng serve commitments-reader --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --configuration=remotedev --live-reload true",
+    "start:commitments-reader-remote": "ng run commitments-reader:serve --configuration=remote",
     "start:deck": "ng serve deck --ssl --ssl-key ssl/server.key --ssl-cert ssl/server.crt --live-reload true",
     "build:deck": "ng build deck --configuration=production",
     "deploy:all:deck": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ../sharepoint/deploy/PostDeploy.ps1 -SiteUrls 'http://vm-dev-lbs13/sites/' -AppName 'DeckX'",

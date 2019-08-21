@@ -22,7 +22,6 @@ import { DfPipesModule } from '../../../../../../../libs/df-pipes/src/lib/df-pip
 
 
 describe('BriefRecommendationActionComponent', () => {
-debugger
   let component: BriefRecommendationActionComponent;
   let fixture: ComponentFixture<BriefRecommendationActionComponent>
   let recommendation

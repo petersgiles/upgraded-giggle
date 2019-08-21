@@ -14,7 +14,7 @@ import { DisplayOrderPageComponent } from './display-order-page.component'
 //import { ConfigureFn, configureTests } from '../../../lib/testing'
 import { ConfigureFn, configureTests } from '../../../../../../libs/df-testing'
 
-import { Store, createSelector} from '@ngrx/store'
+import { Store, createSelector, select} from '@ngrx/store'
 import { provideMockStore, MockStore } from '@ngrx/store/testing'
 import { Observable, BehaviorSubject, Subscription } from 'rxjs'
 import { skip, take } from 'rxjs/operators'
@@ -33,6 +33,8 @@ import { getUserCurrentUserDisplayOrderPermission } from '../../reducers/user/us
 import * as fromOverview from '../../reducers/overview/overview.reducer'
 import * as fromDisplayOrder from '../../reducers/commitment-display-order/commitment-display-order.reducer'
 import { CommitmentRow } from '../../models/commitment.model'
+import * as fromRefiner from '../../reducers/refiner/refiner.reducer'
+import * as fromUser from '../../../../../../libs/df-app-core/src'
 
 describe('DisplayOrderPageComponent', () => {
   let component: DisplayOrderPageComponent
@@ -44,6 +46,8 @@ describe('DisplayOrderPageComponent', () => {
   CommitmentRow[]
 > = new BehaviorSubject([])
   let filterCommitmentsSubscription: Subscription
+  let refinerGroupsSubscription$:  Observable<any>
+
   const initialState =   {
     commitments: getCommitments(),
     columns: [
@@ -70,6 +74,13 @@ describe('DisplayOrderPageComponent', () => {
              ROLE_VISITORS: [{pmchandlingadvice: 'hide', pmohandlingadvice: 'hide'}]}
   }
   
+const reducerState: fromRefiner.State = {
+    refinerGroups: [],
+    selectedRefiners: [],
+    autoExpandGroup: [],
+    textRefiner: null,
+    hiddenRefinerGroup: ['electorates', 'states']
+  }
 
   const selectRefinedCommitmentsState = createSelector(
     () => initialState,
@@ -136,6 +147,19 @@ describe('DisplayOrderPageComponent', () => {
     //mockStore.overrideSelector(fromUser.getUserCurrentUserOperations, initialState.operationDefaults)
     mockStore.overrideSelector(getUserCurrentUserPermissions, initialState.operations)
     mockStore.overrideSelector(getUserCurrentOperationDefaults, initialState.operationDefaults)
+
+    let newReducerState = {...reducerState, refinerGroups: getRefiners()}
+ mockStore.setState(newReducerState)
+    mockStore.overrideSelector(fromRefiner.refinerGroupsState,newReducerState.refinerGroups)
+    mockStore.overrideSelector(fromRefiner.selectedRefinersState,newReducerState.selectedRefiners)
+    mockStore.overrideSelector(fromRefiner.autoExpandGroupState,newReducerState.autoExpandGroup)
+    mockStore.overrideSelector(fromRefiner.selectTextRefinerState,newReducerState.textRefiner)
+    mockStore.overrideSelector(fromRefiner.hiddenRefinerGroupsState,newReducerState.hiddenRefinerGroup)
+
+    mockStore.overrideSelector(fromUser.getUserCurrentUser, initialState.user)    
+    mockStore.overrideSelector(fromUser.getUserCurrentUserOperations, initialState.operationDefaults)
+
+
     fixture.detectChanges();
   
   })
@@ -218,6 +242,26 @@ describe('DisplayOrderPageComponent', () => {
   })
 
  })
+
+ it('should return refiner groups', () => {
+  mockStore
+   .select(fromRefiner.selectRefinerGroups)
+   .subscribe(refiners => {
+    expect(refiners.length).toBe(6)
+       expect(refiners[0].title).toBe('Commitment Types')
+       expect(refiners[0].children[0].title).toBe('National')
+ })
+}) 
+
+it('should add refiner groups to the behaviour Subject', () => {
+refinerGroupsSubscription$ = mockStore.pipe(
+  select(fromRefiner.selectRefinerGroups))
+
+  refinerGroupsSubscription$.subscribe(refiners => {
+    expect(refiners.length).toBe(6)
+  })
+})
+
 })
 
 function getCommitments(){
@@ -226,3 +270,184 @@ function getCommitments(){
 
   return data
 }
+
+function getRefiners(){
+  const refiners =  [{children:[ 
+    {
+      cascadGroups: [],
+      children: undefined,
+      expanded: false,
+      group: 'commitmentTypes',
+      groupBy: '',
+      id: 1,
+      selected: false,
+      singleSelection: true,
+      title: 'National'},
+    {
+      cascadGroups: ['states'],
+      children: undefined,
+      expanded: false,
+      group: 'commitmentTypes',
+      groupBy: '',
+      id: 2,
+      selected: false,
+      singleSelection: true,
+      title: 'State'
+  },
+  {
+    cascadGroups: ['electorates'],
+    children: undefined,
+    expanded: false,
+    group: 'commitmentTypes',
+    groupBy: '',
+    id: 3,
+    selected: false,
+    singleSelection: true,
+    title: 'Electorate'
+},
+{
+  cascadGroups: [],
+  children: undefined,
+  expanded: false,
+  group: 'commitmentTypes',
+  groupBy: '',
+  id: 4,
+  selected: false,
+  singleSelection: true,
+  title: 'International'
+}],
+enableSlide: undefined,
+expanded: false,
+group: 'commitmentTypes',
+id: undefined,
+selected: false,
+title: 'Commitment Types'
+},
+{
+  children: [{
+    cascadGroups: [],
+    children: undefined,
+    expanded: false,
+    group: 'electorates',
+    groupBy: undefined,
+    id: 1,
+    selected: false, 
+    singleSelection: undefined,
+    title: 'Adelaide'
+  },
+    {
+      cascadGroups: [],
+      children: undefined,
+      expanded: false,
+      group: 'electorates',
+      groupBy: undefined,
+      id: 2,
+      selected: false, 
+      singleSelection: undefined,
+      title: 'Aston'}],
+  enableSlide: true,
+  expanded: false,
+  group: 'electorates',
+  id: undefined,
+  selected: false,
+  title: 'Electorates'
+},
+{
+  children: [{
+    cascadGroups: [],
+    children: undefined,
+    expanded: false,
+    group: 'states',
+    groupBy: '',
+    id: 1,
+    selected: false,
+    singleSelection: undefined,
+     title: 'SA'}, 
+  {
+    cascadGroups: [],
+    children: undefined,
+    expanded: false,
+    group: 'states',
+    groupBy: '',
+    id: 2,
+    selected: false,
+    singleSelection: undefined, 
+    title: 'VIC'}],
+  enableSlide: undefined,
+  expanded: false,
+  group: 'states',
+  id: undefined,
+  selected: false,
+  title: 'States'
+},
+{children:[
+  {
+    cascadGroups: [],
+    children: undefined,
+    expanded: false,
+    group: 'criticalDates',
+    groupBy: '',
+    id: 1,
+    selected: false,
+    singleSelection: undefined, 
+    title: 'Budget'},
+  {
+    cascadGroups: [],
+    children: undefined,
+    expanded: false,
+    group: 'criticalDates',
+    groupBy: '',
+    id: 2,
+    selected: false,
+    singleSelection: undefined, 
+    title: 'First 100 days'
+  }],
+    enableSlide: undefined,
+    expanded: false,
+    group: 'criticalDates',
+    id: undefined,
+    selected: false,
+    title: 'Critical Date'},
+    {children:[
+      {
+        cascadGroups: [],
+        children: undefined,
+        expanded: false,
+        group: 'portfolioLookups',
+        groupBy: '',
+        id: 1,
+        selected: false,
+        singleSelection: undefined, 
+        title: 'Agriculture and Water Resources'},
+      {
+        cascadGroups: [],
+        children: undefined,
+        expanded: false,
+        group: 'portfolioLookups',
+        groupBy: '',
+        id: 2,
+        selected: false,
+        singleSelection: undefined, 
+        title: "Attorney-General's"
+      }],
+      enableSlide: undefined, 
+      expanded: false,
+      group: 'portfolioLookups',
+      id: undefined,
+      selected: false,
+      title: 'Portfolios'
+    },
+    {
+      children: [],
+      enableSlide: undefined, 
+      expanded: false,
+      group: 'deckItemBriefSummaries',
+      id: undefined,
+      selected: false,
+      title: 'Theme'
+    }
+   
+  ]
+  return refiners
+}
+
