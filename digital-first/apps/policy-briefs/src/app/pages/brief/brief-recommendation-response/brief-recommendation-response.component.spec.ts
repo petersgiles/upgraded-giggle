@@ -13,7 +13,7 @@ import { ConfigureFn, configureTests } from '../../../../../../../libs/df-testin
 
 import { NO_ERRORS_SCHEMA } from '@angular/core'
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
-import { BriefRecommendationActionComponent } from './brief-recommendation-action.component';
+import { BriefRecommendationResponseComponent } from './brief-recommendation-response.component';
 import { FormBuilder } from '@angular/forms'
 import { Store, select} from '@ngrx/store'
 import { SafeHtmlPipe } from '../../../../../../../libs/df-pipes/src/lib/safe-html.pipe'
@@ -22,9 +22,9 @@ import { Router, ActivatedRoute,  ParamMap,  convertToParamMap } from '@angular/
 import { Observable, of } from 'rxjs'
 import { MdcDialog, Overlay } from '@angular-mdc/web'
 
-describe('BriefRecommendationActionComponent', () => {
-  let component: BriefRecommendationActionComponent;
-  let fixture: ComponentFixture<BriefRecommendationActionComponent>
+describe('BriefRecommendationResponseComponent', () => {
+  let component: BriefRecommendationResponseComponent;
+  let fixture: ComponentFixture<BriefRecommendationResponseComponent>
   let recommendation
   let brief
   let router: Router
@@ -34,7 +34,7 @@ describe('BriefRecommendationActionComponent', () => {
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       imports: [ DfPipesModule],
-      declarations: [BriefRecommendationActionComponent],
+      declarations: [BriefRecommendationResponseComponent],
       providers:
       [ 
         SafeHtmlPipe,
@@ -58,7 +58,7 @@ describe('BriefRecommendationActionComponent', () => {
     })
    }
    configureTests(configure).then(testBed => {
-    fixture = TestBed.createComponent(BriefRecommendationActionComponent);
+    fixture = TestBed.createComponent(BriefRecommendationResponseComponent);
     component = fixture.componentInstance
     router = TestBed.get(Router)
     brief = idFromLookup(getBrief())

@@ -40,6 +40,7 @@
     "sp:deploy": "run-s sharepoint:* deploy:js",
     "sp:all": "run-s sharepoint:* deploy:all:*",
     "lint": "./node_modules/.bin/nx lint && ng lint",
+    "test": "jest",
     "e2e": "ng e2e",
     "affected:apps": "./node_modules/.bin/nx affected:apps",
     "affected:libs": "./node_modules/.bin/nx affected:libs",

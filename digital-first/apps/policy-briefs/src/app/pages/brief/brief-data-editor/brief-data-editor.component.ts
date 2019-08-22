@@ -365,7 +365,7 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
 
         this.store.dispatch(
           new SetBriefRecommendedDirection({
-            activeBriefId: this.activeBriefId,
+            activeBriefId: this.activeBriefId,            
             text: data
           })
         )

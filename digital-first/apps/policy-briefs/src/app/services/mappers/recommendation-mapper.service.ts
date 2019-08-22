@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Recommendation, RecommendationResponse } from '../../models'
 import { CoreMapperService } from './core-mapper.service'
+import { RecommendationResponseMapperService } from './recommendation-response-mapper.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +18,8 @@ export class RecommendationMapperService extends CoreMapperService<
     const s = super.idFromLookup(item.SubPolicy)
     const p = super.idFromLookup(item.Policy)
 
-    let response: RecommendationResponse =  item.Response ? {
-      id: super.idFromLookup(item.Response),
-      value: item.Response.Title
-    }: null
+    const recommendationMapperService = new RecommendationResponseMapperService()
+    const response = recommendationMapperService.mapSingle(item.Response) 
 
     const mapped = {
       id: item.ID,
