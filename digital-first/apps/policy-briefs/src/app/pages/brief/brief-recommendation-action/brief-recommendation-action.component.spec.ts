@@ -15,17 +15,19 @@ import { NO_ERRORS_SCHEMA } from '@angular/core'
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 import { BriefRecommendationActionComponent } from './brief-recommendation-action.component';
 import { FormBuilder } from '@angular/forms'
-import {  Overlay } from '@angular-mdc/web'
 import { Store, select} from '@ngrx/store'
 import { SafeHtmlPipe } from '../../../../../../../libs/df-pipes/src/lib/safe-html.pipe'
 import { DfPipesModule } from '../../../../../../../libs/df-pipes/src/lib/df-pipes.module'
-
+import { Router, ActivatedRoute,  ParamMap,  convertToParamMap } from '@angular/router'
+import { Observable, of } from 'rxjs'
+import { MdcDialog, Overlay } from '@angular-mdc/web'
 
 describe('BriefRecommendationActionComponent', () => {
   let component: BriefRecommendationActionComponent;
   let fixture: ComponentFixture<BriefRecommendationActionComponent>
   let recommendation
   let brief
+  let router: Router
 
   beforeEach(async(() => {
     const configure: ConfigureFn = testBed => {
@@ -38,18 +40,27 @@ describe('BriefRecommendationActionComponent', () => {
         SafeHtmlPipe,
         FormBuilder, 
         Overlay,
+        MdcDialog, 
         { provide: Store,
           useValue: {
             pipe: jest.fn(),
             dispatch: jest.fn()
           }
          },
+         {
+          provide: Router,
+          useValue: {get: jest.fn()}
+        },
+  
+   { provide: ActivatedRoute, useValue: { paramMap: of(convertToParamMap({ parent: '' }))}},
+  
       ]
     })
    }
    configureTests(configure).then(testBed => {
     fixture = TestBed.createComponent(BriefRecommendationActionComponent);
     component = fixture.componentInstance
+    router = TestBed.get(Router)
     brief = idFromLookup(getBrief())
     recommendation = idFromLookup(getRecommendation())
 
