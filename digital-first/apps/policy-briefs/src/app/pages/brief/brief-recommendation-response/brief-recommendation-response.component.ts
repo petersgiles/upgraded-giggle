@@ -51,15 +51,15 @@ export class BriefRecommendationResponseComponent implements OnInit {
           let recommendationresponse = this.recommendation.response
           ? this.recommendation.response
           : {
-              response: null,
-              responseId: null
+              value: null,
+              id: null
             }
 
           this.form.patchValue({
             recommendation: this.recommendation.id,
             brief: this.activeBriefId,
-            response: `${recommendationresponse.value}`,
-            responseid: `${recommendationresponse.id}`
+            response: recommendationresponse.value,
+            responseid: recommendationresponse.id
           })
 
           return EMPTY

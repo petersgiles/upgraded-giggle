@@ -93,15 +93,25 @@ export class BriefDataSharepointService implements BriefDataService {
       })
       .pipe(
         concatMap(result =>
-          this.sharepoint
+        {
+          let direction = null
+          if(result && result.length > 0){
+            direction = result[0].ID
+          }
+
+console.log(`🕊️ updateRecommendedDirection`, result, changes)
+
+          return this.sharepoint
             .storeItem({
               listName: RECOMMENDED_DIRECTION_ITEM_LIST_NAME,
               data: {
-                ...changes
+                Title: briefId,
+                Brief: +briefId,
+                Recommended: changes
               },
-              id: result.ID
+              id: direction
             })
-            .pipe(concatMap(_ => of({ briefId: briefId, loading: false })))
+            .pipe(concatMap(_ => of({ briefId: briefId, loading: false })))}
         )
       )
   }

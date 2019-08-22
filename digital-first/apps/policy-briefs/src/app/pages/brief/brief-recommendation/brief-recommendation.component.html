@@ -1,7 +1,7 @@
 <div *ngIf="brief$ | async as brief">
-  <mdc-card class="form-card" *ngIf="brief.recommendedDirection">
+  <mdc-card class="form-card" *ngIf="brief.recommendedDirection || brief.recommendations">
     <div mdcBody2 class="form-section">
-      <div class="form-row">
+      <div class="form-row" *ngIf="brief.recommendedDirection">
         <div [innerHtml]="brief.recommendedDirection | safeHtml"></div>
       </div>
 

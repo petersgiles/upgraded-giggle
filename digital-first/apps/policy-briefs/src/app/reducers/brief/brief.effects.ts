@@ -127,7 +127,7 @@ export class BriefEffects {
     map((action: SetBriefRecommendedDirection) => action),
     concatMap(action => {
       const { activeBriefId, ...data} = action.payload      
-      return this.service.updateRecommendedDirection(action.payload.activeBriefId, { recommendedDirection: data.text})
+      return this.service.updateRecommendedDirection(activeBriefId, data.text)
     }),
     switchMap((result: { briefId: any; loading: boolean }) => [
       new SetActiveBrief({
