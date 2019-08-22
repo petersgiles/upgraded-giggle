@@ -5,17 +5,26 @@
       class="app-layout__row--no-wrap"
       style="height: calc(100vh - 112px) !important; overflow: hidden;"
     >
-      <digital-first-metadata-refiner
-        style="overflow-y:auto"
-        [searchText]="textRefiner$ | async"
-        [refinerGroups]="refinerGroups"
-        (onSearchCriteriaChanged)="handleTextRefinerChanged($event)"
-        (onClear)="handleClearRefiners($event)"
-        (onRefinerGroupSelected)="handleRefinerGroupSelected($event)"
-        (onRefinerSelected)="handleRefinerSelected($event)"
-        (onSlideOutGroupSelected)="handleSlideOutGroupSelected($event)"
-      ></digital-first-metadata-refiner>
-      <div class="overview-outlet">
+      <mdc-drawer
+        #refinerDrawer
+        drawer="dismissible"
+        [open]="refinerOpen$ | async"
+      >
+        <mdc-drawer-content>
+          <digital-first-metadata-refiner
+            style="overflow-y:auto"
+            [searchText]="textRefiner$ | async"
+            [refinerGroups]="refinerGroups"
+            (onSearchCriteriaChanged)="handleTextRefinerChanged($event)"
+            (onClear)="handleClearRefiners($event)"
+            (onRefinerGroupSelected)="handleRefinerGroupSelected($event)"
+            (onRefinerSelected)="handleRefinerSelected($event)"
+            (onSlideOutGroupSelected)="handleSlideOutGroupSelected($event)"
+          ></digital-first-metadata-refiner>
+        </mdc-drawer-content>
+      </mdc-drawer>
+
+      <div class="overview-outlet" mdcDrawerAppContent>
         <section>
           <mdc-drawer #drawer drawer="modal" class="electrate-drawer">
             <mdc-drawer-header>
@@ -87,8 +96,13 @@
                   >×</span
                 >:
               </span>
-              <ng-container *ngFor="let refiner of group.children; let last = last">
-                <span class="refiner-title" [ngClass]="{'last-refiner': last}">
+              <ng-container
+                *ngFor="let refiner of group.children; let last = last"
+              >
+                <span
+                  class="refiner-title"
+                  [ngClass]="{ 'last-refiner': last }"
+                >
                   {{ refiner.title }}
                   <span
                     aria-hidden="true"

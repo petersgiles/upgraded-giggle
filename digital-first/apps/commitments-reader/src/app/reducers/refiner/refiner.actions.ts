@@ -13,7 +13,9 @@ export enum RefinerActionTypes {
   ClearRefiners = '[RefinerActionTypes] ClearRefiners',
   ChangeTextRefiner = '[RefinerActionTypes] ChangeTextRefiner',
   RemoveSelectedGroup = '[RefinerActionTypes] RemoveSelectedGroup',
-  RemoveSelectedRefiner = '[RefinerActionTypes] RemoveSelectedRefiner'
+  RemoveSelectedRefiner = '[RefinerActionTypes] RemoveSelectedRefiner',
+
+  ToggleRefinerDrawer = '[RefinerActionTypes] ToggleRefinerDrawer'
 }
 
 export class ClearRefiners implements Action {
@@ -74,6 +76,11 @@ export class RemoveSelectedGroup implements Action {
 
 export class RemoveSelectedRefiner implements Action {
   type = RefinerActionTypes.RemoveSelectedRefiner
+  constructor(public payload: any) {}
+}
+
+export class ToggleRefinerDrawer implements Action {
+  type = RefinerActionTypes.ToggleRefinerDrawer
   constructor(public payload: any) {}
 }
 

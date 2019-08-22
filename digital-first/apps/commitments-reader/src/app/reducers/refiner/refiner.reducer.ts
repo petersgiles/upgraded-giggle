@@ -8,6 +8,7 @@ export interface State {
   hiddenRefinerGroup: any[]
   autoExpandGroup: any[]
   textRefiner: string
+  refinerOpen: boolean
 }
 
 export const initialState: State = {
@@ -15,7 +16,8 @@ export const initialState: State = {
   selectedRefiners: [],
   autoExpandGroup: [],
   textRefiner: null,
-  hiddenRefinerGroup: ['electorates', 'states']
+  hiddenRefinerGroup: ['electorates', 'states'],
+  refinerOpen: true
 }
 
 export function reducer(state = initialState, action: RefinerActions): State {
@@ -158,12 +160,24 @@ export function reducer(state = initialState, action: RefinerActions): State {
         hiddenRefinerGroup: hiddenRefinerGroup
       }
     }
+    case RefinerActionTypes.ToggleRefinerDrawer: {
+      const currentRrefinerDrawerOpen: boolean = state.refinerOpen
+      return {
+        ...state,
+        refinerOpen: !currentRrefinerDrawerOpen
+      }
+    }
     default:
       return state
   }
 }
 
 export const refinerState = createFeatureSelector<State>('refiner')
+
+export const refinerOpenState = createSelector(
+  refinerState,
+  (state: State) => state.refinerOpen
+)
 
 export const selectedRefinersState = createSelector(
   refinerState,
@@ -184,6 +198,7 @@ export const hiddenRefinerGroupsState = createSelector(
   refinerState,
   (state: State) => state.hiddenRefinerGroup
 )
+
 export const autoExpandGroupState = createSelector(
   refinerState,
   (state: State) => state.autoExpandGroup

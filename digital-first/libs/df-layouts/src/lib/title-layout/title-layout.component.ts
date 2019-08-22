@@ -1,9 +1,14 @@
-import { Component, OnInit, OnDestroy, NgZone, ViewChild } from '@angular/core'
-import { Subject, Observable, Subscription, of } from 'rxjs'
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  EventEmitter,
+  Output
+} from '@angular/core'
+import { Subject, Observable, of } from 'rxjs'
 import { Router, NavigationEnd } from '@angular/router'
 import { takeUntil, filter, delay, tap, concatMap } from 'rxjs/operators'
 import { TitleLayoutService } from './title-layout.service'
-import { MdcTopAppBar } from '@angular-mdc/web'
 import { AppUserProfile, SideBarItem, AppItem } from '../models'
 
 @Component({
@@ -24,11 +29,7 @@ export class TitleLayoutComponent implements OnInit, OnDestroy {
   appItems$: Observable<AppItem[]>
   bookType$: Observable<string>
   bookColour$: Observable<string>
-  constructor(
-    private router: Router,
-    private ngZone: NgZone,
-    private service: TitleLayoutService
-  ) {}
+  constructor(private router: Router, private service: TitleLayoutService) {}
 
   get version(): string {
     return this.service.version
@@ -40,6 +41,10 @@ export class TitleLayoutComponent implements OnInit, OnDestroy {
 
   get profile(): AppUserProfile {
     return this._profile
+  }
+
+  public handleNavMenuClicked($event: any) {
+    this.service.setDrawState($event)
   }
 
   public handleAvatarClicked($event) {
@@ -55,10 +60,10 @@ export class TitleLayoutComponent implements OnInit, OnDestroy {
       .subscribe(_ => {})
 
     this.service.profile
-    .pipe(tap(result => console.log(`👤 PROFILE`, result)))
-    .subscribe(p => {
-      this._profile = p
-    })
+      .pipe(tap(result => console.log(`👤 PROFILE`, result)))
+      .subscribe(p => {
+        this._profile = p
+      })
     this.logo$ = this.service.logo$
     this.bookType$ = this.service.bookType$
     this.bookColour$ = this.service.bookColour$

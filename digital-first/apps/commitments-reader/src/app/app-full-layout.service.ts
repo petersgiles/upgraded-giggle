@@ -13,6 +13,7 @@ import {
 } from '@digital-first/df-app-core'
 
 import { Store, select } from '@ngrx/store'
+import { ToggleRefinerDrawer } from './reducers/refiner/refiner.actions'
 
 @Injectable({
   providedIn: 'root'
@@ -57,12 +58,12 @@ export class AppFullLayoutService {
         caption: 'Planner',
         icon: 'calendar_today',
         routerLink: ['/planner']
-      },
-      {
-        caption: 'Display Order',
-        icon: 'home',
-        routerLink: ['/displayorder']
       }
+      // {
+      //   caption: 'Display Order',
+      //   icon: 'home',
+      //   routerLink: ['/displayorder']
+      // }
     ])
   }
 
@@ -79,7 +80,7 @@ export class AppFullLayoutService {
   }
 
   setDrawState(appdrawerOpen: any): any {
-    return null
+    this.store.dispatch(new ToggleRefinerDrawer(null))
   }
 
   get notification$(): Observable<NotificationMessage> {

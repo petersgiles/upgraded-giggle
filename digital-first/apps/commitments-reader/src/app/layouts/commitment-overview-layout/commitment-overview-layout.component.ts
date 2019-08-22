@@ -1,13 +1,10 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core'
-
 import { AppRouterService } from '../../services/app-router.service'
 import { RefinerGroup } from '@digital-first/df-refiner'
 import { Observable, Subscription, Subject, of } from 'rxjs'
-
 import * as fromRefiner from '../../reducers/refiner/refiner.reducer'
 import { selectAppSpinnerState } from '@digital-first/df-app-core'
 import * as fromRoot from '../../reducers'
-
 import { Store, select } from '@ngrx/store'
 import {
   SelectRefinerGroup,
@@ -17,14 +14,11 @@ import {
   SetRefinerFromQueryString,
   ClearRefiners,
   SelectElectorates,
-  RemoveSelectedGroup,
-  RemoveSelectedRefiner
-} from '../../reducers/refiner/refiner.actions'
-
+  RemoveSelectedGroup} from '../../reducers/refiner/refiner.actions'
 import { ActivatedRoute, Router } from '@angular/router'
 import { CRMenu } from '../../reducers/refiner/refiner.models'
 import { MdcDrawer } from '@angular-mdc/web'
-import { debounceTime, switchMap, groupBy } from 'rxjs/operators'
+import { debounceTime, switchMap} from 'rxjs/operators'
 
 @Component({
   selector: 'digital-first-commitment-overview-layout',
@@ -34,6 +28,7 @@ import { debounceTime, switchMap, groupBy } from 'rxjs/operators'
 export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
   @ViewChild('drawer', { static: true })
   public electoratesDrawer: MdcDrawer
+  
   activeTab = 1
   tabs = [
     {
@@ -53,12 +48,6 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
       icon: 'calendar_today',
       link: ['/', 'planner'],
       id: '/planner'
-    },
-    {
-      label: 'Display Order',
-      icon: 'compare_arrows',
-      link: ['/', 'displayorder'],
-      id: '/displayorder'
     }
   ]
   urlSubscription: any
@@ -73,6 +62,7 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
   queryParamsRefiner: { id: string; group: string }[]
   isBusy$: Observable<boolean>
   textRefiner$: Observable<string>
+  refinerOpen$:Observable<boolean>
   refinerGroupWithDrawer: CRMenu
   electorates: any
   selectedElectorates: any[]
@@ -137,6 +127,8 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
     const params = this.route.queryParams
+   this.refinerOpen$ = this.store.pipe(select(fromRefiner.refinerOpenState))
+   
     if (params && params['value'] && params['value'].refiner) {
       this.queryParamsRefiner = JSON.parse(params['value'].refiner)
       this.store.dispatch(
@@ -158,6 +150,7 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
         this.rewriteUrl(next)
       })
 
+    
     this.refinerGroupsSubscription = this.store
       .pipe(select(fromRefiner.selectRefinerGroups))
       .subscribe(next => {

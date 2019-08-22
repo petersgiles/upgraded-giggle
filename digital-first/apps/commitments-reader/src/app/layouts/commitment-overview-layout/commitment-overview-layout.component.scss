@@ -29,7 +29,7 @@ digital-first-metadata-refiner {
 .electrate-drawer {
   width: calc(50vw);
   height: calc(100vh - 80px);
-  left: 280px;
+  left: 260px;
   z-index: 10000000;
 }
 mdc-list-group div {
@@ -64,7 +64,7 @@ mdc-list-group div {
   border-radius: 2px;
   padding: 1px 3px;
 }
-.last-refiner{
+.last-refiner {
   border-right: 2px solid;
   padding-right: 8px;
 }
@@ -72,3 +72,4 @@ mdc-list-group div {
   display: inline-block;
   cursor: pointer;
 }
+

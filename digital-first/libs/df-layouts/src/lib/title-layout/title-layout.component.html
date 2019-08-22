@@ -1,9 +1,11 @@
 <mdc-top-app-bar class="app-top-app-bar" #topAppBar fixed prominent="false">
   <mdc-top-app-bar-row>
-    <div
-      class="bookColour"
-      [style.background]="(bookColour$ | async)"
-    ></div>
+    <div class="bookColour" [style.background]="bookColour$ | async">
+      <button mdcTopAppBarNavIcon (click)="handleNavMenuClicked($event)">
+        <mdc-icon>menu</mdc-icon>
+      </button>
+    </div>
+
     <mdc-top-app-bar-section align="start" title="{{ title }}">
       <a *ngIf="logo$ | async as logo" [href]="logo.url" [title]="logo.title">
         <img [src]="logo.image" alt=""
@@ -20,7 +22,8 @@
       <span>{{ protectiveMarking$ | async | uppercase }}</span>
     </mdc-top-app-bar-section>
     <mdc-top-app-bar-section align="end">
-      <df-avatar *ngIf="profile"
+      <df-avatar
+        *ngIf="profile"
         [name]="profile?.name"
         [email]="profile?.email"
         [displayType]="profile?.displayType"

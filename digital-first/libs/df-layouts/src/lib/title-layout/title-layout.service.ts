@@ -6,8 +6,7 @@ import { AppUserProfile, SideBarItem, AppItem } from '../models'
   providedIn: 'root'
 })
 export class TitleLayoutService {
-
-  get version(): string {
+   get version(): string {
     return '0.0.0.0'
   }
 
@@ -27,7 +26,10 @@ export class TitleLayoutService {
   setDrawState(appdrawerOpen: any): any {
     throw new Error('Method not implemented.')
   }
+  public handleAvatarClicked($event){
+    throw new Error('Method not implemented.')
 
+  }
   get bookType$(): Observable<string> {
     return of('')
   }
@@ -54,11 +56,6 @@ export class TitleLayoutService {
     'title': 'configure me'
   }) }
 
-
-  public handleAvatarClicked($event){
-
-  }
-  
   constructor() { }
 
 }

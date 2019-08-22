@@ -1,10 +1,10 @@
-<mdc-list dense>
-  <mdc-list-item class="refiner-bar">
+<mdc-list dense class=refiner-list>
+  <mdc-list-item class="refiner-bar list-item">
     <button mdc-button dense (click)="onClear.emit()">
       <mdc-icon>clear</mdc-icon>Clear All
     </button>
   </mdc-list-item>
-  <mdc-list-item class="search-item">
+  <mdc-list-item class="search-item list-item">
     <form [formGroup]="textRefinerForm" id="textRefinerForm">
       <mdc-text-field
         label="Text Filter"
@@ -31,7 +31,7 @@
   <ng-container *ngFor="let group of refinerGroups">
     <ng-container *ngIf="!group.hidden">
       <mdc-list-item
-        class="digital-first-list-heading"
+        class="digital-first-list-heading list-item"
         (click)="group.expanded = !group.expanded"
       >
         {{ group.title }}
@@ -51,7 +51,7 @@
             *ngIf="!group.enableSlide || (group.enableSlide && i <= slideOutLimt)"
           >
             <mdc-list-item
-              class="refiner"
+              class="refiner list-item"
               (click)="onRefinerSelected.emit(refiner)"
             >
               <mdc-icon
@@ -68,7 +68,7 @@
           </ng-container>
           <mdc-list-item
             *ngIf="group.enableSlide && i === slideOutLimt"
-            class="refiner"
+            class="refiner list-itemlist-item"
             (click)="onSlideOutGroupSelected.emit(group)"
           >
             <strong style="width:100%;text-align: center"
@@ -78,7 +78,7 @@
         </ng-container>
       </div>
       <div *ngIf="group.expanded && group.custom">
-        <mdc-list-item (click)="onSaveRefiner.emit()">
+        <mdc-list-item (click)="onSaveRefiner.emit()" class="list-item">
           Save Current Filter<mdc-icon mdcListItemMeta>add</mdc-icon>
         </mdc-list-item>
       </div></ng-container

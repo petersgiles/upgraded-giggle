@@ -14,13 +14,12 @@ import { inject, TestBed, getTestBed, async} from '@angular/core/testing'
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
 import { HttpClient } from '@angular/common/http'
 
-import { Store, createSelector, select, Action } from '@ngrx/store'
+import { Store } from '@ngrx/store'
 
 import { AppEffects } from '../../../../libs/df-app-core/src/lib/reducers/app/app.effects'
 import { UserEffects } from '../../../../libs/df-app-core/src/lib/reducers/user/user.effects'
 import {
   StartAppInitialiser,
-  FinishAppInitialiser,
   GetAppConfiguration,
   LoadAppConfiguration,
   AppActionTypes,
@@ -50,12 +49,11 @@ import {
   OPERATION_PMC_HANDLING_ADVICE
 } from './services/app-data/app-operations'
 
-import { Config } from '../../../../libs/df-app-core/src/lib/services/config/config-model'
 import { AppDataService } from '../../../../libs/df-app-core/src/lib/services/app-data.service'
 import { AppConfigService } from '../../../../libs/df-app-core/src/lib/services/config/config.service'
 import { AppSettingsService }  from '../../../../libs/df-app-core/src/lib/services/app-settings.service'
-import { Observable, Subject, ReplaySubject, of } from 'rxjs'
-import { take, map, skip } from 'rxjs/operators'
+import { Observable, Subject, ReplaySubject } from 'rxjs'
+import { take, skip } from 'rxjs/operators'
 import { provideMockActions } from '@ngrx/effects/testing'
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { DevelopConfigService } from './services/config/develop/develop-config.service'
@@ -150,7 +148,6 @@ describe('AppModule_Config', () => {
     const outcome = new LoadAppConfiguration(getConfigData())
     
     actions = hot('a', { a: action });
-    const expected = cold('b', { b: outcome })
 
     appEffects.getAppConfiguration$.subscribe((resp: any) => {
       expect(resp.type).toEqual(AppActionTypes.LoadAppConfiguration)
@@ -158,7 +155,7 @@ describe('AppModule_Config', () => {
     })
   }))
 
-  it('should start get config again', inject([AppConfigService], (configDatService: AppConfigService) => {
+  it('should start get config again', inject([AppConfigService], () => {
 
     const action = new GetAppConfiguration()
     const outcome = new LoadAppConfiguration(getConfigData())
@@ -261,13 +258,12 @@ describe('AppModule_User', () => {
    
   })))
 
-  it('effect should get currrent user operations', async (inject([AppDataService], (userService: AppDataService) => {
+  it('effect should get currrent user operations', async (inject([AppDataService], () => {
     const action = new GetUserOperations({payload: null})
     const setUserOps = new SetUserOperations(getUserOps())
     
     actions = hot('-a', { a: action })
 
-    const response = cold('-a|', { a: {payload: null} })
     
     const expected = cold('-b', { b: setUserOps})
 
@@ -276,14 +272,12 @@ describe('AppModule_User', () => {
   })))
 })
 
-let store: Store<{}>
 
 describe('App_Init', () => {
   //debugger
   let userEffects: UserEffects
   let appEffects: AppEffects
   let actions$: Observable<any>
-  let unsubscribe = new Subject<void>()
   let settingService: SettingsService
   beforeEach(() => {
     //debugger
@@ -324,7 +318,6 @@ describe('App_Init', () => {
     })
     userEffects = TestBed.get(UserEffects)
     appEffects = TestBed.get(AppEffects)
-    store = TestBed.get(Store)
     settingService = TestBed.get(SettingsService)
     actions$ = TestBed.get(Actions)
   })
@@ -362,11 +355,9 @@ describe('Mock Store', () => {
   }
 
 
-  let actions$: Observable<any>
   let actions: ReplaySubject<any>
   let appEffects: AppEffects
   let settingService: SettingsService
-  let httpClient: HttpClient
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ HttpClientTestingModule],
@@ -395,7 +386,6 @@ describe('Mock Store', () => {
     mockStore = TestBed.get(Store)
     appEffects = TestBed.get(AppEffects)
     settingService = TestBed.get(SettingsService)
-    httpClient = TestBed.get(HttpClient)
 
   })
 
