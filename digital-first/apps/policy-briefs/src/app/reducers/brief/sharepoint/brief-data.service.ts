@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core'
 import { Observable, of, forkJoin, EMPTY } from 'rxjs'
-import { SharepointJsomService, fromLookup } from '@df/sharepoint'
+import { SharepointJsomService, fromLookup, idFromLookup } from '@df/sharepoint'
 import { BriefDataService } from '../brief-data.service'
-import { concatMap, map, tap } from 'rxjs/operators'
+import { concatMap, map } from 'rxjs/operators'
 import { sortBy } from '../../../utils'
 import { HttpClient } from '@angular/common/http'
-import { AppSettingsService } from '@digital-first/df-app-core'
 import { byIdQuery, byBriefIdQuery } from '../../../services/sharepoint/caml'
 import { BriefMapperService } from '../../../services/mappers/brief-mapper.service'
 import { RecommendedDirectionMapperService } from '../../../services/mappers/recommended-direction-mapper.service'
@@ -78,7 +77,7 @@ export class BriefDataSharepointService implements BriefDataService {
           Brief: +briefId,
           Recommendation: +changes.recommendation
         },
-        id: changes.responseId
+        id: changes.responseid
       })
       .pipe(concatMap(_ => of({ briefId: briefId, loading: false })))
   }
@@ -176,14 +175,19 @@ export class BriefDataSharepointService implements BriefDataService {
           const result = spBrief[0]
           const recommendedDirection = spRecommendedDirection[0] || {}
           let recommendedActions = spRecommendations || []
+
+
+          const responses = spResponses.map(rsp =>( { ...rsp, RecommendationId : idFromLookup(rsp.Recommendation)}))
+
+          recommendedActions = recommendedActions.map(ra => ({...ra, Response: responses.find(rsp => rsp.RecommendationId === ra.ID)}))
+
           console.log(
             'getActiveBrief ==> ',
             recommendedDirection,
             recommendedActions,
-            spResponses
+            spResponses,
+            responses
           )
-
-          recommendedActions = recommendedActions.map(ra => ({...ra, Response: spResponses.find(rsp => rsp.Id === ra.Id)}))
 
           const editor = fromLookup(result.Editor)
           const subPolicy = fromLookup(result.SubPolicy)

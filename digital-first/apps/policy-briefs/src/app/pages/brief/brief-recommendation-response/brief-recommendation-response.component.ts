@@ -15,11 +15,11 @@ import * as fromRoot from '../../../reducers/index'
 import * as fromBrief from '../../../reducers/brief/brief.reducer'
 
 @Component({
-  selector: 'digital-first-brief-recommendation-action',
-  templateUrl: './brief-recommendation-action.component.html',
-  styleUrls: ['./brief-recommendation-action.component.scss']
+  selector: 'digital-first-brief-recommendation-response',
+  templateUrl: './brief-recommendation-response.component.html',
+  styleUrls: ['./brief-recommendation-response.component.scss']
 })
-export class BriefRecommendationActionComponent implements OnInit {
+export class BriefRecommendationResponseComponent implements OnInit {
   selectId$: any
   activeBriefId: string
 
@@ -42,7 +42,6 @@ export class BriefRecommendationActionComponent implements OnInit {
 
   ngOnInit() {
 
-
     this.selectId$ = this.route.paramMap
       .pipe(
         switchMap((params: ParamMap) => {
@@ -59,8 +58,8 @@ export class BriefRecommendationActionComponent implements OnInit {
           this.form.patchValue({
             recommendation: this.recommendation.id,
             brief: this.activeBriefId,
-            response: `${recommendationresponse.response}`,
-            responseid: `${recommendationresponse.responseId}`
+            response: `${recommendationresponse.value}`,
+            responseid: `${recommendationresponse.id}`
           })
 
           return EMPTY

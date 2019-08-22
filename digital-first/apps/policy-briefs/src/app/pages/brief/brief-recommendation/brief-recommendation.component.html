@@ -8,8 +8,8 @@
       <div class="recommendations" *ngIf="brief.recommendations">
         <h3>Recommendations</h3>
         <div class="recommendation" *ngFor="let recommendation of brief.recommendations">
-          <digital-first-brief-recommendation-action [recommendation]="recommendation">
-          </digital-first-brief-recommendation-action>
+          <digital-first-brief-recommendation-response [recommendation]="recommendation">
+          </digital-first-brief-recommendation-response>
         </div>
       </div>
     </div>
