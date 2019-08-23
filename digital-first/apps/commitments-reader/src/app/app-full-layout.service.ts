@@ -78,6 +78,9 @@ export class AppFullLayoutService {
   get drawOpen$(): Observable<boolean> {
     return of(null)
   }
+  get showMenu(): boolean {
+    return true
+  }
 
   setDrawState(appdrawerOpen: any): any {
     this.store.dispatch(new ToggleRefinerDrawer(null))

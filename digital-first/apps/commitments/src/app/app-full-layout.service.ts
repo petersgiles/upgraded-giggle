@@ -18,14 +18,19 @@ export class AppFullLayoutService {
   get title(): string {
     return 'Election Commitments'
   }
+  
+  get showMenu(): boolean {
+    return false
+  }
 
   get sidebarItems$(): Observable<SideBarItem[]> {
-    return of([{
-      caption: 'Overview',
-      icon: 'home',
-      routerLink: ['/']
-    }
-  ])
+    return of([
+      {
+        caption: 'Overview',
+        icon: 'home',
+        routerLink: ['/']
+      }
+    ])
   }
 
   get drawerStyle(): 'permanent' | 'dismissible' | 'modal' {
@@ -44,15 +49,16 @@ export class AppFullLayoutService {
     return this.service.Notification
   }
 
-  get protectiveMarking$(): Observable<any> { return of('UNCLASSIFIED') }
+  get protectiveMarking$(): Observable<any> {
+    return of('UNCLASSIFIED')
+  }
 
-  get open$(): Observable<boolean>  {
+  get open$(): Observable<boolean> {
     return this.service.getBusy()
   }
 
   get profile(): Observable<AppUserProfile> {
     return this.service.getCurrentUser()
   }
-  constructor(private service: CommitmentDataService) {
-  }
+  constructor(private service: CommitmentDataService) {}
 }

@@ -9,6 +9,7 @@
         #refinerDrawer
         drawer="dismissible"
         [open]="refinerOpen$ | async"
+        class="refiner-drawer"
       >
         <mdc-drawer-content>
           <digital-first-metadata-refiner
@@ -19,7 +20,7 @@
             (onClear)="handleClearRefiners($event)"
             (onRefinerGroupSelected)="handleRefinerGroupSelected($event)"
             (onRefinerSelected)="handleRefinerSelected($event)"
-            (onSlideOutGroupSelected)="handleSlideOutGroupSelected($event)"
+            (onMoreOptionsClick)="handleSlideOutGroupSelected($event)"
           ></digital-first-metadata-refiner>
         </mdc-drawer-content>
       </mdc-drawer>

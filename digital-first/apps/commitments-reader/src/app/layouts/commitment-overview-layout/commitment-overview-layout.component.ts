@@ -79,10 +79,12 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
   ) {}
 
   handleRefinerGroupSelected($event) {
+    this.electoratesDrawer.open = false
     this.store.dispatch(new SelectRefinerGroup($event))
   }
 
   handleSlideOutGroupSelected($event) {
+    this.electoratesDrawer.open = false
     this.refinerGroupWithDrawer = $event as CRMenu
     this.electorates = []
     this.selectedElectorates = []
@@ -108,23 +110,28 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
   }
 
   handleRefinerSelected($event) {
+    this.electoratesDrawer.open = false
     this.store.dispatch(new SelectRefiner($event))
   }
 
   handleTextRefinerChanged($event) {
+    this.electoratesDrawer.open = false
     this.store.dispatch(new ChangeTextRefiner($event))
   }
 
   handleClearRefiners($event) {
+    this.electoratesDrawer.open = false
     this.store.dispatch(new ClearRefiners($event))
   }
 
   handelRemoveSelectedGroup($event) {
     this.store.dispatch(new RemoveSelectedGroup($event))
   }
+
   handelRemoveSelectedRefiner($event) {
     this.store.dispatch(new SelectRefiner($event))
   }
+  
   ngOnInit() {
     const params = this.route.queryParams
    this.refinerOpen$ = this.store.pipe(select(fromRefiner.refinerOpenState))

@@ -5,12 +5,24 @@
   flex-direction: column;
 }
 
-.overview-outlet {
-  width: 100%;
+.layout-page {
+  overflow: hidden;
+  max-height: calc(100vh - 80px);
 }
 
-digital-first-metadata-refiner {
+.mdc-drawer.mdc-drawer--open:not(.mdc-drawer--closing)
+  + .mdc-drawer-app-content {
+  margin-left: 280px;
+  width: calc(100vw - 280px);
+}
+
+.mdc-drawer--open {
+  margin-top: 0px;
+  width: 280px;
+}
+.refiner-drawer {
   min-width: 280px;
+  height: calc(100vh - 80px)
 }
 
 .mdc-list {
@@ -28,10 +40,10 @@ digital-first-metadata-refiner {
 }
 .electrate-drawer {
   width: calc(50vw);
-  height: calc(100vh - 80px);
-  left: 260px;
-  z-index: 10000000;
+  height: calc(100vh - 100px);
+  left: 280px;
 }
+
 mdc-list-group div {
   padding-left: 10px;
 }
@@ -72,4 +84,3 @@ mdc-list-group div {
   display: inline-block;
   cursor: pointer;
 }
-

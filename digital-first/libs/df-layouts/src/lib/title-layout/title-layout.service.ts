@@ -23,9 +23,14 @@ export class TitleLayoutService {
     })
   }
 
+  get showMenu():boolean{
+    return false;
+  }
+
   setDrawState(appdrawerOpen: any): any {
     throw new Error('Method not implemented.')
   }
+  
   public handleAvatarClicked($event){
     throw new Error('Method not implemented.')
 

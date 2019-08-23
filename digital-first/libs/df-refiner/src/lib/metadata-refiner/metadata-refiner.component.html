@@ -1,4 +1,4 @@
-<mdc-list dense class=refiner-list>
+<mdc-list dense class="refiner-list">
   <mdc-list-item class="refiner-bar list-item">
     <button mdc-button dense (click)="onClear.emit()">
       <mdc-icon>clear</mdc-icon>Clear All
@@ -48,11 +48,13 @@
           "
         >
           <ng-container
-            *ngIf="!group.enableSlide || (group.enableSlide && i <= slideOutLimt)"
+            *ngIf="
+              !group.enableSlide || (group.enableSlide && i <= moreOptionsLimit)
+            "
           >
             <mdc-list-item
               class="refiner list-item"
-              (click)="onRefinerSelected.emit(refiner)"
+              (click)="handleOnRefinerSelected(refiner)"
             >
               <mdc-icon
                 >check_box{{
@@ -67,9 +69,9 @@
             </mdc-list-item>
           </ng-container>
           <mdc-list-item
-            *ngIf="group.enableSlide && i === slideOutLimt"
+            *ngIf="group.enableSlide && i === moreOptionsLimit"
             class="refiner list-itemlist-item"
-            (click)="onSlideOutGroupSelected.emit(group)"
+            (click)="onMoreOptionsClick.emit(group)"
           >
             <strong style="width:100%;text-align: center"
               >More options ...</strong

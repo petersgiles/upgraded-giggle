@@ -31,7 +31,7 @@
       <digital-first-metadata-refiner
         [refinerGroups]="refinerGroups$ | async"
         (onSearchCriteriaChanged)="handleSearchCriteriaChanged($event)"
-        (onClear)="handleSearchCriteriaChanged(null)"
+        (onClear)="handleClearAllFilters()"
         (onRefinerGroupSelected)="handleRefinerGroupSelected($event)"
         (onRefinerSelected)="handleRefinerSelected($event)"
       ></digital-first-metadata-refiner>

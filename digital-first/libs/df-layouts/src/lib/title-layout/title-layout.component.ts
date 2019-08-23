@@ -43,6 +43,9 @@ export class TitleLayoutComponent implements OnInit, OnDestroy {
     return this._profile
   }
 
+  get showMenu():boolean{
+    return this.service.showMenu
+  }
   public handleNavMenuClicked($event: any) {
     this.service.setDrawState($event)
   }

@@ -1,9 +1,11 @@
 <mdc-top-app-bar class="app-top-app-bar" #topAppBar fixed prominent="false">
   <mdc-top-app-bar-row>
     <div class="bookColour" [style.background]="bookColour$ | async">
-      <button mdcTopAppBarNavIcon (click)="handleNavMenuClicked($event)">
-        <mdc-icon>menu</mdc-icon>
-      </button>
+      <ng-container *ngIf="showMenu">
+        <button mdcTopAppBarNavIcon (click)="handleNavMenuClicked($event)">
+          <mdc-icon>menu</mdc-icon>
+        </button>
+      </ng-container>
     </div>
 
     <mdc-top-app-bar-section align="start" title="{{ title }}">

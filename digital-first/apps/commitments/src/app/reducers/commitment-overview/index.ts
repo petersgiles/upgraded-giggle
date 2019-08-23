@@ -174,7 +174,7 @@ export const getRefinerLookups = createSelector(
     packages,
     statuses,
     criticalDates,
-    relatedPortfolios,
+    relatedPortfolios
   ) => ({
     announcementTypes,
     commitmentTypes,
@@ -182,7 +182,7 @@ export const getRefinerLookups = createSelector(
     packages,
     statuses,
     criticalDates,
-    relatedPortfolios,
+    relatedPortfolios
   })
 )
 
@@ -203,7 +203,7 @@ export const getRefinerGroups = createSelector(
       lookups.statuses,
       lookups.criticalDates,
       lookups.relatedPortfolios,
-      [{id: undefined, groupId: 'costing', title: 'Required'}]
+      [{ id: undefined, groupId: 'costing', title: 'Required' }]
     ]
 
     const refinerGroupTitles = [
@@ -224,7 +224,9 @@ export const getRefinerGroups = createSelector(
       const rg: RefinerGroup = {
         id: groupkey,
         title: grouptitle,
-        expanded: !!uxState.groups.find(r => r === groupkey),
+        expanded:
+          !!uxState.groups.find(r => r === groupkey) ||
+          !!uxState.selected.find(r => r.groupId === groupkey),
         children: (item || []).map(p => ({
           id: p.id,
           groupId: groupkey,
@@ -257,7 +259,13 @@ export const getFilteredOverviewCommitments = createSelector(
   getCommitmentOverviewTextRefiner,
   getLookupCommitmentPackages,
   getLookupCommitmentPortfolios,
-  (arr: Commitment[], filters: any, filterText, packages: any, relatedPortfolios: any) => {
+  (
+    arr: Commitment[],
+    filters: any,
+    filterText,
+    packages: any,
+    relatedPortfolios: any
+  ) => {
     const filterKeys = Object.keys(filters)
     const joined = [...packages, ...relatedPortfolios]
     let refined = arr.filter(eachObj =>
@@ -266,17 +274,26 @@ export const getFilteredOverviewCommitments = createSelector(
           return true // passing an empty filter means that filter is ignored.
         }
 
-        if(joined.find(jn => jn.refinerGroup === eachKey)){
+        if (joined.find(jn => jn.refinerGroup === eachKey)) {
           let filteredProperty = filters[eachKey]
-          .map(fp => fp.groupId === eachKey && joined.find(jn => fp.title === jn.title && eachObj.title === jn.commitment))  
-          .filter(fp => !!fp === true)
-          return filteredProperty ? (filteredProperty.length ? true : false) : false
-        }
-        else{
+            .map(
+              fp =>
+                fp.groupId === eachKey &&
+                joined.find(
+                  jn => fp.title === jn.title && eachObj.title === jn.commitment
+                )
+            )
+            .filter(fp => !!fp === true)
+          return filteredProperty
+            ? filteredProperty.length
+              ? true
+              : false
+            : false
+        } else {
           let filteredProperty = filters[eachKey]
-          .map(fp => fp.id)
-          .includes(eachObj[eachKey] && eachObj[eachKey].id)
-          return filteredProperty 
+            .map(fp => fp.id)
+            .includes(eachObj[eachKey] && eachObj[eachKey].id)
+          return filteredProperty
         }
       })
     )

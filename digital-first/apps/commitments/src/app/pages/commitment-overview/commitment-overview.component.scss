@@ -1,5 +1,5 @@
 :host {
-  width:100%;
+  width: 100%;
   width: -webkit-fill-available;
   display: flex;
   flex-direction: column;
@@ -9,16 +9,15 @@
   }
 
   digital-first-metadata-refiner {
-    min-width: 250px;
+    min-width: 280px;
   }
 
   digital-first-data-table {
-    width:100%;
+    width: 100%;
     width: -webkit-fill-available;
-
   }
 
-  .overview-data-table{
+  .overview-data-table {
     flex-direction: row;
     width: 100%;
   }
@@ -27,13 +26,12 @@
     width: 100%;
   }
 
-  input[type=text] {
+  input[type='text'] {
     font-size: 14px;
     display: block;
     background: transparent;
     width: 100%;
     border: none;
-    border-bottom: 1px solid #5264AE;
+    border-bottom: 1px solid #5264ae;
+  }
 }
-}
-

@@ -29,7 +29,7 @@ export class MetadataRefinerComponent implements OnInit, OnDestroy {
     searchControl: this.searchControl
   })
 
-  slideOutLimt: number = 10
+  moreOptionsLimit: number = 10
   action$: any
   _refinerGroups: RefinerGroup[]
   constructor() {}
@@ -82,8 +82,11 @@ export class MetadataRefinerComponent implements OnInit, OnDestroy {
   onClear: EventEmitter<any> = new EventEmitter()
 
   @Output()
-  onSlideOutGroupSelected: EventEmitter<any> = new EventEmitter()
+  onMoreOptionsClick: EventEmitter<any> = new EventEmitter()
 
+  handleOnRefinerSelected(refiner) {
+    this.onRefinerSelected.emit(refiner)
+  }
   handleOnClear() {
     this.searchControl.reset()
   }

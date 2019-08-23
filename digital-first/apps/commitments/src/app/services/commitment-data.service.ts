@@ -29,7 +29,6 @@ import { ChangeTimeFormat, CollapsePanel, ExpandPanel, ChangeAutoSave } from '..
 
 import * as fromRoot from '../reducers'
 import { SetLayoutDrawState } from '../reducers/app.actions'
-import { tap } from 'rxjs/operators'
 import { DataTableConfig } from '@digital-first/df-datatable'
 
 @Injectable({

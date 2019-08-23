@@ -1,38 +1,38 @@
-@import "./src/scss/variables";
-@import "./src/scss/mixins";
+@import './src/scss/variables';
+@import './src/scss/mixins';
 
-@import "./src/scss/global";
-@import "./src/scss/vendor";
-@import "./src/scss/layout";
+@import './src/scss/global';
+@import './src/scss/vendor';
+@import './src/scss/layout';
 
-@import "./src/scss/color-web-safe";
-@import "./src/scss/angular-tree-component";
+@import './src/scss/color-web-safe';
+@import './src/scss/angular-tree-component';
 
 .mdc-typography {
-    font-family: Roboto,sans-serif;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
+  font-family: Roboto, sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
 }
 
 .mdc-list-item__primary-text {
-    white-space: normal !important;
-    width: 100%;
+  white-space: normal !important;
+  width: 100%;
 }
 
-@import "./src/scss/icons";
-@import "./src/scss/cards";
-@import "./src/scss/file";
-@import "./src/scss/deck";
+@import './src/scss/icons';
+@import './src/scss/cards';
+@import './src/scss/file';
+@import './src/scss/deck';
 
-@import "./src/scss/dialogs";
-@import "./src/scss/forms";
-@import "./src/scss/application";
-@import "./src/scss/lists";
-@import "./src/scss/navigation";
-@import "./src/scss/fab";
-@import "./src/scss/animations";
-@import "./src/scss/ng-select";
-@import "./src/scss/ngx-wig";
+@import './src/scss/dialogs';
+@import './src/scss/forms';
+@import './src/scss/application';
+@import './src/scss/lists';
+@import './src/scss/navigation';
+@import './src/scss/fab';
+@import './src/scss/animations';
+@import './src/scss/ng-select';
+@import './src/scss/ngx-wig';
 
 body {
   max-height: 100vh;
@@ -40,28 +40,27 @@ body {
 }
 
 .truncate {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-  
-  .page_title {
-    background-color: $primary-color-light;
-    color: $primary-text-color;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 8px 10px;
-    margin: 4px 0;
-    overflow: hidden;
-  }
-  
-  .page_title_text {
-    width: 100%;
-  }
+.page_title {
+  background-color: $primary-color-light;
+  color: $primary-text-color;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 8px 10px;
+  margin: 4px 0;
+  overflow: hidden;
+}
 
-  .busy {
-    background-color: rgba(0,0,0,0.1); /* Black background with opacity */
-    cursor: progress; /* Add a pointer on hover */
-  }
+.page_title_text {
+  width: 100%;
+}
+
+.busy {
+  background-color: rgba(0, 0, 0, 0.1); /* Black background with opacity */
+  cursor: progress; /* Add a pointer on hover */
+}
