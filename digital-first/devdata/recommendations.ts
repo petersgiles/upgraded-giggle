@@ -1,4 +1,4 @@
-export const recommendations = [
+export const recommendations: any[] = [
       {
         Id: 1,
         Title: 'LOCALDEV-DAVE-636904933095506843',
@@ -1818,7 +1818,11 @@ export const recommendations = [
         Id: 87,
         Title: 'LOCALDEV-DAVE-636904956478850350',
         Recommendation:
-          'There is probably no causal link between the basic metaphysical delivery and a proven solution to the metaphysical reaction. However efforts are already underway in the development of the directive specific mobility. Under the provision of the overall legitimate plan, the underlying surrealism of the  core business rivals, in terms of resource implications, any best practice integrated funding. This can be deduced from the mutual development. The objective of the cost-effective application is to delineate the fundamental paralyptic resource allocation. This trend may dissipate due to the product lead times.  \n<h2>The Priority Sequence.</h2>\n<p>We have heard it said, tongue-in-cheek, that firm assumptions about ad-hoc reproducible reconstruction intuitively legitimises the significance of the value added preeminent consolidation. This may be due to a lack of a compatible psychic matrix..  ',
+          `🐧🐧🐧🐧🐧
+          Some words are a doozy to pronounce -- but is "penguins" really one of them?
+          Apparently it's tricky for jauntily-named British actor Benedict Cumberbatch. Cumberbatch just couldn't seem to pronounce the word correctly while narrating a 2009 BBC documentary series about wildlife on the South Pacific islands.
+          So, is it pengwings? Penglings? Let's call the whole thing off; we're cool with Cumberbatch calling things whatever he wants, as long as he does it in that voice.
+          🐧🐧🐧🐧🐧`,
         Outcome1: 'Agree',
         Outcome2: 'Disagree',
         Outcome3: 'Clarification required',

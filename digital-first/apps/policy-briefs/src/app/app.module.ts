@@ -95,7 +95,7 @@ import { BriefDiscussionComponent } from './pages/brief/brief-discussion/brief-d
 import { BriefProcessingInstructionComponent } from './pages/brief/brief-processing-instruction/brief-processing-instruction.component';
 import { BriefRecommendationComponent } from './pages/brief/brief-recommendation/brief-recommendation.component';
 import { BriefWarningBannerComponent } from './pages/brief/brief-warning-banner/brief-warning-banner.component';
-import { BriefRecommendationActionComponent } from './pages/brief/brief-recommendation-action/brief-recommendation-action.component';
+import { BriefRecommendationResponseComponent } from './pages/brief/brief-recommendation-response/brief-recommendation-response.component';
 import { BriefCommitmentsComponent } from './pages/brief/brief-commitments/brief-commitments.component'
 import { NgxWigModule } from 'ngx-wig'
 
@@ -119,7 +119,7 @@ const COMPONENTS = [
 const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
 
 @NgModule({
-  declarations: [...COMPONENTS, BriefProcessingInstructionComponent, BriefRecommendationComponent, BriefWarningBannerComponent, BriefRecommendationActionComponent, BriefCommitmentsComponent],
+  declarations: [...COMPONENTS, BriefProcessingInstructionComponent, BriefRecommendationComponent, BriefWarningBannerComponent, BriefRecommendationResponseComponent, BriefCommitmentsComponent],
   entryComponents: [...ENTRYCOMPONENTS],
   imports: [
     BrowserModule,

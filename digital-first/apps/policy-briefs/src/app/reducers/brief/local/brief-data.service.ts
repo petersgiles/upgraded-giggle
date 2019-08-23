@@ -4,14 +4,15 @@ import { BriefDataService } from '../brief-data.service'
 import {
   briefs,
   recommendations,
-  recommendeddirections
+  recommendeddirections,
+  recommendationResponses
 } from '../../../../../../../devdata/data'
 import { HttpClient } from '@angular/common/http'
 import { AppSettingsService } from '@digital-first/df-app-core'
 import { concatMap, catchError } from 'rxjs/operators'
 import { BriefMapperService } from '../../../services/mappers/brief-mapper.service'
 
-const reccomendationResponses = []
+
 
 @Injectable({
   providedIn: 'root'
@@ -72,7 +73,7 @@ export class BriefDataLocalService implements BriefDataService {
   }
 
   updateRecommendation(briefId: string, changes: any): Observable<any> {
-    var found = recommendations.find(
+    let found: any = recommendations.find(
       p => `${p.Brief.Id}` == briefId && p.Id == changes.id
     )
     let index = recommendations.length + 1
@@ -112,13 +113,13 @@ export class BriefDataLocalService implements BriefDataService {
     return of({ briefId: briefId, loading: false })
   }
   updateRecommendationResponse(briefId: string, changes: any): Observable<any> {
-    var found = reccomendationResponses.find(p => p.Id == changes.id)
-    let index = reccomendationResponses.length + 1
+    var found = recommendationResponses.find(p => p.Id == changes.id)
+    let index = recommendationResponses.length + 1
     if (found) {
-      index = reccomendationResponses.indexOf(found)
+      index = recommendationResponses.indexOf(found)
       recommendations[index] = {
         ...found,
-        Recommendation: changes.changes.id,
+        Recommendation: changes.id,
         Title: changes.outcome1
       }
     } else {
@@ -173,7 +174,7 @@ export class BriefDataLocalService implements BriefDataService {
 
     recommendedActions = recommendedActions.map(ra => ({
       ...ra,
-      Response: reccomendationResponses.find(rsp => rsp.Id === ra.Id)
+      Response: recommendationResponses.find(rsp => rsp.Recommendation.Id === ra.Id)
     }))
     console.log(`🐨`, recommendedActions)
     const m = {
