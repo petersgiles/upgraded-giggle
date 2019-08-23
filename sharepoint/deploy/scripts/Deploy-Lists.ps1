@@ -27,7 +27,7 @@ function Does-ListExist($context, $listName)
 function Get-ListsToProcess($saveLocation)
 {
     $listsToProcess = @()
-    Get-ChildItem $saveLocation -File | % { $listsToProcess += ("$($_.BaseName)") }
+    Get-ChildItem $saveLocation -File -Filter "*.json" | % { $listsToProcess += ("$($_.BaseName)") }
     return $listsToProcess
 }
 
