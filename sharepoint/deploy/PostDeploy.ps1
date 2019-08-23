@@ -5,59 +5,65 @@ param(
     [string]$SiteConfiguration,
     [string]$LoadReferenceData
 )
-$devSiteName=""
-if($OctopusParameters) {
+
+if ($PSScriptRoot)
+{
+    Set-Location $PSScriptRoot
+}
+
+if ($OctopusParameters)
+{
     $SiteUrls = $OctopusParameters["SiteUrls"]
     $AppName = $OctopusParameters["AppName"]
     $LoadReferenceData = $OctopusParameters["LoadReferenceData"]
     $SiteConfiguration = $OctopusParameters["SiteConfiguration"]
     $ForceSchemaUpdate = $OctopusParameters["ForceSchemaUpdate"]
 }
-else{
-    $devSiteName = Get-Content -Path .\devSiteName.txt
-    if(!$devSiteName) {
-        $devSiteName=Read-Host "Please type your dev site name, e.g. Pete, Kim, Tim, Ning: "
-        Set-Content -Path .\devSiteName.txt -Value $devSiteName
+else
+{
+    $localConfigFile = ".\devSiteName.txt"
+
+    if (-not (Test-Path $localConfigFile))
+    {
+        Read-Host "Please type your dev site name, e.g. Pete, Kim, Tim, Ning: " | Set-Content -Path $localConfigFile
     }
-    
+    $baseDevUrl = $SiteUrls.TrimEnd('/')
+    $SiteUrls = "$baseDevUrl/$(Get-Content $localConfigFile)"
 }
-if ($PSScriptRoot) {
-    Set-Location $PSScriptRoot
-}
+
 
 $binPath = (Get-Item "scripts").FullName
-$deploySites = $SiteUrls.Split(',')
-Write-Host "Site Configuration : $SiteConfiguration"
+$deploySiteUrls = $SiteUrls.Split(',')
+Write-Verbose "Site Configuration : $SiteConfiguration"
+Write-Output "SiteUrls : $SiteUrls"
 
-if ($null -eq $ForceSchemaUpdate -or $ForceSchemaUpdate -ne "True") {
+if ($null -eq $ForceSchemaUpdate -or $ForceSchemaUpdate -ne "True")
+{
     $boolForceUpdateSchema = $false
 }
-else {
+else
+{
     $boolForceUpdateSchema = $true
 }
 
-foreach ($deploySiteUrl in $deploySites) {
-    if($devSiteName -ne "")
-    {
-        if($devSiteName[-1] -eq '/'){
-            $deploySiteUrl=$deploySiteUrl+$devSiteName
-        }
-        else{
-            $deploySiteUrl=$deploySiteUrl+"/"+$devSiteName
-        }
-    }
-    Write-Host "Deploying to URL $deploySiteUrl"
+foreach ($deploySiteUrl in $deploySiteUrls)
+{
+    Write-Output "Deploying to URL $deploySiteUrl"
     & .\scripts\BulkUploadSharePointCSOM.ps1 -Folder "SiteAssets" -DocLibName "Site Assets" -binPath $binPath -SiteUrl $deploySiteUrl -jsOnly:$jsOnly.IsPresent
+
     & .\scripts\BulkUploadSharePointCSOM.ps1 -Folder "SitePages" -DocLibName "Site Pages" -binPath $binPath -SiteUrl $deploySiteUrl -jsOnly:$jsOnly.IsPresent
+
     & .\scripts\Deploy-Lists.ps1 -saveLocation "ListDefinitions/$AppName" -binPath $binPath -siteUrl $deploySiteUrl -forceListUpdate $boolForceUpdateSchema
     
-    if ($LoadReferenceData -eq 'True') {
-        Write-Host "Loading reference data"
+    if ($LoadReferenceData -eq 'True')
+    {
+        Write-Output "Loading reference data"
         & .\scripts\ImportAll-ListDataFromXml.ps1 -importLocation "ListData/$AppName" -binPath $binPath -SiteUrl $deploySiteUrl
     }
 }
 
-if ((-not $null -eq $SiteConfiguration)) {
+if ((-not $null -eq $SiteConfiguration))
+{
     & .\scripts\Set-SiteConfiguration.ps1 `
         -binPath $binPath `
         -appName $AppName `
