@@ -66,6 +66,10 @@ export class DeckComponent implements OnInit, OnDestroy {
   public onCancelled: EventEmitter<DeckItem> = new EventEmitter()
 
   @Output()
+  public onDeleted: EventEmitter<DeckItem> = new EventEmitter()
+
+
+  @Output()
   public onCreateCard: EventEmitter<DeckItem> = new EventEmitter()
 
   @Output()
