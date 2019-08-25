@@ -15,24 +15,24 @@
             {
               "caption": "Dashboard",
               "icon": "dashboard",
-              "url": "SitePages/deck.aspx/deck"
+              "url": "../deckx.aspx/deck"
             },  {
               "caption": "Activity",
               "icon": "timeline",
-              "url": "SitePages/index.aspx/recent"
+              "url": "../index.aspx/recent"
             },  {
               "caption": "Alerts",
               "icon": "notifications",
-              "url": "SitePages/index.aspx/notifications"
+              "url": "../index.aspx/notifications"
             }, {
               "caption": "Permissions",
               "icon": "how_to_reg",
-              "url": "_layouts/15/user.aspx",
+              "url": "../../_layouts/15/user.aspx",
               "target": "_blank"
             },  {
               "caption": "Admin",
               "icon": "settings",
-              "url": "/SitePages/admin.aspx/admin"
+              "url": "../admin.aspx/admin"
             }
           ]
     }

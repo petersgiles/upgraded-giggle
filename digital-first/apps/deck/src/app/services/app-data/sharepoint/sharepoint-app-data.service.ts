@@ -49,5 +49,13 @@ export class SharePointAppDataService implements AppDataService {
     return this.sharepoint.getCurrentUser()
   }
 
+  removeItem(listName: string, id: string ) {
+
+    let item
+
+    const context = this.sharepoint.removeItem({listName: 'j', id: '1'})
+   
+  }
+
   constructor(private sharepoint: SharepointJsomService) {}
 }
