@@ -201,5 +201,8 @@
     <button mdc-button dense type="submit" [disabled]="!cardForm.valid">
       Save
     </button>
+    <button mdc-button dense type="delete"  (click)="handleDeleteCard()">
+      Delete
+    </button>
   </div>
 </form>

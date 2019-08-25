@@ -207,7 +207,7 @@ export const deckData = {
       title: 'Bacon Ipsum',
       parent: null,
       supportingText: `<div class="ExternalClassB0457B6866AE4EDDAB10D60B930EC856">
-        <span style="color&#58;rgb(51, 51, 51);font-family&#58;Georgia, &quot;Bitstream Charter&quot;, serif;">
+        <span style="color:rgb(51, 51, 51);font-family:Georgia, &quot;Bitstream Charter&quot;, serif;">
         Bacon ipsum <b>dolor </b>amet ham hock salami burgdoggen flank turkey jerky pork chop biltong,
         ribeye pig jowl ham t-bone pancetta. Strip steak t-bone sirloin turducken pork belly, ham shoulder pastrami
         pork spare ribs swine ball tip. Salami ham pork belly venison pastrami prosciutto
@@ -262,6 +262,45 @@ export const deckData = {
       titleClass: 'CornflowerBlue',
       media: null,
       data: pieChart
+    },
+    {
+      id: '12',
+      parent: null,
+      title: 'Pictures HTML',
+      supportingText:  `<div class="ExternalClassA03244D9510C4E8D9CF13379104760ED"><br><table cellspacing="0" width="100%" 
+      class="ms-rteTable-default"><tbody><tr class="ms-rteTableEvenRow-default"><td class="ms-rteTableEvenCol-default" style="width:6%;">
+      ​​<img src="/assets/secretary.jpg" alt="Edu secretary.jpg" style="margin:5px;width:167px;" />​​<br></td>
+      <td class="ms-rteTableOddCol-default" style="width:50%;"><span style="color:#444444;">
+      ​<span style="font-family:&quot;open sans&quot;, arial, sans-serif;font-size:14px;text-align:justify;background-color:#ffffff;">
+      At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias 
+      excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. 
+      Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus 
+      id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.&#160;<br></span><br style=""><span style="">​</span>
+      <span style="font-family:&quot;open sans&quot;, arial, sans-serif;font-size:14px;text-align:justify;">
+      ​Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. 
+      Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores 
+      repella</span><span style="">​</span><br style=""><span style="">​</span><br style=""><span style="font-family:&quot;open sans&quot;,
+       arial, sans-serif;font-size:14px;text-align:justify;">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis 
+       praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, 
+       similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et 
+       expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime 
+       placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.&#160;<br></span><br style=""><span style="">​</span>
+       <span style="font-family:&quot;open sans&quot;, arial, sans-serif;font-size:14px;text-align:justify;">​Temporibus autem quibusdam et aut 
+       officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. 
+       Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repella
+       </span><span style="">​</span><br style=""><div style="text-align:start;"><br></div><span style="">​</span>
+       <span style="font-family:&quot;open sans&quot;, arial, sans-serif;font-size:14px;text-align:justify;">​
+       Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. 
+       Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repella</span>
+       <span style="">​​</span><br></span></td></tr></tbody></table><p><br></p></div>`,
+      size: '12',
+      cardType: CardType.Standard,
+      actions: [],
+      sortOrder: '1',
+      colour: 'CornflowerBlue',
+      titleClass: 'CornflowerBlue',
+      media: null,
+      data: null
     }
   ],
   loading: false

@@ -17,7 +17,8 @@ import {
   UpdateDeckItem,
   SetSelectedDeckItem,
   GetBriefs,
-  AddDeckItem
+  AddDeckItem,
+  RemoveDeckItem
 } from '../../reducers/deck/deck.actions'
 import { CardType, DeckItem } from '../../components/deck'
 
@@ -99,6 +100,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   handleCancelled($event) {
     this.store.dispatch(new SetSelectedDeckItem({ id: null }))
   }
+
+
+  handleDeleted($event) {
+    this.store.dispatch(new RemoveDeckItem({ id: null }))
+  }
+
 
   handleAction($event: DeckItem | any) {
     if ($event) {

@@ -36,6 +36,7 @@ export class EditCardComponent implements OnInit {
 
   @Input()
   set selected(val) {
+    console.log('deck selected card', val)
     this._selected = JSON.parse(JSON.stringify(val))
     this.populateEditCardForm(this._selected)
   }
@@ -49,6 +50,9 @@ export class EditCardComponent implements OnInit {
 
   @Output()
   public onCancelled: EventEmitter<DeckItem> = new EventEmitter()
+
+  @Output()
+  public onDeleted: EventEmitter<DeckItem> = new EventEmitter()
 
   public showBriefList = true
   public showEditMedia = false
@@ -111,6 +115,10 @@ export class EditCardComponent implements OnInit {
   public handleCancelEditCard() {
     this.clearEditedData(this.selected)
     this.onCancelled.emit(this.selected)
+  }
+
+  public handleDeleteCard() {
+    this.onDeleted.emit(this.selected)
   }
 
   public handleSubmit(card: DeckItem) {
