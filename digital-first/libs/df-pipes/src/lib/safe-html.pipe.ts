@@ -13,3 +13,17 @@ export class SafeHtmlPipe implements PipeTransform {
   }
 
 }
+
+
+@Pipe({
+  name: 'safeHtmlStyle'
+})
+export class SafeHtmlStylePipe implements PipeTransform {
+  constructor(private sanitized: DomSanitizer) { }
+  transform(value) {
+    if (value) {
+      return this.sanitized.bypassSecurityTrustStyle(value)
+    }
+  }
+
+}

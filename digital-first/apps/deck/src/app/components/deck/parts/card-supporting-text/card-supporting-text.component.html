@@ -1,5 +1,5 @@
 <div
 *ngIf="card?.supportingText"
 class="df-card__supporting-text"
-[innerHtml]="card?.supportingText"
+[innerHtml]="card?.supportingText | safeHtml"
 ></div>

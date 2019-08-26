@@ -37,6 +37,7 @@ import {
   ImageCardComponent,
   VideoCardComponent
 } from './cards'
+import { PipesModule } from '@df/components';
 
 const COMPONENTS = [
   DeckComponent,
@@ -62,6 +63,7 @@ const COMPONENTS = [
     BrowserModule,
     CommonModule,
     ChartsModule,
+    PipesModule,
     NgSelectModule,
     MdcButtonModule,
     MdcIconModule,

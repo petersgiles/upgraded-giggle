@@ -1,9 +1,12 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc/apps/commitments",
-    "types": ["jasmine", "node"]
+    "outDir": "../../dist/out-tsc/apps/commitments-reader/",
+    "module": "commonjs",
+    "types": ["jest",
+      "node"],
+      "allowJs": true
   },
-  "files": [ "src/test-setup.ts"],
-  "include": ["**/*.spec.ts", "**/*.d.ts"]
+  "files": [],
+  "include": ["**/*.spec.ts", "**/*.d.ts"],
 }
