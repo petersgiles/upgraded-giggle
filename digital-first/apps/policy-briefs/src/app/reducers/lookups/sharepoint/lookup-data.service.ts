@@ -57,6 +57,17 @@ export class LookupDataSharepointService implements LookupDataService {
       })
       .pipe(concatMap(result => this.mapLookup(result)))
   }
+
+  getLookupSubscriptionTypes(config?: any): Observable<any> {
+    console.log('getLookupSubscriptionTypes', config)
+
+    return this.sharepoint
+      .getItems({
+        listName: 'SubscriptionTypes'
+      })
+      .pipe(concatMap(result => this.mapLookup(result)))
+  }
+
   getPolicies(config?: any): Observable<any> {
     return this.sharepoint
       .getItems({

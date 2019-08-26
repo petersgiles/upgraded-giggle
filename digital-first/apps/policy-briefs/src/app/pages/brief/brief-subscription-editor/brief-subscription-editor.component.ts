@@ -78,7 +78,9 @@ export class BriefSubscriptionEditorComponent implements OnInit {
   }
 
   checked(arr, id) {
-    return id in arr.map(p => p.id)
+    const checked =  arr.some(p => `${p.id}` === `${id}`)
+    console.log('checked', arr, id, checked)
+    return checked
   }
 
   handleView($event) {

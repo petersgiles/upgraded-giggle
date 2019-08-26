@@ -31,7 +31,7 @@ const statusMap: DocumentStatus[] = briefstatuses.map(p => ({
   order: p.SortOrder
 }))
 
-
+const activityListMap = activityList.map(p => ({ caption: p.caption, value: `${p.id}` }))
 @Injectable({
   providedIn: 'root'
 })
@@ -46,6 +46,7 @@ export class LookupDataLocalService implements LookupDataService {
   private divisions$: BehaviorSubject<LookupValue[]> = new BehaviorSubject(dlms)
   private activities$: BehaviorSubject<any[]> = new BehaviorSubject(activityList)
   private statuses$: BehaviorSubject<DocumentStatus[]> = new BehaviorSubject(statusMap)
+  private subscriptionTypes$: BehaviorSubject<LookupValue[]> = new BehaviorSubject(activityListMap)
 
   getPolicies = (config?: any): Observable<any> => this.policies$
   getSubPolicies = (config?: any): Observable<any> => this.subpolicies$
@@ -55,6 +56,6 @@ export class LookupDataLocalService implements LookupDataService {
   getLookupDivisions = (config?: any): Observable<any> => this.divisions$
   getLookupActivities = (config?: any): Observable<any> => this.activities$
   getLookupStatuses = (config?: any): Observable<any> => this.statuses$
-
+  getLookupSubscriptionTypes = (config?: any): Observable<any> => this.subscriptionTypes$
   constructor() {}
 }

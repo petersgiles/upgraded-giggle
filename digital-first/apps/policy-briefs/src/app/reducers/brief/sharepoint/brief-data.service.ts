@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core'
 import { Observable, of, forkJoin, EMPTY } from 'rxjs'
-import { SharepointJsomService, fromLookup, idFromLookup } from '@df/sharepoint'
+import {
+  SharepointJsomService,
+  fromLookup,
+  idFromLookup,
+  fromUser
+} from '@df/sharepoint'
 import { BriefDataService } from '../brief-data.service'
 import { concatMap, map } from 'rxjs/operators'
 import { sortBy } from '../../../utils'
@@ -48,8 +53,6 @@ export class BriefDataSharepointService implements BriefDataService {
   }
 
   updateRecommendation(briefId: string, changes: any): Observable<any> {
-
-
     return this.sharepoint
       .storeItem({
         listName: RECOMMENDATION_ITEM_LIST_NAME,
@@ -83,7 +86,6 @@ export class BriefDataSharepointService implements BriefDataService {
   }
 
   updateRecommendedDirection(briefId: string, changes: any): Observable<any> {
-
     const briefIdViewXml = byBriefIdQuery({ id: briefId })
 
     return this.sharepoint
@@ -92,14 +94,13 @@ export class BriefDataSharepointService implements BriefDataService {
         viewXml: briefIdViewXml
       })
       .pipe(
-        concatMap(result =>
-        {
+        concatMap(result => {
           let direction = null
-          if(result && result.length > 0){
+          if (result && result.length > 0) {
             direction = result[0].ID
           }
 
-console.log(`🕊️ updateRecommendedDirection`, result, changes)
+          console.log(`🕊️ updateRecommendedDirection`, result, changes)
 
           return this.sharepoint
             .storeItem({
@@ -111,8 +112,8 @@ console.log(`🕊️ updateRecommendedDirection`, result, changes)
               },
               id: direction
             })
-            .pipe(concatMap(_ => of({ briefId: briefId, loading: false })))}
-        )
+            .pipe(concatMap(_ => of({ briefId: briefId, loading: false })))
+        })
       )
   }
 
@@ -186,10 +187,15 @@ console.log(`🕊️ updateRecommendedDirection`, result, changes)
           const recommendedDirection = spRecommendedDirection[0] || {}
           let recommendedActions = spRecommendations || []
 
+          const responses = spResponses.map(rsp => ({
+            ...rsp,
+            RecommendationId: idFromLookup(rsp.Recommendation)
+          }))
 
-          const responses = spResponses.map(rsp =>( { ...rsp, RecommendationId : idFromLookup(rsp.Recommendation)}))
-
-          recommendedActions = recommendedActions.map(ra => ({...ra, Response: responses.find(rsp => rsp.RecommendationId === ra.ID)}))
+          recommendedActions = recommendedActions.map(ra => ({
+            ...ra,
+            Response: responses.find(rsp => rsp.RecommendationId === ra.ID)
+          }))
 
           console.log(
             'getActiveBrief ==> ',
@@ -213,7 +219,7 @@ console.log(`🕊️ updateRecommendedDirection`, result, changes)
             BriefStatus: briefStatus,
             BriefDivision: briefDivision,
             RecommendedDirection: recommendedDirection.Recommended,
-            Recommendations: recommendedActions,            
+            Recommendations: recommendedActions
           })
 
           return of({
@@ -225,14 +231,63 @@ console.log(`🕊️ updateRecommendedDirection`, result, changes)
     )
   }
 
-  public getActiveBriefSubscriptions(briefId): Observable<{ data: any; loading: boolean }> {
-    
-    const subscriptions = []
-    
-    return of({
-      data: subscriptions,
-      loading: false
-    })
+  public getActiveBriefSubscriptions(
+    briefId
+  ): Observable<{ data: any; loading: boolean }> {
+    const briefIdViewXml = byBriefIdQuery({ id: briefId })
+    return forkJoin([
+      this.sharepoint.getItems({
+        listName: 'InvitationPMOContacts'
+      }),
+      this.sharepoint.getItems({
+        listName: 'BriefSubscriptions',
+        viewXml: briefIdViewXml
+      })
+    ]).pipe(
+      concatMap(([spContacts, spSubscriptions]) => {
+        var subscriptions = spContacts.map(contact => {
+          const pmcUser = fromUser(contact.PMCUser)
+          console.log('getActiveBriefSubscriptions', pmcUser)
+
+          if (spSubscriptions && spSubscriptions.length > 0) {
+            const userSubscriptions = spSubscriptions.filter(sub => {
+              const subscriber = fromUser(sub.Subscriber)
+              return subscriber.id == pmcUser.id
+            })
+
+             return userSubscriptions.reduce(
+              (sacc, item) => {
+                const userActivities = item.SubscriptionTypes.map(st => {
+                  const id = idFromLookup(st)
+                  return { id: id}
+                })
+                const userStatuses = item.BriefStatus.map(st => {
+                  const id = idFromLookup(st)
+                  return { id: id}
+                })
+
+                sacc.activity = [...userActivities]
+                sacc.status = [...userStatuses]
+                return sacc
+              },
+              {
+                
+                user_id: pmcUser.id,
+                name:  pmcUser.title,
+                brief_id: briefId,                
+                activity: [],
+                status: []
+              }
+            )
+          }
+        })
+
+        return of({
+          data: subscriptions,
+          loading: false
+        })
+      })
+    )
   }
 
   public getBriefHtml(
