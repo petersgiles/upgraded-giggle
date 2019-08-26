@@ -38,6 +38,10 @@ export enum BriefActionTypes {
   SetActiveBriefSubscriptions = '[Brief] Set Active Brief Subscriptions',
   SetActiveBriefSubscriptionsFail = '[Brief] Set Brief Subscriptions Fail',
   SetActiveBriefSubscriptionsSuccess = '[Brief] Set Brief Subscriptions Success',
+
+  ToggleBriefSubscription = '[Brief] Toggle Brief Subscription',
+  ToggleBriefSubscriptionFail = '[Brief] Toggle Brief Subscription Fail',
+  ToggleBriefSubscriptionSuccess = '[Brief] Toggle Brief Subscription Success',
 }
 
 export class SetActiveBriefStatus implements Action {
@@ -201,6 +205,27 @@ export class SetActiveBriefSubscriptions implements Action {
   constructor(public payload: any) {}
 }
 
+export class ToggleBriefSubscriptionSuccess implements Action {
+  readonly type = BriefActionTypes.ToggleBriefSubscriptionSuccess
+}
+
+export class ToggleBriefSubscriptionFail implements Action {
+  readonly type = BriefActionTypes.ToggleBriefSubscriptionFail
+}
+
+export class ToggleBriefSubscription implements Action {
+  readonly type = BriefActionTypes.ToggleBriefSubscription
+  constructor(
+    public payload: {
+      briefId: any
+      userId: any
+      activity: any
+      status: any
+    }
+  ) {}
+}
+
+
 export type BriefActions =
   | LoadBrief
   | SetActiveBrief
@@ -226,3 +251,6 @@ export type BriefActions =
   | SetActiveBriefSubscriptions
   | SetActiveBriefSubscriptionsFail
   | SetActiveBriefSubscriptionsSuccess
+  | ToggleBriefSubscriptionSuccess
+  | ToggleBriefSubscriptionFail
+  | ToggleBriefSubscription

@@ -23,10 +23,10 @@
           <th>
             &nbsp;
           </th>
-          <th [attr.colspan]="(activities$ | async)?.length">
+          <th [attr.colspan]="activities?.length">
             <div class="align-center activity-column">Activities</div>
           </th>
-          <th [attr.colspan]="(documentStatusList$ | async)?.length">
+          <th [attr.colspan]="documentStatusList?.length">
             <div class="align-center status-column">By Status</div>
           </th>
           <th></th>
@@ -45,7 +45,7 @@
           </th>
           <th
             class="rotate activity-column"
-            *ngFor="let s of activities$ | async"
+            *ngFor="let s of activities"
           >
             <div>
               <span>{{ s.caption }}</span>
@@ -53,7 +53,7 @@
           </th>
           <th
             class="rotate status-column"
-            *ngFor="let s of documentStatusList$ | async"
+            *ngFor="let s of documentStatusList"
           >
             <div>
               <span>{{ s.caption }}</span>
@@ -61,20 +61,20 @@
           </th>
         </tr>
       </thead>
-      <tr *ngFor="let n of notifications$ | async">
+      <tr *ngFor="let n of notifications">
         <td>
           <!-- <button mdcIconButton [on]="false">
             <mdc-icon mdcIconOn>check_box</mdc-icon>
             <mdc-icon>check_box_outline_blank</mdc-icon>
           </button> -->
         </td>
-        <td>{{ n.name }}</td>
+        <td>{{ n.name }}{{ n.id }}</td>
         <td
           style="text-align:center"
           class="activity-column"
-          *ngFor="let s of activities$ | async"
+          *ngFor="let s of activities"
         >
-          <button mdcIconButton [on]="checked(n.activity, s.id)">
+          <button mdcIconButton [on]="checked(n.activity, s.id)" (click)="handleToggleActivity(n, s.id )">
             <mdc-icon mdcIconOn>check_box</mdc-icon>
             <mdc-icon>check_box_outline_blank</mdc-icon>
           </button>
@@ -82,9 +82,9 @@
         <td
           style="text-align:center"
           class="status-column"
-          *ngFor="let s of documentStatusList$ | async"
+          *ngFor="let s of documentStatusList"
         >
-          <button mdcIconButton [on]="checked(n.status, s.id)">
+          <button mdcIconButton [on]="checked(n.status, s.id)"  (click)="handleToggleStatus(n, s.id)">
             <mdc-icon mdcIconOn>check_box</mdc-icon>
             <mdc-icon>check_box_outline_blank</mdc-icon>
           </button>
