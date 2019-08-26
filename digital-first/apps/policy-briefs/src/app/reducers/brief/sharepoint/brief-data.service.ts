@@ -290,6 +290,12 @@ export class BriefDataSharepointService implements BriefDataService {
     )
   }
 
+  toggleBriefSubscription(payload: { briefId: any; userId: any; data: { type: "activity" | "status"; id: any; on: boolean; }; name?: string  }): Observable<any> {
+
+    const subscriptions = []
+    return of(payload.briefId)
+  }
+
   public getBriefHtml(
     fileLeafRef
   ): Observable<{

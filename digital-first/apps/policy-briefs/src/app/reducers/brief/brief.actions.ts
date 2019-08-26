@@ -219,12 +219,11 @@ export class ToggleBriefSubscription implements Action {
     public payload: {
       briefId: any
       userId: any
-      activity: any
-      status: any
+      data: { type: 'activity' |  'status', id: any, on: boolean },
+      name?: string
     }
   ) {}
 }
-
 
 export type BriefActions =
   | LoadBrief

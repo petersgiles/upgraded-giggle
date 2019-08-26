@@ -47,7 +47,7 @@ export class BriefSubscriptionEditorComponent implements OnInit, OnDestroy {
     public dialog: MdcDialog
   ) {}
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.activitiesSubscription$.unsubscribe()
     this.documentStatusListSubscription$.unsubscribe()
     this.notificationsSubscription$.unsubscribe()
@@ -56,19 +56,15 @@ export class BriefSubscriptionEditorComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.brief$ = this.store.pipe(select(fromBrief.selectBriefState))
     this.background$ = this.store.pipe(select(selectAppBackgroundColour))
-    this.documentStatusListSubscription$ = this.store.pipe(
-      select(fromLookup.selectLookupStatusesState)
-    )
-    .subscribe(p => this.documentStatusList = p)
-    this.activitiesSubscription$ = this.store.pipe(
-      select(fromLookup.selectLookupActivitiesState)
-    )
-    .subscribe(p => this.activities = p)
-    this.notificationsSubscription$ = this.store.pipe(
-      select(fromBrief.selectActiveBriefSubscriptions)
-    )
-    .subscribe(p => this.notifications = p)
-    
+    this.documentStatusListSubscription$ = this.store
+      .pipe(select(fromLookup.selectLookupStatusesState))
+      .subscribe(p => (this.documentStatusList = p))
+    this.activitiesSubscription$ = this.store
+      .pipe(select(fromLookup.selectLookupActivitiesState))
+      .subscribe(p => (this.activities = p))
+    this.notificationsSubscription$ = this.store
+      .pipe(select(fromBrief.selectActiveBriefSubscriptions))
+      .subscribe(p => (this.notifications = p))
 
     this.selectId$ = this.route.paramMap
       .pipe(
@@ -104,51 +100,21 @@ export class BriefSubscriptionEditorComponent implements OnInit, OnDestroy {
     return arr.some(p => `${p.id}` === `${id}`)
   }
 
-  handleToggleActivity(user, id) { 
-
-    let activities = []
-    const found = user.activity.some(p => `${p.id}` === `${id}`)
-    if(found){
-      activities =  user.activity.filter(p => `${p.id}` !== `${id}`)
-    } else {
-      activities = [...user.activity, {id: id}]
-    }
-
-
-    const params = {
-      briefId: this.activeBriefId,
-      userId: user.id,
-      activity: activities,
-      status: user.status
-    }
+  handleToggleSubscription(notification, id, type) {
+    const found = notification[type].some(p => `${p.id}` === `${id}`)
+    
+    console.log(notification)
 
     this.store.dispatch(
-      new ToggleBriefSubscription(params)
+      new ToggleBriefSubscription({
+        briefId: this.activeBriefId,
+        userId: notification.user_id,
+        data: { type: type, id: id, on: !found },
+        name: notification.name
+      })
     )
   }
 
-  handleToggleStatus(user, id) {
-
-    let documentStatusList = []
-    const found = user.status.some(p => `${p.id}` === `${id}`)
-    if(found){
-      documentStatusList = user.status.filter(p => `${p.id}` !== `${id}`)
-    } else {
-      documentStatusList = [...user.status, {id: id}]
-    }
-
-   
-    const params = {
-      briefId: this.activeBriefId,
-      userId: user.id,
-      activity: user.activity,
-      status: documentStatusList
-    }
-
-    this.store.dispatch(
-      new ToggleBriefSubscription(params)
-    )
-  }
   handleView($event) {
     this.router.navigate(['/brief', this.activeBriefId])
   }

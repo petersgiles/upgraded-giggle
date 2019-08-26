@@ -74,9 +74,9 @@
           class="activity-column"
           *ngFor="let s of activities"
         >
-          <button mdcIconButton [on]="checked(n.activity, s.id)" (click)="handleToggleActivity(n, s.id )">
-            <mdc-icon mdcIconOn>check_box</mdc-icon>
-            <mdc-icon>check_box_outline_blank</mdc-icon>
+          <button mdcIconButton (click)="handleToggleSubscription(n, s.id, 'activity' )">
+            <mdc-icon *ngIf="checked(n.activity, s.id)">check_box</mdc-icon>
+            <mdc-icon *ngIf="!checked(n.activity, s.id)">check_box_outline_blank</mdc-icon>
           </button>
         </td>
         <td
@@ -84,9 +84,9 @@
           class="status-column"
           *ngFor="let s of documentStatusList"
         >
-          <button mdcIconButton [on]="checked(n.status, s.id)"  (click)="handleToggleStatus(n, s.id)">
-            <mdc-icon mdcIconOn>check_box</mdc-icon>
-            <mdc-icon>check_box_outline_blank</mdc-icon>
+          <button mdcIconButton (click)="handleToggleSubscription(n, s.id, 'status')">
+            <mdc-icon *ngIf="checked(n.status, s.id)">check_box</mdc-icon>
+            <mdc-icon *ngIf="!checked(n.status, s.id)">check_box_outline_blank</mdc-icon>
           </button>
         </td>
       </tr>

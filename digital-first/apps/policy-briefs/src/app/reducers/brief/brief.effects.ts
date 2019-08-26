@@ -18,7 +18,8 @@ import {
   SetBriefRecommendation,
   SetBriefRecommendationResponse,
   GetActiveBriefSubscriptions,
-  LoadActiveBriefSubscriptions
+  LoadActiveBriefSubscriptions,
+  ToggleBriefSubscription
 } from './brief.actions'
 
 
@@ -64,6 +65,24 @@ export class BriefEffects {
     ]),
     catchError(error => of(new GetActiveBriefFailure(error)))
   )
+
+  @Effect()
+  
+  toggleBriefSubscription$ = this.actions$.pipe(
+    ofType(BriefActionTypes.ToggleBriefSubscription),
+    map((action: ToggleBriefSubscription) => action),
+    concatMap(action =>
+      this.service.toggleBriefSubscription(action.payload)
+    ),
+    switchMap((briefid) => [
+      new GetActiveBriefSubscriptions({
+        activeBriefId: briefid
+      })
+    ]),
+    catchError(error => of(new GetActiveBriefFailure(error)))
+  )
+  
+
 
   @Effect()
   setActiveBriefStatus$ = this.actions$.pipe(

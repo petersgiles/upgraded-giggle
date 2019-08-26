@@ -12,8 +12,7 @@ import { HttpClient } from '@angular/common/http'
 import { AppSettingsService } from '@digital-first/df-app-core'
 import { concatMap, catchError } from 'rxjs/operators'
 import { BriefMapperService } from '../../../services/mappers/brief-mapper.service'
-
-
+import { sortBy } from '@df/utils'
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +21,10 @@ export class BriefDataLocalService implements BriefDataService {
   fakeBriefBackend: Subject<any[]> = new Subject()
   fakeBriefBackendSubscription$: Subscription
   briefItems: BehaviorSubject<any> = new BehaviorSubject(null)
+
+  userNotifications: BehaviorSubject<any> = new BehaviorSubject(
+    user_notifications
+  )
 
   addBrief(item: any): Observable<any> {
     item.Id =
@@ -175,7 +178,9 @@ export class BriefDataLocalService implements BriefDataService {
 
     recommendedActions = recommendedActions.map(ra => ({
       ...ra,
-      Response: recommendationResponses.find(rsp => rsp.Recommendation.Id === ra.Id)
+      Response: recommendationResponses.find(
+        rsp => rsp.Recommendation.Id === ra.Id
+      )
     }))
     console.log(`🐨`, recommendedActions)
     const m = {
@@ -192,14 +197,72 @@ export class BriefDataLocalService implements BriefDataService {
     })
   }
 
-  public getActiveBriefSubscriptions(briefId): Observable<{ data: any; loading: boolean }> {
-    
-    const subscriptions = user_notifications.filter(u => `${u.brief_id}` === briefId)
-    
+  public getActiveBriefSubscriptions(
+    briefId
+  ): Observable<{ data: any; loading: boolean }> {
+    const usersubs = this.userNotifications.getValue()
+
+    const subscriptions = usersubs
+      .filter(u => `${u.brief_id}` === briefId)
+      .sort(sortBy('name'))
     return of({
       data: subscriptions,
       loading: false
     })
+  }
+
+  toggleBriefSubscription(payload: {
+    briefId: any
+    userId: any
+    data: { type: 'activity' | 'status'; id: any; on: boolean }
+    name?: string
+  }): Observable<any> {
+    const usersubs = this.userNotifications.getValue()
+
+    let found = usersubs.find(
+      u =>
+        `${u.brief_id}` === `${payload.briefId}` &&
+        `${u.user_id}` === `${payload.userId}`
+    )
+
+    let subscriptions = usersubs.filter(obj => obj !== found)
+
+    let subscription = JSON.parse(JSON.stringify(found))
+
+    if (!subscription) {
+      subscription = {
+        name: payload.name,
+        user_id: payload.userId,
+        brief_id: payload.briefId,
+        activity: [],
+        status: []
+      }
+    }
+
+    console.log(subscription[payload.data.type])
+    subscription[payload.data.type] = subscription[payload.data.type].filter(
+      t =>  `${t.id}` !== `${payload.data.id}` 
+    )
+    console.log(subscription[payload.data.type])
+
+    if (payload.data.on) {
+      subscription[payload.data.type].push({ id: payload.data.id })
+    }
+
+    console.log(subscription)
+
+    subscriptions.push(subscription)
+
+    this.userNotifications.next(subscriptions)
+
+    // {
+    //   user_id: 530,
+    //   brief_id: 296,
+    //   activity: [{ id: 2 }, { id: 1 }, { id: 3 }],
+    //   status: [{ id: 2 }]
+    // }
+
+    return of(payload.briefId)
   }
 
   public getBriefHtml(

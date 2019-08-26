@@ -12,6 +12,8 @@ export abstract class BriefDataService {
   abstract getBriefs(parent: any): Observable<{data: any, loading: boolean }>
   abstract getActiveBrief(activeBriefId): Observable<{data: any, loading: boolean }>
   abstract getActiveBriefSubscriptions(briefId): Observable<{ data: any; loading: boolean }>
+  abstract toggleBriefSubscription(payload: { briefId: any; userId: any; data: { type: "activity" | "status"; id: any; on: boolean; }; name?: string }):Observable<any>
+ 
   abstract getBriefHtml(fileLeafRef): Observable<{data: any, loading: boolean, error?: any }>
 
 }
