@@ -4,42 +4,43 @@ import { createFeatureSelector, createSelector } from '@ngrx/store'
 export interface State {
   activeBrief: string
   brief: any
+  subscriptions: any[]
   directions: any[]
-  recommendations: any[]
   attachments: any[]
-
 }
 
 export const initialState: State = {
   activeBrief: null,
   brief: null,
+  subscriptions: null,
   directions: null,
-  recommendations: null,
-  attachments: null,
-
+  attachments: null
 }
 
 export function reducer(state = initialState, action: BriefActions): State {
   switch (action.type) {
     case BriefActionTypes.LoadBrief:
-
       return {
         ...state,
-        brief:  action.payload.data
+        brief: action.payload.data
       }
 
-      case BriefActionTypes.SetActiveBriefStatus:
+    case BriefActionTypes.LoadActiveBriefSubscriptions:
+      return {
+        ...state,
+        subscriptions: action.payload.data
+      }
 
-        return {
-          ...state,
-          brief:  {
-            ...state.brief,
-            briefStatus:  { 
-              id: action.payload.status
-            }
+    case BriefActionTypes.SetActiveBriefStatus:
+      return {
+        ...state,
+        brief: {
+          ...state.brief,
+          briefStatus: {
+            id: action.payload.status
           }
         }
-
+      }
 
     case BriefActionTypes.SetActiveBrief:
       return {
@@ -81,13 +82,12 @@ export const selectDirectionsState = createSelector(
   (state: State) => state.directions
 )
 
-export const selectRecommendationsState = createSelector(
-  briefState,
-  (state: State) => state.recommendations
-)
-
 export const selectAttachmentsState = createSelector(
   briefState,
   (state: State) => state.attachments
 )
 
+export const selectActiveBriefSubscriptions = createSelector(
+  briefState,
+  (state: State) => state.subscriptions
+)

@@ -1,6 +1,3 @@
-import { DocumentStatus } from '@df/components'
-import { lotsofUsers } from 'devdata/data'
-
 export const notifications = [
   {
     user_id: 530,
@@ -298,9 +295,3 @@ export const notifications = [
     status: [{ id: 3 }, { id: 1 }]
   }
 ]
-
-export const user_notifications = notifications.map(n => {
-  const name = lotsofUsers.find(l => l.id == n.user_id)
-
-  return { ...n, name: `${name.first_name} ${name.last_name}` }
-})

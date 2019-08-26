@@ -9,4 +9,5 @@ export abstract class LookupDataService {
   abstract getCommitments(config?: any): Observable<any>
   abstract getClassifications(config?: any): Observable<any>
   abstract getDLMs(config?: any): Observable<any>
+  abstract getLookupSubscriptionTypes(config?: any): Observable<any>
 }

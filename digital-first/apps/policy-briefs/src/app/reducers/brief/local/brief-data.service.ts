@@ -5,7 +5,8 @@ import {
   briefs,
   recommendations,
   recommendeddirections,
-  recommendationResponses
+  recommendationResponses,
+  user_notifications
 } from '../../../../../../../devdata/data'
 import { HttpClient } from '@angular/common/http'
 import { AppSettingsService } from '@digital-first/df-app-core'
@@ -187,6 +188,16 @@ export class BriefDataLocalService implements BriefDataService {
 
     return of({
       data: brief,
+      loading: false
+    })
+  }
+
+  public getActiveBriefSubscriptions(briefId): Observable<{ data: any; loading: boolean }> {
+    
+    const subscriptions = user_notifications.filter(u => `${u.brief_id}` === briefId)
+    
+    return of({
+      data: subscriptions,
       loading: false
     })
   }

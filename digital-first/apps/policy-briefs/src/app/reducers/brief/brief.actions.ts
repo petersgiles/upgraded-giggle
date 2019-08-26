@@ -23,7 +23,6 @@ export enum BriefActionTypes {
   SetBriefRecommendedDirectionFail = '[Brief] Set Brief Recommended Direction Fail',
   SetBriefRecommendedDirectionSuccess = '[Brief] Set Brief Recommended Direction Success',
 
-
   SetBriefRecommendation = '[Brief] Set Brief Recommendation',
   SetBriefRecommendationFail = '[Brief] Set Brief Recommendation Fail',
   SetBriefRecommendationSuccess = '[Brief] Set Brief Recommendation Success',
@@ -33,6 +32,12 @@ export enum BriefActionTypes {
   SetBriefRecommendationResponseSuccess = '[Brief] Set Brief Recommendation Response Success',
 
   SetBriefRelatedComments = '[Brief] Set Brief Related Comments',
+
+  GetActiveBriefSubscriptions = '[Brief] Get Active Brief Subscriptions',
+  LoadActiveBriefSubscriptions = '[Brief] Load Active Brief Subscriptions',
+  SetActiveBriefSubscriptions = '[Brief] Set Active Brief Subscriptions',
+  SetActiveBriefSubscriptionsFail = '[Brief] Set Brief Subscriptions Fail',
+  SetActiveBriefSubscriptionsSuccess = '[Brief] Set Brief Subscriptions Success',
 }
 
 export class SetActiveBriefStatus implements Action {
@@ -59,7 +64,6 @@ export class SetBriefPolicySuccess implements Action {
 export class SetBriefPolicyFail implements Action {
   readonly type = BriefActionTypes.SetBriefPolicyFail
 }
-
 
 export class SetBriefSecurityClassification implements Action {
   readonly type = BriefActionTypes.SetBriefSecurityClassification
@@ -173,6 +177,30 @@ export class GetActiveBriefFailure implements Action {
   constructor(public payload: any) {}
 }
 
+export class GetActiveBriefSubscriptions implements Action {
+  readonly type = BriefActionTypes.GetActiveBriefSubscriptions
+  constructor(public payload: { activeBriefId: string }) {}
+}
+
+export class LoadActiveBriefSubscriptions implements Action {
+  readonly type = BriefActionTypes.LoadActiveBriefSubscriptions
+  constructor(public payload: { data: any; loading: boolean }) {}
+}
+
+export class SetActiveBriefSubscriptionsSuccess implements Action {
+  readonly type = BriefActionTypes.SetActiveBriefSubscriptionsSuccess
+}
+
+export class SetActiveBriefSubscriptionsFail implements Action {
+  readonly type = BriefActionTypes.SetActiveBriefSubscriptionsFail
+}
+
+
+export class SetActiveBriefSubscriptions implements Action {
+  readonly type = BriefActionTypes.SetActiveBriefSubscriptions
+  constructor(public payload: any) {}
+}
+
 export type BriefActions =
   | LoadBrief
   | SetActiveBrief
@@ -193,3 +221,8 @@ export type BriefActions =
   | SetBriefRecommendation
   | SetBriefRecommendationFail
   | SetBriefRecommendationSuccess
+  | GetActiveBriefSubscriptions
+  | LoadActiveBriefSubscriptions
+  | SetActiveBriefSubscriptions
+  | SetActiveBriefSubscriptionsFail
+  | SetActiveBriefSubscriptionsSuccess
