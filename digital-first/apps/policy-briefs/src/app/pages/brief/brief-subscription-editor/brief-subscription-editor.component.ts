@@ -9,10 +9,10 @@ import { SetActiveBrief } from '../../../reducers/brief/brief.actions'
 import { SetActiveBriefPath } from '../../../reducers/navigation/navigation.actions'
 import { EMPTY, BehaviorSubject, Observable } from 'rxjs'
 import { FormBuilder } from '@angular/forms'
-import { user_notifications } from '../mock-data'
 import { MdcDialog } from '@angular-mdc/web'
 import { selectAppBackgroundColour } from '@digital-first/df-app-core';
 import { GetLookupActivities, GetLookupStatuses } from '../../../reducers/lookups/lookup.actions';
+import { user_notifications } from 'devdata/data';
 
 @Component({
   selector: 'digital-first-brief-subscription-editor',
