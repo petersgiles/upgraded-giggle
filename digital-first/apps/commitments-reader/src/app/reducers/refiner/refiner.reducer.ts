@@ -240,7 +240,7 @@ export const selectRefinerGroups = createSelector(
   ) => {
     const refinerGroupState = (groups || []).map(g => {
       const groupHasChildSelected =
-        selected.filter(s => s.group === g.group).length > 0
+        selected.filter(s => s.group === g.group && s.ids.length > 0).length > 0
       const isHidden = (hidden || []).includes(g.group)
       return {
         ...g,

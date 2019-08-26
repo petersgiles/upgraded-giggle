@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core'
 import { AppRouterService } from '../../services/app-router.service'
 import { RefinerGroup } from '@digital-first/df-refiner'
-import { Observable, Subscription, Subject, of } from 'rxjs'
+import { Observable, Subscription, Subject, of, BehaviorSubject } from 'rxjs'
 import * as fromRefiner from '../../reducers/refiner/refiner.reducer'
 import { selectAppSpinnerState } from '@digital-first/df-app-core'
 import * as fromRoot from '../../reducers'
@@ -173,7 +173,7 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
 
     this.electoratesChangesSubscription = this.electoratesChanges
       .pipe(
-        debounceTime(600),
+        debounceTime(400),
         switchMap(next => {
           return of(next)
         })

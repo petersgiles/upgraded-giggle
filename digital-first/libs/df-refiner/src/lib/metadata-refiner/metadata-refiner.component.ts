@@ -87,12 +87,20 @@ export class MetadataRefinerComponent implements OnInit, OnDestroy {
   handleOnRefinerSelected(refiner) {
     this.onRefinerSelected.emit(refiner)
   }
+  
   handleOnClear() {
     this.searchControl.reset()
   }
+
   trackRefiner(index, refiner) {
     return refiner ? refiner.id : undefined
   }
+
+  trackGroup(index, refiner) {
+    return refiner ? refiner.id : undefined
+  }
+  
+
   ngOnDestroy(): void {
     this.textRefinerSubscription.unsubscribe()
   }

@@ -28,7 +28,7 @@
     </form>
   </mdc-list-item>
 
-  <ng-container *ngFor="let group of refinerGroups">
+  <ng-container *ngFor="let group of refinerGroups trackBy: trackGroup">
     <ng-container *ngIf="!group.hidden">
       <mdc-list-item
         class="digital-first-list-heading list-item"
