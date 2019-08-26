@@ -2,19 +2,28 @@
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2),
     0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
+table {  
+  border-collapse: collapse;
+}
+th, td {
+  padding: 0;
+}
+
 table {
   padding: 8px;
   margin: 4px;
   width: calc(100% - 8px);
 
   tr {
-    margin: 4px;
     width: calc(100% - 8px);
   }
 
   th.lower_left {
     vertical-align: bottom !important;
     text-align: left !important;
+    .column-user {
+      padding-bottom: 16px;
+    }
   }
 
   th.rotate {
@@ -35,9 +44,9 @@ table {
 }
 
 .status-column {
-  background: rgba(0, 127, 200, 0.12);
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .activity-column {
-  background: rgba(0, 200, 133, 0.12);
+  background: rgba(124, 124, 124, 0.12);
 }
