@@ -16,12 +16,13 @@ import {
   SetBriefDLM,
   SetBriefRecommendedDirection,
   SetBriefRecommendation,
-  SetBriefRecommendationResponse
+  SetBriefRecommendationResponse,
+  GetActiveBriefSubscriptions,
+  LoadActiveBriefSubscriptions
 } from './brief.actions'
 
 
 import { BriefDataService } from './brief-data.service'
-import { ɵangular_packages_platform_browser_dynamic_platform_browser_dynamic_a } from '@angular/platform-browser-dynamic';
 import { GetNavigations } from '../navigation/navigation.actions';
 @Injectable()
 export class BriefEffects {
@@ -41,6 +42,22 @@ export class BriefEffects {
     ),
     switchMap((result: { data: any; loading: boolean }) => [
       new LoadBrief({
+        data: result.data,
+        loading: result.loading
+      })
+    ]),
+    catchError(error => of(new GetActiveBriefFailure(error)))
+  )
+
+  @Effect()
+  getActiveBriefSubscriptions$ = this.actions$.pipe(
+    ofType(BriefActionTypes.GetActiveBriefSubscriptions),
+    map((action: GetActiveBriefSubscriptions) => action),
+    concatMap(action =>
+      this.service.getActiveBriefSubscriptions(action.payload.activeBriefId)
+    ),
+    switchMap((result: { data: any; loading: boolean }) => [
+      new LoadActiveBriefSubscriptions({
         data: result.data,
         loading: result.loading
       })

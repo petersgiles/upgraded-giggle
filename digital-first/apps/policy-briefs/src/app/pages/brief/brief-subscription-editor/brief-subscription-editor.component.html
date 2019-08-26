@@ -33,10 +33,10 @@
         </tr>
         <tr>
           <th class="lower_left">
-            <button mdcIconButton [on]="false">
+            <!-- <button mdcIconButton [on]="false">
               <mdc-icon mdcIconOn>check_box</mdc-icon>
               <mdc-icon>check_box_outline_blank</mdc-icon>
-            </button>
+            </button> -->
           </th>
           <th class="lower_left">
             <div class="column-user">
@@ -63,10 +63,10 @@
       </thead>
       <tr *ngFor="let n of notifications$ | async">
         <td>
-          <button mdcIconButton [on]="false">
+          <!-- <button mdcIconButton [on]="false">
             <mdc-icon mdcIconOn>check_box</mdc-icon>
             <mdc-icon>check_box_outline_blank</mdc-icon>
-          </button>
+          </button> -->
         </td>
         <td>{{ n.name }}</td>
         <td
@@ -85,8 +85,8 @@
           *ngFor="let s of documentStatusList$ | async"
         >
           <button mdcIconButton [on]="checked(n.status, s.id)">
-              <mdc-icon mdcIconOn>check_box</mdc-icon>
-              <mdc-icon>check_box_outline_blank</mdc-icon>
+            <mdc-icon mdcIconOn>check_box</mdc-icon>
+            <mdc-icon>check_box_outline_blank</mdc-icon>
           </button>
         </td>
       </tr>

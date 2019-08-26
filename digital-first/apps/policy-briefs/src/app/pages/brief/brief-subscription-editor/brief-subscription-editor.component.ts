@@ -5,7 +5,7 @@ import * as fromLookup from '../../../reducers/lookups/lookup.reducer'
 import { select, Store } from '@ngrx/store'
 import { switchMap } from 'rxjs/operators'
 import { ParamMap, ActivatedRoute, Router } from '@angular/router'
-import { SetActiveBrief } from '../../../reducers/brief/brief.actions'
+import { SetActiveBrief, GetActiveBriefSubscriptions } from '../../../reducers/brief/brief.actions'
 import { SetActiveBriefPath } from '../../../reducers/navigation/navigation.actions'
 import { EMPTY, BehaviorSubject, Observable } from 'rxjs'
 import { FormBuilder } from '@angular/forms'
@@ -25,7 +25,7 @@ export class BriefSubscriptionEditorComponent implements OnInit {
   public selectId$: any
   public documentStatusList$: any
   public activities$: any
-  public notifications$: BehaviorSubject<any>
+  public notifications$: any
 
   public activeBriefId: string
 
@@ -42,7 +42,7 @@ export class BriefSubscriptionEditorComponent implements OnInit {
     this.background$ = this.store.pipe(select(selectAppBackgroundColour))
     this.documentStatusList$ = this.store.pipe(select(fromLookup.selectLookupStatusesState))
     this.activities$ = this.store.pipe(select(fromLookup.selectLookupActivitiesState))
-    this.notifications$ = new BehaviorSubject([])
+    this.notifications$ = this.store.pipe(select(fromBrief.selectActiveBriefSubscriptions))
 
     this.selectId$ = this.route.paramMap
       .pipe(
@@ -67,9 +67,10 @@ export class BriefSubscriptionEditorComponent implements OnInit {
             new GetLookupActivities()
           )
 
-  
-          const users = user_notifications.filter(u => `${u.brief_id}` === this.activeBriefId)
-          this.notifications$.next(users)
+          this.store.dispatch(
+            new GetActiveBriefSubscriptions({activeBriefId: this.activeBriefId})
+          )
+
           return EMPTY
         })
       )
@@ -77,7 +78,7 @@ export class BriefSubscriptionEditorComponent implements OnInit {
   }
 
   checked(arr, id) {
-    return id in arr.map(p=> p.id)
+    return id in arr.map(p => p.id)
   }
 
   handleView($event) {

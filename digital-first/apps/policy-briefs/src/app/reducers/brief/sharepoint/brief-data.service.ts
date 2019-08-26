@@ -225,6 +225,16 @@ console.log(`🕊️ updateRecommendedDirection`, result, changes)
     )
   }
 
+  public getActiveBriefSubscriptions(briefId): Observable<{ data: any; loading: boolean }> {
+    
+    const subscriptions = []
+    
+    return of({
+      data: subscriptions,
+      loading: false
+    })
+  }
+
   public getBriefHtml(
     fileLeafRef
   ): Observable<{
