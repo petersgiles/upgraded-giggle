@@ -32,7 +32,7 @@
     <ng-container *ngIf="!group.hidden">
       <mdc-list-item
         class="digital-first-list-heading list-item"
-        (click)="group.expanded = !group.expanded"
+        (click)="onRefinerGroupSelected.emit(group)"
       >
         {{ group.title }}
         <mdc-icon mdcListItemMeta

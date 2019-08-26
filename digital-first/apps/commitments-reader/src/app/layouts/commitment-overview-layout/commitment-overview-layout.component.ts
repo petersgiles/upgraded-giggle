@@ -14,11 +14,12 @@ import {
   SetRefinerFromQueryString,
   ClearRefiners,
   SelectElectorates,
-  RemoveSelectedGroup} from '../../reducers/refiner/refiner.actions'
+  RemoveSelectedGroup
+} from '../../reducers/refiner/refiner.actions'
 import { ActivatedRoute, Router } from '@angular/router'
 import { CRMenu } from '../../reducers/refiner/refiner.models'
 import { MdcDrawer } from '@angular-mdc/web'
-import { debounceTime, switchMap} from 'rxjs/operators'
+import { debounceTime, switchMap } from 'rxjs/operators'
 
 @Component({
   selector: 'digital-first-commitment-overview-layout',
@@ -28,7 +29,7 @@ import { debounceTime, switchMap} from 'rxjs/operators'
 export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
   @ViewChild('electoratesDrawer', { static: true })
   public electoratesDrawer: MdcDrawer
-  
+
   activeTab = 1
   tabs = [
     {
@@ -62,7 +63,7 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
   queryParamsRefiner: { id: string; group: string }[]
   isBusy$: Observable<boolean>
   textRefiner$: Observable<string>
-  refinerOpen$:Observable<boolean>
+  refinerOpen$: Observable<boolean>
   refinerGroupWithDrawer: CRMenu
   electorates: any
   selectedElectorates: any[]
@@ -131,11 +132,11 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
   handelRemoveSelectedRefiner($event) {
     this.store.dispatch(new SelectRefiner($event))
   }
-  
+
   ngOnInit() {
     const params = this.route.queryParams
-   this.refinerOpen$ = this.store.pipe(select(fromRefiner.refinerOpenState))
-   
+    this.refinerOpen$ = this.store.pipe(select(fromRefiner.refinerOpenState))
+    this.store.dispatch(new GetRefinerGroups(null))
     if (params && params['value'] && params['value'].refiner) {
       this.queryParamsRefiner = JSON.parse(params['value'].refiner)
       this.store.dispatch(
@@ -146,7 +147,6 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
     this.routerSegmentsSubscription = this.appRouter.segments.subscribe(url => {
       const tab = this.tabs.findIndex(p => p.id === url)
       this.activeTab = tab
-      this.store.dispatch(new GetRefinerGroups(null))
       this.rewriteUrl(this.selectedRefiners)
     })
 
@@ -157,7 +157,6 @@ export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
         this.rewriteUrl(next)
       })
 
-    
     this.refinerGroupsSubscription = this.store
       .pipe(select(fromRefiner.selectRefinerGroups))
       .subscribe(next => {

@@ -4,6 +4,7 @@ import { SelectedRefiner } from './refiner.models'
 
 export interface State {
   refinerGroups: any[]
+  expandedRefinerGroups: string[]
   selectedRefiners: SelectedRefiner[]
   hiddenRefinerGroup: any[]
   autoExpandGroup: any[]
@@ -13,6 +14,7 @@ export interface State {
 
 export const initialState: State = {
   refinerGroups: [],
+  expandedRefinerGroups: [],
   selectedRefiners: [],
   autoExpandGroup: [],
   textRefiner: null,
@@ -34,7 +36,21 @@ export function reducer(state = initialState, action: RefinerActions): State {
         ...state,
         refinerGroups: action.payload
       }
-
+    case RefinerActionTypes.SelectRefinerGroup: {
+      const group = action.payload.group
+      let expandedGroups: string[] = []
+      let currentExpandedGroups = [...state.expandedRefinerGroups]
+      if (currentExpandedGroups.includes(group)) {
+        expandedGroups = currentExpandedGroups.filter(p => p !== group)
+      } else {
+        expandedGroups = [...currentExpandedGroups]
+        expandedGroups.push(group)
+      }
+      return {
+        ...state,
+        expandedRefinerGroups: expandedGroups
+      }
+    }
     case RefinerActionTypes.ChangeTextRefiner: {
       const retVal = {
         ...state,
@@ -203,15 +219,20 @@ export const autoExpandGroupState = createSelector(
   refinerState,
   (state: State) => state.autoExpandGroup
 )
-
+export const selectExpandedRefinerGroupsState = createSelector(
+  refinerState,
+  (state: State) => state.expandedRefinerGroups
+)
 export const selectRefinerGroups = createSelector(
   refinerGroupsState,
+  selectExpandedRefinerGroupsState,
   selectedRefinersState,
   hiddenRefinerGroupsState,
   autoExpandGroupState,
   selectTextRefinerState,
   (
     groups: any[],
+    expanded: any[],
     selected: any[],
     hidden: any[],
     autoExpand: any[],
@@ -225,7 +246,9 @@ export const selectRefinerGroups = createSelector(
         ...g,
         expanded:
           !isHidden &&
-          (groupHasChildSelected || (autoExpand || []).includes(g.group)),
+          (groupHasChildSelected ||
+            (autoExpand || []).includes(g.group) ||
+            (expanded || []).includes(g.group)),
         hidden: isHidden,
         children: (g.children || []).map(r => ({
           ...r,

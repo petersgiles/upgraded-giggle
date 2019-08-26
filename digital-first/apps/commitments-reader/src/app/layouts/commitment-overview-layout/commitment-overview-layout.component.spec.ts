@@ -56,7 +56,7 @@ describe('CommitmentOverviewLayoutComponent', () => {
     () => initialState,
     (state: typeof initialState) => state.refiner.refinerGroups
   )
-
+ 
   const selectSelectedRefinersState = createSelector(
     () => initialState,
     (state: typeof initialState) => state.refiner.selectedRefiners
