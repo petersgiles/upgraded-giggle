@@ -27,11 +27,11 @@
 
       <div class="overview-outlet" mdcDrawerAppContent>
         <section>
-          <mdc-drawer #drawer drawer="modal" class="electrate-drawer">
-            <mdc-drawer-header>
+          <mdc-drawer #electoratesDrawer drawer="modal" class="electrate-drawer">
+            <mdc-drawer-header class="header">
               <h3 mdcDrawerTitle>Refine by electorates</h3>
+              <mdc-icon class="mdc-icon--close" (click)="electoratesDrawer.open = false">close</mdc-icon>
             </mdc-drawer-header>
-
             <mdc-drawer-content *ngIf="refinerGroupWithDrawer">
               <ng-select
                 class="custom"

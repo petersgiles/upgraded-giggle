@@ -26,7 +26,7 @@ import { debounceTime, switchMap} from 'rxjs/operators'
   styleUrls: ['commitment-overview-layout.component.scss']
 })
 export class CommitmentOverviewLayoutComponent implements OnInit, OnDestroy {
-  @ViewChild('drawer', { static: true })
+  @ViewChild('electoratesDrawer', { static: true })
   public electoratesDrawer: MdcDrawer
   
   activeTab = 1

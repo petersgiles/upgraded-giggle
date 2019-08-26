@@ -22,7 +22,7 @@
 }
 .refiner-drawer {
   min-width: 280px;
-  height: calc(100vh - 80px)
+  height: calc(100vh - 80px);
 }
 
 .mdc-list {
@@ -42,11 +42,26 @@
   width: calc(50vw);
   height: calc(100vh - 100px);
   left: 280px;
+  z-index: 9999;
+  .header {
+    display: flex;
+    h3 {
+      width: calc(100vw - 20px);
+    }
+    .mdc-icon--close {
+      align-self: center;
+      text-align: center;
+      vertical-align: middle;
+      font-weight: 400;
+      cursor: pointer;
+    }
+  }
 }
 
 mdc-list-group div {
   padding-left: 10px;
 }
+
 @media (max-width: 1366px) {
   .mdc-list-item {
     width: 12%;
