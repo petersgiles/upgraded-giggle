@@ -313,7 +313,7 @@ describe('TestUser', () => {
 
   const reducerState: fromRefiner.State = {
     refinerGroups: [],
-    expandedRefinerGroups:[],
+    expandedRefinerGroups: [],
     selectedRefiners: [],
     autoExpandGroup: [],
     textRefiner: null,
@@ -366,7 +366,6 @@ describe('TestUser', () => {
       mockStore.overrideSelector(fromUser.getUserCurrentUser, initialState.user)
 
       let newReducerState = { ...reducerState, refinerGroups: getRefiners() }
-      // mockStore.setState(newReducerState)
       mockStore.overrideSelector(
         fromRefiner.refinerGroupsState,
         newReducerState.refinerGroups
@@ -387,7 +386,10 @@ describe('TestUser', () => {
         fromRefiner.hiddenRefinerGroupsState,
         newReducerState.hiddenRefinerGroup
       )
-
+      mockStore.overrideSelector(
+        fromRefiner.selectExpandedRefinerGroupsState,
+        newReducerState.expandedRefinerGroups
+      )
       fixture.detectChanges()
     })
   }))
