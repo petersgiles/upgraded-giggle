@@ -47,9 +47,11 @@ $viewPropertiesToSuck = @(
     'ViewType'
 )
 
-function Save-ListDefinition([string]$listTitle) { 
+function Save-ListDefinition([string]$listTitle)
+{ 
     $listObject = Objectify-ListProperties -listTitle $listTitle
-    if ($listObject.Hidden -or $list.IsCatalog -or $list.IsSiteAssetsLibrary) {
+    if ($listObject.Hidden -or $list.IsCatalog -or $list.IsSiteAssetsLibrary)
+    {
         return
     }
 
@@ -58,29 +60,34 @@ function Save-ListDefinition([string]$listTitle) {
     ConvertTo-Json -InputObject $listObject -Depth 3 -Compress > $outputPath
 }
 
-function Objectify-Properties([Object]$inputObject, [string[]]$propNames) {    
+function Objectify-Properties([Object]$inputObject, [string[]]$propNames)
+{    
     $props = $inputObject.GetType().GetProperties()
-    if ($propNames) {
+    if ($propNames)
+    {
         $props = $props | Where-Object { $propNames.Contains($_.Name) }
     }
     
     $outputObject = New-Object PSObject
     $props | ForEach-Object {
-        try {
+        try
+        {
             $name = $_.Name
             $value = $_.GetGetMethod().Invoke($inputObject, $null)
             $outputObject | Add-Member -MemberType NoteProperty -Name $name -Value $value    
         }
-        catch {
+        catch
+        {
             #Ignore non-initialised properties
         }
     }
 
     return $outputObject
 }
-Function Replace-FieldInSchema($schemaString, $propertyName, $propertyValue) {
+Function Replace-FieldInSchema($schemaString, $propertyName, $propertyValue)
+{
     $schemanAsXml = [xml] $schemaString
-    if($schemanAsXml.Field.HasAttribute($propertyName))
+    if ($schemanAsXml.Field.HasAttribute($propertyName))
     {        
         $schemanAsXml.Field.$propertyName = $propertyValue
     
@@ -89,7 +96,8 @@ Function Replace-FieldInSchema($schemaString, $propertyName, $propertyValue) {
     
 }
 
-function Objectify-ListProperties([string]$listTitle) {
+function Objectify-ListProperties([string]$listTitle)
+{
     Write-Host "List: $listTitle"
     $list = $ctx.Web.Lists.GetByTitle($listTitle)
     $fields = $list.Fields
@@ -102,7 +110,8 @@ function Objectify-ListProperties([string]$listTitle) {
     $ctx.ExecuteQuery()
 
     $views = @()
-    foreach ($view in $list.Views) {
+    foreach ($view in $list.Views)
+    {
         $ctx.Load($view)
         $ctx.Load($view.ViewFields)
         $views += $view
@@ -121,11 +130,13 @@ function Objectify-ListProperties([string]$listTitle) {
 
         # Rewrite List id to List path
         $lookupListId = [Guid]::Empty
-         if ($fieldObject.TypeAsString -eq "User" -or $fieldObject.TypeAsString -eq "UserMulti") {
+        if ($fieldObject.TypeAsString -eq "User" -or $fieldObject.TypeAsString -eq "UserMulti")
+        {
             $fieldObject.SchemaXml = Replace-FieldInSchema $fieldObject.SchemaXml "List" "UserInfo"
             $otherFieldsCollection += $fieldObject
         }
-        elseif (![string]::IsNullOrEmpty($fieldObject.LookupList) -and [Guid]::TryParse($fieldObject.LookupList.Trim("{}"), [ref]$lookupListId)) {            
+        elseif (![string]::IsNullOrEmpty($fieldObject.LookupList) -and [Guid]::TryParse($fieldObject.LookupList.Trim("{}"), [ref]$lookupListId))
+        {            
 
             $lookupList = $ctx.Web.Lists.GetById($lookupListId)
             $ctx.Load($lookupList)
@@ -136,7 +147,8 @@ function Objectify-ListProperties([string]$listTitle) {
 
             $lookupFieldsCollection += $fieldObject
         }   
-        else {
+        else
+        {
             $otherFieldsCollection += $fieldObject
         }                     
     }
@@ -146,7 +158,8 @@ function Objectify-ListProperties([string]$listTitle) {
     $listObject | Add-Member -MemberType NoteProperty -Name EventReceivers -Value $listEnumeratorventReceivers
 
     $viewCollection = @()
-    foreach ($view in $views) {
+    foreach ($view in $views)
+    {
         $viewCollection += Objectify-Properties -inputObject $view -propNames $viewPropertiesToSuck
     }    
 
@@ -172,7 +185,8 @@ $ctx.Load($web)
 $ctx.Load($lists)
 $ctx.ExecuteQuery()
 
-if (!(Test-Path -Path $saveLocation)) {
+if (!(Test-Path -Path $saveLocation))
+{
     Write-Host "Save Location not found. Creating..."
     New-Item -Path $saveLocation -ItemType Directory
 }
@@ -182,9 +196,10 @@ Write-Host $excludeList
 
 $listEnumerator = $lists.GetEnumerator()
 Write-Host "Saving..."
-while ($listEnumerator.MoveNext()) {
+while ($listEnumerator.MoveNext())
+{
     $listTitle = $listEnumerator.Current.Title    
-    if($excludeList.Contains($listTitle))
+    if ($excludeList.Contains($listTitle))
     {
         continue
     }

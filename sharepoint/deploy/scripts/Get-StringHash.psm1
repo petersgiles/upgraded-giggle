@@ -13,7 +13,8 @@
 .OUTPUTS
    The computed hash value 
 #>
-function Get-StringHash {
+function Get-StringHash
+{
     param (
         [string] $data,
         [string] $hashAlgorithm

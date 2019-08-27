@@ -6,13 +6,13 @@
 
 $listsToExport = @("AnnouncementType", "CommitmentType", "CriticalDate", "Electorate", "PoliticalParty", "Portfolio", "WhoAnnouncedType", "PackageType")
 
-if(-not (Test-Path $exportPath))
+if (-not (Test-Path $exportPath))
 {
     mkdir -p $exportPath
 }
 
-foreach($listName in $listsToExport)
+foreach ($listName in $listsToExport)
 {
     Write-Host "Export list $listName"
-   . "$PSScriptRoot\Export-ListData.ps1" -webUrl $webUrl -listName $listName -binPath $binPath -exportPath $exportPath
+    . "$PSScriptRoot\Export-ListData.ps1" -webUrl $webUrl -listName $listName -binPath $binPath -exportPath $exportPath
 }
