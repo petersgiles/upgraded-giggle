@@ -2439,15 +2439,15 @@ export const GetRefinerTagsDocument = gql`
       id
       title
     }
-    criticalDates {
+    criticalDates(orderBy: { path: "title" }) {
       id
       title
     }
-    portfolioLookups {
+    portfolioLookups(orderBy: { path: "title" }) {
       id
       title
     }
-    deckItemBriefSummaries(siteId: $siteId) {
+    deckItemBriefSummaries(siteId: $siteId, orderBy: { path: "title" }) {
       id
       title
     }
