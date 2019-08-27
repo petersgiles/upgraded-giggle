@@ -240,6 +240,7 @@
                   "with": "apps/commitments/src/environments/environment.prod.ts"
                 }
               ],
+              "deployUrl": "../../SiteAssets/apps/commitments",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -378,6 +379,7 @@
                   "with": "apps/deck/src/environments/environment.prod.ts"
                 }
               ],
+              "deployUrl": "../../SiteAssets/apps/deck/",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -964,7 +966,7 @@
             "port": 4210,
             "browserTarget": "commitments-reader:build",
             "ssl": true,
-            "sslKey": "ssl/server.key", 
+            "sslKey": "ssl/server.key",
             "sslCert": "ssl/server.crt",
             "liveReload": true
           },
