@@ -254,6 +254,14 @@ export class BriefDataSharepointService implements BriefDataService {
           const pmcUser = fromUser(contact.PMCUser)
           console.log('getActiveBriefSubscriptions', pmcUser)
 
+          const defaultSub = {  
+            user_id: pmcUser.id,
+            name: pmcUser.title,
+            brief_id: briefId,
+            activity: [],
+            status: []
+          }
+
           if (spSubscriptions && spSubscriptions.length > 0) {
             const userSubscriptions = spSubscriptions.filter(sub => {
               const subscriber = fromUser(sub.Subscriber)
@@ -275,14 +283,10 @@ export class BriefDataSharepointService implements BriefDataService {
                 sacc.status = [...userStatuses]
                 return sacc
               },
-              {
-                user_id: pmcUser.id,
-                name: pmcUser.title,
-                brief_id: briefId,
-                activity: [],
-                status: []
-              }
+              defaultSub
             )
+          } else {
+            return defaultSub
           }
         })
 
@@ -327,42 +331,50 @@ export class BriefDataSharepointService implements BriefDataService {
             SubscriptionTypes: [],
             BriefStatus: []
           }
-
+          let toUpdate = null
+          let subscriptionTypes = []
+          let briefStatus = []
+          
           if (found) {
-            let subscriptionTypes = found.SubscriptionTypes
-            let briefStatus = found.BriefStatus
-
-            if (payload.data.type === 'activity') {
-              if (payload.data.on) {
-                var subscriptionTypeValue = new SP.FieldLookupValue()
-                subscriptionTypeValue.set_lookupId(payload.data.id)
-                subscriptionTypes.push(subscriptionTypeValue)
-              } else {
-                subscriptionTypes = found.SubscriptionTypes.filter(
-                  val => `${val.get_lookupId()}` !== `${payload.data.id}`
-                )
-              }
-            }
-
-            if (payload.data.type === 'status') {
-              if (payload.data.on) {
-                var briefStatusValue = new SP.FieldLookupValue()
-                briefStatusValue.set_lookupId(payload.data.id)
-                briefStatus.push(briefStatusValue)
-              } else {
-                briefStatus = found.BriefStatus.filter(
-                  val => `${val.get_lookupId()}` !== `${payload.data.id}`
-                )
-              }
-            }
+            toUpdate = found.ID
+            subscriptionTypes = found.SubscriptionTypes
+            briefStatus = found.BriefStatus
 
             changes = {
               ...changes,
-              Title: found.Title,
-              SubscriptionTypes: subscriptionTypes,
-              BriefStatus: briefStatus
+              Title: found.Title
             }
-          }      
+          }
+
+          if (payload.data.type === 'activity') {
+            if (payload.data.on) {
+              var subscriptionTypeValue = new SP.FieldLookupValue()
+              subscriptionTypeValue.set_lookupId(payload.data.id)
+              subscriptionTypes.push(subscriptionTypeValue)
+            } else {
+              subscriptionTypes = found.SubscriptionTypes.filter(
+                val => `${val.get_lookupId()}` !== `${payload.data.id}`
+              )
+            }
+          }
+
+          if (payload.data.type === 'status') {
+            if (payload.data.on) {
+              var briefStatusValue = new SP.FieldLookupValue()
+              briefStatusValue.set_lookupId(payload.data.id)
+              briefStatus.push(briefStatusValue)
+            } else {
+              briefStatus = found.BriefStatus.filter(
+                val => `${val.get_lookupId()}` !== `${payload.data.id}`
+              )
+            }
+          }
+
+          changes = {
+            ...changes,
+            SubscriptionTypes: subscriptionTypes,
+            BriefStatus: briefStatus
+          }
 
           console.log(`toggleBriefSubscription`, found, changes)
 
@@ -370,10 +382,9 @@ export class BriefDataSharepointService implements BriefDataService {
             .storeItem({
               listName: BRIEF_SUBSCRIPTIONS_ITEM_LIST_NAME,
               data: changes,
-              id: found.ID
+              id: toUpdate
             })
             .pipe(concatMap(_ => of(payload.briefId)))
-          // return of(payload.briefId)
         })
       )
   }
