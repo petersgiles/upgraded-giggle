@@ -60,7 +60,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       })
 
     this.deckItems$ = this.store.pipe(select(fromDeck.selectCardsByParentState))
-
+   
     this.parent$ = this.store.pipe(select(fromDeck.selectCurrentParentState))
 
     this.parentDeckItem$ = this.store.pipe(
@@ -103,7 +103,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 
   handleDeleted($event) {
-    this.store.dispatch(new RemoveDeckItem({ id: null }))
+    this.store.dispatch(new RemoveDeckItem({ id: $event.id }))
   }
 
 

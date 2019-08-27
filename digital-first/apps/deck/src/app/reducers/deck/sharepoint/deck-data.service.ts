@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { Observable, of, forkJoin } from 'rxjs'
 import { SharepointJsomService, idFromLookup } from '@df/sharepoint'
 import { DeckDataService } from '../deck-data.service'
-import { concatMap, map } from 'rxjs/operators'
+import { concatMap, map, isEmpty } from 'rxjs/operators'
 import { DeckItemAction, DeckItem } from '../../../components/deck'
 import { tryParseJSON } from '../utils'
 import { sortBy } from '../../../utils'
@@ -51,9 +51,15 @@ export class DeckDataSharepointService implements DeckDataService {
     this.sharepoint
       .storeItem({
         listName: DECK_ITEM_LIST_NAME,
-        data: {}
+        data: {
+          Title: item.title, 
+          CardType: item.cardType, 
+          Parent: item.parent, 
+          SortOrder: item.sortOrder, 
+          SupportingText: item.supportingText, 
+          Colour: item.colour}
       })
-      .pipe(concatMap(_ => of({})))
+      .pipe(concatMap(_ => this.getDeckItems(null)))
 
   updateDeckItem = (item: any): Observable<any> => {
     const allActions = item.actions.map(
@@ -85,7 +91,7 @@ export class DeckDataSharepointService implements DeckDataService {
         listName: DECK_ITEM_LIST_NAME,
         id: deckItem.id
       })
-      .pipe(concatMap(_ => of({})))
+      .pipe(concatMap(_ => this.getDeckItems(null)))
 
   getDeckItems = (
     parent
