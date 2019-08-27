@@ -2262,7 +2262,7 @@ export const comments = [
     Brief: {
       Id: 31
     },
-    Channel: DiscussionType.Office,
+    Channel:DiscussionType.Agency,
     Parent: null,
     Recommendation: null,
     Author: {

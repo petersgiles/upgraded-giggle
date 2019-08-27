@@ -1,0 +1,36 @@
+query Briefs(
+  $webId: [String]
+  $siteId: [String]
+  $listId: [String]
+  $briefId: [String]
+) {
+  briefs(
+    where: [
+      { path: "webId", comparison: equal, value: $webId }
+      { path: "siteId", comparison: equal, value: $siteId }
+      { path: "listId", comparison: equal, value: $listId }
+      { path: "listItemId", comparison: equal, value: $briefId }
+    ]
+  ) {
+    id
+    text: title
+    webId
+    siteId
+    listId
+    listItemId
+    briefCommitments {
+      commitment {
+        id
+        text: title
+        criticalDate {
+          id
+          title
+        }
+        portfolioLookup {
+          id
+          title
+        }
+      }
+    }
+  }
+}

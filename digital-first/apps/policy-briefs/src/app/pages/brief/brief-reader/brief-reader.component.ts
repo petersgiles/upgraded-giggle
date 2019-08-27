@@ -15,6 +15,7 @@ import * as fromRoot from '../../../reducers/index'
 import * as fromBrief from '../../../reducers/brief/brief.reducer'
 
 import { selectAppBackgroundColour } from '@digital-first/df-app-core'
+import { EditDocumentService } from '@df/sharepoint';
 
 @Component({
   selector: 'digital-first-brief-reader',
@@ -28,17 +29,21 @@ export class BriefReaderComponent implements OnInit {
   activeBriefId: string
 
   public background$: Observable<string>
+  brief: any;
+  briefSubscription$: any;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<fromRoot.State>,
+    private editDocService: EditDocumentService,
     public dialog: MdcDialog
   ) {}
 
   ngOnInit() {
 
     this.brief$ = this.store.pipe(select(fromBrief.selectBriefState))
+    this.briefSubscription$ = this.brief$.subscribe(b => this.brief = b )
 
     this.background$ = this.store.pipe(select(selectAppBackgroundColour))
 
@@ -81,9 +86,9 @@ export class BriefReaderComponent implements OnInit {
   
   handleOpenDocument($event) {
     // tslint:disable-next-line:no-console
-    console.log('🐛 - handleOpenDocument', $event)
-
-    this.router.navigate(['/brief', this.activeBriefId, 'edit'])
+    console.log('🐛 - handleOpenDocument', $event, this.brief)
+    this.editDocService.editWOPIDoc(this.brief.fileLeafRef, 'Brief');
+    // this.editDocService.editDocRichClient(this.brief.fileLeafRef, 'Brief')
   }
   
 }
