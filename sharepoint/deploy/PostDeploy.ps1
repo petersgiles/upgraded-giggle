@@ -53,12 +53,12 @@ foreach ($deploySiteUrl in $deploySiteUrls)
 
     & .\scripts\BulkUploadSharePointCSOM.ps1 -Folder "SitePages" -DocLibName "Site Pages" -binPath $binPath -SiteUrl $deploySiteUrl -jsOnly:$jsOnly.IsPresent
 
-    & .\scripts\Deploy-Lists.ps1 -saveLocation "ListDefinitions/$AppName" -binPath $binPath -siteUrl $deploySiteUrl -forceListUpdate $boolForceUpdateSchema
+    & .\scripts\Deploy-Lists.ps1 -saveLocation "ListDefinitions" -binPath $binPath -siteUrl $deploySiteUrl -forceListUpdate $boolForceUpdateSchema
     
     if ($LoadReferenceData -eq 'True')
     {
         Write-Output "Loading reference data"
-        & .\scripts\ImportAll-ListDataFromXml.ps1 -importLocation "ListData/$AppName" -binPath $binPath -SiteUrl $deploySiteUrl
+        & .\scripts\ImportAll-ListDataFromXml.ps1 -importLocation "ListData" -binPath $binPath -SiteUrl $deploySiteUrl
     }
 }
 

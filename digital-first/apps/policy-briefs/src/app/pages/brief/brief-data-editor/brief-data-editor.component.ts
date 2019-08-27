@@ -32,7 +32,6 @@ import {
 import {
   selectLookupPoliciesState,
   selectLookupSubpoliciesState,
-  selectLookupCommitmentsState,
   selectLookupClassificationsState,
   selectLookupDLMsState
 } from '../../../reducers/lookups/lookup.reducer'
@@ -75,7 +74,6 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
   dLMValueChangeSubscription$: Subscription
   recommendedDirectionValueChangeSubscription$: Subscription
   actionsValueChangeSubscriptions$: Subscription[]
-  commitmentsValueChangeSubscriptions$: Subscription[]
   public background$: Observable<string>
 
   public policies$: Observable<
@@ -124,7 +122,6 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
     subpolicy: [null],
     recommendedDirection: [null],
     actions: this.fb.array([]),
-    commitments: this.fb.array([])
   })
 
   get actions(): FormArray {
@@ -143,24 +140,6 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
 
   public handleRemoveAction(index: any, action: any) {
     this.actions.removeAt(index)
-  }
-
-  get commitments(): FormArray {
-    return this.form.get('commitments') as FormArray
-  }
-
-  get commitment(): FormGroup {
-    return this.fb.group(commitmentItem)
-  }
-
-  public handleAddCommitment(): void {
-    this.unsubscribeChanges()
-    this.commitments.push(this.fb.group(commitmentItem))
-    this.subscribeChanges()
-  }
-
-  public handleRemoveCommitment(index: any, action: any) {
-    this.commitments.removeAt(index)
   }
 
   public formValueChangeSubscription$: Subscription
@@ -220,7 +199,6 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
         this.subpolicies = next
         this.subpolicies$.next(this.subpolicies)
       })
-    this.commitment$ = this.store.pipe(select(selectLookupCommitmentsState))
     this.classifications$ = this.store.pipe(
       select(selectLookupClassificationsState)
     )
@@ -230,8 +208,6 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetLookupSubPolicies())
     this.store.dispatch(new GetLookupClassifications())
     this.store.dispatch(new GetLookupDLMs())
-
-    // this.store.dispatch(new GetLookupCommitments())
 
     this.form.patchValue(defaultValues)
 
@@ -274,8 +250,7 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
       this.recommendedDirectionValueChangeSubscription$.unsubscribe()
     if (this.actionsValueChangeSubscriptions$)
       this.actionsValueChangeSubscriptions$.forEach(s => s.unsubscribe())
-    if (this.commitmentsValueChangeSubscriptions$)
-      this.commitmentsValueChangeSubscriptions$.forEach(s => s.unsubscribe())
+
   }
 
   subscribeChanges(): void {
@@ -390,21 +365,6 @@ export class BriefDataEditorComponent implements OnInit, OnDestroy {
                 activeBriefId: this.activeBriefId,    
               })
             )
-          })
-      )
-    })
-
-    this.commitmentsValueChangeSubscriptions$ = []
-    this.commitments.controls.forEach(control => {
-      this.commitmentsValueChangeSubscriptions$.push(
-        control.valueChanges
-          .pipe(
-            debounceTime(400),
-            distinctUntilChanged()
-          )
-          .subscribe(data => {
-            // console.log(this.actions.controls.indexOf(control))
-            console.log('onChanges commitments', data)
           })
       )
     })

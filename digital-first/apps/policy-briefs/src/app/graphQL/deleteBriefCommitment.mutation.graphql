@@ -1,0 +1,11 @@
+mutation DeleteBriefCommitment(
+  $messageId: Guid!
+  $deleteBriefCommitment: DeleteBriefCommitmentInputGraph
+) {
+  deleteBriefCommitment(
+    messageId: $messageId
+    deleteBriefCommitment: $deleteBriefCommitment
+  ) {
+    id
+  }
+}

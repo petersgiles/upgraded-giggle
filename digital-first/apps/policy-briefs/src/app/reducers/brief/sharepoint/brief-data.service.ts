@@ -10,7 +10,11 @@ import { BriefDataService } from '../brief-data.service'
 import { concatMap, map } from 'rxjs/operators'
 import { sortBy } from '../../../utils'
 import { HttpClient } from '@angular/common/http'
-import { byIdQuery, byBriefIdQuery } from '../../../services/sharepoint/caml'
+import {
+  byIdQuery,
+  byBriefIdQuery,
+  byBriefIdSubscriberIdQuery
+} from '../../../services/sharepoint/caml'
 import { BriefMapperService } from '../../../services/mappers/brief-mapper.service'
 import { RecommendedDirectionMapperService } from '../../../services/mappers/recommended-direction-mapper.service'
 import { RecommendationMapperService } from '../../../services/mappers/recommendation-mapper.service'
@@ -18,12 +22,13 @@ import { AttachmentMapperService } from '../../../services/mappers/attachment-ma
 import { LookupMapperService } from '../../../services/mappers/lookup-mapper.service'
 
 declare var _spPageContextInfo: any
+declare var SP: any
 
 const BRIEF_ITEM_LIST_NAME = 'Brief'
 const RECOMMENDED_DIRECTION_ITEM_LIST_NAME = 'RecommendedDirection'
 const RECOMMENDATION_ITEM_LIST_NAME = 'Recommendation'
 const RESPONSE_ITEM_LIST_NAME = 'Response'
-
+const BRIEF_SUBSCRIPTIONS_ITEM_LIST_NAME = 'BriefSubscriptions'
 @Injectable({
   providedIn: 'root'
 })
@@ -240,7 +245,7 @@ export class BriefDataSharepointService implements BriefDataService {
         listName: 'InvitationPMOContacts'
       }),
       this.sharepoint.getItems({
-        listName: 'BriefSubscriptions',
+        listName: BRIEF_SUBSCRIPTIONS_ITEM_LIST_NAME,
         viewXml: briefIdViewXml
       })
     ]).pipe(
@@ -249,36 +254,39 @@ export class BriefDataSharepointService implements BriefDataService {
           const pmcUser = fromUser(contact.PMCUser)
           console.log('getActiveBriefSubscriptions', pmcUser)
 
+          const defaultSub = {  
+            user_id: pmcUser.id,
+            name: pmcUser.title,
+            brief_id: briefId,
+            activity: [],
+            status: []
+          }
+
           if (spSubscriptions && spSubscriptions.length > 0) {
             const userSubscriptions = spSubscriptions.filter(sub => {
               const subscriber = fromUser(sub.Subscriber)
               return subscriber.id == pmcUser.id
             })
 
-             return userSubscriptions.reduce(
+            return userSubscriptions.reduce(
               (sacc, item) => {
                 const userActivities = item.SubscriptionTypes.map(st => {
                   const id = idFromLookup(st)
-                  return { id: id}
+                  return { id: id }
                 })
                 const userStatuses = item.BriefStatus.map(st => {
                   const id = idFromLookup(st)
-                  return { id: id}
+                  return { id: id }
                 })
 
                 sacc.activity = [...userActivities]
                 sacc.status = [...userStatuses]
                 return sacc
               },
-              {
-                
-                user_id: pmcUser.id,
-                name:  pmcUser.title,
-                brief_id: briefId,                
-                activity: [],
-                status: []
-              }
+              defaultSub
             )
+          } else {
+            return defaultSub
           }
         })
 
@@ -290,10 +298,95 @@ export class BriefDataSharepointService implements BriefDataService {
     )
   }
 
-  toggleBriefSubscription(payload: { briefId: any; userId: any; data: { type: "activity" | "status"; id: any; on: boolean; }; name?: string  }): Observable<any> {
+  toggleBriefSubscription(payload: {
+    briefId: any
+    userId: any
+    data: { type: 'activity' | 'status'; id: any; on: boolean }
+    name?: string
+  }): Observable<any> {
+    const viewXml = byBriefIdSubscriberIdQuery({
+      brief: payload.briefId,
+      subscriber: payload.userId
+    })
+    console.log(`toggleBriefSubscription`, viewXml, payload)
 
-    const subscriptions = []
-    return of(payload.briefId)
+    return this.sharepoint
+      .getItems({
+        listName: BRIEF_SUBSCRIPTIONS_ITEM_LIST_NAME,
+        viewXml: viewXml
+      })
+      .pipe(
+        concatMap((result: any) => {
+          const found = result[0]
+          console.log(`toggleBriefSubscription`, result, found)
+
+          var userValue = new SP.FieldLookupValue()
+          userValue.set_lookupId(payload.userId)
+
+          let changes = {
+            Title: payload.briefId + ' - ' + payload.userId,
+            Subscribed: true,
+            Subscriber: userValue,
+            Brief: payload.briefId,
+            SubscriptionTypes: [],
+            BriefStatus: []
+          }
+          let toUpdate = null
+          let subscriptionTypes = []
+          let briefStatus = []
+          
+          if (found) {
+            toUpdate = found.ID
+            subscriptionTypes = found.SubscriptionTypes
+            briefStatus = found.BriefStatus
+
+            changes = {
+              ...changes,
+              Title: found.Title
+            }
+          }
+
+          if (payload.data.type === 'activity') {
+            if (payload.data.on) {
+              var subscriptionTypeValue = new SP.FieldLookupValue()
+              subscriptionTypeValue.set_lookupId(payload.data.id)
+              subscriptionTypes.push(subscriptionTypeValue)
+            } else {
+              subscriptionTypes = found.SubscriptionTypes.filter(
+                val => `${val.get_lookupId()}` !== `${payload.data.id}`
+              )
+            }
+          }
+
+          if (payload.data.type === 'status') {
+            if (payload.data.on) {
+              var briefStatusValue = new SP.FieldLookupValue()
+              briefStatusValue.set_lookupId(payload.data.id)
+              briefStatus.push(briefStatusValue)
+            } else {
+              briefStatus = found.BriefStatus.filter(
+                val => `${val.get_lookupId()}` !== `${payload.data.id}`
+              )
+            }
+          }
+
+          changes = {
+            ...changes,
+            SubscriptionTypes: subscriptionTypes,
+            BriefStatus: briefStatus
+          }
+
+          console.log(`toggleBriefSubscription`, found, changes)
+
+          return this.sharepoint
+            .storeItem({
+              listName: BRIEF_SUBSCRIPTIONS_ITEM_LIST_NAME,
+              data: changes,
+              id: toUpdate
+            })
+            .pipe(concatMap(_ => of(payload.briefId)))
+        })
+      )
   }
 
   public getBriefHtml(

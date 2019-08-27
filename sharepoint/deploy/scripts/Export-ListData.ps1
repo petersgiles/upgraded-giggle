@@ -1,8 +1,8 @@
 ﻿param (
     [string] $webUrl = "http://vm-dev-lbs13/sites/commitments/",
-   [string] $listName = "PackageType",
-   [string] $binPath = "$PSScriptRoot",
-   [string] $exportPath = "$PSScriptRoot\..\..\commitments\Data"
+    [string] $listName = "PackageType",
+    [string] $binPath = "$PSScriptRoot",
+    [string] $exportPath = "$PSScriptRoot\..\..\commitments\Data"
 )
 
 
@@ -18,16 +18,16 @@ function Get-ListFields($context, $list)
     $context.Load($contentTypes)
     $context.ExecuteQuery()
     $fieldsToProcess = @()
-    foreach($contentType in $contentTypes)
+    foreach ($contentType in $contentTypes)
     {
-        if($contentType.Name -eq "Item")
+        if ($contentType.Name -eq "Item")
         {
-            $fields =  $contentType.Fields
+            $fields = $contentType.Fields
             $context.Load($fields)
             $context.ExecuteQuery()
-            foreach($field in $fields)
+            foreach ($field in $fields)
             {
-                if($field.Title -ne 'Content Type')
+                if ($field.Title -ne 'Content Type')
                 {
                     Write-Verbose $field.StaticName
                     $fieldsToProcess += $field.StaticName
@@ -53,10 +53,10 @@ function Export-ListData($context, $listName)
     $context.ExecuteQuery()
 
     $listData = New-Object System.Collections.ArrayList
-    foreach($item in $items)
+    foreach ($item in $items)
     {
         $listItemData = New-Object -TypeName PSObject
-        foreach($fieldName in $fieldsToProcess)
+        foreach ($fieldName in $fieldsToProcess)
         {
             $listItemData | Add-Member -MemberType NoteProperty -Name $fieldName -Value $item[$fieldName] 
         }

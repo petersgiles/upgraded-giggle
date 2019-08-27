@@ -23,10 +23,10 @@
           <th>
             &nbsp;
           </th>
-          <th [attr.colspan]="activities?.length">
+          <th [attr.colspan]="(activities$ | async)?.length">
             <div class="align-center activity-column">Activities</div>
           </th>
-          <th [attr.colspan]="documentStatusList?.length">
+          <th [attr.colspan]="(documentStatusList$ | async)?.length">
             <div class="align-center status-column">By Status</div>
           </th>
           <th></th>
@@ -45,7 +45,7 @@
           </th>
           <th
             class="rotate activity-column"
-            *ngFor="let s of activities"
+            *ngFor="let s of (activities$ | async)"
           >
             <div>
               <span>{{ s.caption }}</span>
@@ -53,7 +53,7 @@
           </th>
           <th
             class="rotate status-column"
-            *ngFor="let s of documentStatusList"
+            *ngFor="let s of (documentStatusList$ | async)"
           >
             <div>
               <span>{{ s.caption }}</span>
@@ -61,18 +61,13 @@
           </th>
         </tr>
       </thead>
-      <tr *ngFor="let n of notifications">
-        <td>
-          <!-- <button mdcIconButton [on]="false">
-            <mdc-icon mdcIconOn>check_box</mdc-icon>
-            <mdc-icon>check_box_outline_blank</mdc-icon>
-          </button> -->
-        </td>
-        <td>{{ n.name }}{{ n.id }}</td>
+      <tr *ngFor="let n of (notifications$ | async)">
+        <td></td>
+        <td>{{ n.name }}</td>
         <td
           style="text-align:center"
           class="activity-column"
-          *ngFor="let s of activities"
+          *ngFor="let s of (activities$ | async)"
         >
           <button mdcIconButton (click)="handleToggleSubscription(n, s.id, 'activity' )">
             <mdc-icon *ngIf="checked(n.activity, s.id)">check_box</mdc-icon>
@@ -82,7 +77,7 @@
         <td
           style="text-align:center"
           class="status-column"
-          *ngFor="let s of documentStatusList"
+          *ngFor="let s of (documentStatusList$ | async)"
         >
           <button mdcIconButton (click)="handleToggleSubscription(n, s.id, 'status')">
             <mdc-icon *ngIf="checked(n.status, s.id)">check_box</mdc-icon>

@@ -29,13 +29,7 @@ describe('BriefCommitmentsComponent', () => {
   let actions$: Observable<any>
 
 
-  const initialState: fromBrief.State = {
-    activeBrief: null,
-    brief: null,
-    directions: null,
-    recommendations: null,
-    attachments: null,
-  }
+  const initialState: fromBrief.State =  fromBrief.initialState
   
  
   beforeEach(async(() => {

@@ -1,17 +1,17 @@
-<df-expander-panel
+<!-- <df-expander-panel
     title="Discussion"
     [background]="background"
     expanded="true"
   >
 
     <ng-container panel-buttons>
-      <df-button  *ngFor="let discussionType of discussionTypeVals()"
+       <df-button  *ngFor="let discussionType of discussionTypeVals()"
         [title]="discussionType"
         [icon]="currentChannel == discussionTypes[discussionType] ? 'chat_bubble' : 'chat_bubble_outline'"
         [background]="background"
         (onClick)="handleSelectDiscussion(discussionTypes[discussionType])"
       ></df-button>
-    </ng-container>
+    </ng-container> -->
 
     <df-discussion
       [hostId]="brief.id"
@@ -21,4 +21,4 @@
       (onDeleteComment)="handleRemoveComment($event)"
       (onAddComment)="handleAddComment($event)"
     ></df-discussion>
-  </df-expander-panel>
+  <!-- </df-expander-panel> -->

@@ -11,7 +11,7 @@ import { ConfigureFn, configureTests } from '../../../../../../../libs/df-testin
 import { NO_ERRORS_SCHEMA } from '@angular/core'
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 import { BriefSubscriptionEditorComponent } from './brief-subscription-editor.component'
-import { MdcDialog, Overlay, MdcIconButtonModule } from '@angular-mdc/web'
+import { MdcDialog, Overlay, MdcIconButtonModule, MdcIconButton } from '@angular-mdc/web'
 import { FormBuilder } from '@angular/forms'
 import { Router, ActivatedRoute,  ParamMap,  convertToParamMap } from '@angular/router'
 import { Observable, of } from 'rxjs'
@@ -20,49 +20,33 @@ import { provideMockStore, MockStore } from '@ngrx/store/testing'
 import * as fromBrief from '../../../reducers/brief/brief.reducer'
 import * as fromLookup from '../../../reducers/lookups/lookup.reducer'
 import { selectAppBackgroundColour, Config } from '../../../../../../../libs/df-app-core/src'
+import { Lookup } from '../../../models';
 
 describe('BriefSubscriptionEditorComponent', () => {
-
+debugger
   let component: BriefSubscriptionEditorComponent;
   let fixture: ComponentFixture<BriefSubscriptionEditorComponent>;
   let router: Router
   let mockStore: MockStore<any>
   let config: Config
   let background$: Observable<string>
+  let notifications$: Observable<any[]>
   let documentStatusList$: Observable<any[]>
   let activities$: Observable<any[]>
  
-  const initialState: fromBrief.State = {
-    activeBrief: null,
-  brief: null,
-  directions: null,
-  recommendations: null,
-  attachments: null,
-  }
-
+  const initialState: fromBrief.State =  fromBrief.initialState
+  const lookupState: fromLookup.State = fromLookup.initialState
   const appState = {
     config
-  }
-
-  const lookupState = {
-    policies: [],
-    subpolicies: [],
-    commitments: [],
-    classifications: [],
-    dlms: [],
-    statuses: [],
-    divisions: [],
-    activities: []
   }
 
   beforeEach(async(() => {
     const configure: ConfigureFn = testBed => {
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
-      imports: [MdcIconButtonModule],
       declarations: [BriefSubscriptionEditorComponent],
       providers:
-      [MdcDialog, Overlay, FormBuilder,
+      [MdcDialog, Overlay, FormBuilder, 
         {
           provide: Router,
           useValue: {get: jest.fn()}
@@ -83,14 +67,17 @@ describe('BriefSubscriptionEditorComponent', () => {
     component = fixture.componentInstance
     router = TestBed.get(Router)
     mockStore = TestBed.get(Store)
-    initialState.brief = getBrief()
-    mockStore.overrideSelector(fromBrief.selectBriefState, initialState.brief)
+    let newBriefState = {...initialState, brief: getBrief(), subscriptions: getSubscriptions()}
+    mockStore.overrideSelector(fromBrief.selectActiveBriefSubscriptions, newBriefState.subscriptions)
+    mockStore.overrideSelector(fromBrief.selectBriefState, newBriefState.brief)
     appState.config = getConfig()
     mockStore.overrideSelector(selectAppBackgroundColour, appState.config.header.backgroundColour) 
 
     let newLookupState = {...lookupState, activities: getActivities(), statuses: getStatuses()}
     mockStore.overrideSelector(fromLookup.selectLookupStatusesState, newLookupState.statuses)
     mockStore.overrideSelector(fromLookup.selectLookupActivitiesState, newLookupState.activities)
+
+    
 
     fixture.detectChanges()
   })
@@ -151,11 +138,31 @@ describe('BriefSubscriptionEditorComponent', () => {
    it('observable should return all statuses', () => {
     documentStatusList$ = mockStore.pipe(
       select(fromLookup.selectLookupStatusesState))
-      background$.subscribe(statuses => {
+      documentStatusList$.subscribe(statuses => {
         expect(statuses.length).toBe(3)
         }
       )
    })
+
+    it('should get the subscriptions', () => {
+    mockStore
+     .select(fromBrief.selectActiveBriefSubscriptions)
+     .subscribe(result => {
+        expect(result[0].user_id).toEqual(92) 
+        expect(result[0].name).toEqual('John Smith') 
+        expect(result[0].brief_id).toEqual('5')   
+        expect(result[0].activity[0].id).toEqual(1) 
+        expect(result[0].status[0].id).toEqual(1) 
+   })})
+
+   it('observable should return all subscriptions', () => {
+    notifications$ = mockStore.pipe(
+      select(fromBrief.selectActiveBriefSubscriptions))
+      notifications$.subscribe(subscriptions => {
+        expect(subscriptions.length).toBe(1)
+        }
+      )
+   })  
 
  })
 
@@ -238,4 +245,16 @@ function getStatuses(){
     colour: 'Crimson',
     order: 3}]
     return statuses
+}
+
+function getSubscriptions(){
+const subscriptions = [{
+  user_id: 92,
+  name: 'John Smith',
+  brief_id: '5',
+  activity: [{id: 1}, {id: 4}],
+  status: [{id: 1}]
+}]
+return subscriptions
+
 }

@@ -1,7 +1,7 @@
 Function HandleMixedModeWebApplication()
 {
-  param([Parameter(Mandatory=$true)][object]$clientContext, $binPath)  
-  Add-Type -TypeDefinition @"
+    param([Parameter(Mandatory = $true)][object]$clientContext, $binPath)  
+    Add-Type -TypeDefinition @"
   using System;
   using Microsoft.SharePoint.Client;
   
@@ -23,5 +23,5 @@ Function HandleMixedModeWebApplication()
       }
   }
 "@ -ReferencedAssemblies "$binPath\Microsoft.SharePoint.Client.dll", "$binPath\Microsoft.SharePoint.Client.Runtime.dll";
-  [Toth.SPOHelpers.ClientContextHelper]::AddRequestHandler($clientContext);
+    [Toth.SPOHelpers.ClientContextHelper]::AddRequestHandler($clientContext);
 }

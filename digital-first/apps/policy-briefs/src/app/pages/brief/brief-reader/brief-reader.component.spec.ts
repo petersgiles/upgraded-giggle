@@ -13,13 +13,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 import { BriefReaderComponent } from './brief-reader.component'
 import { MdcDialog, Overlay } from '@angular-mdc/web'
 import { Router, ActivatedRoute, convertToParamMap } from '@angular/router'
-import { Store} from '@ngrx/store'
+import { Store, select} from '@ngrx/store'
 import { provideMockStore, MockStore } from '@ngrx/store/testing'
 import { provideMockActions } from '@ngrx/effects/testing'
 import { Observable, of} from 'rxjs'
 import * as fromBrief from '../../../reducers/brief/brief.reducer'
-import { selectAppConfigState, Config } from '../../../../../../../libs/df-app-core/src'
-
+import { selectAppBackgroundColour, Config } from '../../../../../../../libs/df-app-core/src'
+import { CookieService } from 'ngx-cookie-service'
 
 describe('BriefReaderComponent', () => {
   let component: BriefReaderComponent;
@@ -28,15 +28,10 @@ describe('BriefReaderComponent', () => {
   let actions$: Observable<any>
   let router: Router
   let config: Config
+  let background$: Observable<string>
 
+  const initialState: fromBrief.State =  fromBrief.initialState
 
-  const initialState: fromBrief.State = {
-    activeBrief: null,
-    brief: null,
-    directions: null,
-    recommendations: null,
-    attachments: null,
-  }
   const appState = {
     config
   }
@@ -49,6 +44,7 @@ describe('BriefReaderComponent', () => {
       declarations: [BriefReaderComponent],
       providers:
       [
+        CookieService,
         MdcDialog,
         Overlay,
         { provide: ActivatedRoute, useValue: { paramMap: of(convertToParamMap({ id: '1' }))}},
@@ -75,7 +71,7 @@ describe('BriefReaderComponent', () => {
     mockStore.setState(state)
     mockStore.overrideSelector(fromBrief.selectBriefState, state.brief)  
     appState.config = getConfig()
-    mockStore.overrideSelector(selectAppConfigState, appState.config) 
+    mockStore.overrideSelector(selectAppBackgroundColour, appState.config.header.backgroundColour) 
    
     fixture.detectChanges();  
   })
@@ -93,6 +89,23 @@ describe('BriefReaderComponent', () => {
        expect(brief.reference).toBe('BN:636904955575056876')
    })
   }) 
+
+  it('should return the background colour', () => {
+    mockStore
+    .select(selectAppBackgroundColour)
+    .subscribe(colour => {
+      expect(colour).toBe('#455a64')
+  })
+  })
+
+  it('observable should return colour', () => {
+    background$ = mockStore.pipe(
+      select(selectAppBackgroundColour))
+      background$.subscribe(colour => {
+        expect(colour).toBe('#455a64')
+        }
+      )
+   })
   
 
  })
