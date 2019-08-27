@@ -98,6 +98,7 @@ import { BriefWarningBannerComponent } from './pages/brief/brief-warning-banner/
 import { BriefRecommendationResponseComponent } from './pages/brief/brief-recommendation-response/brief-recommendation-response.component';
 import { BriefCommitmentsComponent } from './pages/brief/brief-commitments/brief-commitments.component'
 import { NgxWigModule } from 'ngx-wig'
+import { GraphQLModule } from './graphQL/graphQl.module';
 
 const COMPONENTS = [
   AppComponent,
@@ -135,6 +136,7 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     DocumentModule,
     DiscussionModule,    
     PipesModule,
+    GraphQLModule,
     DfAppCoreModule,
     DfComponentsModule,
     DfButtonsModule,

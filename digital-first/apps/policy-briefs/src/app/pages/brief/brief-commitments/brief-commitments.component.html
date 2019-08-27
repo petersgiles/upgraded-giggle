@@ -1,16 +1,41 @@
 <div *ngIf="brief$ | async as brief">
-  <mdc-card class="form-card" *ngIf="brief.commitments">
+  <mdc-card class="form-card" *ngIf="!brief.commitments">
     <div>
       <div mdcBody2 class="form-section">
         <h3>Related Commitments</h3>
         <div class="form-row">
-          <ul>
-            <li>Commitment A</li>
-            <li>Commitment A</li>
-            <li>Commitment A</li>
-            <li>Commitment A</li>
-            <li>Commitment A</li>
-          </ul>
+          <table>
+            <thead>
+              <tr>
+                <th>Commitment</th>
+                <th>Critical Date</th>
+                <th>Portfolio</th>
+                <th *ngIf="canRemove">Remove</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let commitment of briefCommitments">
+                <td (click)="navigateToCommitment(commitment)">
+                  {{ commitment.text }}
+                </td>
+                <td (click)="navigateToCommitment(commitment)">
+                  {{ commitment.criticalDate }}
+                </td>
+                <td (click)="navigateToCommitment(commitment)">
+                  {{ commitment.portfolio }}
+                </td>
+                <td *ngIf="canRemove">
+                  <button
+                    mdcIconButton
+                    *ngIf="!busy"
+                    (click)="handleRemoveCommitment(commitment)"
+                  >
+                    <mdc-icon>delete_forever</mdc-icon>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

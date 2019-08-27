@@ -15,4 +15,8 @@ export class BriefCommitmentsComponent implements OnInit {
   ngOnInit() {
     this.brief$ = this.store.pipe(select(fromBrief.selectBriefState))
   }
+
+  navigateToCommitment(commitment) {}
+
+  handleRemoveCommitment(commitment) {}
 }

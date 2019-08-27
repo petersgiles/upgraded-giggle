@@ -134,58 +134,6 @@
                 </div>
               </mdc-card>
             </div>
-            <div mdcBody2 class="form-section">
-              <h3>Related Commitments</h3>
-
-              <mdc-card
-                outlined
-                formArrayName="commitments"
-                class="action-card"
-              >
-                <div
-                  class="action-card-item"
-                  *ngFor="
-                    let commitmentEditor of commitments.controls;
-                    let commitmentIndex = index
-                  "
-                  [formGroupName]="commitmentIndex"
-                >
-                  <div class="action-card-row">
-                    <mdc-select
-                      outlined
-                      placeholder="Commitment"
-                      formControlName="commitment"
-                    >
-                      <option
-                        *ngFor="let c of commitment$ | async"
-                        [value]="c.value"
-                      >
-                        {{ c.caption }}
-                      </option>
-                    </mdc-select>
-                  </div>
-                  <div class="action-card-row">
-                    <a
-                      mdc-button
-                      dense
-                      (click)="
-                        handleRemoveCommitment(
-                          commitmentIndex,
-                          commitments[commitmentIndex]
-                        )
-                      "
-                      >Unrelated this Commitment</a
-                    >
-                  </div>
-                </div>
-
-                <div class="df-card__actions-footer">
-                  <a mdc-button dense (click)="handleAddCommitment()">
-                    Add Commitment
-                  </a>
-                </div>
-              </mdc-card>
-            </div>
           </div>
         </mdc-card>
       </form>

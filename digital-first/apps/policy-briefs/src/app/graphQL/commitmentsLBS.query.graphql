@@ -1,0 +1,6 @@
+query CommitmentsLBS($refiner: CommitmentRefinerGraph!, $bookType: BookType!) {
+  commitments(refiner: $refiner, book: $bookType) {
+    id
+    text: title
+  }
+}

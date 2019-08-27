@@ -1,0 +1,11 @@
+mutation SaveBriefCommitment(
+  $messageId: Guid!
+  $createBriefCommitment: CreateBriefCommitmentInputGraph
+) {
+  createBriefCommitment(
+    messageId: $messageId
+    createBriefCommitment: $createBriefCommitment
+  ) {
+    id
+  }
+}
