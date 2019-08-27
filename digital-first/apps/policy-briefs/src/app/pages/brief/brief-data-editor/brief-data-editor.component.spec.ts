@@ -1,22 +1,30 @@
 import 'core-js/es7/reflect'
 import 'zone.js/dist/zone'
-import 'zone.js/dist/proxy';
-import 'zone.js/dist/async-test';
-import 'zone.js/dist/proxy.js';
-import 'zone.js/dist/sync-test';
-import 'jest-zone-patch' 
+import 'zone.js/dist/proxy'
+import 'zone.js/dist/async-test'
+import 'zone.js/dist/proxy.js'
+import 'zone.js/dist/sync-test'
+import 'jest-zone-patch'
 
-import { ConfigureFn, configureTests } from '../../../../../../../libs/df-testing'
+import {
+  ConfigureFn,
+  configureTests
+} from '../../../../../../../libs/df-testing'
 import { Store, createSelector } from '@ngrx/store'
 import { provideMockStore, MockStore } from '@ngrx/store/testing'
 import { provideMockActions } from '@ngrx/effects/testing'
 import { NO_ERRORS_SCHEMA } from '@angular/core'
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 import { BriefDataEditorComponent } from './brief-data-editor.component'
-import { ParamMap, ActivatedRoute, Router,  convertToParamMap } from '@angular/router'
-import { FormBuilder } from '@angular/forms';
+import {
+  ParamMap,
+  ActivatedRoute,
+  Router,
+  convertToParamMap
+} from '@angular/router'
+import { FormBuilder } from '@angular/forms'
 import { MdcDialog, Overlay } from '@angular-mdc/web'
-import { Observable, of} from 'rxjs'
+import { Observable, of } from 'rxjs'
 import {
   selectLookupPoliciesState,
   selectLookupSubpoliciesState,
@@ -25,15 +33,15 @@ import {
   selectLookupDLMsState
 } from '../../../reducers/lookups/lookup.reducer'
 
-import { selectAppConfigState, Config } from '../../../../../../../libs/df-app-core/src'
+import {
+  selectAppConfigState,
+  Config
+} from '../../../../../../../libs/df-app-core/src'
 import * as fromBrief from '../../../reducers/brief/brief.reducer'
 
-
-
 describe('BriefDataEditorComponent', () => {
-
-  let component: BriefDataEditorComponent;
-  let fixture: ComponentFixture<BriefDataEditorComponent>;
+  let component: BriefDataEditorComponent
+  let fixture: ComponentFixture<BriefDataEditorComponent>
   let mockStore: MockStore<any>
   let actions$: Observable<any>
   let config: Config
@@ -71,15 +79,8 @@ describe('BriefDataEditorComponent', () => {
       value: string
     }[]
   >
- 
- 
-  const initialState: fromBrief.State = {
-    activeBrief: null,
-  brief: null,
-  directions: null,
-  recommendations: null,
-  attachments: null,
-  }
+
+  const initialState: fromBrief.State =  fromBrief.initialState
 
   const lookupState = {
     policies: null,
@@ -95,109 +96,120 @@ describe('BriefDataEditorComponent', () => {
   const appState = {
     config
   }
- 
+
   beforeEach(async(() => {
     const configure: ConfigureFn = testBed => {
-    TestBed.configureTestingModule({
-      schemas: [NO_ERRORS_SCHEMA],
-      declarations: [BriefDataEditorComponent],
-      providers:
-      [ 
-        MdcDialog,
-        Overlay,
-        FormBuilder,
-      {
-        provide: Router,
-        useValue: {get: jest.fn()}
-      },
-      { provide: Store,
-        useValue: {
-          pipe: jest.fn()
-        }
-       },
-       { provide: ActivatedRoute, useValue: { paramMap: of(convertToParamMap({ parent: '' }))}},
-        provideMockActions(() => actions$),
-        provideMockStore({ initialState
-    }),]
-    })
-   }
-   configureTests(configure).then(testBed => {
-    fixture = TestBed.createComponent(BriefDataEditorComponent);
-    component = fixture.componentInstance
-    mockStore = TestBed.get(Store)
-    initialState.brief = getBrief()
-    mockStore.overrideSelector(fromBrief.selectBriefState, initialState.brief)  
-    lookupState.policies = getPolicies()  
-    mockStore.overrideSelector(selectLookupPoliciesState, lookupState.policies)  
-    lookupState.subpolicies = getSubPolicies() 
-    mockStore.overrideSelector(selectLookupSubpoliciesState, lookupState.subpolicies)
-    lookupState.commitments = getCommitments()
-    mockStore.overrideSelector(selectLookupCommitmentsState, lookupState.commitments)
-    lookupState.classifications = getClassifications()
-    mockStore.overrideSelector(selectLookupClassificationsState, lookupState.classifications)
-    lookupState.dlms = getProtectiveMarkings()
-    mockStore.overrideSelector(selectLookupDLMsState, lookupState.dlms)
-    appState.config = getConfig()
-    mockStore.overrideSelector(selectAppConfigState, appState.config)
-   
-    component.form.patchValue(getPatch())
+      TestBed.configureTestingModule({
+        schemas: [NO_ERRORS_SCHEMA],
+        declarations: [BriefDataEditorComponent],
+        providers: [
+          MdcDialog,
+          Overlay,
+          FormBuilder,
+          {
+            provide: Router,
+            useValue: { get: jest.fn() }
+          },
+          {
+            provide: Store,
+            useValue: {
+              pipe: jest.fn()
+            }
+          },
+          {
+            provide: ActivatedRoute,
+            useValue: { paramMap: of(convertToParamMap({ parent: '' })) }
+          },
+          provideMockActions(() => actions$),
+          provideMockStore({ initialState })
+        ]
+      })
+    }
+    configureTests(configure).then(testBed => {
+      fixture = TestBed.createComponent(BriefDataEditorComponent)
+      component = fixture.componentInstance
+      mockStore = TestBed.get(Store)
+      initialState.brief = getBrief()
+      mockStore.overrideSelector(fromBrief.selectBriefState, initialState.brief)
+      lookupState.policies = getPolicies()
+      mockStore.overrideSelector(
+        selectLookupPoliciesState,
+        lookupState.policies
+      )
+      lookupState.subpolicies = getSubPolicies()
+      mockStore.overrideSelector(
+        selectLookupSubpoliciesState,
+        lookupState.subpolicies
+      )
+      lookupState.commitments = getCommitments()
+      mockStore.overrideSelector(
+        selectLookupCommitmentsState,
+        lookupState.commitments
+      )
+      lookupState.classifications = getClassifications()
+      mockStore.overrideSelector(
+        selectLookupClassificationsState,
+        lookupState.classifications
+      )
+      lookupState.dlms = getProtectiveMarkings()
+      mockStore.overrideSelector(selectLookupDLMsState, lookupState.dlms)
+      appState.config = getConfig()
+      mockStore.overrideSelector(selectAppConfigState, appState.config)
 
-    fixture.detectChanges();  
-  })
-  
+      component.form.patchValue(getPatch())
+
+      fixture.detectChanges()
+    })
   }))
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeTruthy()
   })
 
   it('should get the Brief', () => {
-    mockStore
-     .select(fromBrief.selectBriefState)
-     .subscribe(result => {
-        expect(result.fileLeafRef).toEqual('0733738d-5946-ca15-7797-eb31615111f2.docx')   
-   })})
+    mockStore.select(fromBrief.selectBriefState).subscribe(result => {
+      expect(result.fileLeafRef).toEqual(
+        '0733738d-5946-ca15-7797-eb31615111f2.docx'
+      )
+    })
+  })
 
-   it('should get Policies', () => {
-    mockStore
-     .select(selectLookupPoliciesState)
-     .subscribe(result => {
-        expect(result[0].Title).toEqual('Sample Policy Two')   
-   })})
+  it('should get Policies', () => {
+    mockStore.select(selectLookupPoliciesState).subscribe(result => {
+      expect(result[0].Title).toEqual('Sample Policy Two')
+    })
+  })
 
-   it('should get Subpolicies', () => {
-    mockStore
-     .select(selectLookupSubpoliciesState)
-     .subscribe(result => {
-        expect(result[0].Title).toEqual('SubPolicy Four')   
-        expect(result[0].Policy.Title).toEqual('Sample Policy Two')   
-   })})
+  it('should get Subpolicies', () => {
+    mockStore.select(selectLookupSubpoliciesState).subscribe(result => {
+      expect(result[0].Title).toEqual('SubPolicy Four')
+      expect(result[0].Policy.Title).toEqual('Sample Policy Two')
+    })
+  })
 
-   it('should get Commitments', () => {
-    mockStore
-     .select(selectLookupCommitmentsState)
-     .subscribe(result => {
-        expect(result[0].Title).toEqual('Bibimbap Dave aasfas')   
-   })})
+  it('should get Commitments', () => {
+    mockStore.select(selectLookupCommitmentsState).subscribe(result => {
+      expect(result[0].Title).toEqual('Bibimbap Dave aasfas')
+    })
+  })
 
-   it('should get Classifications', () => {
-    mockStore
-     .select(selectLookupClassificationsState)
-     .subscribe(result => {
-        expect(result[0].caption).toEqual('UNCLASSIFIED')   
-   })})
+  it('should get Classifications', () => {
+    mockStore.select(selectLookupClassificationsState).subscribe(result => {
+      expect(result[0].caption).toEqual('UNCLASSIFIED')
+    })
+  })
 
-   it('should get Classifications', () => {
-    mockStore
-     .select(selectLookupDLMsState)
-     .subscribe(result => {
-        expect(result[0].caption).toEqual('Not for tabling - For Official Use Only')   
-   })})
+  it('should get Classifications', () => {
+    mockStore.select(selectLookupDLMsState).subscribe(result => {
+      expect(result[0].caption).toEqual(
+        'Not for tabling - For Official Use Only'
+      )
+    })
+  })
+})
 
- })
-
- function getPatch(){
-   let brief = getBrief()
+function getPatch() {
+  let brief = getBrief()
   const patch = {
     title: brief.title,
     securityClassification: brief.securityClassification,
@@ -208,28 +220,32 @@ describe('BriefDataEditorComponent', () => {
     recommendedDirection: brief.recommendedDirection
   }
   return patch
- }
+}
 
- function getBrief(){
-  let brief = {briefDivision: {id: 1, title: undefined}, briefStatus: {id: 1, title: undefined}, dLM: null, dueDate: null,
-  editor: {id: null, title: null},
-  fileLeafRef: '0733738d-5946-ca15-7797-eb31615111f2.docx',
-  id: 1,
-  modified: undefined,
-  order: 999,
-  policy: {id: 1, title: 'Sample Policy'},
-  policyDirection: undefined,
-  reference: 'BRIEF-19-000001',
-  securityClassification: 'UNCLASSIFIED',
-  subPolicy: {id: 1, title: 'SubPolicy One'},
-  title: 'Sample Policy Brief 1',
-  recommendedDirection: 'Agreed',
-  recommendations: [getRecommendation()]
+function getBrief() {
+  let brief = {
+    briefDivision: { id: 1, title: undefined },
+    briefStatus: { id: 1, title: undefined },
+    dLM: null,
+    dueDate: null,
+    editor: { id: null, title: null },
+    fileLeafRef: '0733738d-5946-ca15-7797-eb31615111f2.docx',
+    id: 1,
+    modified: undefined,
+    order: 999,
+    policy: { id: 1, title: 'Sample Policy' },
+    policyDirection: undefined,
+    reference: 'BRIEF-19-000001',
+    securityClassification: 'UNCLASSIFIED',
+    subPolicy: { id: 1, title: 'SubPolicy One' },
+    title: 'Sample Policy Brief 1',
+    recommendedDirection: 'Agreed',
+    recommendations: [getRecommendation()]
   }
   return brief
- }
+}
 
- function getPolicies(){
+function getPolicies() {
   const policies = [
     {
       Id: 2,
@@ -249,7 +265,7 @@ describe('BriefDataEditorComponent', () => {
   return policies
 }
 
-function getSubPolicies(){
+function getSubPolicies() {
   const subpolicies = [
     {
       Id: 4,
@@ -289,12 +305,12 @@ function getSubPolicies(){
       SortOrder: 999,
       Colour: 'Crimson',
       ID: 1
-    } 
+    }
   ]
- return subpolicies  
+  return subpolicies
 }
 
-function getCommitments(){
+function getCommitments() {
   const commitments = [
     {
       ContentTypeId: { $p_1: '0x0100594FDB57D7D28E498BE716295885C98D' },
@@ -323,7 +339,11 @@ function getCommitments(){
       ID: 1,
       Modified: '2019-05-07T22:35:07.000Z',
       Created: '2018-10-09T03:04:26.000Z',
-      Author: { $1T_1: 9, $4K_1: 'Peter Giles', $6_2: 'peter.giles@pmc.gov.au' },
+      Author: {
+        $1T_1: 9,
+        $4K_1: 'Peter Giles',
+        $6_2: 'peter.giles@pmc.gov.au'
+      },
       Editor: {
         $1T_1: 13,
         $4K_1: 'Kim mcclymont',
@@ -361,91 +381,90 @@ function getCommitments(){
       ContentVersion: '0',
       AppAuthor: null,
       AppEditor: null
-    }]
-    return commitments
-  }
-
-    function getClassifications(){
-    const classifications = [
-      {
-        caption: 'UNCLASSIFIED',
-        value: 'UNCLASSIFIED'
-      },
-      {
-        caption: 'IN CONFIDENCE',
-        value: 'IN CONFIDENCE'
-      },
-      {
-        caption: 'PROTECTED',
-        value: 'PROTECTED'
-      }
-    ]
-    return classifications
-  }
-    
-  function getProtectiveMarkings(){
-    const dlms = [
-      {
-        caption: 'Not for tabling - For Official Use Only',
-        value: 'Not for tabling - For Official Use Only'
-      },
-      {
-        caption: 'For Official Use Only',
-        value: 'For Official Use Only'
-      },
-      {
-        caption: 'Sensitive',
-        value: 'Sensitive'
-      },
-      {
-        caption: 'Sensitive Cabinet',
-        value: 'Sensitive Cabinet'
-      },
-      {
-        caption: 'Sensitive Legal',
-        value: 'Sensitive Legal'
-      },
-      {
-        caption: 'Sensitive Personal',
-        value: 'Sensitive Personal'
-      }
-    ]
-    return dlms
-  }
-
-  function getConfig(){
-    const defaults: Config = {
-      webId: null,
-      siteId: null,
-      header: {
-        title: 'Unconfigured Application',
-        backgroundColour: '#455a64',
-        classification: 'UNCLASSIFIED',
-        logo: {
-          image: 'assets/crest.png',
-          url: '/'
-        },
-        apps: []
-      }
     }
-    return defaults
-  }
-  
-   function getRecommendation(){
-    const recommendation = {
-      ID: 1,
-      Title: 'Test recommendation',
-      Recommendation: 'This is a recomendation',
-      Outcome1: 'Agree',
-      Outcome2: null,
-      Outcome3: null,
-      Colour: 'rgb(84, 70, 126)',
-      SortOrder: '1',
-      Policy: null,
-      SubPolicy: null,
-      //Brief: getBrief()
-    }
-    return recommendation
-  }
-  
+  ]
+  return commitments
+}
 
+function getClassifications() {
+  const classifications = [
+    {
+      caption: 'UNCLASSIFIED',
+      value: 'UNCLASSIFIED'
+    },
+    {
+      caption: 'IN CONFIDENCE',
+      value: 'IN CONFIDENCE'
+    },
+    {
+      caption: 'PROTECTED',
+      value: 'PROTECTED'
+    }
+  ]
+  return classifications
+}
+
+function getProtectiveMarkings() {
+  const dlms = [
+    {
+      caption: 'Not for tabling - For Official Use Only',
+      value: 'Not for tabling - For Official Use Only'
+    },
+    {
+      caption: 'For Official Use Only',
+      value: 'For Official Use Only'
+    },
+    {
+      caption: 'Sensitive',
+      value: 'Sensitive'
+    },
+    {
+      caption: 'Sensitive Cabinet',
+      value: 'Sensitive Cabinet'
+    },
+    {
+      caption: 'Sensitive Legal',
+      value: 'Sensitive Legal'
+    },
+    {
+      caption: 'Sensitive Personal',
+      value: 'Sensitive Personal'
+    }
+  ]
+  return dlms
+}
+
+function getConfig() {
+  const defaults: Config = {
+    webId: null,
+    siteId: null,
+    header: {
+      title: 'Unconfigured Application',
+      backgroundColour: '#455a64',
+      classification: 'UNCLASSIFIED',
+      logo: {
+        image: 'assets/crest.png',
+        url: '/'
+      },
+      apps: []
+    }
+  }
+  return defaults
+}
+
+function getRecommendation() {
+  const recommendation = {
+    ID: 1,
+    Title: 'Test recommendation',
+    Recommendation: 'This is a recomendation',
+    Outcome1: 'Agree',
+    Outcome2: null,
+    Outcome3: null,
+    Colour: 'rgb(84, 70, 126)',
+    SortOrder: '1',
+    Policy: null,
+    SubPolicy: null
+    //Brief: getBrief()
+  }
+  return recommendation
+}

@@ -32,13 +32,7 @@ describe('BriefSubscriptionEditorComponent', () => {
   let documentStatusList$: Observable<any[]>
   let activities$: Observable<any[]>
  
-  const initialState: fromBrief.State = {
-    activeBrief: null,
-  brief: null,
-  directions: null,
-  recommendations: null,
-  attachments: null,
-  }
+  const initialState: fromBrief.State =  fromBrief.initialState
 
   const appState = {
     config
