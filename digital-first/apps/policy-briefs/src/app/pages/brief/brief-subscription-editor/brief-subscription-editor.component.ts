@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import * as fromRoot from '../../../reducers/index'
 import * as fromBrief from '../../../reducers/brief/brief.reducer'
 import * as fromLookup from '../../../reducers/lookups/lookup.reducer'
@@ -19,23 +19,22 @@ import {
   GetLookupActivities,
   GetLookupStatuses
 } from '../../../reducers/lookups/lookup.actions'
-import { user_notifications } from 'devdata/data'
 
 @Component({
   selector: 'digital-first-brief-subscription-editor',
   templateUrl: './brief-subscription-editor.component.html',
-  styleUrls: ['./brief-subscription-editor.component.scss']
+  styleUrls: ['./brief-subscription-editor.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class BriefSubscriptionEditorComponent implements OnInit, OnDestroy {
   public background$: Observable<string>
   public brief$: any
   public selectId$: any
-  public documentStatusListSubscription$: Subscription
-  public activitiesSubscription$: Subscription
-  public documentStatusList: any
-  public activities: any
-  public notificationsSubscription$: Subscription
-  public notifications: any
+
+
+  public documentStatusList$: any
+  public activities$: any
+  public notifications$: any
 
   public activeBriefId: string
 
@@ -48,23 +47,21 @@ export class BriefSubscriptionEditorComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnDestroy() {
-    this.activitiesSubscription$.unsubscribe()
-    this.documentStatusListSubscription$.unsubscribe()
-    this.notificationsSubscription$.unsubscribe()
+
   }
 
   ngOnInit() {
     this.brief$ = this.store.pipe(select(fromBrief.selectBriefState))
     this.background$ = this.store.pipe(select(selectAppBackgroundColour))
-    this.documentStatusListSubscription$ = this.store
+    this.documentStatusList$ = this.store
       .pipe(select(fromLookup.selectLookupStatusesState))
-      .subscribe(p => (this.documentStatusList = p))
-    this.activitiesSubscription$ = this.store
+ 
+    this.activities$ = this.store
       .pipe(select(fromLookup.selectLookupActivitiesState))
-      .subscribe(p => (this.activities = p))
-    this.notificationsSubscription$ = this.store
+ 
+    this.notifications$ = this.store
       .pipe(select(fromBrief.selectActiveBriefSubscriptions))
-      .subscribe(p => (this.notifications = p))
+
 
     this.selectId$ = this.route.paramMap
       .pipe(

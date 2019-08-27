@@ -34,6 +34,24 @@ const orDSet = set.reduce((acc, item) => {
 return `<View><Query><Where>${orDSet}</Where></Query></View>`
 }
 
+export const byBriefIdSubscriberIdQuery = (criteria: { brief: any, subscriber: any }) => `
+<View>
+  <Query>
+      <Where>
+      <And>
+        <Eq>
+            <FieldRef Name='Brief' LookupId='True' />
+            <Value Type='Lookup'>${criteria.brief}</Value>
+        </Eq>
+        <Eq>
+            <FieldRef Name='Subscriber' LookupId='True' />
+            <Value Type='Lookup'>${criteria.subscriber}</Value>
+        </Eq>
+      </And>
+      </Where>
+  </Query>
+</View>`
+
 export const byBriefIdQuery = (criteria: { id: any }) => `
 <View>
   <Query>
