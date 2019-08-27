@@ -62,13 +62,8 @@
         </tr>
       </thead>
       <tr *ngFor="let n of (notifications$ | async)">
-        <td>
-          <!-- <button mdcIconButton [on]="false">
-            <mdc-icon mdcIconOn>check_box</mdc-icon>
-            <mdc-icon>check_box_outline_blank</mdc-icon>
-          </button> -->
-        </td>
-        <td>{{ n.name }}{{ n.id }}</td>
+        <td></td>
+        <td>{{ n.name }}</td>
         <td
           style="text-align:center"
           class="activity-column"
