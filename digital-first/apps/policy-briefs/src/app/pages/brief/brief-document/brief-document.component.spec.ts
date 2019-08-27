@@ -51,13 +51,7 @@ describe('BriefDocumentComponent', () => {
   let actions$: Observable<any>
   let briefHtml$: BehaviorSubject<string> = new BehaviorSubject(null)
 
-  const initialState: fromBrief.State = {
-    activeBrief: null,
-    brief: null,
-    directions: null,
-    subscriptions: null,
-    attachments: null,
-  }
+  const initialState: fromBrief.State =  fromBrief.initialState
  
   beforeEach(async(() => {
     const configure: ConfigureFn = testBed => {

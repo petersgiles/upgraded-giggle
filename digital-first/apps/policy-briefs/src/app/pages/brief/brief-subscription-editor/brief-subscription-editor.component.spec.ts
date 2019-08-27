@@ -20,6 +20,7 @@ import { provideMockStore, MockStore } from '@ngrx/store/testing'
 import * as fromBrief from '../../../reducers/brief/brief.reducer'
 import * as fromLookup from '../../../reducers/lookups/lookup.reducer'
 import { selectAppBackgroundColour, Config } from '../../../../../../../libs/df-app-core/src'
+import { Lookup } from '../../../models';
 
 describe('BriefSubscriptionEditorComponent', () => {
 
@@ -29,24 +30,14 @@ describe('BriefSubscriptionEditorComponent', () => {
   let mockStore: MockStore<any>
   let config: Config
   let background$: Observable<string>
+  let notifications$: Observable<any[]>
   let documentStatusList$: Observable<any[]>
   let activities$: Observable<any[]>
  
   const initialState: fromBrief.State =  fromBrief.initialState
-
+  const lookupState: fromLookup.State = fromLookup.initialState
   const appState = {
     config
-  }
-
-  const lookupState = {
-    policies: [],
-    subpolicies: [],
-    commitments: [],
-    classifications: [],
-    dlms: [],
-    statuses: [],
-    divisions: [],
-    activities: []
   }
 
   beforeEach(async(() => {
@@ -86,6 +77,7 @@ describe('BriefSubscriptionEditorComponent', () => {
     mockStore.overrideSelector(fromLookup.selectLookupStatusesState, newLookupState.statuses)
     mockStore.overrideSelector(fromLookup.selectLookupActivitiesState, newLookupState.activities)
 
+    initialState.subscriptions = getSubscriptions()
     mockStore.overrideSelector(fromBrief.selectActiveBriefSubscriptions, initialState.subscriptions)
 
     fixture.detectChanges()
@@ -149,6 +141,26 @@ describe('BriefSubscriptionEditorComponent', () => {
       select(fromLookup.selectLookupStatusesState))
       background$.subscribe(statuses => {
         expect(statuses.length).toBe(3)
+        }
+      )
+   })
+
+   it('should get the subscriptions', () => {
+    mockStore
+     .select(fromBrief.selectActiveBriefSubscriptions)
+     .subscribe(result => {
+        expect(result[0].user_id).toEqual(92) 
+        expect(result[0].name).toEqual('John Smith') 
+        expect(result[0].brief_id).toEqual('5')   
+        expect(result[0].activity[0].id).toEqual(1) 
+        expect(result[0].status[0].id).toEqual(1) 
+   })})
+
+   it('observable should return all subscriptions', () => {
+    notifications$ = mockStore.pipe(
+      select(fromBrief.selectActiveBriefSubscriptions))
+      background$.subscribe(subscriptions => {
+        expect(subscriptions.length).toBe(1)
         }
       )
    })
@@ -234,4 +246,16 @@ function getStatuses(){
     colour: 'Crimson',
     order: 3}]
     return statuses
+}
+
+function getSubscriptions(){
+const subscriptions = [{
+  user_id: 92,
+  name: 'John Smith',
+  brief_id: '5',
+  activity: [{id: 1}, {id: 4}],
+  status: [{id: 1}]
+}]
+return subscriptions
+
 }

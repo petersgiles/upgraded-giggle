@@ -38,6 +38,7 @@ import {
   Config
 } from '../../../../../../../libs/df-app-core/src'
 import * as fromBrief from '../../../reducers/brief/brief.reducer'
+import * as fromLookup from '../../../reducers/lookups/lookup.reducer'
 
 describe('BriefDataEditorComponent', () => {
   let component: BriefDataEditorComponent
@@ -82,16 +83,7 @@ describe('BriefDataEditorComponent', () => {
 
   const initialState: fromBrief.State =  fromBrief.initialState
 
-  const lookupState = {
-    policies: null,
-    subpolicies: null,
-    commitments: null,
-    classifications: null,
-    dlms: null,
-    statuses: null,
-    divisions: null,
-    activities: null
-  }
+  const lookupState: fromLookup.State = fromLookup.initialState
 
   const appState = {
     config

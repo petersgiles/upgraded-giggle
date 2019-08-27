@@ -30,13 +30,8 @@ describe('BriefReaderComponent', () => {
   let config: Config
 
 
-  const initialState: fromBrief.State = {
-    activeBrief: null,
-    brief: null,
-    directions: null,
-    subscriptions: null,
-    attachments: null,
-  }
+  const initialState: fromBrief.State =  fromBrief.initialState
+  
   const appState = {
     config
   }

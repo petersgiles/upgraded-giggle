@@ -30,25 +30,9 @@ describe('BriefStatusComponent', () => {
   let mockStore: MockStore<any>
   let actions$: Observable<any>
  
-  const initialState: fromLookup.State = {
-    policies: [],
-    subpolicies: [],
-    commitments: [],
-    classifications: [],
-    dlms: [],
-    statuses: [],
-    divisions: [],
-    activities: []
-  }
+  const initialState: fromLookup.State = fromLookup.initialState
 
-  const briefState: fromBrief.State = {
-    activeBrief: null,
-    brief: null,
-    directions: null,
-    subscriptions: null,
-    attachments: null,
-  
-  }
+  const briefState: fromBrief.State =  fromBrief.initialState
 
   beforeEach(async(() => {
     const configure: ConfigureFn = testBed => {
