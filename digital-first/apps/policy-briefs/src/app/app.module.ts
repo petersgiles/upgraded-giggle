@@ -99,6 +99,7 @@ import { BriefRecommendationResponseComponent } from './pages/brief/brief-recomm
 import { BriefCommitmentsComponent } from './pages/brief/brief-commitments/brief-commitments.component'
 import { NgxWigModule } from 'ngx-wig'
 import { GraphQLModule } from './graphQL/graphQl.module';
+import { CookieService } from 'ngx-cookie-service';
 
 const COMPONENTS = [
   AppComponent,
@@ -145,7 +146,7 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
      
     DfThemeModule,
     DfPagesModule,
-    DfSharepointLibModule,
+    DfSharepointLibModule.forRoot(),
     DfPipesModule,
     
     DragDropModule,
@@ -193,6 +194,7 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
       deps: [Store],
       multi: true
     },
+    CookieService,
     appDataServiceProvider,
     configServiceProvider,
     briefDataServiceProvider,

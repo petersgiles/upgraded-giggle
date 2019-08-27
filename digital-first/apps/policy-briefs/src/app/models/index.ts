@@ -10,7 +10,7 @@ export * from './data-result.model'
 
 export enum DiscussionType {
   Agency = 'Agency',
-  Office = 'Office'
+  // Office = 'Office'
 }
 
 export const refinerMap = {
