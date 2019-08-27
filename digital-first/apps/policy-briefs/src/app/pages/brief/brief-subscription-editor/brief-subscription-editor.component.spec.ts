@@ -11,7 +11,7 @@ import { ConfigureFn, configureTests } from '../../../../../../../libs/df-testin
 import { NO_ERRORS_SCHEMA } from '@angular/core'
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 import { BriefSubscriptionEditorComponent } from './brief-subscription-editor.component'
-import { MdcDialog, Overlay, MdcIconButtonModule } from '@angular-mdc/web'
+import { MdcDialog, Overlay, MdcIconButtonModule, MdcIconButton } from '@angular-mdc/web'
 import { FormBuilder } from '@angular/forms'
 import { Router, ActivatedRoute,  ParamMap,  convertToParamMap } from '@angular/router'
 import { Observable, of } from 'rxjs'
@@ -23,7 +23,7 @@ import { selectAppBackgroundColour, Config } from '../../../../../../../libs/df-
 import { Lookup } from '../../../models';
 
 describe('BriefSubscriptionEditorComponent', () => {
-
+debugger
   let component: BriefSubscriptionEditorComponent;
   let fixture: ComponentFixture<BriefSubscriptionEditorComponent>;
   let router: Router
@@ -44,10 +44,9 @@ describe('BriefSubscriptionEditorComponent', () => {
     const configure: ConfigureFn = testBed => {
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
-      imports: [MdcIconButtonModule],
       declarations: [BriefSubscriptionEditorComponent],
       providers:
-      [MdcDialog, Overlay, FormBuilder,
+      [MdcDialog, Overlay, FormBuilder, 
         {
           provide: Router,
           useValue: {get: jest.fn()}
@@ -68,8 +67,9 @@ describe('BriefSubscriptionEditorComponent', () => {
     component = fixture.componentInstance
     router = TestBed.get(Router)
     mockStore = TestBed.get(Store)
-    initialState.brief = getBrief()
-    mockStore.overrideSelector(fromBrief.selectBriefState, initialState.brief)
+    let newBriefState = {...initialState, brief: getBrief(), subscriptions: getSubscriptions()}
+    mockStore.overrideSelector(fromBrief.selectActiveBriefSubscriptions, newBriefState.subscriptions)
+    mockStore.overrideSelector(fromBrief.selectBriefState, newBriefState.brief)
     appState.config = getConfig()
     mockStore.overrideSelector(selectAppBackgroundColour, appState.config.header.backgroundColour) 
 
@@ -77,8 +77,7 @@ describe('BriefSubscriptionEditorComponent', () => {
     mockStore.overrideSelector(fromLookup.selectLookupStatusesState, newLookupState.statuses)
     mockStore.overrideSelector(fromLookup.selectLookupActivitiesState, newLookupState.activities)
 
-    initialState.subscriptions = getSubscriptions()
-    mockStore.overrideSelector(fromBrief.selectActiveBriefSubscriptions, initialState.subscriptions)
+    
 
     fixture.detectChanges()
   })
@@ -139,13 +138,13 @@ describe('BriefSubscriptionEditorComponent', () => {
    it('observable should return all statuses', () => {
     documentStatusList$ = mockStore.pipe(
       select(fromLookup.selectLookupStatusesState))
-      background$.subscribe(statuses => {
+      documentStatusList$.subscribe(statuses => {
         expect(statuses.length).toBe(3)
         }
       )
    })
 
-   it('should get the subscriptions', () => {
+    it('should get the subscriptions', () => {
     mockStore
      .select(fromBrief.selectActiveBriefSubscriptions)
      .subscribe(result => {
@@ -159,11 +158,11 @@ describe('BriefSubscriptionEditorComponent', () => {
    it('observable should return all subscriptions', () => {
     notifications$ = mockStore.pipe(
       select(fromBrief.selectActiveBriefSubscriptions))
-      background$.subscribe(subscriptions => {
+      notifications$.subscribe(subscriptions => {
         expect(subscriptions.length).toBe(1)
         }
       )
-   })
+   })  
 
  })
 

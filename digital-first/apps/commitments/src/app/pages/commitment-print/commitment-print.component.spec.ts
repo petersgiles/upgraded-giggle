@@ -24,7 +24,6 @@ import { Location } from '@angular/common'
 import { RouterTestingModule } from '@angular/router/testing'
 
 describe('CommitmentPrintComponent', () => {
-debugger
   let component: CommitmentPrintComponent;
   let fixture: ComponentFixture<CommitmentPrintComponent>;
   let router: Router
