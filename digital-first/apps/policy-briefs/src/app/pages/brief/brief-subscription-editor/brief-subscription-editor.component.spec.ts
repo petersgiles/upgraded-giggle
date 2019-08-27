@@ -36,7 +36,7 @@ describe('BriefSubscriptionEditorComponent', () => {
     activeBrief: null,
   brief: null,
   directions: null,
-  recommendations: null,
+  subscriptions: null,
   attachments: null,
   }
 
@@ -91,6 +91,8 @@ describe('BriefSubscriptionEditorComponent', () => {
     let newLookupState = {...lookupState, activities: getActivities(), statuses: getStatuses()}
     mockStore.overrideSelector(fromLookup.selectLookupStatusesState, newLookupState.statuses)
     mockStore.overrideSelector(fromLookup.selectLookupActivitiesState, newLookupState.activities)
+
+    mockStore.overrideSelector(fromBrief.selectActiveBriefSubscriptions, initialState.subscriptions)
 
     fixture.detectChanges()
   })

@@ -45,7 +45,7 @@ describe('BriefStatusComponent', () => {
     activeBrief: null,
     brief: null,
     directions: null,
-    recommendations: null,
+    subscriptions: null,
     attachments: null,
   
   }
