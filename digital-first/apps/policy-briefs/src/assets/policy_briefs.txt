@@ -6,32 +6,40 @@
         "bookColour":"#e54430",
         "backgroundColour": "#455a64",
         "logo": {
-           "image": "/assets/crest.png",
+           "image": "http:SiteAssets/crest.png",
            "url": "/",
            "title": "Return to home page"
         },
-        "apps": [
+        "apps":[
             {
               "caption": "Dashboard",
               "icon": "dashboard",
-              "url": "//vm-dev-lbs13/sites/redigb/SitePages/deck.aspx/deck"
+              "url": "../../SitePages/deckx.aspx/deck"
+            },  {
+              "caption": "Briefs",
+              "icon": "account_tree",
+              "url": "../../SitePages/policy-briefs.aspx"
+            },  {
+              "caption": "Delivery",
+              "icon": "pregnant_woman",
+              "url": "../../SitePages/commitments-reader.aspx"
             },  {
               "caption": "Activity",
               "icon": "timeline",
-              "url": "//vm-dev-lbs13/sites/redigb/SitePages/index.aspx/recent"
+              "url": "../../SitePages/index.aspx/recent"
             },  {
               "caption": "Alerts",
               "icon": "notifications",
-              "url": "//vm-dev-lbs13/sites/redigb/SitePages/index.aspx/notifications"
+              "url": "../../SitePages/index.aspx/notifications"
             }, {
               "caption": "Permissions",
               "icon": "how_to_reg",
-              "url": "//vm-dev-lbs13/sites/redigb/_layouts/15/user.aspx",
+              "url": "../../_layouts/15/user.aspx",
               "target": "_blank"
             },  {
               "caption": "Admin",
               "icon": "settings",
-              "url": "//vm-dev-lbs13/sites/redigb/SitePages/admin.aspx/admin"
+              "url": "../../SitePages/admin.aspx/admin"
             }
           ]
     }
