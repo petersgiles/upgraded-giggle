@@ -906,7 +906,7 @@
               "fileReplacements": [
                 {
                   "replace": "apps/commitments-reader/src/environments/environment.ts",
-                  "with": "apps/commitments-reader/src/environments/environment.prod.ts"
+                  "with": "apps/commitments-reader/src/environments/environment.sharepoint-prod.ts"
                 }
               ],
               "optimization": true,
@@ -930,15 +930,7 @@
               "fileReplacements": [
                 {
                   "replace": "apps/commitments-reader/src/environments/environment.ts",
-                  "with": "apps/commitments-reader/src/environments/environment.sharepoint.ts"
-                }
-              ]
-            },
-            "sharepointprod": {
-              "fileReplacements": [
-                {
-                  "replace": "apps/commitments-reader/src/environments/environment.ts",
-                  "with": "apps/commitments-reader/src/environments/environment.sharepoint-prod.ts"
+                  "with": "apps/commitments-reader/src/environments/environment.sharepoint-dev.ts"
                 }
               ]
             },
