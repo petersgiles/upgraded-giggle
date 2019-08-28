@@ -8,5 +8,5 @@ export const environment = {
     type: 'sharepoint',
     dataServiceUrl: '',
   },
-  assetsPath: '/assets'
+  assetsPath: '/sites/commitments/SiteAssets/apps/commitments/assets'
 }
