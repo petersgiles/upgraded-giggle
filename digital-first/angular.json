@@ -828,7 +828,7 @@
               "fileReplacements": [
                 {
                   "replace": "apps/commitments-reader/src/environments/environment.ts",
-                  "with": "apps/commitments-reader/src/environments/environment.prod.ts"
+                  "with": "apps/commitments-reader/src/environments/environment.sharepoint-prod.ts"
                 }
               ],
               "deployUrl": "../../SiteAssets/apps/commitments-reader",
@@ -857,14 +857,6 @@
                 }
               ],
               "deployUrl": "../../SiteAssets/apps/commitments-reader"
-            },
-            "sharepointprod": {
-              "fileReplacements": [
-                {
-                  "replace": "apps/commitments-reader/src/environments/environment.ts",
-                  "with": "apps/commitments-reader/src/environments/environment.sharepoint-prod.ts"
-                }
-              ]
             },
             "remote": {
               "fileReplacements": [
