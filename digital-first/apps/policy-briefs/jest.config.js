@@ -7,9 +7,7 @@ module.exports = {
     },
   },
   transform: {
-    '^.+\\.(ts|js|html)$': 'ts-jest',
-    //'^.+\\.(ts|html)$': 'ts-jest',
-   // '^.+\\.js?$': 'babel-jest',
+    '^.+\\.(ts|js|html)$': 'ts-jest'
   },
   testEnvironment: 'jest-environment-jsdom-thirteen',
   moduleFileExtensions: ['ts', 'html', 'js', 'json'],

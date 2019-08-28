@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc/apps/commitments-reader/",
+    "outDir": "../../dist/out-tsc/apps/commitments/",
     "module": "commonjs",
     "types": ["jest",
       "node"],
