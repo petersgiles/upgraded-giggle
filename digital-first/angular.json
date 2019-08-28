@@ -833,7 +833,7 @@
               ],
               "deployUrl": "../../SiteAssets/apps/commitments-reader",
               "optimization": true,
-              "outputHashing": "all",
+              "outputHashing": "bundles",
               "sourceMap": false,
               "extractCss": false,
               "namedChunks": false,
