@@ -36,218 +36,77 @@
       type="text/css"
     />
 
-    <style>
-      .cssload-box-loading {
-        width: 94px;
-        height: 94px;
-        margin: auto;
+    <style type="text/css">
+      .ballwrap {
         position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
       }
 
-      .cssload-box-loading:before {
-        content: '';
-        width: 94px;
-        height: 9px;
-        background: rgb(0, 0, 0);
-        opacity: 0.1;
+      .text {
+        color: #607D8B;
+        display: inline-block;
+        margin-left: 5px;
+      }
+
+      .bounceball {
+        position: relative;
+        display: inline-block;
+        height: 37px;
+        width: 15px;
+      }
+      .bounceball:before {
         position: absolute;
-        top: 111px;
-        left: 0;
+        content: '';
+        display: block;
+        top: 0;
+        width: 15px;
+        height: 15px;
         border-radius: 50%;
-        animation: shadow 0.445s linear infinite;
-        -o-animation: shadow 0.445s linear infinite;
-        -ms-animation: shadow 0.445s linear infinite;
-        -webkit-animation: shadow 0.445s linear infinite;
-        -moz-animation: shadow 0.445s linear infinite;
+        background-color: #607D8B;
+        -webkit-transform-origin: 50%;
+        transform-origin: 50%;
+        -webkit-animation: bounce 500ms alternate infinite ease;
+        animation: bounce 500ms alternate infinite ease;
       }
 
-      .cssload-box-loading:after {
-        content: '';
-        width: 94px;
-        height: 94px;
-        background: rgb(255, 102, 0);
-        position: absolute;
-        top: 0;
-        left: 0;
-        border-radius: 6px;
-        animation: cssload-animate 0.445s linear infinite;
-        -o-animation: cssload-animate 0.445s linear infinite;
-        -ms-animation: cssload-animate 0.445s linear infinite;
-        -webkit-animation: cssload-animate 0.445s linear infinite;
-        -moz-animation: cssload-animate 0.445s linear infinite;
-      }
-
-      @keyframes cssload-animate {
-        17% {
-          border-bottom-right-radius: 6px;
+      @-webkit-keyframes bounce {
+        0% {
+          top: 30px;
+          height: 5px;
+          border-radius: 60px 60px 20px 20px;
+          -webkit-transform: scaleX(2);
+          transform: scaleX(2);
         }
-
-        25% {
-          transform: translateY(17px) rotate(22.5deg);
+        35% {
+          height: 15px;
+          border-radius: 50%;
+          -webkit-transform: scaleX(1);
+          transform: scaleX(1);
         }
-
-        50% {
-          transform: translateY(34px) scale(1, 0.9) rotate(45deg);
-          border-bottom-right-radius: 75px;
-        }
-
-        75% {
-          transform: translateY(17px) rotate(67.5deg);
-        }
-
         100% {
-          transform: translateY(0) rotate(90deg);
+          top: 0;
         }
       }
 
-      @-o-keyframes cssload-animate {
-        17% {
-          border-bottom-right-radius: 6px;
+      @keyframes bounce {
+        0% {
+          top: 30px;
+          height: 5px;
+          border-radius: 60px 60px 20px 20px;
+          -webkit-transform: scaleX(2);
+          transform: scaleX(2);
         }
-
-        25% {
-          -o-transform: translateY(17px) rotate(22.5deg);
+        35% {
+          height: 15px;
+          border-radius: 50%;
+          -webkit-transform: scaleX(1);
+          transform: scaleX(1);
         }
-
-        50% {
-          -o-transform: translateY(34px) scale(1, 0.9) rotate(45deg);
-          border-bottom-right-radius: 75px;
-        }
-
-        75% {
-          -o-transform: translateY(17px) rotate(67.5deg);
-        }
-
         100% {
-          -o-transform: translateY(0) rotate(90deg);
-        }
-      }
-
-      @-ms-keyframes cssload-animate {
-        17% {
-          border-bottom-right-radius: 6px;
-        }
-
-        25% {
-          -ms-transform: translateY(17px) rotate(22.5deg);
-        }
-
-        50% {
-          -ms-transform: translateY(34px) scale(1, 0.9) rotate(45deg);
-          border-bottom-right-radius: 75px;
-        }
-
-        75% {
-          -ms-transform: translateY(17px) rotate(67.5deg);
-        }
-
-        100% {
-          -ms-transform: translateY(0) rotate(90deg);
-        }
-      }
-
-      @-webkit-keyframes cssload-animate {
-        17% {
-          border-bottom-right-radius: 6px;
-        }
-
-        25% {
-          -webkit-transform: translateY(17px) rotate(22.5deg);
-        }
-
-        50% {
-          -webkit-transform: translateY(34px) scale(1, 0.9) rotate(45deg);
-          border-bottom-right-radius: 75px;
-        }
-
-        75% {
-          -webkit-transform: translateY(17px) rotate(67.5deg);
-        }
-
-        100% {
-          -webkit-transform: translateY(0) rotate(90deg);
-        }
-      }
-
-      @-moz-keyframes cssload-animate {
-        17% {
-          border-bottom-right-radius: 6px;
-        }
-
-        25% {
-          -moz-transform: translateY(17px) rotate(22.5deg);
-        }
-
-        50% {
-          -moz-transform: translateY(34px) scale(1, 0.9) rotate(45deg);
-          border-bottom-right-radius: 75px;
-        }
-
-        75% {
-          -moz-transform: translateY(17px) rotate(67.5deg);
-        }
-
-        100% {
-          -moz-transform: translateY(0) rotate(90deg);
-        }
-      }
-
-      @keyframes shadow {
-        0%,
-        100% {
-          transform: scale(1, 1);
-        }
-
-        50% {
-          transform: scale(1.2, 1);
-        }
-      }
-
-      @-o-keyframes shadow {
-        0%,
-        100% {
-          -o-transform: scale(1, 1);
-        }
-
-        50% {
-          -o-transform: scale(1.2, 1);
-        }
-      }
-
-      @-ms-keyframes shadow {
-        0%,
-        100% {
-          -ms-transform: scale(1, 1);
-        }
-
-        50% {
-          -ms-transform: scale(1.2, 1);
-        }
-      }
-
-      @-webkit-keyframes shadow {
-        0%,
-        100% {
-          -webkit-transform: scale(1, 1);
-        }
-
-        50% {
-          -webkit-transform: scale(1.2, 1);
-        }
-      }
-
-      @-moz-keyframes shadow {
-        0%,
-        100% {
-          -moz-transform: scale(1, 1);
-        }
-
-        50% {
-          -moz-transform: scale(1.2, 1);
+          top: 0;
         }
       }
     </style>
@@ -283,8 +142,14 @@
     <!-- Application Here-->
 
     <digital-first-root>
-      <div class="cssload-box-loading"></div>
+      <div class="ballwrap">
+        <div class="loading">
+          <div class="bounceball"></div>
+          <div class="text">NOW LOADING</div>
+        </div>
+      </div>
     </digital-first-root>
+
 
     <!-- SharePoint Scripts -->
     <SharePoint:ScriptLink
