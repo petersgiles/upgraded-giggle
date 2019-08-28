@@ -19,6 +19,6 @@ export const environment = {
   eventDatasource:'local',
   appConfigDataSource: 'local',
   // user "Mustang Sally" on Cloud9
-  apiKey: 'zQL+BN7aZ9hb/T18ShqfldOUENg=',
+  apiKey: 'bKo0xYEEMwIB7QhgnfuK/Q0zspI=',
   assetsPath: '/assets'
 }
