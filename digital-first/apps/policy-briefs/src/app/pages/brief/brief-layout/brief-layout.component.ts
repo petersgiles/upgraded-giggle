@@ -57,5 +57,10 @@ export class BriefLayoutComponent implements OnInit, OnDestroy {
     // tslint:disable-next-line:no-console
     console.log(`🐹 - ${action}`, $event)
   }
+  public handleEditNavigatorNode($event, action) {
+    // tslint:disable-next-line:no-console
+    console.log(`🐹 - ${action}`, $event)
+  }
+ 
 
 }

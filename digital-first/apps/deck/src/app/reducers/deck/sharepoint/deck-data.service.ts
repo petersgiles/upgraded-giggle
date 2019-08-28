@@ -81,8 +81,8 @@ export class DeckDataSharepointService implements DeckDataService {
 
     if(item.media.url && item.media.url.length > 0 && item.media.url.length < 255) {
       media = new SP.FieldUrlValue()
-      media.set_description(item.media)
-      media.set_url(item.media)
+      media.set_description(item.media.url)
+      media.set_url(item.media.url)
     }
 
     return this.sharepoint

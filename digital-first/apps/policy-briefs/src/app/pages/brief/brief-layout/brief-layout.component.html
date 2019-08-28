@@ -5,6 +5,7 @@
         [nodes]="nodes"
         (onSelect)="handleSelectNavigatorNode($event)"
         (onMoveNode)="handleToggleMoveNavigatorNode($event, 'Move')"
+        (onNodeEdited)="handleEditNavigatorNode($event, 'Edit')"
         (onToggleExpand)="handleToggleExpandNavigatorNode($event)"
       ></df-pack-navigator>
     </nav>
