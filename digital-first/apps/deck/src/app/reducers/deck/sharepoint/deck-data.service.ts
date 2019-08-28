@@ -7,6 +7,8 @@ import { DeckItemAction, DeckItem } from '../../../components/deck'
 import { tryParseJSON } from '../utils'
 import { sortBy } from '../../../utils'
 
+declare var SP: any
+
 const DECK_ITEM_LIST_NAME = 'DeckItems'
 const BRIEF_ITEM_LIST_NAME = 'Brief'
 
@@ -17,6 +19,13 @@ export const mapDeckItem = (item): DeckItem => {
   })
 
   const parent = idFromLookup(item.Parent)
+
+  console.log(`mapDeckItem`, item)
+
+  let mediaUrl = null
+  if (item.Media) {
+    mediaUrl = item.Media.get_url()
+  }
 
   return {
     id: `${item.ID}`,
@@ -29,7 +38,7 @@ export const mapDeckItem = (item): DeckItem => {
     sortOrder: item.SortOrder,
     colour: item.Colour,
     titleClass: item.Colour,
-    media: null,
+    media: {url: mediaUrl},
     data: tryParseJSON(item.Data)
   }
 }
@@ -52,12 +61,13 @@ export class DeckDataSharepointService implements DeckDataService {
       .storeItem({
         listName: DECK_ITEM_LIST_NAME,
         data: {
-          Title: item.title, 
-          CardType: item.cardType, 
-          Parent: item.parent, 
-          SortOrder: item.sortOrder, 
-          SupportingText: item.supportingText, 
-          Colour: item.colour}
+          Title: item.title,
+          CardType: item.cardType,
+          Parent: item.parent,
+          SortOrder: item.sortOrder,
+          SupportingText: item.supportingText,
+          Colour: item.colour
+        }
       })
       .pipe(concatMap(_ => this.getDeckItems(null)))
 
@@ -67,6 +77,14 @@ export class DeckDataSharepointService implements DeckDataService {
         `${deckItemAction.url}|${deckItemAction.title}`
     )
     const actionList = allActions.join(';')
+    let media = null
+
+    if(item.media.url && item.media.url.length > 0 && item.media.url.length < 255) {
+      media = new SP.FieldUrlValue()
+      media.set_description(item.media)
+      media.set_url(item.media)
+    }
+
     return this.sharepoint
       .storeItem({
         listName: DECK_ITEM_LIST_NAME,
@@ -78,7 +96,8 @@ export class DeckDataSharepointService implements DeckDataService {
           Actions: actionList,
           SortOrder: item.sortOrder,
           Colour: item.colour,
-          Data: JSON.stringify(item.data)
+          Data: JSON.stringify(item.data),
+          Media: media
         },
         id: item.id
       })
