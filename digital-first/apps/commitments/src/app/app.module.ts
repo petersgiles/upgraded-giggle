@@ -263,8 +263,8 @@ export let appDataServiceProvider = {
     AppRoutingModule,
 
     StoreModule.forRoot(reducers, { metaReducers }),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
-
+    //!environment.production ? StoreDevtoolsModule.instrument() : [],
+    StoreDevtoolsModule.instrument(),
     EffectsModule.forRoot([AppEffects]),
     EffectsModule.forFeature([
       RouterEffects,

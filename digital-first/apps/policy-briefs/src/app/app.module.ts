@@ -154,8 +154,8 @@ const ENTRYCOMPONENTS = [DialogAreYouSureComponent]
     StoreModule.forRoot(reducers, {
       metaReducers: metaReducers
     }),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
-
+    //!environment.production ? StoreDevtoolsModule.instrument() : [],
+    StoreDevtoolsModule.instrument(),
     StoreModule.forFeature('app', AppReducer),
     StoreModule.forFeature('user', UserReducer),
     StoreModule.forFeature('navigation', fromNavigation.reducer),
