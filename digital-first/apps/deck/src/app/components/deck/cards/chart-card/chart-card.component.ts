@@ -23,6 +23,7 @@ export class ChartCardComponent implements OnInit {
   @Input()
   set card(val: DeckItem){
     this._card = val
+    console.log(this._card)
     if(this._card && this._card.data){
       this.data = JSON.parse(JSON.stringify(this._card.data))
     }
