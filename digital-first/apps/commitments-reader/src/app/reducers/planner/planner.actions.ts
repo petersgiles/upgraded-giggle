@@ -21,8 +21,6 @@ export enum PlannerActionTypes {
   StoreSchedulerZoomLevel = '[Planner] StoreSchedulerZoomLevel',
   StoreSchedulerCenterDate = '[Planner] StoreSchedulerCenterDate',
   StoreSchedulerPageIndex = '[Planner] StoreSchedulerPageIndex',
-  ResetCommitmentEvents = '[Planner] ResetCommitmentEvents',
-  
 }
 
 export class GetCommitmentEvents implements Action {
@@ -99,10 +97,6 @@ export class SetPlannerPermission implements Action {
   constructor(public payload: any) {}
 }
 
-export class ResetCommitmentEvents implements Action {
-  readonly type = PlannerActionTypes.ResetCommitmentEvents
-  constructor(public payload: any) {}
-}
 export class ErrorInPlanner implements Action {
   readonly type = PlannerActionTypes.ErrorInPlanner
   constructor(public payload: any) {}
@@ -125,5 +119,4 @@ export type PlannerActions =
   | SetPlannerPermission
   | StoreSchedulerCenterDate
   | StoreSchedulerPageIndex
-  | ResetCommitmentEvents
   | ErrorInPlanner

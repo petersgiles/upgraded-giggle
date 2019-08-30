@@ -37,11 +37,6 @@ export function reducer(state = initialState, action: PlannerActions): State {
         ...state,
         events: action.payload.data
       }
-    case PlannerActionTypes.ResetCommitmentEvents:
-      return {
-        ...state,
-        events: []
-      }
     case PlannerActionTypes.LoadExternalEvents:
       return {
         ...state,
