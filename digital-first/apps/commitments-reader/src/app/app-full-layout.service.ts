@@ -14,6 +14,7 @@ import {
 
 import { Store, select } from '@ngrx/store'
 import { ToggleRefinerDrawer } from './reducers/refiner/refiner.actions'
+import { StoreSchedulerZoomLevel } from './reducers/planner/planner.actions';
 
 @Injectable({
   providedIn: 'root'

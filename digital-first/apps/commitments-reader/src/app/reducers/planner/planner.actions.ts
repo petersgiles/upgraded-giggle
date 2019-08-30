@@ -21,7 +21,8 @@ export enum PlannerActionTypes {
   StoreSchedulerZoomLevel = '[Planner] StoreSchedulerZoomLevel',
   StoreSchedulerCenterDate = '[Planner] StoreSchedulerCenterDate',
   StoreSchedulerPageIndex = '[Planner] StoreSchedulerPageIndex',
-  ResetCommitmentEvents = '[Planner] ResetCommitmentEvents'
+  ResetCommitmentEvents = '[Planner] ResetCommitmentEvents',
+  
 }
 
 export class GetCommitmentEvents implements Action {

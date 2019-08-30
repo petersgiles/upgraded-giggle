@@ -7,15 +7,15 @@ import {
   Output,
   EventEmitter,
   OnDestroy,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  OnChanges
 } from '@angular/core'
 import { SchedulerComponent } from '../scheduler/scheduler.component'
-import { MdcSliderChange } from '@angular-mdc/web'
+import { MdcSliderChange, MdcSlider } from '@angular-mdc/web'
 import { DateHelper, EventModel } from 'bryntum-scheduler/scheduler.umd.js'
 import * as ZoomLevels from './data/zoomLevels.json'
 import { webSafeColours } from './data/webSafeColours'
-import { Subscription } from 'apollo-client/util/Observable'
-import { Subject } from 'rxjs'
+import { Subject, Subscription } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
 @Component({
@@ -25,7 +25,12 @@ import { debounceTime } from 'rxjs/operators'
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PlannerComponent implements OnInit, OnDestroy {
+export class PlannerComponent implements OnInit, OnDestroy, OnChanges {
+  ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
+    if (changes.sliderLayoutUpdate) {
+      this.slider.layout()
+    }
+  }
   @Input()
   commitments: any[] = []
   @Input()
@@ -46,6 +51,9 @@ export class PlannerComponent implements OnInit, OnDestroy {
   centerDate: Date
   @Input()
   pageIndex: any = 0
+  @Input()
+  sliderLayoutUpdate: boolean = false
+
   @Output()
   public onEventSaved: EventEmitter<any> = new EventEmitter()
   @Output()
@@ -60,6 +68,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
   public onPageIndexChange: EventEmitter<any> = new EventEmitter()
 
   @ViewChild(SchedulerComponent, { static: true }) scheduler: SchedulerComponent
+  @ViewChild('slider', { static: true }) slider: MdcSlider
 
   featureConfig: Object
   listeners: Object
@@ -67,7 +76,6 @@ export class PlannerComponent implements OnInit, OnDestroy {
   endDate = DateHelper.add(new Date(), 3, 'years')
   today = new Date()
   zoomLevels = ZoomLevels
-  zoomSlider: any = {}
   columns = [
     {
       text: 'Commitments',
@@ -79,13 +87,12 @@ export class PlannerComponent implements OnInit, OnDestroy {
   lastSchedulerEvent: any
   externalEventTypeChangeEventSubscription: Subscription
   externalEventTypeChange: Subject<any> = new Subject()
+  zoomSliderMax: number
 
   constructor() {}
   ngOnInit() {
     const me = this
-    this.zoomSlider.min = 0
-    this.zoomSlider.max = this.zoomLevels.length - 1
-    this.zoomSlider.levelId = this.zoomLevel
+    this.zoomSliderMax = this.zoomLevels.length - 1
     this.featureConfig = this.buildFeatureConfig(me)
     this.buildEventListeners(me)
 

@@ -223,6 +223,11 @@ export const selectExpandedRefinerGroupsState = createSelector(
   refinerState,
   (state: State) => state.expandedRefinerGroups
 )
+export const selectcurrentRrefinerDrawerOpen = createSelector(
+  refinerState,
+  (state: State) => state.refinerOpen
+)
+
 export const selectRefinerGroups = createSelector(
   refinerGroupsState,
   selectExpandedRefinerGroupsState,

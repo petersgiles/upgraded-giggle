@@ -12,6 +12,7 @@
       [zoomLevel]="zoomLevel$ | async"
       [centerDate]="centerDate$ | async"
       [pageIndex]="pageIndex$ | async"
+      [sliderLayoutUpdate] = "layoutChange$ | async"
       (onEventSaved)="handleEventSaved($event)"
       (onEventRemoved)="handleEventRemoved($event)"
       (onExternalEventTypeChange)="handleExternalEventChange($event)"

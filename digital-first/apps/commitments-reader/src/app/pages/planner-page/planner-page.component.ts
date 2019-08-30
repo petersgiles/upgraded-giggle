@@ -1,8 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
-import { Observable, Subscription, of } from 'rxjs'
-import { map, withLatestFrom } from 'rxjs/operators'
-import * as fromPlanner from '../../reducers/planner/planner.reducer'
-import * as fromOverview from '../../reducers/overview/overview.reducer'
+import { Observable, Subscription } from 'rxjs'
+import { map } from 'rxjs/operators'
 import { Store, select } from '@ngrx/store'
 import {
   GetEventReferenceData,
@@ -17,10 +15,13 @@ import {
   StoreSchedulerPageIndex,
   ResetCommitmentEvents
 } from '../../reducers/planner/planner.actions'
-import { UserState } from '@digital-first/df-app-core'
 import { getUserCurrentUserPlannerPermission } from '../../reducers/user/user.reducer'
 import * as fromRefiner from '../../reducers/refiner/refiner.reducer'
 import { GetRefinedCommitments } from '../../reducers/overview/overview.actions'
+import * as fromPlanner from '../../reducers/planner/planner.reducer'
+import * as fromOverview from '../../reducers/overview/overview.reducer'
+import { UserState } from '@digital-first/df-app-core'
+
 @Component({
   selector: 'digital-first-planner-page',
   templateUrl: './planner-page.component.html',
@@ -37,17 +38,21 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
   public zoomLevel$: Observable<any>
   public centerDate$: Observable<any>
   public pageIndex$: Observable<any>
+  public layoutChange$: Observable<boolean>
+
   public commitmentsSubscription: Subscription
   public userPermissionSubscription: Subscription
-  refinerGroupsSubscription$: any
+  public refinerGroupsSubscription: any
 
   constructor(
     private plannerStore: Store<fromPlanner.State>,
     private overViewStore: Store<fromOverview.State>,
-    private userStore: Store<UserState>
+    private userStore: Store<UserState>,
+    private refinerStore: Store<fromRefiner.State>
   ) {}
+
   ngOnInit() {
-    this.refinerGroupsSubscription$ = this.plannerStore
+    this.refinerGroupsSubscription = this.plannerStore
       .pipe(select(fromRefiner.selectRefinerGroups))
       .subscribe(() => {
         this.plannerStore.dispatch(new GetRefinedCommitments(null))
@@ -58,7 +63,7 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
       .pipe(map(data => data.map(c => ({ id: c.id, name: c.title }))))
 
     this.commitmentsSubscription = this.filteredCommitments$.subscribe(_ => {
-      this.plannerStore.dispatch(new ResetCommitmentEvents(null))
+      // this.plannerStore.dispatch(new ResetCommitmentEvents(null))
       this.plannerStore.dispatch(new StoreSchedulerPageIndex(0))
       this.plannerStore.dispatch(new GetCommitmentEvents(null))
     })
@@ -75,11 +80,13 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
           })
         )
       })
-
     this.wireUpState()
   }
 
   private wireUpState() {
+    this.layoutChange$ = this.refinerStore.pipe(
+      select(fromRefiner.selectcurrentRrefinerDrawerOpen)
+    )
     this.externalEventTypes$ = this.plannerStore.pipe(
       select(fromPlanner.selectExternalEventTypesState)
     )
@@ -126,9 +133,11 @@ export class PlannerPageComponent implements OnInit, OnDestroy {
       })
     )
   }
+
   handelZoomLevelChange($event) {
     this.plannerStore.dispatch(new StoreSchedulerZoomLevel($event))
   }
+
   handelCenterDateChange($event) {
     this.plannerStore.dispatch(new StoreSchedulerCenterDate($event))
   }
