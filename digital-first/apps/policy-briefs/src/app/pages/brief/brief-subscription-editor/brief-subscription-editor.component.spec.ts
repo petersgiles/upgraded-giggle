@@ -23,7 +23,7 @@ import { selectAppBackgroundColour, Config } from '../../../../../../../libs/df-
 import { Lookup } from '../../../models';
 
 describe('BriefSubscriptionEditorComponent', () => {
-debugger
+
   let component: BriefSubscriptionEditorComponent;
   let fixture: ComponentFixture<BriefSubscriptionEditorComponent>;
   let router: Router
