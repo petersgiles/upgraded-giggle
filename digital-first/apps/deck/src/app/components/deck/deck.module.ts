@@ -35,7 +35,8 @@ import {
   ChartCardComponent,
   AudioCardComponent,
   ImageCardComponent,
-  VideoCardComponent
+  VideoCardComponent,
+  TestCardComponent
 } from './cards'
 import { PipesModule } from '@df/components';
 
@@ -55,7 +56,8 @@ const COMPONENTS = [
   ChartCardComponent,
   AudioCardComponent,
   ImageCardComponent,
-  VideoCardComponent
+  VideoCardComponent,
+  TestCardComponent
 ]
 
 @NgModule({

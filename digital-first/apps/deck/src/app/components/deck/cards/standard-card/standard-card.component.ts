@@ -11,6 +11,25 @@ import { DeckItem } from '../../models/deck-item-model'
       flex-direction: column;
       flex-grow: 1;
     }
+
+    .df-card__expanded-container {
+      display: flex;
+      flex-grow: 1;
+      align-self: flex-start;
+      justify-content: flex-end;
+    }
+    
+    .df-card__expanded-title-text {
+      color: rgba(0, 0, 0, 0.54);
+      font-size: 1rem;
+      line-height: 18px;
+      overflow: hidden;
+      padding: 16px 16px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      align-items: flex-end;
+    }
     `
   ]
 })

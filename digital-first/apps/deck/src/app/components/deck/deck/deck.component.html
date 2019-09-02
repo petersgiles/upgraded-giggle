@@ -1,7 +1,9 @@
 <section class="deck df-grid section--center">
   <ng-container *ngFor="let card of cards">
-    <div *ngIf="selected?.id === card.id" 
-    class="df-card df-cell df-cell--{{ card?.size }}-col df-shadow--4dp">
+    <div
+      *ngIf="selected?.id === card.id"
+      class="df-card df-cell df-cell--{{ card?.size }}-col df-shadow--4dp"
+    >
       <digital-first-edit-card
         [cards]="cards"
         [cardTypes]="cardTypes"
@@ -19,86 +21,89 @@
       [ngSwitch]="card.cardType"
       class="df-card df-cell df-cell--{{ card?.size }}-col df-shadow--4dp"
     >
+      <digital-first-image-card
+        *ngSwitchCase="cardType.Image"
+        [card]="card"
+        [readOnly]="readOnly"
+        [selected]="selected"
+        (onEdit)="onEdit.emit($event)"
+        (onAction)="onAction.emit($event)"
+      >
+      </digital-first-image-card>
 
-        <digital-first-image-card *ngSwitchCase="cardType.Image"
-          [card]="card"
-          [readOnly]="readOnly"
-          [selected]="selected"
-          (onEdit)="onEdit.emit($event)"
-          (onAction)="onAction.emit($event)"
-        >
-        </digital-first-image-card>
+      <digital-first-parent-card
+        *ngSwitchCase="cardType.Parent"
+        [card]="card"
+        [readOnly]="readOnly"
+        [selected]="selected"
+        (onEdit)="onEdit.emit($event)"
+        (onAction)="onAction.emit($event)"
+      >
+      </digital-first-parent-card>
 
-        <digital-first-parent-card *ngSwitchCase="cardType.Parent"
-          [card]="card"
-          [readOnly]="readOnly"
-          [selected]="selected"
-          (onEdit)="onEdit.emit($event)"
-          (onAction)="onAction.emit($event)"
-        >
-        </digital-first-parent-card>
+      <digital-first-chart-card
+        *ngSwitchCase="cardType.Chart"
+        [card]="card"
+        [readOnly]="readOnly"
+        [selected]="selected"
+        (onEdit)="onEdit.emit($event)"
+        (onAction)="onAction.emit($event)"
+      >
+      </digital-first-chart-card>
 
+      <digital-first-markdown-card
+        *ngSwitchCase="cardType.Markdown"
+        [card]="card"
+        [readOnly]="readOnly"
+        [selected]="selected"
+        (onEdit)="onEdit.emit($event)"
+        (onAction)="onAction.emit($event)"
+      >
+      </digital-first-markdown-card>
 
-        <digital-first-chart-card *ngSwitchCase="cardType.Chart"
-          [card]="card"
-          [readOnly]="readOnly"
-          [selected]="selected"
-          (onEdit)="onEdit.emit($event)"
-          (onAction)="onAction.emit($event)"
-        >
-        </digital-first-chart-card>
+      <digital-first-embed-card
+        *ngSwitchCase="cardType.Embed"
+        [card]="card"
+        [readOnly]="readOnly"
+        [selected]="selected"
+        (onEdit)="onEdit.emit($event)"
+        (onAction)="onAction.emit($event)"
+      >
+      </digital-first-embed-card>
 
-        <digital-first-markdown-card *ngSwitchCase="cardType.Markdown"
-          [card]="card"
-          [readOnly]="readOnly"
-          [selected]="selected"
-          (onEdit)="onEdit.emit($event)"
-          (onAction)="onAction.emit($event)"
-        >
-        </digital-first-markdown-card>
+      <digital-first-audio-card
+        *ngSwitchCase="cardType.Audio"
+        [card]="card"
+        [readOnly]="readOnly"
+        [selected]="selected"
+        (onEdit)="onEdit.emit($event)"
+        (onAction)="onAction.emit($event)"
+      >
+      </digital-first-audio-card>
 
+      <digital-first-video-card
+        *ngSwitchCase="cardType.Video"
+        [card]="card"
+        [readOnly]="readOnly"
+        [selected]="selected"
+        (onEdit)="onEdit.emit($event)"
+        (onAction)="onAction.emit($event)"
+      >
+      </digital-first-video-card>
 
-        <digital-first-embed-card *ngSwitchCase="cardType.Embed"
-          [card]="card"
-          [readOnly]="readOnly"
-          [selected]="selected"
-          (onEdit)="onEdit.emit($event)"
-          (onAction)="onAction.emit($event)"
-        >
-        </digital-first-embed-card>
+      <digital-first-refiner-card
+        *ngSwitchCase="cardType.Refiner"
+        [card]="card"
+        [readOnly]="readOnly"
+        [selected]="selected"
+        (onEdit)="onEdit.emit($event)"
+        (onAction)="onAction.emit($event)"
+      >
+      </digital-first-refiner-card>
 
-
-        <digital-first-audio-card *ngSwitchCase="cardType.Audio"
-          [card]="card"
-          [readOnly]="readOnly"
-          [selected]="selected"
-          (onEdit)="onEdit.emit($event)"
-          (onAction)="onAction.emit($event)"
-        >
-        </digital-first-audio-card>
-
-
-        <digital-first-video-card *ngSwitchCase="cardType.Video"
-          [card]="card"
-          [readOnly]="readOnly"
-          [selected]="selected"
-          (onEdit)="onEdit.emit($event)"
-          (onAction)="onAction.emit($event)"
-        >
-        </digital-first-video-card>
-
-
-        <digital-first-refiner-card *ngSwitchCase="cardType.Refiner"
-          [card]="card"
-          [readOnly]="readOnly"
-          [selected]="selected"
-          (onEdit)="onEdit.emit($event)"
-          (onAction)="onAction.emit($event)"
-        >
-        </digital-first-refiner-card>
-
-
-        <digital-first-standard-card  *ngSwitchDefault
+      <ng-container *ngSwitchDefault>
+        <digital-first-standard-card
+          
           [card]="card"
           [readOnly]="readOnly"
           [selected]="selected"
@@ -107,6 +112,7 @@
         >
         </digital-first-standard-card>
 
+      </ng-container>
     </div>
   </ng-container>
   <div *ngIf="!selected && !readOnly" class="df-card__supporting-text">
