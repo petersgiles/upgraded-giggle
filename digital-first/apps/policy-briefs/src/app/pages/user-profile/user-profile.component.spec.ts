@@ -64,8 +64,8 @@ operationDefaults: {displayorder: 'hide',planner: 'hide',pmchandlingadvice: 'wri
   
   
   beforeEach(async(() => {
-      const configure: ConfigureFn = testBed => {
-      TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+      testBed.configureTestingModule({
         declarations: [ UserProfileComponent ],
         imports: [DfPipesModule],
         schemas: [NO_ERRORS_SCHEMA],
@@ -85,7 +85,7 @@ operationDefaults: {displayorder: 'hide',planner: 'hide',pmchandlingadvice: 'wri
       })
      }
      configureTests(configure).then(testBed => {
-      mockStore = TestBed.get(Store)
+      mockStore = testBed.get(Store)
       fixture = testBed.createComponent(UserProfileComponent)
       component = fixture.componentInstance;
       

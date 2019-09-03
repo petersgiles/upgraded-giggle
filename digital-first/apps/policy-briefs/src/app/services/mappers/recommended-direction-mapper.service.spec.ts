@@ -21,8 +21,8 @@ describe('RecommendedDirectionMapperService', () => {
   let brief: any
 
   beforeEach(async(() => { 
-    const configure: ConfigureFn = testBed => {
-        TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+        testBed.configureTestingModule({
           imports: [],
      providers:
           [ 
@@ -34,7 +34,7 @@ describe('RecommendedDirectionMapperService', () => {
         })
       }
        configureTests(configure).then(testBed => {
-        service = TestBed.get(RecommendedDirectionMapperService)
+        service = testBed.get(RecommendedDirectionMapperService)
         brief = data.briefs[0]
       })
   }))

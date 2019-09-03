@@ -32,8 +32,8 @@ describe('BriefProcessingInstructionComponent', () => {
   
  
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-    TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+    testBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       imports: [DfPipesModule],
       declarations: [BriefProcessingInstructionComponent],
@@ -51,9 +51,9 @@ describe('BriefProcessingInstructionComponent', () => {
     })
    }
    configureTests(configure).then(testBed => {
-    fixture = TestBed.createComponent(BriefProcessingInstructionComponent);
+    fixture = testBed.createComponent(BriefProcessingInstructionComponent);
     component = fixture.componentInstance
-    mockStore = TestBed.get(Store)
+    mockStore = testBed.get(Store)
     let state = {...initialState, brief: getBrief()}
     mockStore.setState(state)
     mockStore.overrideSelector(fromBrief.selectBriefState, state.brief)  

@@ -68,8 +68,8 @@ describe('LookupEffects', () => {
   // let getSubpolicies_ = (config?: any): Observable<any> => this.subpolicies$
 
     beforeEach(async(() => { 
-      const configure: ConfigureFn = testBed => {
-          TestBed.configureTestingModule({
+      const configure = (testBed: TestBed) => {
+          testBed.configureTestingModule({
             imports: [],
        providers:
             [ 
@@ -87,9 +87,9 @@ describe('LookupEffects', () => {
           })
         }
          configureTests(configure).then(testBed => {
-          mockStore = TestBed.get(Store)
-          lookupEffects = TestBed.get(LookupEffects)
-          service = TestBed.get(LookupDataLocalService )
+          mockStore = testBed.get(Store)
+          lookupEffects = testBed.get(LookupEffects)
+          service = testBed.get(LookupDataLocalService )
         })
     }))
   

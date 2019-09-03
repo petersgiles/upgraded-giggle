@@ -23,8 +23,8 @@ describe('HomeComponent', () => {
   let fixture: ComponentFixture<HomeComponent>;
 
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-    TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+    testBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [HomeComponent],
       providers:
@@ -41,7 +41,7 @@ describe('HomeComponent', () => {
     })
    }
    configureTests(configure).then(testBed => {
-    fixture = TestBed.createComponent(HomeComponent);
+    fixture = testBed.createComponent(HomeComponent);
     component = fixture.componentInstance
    // fixture.detectChanges()
   })

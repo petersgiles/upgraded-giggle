@@ -57,8 +57,8 @@ describe('MapEffects', () => {
   } 
 
   beforeEach(async(() => { 
-    const configure: ConfigureFn = testBed => {
-        TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+        testBed.configureTestingModule({
      imports: [ApolloTestingModule],
      providers:
           [ 
@@ -69,8 +69,8 @@ describe('MapEffects', () => {
         })
       }
        configureTests(configure).then(testBed => {
-        mockStore = TestBed.get(Store)
-        mapEffects = TestBed.get(MapEffects)
+        mockStore = testBed.get(Store)
+        mapEffects = testBed.get(MapEffects)
       })
   }))
 

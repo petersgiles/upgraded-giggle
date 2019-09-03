@@ -25,8 +25,8 @@ describe('AttachmentMapperService', () => {
   let SPAttachment: any
 
   beforeEach(async(() => { 
-    const configure: ConfigureFn = testBed => {
-        TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+        testBed.configureTestingModule({
           imports: [],
      providers:
           [ 
@@ -38,7 +38,7 @@ describe('AttachmentMapperService', () => {
         })
       }
        configureTests(configure).then(testBed => {
-        service = TestBed.get(AttachmentMapperService)
+        service = testBed.get(AttachmentMapperService)
         brief = fromLookup(data.briefs[0])
         attachment = getAttachment()
         attachment.briefId = brief.id

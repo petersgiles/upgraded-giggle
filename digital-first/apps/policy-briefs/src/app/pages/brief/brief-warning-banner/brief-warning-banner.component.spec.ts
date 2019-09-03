@@ -23,8 +23,8 @@ describe('BriefWarningBannerComponent', () => {
   let fixture: ComponentFixture<BriefWarningBannerComponent>;
 
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-    TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+    testBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [BriefWarningBannerComponent],
       providers:
@@ -41,7 +41,7 @@ describe('BriefWarningBannerComponent', () => {
     })
    }
    configureTests(configure).then(testBed => {
-    fixture = TestBed.createComponent(BriefWarningBannerComponent);
+    fixture = testBed.createComponent(BriefWarningBannerComponent);
     component = fixture.componentInstance
    // fixture.detectChanges()
   })

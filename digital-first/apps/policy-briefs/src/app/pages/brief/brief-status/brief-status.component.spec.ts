@@ -35,8 +35,8 @@ describe('BriefStatusComponent', () => {
   const briefState: fromBrief.State =  fromBrief.initialState
 
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-    TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+    testBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [BriefStatusComponent],
       providers:
@@ -55,9 +55,9 @@ describe('BriefStatusComponent', () => {
     })
    }
    configureTests(configure).then(testBed => {
-    fixture = TestBed.createComponent(BriefStatusComponent);
+    fixture = testBed.createComponent(BriefStatusComponent);
     component = fixture.componentInstance
-    mockStore = TestBed.get(Store)
+    mockStore = testBed.get(Store)
     let state = {...initialState, statuses: briefstatuses}
     mockStore.setState(state)
     mockStore.overrideSelector(fromLookup.selectLookupStatusesState, state.statuses)  

@@ -26,8 +26,8 @@ describe('RecommendationMapperService', () => {
 
 
   beforeEach(async(() => { 
-    const configure: ConfigureFn = testBed => {
-        TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+        testBed.configureTestingModule({
           imports: [],
      providers:
           [ 
@@ -42,7 +42,7 @@ describe('RecommendationMapperService', () => {
       }
        configureTests(configure).then(testBed => {
 
-        service = TestBed.get(RecommendationMapperService)
+        service = testBed.get(RecommendationMapperService)
         subPolicy = idFromLookup(data.subpolicies[0])
         policy = idFromLookup(data.policies[0])
         brief = idFromLookup(data.briefs[0])

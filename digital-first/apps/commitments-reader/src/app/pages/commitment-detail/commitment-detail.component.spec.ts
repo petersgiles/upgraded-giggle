@@ -98,8 +98,8 @@ const getUserCurrentOperationDefaults = createSelector(
  
   
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-    TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+    testBed.configureTestingModule({
       declarations: [ CommitmentDetailComponent ],
       imports: [ RouterTestingModule.withRoutes([
         { path: 'login', component:CommitmentDetailComponent },
@@ -127,12 +127,12 @@ const getUserCurrentOperationDefaults = createSelector(
     })
    }
    configureTests(configure).then(testBed => {
-    mockStore = TestBed.get(Store)
+    mockStore = testBed.get(Store)
     mockStore.setState({commitment: getCommitment().commitmentDetail.commitment, loaded: false, handlingAdvices: [], errors: []})
     fixture = testBed.createComponent(CommitmentDetailComponent)
     component = fixture.componentInstance;
     
-    router = TestBed.get(Router)
+    router = testBed.get(Router)
     
     mockStore.overrideSelector(fromDetail.getCommitmentState, getCommitment().commitmentDetail.commitment)
     mockStore.overrideSelector(fromDetail.getErrorState, initialState.errors) 

@@ -139,8 +139,8 @@ describe('DisplayOrderPageComponent', () => {
   )
 
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-      TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+      testBed.configureTestingModule({
         declarations: [DisplayOrderPageComponent],
         schemas: [NO_ERRORS_SCHEMA],
         imports: [DragDropModule],
@@ -172,7 +172,7 @@ describe('DisplayOrderPageComponent', () => {
       })
     }
     configureTests(configure).then(testBed => {
-      mockStore = TestBed.get(Store)
+      mockStore = testBed.get(Store)
       //   mockStore.setState({commitment: getCommitment().commitmentDetail.commitment, loaded: false, handlingAdvices: [], errors: []})
       fixture = testBed.createComponent(DisplayOrderPageComponent)
       component = fixture.componentInstance

@@ -34,8 +34,8 @@ describe('BriefLayoutComponent when third level selection', () => {
   }
 
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-    TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+    testBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [BriefLayoutComponent],
       providers:
@@ -57,9 +57,9 @@ describe('BriefLayoutComponent when third level selection', () => {
     })
    }
    configureTests(configure).then(testBed => {
-    fixture = TestBed.createComponent(BriefLayoutComponent);
+    fixture = testBed.createComponent(BriefLayoutComponent);
     component = fixture.componentInstance
-    mockStore = TestBed.get(Store)
+    mockStore = testBed.get(Store)
     router = testBed.get(Router)
     let state = {...initialState, navigationNodes: nodes(), activeBriefId: '31', expandedNodes: [1, '1-31']}
     mockStore.setState(state)
@@ -127,8 +127,8 @@ it('should return navigation nodes', () => {
   }
 
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-    TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+    testBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [BriefLayoutComponent],
       providers:
@@ -150,9 +150,9 @@ it('should return navigation nodes', () => {
     })
    }
    configureTests(configure).then(testBed => {
-    fixture = TestBed.createComponent(BriefLayoutComponent);
+    fixture = testBed.createComponent(BriefLayoutComponent);
     component = fixture.componentInstance
-    mockStore = TestBed.get(Store)
+    mockStore = testBed.get(Store)
     router = testBed.get(Router)
     let state = {...initialState, navigationNodes: nodes(), activeBriefId: '1', expandedNodes: [1, '1-31']}
     mockStore.setState(state)
@@ -211,8 +211,8 @@ it('should return navigation nodes', () => {
   }
 
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-    TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+    testBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [BriefLayoutComponent],
       providers:
@@ -234,9 +234,9 @@ it('should return navigation nodes', () => {
     })
    }
    configureTests(configure).then(testBed => {
-    fixture = TestBed.createComponent(BriefLayoutComponent);
+    fixture = testBed.createComponent(BriefLayoutComponent);
     component = fixture.componentInstance
-    mockStore = TestBed.get(Store)
+    mockStore = testBed.get(Store)
     router = testBed.get(Router)
     let state = {...initialState, navigationNodes: nodes(), activeBriefId: '1', expandedNodes: []}
     mockStore.setState(state)

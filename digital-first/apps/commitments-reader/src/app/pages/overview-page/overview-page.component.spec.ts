@@ -47,8 +47,8 @@ describe('OverviewPageComponent', () => {
   }
 
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-      TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+      testBed.configureTestingModule({
         schemas: [NO_ERRORS_SCHEMA],
         declarations: [OverviewPageComponent],
         providers: [
@@ -68,7 +68,7 @@ describe('OverviewPageComponent', () => {
       })
     }
     configureTests(configure).then(testBed => {
-      fixture = TestBed.createComponent(OverviewPageComponent)
+      fixture = testBed.createComponent(OverviewPageComponent)
       component = fixture.componentInstance
       mockStore = testBed.get(Store)
       router = testBed.get(Router)

@@ -34,8 +34,8 @@ describe('BriefDiscussionComponent', () => {
   }
  
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-    TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+    testBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [BriefDiscussionComponent],
       providers:
@@ -52,9 +52,9 @@ describe('BriefDiscussionComponent', () => {
     })
    }
    configureTests(configure).then(testBed => {
-    fixture = TestBed.createComponent(BriefDiscussionComponent);
+    fixture = testBed.createComponent(BriefDiscussionComponent);
     component = fixture.componentInstance
-    mockStore = TestBed.get(Store)
+    mockStore = testBed.get(Store)
     initialState.discussion = getDiscussions()
     mockStore.overrideSelector(fromDiscussion.selectDiscussionState, initialState.discussion)  
     mockStore.overrideSelector(fromDiscussion.selectActiveCommentState, initialState.activeComment) 

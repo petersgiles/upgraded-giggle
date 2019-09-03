@@ -31,8 +31,8 @@ describe('HomeComponent', () => {
   }
 
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-    TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+    testBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [HomeComponent],
       providers:
@@ -47,9 +47,9 @@ describe('HomeComponent', () => {
     })
    }
    configureTests(configure).then(testBed => {
-    fixture = TestBed.createComponent(HomeComponent);
+    fixture = testBed.createComponent(HomeComponent);
     component = fixture.componentInstance
-    mockStore = TestBed.get(Store)
+    mockStore = testBed.get(Store)
     initialState.config = getConfig()
     mockStore.overrideSelector(selectAppBackgroundColour, initialState.config.header.backgroundColour) 
 

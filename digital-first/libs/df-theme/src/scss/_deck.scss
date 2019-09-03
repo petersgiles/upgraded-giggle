@@ -183,10 +183,23 @@
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.#{$prefix}-card--expand {
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
+.#{$prefix}-card__expanded-container {
+  display: flex;
   flex-grow: 1;
+  align-self: flex-start;
+  justify-content: flex-end;
+}
+
+.#{$prefix}-card__expanded-title-text {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 1rem;
+  line-height: 18px;
+  overflow: hidden;
+  padding: 16px 16px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: flex-end;
 }
 
 $df-cells: ('1', 8.33%), ('2', 16.66%), ('3', 25%), ('4', 33.33%), ('5', 41.66%),

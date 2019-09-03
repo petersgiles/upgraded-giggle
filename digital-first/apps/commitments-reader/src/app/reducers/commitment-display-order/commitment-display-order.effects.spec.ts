@@ -59,8 +59,8 @@ describe('RefinerEffects', () => {
   } 
 
   beforeEach(() => { 
-    const configure: ConfigureFn = testBed => {
-        TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+        testBed.configureTestingModule({
      imports: [ApolloTestingModule],
      providers:
           [ 
@@ -71,9 +71,9 @@ describe('RefinerEffects', () => {
         })
       }
        configureTests(configure).then(testBed => {
-        mockStore = TestBed.get(Store)
-        commitmentDisplayOrderEffects = TestBed.get(CommitmentDisplayOrderEffects)
-        backend = TestBed.get(ApolloTestingController)
+        mockStore = testBed.get(Store)
+        commitmentDisplayOrderEffects = testBed.get(CommitmentDisplayOrderEffects)
+        backend = testBed.get(ApolloTestingController)
 
       })
   })

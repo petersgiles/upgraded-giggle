@@ -54,8 +54,8 @@ describe('BriefDocumentComponent', () => {
   const initialState: fromBrief.State =  fromBrief.initialState
  
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-    TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+    testBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [BriefDocumentComponent],
       imports: [DfPipesModule, HttpClientTestingModule],
@@ -91,9 +91,9 @@ describe('BriefDocumentComponent', () => {
     })
    }
    configureTests(configure).then(testBed => {
-    fixture = TestBed.createComponent(BriefDocumentComponent);
+    fixture = testBed.createComponent(BriefDocumentComponent);
     component = fixture.componentInstance
-    mockStore = TestBed.get(Store)
+    mockStore = testBed.get(Store)
     initialState.brief = getBrief()
     mockStore.overrideSelector(fromBrief.selectBriefState, initialState.brief)    
   

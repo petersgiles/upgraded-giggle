@@ -57,8 +57,8 @@ describe('DiscussionEffects', () => {
     } 
 
     beforeEach(async(() => { 
-      const configure: ConfigureFn = testBed => {
-          TestBed.configureTestingModule({
+      const configure = (testBed: TestBed) => {
+          testBed.configureTestingModule({
             imports: [HttpClientTestingModule],
        providers:
             [ 
@@ -84,11 +84,11 @@ describe('DiscussionEffects', () => {
           })
         }
          configureTests(configure).then(testBed => {
-          mockStore = TestBed.get(Store)
+          mockStore = testBed.get(Store)
           let state = {...initialState, activeBriefId: '2'}
           mockStore.setState(state)
-          discussionEffects = TestBed.get(DiscussionEffects)
-          service = TestBed.get(DiscussionDataLocalService)
+          discussionEffects = testBed.get(DiscussionEffects)
+          service = testBed.get(DiscussionDataLocalService)
         })
     }))
   

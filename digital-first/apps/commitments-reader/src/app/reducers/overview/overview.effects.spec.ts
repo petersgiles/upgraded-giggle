@@ -56,8 +56,8 @@ describe('OverviewEffects', () => {
   } 
 
   beforeEach(async(() => { 
-    const configure: ConfigureFn = testBed => {
-        TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+        testBed.configureTestingModule({
      imports: [ApolloTestingModule],
      providers:
           [ 
@@ -68,9 +68,9 @@ describe('OverviewEffects', () => {
         })
       }
        configureTests(configure).then(testBed => {
-        mockStore = TestBed.get(Store)
-        overviewEffects = TestBed.get(OverviewEffects)
-        backend = TestBed.get(ApolloTestingController)
+        mockStore = testBed.get(Store)
+        overviewEffects = testBed.get(OverviewEffects)
+        backend = testBed.get(ApolloTestingController)
       })
   }))
 

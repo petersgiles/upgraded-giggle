@@ -2,8 +2,7 @@
   <ng-container *ngFor="let card of cards">
     <div
       *ngIf="selected?.id === card.id"
-      class="df-card df-cell df-cell--{{ card?.size }}-col df-shadow--4dp"
-    >
+      class="df-card df-cell df-cell--{{ card?.size }}-col df-shadow--4dp">
       <digital-first-edit-card
         [cards]="cards"
         [cardTypes]="cardTypes"

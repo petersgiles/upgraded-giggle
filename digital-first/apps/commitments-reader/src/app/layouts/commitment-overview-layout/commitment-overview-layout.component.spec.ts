@@ -73,8 +73,8 @@ describe('CommitmentOverviewLayoutComponent', () => {
   )
 
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-      TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+      testBed.configureTestingModule({
         declarations: [CommitmentOverviewLayoutComponent],
         imports: [
           RouterTestingModule.withRoutes([
@@ -114,8 +114,8 @@ describe('CommitmentOverviewLayoutComponent', () => {
     configureTests(configure).then(testBed => {
       fixture = testBed.createComponent(CommitmentOverviewLayoutComponent)
       component = fixture.componentInstance
-      mockStore = TestBed.get(Store)
-      router = TestBed.get(Router)
+      mockStore = testBed.get(Store)
+      router = testBed.get(Router)
 
       mockStore.overrideSelector(
         fromRefiner.refinerGroupsState,

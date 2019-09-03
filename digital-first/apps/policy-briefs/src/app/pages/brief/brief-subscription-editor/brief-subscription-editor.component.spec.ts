@@ -41,8 +41,8 @@ describe('BriefSubscriptionEditorComponent', () => {
   }
 
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-    TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+    testBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [BriefSubscriptionEditorComponent],
       providers:
@@ -63,10 +63,10 @@ describe('BriefSubscriptionEditorComponent', () => {
     })
    }
    configureTests(configure).then(testBed => {
-    fixture = TestBed.createComponent(BriefSubscriptionEditorComponent);
+    fixture = testBed.createComponent(BriefSubscriptionEditorComponent);
     component = fixture.componentInstance
-    router = TestBed.get(Router)
-    mockStore = TestBed.get(Store)
+    router = testBed.get(Router)
+    mockStore = testBed.get(Store)
     let newBriefState = {...initialState, brief: getBrief(), subscriptions: getSubscriptions()}
     mockStore.overrideSelector(fromBrief.selectActiveBriefSubscriptions, newBriefState.subscriptions)
     mockStore.overrideSelector(fromBrief.selectBriefState, newBriefState.brief)

@@ -2,14 +2,6 @@
 
 
 
-describe('RecommendationResponseMapperService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
-
-  it('should be created', () => {
-    const service: RecommendationResponseMapperService = TestBed.get(RecommendationResponseMapperService);
-    expect(service).toBeTruthy();
-  });
-});
 
 
 import 'core-js/es7/reflect'
@@ -34,8 +26,8 @@ describe('RecommendationResponseMapperService', () => {
   let brief: any
 
   beforeEach(async(() => { 
-    const configure: ConfigureFn = testBed => {
-        TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+        testBed.configureTestingModule({
           imports: [],
      providers:
           [ 
@@ -47,7 +39,7 @@ describe('RecommendationResponseMapperService', () => {
         })
       }
        configureTests(configure).then(testBed => {
-        service = TestBed.get(RecommendationResponseMapperService)
+        service = testBed.get(RecommendationResponseMapperService)
         brief = data.briefs[0]
       })
   }))

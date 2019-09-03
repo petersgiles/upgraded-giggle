@@ -38,8 +38,8 @@ describe('BriefReaderComponent', () => {
  
  
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-    TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+    testBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [BriefReaderComponent],
       providers:
@@ -63,9 +63,9 @@ describe('BriefReaderComponent', () => {
     })
    }
    configureTests(configure).then(testBed => {
-    fixture = TestBed.createComponent(BriefReaderComponent);
+    fixture = testBed.createComponent(BriefReaderComponent);
     component = fixture.componentInstance
-    mockStore = TestBed.get(Store)
+    mockStore = testBed.get(Store)
     router = testBed.get(Router)
     let state = {...initialState, brief: getBrief()}
     mockStore.setState(state)

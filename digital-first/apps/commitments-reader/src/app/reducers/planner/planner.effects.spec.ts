@@ -80,8 +80,8 @@ const dataServiceFactory = () => {
 
   
   beforeEach(async(() => { 
-    const configure: ConfigureFn = testBed => {
-        TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+        testBed.configureTestingModule({
      providers:
           [ 
             {
@@ -104,8 +104,8 @@ const dataServiceFactory = () => {
         })
       }
        configureTests(configure).then(testBed => {
-        mockStore = TestBed.get(Store)
-        plannerEffects = TestBed.get(PlannerEffects)
+        mockStore = testBed.get(Store)
+        plannerEffects = testBed.get(PlannerEffects)
       
       })
   }))

@@ -19,8 +19,8 @@ describe('  DiscussionMapperService', () => {
   let service:   DiscussionMapperService
  
   beforeEach(async(() => { 
-    const configure: ConfigureFn = testBed => {
-        TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+        testBed.configureTestingModule({
           imports: [],
      providers:
           [ 
@@ -32,7 +32,7 @@ describe('  DiscussionMapperService', () => {
         })
       }
        configureTests(configure).then(testBed => {
-        service = TestBed.get(  DiscussionMapperService)
+        service = testBed.get(  DiscussionMapperService)
         
       })
   }))

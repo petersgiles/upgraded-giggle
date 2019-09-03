@@ -79,8 +79,8 @@ describe('PlannerPageComponent', () => {
   }
 
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-      TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+      testBed.configureTestingModule({
         declarations: [PlannerPageComponent],
         schemas: [NO_ERRORS_SCHEMA],
         providers: [
@@ -97,7 +97,7 @@ describe('PlannerPageComponent', () => {
       })
     }
     configureTests(configure).then(testBed => {
-      mockStore = TestBed.get(Store)
+      mockStore = testBed.get(Store)
       let state = {
         ...initialState,
         events: getEvents(),
@@ -106,7 +106,7 @@ describe('PlannerPageComponent', () => {
         eventTypes: getEventTypes()
       }
       mockStore.setState(state)
-      fixture = TestBed.createComponent(PlannerPageComponent)
+      fixture = testBed.createComponent(PlannerPageComponent)
       component = fixture.componentInstance
 
       mockStore.overrideSelector(
@@ -329,8 +329,8 @@ describe('TestUser', () => {
   }
 
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-      TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+      testBed.configureTestingModule({
         declarations: [PlannerPageComponent],
         schemas: [NO_ERRORS_SCHEMA],
         providers: [
@@ -346,9 +346,9 @@ describe('TestUser', () => {
       })
     }
     configureTests(configure).then(testBed => {
-      mockStore = TestBed.get(Store)
+      mockStore = testBed.get(Store)
 
-      fixture = TestBed.createComponent(PlannerPageComponent)
+      fixture = testBed.createComponent(PlannerPageComponent)
       component = fixture.componentInstance
       mockStore.overrideSelector(
         fromOverview.selectRefinedCommitmentsState,

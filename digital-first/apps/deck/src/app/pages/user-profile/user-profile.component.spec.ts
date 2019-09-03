@@ -29,8 +29,8 @@ describe('UserProfileComponent', () => {
   let fixture: ComponentFixture<UserProfileComponent>;
 
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-    TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+    testBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       imports:[DfPipesModule],
       declarations: [UserProfileComponent],
@@ -49,7 +49,7 @@ describe('UserProfileComponent', () => {
     })
    }
    configureTests(configure).then(testBed => {
-    fixture = TestBed.createComponent(UserProfileComponent);
+    fixture = testBed.createComponent(UserProfileComponent);
     component = fixture.componentInstance
    // fixture.detectChanges()
   })

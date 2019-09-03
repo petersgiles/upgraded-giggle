@@ -30,8 +30,8 @@ describe('CommitmentPrintComponent', () => {
 
 
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-    TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+    testBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [CommitmentPrintComponent],
       imports: [ RouterTestingModule ],
@@ -58,7 +58,7 @@ describe('CommitmentPrintComponent', () => {
     })
    }
    configureTests(configure).then(testBed => {
-    fixture = TestBed.createComponent(CommitmentPrintComponent);
+    fixture = testBed.createComponent(CommitmentPrintComponent);
     component = fixture.componentInstance
    // fixture.detectChanges()
   })

@@ -22,8 +22,8 @@ describe('DeckComponent', () => {
   let router: Router
 
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-    TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+    testBed.configureTestingModule({
       imports: [
         RouterTestingModule
       
@@ -37,9 +37,9 @@ describe('DeckComponent', () => {
     })
   }
   configureTests(configure).then(testBed => {
-   fixture = TestBed.createComponent(DeckComponent)
+   fixture = testBed.createComponent(DeckComponent)
    component = fixture.componentInstance;
-   router = TestBed.get(Router)
+   router = testBed.get(Router)
    fixture.detectChanges();
  })
  

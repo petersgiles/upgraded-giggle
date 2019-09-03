@@ -90,8 +90,8 @@ describe('BriefDataEditorComponent', () => {
   }
 
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-      TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+      testBed.configureTestingModule({
         schemas: [NO_ERRORS_SCHEMA],
         declarations: [BriefDataEditorComponent],
         providers: [
@@ -118,9 +118,9 @@ describe('BriefDataEditorComponent', () => {
       })
     }
     configureTests(configure).then(testBed => {
-      fixture = TestBed.createComponent(BriefDataEditorComponent)
+      fixture = testBed.createComponent(BriefDataEditorComponent)
       component = fixture.componentInstance
-      mockStore = TestBed.get(Store)
+      mockStore = testBed.get(Store)
       initialState.brief = getBrief()
       mockStore.overrideSelector(fromBrief.selectBriefState, initialState.brief)
       lookupState.policies = getPolicies()

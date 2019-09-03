@@ -51,8 +51,8 @@ describe('MapOverviewPageComponent', () => {
   )
 
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-      TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+      testBed.configureTestingModule({
         declarations: [MapOverviewPageComponent],
         schemas: [NO_ERRORS_SCHEMA],
         imports: [MdcElevationModule],
@@ -81,10 +81,10 @@ describe('MapOverviewPageComponent', () => {
       })
     }
     configureTests(configure).then(testBed => {
-      mockStore = TestBed.get(Store)
+      mockStore = testBed.get(Store)
       let state = { ...initialState, mapPoints: getMapPoints()[0] }
       mockStore.setState(state)
-      fixture = TestBed.createComponent(MapOverviewPageComponent)
+      fixture = testBed.createComponent(MapOverviewPageComponent)
       component = fixture.componentInstance
       router = testBed.get(Router)
       mockStore.overrideSelector(fromMap.selectRefinedMapPointsState, [

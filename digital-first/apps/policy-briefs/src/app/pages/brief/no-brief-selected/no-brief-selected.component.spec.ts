@@ -19,8 +19,8 @@ describe('NoBriefSelectedComponent', () => {
 
  
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-    TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+    testBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [NoBriefSelectedComponent],
       providers:
@@ -28,7 +28,7 @@ describe('NoBriefSelectedComponent', () => {
     })
    }
    configureTests(configure).then(testBed => {
-    fixture = TestBed.createComponent(NoBriefSelectedComponent);
+    fixture = testBed.createComponent(NoBriefSelectedComponent);
     component = fixture.componentInstance
 
     fixture.detectChanges()

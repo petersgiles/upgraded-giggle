@@ -21,8 +21,8 @@ describe('ProtectiveMarkingComponent', () => {
 
  
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-    TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+    testBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [ProtectiveMarkingComponent],
       providers:
@@ -39,7 +39,7 @@ describe('ProtectiveMarkingComponent', () => {
     })
    }
    configureTests(configure).then(testBed => {
-    fixture = TestBed.createComponent(ProtectiveMarkingComponent);
+    fixture = testBed.createComponent(ProtectiveMarkingComponent);
     component = fixture.componentInstance
 
     //fixture.detectChanges() with this there is an error

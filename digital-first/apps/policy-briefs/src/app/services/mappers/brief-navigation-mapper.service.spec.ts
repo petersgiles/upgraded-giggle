@@ -19,8 +19,8 @@ describe(' BriefNavigationMapperService', () => {
   let navigation: any
 
   beforeEach(async(() => { 
-    const configure: ConfigureFn = testBed => {
-        TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+        testBed.configureTestingModule({
           imports: [],
      providers:
           [ 
@@ -32,7 +32,7 @@ describe(' BriefNavigationMapperService', () => {
         })
       }
        configureTests(configure).then(testBed => {
-        service = TestBed.get( BriefNavigationMapperService)
+        service = testBed.get( BriefNavigationMapperService)
         navigation = getNav()
       })
   }))

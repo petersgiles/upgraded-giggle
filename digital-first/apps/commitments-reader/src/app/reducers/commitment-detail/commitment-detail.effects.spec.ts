@@ -83,8 +83,8 @@ operationDefaults: {displayorder: 'hide',planner: 'hide',pmchandlingadvice: 'wri
 
 
   beforeEach(async(() => { 
-    const configure: ConfigureFn = testBed => {
-        TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+        testBed.configureTestingModule({
      imports: [ApolloTestingModule],
      providers:
           [ 
@@ -95,9 +95,9 @@ operationDefaults: {displayorder: 'hide',planner: 'hide',pmchandlingadvice: 'wri
         })
       }
        configureTests(configure).then(testBed => {
-        mockStore = TestBed.get(Store)
-        commitmentDetailsEffects = TestBed.get(CommitmentDetailEffects)
-        backend = TestBed.get(ApolloTestingController)
+        mockStore = testBed.get(Store)
+        commitmentDetailsEffects = testBed.get(CommitmentDetailEffects)
+        backend = testBed.get(ApolloTestingController)
       })
   }))
 

@@ -25,8 +25,8 @@ describe('OverviewLayoutComponent', () => {
   let excelService: ExcelService
 
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-    TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+    testBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [OverviewLayoutComponent],
       providers:
@@ -49,10 +49,10 @@ describe('OverviewLayoutComponent', () => {
     })
    }
    configureTests(configure).then(testBed => {
-    fixture = TestBed.createComponent(OverviewLayoutComponent);
+    fixture = testBed.createComponent(OverviewLayoutComponent);
     component = fixture.componentInstance
 
-    excelService = TestBed.get(ExcelService)
+    excelService = testBed.get(ExcelService)
    // fixture.detectChanges()
   })
   

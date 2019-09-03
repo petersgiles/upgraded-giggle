@@ -47,8 +47,8 @@ describe('NavigationEffects', () => {
    let service: NavigationDataLocalService
 
     beforeEach(async(() => { 
-      const configure: ConfigureFn = testBed => {
-          TestBed.configureTestingModule({
+      const configure = (testBed: TestBed) => {
+          testBed.configureTestingModule({
             imports: [],
        providers:
             [ 
@@ -71,9 +71,9 @@ describe('NavigationEffects', () => {
           })
         }
          configureTests(configure).then(testBed => {
-          mockStore = TestBed.get(Store)
-          navigationEffects = TestBed.get(NavigationEffects)
-          service = TestBed.get(NavigationDataLocalService)
+          mockStore = testBed.get(Store)
+          navigationEffects = testBed.get(NavigationEffects)
+          service = testBed.get(NavigationDataLocalService)
         })
     }))
   

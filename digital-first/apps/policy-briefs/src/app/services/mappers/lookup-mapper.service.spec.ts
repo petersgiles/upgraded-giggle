@@ -18,8 +18,8 @@ describe('LookupMapperService', () => {
   let service: LookupMapperService
 
   beforeEach(async(() => { 
-    const configure: ConfigureFn = testBed => {
-        TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+        testBed.configureTestingModule({
           imports: [],
      providers:
           [ 
@@ -31,7 +31,7 @@ describe('LookupMapperService', () => {
         })
       }
        configureTests(configure).then(testBed => {
-        service = TestBed.get(LookupMapperService)
+        service = testBed.get(LookupMapperService)
        
       })
   }))

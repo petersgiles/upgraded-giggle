@@ -22,8 +22,8 @@ describe('UserProfileComponent', () => {
   let mockStore: MockStore<any>
  
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-    TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+    testBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       imports: [DfPipesModule],
       declarations: [UserProfileComponent],
@@ -36,9 +36,9 @@ describe('UserProfileComponent', () => {
     })
    }
    configureTests(configure).then(testBed => {
-    fixture = TestBed.createComponent(UserProfileComponent);
+    fixture = testBed.createComponent(UserProfileComponent);
     component = fixture.componentInstance
-    mockStore = TestBed.get(Store)
+    mockStore = testBed.get(Store)
     fixture.detectChanges()
   })
   

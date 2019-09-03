@@ -61,8 +61,8 @@ describe('DeckEffects', () => {
     }
 
     beforeEach(async(() => { 
-      const configure: ConfigureFn = testBed => {
-          TestBed.configureTestingModule({
+      const configure = (testBed: TestBed) => {
+          testBed.configureTestingModule({
     
        providers:
             [ 
@@ -82,9 +82,9 @@ describe('DeckEffects', () => {
           })
         }
          configureTests(configure).then(testBed => {
-          mockStore = TestBed.get(Store)
-          deckEffects = TestBed.get(DeckEffects)
-          service = TestBed.get(DeckDataLocalService)
+          mockStore = testBed.get(Store)
+          deckEffects = testBed.get(DeckEffects)
+          service = testBed.get(DeckDataLocalService)
           let state = {...initialState, deckItems: deckData.data, briefs: briefs, currentParent: null, selectedCard: '7'}
   
           mockStore.setState(state) 

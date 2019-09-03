@@ -30,8 +30,8 @@ describe('BriefRecommendationResponseComponent', () => {
   let router: Router
 
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-    TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+    testBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       imports: [ DfPipesModule],
       declarations: [BriefRecommendationResponseComponent],
@@ -58,9 +58,9 @@ describe('BriefRecommendationResponseComponent', () => {
     })
    }
    configureTests(configure).then(testBed => {
-    fixture = TestBed.createComponent(BriefRecommendationResponseComponent);
+    fixture = testBed.createComponent(BriefRecommendationResponseComponent);
     component = fixture.componentInstance
-    router = TestBed.get(Router)
+    router = testBed.get(Router)
     brief = idFromLookup(getBrief())
     recommendation = idFromLookup(getRecommendation())
 

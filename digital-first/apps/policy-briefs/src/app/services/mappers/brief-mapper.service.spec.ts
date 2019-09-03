@@ -30,8 +30,8 @@ describe('BriefMapperService', () => {
 
 
   beforeEach(async(() => { 
-    const configure: ConfigureFn = testBed => {
-        TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+        testBed.configureTestingModule({
           imports: [],
      providers:
           [ 
@@ -46,7 +46,7 @@ describe('BriefMapperService', () => {
       }
        configureTests(configure).then(testBed => {
 
-        briefMapperService = TestBed.get(BriefMapperService)
+        briefMapperService = testBed.get(BriefMapperService)
         subPolicy = fromLookup(data.subpolicies[0])
         policy = fromLookup(data.policies[0])
         briefDivision = fromLookup(data.dlms[0])

@@ -33,9 +33,6 @@ import { deckData, briefs } from '../../reducers/deck/local/data'
 import { FormBuilder } from '@angular/forms';
 import { MdcDialog, Overlay } from '@angular-mdc/web'
 
-
-
-
 describe('HomeComponent', () => {
 
   let component: HomeComponent
@@ -62,10 +59,10 @@ describe('HomeComponent', () => {
     selectedCard: null,
     currentParent: null
   }
-
+ 
   beforeEach(async(() => {
-    const configure: ConfigureFn = testBed => {
-    TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+    testBed.configureTestingModule({
       imports: [
         RouterTestingModule.withRoutes([{
           path: '/',
@@ -93,13 +90,13 @@ describe('HomeComponent', () => {
       declarations: [HomeComponent]
     })
   }
-  configureTests(configure).then(testBed => {
-   fixture = TestBed.createComponent(HomeComponent)
+   configureTests(configure).then(testBed => {
+   fixture = testBed.createComponent(HomeComponent)
    component = fixture.componentInstance;
-   router = TestBed.get(Router)
+   router = testBed.get(Router)
    
 
-   mockStore = TestBed.get(Store)
+   mockStore = testBed.get(Store)
    let state = {...initialState, deckItems: deckData.data, briefs: briefs, currentParent: null, selectedCard: '7'}
   
    mockStore.setState(state) 
@@ -110,7 +107,7 @@ describe('HomeComponent', () => {
    mockStore.overrideSelector(fromDeck.selectCurrentBriefsState, state.briefs)
    //router.initialNavigation() 
    fixture.detectChanges();
- })
+ }) 
  
 }))
 
@@ -124,7 +121,7 @@ describe('HomeComponent', () => {
     mockStore
      .select(fromDeck.selectCardsByParentState)
      .subscribe(deckItems => {
-          expect(deckItems[0].title).toBe('SummaryLinksNoActions')
+          expect(deckItems[0].title).toBe('Standard No Text')
        }
     )})
 
@@ -132,7 +129,7 @@ describe('HomeComponent', () => {
       deckItems$ = mockStore.pipe(
         select(fromDeck.selectCardsByParentState))
         deckItems$.subscribe(result => {
-              expect(result[0].title).toBe('SummaryLinksNoActions')
+              expect(result[0].title).toBe('Standard No Text')
           }
         )
      })

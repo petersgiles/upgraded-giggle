@@ -21,8 +21,8 @@ describe('AuthorMapperService', () => {
   let SPAuthor: any
 
   beforeEach(async(() => { 
-    const configure: ConfigureFn = testBed => {
-        TestBed.configureTestingModule({
+    const configure = (testBed: TestBed) => {
+        testBed.configureTestingModule({
           imports: [],
      providers:
           [ 
@@ -34,7 +34,7 @@ describe('AuthorMapperService', () => {
         })
       }
        configureTests(configure).then(testBed => {
-        service = TestBed.get(AuthorMapperService)
+        service = testBed.get(AuthorMapperService)
         SPAuthor = getSPAuthor()
       })
   }))
