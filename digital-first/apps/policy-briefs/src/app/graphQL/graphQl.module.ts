@@ -4,7 +4,7 @@ import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 
 import { ApolloLink, split } from 'apollo-link'
-import { getMainDefinition } from 'apollo-utilities'
+import { getMainDefinition } from 'apollo-utilities/src'
 import { environment } from '../../environments/environment'
 import { HttpHeaders } from '@angular/common/http';
 
