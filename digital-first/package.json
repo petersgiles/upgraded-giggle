@@ -130,7 +130,6 @@
     "tui-code-snippet": "^1.5.1",
     "tui-editor": "^1.4.4",
     "typeface-roboto": "0.0.54",
-    "typescript": "^3.4.5",
     "web-animations-js": "^2.3.2",
     "x2js": "^3.3.0",
     "xlsx": "^0.14.3",
@@ -173,7 +172,7 @@
     "ts-jest": "24.0.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
-    "typescript": "~3.4.5",
+    "typescript": "^3.4.5",
     "webpack-notifier": "^1.7.0"
   }
 }
