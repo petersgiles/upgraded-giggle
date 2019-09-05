@@ -2,6 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc/libs/df-layouts",
+    "module": "commonjs",
     "types": ["jest", "node"]
   },
   "files": ["src/test-setup.ts"],
