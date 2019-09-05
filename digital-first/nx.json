@@ -11,6 +11,9 @@
     "policy-briefs": {
       "tags": []
     },
+    "policy-briefs-e2e": {
+      "tags": []
+    },
     "df-layouts": {
       "tags": []
     },
@@ -20,7 +23,13 @@
     "commitments": {
       "tags": []
     },
+    "commitments-e2e": {
+      "tags": []
+    },
     "deck": {
+      "tags": []
+    },
+    "deck-e2e": {
       "tags": []
     },
     "df-moment": {
@@ -57,6 +66,9 @@
       "tags": []
     },
     "commitments-reader": {
+      "tags": []
+    },
+    "commitments-reader-e2e": {
       "tags": []
     },
     "df-app-core": {

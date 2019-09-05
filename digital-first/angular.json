@@ -3,212 +3,14 @@
   "version": 1,
   "newProjectRoot": "",
   "projects": {
-    "policy-briefs": {
-      "root": "apps/policy-briefs/",
-      "sourceRoot": "apps/policy-briefs/src",
-      "projectType": "application",
-      "prefix": "digital-first",
-      "schematics": {
-        "@schematics/angular:component": {
-          "styleext": "scss"
-        }
-      },
-      "architect": {
-        "sharepoint": {
-          "builder": "@angular-builders/custom-webpack:browser",
-          "options": {
-            "customWebpackConfig": {
-              "path": "./apps/policy-briefs/custom-webpack.config.js",
-              "mergeStrategies": { "externals": "replace" },
-              "replaceDuplicatePlugins": true
-            },
-            "outputPath": "../sharepoint/deploy/SiteAssets/apps/policy-briefs",
-            "index": "apps/policy-briefs/src/index.html",
-            "main": "apps/policy-briefs/src/main.ts",
-            "polyfills": "apps/policy-briefs/src/polyfills.ts",
-            "tsConfig": "apps/policy-briefs/tsconfig.app.json",
-            "assets": [
-              "apps/policy-briefs/src/favicon.ico",
-              "apps/policy-briefs/src/assets"
-            ],
-            "styles": ["apps/policy-briefs/src/styles.scss"],
-            "scripts": []
-          },
-          "configurations": {
-            "production": {
-              "fileReplacements": [
-                {
-                  "replace": "apps/policy-briefs/src/environments/environment.ts",
-                  "with": "apps/policy-briefs/src/environments/environment.sharepoint.ts"
-                }
-              ],
-              "deployUrl": "../../SiteAssets/apps/policy-briefs",
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": false,
-              "namedChunks": false,
-              "aot": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": false
-            },
-            "sharepoint": {
-              "fileReplacements": [
-                {
-                  "replace": "apps/policy-briefs/src/environments/environment.ts",
-                  "with": "apps/policy-briefs/src/environments/environment.sharepoint.ts"
-                }
-              ],
-              "deployUrl": "../../SiteAssets/apps/policy-briefs"
-            }
-          }
-        },
-        "build": {
-          "builder": "@angular-devkit/build-angular:browser",
-          "options": {
-            "outputPath": "../sharepoint/deploy/SiteAssets/apps/policy-briefs",
-            "index": "apps/policy-briefs/src/index.html",
-            "main": "apps/policy-briefs/src/main.ts",
-            "polyfills": "apps/policy-briefs/src/polyfills.ts",
-            "tsConfig": "apps/policy-briefs/tsconfig.app.json",
-            "assets": [
-              "apps/policy-briefs/src/favicon.ico",
-              "apps/policy-briefs/src/assets"
-            ],
-            "styles": ["apps/policy-briefs/src/styles.scss"],
-            "scripts": []
-          },
-          "configurations": {
-            "production": {
-              "fileReplacements": [
-                {
-                  "replace": "apps/policy-briefs/src/environments/environment.ts",
-                  "with": "apps/policy-briefs/src/environments/environment.prod.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": false,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
-            },
-            "sharepoint": {
-              "fileReplacements": [
-                {
-                  "replace": "apps/policy-briefs/src/environments/environment.ts",
-                  "with": "apps/policy-briefs/src/environments/environment.sharepoint.ts"
-                }
-              ]
-            }
-          }
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "port": 4202,
-            "browserTarget": "policy-briefs:build",
-            "ssl": true,
-            "sslKey": "ssl/server.key",
-            "sslCert": "ssl/server.crt",
-            "liveReload": true
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "policy-briefs:build:production"
-            }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "policy-briefs:build"
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "apps/policy-briefs/jest.config.js",
-            "tsConfig": "apps/policy-briefs/tsconfig.spec.json",
-            "setupFile": "apps/policy-briefs/src/test-setup.ts"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "apps/policy-briefs/tsconfig.app.json",
-              "apps/policy-briefs/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      }
-    },
-    "df-layouts": {
-      "root": "libs/df-layouts",
-      "sourceRoot": "libs/df-layouts/src",
-      "projectType": "library",
-      "prefix": "digital-first",
-      "architect": {
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/df-layouts/jest.config.js",
-            "tsConfig": "libs/df-layouts/tsconfig.spec.json",
-            "setupFile": "libs/df-layouts/src/test-setup.ts"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/df-layouts/tsconfig.lib.json",
-              "libs/df-layouts/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      }
-    },
-    "df-theme": {
-      "root": "libs/df-theme",
-      "sourceRoot": "libs/df-theme/src",
-      "projectType": "library",
-      "prefix": "digital-first",
-      "architect": {
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/df-theme/jest.config.js",
-            "tsConfig": "libs/df-theme/tsconfig.spec.json",
-            "setupFile": "libs/df-theme/src/test-setup.ts"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/df-theme/tsconfig.lib.json",
-              "libs/df-theme/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      }
-    },
     "commitments": {
       "root": "apps/commitments/",
       "sourceRoot": "apps/commitments/src",
       "projectType": "application",
       "prefix": "digital-first",
       "schematics": {
-        "@schematics/angular:component": {
-          "styleext": "scss"
+        "@nrwl/angular:component": {
+          "style": "scss"
         }
       },
       "architect": {
@@ -343,454 +145,30 @@
         }
       }
     },
-    "deck": {
-      "root": "apps/deck/",
-      "sourceRoot": "apps/deck/src",
+    "commitments-e2e": {
+      "root": "apps/commitments-e2e",
+      "sourceRoot": "apps/commitments-e2e/src",
       "projectType": "application",
-      "prefix": "digital-first",
-      "schematics": {
-        "@schematics/angular:component": {
-          "styleext": "scss"
-        }
-      },
       "architect": {
-        "sharepoint": {
-          "builder": "@angular-builders/custom-webpack:browser",
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
           "options": {
-            "customWebpackConfig": {
-              "path": "./apps/deck/custom-webpack.config.js",
-              "mergeStrategies": { "externals": "replace" },
-              "replaceDuplicatePlugins": true
-            },
-            "outputPath": "../sharepoint/deploy/SiteAssets/apps/deck",
-            "index": "apps/deck/src/index.html",
-            "main": "apps/deck/src/main.ts",
-            "polyfills": "apps/deck/src/polyfills.ts",
-            "tsConfig": "apps/deck/tsconfig.app.json",
-            "assets": ["apps/deck/src/favicon.ico", "apps/deck/src/assets"],
-            "styles": ["apps/deck/src/styles.scss"],
-            "scripts": []
+            "cypressConfig": "apps/commitments-e2e/cypress.json",
+            "tsConfig": "apps/commitments-e2e/tsconfig.e2e.json",
+            "devServerTarget": "commitments:serve"
           },
           "configurations": {
             "production": {
-              "fileReplacements": [
-                {
-                  "replace": "apps/deck/src/environments/environment.ts",
-                  "with": "apps/deck/src/environments/environment.prod.ts"
-                }
-              ],
-              "deployUrl": "../../SiteAssets/apps/deck/",
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": false,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
-            },
-            "sharepoint": {
-              "fileReplacements": [
-                {
-                  "replace": "apps/deck/src/environments/environment.ts",
-                  "with": "apps/deck/src/environments/environment.sharepoint.ts"
-                }
-              ],
-              "deployUrl": "../../SiteAssets/apps/deck/"
+              "devServerTarget": "commitments:serve:production"
             }
           }
         },
-        "build": {
-          "builder": "@angular-devkit/build-angular:browser",
-          "options": {
-            "outputPath": "../sharepoint/deploy/SiteAssets/apps/deck",
-            "index": "apps/deck/src/index.html",
-            "main": "apps/deck/src/main.ts",
-            "polyfills": "apps/deck/src/polyfills.ts",
-            "tsConfig": "apps/deck/tsconfig.app.json",
-            "assets": ["apps/deck/src/favicon.ico", "apps/deck/src/assets"],
-            "styles": ["apps/deck/src/styles.scss"],
-            "scripts": []
-          },
-          "configurations": {
-            "production": {
-              "fileReplacements": [
-                {
-                  "replace": "apps/deck/src/environments/environment.ts",
-                  "with": "apps/deck/src/environments/environment.prod.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": false,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
-            },
-            "sharepoint": {
-              "fileReplacements": [
-                {
-                  "replace": "apps/deck/src/environments/environment.ts",
-                  "with": "apps/deck/src/environments/environment.sharepoint.ts"
-                }
-              ]
-            }
-          }
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "port": 4204,
-            "browserTarget": "deck:build",
-            "ssl": true,
-            "sslKey": "ssl/server.key",
-            "sslCert": "ssl/server.crt",
-            "liveReload": true
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "deck:build:production"
-            }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "deck:build"
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "apps/deck/jest.config.js",
-            "tsConfig": "apps/deck/tsconfig.spec.json",
-            "setupFile": "apps/deck/src/test-setup.ts"
-          }
-        },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "apps/deck/tsconfig.app.json",
-              "apps/deck/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
+            "tsConfig": ["apps/commitments-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/commitments-e2e/**"]
           }
-        }
-      }
-    },
-    "df-moment": {
-      "root": "libs/df-moment",
-      "sourceRoot": "libs/df-moment/src",
-      "projectType": "library",
-      "prefix": "digital-first",
-      "architect": {
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/df-moment/jest.config.js",
-            "tsConfig": "libs/df-moment/tsconfig.spec.json",
-            "setupFile": "libs/df-moment/src/test-setup.ts"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/df-moment/tsconfig.lib.json",
-              "libs/df-moment/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      }
-    },
-    "df-pipes": {
-      "root": "libs/df-pipes",
-      "sourceRoot": "libs/df-pipes/src",
-      "projectType": "library",
-      "prefix": "digital-first",
-      "architect": {
-        "test": {
-          "builder": "@nrml/jest:jest",
-          "options": {
-            "jestConfig": "libs/df-pipes/jest.config.js",
-            "tsConfig": "libs/df-pipes/tsconfig.spec.json",
-            "setupFile": "libs/df-pipes/src/test-setup.ts"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/df-pipes/tsconfig.lib.json",
-              "libs/df-pipes/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      }
-    },
-    "df-pages": {
-      "root": "libs/df-pages",
-      "sourceRoot": "libs/df-pages/src",
-      "projectType": "library",
-      "prefix": "digital-first",
-      "architect": {
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/df-pages/jest.config.js",
-            "tsConfig": "libs/df-pages/tsconfig.spec.json",
-            "setupFile": "libs/df-pages/src/test-setup.ts"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/df-pages/tsconfig.lib.json",
-              "libs/df-pages/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      }
-    },
-    "df-dialogs": {
-      "root": "libs/df-dialogs",
-      "sourceRoot": "libs/df-dialogs/src",
-      "projectType": "library",
-      "prefix": "digital-first",
-      "architect": {
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/df-dialogs/jest.config.js",
-            "tsConfig": "libs/df-dialogs/tsconfig.spec.json",
-            "setupFile": "libs/df-dialogs/src/test-setup.ts"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/df-dialogs/tsconfig.lib.json",
-              "libs/df-dialogs/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      }
-    },
-    "df-components": {
-      "root": "libs/df-components",
-      "sourceRoot": "libs/df-components/src",
-      "projectType": "library",
-      "prefix": "digital-first",
-      "schematics": {
-        "@schematics/angular:component": {
-          "styleext": "scss"
-        }
-      },
-      "architect": {
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/df-components/jest.config.js",
-            "tsConfig": "libs/df-components/tsconfig.spec.json",
-            "setupFile": "libs/df-components/src/test-setup.ts"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/df-components/tsconfig.lib.json",
-              "libs/df-components/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      }
-    },
-    "df-auth": {
-      "root": "libs/df-auth",
-      "sourceRoot": "libs/df-auth/src",
-      "projectType": "library",
-      "prefix": "digital-first",
-      "architect": {
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/df-auth/jest.config.js",
-            "tsConfig": "libs/df-auth/tsconfig.spec.json",
-            "setupFile": "libs/df-auth/src/test-setup.ts"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/df-auth/tsconfig.lib.json",
-              "libs/df-auth/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      }
-    },
-    "df-app-tokens": {
-      "root": "libs/df-app-tokens",
-      "sourceRoot": "libs/df-app-tokens/src",
-      "projectType": "library",
-      "prefix": "digital-first",
-      "architect": {
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/df-app-tokens/jest.config.js",
-            "tsConfig": "libs/df-app-tokens/tsconfig.spec.json",
-            "setupFile": "libs/df-app-tokens/src/test-setup.ts"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/df-app-tokens/tsconfig.lib.json",
-              "libs/df-app-tokens/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      }
-    },
-    "df-datatable": {
-      "root": "libs/df-datatable",
-      "sourceRoot": "libs/df-datatable/src",
-      "projectType": "library",
-      "prefix": "digital-first",
-      "architect": {
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/df-datatable/jest.config.js",
-            "tsConfig": "libs/df-datatable/tsconfig.spec.json",
-            "setupFile": "libs/df-datatable/src/test-setup.ts"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/df-datatable/tsconfig.lib.json",
-              "libs/df-datatable/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/schematics:component": {
-          "styleext": "scss"
-        }
-      }
-    },
-    "df-buttons": {
-      "root": "libs/df-buttons",
-      "sourceRoot": "libs/df-buttons/src",
-      "projectType": "library",
-      "prefix": "digital-first",
-      "architect": {
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/df-buttons/jest.config.js",
-            "tsConfig": "libs/df-buttons/tsconfig.spec.json",
-            "setupFile": "libs/df-buttons/src/test-setup.ts"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/df-buttons/tsconfig.lib.json",
-              "libs/df-buttons/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/schematics:component": {
-          "styleext": "scss"
-        }
-      }
-    },
-    "df-map": {
-      "root": "libs/df-map",
-      "sourceRoot": "libs/df-map/src",
-      "projectType": "library",
-      "prefix": "digital-first",
-      "architect": {
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/df-map/jest.config.js",
-            "tsConfig": "libs/df-map/tsconfig.spec.json",
-            "setupFile": "libs/df-map/src/test-setup.ts"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/df-map/tsconfig.lib.json",
-              "libs/df-map/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/schematics:component": {
-          "styleext": "scss"
-        }
-      }
-    },
-    "df-refiner": {
-      "root": "libs/df-refiner",
-      "sourceRoot": "libs/df-refiner/src",
-      "projectType": "library",
-      "prefix": "digital-first",
-      "architect": {
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/df-refiner/jest.config.js",
-            "tsConfig": "libs/df-refiner/tsconfig.spec.json",
-            "setupFile": "libs/df-refiner/src/test-setup.ts"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/df-refiner/tsconfig.lib.json",
-              "libs/df-refiner/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/schematics:component": {
-          "styleext": "scss"
         }
       }
     },
@@ -799,7 +177,11 @@
       "sourceRoot": "apps/commitments-reader/src",
       "projectType": "application",
       "prefix": "digital-first",
-      "schematics": {},
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
       "architect": {
         "sharepoint": {
           "builder": "@angular-builders/custom-webpack:browser",
@@ -992,10 +374,377 @@
         }
       }
     },
+    "commitments-reader-e2e": {
+      "root": "apps/commitments-reader-e2e",
+      "sourceRoot": "apps/commitments-reader-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/commitments-reader-e2e/cypress.json",
+            "tsConfig": "apps/commitments-reader-e2e/tsconfig.e2e.json",
+            "devServerTarget": "commitments-reader:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "commitments-reader:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/commitments-reader-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/commitments-reader-e2e/**"]
+          }
+        }
+      }
+    },
+    "deck": {
+      "root": "apps/deck/",
+      "sourceRoot": "apps/deck/src",
+      "projectType": "application",
+      "prefix": "digital-first",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "architect": {
+        "sharepoint": {
+          "builder": "@angular-builders/custom-webpack:browser",
+          "options": {
+            "customWebpackConfig": {
+              "path": "./apps/deck/custom-webpack.config.js",
+              "mergeStrategies": { "externals": "replace" },
+              "replaceDuplicatePlugins": true
+            },
+            "outputPath": "../sharepoint/deploy/SiteAssets/apps/deck",
+            "index": "apps/deck/src/index.html",
+            "main": "apps/deck/src/main.ts",
+            "polyfills": "apps/deck/src/polyfills.ts",
+            "tsConfig": "apps/deck/tsconfig.app.json",
+            "assets": ["apps/deck/src/favicon.ico", "apps/deck/src/assets"],
+            "styles": ["apps/deck/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/deck/src/environments/environment.ts",
+                  "with": "apps/deck/src/environments/environment.prod.ts"
+                }
+              ],
+              "deployUrl": "../../SiteAssets/apps/deck/",
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": false,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            },
+            "sharepoint": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/deck/src/environments/environment.ts",
+                  "with": "apps/deck/src/environments/environment.sharepoint.ts"
+                }
+              ],
+              "deployUrl": "../../SiteAssets/apps/deck/"
+            }
+          }
+        },
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "../sharepoint/deploy/SiteAssets/apps/deck",
+            "index": "apps/deck/src/index.html",
+            "main": "apps/deck/src/main.ts",
+            "polyfills": "apps/deck/src/polyfills.ts",
+            "tsConfig": "apps/deck/tsconfig.app.json",
+            "assets": ["apps/deck/src/favicon.ico", "apps/deck/src/assets"],
+            "styles": ["apps/deck/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/deck/src/environments/environment.ts",
+                  "with": "apps/deck/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": false,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            },
+            "sharepoint": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/deck/src/environments/environment.ts",
+                  "with": "apps/deck/src/environments/environment.sharepoint.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "port": 4204,
+            "browserTarget": "deck:build",
+            "ssl": true,
+            "sslKey": "ssl/server.key",
+            "sslCert": "ssl/server.crt",
+            "liveReload": true
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "deck:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "deck:build"
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/deck/jest.config.js",
+            "tsConfig": "apps/deck/tsconfig.spec.json",
+            "setupFile": "apps/deck/src/test-setup.ts"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/deck/tsconfig.app.json",
+              "apps/deck/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "deck-e2e": {
+      "root": "apps/deck-e2e",
+      "sourceRoot": "apps/deck-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/deck-e2e/cypress.json",
+            "tsConfig": "apps/deck-e2e/tsconfig.e2e.json",
+            "devServerTarget": "deck:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "deck:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/deck-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/deck-e2e/**"]
+          }
+        }
+      }
+    },
+    "policy-briefs": {
+      "root": "apps/policy-briefs/",
+      "sourceRoot": "apps/policy-briefs/src",
+      "projectType": "application",
+      "prefix": "digital-first",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "architect": {
+        "sharepoint": {
+          "builder": "@angular-builders/custom-webpack:browser",
+          "options": {
+            "customWebpackConfig": {
+              "path": "./apps/policy-briefs/custom-webpack.config.js",
+              "mergeStrategies": { "externals": "replace" },
+              "replaceDuplicatePlugins": true
+            },
+            "outputPath": "../sharepoint/deploy/SiteAssets/apps/policy-briefs",
+            "index": "apps/policy-briefs/src/index.html",
+            "main": "apps/policy-briefs/src/main.ts",
+            "polyfills": "apps/policy-briefs/src/polyfills.ts",
+            "tsConfig": "apps/policy-briefs/tsconfig.app.json",
+            "assets": [
+              "apps/policy-briefs/src/favicon.ico",
+              "apps/policy-briefs/src/assets"
+            ],
+            "styles": ["apps/policy-briefs/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/policy-briefs/src/environments/environment.ts",
+                  "with": "apps/policy-briefs/src/environments/environment.sharepoint.ts"
+                }
+              ],
+              "deployUrl": "../../SiteAssets/apps/policy-briefs",
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": false,
+              "namedChunks": false,
+              "aot": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": false
+            },
+            "sharepoint": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/policy-briefs/src/environments/environment.ts",
+                  "with": "apps/policy-briefs/src/environments/environment.sharepoint.ts"
+                }
+              ],
+              "deployUrl": "../../SiteAssets/apps/policy-briefs"
+            }
+          }
+        },
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "../sharepoint/deploy/SiteAssets/apps/policy-briefs",
+            "index": "apps/policy-briefs/src/index.html",
+            "main": "apps/policy-briefs/src/main.ts",
+            "polyfills": "apps/policy-briefs/src/polyfills.ts",
+            "tsConfig": "apps/policy-briefs/tsconfig.app.json",
+            "assets": [
+              "apps/policy-briefs/src/favicon.ico",
+              "apps/policy-briefs/src/assets"
+            ],
+            "styles": ["apps/policy-briefs/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/policy-briefs/src/environments/environment.ts",
+                  "with": "apps/policy-briefs/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": false,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            },
+            "sharepoint": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/policy-briefs/src/environments/environment.ts",
+                  "with": "apps/policy-briefs/src/environments/environment.sharepoint.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "port": 4202,
+            "browserTarget": "policy-briefs:build",
+            "ssl": true,
+            "sslKey": "ssl/server.key",
+            "sslCert": "ssl/server.crt",
+            "liveReload": true
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "policy-briefs:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "policy-briefs:build"
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/policy-briefs/jest.config.js",
+            "tsConfig": "apps/policy-briefs/tsconfig.spec.json",
+            "setupFile": "apps/policy-briefs/src/test-setup.ts"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/policy-briefs/tsconfig.app.json",
+              "apps/policy-briefs/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "policy-briefs-e2e": {
+      "root": "apps/policy-briefs-e2e",
+      "sourceRoot": "apps/policy-briefs-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/policy-briefs-e2e/cypress.json",
+            "tsConfig": "apps/policy-briefs-e2e/tsconfig.e2e.json",
+            "devServerTarget": "policy-briefs:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "policy-briefs:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/policy-briefs-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/policy-briefs-e2e/**"]
+          }
+        }
+      }
+    },
     "df-app-core": {
+      "projectType": "library",
       "root": "libs/df-app-core",
       "sourceRoot": "libs/df-app-core/src",
-      "projectType": "library",
       "prefix": "digital-first",
       "architect": {
         "lint": {
@@ -1005,7 +754,7 @@
               "libs/df-app-core/tsconfig.lib.json",
               "libs/df-app-core/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": ["**/node_modules/**", "!libs/df-app-core/**"]
           }
         },
         "test": {
@@ -1018,7 +767,379 @@
         }
       },
       "schematics": {
-        "@nrwl/schematics:component": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "df-auth": {
+      "projectType": "library",
+      "root": "libs/df-auth",
+      "sourceRoot": "libs/df-auth/src",
+      "prefix": "digital-first",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-auth/tsconfig.lib.json",
+              "libs/df-auth/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/df-auth/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/df-auth/jest.config.js",
+            "tsConfig": "libs/df-auth/tsconfig.spec.json",
+            "setupFile": "libs/df-auth/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "df-buttons": {
+      "projectType": "library",
+      "root": "libs/df-buttons",
+      "sourceRoot": "libs/df-buttons/src",
+      "prefix": "digital-first",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-buttons/tsconfig.lib.json",
+              "libs/df-buttons/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/df-buttons/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/df-buttons/jest.config.js",
+            "tsConfig": "libs/df-buttons/tsconfig.spec.json",
+            "setupFile": "libs/df-buttons/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "df-datatable": {
+      "projectType": "library",
+      "root": "libs/df-datatable",
+      "sourceRoot": "libs/df-datatable/src",
+      "prefix": "digital-first",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-datatable/tsconfig.lib.json",
+              "libs/df-datatable/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/df-datatable/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/df-datatable/jest.config.js",
+            "tsConfig": "libs/df-datatable/tsconfig.spec.json",
+            "setupFile": "libs/df-datatable/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "df-components": {
+      "projectType": "library",
+      "root": "libs/df-components",
+      "sourceRoot": "libs/df-components/src",
+      "prefix": "digital-first",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-components/tsconfig.lib.json",
+              "libs/df-components/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/df-components/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/df-components/jest.config.js",
+            "tsConfig": "libs/df-components/tsconfig.spec.json",
+            "setupFile": "libs/df-components/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "df-layouts": {
+      "projectType": "library",
+      "root": "libs/df-layouts",
+      "sourceRoot": "libs/df-layouts/src",
+      "prefix": "digital-first",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-layouts/tsconfig.lib.json",
+              "libs/df-layouts/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/df-layouts/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/df-layouts/jest.config.js",
+            "tsConfig": "libs/df-layouts/tsconfig.spec.json",
+            "setupFile": "libs/df-layouts/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "df-map": {
+      "projectType": "library",
+      "root": "libs/df-map",
+      "sourceRoot": "libs/df-map/src",
+      "prefix": "digital-first",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-map/tsconfig.lib.json",
+              "libs/df-map/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/df-map/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/df-map/jest.config.js",
+            "tsConfig": "libs/df-map/tsconfig.spec.json",
+            "setupFile": "libs/df-map/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "df-moment": {
+      "projectType": "library",
+      "root": "libs/df-moment",
+      "sourceRoot": "libs/df-moment/src",
+      "prefix": "digital-first",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-moment/tsconfig.lib.json",
+              "libs/df-moment/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/df-moment/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/df-moment/jest.config.js",
+            "tsConfig": "libs/df-moment/tsconfig.spec.json",
+            "setupFile": "libs/df-moment/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "df-pages": {
+      "projectType": "library",
+      "root": "libs/df-pages",
+      "sourceRoot": "libs/df-pages/src",
+      "prefix": "digital-first",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-pages/tsconfig.lib.json",
+              "libs/df-pages/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/df-pages/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/df-pages/jest.config.js",
+            "tsConfig": "libs/df-pages/tsconfig.spec.json",
+            "setupFile": "libs/df-pages/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "df-pipes": {
+      "projectType": "library",
+      "root": "libs/df-pipes",
+      "sourceRoot": "libs/df-pipes/src",
+      "prefix": "digital-first",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-pipes/tsconfig.lib.json",
+              "libs/df-pipes/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/df-pipes/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/df-pipes/jest.config.js",
+            "tsConfig": "libs/df-pipes/tsconfig.spec.json",
+            "setupFile": "libs/df-pipes/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "df-refiner": {
+      "projectType": "library",
+      "root": "libs/df-refiner",
+      "sourceRoot": "libs/df-refiner/src",
+      "prefix": "digital-first",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-refiner/tsconfig.lib.json",
+              "libs/df-refiner/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/df-refiner/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/df-refiner/jest.config.js",
+            "tsConfig": "libs/df-refiner/tsconfig.spec.json",
+            "setupFile": "libs/df-refiner/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "df-tag": {
+      "projectType": "library",
+      "root": "libs/df-tag",
+      "sourceRoot": "libs/df-tag/src",
+      "prefix": "digital-first",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-tag/tsconfig.lib.json",
+              "libs/df-tag/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/df-tag/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/df-tag/jest.config.js",
+            "tsConfig": "libs/df-tag/tsconfig.spec.json",
+            "setupFile": "libs/df-tag/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "df-theme": {
+      "projectType": "library",
+      "root": "libs/df-theme",
+      "sourceRoot": "libs/df-theme/src",
+      "prefix": "digital-first",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-theme/tsconfig.lib.json",
+              "libs/df-theme/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/df-theme/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/df-theme/jest.config.js",
+            "tsConfig": "libs/df-theme/tsconfig.spec.json",
+            "setupFile": "libs/df-theme/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
           "styleext": "scss"
         }
       }
@@ -1029,7 +1150,16 @@
       "typescriptMismatch": false,
       "versionMismatch": false
     },
-    "defaultCollection": "@nrwl/schematics"
+    "defaultCollection": "@nrwl/angular"
   },
-  "defaultProject": "commitments"
+  "schematics": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "commitments-reader"
 }
