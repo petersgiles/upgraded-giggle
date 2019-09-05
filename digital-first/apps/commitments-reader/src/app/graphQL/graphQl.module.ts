@@ -6,19 +6,19 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloLink, split } from 'apollo-link'
 import { getMainDefinition } from 'apollo-utilities'
 import { environment } from '../../environments/environment'
-import { HttpHeaders } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http'
 
 export function createApollo(httpLink: HttpLink) {
   const cache = new InMemoryCache() // shared cache
 
-        const defaultOptions = {
-          watchQuery: {
-            errorPolicy: 'ignore'
-          },
-          query: {
-            errorPolicy: 'all'
-          }
-        }
+  const defaultOptions = {
+    watchQuery: {
+      errorPolicy: 'ignore'
+    },
+    query: {
+      errorPolicy: 'all'
+    }
+  }
 
   // N.B. endpoint is configured to only allow queries via 'GET' and mutations via 'POST'
   const httpQueryLink = httpLink.create({
@@ -39,8 +39,11 @@ export function createApollo(httpLink: HttpLink) {
 
   const remoteLink = split(
     ({ query }) => {
-      const { kind, operation } = getMainDefinition(query)
-      return kind === 'OperationDefinition' && operation === 'mutation'
+      const definition = getMainDefinition(query)
+      return (
+        definition.kind === 'OperationDefinition' &&
+        definition.operation === 'mutation'
+      )
     },
     httpMutationLink,
     httpQueryLink
