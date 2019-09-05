@@ -3,6 +3,7 @@
   "compilerOptions": {
     "outDir": "../../dist/out-tsc/apps/deck",
     "types": ["jest", "node"],
+    "module": "commonjs",
     "allowJs": true
   },
   "files": ["src/test-setup.ts"],
