@@ -140,7 +140,7 @@
               "apps/commitments/tsconfig.app.json",
               "apps/commitments/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": ["**/node_modules/**", "!apps/commitments/**"]
           }
         }
       }
@@ -361,7 +361,7 @@
               "apps/commitments-reader/tsconfig.app.json",
               "apps/commitments-reader/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": ["**/node_modules/**", "!apps/commitments-reader/**"]
           }
         },
         "test": {
@@ -536,7 +536,7 @@
               "apps/deck/tsconfig.app.json",
               "apps/deck/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": ["**/node_modules/**", "!apps/deck/**"]
           }
         }
       }
@@ -709,7 +709,7 @@
               "apps/policy-briefs/tsconfig.app.json",
               "apps/policy-briefs/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": ["**/node_modules/**", "!apps/policy-briefs/**"]
           }
         }
       }
@@ -1135,6 +1135,37 @@
             "jestConfig": "libs/df-theme/jest.config.js",
             "tsConfig": "libs/df-theme/tsconfig.spec.json",
             "setupFile": "libs/df-theme/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "df-testing": {
+      "projectType": "library",
+      "root": "libs/df-testing",
+      "sourceRoot": "libs/df-testing/src",
+      "prefix": "digital-first",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/df-testing/tsconfig.lib.json",
+              "libs/df-testing/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/df-testing/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/df-testing/jest.config.js",
+            "tsConfig": "libs/df-testing/tsconfig.spec.json",
+            "setupFile": "libs/df-testing/src/test-setup.ts"
           }
         }
       },

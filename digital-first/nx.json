@@ -8,70 +8,70 @@
     "nx.json": "*"
   },
   "projects": {
-    "policy-briefs": {
-      "tags": []
-    },
-    "policy-briefs-e2e": {
-      "tags": []
-    },
-    "df-layouts": {
-      "tags": []
-    },
-    "df-theme": {
-      "tags": []
-    },
-    "commitments": {
-      "tags": []
-    },
-    "commitments-e2e": {
-      "tags": []
-    },
-    "deck": {
-      "tags": []
-    },
-    "deck-e2e": {
-      "tags": []
-    },
-    "df-moment": {
-      "tags": []
-    },
-    "df-pipes": {
-      "tags": []
-    },
-    "df-pages": {
-      "tags": []
-    },
-    "df-dialogs": {
-      "tags": []
-    },
-    "df-components": {
-      "tags": []
-    },
-    "df-auth": {
-      "tags": []
-    },
-    "df-app-tokens": {
-      "tags": []
-    },
-    "df-datatable": {
-      "tags": []
-    },
-    "df-buttons": {
-      "tags": []
-    },
-    "df-map": {
-      "tags": []
-    },
-    "df-refiner": {
+    "commitments-reader-e2e": {
       "tags": []
     },
     "commitments-reader": {
       "tags": []
     },
-    "commitments-reader-e2e": {
+    "commitments-e2e": {
+      "tags": []
+    },
+    "commitments": {
+      "tags": []
+    },
+    "deck-e2e": {
+      "tags": []
+    },
+    "deck": {
+      "tags": []
+    },
+    "policy-briefs-e2e": {
+      "tags": []
+    },
+    "policy-briefs": {
       "tags": []
     },
     "df-app-core": {
+      "tags": []
+    },
+    "df-auth": {
+      "tags": []
+    },
+    "df-buttons": {
+      "tags": []
+    },
+    "df-datatable": {
+      "tags": []
+    },
+    "df-components": {
+      "tags": []
+    },
+    "df-layouts": {
+      "tags": []
+    },
+    "df-map": {
+      "tags": []
+    },
+    "df-moment": {
+      "tags": []
+    },
+    "df-pages": {
+      "tags": []
+    },
+    "df-pipes": {
+      "tags": []
+    },
+    "df-refiner": {
+      "tags": []
+    },
+    "df-tag": {
+      "tags": []
+    },
+    "df-theme": {
+      "tags": []
+    },
+    "df-testing": {
       "tags": []
     }
   }
