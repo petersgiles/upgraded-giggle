@@ -12,7 +12,7 @@ import { CardType } from '../models/card-type-enum'
 import { BehaviorSubject } from 'rxjs'
 import { webSafeColours, getContrastYIQ } from '../../../utils'
 
-const defaultCard = {
+export const defaultCard = {
   title: 'New Card',
   supportingText: null,
   id: null,
@@ -34,7 +34,6 @@ const defaultCard = {
   styleUrls: ['./deck.component.scss']
 })
 export class DeckComponent implements OnInit, OnDestroy {
-
   @Input()
   public readOnly = true
 
@@ -67,7 +66,6 @@ export class DeckComponent implements OnInit, OnDestroy {
 
   @Output()
   public onDeleted: EventEmitter<DeckItem> = new EventEmitter()
-
 
   @Output()
   public onCreateCard: EventEmitter<DeckItem> = new EventEmitter()
