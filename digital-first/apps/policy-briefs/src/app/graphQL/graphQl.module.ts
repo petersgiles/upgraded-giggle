@@ -4,10 +4,9 @@ import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 
 import { ApolloLink, split } from 'apollo-link'
-import { getMainDefinition } from 'apollo-utilities/src'
+import { getMainDefinition } from 'apollo-utilities'
 import { environment } from '../../environments/environment'
 import { HttpHeaders } from '@angular/common/http'
-import { Definition } from '@angular/compiler-cli'
 
 export function createApollo(httpLink: HttpLink) {
   const cache = new InMemoryCache() // shared cache
