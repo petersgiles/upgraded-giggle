@@ -10,13 +10,13 @@
     "importHelpers": true,
     "target": "es5",
     "typeRoots": ["node_modules/@types"],
-    "lib": ["es2017", "esnext.asynciterable", "dom"],
+    "lib": ["es2017", "dom", "esnext.asynciterable"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
       "bryntum-scheduler": [
-        "apps/commitments-reader/src/scheduler/scheduler.module.js",
+        "apps/commitments-reader/src/scheduler/scheduler.module.js"
       ],
       "@digital-first/df-app-core": ["libs/df-app-core/src/index.ts"],
       "@digital-first/df-auth": ["libs/df-auth/src/index.ts"],
@@ -31,7 +31,9 @@
       "@digital-first/df-refiner": ["libs/df-refiner/src/index.ts"],
       "@digital-first/df-tag": ["libs/df-tag/src/index.ts"],
       "@digital-first/df-theme": ["libs/df-theme/src/index.ts"],
-      "core-js/es7/reflect": ["node_modules/core-js/proposals/reflect-metadata"],
+      "core-js/es7/reflect": [
+        "node_modules/core-js/proposals/reflect-metadata"
+      ],
       "core-js/es6/*": ["node_modules/core-js/es/*"]
     }
   },

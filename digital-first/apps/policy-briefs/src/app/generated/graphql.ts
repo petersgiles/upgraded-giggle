@@ -13,9 +13,10 @@ export type Scalars = {
   DateTimeOffset: any,
   Json: any,
   UInt32: any,
+  Decimal: any,
+  UInt16: any,
   Date: any,
   DateTime: any,
-  Decimal: any,
   Milliseconds: any,
   Seconds: any,
 };
@@ -27,7 +28,7 @@ export type ActivateElectorateAdviceGraph = {
 };
 
 export type AgencyGraph = {
-  __typename?: 'AgencyGraph',
+   __typename?: 'AgencyGraph',
   metadata?: Maybe<Scalars['String']>,
   rowVersion: Scalars['String'],
   portfolio?: Maybe<PortfolioGraph>,
@@ -37,7 +38,7 @@ export type AgencyGraph = {
 };
 
 export type AnnouncementTypeGraph = {
-  __typename?: 'AnnouncementTypeGraph',
+   __typename?: 'AnnouncementTypeGraph',
   commitments?: Maybe<Array<Maybe<CommitmentGraph>>>,
   colour?: Maybe<Scalars['String']>,
   icon?: Maybe<Scalars['String']>,
@@ -65,7 +66,7 @@ export type ApplyCommitmentDisplayOrderGraph = {
 };
 
 export type AppropriationGraph = {
-  __typename?: 'AppropriationGraph',
+   __typename?: 'AppropriationGraph',
   rowVersion: Scalars['String'],
   program?: Maybe<ProgramGraph>,
   budget?: Maybe<BudgetGraph>,
@@ -84,7 +85,7 @@ export enum BookType {
 }
 
 export type BriefCommitmentGraph = {
-  __typename?: 'BriefCommitmentGraph',
+   __typename?: 'BriefCommitmentGraph',
   brief?: Maybe<BriefGraph>,
   commitment?: Maybe<CommitmentGraph>,
   briefId: Scalars['Guid'],
@@ -92,7 +93,7 @@ export type BriefCommitmentGraph = {
 };
 
 export type BriefGraph = {
-  __typename?: 'BriefGraph',
+   __typename?: 'BriefGraph',
   briefCommitments?: Maybe<Array<Maybe<BriefCommitmentGraph>>>,
   briefRecommendations?: Maybe<Array<Maybe<BriefRecommendationGraph>>>,
   deckItemBriefSummaryBriefs?: Maybe<Array<Maybe<DeckItemBriefSummaryBriefGraph>>>,
@@ -142,7 +143,7 @@ export type BriefGraphDeckItemBriefSummaryBriefsArgs = {
 };
 
 export type BriefRecommendationGraph = {
-  __typename?: 'BriefRecommendationGraph',
+   __typename?: 'BriefRecommendationGraph',
   brief?: Maybe<BriefGraph>,
   id: Scalars['Guid'],
   webUrl: Scalars['String'],
@@ -158,7 +159,7 @@ export type BriefRecommendationGraph = {
 };
 
 export type BudgetGraph = {
-  __typename?: 'BudgetGraph',
+   __typename?: 'BudgetGraph',
   rowVersion: Scalars['String'],
   appropriations?: Maybe<Array<Maybe<AppropriationGraph>>>,
   id: Scalars['Guid'],
@@ -175,6 +176,17 @@ export type BudgetGraphAppropriationsArgs = {
   take?: Maybe<Scalars['Int']>
 };
 
+export type CandidateGraph = {
+   __typename?: 'CandidateGraph',
+  familyName: Scalars['String'],
+  givenNames: Scalars['String'],
+  partyCode: Scalars['String'],
+  votes: Scalars['UInt32'],
+  swing: Scalars['Decimal'],
+  partyId?: Maybe<Scalars['UInt16']>,
+  party: PartyGraph,
+};
+
 export type ColumnGraph = {
   parentLabel?: Maybe<Scalars['String']>,
   format: Scalars['String'],
@@ -182,7 +194,7 @@ export type ColumnGraph = {
 };
 
 export type CommitmentGraph = {
-  __typename?: 'CommitmentGraph',
+   __typename?: 'CommitmentGraph',
   book: BookType,
   bookType: Scalars['String'],
   cost?: Maybe<Scalars['String']>,
@@ -301,7 +313,7 @@ export type CommitmentGraphDisplayOrderArgs = {
 };
 
 export type CommitmentGraphConnection = {
-  __typename?: 'CommitmentGraphConnection',
+   __typename?: 'CommitmentGraphConnection',
   totalCount?: Maybe<Scalars['Int']>,
   pageInfo: PageInfo,
   edges?: Maybe<Array<Maybe<CommitmentGraphEdge>>>,
@@ -309,13 +321,13 @@ export type CommitmentGraphConnection = {
 };
 
 export type CommitmentGraphEdge = {
-  __typename?: 'CommitmentGraphEdge',
+   __typename?: 'CommitmentGraphEdge',
   cursor: Scalars['String'],
   node?: Maybe<CommitmentGraph>,
 };
 
 export type CommitmentLocationGraph = {
-  __typename?: 'CommitmentLocationGraph',
+   __typename?: 'CommitmentLocationGraph',
   description?: Maybe<Scalars['String']>,
   commitment?: Maybe<CommitmentGraph>,
   location?: Maybe<LocationGraph>,
@@ -327,7 +339,7 @@ export type CommitmentLocationGraph = {
 };
 
 export type CommitmentMapPointGraph = {
-  __typename?: 'CommitmentMapPointGraph',
+   __typename?: 'CommitmentMapPointGraph',
   description?: Maybe<Scalars['String']>,
   commitment?: Maybe<CommitmentGraph>,
   mapPoint?: Maybe<MapPointGraph>,
@@ -339,7 +351,7 @@ export type CommitmentMapPointGraph = {
 };
 
 export type CommitmentPackageTypeGraph = {
-  __typename?: 'CommitmentPackageTypeGraph',
+   __typename?: 'CommitmentPackageTypeGraph',
   description?: Maybe<Scalars['String']>,
   commitment?: Maybe<CommitmentGraph>,
   packageType?: Maybe<PackageTypeGraph>,
@@ -352,7 +364,7 @@ export type CommitmentPackageTypeGraph = {
 };
 
 export type CommitmentPortfolioLookupGraph = {
-  __typename?: 'CommitmentPortfolioLookupGraph',
+   __typename?: 'CommitmentPortfolioLookupGraph',
   description?: Maybe<Scalars['String']>,
   commitment?: Maybe<CommitmentGraph>,
   portfolioLookup?: Maybe<PortfolioLookupGraph>,
@@ -369,12 +381,13 @@ export type CommitmentRefinerGraph = {
   criticalDates?: Maybe<Array<Maybe<Scalars['Int']>>>,
   portfolioLookups?: Maybe<Array<Maybe<Scalars['Int']>>>,
   deckItemBriefSummaries?: Maybe<Array<Maybe<Scalars['Guid']>>>,
-  locations?: Maybe<Array<Maybe<Scalars['Int']>>>,
+  electorates?: Maybe<Array<Maybe<Scalars['Int']>>>,
+  states?: Maybe<Array<Maybe<Scalars['Int']>>>,
   text?: Maybe<Scalars['String']>,
 };
 
 export type CommitmentTypeGraph = {
-  __typename?: 'CommitmentTypeGraph',
+   __typename?: 'CommitmentTypeGraph',
   commitments?: Maybe<Array<Maybe<CommitmentGraph>>>,
   colour?: Maybe<Scalars['String']>,
   icon?: Maybe<Scalars['String']>,
@@ -504,7 +517,7 @@ export type CreateStatisticReportGraph = {
 };
 
 export type CriticalDateGraph = {
-  __typename?: 'CriticalDateGraph',
+   __typename?: 'CriticalDateGraph',
   commitments?: Maybe<Array<Maybe<CommitmentGraph>>>,
   colour?: Maybe<Scalars['String']>,
   icon?: Maybe<Scalars['String']>,
@@ -534,7 +547,7 @@ export type DeactivateElectorateAdviceGraph = {
 
 
 export type DeckItemBriefSummaryBriefGraph = {
-  __typename?: 'DeckItemBriefSummaryBriefGraph',
+   __typename?: 'DeckItemBriefSummaryBriefGraph',
   brief?: Maybe<BriefGraph>,
   deckItemBriefSummary?: Maybe<DeckItemBriefSummaryGraph>,
   id: Scalars['Guid'],
@@ -543,7 +556,7 @@ export type DeckItemBriefSummaryBriefGraph = {
 };
 
 export type DeckItemBriefSummaryContentGraph = {
-  __typename?: 'DeckItemBriefSummaryContentGraph',
+   __typename?: 'DeckItemBriefSummaryContentGraph',
   briefId: Scalars['Guid'],
   title: Scalars['String'],
   reference: Scalars['String'],
@@ -556,7 +569,7 @@ export type DeckItemBriefSummaryContentGraph = {
 };
 
 export type DeckItemBriefSummaryGraph = {
-  __typename?: 'DeckItemBriefSummaryGraph',
+   __typename?: 'DeckItemBriefSummaryGraph',
   deckItemBriefSummaryBriefs?: Maybe<Array<Maybe<DeckItemBriefSummaryBriefGraph>>>,
   briefs?: Maybe<Array<Maybe<BriefGraph>>>,
   id: Scalars['Guid'],
@@ -604,7 +617,7 @@ export type DeleteBriefCommitmentInputGraph = {
 };
 
 export type ElectorateAdviceGraph = {
-  __typename?: 'ElectorateAdviceGraph',
+   __typename?: 'ElectorateAdviceGraph',
   electorate?: Maybe<ElectorateGraph>,
   id: Scalars['Guid'],
   electorateId: Scalars['Guid'],
@@ -630,7 +643,7 @@ export type ElectorateDataMarkdownGraph = {
 };
 
 export type ElectorateGraph = {
-  __typename?: 'ElectorateGraph',
+   __typename?: 'ElectorateGraph',
   rowVersion: Scalars['String'],
   state?: Maybe<StateGraph>,
   electorateAdvice?: Maybe<Array<Maybe<ElectorateAdviceGraph>>>,
@@ -638,6 +651,12 @@ export type ElectorateGraph = {
   programs?: Maybe<Array<Maybe<ProgramGraph>>>,
   statisticReports?: Maybe<Array<Maybe<StatisticReportGraph>>>,
   projects?: Maybe<Array<Maybe<ProjectGraph>>>,
+  twoCandidatePreferred?: Maybe<TwoCandidatePreferredGraph>,
+  enrollment?: Maybe<Scalars['String']>,
+  area?: Maybe<Scalars['Decimal']>,
+  currentMember?: Maybe<MemberGraph>,
+  members?: Maybe<Array<Maybe<MemberGraph>>>,
+  locations?: Maybe<Array<Maybe<ElectorateLocationGraph>>>,
   id: Scalars['Guid'],
   population: Scalars['UInt32'],
   name: Scalars['String'],
@@ -678,9 +697,15 @@ export type ElectorateGraphProjectsArgs = {
   take?: Maybe<Scalars['Int']>
 };
 
+export type ElectorateLocationGraph = {
+   __typename?: 'ElectorateLocationGraph',
+  localities?: Maybe<Array<Maybe<Scalars['String']>>>,
+  postcode: Scalars['Int'],
+};
+
 
 export type HandlingAdviceGraph = {
-  __typename?: 'HandlingAdviceGraph',
+   __typename?: 'HandlingAdviceGraph',
   pmcHandlingAdviceCommitments?: Maybe<Array<Maybe<PmcHandlingAdviceCommitmentGraph>>>,
   pmoHandlingAdviceCommitments?: Maybe<Array<Maybe<PmoHandlingAdviceCommitmentGraph>>>,
   id: Scalars['Guid'],
@@ -712,7 +737,7 @@ export type HandlingAdviceGraphPmoHandlingAdviceCommitmentsArgs = {
 
 
 export type LocationGraph = {
-  __typename?: 'LocationGraph',
+   __typename?: 'LocationGraph',
   description?: Maybe<Scalars['String']>,
   state?: Maybe<Scalars['String']>,
   area?: Maybe<Scalars['String']>,
@@ -733,7 +758,7 @@ export type LocationGraphCommitmentLocationsArgs = {
 };
 
 export type MapPointGraph = {
-  __typename?: 'MapPointGraph',
+   __typename?: 'MapPointGraph',
   description?: Maybe<Scalars['String']>,
   commitmentMapPoints?: Maybe<Array<Maybe<CommitmentMapPointGraph>>>,
   latitude: Scalars['Float'],
@@ -758,6 +783,16 @@ export type MarkdownGraph = {
   text: Scalars['String'],
 };
 
+export type MemberGraph = {
+   __typename?: 'MemberGraph',
+  parties?: Maybe<Array<Maybe<PartyGraph>>>,
+  familyName: Scalars['String'],
+  givenNames: Scalars['String'],
+  begin: Scalars['UInt16'],
+  end?: Maybe<Scalars['UInt16']>,
+  partyIds: Array<Scalars['UInt16']>,
+};
+
 
 export type ModifyElectorateAdviceGraph = {
   adviceId: Scalars['Guid'],
@@ -765,7 +800,7 @@ export type ModifyElectorateAdviceGraph = {
 };
 
 export type Mutation = {
-  __typename?: 'Mutation',
+   __typename?: 'Mutation',
   createElectorateAdvice?: Maybe<MutationResultGraph>,
   modifyElectorateAdvice?: Maybe<MutationResultGraph>,
   activateElectorateAdvice?: Maybe<MutationResultGraph>,
@@ -945,7 +980,7 @@ export type MutationDeleteBriefCommitmentArgs = {
 };
 
 export type MutationMessageResultGraph = {
-  __typename?: 'MutationMessageResultGraph',
+   __typename?: 'MutationMessageResultGraph',
   messageId: Scalars['Guid'],
   failed: Scalars['Boolean'],
   user?: Maybe<Scalars['String']>,
@@ -953,7 +988,7 @@ export type MutationMessageResultGraph = {
 };
 
 export type MutationResultGraph = {
-  __typename?: 'MutationResultGraph',
+   __typename?: 'MutationResultGraph',
   id?: Maybe<Scalars['Guid']>,
 };
 
@@ -967,7 +1002,7 @@ export type OrderByGraph = {
 };
 
 export type PackageTypeGraph = {
-  __typename?: 'PackageTypeGraph',
+   __typename?: 'PackageTypeGraph',
   commitmentPackageTypes?: Maybe<Array<Maybe<CommitmentPackageTypeGraph>>>,
   colour?: Maybe<Scalars['String']>,
   icon?: Maybe<Scalars['String']>,
@@ -989,7 +1024,7 @@ export type PackageTypeGraphCommitmentPackageTypesArgs = {
 };
 
 export type PageInfo = {
-  __typename?: 'PageInfo',
+   __typename?: 'PageInfo',
   hasNextPage: Scalars['Boolean'],
   hasPreviousPage: Scalars['Boolean'],
   startCursor?: Maybe<Scalars['String']>,
@@ -997,7 +1032,7 @@ export type PageInfo = {
 };
 
 export type ParliamentGraph = {
-  __typename?: 'ParliamentGraph',
+   __typename?: 'ParliamentGraph',
   electorates?: Maybe<Array<Maybe<ElectorateGraph>>>,
   id: Scalars['UInt32'],
   startDate: Scalars['DateTimeOffset'],
@@ -1013,8 +1048,19 @@ export type ParliamentGraphElectoratesArgs = {
   take?: Maybe<Scalars['Int']>
 };
 
+export type PartyGraph = {
+   __typename?: 'PartyGraph',
+  id: Scalars['UInt16'],
+  name: Scalars['String'],
+  abbreviation: Scalars['String'],
+  registerDate: Scalars['String'],
+  amendmentDate: Scalars['String'],
+  address: Scalars['String'],
+  code: Scalars['String'],
+};
+
 export type PmcHandlingAdviceCommitmentGraph = {
-  __typename?: 'PmcHandlingAdviceCommitmentGraph',
+   __typename?: 'PmcHandlingAdviceCommitmentGraph',
   handlingAdvice?: Maybe<HandlingAdviceGraph>,
   commitment?: Maybe<CommitmentGraph>,
   webId: Scalars['Guid'],
@@ -1024,7 +1070,7 @@ export type PmcHandlingAdviceCommitmentGraph = {
 };
 
 export type PmoHandlingAdviceCommitmentGraph = {
-  __typename?: 'PmoHandlingAdviceCommitmentGraph',
+   __typename?: 'PmoHandlingAdviceCommitmentGraph',
   handlingAdvice?: Maybe<HandlingAdviceGraph>,
   commitment?: Maybe<CommitmentGraph>,
   webId: Scalars['Guid'],
@@ -1034,7 +1080,7 @@ export type PmoHandlingAdviceCommitmentGraph = {
 };
 
 export type PortfolioGraph = {
-  __typename?: 'PortfolioGraph',
+   __typename?: 'PortfolioGraph',
   rowVersion: Scalars['String'],
   metadata?: Maybe<Scalars['String']>,
   agencies?: Maybe<Array<Maybe<AgencyGraph>>>,
@@ -1053,7 +1099,7 @@ export type PortfolioGraphAgenciesArgs = {
 };
 
 export type PortfolioLookupGraph = {
-  __typename?: 'PortfolioLookupGraph',
+   __typename?: 'PortfolioLookupGraph',
   commitmentPortfolioLookups?: Maybe<Array<Maybe<CommitmentPortfolioLookupGraph>>>,
   colour?: Maybe<Scalars['String']>,
   icon?: Maybe<Scalars['String']>,
@@ -1076,7 +1122,7 @@ export type PortfolioLookupGraphCommitmentPortfolioLookupsArgs = {
 };
 
 export type ProgramGraph = {
-  __typename?: 'ProgramGraph',
+   __typename?: 'ProgramGraph',
   id: Scalars['Guid'],
   name: Scalars['String'],
   notes?: Maybe<Scalars['String']>,
@@ -1141,7 +1187,7 @@ export type ProgramGraphElectoratesArgs = {
 };
 
 export type ProgramSubmissionGraph = {
-  __typename?: 'ProgramSubmissionGraph',
+   __typename?: 'ProgramSubmissionGraph',
   program?: Maybe<ProgramGraph>,
   projects?: Maybe<Array<Maybe<ProjectGraph>>>,
   id: Scalars['Guid'],
@@ -1162,7 +1208,7 @@ export type ProgramSubmissionGraphProjectsArgs = {
 };
 
 export type ProjectGraph = {
-  __typename?: 'ProjectGraph',
+   __typename?: 'ProjectGraph',
   id: Scalars['Guid'],
   name: Scalars['String'],
   notes?: Maybe<Scalars['String']>,
@@ -1190,7 +1236,7 @@ export type ProjectGraphElectoratesArgs = {
 };
 
 export type Query = {
-  __typename?: 'Query',
+   __typename?: 'Query',
   agency: AgencyGraph,
   agencies?: Maybe<Array<Maybe<AgencyGraph>>>,
   electorate: ElectorateGraph,
@@ -1695,7 +1741,7 @@ export type QuerySiteCommitmentDisplayOrdersArgs = {
 };
 
 export type RelatedLinkGraph = {
-  __typename?: 'RelatedLinkGraph',
+   __typename?: 'RelatedLinkGraph',
   commitment?: Maybe<CommitmentGraph>,
   id: Scalars['Int'],
   internalVersion: Scalars['UInt32'],
@@ -1705,7 +1751,7 @@ export type RelatedLinkGraph = {
 };
 
 export type ReportGraph = {
-  __typename?: 'ReportGraph',
+   __typename?: 'ReportGraph',
   rowVersion: Scalars['String'],
   notes?: Maybe<Scalars['String']>,
   program?: Maybe<ProgramGraph>,
@@ -1727,7 +1773,7 @@ export type ReportGraphReportVersionsArgs = {
 };
 
 export type ReportVersionGraph = {
-  __typename?: 'ReportVersionGraph',
+   __typename?: 'ReportVersionGraph',
   rowVersion: Scalars['String'],
   notes?: Maybe<Scalars['String']>,
   reportFormat?: Maybe<Scalars['String']>,
@@ -1789,7 +1835,7 @@ export type SeriesGraph = {
 };
 
 export type SiteCommitmentDisplayOrderGraph = {
-  __typename?: 'SiteCommitmentDisplayOrderGraph',
+   __typename?: 'SiteCommitmentDisplayOrderGraph',
   rowVersion: Scalars['String'],
   commitment?: Maybe<CommitmentGraph>,
   id: Scalars['Guid'],
@@ -1815,7 +1861,7 @@ export type StateDataMarkdownGraph = {
 };
 
 export type StateGraph = {
-  __typename?: 'StateGraph',
+   __typename?: 'StateGraph',
   rowVersion: Scalars['String'],
   statisticReports?: Maybe<Array<Maybe<StatisticReportGraph>>>,
   projects?: Maybe<Array<Maybe<ProjectGraph>>>,
@@ -1847,7 +1893,7 @@ export type StateGraphElectoratesArgs = {
 };
 
 export type StatisticGraph = {
-  __typename?: 'StatisticGraph',
+   __typename?: 'StatisticGraph',
   rowVersion: Scalars['String'],
   agency?: Maybe<AgencyGraph>,
   statisticReports?: Maybe<Array<Maybe<StatisticReportGraph>>>,
@@ -1868,7 +1914,7 @@ export type StatisticGraphStatisticReportsArgs = {
 };
 
 export type StatisticReportGraph = {
-  __typename?: 'StatisticReportGraph',
+   __typename?: 'StatisticReportGraph',
   id: Scalars['Guid'],
   name: Scalars['String'],
   notes?: Maybe<Scalars['String']>,
@@ -1888,7 +1934,7 @@ export type StatisticReportGraphStatisticReportVersionsArgs = {
 };
 
 export type StatisticReportVersionGraph = {
-  __typename?: 'StatisticReportVersionGraph',
+   __typename?: 'StatisticReportVersionGraph',
   id: Scalars['Guid'],
   dataDate: Scalars['DateTimeOffset'],
   notes?: Maybe<Scalars['String']>,
@@ -1911,7 +1957,7 @@ export type StatisticReportVersionGraphElectorateDataArgs = {
 };
 
 export type StatusGraph = {
-  __typename?: 'StatusGraph',
+   __typename?: 'StatusGraph',
   commitments?: Maybe<Array<Maybe<CommitmentGraph>>>,
   colour?: Maybe<Scalars['String']>,
   icon?: Maybe<Scalars['String']>,
@@ -1943,7 +1989,7 @@ export enum StringComparison {
 }
 
 export type Subscription = {
-  __typename?: 'Subscription',
+   __typename?: 'Subscription',
   mutationMessageResults?: Maybe<MutationMessageResultGraph>,
   mutationMessageResultsById?: Maybe<MutationMessageResultGraph>,
   mutationMessageResultsByUser?: Maybe<MutationMessageResultGraph>,
@@ -1958,6 +2004,13 @@ export type SubscriptionMutationMessageResultsByIdArgs = {
 export type SubscriptionMutationMessageResultsByUserArgs = {
   user?: Maybe<Scalars['String']>
 };
+
+export type TwoCandidatePreferredGraph = {
+   __typename?: 'TwoCandidatePreferredGraph',
+  elected: CandidateGraph,
+  other: CandidateGraph,
+};
+
 
 
 export type UpdatePmcHandlingAdviceCommitmentGraph = {
@@ -1988,7 +2041,29 @@ export type BriefsQueryVariables = {
 };
 
 
-export type BriefsQuery = ({ __typename?: 'Query' } & { briefs: Maybe<Array<Maybe<({ __typename?: 'BriefGraph' } & Pick<BriefGraph, 'id' | 'webId' | 'siteId' | 'listId' | 'listItemId'> & { text: BriefGraph['title'] } & { briefCommitments: Maybe<Array<Maybe<({ __typename?: 'BriefCommitmentGraph' } & { commitment: Maybe<({ __typename?: 'CommitmentGraph' } & Pick<CommitmentGraph, 'id'> & { text: CommitmentGraph['title'] } & { criticalDate: Maybe<({ __typename?: 'CriticalDateGraph' } & Pick<CriticalDateGraph, 'id' | 'title'>)>, portfolioLookup: Maybe<({ __typename?: 'PortfolioLookupGraph' } & Pick<PortfolioLookupGraph, 'id' | 'title'>)> })> })>>> })>>> });
+export type BriefsQuery = (
+  { __typename?: 'Query' }
+  & { briefs: Maybe<Array<Maybe<(
+    { __typename?: 'BriefGraph' }
+    & Pick<BriefGraph, 'id' | 'webId' | 'siteId' | 'listId' | 'listItemId'>
+    & { text: BriefGraph['title'] }
+    & { briefCommitments: Maybe<Array<Maybe<(
+      { __typename?: 'BriefCommitmentGraph' }
+      & { commitment: Maybe<(
+        { __typename?: 'CommitmentGraph' }
+        & Pick<CommitmentGraph, 'id'>
+        & { text: CommitmentGraph['title'] }
+        & { criticalDate: Maybe<(
+          { __typename?: 'CriticalDateGraph' }
+          & Pick<CriticalDateGraph, 'id' | 'title'>
+        )>, portfolioLookup: Maybe<(
+          { __typename?: 'PortfolioLookupGraph' }
+          & Pick<PortfolioLookupGraph, 'id' | 'title'>
+        )> }
+      )> }
+    )>>> }
+  )>>> }
+);
 
 export type CommitmentsLbsQueryVariables = {
   refiner: CommitmentRefinerGraph,
@@ -1996,7 +2071,14 @@ export type CommitmentsLbsQueryVariables = {
 };
 
 
-export type CommitmentsLbsQuery = ({ __typename?: 'Query' } & { commitments: Maybe<Array<Maybe<({ __typename?: 'CommitmentGraph' } & Pick<CommitmentGraph, 'id'> & { text: CommitmentGraph['title'] })>>> });
+export type CommitmentsLbsQuery = (
+  { __typename?: 'Query' }
+  & { commitments: Maybe<Array<Maybe<(
+    { __typename?: 'CommitmentGraph' }
+    & Pick<CommitmentGraph, 'id'>
+    & { text: CommitmentGraph['title'] }
+  )>>> }
+);
 
 export type DeleteBriefCommitmentMutationVariables = {
   messageId: Scalars['Guid'],
@@ -2004,7 +2086,13 @@ export type DeleteBriefCommitmentMutationVariables = {
 };
 
 
-export type DeleteBriefCommitmentMutation = ({ __typename?: 'Mutation' } & { deleteBriefCommitment: Maybe<({ __typename?: 'MutationResultGraph' } & Pick<MutationResultGraph, 'id'>)> });
+export type DeleteBriefCommitmentMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteBriefCommitment: Maybe<(
+    { __typename?: 'MutationResultGraph' }
+    & Pick<MutationResultGraph, 'id'>
+  )> }
+);
 
 export type SaveBriefCommitmentMutationVariables = {
   messageId: Scalars['Guid'],
@@ -2012,7 +2100,13 @@ export type SaveBriefCommitmentMutationVariables = {
 };
 
 
-export type SaveBriefCommitmentMutation = ({ __typename?: 'Mutation' } & { createBriefCommitment: Maybe<({ __typename?: 'MutationResultGraph' } & Pick<MutationResultGraph, 'id'>)> });
+export type SaveBriefCommitmentMutation = (
+  { __typename?: 'Mutation' }
+  & { createBriefCommitment: Maybe<(
+    { __typename?: 'MutationResultGraph' }
+    & Pick<MutationResultGraph, 'id'>
+  )> }
+);
 
 export const BriefsDocument = gql`
     query Briefs($webId: [String], $siteId: [String], $listId: [String], $briefId: [String]) {
