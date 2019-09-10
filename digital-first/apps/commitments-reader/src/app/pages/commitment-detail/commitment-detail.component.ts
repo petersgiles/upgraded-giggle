@@ -109,9 +109,9 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
     const pmoData = operations.find(
       op => op.title === OPERATION_PMO_HANDLING_ADVICE
     )
-    const entry = Object.entries(pmoData).filter(entry => {
-      if (typeof entry[1] === 'boolean' && entry[1]) {
-        return entry
+    const entry = Object.entries(pmoData).filter(e => {
+      if (typeof e[1] === 'boolean' && e[1]) {
+        return e
       }
     })
     return entry[0][0]
@@ -121,9 +121,9 @@ export class CommitmentDetailComponent implements OnInit, OnDestroy {
     const pmcData = operations.find(
       op => op.title === OPERATION_PMC_HANDLING_ADVICE
     )
-    const entry = Object.entries(pmcData).filter(entry => {
-      if (typeof entry[1] === 'boolean' && entry[1]) {
-        return entry
+    const entry = Object.entries(pmcData).filter(e => {
+      if (typeof e[1] === 'boolean' && e[1]) {
+        return e
       }
     })
     return entry[0][0]

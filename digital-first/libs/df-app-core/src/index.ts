@@ -1,4 +1,3 @@
-
 import { InjectionToken } from '@angular/core'
 
 export * from './lib/df-app-core.module'
@@ -22,7 +21,9 @@ export {
   State as UserState,
   getUserCurrentUser,
   getUserCurrentUserOperations,
-  getUserOperationMatrix
+  getUserOperationMatrix,
+  getUserCurrentOperationDefaults,
+  getUserCurrentUserPermissions
 } from './lib/reducers/user/user.reducer'
 
 export { reducer as AppReducer } from './lib/reducers/app/app.reducer'
@@ -63,5 +64,7 @@ export {
 export const HTTPSERVICE = new InjectionToken('http-service')
 export const HTTPSERVICESETTINGS = new InjectionToken('http-service-settings')
 
-export const FEDERATEDLOGINAPIPATH = new InjectionToken('federated-login-api-path')
+export const FEDERATEDLOGINAPIPATH = new InjectionToken(
+  'federated-login-api-path'
+)
 export const APPBASEPATH = new InjectionToken('app-base-path')

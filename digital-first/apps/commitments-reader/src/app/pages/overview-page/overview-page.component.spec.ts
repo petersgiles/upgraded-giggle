@@ -18,137 +18,35 @@ import { provideMockActions } from '@ngrx/effects/testing'
 import { Router } from '@angular/router'
 import * as fromOverview from '../../reducers/overview/overview.reducer'
 import * as fromRefiner from '../../reducers/refiner/refiner.reducer'
+import { render } from '@testing-library/angular'
+import { DataTableModule } from '@df/components'
+import { RouterTestingModule } from '@angular/router/testing'
 
-describe('OverviewPageComponent', () => {
-  let component: OverviewPageComponent
-  let fixture: ComponentFixture<OverviewPageComponent>
-  let mockStore: MockStore<any>
-  let actions$: Observable<any>
-  let router: Router
-  let refinerGroupsSubscription$: Observable<any>
-
-  const initialState: fromOverview.State = {
-    commitments: [],
-    columns: [
-      { prop: 'title', name: 'Title' },
-      { prop: 'portfolio', name: 'Responsible Portfolio' },
-      { prop: 'criticalDate', name: 'Critical Date' }
-    ],
-    error: {}
-  }
-  const reducerState: fromRefiner.State = {
-    refinerGroups: [],
-    expandedRefinerGroups: [],
-    selectedRefiners: [],
-    autoExpandGroup: [],
-    textRefiner: null,
-    hiddenRefinerGroup: ['electorates', 'states'],
-    refinerOpen: true
-  }
-
-  beforeEach(async(() => {
-    const configure = (testBed: TestBed) => {
-      testBed.configureTestingModule({
-        schemas: [NO_ERRORS_SCHEMA],
-        declarations: [OverviewPageComponent],
-        providers: [
+test('Can create overview component', async () => {
+  const component = await render(OverviewPageComponent, {
+    imports: [DataTableModule, RouterTestingModule],
+    providers: [
+      provideMockStore({
+        selectors: [
           {
-            provide: Store,
-            useValue: {
-              pipe: jest.fn()
-            }
+            selector: fromRefiner.selectRefinerGroups,
+            value: getRefiners()
           },
           {
-            provide: Router,
-            useValue: { navigate: jest.fn() }
+            selector: fromOverview.selectRefinedCommitmentsColumnsState,
+            value: fromOverview.initialState.columns
           },
-          provideMockActions(() => actions$),
-          provideMockStore({ initialState })
+          {
+            selector: fromOverview.selectFilteredCommitmentsState,
+            value: getCommitments()
+          }
         ]
       })
-    }
-    configureTests(configure).then(testBed => {
-      fixture = testBed.createComponent(OverviewPageComponent)
-      component = fixture.componentInstance
-      mockStore = testBed.get(Store)
-      router = testBed.get(Router)
-      let state = { ...initialState, commitments: getCommitments() }
-      mockStore.overrideSelector(
-        fromOverview.selectRefinedCommitmentsColumnsState,
-        initialState.columns
-      )
-      mockStore.overrideSelector(
-        fromOverview.selectFilteredCommitmentsState,
-        state.commitments
-      )
-
-      let newReducerState = { ...reducerState, refinerGroups: getRefiners() }
-      mockStore.setState(newReducerState)
-      mockStore.overrideSelector(
-        fromRefiner.refinerGroupsState,
-        newReducerState.refinerGroups
-      )
-      mockStore.overrideSelector(
-        fromRefiner.selectedRefinersState,
-        newReducerState.selectedRefiners
-      )
-      mockStore.overrideSelector(
-        fromRefiner.autoExpandGroupState,
-        newReducerState.autoExpandGroup
-      )
-      mockStore.overrideSelector(
-        fromRefiner.selectTextRefinerState,
-        newReducerState.textRefiner
-      )
-      mockStore.overrideSelector(
-        fromRefiner.hiddenRefinerGroupsState,
-        newReducerState.hiddenRefinerGroup
-      )
-      mockStore.overrideSelector(
-        fromRefiner.selectExpandedRefinerGroupsState,
-        newReducerState.expandedRefinerGroups
-      )
-      fixture.detectChanges()
-    })
-  }))
-
-  it('should create', () => {
-    expect(component).toBeTruthy()
+    ]
   })
-
-  it('should return columns', () => {
-    mockStore
-      .select(fromOverview.selectRefinedCommitmentsColumnsState)
-      .subscribe(columns => {
-        expect(columns[0].prop).toBe('title')
-      })
-  })
-
-  it('should return columns', () => {
-    mockStore
-      .select(fromOverview.selectFilteredCommitmentsState)
-      .subscribe(commitments => {
-        expect(commitments[0].title).toBe('ARIA Music Teacher Award')
-      })
-  })
-
-  it('should return refiner groups', () => {
-    mockStore.select(fromRefiner.selectRefinerGroups).subscribe(refiners => {
-      expect(refiners.length).toBe(6)
-      expect(refiners[0].title).toBe('Commitment Types')
-      expect(refiners[0].children[0].title).toBe('National')
-    })
-  })
-
-  it('should add refiner groups to the behaviour Subject', () => {
-    refinerGroupsSubscription$ = mockStore.pipe(
-      select(fromRefiner.selectRefinerGroups)
-    )
-
-    refinerGroupsSubscription$.subscribe(refiners => {
-      expect(refiners.length).toBe(6)
-    })
-  })
+  const store = TestBed.get(Store) as MockStore<any>
+  store.dispatch = jest.fn()
+  expect(component).toBeTruthy()
 })
 
 function getCommitments() {

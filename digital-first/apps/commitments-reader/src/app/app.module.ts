@@ -29,7 +29,6 @@ import {
 } from '@df/components'
 import { NgSelectModule } from '@ng-select/ng-select'
 import { AppFullLayoutService } from './app-full-layout.service'
-import { environment } from '../environments/environment'
 
 import { AppComponent } from './app.component'
 import { HomeComponent } from './pages/home/home.component'
