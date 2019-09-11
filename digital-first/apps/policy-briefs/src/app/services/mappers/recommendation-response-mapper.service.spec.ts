@@ -4,13 +4,7 @@
 
 
 
-import 'core-js/es7/reflect'
-import 'zone.js/dist/zone'
-import 'zone.js/dist/proxy';
-import 'zone.js/dist/async-test';
-import 'zone.js/dist/proxy.js';
-import 'zone.js/dist/sync-test';
-import 'jest-zone-patch' 
+ 
  
 import { async, TestBed, inject} from '@angular/core/testing'
 import { ConfigureFn, configureTests } from '../../../../../../libs/df-testing'

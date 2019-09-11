@@ -1,11 +1,3 @@
-import 'core-js/es7/reflect'
-import 'zone.js/dist/zone'
-import 'zone.js/dist/proxy'
-import 'zone.js/dist/async-test'
-import 'zone.js/dist/proxy.js'
-import 'zone.js/dist/sync-test'
-import 'jest-zone-patch'
-
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 import { AppRouterService } from '../../services/app-router.service'
 import { CommitmentOverviewLayoutComponent } from './commitment-overview-layout.component'
@@ -56,7 +48,7 @@ describe('CommitmentOverviewLayoutComponent', () => {
     () => initialState,
     (state: typeof initialState) => state.refiner.refinerGroups
   )
- 
+
   const selectSelectedRefinersState = createSelector(
     () => initialState,
     (state: typeof initialState) => state.refiner.selectedRefiners
