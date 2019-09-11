@@ -15,7 +15,6 @@ import { UserState } from '../../../../../../libs/df-app-core/src'
 import * as fromRefiner from '../../reducers/refiner/refiner.reducer'
 
 describe('PlannerPageComponent', () => {
-  debugger
   let component: PlannerPageComponent
   let fixture: ComponentFixture<PlannerPageComponent>
   let mockStore: MockStore<any>

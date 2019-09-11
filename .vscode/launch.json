@@ -1,15 +1,28 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch Program",
-            "program": "${workspaceRoot}/digital_first/node_modules/@angular/cli/bin/ng",
-            "console": "internalConsole"
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "debug-jest-lib",
+      "type": "node",
+      "request": "launch",
+      "args": [
+        "test",
+        "--passWithNoTests",
+        "--no-code-coverage",
+        "--runInBand",
+        "--testFile"
+      ],
+      "cwd": "${workspaceFolder}/digital-first",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "program": "${workspaceFolder}/digital-first/node_modules/@angular/cli/bin/ng",
+      "smartStep": true
+    },
+    {
+      "name": "Debug Node App",
+      "type": "node",
+      "request": "attach",
+      "port": 7777
+    }
+  ]
 }
