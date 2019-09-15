@@ -1,7 +1,0 @@
-query getHandlingAdvices{
-  handlingAdvices
-  {
-    value: id
-    label: title
-  }
-}
