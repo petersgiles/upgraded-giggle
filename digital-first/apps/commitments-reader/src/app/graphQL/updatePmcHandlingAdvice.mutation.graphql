@@ -1,7 +1,0 @@
-mutation updatePmcHandlingAdviceCommitment($messageId: Guid!, $conversationId: Guid, $data: UpdatePmcHandlingAdviceCommitmentGraph!) {
- updatePmcHandlingAdviceCommitment( messageId: $messageId, conversationId: $conversationId, updatePmcHandlingAdviceCommitment: $data) {
-   id
-}
-
-}
-

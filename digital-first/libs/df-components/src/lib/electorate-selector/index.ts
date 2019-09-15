@@ -1,1 +1,0 @@
-export * from './electorate-selector.component'

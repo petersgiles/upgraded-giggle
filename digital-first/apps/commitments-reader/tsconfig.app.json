@@ -1,9 +1,0 @@
-{
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "outDir": "../../dist/out-tsc/apps/commitments-reader",
-    "types": []
-  },
-  "include": ["**/*.ts"],
-  "exclude": ["src/test-setup.ts", "**/*.spec.ts"]
-}
