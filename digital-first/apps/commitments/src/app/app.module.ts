@@ -220,7 +220,7 @@ export let appDataServiceProvider = {
     FormsModule,
     ReactiveFormsModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDbiAzbni3d2FTFOJAHP185j7lZWm95kgc',
+      apiKey: '',
       libraries: ['places']
     }),
     ApolloModule,
